@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 520" role="img" aria-labelledby="title desc">
+  <title id="title">Temporary portrait placeholder</title>
+  <desc id="desc">A muted temporary portrait placeholder for layout work.</desc>
+  <rect width="420" height="520" fill="#eef2ec"/>
+  <rect x="20" y="20" width="380" height="480" rx="8" fill="#fcfcfa" stroke="#d9ded6"/>
+  <circle cx="210" cy="188" r="64" fill="#cfd8cf"/>
+  <path d="M98 404c15-72 58-112 112-112s97 40 112 112" fill="#cfd8cf"/>
+  <path d="M104 402h212" stroke="#b8c5b8" stroke-width="2"/>
+  <text x="210" y="462" fill="#5c645c" font-family="Inter, Arial, sans-serif" font-size="16" text-anchor="middle">
+    Temporary portrait
+  </text>
+</svg>
