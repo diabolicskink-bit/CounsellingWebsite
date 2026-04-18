@@ -1,6 +1,8 @@
 import Button from "../components/Button";
 import Container from "../components/Container";
 
+const portraitSrc = "/joel-griffiths-portrait-temp.svg";
+
 const trustItems = [
   "Online across Australia",
   "For adults",
@@ -36,6 +38,13 @@ const topicTiles = [
   },
 ];
 
+const inclusivePracticeDetails = [
+  "Less time educating the therapist",
+  "Consent, boundaries, power exchange, and BDSM can be discussed directly",
+  "Polyamory, open relationships, and ethical non-monogamy are not treated as the problem",
+  "More room for what matters",
+];
+
 export default function Home() {
   return (
     <>
@@ -63,7 +72,7 @@ export default function Home() {
 
           <div className="home-hero-v2__visual" aria-label="Portrait placeholder for Joel Griffiths">
             <div className="home-hero-v2__portrait">
-              <img src="/joel-griffiths-portrait-temp.svg" alt="" />
+              <img src={portraitSrc} alt="" />
             </div>
           </div>
         </Container>
@@ -89,7 +98,9 @@ export default function Home() {
       <section className="home-inclusive-feature">
         <Container className="home-inclusive-feature__inner">
           <div className="home-inclusive-feature__content">
-            <span className="home-inclusive-feature__eyebrow">Kink-aware therapy, BDSM-aware therapy, and ENM counselling</span>
+            <span className="home-inclusive-feature__eyebrow">
+              Kink-aware therapy, BDSM-aware therapy, and ENM counselling
+            </span>
             <h2>Kink-aware and ENM-aware counselling without the translation work.</h2>
             <p>
               I bring clinical training alongside community familiarity with kink, BDSM, power exchange, polyamory,
@@ -102,10 +113,9 @@ export default function Home() {
           </div>
 
           <div className="home-inclusive-feature__details" aria-label="What inclusive practice means">
-            <p>Less time educating the therapist</p>
-            <p>Consent, boundaries, power exchange, and BDSM can be discussed directly</p>
-            <p>Polyamory, open relationships, and ethical non-monogamy are not treated as the problem</p>
-            <p>More room for what matters</p>
+            {inclusivePracticeDetails.map((detail) => (
+              <p key={detail}>{detail}</p>
+            ))}
           </div>
         </Container>
       </section>
@@ -123,7 +133,7 @@ export default function Home() {
           </div>
 
           <div className="home-workroom__portrait">
-            <img src="/joel-griffiths-portrait-temp.svg" alt="" />
+            <img src={portraitSrc} alt="" />
             <div>
               <strong>Joel Griffiths</strong>
               <span>Counselling and psychodynamic psychotherapy</span>
@@ -131,7 +141,7 @@ export default function Home() {
           </div>
 
           <div className="home-workroom__letter">
-            <span>In the room</span>
+            <span>What the work feels like</span>
             <p>
               I work in a thoughtful, direct, and non-shaming way. That means we can speak plainly, but not harshly;
               look underneath the immediate problem, but not disappear into theory; and take your life seriously
@@ -141,8 +151,7 @@ export default function Home() {
 
           <div className="home-workroom__joel-note">
             <p>
-              I am trained in counselling and psychodynamic psychotherapy, and offer online counselling for adults
-              across Australia.
+              I am trained in counselling and psychodynamic psychotherapy, and work online with adults across Australia.
             </p>
             <Button href="/about-joel" variant="secondary">
               About Joel
@@ -151,7 +160,7 @@ export default function Home() {
 
           <div className="home-workroom__next">
             <p>
-              A first message can be simple: <span>“I think I would like to talk to someone.”</span>
+              A first message can be simple: <span>"I think I would like to talk to someone."</span>
             </p>
             <div>
               <Button href="/contact">Get in touch</Button>
