@@ -10,7 +10,7 @@ import { practicalItems } from "../data/site";
 
 export default function Fees() {
   return (
-    <>
+    <div className="fees-page trial-two-page">
       <PageHero
         title="Practical details, kept clear."
         copy="Sessions are online, 50 minutes, and available to adults across Australia. The first step is a brief enquiry so availability and fit can be considered."
@@ -24,7 +24,7 @@ export default function Fees() {
         }
       />
 
-      <section className="section">
+      <section className="section fees-frame-section">
         <Container className="stack">
           <SectionHeading
             title="The basic frame"
@@ -44,7 +44,7 @@ export default function Fees() {
         </Container>
       </section>
 
-      <section className="section section--surface">
+      <section className="section section--surface fees-start-section">
         <Container>
           <div className="two-column-panel">
             <div>
@@ -71,7 +71,7 @@ export default function Fees() {
         </Container>
       </section>
 
-      <SplitSection title="Clear boundaries help keep the work steady.">
+      <SplitSection title="Clear boundaries help keep the work steady." className="fees-boundaries-section">
         <p>
           A cancellation policy, payment details, and any required forms can be confirmed before the first
           appointment. This placeholder copy can be replaced with the final practice terms when they are ready.
@@ -89,6 +89,6 @@ export default function Fees() {
         secondaryHref="/approach"
         secondaryLabel="Read the approach"
       />
-    </>
+    </div>
   );
 }

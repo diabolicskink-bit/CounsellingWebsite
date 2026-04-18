@@ -12,6 +12,14 @@ export const navItems = [
   { label: "About Joel", href: "/about-joel" },
   { label: "Approach", href: "/approach" },
   { label: "Inclusive Practice", href: "/inclusive-practice" },
+  {
+    label: "Design",
+    href: "/design-language",
+    children: [
+      { label: "TestBed", href: "/test-bed" },
+      { label: "Design Language", href: "/design-language" },
+    ],
+  },
   { label: "Fees", href: "/fees" },
   { label: "Contact", href: "/contact" },
 ];

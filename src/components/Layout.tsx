@@ -9,6 +9,11 @@ const headerNavItems = navItems.filter((item) => item.href !== "/contact");
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const isTestBed = location.pathname === "/test-bed" || location.pathname === "/inclusive-practice-trial";
+  const isDesignLanguage =
+    location.pathname === "/design-language" || location.pathname === "/inclusive-practice-trial-2";
+  const usesTrialTwoChrome =
+    isDesignLanguage || isTestBed || location.pathname === "/fees" || location.pathname === "/about-joel" || location.pathname === "/approach";
 
   const closeMenu = () => setIsOpen(false);
 
@@ -35,7 +40,7 @@ export default function Layout() {
   }, [isOpen]);
 
   return (
-    <div className="site-shell">
+    <div className={`site-shell ${usesTrialTwoChrome ? "site-shell--trial-two" : ""}`}>
       <header className="site-header">
         <div className="site-header__inner">
           <Link className="brand" to="/" onClick={closeMenu}>
@@ -45,13 +50,28 @@ export default function Layout() {
           <div className="site-header__cluster">
             <nav className="desktop-nav" aria-label="Main navigation">
               {headerNavItems.map((item) => (
-                <NavLink
-                  key={item.href}
-                  className={({ isActive }) => `nav-link ${isActive ? "nav-link--active" : ""}`}
-                  to={item.href}
-                >
-                  {item.label}
-                </NavLink>
+                <div className="nav-item" key={item.href ?? item.label}>
+                  <NavLink
+                    className={({ isActive }) => `nav-link ${isActive ? "nav-link--active" : ""} ${item.children ? "nav-link--parent" : ""}`}
+                    to={item.href ?? "#"}
+                  >
+                    {item.label}
+                  </NavLink>
+
+                  {item.children ? (
+                    <div className="nav-submenu" aria-label={`${item.label} submenu`}>
+                      {item.children.map((child) => (
+                        <NavLink
+                          key={child.href}
+                          className={({ isActive }) => `nav-submenu__link ${isActive ? "nav-submenu__link--active" : ""}`}
+                          to={child.href}
+                        >
+                          {child.label}
+                        </NavLink>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
               ))}
             </nav>
 
@@ -80,14 +100,29 @@ export default function Layout() {
               Get in touch
             </Button>
             {headerNavItems.map((item) => (
-              <NavLink
-                key={item.href}
-                className={({ isActive }) => `mobile-nav__link ${isActive ? "mobile-nav__link--active" : ""}`}
-                to={item.href}
-                onClick={closeMenu}
-              >
-                {item.label}
-              </NavLink>
+              <div key={item.href ?? item.label}>
+                <NavLink
+                  className={({ isActive }) => `mobile-nav__link ${isActive ? "mobile-nav__link--active" : ""}`}
+                  to={item.href ?? "#"}
+                  onClick={closeMenu}
+                >
+                  {item.label}
+                </NavLink>
+                {item.children
+                  ? item.children.map((child) => (
+                      <NavLink
+                        key={child.href}
+                        className={({ isActive }) =>
+                          `mobile-nav__link mobile-nav__sub-link ${isActive ? "mobile-nav__link--active" : ""}`
+                        }
+                        to={child.href}
+                        onClick={closeMenu}
+                      >
+                        {child.label}
+                      </NavLink>
+                    ))
+                  : null}
+              </div>
             ))}
           </nav>
         ) : null}
