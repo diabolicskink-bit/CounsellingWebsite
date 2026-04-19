@@ -3,6 +3,15 @@ import Button from "../../components/Button";
 import Container from "../../components/Container";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
 
+const demoTaglineItems = [
+  "Perth-based, online across Australia",
+  "Individual counselling",
+  "Serious, thoughtful, and human",
+  "Kink-, ENM-, and LGBTQIA+-aware",
+];
+
+const demoPortraitSrc = "/joel-griffiths-portrait-temp.svg";
+
 const demoPrinciples = [
   {
     title: "Real life",
@@ -18,11 +27,17 @@ const demoPrinciples = [
   },
 ];
 
+const demoHeroDetailStackItems = [
+  "Kink & BDSM",
+  "ENM & Polyamory",
+  "LGBTQIA+",
+];
+
 const anatomyRows = [
   {
     zone: "Wrapper",
     className: ".hero-section",
-    desc: "Full-width page-opening section with top padding and a bottom divider.",
+    desc: "Full-width page-opening section with the shared 40px top rhythm and a bottom divider.",
   },
   {
     zone: "Background",
@@ -32,7 +47,7 @@ const anatomyRows = [
   {
     zone: "Top zone",
     className: ".hero-top",
-    desc: "Two-column grid: display heading on the left and copy panel on the right.",
+    desc: "Shared opening grid for the main hero statement and its supporting copy or media.",
   },
   {
     zone: "Display heading",
@@ -42,12 +57,27 @@ const anatomyRows = [
   {
     zone: "Copy panel",
     className: ".hero-copy-panel",
-    desc: "Right-column copy rail with a cedar rule. Can be a paragraph or a container with badge, paragraph, and actions.",
+    desc: "Support copy rail with a cedar rule. It can be a simple paragraph or a richer panel with badge, body copy, and actions.",
+  },
+  {
+    zone: "Tagline row",
+    className: ".hero-support-tagline",
+    desc: "Thin trust row used beneath supporting copy when a hero needs practical details without becoming a second block.",
+  },
+  {
+    zone: "Media note",
+    className: ".hero-media-note*",
+    desc: "Supporting portrait or image note with a quiet caption, used when the top zone needs a human anchor.",
   },
   {
     zone: "Badge",
     className: ".hero-badge",
     desc: "Small uppercase cedar label for hero metadata inside richer copy panels.",
+  },
+  {
+    zone: "Detail stack",
+    className: ".hero-detail-stack",
+    desc: "Open typographic stack for a few short supporting themes when a hero needs emphasis without adding a card or strip.",
   },
   {
     zone: "Principles strip",
@@ -113,7 +143,7 @@ export default function DS_Heroes() {
           <h1>Heroes</h1>
           <p>
             Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background
-            treatments. The approach page is the canonical reference.
+            treatments. The shared hero system is the canonical reference used by Home, Approach, and Inclusion.
           </p>
         </div>
       </div>
@@ -193,9 +223,9 @@ export default function DS_Heroes() {
                 <tr>
                   <td>font-size</td>
                   <td>
-                    <code>clamp(3.6rem, 6.2vw, 6.8rem)</code>
+                    <code>clamp(3rem, 5vw, 5.45rem)</code>
                   </td>
-                  <td>Fills large viewports without becoming oversized on desktop.</td>
+                  <td>Gives the heading presence without overpowering the first screen on desktop.</td>
                 </tr>
                 <tr>
                   <td>font-weight</td>
@@ -221,9 +251,16 @@ export default function DS_Heroes() {
                 <tr>
                   <td>emphasis</td>
                   <td>
-                    <code>em color: var(--cedar); font-style: normal</code>
+                    <code>em color: var(--cedar); font-style: normal; font-weight: 600</code>
                   </td>
                   <td>Highlights the key phrase without changing the voice of the heading.</td>
+                </tr>
+                <tr>
+                  <td>shared rhythm</td>
+                  <td>
+                    <code>.hero-section 40px top / .hero-top 40px bottom</code>
+                  </td>
+                  <td>Keeps the opening field evenly spaced across Home, Approach, and Inclusion.</td>
                 </tr>
               </tbody>
             </table>
@@ -235,7 +272,7 @@ export default function DS_Heroes() {
               <h2>A cedar rule anchors the explanatory copy.</h2>
               <p>
                 Use a plain paragraph for simple heroes. Use a panel container when the hero needs a breadcrumb, badge,
-                or actions inside the same right-column rail.
+                or actions inside the same support rail.
               </p>
             </div>
 
@@ -254,6 +291,34 @@ export default function DS_Heroes() {
                       Read the approach
                     </Button>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="ds-hero-demo">
+              <div className="ds-hero-demo__label">Live sample: .hero-support-tagline + .hero-media-note</div>
+              <div className="ds-hero-demo__body hero-bg--paper">
+                <div className="hero-top hero-top--supporting-media" style={{ paddingBottom: 0 }}>
+                  <div className="hero-copy-panel ds-hero-demo__copy-panel">
+                    <p>
+                      Use the trust row when a hero needs a few practical signals kept inside the same support flow.
+                    </p>
+                    <ul className="hero-support-tagline" aria-label="Practice details">
+                      {demoTaglineItems.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <aside className="hero-media-note" aria-label="Example media note">
+                    <div className="hero-media-note__image">
+                      <img src={demoPortraitSrc} alt="" />
+                    </div>
+                    <div className="hero-media-note__caption">
+                      <strong>Joel Griffiths</strong>
+                      <span>Counselling and psychodynamic psychotherapy</span>
+                    </div>
+                  </aside>
                 </div>
               </div>
             </div>
@@ -279,6 +344,32 @@ export default function DS_Heroes() {
                       <p>{principle.text}</p>
                     </div>
                   ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="ds-section" id="detail-stack">
+            <div className="ds-section-heading">
+              <span className="site-eyebrow">Detail Stack</span>
+              <h2>An open hero-side stack when the text itself should carry the emphasis.</h2>
+              <p>
+                Use this when a hero needs two or three strong thematic labels, but a card or principles strip would
+                feel too heavy. Keep it short, typographic, and slightly staggered rather than boxed in.
+              </p>
+            </div>
+
+            <div className="ds-hero-demo">
+              <div className="ds-hero-demo__label">Live sample: .hero-detail-stack</div>
+              <div className="ds-hero-demo__body hero-bg--paper">
+                <div style={{ display: "grid", justifyContent: "end" }}>
+                  <div className="hero-detail-stack" style={{ maxWidth: "388px" }}>
+                    {demoHeroDetailStackItems.map((item) => (
+                      <p className="hero-detail-stack__item" key={item}>
+                        {item}
+                      </p>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -331,10 +422,10 @@ export default function DS_Heroes() {
           <section className="ds-section" id="full-hero">
             <div className="ds-section-heading">
               <span className="site-eyebrow">Full Composition</span>
-              <h2>The canonical approach hero.</h2>
+              <h2>The shared hero composition.</h2>
               <p>
-                This sample uses the same shared classes as the live approach page. Treat it as the reference for new
-                page-opening heroes.
+                This sample uses the same shared classes as the live hero system. Treat it as the reference for new
+                page-opening heroes, then layer only the page-specific content and supporting pieces on top.
               </p>
             </div>
 

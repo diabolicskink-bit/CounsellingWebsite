@@ -40,19 +40,10 @@ const practiceBlocks = [
   },
 ];
 
-const heroSignals = [
-  {
-    title: "Relationships",
-    copy: "Diverse relationship structures can be part of the context without being treated as the problem.",
-  },
-  {
-    title: "Sexuality and identity",
-    copy: "Gender, sexuality, desire, visibility, and belonging can be named plainly and respectfully.",
-  },
-  {
-    title: "Kink and consent",
-    copy: "Kink, BDSM, power exchange, and consent can be discussed without moralising or spectacle.",
-  },
+const heroTopics = [
+  "Kink & BDSM",
+  "ENM & Polyamory",
+  "LGBTQIA+",
 ];
 
 const faqs = [
@@ -118,36 +109,27 @@ export default function InclusivePractice() {
       <FaqSchema />
       <section className="hero-section hero-bg--diagonal inclusion-hero">
         <Container>
-          <div className="hero-top">
-            <h1 className="hero-display">
-              Inclusive counselling for <em>diverse lives</em>.
-            </h1>
-            <div className="hero-copy-panel inclusion-hero__copy">
-              <nav className="breadcrumb" aria-label="Breadcrumb">
-                <Link to="/">Home</Link>
-                <span>Inclusive practice</span>
-              </nav>
-              <span className="hero-badge">Inclusive counselling</span>
-              <p>
+          <div className="hero-top inclusion-hero__top">
+            <div className="inclusion-hero__intro">
+              <h1 className="hero-display inclusion-hero__title">
+                Inclusive counselling for <em>diverse lives</em>.
+              </h1>
+              <p className="hero-copy-panel inclusion-hero__lede">
                 Some clients want counselling where important parts of their life do not need to be defended,
                 simplified, or translated before the real work can begin. This page explains the broader stance and
                 helps you find the more specific counselling page that fits.
               </p>
-              <div className="site-actions">
-                <Button href="/contact">Make an enquiry about counselling</Button>
-                <Button href="/approach" variant="secondary">
-                  Read more about my counselling approach
-                </Button>
-              </div>
             </div>
-          </div>
-          <div className="hero-principles-strip">
-            {heroSignals.map((signal) => (
-              <div className="hero-principle-item" key={signal.title}>
-                <h3>{signal.title}</h3>
-                <p>{signal.copy}</p>
+
+            <aside className="inclusion-hero__details" aria-label="Inclusive counselling topics">
+              <div className="hero-detail-stack inclusion-hero__detail-stack">
+                {heroTopics.map((item) => (
+                  <p className="hero-detail-stack__item inclusion-hero__detail-item" key={item}>
+                    {item}
+                  </p>
+                ))}
               </div>
-            ))}
+            </aside>
           </div>
         </Container>
       </section>

@@ -29,9 +29,9 @@ const sections = [
   {
     eyebrow: "03",
     title: "Heroes",
-    description: "Page-opening hero language extracted from the approach hero: display type, copy rails, support strips, and background fields.",
+    description: "Shared page-opening hero language used across Home, Approach, and Inclusion: display type, copy rails, support strips, and background fields.",
     href: "/design-language/heroes",
-    count: "6 hero classes | 6 background treatments | 1 canonical composition",
+    count: "9 hero classes | 6 background treatments | 1 canonical composition",
   },
   {
     eyebrow: "04",
@@ -136,14 +136,14 @@ export default function DesignLanguage() {
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">
           <div>
-            <h2>Also: five homepage hero candidates.</h2>
+            <h2>Hero system now lives in the shared library.</h2>
             <p>
-              Codex TB holds five distinct visual treatments for the homepage hero, each exploring a different
-              compositional approach with the same content.
+              The live homepage hero now uses the shared hero system. Use the Heroes page as the reference instead of
+              the old test-bed experiments.
             </p>
           </div>
           <Button href="/codex-tb" variant="secondary">
-            View Codex TB <ArrowRight size={16} />
+            Open Codex TB archive <ArrowRight size={16} />
           </Button>
         </Container>
       </section>

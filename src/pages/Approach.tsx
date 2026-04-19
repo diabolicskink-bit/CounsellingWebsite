@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
-import Button from "../components/Button";
+import { CheckCircle2 } from "lucide-react";
 import Container from "../components/Container";
 
 const principles = [
@@ -107,40 +106,6 @@ export default function Approach() {
               </div>
             ))}
           </div>
-        </Container>
-      </section>
-
-      <section className="site-grid">
-        <Container className="site-split">
-          <div className="section-heading">
-            <span className="site-eyebrow">Getting started</span>
-            <h2>You do not need a perfect explanation before getting in touch.</h2>
-          </div>
-
-          <article className="site-copy-panel rich-text">
-            <p>
-              A first enquiry can be short. You might name what is bringing you to counselling, whether you are looking
-              for online sessions, and anything important to know before arranging a first appointment.
-            </p>
-            <Button href="/fees">
-              View fees and practical details <ArrowRight size={17} />
-            </Button>
-          </article>
-        </Container>
-      </section>
-
-      <section className="site-cta-block">
-        <Container className="site-cta-block__inner">
-          <div>
-            <h2>A brief first message is enough to begin.</h2>
-            <p>
-              You do not need to summarise everything perfectly. A short note about what is bringing you to counselling
-              and whether you are looking for online sessions is enough.
-            </p>
-          </div>
-          <Button href="/contact" variant="secondary">
-            Contact Vive Counselling <ArrowRight size={16} />
-          </Button>
         </Container>
       </section>
     </main>

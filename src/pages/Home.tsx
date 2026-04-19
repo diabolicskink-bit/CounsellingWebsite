@@ -73,35 +73,37 @@ export default function Home() {
 
   return (
     <main className="site-page home-page">
-      <section className="site-hero home-page__hero">
-        <Container className="site-hero__content home-page__hero-grid">
-          <div className="site-hero__copy">
-            <span className="site-hero__badge">Vive Counselling</span>
-  <h1>Counselling for when life feels painful, stuck, or hard to untangle.</h1>
-            <p>
-I offer online counselling for adults across Australia, based in Perth. I work with anxiety, relationship strain, self-criticism, trauma, sexuality, and experiences that feel exposing, confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.            </p>
-            <div className="site-actions">
-              <Button href="/contact">Make an enquiry</Button>
-              <Button href="/approach" variant="secondary">
-                Read about the approach
-              </Button>
+      <section className="hero-section hero-bg--diagonal home-page__hero">
+        <Container>
+          <div className="hero-top hero-top--supporting-media">
+            <div className="home-page__hero-copy">
+              <h1 className="hero-display home-page__hero-title">
+                Counselling for when life feels <em>hard to untangle</em>.
+              </h1>
+              <div className="hero-copy-panel home-page__hero-support">
+                <p>
+                  I offer online counselling for adults across Australia, based in Perth. I work with anxiety,
+                  relationship strain, self-criticism, trauma, sexuality, and experiences that feel exposing,
+                  confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.
+                </p>
+                <ul className="hero-support-tagline" aria-label="Practice details">
+                  {trustItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <ul className="design-language-trust-list" aria-label="Practice details">
-              {trustItems.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
 
-          <aside className="home-page__hero-panel" aria-label="About Joel Griffiths">
-            <div className="home-page__hero-portrait">
-              <img src={portraitSrc} alt="" />
-            </div>
-            <div>
-              <strong>Joel Griffiths</strong>
-              <span>Counselling and psychodynamic psychotherapy</span>
-            </div>
-          </aside>
+            <aside className="hero-media-note" aria-label="About Joel Griffiths">
+              <div className="hero-media-note__image">
+                <img src={portraitSrc} alt="" />
+              </div>
+              <div className="hero-media-note__caption">
+                <strong>Joel Griffiths</strong>
+                <span>Counselling and psychodynamic psychotherapy</span>
+              </div>
+            </aside>
+          </div>
         </Container>
       </section>
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
-import Button from "../components/Button";
+import { CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
 import Container from "../components/Container";
 
 const trustDetails = [
@@ -50,44 +49,43 @@ export default function About() {
 
   return (
     <main className="site-page about-page">
-      <section className="site-hero about-page__hero">
-        <Container className="site-hero__content about-page__hero-grid">
-          <div className="site-hero__copy">
-            <span className="site-hero__badge">About Joel</span>
-            <h1>Somewhere to speak honestly about complicated parts of life.</h1>
-            <div className="about-page__intro-copy">
-              <p>
-                What brought me into this work was recognising how much it matters for people to have somewhere they can
-                speak honestly, especially about the parts of life that feel complicated, private, painful, or touched by
-                shame.
-              </p>
-              <p>
-                That may be about anxiety, relationships, sexuality, kink, ethical non-monogamy, or simply the fact that
-                something feels stuck and hard to make sense of.
-              </p>
+      <section className="hero-section hero-bg--diagonal about-page__hero">
+        <Container>
+          <div className="hero-top hero-top--supporting-media">
+            <div className="about-page__hero-copy">
+              <h1 className="hero-display about-page__hero-title">Joel Griffiths</h1>
+              <div className="hero-copy-panel about-page__hero-support">
+                <div className="about-page__hero-intro">
+                  <p>
+                    What brought me into this work was recognising how much it matters for people to have somewhere they
+                    can speak honestly, especially about the parts of life that feel complicated, private, painful, or
+                    touched by shame.
+                  </p>
+                  <p>
+                    That may be about anxiety, relationships, sexuality, kink, ethical non-monogamy, or simply the fact
+                    that something feels stuck and hard to make sense of.
+                  </p>
+                </div>
+                <ul className="hero-support-tagline" aria-label="Practice details">
+                  {trustDetails.map((detail) => (
+                    <li key={detail}>{detail}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <ul className="design-language-trust-list about-page__trust-list" aria-label="Practice details">
-              {trustDetails.map((detail) => (
-                <li key={detail}>{detail}</li>
-              ))}
-            </ul>
-            <div className="site-actions">
-              <Button href="/contact">Get in touch</Button>
-              <Button href="/approach" variant="secondary">
-                Read about approach
-              </Button>
-            </div>
-          </div>
 
-          <aside className="about-page__portrait-panel">
+            <aside className="hero-media-note about-page__hero-note" aria-label="Portrait of Joel Griffiths">
             {showPortrait ? (
-              <img
-                alt="Joel Griffiths"
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80"
-                onError={() => setShowPortrait(false)}
-              />
+              <div className="hero-media-note__image">
+                <img
+                  alt="Joel Griffiths"
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80"
+                  onError={() => setShowPortrait(false)}
+                />
+              </div>
             ) : null}
-          </aside>
+            </aside>
+          </div>
         </Container>
       </section>
 
@@ -159,20 +157,6 @@ export default function About() {
               it should look.
             </p>
           </div>
-        </Container>
-      </section>
-
-      <section className="site-cta-block">
-        <Container className="site-cta-block__inner">
-          <div>
-            <h2>A first enquiry can be short.</h2>
-            <p>
-              You do not need to explain everything clearly before getting in touch. A simple note is enough to begin.
-            </p>
-          </div>
-          <Button href="/contact" variant="secondary">
-            Start a conversation <ArrowRight size={16} />
-          </Button>
         </Container>
       </section>
     </main>
