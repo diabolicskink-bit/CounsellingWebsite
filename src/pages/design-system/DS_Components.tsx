@@ -51,7 +51,7 @@ export default function DS_Components() {
   }, []);
 
   return (
-    <main className="trial-two-page design-language-page">
+    <main className="site-page design-language-page">
       <div className="ds-page-header">
         <div className="ds-page-header__inner">
           <span className="ds-page-header__badge">Design system</span>
@@ -69,7 +69,7 @@ export default function DS_Components() {
 
           <section className="ds-section" id="buttons">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Buttons</span>
+              <span className="site-eyebrow">Buttons</span>
               <h2>Actions should feel stable, not salesy.</h2>
               <p>Primary actions use cedar. Secondary stays quieter. Text links are visible without looking like a separate brand language.</p>
             </div>
@@ -77,7 +77,7 @@ export default function DS_Components() {
             <div className="ds-demo ds-demo--gap">
               <Button href="/contact">Primary button</Button>
               <Button href="/fees" variant="secondary">Secondary button</Button>
-              <Button href="/inclusive-practice" variant="tertiary">Tertiary button</Button>
+              <Button href="/inclusion" variant="tertiary">Tertiary button</Button>
               <Button href="/approach" variant="light">Light button</Button>
               <a href="/approach" className="design-language-text-link">
                 Text link <ArrowRight size={15} />
@@ -95,17 +95,17 @@ export default function DS_Components() {
 
           <section className="ds-section" id="cards">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Cards</span>
+              <span className="site-eyebrow">Cards</span>
               <h2>Reusable cards for service themes, practical details, and reassurance points.</h2>
               <p>Cards should feel quiet and crisp. Avoid adding decoration — the icon, title, and copy carry the weight.</p>
             </div>
 
-            <div className="trial-two-card-grid">
+            <div className="site-card-grid">
               {iconCards.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <article className="trial-two-card" key={item.title}>
-                    <div className="trial-two-card__icon">
+                  <article className="site-card" key={item.title}>
+                    <div className="site-card__icon">
                       <Icon size={24} />
                     </div>
                     <h3>{item.title}</h3>
@@ -116,13 +116,13 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
-              <strong>Icon cards</strong> (trial-two-card) — For service features, practice signals, and grouped reassurances. Use a grid of 3 or 6.<br />
-              <strong>Chips / pills</strong> — Use <code>.trial-two-pill-row</code> for short categorical tags inside a panel. Not for standalone navigation.
+              <strong>Icon cards</strong> (site-card) — For service features, practice signals, and grouped reassurances. Use a grid of 3 or 6.<br />
+              <strong>Chips / pills</strong> — Use <code>.site-pill-row</code> for short categorical tags inside a panel. Not for standalone navigation.
             </div>
 
             <div className="ds-demo" style={{ marginTop: "24px" }}>
-              <p className="trial-two-highlight__eyebrow" style={{ marginBottom: "12px" }}>Pill row example</p>
-              <div className="trial-two-pill-row">
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Pill row example</p>
+              <div className="site-pill-row">
                 <span>Guided intake path</span>
                 <span>Trust badges</span>
                 <span>Outcome themes</span>
@@ -133,7 +133,7 @@ export default function DS_Components() {
 
           <section className="ds-section" id="trust-strip">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Trust strip</span>
+              <span className="site-eyebrow">Trust strip</span>
               <h2>Compact reassurance before heavier content begins.</h2>
               <p>Short factual signals: format, audience, location, registration, or practice stance. Text-led, understated, dot-divided.</p>
             </div>
@@ -154,14 +154,14 @@ export default function DS_Components() {
 
           <section className="ds-section" id="forms">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Forms & contact</span>
+              <span className="site-eyebrow">Forms & contact</span>
               <h2>Contact surfaces should feel clear, calm, and low-friction.</h2>
               <p>Form fields, side notes, and contact details use the same card, border, and icon language as the rest of the site.</p>
             </div>
 
             <div className="design-language-form-grid">
               <div>
-                <form className="contact-form design-language-form" action="#" method="post">
+                <form className="site-form design-language-form" action="#" method="post">
                   <div className="form-row">
                     <label htmlFor="sample-name">Name</label>
                     <input id="sample-name" name="name" placeholder="Your name" type="text" />
@@ -174,7 +174,7 @@ export default function DS_Components() {
                     <label htmlFor="sample-message">Message</label>
                     <textarea id="sample-message" name="message" placeholder="A short message is enough." rows={4} />
                   </div>
-                  <div className="design-language-control-row">
+                  <div className="site-control-list">
                     <label>
                       <input name="sample-contact" type="checkbox" /> Email is the best first contact
                     </label>
@@ -219,9 +219,9 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-demo" style={{ marginTop: "24px" }}>
-              <p className="trial-two-highlight__eyebrow" style={{ marginBottom: "12px" }}>Fee card example</p>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Fee card example</p>
               <aside className="design-language-fee-card" style={{ maxWidth: "280px" }}>
-                <p className="trial-two-highlight__eyebrow">Session fee</p>
+                <p className="site-highlight__eyebrow">Session fee</p>
                 <strong>$170</strong>
                 <span>50-minute online counselling session</span>
                 <small>Short notes can sit here without overpowering the amount.</small>
@@ -231,14 +231,14 @@ export default function DS_Components() {
 
           <section className="ds-section" id="lists">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Lists & stacks</span>
+              <span className="site-eyebrow">Lists & stacks</span>
               <h2>Use structure to make content feel manageable.</h2>
               <p>Three distinct list treatments, each suited to a different content register.</p>
             </div>
 
             <div className="design-language-split">
               <div>
-                <p className="trial-two-subtitle" style={{ marginBottom: "14px" }}>Check list</p>
+                <p className="site-eyebrow" style={{ marginBottom: "14px" }}>Check list</p>
                 <div className="design-language-check-panel">
                   {checkItems.map((item) => (
                     <div className="check-item" key={item}>
@@ -253,7 +253,7 @@ export default function DS_Components() {
               </div>
 
               <div>
-                <p className="trial-two-subtitle" style={{ marginBottom: "14px" }}>Detail stack</p>
+                <p className="site-eyebrow" style={{ marginBottom: "14px" }}>Detail stack</p>
                 <div className="design-language-detail-stack" aria-label="Detail stack example">
                   {detailStackItems.map((item) => (
                     <p key={item}>{item}</p>

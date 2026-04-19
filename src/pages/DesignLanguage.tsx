@@ -48,11 +48,11 @@ export default function DesignLanguage() {
   }, []);
 
   return (
-    <main className="trial-two-page design-language-page">
-      <section className="trial-two-hero design-language-hero">
-        <Container className="trial-two-hero__content">
-          <div className="trial-two-hero__copy">
-            <span className="trial-two-hero__badge">Design system</span>
+    <main className="site-page design-language-page">
+      <section className="site-hero design-language-hero">
+        <Container className="site-hero__content">
+          <div className="site-hero__copy">
+            <span className="site-hero__badge">Design system</span>
             <h1>Vive's site system in one place.</h1>
             <p>
               A living reference for the full site direction: colour tokens, serif-led type, cedar accents, quiet
@@ -64,7 +64,7 @@ export default function DesignLanguage() {
               <li>Restrained cards, borders, shadows, chips, and panels</li>
               <li>Usage guidance on every component and pattern</li>
             </ul>
-            <div className="trial-two-actions">
+            <div className="site-actions">
               <Button href="/design-language/foundations">Foundations</Button>
               <Button href="/design-language/components" variant="secondary">
                 Components
@@ -75,9 +75,9 @@ export default function DesignLanguage() {
             </div>
           </div>
 
-          <div className="trial-two-hero__panel">
-            <div className="trial-two-panel__eyebrow">System scope</div>
-            <ul className="trial-two-feature-list">
+          <div className="site-hero__panel">
+            <div className="site-panel__eyebrow">System scope</div>
+            <ul className="site-feature-list">
               <li>Paper backgrounds, soft green surfaces, cedar accents.</li>
               <li>Georgia headings with plain, steady body copy.</li>
               <li>Restrained cards, borders, shadows, chips, and panels.</li>
@@ -86,10 +86,10 @@ export default function DesignLanguage() {
         </Container>
       </section>
 
-      <section className="trial-two-grid">
+      <section className="site-grid">
         <Container>
-          <div className="trial-two-grid__heading">
-            <p className="trial-two-subtitle">Sections</p>
+          <div className="site-grid__heading">
+            <p className="site-eyebrow">Sections</p>
             <h2>Three focused sections, each with usage guidance.</h2>
           </div>
 
@@ -106,11 +106,11 @@ export default function DesignLanguage() {
         </Container>
       </section>
 
-      <section className="trial-two-highlight">
+      <section className="site-highlight">
         <Container className="design-language-split">
-          <div className="trial-two-highlight__box">
+          <div className="site-highlight__box">
             <div>
-              <span className="trial-two-highlight__eyebrow">Usage principles</span>
+              <span className="site-highlight__eyebrow">Usage principles</span>
               <h2>What the system should protect.</h2>
               <p>
                 These five principles govern how the design language should be applied. When in doubt, return to them.
@@ -126,17 +126,17 @@ export default function DesignLanguage() {
         </Container>
       </section>
 
-      <section className="trial-two-cta-block">
-        <Container className="trial-two-cta-block__inner">
+      <section className="site-cta-block">
+        <Container className="site-cta-block__inner">
           <div>
             <h2>Also: five homepage hero candidates.</h2>
             <p>
-              TestBed holds five distinct visual treatments for the homepage hero — each exploring a different
+              Codex TB holds five distinct visual treatments for the homepage hero, each exploring a different
               compositional approach with the same content.
             </p>
           </div>
-          <Button href="/test-bed" variant="secondary">
-            View TestBed <ArrowRight size={16} />
+          <Button href="/codex-tb" variant="secondary">
+            View Codex TB <ArrowRight size={16} />
           </Button>
         </Container>
       </section>

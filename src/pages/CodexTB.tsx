@@ -23,59 +23,64 @@ const homepageSignals = [
 
 const candidates = [
   {
-    title: "Framed editorial split",
-    note: "The cleanest editorial option: heading left, copy right, and the trust signals as one continuous ruled band.",
-    className: "home-test-hero--framed-editorial",
+    title: "Vertical mineral split",
+    note: "Same inset box, with the outer field split into a quiet mineral left plane and a lighter paper right plane.",
+    className: "home-test-hero--split-vertical-mineral",
   },
   {
-    title: "Inset field hero",
-    note: "The strongest special-object treatment, with the whole hero built into a large inset panel inside a soft outer field.",
-    className: "home-test-hero--inset-field",
+    title: "Diagonal field split",
+    note: "Same inset box, with a gentle diagonal background shift to make the hero feel more spatial without touching the panel.",
+    className: "home-test-hero--split-diagonal-field",
   },
   {
-    title: "Offset principle band",
-    note: "A more authored layout where the lower signal band is offset from the upper heading/copy composition.",
-    className: "home-test-hero--offset-band",
+    title: "Lower plinth split",
+    note: "Same inset box, with a stronger lower field that creates a grounded plinth beneath the centrepiece.",
+    className: "home-test-hero--split-lower-plinth",
   },
   {
-    title: "Quiet monument",
-    note: "The boldest type-led version, relying on scale, empty space, and a narrow right-hand note column.",
-    className: "home-test-hero--quiet-monument",
+    title: "Right rail split",
+    note: "Same inset box, with a narrow right-side surface rail that borrows the spatial feel of Option 5 in a cleaner way.",
+    className: "home-test-hero--split-right-rail",
   },
   {
-    title: "Split-surface hero",
-    note: "The most spatial option, using closely related left/right surfaces with the signals bridging the composition.",
-    className: "home-test-hero--split-surface",
+    title: "Layered paper split",
+    note: "Same inset box, with layered horizontal paper and mineral fields for a quieter, more atmospheric interpretation.",
+    className: "home-test-hero--split-layered-paper",
   },
 ];
 
-export default function TestBed() {
+export default function CodexTB() {
   useEffect(() => {
-    document.title = "TestBed | Homepage Hero Candidates";
+    document.title = "Codex TB | Homepage Hero Candidates";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "Five homepage hero candidates exploring a distinct hero-specific visual language for Vive Counselling."
+        "Codex test bed with five homepage hero candidates exploring a distinct hero-specific visual language for Vive Counselling."
       );
     }
   }, []);
 
   return (
-    <main className="trial-two-page test-bed-page">
+    <main className="site-page codex-tb-page">
       <section className="test-bed-approach-intro">
         <Container className="test-bed-approach-intro__inner">
           <div>
-            <span className="trial-two-hero__badge">TestBed</span>
-            <h1>Five homepage hero candidates with a hero-specific design language.</h1>
+            <span className="site-hero__badge">Codex TB</span>
+            <h1>Five split-background variations of the inset-field hero.</h1>
             <p>
-              These are not normal page sections. Each option gives the homepage opening its own visual field, stronger
-              typographic scale, and integrated practice signals.
+              Each option keeps the same inset hero box and changes only the surrounding field, so the comparison is
+              focused on background surface architecture. This is Codex's working set.
             </p>
           </div>
-          <Button href="/" variant="secondary">
-            Current homepage <ArrowRight size={16} />
-          </Button>
+          <div className="test-bed-intro-actions">
+            <Button href="/opus-tb" variant="secondary">
+              View Opus TB <ArrowRight size={16} />
+            </Button>
+            <Button href="/" variant="secondary">
+              Current homepage <ArrowRight size={16} />
+            </Button>
+          </div>
         </Container>
       </section>
 
@@ -103,14 +108,14 @@ export default function TestBed() {
 
       <section className="test-bed-commentary-section">
         <Container>
-          <div className="trial-two-grid__heading">
-            <p className="trial-two-subtitle">TestBed notes</p>
-            <h2>Commentary for the five homepage hero candidates.</h2>
+          <div className="site-grid__heading">
+            <p className="site-eyebrow">Codex TB notes</p>
+            <h2>Commentary for the five Codex homepage hero candidates.</h2>
           </div>
 
           <div className="test-bed-commentary-grid">
             {candidates.map((candidate) => (
-              <article className="trial-two-card" key={candidate.title}>
+              <article className="site-card" key={candidate.title}>
                 <h3>{candidate.title}</h3>
                 <p>{candidate.note}</p>
               </article>

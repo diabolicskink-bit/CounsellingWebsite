@@ -45,7 +45,7 @@ export default function Approach() {
   }, []);
 
   return (
-    <main className="trial-two-page approach-page">
+    <main className="site-page approach-page">
       <section className="approach-page__hero">
         <Container className="approach-page__hero-inner">
           <div className="approach-page__hero-main">
@@ -71,7 +71,7 @@ export default function Approach() {
       <section className="approach-page__explainer">
         <Container className="approach-page__explainer-grid">
           <div className="approach-page__section-heading">
-            <span className="trial-two-subtitle">Therapeutic frame</span>
+            <span className="site-eyebrow">Therapeutic frame</span>
             <h2>An integrative, psychodynamically informed approach</h2>
           </div>
 
@@ -87,7 +87,7 @@ export default function Approach() {
         <Container>
           <div className="approach-page__understanding-panel">
             <div>
-              <span className="trial-two-subtitle">What this can help with</span>
+              <span className="site-eyebrow">What this can help with</span>
               <h2>Not every problem needs to be solved immediately to be understood more honestly.</h2>
               <p>
                 People often come when they are tired of carrying things alone, or tired of repeating the same emotional
@@ -110,7 +110,7 @@ export default function Approach() {
       <section className="approach-page__enquiry">
         <Container className="approach-page__enquiry-grid">
           <div>
-            <span className="trial-two-subtitle">Getting started</span>
+            <span className="site-eyebrow">Getting started</span>
             <h2>You do not need a perfect explanation before getting in touch.</h2>
           </div>
 
@@ -126,8 +126,8 @@ export default function Approach() {
         </Container>
       </section>
 
-      <section className="trial-two-cta-block">
-        <Container className="trial-two-cta-block__inner">
+      <section className="site-cta-block">
+        <Container className="site-cta-block__inner">
           <div>
             <h2>A brief first message is enough to begin.</h2>
             <p>

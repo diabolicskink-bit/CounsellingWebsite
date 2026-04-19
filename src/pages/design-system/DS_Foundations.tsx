@@ -77,7 +77,7 @@ export default function DS_Foundations() {
   }, []);
 
   return (
-    <main className="trial-two-page design-language-page">
+    <main className="site-page design-language-page">
       <div className="ds-page-header">
         <div className="ds-page-header__inner">
           <span className="ds-page-header__badge">Design system</span>
@@ -95,7 +95,7 @@ export default function DS_Foundations() {
 
           <section className="ds-section" id="colour">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Colour tokens</span>
+              <span className="site-eyebrow">Colour tokens</span>
               <h2>The palette is a rule set, not just a mood.</h2>
               <p>Use green with discipline. The site reads as paper, soft surface, cedar accent, and grounded text — not as a broad green wash.</p>
             </div>
@@ -117,7 +117,7 @@ export default function DS_Foundations() {
 
           <section className="ds-section" id="typography">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Typography scale</span>
+              <span className="site-eyebrow">Typography scale</span>
               <h2>Serif-led, practical, and confident.</h2>
               <p>Headings carry emotional weight. Body copy does the real work. Labels are restrained and used sparingly.</p>
             </div>
@@ -139,7 +139,7 @@ export default function DS_Foundations() {
 
           <section className="ds-section" id="spacing">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Spacing & layout</span>
+              <span className="site-eyebrow">Spacing & layout</span>
               <h2>Spacing and borders do more work than decoration.</h2>
               <p>Consistent spatial rhythm makes the site feel considered. These values should repeat predictably across all pages.</p>
             </div>
@@ -170,7 +170,7 @@ export default function DS_Foundations() {
 
           <section className="ds-section" id="html">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">HTML elements</span>
+              <span className="site-eyebrow">HTML elements</span>
               <h2>Base elements should still feel designed.</h2>
               <p>Even where rich editorial content is not heavily used, the system handles all standard HTML elements consistently.</p>
             </div>

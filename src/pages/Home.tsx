@@ -1,5 +1,6 @@
 import Button from "../components/Button";
 import Container from "../components/Container";
+import { Link } from "react-router-dom";
 
 const portraitSrc = "/joel-griffiths-portrait-temp.svg";
 
@@ -39,10 +40,21 @@ const topicTiles = [
 ];
 
 const inclusivePracticeDetails = [
-  "Less time educating the therapist",
-  "Consent, boundaries, power exchange, and BDSM can be discussed directly",
-  "Polyamory, open relationships, and ethical non-monogamy are not treated as the problem",
-  "More room for what matters",
+  {
+    title: "Kink & BDSM-aware counselling",
+    copy: "Speak about kink, BDSM, D/s, power exchange, shame, trust, or boundaries without the dynamic being treated as the problem.",
+    href: "/inclusion/kink-bdsm",
+  },
+  {
+    title: "Counselling for ENM & polyamory",
+    copy: "Support for polyamory, open relationships, consensual non-monogamy, jealousy, agreements, pace, and fit.",
+    href: "/inclusion/enm-polyamory",
+  },
+  {
+    title: "LGBTQIA+ affirming counselling",
+    copy: "Counselling where gender, sexuality, relationships, family strain, shame, and ordinary life difficulties can be met plainly.",
+    href: "/inclusion/lgbtqia",
+  },
 ];
 
 export default function Home() {
@@ -99,22 +111,24 @@ export default function Home() {
         <Container className="home-inclusive-feature__inner">
           <div className="home-inclusive-feature__content">
             <span className="home-inclusive-feature__eyebrow">
-              Kink-aware therapy, BDSM-aware therapy, and ENM counselling
+              Inclusive practice
             </span>
-            <h2>Kink-aware and ENM-aware counselling without the translation work.</h2>
+            <h2>Counselling where important parts of your life do not need to be translated first.</h2>
             <p>
-              I bring clinical training alongside community familiarity with kink, BDSM, power exchange, polyamory,
-              open relationships, and ethical non-monogamy. You should not have to spend the first part of counselling
-              educating your therapist before you can talk about what is actually difficult.
+              Inclusive practice here means thoughtful, non-shaming counselling for diverse relationships, sexualities,
+              identities, kink, BDSM, polyamory, open relationships, and consensual non-monogamy.
             </p>
-            <Button href="/inclusive-practice" variant="tertiary">
-              Explore inclusive practice
+            <Button href="/inclusion" variant="tertiary">
+              Explore inclusive counselling
             </Button>
           </div>
 
           <div className="home-inclusive-feature__details" aria-label="What inclusive practice means">
             {inclusivePracticeDetails.map((detail) => (
-              <p key={detail}>{detail}</p>
+              <Link to={detail.href} key={detail.title}>
+                <strong>{detail.title}</strong>
+                <span>{detail.copy}</span>
+              </Link>
             ))}
           </div>
         </Container>

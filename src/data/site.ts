@@ -9,9 +9,18 @@ import {
 } from "lucide-react";
 
 export const navItems = [
+  { label: "Home", href: "/" },
   { label: "About Joel", href: "/about-joel" },
   { label: "Approach", href: "/approach" },
-  { label: "Inclusive Practice", href: "/inclusive-practice" },
+  {
+    label: "Inclusion",
+    href: "/inclusion",
+    children: [
+      { label: "Kink & BDSM", href: "/inclusion/kink-bdsm" },
+      { label: "ENM & polyamory", href: "/inclusion/enm-polyamory" },
+      { label: "LGBTQIA+", href: "/inclusion/lgbtqia" },
+    ],
+  },
   {
     label: "Design",
     href: "/design-language",
@@ -20,7 +29,8 @@ export const navItems = [
       { label: "Foundations", href: "/design-language/foundations" },
       { label: "Components", href: "/design-language/components" },
       { label: "Patterns", href: "/design-language/patterns" },
-      { label: "TestBed", href: "/test-bed" },
+      { label: "Codex TB", href: "/codex-tb" },
+      { label: "Opus TB", href: "/opus-tb" },
     ],
   },
   { label: "Fees", href: "/fees" },

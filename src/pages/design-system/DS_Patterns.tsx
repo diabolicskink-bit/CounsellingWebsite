@@ -99,7 +99,7 @@ export default function DS_Patterns() {
   }, []);
 
   return (
-    <main className="trial-two-page design-language-page">
+    <main className="site-page design-language-page">
       <div className="ds-page-header">
         <div className="ds-page-header__inner">
           <span className="ds-page-header__badge">Design system</span>
@@ -117,7 +117,7 @@ export default function DS_Patterns() {
 
           <section className="ds-section" id="section-patterns">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Section patterns</span>
+              <span className="site-eyebrow">Section patterns</span>
               <h2>Additional reusable pieces that may be useful as the site grows.</h2>
               <p>Each pattern has a specific content type and use case. Don't use a pattern outside its intended register.</p>
             </div>
@@ -135,7 +135,7 @@ export default function DS_Patterns() {
 
           <section className="ds-section" id="info-patterns">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Information patterns</span>
+              <span className="site-eyebrow">Information patterns</span>
               <h2>Reusable ways to present common counselling-site content.</h2>
               <p>Ten numbered patterns — each demonstrates a distinct layout approach for a specific content type. The pattern name indicates its purpose; don't repurpose across content types.</p>
             </div>
@@ -160,7 +160,7 @@ export default function DS_Patterns() {
 
           <section className="ds-section" id="media-panels">
             <div className="ds-section-heading">
-              <span className="trial-two-subtitle">Media panels</span>
+              <span className="site-eyebrow">Media panels</span>
               <h2>Portrait, note, and principle treatments.</h2>
               <p>Three quiet treatments for image context, reflective copy, and grouped principles. Keep these understated — they support the copy, not the other way around.</p>
             </div>

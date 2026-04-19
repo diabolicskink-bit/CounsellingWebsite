@@ -9,13 +9,19 @@ const headerNavItems = navItems.filter((item) => item.href !== "/contact");
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const isTestBed = location.pathname === "/test-bed" || location.pathname === "/inclusive-practice-trial";
+  const isAiSandbox = location.pathname === "/codex-tb" || location.pathname === "/opus-tb";
   const isDesignLanguage =
     location.pathname === "/design-language" ||
-    location.pathname.startsWith("/design-language/") ||
-    location.pathname === "/inclusive-practice-trial-2";
-  const usesTrialTwoChrome =
-    isDesignLanguage || isTestBed || location.pathname === "/fees" || location.pathname === "/about-joel" || location.pathname === "/approach";
+    location.pathname.startsWith("/design-language/");
+  const usesSiteChrome =
+    isDesignLanguage ||
+    isAiSandbox ||
+    location.pathname === "/fees" ||
+    location.pathname === "/about-joel" ||
+    location.pathname === "/approach" ||
+    location.pathname === "/inclusion" ||
+    location.pathname.startsWith("/inclusion/") ||
+    location.pathname === "/contact";
 
   const closeMenu = () => setIsOpen(false);
 
@@ -42,7 +48,7 @@ export default function Layout() {
   }, [isOpen]);
 
   return (
-    <div className={`site-shell ${usesTrialTwoChrome ? "site-shell--trial-two" : ""}`}>
+    <div className={`site-shell ${usesSiteChrome ? "site-shell--shared" : ""}`}>
       <header className="site-header">
         <div className="site-header__inner">
           <Link className="brand" to="/" onClick={closeMenu}>
@@ -145,6 +151,10 @@ export default function Layout() {
             </p>
           </div>
           <div className="site-footer__links">
+            <Link to="/inclusion">Inclusive practice</Link>
+            <Link to="/inclusion/kink-bdsm">Kink & BDSM-aware counselling</Link>
+            <Link to="/inclusion/enm-polyamory">Counselling for ENM & polyamory</Link>
+            <Link to="/inclusion/lgbtqia">LGBTQIA+ affirming counselling</Link>
             <Link to="/fees">Fees</Link>
             <Link to="/contact">Contact</Link>
             <span>&copy; 2026 Vive Counselling</span>

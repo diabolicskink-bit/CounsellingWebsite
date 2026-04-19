@@ -7,11 +7,17 @@ import Contact from "./pages/Contact";
 import Fees from "./pages/Fees";
 import Home from "./pages/Home";
 import InclusivePractice from "./pages/InclusivePractice";
-import TestBed from "./pages/TestBed";
+import {
+  EnmPolyamoryCounselling,
+  KinkBdsmCounselling,
+  LgbtqiaCounselling,
+} from "./pages/InclusionChildPages";
+import CodexTB from "./pages/CodexTB";
 import DesignLanguage from "./pages/DesignLanguage";
 import DS_Foundations from "./pages/design-system/DS_Foundations";
 import DS_Components from "./pages/design-system/DS_Components";
 import DS_Patterns from "./pages/design-system/DS_Patterns";
+import OpusTB from "./pages/OpusTB";
 
 export default function App() {
   return (
@@ -22,14 +28,16 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="about-joel" element={<About />} />
           <Route path="approach" element={<Approach />} />
-          <Route path="inclusive-practice" element={<InclusivePractice />} />
-          <Route path="test-bed" element={<TestBed />} />
-          <Route path="inclusive-practice-trial" element={<TestBed />} />
+          <Route path="inclusion" element={<InclusivePractice />} />
+          <Route path="inclusion/kink-bdsm" element={<KinkBdsmCounselling />} />
+          <Route path="inclusion/enm-polyamory" element={<EnmPolyamoryCounselling />} />
+          <Route path="inclusion/lgbtqia" element={<LgbtqiaCounselling />} />
+          <Route path="codex-tb" element={<CodexTB />} />
+          <Route path="opus-tb" element={<OpusTB />} />
           <Route path="design-language" element={<DesignLanguage />} />
           <Route path="design-language/foundations" element={<DS_Foundations />} />
           <Route path="design-language/components" element={<DS_Components />} />
           <Route path="design-language/patterns" element={<DS_Patterns />} />
-          <Route path="inclusive-practice-trial-2" element={<DesignLanguage />} />
           <Route path="fees" element={<Fees />} />
           <Route path="contact" element={<Contact />} />
         </Route>

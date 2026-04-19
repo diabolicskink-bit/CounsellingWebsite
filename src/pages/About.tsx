@@ -49,11 +49,11 @@ export default function About() {
   }, []);
 
   return (
-    <main className="trial-two-page about-page">
-      <section className="trial-two-hero about-page__hero">
-        <Container className="trial-two-hero__content about-page__hero-grid">
-          <div className="trial-two-hero__copy">
-            <span className="trial-two-hero__badge">About Joel</span>
+    <main className="site-page about-page">
+      <section className="site-hero about-page__hero">
+        <Container className="site-hero__content about-page__hero-grid">
+          <div className="site-hero__copy">
+            <span className="site-hero__badge">About Joel</span>
             <h1>Somewhere to speak honestly about complicated parts of life.</h1>
             <div className="about-page__intro-copy">
               <p>
@@ -71,7 +71,7 @@ export default function About() {
                 <li key={detail}>{detail}</li>
               ))}
             </ul>
-            <div className="trial-two-actions">
+            <div className="site-actions">
               <Button href="/contact">Get in touch</Button>
               <Button href="/approach" variant="secondary">
                 Read about approach
@@ -91,19 +91,19 @@ export default function About() {
         </Container>
       </section>
 
-      <section className="trial-two-grid about-page__orientation">
+      <section className="site-grid about-page__orientation">
         <Container>
-          <div className="trial-two-grid__heading">
-            <p className="trial-two-subtitle">Therapeutic stance</p>
+          <div className="site-grid__heading">
+            <p className="site-eyebrow">Therapeutic stance</p>
             <h2>Hearing a person's life properly, not flattening it into a category.</h2>
           </div>
 
-          <div className="trial-two-card-grid">
+          <div className="site-card-grid">
             {orientationCards.map((card) => {
               const Icon = card.icon;
               return (
-                <article className="trial-two-card" key={card.title}>
-                  <div className="trial-two-card__icon">
+                <article className="site-card" key={card.title}>
+                  <div className="site-card__icon">
                     <Icon size={24} />
                   </div>
                   <h3>{card.title}</h3>
@@ -115,10 +115,10 @@ export default function About() {
         </Container>
       </section>
 
-      <section className="trial-two-highlight about-page__matters">
+      <section className="site-highlight about-page__matters">
         <Container className="about-page__matters-grid">
-          <article className="trial-two-highlight__box">
-            <span className="trial-two-highlight__eyebrow">Why this work matters</span>
+          <article className="site-highlight__box">
+            <span className="site-highlight__eyebrow">Why this work matters</span>
             <h2>People often bring the things they are not saying elsewhere.</h2>
             <p>
               Over time, I found that people often brought me the things they were not saying elsewhere. That shaped how
@@ -138,7 +138,7 @@ export default function About() {
       <section className="about-page__longform">
         <Container className="about-page__longform-grid">
           <div>
-            <span className="trial-two-subtitle">Experience and understanding</span>
+            <span className="site-eyebrow">Experience and understanding</span>
             <h2>Specialist understanding without making you educate the therapist first.</h2>
           </div>
 
@@ -162,8 +162,8 @@ export default function About() {
         </Container>
       </section>
 
-      <section className="trial-two-cta-block">
-        <Container className="trial-two-cta-block__inner">
+      <section className="site-cta-block">
+        <Container className="site-cta-block__inner">
           <div>
             <h2>A first enquiry can be short.</h2>
             <p>
