@@ -11,7 +11,9 @@ export default function Layout() {
   const location = useLocation();
   const isTestBed = location.pathname === "/test-bed" || location.pathname === "/inclusive-practice-trial";
   const isDesignLanguage =
-    location.pathname === "/design-language" || location.pathname === "/inclusive-practice-trial-2";
+    location.pathname === "/design-language" ||
+    location.pathname.startsWith("/design-language/") ||
+    location.pathname === "/inclusive-practice-trial-2";
   const usesTrialTwoChrome =
     isDesignLanguage || isTestBed || location.pathname === "/fees" || location.pathname === "/about-joel" || location.pathname === "/approach";
 

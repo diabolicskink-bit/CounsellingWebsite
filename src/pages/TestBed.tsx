@@ -1,67 +1,62 @@
 import { useEffect } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
 
-const approachHeroCopy =
-  "I seek to understand the problem you are dealing with in the context of your actual life. That means paying attention not only to what is happening now, but also to the patterns, pressures, and relationships around it, so what we are talking about is grounded in the reality of your life.";
+const homepageHeroCopy =
+  "Based in Perth, I offer online counselling for adults across Australia. People often come with anxiety, relationship strain, self-criticism, grief, sexuality, or things that feel exposing, confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.";
 
-const approachPrinciples = [
+const homepageSignals = [
   {
-    title: "Real life",
-    text: "Counselling should stay connected to the life you are actually living, not drift away from the pressures, relationships, and decisions that make up everyday life.",
+    title: "Online across Australia",
+    text: "Private online counselling for adults, available from wherever you are.",
   },
   {
-    title: "Relationships",
-    text: "What happens between people matters. That includes closeness, conflict, distance, and attachment, as well as the ways these can shape how we feel and respond.",
+    title: "Grounded and non-shaming",
+    text: "A direct, thoughtful way of working with material that can feel exposing.",
   },
   {
-    title: "Recurring difficulties",
-    text: "Some struggles are not just one-off problems. It can help to look at what keeps returning, and at what may be keeping it going.",
+    title: "Inclusive practice",
+    text: "Relationships, sexualities, identities, kink, BDSM, and ENM can be spoken about plainly.",
   },
 ];
 
 const candidates = [
   {
-    label: "Split hero with principle panel",
-    title: "Split hero with principle panel",
-    note: "Closest to the current structure, but with stronger containment and clearer surface hierarchy.",
-    className: "test-bed-approach-hero--split-panel",
+    title: "Framed editorial split",
+    note: "The cleanest editorial option: heading left, copy right, and the trust signals as one continuous ruled band.",
+    className: "home-test-hero--framed-editorial",
   },
   {
-    label: "Editorial hero with ruled stack",
-    title: "Editorial hero with ruled stack",
-    note: "Best if the hero should feel thoughtful, spacious, and text-led rather than card-led.",
-    className: "test-bed-approach-hero--editorial",
+    title: "Inset field hero",
+    note: "The strongest special-object treatment, with the whole hero built into a large inset panel inside a soft outer field.",
+    className: "home-test-hero--inset-field",
   },
   {
-    label: "Hero with card trio",
-    title: "Hero with card trio",
-    note: "Best if the three working principles need to be very scannable and reusable elsewhere.",
-    className: "test-bed-approach-hero--cards",
+    title: "Offset principle band",
+    note: "A more authored layout where the lower signal band is offset from the upper heading/copy composition.",
+    className: "home-test-hero--offset-band",
   },
   {
-    label: "Side rail hero",
-    title: "Side rail hero",
-    note: "A more architectural treatment with the principles acting as a structured navigation rail.",
-    className: "test-bed-approach-hero--rail",
+    title: "Quiet monument",
+    note: "The boldest type-led version, relying on scale, empty space, and a narrow right-hand note column.",
+    className: "home-test-hero--quiet-monument",
   },
   {
-    label: "Quiet statement hero",
-    title: "Quiet statement hero",
-    note: "Most restrained. Puts the main idea first, then lets the principles sit as a calm footer strip.",
-    className: "test-bed-approach-hero--statement",
+    title: "Split-surface hero",
+    note: "The most spatial option, using closely related left/right surfaces with the signals bridging the composition.",
+    className: "home-test-hero--split-surface",
   },
 ];
 
 export default function TestBed() {
   useEffect(() => {
-    document.title = "TestBed | Approach Hero Candidates";
+    document.title = "TestBed | Homepage Hero Candidates";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "Five candidate hero treatments for the Approach page using the Vive Counselling design language."
+        "Five homepage hero candidates exploring a distinct hero-specific visual language for Vive Counselling."
       );
     }
   }, []);
@@ -72,60 +67,45 @@ export default function TestBed() {
         <Container className="test-bed-approach-intro__inner">
           <div>
             <span className="trial-two-hero__badge">TestBed</span>
-            <h1>Five candidate Approach hero treatments.</h1>
+            <h1>Five homepage hero candidates with a hero-specific design language.</h1>
             <p>
-              Each option ports the current Approach hero content into the authoritative design language, with a
-              different structure for the same heading, paragraph, and three working principles.
+              These are not normal page sections. Each option gives the homepage opening its own visual field, stronger
+              typographic scale, and integrated practice signals.
             </p>
           </div>
-          <Button href="/design-language" variant="secondary">
-            Design language <ArrowRight size={16} />
+          <Button href="/" variant="secondary">
+            Current homepage <ArrowRight size={16} />
           </Button>
         </Container>
       </section>
 
-      <div className="test-bed-approach-list">
-        {candidates.map((candidate, index) => {
-          return (
-            <section className={`test-bed-approach-hero ${candidate.className}`} key={candidate.label}>
-              <Container>
-                <div className="test-bed-approach-hero__frame">
-                  <div className="test-bed-approach-hero__main">
-                    <h2>Working with the bigger picture</h2>
-                    <p>{approachHeroCopy}</p>
-                    {index === 4 ? (
-                      <div className="trial-two-actions">
-                        <Button href="/contact">Get in touch</Button>
-                        <Button href="/fees" variant="secondary">
-                          Fees and practical details
-                        </Button>
-                      </div>
-                    ) : null}
-                  </div>
+      <div className="home-test-hero-list">
+        {candidates.map((candidate) => (
+          <section className={`home-test-hero ${candidate.className}`} key={candidate.title}>
+            <Container className="home-test-hero__inner">
+              <div className="home-test-hero__top">
+                <h2>Counselling for when life feels difficult, tangled, or hard to make sense of.</h2>
+                <p>{homepageHeroCopy}</p>
+              </div>
 
-                  <div className="test-bed-approach-hero__support">
-                    <div className="test-bed-principles" aria-label="Working principles">
-                      {approachPrinciples.map((principle) => (
-                        <article className="test-bed-principle" key={principle.title}>
-                          <h3>{principle.title}</h3>
-                          <p>{principle.text}</p>
-                          {index === 2 ? <CheckCircle2 size={18} /> : null}
-                        </article>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </Container>
-            </section>
-          );
-        })}
+              <div className="home-test-hero__signals" aria-label="Practice signals">
+                {homepageSignals.map((signal) => (
+                  <article className="home-test-hero__signal" key={signal.title}>
+                    <h3>{signal.title}</h3>
+                    <p>{signal.text}</p>
+                  </article>
+                ))}
+              </div>
+            </Container>
+          </section>
+        ))}
       </div>
 
       <section className="test-bed-commentary-section">
         <Container>
           <div className="trial-two-grid__heading">
             <p className="trial-two-subtitle">TestBed notes</p>
-            <h2>Commentary for the five Approach hero candidates.</h2>
+            <h2>Commentary for the five homepage hero candidates.</h2>
           </div>
 
           <div className="test-bed-commentary-grid">

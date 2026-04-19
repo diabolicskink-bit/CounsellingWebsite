@@ -16,8 +16,11 @@ export const navItems = [
     label: "Design",
     href: "/design-language",
     children: [
+      { label: "Overview", href: "/design-language" },
+      { label: "Foundations", href: "/design-language/foundations" },
+      { label: "Components", href: "/design-language/components" },
+      { label: "Patterns", href: "/design-language/patterns" },
       { label: "TestBed", href: "/test-bed" },
-      { label: "Design Language", href: "/design-language" },
     ],
   },
   { label: "Fees", href: "/fees" },
