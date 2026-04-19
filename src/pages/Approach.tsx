@@ -46,26 +46,28 @@ export default function Approach() {
 
   return (
     <main className="site-page approach-page">
-      <section className="site-hero">
-        <Container className="site-hero__content">
-          <div className="site-hero__copy">
-            <span className="site-hero__badge">Therapeutic approach</span>
-            <h1>Working with the bigger picture</h1>
-            <p>
+      <section className="hero-section hero-bg--diagonal">
+        <Container>
+          <div className="hero-top">
+            <h1 className="hero-display">
+              Working with<br />
+              <em>the bigger</em><br />
+              picture.
+            </h1>
+            <p className="hero-copy-panel">
               I seek to understand the problem you are dealing with in the context of your actual life. That means
               paying attention not only to what is happening now, but also to the patterns, pressures, and relationships
               around it, so what we are talking about is grounded in the reality of your life.
             </p>
           </div>
-
-          <aside className="site-principles" aria-label="Working principles">
+          <div className="hero-principles-strip">
             {principles.map((principle) => (
-              <article className="site-principle" key={principle.title}>
-                <h2>{principle.title}</h2>
+              <div className="hero-principle-item" key={principle.title}>
+                <h3>{principle.title}</h3>
                 <p>{principle.text}</p>
-              </article>
+              </div>
             ))}
-          </aside>
+          </div>
         </Container>
       </section>
 

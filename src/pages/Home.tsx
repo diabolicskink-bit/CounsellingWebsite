@@ -7,10 +7,10 @@ import { Link } from "react-router-dom";
 const portraitSrc = "/joel-griffiths-portrait-temp.svg";
 
 const trustItems = [
-  "Online across Australia",
-  "For adults",
-  "Grounded and non-shaming",
-  "Inclusive relationships, sexualities, and identities",
+  "Perth-based, online across Australia",
+  "Individual counselling",
+  "Serious, thoughtful, and human",
+  "Kink-, ENM-, and LGBTQIA+-aware",
 ];
 
 const topicTiles = [
@@ -77,12 +77,9 @@ export default function Home() {
         <Container className="site-hero__content home-page__hero-grid">
           <div className="site-hero__copy">
             <span className="site-hero__badge">Vive Counselling</span>
-            <h1>Counselling for when life feels difficult, tangled, or hard to make sense of.</h1>
+  <h1>Counselling for when life feels painful, stuck, or hard to untangle.</h1>
             <p>
-              Based in Perth, I offer online counselling for adults across Australia. People often come with anxiety,
-              relationship strain, self-criticism, grief, sexuality, or things that feel exposing, confusing, or hard to
-              talk about. My approach is direct, thoughtful, and non-shaming.
-            </p>
+I offer online counselling for adults across Australia, based in Perth. I work with anxiety, relationship strain, self-criticism, trauma, sexuality, and experiences that feel exposing, confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.            </p>
             <div className="site-actions">
               <Button href="/contact">Make an enquiry</Button>
               <Button href="/approach" variant="secondary">

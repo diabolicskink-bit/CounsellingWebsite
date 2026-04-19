@@ -1,10 +1,18 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import { navItems } from "../data/site";
+import { navItems, type NavItem } from "../data/site";
 import Button from "./Button";
 
 const headerNavItems = navItems.filter((item) => item.href !== "/contact");
+
+function itemIsActive(item: NavItem, pathname: string): boolean {
+  if (item.href === pathname) {
+    return true;
+  }
+
+  return item.children?.some((child) => itemIsActive(child, pathname)) ?? false;
+}
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,10 +65,15 @@ export default function Layout() {
 
           <div className="site-header__cluster">
             <nav className="desktop-nav" aria-label="Main navigation">
-              {headerNavItems.map((item) => (
+              {headerNavItems.map((item) => {
+                const isCurrent = itemIsActive(item, location.pathname);
+
+                return (
                 <div className="nav-item" key={item.href ?? item.label}>
                   <NavLink
-                    className={({ isActive }) => `nav-link ${isActive ? "nav-link--active" : ""} ${item.children ? "nav-link--parent" : ""}`}
+                    className={({ isActive }) =>
+                      `nav-link ${isActive || isCurrent ? "nav-link--active" : ""} ${item.children ? "nav-link--parent" : ""}`
+                    }
                     to={item.href ?? "#"}
                   >
                     {item.label}
@@ -69,18 +82,40 @@ export default function Layout() {
                   {item.children ? (
                     <div className="nav-submenu" aria-label={`${item.label} submenu`}>
                       {item.children.map((child) => (
-                        <NavLink
-                          key={child.href}
-                          className={({ isActive }) => `nav-submenu__link ${isActive ? "nav-submenu__link--active" : ""}`}
-                          to={child.href}
-                        >
-                          {child.label}
-                        </NavLink>
+                        <div className="nav-submenu__item" key={child.href ?? child.label}>
+                          <NavLink
+                            className={({ isActive }) =>
+                              `nav-submenu__link ${isActive || itemIsActive(child, location.pathname) ? "nav-submenu__link--active" : ""} ${
+                                child.children ? "nav-submenu__link--parent" : ""
+                              }`
+                            }
+                            to={child.href ?? "#"}
+                          >
+                            {child.label}
+                          </NavLink>
+
+                          {child.children ? (
+                            <div className="nav-submenu nav-submenu--nested" aria-label={`${child.label} submenu`}>
+                              {child.children.map((grandchild) => (
+                                <NavLink
+                                  key={grandchild.href}
+                                  className={({ isActive }) =>
+                                    `nav-submenu__link ${isActive ? "nav-submenu__link--active" : ""}`
+                                  }
+                                  to={grandchild.href}
+                                >
+                                  {grandchild.label}
+                                </NavLink>
+                              ))}
+                            </div>
+                          ) : null}
+                        </div>
                       ))}
                     </div>
                   ) : null}
                 </div>
-              ))}
+                );
+              })}
             </nav>
 
             <Button href="/contact" className="header-button">
@@ -118,16 +153,34 @@ export default function Layout() {
                 </NavLink>
                 {item.children
                   ? item.children.map((child) => (
-                      <NavLink
-                        key={child.href}
-                        className={({ isActive }) =>
-                          `mobile-nav__link mobile-nav__sub-link ${isActive ? "mobile-nav__link--active" : ""}`
-                        }
-                        to={child.href}
-                        onClick={closeMenu}
-                      >
-                        {child.label}
-                      </NavLink>
+                      <div key={child.href ?? child.label}>
+                        <NavLink
+                          className={({ isActive }) =>
+                            `mobile-nav__link mobile-nav__sub-link ${isActive || itemIsActive(child, location.pathname) ? "mobile-nav__link--active" : ""}`
+                          }
+                          to={child.href ?? "#"}
+                          onClick={closeMenu}
+                        >
+                          {child.label}
+                        </NavLink>
+
+                        {child.children
+                          ? child.children.map((grandchild) => (
+                              <NavLink
+                                key={grandchild.href}
+                                className={({ isActive }) =>
+                                  `mobile-nav__link mobile-nav__sub-link mobile-nav__sub-link--nested ${
+                                    isActive ? "mobile-nav__link--active" : ""
+                                  }`
+                                }
+                                to={grandchild.href}
+                                onClick={closeMenu}
+                              >
+                                {grandchild.label}
+                              </NavLink>
+                            ))
+                          : null}
+                      </div>
                     ))
                   : null}
               </div>

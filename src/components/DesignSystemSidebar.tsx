@@ -28,6 +28,18 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
+    group: "Heroes",
+    basePath: "/design-language/heroes",
+    items: [
+      { label: "Anatomy", href: "/design-language/heroes#anatomy" },
+      { label: "Display heading", href: "/design-language/heroes#display-heading" },
+      { label: "Copy panel", href: "/design-language/heroes#copy-panel" },
+      { label: "Principles strip", href: "/design-language/heroes#principles" },
+      { label: "Backgrounds", href: "/design-language/heroes#backgrounds" },
+      { label: "Full composition", href: "/design-language/heroes#full-hero" },
+    ],
+  },
+  {
     group: "Patterns",
     basePath: "/design-language/patterns",
     items: [

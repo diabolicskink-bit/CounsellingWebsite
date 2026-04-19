@@ -16,6 +16,7 @@ import CodexTB from "./pages/CodexTB";
 import DesignLanguage from "./pages/DesignLanguage";
 import DS_Foundations from "./pages/design-system/DS_Foundations";
 import DS_Components from "./pages/design-system/DS_Components";
+import DS_Heroes from "./pages/design-system/DS_Heroes";
 import DS_Patterns from "./pages/design-system/DS_Patterns";
 import OpusTB from "./pages/OpusTB";
 
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="design-language" element={<DesignLanguage />} />
           <Route path="design-language/foundations" element={<DS_Foundations />} />
           <Route path="design-language/components" element={<DS_Components />} />
+          <Route path="design-language/heroes" element={<DS_Heroes />} />
           <Route path="design-language/patterns" element={<DS_Patterns />} />
           <Route path="fees" element={<Fees />} />
           <Route path="contact" element={<Contact />} />

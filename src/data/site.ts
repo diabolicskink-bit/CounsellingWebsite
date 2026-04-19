@@ -8,7 +8,13 @@ import {
   Users,
 } from "lucide-react";
 
-export const navItems = [
+export type NavItem = {
+  label: string;
+  href: string;
+  children?: NavItem[];
+};
+
+export const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About Joel", href: "/about-joel" },
   { label: "Approach", href: "/approach" },
@@ -22,15 +28,27 @@ export const navItems = [
     ],
   },
   {
-    label: "Design",
+    label: "Dev",
     href: "/design-language",
     children: [
-      { label: "Overview", href: "/design-language" },
-      { label: "Foundations", href: "/design-language/foundations" },
-      { label: "Components", href: "/design-language/components" },
-      { label: "Patterns", href: "/design-language/patterns" },
-      { label: "Codex TB", href: "/codex-tb" },
-      { label: "Opus TB", href: "/opus-tb" },
+      {
+        label: "Design",
+        href: "/design-language",
+        children: [
+          { label: "Foundations", href: "/design-language/foundations" },
+          { label: "Components", href: "/design-language/components" },
+          { label: "Heroes", href: "/design-language/heroes" },
+          { label: "Patterns", href: "/design-language/patterns" },
+        ],
+      },
+      {
+        label: "Test Beds",
+        href: "/codex-tb",
+        children: [
+          { label: "Codex TB", href: "/codex-tb" },
+          { label: "Opus TB", href: "/opus-tb" },
+        ],
+      },
     ],
   },
   { label: "Fees", href: "/fees" },
