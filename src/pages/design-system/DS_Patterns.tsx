@@ -93,6 +93,9 @@ const principleSamples = [
   { title: "Recurring difficulties", text: "Repeated themes need room for explanation without making the page feel dense or clinical." },
 ];
 
+// AI maintainers: this page documents page-level composition. If a production
+// page repeats a layout such as split copy, principles, FAQ beside a heading,
+// or a single-column hero, document it here and use shared site-* classes.
 export default function DS_Patterns() {
   useEffect(() => {
     document.title = "Patterns | Design System | Vive Counselling";
@@ -130,6 +133,41 @@ export default function DS_Patterns() {
                   <p>{pattern.text}</p>
                 </article>
               ))}
+            </div>
+
+            {/* AI maintainers: these are canonical public-page layouts used by Approach and Inclusion. */}
+            <div className="ds-demo" style={{ marginTop: "28px" }}>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "14px" }}>Single-column hero content</p>
+              <div className="site-hero__content site-hero__content--single">
+                <div className="site-hero__copy">
+                  <span className="site-hero__badge">Page frame</span>
+                  <h1>Use one strong introduction when the page does not need a side panel.</h1>
+                  <p>
+                    The <code>.site-hero__content--single</code> modifier keeps hero copy in the shared hero language
+                    without creating an empty second column.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="ds-demo" style={{ marginTop: "24px" }}>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "14px" }}>Split copy panel</p>
+              <div className="site-split">
+                <div className="section-heading">
+                  <span className="site-eyebrow">Therapeutic frame</span>
+                  <h2>Pair a section heading with contained reading copy.</h2>
+                </div>
+                <article className="site-copy-panel rich-text">
+                  <p>
+                    Use this for explanatory counselling copy that needs more containment than plain text, without
+                    inventing a page-specific panel class.
+                  </p>
+                  <p>
+                    Links inside rich text inherit the shared editorial link treatment, such as{" "}
+                    <a href="/approach">reading the approach</a>.
+                  </p>
+                </article>
+              </div>
             </div>
           </section>
 
@@ -185,6 +223,18 @@ export default function DS_Patterns() {
               <div className="design-language-principles" aria-label="Principle block examples">
                 {principleSamples.map((item) => (
                   <article className="design-language-principle" key={item.title}>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="ds-demo" style={{ marginTop: "24px" }}>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "14px" }}>Shared principle stack</p>
+              <div className="site-principles" aria-label="Shared principle block examples">
+                {principleSamples.map((item) => (
+                  <article className="site-principle" key={item.title}>
                     <h3>{item.title}</h3>
                     <p>{item.text}</p>
                   </article>

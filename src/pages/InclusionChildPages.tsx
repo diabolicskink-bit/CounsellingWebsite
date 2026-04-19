@@ -260,8 +260,8 @@ function InclusionChildPage({ data }: { data: InclusionPageData }) {
   return (
     <main className="site-page inclusion-page inclusion-child-page">
       <FaqSchema faqs={data.faqs} />
-      <section className="site-hero inclusion-hero">
-        <Container className="site-hero__content inclusion-hero__grid">
+      <section className="site-hero">
+        <Container className="site-hero__content site-hero__content--single">
           <div className="site-hero__copy">
             <nav className="breadcrumb" aria-label="Breadcrumb">
               <Link to="/">Home</Link>
@@ -282,13 +282,13 @@ function InclusionChildPage({ data }: { data: InclusionPageData }) {
       </section>
 
       {data.pathLabel === "LGBTQIA+" ? (
-        <section className="inclusion-copy-section inclusion-copy-section--early">
-          <Container className="inclusion-two-column">
-            <div>
+        <section className="site-highlight">
+          <Container className="site-split">
+            <div className="section-heading">
               <span className="site-eyebrow">{data.stance.eyebrow}</span>
               <h2>{data.stance.heading}</h2>
             </div>
-            <div className="inclusion-prose">
+            <div className="rich-text">
               {data.stance.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -297,16 +297,16 @@ function InclusionChildPage({ data }: { data: InclusionPageData }) {
         </section>
       ) : null}
 
-      <section className="inclusion-items-section">
-        <Container className="inclusion-two-column">
-          <div className="inclusion-section-heading">
+      <section className="site-grid">
+        <Container className="site-split">
+          <div className="section-heading">
             <span className="site-eyebrow">{data.firstSection.eyebrow}</span>
             <h2>{data.firstSection.heading}</h2>
             {data.firstSection.intro ? <p>{data.firstSection.intro}</p> : null}
           </div>
-          <div className={`inclusion-item-list inclusion-item-list--${data.firstSection.variant ?? "plain"}`}>
+          <div className="site-check-panel site-check-panel--grid">
             {data.firstSection.items.map((item) => (
-              <div className="inclusion-item" key={item}>
+              <div className="check-item" key={item}>
                 <CheckCircle2 size={18} />
                 <span>{item}</span>
               </div>
@@ -316,13 +316,13 @@ function InclusionChildPage({ data }: { data: InclusionPageData }) {
       </section>
 
       {data.pathLabel !== "LGBTQIA+" ? (
-        <section className="inclusion-copy-section">
-          <Container className="inclusion-two-column">
-            <div>
+        <section className="site-highlight">
+          <Container className="site-split">
+            <div className="section-heading">
               <span className="site-eyebrow">{data.stance.eyebrow}</span>
               <h2>{data.stance.heading}</h2>
             </div>
-            <div className="inclusion-prose">
+            <div className="rich-text">
               {data.stance.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -331,13 +331,13 @@ function InclusionChildPage({ data }: { data: InclusionPageData }) {
         </section>
       ) : null}
 
-      <section className="inclusion-individual-section">
-        <Container className="inclusion-two-column">
-          <div>
+      <section className="site-grid">
+        <Container className="site-split">
+          <div className="section-heading">
             <span className="site-eyebrow">{data.individual.eyebrow}</span>
             <h2>{data.individual.heading}</h2>
           </div>
-          <div className="inclusion-prose">
+          <div className="rich-text">
             {data.individual.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
@@ -351,13 +351,13 @@ function InclusionChildPage({ data }: { data: InclusionPageData }) {
         </Container>
       </section>
 
-      <section className="inclusion-faq-section">
-        <Container className="inclusion-faq-grid">
-          <div className="inclusion-section-heading">
+      <section className="site-grid">
+        <Container className="site-split">
+          <div className="section-heading">
             <span className="site-eyebrow">Questions</span>
             <h2>Common questions before starting</h2>
           </div>
-          <div className="inclusion-faq-list">
+          <div className="site-faq-list">
             {data.faqs.map((faq) => (
               <article key={faq.question}>
                 <h3>{faq.question}</h3>

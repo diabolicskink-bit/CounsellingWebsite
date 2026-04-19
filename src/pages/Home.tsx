@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import { Link } from "react-router-dom";
@@ -58,41 +60,58 @@ const inclusivePracticeDetails = [
 ];
 
 export default function Home() {
+  useEffect(() => {
+    document.title = "Vive Counselling | Online counselling across Australia";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        "content",
+        "Online counselling for adults across Australia with Joel Griffiths. Grounded, thoughtful, inclusive, and non-shaming support."
+      );
+    }
+  }, []);
+
   return (
-    <>
-      <section className="home-hero-v2">
-        <Container className="home-hero-v2__inner">
-          <div className="home-hero-v2__content">
+    <main className="site-page home-page">
+      <section className="site-hero home-page__hero">
+        <Container className="site-hero__content home-page__hero-grid">
+          <div className="site-hero__copy">
+            <span className="site-hero__badge">Vive Counselling</span>
             <h1>Counselling for when life feels difficult, tangled, or hard to make sense of.</h1>
             <p>
               Based in Perth, I offer online counselling for adults across Australia. People often come with anxiety,
               relationship strain, self-criticism, grief, sexuality, or things that feel exposing, confusing, or hard to
               talk about. My approach is direct, thoughtful, and non-shaming.
             </p>
-            <div className="button-row home-hero-v2__actions">
+            <div className="site-actions">
               <Button href="/contact">Make an enquiry</Button>
               <Button href="/approach" variant="secondary">
                 Read about the approach
               </Button>
             </div>
-            <ul className="home-hero-v2__trust" aria-label="Practice details">
+            <ul className="design-language-trust-list" aria-label="Practice details">
               {trustItems.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
 
-          <div className="home-hero-v2__visual" aria-label="Portrait placeholder for Joel Griffiths">
-            <div className="home-hero-v2__portrait">
+          <aside className="home-page__hero-panel" aria-label="About Joel Griffiths">
+            <div className="home-page__hero-portrait">
               <img src={portraitSrc} alt="" />
             </div>
-          </div>
+            <div>
+              <strong>Joel Griffiths</strong>
+              <span>Counselling and psychodynamic psychotherapy</span>
+            </div>
+          </aside>
         </Container>
       </section>
 
-      <section className="home-topics">
+      <section className="site-grid home-page__topics">
         <Container className="home-topics__grid">
-          <div className="home-topics__intro">
+          <div className="home-topics__intro site-grid__heading">
+            <p className="site-eyebrow">What people bring</p>
             <h2>What people often bring to counselling</h2>
           </div>
 
@@ -107,19 +126,17 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="home-inclusive-feature">
-        <Container className="home-inclusive-feature__inner">
-          <div className="home-inclusive-feature__content">
-            <span className="home-inclusive-feature__eyebrow">
-              Inclusive practice
-            </span>
+      <section className="site-highlight home-page__inclusive">
+        <Container className="design-language-split home-page__inclusive-grid">
+          <div className="site-highlight__box home-page__inclusive-copy">
+            <span className="site-highlight__eyebrow">Inclusive practice</span>
             <h2>Counselling where important parts of your life do not need to be translated first.</h2>
             <p>
               Inclusive practice here means thoughtful, non-shaming counselling for diverse relationships, sexualities,
               identities, kink, BDSM, polyamory, open relationships, and consensual non-monogamy.
             </p>
-            <Button href="/inclusion" variant="tertiary">
-              Explore inclusive counselling
+            <Button href="/inclusion">
+              Explore inclusive counselling <ArrowRight size={16} />
             </Button>
           </div>
 
@@ -134,10 +151,10 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="home-workroom">
+      <section className="home-workroom home-page__workroom">
         <Container className="home-workroom__inner">
           <div className="home-workroom__intro">
-            <span className="home-eyebrow">Working with Joel</span>
+            <span className="site-eyebrow">Working with Joel</span>
             <h2>Start where you are. We can make sense of it from there.</h2>
             <p>
               You might arrive with a clear problem, a half-formed worry, a relationship pattern, a private shame, or
@@ -177,11 +194,25 @@ export default function Home() {
               A first message can be simple: <span>"I think I would like to talk to someone."</span>
             </p>
             <div>
-              <Button href="/contact">Get in touch</Button>
+              <Button href="/contact">
+                Get in touch <ArrowRight size={16} />
+              </Button>
             </div>
           </div>
         </Container>
       </section>
-    </>
+
+      <section className="site-cta-block">
+        <Container className="site-cta-block__inner">
+          <div>
+            <h2>You do not need to explain everything clearly before getting in touch.</h2>
+            <p>A short note about what is bringing you to counselling is enough to begin.</p>
+          </div>
+          <Button href="/contact" variant="secondary">
+            Make an enquiry <ArrowRight size={16} />
+          </Button>
+        </Container>
+      </section>
+    </main>
   );
 }

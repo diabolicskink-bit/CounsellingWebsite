@@ -38,6 +38,13 @@ const checkItems = [
   "Let spacing and borders do more work than decoration.",
 ];
 
+const gridCheckItems = [
+  "Identity, self-understanding, uncertainty, or questioning.",
+  "Family rejection, family strain, or religious conflict.",
+  "Shame, minority stress, or internalised criticism.",
+  "Relationships, intimacy, visibility, and belonging.",
+];
+
 const detailStackItems = [
   "Less time educating the therapist",
   "Consent, boundaries, power exchange, and BDSM can be discussed directly",
@@ -45,6 +52,20 @@ const detailStackItems = [
   "More room for what matters",
 ];
 
+const faqItems = [
+  {
+    question: "Can this pattern hold several short questions?",
+    answer: "Yes. Use it for FAQs where each answer needs space, not for tiny metadata or navigation.",
+  },
+  {
+    question: "Should FAQ items be cards?",
+    answer: "No. The ruled stack keeps question pages quieter and easier to scan than repeated cards.",
+  },
+];
+
+// AI maintainers: this page documents reusable UI components. When a production
+// page needs a repeated card/list/panel treatment, add it here using the real
+// shared class names instead of creating a page-specific lookalike.
 export default function DS_Components() {
   useEffect(() => {
     document.title = "Components | Design System | Vive Counselling";
@@ -113,6 +134,23 @@ export default function DS_Components() {
                   </article>
                 );
               })}
+            </div>
+
+            {/* AI maintainers: linked cards use the same site-card primitive. Do not create a page-specific card class just to add bullets or a trailing action. */}
+            <div className="ds-demo" style={{ marginTop: "24px" }}>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Linked card example</p>
+              <a className="site-card site-card--link" href="/inclusion/kink-bdsm" style={{ maxWidth: "360px" }}>
+                <h3>Kink & BDSM-aware counselling</h3>
+                <p>For a destination card where short context and common topics need to sit together.</p>
+                <ul className="site-card__list">
+                  <li>Shame or secrecy</li>
+                  <li>Boundaries and consent</li>
+                  <li>Conflict inside a dynamic</li>
+                </ul>
+                <span className="site-card__action">
+                  Read the page <ArrowRight size={16} />
+                </span>
+              </a>
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
@@ -239,7 +277,7 @@ export default function DS_Components() {
             <div className="design-language-split">
               <div>
                 <p className="site-eyebrow" style={{ marginBottom: "14px" }}>Check list</p>
-                <div className="design-language-check-panel">
+                <div className="site-check-panel">
                   {checkItems.map((item) => (
                     <div className="check-item" key={item}>
                       <CheckCircle2 size={19} />
@@ -248,10 +286,27 @@ export default function DS_Components() {
                   ))}
                 </div>
                 <div className="ds-usage-note">
-                  <strong>Use for:</strong> Practical guidance, design rules, feature confirmation. The icon is an accent, not the feature.
+                  <strong>Use for:</strong> Practical guidance, design rules, feature confirmation. Use <code>.site-check-panel</code>; the icon is an accent, not the feature.
                 </div>
               </div>
 
+              <div>
+                <p className="site-eyebrow" style={{ marginBottom: "14px" }}>Grid check panel</p>
+                <div className="site-check-panel site-check-panel--grid">
+                  {gridCheckItems.map((item) => (
+                    <div className="check-item" key={item}>
+                      <CheckCircle2 size={18} />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="ds-usage-note">
+                  <strong>Use for:</strong> Larger issue lists in a split section. Do not create page-specific item-list classes for this shape.
+                </div>
+              </div>
+            </div>
+
+            <div className="design-language-split" style={{ marginTop: "28px" }}>
               <div>
                 <p className="site-eyebrow" style={{ marginBottom: "14px" }}>Detail stack</p>
                 <div className="design-language-detail-stack" aria-label="Detail stack example">
@@ -261,6 +316,21 @@ export default function DS_Components() {
                 </div>
                 <div className="ds-usage-note">
                   <strong>Use for:</strong> Short, high-confidence statements that need quiet emphasis — especially inclusive practice signals. Ruled lines, no icons.
+                </div>
+              </div>
+
+              <div>
+                <p className="site-eyebrow" style={{ marginBottom: "14px" }}>FAQ stack</p>
+                <div className="site-faq-list">
+                  {faqItems.map((faq) => (
+                    <article key={faq.question}>
+                      <h3>{faq.question}</h3>
+                      <p>{faq.answer}</p>
+                    </article>
+                  ))}
+                </div>
+                <div className="ds-usage-note">
+                  <strong>Use for:</strong> Question-and-answer sections. Pair with <code>.site-split</code> when the heading sits beside the FAQ list.
                 </div>
               </div>
             </div>

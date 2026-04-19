@@ -46,9 +46,10 @@ export default function Approach() {
 
   return (
     <main className="site-page approach-page">
-      <section className="approach-page__hero">
-        <Container className="approach-page__hero-inner">
-          <div className="approach-page__hero-main">
+      <section className="site-hero">
+        <Container className="site-hero__content">
+          <div className="site-hero__copy">
+            <span className="site-hero__badge">Therapeutic approach</span>
             <h1>Working with the bigger picture</h1>
             <p>
               I seek to understand the problem you are dealing with in the context of your actual life. That means
@@ -57,64 +58,64 @@ export default function Approach() {
             </p>
           </div>
 
-          <div className="approach-page__principles" aria-label="Working principles">
+          <aside className="site-principles" aria-label="Working principles">
             {principles.map((principle) => (
-              <article className="approach-page__principle" key={principle.title}>
+              <article className="site-principle" key={principle.title}>
                 <h2>{principle.title}</h2>
                 <p>{principle.text}</p>
               </article>
             ))}
-          </div>
+          </aside>
         </Container>
       </section>
 
-      <section className="approach-page__explainer">
-        <Container className="approach-page__explainer-grid">
-          <div className="approach-page__section-heading">
+      <section className="site-grid">
+        <Container className="site-split">
+          <div className="section-heading">
             <span className="site-eyebrow">Therapeutic frame</span>
             <h2>An integrative, psychodynamically informed approach</h2>
           </div>
 
-          <div className="approach-page__text-stack">
+          <article className="site-copy-panel rich-text">
             {explainerBlocks.map((block) => (
               <p key={block}>{block}</p>
             ))}
-          </div>
+          </article>
         </Container>
       </section>
 
-      <section className="approach-page__panel-section">
-        <Container>
-          <div className="approach-page__understanding-panel">
+      <section className="site-highlight">
+        <Container className="site-split">
+          <article className="site-highlight__box">
             <div>
-              <span className="site-eyebrow">What this can help with</span>
+              <span className="site-highlight__eyebrow">What this can help with</span>
               <h2>Not every problem needs to be solved immediately to be understood more honestly.</h2>
               <p>
                 People often come when they are tired of carrying things alone, or tired of repeating the same emotional
                 shape in different settings.
               </p>
             </div>
+          </article>
 
-            <div className="approach-page__check-panel">
-              {honestUnderstandingItems.map((item) => (
-                <div className="check-item" key={item}>
-                  <CheckCircle2 size={19} />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
+          <div className="site-check-panel">
+            {honestUnderstandingItems.map((item) => (
+              <div className="check-item" key={item}>
+                <CheckCircle2 size={19} />
+                <span>{item}</span>
+              </div>
+            ))}
           </div>
         </Container>
       </section>
 
-      <section className="approach-page__enquiry">
-        <Container className="approach-page__enquiry-grid">
-          <div>
+      <section className="site-grid">
+        <Container className="site-split">
+          <div className="section-heading">
             <span className="site-eyebrow">Getting started</span>
             <h2>You do not need a perfect explanation before getting in touch.</h2>
           </div>
 
-          <div className="approach-page__enquiry-panel">
+          <article className="site-copy-panel rich-text">
             <p>
               A first enquiry can be short. You might name what is bringing you to counselling, whether you are looking
               for online sessions, and anything important to know before arranging a first appointment.
@@ -122,7 +123,7 @@ export default function Approach() {
             <Button href="/fees">
               View fees and practical details <ArrowRight size={17} />
             </Button>
-          </div>
+          </article>
         </Container>
       </section>
 

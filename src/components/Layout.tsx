@@ -142,7 +142,7 @@ export default function Layout() {
 
       <footer className="site-footer">
         <div className="container site-footer__grid">
-          <div>
+          <div className="site-footer__brand">
             <Link className="brand" to="/">
               <span className="brand__name">Vive Counselling</span>
             </Link>
@@ -150,15 +150,14 @@ export default function Layout() {
               Private online counselling for adults in Western Australia and across Australia.
             </p>
           </div>
-          <div className="site-footer__links">
+          <nav className="site-footer__links" aria-label="Footer navigation">
+            <Link to="/about-joel">About Joel</Link>
+            <Link to="/approach">Approach</Link>
             <Link to="/inclusion">Inclusive practice</Link>
-            <Link to="/inclusion/kink-bdsm">Kink & BDSM-aware counselling</Link>
-            <Link to="/inclusion/enm-polyamory">Counselling for ENM & polyamory</Link>
-            <Link to="/inclusion/lgbtqia">LGBTQIA+ affirming counselling</Link>
             <Link to="/fees">Fees</Link>
             <Link to="/contact">Contact</Link>
-            <span>&copy; 2026 Vive Counselling</span>
-          </div>
+          </nav>
+          <p className="site-footer__copyright">&copy; 2026 Vive Counselling</p>
         </div>
       </footer>
     </div>

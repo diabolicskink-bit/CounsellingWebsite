@@ -71,6 +71,9 @@ const spacingRules = [
   { label: "Section gap (stacked)", token: "—", value: "56–60px between ds-sections", note: "Used on design system sub-pages. Production pages use section padding instead." },
 ];
 
+// AI maintainers: Foundations is for tokens, base typography, spacing, and
+// editorial HTML defaults. Component or page-layout examples belong in
+// DS_Components or DS_Patterns unless they change baseline text behaviour.
 export default function DS_Foundations() {
   useEffect(() => {
     document.title = "Foundations | Design System | Vive Counselling";
@@ -184,6 +187,13 @@ export default function DS_Foundations() {
                 Paragraph copy includes a <a href="/contact">text link</a>, a <strong>strong phrase</strong>, and{" "}
                 <code>inline code</code> for technical notes.
               </p>
+              {/* AI maintainers: rich-text links are documented here because the link treatment is a baseline editorial rule. */}
+              <div className="rich-text">
+                <p>
+                  Rich editorial text can include contextual links like <a href="/approach">the counselling approach</a>{" "}
+                  without needing page-specific link styles.
+                </p>
+              </div>
               <blockquote>The design should make clear information feel steady, not sterile.</blockquote>
               <ul>
                 <li>Unordered list item</li>

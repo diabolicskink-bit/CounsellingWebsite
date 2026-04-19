@@ -101,8 +101,8 @@ export default function InclusivePractice() {
   return (
     <main className="site-page inclusion-page">
       <FaqSchema />
-      <section className="site-hero inclusion-hero">
-        <Container className="site-hero__content inclusion-hero__grid">
+      <section className="site-hero">
+        <Container className="site-hero__content site-hero__content--single">
           <div className="site-hero__copy">
             <nav className="breadcrumb" aria-label="Breadcrumb">
               <Link to="/">Home</Link>
@@ -125,23 +125,23 @@ export default function InclusivePractice() {
         </Container>
       </section>
 
-      <section className="inclusion-topic-section">
+      <section className="site-grid">
         <Container>
-          <div className="inclusion-section-heading">
+          <div className="site-grid__heading">
             <span className="site-eyebrow">Choose a clearer starting point</span>
             <h2>Dedicated counselling pages for specific contexts</h2>
           </div>
-          <div className="inclusion-topic-panels">
+          <div className="site-card-grid">
             {topicPanels.map((topic) => (
-              <Link className="inclusion-topic-panel" to={topic.href} key={topic.title}>
+              <Link className="site-card site-card--link" to={topic.href} key={topic.title}>
                 <h3>{topic.title}</h3>
                 <p>{topic.copy}</p>
-                <ul>
+                <ul className="site-card__list">
                   {topic.issues.map((issue) => (
                     <li key={issue}>{issue}</li>
                   ))}
                 </ul>
-                <span>
+                <span className="site-card__action">
                   Read about {topic.title.toLowerCase()} <ArrowRight size={16} />
                 </span>
               </Link>
@@ -150,16 +150,18 @@ export default function InclusivePractice() {
         </Container>
       </section>
 
-      <section className="inclusion-practice-section">
+      <section className="site-highlight">
         <Container>
-          <div className="inclusion-section-heading">
+          <div className="site-grid__heading">
             <span className="site-eyebrow">What inclusive practice means here</span>
             <h2>A way of working, not a slogan</h2>
           </div>
-          <div className="inclusion-practice-grid">
+          <div className="site-card-grid">
             {practiceBlocks.map((block) => (
-              <article key={block.title}>
-                <CheckCircle2 size={20} />
+              <article className="site-card" key={block.title}>
+                <div className="site-card__icon">
+                  <CheckCircle2 size={20} />
+                </div>
                 <h3>{block.title}</h3>
                 <p>{block.copy}</p>
               </article>
@@ -168,13 +170,13 @@ export default function InclusivePractice() {
         </Container>
       </section>
 
-      <section className="inclusion-faq-section">
-        <Container className="inclusion-faq-grid">
-          <div className="inclusion-section-heading">
+      <section className="site-grid">
+        <Container className="site-split">
+          <div className="section-heading">
             <span className="site-eyebrow">Questions</span>
             <h2>Before getting in touch</h2>
           </div>
-          <div className="inclusion-faq-list">
+          <div className="site-faq-list">
             {faqs.map((faq) => (
               <article key={faq.question}>
                 <h3>{faq.question}</h3>
