@@ -358,11 +358,19 @@ function InclusionChildPage({ data }: { data: InclusionPageData }) {
             <h2>Common questions before starting</h2>
           </div>
           <div className="site-faq-list">
-            {data.faqs.map((faq) => (
-              <article key={faq.question}>
-                <h3>{faq.question}</h3>
-                <p>{faq.answer}</p>
-              </article>
+            {data.faqs.map((faq, index) => (
+              <details className="site-faq-item" key={faq.question} open={index === 0}>
+                <summary className="site-faq-question">
+                  <h3>{faq.question}</h3>
+                  <span className="site-faq-icon" aria-hidden="true">
+                    <span />
+                    <span />
+                  </span>
+                </summary>
+                <div className="site-faq-answer">
+                  <p>{faq.answer}</p>
+                </div>
+              </details>
             ))}
           </div>
         </Container>

@@ -59,7 +59,7 @@ const faqItems = [
   },
   {
     question: "Should FAQ items be cards?",
-    answer: "No. The ruled stack keeps question pages quieter and easier to scan than repeated cards.",
+    answer: "No. The shared accordion keeps question pages quieter and easier to scan than repeated cards.",
   },
 ];
 
@@ -320,17 +320,25 @@ export default function DS_Components() {
               </div>
 
               <div>
-                <p className="site-eyebrow" style={{ marginBottom: "14px" }}>FAQ stack</p>
+                <p className="site-eyebrow" style={{ marginBottom: "14px" }}>FAQ accordion</p>
                 <div className="site-faq-list">
-                  {faqItems.map((faq) => (
-                    <article key={faq.question}>
-                      <h3>{faq.question}</h3>
-                      <p>{faq.answer}</p>
-                    </article>
+                  {faqItems.map((faq, index) => (
+                    <details className="site-faq-item" key={faq.question} open={index === 0}>
+                      <summary className="site-faq-question">
+                        <h3>{faq.question}</h3>
+                        <span className="site-faq-icon" aria-hidden="true">
+                          <span />
+                          <span />
+                        </span>
+                      </summary>
+                      <div className="site-faq-answer">
+                        <p>{faq.answer}</p>
+                      </div>
+                    </details>
                   ))}
                 </div>
                 <div className="ds-usage-note">
-                  <strong>Use for:</strong> Question-and-answer sections. Pair with <code>.site-split</code> when the heading sits beside the FAQ list.
+                  <strong>Use for:</strong> Question-and-answer sections. This is the shared FAQ pattern. Pair with <code>.site-split</code> when the heading sits beside the FAQ list.
                 </div>
               </div>
             </div>
