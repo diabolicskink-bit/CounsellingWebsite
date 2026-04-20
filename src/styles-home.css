@@ -1,0 +1,531 @@
+/* Home page layer: page-specific layout and section composition only.
+   Shared colors, card treatments, typography, and hero primitives live in src/styles.css. */
+
+/* Hero: light page-specific sizing and spacing on top of the shared hero system */
+.home-page__hero {
+  /* Keeps a little more breathing room under the hero than the shared default. */
+  padding-bottom: 64px;
+}
+
+.home-page__hero-copy {
+  /* Prevents the left column from forcing overflow in the supporting-media hero grid. */
+  min-width: 0;
+}
+
+.home-page__hero-title {
+  /* Slightly tighter measure than the shared display heading for the Home composition. */
+  max-width: 15.6ch;
+}
+
+.home-page__hero-support {
+  /* Lets the intro paragraph and trust list breathe as one support block. */
+  gap: 20px;
+  max-width: 62rem;
+}
+
+.home-page__hero-support p {
+  /* The shared hero copy caps paragraph width; Home wants the full support panel width. */
+  max-width: none;
+  color: #374136;
+}
+
+/* Topics: custom editorial tile placement for the Home page only */
+.home-topics__grid {
+  /* This is a 12-column collage grid rather than a reusable card grid.
+     The row height creates the loose masonry rhythm used by the six tiles. */
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: 30px;
+  gap: 14px 18px;
+  align-items: stretch;
+}
+
+.home-topics__intro {
+  /* The heading occupies the left column block and anchors the collage vertically. */
+  display: grid;
+  grid-column: 1 / span 4;
+  grid-row: 1 / span 5;
+  align-content: start;
+  gap: 18px;
+  max-width: 430px;
+  padding-top: 8px;
+}
+
+.home-topics__tiles {
+  /* The cards participate directly in the parent grid so each tile can place itself.
+     This avoids wrapping the tiles in another layout layer. */
+  display: contents;
+}
+
+.home-page__topics .site-grid__heading {
+  /* Shared site-grid headings normally add bottom space; the collage handles its own spacing. */
+  margin-bottom: 0;
+}
+
+.home-page__topics .home-topics__intro {
+  /* Tightens the intro block so the first card can rise closer beneath the heading. */
+  grid-row: 1 / span 4;
+}
+
+.home-page__topics .home-topics__tile--quiet {
+  /* Upper-middle narrow card. */
+  grid-column: 5 / span 3;
+  grid-row: 2 / span 6;
+}
+
+.home-page__topics .home-topics__tile--lift {
+  /* Top-right larger white card. */
+  grid-column: 8 / span 4;
+  grid-row: 1 / span 5;
+}
+
+.home-page__topics .home-topics__tile--middle {
+  /* Lower-left green card under the heading. */
+  grid-column: 1 / span 4;
+  grid-row: 4 / span 5;
+}
+
+.home-page__topics .home-topics__tile--soft {
+  /* Bottom-left smaller muted card. */
+  grid-column: 1 / span 3;
+  grid-row: 9 / span 5;
+}
+
+.home-page__topics .home-topics__tile--wide {
+  /* Bottom-middle white card that bridges the left and centre zones. */
+  grid-column: 4 / span 3;
+  grid-row: 8 / span 6;
+}
+
+.home-page__topics .home-topics__tile--deep {
+  /* Bottom-right green card intentionally overlaps the quiet card and sits in front. */
+  grid-column: 7 / span 4;
+  grid-row: 7 / span 5;
+  position: relative;
+  z-index: 1;
+  margin-top: 10px;
+}
+
+/* Inclusive practice: shared section shell with Home-specific column balance */
+.home-page__inclusive-grid {
+  /* Shared split layout, but slightly biased toward the copy column on Home. */
+  grid-template-columns: minmax(0, 0.95fr) minmax(300px, 0.8fr);
+  align-items: center;
+}
+
+.home-page__inclusive-copy {
+  /* Keeps the text block aligned to the top of its card. */
+  align-content: start;
+}
+
+.home-page__inclusive-copy .button {
+  /* Shared button styles, page-specific alignment. */
+  justify-self: start;
+}
+
+.home-inclusive-feature__details a {
+  /* Detail links read like a simple editorial list rather than cards. */
+  display: grid;
+  gap: 7px;
+  border-top: 1px solid rgba(35, 75, 61, 0.22);
+  padding-block: 17px;
+}
+
+.home-inclusive-feature__details a:first-child {
+  /* First item starts clean without a leading divider. */
+  border-top: 0;
+  padding-top: 0;
+}
+
+.home-inclusive-feature__details a:nth-child(even) {
+  /* Gentle stagger on desktop to stop the right column feeling too rigid. */
+  padding-left: 24px;
+}
+
+.home-inclusive-feature__details strong {
+  /* This remains local for now because the link list is not yet a shared site component. */
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.18rem;
+  font-weight: 500;
+  line-height: 1.22;
+}
+
+.home-inclusive-feature__details span {
+  /* Secondary explanatory line under each inclusion topic. */
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.52;
+}
+
+/* Workroom: this section keeps its own composition until a shared pattern emerges */
+.home-page__workroom {
+  /* The section above already provides the transition; avoid a doubled divider. */
+  border-top: 0;
+}
+
+.home-workroom {
+  /* This is a page-specific atmospheric section, so the background remains local. */
+  overflow: hidden;
+  border-top: 1px solid rgba(35, 75, 61, 0.14);
+  background:
+    linear-gradient(180deg, rgba(224, 233, 221, 0.86), rgba(238, 242, 236, 0.98) 62%, rgba(247, 246, 242, 0.98)),
+    var(--surface);
+  padding-block: 68px 58px;
+}
+
+.home-workroom__inner {
+  /* Two-column editorial layout: main narrative left, supporting note stack right. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
+  gap: 28px 78px;
+  align-items: start;
+}
+
+.home-workroom__intro {
+  /* Intro block stays in the main column and leads the entire section. */
+  display: grid;
+  grid-column: 1;
+  gap: 18px;
+  max-width: 720px;
+  padding-top: 4px;
+}
+
+.home-workroom__intro h2 {
+  /* Shared h2 styles set the type; Home only controls the measure. */
+  max-width: 700px;
+}
+
+.home-workroom__intro p {
+  /* Slightly roomier body copy than default paragraph text to match the section tone. */
+  max-width: 600px;
+  color: var(--body);
+  font-size: 1.1rem;
+  line-height: 1.64;
+}
+
+.home-workroom__portrait {
+  /* Portrait sits in the narrow right column, aligned with the section intro. */
+  display: grid;
+  grid-column: 2;
+  grid-row: 1;
+  gap: 14px;
+  justify-self: end;
+  width: min(100%, 286px);
+}
+
+.home-workroom__portrait img {
+  /* Fixed height keeps the portrait visually compact beside the intro copy. */
+  width: 100%;
+  height: 286px;
+  border-radius: 8px;
+  background: rgba(252, 252, 250, 0.72);
+  object-fit: cover;
+  filter: saturate(0.78) contrast(0.96);
+}
+
+.home-workroom__portrait div {
+  /* Caption block echoes the shared hero media note treatment. */
+  display: grid;
+  gap: 2px;
+  border-top: 1px solid rgba(35, 75, 61, 0.24);
+  padding-top: 14px;
+}
+
+.home-workroom__portrait strong {
+  /* Name line. */
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.42rem;
+  font-weight: 500;
+}
+
+.home-workroom__portrait span {
+  /* Descriptor line. */
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+.home-workroom__letter {
+  /* Secondary left-column note with a rule instead of a boxed card treatment. */
+  display: grid;
+  grid-column: 1;
+  grid-row: 2;
+  gap: 12px;
+  max-width: 650px;
+  margin-top: 4px;
+  padding: 0 0 0 24px;
+  border-left: 2px solid rgba(35, 75, 61, 0.36);
+  background: transparent;
+}
+
+.home-workroom__letter span {
+  /* Small label introducing the block. */
+  color: var(--cedar);
+  font-size: 0.95rem;
+  font-weight: 760;
+}
+
+.home-workroom__letter p {
+  /* Slightly softer ink than the main intro to distinguish the second block. */
+  color: #455047;
+  font-size: 1.08rem;
+  line-height: 1.66;
+}
+
+.home-workroom__joel-note {
+  /* Supporting factual note aligned beside the letter block. */
+  display: grid;
+  grid-column: 2;
+  grid-row: 2;
+  gap: 14px;
+  align-self: start;
+  justify-items: start;
+  max-width: 286px;
+  margin-top: 4px;
+  border-left: 2px solid rgba(35, 75, 61, 0.24);
+  padding-left: 18px;
+}
+
+.home-workroom__joel-note p {
+  /* Compact supporting copy beside the stronger editorial blocks. */
+  color: #4b554c;
+  font-size: 1rem;
+  line-height: 1.62;
+}
+
+.home-workroom__next {
+  /* Final call-to-action row spans both columns and resets the section visually. */
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 680px) auto;
+  gap: 42px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(35, 75, 61, 0.24);
+}
+
+.home-workroom__next p {
+  /* Large closing prompt, intentionally closer to a pull-quote than body copy. */
+  max-width: 680px;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.85rem, 3.1vw, 2.5rem);
+  line-height: 1.08;
+}
+
+.home-workroom__next p span {
+  /* Accent highlight inside the closing prompt. */
+  color: var(--cedar);
+}
+
+.home-workroom__next div {
+  /* CTA button container aligns right on desktop and relaxes at smaller breakpoints. */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* Tablet: release the desktop tile collage into a simpler grid and stack the workroom */
+@media (max-width: 1080px) {
+  .home-topics__grid {
+    /* Collapse the 12-column collage into a normal document flow. */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    gap: 46px;
+    min-height: 0;
+  }
+
+  .home-topics__intro,
+  .home-topics__tiles {
+    /* Clear any explicit desktop placement from the intro and tile wrapper. */
+    grid-column: auto;
+  }
+
+  .home-topics__intro {
+    /* Release the heading from the collage positioning rules. */
+    position: static;
+    max-width: 720px;
+  }
+
+  .home-topics__tiles {
+    /* Two-column tablet grid before collapsing to one column at the next breakpoint. */
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .home-topics__tile {
+    /* Remove all explicit grid placement so cards behave like regular items. */
+    grid-column: auto;
+    grid-row: auto;
+    height: auto;
+    position: static;
+    width: auto;
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  .home-workroom__inner {
+    /* Stack the editorial workroom into a single-column narrative. */
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .home-workroom__intro,
+  .home-workroom__portrait,
+  .home-workroom__letter,
+  .home-workroom__joel-note,
+  .home-workroom__next {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .home-workroom__portrait {
+    justify-self: start;
+    width: min(100%, 420px);
+  }
+
+  .home-workroom__joel-note {
+    max-width: 620px;
+  }
+
+  .home-workroom__next {
+    /* CTA row becomes a single-column stack once the two-column section collapses. */
+    grid-template-columns: 1fr;
+  }
+
+  .home-workroom__next div {
+    /* On stacked layouts, align the button with the copy instead of pushing right. */
+    justify-content: flex-start;
+  }
+}
+
+/* Narrow screens: single-column tiles and softer workroom spacing */
+@media (max-width: 700px) {
+  .home-topics__tiles {
+    /* Fully collapse the tiles to one column. */
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    gap: 14px;
+  }
+
+  .home-topics__tile,
+  .home-topics__tile--middle,
+  .home-topics__tile--quiet,
+  .home-topics__tile--lift,
+  .home-topics__tile--wide,
+  .home-topics__tile--deep,
+  .home-topics__tile--soft {
+    /* Defensive reset so no desktop placement survives into the mobile stack. */
+    grid-column: auto;
+    grid-row: auto;
+    height: auto;
+    position: static;
+    width: auto;
+    min-height: 0;
+    margin-top: 0;
+    margin-left: 0;
+  }
+
+  .home-topics__tile {
+    /* Keep card padding explicit here so the single-column stack reads comfortably. */
+    padding: 22px;
+  }
+
+  .home-topics__tile:nth-child(3),
+  .home-topics__tile:nth-child(5) {
+    /* Preserve a small stagger in the stacked version so the layout does not become too flat. */
+    margin-left: 24px;
+  }
+
+  .home-workroom {
+    /* Tighter section rhythm on smaller screens. */
+    padding-block: 64px;
+  }
+
+  .home-workroom__portrait {
+    /* Let the portrait fill the narrower layout width. */
+    width: 100%;
+  }
+
+  .home-workroom__portrait img {
+    /* Slightly taller crop once the portrait becomes full-width. */
+    height: 340px;
+  }
+
+  .home-workroom__letter {
+    /* Soften the inset rule block so it does not feel too indented on small screens. */
+    margin-top: 0;
+    padding: 0 0 0 20px;
+  }
+
+  .home-workroom__letter p {
+    font-size: 1.06rem;
+  }
+
+  .home-workroom__next p {
+    font-size: 2.1rem;
+  }
+
+  .home-workroom__next div {
+    /* Button becomes full-width-friendly when the CTA stacks. */
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+/* Mobile: remove the stagger from the inclusive-practice detail links */
+@media (max-width: 640px) {
+  .home-inclusive-feature__details a:nth-child(even) {
+    /* The stagger works on desktop, but reads accidental once the column gets narrow. */
+    padding-left: 0;
+  }
+}
+
+/* Small mobile: let the Home hero content use the full container width */
+@media (max-width: 660px) {
+  .home-page .container {
+    /* Match the tighter mobile shell used elsewhere across the site. */
+    width: calc(100vw - 28px);
+    max-width: calc(100vw - 28px);
+  }
+
+  .home-page__hero-copy,
+  .home-page__hero-support,
+  .home-page .button {
+    /* Avoid narrow max-width constraints on the compact hero layout. */
+    max-width: 100%;
+  }
+
+  .home-page__hero-copy {
+    /* Make the hero copy consume the full available width in the stacked layout. */
+    width: 100%;
+  }
+
+  .home-page__hero-title {
+    /* Remove the desktop measure cap and allow wrapping more freely. */
+    max-width: 100%;
+    overflow-wrap: break-word;
+    text-wrap: auto;
+  }
+
+  .home-page__hero-support {
+    /* The support panel should follow the title width on small screens. */
+    width: 100%;
+  }
+
+  .home-page__hero-support p {
+    /* Keep long phrases from creating awkward overflow in the mobile hero copy. */
+    width: 100%;
+    font-size: 0.98rem;
+    overflow-wrap: anywhere;
+    text-wrap: auto;
+  }
+}

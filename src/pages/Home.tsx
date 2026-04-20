@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import { Link } from "react-router-dom";
+import "../styles-home.css";
 
 const portraitSrc = "/joel-griffiths-portrait-temp.svg";
 
@@ -17,32 +18,37 @@ const topicTiles = [
   {
     title: "Low mood and depression",
     copy: "Heaviness, numbness, hopelessness, or a flatness that does not lift and is hard to explain. Feeling distant from yourself, from other people, or from things that used to matter.",
-    className: "home-topics__tile--middle",
+    layoutClass: "home-topics__tile--middle",
+    toneClass: "site-topic-card--soft",
   },
   {
     title: "Anxiety and overthinking",
     copy: "A mind that will not settle. Going over the same things, bracing for things that have not happened yet, or carrying a background worry that is hard to name or put down.",
-    className: "home-topics__tile--wide",
+    layoutClass: "home-topics__tile--wide",
   },
   {
     title: "Relationships and attachment",
     copy: "Feeling disconnected, stuck in the same arguments, or unable to get as close as you want to be. Ongoing conflict, or patterns in how you attach, trust, or pull away that keep repeating regardless of who you are with.",
-    className: "home-topics__tile--lift",
+    layoutClass: "home-topics__tile--lift",
+    toneClass: "site-topic-card--narrow",
   },
   {
     title: "Shame and self-worth",
     copy: "Harsh self-judgement, a persistent sense of not being enough, or something about yourself that feels too difficult or too exposing to say.",
-    className: "home-topics__tile--soft",
+    layoutClass: "home-topics__tile--soft",
+    toneClass: "site-topic-card--muted",
   },
   {
     title: "Trauma, abuse, and neglect",
     copy: "Experiences of harm, control, or neglect that left a mark on how safe the world feels, how much you trust people, how close you let yourself get, or how you move through ordinary life.",
-    className: "home-topics__tile--deep",
+    layoutClass: "home-topics__tile--deep",
+    toneClass: "site-topic-card--soft",
   },
   {
     title: "Emotional swings ",
     copy: "Emotions that swing fast and feel hard to manage. Closeness that can turn to distance quickly, or moments of feeling everything followed by feeling nothing at all.",
-    className: "home-topics__tile--quiet",
+    layoutClass: "home-topics__tile--quiet",
+    toneClass: "site-topic-card--muted",
   },
 ];
 
@@ -120,7 +126,10 @@ export default function Home() {
 
           <div className="home-topics__tiles" aria-label="Common counselling themes">
             {topicTiles.map((topic) => (
-              <article className={`home-topics__tile ${topic.className}`} key={topic.title}>
+              <article
+                className={`home-topics__tile site-topic-card ${topic.layoutClass} ${topic.toneClass ?? ""}`.trim()}
+                key={topic.title}
+              >
                 <h3>{topic.title}</h3>
                 <p>{topic.copy}</p>
               </article>

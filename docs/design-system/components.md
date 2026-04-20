@@ -25,6 +25,12 @@ Prefer these shared building blocks before creating anything new.
   Short bullet lists inside linked or richer cards.
 - `.site-card__action`
   Trailing action row for linked cards.
+- `.site-topic-card`
+  Shared topic/issue card treatment for uneven editorial card layouts where copy-led tiles need the same visual language but custom placement.
+- `.site-topic-card--soft`
+  Soft green variant of the shared topic card.
+- `.site-topic-card--narrow`
+  Shared tighter-copy variant for narrower topic cards.
 - `.site-pill-row`
   Short non-navigational tags or topic pills.
 - `.site-split`
