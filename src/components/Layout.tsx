@@ -4,7 +4,9 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { navItems, type NavItem } from "../data/site";
 import Button from "./Button";
 
-const headerNavItems = navItems.filter((item) => item.href !== "/contact");
+const headerNavItems = navItems.filter(
+  (item) => item.href !== "/contact" && (!item.devOnly || import.meta.env.DEV)
+);
 
 function itemIsActive(item: NavItem, pathname: string): boolean {
   if (item.href === pathname) {

@@ -135,16 +135,20 @@ export default function DS_Patterns() {
               ))}
             </div>
 
-            {/* AI maintainers: these are canonical public-page layouts used by Approach and Inclusion. */}
+            {/* AI maintainers: site-hero / site-hero__content is the DS shell hero used only on the DesignLanguage overview
+                page. Public pages (Home, Approach, Inclusion) use the shared hero system: hero-section / hero-top /
+                hero-display / hero-copy-panel. Do not use site-hero classes on public pages. */}
             <div className="ds-demo" style={{ marginTop: "28px" }}>
-              <p className="site-highlight__eyebrow" style={{ marginBottom: "14px" }}>Single-column hero content</p>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "14px" }}>Design system shell hero (site-hero)</p>
               <div className="site-hero__content site-hero__content--single">
                 <div className="site-hero__copy">
                   <span className="site-hero__badge">Page frame</span>
-                  <h1>Use one strong introduction when the page does not need a side panel.</h1>
+                  <h1>Used only on the design system overview page.</h1>
                   <p>
-                    The <code>.site-hero__content--single</code> modifier keeps hero copy in the shared hero language
-                    without creating an empty second column.
+                    <code>.site-hero</code> and its sub-classes are the shell used by the DesignLanguage overview page.
+                    Public pages use the production hero system: <code>.hero-section</code>, <code>.hero-top</code>,{" "}
+                    <code>.hero-display</code>, and <code>.hero-copy-panel</code>. Do not use <code>.site-hero</code>{" "}
+                    classes on Approach, Inclusion, or any new public page.
                   </p>
                 </div>
               </div>

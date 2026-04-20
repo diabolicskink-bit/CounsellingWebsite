@@ -31,7 +31,7 @@ const sections = [
     title: "Heroes",
     description: "Shared page-opening hero language used across Home, Approach, and Inclusion: display type, copy rails, support strips, and background fields.",
     href: "/design-language/heroes",
-    count: "9 hero classes | 6 background treatments | 1 canonical composition",
+    count: "11 hero classes | 6 background treatments | 1 canonical composition",
   },
   {
     eyebrow: "04",

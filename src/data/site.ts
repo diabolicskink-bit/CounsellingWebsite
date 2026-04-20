@@ -12,6 +12,7 @@ export type NavItem = {
   label: string;
   href: string;
   children?: NavItem[];
+  devOnly?: boolean;
 };
 
 export const navItems: NavItem[] = [
@@ -30,6 +31,7 @@ export const navItems: NavItem[] = [
   {
     label: "Dev",
     href: "/design-language",
+    devOnly: true,
     children: [
       {
         label: "Design",

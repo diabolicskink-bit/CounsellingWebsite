@@ -15,29 +15,34 @@ const trustItems = [
 
 const topicTiles = [
   {
-    title: "Anxiety and overthinking",
-    copy: "When your mind does not switch off, everything feels heavier, and you keep going over the same things without getting anywhere.",
-    className: "home-topics__tile--quiet",
+    title: "Low mood and depression",
+    copy: "Heaviness, numbness, hopelessness, or a flatness that does not lift and is hard to explain. Feeling distant from yourself, from other people, or from things that used to matter.",
+    className: "home-topics__tile--middle",
   },
   {
-    title: "Relationship issues",
-    copy: "Distance, conflict, attachment difficulties, repeated patterns, or relationships that leave you feeling confused, stuck, or worn down.",
+    title: "Anxiety and overthinking",
+    copy: "A mind that will not settle. Going over the same things, bracing for things that have not happened yet, or carrying a background worry that is hard to name or put down.",
+    className: "home-topics__tile--wide",
+  },
+  {
+    title: "Relationships and attachment",
+    copy: "Feeling disconnected, stuck in the same arguments, or unable to get as close as you want to be. Ongoing conflict, or patterns in how you attach, trust, or pull away that keep repeating regardless of who you are with.",
     className: "home-topics__tile--lift",
   },
   {
     title: "Shame and self-worth",
-    copy: "Harsh self-judgement, embarrassment, or parts of yourself that feel difficult to name, share, or soften.",
-    className: "home-topics__tile--wide",
+    copy: "Harsh self-judgement, a persistent sense of not being enough, or something about yourself that feels too difficult or too exposing to say.",
+    className: "home-topics__tile--soft",
   },
   {
     title: "Trauma, abuse, and neglect",
-    copy: "Past experiences of harm, coercion, or instability that still shape how you feel, relate, trust, or protect yourself.",
+    copy: "Experiences of harm, control, or neglect that left a mark on how safe the world feels, how much you trust people, how close you let yourself get, or how you move through ordinary life.",
     className: "home-topics__tile--deep",
   },
   {
-    title: "Identity",
-    copy: "Questions about who you are, what you want, and why certain patterns in your life keep returning.",
-    className: "home-topics__tile--soft",
+    title: "Emotional swings ",
+    copy: "Emotions that swing fast and feel hard to manage. Closeness that can turn to distance quickly, or moments of feeling everything followed by feeling nothing at all.",
+    className: "home-topics__tile--quiet",
   },
 ];
 
@@ -110,8 +115,7 @@ export default function Home() {
       <section className="site-grid home-page__topics">
         <Container className="home-topics__grid">
           <div className="home-topics__intro site-grid__heading">
-            <p className="site-eyebrow">What people bring</p>
-            <h2>What people often bring to counselling</h2>
+            <h2>What counselling can help with</h2>
           </div>
 
           <div className="home-topics__tiles" aria-label="Common counselling themes">

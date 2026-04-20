@@ -42,22 +42,27 @@ const anatomyRows = [
   {
     zone: "Background",
     className: ".hero-bg--*",
-    desc: "A single modifier applied to the wrapper. The approach hero uses .hero-bg--diagonal.",
+    desc: "A single modifier applied to the wrapper. Home, Approach, and Inclusion all use .hero-bg--diagonal.",
   },
   {
     zone: "Top zone",
     className: ".hero-top",
-    desc: "Shared opening grid for the main hero statement and its supporting copy or media.",
+    desc: "Two-column opening grid: display heading left, copy panel or media right. Default column split is 1fr / minmax(240px, 310px).",
+  },
+  {
+    zone: "Top zone (media variant)",
+    className: ".hero-top--supporting-media",
+    desc: "Wider right column variant for when the second column holds a portrait note rather than a short copy panel. Used on the Home page.",
   },
   {
     zone: "Display heading",
     className: ".hero-display",
-    desc: "Large serif display type. Wrap the key phrase in em for cedar emphasis.",
+    desc: "Large serif display type. Use h1 in production. Wrap the key phrase in em for cedar emphasis.",
   },
   {
     zone: "Copy panel",
     className: ".hero-copy-panel",
-    desc: "Support copy rail with a cedar rule. It can be a simple paragraph or a richer panel with badge, body copy, and actions.",
+    desc: "Support copy rail with a cedar left rule. It can be a simple paragraph or a richer panel with badge, body copy, and actions.",
   },
   {
     zone: "Tagline row",
@@ -77,12 +82,12 @@ const anatomyRows = [
   {
     zone: "Detail stack",
     className: ".hero-detail-stack",
-    desc: "Open typographic stack for a few short supporting themes when a hero needs emphasis without adding a card or strip.",
+    desc: "Open typographic stack for a few short supporting themes when a hero needs emphasis without adding a card or strip. Used on the Inclusion page.",
   },
   {
     zone: "Principles strip",
     className: ".hero-principles-strip",
-    desc: "Three supporting items with a top rule and quiet vertical dividers.",
+    desc: "Three supporting items with a top rule and quiet vertical dividers. Used on the Approach page.",
   },
   {
     zone: "Principle item",
@@ -96,25 +101,25 @@ const backgroundTreatments = [
     label: "Paper",
     className: "hero-bg--paper",
     value: "var(--paper)",
-    use: "A neutral page canvas when the hero should feel completely settled into the page.",
+    use: "A neutral page canvas when the hero should feel completely settled into the page. Available for future pages.",
   },
   {
     label: "Surface tint",
     className: "hero-bg--surface",
     value: "var(--surface)",
-    use: "A soft green field when the hero needs a little more separation.",
+    use: "A soft green field when the hero needs a little more separation from the page body.",
   },
   {
     label: "Diagonal gradient",
     className: "hero-bg--diagonal",
     value: "#d0dbc9 to var(--paper)",
-    use: "The canonical approach treatment. It gives the hero quiet depth without adding decoration.",
+    use: "The canonical treatment used by Home, Approach, and Inclusion. Quiet depth without added decoration.",
   },
   {
     label: "Cedar top border",
     className: "hero-bg--cedar-border",
     value: "var(--paper) with a cedar top rule",
-    use: "A stronger editorial start for pages that need more authority.",
+    use: "A stronger editorial start for pages that need more authority. Reserved for future pages.",
   },
   {
     label: "Cedar soft",
@@ -424,8 +429,10 @@ export default function DS_Heroes() {
               <span className="site-eyebrow">Full Composition</span>
               <h2>The shared hero composition.</h2>
               <p>
-                This sample uses the same shared classes as the live hero system. Treat it as the reference for new
-                page-opening heroes, then layer only the page-specific content and supporting pieces on top.
+                This sample uses the same shared classes as the live hero system. In production, use <code>h1</code> for
+                the display heading (the demo uses <code>h2</code> to avoid a duplicate landmark). Treat this as the
+                reference for new page-opening heroes, then layer only the page-specific content and supporting pieces
+                on top.
               </p>
             </div>
 

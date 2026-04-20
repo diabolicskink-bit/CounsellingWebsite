@@ -1,31 +1,20 @@
 import { useEffect } from "react";
-import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
 
-const contactDetails = [
+const processSteps = [
   {
-    icon: Mail,
-    title: "Email",
-    text: "hello@vivecounselling.com.au",
+    title: "A reply from Joel",
+    text: "Usually within a few working days. He may ask a short follow-up question about availability or what you are looking for.",
   },
   {
-    icon: Phone,
-    title: "Phone",
-    text: "Phone number to be added",
+    title: "A brief check-in if useful",
+    text: "A short phone call or a couple of emails to confirm there is a reasonable fit, before a first session is arranged.",
   },
   {
-    icon: MapPin,
-    title: "Location",
-    text: "Perth-based, online across Australia",
+    title: "A first session",
+    text: "When timing and fit seem right, a first online session can be booked. You can still decide from there whether to continue.",
   },
-];
-
-const firstMessageNotes = [
-  "What is bringing you to counselling.",
-  "Whether online sessions are what you are looking for.",
-  "Any availability or timing constraints.",
-  "Anything that would help first contact feel easier.",
 ];
 
 export default function Contact() {
@@ -35,129 +24,109 @@ export default function Contact() {
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "Contact Vive Counselling to enquire about online counselling for adults across Australia."
+        "Contact Joel Griffiths at Vive Counselling. A short note about what is bringing you to counselling is enough to begin."
       );
     }
   }, []);
 
   return (
     <main className="site-page contact-page">
-      <section className="site-hero contact-page__hero">
-        <Container className="site-hero__content contact-page__hero-grid">
-          <div className="site-hero__copy">
-            <span className="site-hero__badge">Contact</span>
-            <h1>A calm first step.</h1>
-            <p>
-              You do not need a polished summary. A short note about what is bringing you to counselling and whether you
-              are looking for online sessions is enough.
-            </p>
+      <section className="hero-section hero-bg--diagonal">
+        <Container>
+          <div className="hero-top">
+            <h1 className="hero-display">
+              You do not need<br />
+              the <em>whole story</em><br />
+              ready.
+            </h1>
+            <div className="hero-copy-panel contact-page__hero-copy">
+              <p>
+                A brief note about what is bringing you to counselling is enough to begin. You can leave the full
+                detail for a first conversation. Joel replies to all enquiries personally.
+              </p>
+              <a className="contact-page__email-link" href="mailto:hello@vivecounselling.com.au">
+                hello@vivecounselling.com.au
+              </a>
+            </div>
           </div>
-
-          <aside className="contact-page__hero-panel">
-            <span>Before you write</span>
-            <h2>Keep it simple.</h2>
-            <p>
-              It is fine to say something feels difficult to explain and leave the detail for later. The first contact
-              only needs enough information to consider availability and fit.
-            </p>
-          </aside>
         </Container>
       </section>
 
       <section className="contact-page__form-section">
-        <Container className="contact-page__form-grid">
-          <div>
-            <span className="site-eyebrow">Enquiry form</span>
-            <h2>Send a short message.</h2>
-            <p>
-              The form below is a placeholder for the front end. It can be connected to the preferred form or email
-              service before launch.
-            </p>
-          </div>
-
-          <form className="site-form contact-page__form" action="#" method="post">
-            <div className="form-row">
-              <label htmlFor="name">Name</label>
-              <input id="name" name="name" autoComplete="name" type="text" placeholder="Your name" />
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="email">Email</label>
-              <input id="email" name="email" autoComplete="email" type="email" placeholder="you@example.com" />
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="phone">Phone, if you prefer a call</label>
-              <input id="phone" name="phone" autoComplete="tel" type="tel" placeholder="Optional" />
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="message">What would you like Joel to know?</label>
-              <textarea
-                id="message"
-                name="message"
-                placeholder="A few sentences is enough. You can mention what is bringing you to counselling, availability, and anything important for first contact."
-                rows={7}
-              />
-            </div>
-
-            <div className="site-control-list">
-              <label>
-                <input name="contactPreference" type="checkbox" />
-                <span>Email is the best first contact</span>
-              </label>
-              <label>
-                <input defaultChecked name="sessionFormat" type="radio" />
-                <span>Online session</span>
-              </label>
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="timing">Preferred timing</label>
-              <select id="timing" name="timing" defaultValue="weekday-daytime">
-                <option value="weekday-daytime">Weekday daytime</option>
-                <option value="weekday-evening">Weekday evening</option>
-                <option value="flexible">Flexible</option>
-              </select>
-            </div>
-
-            <Button type="submit">
-              Send enquiry <ArrowRight size={16} />
-            </Button>
-          </form>
-        </Container>
-      </section>
-
-      <section className="contact-page__details-section">
         <Container>
-          <div className="contact-page__details-grid">
-            {contactDetails.map(({ icon: Icon, title, text }) => (
-              <article className="contact-page__detail-card" key={title}>
-                <div className="site-card__icon">
-                  <Icon size={24} />
-                </div>
-                <p>
-                  <strong>{title}</strong>
-                  <span>{text}</span>
-                </p>
-              </article>
-            ))}
+          <div className="contact-page__form-grid">
+            <aside className="contact-page__sidebar">
+              <span className="site-eyebrow">What to include</span>
+              <h2>Keep it short.</h2>
+              <p>
+                The first message only needs enough for Joel to consider whether there is likely availability and a
+                reasonable fit. You do not need a polished summary.
+              </p>
+              <div className="contact-page__include-list">
+                <p>What is bringing you to counselling</p>
+                <p>Whether online sessions are what you are looking for</p>
+                <p>Any availability or timing constraints</p>
+                <p>Anything that would make first contact easier</p>
+              </div>
+              <p className="contact-page__sidebar-note">
+                If some of this is difficult to put into words yet, you can say that. It is a reasonable place to
+                start.
+              </p>
+            </aside>
+
+            <form className="site-form contact-page__form" action="#" method="post">
+              <div className="form-row">
+                <label htmlFor="name">Name</label>
+                <input id="name" name="name" autoComplete="name" type="text" placeholder="Your name" />
+              </div>
+
+              <div className="form-row">
+                <label htmlFor="email">Email</label>
+                <input id="email" name="email" autoComplete="email" type="email" placeholder="you@example.com" />
+              </div>
+
+              <div className="form-row">
+                <label htmlFor="message">Your message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="A few sentences is enough. Say what is bringing you to counselling, whether online sessions suit you, and anything else that feels relevant."
+                  rows={8}
+                />
+              </div>
+
+              <div className="form-row">
+                <label htmlFor="timing">Preferred timing</label>
+                <select id="timing" name="timing" defaultValue="">
+                  <option value="" disabled>Select an option</option>
+                  <option value="weekday-morning">Weekday mornings</option>
+                  <option value="weekday-afternoon">Weekday afternoons</option>
+                  <option value="weekday-evening">Weekday evenings</option>
+                  <option value="flexible">Flexible</option>
+                  <option value="no-preference">No preference yet</option>
+                </select>
+              </div>
+
+              <Button type="submit">Send your message</Button>
+            </form>
           </div>
         </Container>
       </section>
 
-      <section className="contact-page__message-section">
-        <Container className="contact-page__message-grid">
-          <div>
-            <span className="site-eyebrow">What to include</span>
-            <h2>You can leave the full story for later.</h2>
+      <section className="contact-page__process-section">
+        <Container>
+          <div className="contact-page__process-heading">
+            <span className="site-eyebrow">What happens next</span>
+            <h2>After you get in touch</h2>
           </div>
-
-          <article className="contact-page__message-panel">
-            {firstMessageNotes.map((note) => (
-              <p key={note}>{note}</p>
+          <div className="hero-principles-strip">
+            {processSteps.map((step) => (
+              <div className="hero-principle-item" key={step.title}>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
             ))}
-          </article>
+          </div>
         </Container>
       </section>
     </main>
