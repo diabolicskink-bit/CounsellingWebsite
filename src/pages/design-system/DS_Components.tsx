@@ -72,7 +72,7 @@ export default function DS_Components() {
   }, []);
 
   return (
-    <main className="site-page design-language-page">
+    <main className="site-page">
       <div className="ds-page-header">
         <div className="ds-page-header__inner">
           <span className="ds-page-header__badge">Design system</span>
@@ -99,8 +99,7 @@ export default function DS_Components() {
               <Button href="/contact">Primary button</Button>
               <Button href="/fees" variant="secondary">Secondary button</Button>
               <Button href="/inclusion" variant="tertiary">Tertiary button</Button>
-              <Button href="/approach" variant="light">Light button</Button>
-              <a href="/approach" className="design-language-text-link">
+              <a href="/approach" className="site-text-link">
                 Text link <ArrowRight size={15} />
               </a>
             </div>
@@ -109,7 +108,6 @@ export default function DS_Components() {
               <strong>Primary</strong> — One per view. Contact, enquiry, key next step. Never use for navigation.<br />
               <strong>Secondary</strong> — Supporting action alongside primary (e.g. "View fees" next to "Get in touch").<br />
               <strong>Tertiary</strong> — Low-emphasis action on a coloured or busy surface.<br />
-              <strong>Light</strong> — Minimal style for less prominent or repeated actions.<br />
               <strong>Text link</strong> — Inline contextual navigation within copy. Not a standalone CTA.
             </div>
           </section>
@@ -177,7 +175,7 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-demo">
-              <ul className="design-language-trust-list" aria-label="Trust strip example">
+              <ul className="site-trust-list" aria-label="Trust strip example">
                 {trustItems.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -197,49 +195,47 @@ export default function DS_Components() {
               <p>Form fields, side notes, and contact details use the same card, border, and icon language as the rest of the site.</p>
             </div>
 
-            <div className="design-language-form-grid">
-              <div>
-                <form className="site-form design-language-form" action="#" method="post">
-                  <div className="form-row">
-                    <label htmlFor="sample-name">Name</label>
-                    <input id="sample-name" name="name" placeholder="Your name" type="text" />
-                  </div>
-                  <div className="form-row">
-                    <label htmlFor="sample-email">Email</label>
-                    <input id="sample-email" name="email" placeholder="you@example.com" type="email" />
-                  </div>
-                  <div className="form-row">
-                    <label htmlFor="sample-message">Message</label>
-                    <textarea id="sample-message" name="message" placeholder="A short message is enough." rows={4} />
-                  </div>
-                  <div className="site-control-list">
-                    <label>
-                      <input name="sample-contact" type="checkbox" /> Email is the best first contact
-                    </label>
-                    <label>
-                      <input name="sample-session" type="radio" /> Online session
-                    </label>
-                  </div>
-                  <div className="form-row">
-                    <label htmlFor="sample-select">Preferred timing</label>
-                    <select id="sample-select" name="timing">
-                      <option>Weekday daytime</option>
-                      <option>Weekday evening</option>
-                      <option>Flexible</option>
-                    </select>
-                  </div>
-                  <Button type="submit">Send enquiry</Button>
-                </form>
-              </div>
+            <div className="ds-demo" style={{ maxWidth: "760px" }}>
+              <form className="site-form" action="#" method="post">
+                <div className="form-row">
+                  <label htmlFor="sample-name">Name</label>
+                  <input id="sample-name" name="name" placeholder="Your name" type="text" />
+                </div>
+                <div className="form-row">
+                  <label htmlFor="sample-email">Email</label>
+                  <input id="sample-email" name="email" placeholder="you@example.com" type="email" />
+                </div>
+                <div className="form-row">
+                  <label htmlFor="sample-message">Message</label>
+                  <textarea id="sample-message" name="message" placeholder="A short message is enough." rows={4} />
+                </div>
+                <div className="site-control-list">
+                  <label>
+                    <input name="sample-contact" type="checkbox" /> Email is the best first contact
+                  </label>
+                  <label>
+                    <input name="sample-session" type="radio" /> Online session
+                  </label>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="sample-select">Preferred timing</label>
+                  <select id="sample-select" name="timing">
+                    <option>Weekday daytime</option>
+                    <option>Weekday evening</option>
+                    <option>Flexible</option>
+                  </select>
+                </div>
+                <Button type="submit">Send enquiry</Button>
+              </form>
             </div>
 
-            <div className="design-language-contact-strip" style={{ marginTop: "32px" }}>
+            <div className="site-contact-strip" style={{ marginTop: "32px" }}>
               {[
                 { icon: Mail, label: "Email", value: "hello@example.com" },
                 { icon: Phone, label: "Phone", value: "Short call available" },
                 { icon: MapPin, label: "Location", value: "Online across Australia" },
               ].map(({ icon: Icon, label, value }) => (
-                <div className="design-language-contact-item" key={label}>
+                <div className="site-contact-item" key={label}>
                   <span className="icon-box">
                     <Icon size={20} />
                   </span>
@@ -258,7 +254,7 @@ export default function DS_Components() {
 
             <div className="ds-demo" style={{ marginTop: "24px" }}>
               <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Fee card example</p>
-              <aside className="design-language-fee-card" style={{ maxWidth: "280px" }}>
+              <aside className="site-fee-card" style={{ maxWidth: "280px" }}>
                 <p className="site-highlight__eyebrow">Session fee</p>
                 <strong>$170</strong>
                 <span>50-minute online counselling session</span>
@@ -271,10 +267,10 @@ export default function DS_Components() {
             <div className="ds-section-heading">
               <span className="site-eyebrow">Lists & stacks</span>
               <h2>Use structure to make content feel manageable.</h2>
-              <p>Three distinct list treatments, each suited to a different content register.</p>
+              <p>Four distinct text-structure treatments, each suited to a different content register.</p>
             </div>
 
-            <div className="design-language-split">
+            <div className="site-split">
               <div>
                 <p className="site-eyebrow" style={{ marginBottom: "14px" }}>Check list</p>
                 <div className="site-check-panel">
@@ -306,10 +302,10 @@ export default function DS_Components() {
               </div>
             </div>
 
-            <div className="design-language-split" style={{ marginTop: "28px" }}>
+            <div className="site-split" style={{ marginTop: "28px" }}>
               <div>
                 <p className="site-eyebrow" style={{ marginBottom: "14px" }}>Detail stack</p>
-                <div className="design-language-detail-stack" aria-label="Detail stack example">
+                <div className="site-detail-stack" aria-label="Detail stack example">
                   {detailStackItems.map((item) => (
                     <p key={item}>{item}</p>
                   ))}
@@ -340,6 +336,19 @@ export default function DS_Components() {
                 <div className="ds-usage-note">
                   <strong>Use for:</strong> Question-and-answer sections. This is the shared FAQ pattern. Pair with <code>.site-split</code> when the heading sits beside the FAQ list.
                 </div>
+              </div>
+            </div>
+
+            <div className="ds-demo" style={{ marginTop: "28px" }}>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Ruled paragraph</p>
+              <p className="site-ruled-paragraph" style={{ maxWidth: "52ch", fontSize: "1.04rem", lineHeight: 1.68 }}>
+                Use this for a single paragraph that needs a little more visual weight than plain body copy, but not the
+                full containment of a panel. It works well for orienting copy, quiet reassurance, or a paragraph that
+                should feel slightly set apart from the surrounding text.
+              </p>
+              <div className="ds-usage-note" style={{ marginTop: "16px" }}>
+                <strong>Use for:</strong> One paragraph at a time. A subtle left-rule cue for reflective, orienting, or
+                trust-building copy. Do not use it for long rich-text blocks or stacked multi-paragraph content.
               </div>
             </div>
           </section>

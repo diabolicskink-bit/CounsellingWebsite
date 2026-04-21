@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -6,6 +6,12 @@ import { Link } from "react-router-dom";
 import "../styles-home.css";
 
 const portraitSrc = "/joel-griffiths-portrait-temp.svg";
+
+type EmphasisCopy = {
+  before: string;
+  emphasis: string;
+  after: string;
+};
 
 type HomeTopicTile = {
   title: string;
@@ -20,11 +26,11 @@ type HomeInclusiveDetail = {
   href: string;
 };
 
-const homePageContent: {
+type HomePageContent = {
   title: string;
   meta: string;
   hero: {
-    title: string;
+    title: EmphasisCopy;
     support: string;
     trustItems: string[];
     portrait: {
@@ -37,35 +43,33 @@ const homePageContent: {
     items: HomeTopicTile[];
   };
   inclusive: {
-    heading: {
-      before: string;
-      emphasis: string;
-      after: string;
-    };
+    heading: EmphasisCopy;
     copy: string;
     href: string;
     cta: string;
     details: HomeInclusiveDetail[];
   };
   workroom: {
-    eyebrow: string;
     heading: string;
     intro: string;
     letterLabel: string;
     letterCopy: string;
-    note: string;
-    noteHref: string;
-    noteCta: string;
-    closing: string;
+    closingLead: string;
     closingAccent: string;
     ctaHref: string;
     cta: string;
   };
-} = {
+};
+
+const homePageContent: HomePageContent = {
   title: "Vive Counselling | Online counselling across Australia",
   meta: "Online counselling for adults across Australia with Joel Griffiths. Grounded, thoughtful, inclusive, and non-shaming support.",
   hero: {
-    title: "Counselling for when life feels hard to untangle.",
+    title: {
+      before: "Counselling for when life feels ",
+      emphasis: "hard to untangle",
+      after: ".",
+    },
     support:
       "I offer online counselling for adults across Australia, based in Perth. I work with anxiety, relationship strain, self-criticism, trauma, sexuality, and experiences that feel exposing, confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.",
     trustItems: [
@@ -112,7 +116,7 @@ const homePageContent: {
         toneClass: "site-topic-card--soft",
       },
       {
-        title: "Emotional swings ",
+        title: "Emotional swings",
         copy: "Emotions that swing fast and feel hard to manage. Closeness that can turn to distance quickly, or moments of feeling everything followed by feeling nothing at all.",
         layoutClass: "home-topics__tile--quiet",
         toneClass: "site-topic-card--muted",
@@ -147,19 +151,14 @@ const homePageContent: {
     ],
   },
   workroom: {
-    eyebrow: "Working with Joel",
-    heading: "Start where you are. We can make sense of it from there.",
+    heading: "Wherever you are is the place to begin.",
     intro:
-      "You might arrive with a clear problem, a half-formed worry, a relationship pattern, a private shame, or the sense that something keeps happening and you do not quite know why. The work is to give that enough attention that it can become less tangled, less automatic, and more possible to respond to.",
-    letterLabel: "What the work feels like",
+      "You do not need to have it sorted before you arrive. You do not need a clear explanation of what is wrong, the right words, or a sense that things are bad enough to justify coming. If something has been sitting with you, even vaguely, even without a name, that is enough to start. It begins with a conversation, and the conversation can start anywhere.",
+    letterLabel: "Working with Joel",
     letterCopy:
-      "I work in a thoughtful, direct, and non-shaming way. That means we can speak plainly, but not harshly; look underneath the immediate problem, but not disappear into theory; and take your life seriously without turning therapy into something stiff or clinical for its own sake.",
-    note:
-      "I am trained in counselling and psychodynamic psychotherapy, and work online with adults across Australia.",
-    noteHref: "/about-joel",
-    noteCta: "About Joel",
-    closing: 'A first message can be simple: "I think I would like to talk to someone."',
-    closingAccent: '"I think I would like to talk to someone."',
+      "Sessions are direct and real. We can speak plainly, look beneath the immediate problem, and take what you bring seriously without making therapy feel stiff or clinical. I do not think people are meant to be tidy. The strange bits, the contradictions, the parts that do not quite fit anywhere, all of that belongs here.",
+    closingLead: "For when",
+    closingAccent: '"I just need to talk to someone."',
     ctaHref: "/contact",
     cta: "Get in touch",
   },
@@ -168,15 +167,42 @@ const homePageContent: {
 function useSeo() {
   useEffect(() => {
     document.title = homePageContent.title;
-    const metaDescription = document.querySelector('meta[name="description"]');
+    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+
     if (metaDescription) {
-      metaDescription.setAttribute("content", homePageContent.meta);
+      metaDescription.content = homePageContent.meta;
     }
   }, []);
 }
 
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia(query).matches : false,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(query);
+    const sync = () => setMatches(mediaQuery.matches);
+
+    sync();
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", sync);
+      return () => mediaQuery.removeEventListener("change", sync);
+    }
+
+    mediaQuery.addListener(sync);
+    return () => mediaQuery.removeListener(sync);
+  }, [query]);
+
+  return matches;
+}
+
 export default function Home() {
   useSeo();
+  const isCompactTopics = useMediaQuery("(max-width: 1080px)");
+  const isMobileTopics = useMediaQuery("(max-width: 700px)");
+  const { hero, topics, inclusive, workroom } = homePageContent;
 
   return (
     <main className="site-page home-page">
@@ -185,12 +211,14 @@ export default function Home() {
           <div className="hero-top hero-top--supporting-media">
             <div className="home-page__hero-copy">
               <h1 className="hero-display home-page__hero-title">
-                Counselling for when life feels <em>hard to untangle</em>.
+                {hero.title.before}
+                <em>{hero.title.emphasis}</em>
+                {hero.title.after}
               </h1>
               <div className="hero-copy-panel home-page__hero-support">
-                <p>{homePageContent.hero.support}</p>
+                <p>{hero.support}</p>
                 <ul className="hero-support-tagline" aria-label="Practice details">
-                  {homePageContent.hero.trustItems.map((item) => (
+                  {hero.trustItems.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
@@ -202,8 +230,8 @@ export default function Home() {
                 <img src={portraitSrc} alt="" />
               </div>
               <div className="hero-media-note__caption">
-                <strong>{homePageContent.hero.portrait.name}</strong>
-                <span>{homePageContent.hero.portrait.descriptor}</span>
+                <strong>{hero.portrait.name}</strong>
+                <span>{hero.portrait.descriptor}</span>
               </div>
             </aside>
           </div>
@@ -213,18 +241,27 @@ export default function Home() {
       <section className="site-grid home-page__topics">
         <Container className="home-topics__grid">
           <div className="home-topics__intro site-grid__heading">
-            <h2>{homePageContent.topics.heading}</h2>
+            <h2>{topics.heading}</h2>
           </div>
 
           <div className="home-topics__tiles" aria-label="Common counselling themes">
-            {homePageContent.topics.items.map((topic) => (
-              <article
-                className={`home-topics__tile site-topic-card ${topic.layoutClass} ${topic.toneClass ?? ""}`.trim()}
+            {topics.items.map((topic) => (
+              <details
+                className={`home-topics__tile site-topic-card ${isCompactTopics ? "site-card" : ""} ${topic.layoutClass} ${topic.toneClass ?? ""}`.trim()}
                 key={topic.title}
+                open={!isMobileTopics}
               >
-                <h3>{topic.title}</h3>
-                <p>{topic.copy}</p>
-              </article>
+                <summary className="home-topics__summary">
+                  <h3>{topic.title}</h3>
+                  <span className="home-topics__toggle" aria-hidden="true">
+                    <span />
+                    <span />
+                  </span>
+                </summary>
+                <div className="home-topics__body">
+                  <p>{topic.copy}</p>
+                </div>
+              </details>
             ))}
           </div>
         </Container>
@@ -235,19 +272,19 @@ export default function Home() {
           <div className="home-page__inclusive-frame">
             <div className="home-page__inclusive-main">
               <h2>
-                {homePageContent.inclusive.heading.before}
-                <em className="site-emphasis">{homePageContent.inclusive.heading.emphasis}</em>
-                {homePageContent.inclusive.heading.after}
+                {inclusive.heading.before}
+                <em className="site-emphasis">{inclusive.heading.emphasis}</em>
+                {inclusive.heading.after}
               </h2>
-              <p className="home-page__inclusive-copy">{homePageContent.inclusive.copy}</p>
-              <Button href={homePageContent.inclusive.href}>
-                Explore inclusive counselling <ArrowRight size={16} />
+              <p className="home-page__inclusive-copy site-ruled-paragraph">{inclusive.copy}</p>
+              <Button href={inclusive.href} variant="secondary">
+                {inclusive.cta} <ArrowRight size={16} />
               </Button>
             </div>
 
             <div className="home-page__inclusive-support">
-              <div className="home-page__inclusive-items design-language-detail-stack" aria-label="Inclusive practice topics">
-                {homePageContent.inclusive.details.map((detail) => (
+              <div className="home-page__inclusive-items site-detail-stack" aria-label="Inclusive practice topics">
+                {inclusive.details.map((detail) => (
                   <div className="home-page__inclusive-item" key={detail.title}>
                     <Link className="home-page__inclusive-link" to={detail.href}>
                       <span className="home-page__inclusive-heading">
@@ -258,7 +295,7 @@ export default function Home() {
                         </span>
                       </span>
                     </Link>
-                    <span className="home-page__inclusive-item-copy">{detail.copy}</span>
+                    <p className="home-page__inclusive-item-copy">{detail.copy}</p>
                   </div>
                 ))}
               </div>
@@ -267,31 +304,35 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="home-workroom home-page__workroom">
-        <Container className="home-workroom__inner">
-          <div className="home-workroom__intro">
-            <span className="site-eyebrow">{homePageContent.workroom.eyebrow}</span>
-            <h2>{homePageContent.workroom.heading}</h2>
-            <p>{homePageContent.workroom.intro}</p>
-          </div>
+      <section className="site-grid home-page__workroom">
+        <Container className="home-workroom">
+          <div className="site-split home-workroom__split">
+            <div className="section-heading home-workroom__intro">
+              <h2>{workroom.heading}</h2>
+              <p className="section-heading__copy site-ruled-paragraph">{workroom.intro}</p>
+            </div>
 
-          <div className="home-workroom__letter">
-            <span>{homePageContent.workroom.letterLabel}</span>
-            <p>{homePageContent.workroom.letterCopy}</p>
-          </div>
-
-          <div className="home-workroom__joel-note">
-            <p>{homePageContent.workroom.note}</p>
-            <Button href={homePageContent.workroom.noteHref} variant="secondary">
-              {homePageContent.workroom.noteCta}
-            </Button>
+            <article className="site-copy-panel home-workroom__letter">
+              <span className="site-highlight__eyebrow">{workroom.letterLabel}</span>
+              <p>{workroom.letterCopy}</p>
+              <div className="home-workroom__letter-actions">
+                <Button href="/about-joel" variant="tertiary">
+                  About Joel
+                </Button>
+                <Button href="/approach" variant="tertiary">
+                  My approach
+                </Button>
+              </div>
+            </article>
           </div>
 
           <div className="home-workroom__next">
-            <p>{homePageContent.workroom.closing.replace(homePageContent.workroom.closingAccent, "")}<span>{homePageContent.workroom.closingAccent}</span></p>
+            <p>
+              {workroom.closingLead} <span>{workroom.closingAccent}</span>
+            </p>
             <div>
-              <Button href={homePageContent.workroom.ctaHref}>
-                {homePageContent.workroom.cta} <ArrowRight size={16} />
+              <Button href={workroom.ctaHref}>
+                {workroom.cta} <ArrowRight size={16} />
               </Button>
             </div>
           </div>

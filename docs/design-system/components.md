@@ -33,14 +33,24 @@ Prefer these shared building blocks before creating anything new.
   Shared tighter-copy variant for narrower topic cards.
 - `.site-pill-row`
   Short non-navigational tags or topic pills.
+- `.site-text-link`
+  Inline contextual link treatment for low-emphasis navigation inside supporting copy or demos.
+- `.site-trust-list`
+  Compact trust strip for short factual reassurance items.
+- `.site-ruled-paragraph`
+  Single paragraph with a left rule and inset for short reflective or orienting copy that needs quiet emphasis without becoming a full panel.
+- `.site-detail-stack`
+  Shared ruled stack for short detail items or compact grouped statements. It provides spacing and separators while the item markup controls the text hierarchy.
 - `.site-split`
   Split layout pairing a heading block with contained reading content.
 - `.site-copy-panel`
   Contained panel for explanatory rich text.
+- `.site-contact-strip` and `.site-contact-item`
+  Shared contact-value strip for small sets of practical contact details with icon, label, and value.
+- `.site-fee-card`
+  Shared highlighted price or fee card for one strong amount and a small amount of explanatory copy.
 - `.site-principles` and `.site-principle`
   Shared grouped principle/value blocks.
-- `.design-language-trust-list`
-  Compact trust strip for short factual reassurance items.
 - `.site-form`
   Shared form shell; keep inputs aligned with existing field styling.
 - `.hero-section`, `.hero-top`, `.hero-display`, `.hero-copy-panel`

@@ -7,6 +7,7 @@ Use this file as a strict checklist before changing visual code.
 - Read `src/styles.css` before adding or changing shared visual styles.
 - Reuse existing components in `src/components` before creating a new primitive.
 - Reuse documented shared classes before adding page-specific ones.
+- Treat `site-*` classes and the documented shared hero classes as the authoritative design-system API for production pages.
 - Keep the palette centered on paper backgrounds, soft green surfaces, and cedar accents.
 - Keep headings serif-led and body copy practical.
 - Use spacing, borders, and layout rhythm as the primary visual tools.
@@ -20,6 +21,7 @@ Use this file as a strict checklist before changing visual code.
 - Turn public pages into app-style dashboards or marketing landing pages.
 - Use strong shadows where subtle borders already provide separation.
 - Create one-off card, hero, or panel classes when a shared pattern is already close.
+- Use `design-language-*` classes on production pages when a `site-*` or shared hero pattern exists for the same job.
 - Use `site-hero` classes on public pages if the shared public hero system is the correct fit.
 - Add multiple competing CTA styles in the same section.
 - Replace calm editorial hierarchy with dense microcopy or cramped layouts.

@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 type ButtonProps = {
   children: ReactNode;
   href?: string;
-  variant?: "primary" | "secondary" | "tertiary" | "light";
+  variant?: "primary" | "secondary" | "tertiary";
   className?: string;
   type?: "button" | "submit";
   onClick?: () => void;

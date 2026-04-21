@@ -18,6 +18,13 @@ Primary implementation sources:
 - `src/pages/design-system/DS_Patterns.tsx`
 - `src/pages/design-system/DS_Heroes.tsx`
 
+## Authoritative Shared Prefixes
+
+- `site-*` classes are the current authoritative shared system for production UI.
+- Shared public hero classes are also authoritative: `hero-*`, `site-hero-*`, and the documented hero primitives used in `src/styles.css`.
+- `design-language-*` classes come from an older v1 design-system layer and should be treated as legacy/demo scaffolding unless a specific pattern has been promoted into a `site-*` class.
+- When reusing or extending a shared pattern for real page work, prefer the `site-*` or shared hero class rather than introducing a new `design-language-*` dependency.
+
 ## What This System Is Trying To Do
 
 - Make sensitive information feel calm, contained, and readable.

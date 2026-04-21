@@ -28,10 +28,10 @@ export default function CTASection({
             <p>{copy}</p>
           </div>
           <div className="cta-panel__actions">
-            <Button href={primaryHref} variant="light">
+            <Button href={primaryHref} variant="secondary">
               {primaryLabel} <ArrowRight size={17} />
             </Button>
-            <Button href={secondaryHref} variant="secondary">
+            <Button href={secondaryHref} variant="tertiary">
               {secondaryLabel}
             </Button>
           </div>

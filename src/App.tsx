@@ -19,6 +19,7 @@ import DS_Components from "./pages/design-system/DS_Components";
 import DS_Heroes from "./pages/design-system/DS_Heroes";
 import DS_Patterns from "./pages/design-system/DS_Patterns";
 import OpusTB from "./pages/OpusTB";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
           <Route path="design-language/patterns" element={<DS_Patterns />} />
           <Route path="fees" element={<Fees />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </>

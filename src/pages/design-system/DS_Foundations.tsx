@@ -80,7 +80,7 @@ export default function DS_Foundations() {
   }, []);
 
   return (
-    <main className="site-page design-language-page">
+    <main className="site-page">
       <div className="ds-page-header">
         <div className="ds-page-header__inner">
           <span className="ds-page-header__badge">Design system</span>
@@ -103,10 +103,10 @@ export default function DS_Foundations() {
               <p>Use green with discipline. The site reads as paper, soft surface, cedar accent, and grounded text — not as a broad green wash.</p>
             </div>
 
-            <div className="design-language-token-grid">
+            <div className="legacy-token-grid">
               {colorTokens.map((color) => (
-                <article className="design-language-token" key={color.token}>
-                  <span className="design-language-token__swatch" style={{ background: color.value }} />
+                <article className="legacy-token-card" key={color.token}>
+                  <span className="legacy-token-card__swatch" style={{ background: color.value }} />
                   <div>
                     <h3>{color.name}</h3>
                     <code>{color.token}</code>
@@ -125,10 +125,10 @@ export default function DS_Foundations() {
               <p>Headings carry emotional weight. Body copy does the real work. Labels are restrained and used sparingly.</p>
             </div>
 
-            <div className="design-language-type-card">
+            <div className="legacy-type-card">
               {typographySamples.map((sample) => (
                 <div key={sample.label}>
-                  <div className={`design-language-type-sample ${sample.className}`}>
+                  <div className={`legacy-type-sample ${sample.className}`}>
                     <span>{sample.label}</span>
                     <p>{sample.text}</p>
                   </div>
@@ -178,7 +178,7 @@ export default function DS_Foundations() {
               <p>Even where rich editorial content is not heavily used, the system handles all standard HTML elements consistently.</p>
             </div>
 
-            <div className="design-language-html-card">
+            <div className="legacy-html-card">
               <h1>Heading one</h1>
               <h2>Heading two</h2>
               <h3>Heading three</h3>
