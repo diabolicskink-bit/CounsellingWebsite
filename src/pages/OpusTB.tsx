@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import DevPageHero from "../components/DevPageHero";
 
 const cleanupNotes = [
   "The approach hero background candidates have been retired now that the shared hero system is established.",
@@ -23,26 +24,20 @@ export default function OpusTB() {
 
   return (
     <main className="site-page opus-tb-page">
-      <section className="test-bed-approach-intro">
-        <Container className="test-bed-approach-intro__inner">
-          <div>
-            <span className="site-hero__badge">Opus TB</span>
-            <h1>Approach hero trials retired.</h1>
-            <p>
-              The older approach hero background candidates have been cleared out now that the shared hero system and
-              live page direction are in place.
-            </p>
-          </div>
-          <div className="test-bed-intro-actions">
-            <Button href="/approach" variant="secondary">
-              Current approach page <ArrowRight size={16} />
-            </Button>
-            <Button href="/design-language/heroes" variant="secondary">
-              Hero system <ArrowRight size={16} />
-            </Button>
-          </div>
-        </Container>
-      </section>
+      <DevPageHero
+        badge="Opus TB"
+        title="Approach hero trials retired."
+        description="The older approach hero background candidates have been cleared out now that the shared hero system and live page direction are in place."
+      >
+        <div className="site-actions">
+          <Button href="/approach" variant="secondary">
+            Current approach page <ArrowRight size={16} />
+          </Button>
+          <Button href="/design-language/heroes" variant="secondary">
+            Hero system <ArrowRight size={16} />
+          </Button>
+        </div>
+      </DevPageHero>
 
       <section className="test-bed-commentary-section">
         <Container>

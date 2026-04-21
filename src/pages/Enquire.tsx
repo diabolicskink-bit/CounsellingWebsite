@@ -1,0 +1,316 @@
+import { useEffect } from "react";
+import type { LucideIcon } from "lucide-react";
+import { Clock3, Mail } from "lucide-react";
+import Button from "../components/Button";
+import Container from "../components/Container";
+import "../styles-enquire.css";
+
+type EnquiryHeroTitle = {
+  before: string;
+  emphasis: string;
+  after: string;
+};
+
+type ServiceTier = {
+  label: string;
+  fee: string;
+  detail: string;
+  note?: string;
+};
+
+type ContactDetail = {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+  href?: string;
+  notes?: string[];
+};
+
+function getTimeParts(date: Date, timeZone: string) {
+  const parts = new Intl.DateTimeFormat("en-AU", {
+    timeZone,
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).formatToParts(date);
+
+  const hour = parts.find((part) => part.type === "hour")?.value ?? "";
+  const minute = parts.find((part) => part.type === "minute")?.value ?? "";
+  const dayPeriod = parts.find((part) => part.type === "dayPeriod")?.value.toLowerCase() ?? "";
+
+  return `${hour}.${minute}${dayPeriod}`;
+}
+
+function getTimeZoneAbbreviation(date: Date, timeZone: string) {
+  const parts = new Intl.DateTimeFormat("en-AU", {
+    timeZone,
+    timeZoneName: "short",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).formatToParts(date);
+
+  return parts.find((part) => part.type === "timeZoneName")?.value ?? "";
+}
+
+function getPerthToday() {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Australia/Perth",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+
+  return {
+    year: Number(parts.find((part) => part.type === "year")?.value ?? 0),
+    month: Number(parts.find((part) => part.type === "month")?.value ?? 1),
+    day: Number(parts.find((part) => part.type === "day")?.value ?? 1),
+  };
+}
+
+function getHoursRange(timeZone: string) {
+  const today = getPerthToday();
+  const start = new Date(Date.UTC(today.year, today.month - 1, today.day, 1, 30));
+  const end = new Date(Date.UTC(today.year, today.month - 1, today.day, 9, 0));
+
+  return `${getTimeParts(start, timeZone)} to ${getTimeParts(end, timeZone)}`;
+}
+
+function getHoursLabel(timeZone: string) {
+  const today = getPerthToday();
+  const start = new Date(Date.UTC(today.year, today.month - 1, today.day, 1, 30));
+
+  return `${getTimeZoneAbbreviation(start, timeZone)}: ${getHoursRange(timeZone)}`;
+}
+
+type EnquiryPageContent = {
+  title: string;
+  meta: string;
+  hero: {
+    title: EnquiryHeroTitle;
+    support: string;
+    details: string[];
+  };
+  serviceTiers: ServiceTier[];
+  form: {
+    eyebrow: string;
+  };
+  contact: {
+    eyebrow: string;
+  };
+  contactDetails: ContactDetail[];
+  practical: {
+    eyebrow: string;
+    notes: string[];
+  };
+};
+
+const enquiryPageContent: EnquiryPageContent = {
+  title: "Enquire | Vive Counselling",
+  meta:
+    "Fees, practical details, and direct contact for online counselling with Vive Counselling. Standard sessions are $120 for 50 minutes online, with a free optional phone consult.",
+  hero: {
+    title: {
+      before: "Get",
+      emphasis: "in touch",
+      after: ".",
+    },
+    support:
+      "Online counselling for adults across Australia. If you are considering a first session, you can enquire here about availability, fees, or arranging a time to begin.",
+    details: [
+      "Available across Australia",
+      "No referral required",
+    ],
+  },
+  serviceTiers: [
+    {
+      label: "Standard session",
+      fee: "$120",
+      detail: "50 minutes / Online",
+      note: "Free 15-minute initial consult available",
+    },
+  ],
+  form: {
+    eyebrow: "Enquiry",
+  },
+  contact: {
+    eyebrow: "Contact",
+  },
+  contactDetails: [
+    {
+      icon: Mail,
+      label: "Email",
+      value: "hello@vivecounselling.com.au",
+      href: "mailto:hello@vivecounselling.com.au",
+    },
+    {
+      icon: Clock3,
+      label: "Hours",
+      value: "Mon to Fri, 9.30am to 5.00pm WST",
+      notes: [
+        getHoursLabel("Australia/Adelaide"),
+        getHoursLabel("Australia/Sydney"),
+      ],
+    },
+  ],
+  practical: {
+    eyebrow: "Practical details",
+    notes: [
+      "Payment details are confirmed before the first appointment.",
+      "If you cancel or change an appointment with less than 48 hours' notice, the full fee is payable, except in cases of illness.",
+      "Vive Counselling is not a crisis service. If you are in immediate danger, call 000 or contact a crisis support service.",
+    ],
+  },
+};
+
+export default function Enquire() {
+  const { hero, serviceTiers, form, contact, contactDetails, practical } = enquiryPageContent;
+
+  useEffect(() => {
+    document.title = enquiryPageContent.title;
+    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+
+    if (metaDescription) {
+      metaDescription.content = enquiryPageContent.meta;
+    }
+  }, []);
+
+  return (
+    <main className="site-page enquire-page">
+      <section className="hero-section hero-bg--diagonal">
+        <Container>
+          <div className="hero-top hero-top--supporting-media">
+            <div className="enquire-page__hero-copy">
+              <h1 className="hero-display">
+                {hero.title.before}
+                <br />
+                <em>{hero.title.emphasis}</em>
+                {hero.title.after}
+              </h1>
+              <div className="hero-copy-panel">
+                <p>{hero.support}</p>
+                <ul className="hero-support-tagline" aria-label="Enquiry page details">
+                  {hero.details.map((detail) => (
+                    <li key={detail}>{detail}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <aside className="site-fee-card" aria-label="Session fees">
+              <div className="enquire-page__service-tier-list">
+                {serviceTiers.map((tier) => (
+                  <article
+                    className={`enquire-page__service-tier ${
+                      tier.fee === "$120" ? "enquire-page__service-tier--featured" : ""
+                    }`.trim()}
+                    key={tier.label}
+                  >
+                    <span className="enquire-page__service-tier-label">{tier.label}</span>
+                    <strong className="enquire-page__service-tier-fee">{tier.fee}</strong>
+                    <span className="enquire-page__service-tier-detail">{tier.detail}</span>
+                    {tier.note ? <small className="enquire-page__service-tier-note">{tier.note}</small> : null}
+                  </article>
+                ))}
+              </div>
+            </aside>
+          </div>
+        </Container>
+      </section>
+
+      <section className="site-highlight enquire-page__desk-section">
+        <Container className="enquire-page__desk">
+          <aside className="enquire-page__rail">
+            <div className="enquire-page__rail-block">
+              <span className="site-eyebrow">{contact.eyebrow}</span>
+              <div className="enquire-page__contact-list" aria-label="Contact details">
+                {contactDetails.map(({ icon: Icon, label, value, href, notes }) => (
+                  <div className="enquire-page__contact-item" key={label}>
+                    <span className="icon-box">
+                      <Icon size={20} />
+                    </span>
+                    <div className="enquire-page__contact-copy">
+                      <strong>{label}</strong>
+                      {href ? (
+                        <a className="enquire-page__contact-link" href={href}>
+                          {value}
+                        </a>
+                      ) : (
+                        <span>{value}</span>
+                      )}
+                      {notes ? (
+                        <div className="enquire-page__contact-notes">
+                          {notes.map((note) => (
+                            <small key={note}>{note}</small>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="enquire-page__rail-block">
+              <span className="site-eyebrow">{practical.eyebrow}</span>
+              <div className="site-detail-stack enquire-page__notes-list">
+                {practical.notes.map((note) => (
+                  <p key={note}>{note}</p>
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          <form className="site-form enquire-page__form" action="#" method="post">
+            <div className="enquire-page__form-header">
+              <span className="site-eyebrow">{form.eyebrow}</span>
+            </div>
+
+            <div className="enquire-page__form-grid">
+              <div className="form-row">
+                <label htmlFor="enquire-name">Name</label>
+                <input id="enquire-name" name="name" autoComplete="name" type="text" placeholder="Your name" />
+              </div>
+
+              <div className="form-row">
+                <label htmlFor="enquire-email">Email</label>
+                <input
+                  id="enquire-email"
+                  name="email"
+                  autoComplete="email"
+                  type="email"
+                  placeholder="you@example.com"
+                />
+              </div>
+
+              <div className="form-row enquire-page__form-row--full">
+                <label htmlFor="enquire-message">Your message</label>
+                <textarea
+                  id="enquire-message"
+                  name="message"
+                  placeholder="What would you like to ask or let Joel know?"
+                  rows={7}
+                />
+              </div>
+
+              <div className="form-row enquire-page__form-row--full">
+                <label htmlFor="enquire-timing">Preferred timing (optional)</label>
+                <select id="enquire-timing" name="timing" defaultValue="">
+                  <option value="">
+                    No preference or not booking yet
+                  </option>
+                  <option value="weekday-morning">Weekday mornings</option>
+                  <option value="weekday-afternoon">Weekday afternoons</option>
+                  <option value="weekday-evening">Weekday evenings</option>
+                  <option value="flexible">Flexible</option>
+                </select>
+              </div>
+            </div>
+
+            <Button type="submit">Send enquiry</Button>
+          </form>
+        </Container>
+      </section>
+    </main>
+  );
+}

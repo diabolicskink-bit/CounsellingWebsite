@@ -1,0 +1,228 @@
+.enquire-page .hero-top--supporting-media {
+  align-items: center;
+  gap: 48px;
+  padding-bottom: 32px;
+}
+
+.enquire-page__hero-copy {
+  display: grid;
+  gap: 0;
+}
+
+.enquire-page .hero-display {
+  margin-bottom: 24px;
+}
+
+.enquire-page .hero-copy-panel {
+  gap: 18px;
+  max-width: 660px;
+}
+
+.enquire-page .site-fee-card {
+  align-self: center;
+  min-height: 0;
+  height: auto;
+  align-content: start;
+  max-width: 330px;
+}
+
+.enquire-page__service-tier-list {
+  display: grid;
+  gap: 0;
+}
+
+.enquire-page__service-tier {
+  display: grid;
+  gap: 10px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(35, 75, 61, 0.16);
+}
+
+.enquire-page__service-tier:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.enquire-page__service-tier-label {
+  color: var(--cedar);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.enquire-page__service-tier-fee {
+  display: block;
+}
+
+.enquire-page__service-tier--featured .enquire-page__service-tier-fee {
+  font-size: clamp(4.45rem, 7.4vw, 5.25rem);
+}
+
+.enquire-page__service-tier-detail {
+  color: var(--muted);
+}
+
+.enquire-page__service-tier-note {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.enquire-page__desk-section {
+  padding: 46px 0 54px;
+}
+
+.enquire-page__desk {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.enquire-page__rail {
+  display: grid;
+  gap: 30px;
+  align-content: start;
+}
+
+.enquire-page__rail-block {
+  display: grid;
+  gap: 16px;
+}
+
+.enquire-page__contact-list {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid rgba(35, 75, 61, 0.18);
+  border-bottom: 1px solid rgba(35, 75, 61, 0.18);
+}
+
+.enquire-page__contact-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(35, 75, 61, 0.18);
+}
+
+.enquire-page__contact-item:last-child {
+  border-bottom: 0;
+}
+
+.enquire-page__contact-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.enquire-page__contact-copy strong {
+  color: var(--ink);
+  font-size: 0.96rem;
+}
+
+.enquire-page__contact-copy span,
+.enquire-page__contact-link {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.enquire-page__contact-notes {
+  display: grid;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.enquire-page__contact-notes small {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.enquire-page__contact-link {
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 75, 61, 0.32);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 160ms ease;
+}
+
+.enquire-page__contact-link:hover {
+  text-decoration-color: var(--cedar);
+}
+
+.enquire-page__notes-list {
+  max-width: none;
+}
+
+.enquire-page__notes-list p {
+  color: var(--body);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.enquire-page__form {
+  max-width: none;
+}
+
+.enquire-page__form .button {
+  width: 100%;
+}
+
+.enquire-page__form-header {
+  display: grid;
+  gap: 0;
+}
+
+.enquire-page__form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 16px;
+}
+
+.enquire-page__form-row--full {
+  grid-column: 1 / -1;
+}
+
+
+@media (max-width: 900px) {
+  .enquire-page .hero-top--supporting-media {
+    align-items: start;
+    gap: 28px;
+    padding-bottom: 28px;
+  }
+
+  .enquire-page .site-fee-card {
+    align-self: start;
+  }
+
+  .enquire-page__desk {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .enquire-page__rail {
+    gap: 26px;
+  }
+
+  .enquire-page__form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .enquire-page__form-row--full {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 660px) {
+  .enquire-page__desk-section {
+    padding: 34px 0 40px;
+  }
+
+  .enquire-page__service-tier--featured .enquire-page__service-tier-fee {
+    font-size: 3.6rem;
+  }
+
+  .enquire-page__contact-item {
+    align-items: start;
+  }
+}

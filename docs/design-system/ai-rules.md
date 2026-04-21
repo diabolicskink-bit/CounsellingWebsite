@@ -22,7 +22,7 @@ Use this file as a strict checklist before changing visual code.
 - Use strong shadows where subtle borders already provide separation.
 - Create one-off card, hero, or panel classes when a shared pattern is already close.
 - Use `design-language-*` classes on production pages when a `site-*` or shared hero pattern exists for the same job.
-- Use `site-hero` classes on public pages if the shared public hero system is the correct fit.
+- Treat `site-hero-*` as legacy/demo scaffolding when the shared `hero-*` system already fits the job.
 - Add multiple competing CTA styles in the same section.
 - Replace calm editorial hierarchy with dense microcopy or cramped layouts.
 

@@ -26,6 +26,7 @@ export default function Layout() {
   const usesSiteChrome =
     isDesignLanguage ||
     isAiSandbox ||
+    location.pathname === "/enquire" ||
     location.pathname === "/fees" ||
     location.pathname === "/about-joel" ||
     location.pathname === "/approach" ||

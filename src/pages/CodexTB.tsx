@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Container from "../components/Container";
+import DevPageHero from "../components/DevPageHero";
 
 const keepItems = [
   "A felt sense of Joel, not just service copy.",
@@ -108,17 +109,11 @@ export default function CodexTB() {
 
   return (
     <main className="site-page codex-tb-page">
-      <section className="site-grid codex-tb-intro">
-        <Container className="site-grid__heading codex-tb-intro__inner">
-          <span className="site-eyebrow">Homepage section study</span>
-          <h1>One section. Four jobs. No stitched-together feeling.</h1>
-          <p>
-            The current homepage section already found the right ingredients: a human sense of Joel,
-            a description of the work, enough seriousness to build trust, and a low-pressure way to
-            begin. What it still needs is form. It has to feel gathered, not assembled.
-          </p>
-        </Container>
-      </section>
+      <DevPageHero
+        badge="Homepage section study"
+        title="One section. Four jobs. No stitched-together feeling."
+        description="The current homepage section already found the right ingredients: a human sense of Joel, a description of the work, enough seriousness to build trust, and a low-pressure way to begin. What it still needs is form. It has to feel gathered, not assembled."
+      />
 
       <section className="codex-tb-brief">
         <Container className="codex-tb-brief__grid">
