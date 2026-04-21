@@ -260,22 +260,26 @@ function InclusionChildPage({ data }: { data: InclusionPageData }) {
   return (
     <main className="site-page inclusion-page inclusion-child-page">
       <FaqSchema faqs={data.faqs} />
-      <section className="site-hero">
-        <Container className="site-hero__content site-hero__content--single">
-          <div className="site-hero__copy">
-            <nav className="breadcrumb" aria-label="Breadcrumb">
-              <Link to="/">Home</Link>
-              <Link to="/inclusion">Inclusive practice</Link>
-              <span>{data.pathLabel}</span>
-            </nav>
-            <span className="site-hero__badge">{data.badge}</span>
-            <h1>{data.h1}</h1>
-            <p>{data.intro}</p>
-            <div className="site-actions">
-              <Button href="/contact">Make an enquiry about counselling</Button>
-              <Button href="/inclusion" variant="secondary">
-                Inclusive counselling hub
-              </Button>
+      <section className="hero-section hero-bg--diagonal">
+        <Container>
+          <div className="hero-top">
+            <div className="inclusion-child__hero-heading">
+              <nav className="breadcrumb" aria-label="Breadcrumb">
+                <Link to="/">Home</Link>
+                <Link to="/inclusion">Inclusive practice</Link>
+                <span>{data.pathLabel}</span>
+              </nav>
+              <h1 className="hero-display">{data.h1}</h1>
+            </div>
+            <div className="hero-copy-panel inclusion-child__hero-panel">
+              <span className="hero-badge">{data.badge}</span>
+              <p>{data.intro}</p>
+              <div className="site-actions">
+                <Button href="/contact">Make an enquiry about counselling</Button>
+                <Button href="/inclusion" variant="secondary">
+                  Inclusive counselling hub
+                </Button>
+              </div>
             </div>
           </div>
         </Container>

@@ -61,12 +61,6 @@ const homePageContent: {
     ctaHref: string;
     cta: string;
   };
-  closingCta: {
-    heading: string;
-    copy: string;
-    href: string;
-    cta: string;
-  };
 } = {
   title: "Vive Counselling | Online counselling across Australia",
   meta: "Online counselling for adults across Australia with Joel Griffiths. Grounded, thoughtful, inclusive, and non-shaming support.",
@@ -168,12 +162,6 @@ const homePageContent: {
     closingAccent: '"I think I would like to talk to someone."',
     ctaHref: "/contact",
     cta: "Get in touch",
-  },
-  closingCta: {
-    heading: "You do not need to explain everything clearly before getting in touch.",
-    copy: "A short note about what is bringing you to counselling is enough to begin.",
-    href: "/contact",
-    cta: "Make an enquiry",
   },
 };
 
@@ -287,14 +275,6 @@ export default function Home() {
             <p>{homePageContent.workroom.intro}</p>
           </div>
 
-          <div className="home-workroom__portrait">
-            <img src={portraitSrc} alt="" />
-            <div>
-              <strong>{homePageContent.hero.portrait.name}</strong>
-              <span>{homePageContent.hero.portrait.descriptor}</span>
-            </div>
-          </div>
-
           <div className="home-workroom__letter">
             <span>{homePageContent.workroom.letterLabel}</span>
             <p>{homePageContent.workroom.letterCopy}</p>
@@ -315,18 +295,6 @@ export default function Home() {
               </Button>
             </div>
           </div>
-        </Container>
-      </section>
-
-      <section className="site-cta-block">
-        <Container className="site-cta-block__inner">
-          <div>
-            <h2>{homePageContent.closingCta.heading}</h2>
-            <p>{homePageContent.closingCta.copy}</p>
-          </div>
-          <Button href={homePageContent.closingCta.href} variant="secondary">
-            {homePageContent.closingCta.cta} <ArrowRight size={16} />
-          </Button>
         </Container>
       </section>
     </main>
