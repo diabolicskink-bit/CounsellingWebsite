@@ -1,8 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
-import About from "./pages/About";
-import Approach from "./pages/Approach";
 import Enquire from "./pages/Enquire";
 import Home from "./pages/Home";
 import InclusivePractice from "./pages/InclusivePractice";
@@ -19,6 +17,7 @@ import DS_Heroes from "./pages/design-system/DS_Heroes";
 import DS_Patterns from "./pages/design-system/DS_Patterns";
 import OpusTB from "./pages/OpusTB";
 import NotFound from "./pages/NotFound";
+import WorkingWithJoel from "./pages/WorkingWithJoel";
 
 export default function App() {
   return (
@@ -27,8 +26,8 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="about-joel" element={<About />} />
-          <Route path="approach" element={<Approach />} />
+          <Route path="about-joel" element={<WorkingWithJoel />} />
+          <Route path="approach" element={<WorkingWithJoel />} />
           <Route path="inclusion" element={<InclusivePractice />} />
           <Route path="inclusion/kink-bdsm" element={<KinkBdsmCounselling />} />
           <Route path="inclusion/enm-polyamory" element={<EnmPolyamoryCounselling />} />
@@ -40,6 +39,7 @@ export default function App() {
           <Route path="design-language/components" element={<DS_Components />} />
           <Route path="design-language/heroes" element={<DS_Heroes />} />
           <Route path="design-language/patterns" element={<DS_Patterns />} />
+          <Route path="working-with-joel" element={<WorkingWithJoel />} />
           <Route path="fees" element={<Enquire />} />
           <Route path="enquire" element={<Enquire />} />
           <Route path="contact" element={<Enquire />} />

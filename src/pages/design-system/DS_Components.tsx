@@ -98,7 +98,7 @@ export default function DS_Components() {
               <Button href="/contact">Primary button</Button>
               <Button href="/fees" variant="secondary">Secondary button</Button>
               <Button href="/inclusion" variant="tertiary">Tertiary button</Button>
-              <a href="/approach" className="site-text-link">
+              <a href="/working-with-joel" className="site-text-link">
                 Text link <ArrowRight size={15} />
               </a>
             </div>

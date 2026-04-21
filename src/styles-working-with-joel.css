@@ -1,0 +1,103 @@
+.working-with-joel-page {
+  background: var(--color-bg-main);
+}
+
+.working-with-joel-page__hero-copy {
+  display: grid;
+  gap: 0;
+}
+
+.working-with-joel-page__hero-title {
+  max-width: 11ch;
+}
+
+.working-with-joel-page__hero-support {
+  gap: 18px;
+  max-width: 720px;
+}
+
+.working-with-joel-page__hero-note {
+  align-self: center;
+}
+
+.working-with-joel-page__approach .section-heading h2,
+.working-with-joel-page__focus .site-grid__heading h2 {
+  max-width: 12ch;
+}
+
+.working-with-joel-page__framework-panel {
+  gap: 18px;
+}
+
+.working-with-joel-page__focus-split {
+  align-items: start;
+}
+
+.working-with-joel-page__focus-cluster {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-self: start;
+  gap: 16px;
+  max-width: 720px;
+  padding-top: 10px;
+}
+
+.working-with-joel-page__focus-pill {
+  display: flex;
+  align-items: center;
+  min-height: 84px;
+  padding: 22px 24px 24px;
+  border-radius: 16px;
+  background: rgba(251, 252, 248, 0.96);
+  color: var(--color-heading);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.34rem, 1.55vw, 1.86rem);
+  font-weight: 400;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.working-with-joel-page__focus-pill--soft {
+  background: var(--color-bg-card-soft);
+}
+
+.working-with-joel-page__focus-pill--muted {
+  background: var(--color-bg-card-muted);
+}
+
+.working-with-joel-page__focus-pill--paper {
+  background: var(--color-bg-card);
+}
+
+.working-with-joel-page__focus-pill--span-1 {
+  grid-column: span 1;
+}
+
+.working-with-joel-page__focus-pill--span-2 {
+  grid-column: span 2;
+}
+
+@media (max-width: 900px) {
+  .working-with-joel-page__hero-note {
+    align-self: start;
+  }
+
+  .working-with-joel-page__approach .section-heading h2,
+  .working-with-joel-page__focus .site-grid__heading h2 {
+    max-width: none;
+  }
+
+  .working-with-joel-page__focus-cluster {
+    max-width: none;
+    grid-template-columns: 1fr;
+  }
+
+  .working-with-joel-page__focus-pill {
+    min-height: 0;
+  }
+
+  .working-with-joel-page__focus-pill--span-1,
+  .working-with-joel-page__focus-pill--span-2 {
+    grid-column: span 1;
+  }
+}

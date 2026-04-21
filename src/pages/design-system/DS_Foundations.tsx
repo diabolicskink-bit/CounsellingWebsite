@@ -189,7 +189,7 @@ export default function DS_Foundations() {
               {/* AI maintainers: rich-text links are documented here because the link treatment is a baseline editorial rule. */}
               <div className="rich-text">
                 <p>
-                  Rich editorial text can include contextual links like <a href="/approach">the counselling approach</a>{" "}
+                  Rich editorial text can include contextual links like <a href="/working-with-joel">working with Joel</a>{" "}
                   without needing page-specific link styles.
                 </p>
               </div>

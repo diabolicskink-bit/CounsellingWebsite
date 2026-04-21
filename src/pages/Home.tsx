@@ -316,11 +316,8 @@ export default function Home() {
               <span className="site-highlight__eyebrow">{workroom.letterLabel}</span>
               <p>{workroom.letterCopy}</p>
               <div className="home-workroom__letter-actions">
-                <Button href="/about-joel" variant="tertiary">
-                  About Joel
-                </Button>
-                <Button href="/approach" variant="tertiary">
-                  My approach
+                <Button href="/working-with-joel" variant="tertiary">
+                  Working with Joel
                 </Button>
               </div>
             </article>

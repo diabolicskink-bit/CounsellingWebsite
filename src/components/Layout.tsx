@@ -28,6 +28,7 @@ export default function Layout() {
     isAiSandbox ||
     location.pathname === "/enquire" ||
     location.pathname === "/fees" ||
+    location.pathname === "/working-with-joel" ||
     location.pathname === "/about-joel" ||
     location.pathname === "/approach" ||
     location.pathname === "/inclusion" ||
@@ -207,8 +208,7 @@ export default function Layout() {
             </p>
           </div>
           <nav className="site-footer__links" aria-label="Footer navigation">
-            <Link to="/about-joel">About Joel</Link>
-            <Link to="/approach">Approach</Link>
+            <Link to="/working-with-joel">Working with Joel</Link>
             <Link to="/inclusion">Inclusive practice</Link>
             <Link to="/fees">Fees</Link>
             <Link to="/contact">Contact</Link>

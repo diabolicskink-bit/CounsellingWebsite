@@ -43,7 +43,7 @@ const anatomyRows = [
   {
     zone: "Background",
     className: ".hero-bg--*",
-    desc: "A single modifier applied to the wrapper. Home, Approach, and Inclusion all use .hero-bg--diagonal.",
+    desc: "A single modifier applied to the wrapper. Home, Working with Joel, and Inclusion all use .hero-bg--diagonal.",
   },
   {
     zone: "Top zone",
@@ -88,7 +88,7 @@ const anatomyRows = [
   {
     zone: "Principles strip",
     className: ".hero-principles-strip",
-    desc: "Three supporting items with a top rule and quiet vertical dividers. Used on the Approach page.",
+    desc: "Three supporting items with a top rule and quiet vertical dividers. Use when a hero genuinely needs three short supporting ideas.",
   },
   {
     zone: "Principle item",
@@ -146,7 +146,7 @@ export default function DS_Heroes() {
       <DevPageHero
         badge="Design system"
         title="Heroes"
-        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background treatments. The shared hero system is the canonical reference used by Home, Approach, Inclusion, and the dev pages."
+        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background treatments. The shared hero system is the canonical reference used by Home, Working with Joel, Inclusion, and the dev pages."
       />
 
       <div className="ds-layout">
@@ -261,7 +261,7 @@ export default function DS_Heroes() {
                   <td>
                     <code>.hero-section 40px top / .hero-top 40px bottom</code>
                   </td>
-                  <td>Keeps the opening field evenly spaced across Home, Approach, and Inclusion.</td>
+                  <td>Keeps the opening field evenly spaced across Home, Working with Joel, and Inclusion.</td>
                 </tr>
               </tbody>
             </table>
@@ -288,8 +288,8 @@ export default function DS_Heroes() {
                   </p>
                   <div className="site-actions">
                     <Button href="/contact">Make an enquiry</Button>
-                    <Button href="/approach" variant="secondary">
-                      Read the approach
+                    <Button href="/working-with-joel" variant="secondary">
+                      Read more
                     </Button>
                   </div>
                 </div>
