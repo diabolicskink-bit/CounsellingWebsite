@@ -106,56 +106,154 @@
   margin-top: 10px;
 }
 
-/* Inclusive practice: shared section shell with Home-specific column balance */
-.home-page__inclusive-grid {
-  /* Shared split layout, but slightly biased toward the copy column on Home. */
-  grid-template-columns: minmax(0, 0.95fr) minmax(300px, 0.8fr);
-  align-items: center;
+/* Inclusive practice: selected Home variation with a ruled support column */
+.home-page__inclusive-frame {
+  /* Selected Home variation: large left statement with a ruled support column. */
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(340px, 0.82fr);
+  gap: 44px;
+  align-items: start;
+}
+
+.home-page__inclusive-main {
+  /* Keep the left column reading like a compact statement block. */
+  display: grid;
+  gap: 22px;
+  align-content: start;
+  padding-right: 30px;
+  border-right: 1px solid rgba(35, 75, 61, 0.22);
+}
+
+.home-page__inclusive-main h2 {
+  /* Match the selected test-bed title measure on the homepage. */
+  max-width: 13ch;
+  font-size: clamp(3rem, 5vw, 5rem);
+  line-height: 0.99;
+  text-wrap: balance;
 }
 
 .home-page__inclusive-copy {
-  /* Keeps the text block aligned to the top of its card. */
-  align-content: start;
+  /* Standalone ruled paragraph, intentionally not tied to hero styles. */
+  max-width: 760px;
+  margin: 0;
+  padding-left: 22px;
+  border-left: 2px solid var(--cedar);
+  color: var(--body);
+  font-size: 1.06rem;
+  line-height: 1.6;
 }
 
-.home-page__inclusive-copy .button {
-  /* Shared button styles, page-specific alignment. */
+.home-page__inclusive-main .button {
+  /* Keep the CTA aligned to the left edge of the copy block. */
   justify-self: start;
 }
 
-.home-inclusive-feature__details a {
-  /* Detail links read like a simple editorial list rather than cards. */
+.home-page__inclusive-support {
+  /* The right-hand list sits centrally in the section height. */
   display: grid;
-  gap: 7px;
-  border-top: 1px solid rgba(35, 75, 61, 0.22);
-  padding-block: 17px;
+  gap: 26px;
+  align-self: center;
+  align-content: start;
 }
 
-.home-inclusive-feature__details a:first-child {
-  /* First item starts clean without a leading divider. */
+.home-page__inclusive-items {
+  display: grid;
+  gap: 0;
+}
+
+.home-page__inclusive-item {
+  display: grid;
+  gap: 10px;
+  position: relative;
+  padding-block: 22px;
+  padding-right: 6px;
+  border-top: 1px solid rgba(35, 75, 61, 0.22);
+}
+
+.home-page__inclusive-item:first-child {
   border-top: 0;
   padding-top: 0;
 }
 
-.home-inclusive-feature__details a:nth-child(even) {
-  /* Gentle stagger on desktop to stop the right column feeling too rigid. */
-  padding-left: 24px;
+.home-page__inclusive-link {
+  color: inherit;
+  text-decoration: none;
 }
 
-.home-inclusive-feature__details strong {
-  /* This remains local for now because the link list is not yet a shared site component. */
-  color: var(--ink);
+.home-page__inclusive-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.home-page__inclusive-item strong {
+  color: var(--color-heading);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.18rem;
+  font-size: 1.3rem;
   font-weight: 500;
-  line-height: 1.22;
+  line-height: 1.14;
+  letter-spacing: -0.01em;
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 75, 61, 0.22);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+  transition: color 180ms ease, text-decoration-color 180ms ease;
 }
 
-.home-inclusive-feature__details span {
-  /* Secondary explanatory line under each inclusion topic. */
-  color: var(--muted);
-  font-size: 0.98rem;
-  line-height: 1.52;
+.home-page__inclusive-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  color: var(--cedar);
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  opacity: 0.9;
+  transition: color 180ms ease, opacity 180ms ease;
+}
+
+.home-page__inclusive-icon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--cedar);
+  opacity: 0.82;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.home-page__inclusive-item-copy {
+  max-width: 33ch;
+  color: var(--color-text-soft);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.home-page__inclusive-items.design-language-detail-stack > *:nth-child(even) {
+  padding-left: 0;
+}
+
+.home-page__inclusive-items.design-language-detail-stack > *:first-child {
+  padding-top: 0;
+}
+
+.home-page__inclusive-link:hover strong,
+.home-page__inclusive-link:focus-visible strong {
+  color: var(--cedar-dark);
+  text-decoration-color: rgba(35, 75, 61, 0.6);
+}
+
+.home-page__inclusive-link:hover .home-page__inclusive-action,
+.home-page__inclusive-link:focus-visible .home-page__inclusive-action {
+  color: var(--cedar-dark);
+  opacity: 1;
+}
+
+.home-page__inclusive-link:hover .home-page__inclusive-icon,
+.home-page__inclusive-link:focus-visible .home-page__inclusive-icon {
+  opacity: 1;
+  transform: translateX(4px);
 }
 
 /* Workroom: this section keeps its own composition until a shared pattern emerges */
@@ -479,13 +577,32 @@
     flex-direction: column;
     width: 100%;
   }
+
+  .home-page__inclusive-frame {
+    /* Collapse the selected inclusion layout into a stacked section on narrower screens. */
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .home-page__inclusive-main {
+    padding-left: 0;
+    padding-right: 0;
+    border-right: 0;
+  }
 }
 
-/* Mobile: remove the stagger from the inclusive-practice detail links */
+/* Mobile: keep the selected inclusion layout compact */
 @media (max-width: 640px) {
-  .home-inclusive-feature__details a:nth-child(even) {
-    /* The stagger works on desktop, but reads accidental once the column gets narrow. */
-    padding-left: 0;
+  .home-page__inclusive-main h2 {
+    font-size: 2.6rem;
+  }
+
+  .home-page__inclusive-item strong {
+    font-size: 1.18rem;
+  }
+
+  .home-page__inclusive-item-copy {
+    font-size: 0.92rem;
   }
 }
 
