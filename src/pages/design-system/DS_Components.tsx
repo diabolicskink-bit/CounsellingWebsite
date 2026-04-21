@@ -13,6 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import Button from "../../components/Button";
+import Container from "../../components/Container";
 import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
 
@@ -62,6 +63,19 @@ const faqItems = [
     question: "Should FAQ items be cards?",
     answer: "No. The shared accordion keeps question pages quieter and easier to scan than repeated cards.",
   },
+];
+
+const footerDemoLinks = [
+  { label: "Working with Joel", href: "/working-with-joel" },
+  { label: "Inclusive practice", href: "/inclusion" },
+  { label: "Fees", href: "/fees" },
+  { label: "Contact", href: "/contact" },
+];
+
+const footerDemoDetails = [
+  { label: "hello@vivecounselling.com.au", href: "mailto:hello@vivecounselling.com.au" },
+  { label: "Online across Australia" },
+  { label: "Mon to Fri, 9.30am to 5.00pm WST" },
 ];
 
 // AI maintainers: this page documents reusable UI components. When a production
@@ -259,6 +273,51 @@ export default function DS_Components() {
                 <span>50-minute online counselling session</span>
                 <small>Short notes can sit here without overpowering the amount.</small>
               </aside>
+            </div>
+          </section>
+
+          <section className="ds-section" id="footer">
+            <div className="ds-section-heading">
+              <span className="site-eyebrow">Footer</span>
+              <h2>The shared footer should close the page quietly.</h2>
+              <p>Keep it thin: brand, utility links, and one restrained detail line. It should feel finished, not promotional.</p>
+            </div>
+
+            <div className="ds-demo">
+              <div className="site-footer">
+                <Container className="site-footer__inner">
+                  <div className="site-footer__primary">
+                    <div className="site-footer__brand-block">
+                      <a className="brand" href="/">
+                        <span className="brand__name">Vive Counselling</span>
+                      </a>
+                    </div>
+
+                    <nav className="site-footer__nav" aria-label="Footer example navigation">
+                      {footerDemoLinks.map((item) => (
+                        <a href={item.href} key={item.href}>
+                          {item.label}
+                        </a>
+                      ))}
+                    </nav>
+                  </div>
+
+                  <div className="site-footer__secondary">
+                    <ul className="site-trust-list site-footer__details" aria-label="Footer example details">
+                      {footerDemoDetails.map((item) => (
+                        <li key={item.label}>
+                          {item.href ? <a href={item.href}>{item.label}</a> : item.label}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="site-footer__copyright">&copy; 2026 Vive Counselling</p>
+                  </div>
+                </Container>
+              </div>
+            </div>
+
+            <div className="ds-usage-note" style={{ marginTop: "24px" }}>
+              <strong>Use for:</strong> shared site chrome only. Keep the footer informational and low-height. Do not add large CTA panels, stacked cards, or repeated page sections here.
             </div>
           </section>
 
