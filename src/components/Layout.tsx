@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { navItems, type NavItem } from "../data/site";
 import Button from "./Button";
+import Container from "./Container";
 
 const headerNavItems = navItems.filter(
   (item) => item.href !== "/contact" && (!item.devOnly || import.meta.env.DEV)
@@ -19,6 +20,7 @@ function itemIsActive(item: NavItem, pathname: string): boolean {
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const currentYear = new Date().getFullYear();
   const isAiSandbox = location.pathname === "/codex-tb" || location.pathname === "/opus-tb";
   const isDesignLanguage =
     location.pathname === "/design-language" ||
@@ -198,23 +200,33 @@ export default function Layout() {
       </main>
 
       <footer className="site-footer">
-        <div className="container site-footer__grid">
-          <div className="site-footer__brand">
-            <Link className="brand" to="/">
-              <span className="brand__name">Vive Counselling</span>
-            </Link>
-            <p>
-              Private online counselling for adults in Western Australia and across Australia.
-            </p>
+        <Container className="site-footer__inner">
+          <div className="site-footer__primary">
+            <div className="site-footer__brand-block">
+              <Link className="brand" to="/">
+                <span className="brand__name">Vive Counselling</span>
+              </Link>
+            </div>
+
+            <nav className="site-footer__nav" aria-label="Footer navigation">
+              <Link to="/working-with-joel">Working with Joel</Link>
+              <Link to="/inclusion">Inclusive practice</Link>
+              <Link to="/fees">Fees</Link>
+              <Link to="/contact">Contact</Link>
+            </nav>
           </div>
-          <nav className="site-footer__links" aria-label="Footer navigation">
-            <Link to="/working-with-joel">Working with Joel</Link>
-            <Link to="/inclusion">Inclusive practice</Link>
-            <Link to="/fees">Fees</Link>
-            <Link to="/contact">Contact</Link>
-          </nav>
-          <p className="site-footer__copyright">&copy; 2026 Vive Counselling</p>
-        </div>
+
+          <div className="site-footer__secondary">
+            <ul className="site-trust-list site-footer__details" aria-label="Footer details">
+              <li>
+                <a href="mailto:hello@vivecounselling.com.au">hello@vivecounselling.com.au</a>
+              </li>
+              <li>Online across Australia</li>
+              <li>Mon to Fri, 9.30am to 5.00pm WST</li>
+            </ul>
+            <p className="site-footer__copyright">&copy; {currentYear} Vive Counselling</p>
+          </div>
+        </Container>
       </footer>
     </div>
   );

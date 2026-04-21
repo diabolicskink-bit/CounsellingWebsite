@@ -13,7 +13,7 @@ Prefer these shared building blocks before creating anything new.
 - `src/components/SectionHeading.tsx`
   Use for repeated section heading structure.
 - `src/components/Layout.tsx`
-  Preserve the existing site shell and navigation treatment.
+  Preserve the existing site shell, navigation treatment, and compact footer structure.
 
 ## Shared CSS Patterns
 
@@ -47,6 +47,8 @@ Prefer these shared building blocks before creating anything new.
   Contained panel for explanatory rich text.
 - `.site-contact-strip` and `.site-contact-item`
   Shared contact-value strip for small sets of practical contact details with icon, label, and value.
+- `.site-footer`, `.site-footer__primary`, `.site-footer__secondary`
+  Shared compact footer treatment for brand, utility links, and one quiet detail line. Keep it thin; do not turn it into a large CTA section.
 - `.site-fee-card`
   Shared highlighted price or fee card for one strong amount and a small amount of explanatory copy.
 - `.site-principles` and `.site-principle`
