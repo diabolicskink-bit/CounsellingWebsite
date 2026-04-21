@@ -170,7 +170,7 @@ export default function DS_Patterns() {
                   </p>
                   <p>
                     Links inside rich text inherit the shared editorial link treatment, such as{" "}
-                    <a href="/approach">reading the approach</a>.
+                    <a href="/working-with-joel">reading about working with Joel</a>.
                   </p>
                 </article>
               </div>

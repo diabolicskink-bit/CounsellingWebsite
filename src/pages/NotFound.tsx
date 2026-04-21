@@ -36,12 +36,12 @@ export default function NotFound() {
           </div>
           <div className="hero-principles-strip">
             <div className="hero-principle-item">
-              <h3>About Joel</h3>
+              <h3>Working with Joel</h3>
               <p>Background, training, and what the work actually involves.</p>
             </div>
             <div className="hero-principle-item">
-              <h3>The approach</h3>
-              <p>How sessions are structured and what to expect.</p>
+              <h3>Inclusive practice</h3>
+              <p>Support for kink, ENM, LGBTQIA+ lives, and other misunderstood parts of life.</p>
             </div>
             <div className="hero-principle-item">
               <h3>Fees and booking</h3>

@@ -346,8 +346,7 @@ function InclusionChildPage({ data }: { data: InclusionPageData }) {
               <p key={paragraph}>{paragraph}</p>
             ))}
             <p>
-              You can also <Link to="/approach">read more about my counselling approach</Link>,{" "}
-              <Link to="/about-joel">read about Joel Griffiths</Link>, check{" "}
+              You can also <Link to="/working-with-joel">read more about working with Joel</Link>, check{" "}
               <Link to="/fees">online counselling fees and session details</Link>, or{" "}
               <Link to="/contact">make an enquiry about counselling</Link>.
             </p>

@@ -26,12 +26,12 @@ export default function OpusTB() {
     <main className="site-page opus-tb-page">
       <DevPageHero
         badge="Opus TB"
-        title="Approach hero trials retired."
-        description="The older approach hero background candidates have been cleared out now that the shared hero system and live page direction are in place."
+        title="Hero trials retired."
+        description="The older hero background candidates have been cleared out now that the shared hero system and live page direction are in place."
       >
         <div className="site-actions">
-          <Button href="/approach" variant="secondary">
-            Current approach page <ArrowRight size={16} />
+          <Button href="/working-with-joel" variant="secondary">
+            Current live page <ArrowRight size={16} />
           </Button>
           <Button href="/design-language/heroes" variant="secondary">
             Hero system <ArrowRight size={16} />
