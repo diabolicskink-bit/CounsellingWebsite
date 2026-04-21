@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import DevPageHero from "../components/DevPageHero";
 
 const usagePrinciples = [
   "Calm and intelligent before decorative.",
@@ -56,42 +57,27 @@ export default function DesignLanguage() {
 
   return (
     <main className="site-page design-language-page">
-      <section className="site-hero design-language-hero">
-        <Container className="site-hero__content">
-          <div className="site-hero__copy">
-            <span className="site-hero__badge">Design system</span>
-            <h1>Vive's site system in one place.</h1>
-            <p>
-              A living reference for the full site direction: colour tokens, serif-led type, cedar accents, quiet
-              cards, practical panels, hero compositions, form states, and section architecture.
-            </p>
-            <ul className="design-language-trust-list" aria-label="System overview">
-              <li>Paper backgrounds, soft green surfaces, and cedar accents</li>
-              <li>Georgia headings with plain, steady body copy</li>
-              <li>Shared page heroes, restrained cards, borders, chips, and panels</li>
-              <li>Usage guidance on every component and pattern</li>
-            </ul>
-            <div className="site-actions">
-              <Button href="/design-language/foundations">Foundations</Button>
-              <Button href="/design-language/components" variant="secondary">
-                Components
-              </Button>
-              <Button href="/design-language/heroes" variant="tertiary">
-                Heroes
-              </Button>
-            </div>
-          </div>
-
-          <div className="site-hero__panel">
-            <div className="site-panel__eyebrow">System scope</div>
-            <ul className="site-feature-list">
-              <li>Paper backgrounds, soft green surfaces, cedar accents.</li>
-              <li>Georgia headings with plain, steady body copy.</li>
-              <li>Shared page heroes, restrained cards, borders, chips, and panels.</li>
-            </ul>
-          </div>
-        </Container>
-      </section>
+      <DevPageHero
+        badge="Design system"
+        title="Vive's site system in one place."
+        description="A living reference for the full site direction: colour tokens, serif-led type, cedar accents, quiet cards, practical panels, hero compositions, form states, and section architecture."
+      >
+        <ul className="design-language-trust-list" aria-label="System overview">
+          <li>Paper backgrounds, soft green surfaces, and cedar accents</li>
+          <li>Georgia headings with plain, steady body copy</li>
+          <li>Shared page heroes, restrained cards, borders, chips, and panels</li>
+          <li>Usage guidance on every component and pattern</li>
+        </ul>
+        <div className="site-actions">
+          <Button href="/design-language/foundations">Foundations</Button>
+          <Button href="/design-language/components" variant="secondary">
+            Components
+          </Button>
+          <Button href="/design-language/heroes" variant="tertiary">
+            Heroes
+          </Button>
+        </div>
+      </DevPageHero>
 
       <section className="site-grid">
         <Container>

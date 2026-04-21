@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
 
 const colorTokens = [
@@ -81,13 +82,11 @@ export default function DS_Foundations() {
 
   return (
     <main className="site-page">
-      <div className="ds-page-header">
-        <div className="ds-page-header__inner">
-          <span className="ds-page-header__badge">Design system</span>
-          <h1>Foundations</h1>
-          <p>Colour tokens, typography scale, spacing rules, and base HTML — the building blocks everything else is made from.</p>
-        </div>
-      </div>
+      <DevPageHero
+        badge="Design system"
+        title="Foundations"
+        description="Colour tokens, typography scale, spacing rules, and base HTML — the building blocks everything else is made from."
+      />
 
       <div className="ds-layout">
         <div className="ds-layout__sidebar">

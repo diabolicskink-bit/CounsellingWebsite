@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import Container from "../../components/Container";
+import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
 
 const potentialPatterns = [
@@ -103,13 +105,11 @@ export default function DS_Patterns() {
 
   return (
     <main className="site-page design-language-page">
-      <div className="ds-page-header">
-        <div className="ds-page-header__inner">
-          <span className="ds-page-header__badge">Design system</span>
-          <h1>Patterns</h1>
-          <p>Reusable section compositions, information layouts, and media treatments — the page-level building blocks.</p>
-        </div>
-      </div>
+      <DevPageHero
+        badge="Design system"
+        title="Patterns"
+        description="Reusable section compositions, information layouts, and media treatments — the page-level building blocks."
+      />
 
       <div className="ds-layout">
         <div className="ds-layout__sidebar">
@@ -135,23 +135,25 @@ export default function DS_Patterns() {
               ))}
             </div>
 
-            {/* AI maintainers: site-hero / site-hero__content is the DS shell hero used only on the DesignLanguage overview
-                page. Public pages (Home, Approach, Inclusion) use the shared hero system: hero-section / hero-top /
-                hero-display / hero-copy-panel. Do not use site-hero classes on public pages. */}
             <div className="ds-demo" style={{ marginTop: "28px" }}>
-              <p className="site-highlight__eyebrow" style={{ marginBottom: "14px" }}>Design system shell hero (site-hero)</p>
-              <div className="site-hero__content site-hero__content--single">
-                <div className="site-hero__copy">
-                  <span className="site-hero__badge">Page frame</span>
-                  <h1>Used only on the design system overview page.</h1>
-                  <p>
-                    <code>.site-hero</code> and its sub-classes are the shell used by the DesignLanguage overview page.
-                    Public pages use the production hero system: <code>.hero-section</code>, <code>.hero-top</code>,{" "}
-                    <code>.hero-display</code>, and <code>.hero-copy-panel</code>. Do not use <code>.site-hero</code>{" "}
-                    classes on Approach, Inclusion, or any new public page.
-                  </p>
-                </div>
-              </div>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "14px" }}>Shared dev-page header</p>
+              <section className="hero-section hero-bg--diagonal" style={{ borderBottom: "none", paddingTop: 0 }}>
+                <Container>
+                  <div className="hero-top" style={{ paddingBottom: 0 }}>
+                    <div>
+                      <span className="hero-badge">Design system</span>
+                      <h2 className="hero-display" style={{ marginBottom: 0 }}>Use the shared hero system here too.</h2>
+                    </div>
+                    <div className="hero-copy-panel">
+                      <p>
+                        Design system and test-bed pages now use the same shared page-opening classes as the live site:
+                        <code> .hero-section</code>, <code>.hero-top</code>, <code>.hero-display</code>, and{" "}
+                        <code>.hero-copy-panel</code>.
+                      </p>
+                    </div>
+                  </div>
+                </Container>
+              </section>
             </div>
 
             <div className="ds-demo" style={{ marginTop: "24px" }}>

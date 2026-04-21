@@ -13,6 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import Button from "../../components/Button";
+import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
 
 const iconCards = [
@@ -73,13 +74,11 @@ export default function DS_Components() {
 
   return (
     <main className="site-page">
-      <div className="ds-page-header">
-        <div className="ds-page-header__inner">
-          <span className="ds-page-header__badge">Design system</span>
-          <h1>Components</h1>
-          <p>Buttons, cards, trust strips, forms, and list treatments — the reusable UI pieces and their usage rules.</p>
-        </div>
-      </div>
+      <DevPageHero
+        badge="Design system"
+        title="Components"
+        description="Buttons, cards, trust strips, forms, and list treatments — the reusable UI pieces and their usage rules."
+      />
 
       <div className="ds-layout">
         <div className="ds-layout__sidebar">

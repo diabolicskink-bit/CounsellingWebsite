@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
+import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
 
 const demoTaglineItems = [
@@ -142,16 +143,11 @@ export default function DS_Heroes() {
 
   return (
     <main className="site-page design-language-page">
-      <div className="ds-page-header">
-        <div className="ds-page-header__inner">
-          <span className="ds-page-header__badge">Design system</span>
-          <h1>Heroes</h1>
-          <p>
-            Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background
-            treatments. The shared hero system is the canonical reference used by Home, Approach, and Inclusion.
-          </p>
-        </div>
-      </div>
+      <DevPageHero
+        badge="Design system"
+        title="Heroes"
+        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background treatments. The shared hero system is the canonical reference used by Home, Approach, Inclusion, and the dev pages."
+      />
 
       <div className="ds-layout">
         <div className="ds-layout__sidebar">

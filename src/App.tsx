@@ -3,8 +3,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
 import About from "./pages/About";
 import Approach from "./pages/Approach";
-import Contact from "./pages/Contact";
-import Fees from "./pages/Fees";
+import Enquire from "./pages/Enquire";
 import Home from "./pages/Home";
 import InclusivePractice from "./pages/InclusivePractice";
 import {
@@ -41,8 +40,9 @@ export default function App() {
           <Route path="design-language/components" element={<DS_Components />} />
           <Route path="design-language/heroes" element={<DS_Heroes />} />
           <Route path="design-language/patterns" element={<DS_Patterns />} />
-          <Route path="fees" element={<Fees />} />
-          <Route path="contact" element={<Contact />} />
+          <Route path="fees" element={<Enquire />} />
+          <Route path="enquire" element={<Enquire />} />
+          <Route path="contact" element={<Enquire />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
