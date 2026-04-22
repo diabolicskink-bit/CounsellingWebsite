@@ -177,7 +177,7 @@ export default function InclusivePractice() {
     <main className="site-page inclusion-page">
       <FaqSchema faqs={faq.items} />
       <section className="hero-section inclusion-hero">
-        <div className="inclusion-hero__top-shell">
+        <div className="inclusion-hero__masthead">
           <Container>
             <div className="hero-top inclusion-hero__top">
               <div className="inclusion-hero__headline-block">
@@ -194,34 +194,22 @@ export default function InclusivePractice() {
               </div>
 
               <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
-                <div className="hero-detail-stack inclusion-hero__detail-stack">
+                <div className="inclusion-hero__detail-stack">
                   {hero.topics.map((item) => (
-                    <Link
-                      className="hero-detail-stack__item hero-detail-stack__link inclusion-hero__detail-item"
-                      key={item.label}
-                      to={item.href}
-                    >
-                      <span className="hero-detail-stack__label">{item.label}</span>
+                    <Link className="inclusion-hero__detail-link" key={item.label} to={item.href}>
+                      {item.label}
                     </Link>
                   ))}
                 </div>
               </nav>
             </div>
-          </Container>
-        </div>
 
-        <div className="inclusion-hero__proof-band">
-          <Container>
-            <div className="inclusion-hero__proof">
-              <p className="inclusion-hero__proof-statement">
-                <span className="inclusion-hero__statement-line">
-                  <em>{hero.statement.lineOne}</em>
-                </span>
-                <span className="inclusion-hero__statement-line">
-                  <em>{hero.statement.lineTwo}</em>
-                </span>
+            <div className="inclusion-hero__caption">
+              <p className="inclusion-hero__statement">
+                <span>{hero.statement.lineOne}</span>
+                <span>{hero.statement.lineTwo}</span>
               </p>
-              <p className="inclusion-hero__proof-copy">{hero.support}</p>
+              <p className="inclusion-hero__support">{hero.support}</p>
             </div>
           </Container>
         </div>
