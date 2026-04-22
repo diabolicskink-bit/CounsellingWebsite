@@ -37,6 +37,8 @@ Prefer these shared building blocks before creating anything new.
   Inline contextual link treatment for low-emphasis navigation inside supporting copy or demos.
 - `.site-trust-list`
   Compact trust strip for short factual reassurance items.
+- `.site-trust-list--highlight-last`
+  Optional trust-strip modifier that moves the final item onto its own line and gives it cedar emphasis when it functions as a positioning statement.
 - `.site-ruled-paragraph`
   Single paragraph with a left rule and inset for short reflective or orienting copy that needs quiet emphasis without becoming a full panel.
 - `.site-detail-stack`
@@ -55,6 +57,8 @@ Prefer these shared building blocks before creating anything new.
   Shared grouped principle/value blocks.
 - `.site-form`
   Shared form shell; keep inputs aligned with existing field styling.
+- `.hero-intro`
+  Shared intro paragraph for text-led heroes with longer opening copy. Use it under hero headings when the intro needs a controlled measure.
 - `.hero-section`, `.hero-top`, `.hero-display`, `.hero-copy-panel`
   Shared public-page hero design system. This is a separate authoritative shared subsystem alongside `site-*`, not a legacy variation.
 

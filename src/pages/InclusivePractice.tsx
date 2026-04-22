@@ -3,73 +3,137 @@ import { ArrowRight } from "lucide-react";
 import Container from "../components/Container";
 import Button from "../components/Button";
 
-const topicPanels = [
-  {
-    title: "Kink & BDSM-aware counselling",
-    href: "/inclusion/kink-bdsm",
-    copy: "Counselling where kink, BDSM, D/s, and power exchange can be named without awkwardness or moralising.",
-    issues: ["Shame or secrecy", "Trust and surrender", "Boundaries and consent", "Conflict inside a dynamic"],
-    cta: "Explore kink & BDSM support",
-  },
-  {
-    title: "Counselling for ENM & polyamory",
-    href: "/inclusion/enm-polyamory",
-    copy: "Support for polyamory, open relationships, and consensual non-monogamy when the structure itself is not the problem.",
-    issues: ["Jealousy and comparison", "Agreements under strain", "Hinge stress", "Questions about fit"],
-    cta: "Explore ENM & polyamory support",
-  },
-  {
-    title: "LGBTQIA+ affirming counselling",
-    href: "/inclusion/lgbtqia",
-    copy: "Affirming counselling where sexuality, gender, relationships, and everyday difficulties can be met directly.",
-    issues: ["Identity and questioning", "Family or religious strain", "Minority stress", "Relationships and belonging"],
-    cta: "Explore LGBTQIA+ support",
-  },
-];
+type EmphasisCopy = {
+  before: string;
+  emphasis: string;
+  after: string;
+};
 
-const heroTopics = [
-  "Kink & BDSM",
-  "ENM & Polyamory",
-  "LGBTQIA+",
-];
+type InclusionPanel = {
+  eyebrow: string;
+  heading: string;
+  href: string;
+  paragraphs: string[];
+  items: string[];
+  cta: string;
+};
 
-const faqs = [
-  {
-    question: "What does inclusive counselling mean here?",
-    answer:
-      "It means counselling where diverse relationships, sexualities, identities, kink, BDSM, polyamory, and consensual non-monogamy can be spoken about plainly, without being treated as pathology or spectacle.",
+type InclusionFaq = {
+  question: string;
+  answer: string;
+};
+
+type InclusionPageContent = {
+  title: string;
+  meta: string;
+  hero: {
+    title: EmphasisCopy;
+    intro: string;
+    topics: string[];
+  };
+  hub: {
+    panels: InclusionPanel[];
+  };
+  faq: {
+    heading: string;
+    items: InclusionFaq[];
+  };
+};
+
+const inclusionPageContent: InclusionPageContent = {
+  title: "Inclusive Counselling for Diverse Relationships, Sexualities and Identities | Vive Counselling",
+  meta:
+    "Inclusive counselling for adults seeking thoughtful, non-shaming support around relationships, sexuality, identity, and emotional life. Perth-based, online across Australia.",
+  hero: {
+    title: {
+      before: "Inclusive counselling for ",
+      emphasis: "diverse lives",
+      after: ".",
+    },
+    intro:
+      "Kinky, non-monogamous, queer, or some mix of all three. That territory needs to be known before you arrive, not learned as you go. As a member of Perth's kink and non-monogamy communities, Joel knows it from the inside. Even if what brings you here is entirely unrelated, nothing needs to be left at the door.",
+    topics: ["Kink & BDSM", "ENM & Polyamory", "LGBTQIA+"],
   },
-  {
-    question: "Do I need to know which inclusion page fits me best?",
-    answer:
-      "No. The dedicated pages are there to make the site clearer. You can start with the broad inclusion page or make an enquiry directly if your situation crosses several areas.",
+  hub: {
+    panels: [
+      {
+        eyebrow: "Kink & BDSM-aware counselling",
+        heading: "Not the problem by default. Not off limits either.",
+        href: "/inclusion/kink-bdsm",
+        paragraphs: [
+          "Whatever the desire, it can be named plainly. Nothing about it needs to be introduced carefully or landed gently. D/s, bondage, fetish, masochism, desires that have lived privately for years. None of it needs softening or explaining first. Sometimes it is exactly what brings you here. Sometimes it is simply there, alongside everything else.",
+          "Consensual kink, BDSM, D/s, fetish and power exchange are not treated here as damage, danger or a diagnosis to explain away. At the same time, nothing has to be smoothed over. Consent can be unclear. Boundaries can be crossed. Dynamics can stop feeling okay. Shame, secrecy, drop, disclosure, mismatch, trauma responses and relationship strain can all be talked about plainly, without panic or moralising.",
+        ],
+        items: [],
+        cta: "Explore kink & BDSM-aware counselling",
+      },
+      {
+        eyebrow: "ENM & polyamory counselling",
+        heading: "Your relationships are real. So are the hard parts.",
+        href: "/inclusion/enm-polyamory",
+        paragraphs: [
+          "Polyamory and ENM are just how some people's relationships work. Whether you are settled in how you live, newly opening, a hinge under pressure, in a mono/poly relationship, or wondering if it's actually for you, all of it belongs. Hinge dynamics, metamours, nesting partners, hierarchy, jealousy alongside compersion. None of it needs explaining. The relationships are real.",
+          "Counselling without real knowledge of these relationships can cause genuine harm, even when nobody means to. What feels like progress through a monogamous lens can set things up to fail. The hard parts, the insecurity, comparison, stretched time, broken agreements, pressure to be fine, the weight of multiple attachments. They deserve real support, not a quiet suggestion that it would all be easier another way.",
+        ],
+        items: [],
+        cta: "Explore ENM & polyamory counselling",
+      },
+      {
+        eyebrow: "LGBTQIA+ affirming counselling",
+        heading: "Affirming support without making identity the whole story",
+        href: "/inclusion/lgbtqia",
+        paragraphs: [
+          "Affirming counselling means your sexuality, gender, relationships and self-description are respected rather than treated as complications. It also means there is room to talk about minority stress, family pressure, religion, shame, dating, transition, grief, belonging and the ordinary problems that would still matter even in a more accepting world.",
+          "You do not need a neat label or a settled explanation before you start. Therapy can include identity, but it can also be about anxiety, relationships, trauma, self-worth, loss, burnout, sex, loneliness or simply wanting to speak freely with someone who will not make the wrong things difficult.",
+        ],
+        items: [],
+        cta: "Explore LGBTQIA+ affirming counselling",
+      },
+    ],
   },
-  {
-    question: "Is counselling only for problems related to identity or relationship structure?",
-    answer:
-      "No. Many people come for anxiety, grief, shame, conflict, loneliness, or self-understanding. Inclusive practice helps those conversations happen with enough context.",
+  faq: {
+    heading: "Frequently asked questions",
+    items: [
+      {
+        question: "Do I need to be kinky, polyamorous, or queer to work with you?",
+        answer:
+          "No. Some communities have specific experiences in therapy that make finding real help harder, not because their problems are different, but because the spaces weren't built with them in mind. Addressing that directly is what the inclusive practice focus is about. But underneath everything, the work here is with the same things that move through every human life. Grief, fear, loneliness, love that hurts, parts of yourself you don't understand, something that has been sitting with you that you haven't been able to say out loud. Anyone carrying any of that is welcome here, whatever else is true about them.",
+      },
+      {
+        question: "A lot of counsellors say they are inclusive. What does that mean here?",
+        answer:
+          "A lot of sites say inclusive now. The difference here is that you do not have to explain kink, BDSM, polyamory, ENM, gender, sexuality, partners, roles or labels from scratch before you can talk about why you are here. Some of that understanding comes from being part of these worlds, not only learning about them professionally. That means less translating, less second-guessing how something will land, and more room to speak plainly without the work being quietly pulled toward the counsellor's own ideas about what a life or relationship is supposed to be.",
+      },
+      {
+        question: "Does community involvement affect whether I can work with Joel?",
+        answer:
+          "Anyone active in Perth's kink or ENM scene will know Joel as a community figure, and that makes a therapeutic relationship inappropriate. Reach out directly and a brief conversation can help find other options. If you are outside the community but thinking about exploring it during therapy, that is worth raising early. Going once is a different situation from becoming a regular, and what makes sense depends on what the involvement actually looks like. That conversation happens as things develop rather than being decided in advance.",
+      },
+      {
+        question: "What if I only have some experience, or I'm not sure the label fits me?",
+        answer:
+          "No. There is a particular feeling that comes with being on the edges of something. Not kinky enough, not poly enough, not sure the label really fits, or simply feeling like a lesser version compared to others who seem to be living it more fully. That feeling is worth taking seriously. It does not have to be resolved before reaching out.",
+      },
+      {
+        question: "What if I'm still figuring out whether I'm kinky, queer, or into non-monogamy?",
+        answer:
+          "No. The not-sure is real, and it has its own weight. You do not need to know what it means or where it lands before bringing it here.",
+      },
+    ],
   },
-  {
-    question: "Do you offer online inclusive counselling across Australia?",
-    answer:
-      "Yes. Vive Counselling is Perth-based and offers online counselling for adults across Australia.",
-  },
-];
+};
 
 function useSeo() {
   useEffect(() => {
-    document.title = "Inclusive Counselling for Diverse Relationships, Sexualities and Identities | Vive Counselling";
+    document.title = inclusionPageContent.title;
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute(
-        "content",
-        "Inclusive counselling for adults seeking thoughtful, non-shaming support around relationships, sexuality, identity, and emotional life. Perth-based, online across Australia."
-      );
+      metaDescription.setAttribute("content", inclusionPageContent.meta);
     }
   }, []);
 }
 
-function FaqSchema() {
+function FaqSchema({ faqs }: { faqs: InclusionFaq[] }) {
   return (
     <script
       type="application/ld+json"
@@ -90,27 +154,26 @@ function FaqSchema() {
 
 export default function InclusivePractice() {
   useSeo();
+  const { hero, hub, faq } = inclusionPageContent;
 
   return (
     <main className="site-page inclusion-page">
-      <FaqSchema />
+      <FaqSchema faqs={faq.items} />
       <section className="hero-section hero-bg--diagonal inclusion-hero">
         <Container>
           <div className="hero-top inclusion-hero__top">
             <div className="inclusion-hero__intro">
               <h1 className="hero-display inclusion-hero__title">
-                Inclusive counselling for <em>diverse lives</em>.
+                {hero.title.before}
+                <em>{hero.title.emphasis}</em>
+                {hero.title.after}
               </h1>
-              <p className="hero-copy-panel inclusion-hero__lede">
-                Some clients want counselling where important parts of their life do not need to be defended,
-                simplified, or translated before the real work can begin. This page explains the broader stance and
-                helps you find the more specific counselling page that fits.
-              </p>
+              <p className="hero-copy-panel inclusion-hero__lede">{hero.intro}</p>
             </div>
 
             <aside className="inclusion-hero__details" aria-label="Inclusive counselling topics">
               <div className="hero-detail-stack inclusion-hero__detail-stack">
-                {heroTopics.map((item) => (
+                {hero.topics.map((item) => (
                   <p className="hero-detail-stack__item inclusion-hero__detail-item" key={item}>
                     {item}
                   </p>
@@ -121,30 +184,37 @@ export default function InclusivePractice() {
         </Container>
       </section>
 
-      <section className="site-grid inclusion-topics">
+      <section className="site-grid inclusion-hub">
         <Container>
-          <div className="site-grid__heading">
-            <span className="site-eyebrow">Inclusion in practice</span>
-            <h2>Support that does not ask you to edit yourself first</h2>
-            <p>
-              Difference is not treated as evidence of damage. Plain language is welcome, and complexity does not need
-              to be flattened to fit the room. Relationships, sexualities, identities, kink, and non-monogamy can be
-              part of the frame without taking over the whole story.
-            </p>
-          </div>
-          <div className="site-card-grid">
-            {topicPanels.map((topic) => (
-              <article className="site-card inclusion-topics__card" key={topic.title}>
-                <h3>{topic.title}</h3>
-                <p>{topic.copy}</p>
-                <ul className="site-card__list">
-                  {topic.issues.map((issue) => (
-                    <li key={issue}>{issue}</li>
-                  ))}
-                </ul>
-                <Button href={topic.href} variant="secondary" className="inclusion-topics__button">
-                  {topic.cta} <ArrowRight size={16} />
-                </Button>
+          <div className="inclusion-hub__panels">
+            {hub.panels.map((panel) => (
+              <article className="site-copy-panel inclusion-hub__panel" key={panel.heading}>
+                <div className="inclusion-hub__panel-layout">
+                  <div className="inclusion-hub__panel-lead">
+                    <span className="site-eyebrow">{panel.eyebrow}</span>
+                    <h3>{panel.heading}</h3>
+                  </div>
+                  <div className="inclusion-hub__panel-body">
+                    {panel.paragraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                    {panel.items.length > 0 ? (
+                      <div className="inclusion-hub__list-block">
+                        <p className="inclusion-hub__list-heading">This may include:</p>
+                        <ul className="site-card__list inclusion-hub__list">
+                          {panel.items.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="inclusion-hub__panel-action">
+                    <Button href={panel.href} variant="tertiary" className="inclusion-hub__button">
+                      {panel.cta} <ArrowRight size={16} />
+                    </Button>
+                  </div>
+                </div>
               </article>
             ))}
           </div>
@@ -155,20 +225,20 @@ export default function InclusivePractice() {
         <Container>
           <div className="site-faq-shell">
             <div className="site-faq-shell__header">
-              <h2>Frequently asked questions</h2>
+              <h2>{faq.heading}</h2>
             </div>
             <div className="site-faq-list">
-              {faqs.map((faq, index) => (
-                <details className="site-faq-item" key={faq.question} open={index === 0}>
+              {faq.items.map((item, index) => (
+                <details className="site-faq-item" key={item.question} open={index === 0}>
                   <summary className="site-faq-question">
-                    <h3>{faq.question}</h3>
+                    <h3>{item.question}</h3>
                     <span className="site-faq-icon" aria-hidden="true">
                       <span />
                       <span />
                     </span>
                   </summary>
                   <div className="site-faq-answer">
-                    <p>{faq.answer}</p>
+                    <p>{item.answer}</p>
                   </div>
                 </details>
               ))}

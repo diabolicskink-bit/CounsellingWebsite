@@ -33,6 +33,13 @@ const trustItems = [
   "Inclusive relationships, sexualities, and identities",
 ];
 
+const trustHighlightItems = [
+  "For adults",
+  "Online across Australia",
+  "Grounded and non-shaming",
+  "Monogamy is not treated as the default answer",
+];
+
 const checkItems = [
   "Use paper and soft green surfaces for section rhythm.",
   "Use cedar for primary actions and small emphasis only.",
@@ -195,8 +202,17 @@ export default function DS_Components() {
               </ul>
             </div>
 
+            <div className="ds-demo" style={{ marginTop: "16px" }}>
+              <ul className="site-trust-list site-trust-list--highlight-last" aria-label="Trust strip with highlighted last item">
+                {trustHighlightItems.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+
             <div className="ds-usage-note">
               <strong>Use directly under</strong> hero copy, page introductions, or compact service summaries.<br />
+              <strong>Optional modifier</strong> add <code>.site-trust-list--highlight-last</code> when the final item is a positioning statement that should stand apart from the factual cues above it.<br />
               <strong>Avoid</strong> using it as a replacement for detailed cards when the information needs explanation. Never more than 4–5 items.
             </div>
           </section>

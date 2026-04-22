@@ -194,9 +194,9 @@ export default function EnmPolyamoryCounselling() {
 
               <span className="hero-badge">{pageContent.hero.badge}</span>
               <h1 className="hero-display enm-page__hero-title">{pageContent.hero.title}</h1>
-              <p className="enm-page__hero-intro">{pageContent.hero.intro}</p>
+              <p className="hero-intro">{pageContent.hero.intro}</p>
 
-              <ul className="site-trust-list enm-page__trust" aria-label="Practice details">
+              <ul className="site-trust-list site-trust-list--highlight-last enm-page__trust" aria-label="Practice details">
                 {pageContent.hero.trustItems.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -211,7 +211,7 @@ export default function EnmPolyamoryCounselling() {
                 ))}
               </div>
               <div className="site-actions enm-page__hero-actions">
-                <Button href="/contact">Make an enquiry about counselling</Button>
+                <Button href="/contact">Make an enquiry</Button>
                 <Button href="/inclusion" variant="secondary">
                   Inclusive counselling hub
                 </Button>

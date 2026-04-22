@@ -58,7 +58,12 @@ const anatomyRows = [
   {
     zone: "Display heading",
     className: ".hero-display",
-    desc: "Large serif display type. Use h1 in production. Wrap the key phrase in em for cedar emphasis.",
+    desc: "Large serif display type. Use h1 in production. The shared line-height keeps longer multi-line titles readable without losing editorial compression.",
+  },
+  {
+    zone: "Intro paragraph",
+    className: ".hero-intro",
+    desc: "Measured introductory copy for text-led heroes. Use it when the opening paragraph needs a readable line length under the heading.",
   },
   {
     zone: "Copy panel",
@@ -192,10 +197,10 @@ export default function DS_Heroes() {
           <section className="ds-section" id="display-heading">
             <div className="ds-section-heading">
               <span className="site-eyebrow">Display Heading</span>
-              <h2>Large, light, and built for short statements.</h2>
+              <h2>Large, light, and still readable across longer hero titles.</h2>
               <p>
-                The heading should feel editorial, not loud. Keep the phrase short, use line breaks intentionally, and
-                wrap one important phrase in <code>em</code> for cedar emphasis.
+                The heading should feel editorial, not loud. Keep the phrase deliberate, use line breaks intentionally
+                when you control them, and let the shared line-height give multi-line titles a little more air.
               </p>
             </div>
 
@@ -209,6 +214,16 @@ export default function DS_Heroes() {
                   <br />
                   picture.
                 </h2>
+              </div>
+            </div>
+
+            <div className="ds-hero-demo" style={{ marginTop: "20px" }}>
+              <div className="ds-hero-demo__label">Live sample: .hero-intro</div>
+              <div className="ds-hero-demo__body hero-bg--paper">
+                <p className="hero-intro">
+                  Longer hero introductions should stay calm and readable, especially when the heading already takes up
+                  several lines. Keep the measure controlled and let the opening paragraph do quiet orienting work.
+                </p>
               </div>
             </div>
 
@@ -238,9 +253,9 @@ export default function DS_Heroes() {
                 <tr>
                   <td>line-height</td>
                   <td>
-                    <code>1.0</code>
+                    <code>1.05</code>
                   </td>
-                  <td>Tight enough for short display lines.</td>
+                  <td>Keeps display headings compact while giving longer multi-line titles a little more breathing room.</td>
                 </tr>
                 <tr>
                   <td>letter-spacing</td>
