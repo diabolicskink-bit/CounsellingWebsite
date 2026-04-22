@@ -392,8 +392,8 @@ export default function DS_Components() {
               <div>
                 <p className="site-eyebrow" style={{ marginBottom: "14px" }}>FAQ accordion</p>
                 <div className="site-faq-list">
-                  {faqItems.map((faq, index) => (
-                    <details className="site-faq-item" key={faq.question} open={index === 0}>
+                  {faqItems.map((faq) => (
+                    <details className="site-faq-item" key={faq.question}>
                       <summary className="site-faq-question">
                         <h3>{faq.question}</h3>
                         <span className="site-faq-icon" aria-hidden="true">

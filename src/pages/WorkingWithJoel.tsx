@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Button from "../components/Button";
 import Container from "../components/Container";
 import "../styles-working-with-joel.css";
 
@@ -10,9 +11,11 @@ type EmphasisCopy = {
   after: string;
 };
 
-type FocusCard = {
+type FocusGroup = {
   title: string;
-  layoutClass?: string;
+  body: string;
+  terms: string;
+  layoutClass: string;
   toneClass?: string;
 };
 
@@ -35,7 +38,13 @@ type WorkingWithJoelPageContent = {
   focus: {
     title: string;
     intro: string;
-    items: FocusCard[];
+    items: FocusGroup[];
+    closingTitle: string;
+    closingBody: string;
+    cta: {
+      label: string;
+      href: string;
+    };
   };
 };
 
@@ -67,64 +76,67 @@ const pageContent: WorkingWithJoelPageContent = {
       "My approach is grounded in psychodynamic and attachment-based thinking. That means I am interested not just in what is happening now but in what is shaping it, where it came from, what keeps it going, and what might be maintaining it beneath the surface.",
       "Attachment is central to how I work. The ways people learn closeness, distance, trust, and self-protection early in life tend to continue organising how they relate as adults, often without being fully visible. That is often where the most useful work happens.",
       "The approach is integrative, which means I am not tied to one method. Other frameworks and tools come in where they are useful. But depth work, understanding what is actually going on rather than managing the symptoms of it, is the core of what I do.",
-      "If you have worked with therapists before and found it stayed on the surface, or focused on coping tools without looking at what was driving the need for them, this tends to feel different."
+      "If you have worked with therapists before and found it stayed on the surface, or focused on coping tools without looking at what was driving the need for them, this tends to feel different.",
     ],
   },
   focus: {
-    title: "What we can work with",
-    intro: "People arrive with many different things. Some have a name for what they are carrying, some do not. Some fit neatly into a category, some sit across several, and some are harder to place. The list is a starting point, not a limit.",
+    title: "What people often bring",
+    intro:
+      "People rarely arrive with a neat label for what is going on. Sometimes it is obvious. Often it is not. You may only know that something keeps hurting, repeating, escalating, or wearing you down. These are some of the ways it can show up.",
     items: [
       {
-        title: "Shame",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--soft",
+        title: "When you are hard on yourself",
+        body:
+          "Shame, self-criticism, and perfectionism can show up as relentless standards, constant second-guessing, or the sense that one mistake says too much about who you are. It can sit behind apology, withdrawal, over-explaining, or never quite feeling at ease with yourself.",
+        terms: "Shame, self-criticism, perfectionism",
+        layoutClass: "working-with-joel-page__focus-card--wide-left",
+        toneClass: "working-with-joel-page__focus-card--soft",
       },
       {
-        title: "Self-criticism",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--paper",
+        title: "When relationships keep getting stuck",
+        body:
+          "Closeness can become tangled with fear, conflict, pleasing, distance, mistrust, or the feeling that the same pattern keeps returning in different relationships. Sometimes the difficulty is obvious. Sometimes it only becomes visible afterwards.",
+        terms: "Relationships, attachment",
+        layoutClass: "working-with-joel-page__focus-card--narrow-right",
       },
       {
-        title: "Relationships and attachment",
-        layoutClass: "working-with-joel-page__focus-pill--span-2",
-        toneClass: "working-with-joel-page__focus-pill--muted",
+        title: "When your system stays on edge",
+        body:
+          "Anxiety and trauma do not always look dramatic. They can look like bracing, overthinking, shutdown, irritability, numbness, quick anger, or a body that never quite settles. The present can feel more charged than it ought to.",
+        terms: "Anxiety, trauma",
+        layoutClass: "working-with-joel-page__focus-card--half",
       },
       {
-        title: "Anxiety",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--paper",
+        title: "When being different has been exhausting",
+        body:
+          "Neurodivergence can sit beneath years of masking, burnout, self-doubt, and being misunderstood. The work is not about forcing you into someone else's shape. It is about understanding how you function, what has worn you down, and what might help life feel more workable.",
+        terms: "Neurodivergence",
+        layoutClass: "working-with-joel-page__focus-card--half",
+        toneClass: "working-with-joel-page__focus-card--soft",
       },
       {
-        title: "Trauma",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--soft",
+        title: "When desire or identity feel difficult to speak about safely",
+        body:
+          "Sexuality, kink, BDSM, fantasy, power, boundaries, shame, and pleasure can be hard to bring into therapy when you expect to be reduced, pathologised, or misunderstood. They should be able to be spoken about plainly, without becoming the whole explanation for who you are.",
+        terms: "Sexuality, kink and BDSM",
+        layoutClass: "working-with-joel-page__focus-card--narrow-left",
       },
       {
-        title: "Neurodivergence",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--muted",
-      },
-      {
-        title: "Perfectionism",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--soft",
-      },
-      {
-        title: "Sexuality",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--paper",
-      },
-      {
-        title: "Kink and BDSM",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--muted",
-      },
-      {
-        title: "Polyamory and ENM",
-        layoutClass: "working-with-joel-page__focus-pill--span-2",
-        toneClass: "working-with-joel-page__focus-pill--soft",
+        title: "When relationships do not fit the usual script",
+        body:
+          "Polyamory and ENM can bring ordinary relationship pain in a less ordinary structure: agreements, jealousy, comparison, hierarchy, repair, disclosure, breakups, and the strain of having the structure treated as the problem.",
+        terms: "Polyamory, ENM",
+        layoutClass: "working-with-joel-page__focus-card--wide-right",
+        toneClass: "working-with-joel-page__focus-card--soft",
       },
     ],
+    closingTitle: "These things often overlap.",
+    closingBody:
+      "You do not need the right label before getting in touch. A first enquiry can be simple. Start with what is happening, what feels difficult, or what keeps repeating. We can work out the shape of it together.",
+    cta: {
+      label: "Get in touch",
+      href: "/contact",
+    },
   },
 };
 
@@ -173,7 +185,6 @@ export default function WorkingWithJoel() {
               </div>
             </aside>
           </div>
-
         </Container>
       </section>
 
@@ -191,18 +202,23 @@ export default function WorkingWithJoel() {
         </Container>
       </section>
 
-      <section className="site-grid working-with-joel-page__focus">
-        <Container className="site-split working-with-joel-page__focus-split">
-          <div className="site-grid__heading">
-            <h2>{focus.title}</h2>
-            <p className="section-heading__copy site-ruled-paragraph">{focus.intro}</p>
+      <section className="site-grid working-with-joel-page__focus" aria-labelledby="working-with-joel-focus-title">
+        <Container className="working-with-joel-page__focus-wrap">
+          <div className="working-with-joel-page__focus-intro">
+            <div className="working-with-joel-page__focus-heading">
+              <h2 id="working-with-joel-focus-title">{focus.title}</h2>
+            </div>
+
+            <div className="working-with-joel-page__focus-copy">
+              <p className="section-heading__copy">{focus.intro}</p>
+            </div>
           </div>
 
-          <div className="working-with-joel-page__focus-cluster" aria-label="Areas of particular understanding">
+          <div className="working-with-joel-page__focus-grid" aria-label="Examples of what people bring to counselling">
             {focus.items.map((item) => (
-              <span
+              <article
                 className={[
-                  "working-with-joel-page__focus-pill",
+                  "working-with-joel-page__focus-card",
                   item.layoutClass,
                   item.toneClass,
                 ]
@@ -210,9 +226,24 @@ export default function WorkingWithJoel() {
                   .join(" ")}
                 key={item.title}
               >
-                {item.title}
-              </span>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+                <p className="working-with-joel-page__focus-terms">
+                  <span>Can include</span> {item.terms}
+                </p>
+              </article>
             ))}
+          </div>
+
+          <div className="working-with-joel-page__focus-bridge">
+            <div className="working-with-joel-page__focus-bridge-copy">
+              <h3>{focus.closingTitle}</h3>
+              <p>{focus.closingBody}</p>
+            </div>
+
+            <Button href={focus.cta.href} variant="primary" className="working-with-joel-page__focus-button">
+              {focus.cta.label}
+            </Button>
           </div>
         </Container>
       </section>

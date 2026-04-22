@@ -328,8 +328,8 @@ export default function EnmPolyamoryCounselling() {
             </div>
 
             <div className="site-faq-list">
-              {pageContent.faqs.map((faq, index) => (
-                <details className="site-faq-item" key={faq.question} open={index === 0}>
+              {pageContent.faqs.map((faq) => (
+                <details className="site-faq-item" key={faq.question}>
                   <summary className="site-faq-question">
                     <h3>{faq.question}</h3>
                     <span className="site-faq-icon" aria-hidden="true">

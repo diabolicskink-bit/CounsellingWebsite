@@ -194,8 +194,8 @@ export default function LgbtqiaCounselling() {
             <h2>Common questions before starting</h2>
           </div>
           <div className="site-faq-list">
-            {faqs.map((faq, index) => (
-              <details className="site-faq-item" key={faq.question} open={index === 0}>
+            {faqs.map((faq) => (
+              <details className="site-faq-item" key={faq.question}>
                 <summary className="site-faq-question">
                   <h3>{faq.question}</h3>
                   <span className="site-faq-icon" aria-hidden="true">

@@ -105,11 +105,6 @@ const inclusionPageContent: InclusionPageContent = {
           "A lot of sites say inclusive now. The difference here is that you do not have to explain kink, BDSM, polyamory, ENM, gender, sexuality, partners, roles or labels from scratch before you can talk about why you are here. Some of that understanding comes from being part of these worlds, not only learning about them professionally. That means less translating, less second-guessing how something will land, and more room to speak plainly without the work being quietly pulled toward the counsellor's own ideas about what a life or relationship is supposed to be.",
       },
       {
-        question: "Does community involvement affect whether I can work with Joel?",
-        answer:
-          "Anyone active in Perth's kink or ENM scene will know Joel as a community figure, and that makes a therapeutic relationship inappropriate. Reach out directly and a brief conversation can help find other options. If you are outside the community but thinking about exploring it during therapy, that is worth raising early. Going once is a different situation from becoming a regular, and what makes sense depends on what the involvement actually looks like. That conversation happens as things develop rather than being decided in advance.",
-      },
-      {
         question: "What if I only have some experience, or I'm not sure the label fits me?",
         answer:
           "No. There is a particular feeling that comes with being on the edges of something. Not kinky enough, not poly enough, not sure the label really fits, or simply feeling like a lesser version compared to others who seem to be living it more fully. That feeling is worth taking seriously. It does not have to be resolved before reaching out.",
@@ -118,6 +113,11 @@ const inclusionPageContent: InclusionPageContent = {
         question: "What if I'm still figuring out whether I'm kinky, queer, or into non-monogamy?",
         answer:
           "No. The not-sure is real, and it has its own weight. You do not need to know what it means or where it lands before bringing it here.",
+      },
+      {
+        question: "Does community involvement affect whether I can work with Joel?",
+        answer:
+          "Anyone active in Perth's kink or ENM scene will know Joel as a community figure, and that makes a therapeutic relationship inappropriate. Reach out directly and a brief conversation can help find other options. If you are outside the community but thinking about exploring it during therapy, that is worth raising early. Going once is a different situation from becoming a regular, and what makes sense depends on what the involvement actually looks like. That conversation happens as things develop rather than being decided in advance.",
       },
     ],
   },
@@ -228,8 +228,8 @@ export default function InclusivePractice() {
               <h2>{faq.heading}</h2>
             </div>
             <div className="site-faq-list">
-              {faq.items.map((item, index) => (
-                <details className="site-faq-item" key={item.question} open={index === 0}>
+              {faq.items.map((item) => (
+                <details className="site-faq-item" key={item.question}>
                   <summary className="site-faq-question">
                     <h3>{item.question}</h3>
                     <span className="site-faq-icon" aria-hidden="true">
