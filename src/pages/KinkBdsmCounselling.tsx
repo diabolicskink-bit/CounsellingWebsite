@@ -5,11 +5,108 @@ import Button from "../components/Button";
 import Container from "../components/Container";
 import "../styles-kink-bdsm.css";
 
-const pageContent = {
+type BreadcrumbItem = {
+  label: string;
+  href?: string;
+};
+
+type ActionLink = {
+  label: string;
+  href: string;
+  variant?: "primary" | "secondary" | "tertiary";
+};
+
+type TextLink = {
+  label: string;
+  href: string;
+};
+
+type TopicCard = {
+  title: string;
+  copy: string;
+  items: string[];
+};
+
+type FocusItem = {
+  title: string;
+  copy: string;
+};
+
+type PrincipleItem = {
+  title: string;
+  text: string;
+};
+
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+type KinkPageContent = {
+  title: string;
+  meta: string;
+  hero: {
+    breadcrumb: BreadcrumbItem[];
+    badge: string;
+    title: string;
+    intro: string;
+    trustItems: string[];
+    panelEyebrow: string;
+    panelItems: string[];
+    actions: ActionLink[];
+  };
+  topicSection: {
+    eyebrow: string;
+    heading: string;
+    intro: string;
+    cards: TopicCard[];
+  };
+  focusSection: {
+    eyebrow: string;
+    heading: string;
+    intro: string;
+    items: FocusItem[];
+    note: string;
+  };
+  stance: {
+    eyebrow: string;
+    heading: string;
+    paragraphs: string[];
+    principles: PrincipleItem[];
+  };
+  individual: {
+    eyebrow: string;
+    heading: string;
+    paragraphs: string[];
+    resourcesLead: string;
+    resources: TextLink[];
+    note: string;
+  };
+  faqSection: {
+    eyebrow: string;
+    heading: string;
+    intro: string;
+    items: FaqItem[];
+  };
+  ctaSection: {
+    heading: string;
+    copy: string;
+    buttonLabel: string;
+    buttonHref: string;
+    buttonVariant: "primary" | "secondary" | "tertiary";
+  };
+};
+
+const kinkPageContent: KinkPageContent = {
   title: "Kink & BDSM-Aware Counselling | Vive Counselling",
   meta:
     "Counselling for kinky clients where kink is not pathologised, over-scrutinised, or treated as the whole story. Support for anxiety, relationships, shame, grief, trauma, and more. Perth-based, online across Australia.",
   hero: {
+    breadcrumb: [
+      { label: "Home", href: "/" },
+      { label: "Inclusive practice", href: "/inclusion" },
+      { label: "Kink & BDSM" },
+    ],
     badge: "Kink-aware counselling",
     title: "Kink & BDSM-aware counselling",
     intro:
@@ -25,6 +122,10 @@ const pageContent = {
       "You do not need a kink-specific crisis to come here.",
       "Kink is not treated as proof that something is wrong with you.",
       "If it matters, it can be spoken about directly. If it does not, it does not have to take over the work.",
+    ],
+    actions: [
+      { label: "Make an enquiry about counselling", href: "/contact" },
+      { label: "Inclusive counselling hub", href: "/inclusion", variant: "secondary" },
     ],
   },
   topicSection: {
@@ -122,34 +223,64 @@ const pageContent = {
       "You can come because something feels difficult in your life and you want help with it. That might be anxiety, shame, grief, anger, low self-worth, relationship strain, trauma, uncertainty, burnout, or a general sense that something is not working.",
       "What makes this relevant is not that every problem comes from kink. It is that therapy works better when you do not have to monitor yourself, leave things out, or worry that an important part of your life will derail the room. If kink matters, it can be included. If it is not the focus, it does not need to become one.",
     ],
+    resourcesLead: "You can also",
+    resources: [
+      { label: "read more about working with Joel", href: "/working-with-joel" },
+      { label: "check online counselling fees and session details", href: "/fees" },
+      { label: "make an enquiry about counselling", href: "/contact" },
+    ],
     note:
       "You do not need a polished explanation before getting in touch. A brief, honest starting point is enough.",
   },
-  faqs: [
-    {
-      question: "Do I need to be coming for a kink-related issue?",
-      answer:
-        "No. You might be coming for anxiety, grief, shame, self-worth, relationships, trauma, burnout, or something harder to name. The point is that you should not have to hide kink in order to get help with the real issue.",
-    },
-    {
-      question: "What if kink is relevant, but not the main focus?",
-      answer:
-        "That is completely fine. Kink can be part of the context without becoming the whole conversation. If it matters, we can include it. If it is not the main issue, the work does not need to orbit around it.",
-    },
-    {
-      question: "Do you assume kink comes from trauma, pathology, or something being wrong?",
-      answer:
-        "No. I do not start from the assumption that kink is evidence of trauma, dysfunction, instability, or poor attachment. If something is causing distress, we can look at that carefully without making kink itself the diagnosis.",
-    },
-    {
-      question: "Will I have to explain basic kink terms or context?",
-      answer:
-        "You may need to explain what particular words, practices, scenes, or dynamics mean in your life, but you should not have to teach basic kink concepts before the real work can begin.",
-    },
-  ],
+  faqSection: {
+    eyebrow: "Questions",
+    heading: "Common questions before starting",
+    intro: "These are some of the things people often want to know before making first contact.",
+    items: [
+      {
+        question: "Do I need to be coming for a kink-related issue?",
+        answer:
+          "No. You might be coming for anxiety, grief, shame, self-worth, relationships, trauma, burnout, or something harder to name. The point is that you should not have to hide kink in order to get help with the real issue.",
+      },
+      {
+        question: "What if kink is relevant, but not the main focus?",
+        answer:
+          "That is completely fine. Kink can be part of the context without becoming the whole conversation. If it matters, we can include it. If it is not the main issue, the work does not need to orbit around it.",
+      },
+      {
+        question: "Do you assume kink comes from trauma, pathology, or something being wrong?",
+        answer:
+          "No. I do not start from the assumption that kink is evidence of trauma, dysfunction, instability, or poor attachment. If something is causing distress, we can look at that carefully without making kink itself the diagnosis.",
+      },
+      {
+        question: "Will I have to explain basic kink terms or context?",
+        answer:
+          "You may need to explain what particular words, practices, scenes, or dynamics mean in your life, but you should not have to teach basic kink concepts before the real work can begin.",
+      },
+    ],
+  },
+  ctaSection: {
+    heading: "You do not need to explain everything perfectly.",
+    copy:
+      "A first enquiry can be brief. Name what is bringing you to counselling, whether online sessions suit you, and anything important for first contact.",
+    buttonLabel: "Make an enquiry about counselling",
+    buttonHref: "/contact",
+    buttonVariant: "secondary",
+  },
 };
 
-function FaqSchema() {
+function useSeo() {
+  useEffect(() => {
+    document.title = kinkPageContent.title;
+    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+
+    if (metaDescription) {
+      metaDescription.content = kinkPageContent.meta;
+    }
+  }, []);
+}
+
+function FaqSchema({ faqs }: { faqs: FaqItem[] }) {
   return (
     <script
       type="application/ld+json"
@@ -157,7 +288,7 @@ function FaqSchema() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: pageContent.faqs.map((faq) => ({
+          mainEntity: faqs.map((faq) => ({
             "@type": "Question",
             name: faq.question,
             acceptedAnswer: { "@type": "Answer", text: faq.answer },
@@ -169,52 +300,53 @@ function FaqSchema() {
 }
 
 export default function KinkBdsmCounselling() {
-  useEffect(() => {
-    document.title = pageContent.title;
-    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-
-    if (metaDescription) {
-      metaDescription.content = pageContent.meta;
-    }
-  }, []);
+  useSeo();
+  const { hero, topicSection, focusSection, stance, individual, faqSection, ctaSection } = kinkPageContent;
 
   return (
     <main className="site-page kink-page">
-      <FaqSchema />
+      <FaqSchema faqs={faqSection.items} />
 
       <section className="hero-section hero-bg--diagonal kink-page__hero">
         <Container>
           <div className="hero-top kink-page__hero-top">
             <div className="kink-page__hero-copy">
               <nav className="breadcrumb" aria-label="Breadcrumb">
-                <Link to="/">Home</Link>
-                <Link to="/inclusion">Inclusive practice</Link>
-                <span>Kink & BDSM</span>
+                {hero.breadcrumb.map((item) =>
+                  item.href ? (
+                    <Link key={item.label} to={item.href}>
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <span key={item.label}>{item.label}</span>
+                  ),
+                )}
               </nav>
 
-              <span className="hero-badge">{pageContent.hero.badge}</span>
-              <h1 className="hero-display kink-page__hero-title">{pageContent.hero.title}</h1>
-              <p className="kink-page__hero-intro">{pageContent.hero.intro}</p>
+              <span className="hero-badge">{hero.badge}</span>
+              <h1 className="hero-display kink-page__hero-title">{hero.title}</h1>
+              <p className="kink-page__hero-intro">{hero.intro}</p>
 
               <ul className="site-trust-list kink-page__trust" aria-label="Practice details">
-                {pageContent.hero.trustItems.map((item) => (
+                {hero.trustItems.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </div>
 
             <aside className="site-copy-panel kink-page__hero-panel" aria-label="Kink-aware counselling summary">
-              <span className="site-highlight__eyebrow">{pageContent.hero.panelEyebrow}</span>
+              <span className="site-highlight__eyebrow">{hero.panelEyebrow}</span>
               <div className="site-detail-stack">
-                {pageContent.hero.panelItems.map((item) => (
+                {hero.panelItems.map((item) => (
                   <p key={item}>{item}</p>
                 ))}
               </div>
               <div className="site-actions kink-page__hero-actions">
-                <Button href="/contact">Make an enquiry about counselling</Button>
-                <Button href="/inclusion" variant="secondary">
-                  Inclusive counselling hub
-                </Button>
+                {hero.actions.map((action) => (
+                  <Button key={action.label} href={action.href} variant={action.variant ?? "primary"}>
+                    {action.label}
+                  </Button>
+                ))}
               </div>
             </aside>
           </div>
@@ -224,13 +356,13 @@ export default function KinkBdsmCounselling() {
       <section className="site-grid kink-page__topics">
         <Container>
           <div className="site-grid__heading kink-page__topics-heading">
-            <span className="site-eyebrow">{pageContent.topicSection.eyebrow}</span>
-            <h2>{pageContent.topicSection.heading}</h2>
-            <p>{pageContent.topicSection.intro}</p>
+            <span className="site-eyebrow">{topicSection.eyebrow}</span>
+            <h2>{topicSection.heading}</h2>
+            <p>{topicSection.intro}</p>
           </div>
 
           <div className="site-card-grid">
-            {pageContent.topicSection.cards.map((card) => (
+            {topicSection.cards.map((card) => (
               <article className="site-card kink-page__topic-card" key={card.title}>
                 <h3>{card.title}</h3>
                 <p>{card.copy}</p>
@@ -248,14 +380,14 @@ export default function KinkBdsmCounselling() {
       <section className="site-highlight kink-page__focus">
         <Container className="site-split kink-page__stance-split">
           <div className="section-heading">
-            <span className="site-eyebrow">{pageContent.focusSection.eyebrow}</span>
-            <h2>{pageContent.focusSection.heading}</h2>
-            <p>{pageContent.focusSection.intro}</p>
+            <span className="site-eyebrow">{focusSection.eyebrow}</span>
+            <h2>{focusSection.heading}</h2>
+            <p>{focusSection.intro}</p>
           </div>
 
           <div className="kink-page__focus-content">
             <div className="kink-page__focus-grid" aria-label="Common therapy reasons">
-              {pageContent.focusSection.items.map((item) => (
+              {focusSection.items.map((item) => (
                 <article className="site-topic-card kink-page__focus-card" key={item.title}>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
@@ -263,7 +395,7 @@ export default function KinkBdsmCounselling() {
               ))}
             </div>
 
-            <p className="site-ruled-paragraph kink-page__focus-note">{pageContent.focusSection.note}</p>
+            <p className="site-ruled-paragraph kink-page__focus-note">{focusSection.note}</p>
           </div>
         </Container>
       </section>
@@ -271,19 +403,19 @@ export default function KinkBdsmCounselling() {
       <section className="site-highlight kink-page__stance">
         <Container className="site-split kink-page__stance-split">
           <div className="section-heading">
-            <span className="site-eyebrow">{pageContent.stance.eyebrow}</span>
-            <h2>{pageContent.stance.heading}</h2>
+            <span className="site-eyebrow">{stance.eyebrow}</span>
+            <h2>{stance.heading}</h2>
           </div>
 
           <div className="kink-page__stance-content">
             <article className="site-copy-panel rich-text">
-              {pageContent.stance.paragraphs.map((paragraph) => (
+              {stance.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
-              ))} 
+              ))}
             </article>
 
             <div className="site-principles" aria-label="Kink-aware counselling principles">
-              {pageContent.stance.principles.map((item) => (
+              {stance.principles.map((item) => (
                 <article className="site-principle" key={item.title}>
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
@@ -297,23 +429,28 @@ export default function KinkBdsmCounselling() {
       <section className="site-grid kink-page__individual">
         <Container className="site-split">
           <div className="section-heading">
-            <span className="site-eyebrow">{pageContent.individual.eyebrow}</span>
-            <h2>{pageContent.individual.heading}</h2>
+            <span className="site-eyebrow">{individual.eyebrow}</span>
+            <h2>{individual.heading}</h2>
           </div>
 
           <div className="kink-page__individual-content">
             <article className="site-copy-panel rich-text">
-              {pageContent.individual.paragraphs.map((paragraph) => (
+              {individual.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
               <p>
-                You can also <Link to="/working-with-joel">read more about working with Joel</Link>, check{" "}
-                <Link to="/fees">online counselling fees and session details</Link>, or{" "}
-                <Link to="/contact">make an enquiry about counselling</Link>.
+                {individual.resourcesLead}{" "}
+                {individual.resources.map((item, index) => (
+                  <span key={item.label}>
+                    {index === 0 ? "" : index === individual.resources.length - 1 ? ", or " : ", "}
+                    <Link to={item.href}>{item.label}</Link>
+                  </span>
+                ))}
+                .
               </p>
             </article>
 
-            <p className="site-ruled-paragraph kink-page__individual-note">{pageContent.individual.note}</p>
+            <p className="site-ruled-paragraph kink-page__individual-note">{individual.note}</p>
           </div>
         </Container>
       </section>
@@ -322,15 +459,13 @@ export default function KinkBdsmCounselling() {
         <Container>
           <div className="site-faq-shell">
             <div className="site-faq-shell__header">
-              <span className="site-eyebrow">Questions</span>
-              <h2>Common questions before starting</h2>
-              <p>
-                These are some of the things people often want to know before making first contact.
-              </p>
+              <span className="site-eyebrow">{faqSection.eyebrow}</span>
+              <h2>{faqSection.heading}</h2>
+              <p>{faqSection.intro}</p>
             </div>
 
             <div className="site-faq-list">
-              {pageContent.faqs.map((faq, index) => (
+              {faqSection.items.map((faq, index) => (
                 <details className="site-faq-item" key={faq.question} open={index === 0}>
                   <summary className="site-faq-question">
                     <h3>{faq.question}</h3>
@@ -352,14 +487,11 @@ export default function KinkBdsmCounselling() {
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">
           <div>
-            <h2>You do not need to explain everything perfectly.</h2>
-            <p>
-              A first enquiry can be brief. Name what is bringing you to counselling, whether online sessions suit you,
-              and anything important for first contact.
-            </p>
+            <h2>{ctaSection.heading}</h2>
+            <p>{ctaSection.copy}</p>
           </div>
-          <Button href="/contact" variant="secondary">
-            Make an enquiry about counselling <ArrowRight size={16} />
+          <Button href={ctaSection.buttonHref} variant={ctaSection.buttonVariant}>
+            {ctaSection.buttonLabel} <ArrowRight size={16} />
           </Button>
         </Container>
       </section>

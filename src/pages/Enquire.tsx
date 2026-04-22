@@ -16,6 +16,7 @@ type ServiceTier = {
   fee: string;
   detail: string;
   note?: string;
+  featured?: boolean;
 };
 
 type ContactDetail = {
@@ -24,6 +25,16 @@ type ContactDetail = {
   value: string;
   href?: string;
   notes?: string[];
+};
+
+type FormTextField = {
+  label: string;
+  placeholder: string;
+};
+
+type FormSelectOption = {
+  value: string;
+  label: string;
 };
 
 function getTimeParts(date: Date, timeZone: string) {
@@ -89,14 +100,27 @@ type EnquiryPageContent = {
   hero: {
     title: EnquiryHeroTitle;
     support: string;
+    detailsAriaLabel: string;
     details: string[];
+    feeCardAriaLabel: string;
   };
   serviceTiers: ServiceTier[];
   form: {
     eyebrow: string;
+    submitLabel: string;
+    fields: {
+      name: FormTextField;
+      email: FormTextField;
+      message: FormTextField & { rows: number };
+      timing: {
+        label: string;
+        options: FormSelectOption[];
+      };
+    };
   };
   contact: {
     eyebrow: string;
+    listAriaLabel: string;
   };
   contactDetails: ContactDetail[];
   practical: {
@@ -117,10 +141,12 @@ const enquiryPageContent: EnquiryPageContent = {
     },
     support:
       "Online counselling for adults across Australia. If you are considering a first session, you can enquire here about availability, fees, or arranging a time to begin.",
+    detailsAriaLabel: "Enquiry page details",
     details: [
       "Available across Australia",
       "No referral required",
     ],
+    feeCardAriaLabel: "Session fees",
   },
   serviceTiers: [
     {
@@ -128,13 +154,41 @@ const enquiryPageContent: EnquiryPageContent = {
       fee: "$120",
       detail: "50 minutes / Online",
       note: "Free 15-minute initial consult available",
+      featured: true,
     },
   ],
   form: {
     eyebrow: "Enquiry",
+    submitLabel: "Send enquiry",
+    fields: {
+      name: {
+        label: "Name",
+        placeholder: "Your name",
+      },
+      email: {
+        label: "Email",
+        placeholder: "you@example.com",
+      },
+      message: {
+        label: "Your message",
+        placeholder: "What would you like to ask or let Joel know?",
+        rows: 7,
+      },
+      timing: {
+        label: "Preferred timing (optional)",
+        options: [
+          { value: "", label: "No preference or not booking yet" },
+          { value: "weekday-morning", label: "Weekday mornings" },
+          { value: "weekday-afternoon", label: "Weekday afternoons" },
+          { value: "weekday-evening", label: "Weekday evenings" },
+          { value: "flexible", label: "Flexible" },
+        ],
+      },
+    },
   },
   contact: {
     eyebrow: "Contact",
+    listAriaLabel: "Contact details",
   },
   contactDetails: [
     {
@@ -189,7 +243,7 @@ export default function Enquire() {
               </h1>
               <div className="hero-copy-panel">
                 <p>{hero.support}</p>
-                <ul className="hero-support-tagline" aria-label="Enquiry page details">
+                <ul className="hero-support-tagline" aria-label={hero.detailsAriaLabel}>
                   {hero.details.map((detail) => (
                     <li key={detail}>{detail}</li>
                   ))}
@@ -197,12 +251,12 @@ export default function Enquire() {
               </div>
             </div>
 
-            <aside className="site-fee-card" aria-label="Session fees">
+            <aside className="site-fee-card" aria-label={hero.feeCardAriaLabel}>
               <div className="enquire-page__service-tier-list">
                 {serviceTiers.map((tier) => (
                   <article
                     className={`enquire-page__service-tier ${
-                      tier.fee === "$120" ? "enquire-page__service-tier--featured" : ""
+                      tier.featured ? "enquire-page__service-tier--featured" : ""
                     }`.trim()}
                     key={tier.label}
                   >
@@ -223,7 +277,7 @@ export default function Enquire() {
           <aside className="enquire-page__rail">
             <div className="enquire-page__rail-block">
               <span className="site-eyebrow">{contact.eyebrow}</span>
-              <div className="enquire-page__contact-list" aria-label="Contact details">
+              <div className="enquire-page__contact-list" aria-label={contact.listAriaLabel}>
                 {contactDetails.map(({ icon: Icon, label, value, href, notes }) => (
                   <div className="enquire-page__contact-item" key={label}>
                     <span className="icon-box">
@@ -268,46 +322,50 @@ export default function Enquire() {
 
             <div className="enquire-page__form-grid">
               <div className="form-row">
-                <label htmlFor="enquire-name">Name</label>
-                <input id="enquire-name" name="name" autoComplete="name" type="text" placeholder="Your name" />
+                <label htmlFor="enquire-name">{form.fields.name.label}</label>
+                <input
+                  id="enquire-name"
+                  name="name"
+                  autoComplete="name"
+                  type="text"
+                  placeholder={form.fields.name.placeholder}
+                />
               </div>
 
               <div className="form-row">
-                <label htmlFor="enquire-email">Email</label>
+                <label htmlFor="enquire-email">{form.fields.email.label}</label>
                 <input
                   id="enquire-email"
                   name="email"
                   autoComplete="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder={form.fields.email.placeholder}
                 />
               </div>
 
               <div className="form-row enquire-page__form-row--full">
-                <label htmlFor="enquire-message">Your message</label>
+                <label htmlFor="enquire-message">{form.fields.message.label}</label>
                 <textarea
                   id="enquire-message"
                   name="message"
-                  placeholder="What would you like to ask or let Joel know?"
-                  rows={7}
+                  placeholder={form.fields.message.placeholder}
+                  rows={form.fields.message.rows}
                 />
               </div>
 
               <div className="form-row enquire-page__form-row--full">
-                <label htmlFor="enquire-timing">Preferred timing (optional)</label>
+                <label htmlFor="enquire-timing">{form.fields.timing.label}</label>
                 <select id="enquire-timing" name="timing" defaultValue="">
-                  <option value="">
-                    No preference or not booking yet
-                  </option>
-                  <option value="weekday-morning">Weekday mornings</option>
-                  <option value="weekday-afternoon">Weekday afternoons</option>
-                  <option value="weekday-evening">Weekday evenings</option>
-                  <option value="flexible">Flexible</option>
+                  {form.fields.timing.options.map((option) => (
+                    <option key={option.value || "default"} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
 
-            <Button type="submit">Send enquiry</Button>
+            <Button type="submit">{form.submitLabel}</Button>
           </form>
         </Container>
       </section>

@@ -32,14 +32,18 @@ type HomePageContent = {
   hero: {
     title: EmphasisCopy;
     support: string;
+    trustAriaLabel: string;
     trustItems: string[];
     portrait: {
+      imageSrc: string;
+      ariaLabel: string;
       name: string;
       descriptor: string;
     };
   };
   topics: {
     heading: string;
+    ariaLabel: string;
     items: HomeTopicTile[];
   };
   inclusive: {
@@ -47,6 +51,8 @@ type HomePageContent = {
     copy: string;
     href: string;
     cta: string;
+    detailCtaLabel: string;
+    detailsAriaLabel: string;
     details: HomeInclusiveDetail[];
   };
   workroom: {
@@ -54,6 +60,8 @@ type HomePageContent = {
     intro: string;
     letterLabel: string;
     letterCopy: string;
+    profileHref: string;
+    profileCta: string;
     closingLead: string;
     closingAccent: string;
     ctaHref: string;
@@ -72,6 +80,7 @@ const homePageContent: HomePageContent = {
     },
     support:
       "I offer online counselling for adults across Australia, based in Perth. I work with anxiety, relationship strain, self-criticism, trauma, sexuality, and experiences that feel exposing, confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.",
+    trustAriaLabel: "Practice details",
     trustItems: [
       "Perth-based, online across Australia",
       "Individual counselling",
@@ -79,12 +88,15 @@ const homePageContent: HomePageContent = {
       "Kink-, ENM-, and LGBTQIA+-aware",
     ],
     portrait: {
+      imageSrc: portraitSrc,
+      ariaLabel: "About Joel Griffiths",
       name: "Joel Griffiths",
       descriptor: "Counselling and psychodynamic psychotherapy",
     },
   },
   topics: {
     heading: "What counselling can help with",
+    ariaLabel: "Common counselling themes",
     items: [
       {
         title: "Low mood and depression",
@@ -132,6 +144,8 @@ const homePageContent: HomePageContent = {
     copy: "If your relationships, sexuality, or identity sit outside what people usually assume, you may be used to doing extra work before you can talk about what is actually difficult. Explaining the basics. Adding caveats. Holding things back. Watching for judgement. Wondering whether something important about your life will be misunderstood, judged, or treated as though it is the problem. Here, you do not need to do that. You can speak plainly, without defending yourself first.",
     href: "/inclusion",
     cta: "Explore inclusive counselling",
+    detailCtaLabel: "Learn more",
+    detailsAriaLabel: "Inclusive practice topics",
     details: [
       {
         title: "Kink & BDSM counselling",
@@ -157,6 +171,8 @@ const homePageContent: HomePageContent = {
     letterLabel: "Working with Joel",
     letterCopy:
       "Sessions are direct and real. We can speak plainly, look beneath the immediate problem, and take what you bring seriously without making therapy feel stiff or clinical. I do not think people are meant to be tidy. The strange bits, the contradictions, the parts that do not quite fit anywhere, all of that belongs here.",
+    profileHref: "/working-with-joel",
+    profileCta: "Working with Joel",
     closingLead: "For when",
     closingAccent: '"I just need to talk to someone."',
     ctaHref: "/contact",
@@ -217,7 +233,7 @@ export default function Home() {
               </h1>
               <div className="hero-copy-panel home-page__hero-support">
                 <p>{hero.support}</p>
-                <ul className="hero-support-tagline" aria-label="Practice details">
+                <ul className="hero-support-tagline" aria-label={hero.trustAriaLabel}>
                   {hero.trustItems.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -225,9 +241,9 @@ export default function Home() {
               </div>
             </div>
 
-            <aside className="hero-media-note" aria-label="About Joel Griffiths">
+            <aside className="hero-media-note" aria-label={hero.portrait.ariaLabel}>
               <div className="hero-media-note__image">
-                <img src={portraitSrc} alt="" />
+                <img src={hero.portrait.imageSrc} alt="" />
               </div>
               <div className="hero-media-note__caption">
                 <strong>{hero.portrait.name}</strong>
@@ -244,7 +260,7 @@ export default function Home() {
             <h2>{topics.heading}</h2>
           </div>
 
-          <div className="home-topics__tiles" aria-label="Common counselling themes">
+          <div className="home-topics__tiles" aria-label={topics.ariaLabel}>
             {topics.items.map((topic) => (
               <details
                 className={`home-topics__tile site-topic-card ${isCompactTopics ? "site-card" : ""} ${topic.layoutClass} ${topic.toneClass ?? ""}`.trim()}
@@ -283,14 +299,14 @@ export default function Home() {
             </div>
 
             <div className="home-page__inclusive-support">
-              <div className="home-page__inclusive-items site-detail-stack" aria-label="Inclusive practice topics">
+              <div className="home-page__inclusive-items site-detail-stack" aria-label={inclusive.detailsAriaLabel}>
                 {inclusive.details.map((detail) => (
                   <div className="home-page__inclusive-item" key={detail.title}>
                     <Link className="home-page__inclusive-link" to={detail.href}>
                       <span className="home-page__inclusive-heading">
                         <strong>{detail.title}</strong>
                         <span className="home-page__inclusive-action">
-                          Learn more
+                          {inclusive.detailCtaLabel}
                           <ArrowRight className="home-page__inclusive-icon" size={16} aria-hidden="true" />
                         </span>
                       </span>
@@ -316,8 +332,8 @@ export default function Home() {
               <span className="site-highlight__eyebrow">{workroom.letterLabel}</span>
               <p>{workroom.letterCopy}</p>
               <div className="home-workroom__letter-actions">
-                <Button href="/working-with-joel" variant="tertiary">
-                  Working with Joel
+                <Button href={workroom.profileHref} variant="tertiary">
+                  {workroom.profileCta}
                 </Button>
               </div>
             </article>
