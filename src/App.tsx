@@ -6,9 +6,7 @@ import Enquire from "./pages/Enquire";
 import Home from "./pages/Home";
 import InclusivePractice from "./pages/InclusivePractice";
 import KinkBdsmCounselling from "./pages/KinkBdsmCounselling";
-import {
-  LgbtqiaCounselling,
-} from "./pages/InclusionChildPages";
+import LgbtqiaCounselling from "./pages/LgbtqiaCounselling";
 import CodexTB from "./pages/CodexTB";
 import DesignLanguage from "./pages/DesignLanguage";
 import DS_Foundations from "./pages/design-system/DS_Foundations";

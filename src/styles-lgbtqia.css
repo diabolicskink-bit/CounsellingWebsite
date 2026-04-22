@@ -1,0 +1,13 @@
+.lgbtqia-page__hero-heading {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.lgbtqia-page__hero-title {
+  margin-bottom: 0;
+}
+
+.lgbtqia-page__hero-panel {
+  gap: 20px;
+}

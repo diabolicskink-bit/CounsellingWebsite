@@ -124,7 +124,7 @@ const kinkPageContent: KinkPageContent = {
       "If it matters, it can be spoken about directly. If it does not, it does not have to take over the work.",
     ],
     actions: [
-      { label: "Make an enquiry about counselling", href: "/contact" },
+      { label: "Make an enquiry", href: "/contact" },
       { label: "Inclusive counselling hub", href: "/inclusion", variant: "secondary" },
     ],
   },
@@ -325,9 +325,9 @@ export default function KinkBdsmCounselling() {
 
               <span className="hero-badge">{hero.badge}</span>
               <h1 className="hero-display kink-page__hero-title">{hero.title}</h1>
-              <p className="kink-page__hero-intro">{hero.intro}</p>
+              <p className="hero-intro">{hero.intro}</p>
 
-              <ul className="site-trust-list kink-page__trust" aria-label="Practice details">
+              <ul className="site-trust-list site-trust-list--highlight-last kink-page__trust" aria-label="Practice details">
                 {hero.trustItems.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
