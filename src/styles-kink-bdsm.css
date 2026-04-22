@@ -1,0 +1,140 @@
+.kink-page {
+  background: var(--color-bg-main);
+}
+
+.kink-page__hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.kink-page__hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.34), transparent 28%),
+    radial-gradient(circle at 82% 16%, rgba(35, 75, 61, 0.08), transparent 24%);
+  pointer-events: none;
+}
+
+.kink-page__hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.kink-page__hero-top {
+  grid-template-columns: minmax(0, 1.16fr) minmax(300px, 0.84fr);
+  gap: 56px;
+  align-items: start;
+}
+
+.kink-page__hero-copy {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.kink-page__hero-title {
+  max-width: 10.5ch;
+  margin-bottom: 0;
+}
+
+.kink-page__hero-intro {
+  max-width: 44rem;
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.78;
+}
+
+.kink-page__trust {
+  max-width: 48rem;
+  padding-top: 6px;
+}
+
+.kink-page__hero-panel {
+  gap: 20px;
+  align-self: start;
+  margin-top: 34px;
+}
+
+.kink-page__hero-panel .site-detail-stack {
+  gap: 0;
+  padding: 0;
+}
+
+.kink-page__hero-panel .site-detail-stack p {
+  margin: 0;
+  padding: 14px 0;
+  border-top: 1px solid rgba(35, 75, 61, 0.14);
+  color: var(--color-text);
+  line-height: 1.62;
+}
+
+.kink-page__hero-panel .site-detail-stack p:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.kink-page__hero-actions {
+  gap: 12px;
+}
+
+.kink-page__topics-heading p {
+  max-width: 58ch;
+}
+
+.kink-page__topic-card {
+  gap: 16px;
+}
+
+.kink-page__focus .section-heading p {
+  max-width: 56ch;
+  margin: 0;
+}
+
+.kink-page__stance-split {
+  align-items: start;
+}
+
+.kink-page__focus-content,
+.kink-page__stance-content,
+.kink-page__individual-content {
+  display: grid;
+  gap: 24px;
+}
+
+.kink-page__focus-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.kink-page__focus-card {
+  min-height: 100%;
+}
+
+.kink-page__focus-note,
+.kink-page__individual-note {
+  max-width: 54ch;
+  font-size: 1.02rem;
+  line-height: 1.68;
+}
+
+.kink-page__faq .site-faq-shell__header p {
+  max-width: 56ch;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .kink-page__hero-top {
+    gap: 28px;
+  }
+
+  .kink-page__hero-panel {
+    margin-top: 0;
+  }
+
+  .kink-page__focus-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
+import EnmPolyamoryCounselling from "./pages/EnmPolyamoryCounselling";
 import Enquire from "./pages/Enquire";
 import Home from "./pages/Home";
 import InclusivePractice from "./pages/InclusivePractice";
+import KinkBdsmCounselling from "./pages/KinkBdsmCounselling";
 import {
-  EnmPolyamoryCounselling,
-  KinkBdsmCounselling,
   LgbtqiaCounselling,
 } from "./pages/InclusionChildPages";
 import CodexTB from "./pages/CodexTB";
