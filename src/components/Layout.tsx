@@ -1,5 +1,5 @@
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { navItems, type NavItem } from "../data/site";
 import Button from "./Button";
@@ -38,6 +38,10 @@ export default function Layout() {
     location.pathname === "/contact";
 
   const closeMenu = () => setIsOpen(false);
+  const blurDesktopNavLinkAfterPointerClick = (event: ReactPointerEvent<HTMLAnchorElement>) => {
+    // Keep keyboard focus support for submenu access, but let pointer clicks dismiss on mouse-out.
+    event.currentTarget.blur();
+  };
 
   useEffect(() => {
     closeMenu();
@@ -80,6 +84,7 @@ export default function Layout() {
                     className={({ isActive }) =>
                       `nav-link ${isActive || isCurrent ? "nav-link--active" : ""} ${item.children ? "nav-link--parent" : ""}`
                     }
+                    onPointerUp={blurDesktopNavLinkAfterPointerClick}
                     to={item.href ?? "#"}
                   >
                     {item.label}
@@ -95,6 +100,7 @@ export default function Layout() {
                                 child.children ? "nav-submenu__link--parent" : ""
                               }`
                             }
+                            onPointerUp={blurDesktopNavLinkAfterPointerClick}
                             to={child.href ?? "#"}
                           >
                             {child.label}
@@ -108,6 +114,7 @@ export default function Layout() {
                                   className={({ isActive }) =>
                                     `nav-submenu__link ${isActive ? "nav-submenu__link--active" : ""}`
                                   }
+                                  onPointerUp={blurDesktopNavLinkAfterPointerClick}
                                   to={grandchild.href}
                                 >
                                   {grandchild.label}

@@ -177,42 +177,54 @@ export default function InclusivePractice() {
     <main className="site-page inclusion-page">
       <FaqSchema faqs={faq.items} />
       <section className="hero-section inclusion-hero">
-        <Container className="inclusion-hero__shell">
-          <div className="hero-top inclusion-hero__poster">
-            <div className="inclusion-hero__headline-block">
-              <h1 className="hero-display inclusion-hero__title">
-                <span className="inclusion-hero__title-line">{hero.title.lineOne}</span>
-                <span className="inclusion-hero__title-line">
-                  {hero.title.lineTwoBefore}
-                  <em>{hero.title.emphasis}</em>
-                  {hero.title.lineTwoAfter}
-                </span>
-              </h1>
-            </div>
-
-            <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
-              <div className="hero-detail-stack inclusion-hero__detail-stack">
-                {hero.topics.map((item) => (
-                  <Link
-                    className="hero-detail-stack__item hero-detail-stack__link inclusion-hero__detail-item"
-                    key={item.label}
-                    to={item.href}
-                  >
-                    <span className="hero-detail-stack__label">{item.label}</span>
-                  </Link>
-                ))}
+        <div className="inclusion-hero__top-shell">
+          <Container>
+            <div className="hero-top inclusion-hero__top">
+              <div className="inclusion-hero__headline-block">
+                <h1 className="hero-display inclusion-hero__title">
+                  <span>{hero.title.lineOne}</span>
+                  <span>
+                    {hero.title.lineTwoBefore}
+                    <em>
+                      {hero.title.emphasis}
+                      {hero.title.lineTwoAfter}
+                    </em>
+                  </span>
+                </h1>
               </div>
-            </nav>
-          </div>
 
-          <div className="inclusion-hero__proof">
-            <p className="inclusion-hero__statement">
-              <span className="inclusion-hero__statement-line">{hero.statement.lineOne}</span>
-              <span className="inclusion-hero__statement-line">{hero.statement.lineTwo}</span>
-            </p>
-            <p className="inclusion-hero__support">{hero.support}</p>
-          </div>
-        </Container>
+              <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
+                <div className="hero-detail-stack inclusion-hero__detail-stack">
+                  {hero.topics.map((item) => (
+                    <Link
+                      className="hero-detail-stack__item hero-detail-stack__link inclusion-hero__detail-item"
+                      key={item.label}
+                      to={item.href}
+                    >
+                      <span className="hero-detail-stack__label">{item.label}</span>
+                    </Link>
+                  ))}
+                </div>
+              </nav>
+            </div>
+          </Container>
+        </div>
+
+        <div className="inclusion-hero__proof-band">
+          <Container>
+            <div className="inclusion-hero__proof">
+              <p className="inclusion-hero__proof-statement">
+                <span className="inclusion-hero__statement-line">
+                  <em>{hero.statement.lineOne}</em>
+                </span>
+                <span className="inclusion-hero__statement-line">
+                  <em>{hero.statement.lineTwo}</em>
+                </span>
+              </p>
+              <p className="inclusion-hero__proof-copy">{hero.support}</p>
+            </div>
+          </Container>
+        </div>
       </section>
 
       <section className="site-grid inclusion-hub">

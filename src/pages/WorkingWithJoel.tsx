@@ -123,7 +123,8 @@ const pageContent: WorkingWithJoelPageContent = {
       {
         title: "Something else?",
         body:
-"Sometimes what’s going on doesn’t quite match any of these. It may be more specific, a bit of a mix, or just difficult to explain.",        closing: true,
+          "Sometimes what's going on doesn't quite match any of these. It may be more specific, a bit of a mix, or just difficult to explain.",
+        closing: true,
       },
     ],
   },
@@ -145,7 +146,7 @@ export default function WorkingWithJoel() {
     <main className="site-page working-with-joel-page">
       <section className="hero-section hero-bg--diagonal">
         <Container>
-          <div className="hero-top">
+          <div className="hero-top working-with-joel-page__hero-top">
             <div className="working-with-joel-page__hero-copy">
               <h1 className="hero-display working-with-joel-page__hero-title">
                 {hero.title.before}

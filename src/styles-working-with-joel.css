@@ -7,6 +7,10 @@
   gap: 0;
 }
 
+.working-with-joel-page__hero-top {
+  align-items: start;
+}
+
 .working-with-joel-page__hero-title {
   max-width: 11ch;
 }
