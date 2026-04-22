@@ -63,7 +63,7 @@ const pageContent: WorkingWithJoelPageContent = {
     },
   },
   approach: {
-    title: "An integrative, psychodynamically informed approach",
+    title: "Introducing Joel",
     paragraphs: [
       "My approach is grounded in psychodynamic and attachment-based thinking. That means I am interested not just in what is happening now but in what is shaping it, where it came from, what keeps it going, and what might be maintaining it beneath the surface.",
       "Attachment is central to how I work. The ways people learn closeness, distance, trust, and self-protection early in life tend to continue organising how they relate as adults, often without being fully visible. That is often where the most useful work happens.",
@@ -121,10 +121,9 @@ const pageContent: WorkingWithJoelPageContent = {
           "Agreements, jealousy, comparison, disclosure, boundaries, repair, breakups, or relationship strain.",
       },
       {
-        title: "Something harder to name",
+        title: "Something else?",
         body:
-          "When something keeps hurting, repeating, escalating, or wearing you down, even without a clear category.",
-        closing: true,
+"Sometimes what’s going on doesn’t quite match any of these. It may be more specific, a bit of a mix, or just difficult to explain.",        closing: true,
       },
     ],
   },
@@ -146,7 +145,7 @@ export default function WorkingWithJoel() {
     <main className="site-page working-with-joel-page">
       <section className="hero-section hero-bg--diagonal">
         <Container>
-          <div className="hero-top hero-top--supporting-media">
+          <div className="hero-top">
             <div className="working-with-joel-page__hero-copy">
               <h1 className="hero-display working-with-joel-page__hero-title">
                 {hero.title.before}
@@ -155,17 +154,28 @@ export default function WorkingWithJoel() {
                 <br />
                 {hero.title.after}
               </h1>
-              <div className="hero-copy-panel working-with-joel-page__hero-support">
-                <p>{hero.support}</p>
-                <ul className="hero-support-tagline" aria-label="Practice details">
-                  {hero.trustItems.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
             </div>
 
-            <aside className="hero-media-note working-with-joel-page__hero-note" aria-label="About Joel Griffiths">
+            <div className="hero-copy-panel working-with-joel-page__hero-support">
+              <p>{hero.support}</p>
+              <ul className="hero-support-tagline" aria-label="Practice details">
+                {hero.trustItems.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="site-grid working-with-joel-page__approach">
+        <Container className="site-split">
+          <div className="section-heading working-with-joel-page__approach-heading">
+            <h2>{approach.title}</h2>
+            <aside
+              className="hero-media-note working-with-joel-page__approach-note"
+              aria-label="About Joel Griffiths"
+            >
               <div className="hero-media-note__image">
                 <img src={portraitSrc} alt="" />
               </div>
@@ -174,14 +184,6 @@ export default function WorkingWithJoel() {
                 <span>{hero.portrait.descriptor}</span>
               </div>
             </aside>
-          </div>
-        </Container>
-      </section>
-
-      <section className="site-grid working-with-joel-page__approach">
-        <Container className="site-split">
-          <div className="section-heading">
-            <h2>{approach.title}</h2>
           </div>
 
           <article className="site-copy-panel rich-text working-with-joel-page__framework-panel">

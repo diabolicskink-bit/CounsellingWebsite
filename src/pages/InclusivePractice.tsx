@@ -5,12 +5,6 @@ import Container from "../components/Container";
 import Button from "../components/Button";
 import FaqSection from "../components/FaqSection";
 
-type EmphasisCopy = {
-  before: string;
-  emphasis: string;
-  after: string;
-};
-
 type InclusionPanel = {
   eyebrow: string;
   heading: string;
@@ -29,11 +23,17 @@ type InclusionPageContent = {
   title: string;
   meta: string;
   hero: {
-    title: EmphasisCopy;
-    intro: {
-      lead: string;
-      body: string;
+    title: {
+      lineOne: string;
+      lineTwoBefore: string;
+      emphasis: string;
+      lineTwoAfter: string;
     };
+    statement: {
+      lineOne: string;
+      lineTwo: string;
+    };
+    support: string;
     topics: {
       label: string;
       href: string;
@@ -54,15 +54,17 @@ const inclusionPageContent: InclusionPageContent = {
     "Inclusive counselling for adults seeking thoughtful, non-shaming support around relationships, sexuality, identity, and emotional life. Perth-based, online across Australia.",
   hero: {
     title: {
-      before: "Inclusive counselling for ",
+      lineOne: "Inclusive counselling",
+      lineTwoBefore: "for ",
       emphasis: "diverse lives",
-      after: ".",
+      lineTwoAfter: ".",
     },
-    intro: {
-      lead: "Kinky, non-monogamous, queer, or some mix of all three.",
-      body:
-        "That territory needs to be known before you arrive, not learned as you go. As a member of Perth's kink and non-monogamy communities, Joel knows it from the inside. Even if what brings you here is entirely unrelated, nothing needs to be left at the door.",
+    statement: {
+      lineOne: "Known before you arrive.",
+      lineTwo: "Not learned as you go.",
     },
+    support:
+      "Kinky, non-monogamous, queer, or some mix of all three. As a member of Perth's kink and non-monogamy communities, Joel knows it from the inside. Even if what brings you here is entirely unrelated, nothing needs to be left at the door.",
     topics: [
       { label: "Kink & BDSM", href: "/inclusion/kink-bdsm" },
       { label: "ENM & Polyamory", href: "/inclusion/enm-polyamory" },
@@ -174,19 +176,18 @@ export default function InclusivePractice() {
   return (
     <main className="site-page inclusion-page">
       <FaqSchema faqs={faq.items} />
-      <section className="hero-section hero-bg--diagonal inclusion-hero">
-        <Container>
-          <div className="hero-top inclusion-hero__top">
-            <div className="inclusion-hero__intro">
+      <section className="hero-section inclusion-hero">
+        <Container className="inclusion-hero__shell">
+          <div className="hero-top inclusion-hero__poster">
+            <div className="inclusion-hero__headline-block">
               <h1 className="hero-display inclusion-hero__title">
-                {hero.title.before}
-                <em>{hero.title.emphasis}</em>
-                {hero.title.after}
+                <span className="inclusion-hero__title-line">{hero.title.lineOne}</span>
+                <span className="inclusion-hero__title-line">
+                  {hero.title.lineTwoBefore}
+                  <em>{hero.title.emphasis}</em>
+                  {hero.title.lineTwoAfter}
+                </span>
               </h1>
-              <div className="hero-deck inclusion-hero__lede">
-                <p className="hero-deck__lead">{hero.intro.lead}</p>
-                <p className="hero-deck__body">{hero.intro.body}</p>
-              </div>
             </div>
 
             <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
@@ -202,6 +203,14 @@ export default function InclusivePractice() {
                 ))}
               </div>
             </nav>
+          </div>
+
+          <div className="inclusion-hero__proof">
+            <p className="inclusion-hero__statement">
+              <span className="inclusion-hero__statement-line">{hero.statement.lineOne}</span>
+              <span className="inclusion-hero__statement-line">{hero.statement.lineTwo}</span>
+            </p>
+            <p className="inclusion-hero__support">{hero.support}</p>
           </div>
         </Container>
       </section>

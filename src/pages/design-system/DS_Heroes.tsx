@@ -49,7 +49,7 @@ const anatomyRows = [
   {
     zone: "Background",
     className: ".hero-bg--*",
-    desc: "A single modifier applied to the wrapper. Home, Working with Joel, and Inclusion all use .hero-bg--diagonal.",
+    desc: "A single modifier applied to the wrapper when the shared background treatment is enough. Home and Working with Joel use .hero-bg--diagonal; page-specific heroes can layer a stronger surface on the same shell.",
   },
   {
     zone: "Top zone",
@@ -74,7 +74,7 @@ const anatomyRows = [
   {
     zone: "Hero deck",
     className: ".hero-deck",
-    desc: "Two-level editorial support deck with a softer left rule, a lead sentence, and quieter body copy. Use when the intro needs internal hierarchy rather than one continuous paragraph.",
+    desc: "Two-level editorial support deck with a quiet left rule, a balanced lead sentence, and calmer body copy. Use when the intro needs internal hierarchy rather than one continuous paragraph.",
   },
   {
     zone: "Copy panel",
@@ -129,8 +129,8 @@ const backgroundTreatments = [
   {
     label: "Layered diagonal wash",
     className: "hero-bg--diagonal",
-    value: "layered radial + linear green wash",
-    use: "The canonical treatment used by Home, Approach, and Inclusion. Quiet depth without a visible graphic panel.",
+    value: "layered radial washes + soft diagonal light",
+    use: "The shared treatment used by Home and Working with Joel. It should feel like calm atmosphere, and page-level variables can bias it toward a more sage-led or paper-led editorial field without creating a hard split.",
   },
   {
     label: "Cedar top border",
@@ -162,7 +162,7 @@ export default function DS_Heroes() {
       <DevPageHero
         badge="Design system"
         title="Heroes"
-        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background treatments. The shared hero system is the canonical reference used by Home, Working with Joel, Inclusion, and the dev pages."
+        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background treatments. The shared hero system is the canonical reference used by Home, Working with Joel, Inclusion, and the dev pages, with page-specific surfaces layered in when the shared wash is not enough."
       />
 
       <div className="ds-layout">
@@ -287,7 +287,7 @@ export default function DS_Heroes() {
                   <td>
                     <code>.hero-section 40px top / .hero-top 40px bottom</code>
                   </td>
-                  <td>Keeps the opening field evenly spaced across Home, Working with Joel, and Inclusion.</td>
+                  <td>Sets the default opening field rhythm. Page-specific heroes can tighten or loosen it when the composition needs a stronger editorial lockup.</td>
                 </tr>
               </tbody>
             </table>
@@ -299,7 +299,8 @@ export default function DS_Heroes() {
               <h2>When the under-heading copy needs hierarchy inside itself.</h2>
               <p>
                 Use the deck when the first sentence should land as a hook rather than dissolving into the full
-                paragraph. It should feel editorial and deliberate, not like a quote box or a card.
+                paragraph. It should feel editorial and deliberate, not like a quote box or a card, and the lead
+                should stay poised rather than oversized.
               </p>
             </div>
 
@@ -429,7 +430,9 @@ export default function DS_Heroes() {
               <h2>Choose one field treatment per hero.</h2>
               <p>
                 Backgrounds should create atmosphere without becoming the subject. The diagonal treatment is the
-                starting point; the other options are controlled variations for future pages.
+                starting point, but it should read as a soft wash of light and paper rather than a visible wedge or
+                split-screen panel. Adjust it with variables when a page needs more sage weight on one side or a
+                lighter paper field on the other.
               </p>
             </div>
 

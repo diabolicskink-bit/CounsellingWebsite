@@ -16,8 +16,12 @@
   max-width: 720px;
 }
 
-.working-with-joel-page__hero-note {
-  align-self: center;
+.working-with-joel-page__approach-heading {
+  gap: 26px;
+}
+
+.working-with-joel-page__approach-note {
+  margin-top: 0;
 }
 
 .working-with-joel-page__approach .section-heading h2 {
@@ -107,10 +111,6 @@
 }
 
 @media (max-width: 900px) {
-  .working-with-joel-page__hero-note {
-    align-self: start;
-  }
-
   .working-with-joel-page__approach .section-heading h2 {
     max-width: none;
   }
