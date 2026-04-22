@@ -56,7 +56,7 @@ Prefer these shared building blocks before creating anything new.
 - `.site-form`
   Shared form shell; keep inputs aligned with existing field styling.
 - `.hero-section`, `.hero-top`, `.hero-display`, `.hero-copy-panel`
-  Shared public-page hero system.
+  Shared public-page hero design system. This is a separate authoritative shared subsystem alongside `site-*`, not a legacy variation.
 
 ## Design System Showcase Pages
 
