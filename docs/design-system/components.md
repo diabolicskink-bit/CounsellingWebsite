@@ -12,6 +12,8 @@ Prefer these shared building blocks before creating anything new.
   Use for generic card containment when the shared card shell is appropriate.
 - `src/components/SectionHeading.tsx`
   Use for repeated section heading structure.
+- `src/components/FaqSection.tsx`
+  Use for shared FAQ sections site-wide. Keep question-and-answer content data-driven at page level and pass it into this component.
 - `src/components/Layout.tsx`
   Preserve the existing site shell, navigation treatment, and compact footer structure.
 
@@ -59,7 +61,7 @@ Prefer these shared building blocks before creating anything new.
   Shared form shell; keep inputs aligned with existing field styling.
 - `.hero-intro`
   Shared intro paragraph for text-led heroes with longer opening copy. Use it under hero headings when the intro needs a controlled measure.
-- `.hero-section`, `.hero-top`, `.hero-display`, `.hero-copy-panel`
+- `.hero-section`, `.hero-top`, `.hero-display`, `.hero-copy-panel`, `.hero-deck`, `.hero-detail-stack`
   Shared public-page hero design system. This is a separate authoritative shared subsystem alongside `site-*`, not a legacy variation.
 
 ## Design System Showcase Pages

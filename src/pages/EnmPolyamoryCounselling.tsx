@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import FaqSection from "../components/FaqSection";
 import "../styles-enm-polyamory.css";
 
 const pageContent = {
@@ -125,28 +126,32 @@ const pageContent = {
     note:
       "You do not need a polished explanation before getting in touch. A brief, honest starting point is enough.",
   },
-  faqs: [
-    {
-      question: "Do I need to be coming for a poly or ENM issue?",
-      answer:
-        "No. You might be coming for anxiety, grief, shame, self-worth, burnout, conflict, attachment, or something harder to name. The point is that you should not have to hide or distort your relationship life in order to get proper help.",
-    },
-    {
-      question: "Do you assume monogamy is healthier or the goal?",
-      answer:
-        "No. I do not start from the assumption that monogamy is healthier, more mature, or the obvious answer. The work is about understanding what is happening for you rather than pushing you toward a predetermined structure.",
-    },
-    {
-      question: "What if I am not sure non-monogamy fits me?",
-      answer:
-        "That is a valid reason to come. Therapy can help you think about desire, pressure, fear, values, attachment, and capacity without pushing you toward or away from ENM before you have made sense of it.",
-    },
-    {
-      question: "Can I come alone if more than one relationship is involved?",
-      answer:
-        "Yes. Individual counselling can still be useful when a concern involves several partners, a wider relationship network, or strain across more than one bond.",
-    },
-  ],
+  faqSection: {
+    title: "Common questions before starting",
+    intro: "These are some of the things people often want to know before making first contact.",
+    items: [
+      {
+        question: "Do I need to be coming for a poly or ENM issue?",
+        answer:
+          "No. You might be coming for anxiety, grief, shame, self-worth, burnout, conflict, attachment, or something harder to name. The point is that you should not have to hide or distort your relationship life in order to get proper help.",
+      },
+      {
+        question: "Do you assume monogamy is healthier or the goal?",
+        answer:
+          "No. I do not start from the assumption that monogamy is healthier, more mature, or the obvious answer. The work is about understanding what is happening for you rather than pushing you toward a predetermined structure.",
+      },
+      {
+        question: "What if I am not sure non-monogamy fits me?",
+        answer:
+          "That is a valid reason to come. Therapy can help you think about desire, pressure, fear, values, attachment, and capacity without pushing you toward or away from ENM before you have made sense of it.",
+      },
+      {
+        question: "Can I come alone if more than one relationship is involved?",
+        answer:
+          "Yes. Individual counselling can still be useful when a concern involves several partners, a wider relationship network, or strain across more than one bond.",
+      },
+    ],
+  },
 };
 
 function FaqSchema() {
@@ -157,7 +162,7 @@ function FaqSchema() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: pageContent.faqs.map((faq) => ({
+          mainEntity: pageContent.faqSection.items.map((faq) => ({
             "@type": "Question",
             name: faq.question,
             acceptedAnswer: { "@type": "Answer", text: faq.answer },
@@ -318,34 +323,11 @@ export default function EnmPolyamoryCounselling() {
         </Container>
       </section>
 
-      <section className="site-grid site-faq-section enm-page__faq">
-        <Container>
-          <div className="site-faq-shell">
-            <div className="site-faq-shell__header">
-              <span className="site-eyebrow">Questions</span>
-              <h2>Common questions before starting</h2>
-              <p>These are some of the things people often want to know before making first contact.</p>
-            </div>
-
-            <div className="site-faq-list">
-              {pageContent.faqs.map((faq) => (
-                <details className="site-faq-item" key={faq.question}>
-                  <summary className="site-faq-question">
-                    <h3>{faq.question}</h3>
-                    <span className="site-faq-icon" aria-hidden="true">
-                      <span />
-                      <span />
-                    </span>
-                  </summary>
-                  <div className="site-faq-answer">
-                    <p>{faq.answer}</p>
-                  </div>
-                </details>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
+      <FaqSection
+        intro={pageContent.faqSection.intro}
+        items={pageContent.faqSection.items}
+        title={pageContent.faqSection.title}
+      />
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">

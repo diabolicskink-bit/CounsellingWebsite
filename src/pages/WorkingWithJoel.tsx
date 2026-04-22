@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Button from "../components/Button";
 import Container from "../components/Container";
 import "../styles-working-with-joel.css";
 
@@ -11,12 +10,10 @@ type EmphasisCopy = {
   after: string;
 };
 
-type FocusGroup = {
+type TopicItem = {
   title: string;
   body: string;
-  terms: string;
-  layoutClass: string;
-  toneClass?: string;
+  closing?: boolean;
 };
 
 type WorkingWithJoelPageContent = {
@@ -36,15 +33,10 @@ type WorkingWithJoelPageContent = {
     paragraphs: string[];
   };
   focus: {
+    eyebrow: string;
     title: string;
-    intro: string;
-    items: FocusGroup[];
-    closingTitle: string;
-    closingBody: string;
-    cta: {
-      label: string;
-      href: string;
-    };
+    intro?: string;
+    items: TopicItem[];
   };
 };
 
@@ -80,63 +72,61 @@ const pageContent: WorkingWithJoelPageContent = {
     ],
   },
   focus: {
-    title: "What people often bring",
-    intro:
-      "People rarely arrive with a neat label for what is going on. Sometimes it is obvious. Often it is not. You may only know that something keeps hurting, repeating, escalating, or wearing you down. These are some of the ways it can show up.",
+    eyebrow: "What I work with",
+    title: "Some of the issues I work with",
     items: [
       {
-        title: "When you are hard on yourself",
+        title: "Anxiety, panic & overwhelm",
         body:
-          "Shame, self-criticism, and perfectionism can show up as relentless standards, constant second-guessing, or the sense that one mistake says too much about who you are. It can sit behind apology, withdrawal, over-explaining, or never quite feeling at ease with yourself.",
-        terms: "Shame, self-criticism, perfectionism",
-        layoutClass: "working-with-joel-page__focus-card--wide-left",
-        toneClass: "working-with-joel-page__focus-card--soft",
+          "Worry, dread, overthinking, shutdown, physical tension, irritability, or feeling unable to switch off.",
       },
       {
-        title: "When relationships keep getting stuck",
+        title: "Depression & low mood",
         body:
-          "Closeness can become tangled with fear, conflict, pleasing, distance, mistrust, or the feeling that the same pattern keeps returning in different relationships. Sometimes the difficulty is obvious. Sometimes it only becomes visible afterwards.",
-        terms: "Relationships, attachment",
-        layoutClass: "working-with-joel-page__focus-card--narrow-right",
+          "Flatness, numbness, hopelessness, exhaustion, loss of interest, or not feeling much like yourself.",
       },
       {
-        title: "When your system stays on edge",
+        title: "Trauma & feeling unsafe",
         body:
-          "Anxiety and trauma do not always look dramatic. They can look like bracing, overthinking, shutdown, irritability, numbness, quick anger, or a body that never quite settles. The present can feel more charged than it ought to.",
-        terms: "Anxiety, trauma",
-        layoutClass: "working-with-joel-page__focus-card--half",
+          "Past experiences, abuse, dissociation, hypervigilance, numbness, or memories that still feel active.",
       },
       {
-        title: "When being different has been exhausting",
+        title: "Shame & self-criticism",
         body:
-          "Neurodivergence can sit beneath years of masking, burnout, self-doubt, and being misunderstood. The work is not about forcing you into someone else's shape. It is about understanding how you function, what has worn you down, and what might help life feel more workable.",
-        terms: "Neurodivergence",
-        layoutClass: "working-with-joel-page__focus-card--half",
-        toneClass: "working-with-joel-page__focus-card--soft",
+          "Feeling wrong, too much, not enough, exposed, constantly at fault, or unable to be at ease with yourself.",
       },
       {
-        title: "When desire or identity feel difficult to speak about safely",
+        title: "Perfectionism & control",
         body:
-          "Sexuality, kink, BDSM, fantasy, power, boundaries, shame, and pleasure can be hard to bring into therapy when you expect to be reduced, pathologised, or misunderstood. They should be able to be spoken about plainly, without becoming the whole explanation for who you are.",
-        terms: "Sexuality, kink and BDSM",
-        layoutClass: "working-with-joel-page__focus-card--narrow-left",
+          "High standards, fear of mistakes, procrastination, over-responsibility, or never being able to rest.",
       },
       {
-        title: "When relationships do not fit the usual script",
+        title: "Relationships & attachment",
         body:
-          "Polyamory and ENM can bring ordinary relationship pain in a less ordinary structure: agreements, jealousy, comparison, hierarchy, repair, disclosure, breakups, and the strain of having the structure treated as the problem.",
-        terms: "Polyamory, ENM",
-        layoutClass: "working-with-joel-page__focus-card--wide-right",
-        toneClass: "working-with-joel-page__focus-card--soft",
+          "Conflict, distance, jealousy, trust, people-pleasing, fear of closeness, or repeating the same painful pattern.",
+      },
+      {
+        title: "Sex, intimacy & desire",
+        body:
+          "Desire, avoidance, shame, boundaries, sexual confidence, intimacy, or things that feel hard to say out loud.",
+      },
+      {
+        title: "Kink & BDSM",
+        body:
+          "Power exchange, dynamics, consent, shame, conflict, secrecy, or kink as one part of ordinary life.",
+      },
+      {
+        title: "Polyamory & ENM",
+        body:
+          "Agreements, jealousy, comparison, disclosure, boundaries, repair, breakups, or relationship strain.",
+      },
+      {
+        title: "Something harder to name",
+        body:
+          "When something keeps hurting, repeating, escalating, or wearing you down, even without a clear category.",
+        closing: true,
       },
     ],
-    closingTitle: "These things often overlap.",
-    closingBody:
-      "You do not need the right label before getting in touch. A first enquiry can be simple. Start with what is happening, what feels difficult, or what keeps repeating. We can work out the shape of it together.",
-    cta: {
-      label: "Get in touch",
-      href: "/contact",
-    },
   },
 };
 
@@ -202,48 +192,33 @@ export default function WorkingWithJoel() {
         </Container>
       </section>
 
-      <section className="site-grid working-with-joel-page__focus" aria-labelledby="working-with-joel-focus-title">
-        <Container className="working-with-joel-page__focus-wrap">
-          <div className="working-with-joel-page__focus-intro">
-            <div className="working-with-joel-page__focus-heading">
-              <h2 id="working-with-joel-focus-title">{focus.title}</h2>
-            </div>
-
-            <div className="working-with-joel-page__focus-copy">
-              <p className="section-heading__copy">{focus.intro}</p>
-            </div>
+      <section
+        className="working-with-joel-page__focus working-topics"
+        aria-labelledby="working-with-joel-focus-title"
+      >
+        <Container>
+          <div className="site-grid__heading working-topics__header">
+            <span className="site-eyebrow">{focus.eyebrow}</span>
+            <h2 id="working-with-joel-focus-title">{focus.title}</h2>
+            {focus.intro ? <p className="section-heading__copy">{focus.intro}</p> : null}
           </div>
 
-          <div className="working-with-joel-page__focus-grid" aria-label="Examples of what people bring to counselling">
-            {focus.items.map((item) => (
-              <article
-                className={[
-                  "working-with-joel-page__focus-card",
-                  item.layoutClass,
-                  item.toneClass,
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-                key={item.title}
-              >
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-                <p className="working-with-joel-page__focus-terms">
-                  <span>Can include</span> {item.terms}
-                </p>
-              </article>
-            ))}
-          </div>
-
-          <div className="working-with-joel-page__focus-bridge">
-            <div className="working-with-joel-page__focus-bridge-copy">
-              <h3>{focus.closingTitle}</h3>
-              <p>{focus.closingBody}</p>
+          <div className="working-topics__panel">
+            <div className="working-topics__grid" aria-label="Examples of what people bring to counselling">
+              {focus.items.map((item) => (
+                <article
+                  key={item.title}
+                  className={
+                    item.closing
+                      ? "working-topics__item working-topics__item--closing"
+                      : "working-topics__item"
+                  }
+                >
+                  <h3 className="working-topics__item-title">{item.title}</h3>
+                  <p className="working-topics__item-body">{item.body}</p>
+                </article>
+              ))}
             </div>
-
-            <Button href={focus.cta.href} variant="primary" className="working-with-joel-page__focus-button">
-              {focus.cta.label}
-            </Button>
           </div>
         </Container>
       </section>

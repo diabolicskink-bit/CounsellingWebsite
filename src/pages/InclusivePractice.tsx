@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import Container from "../components/Container";
 import Button from "../components/Button";
+import FaqSection from "../components/FaqSection";
 
 type EmphasisCopy = {
   before: string;
@@ -28,8 +30,14 @@ type InclusionPageContent = {
   meta: string;
   hero: {
     title: EmphasisCopy;
-    intro: string;
-    topics: string[];
+    intro: {
+      lead: string;
+      body: string;
+    };
+    topics: {
+      label: string;
+      href: string;
+    }[];
   };
   hub: {
     panels: InclusionPanel[];
@@ -50,9 +58,16 @@ const inclusionPageContent: InclusionPageContent = {
       emphasis: "diverse lives",
       after: ".",
     },
-    intro:
-      "Kinky, non-monogamous, queer, or some mix of all three. That territory needs to be known before you arrive, not learned as you go. As a member of Perth's kink and non-monogamy communities, Joel knows it from the inside. Even if what brings you here is entirely unrelated, nothing needs to be left at the door.",
-    topics: ["Kink & BDSM", "ENM & Polyamory", "LGBTQIA+"],
+    intro: {
+      lead: "Kinky, non-monogamous, queer, or some mix of all three.",
+      body:
+        "That territory needs to be known before you arrive, not learned as you go. As a member of Perth's kink and non-monogamy communities, Joel knows it from the inside. Even if what brings you here is entirely unrelated, nothing needs to be left at the door.",
+    },
+    topics: [
+      { label: "Kink & BDSM", href: "/inclusion/kink-bdsm" },
+      { label: "ENM & Polyamory", href: "/inclusion/enm-polyamory" },
+      { label: "LGBTQIA+", href: "/inclusion/lgbtqia" },
+    ],
   },
   hub: {
     panels: [
@@ -168,18 +183,25 @@ export default function InclusivePractice() {
                 <em>{hero.title.emphasis}</em>
                 {hero.title.after}
               </h1>
-              <p className="hero-copy-panel inclusion-hero__lede">{hero.intro}</p>
+              <div className="hero-deck inclusion-hero__lede">
+                <p className="hero-deck__lead">{hero.intro.lead}</p>
+                <p className="hero-deck__body">{hero.intro.body}</p>
+              </div>
             </div>
 
-            <aside className="inclusion-hero__details" aria-label="Inclusive counselling topics">
+            <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
               <div className="hero-detail-stack inclusion-hero__detail-stack">
                 {hero.topics.map((item) => (
-                  <p className="hero-detail-stack__item inclusion-hero__detail-item" key={item}>
-                    {item}
-                  </p>
+                  <Link
+                    className="hero-detail-stack__item hero-detail-stack__link inclusion-hero__detail-item"
+                    key={item.label}
+                    to={item.href}
+                  >
+                    <span className="hero-detail-stack__label">{item.label}</span>
+                  </Link>
                 ))}
               </div>
-            </aside>
+            </nav>
           </div>
         </Container>
       </section>
@@ -221,31 +243,7 @@ export default function InclusivePractice() {
         </Container>
       </section>
 
-      <section className="site-grid site-faq-section">
-        <Container>
-          <div className="site-faq-shell">
-            <div className="site-faq-shell__header">
-              <h2>{faq.heading}</h2>
-            </div>
-            <div className="site-faq-list">
-              {faq.items.map((item) => (
-                <details className="site-faq-item" key={item.question}>
-                  <summary className="site-faq-question">
-                    <h3>{item.question}</h3>
-                    <span className="site-faq-icon" aria-hidden="true">
-                      <span />
-                      <span />
-                    </span>
-                  </summary>
-                  <div className="site-faq-answer">
-                    <p>{item.answer}</p>
-                  </div>
-                </details>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
+      <FaqSection items={faq.items} title={faq.heading} />
     </main>
   );
 }

@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import FaqSection from "../components/FaqSection";
 import "../styles-kink-bdsm.css";
 
 type BreadcrumbItem = {
@@ -18,6 +19,12 @@ type PrimaryAction = {
 type TextLink = {
   label: string;
   href: string;
+};
+
+type EmphasisCopy = {
+  before: string;
+  emphasis: string;
+  after: string;
 };
 
 type TopicCard = {
@@ -41,16 +48,6 @@ type FaqItem = {
   answer: string;
 };
 
-type HeroPanelItem = {
-  label: string;
-  text: string;
-};
-
-type HeroRailItem = {
-  title: string;
-  text: string;
-};
-
 type KinkPageContent = {
   title: string;
   meta: string;
@@ -58,15 +55,12 @@ type KinkPageContent = {
     breadcrumb: BreadcrumbItem[];
     eyebrow: string;
     title: string;
-    deck: string;
-    body: string;
+    intro: string;
     primaryAction: PrimaryAction;
     secondaryAction: TextLink;
-    metaItems: string[];
-    panelHeading: string;
-    panelItems: HeroPanelItem[];
-    panelNote: string;
-    railItems: HeroRailItem[];
+    trustItems: string[];
+    noteEyebrow: string;
+    noteItems: string[];
   };
   topicSection: {
     eyebrow: string;
@@ -120,12 +114,10 @@ const kinkPageContent: KinkPageContent = {
       { label: "Inclusive practice", href: "/inclusion" },
       { label: "Kink & BDSM" },
     ],
-    eyebrow: "Kink-aware counselling",
-    title: "Kink & BDSM-aware counselling",
-    deck:
-      "You should not have to hide, defend, or over-explain this part of your life to get proper therapy.",
-    body:
-      "Many people are looking for ordinary counselling for anxiety, shame, trauma, relationship strain, self-worth, burnout, or something harder to untangle. What matters is being able to speak plainly about your life without kink being treated as proof that something is wrong, or made into the explanation for everything.",
+    eyebrow: "Kink & BDSM-aware counselling",
+    title: "Ordinary therapy where kink will not be mishandled.",
+    intro:
+      "You might be coming for anxiety, grief, shame, trauma, burnout, or relationship strain. What matters is being able to mention kink plainly without it being treated as pathology, danger, or the explanation for everything else.",
     primaryAction: {
       label: "Make an enquiry",
       href: "/contact",
@@ -134,40 +126,16 @@ const kinkPageContent: KinkPageContent = {
       label: "Working with Joel",
       href: "/working-with-joel",
     },
-    metaItems: [
+    trustItems: [
       "For adults",
-      "Online across Australia",
       "Perth-based",
+      "Online across Australia",
     ],
-    panelHeading: "What this means here",
-    panelItems: [
-      {
-        label: "No need for a kink-specific crisis",
-        text: "You can come for ordinary counselling.",
-      },
-      {
-        label: "No need to manage assumptions",
-        text: "You do not have to educate the room before the real work can begin.",
-      },
-      {
-        label: "No need for kink to become the whole story",
-        text: "If it matters, we can talk about it directly. If it does not, it does not have to take over.",
-      },
-    ],
-    panelNote: "The real issue can stay central.",
-    railItems: [
-      {
-        title: "Ordinary counselling",
-        text: "Not over-scrutiny.",
-      },
-      {
-        title: "Kink can be context",
-        text: "Not the default explanation.",
-      },
-      {
-        title: "Grounded and non-shaming",
-        text: "Clear, direct, and serious.",
-      },
+    noteEyebrow: "What this changes",
+    noteItems: [
+      "No need for a kink-specific problem.",
+      "No need to explain the basics.",
+      "No need for the real issue to get lost.",
     ],
   },
   topicSection: {
@@ -349,8 +317,8 @@ export default function KinkBdsmCounselling() {
     <main className="site-page kink-page">
       <FaqSchema faqs={faqSection.items} />
 
-      <section className="kink-hero">
-        <Container className="kink-hero__inner">
+      <section className="kink-page__hero">
+        <Container className="kink-page__hero-inner">
           <nav className="breadcrumb" aria-label="Breadcrumb">
             {hero.breadcrumb.map((item) =>
               item.href ? (
@@ -363,50 +331,36 @@ export default function KinkBdsmCounselling() {
             )}
           </nav>
 
-          <div className="kink-hero__grid">
-            <div className="kink-hero__content">
-              <p className="kink-hero__eyebrow">{hero.eyebrow}</p>
-              <h1 className="hero-display kink-hero__title">{hero.title}</h1>
-              <p className="kink-hero__deck">{hero.deck}</p>
-              <p className="kink-hero__body">{hero.body}</p>
+          <div className="kink-page__hero-main">
+            <div className="kink-page__hero-copy">
+              <p className="kink-page__hero-eyebrow">{hero.eyebrow}</p>
+              <h1 className="hero-display kink-page__hero-title">{hero.title}</h1>
+              <p className="kink-page__hero-intro">{hero.intro}</p>
 
-              <div className="kink-hero__actions">
+              <div className="kink-page__hero-actions">
                 <Button href={hero.primaryAction.href}>{hero.primaryAction.label}</Button>
-                <Link className="site-text-link kink-hero__text-link" to={hero.secondaryAction.href}>
+                <Link className="site-text-link kink-page__hero-text-link" to={hero.secondaryAction.href}>
                   {hero.secondaryAction.label} <ArrowRight size={16} />
                 </Link>
               </div>
 
-              <ul className="kink-hero__meta" aria-label="Practice details">
-                {hero.metaItems.map((item) => (
+              <ul className="kink-page__hero-trust" aria-label="Practice details">
+                {hero.trustItems.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </div>
 
-            <aside className="kink-hero__panel" aria-label="What this means here">
-              <h2 className="kink-hero__panel-heading">{hero.panelHeading}</h2>
-
-              <div className="kink-hero__panel-list">
-                {hero.panelItems.map((item) => (
-                  <div className="kink-hero__panel-item" key={item.label}>
-                    <span className="kink-hero__panel-label">{item.label}</span>
-                    <p className="kink-hero__panel-text">{item.text}</p>
-                  </div>
+            <aside className="kink-page__hero-note" aria-label="What this changes">
+              <p className="kink-page__hero-note-eyebrow">{hero.noteEyebrow}</p>
+              <div className="kink-page__hero-note-list">
+                {hero.noteItems.map((item) => (
+                  <p className="kink-page__hero-note-item" key={item}>
+                    {item}
+                  </p>
                 ))}
               </div>
-
-              <p className="kink-hero__panel-note">{hero.panelNote}</p>
             </aside>
-          </div>
-
-          <div className="kink-hero__rail" aria-label="Key points">
-            {hero.railItems.map((item) => (
-              <article className="kink-hero__rail-item" key={item.title}>
-                <h3 className="kink-hero__rail-title">{item.title}</h3>
-                <p className="kink-hero__rail-text">{item.text}</p>
-              </article>
-            ))}
           </div>
         </Container>
       </section>
@@ -513,34 +467,7 @@ export default function KinkBdsmCounselling() {
         </Container>
       </section>
 
-      <section className="site-grid site-faq-section kink-page__faq">
-        <Container>
-          <div className="site-faq-shell">
-            <div className="site-faq-shell__header">
-              <span className="site-eyebrow">{faqSection.eyebrow}</span>
-              <h2>{faqSection.heading}</h2>
-              <p>{faqSection.intro}</p>
-            </div>
-
-            <div className="site-faq-list">
-              {faqSection.items.map((faq) => (
-                <details className="site-faq-item" key={faq.question}>
-                  <summary className="site-faq-question">
-                    <h3>{faq.question}</h3>
-                    <span className="site-faq-icon" aria-hidden="true">
-                      <span />
-                      <span />
-                    </span>
-                  </summary>
-                  <div className="site-faq-answer">
-                    <p>{faq.answer}</p>
-                  </div>
-                </details>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
+      <FaqSection intro={faqSection.intro} items={faqSection.items} title={faqSection.heading} />
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">

@@ -34,6 +34,12 @@ const demoHeroDetailStackItems = [
   "LGBTQIA+",
 ];
 
+const demoHeroDeck = {
+  lead: "Kinky, non-monogamous, queer, or some mix of all three.",
+  body:
+    "Use the deck when the first sentence should do more than introduce the paragraph. Give the opening line its own weight, then let the body carry the fuller explanation in a quieter voice.",
+};
+
 const anatomyRows = [
   {
     zone: "Wrapper",
@@ -66,6 +72,11 @@ const anatomyRows = [
     desc: "Measured introductory copy for text-led heroes. Use it when the opening paragraph needs a readable line length under the heading.",
   },
   {
+    zone: "Hero deck",
+    className: ".hero-deck",
+    desc: "Two-level editorial support deck with a softer left rule, a lead sentence, and quieter body copy. Use when the intro needs internal hierarchy rather than one continuous paragraph.",
+  },
+  {
     zone: "Copy panel",
     className: ".hero-copy-panel",
     desc: "Support copy rail with a cedar left rule. It can be a simple paragraph or a richer panel with badge, body copy, and actions.",
@@ -88,7 +99,7 @@ const anatomyRows = [
   {
     zone: "Detail stack",
     className: ".hero-detail-stack",
-    desc: "Open typographic stack for a few short supporting themes when a hero needs emphasis without adding a card or strip. Used on the Inclusion page.",
+    desc: "Open typographic stack for a few short supporting themes when a hero needs emphasis without adding a card or strip. Add .hero-detail-stack__link when the items should act as quiet pathways.",
   },
   {
     zone: "Principles strip",
@@ -116,10 +127,10 @@ const backgroundTreatments = [
     use: "A soft green field when the hero needs a little more separation from the page body.",
   },
   {
-    label: "Diagonal gradient",
+    label: "Layered diagonal wash",
     className: "hero-bg--diagonal",
-    value: "#d0dbc9 to var(--paper)",
-    use: "The canonical treatment used by Home, Approach, and Inclusion. Quiet depth without added decoration.",
+    value: "layered radial + linear green wash",
+    use: "The canonical treatment used by Home, Approach, and Inclusion. Quiet depth without a visible graphic panel.",
   },
   {
     label: "Cedar top border",
@@ -280,6 +291,27 @@ export default function DS_Heroes() {
                 </tr>
               </tbody>
             </table>
+          </section>
+
+          <section className="ds-section" id="hero-deck">
+            <div className="ds-section-heading">
+              <span className="site-eyebrow">Hero Deck</span>
+              <h2>When the under-heading copy needs hierarchy inside itself.</h2>
+              <p>
+                Use the deck when the first sentence should land as a hook rather than dissolving into the full
+                paragraph. It should feel editorial and deliberate, not like a quote box or a card.
+              </p>
+            </div>
+
+            <div className="ds-hero-demo">
+              <div className="ds-hero-demo__label">Live sample: .hero-deck</div>
+              <div className="ds-hero-demo__body hero-bg--paper">
+                <div className="hero-deck ds-hero-demo__copy-panel" style={{ marginTop: 0 }}>
+                  <p className="hero-deck__lead">{demoHeroDeck.lead}</p>
+                  <p className="hero-deck__body">{demoHeroDeck.body}</p>
+                </div>
+              </div>
+            </div>
           </section>
 
           <section className="ds-section" id="copy-panel">
