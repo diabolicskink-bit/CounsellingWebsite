@@ -51,8 +51,6 @@
 .kink-page__hero-title {
   max-width: 10ch;
   margin: 0;
-  font-size: clamp(3.4rem, 5.8vw, 5.4rem);
-  line-height: 0.98;
   text-wrap: balance;
 }
 

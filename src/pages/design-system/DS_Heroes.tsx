@@ -49,7 +49,7 @@ const anatomyRows = [
   {
     zone: "Background",
     className: ".hero-bg--*",
-    desc: "A single modifier applied to the wrapper when the shared background treatment is enough. Home and Working with Joel use .hero-bg--diagonal; page-specific heroes can layer a stronger surface on the same shell.",
+    desc: "A single modifier applied to the wrapper when the shared background treatment is enough. The public hero system now shares one calm paper-and-sage surface via .hero-bg--diagonal, with page-level classes reserved for layout and content rather than alternate hero skins.",
   },
   {
     zone: "Top zone",
@@ -64,7 +64,7 @@ const anatomyRows = [
   {
     zone: "Display heading",
     className: ".hero-display",
-    desc: "Large serif display type. Use h1 in production. The shared line-height keeps longer multi-line titles readable without losing editorial compression.",
+    desc: "Large serif display type. Use h1 in production. The shared rule owns the type styling, while page-level classes should set max-width or line breaks when a hero needs a specific measure.",
   },
   {
     zone: "Intro paragraph",
@@ -127,10 +127,10 @@ const backgroundTreatments = [
     use: "A soft green field when the hero needs a little more separation from the page body.",
   },
   {
-    label: "Layered diagonal wash",
+    label: "Editorial paper wash",
     className: "hero-bg--diagonal",
-    value: "layered radial washes + soft diagonal light",
-    use: "The shared treatment used by Home and Working with Joel. It should feel like calm atmosphere, and page-level variables can bias it toward a more sage-led or paper-led editorial field without creating a hard split.",
+    value: "layered radial washes + paper gradient",
+    use: "The shared treatment used across public heroes. The class name is retained for continuity, but the surface is now a continuous paper-and-sage field with soft depth rather than a visible split or graphic diagonal.",
   },
   {
     label: "Cedar top border",
@@ -162,7 +162,7 @@ export default function DS_Heroes() {
       <DevPageHero
         badge="Design system"
         title="Heroes"
-        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background treatments. The shared hero system is the canonical reference used by Home, Working with Joel, Inclusion, and the dev pages, with page-specific surfaces layered in when the shared wash is not enough."
+        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background treatments. The shared hero system is the canonical reference used across the site, with one continuous paper-and-sage hero surface reused before any page-specific layout refinements."
       />
 
       <div className="ds-layout">

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import "../styles-inclusive-practice.css";
 import Container from "../components/Container";
 import Button from "../components/Button";
 import FaqSection from "../components/FaqSection";
@@ -176,7 +177,7 @@ export default function InclusivePractice() {
   return (
     <main className="site-page inclusion-page">
       <FaqSchema faqs={faq.items} />
-      <section className="hero-section inclusion-hero">
+      <section className="hero-section hero-bg--diagonal inclusion-hero">
         <div className="inclusion-hero__masthead">
           <Container>
             <div className="hero-top inclusion-hero__top">
