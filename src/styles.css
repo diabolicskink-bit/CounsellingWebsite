@@ -4126,11 +4126,9 @@ p {
   margin: 0;
 }
 
-/* â”€â”€ Background treatments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â”€â”€ Background treatment â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
-.hero-bg--paper        { background: var(--paper); }
-.hero-bg--surface      { background: var(--surface); }
-.hero-bg--diagonal {
+.hero-bg--default {
   position: relative;
   isolation: isolate;
   overflow: clip;
@@ -4163,7 +4161,7 @@ p {
   border-bottom: 1px solid rgba(34, 62, 47, 0.16);
 }
 
-.hero-bg--diagonal::before {
+.hero-bg--default::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -4182,7 +4180,7 @@ p {
     );
 }
 
-.hero-bg--diagonal::after {
+.hero-bg--default::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -4196,9 +4194,6 @@ p {
       rgba(236, 242, 232, 0.18) 100%
     );
 }
-.hero-bg--cedar-border { background: var(--paper); border-top: 5px solid var(--cedar); }
-.hero-bg--cedar-soft   { background: var(--cedar-soft); }
-.hero-bg--fade         { background: linear-gradient(to bottom, var(--surface) 0%, var(--paper) 100%); }
 
 /* â”€â”€ DS page demo wrappers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
@@ -4318,7 +4313,7 @@ p {
 @media (max-width: 900px) {
   .hero-display { font-size: 2.85rem; }
 
-  .hero-bg--diagonal {
+  .hero-bg--default {
     background:
       radial-gradient(
         760px 420px at 14% 18%,
@@ -4334,7 +4329,7 @@ p {
       );
   }
 
-  .hero-bg--diagonal::before {
+  .hero-bg--default::before {
     background:
       radial-gradient(
         520px 280px at 50% 0%,
@@ -4343,7 +4338,7 @@ p {
       );
   }
 
-  .hero-bg--diagonal::after {
+  .hero-bg--default::after {
     background:
       linear-gradient(
         180deg,

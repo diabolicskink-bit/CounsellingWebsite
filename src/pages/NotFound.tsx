@@ -10,7 +10,7 @@ export default function NotFound() {
 
   return (
     <main className="site-page">
-      <section className="hero-section hero-bg--cedar-soft">
+      <section className="hero-section hero-bg--default">
         <Container>
           <div className="hero-top">
             <div>

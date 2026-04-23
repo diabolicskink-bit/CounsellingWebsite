@@ -187,7 +187,7 @@ export default function EnmPolyamoryCounselling() {
     <main className="site-page enm-page">
       <FaqSchema />
 
-      <section className="hero-section hero-bg--diagonal enm-page__hero">
+      <section className="hero-section hero-bg--default enm-page__hero">
         <Container>
           <div className="hero-top enm-page__hero-top">
             <div className="enm-page__hero-copy">

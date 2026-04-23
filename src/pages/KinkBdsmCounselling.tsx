@@ -317,7 +317,7 @@ export default function KinkBdsmCounselling() {
     <main className="site-page kink-page">
       <FaqSchema faqs={faqSection.items} />
 
-      <section className="kink-page__hero">
+      <section className="hero-section hero-bg--default kink-page__hero">
         <Container className="kink-page__hero-inner">
           <nav className="breadcrumb" aria-label="Breadcrumb">
             {hero.breadcrumb.map((item) =>

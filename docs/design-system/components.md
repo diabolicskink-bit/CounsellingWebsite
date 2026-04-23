@@ -61,8 +61,8 @@ Prefer these shared building blocks before creating anything new.
   Shared form shell; keep inputs aligned with existing field styling.
 - `.hero-intro`
   Shared intro paragraph for text-led heroes with longer opening copy. Use it under hero headings when the intro needs a controlled measure.
-- `.hero-bg--diagonal`
-  Shared continuous paper-and-sage hero surface. The class name is retained for continuity, but the treatment should read as one calm editorial field with soft depth rather than a visible wedge or split panel.
+- `.hero-bg--default`
+  Shared continuous paper-and-sage hero surface. This is the one shared hero background in the system, and it should read as one calm editorial field with soft depth rather than a visible shape or alternate skin.
 - `.hero-section`, `.hero-top`, `.hero-display`, `.hero-copy-panel`, `.hero-deck`, `.hero-detail-stack`
   Shared public-page hero design system. This is a separate authoritative shared subsystem alongside `site-*`, not a legacy variation.
 

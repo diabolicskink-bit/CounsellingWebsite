@@ -6,7 +6,7 @@ import DevPageHero from "../components/DevPageHero";
 
 const cleanupNotes = [
   "The approach hero background candidates have been retired now that the shared hero system is established.",
-  "Shared hero spacing, display type scale, and background treatments now live in the design system rather than this test route.",
+  "Shared hero spacing, display type scale, and the default hero background now live in the design system rather than this test route.",
   "This page remains as a lightweight Opus workspace so future experiments can start cleanly instead of inheriting old candidate code.",
 ];
 

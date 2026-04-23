@@ -177,7 +177,7 @@ export default function InclusivePractice() {
   return (
     <main className="site-page inclusion-page">
       <FaqSchema faqs={faq.items} />
-      <section className="hero-section hero-bg--diagonal inclusion-hero">
+      <section className="hero-section hero-bg--default inclusion-hero">
         <div className="inclusion-hero__masthead">
           <Container>
             <div className="hero-top inclusion-hero__top">

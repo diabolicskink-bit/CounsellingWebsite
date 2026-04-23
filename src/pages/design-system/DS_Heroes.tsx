@@ -48,8 +48,8 @@ const anatomyRows = [
   },
   {
     zone: "Background",
-    className: ".hero-bg--*",
-    desc: "A single modifier applied to the wrapper when the shared background treatment is enough. The public hero system now shares one calm paper-and-sage surface via .hero-bg--diagonal, with page-level classes reserved for layout and content rather than alternate hero skins.",
+    className: ".hero-bg--default",
+    desc: "The one shared hero background for public pages. It creates a calm paper-and-sage field with soft depth, while page-level classes stay focused on layout and content rather than alternate hero skins.",
   },
   {
     zone: "Top zone",
@@ -115,40 +115,10 @@ const anatomyRows = [
 
 const backgroundTreatments = [
   {
-    label: "Paper",
-    className: "hero-bg--paper",
-    value: "var(--paper)",
-    use: "A neutral page canvas when the hero should feel completely settled into the page. Available for future pages.",
-  },
-  {
-    label: "Surface tint",
-    className: "hero-bg--surface",
-    value: "var(--surface)",
-    use: "A soft green field when the hero needs a little more separation from the page body.",
-  },
-  {
-    label: "Editorial paper wash",
-    className: "hero-bg--diagonal",
+    label: "Default hero surface",
+    className: "hero-bg--default",
     value: "layered radial washes + paper gradient",
-    use: "The shared treatment used across public heroes. The class name is retained for continuity, but the surface is now a continuous paper-and-sage field with soft depth rather than a visible split or graphic diagonal.",
-  },
-  {
-    label: "Cedar top border",
-    className: "hero-bg--cedar-border",
-    value: "var(--paper) with a cedar top rule",
-    use: "A stronger editorial start for pages that need more authority. Reserved for future pages.",
-  },
-  {
-    label: "Cedar soft",
-    className: "hero-bg--cedar-soft",
-    value: "var(--cedar-soft)",
-    use: "A warmer green surface for pages where cedar emphasis should feel especially integrated.",
-  },
-  {
-    label: "Vertical fade",
-    className: "hero-bg--fade",
-    value: "var(--surface) to var(--paper)",
-    use: "The lightest depth treatment, useful when the next section should feel continuous.",
+    use: "The single shared background used across public heroes and hero demos. It should read as one calm editorial field with soft depth, not as a visible shape or alternate skin.",
   },
 ];
 
@@ -162,7 +132,7 @@ export default function DS_Heroes() {
       <DevPageHero
         badge="Design system"
         title="Heroes"
-        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background treatments. The shared hero system is the canonical reference used across the site, with one continuous paper-and-sage hero surface reused before any page-specific layout refinements."
+        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and one calm shared background surface. The shared hero system is the canonical reference used across the site, with a continuous paper-and-sage hero field reused before any page-specific layout refinements."
       />
 
       <div className="ds-layout">
@@ -217,7 +187,7 @@ export default function DS_Heroes() {
 
             <div className="ds-hero-demo">
               <div className="ds-hero-demo__label">Live sample: .hero-display</div>
-              <div className="ds-hero-demo__body hero-bg--paper">
+              <div className="ds-hero-demo__body hero-bg--default">
                 <h2 className="hero-display">
                   Working with
                   <br />
@@ -230,7 +200,7 @@ export default function DS_Heroes() {
 
             <div className="ds-hero-demo" style={{ marginTop: "20px" }}>
               <div className="ds-hero-demo__label">Live sample: .hero-intro</div>
-              <div className="ds-hero-demo__body hero-bg--paper">
+              <div className="ds-hero-demo__body hero-bg--default">
                 <p className="hero-intro">
                   Longer hero introductions should stay calm and readable, especially when the heading already takes up
                   several lines. Keep the measure controlled and let the opening paragraph do quiet orienting work.
@@ -306,7 +276,7 @@ export default function DS_Heroes() {
 
             <div className="ds-hero-demo">
               <div className="ds-hero-demo__label">Live sample: .hero-deck</div>
-              <div className="ds-hero-demo__body hero-bg--paper">
+              <div className="ds-hero-demo__body hero-bg--default">
                 <div className="hero-deck ds-hero-demo__copy-panel" style={{ marginTop: 0 }}>
                   <p className="hero-deck__lead">{demoHeroDeck.lead}</p>
                   <p className="hero-deck__body">{demoHeroDeck.body}</p>
@@ -327,7 +297,7 @@ export default function DS_Heroes() {
 
             <div className="ds-hero-demo">
               <div className="ds-hero-demo__label">Live sample: .hero-copy-panel</div>
-              <div className="ds-hero-demo__body hero-bg--paper">
+              <div className="ds-hero-demo__body hero-bg--default">
                 <div className="hero-copy-panel ds-hero-demo__copy-panel">
                   <span className="hero-badge">Inclusive counselling</span>
                   <p>
@@ -346,7 +316,7 @@ export default function DS_Heroes() {
 
             <div className="ds-hero-demo">
               <div className="ds-hero-demo__label">Live sample: .hero-support-tagline + .hero-media-note</div>
-              <div className="ds-hero-demo__body hero-bg--paper">
+              <div className="ds-hero-demo__body hero-bg--default">
                 <div className="hero-top hero-top--supporting-media" style={{ paddingBottom: 0 }}>
                   <div className="hero-copy-panel ds-hero-demo__copy-panel">
                     <p>
@@ -385,7 +355,7 @@ export default function DS_Heroes() {
 
             <div className="ds-hero-demo">
               <div className="ds-hero-demo__label">Live sample: .hero-principles-strip</div>
-              <div className="ds-hero-demo__body hero-bg--paper">
+              <div className="ds-hero-demo__body hero-bg--default">
                 <div className="hero-principles-strip">
                   {demoPrinciples.map((principle) => (
                     <div className="hero-principle-item" key={principle.title}>
@@ -410,7 +380,7 @@ export default function DS_Heroes() {
 
             <div className="ds-hero-demo">
               <div className="ds-hero-demo__label">Live sample: .hero-detail-stack</div>
-              <div className="ds-hero-demo__body hero-bg--paper">
+              <div className="ds-hero-demo__body hero-bg--default">
                 <div style={{ display: "grid", justifyContent: "end" }}>
                   <div className="hero-detail-stack" style={{ maxWidth: "388px" }}>
                     {demoHeroDetailStackItems.map((item) => (
@@ -426,13 +396,11 @@ export default function DS_Heroes() {
 
           <section className="ds-section" id="backgrounds">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Backgrounds</span>
-              <h2>Choose one field treatment per hero.</h2>
+              <span className="site-eyebrow">Background</span>
+              <h2>The one shared surface used across public heroes.</h2>
               <p>
-                Backgrounds should create atmosphere without becoming the subject. The diagonal treatment is the
-                starting point, but it should read as a soft wash of light and paper rather than a visible wedge or
-                split-screen panel. Adjust it with variables when a page needs more sage weight on one side or a
-                lighter paper field on the other.
+                The hero background should create atmosphere without becoming the subject. It should read as one soft
+                field of paper and sage light, not as a visible wedge, split panel, or alternate theme.
               </p>
             </div>
 
@@ -484,7 +452,7 @@ export default function DS_Heroes() {
 
             <div className="ds-hero-demo">
               <div className="ds-hero-demo__label">Live sample: full shared hero</div>
-              <section className="hero-section hero-bg--diagonal" style={{ borderBottom: "none" }}>
+              <section className="hero-section hero-bg--default" style={{ borderBottom: "none" }}>
                 <Container>
                   <div className="hero-top">
                     <h2 className="hero-display">

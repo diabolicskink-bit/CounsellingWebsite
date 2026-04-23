@@ -115,7 +115,7 @@ export default function LgbtqiaCounselling() {
     <main className="site-page inclusion-page lgbtqia-page">
       <FaqSchema faqs={faqSection.items} />
 
-      <section className="hero-section hero-bg--diagonal lgbtqia-page__hero">
+      <section className="hero-section hero-bg--default lgbtqia-page__hero">
         <Container>
           <div className="hero-top">
             <div className="lgbtqia-page__hero-heading">

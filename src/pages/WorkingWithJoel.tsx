@@ -144,7 +144,7 @@ export default function WorkingWithJoel() {
 
   return (
     <main className="site-page working-with-joel-page">
-      <section className="hero-section hero-bg--diagonal">
+      <section className="hero-section hero-bg--default">
         <Container>
           <div className="hero-top working-with-joel-page__hero-top">
             <div className="working-with-joel-page__hero-copy">

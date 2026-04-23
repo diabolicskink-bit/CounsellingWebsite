@@ -137,7 +137,7 @@ export default function DS_Patterns() {
 
             <div className="ds-demo" style={{ marginTop: "28px" }}>
               <p className="site-highlight__eyebrow" style={{ marginBottom: "14px" }}>Shared dev-page header</p>
-              <section className="hero-section hero-bg--diagonal" style={{ borderBottom: "none", paddingTop: 0 }}>
+              <section className="hero-section hero-bg--default" style={{ borderBottom: "none", paddingTop: 0 }}>
                 <Container>
                   <div className="hero-top" style={{ paddingBottom: 0 }}>
                     <div>

@@ -231,7 +231,7 @@ export default function Enquire() {
 
   return (
     <main className="site-page enquire-page">
-      <section className="hero-section hero-bg--diagonal">
+      <section className="hero-section hero-bg--default">
         <Container>
           <div className="hero-top hero-top--supporting-media">
             <div className="enquire-page__hero-copy">

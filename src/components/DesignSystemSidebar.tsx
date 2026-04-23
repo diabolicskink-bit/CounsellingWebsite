@@ -35,7 +35,7 @@ const navGroups: NavGroup[] = [
       { label: "Display heading", href: "/design-language/heroes#display-heading" },
       { label: "Copy panel", href: "/design-language/heroes#copy-panel" },
       { label: "Principles strip", href: "/design-language/heroes#principles" },
-      { label: "Backgrounds", href: "/design-language/heroes#backgrounds" },
+      { label: "Background", href: "/design-language/heroes#backgrounds" },
       { label: "Full composition", href: "/design-language/heroes#full-hero" },
     ],
   },

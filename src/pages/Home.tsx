@@ -95,8 +95,8 @@ const homePageContent: HomePageContent = {
     },
   },
   topics: {
-    heading: "What counselling can help with",
-    ariaLabel: "Common counselling themes",
+    heading: "What counselling is for.",
+    ariaLabel: "Common themes",
     items: [
       {
         title: "Low mood and depression",
@@ -128,9 +128,9 @@ const homePageContent: HomePageContent = {
         toneClass: "site-topic-card--soft",
       },
       {
-        title: "Emotional swings",
-        copy: "Emotions that swing fast and feel hard to manage. Closeness that can turn to distance quickly, or moments of feeling everything followed by feeling nothing at all.",
-        layoutClass: "home-topics__tile--quiet",
+        title: "Intense emotions",
+        copy: 
+"Emotions that hit hard and are slow to come down, often with a sense of being too much. Closeness that can shift to distance without much warning." ,       layoutClass: "home-topics__tile--quiet",
         toneClass: "site-topic-card--muted",
       },
     ],
@@ -222,7 +222,7 @@ export default function Home() {
 
   return (
     <main className="site-page home-page">
-      <section className="hero-section hero-bg--diagonal home-page__hero">
+      <section className="hero-section hero-bg--default home-page__hero">
         <Container>
           <div className="hero-top hero-top--supporting-media">
             <div className="home-page__hero-copy">
