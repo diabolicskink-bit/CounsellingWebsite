@@ -265,7 +265,7 @@ export default function Enquire() {
         </Container>
       </section>
 
-      <section className="site-highlight enquire-page__desk-section">
+      <section className="site-grid enquire-page__desk-section">
         <Container className="enquire-page__desk">
           <aside className="enquire-page__rail">
             <div className="enquire-page__rail-block">

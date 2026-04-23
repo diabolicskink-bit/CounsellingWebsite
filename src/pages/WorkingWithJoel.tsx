@@ -162,7 +162,7 @@ export default function WorkingWithJoel() {
       <section className="site-grid working-with-joel-page__approach">
         <Container className="site-split">
           <div className="section-heading working-with-joel-page__approach-heading">
-            <h2>{approach.title}</h2>
+            <h2 className="working-with-joel-page__approach-title">{approach.title}</h2>
             <aside
               className="hero-media-note working-with-joel-page__approach-note"
               aria-label="About Joel Griffiths"
@@ -177,7 +177,7 @@ export default function WorkingWithJoel() {
             </aside>
           </div>
 
-          <article className="site-copy-panel rich-text working-with-joel-page__framework-panel">
+          <article className="site-copy-panel rich-text">
             {approach.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
@@ -200,7 +200,14 @@ export default function WorkingWithJoel() {
               {focus.items.map((item, index) => (
                 <article
                   key={item.title}
-                  className={`working-topics__item ${hasTabletOrphan && index === focus.items.length - 1 ? "working-topics__item--tablet-full" : ""}`.trim()}
+                  className={[
+                    "working-topics__item",
+                    hasTabletOrphan && index === focus.items.length - 1
+                      ? "working-topics__item--tablet-full"
+                      : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
                 >
                   <h3 className="working-topics__item-title">{item.title}</h3>
                   <p className="working-topics__item-body">{item.body}</p>

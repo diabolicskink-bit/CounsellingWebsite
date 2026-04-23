@@ -131,8 +131,9 @@ const homePageContent: HomePageContent = {
       },
       {
         title: "Intense emotions",
-        copy: 
-"Emotions that hit hard and are slow to come down, often with a sense of being too much. Closeness that can shift to distance without much warning." ,       layoutClass: "home-topics__tile--quiet",
+        copy:
+          "Emotions that hit hard and are slow to come down, often with a sense of being too much. Closeness that can shift to distance without much warning.",
+        layoutClass: "home-topics__tile--quiet",
         toneClass: "site-topic-card--muted",
       },
     ],
@@ -259,24 +260,32 @@ export default function Home() {
           </div>
 
           <div className="home-topics__tiles" aria-label={topics.ariaLabel}>
-            {topics.items.map((topic) => (
-              <details
-                className={`home-topics__tile site-topic-card ${isCompactTopics ? "site-card" : ""} ${topic.layoutClass} ${topic.toneClass ?? ""}`.trim()}
-                key={topic.title}
-                open={!isMobileTopics}
-              >
-                <summary className="home-topics__summary">
-                  <h3>{topic.title}</h3>
-                  <span className="home-topics__toggle" aria-hidden="true">
-                    <span />
-                    <span />
-                  </span>
-                </summary>
-                <div className="home-topics__body">
-                  <p>{topic.copy}</p>
-                </div>
-              </details>
-            ))}
+            {topics.items.map((topic) => {
+              const topicClassName = [
+                "home-topics__tile",
+                "site-topic-card",
+                isCompactTopics ? "site-card" : "",
+                topic.layoutClass,
+                topic.toneClass ?? "",
+              ]
+                .filter(Boolean)
+                .join(" ");
+
+              return (
+                <details className={topicClassName} key={topic.title} open={!isMobileTopics}>
+                  <summary className="home-topics__summary">
+                    <h3>{topic.title}</h3>
+                    <span className="home-topics__toggle" aria-hidden="true">
+                      <span />
+                      <span />
+                    </span>
+                  </summary>
+                  <div className="home-topics__body">
+                    <p>{topic.copy}</p>
+                  </div>
+                </details>
+              );
+            })}
           </div>
         </Container>
       </section>

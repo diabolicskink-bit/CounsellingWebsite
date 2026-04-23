@@ -192,15 +192,17 @@ export default function InclusivePractice() {
                 <div className="inclusion-hub__panel-layout">
                   <div className="inclusion-hub__panel-lead">
                     <span className="site-eyebrow">{panel.eyebrow}</span>
-                    <h3>{panel.heading}</h3>
+                    <h3 className="inclusion-hub__panel-title">{panel.heading}</h3>
                   </div>
                   <div className="inclusion-hub__panel-body">
                     {panel.paragraphs.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
+                      <p className="inclusion-hub__panel-copy" key={paragraph}>
+                        {paragraph}
+                      </p>
                     ))}
                   </div>
                   <div className="inclusion-hub__panel-action">
-                    <Button href={panel.href} variant="tertiary" className="inclusion-hub__button">
+                    <Button href={panel.href} variant="tertiary">
                       {panel.cta} <ArrowRight size={16} />
                     </Button>
                   </div>

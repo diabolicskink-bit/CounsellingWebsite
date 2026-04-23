@@ -28,7 +28,7 @@
 }
 
 /* Home-specific body-copy adjustments where shared component defaults intentionally differ. */
-.home-page__topics .site-topic-card p {
+.home-topics__tile p {
   color: var(--body);
   font-size: 1rem;
   line-height: 1.4;
@@ -49,10 +49,11 @@
   /* The heading occupies the left column block and anchors the collage vertically. */
   display: grid;
   grid-column: 1 / span 12;
-  grid-row: 1 / span 15;
+  grid-row: 1 / span 12;
   align-content: start;
   gap: 18px;
   max-width: 430px;
+  margin-bottom: 0;
   padding-top: 8px;
 }
 
@@ -79,58 +80,48 @@
   display: none;
 }
 
-.home-page__topics .site-topic-card {
+.home-topics__tile {
   box-shadow: 0 16px 34px rgba(31, 35, 31, 0.055);
 }
 
-.home-page__topics .site-grid__heading {
-  /* Shared site-grid headings normally add bottom space; the collage handles its own spacing. */
-  margin-bottom: 0;
-}
-
-.home-page__topics .site-topic-card h3 {
+.home-topics__tile h3 {
   text-decoration: underline;
   text-decoration-color: rgba(35, 75, 61, 0.22);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.16em;
 }
 
-.home-page__topics .home-topics__intro {
-  /* Tightens the intro block so the first card can rise closer beneath the heading. */
-  grid-row: 1 / span 12;
-}
-
-.home-page__topics .home-topics__tile--quiet {
+.home-topics__tile--quiet {
   /* Upper-middle narrow card. */
   grid-column: 13 / span 9;
   grid-row: 4 / span 14;
 }
 
-.home-page__topics .home-topics__tile--lift {
+.home-topics__tile--lift {
   /* Top-right larger white card. */
   grid-column: 22 / span 12;
   grid-row: 1 / span 15;
 }
 
-.home-page__topics .home-topics__tile--middle {
+.home-topics__tile--middle {
   /* Lower-left green card under the heading. */
   grid-column: 1 / span 12;
   grid-row: 10 / span 13;
 }
 
-.home-page__topics .home-topics__tile--soft {
+.home-topics__tile--soft {
   /* Bottom-left smaller muted card. */
   grid-column: 2 / span 9;
   grid-row: 25 / span 13;
 }
 
-.home-page__topics .home-topics__tile--wide {
+.home-topics__tile--wide {
   /* Bottom-middle white card that bridges the left and centre zones. */
   grid-column: 11 / span 9;
   grid-row: 22 / span 18;
 }
 
-.home-page__topics .home-topics__tile--deep {
+.home-topics__tile--deep {
   /* Bottom-right green card intentionally overlaps the quiet card and sits in front. */
   grid-column: 20 / span 12;
   grid-row: 16 / span 13;
@@ -241,13 +232,6 @@
   white-space: nowrap;
 }
 
-.home-workroom__joel p {
-  margin: 0;
-  color: var(--body);
-  font-size: 1.02rem;
-  line-height: 1.58;
-}
-
 .home-workroom__joel-actions {
   display: flex;
   justify-content: flex-end;
@@ -265,11 +249,15 @@
   max-width: 700px;
 }
 
-.home-workroom__intro .section-heading__copy {
-  max-width: 600px;
+.home-workroom__intro .section-heading__copy,
+.home-workroom__joel p {
   color: var(--body);
   font-size: 1.02rem;
   line-height: 1.58;
+}
+
+.home-workroom__intro .section-heading__copy {
+  max-width: 600px;
 }
 
 @media (max-width: 900px) {
@@ -283,7 +271,7 @@
 
 /* Tablet: release the desktop tile collage into a simpler grid and stack the workroom */
 @media (max-width: 1080px) {
-  .home-page__topics .home-topics__grid {
+  .home-topics__grid {
     /* Replace the desktop collage with a clean responsive layout. */
     display: grid;
     grid-template-columns: 1fr;
@@ -292,30 +280,31 @@
     min-height: 0;
   }
 
-  .home-page__topics .home-topics__intro,
-  .home-page__topics .home-topics__tiles {
+  .home-topics__intro,
+  .home-topics__tiles {
     /* Clear any desktop grid placement from the collage composition. */
     grid-column: auto;
     grid-row: auto;
   }
 
-  .home-page__topics .home-topics__intro {
+  .home-topics__intro {
     /* Let the heading become a normal section intro again. */
     position: static;
     max-width: 46rem;
     padding-top: 0;
   }
 
-  .home-page__topics .home-topics__tiles {
+  .home-topics__tiles {
     /* Tablet uses a clean two-column card grid instead of floating tiles. */
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
   }
 
-  .home-page__topics .home-topics__tile {
+  .home-topics__tile {
     /* Every topic tile already carries the base tile class, so one reset selector
-       is enough to neutralize the desktop collage placement rules. */
+       is enough to neutralize the desktop collage placement rules while the shared
+       card shell takes over for tablet sizing. */
     grid-column: auto;
     grid-row: auto;
     height: auto;
@@ -323,24 +312,20 @@
     width: auto;
     min-height: 0;
     margin: 0;
-  }
-
-  .home-page__topics .site-topic-card {
-    /* Let the shared card shell take over while the inner spacing stays local. */
     gap: 0;
     padding: 0;
   }
 
-  .home-page__topics .site-card {
+  .home-topics__tile.site-card {
     transition: none;
     background: var(--surface-strong);
   }
 
-  .home-page__topics .home-topics__summary {
+  .home-topics__summary {
     padding: 26px 26px 0;
   }
 
-  .home-page__topics .home-topics__body {
+  .home-topics__body {
     padding: 12px 26px 26px;
   }
 
@@ -348,21 +333,18 @@
 
 /* Narrow screens: single-column tiles and softer workroom spacing */
 @media (max-width: 700px) {
-  .home-page__topics .home-topics__tiles {
+  .home-topics__tiles {
     /* Mobile becomes a simple single-column stack. */
     grid-template-columns: 1fr;
     gap: 14px;
   }
 
-  .home-page__topics .home-topics__tile {
+  .home-topics__tile {
     margin-left: 0;
-  }
-
-  .home-page__topics .home-topics__tile {
     overflow: hidden;
   }
 
-  .home-page__topics .home-topics__summary {
+  .home-topics__summary {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 18px;
     gap: 14px;
@@ -372,11 +354,11 @@
     pointer-events: auto;
   }
 
-  .home-page__topics .home-topics__body {
+  .home-topics__body {
     padding: 0 22px 22px;
   }
 
-  .home-page__topics .home-topics__toggle {
+  .home-topics__toggle {
     position: relative;
     width: 18px;
     height: 18px;
@@ -388,7 +370,7 @@
     flex-shrink: 0;
   }
 
-  .home-page__topics .home-topics__toggle span {
+  .home-topics__toggle span {
     position: absolute;
     width: 12px;
     height: 1px;
@@ -396,16 +378,16 @@
     transition: transform 180ms ease, opacity 180ms ease;
   }
 
-  .home-page__topics .home-topics__toggle span:last-child {
+  .home-topics__toggle span:last-child {
     transform: rotate(90deg);
   }
 
-  .home-page__topics .home-topics__tile[open] .home-topics__toggle span:last-child {
+  .home-topics__tile[open] .home-topics__toggle span:last-child {
     transform: rotate(90deg) scaleX(0);
     opacity: 0;
   }
 
-  .home-page__topics .home-topics__tile:not([open]) .home-topics__body {
+  .home-topics__tile:not([open]) .home-topics__body {
     display: none;
   }
 
