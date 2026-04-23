@@ -1,5 +1,11 @@
 .working-with-joel-page {
-  background: var(--color-bg-main);
+  background: var(--paper);
+  --hero-display-max-width: 11ch;
+}
+
+.working-with-joel-page__hero-support {
+  gap: 18px;
+  max-width: 720px;
 }
 
 .working-with-joel-page__hero-copy {
@@ -9,15 +15,6 @@
 
 .working-with-joel-page__hero-top {
   align-items: start;
-}
-
-.working-with-joel-page__hero-title {
-  max-width: 11ch;
-}
-
-.working-with-joel-page__hero-support {
-  gap: 18px;
-  max-width: 720px;
 }
 
 .working-with-joel-page__approach-heading {
@@ -38,7 +35,7 @@
 
 .working-with-joel-page__focus {
   padding: 88px 0 96px;
-  background: var(--color-bg-main);
+  background: var(--paper);
 }
 
 .working-topics__header {
@@ -75,7 +72,7 @@
 
 .working-topics__item-title {
   margin: 0;
-  color: var(--color-heading);
+  color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1.12rem, 1.25vw, 1.36rem);
   font-weight: 400;
@@ -87,7 +84,7 @@
 .working-topics__item-body {
   margin: 0;
   max-width: 35ch;
-  color: var(--color-text);
+  color: var(--body);
   font-size: 0.98rem;
   line-height: 1.52;
 }

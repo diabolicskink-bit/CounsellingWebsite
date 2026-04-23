@@ -5,6 +5,22 @@ import { navItems, type NavItem } from "../data/site";
 import Button from "./Button";
 import Container from "./Container";
 
+const sharedChromePaths = new Set([
+  "/about-joel",
+  "/approach",
+  "/contact",
+  "/design-language",
+  "/documents",
+  "/enquire",
+  "/fees",
+  "/inclusion",
+  "/working-with-joel",
+  "/codex-tb",
+  "/opus-tb",
+]);
+
+const sharedChromePrefixes = ["/design-language/", "/inclusion/"];
+
 const headerNavItems = navItems.filter(
   (item) => item.href !== "/contact" && (!item.devOnly || import.meta.env.DEV)
 );
@@ -17,25 +33,15 @@ function itemIsActive(item: NavItem, pathname: string): boolean {
   return item.children?.some((child) => itemIsActive(child, pathname)) ?? false;
 }
 
+function usesSharedChrome(pathname: string) {
+  return sharedChromePaths.has(pathname) || sharedChromePrefixes.some((prefix) => pathname.startsWith(prefix));
+}
+
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const currentYear = new Date().getFullYear();
-  const isAiSandbox = location.pathname === "/codex-tb" || location.pathname === "/opus-tb";
-  const isDesignLanguage =
-    location.pathname === "/design-language" ||
-    location.pathname.startsWith("/design-language/");
-  const usesSiteChrome =
-    isDesignLanguage ||
-    isAiSandbox ||
-    location.pathname === "/enquire" ||
-    location.pathname === "/fees" ||
-    location.pathname === "/working-with-joel" ||
-    location.pathname === "/about-joel" ||
-    location.pathname === "/approach" ||
-    location.pathname === "/inclusion" ||
-    location.pathname.startsWith("/inclusion/") ||
-    location.pathname === "/contact";
+  const usesSiteChrome = usesSharedChrome(location.pathname);
 
   const closeMenu = () => setIsOpen(false);
   const blurDesktopNavLinkAfterPointerClick = (event: ReactPointerEvent<HTMLAnchorElement>) => {

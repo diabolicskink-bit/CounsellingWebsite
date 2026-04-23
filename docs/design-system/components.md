@@ -49,6 +49,8 @@ Prefer these shared building blocks before creating anything new.
   Split layout pairing a heading block with contained reading content.
 - `.site-copy-panel`
   Contained panel for explanatory rich text.
+- `.site-cta-block`, `.site-cta-block__inner`, `.site-cta-block__copy`
+  Shared closing CTA section for one clear next step. This is the authoritative site-wide final prompt pattern: large serif heading, contained top rule, split layout, and a single right-aligned action.
 - `.site-contact-strip` and `.site-contact-item`
   Shared contact-value strip for small sets of practical contact details with icon, label, and value.
 - `.site-footer`, `.site-footer__primary`, `.site-footer__secondary`
@@ -65,6 +67,8 @@ Prefer these shared building blocks before creating anything new.
   Shared continuous paper-and-sage hero surface. This is the one shared hero background in the system, and it should read as one calm editorial field with soft depth rather than a visible shape or alternate skin.
 - `.hero-section`, `.hero-top`, `.hero-display`, `.hero-copy-panel`, `.hero-deck`, `.hero-detail-stack`
   Shared public-page hero design system. This is a separate authoritative shared subsystem alongside `site-*`, not a legacy variation.
+- `.hero-display`
+  The authoritative page-opening H1 pattern for production heroes. If a page only needs a narrower or wider title measure, set `--hero-display-max-width` at page scope instead of adding another page-specific H1 class.
 
 ## Design System Showcase Pages
 

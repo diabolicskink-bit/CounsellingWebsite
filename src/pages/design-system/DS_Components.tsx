@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   ArrowRight,
   CheckCircle2,
@@ -17,6 +16,7 @@ import Container from "../../components/Container";
 import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
 import FaqSection from "../../components/FaqSection";
+import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
 const iconCards = [
   { icon: Sparkles, title: "Composed first impressions", description: "A restrained visual system with enough structure to feel confident, calm, and deliberate." },
@@ -90,9 +90,7 @@ const footerDemoDetails = [
 // page needs a repeated card/list/panel treatment, add it here using the real
 // shared class names instead of creating a page-specific lookalike.
 export default function DS_Components() {
-  useEffect(() => {
-    document.title = "Components | Design System | Vive Counselling";
-  }, []);
+  useDocumentMetadata("Components | Design System | Vive Counselling");
 
   return (
     <main className="site-page">

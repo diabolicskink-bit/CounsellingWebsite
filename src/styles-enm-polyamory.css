@@ -1,5 +1,6 @@
 .enm-page {
-  background: var(--color-bg-main);
+  background: var(--paper);
+  --hero-display-max-width: 12ch;
 }
 
 .enm-page__hero-top {
@@ -12,11 +13,6 @@
   display: grid;
   gap: 18px;
   min-width: 0;
-}
-
-.enm-page__hero-title {
-  max-width: 12ch;
-  margin-bottom: 0;
 }
 
 .enm-page__trust {
@@ -39,7 +35,7 @@
   margin: 0;
   padding: 14px 0;
   border-top: 1px solid rgba(35, 75, 61, 0.14);
-  color: var(--color-text);
+  color: var(--body);
   line-height: 1.62;
 }
 

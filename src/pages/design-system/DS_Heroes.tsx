@@ -1,8 +1,8 @@
-import { useEffect } from "react";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
 import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
+import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
 const demoTaglineItems = [
   "Perth-based, online across Australia",
@@ -64,7 +64,7 @@ const anatomyRows = [
   {
     zone: "Display heading",
     className: ".hero-display",
-    desc: "Large serif display type. Use h1 in production. The shared rule owns the type styling, while page-level classes should set max-width or line breaks when a hero needs a specific measure.",
+    desc: "Large serif display type and the authoritative page-opening H1 pattern for production. Use h1 in production, and set --hero-display-max-width on the page scope when a hero only needs a different title measure.",
   },
   {
     zone: "Intro paragraph",
@@ -123,9 +123,7 @@ const backgroundTreatments = [
 ];
 
 export default function DS_Heroes() {
-  useEffect(() => {
-    document.title = "Heroes | Design System | Vive Counselling";
-  }, []);
+  useDocumentMetadata("Heroes | Design System | Vive Counselling");
 
   return (
     <main className="site-page design-language-page">
@@ -180,8 +178,9 @@ export default function DS_Heroes() {
               <span className="site-eyebrow">Display Heading</span>
               <h2>Large, light, and still readable across longer hero titles.</h2>
               <p>
-                The heading should feel editorial, not loud. Keep the phrase deliberate, use line breaks intentionally
-                when you control them, and let the shared line-height give multi-line titles a little more air.
+                `.hero-display` is the authoritative page-opening H1 pattern for public pages. Keep the phrase
+                deliberate, use line breaks intentionally when you control them, and adjust width with
+                `--hero-display-max-width` on the page scope before reaching for a page-specific title class.
               </p>
             </div>
 
@@ -217,6 +216,13 @@ export default function DS_Heroes() {
                 </tr>
               </thead>
               <tbody>
+                <tr>
+                  <td>title measure</td>
+                  <td>
+                    <code>max-width: var(--hero-display-max-width, none)</code>
+                  </td>
+                  <td>Lets pages tune title width through a shared variable instead of another page-specific H1 class.</td>
+                </tr>
                 <tr>
                   <td>font-size</td>
                   <td>

@@ -120,7 +120,7 @@
   gap: 0;
   background:
     linear-gradient(135deg, rgba(238, 242, 236, 0.46), rgba(252, 252, 250, 0.94) 34%, rgba(252, 252, 250, 0.98)),
-    var(--color-bg-card);
+    var(--surface-strong);
 }
 
 .inclusion-hub__panel-layout {
@@ -178,7 +178,7 @@
 
 .inclusion-hub__panel-body p {
   margin: 0;
-  color: var(--color-text);
+  color: var(--body);
   font-size: 1.03rem;
   line-height: 1.72;
 }
@@ -192,7 +192,7 @@
 
 .inclusion-hub__list-heading {
   margin: 0;
-  color: var(--color-heading);
+  color: var(--ink);
   font-weight: 700;
 }
 

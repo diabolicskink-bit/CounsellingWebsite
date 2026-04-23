@@ -1,12 +1,10 @@
-import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 
 export default function NotFound() {
-  useEffect(() => {
-    document.title = "Page not found | Vive Counselling";
-  }, []);
+  useDocumentMetadata("Page not found | Vive Counselling");
 
   return (
     <main className="site-page">

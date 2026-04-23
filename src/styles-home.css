@@ -1,6 +1,10 @@
 /* Home page layer: page-specific layout and section composition only.
    Shared colors, card treatments, typography, and hero primitives live in src/styles.css. */
 
+.home-page {
+  --hero-display-max-width: 15.6ch;
+}
+
 /* Hero: light page-specific sizing and spacing on top of the shared hero system */
 .home-page__hero {
   /* Keeps a little more breathing room under the hero than the shared default. */
@@ -10,11 +14,6 @@
 .home-page__hero-copy {
   /* Prevents the left column from forcing overflow in the supporting-media hero grid. */
   min-width: 0;
-}
-
-.home-page__hero-title {
-  /* Slightly tighter measure than the shared display heading for the Home composition. */
-  max-width: 15.6ch;
 }
 
 .home-page__hero-support {
@@ -206,7 +205,7 @@
 }
 
 .home-page__inclusive-item strong {
-  color: var(--color-heading);
+  color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.3rem;
   font-weight: 500;
@@ -316,36 +315,6 @@
   padding-inline: 1rem;
 }
 
-.home-workroom__next {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 32px;
-  align-items: end;
-  margin-top: 6px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(35, 75, 61, 0.24);
-}
-
-.home-workroom__next p {
-  /* Large closing prompt, intentionally closer to a pull-quote than body copy. */
-  max-width: 760px;
-  color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.75rem, 2.5vw, 2.3rem);
-  line-height: 1.1;
-}
-
-.home-workroom__next p span {
-  color: var(--cedar);
-}
-
-.home-workroom__next div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: flex-end;
-}
-
 /* Tablet: release the desktop tile collage into a simpler grid and stack the workroom */
 @media (max-width: 1080px) {
   .home-page__topics .home-topics__grid {
@@ -403,7 +372,7 @@
 
   .home-page__topics .site-card {
     transition: none;
-    background: var(--color-bg-card);
+    background: var(--surface-strong);
   }
 
   .home-page__topics .home-topics__summary {
@@ -414,13 +383,6 @@
     padding: 12px 26px 26px;
   }
 
-  .home-workroom__next {
-    grid-template-columns: 1fr;
-  }
-
-  .home-workroom__next div {
-    justify-content: flex-start;
-  }
 }
 
 /* Narrow screens: single-column tiles and softer workroom spacing */
@@ -511,17 +473,6 @@
     align-items: stretch;
   }
 
-  .home-workroom__next p {
-    font-size: 2.1rem;
-  }
-
-  .home-workroom__next div {
-    /* Button becomes full-width-friendly when the CTA stacks. */
-    align-items: stretch;
-    flex-direction: column;
-    width: 100%;
-  }
-
   .home-page__inclusive-frame {
     /* Collapse the selected inclusion layout into a stacked section on narrower screens. */
     grid-template-columns: 1fr;
@@ -561,9 +512,13 @@
     width: 100%;
   }
 
-  .home-page__hero-title {
-    /* Remove the desktop measure cap and allow wrapping more freely. */
-    max-width: 100%;
+  .home-page {
+    /* Remove the desktop measure cap in the stacked layout. */
+    --hero-display-max-width: 100%;
+  }
+
+  .home-page .hero-display {
+    /* Allow wrapping more freely on the compact stacked hero. */
     overflow-wrap: break-word;
     text-wrap: auto;
   }

@@ -1,8 +1,8 @@
-import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import DevPageHero from "../components/DevPageHero";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 
 const usagePrinciples = [
   "Calm and intelligent before decorative.",
@@ -44,16 +44,10 @@ const sections = [
 ];
 
 export default function DesignLanguage() {
-  useEffect(() => {
-    document.title = "Design System | Vive Counselling";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        "content",
-        "The Vive Counselling design system - colour tokens, typography, components, heroes, and page patterns."
-      );
-    }
-  }, []);
+  useDocumentMetadata(
+    "Design System | Vive Counselling",
+    "The Vive Counselling design system - colour tokens, typography, components, heroes, and page patterns."
+  );
 
   return (
     <main className="site-page design-language-page">
@@ -62,7 +56,7 @@ export default function DesignLanguage() {
         title="Vive's site system in one place."
         description="A living reference for the full site direction: colour tokens, serif-led type, cedar accents, quiet cards, practical panels, hero compositions, form states, and section architecture."
       >
-        <ul className="design-language-trust-list" aria-label="System overview">
+        <ul className="site-trust-list" aria-label="System overview">
           <li>Paper backgrounds, soft green surfaces, and cedar accents</li>
           <li>Georgia headings with plain, steady body copy</li>
           <li>Shared page heroes, restrained cards, borders, chips, and panels</li>
@@ -121,7 +115,7 @@ export default function DesignLanguage() {
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">
-          <div>
+          <div className="site-cta-block__copy">
             <h2>Hero system now lives in the shared library.</h2>
             <p>
               The live homepage hero now uses the shared hero system. Use the Heroes page as the reference instead of

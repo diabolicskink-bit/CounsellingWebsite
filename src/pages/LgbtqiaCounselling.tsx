@@ -1,9 +1,10 @@
-import { useEffect } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import FaqSection from "../components/FaqSection";
+import FaqSchema from "../components/FaqSchema";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-lgbtqia.css";
 
 type FaqItem = {
@@ -78,37 +79,8 @@ const pageContent = {
   },
 };
 
-function useSeo() {
-  useEffect(() => {
-    document.title = pageContent.title;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", pageContent.meta);
-    }
-  }, []);
-}
-
-function FaqSchema({ faqs }: { faqs: FaqItem[] }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqs.map((faq) => ({
-            "@type": "Question",
-            name: faq.question,
-            acceptedAnswer: { "@type": "Answer", text: faq.answer },
-          })),
-        }),
-      }}
-    />
-  );
-}
-
 export default function LgbtqiaCounselling() {
-  useSeo();
+  useDocumentMetadata(pageContent.title, pageContent.meta);
   const { hero, firstSection, stance, individual, faqSection } = pageContent;
 
   return (
@@ -124,11 +96,11 @@ export default function LgbtqiaCounselling() {
                 <Link to="/inclusion">Inclusive practice</Link>
                 <span>LGBTQIA+</span>
               </nav>
-              <h1 className="hero-display lgbtqia-page__hero-title">{hero.title}</h1>
+              <span className="hero-badge">{hero.badge}</span>
+              <h1 className="hero-display">{hero.title}</h1>
             </div>
 
             <div className="hero-copy-panel lgbtqia-page__hero-panel">
-              <span className="hero-badge">{hero.badge}</span>
               <p>{hero.intro}</p>
               <div className="site-actions">
                 <Button href="/contact">Make an enquiry about counselling</Button>
@@ -195,7 +167,7 @@ export default function LgbtqiaCounselling() {
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">
-          <div>
+          <div className="site-cta-block__copy">
             <h2>You do not need to explain everything perfectly.</h2>
             <p>
               A first enquiry can be brief. Name what is bringing you to counselling, whether online sessions suit you,

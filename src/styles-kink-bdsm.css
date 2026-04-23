@@ -1,5 +1,6 @@
 .kink-page {
-  background: var(--color-bg-main);
+  background: var(--paper);
+  --hero-display-max-width: 10ch;
 }
 
 .kink-page__hero {
@@ -24,26 +25,10 @@
   min-width: 0;
 }
 
-.kink-page__hero-eyebrow {
-  margin: 0;
-  color: var(--cedar);
-  font-size: 0.79rem;
-  font-weight: 740;
-  letter-spacing: 0.07em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.kink-page__hero-title {
-  max-width: 10ch;
-  margin: 0;
-  text-wrap: balance;
-}
-
 .kink-page__hero-intro {
   max-width: 39rem;
   margin: 0;
-  color: var(--color-text);
+  color: var(--body);
   font-size: 1.08rem;
   line-height: 1.72;
 }
@@ -112,7 +97,7 @@
 .kink-page__hero-note-item {
   margin: 0;
   padding: 16px 0;
-  color: var(--color-heading);
+  color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1.55rem, 2.1vw, 2rem);
   line-height: 1.02;
@@ -181,10 +166,6 @@
     gap: 34px;
   }
 
-  .kink-page__hero-title {
-    max-width: 10ch;
-  }
-
   .kink-page__hero-note {
     max-width: 34rem;
   }
@@ -201,11 +182,6 @@
 
   .kink-page__hero-inner {
     gap: 24px;
-  }
-
-  .kink-page__hero-title {
-    max-width: 10ch;
-    font-size: clamp(2.8rem, 12vw, 3.8rem);
   }
 
   .kink-page__hero-intro {

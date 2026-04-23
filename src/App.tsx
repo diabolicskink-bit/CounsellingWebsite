@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
@@ -17,6 +18,10 @@ import OpusTB from "./pages/OpusTB";
 import NotFound from "./pages/NotFound";
 import WorkingWithJoel from "./pages/WorkingWithJoel";
 
+const DocumentsPage = import.meta.env.DEV ? lazy(() => import("./pages/Documents")) : null;
+const workingWithJoelPaths = ["about-joel", "approach", "working-with-joel"] as const;
+const enquirePaths = ["fees", "enquire", "contact"] as const;
+
 export default function App() {
   return (
     <>
@@ -24,23 +29,33 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="about-joel" element={<WorkingWithJoel />} />
-          <Route path="approach" element={<WorkingWithJoel />} />
+          {workingWithJoelPaths.map((path) => (
+            <Route key={path} path={path} element={<WorkingWithJoel />} />
+          ))}
           <Route path="inclusion" element={<InclusivePractice />} />
           <Route path="inclusion/kink-bdsm" element={<KinkBdsmCounselling />} />
           <Route path="inclusion/enm-polyamory" element={<EnmPolyamoryCounselling />} />
           <Route path="inclusion/lgbtqia" element={<LgbtqiaCounselling />} />
           <Route path="codex-tb" element={<CodexTB />} />
           <Route path="opus-tb" element={<OpusTB />} />
+          {DocumentsPage ? (
+            <Route
+              path="documents"
+              element={
+                <Suspense fallback={null}>
+                  <DocumentsPage />
+                </Suspense>
+              }
+            />
+          ) : null}
           <Route path="design-language" element={<DesignLanguage />} />
           <Route path="design-language/foundations" element={<DS_Foundations />} />
           <Route path="design-language/components" element={<DS_Components />} />
           <Route path="design-language/heroes" element={<DS_Heroes />} />
           <Route path="design-language/patterns" element={<DS_Patterns />} />
-          <Route path="working-with-joel" element={<WorkingWithJoel />} />
-          <Route path="fees" element={<Enquire />} />
-          <Route path="enquire" element={<Enquire />} />
-          <Route path="contact" element={<Enquire />} />
+          {enquirePaths.map((path) => (
+            <Route key={path} path={path} element={<Enquire />} />
+          ))}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

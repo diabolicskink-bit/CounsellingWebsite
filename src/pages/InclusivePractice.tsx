@@ -1,10 +1,11 @@
-import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../styles-inclusive-practice.css";
 import Container from "../components/Container";
 import Button from "../components/Button";
 import FaqSection from "../components/FaqSection";
+import FaqSchema from "../components/FaqSchema";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 
 type InclusionPanel = {
   eyebrow: string;
@@ -141,37 +142,8 @@ const inclusionPageContent: InclusionPageContent = {
   },
 };
 
-function useSeo() {
-  useEffect(() => {
-    document.title = inclusionPageContent.title;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", inclusionPageContent.meta);
-    }
-  }, []);
-}
-
-function FaqSchema({ faqs }: { faqs: InclusionFaq[] }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqs.map((faq) => ({
-            "@type": "Question",
-            name: faq.question,
-            acceptedAnswer: { "@type": "Answer", text: faq.answer },
-          })),
-        }),
-      }}
-    />
-  );
-}
-
 export default function InclusivePractice() {
-  useSeo();
+  useDocumentMetadata(inclusionPageContent.title, inclusionPageContent.meta);
   const { hero, hub, faq } = inclusionPageContent;
 
   return (

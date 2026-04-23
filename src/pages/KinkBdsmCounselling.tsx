@@ -1,9 +1,10 @@
-import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import FaqSection from "../components/FaqSection";
+import FaqSchema from "../components/FaqSchema";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-kink-bdsm.css";
 
 type BreadcrumbItem = {
@@ -279,38 +280,8 @@ const kinkPageContent: KinkPageContent = {
   },
 };
 
-function useSeo() {
-  useEffect(() => {
-    document.title = kinkPageContent.title;
-    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-
-    if (metaDescription) {
-      metaDescription.content = kinkPageContent.meta;
-    }
-  }, []);
-}
-
-function FaqSchema({ faqs }: { faqs: FaqItem[] }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqs.map((faq) => ({
-            "@type": "Question",
-            name: faq.question,
-            acceptedAnswer: { "@type": "Answer", text: faq.answer },
-          })),
-        }),
-      }}
-    />
-  );
-}
-
 export default function KinkBdsmCounselling() {
-  useSeo();
+  useDocumentMetadata(kinkPageContent.title, kinkPageContent.meta);
   const { hero, topicSection, focusSection, stance, individual, faqSection, ctaSection } = kinkPageContent;
 
   return (
@@ -333,8 +304,8 @@ export default function KinkBdsmCounselling() {
 
           <div className="kink-page__hero-main">
             <div className="kink-page__hero-copy">
-              <p className="kink-page__hero-eyebrow">{hero.eyebrow}</p>
-              <h1 className="hero-display kink-page__hero-title">{hero.title}</h1>
+              <span className="hero-badge">{hero.eyebrow}</span>
+              <h1 className="hero-display">{hero.title}</h1>
               <p className="kink-page__hero-intro">{hero.intro}</p>
 
               <div className="kink-page__hero-actions">
@@ -471,7 +442,7 @@ export default function KinkBdsmCounselling() {
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">
-          <div>
+          <div className="site-cta-block__copy">
             <h2>{ctaSection.heading}</h2>
             <p>{ctaSection.copy}</p>
           </div>

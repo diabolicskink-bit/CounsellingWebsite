@@ -1,9 +1,10 @@
-import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import FaqSection from "../components/FaqSection";
+import FaqSchema from "../components/FaqSchema";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-enm-polyamory.css";
 
 const pageContent = {
@@ -154,38 +155,12 @@ const pageContent = {
   },
 };
 
-function FaqSchema() {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: pageContent.faqSection.items.map((faq) => ({
-            "@type": "Question",
-            name: faq.question,
-            acceptedAnswer: { "@type": "Answer", text: faq.answer },
-          })),
-        }),
-      }}
-    />
-  );
-}
-
 export default function EnmPolyamoryCounselling() {
-  useEffect(() => {
-    document.title = pageContent.title;
-    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-
-    if (metaDescription) {
-      metaDescription.content = pageContent.meta;
-    }
-  }, []);
+  useDocumentMetadata(pageContent.title, pageContent.meta);
 
   return (
     <main className="site-page enm-page">
-      <FaqSchema />
+      <FaqSchema faqs={pageContent.faqSection.items} />
 
       <section className="hero-section hero-bg--default enm-page__hero">
         <Container>
@@ -198,7 +173,7 @@ export default function EnmPolyamoryCounselling() {
               </nav>
 
               <span className="hero-badge">{pageContent.hero.badge}</span>
-              <h1 className="hero-display enm-page__hero-title">{pageContent.hero.title}</h1>
+              <h1 className="hero-display">{pageContent.hero.title}</h1>
               <p className="hero-intro">{pageContent.hero.intro}</p>
 
               <ul className="site-trust-list site-trust-list--highlight-last enm-page__trust" aria-label="Practice details">
@@ -331,7 +306,7 @@ export default function EnmPolyamoryCounselling() {
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">
-          <div>
+          <div className="site-cta-block__copy">
             <h2>You do not need to explain everything perfectly.</h2>
             <p>
               A first enquiry can be brief. Name what is bringing you to counselling, whether online sessions suit you,

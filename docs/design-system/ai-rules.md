@@ -5,10 +5,13 @@ Use this file as a strict checklist before changing visual code.
 ## Always
 
 - Read `src/styles.css` before adding or changing shared visual styles.
+- Read `src/styles-dev.css` before adding or changing `ds-*` documentation-shell or dev-page styles.
+- Read `docs/design-system/cleanup-sweeps.md` when the request is about simplification, deduplication, cleanup, overrides, page-pattern convergence, or maintainability rather than new UI.
 - Reuse existing components in `src/components` before creating a new primitive.
 - Reuse documented shared classes before adding page-specific ones.
 - Treat `site-*` classes and the documented shared hero classes as the authoritative design-system API for production pages.
 - Treat `hero-*` as a separate shared hero design system for production pages, not as a minor variant of `site-*` and not as legacy scaffolding.
+- Treat `.hero-display` as the authoritative page-opening H1 pattern for production pages.
 - Treat `ds-*` classes as design-system documentation shell classes, not as production UI primitives.
 - Treat `design-language-*`, `legacy-*`, and `site-hero-*` as legacy/demo/reference layers unless a pattern has been explicitly promoted into the current shared system.
 - Treat design-system documentation pages as consumers of the authoritative shared site system, not as a separate parallel design language.
@@ -23,6 +26,7 @@ Use this file as a strict checklist before changing visual code.
 - Use `site-*` for shared production components, panels, layout helpers, and public-page patterns.
 - Use `hero-*` for the shared public hero design system.
 - Treat `site-*` and `hero-*` as two separate authoritative shared production layers: one general, one hero-specific.
+- When a hero title only needs a different width, set `--hero-display-max-width` on the page scope before adding a page-specific title class.
 - Use page-scoped classes only to extend production pages after shared `site-*` / `hero-*` reuse has been exhausted.
 - Use `ds-*` only inside the design-system documentation experience and its support components such as doc layout, navigation, demo wrappers, and usage notes.
 - Use `design-language-*` only when maintaining legacy/reference examples in design-system pages.
@@ -44,6 +48,7 @@ Use this file as a strict checklist before changing visual code.
 - Use strong shadows where subtle borders already provide separation.
 - Create one-off card, hero, or panel classes when a shared pattern is already close.
 - Use `ds-*` classes on public pages.
+- Add new `ds-*` documentation-shell rules to `src/styles.css`; keep them in `src/styles-dev.css`.
 - Build a documentation page as if it has permission to invent a second visual system separate from the shared site system.
 - Use `design-language-*` classes on production pages when a `site-*` or shared hero pattern exists for the same job.
 - Use `legacy-*` classes on production pages under any circumstance.
@@ -67,6 +72,13 @@ Use this file as a strict checklist before changing visual code.
 3. Extend a shared production pattern in `src/styles.css`.
 4. Use a page-scoped class if the change is truly page-specific.
 5. Only then introduce a new reusable shared pattern and document it.
+
+For cleanup-only requests:
+
+1. Prefer one named cleanup sweep from `cleanup-sweeps.md`.
+2. Make one focused maintainability improvement at a time.
+3. Consider page structure, repeated outcomes across pages, nested class complexity, shared components, and route/layout duplication as valid cleanup targets, not just raw CSS.
+4. Avoid mixing cleanup with redesign or feature work unless asked.
 
 For design-system documentation pages:
 

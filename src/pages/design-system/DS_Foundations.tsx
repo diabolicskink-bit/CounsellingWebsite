@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
+import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
 const colorTokens = [
   { name: "Page background", token: "--paper", value: "#F7F6F2", role: "Main page canvas", usage: "Default background for every page. Never use a coloured surface here." },
@@ -76,9 +76,7 @@ const spacingRules = [
 // editorial HTML defaults. Component or page-layout examples belong in
 // DS_Components or DS_Patterns unless they change baseline text behaviour.
 export default function DS_Foundations() {
-  useEffect(() => {
-    document.title = "Foundations | Design System | Vive Counselling";
-  }, []);
+  useDocumentMetadata("Foundations | Design System | Vive Counselling");
 
   return (
     <main className="site-page">

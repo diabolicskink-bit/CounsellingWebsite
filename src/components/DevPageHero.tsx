@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "../styles-dev.css";
 import Container from "./Container";
 
 type Props = {

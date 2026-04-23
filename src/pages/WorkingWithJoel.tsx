@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import Container from "../components/Container";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-working-with-joel.css";
 
 const portraitSrc = "/joel-griffiths-portrait-temp.svg";
@@ -133,14 +133,7 @@ const pageContent: WorkingWithJoelPageContent = {
 export default function WorkingWithJoel() {
   const { hero, approach, focus } = pageContent;
 
-  useEffect(() => {
-    document.title = pageContent.title;
-    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-
-    if (metaDescription) {
-      metaDescription.content = pageContent.meta;
-    }
-  }, []);
+  useDocumentMetadata(pageContent.title, pageContent.meta);
 
   return (
     <main className="site-page working-with-joel-page">
@@ -148,7 +141,7 @@ export default function WorkingWithJoel() {
         <Container>
           <div className="hero-top working-with-joel-page__hero-top">
             <div className="working-with-joel-page__hero-copy">
-              <h1 className="hero-display working-with-joel-page__hero-title">
+              <h1 className="hero-display">
                 {hero.title.before}
                 <br />
                 <em>{hero.title.emphasis}</em>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { Link } from "react-router-dom";
 import "../styles-home.css";
 
@@ -62,9 +63,10 @@ type HomePageContent = {
     letterCopy: string;
     profileHref: string;
     profileCta: string;
-    closingLead: string;
-    closingAccent: string;
-    ctaHref: string;
+  };
+  closingCta: {
+    heading: EmphasisCopy;
+    href: string;
     cta: string;
   };
 };
@@ -173,23 +175,17 @@ const homePageContent: HomePageContent = {
       "Sessions are direct and real. We can speak plainly, look beneath the immediate problem, and take what you bring seriously without making therapy feel stiff or clinical. I do not think people are meant to be tidy. The strange bits, the contradictions, the parts that do not quite fit anywhere, all of that belongs here.",
     profileHref: "/working-with-joel",
     profileCta: "Working with Joel",
-    closingLead: "For when",
-    closingAccent: '"I just need to talk to someone."',
-    ctaHref: "/contact",
+  },
+  closingCta: {
+    heading: {
+      before: "For when ",
+      emphasis: '"I just need to talk to someone."',
+      after: "",
+    },
+    href: "/contact",
     cta: "Get in touch",
   },
 };
-
-function useSeo() {
-  useEffect(() => {
-    document.title = homePageContent.title;
-    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-
-    if (metaDescription) {
-      metaDescription.content = homePageContent.meta;
-    }
-  }, []);
-}
 
 function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(() =>
@@ -215,10 +211,10 @@ function useMediaQuery(query: string) {
 }
 
 export default function Home() {
-  useSeo();
+  useDocumentMetadata(homePageContent.title, homePageContent.meta);
   const isCompactTopics = useMediaQuery("(max-width: 1080px)");
   const isMobileTopics = useMediaQuery("(max-width: 700px)");
-  const { hero, topics, inclusive, workroom } = homePageContent;
+  const { hero, topics, inclusive, workroom, closingCta } = homePageContent;
 
   return (
     <main className="site-page home-page">
@@ -226,7 +222,7 @@ export default function Home() {
         <Container>
           <div className="hero-top hero-top--supporting-media">
             <div className="home-page__hero-copy">
-              <h1 className="hero-display home-page__hero-title">
+              <h1 className="hero-display">
                 {hero.title.before}
                 <em>{hero.title.emphasis}</em>
                 {hero.title.after}
@@ -338,17 +334,21 @@ export default function Home() {
               </div>
             </article>
           </div>
+        </Container>
+      </section>
 
-          <div className="home-workroom__next">
-            <p>
-              {workroom.closingLead} <span>{workroom.closingAccent}</span>
-            </p>
-            <div>
-              <Button href={workroom.ctaHref}>
-                {workroom.cta} <ArrowRight size={16} />
-              </Button>
-            </div>
+      <section className="site-cta-block">
+        <Container className="site-cta-block__inner">
+          <div className="site-cta-block__copy">
+            <h2>
+              {closingCta.heading.before}
+              <span className="site-emphasis">{closingCta.heading.emphasis}</span>
+              {closingCta.heading.after}
+            </h2>
           </div>
+          <Button href={closingCta.href}>
+            {closingCta.cta} <ArrowRight size={16} />
+          </Button>
         </Container>
       </section>
     </main>

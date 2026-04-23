@@ -1,8 +1,8 @@
-import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import DevPageHero from "../components/DevPageHero";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 
 const cleanupNotes = [
   "The approach hero background candidates have been retired now that the shared hero system is established.",
@@ -11,16 +11,10 @@ const cleanupNotes = [
 ];
 
 export default function OpusTB() {
-  useEffect(() => {
-    document.title = "Opus TB | Hero archive";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        "content",
-        "Opus test bed archive. The approach hero background trials have been retired now that the shared hero system is in place."
-      );
-    }
-  }, []);
+  useDocumentMetadata(
+    "Opus TB | Hero archive",
+    "Opus test bed archive. The approach hero background trials have been retired now that the shared hero system is in place."
+  );
 
   return (
     <main className="site-page opus-tb-page">

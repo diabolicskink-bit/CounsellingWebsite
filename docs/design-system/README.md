@@ -8,10 +8,12 @@ Read these files together:
 - `tokens.md`: the shared visual tokens and baseline layout rules
 - `components.md`: the reusable building blocks to prefer in implementation
 - `ai-rules.md`: the short, strict checklist AI tools should follow during edits
+- `cleanup-sweeps.md`: named cleanup passes for simplifying CSS, page structure, shared patterns, nested class complexity, and route/layout maintenance over time
 
 Primary implementation sources:
 
 - `src/styles.css`
+- `src/styles-dev.css` for design-system docs/dev-page shell styles such as `ds-*`
 - `src/components`
 - `src/pages/design-system/DS_Foundations.tsx`
 - `src/pages/design-system/DS_Components.tsx`
@@ -25,6 +27,8 @@ Primary implementation sources:
 - Treat `hero-*` as a separate shared hero design system layered alongside `site-*`.
 - `site-*` is the main shared production system for sections, cards, panels, lists, forms, and general page structure.
 - `hero-*` is the shared production system for page-opening hero composition, hero backgrounds, hero copy rails, hero support strips, and hero-related supporting media/layout.
+- Within the shared hero system, `.hero-display` is the authoritative page-opening H1 pattern for production pages.
+- When a hero title only needs a different width, prefer setting `--hero-display-max-width` at page scope over creating a page-specific title class.
 - `site-hero-*` belongs to an older design-system shell and should be treated as legacy/demo scaffolding.
 - `design-language-*` classes come from an older v1 design-system layer and should be treated as legacy/demo scaffolding unless a specific pattern has been promoted into a `site-*` class.
 - When reusing or extending a shared pattern for real page work, prefer the `site-*` or shared hero class rather than introducing a new `design-language-*` dependency.
@@ -104,6 +108,7 @@ For design-system documentation pages specifically:
 - Check `tokens.md` before introducing any new colour, spacing, radius, or shadow.
 - Check `components.md` before creating new layout or card patterns.
 - Use `ai-rules.md` as the final pre-commit checklist for UI changes.
+- Use `cleanup-sweeps.md` when the goal is cleanup, simplification, deduplication, page-pattern convergence, or style-system maintenance rather than feature work.
 
 ## Update Rule
 

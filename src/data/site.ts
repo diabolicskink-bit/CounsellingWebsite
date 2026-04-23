@@ -42,6 +42,7 @@ export const navItems: NavItem[] = [
           { label: "Patterns", href: "/design-language/patterns" },
         ],
       },
+      { label: "Documents", href: "/documents" },
       {
         label: "Test Beds",
         href: "/codex-tb",

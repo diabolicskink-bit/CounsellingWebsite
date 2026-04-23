@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+import { ArrowRight } from "lucide-react";
+import Button from "../../components/Button";
 import Container from "../../components/Container";
 import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
+import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
 const potentialPatterns = [
   { title: "Notice banner", label: "Availability", text: "A quiet announcement strip for availability, holidays, or important practice updates.", className: "design-language-pattern--notice" },
@@ -99,9 +101,7 @@ const principleSamples = [
 // page repeats a layout such as split copy, principles, FAQ beside a heading,
 // or a single-column hero, document it here and use shared site-* classes.
 export default function DS_Patterns() {
-  useEffect(() => {
-    document.title = "Patterns | Design System | Vive Counselling";
-  }, []);
+  useDocumentMetadata("Patterns | Design System | Vive Counselling");
 
   return (
     <main className="site-page design-language-page">
@@ -174,6 +174,26 @@ export default function DS_Patterns() {
                   </p>
                 </article>
               </div>
+            </div>
+
+            <div className="ds-demo" style={{ marginTop: "24px" }}>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "14px" }}>Shared closing CTA</p>
+              <section className="site-cta-block">
+                <Container className="site-cta-block__inner">
+                  <div className="site-cta-block__copy">
+                    <h2>
+                      For when <span className="site-emphasis">"I just need to talk to someone."</span>
+                    </h2>
+                    <p>
+                      Use this as the default page-ending prompt when one strong line and one clear next step are
+                      enough.
+                    </p>
+                  </div>
+                  <Button href="/contact">
+                    Get in touch <ArrowRight size={16} />
+                  </Button>
+                </Container>
+              </section>
             </div>
           </section>
 

@@ -1,8 +1,8 @@
-import { useEffect } from "react";
 import type { LucideIcon } from "lucide-react";
 import { Clock3, Mail } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-enquire.css";
 
 type EnquiryHeroTitle = {
@@ -220,14 +220,7 @@ const enquiryPageContent: EnquiryPageContent = {
 export default function Enquire() {
   const { hero, serviceTiers, form, contact, contactDetails, practical } = enquiryPageContent;
 
-  useEffect(() => {
-    document.title = enquiryPageContent.title;
-    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-
-    if (metaDescription) {
-      metaDescription.content = enquiryPageContent.meta;
-    }
-  }, []);
+  useDocumentMetadata(enquiryPageContent.title, enquiryPageContent.meta);
 
   return (
     <main className="site-page enquire-page">
