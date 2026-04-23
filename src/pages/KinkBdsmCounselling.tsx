@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import FaqSection from "../components/FaqSection";
 import "../styles-kink-bdsm.css";
 
 type BreadcrumbItem = {
@@ -10,15 +11,20 @@ type BreadcrumbItem = {
   href?: string;
 };
 
-type ActionLink = {
+type PrimaryAction = {
   label: string;
   href: string;
-  variant?: "primary" | "secondary" | "tertiary";
 };
 
 type TextLink = {
   label: string;
   href: string;
+};
+
+type EmphasisCopy = {
+  before: string;
+  emphasis: string;
+  after: string;
 };
 
 type TopicCard = {
@@ -47,13 +53,14 @@ type KinkPageContent = {
   meta: string;
   hero: {
     breadcrumb: BreadcrumbItem[];
-    badge: string;
+    eyebrow: string;
     title: string;
     intro: string;
+    primaryAction: PrimaryAction;
+    secondaryAction: TextLink;
     trustItems: string[];
-    panelEyebrow: string;
-    panelItems: string[];
-    actions: ActionLink[];
+    noteEyebrow: string;
+    noteItems: string[];
   };
   topicSection: {
     eyebrow: string;
@@ -107,25 +114,28 @@ const kinkPageContent: KinkPageContent = {
       { label: "Inclusive practice", href: "/inclusion" },
       { label: "Kink & BDSM" },
     ],
-    badge: "Kink-aware counselling",
-    title: "Kink & BDSM-aware counselling",
+    eyebrow: "Kink & BDSM-aware counselling",
+    title: "Ordinary therapy where kink will not be mishandled.",
     intro:
-      "Counselling for kinky clients who want ordinary therapy without having to hide, justify, or over-explain this part of life. You might be coming for anxiety, shame, grief, relationship strain, trauma, self-worth, or something harder to name. Many people arrive after past therapy where kink was judged, pathologised, over-scrutinised, or simply misunderstood.",
+      "You might be coming for anxiety, grief, shame, trauma, burnout, or relationship strain. What matters is being able to mention kink plainly without it being treated as pathology, danger, or the explanation for everything else.",
+    primaryAction: {
+      label: "Make an enquiry",
+      href: "/contact",
+    },
+    secondaryAction: {
+      label: "Working with Joel",
+      href: "/working-with-joel",
+    },
     trustItems: [
       "For adults",
+      "Perth-based",
       "Online across Australia",
-      "Grounded and non-shaming",
-      "Kink does not have to be hidden first",
     ],
-    panelEyebrow: "What this offers",
-    panelItems: [
-      "You do not need a kink-specific crisis to come here.",
-      "Kink is not treated as proof that something is wrong with you.",
-      "If it matters, it can be spoken about directly. If it does not, it does not have to take over the work.",
-    ],
-    actions: [
-      { label: "Make an enquiry", href: "/contact" },
-      { label: "Inclusive counselling hub", href: "/inclusion", variant: "secondary" },
+    noteEyebrow: "What this changes",
+    noteItems: [
+      "No need for a kink-specific problem.",
+      "No need to explain the basics.",
+      "No need for the real issue to get lost.",
     ],
   },
   topicSection: {
@@ -307,45 +317,47 @@ export default function KinkBdsmCounselling() {
     <main className="site-page kink-page">
       <FaqSchema faqs={faqSection.items} />
 
-      <section className="hero-section hero-bg--diagonal kink-page__hero">
-        <Container>
-          <div className="hero-top kink-page__hero-top">
+      <section className="kink-page__hero">
+        <Container className="kink-page__hero-inner">
+          <nav className="breadcrumb" aria-label="Breadcrumb">
+            {hero.breadcrumb.map((item) =>
+              item.href ? (
+                <Link key={item.label} to={item.href}>
+                  {item.label}
+                </Link>
+              ) : (
+                <span key={item.label}>{item.label}</span>
+              ),
+            )}
+          </nav>
+
+          <div className="kink-page__hero-main">
             <div className="kink-page__hero-copy">
-              <nav className="breadcrumb" aria-label="Breadcrumb">
-                {hero.breadcrumb.map((item) =>
-                  item.href ? (
-                    <Link key={item.label} to={item.href}>
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <span key={item.label}>{item.label}</span>
-                  ),
-                )}
-              </nav>
-
-              <span className="hero-badge">{hero.badge}</span>
+              <p className="kink-page__hero-eyebrow">{hero.eyebrow}</p>
               <h1 className="hero-display kink-page__hero-title">{hero.title}</h1>
-              <p className="hero-intro">{hero.intro}</p>
+              <p className="kink-page__hero-intro">{hero.intro}</p>
 
-              <ul className="site-trust-list site-trust-list--highlight-last kink-page__trust" aria-label="Practice details">
+              <div className="kink-page__hero-actions">
+                <Button href={hero.primaryAction.href}>{hero.primaryAction.label}</Button>
+                <Link className="site-text-link kink-page__hero-text-link" to={hero.secondaryAction.href}>
+                  {hero.secondaryAction.label} <ArrowRight size={16} />
+                </Link>
+              </div>
+
+              <ul className="kink-page__hero-trust" aria-label="Practice details">
                 {hero.trustItems.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </div>
 
-            <aside className="site-copy-panel kink-page__hero-panel" aria-label="Kink-aware counselling summary">
-              <span className="site-highlight__eyebrow">{hero.panelEyebrow}</span>
-              <div className="site-detail-stack">
-                {hero.panelItems.map((item) => (
-                  <p key={item}>{item}</p>
-                ))}
-              </div>
-              <div className="site-actions kink-page__hero-actions">
-                {hero.actions.map((action) => (
-                  <Button key={action.label} href={action.href} variant={action.variant ?? "primary"}>
-                    {action.label}
-                  </Button>
+            <aside className="kink-page__hero-note" aria-label="What this changes">
+              <p className="kink-page__hero-note-eyebrow">{hero.noteEyebrow}</p>
+              <div className="kink-page__hero-note-list">
+                {hero.noteItems.map((item) => (
+                  <p className="kink-page__hero-note-item" key={item}>
+                    {item}
+                  </p>
                 ))}
               </div>
             </aside>
@@ -455,34 +467,7 @@ export default function KinkBdsmCounselling() {
         </Container>
       </section>
 
-      <section className="site-grid site-faq-section kink-page__faq">
-        <Container>
-          <div className="site-faq-shell">
-            <div className="site-faq-shell__header">
-              <span className="site-eyebrow">{faqSection.eyebrow}</span>
-              <h2>{faqSection.heading}</h2>
-              <p>{faqSection.intro}</p>
-            </div>
-
-            <div className="site-faq-list">
-              {faqSection.items.map((faq, index) => (
-                <details className="site-faq-item" key={faq.question} open={index === 0}>
-                  <summary className="site-faq-question">
-                    <h3>{faq.question}</h3>
-                    <span className="site-faq-icon" aria-hidden="true">
-                      <span />
-                      <span />
-                    </span>
-                  </summary>
-                  <div className="site-faq-answer">
-                    <p>{faq.answer}</p>
-                  </div>
-                </details>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
+      <FaqSection intro={faqSection.intro} items={faqSection.items} title={faqSection.heading} />
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">

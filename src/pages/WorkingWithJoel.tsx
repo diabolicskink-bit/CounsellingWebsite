@@ -10,10 +10,10 @@ type EmphasisCopy = {
   after: string;
 };
 
-type FocusCard = {
+type TopicItem = {
   title: string;
-  layoutClass?: string;
-  toneClass?: string;
+  body: string;
+  closing?: boolean;
 };
 
 type WorkingWithJoelPageContent = {
@@ -33,9 +33,10 @@ type WorkingWithJoelPageContent = {
     paragraphs: string[];
   };
   focus: {
+    eyebrow: string;
     title: string;
-    intro: string;
-    items: FocusCard[];
+    intro?: string;
+    items: TopicItem[];
   };
 };
 
@@ -62,67 +63,68 @@ const pageContent: WorkingWithJoelPageContent = {
     },
   },
   approach: {
-    title: "An integrative, psychodynamically informed approach",
+    title: "Introducing Joel",
     paragraphs: [
       "My approach is grounded in psychodynamic and attachment-based thinking. That means I am interested not just in what is happening now but in what is shaping it, where it came from, what keeps it going, and what might be maintaining it beneath the surface.",
       "Attachment is central to how I work. The ways people learn closeness, distance, trust, and self-protection early in life tend to continue organising how they relate as adults, often without being fully visible. That is often where the most useful work happens.",
       "The approach is integrative, which means I am not tied to one method. Other frameworks and tools come in where they are useful. But depth work, understanding what is actually going on rather than managing the symptoms of it, is the core of what I do.",
-      "If you have worked with therapists before and found it stayed on the surface, or focused on coping tools without looking at what was driving the need for them, this tends to feel different."
+      "If you have worked with therapists before and found it stayed on the surface, or focused on coping tools without looking at what was driving the need for them, this tends to feel different.",
     ],
   },
   focus: {
-    title: "What we can work with",
-    intro: "People arrive with many different things. Some have a name for what they are carrying, some do not. Some fit neatly into a category, some sit across several, and some are harder to place. The list is a starting point, not a limit.",
+    eyebrow: "What I work with",
+    title: "Some of the issues I work with",
     items: [
       {
-        title: "Shame",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--soft",
+        title: "Anxiety, panic & overwhelm",
+        body:
+          "Worry, dread, overthinking, shutdown, physical tension, irritability, or feeling unable to switch off.",
       },
       {
-        title: "Self-criticism",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--paper",
+        title: "Depression & low mood",
+        body:
+          "Flatness, numbness, hopelessness, exhaustion, loss of interest, or not feeling much like yourself.",
       },
       {
-        title: "Relationships and attachment",
-        layoutClass: "working-with-joel-page__focus-pill--span-2",
-        toneClass: "working-with-joel-page__focus-pill--muted",
+        title: "Trauma & feeling unsafe",
+        body:
+          "Past experiences, abuse, dissociation, hypervigilance, numbness, or memories that still feel active.",
       },
       {
-        title: "Anxiety",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--paper",
+        title: "Shame & self-criticism",
+        body:
+          "Feeling wrong, too much, not enough, exposed, constantly at fault, or unable to be at ease with yourself.",
       },
       {
-        title: "Trauma",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--soft",
+        title: "Perfectionism & control",
+        body:
+          "High standards, fear of mistakes, procrastination, over-responsibility, or never being able to rest.",
       },
       {
-        title: "Neurodivergence",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--muted",
+        title: "Relationships & attachment",
+        body:
+          "Conflict, distance, jealousy, trust, people-pleasing, fear of closeness, or repeating the same painful pattern.",
       },
       {
-        title: "Perfectionism",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--soft",
+        title: "Sex, intimacy & desire",
+        body:
+          "Desire, avoidance, shame, boundaries, sexual confidence, intimacy, or things that feel hard to say out loud.",
       },
       {
-        title: "Sexuality",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--paper",
+        title: "Kink & BDSM",
+        body:
+          "Power exchange, dynamics, consent, shame, conflict, secrecy, or kink as one part of ordinary life.",
       },
       {
-        title: "Kink and BDSM",
-        layoutClass: "working-with-joel-page__focus-pill--span-1",
-        toneClass: "working-with-joel-page__focus-pill--muted",
+        title: "Polyamory & ENM",
+        body:
+          "Agreements, jealousy, comparison, disclosure, boundaries, repair, breakups, or relationship strain.",
       },
       {
-        title: "Polyamory and ENM",
-        layoutClass: "working-with-joel-page__focus-pill--span-2",
-        toneClass: "working-with-joel-page__focus-pill--soft",
+        title: "Something else?",
+        body:
+          "Sometimes what's going on doesn't quite match any of these. It may be more specific, a bit of a mix, or just difficult to explain.",
+        closing: true,
       },
     ],
   },
@@ -144,7 +146,7 @@ export default function WorkingWithJoel() {
     <main className="site-page working-with-joel-page">
       <section className="hero-section hero-bg--diagonal">
         <Container>
-          <div className="hero-top hero-top--supporting-media">
+          <div className="hero-top working-with-joel-page__hero-top">
             <div className="working-with-joel-page__hero-copy">
               <h1 className="hero-display working-with-joel-page__hero-title">
                 {hero.title.before}
@@ -153,17 +155,28 @@ export default function WorkingWithJoel() {
                 <br />
                 {hero.title.after}
               </h1>
-              <div className="hero-copy-panel working-with-joel-page__hero-support">
-                <p>{hero.support}</p>
-                <ul className="hero-support-tagline" aria-label="Practice details">
-                  {hero.trustItems.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
             </div>
 
-            <aside className="hero-media-note working-with-joel-page__hero-note" aria-label="About Joel Griffiths">
+            <div className="hero-copy-panel working-with-joel-page__hero-support">
+              <p>{hero.support}</p>
+              <ul className="hero-support-tagline" aria-label="Practice details">
+                {hero.trustItems.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="site-grid working-with-joel-page__approach">
+        <Container className="site-split">
+          <div className="section-heading working-with-joel-page__approach-heading">
+            <h2>{approach.title}</h2>
+            <aside
+              className="hero-media-note working-with-joel-page__approach-note"
+              aria-label="About Joel Griffiths"
+            >
               <div className="hero-media-note__image">
                 <img src={portraitSrc} alt="" />
               </div>
@@ -174,15 +187,6 @@ export default function WorkingWithJoel() {
             </aside>
           </div>
 
-        </Container>
-      </section>
-
-      <section className="site-grid working-with-joel-page__approach">
-        <Container className="site-split">
-          <div className="section-heading">
-            <h2>{approach.title}</h2>
-          </div>
-
           <article className="site-copy-panel rich-text working-with-joel-page__framework-panel">
             {approach.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
@@ -191,28 +195,33 @@ export default function WorkingWithJoel() {
         </Container>
       </section>
 
-      <section className="site-grid working-with-joel-page__focus">
-        <Container className="site-split working-with-joel-page__focus-split">
-          <div className="site-grid__heading">
-            <h2>{focus.title}</h2>
-            <p className="section-heading__copy site-ruled-paragraph">{focus.intro}</p>
+      <section
+        className="working-with-joel-page__focus working-topics"
+        aria-labelledby="working-with-joel-focus-title"
+      >
+        <Container>
+          <div className="site-grid__heading working-topics__header">
+            <span className="site-eyebrow">{focus.eyebrow}</span>
+            <h2 id="working-with-joel-focus-title">{focus.title}</h2>
+            {focus.intro ? <p className="section-heading__copy">{focus.intro}</p> : null}
           </div>
 
-          <div className="working-with-joel-page__focus-cluster" aria-label="Areas of particular understanding">
-            {focus.items.map((item) => (
-              <span
-                className={[
-                  "working-with-joel-page__focus-pill",
-                  item.layoutClass,
-                  item.toneClass,
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-                key={item.title}
-              >
-                {item.title}
-              </span>
-            ))}
+          <div className="working-topics__panel">
+            <div className="working-topics__grid" aria-label="Examples of what people bring to counselling">
+              {focus.items.map((item) => (
+                <article
+                  key={item.title}
+                  className={
+                    item.closing
+                      ? "working-topics__item working-topics__item--closing"
+                      : "working-topics__item"
+                  }
+                >
+                  <h3 className="working-topics__item-title">{item.title}</h3>
+                  <p className="working-topics__item-body">{item.body}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </Container>
       </section>

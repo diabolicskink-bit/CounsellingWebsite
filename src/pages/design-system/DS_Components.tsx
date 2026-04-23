@@ -16,6 +16,7 @@ import Button from "../../components/Button";
 import Container from "../../components/Container";
 import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
+import FaqSection from "../../components/FaqSection";
 
 const iconCards = [
   { icon: Sparkles, title: "Composed first impressions", description: "A restrained visual system with enough structure to feel confident, calm, and deliberate." },
@@ -391,24 +392,15 @@ export default function DS_Components() {
 
               <div>
                 <p className="site-eyebrow" style={{ marginBottom: "14px" }}>FAQ accordion</p>
-                <div className="site-faq-list">
-                  {faqItems.map((faq, index) => (
-                    <details className="site-faq-item" key={faq.question} open={index === 0}>
-                      <summary className="site-faq-question">
-                        <h3>{faq.question}</h3>
-                        <span className="site-faq-icon" aria-hidden="true">
-                          <span />
-                          <span />
-                        </span>
-                      </summary>
-                      <div className="site-faq-answer">
-                        <p>{faq.answer}</p>
-                      </div>
-                    </details>
-                  ))}
+                <div className="site-copy-panel">
+                  <p style={{ maxWidth: "42ch", margin: 0 }}>
+                    FAQ sections now use the shared <code>FaqSection</code> component so spacing, motion, semantics,
+                    and open-state behaviour stay consistent across the public site.
+                  </p>
                 </div>
                 <div className="ds-usage-note">
-                  <strong>Use for:</strong> Question-and-answer sections. This is the shared FAQ pattern. Pair with <code>.site-split</code> when the heading sits beside the FAQ list.
+                  <strong>Use for:</strong> Question-and-answer sections. Use the shared <code>FaqSection</code>{" "}
+                  component rather than page-level accordion markup.
                 </div>
               </div>
             </div>
@@ -425,6 +417,23 @@ export default function DS_Components() {
                 trust-building copy. Do not use it for long rich-text blocks or stacked multi-paragraph content.
               </div>
             </div>
+          </section>
+
+          <section className="ds-section" id="faq-accordion">
+            <div className="ds-section-heading">
+              <span className="site-eyebrow">FAQ accordion</span>
+              <h2>Use the shared component at full section width.</h2>
+              <p>
+                The live example below shows the reusable FAQ treatment with its intended spacing, contained reveal,
+                and one-open-at-a-time behaviour.
+              </p>
+            </div>
+
+            <FaqSection
+              intro="Use this shared section when answers need comfortable reading space and the interaction should feel calm, clear, and contained."
+              items={faqItems}
+              title="Common questions before starting"
+            />
           </section>
 
         </div>

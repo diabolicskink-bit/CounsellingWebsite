@@ -34,6 +34,12 @@ const demoHeroDetailStackItems = [
   "LGBTQIA+",
 ];
 
+const demoHeroDeck = {
+  lead: "Kinky, non-monogamous, queer, or some mix of all three.",
+  body:
+    "Use the deck when the first sentence should do more than introduce the paragraph. Give the opening line its own weight, then let the body carry the fuller explanation in a quieter voice.",
+};
+
 const anatomyRows = [
   {
     zone: "Wrapper",
@@ -43,7 +49,7 @@ const anatomyRows = [
   {
     zone: "Background",
     className: ".hero-bg--*",
-    desc: "A single modifier applied to the wrapper. Home, Working with Joel, and Inclusion all use .hero-bg--diagonal.",
+    desc: "A single modifier applied to the wrapper when the shared background treatment is enough. The public hero system now shares one calm paper-and-sage surface via .hero-bg--diagonal, with page-level classes reserved for layout and content rather than alternate hero skins.",
   },
   {
     zone: "Top zone",
@@ -58,12 +64,17 @@ const anatomyRows = [
   {
     zone: "Display heading",
     className: ".hero-display",
-    desc: "Large serif display type. Use h1 in production. The shared line-height keeps longer multi-line titles readable without losing editorial compression.",
+    desc: "Large serif display type. Use h1 in production. The shared rule owns the type styling, while page-level classes should set max-width or line breaks when a hero needs a specific measure.",
   },
   {
     zone: "Intro paragraph",
     className: ".hero-intro",
     desc: "Measured introductory copy for text-led heroes. Use it when the opening paragraph needs a readable line length under the heading.",
+  },
+  {
+    zone: "Hero deck",
+    className: ".hero-deck",
+    desc: "Two-level editorial support deck with a quiet left rule, a balanced lead sentence, and calmer body copy. Use when the intro needs internal hierarchy rather than one continuous paragraph.",
   },
   {
     zone: "Copy panel",
@@ -88,7 +99,7 @@ const anatomyRows = [
   {
     zone: "Detail stack",
     className: ".hero-detail-stack",
-    desc: "Open typographic stack for a few short supporting themes when a hero needs emphasis without adding a card or strip. Used on the Inclusion page.",
+    desc: "Open typographic stack for a few short supporting themes when a hero needs emphasis without adding a card or strip. Add .hero-detail-stack__link when the items should act as quiet pathways.",
   },
   {
     zone: "Principles strip",
@@ -116,10 +127,10 @@ const backgroundTreatments = [
     use: "A soft green field when the hero needs a little more separation from the page body.",
   },
   {
-    label: "Diagonal gradient",
+    label: "Editorial paper wash",
     className: "hero-bg--diagonal",
-    value: "#d0dbc9 to var(--paper)",
-    use: "The canonical treatment used by Home, Approach, and Inclusion. Quiet depth without added decoration.",
+    value: "layered radial washes + paper gradient",
+    use: "The shared treatment used across public heroes. The class name is retained for continuity, but the surface is now a continuous paper-and-sage field with soft depth rather than a visible split or graphic diagonal.",
   },
   {
     label: "Cedar top border",
@@ -151,7 +162,7 @@ export default function DS_Heroes() {
       <DevPageHero
         badge="Design system"
         title="Heroes"
-        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background treatments. The shared hero system is the canonical reference used by Home, Working with Joel, Inclusion, and the dev pages."
+        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and calm background treatments. The shared hero system is the canonical reference used across the site, with one continuous paper-and-sage hero surface reused before any page-specific layout refinements."
       />
 
       <div className="ds-layout">
@@ -276,10 +287,32 @@ export default function DS_Heroes() {
                   <td>
                     <code>.hero-section 40px top / .hero-top 40px bottom</code>
                   </td>
-                  <td>Keeps the opening field evenly spaced across Home, Working with Joel, and Inclusion.</td>
+                  <td>Sets the default opening field rhythm. Page-specific heroes can tighten or loosen it when the composition needs a stronger editorial lockup.</td>
                 </tr>
               </tbody>
             </table>
+          </section>
+
+          <section className="ds-section" id="hero-deck">
+            <div className="ds-section-heading">
+              <span className="site-eyebrow">Hero Deck</span>
+              <h2>When the under-heading copy needs hierarchy inside itself.</h2>
+              <p>
+                Use the deck when the first sentence should land as a hook rather than dissolving into the full
+                paragraph. It should feel editorial and deliberate, not like a quote box or a card, and the lead
+                should stay poised rather than oversized.
+              </p>
+            </div>
+
+            <div className="ds-hero-demo">
+              <div className="ds-hero-demo__label">Live sample: .hero-deck</div>
+              <div className="ds-hero-demo__body hero-bg--paper">
+                <div className="hero-deck ds-hero-demo__copy-panel" style={{ marginTop: 0 }}>
+                  <p className="hero-deck__lead">{demoHeroDeck.lead}</p>
+                  <p className="hero-deck__body">{demoHeroDeck.body}</p>
+                </div>
+              </div>
+            </div>
           </section>
 
           <section className="ds-section" id="copy-panel">
@@ -397,7 +430,9 @@ export default function DS_Heroes() {
               <h2>Choose one field treatment per hero.</h2>
               <p>
                 Backgrounds should create atmosphere without becoming the subject. The diagonal treatment is the
-                starting point; the other options are controlled variations for future pages.
+                starting point, but it should read as a soft wash of light and paper rather than a visible wedge or
+                split-screen panel. Adjust it with variables when a page needs more sage weight on one side or a
+                lighter paper field on the other.
               </p>
             </div>
 

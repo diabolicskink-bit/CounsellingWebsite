@@ -4,72 +4,144 @@
 
 .kink-page__hero {
   position: relative;
-  overflow: hidden;
+  padding: 56px 0 78px;
+  border-bottom: 1px solid rgba(35, 75, 61, 0.14);
+  background: linear-gradient(180deg, rgba(234, 240, 230, 0.96), rgba(247, 246, 242, 1));
 }
 
-.kink-page__hero::before {
+.kink-page__hero::after {
   content: "";
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.34), transparent 28%),
-    radial-gradient(circle at 82% 16%, rgba(35, 75, 61, 0.08), transparent 24%);
+  inset: auto 0 0;
+  height: 1px;
+  background: rgba(35, 75, 61, 0.08);
   pointer-events: none;
 }
 
-.kink-page__hero .container {
+.kink-page__hero-inner {
   position: relative;
   z-index: 1;
+  display: grid;
+  gap: 30px;
 }
 
-.kink-page__hero-top {
-  grid-template-columns: minmax(0, 1.16fr) minmax(300px, 0.84fr);
+.kink-page__hero-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
   gap: 56px;
   align-items: start;
 }
 
 .kink-page__hero-copy {
   display: grid;
-  gap: 18px;
+  gap: 16px;
   min-width: 0;
 }
 
-.kink-page__hero-title {
-  max-width: 10.5ch;
-  margin-bottom: 0;
-}
-
-.kink-page__trust {
-  max-width: 48rem;
-  padding-top: 6px;
-}
-
-.kink-page__hero-panel {
-  gap: 20px;
-  align-self: start;
-  margin-top: 34px;
-}
-
-.kink-page__hero-panel .site-detail-stack {
-  gap: 0;
-  padding: 0;
-}
-
-.kink-page__hero-panel .site-detail-stack p {
+.kink-page__hero-eyebrow {
   margin: 0;
-  padding: 14px 0;
-  border-top: 1px solid rgba(35, 75, 61, 0.14);
-  color: var(--color-text);
-  line-height: 1.62;
+  color: var(--cedar);
+  font-size: 0.79rem;
+  font-weight: 740;
+  letter-spacing: 0.07em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
-.kink-page__hero-panel .site-detail-stack p:first-child {
-  padding-top: 0;
-  border-top: 0;
+.kink-page__hero-title {
+  max-width: 10ch;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.kink-page__hero-intro {
+  max-width: 39rem;
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1.08rem;
+  line-height: 1.72;
 }
 
 .kink-page__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
   gap: 12px;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.kink-page__hero-text-link {
+  font-size: 1rem;
+}
+
+.kink-page__hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0;
+  padding: 10px 0 0;
+  list-style: none;
+  color: rgba(63, 74, 64, 0.92);
+  font-size: 0.94rem;
+  font-weight: 620;
+  line-height: 1.45;
+}
+
+.kink-page__hero-trust li {
+  display: inline-flex;
+  align-items: center;
+}
+
+.kink-page__hero-trust li:not(:last-child)::after {
+  margin-inline: 10px;
+  color: rgba(35, 75, 61, 0.52);
+  content: "\2022";
+}
+
+.kink-page__hero-note {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  padding: 8px 0 0 0;
+  border-top: 1px solid rgba(35, 75, 61, 0.18);
+  border-bottom: 1px solid rgba(35, 75, 61, 0.18);
+}
+
+.kink-page__hero-note-eyebrow {
+  margin: 0;
+  padding-top: 18px;
+  color: var(--cedar);
+  font-size: 0.77rem;
+  font-weight: 740;
+  letter-spacing: 0.07em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.kink-page__hero-note-list {
+  display: grid;
+  gap: 0;
+}
+
+.kink-page__hero-note-item {
+  margin: 0;
+  padding: 16px 0;
+  color: var(--color-heading);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.55rem, 2.1vw, 2rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  border-top: 1px solid rgba(35, 75, 61, 0.12);
+}
+
+.kink-page__hero-note-item:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.kink-page__hero-note-item:last-child {
+  padding-bottom: 18px;
 }
 
 .kink-page__topics-heading p {
@@ -113,21 +185,65 @@
   line-height: 1.68;
 }
 
-.kink-page__faq .site-faq-shell__header p {
-  max-width: 56ch;
-  margin: 0;
-}
-
-@media (max-width: 900px) {
-  .kink-page__hero-top {
-    gap: 28px;
+@media (max-width: 980px) {
+  .kink-page__hero {
+    padding: 48px 0 72px;
   }
 
-  .kink-page__hero-panel {
-    margin-top: 0;
+  .kink-page__hero-main {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .kink-page__hero-title {
+    max-width: 10ch;
+  }
+
+  .kink-page__hero-note {
+    max-width: 34rem;
   }
 
   .kink-page__focus-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .kink-page__hero {
+    padding: 42px 0 56px;
+  }
+
+  .kink-page__hero-inner {
+    gap: 24px;
+  }
+
+  .kink-page__hero-title {
+    max-width: 10ch;
+    font-size: clamp(2.8rem, 12vw, 3.8rem);
+  }
+
+  .kink-page__hero-intro {
+    font-size: 1.02rem;
+    line-height: 1.68;
+  }
+
+  .kink-page__hero-actions {
+    align-items: flex-start;
+  }
+
+  .kink-page__hero-trust {
+    font-size: 0.92rem;
+  }
+
+  .kink-page__hero-trust li {
+    width: 100%;
+  }
+
+  .kink-page__hero-trust li:not(:last-child)::after {
+    display: none;
+  }
+
+  .kink-page__hero-note-item {
+    font-size: clamp(1.34rem, 6vw, 1.72rem);
   }
 }

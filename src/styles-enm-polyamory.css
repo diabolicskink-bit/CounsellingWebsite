@@ -113,11 +113,6 @@
   line-height: 1.68;
 }
 
-.enm-page__faq .site-faq-shell__header p {
-  max-width: 56ch;
-  margin: 0;
-}
-
 @media (max-width: 900px) {
   .enm-page__hero-top {
     gap: 28px;

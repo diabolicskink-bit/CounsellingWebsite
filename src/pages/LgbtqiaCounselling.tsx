@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import FaqSection from "../components/FaqSection";
 import "../styles-lgbtqia.css";
 
 type FaqItem = {
@@ -50,28 +51,31 @@ const pageContent = {
       "You can also come when sexuality or gender is not the main reason for counselling. Anxiety, grief, relationship strain, shame, self-worth, burnout, and loneliness still deserve support in a setting where you do not have to scan for basic safety first.",
     ],
   },
-  faqs: [
-    {
-      question: "Do I need to be out?",
-      answer:
-        "No. You do not need to be out to family, work, community, or anyone else to come to counselling. We can talk carefully about privacy, visibility, risk, and what feels possible.",
-    },
-    {
-      question: "Can I come if sexuality or gender is not the main reason I want counselling?",
-      answer:
-        "Yes. LGBTQIA+ affirming counselling is not only for identity issues. It can support ordinary life difficulties without treating your identity as irrelevant or as the whole story.",
-    },
-    {
-      question: "Do you work with trans and non-binary clients?",
-      answer:
-        "Yes. Trans and non-binary clients are welcome, including clients exploring gender, navigating systems, dealing with family strain, or seeking counselling for unrelated concerns.",
-    },
-    {
-      question: "Can I talk about family rejection, religion, or shame?",
-      answer:
-        "Yes. Family rejection, religious conflict, shame, and internalised criticism can be discussed directly and at your pace.",
-    },
-  ] satisfies FaqItem[],
+  faqSection: {
+    title: "Common questions before starting",
+    items: [
+      {
+        question: "Do I need to be out?",
+        answer:
+          "No. You do not need to be out to family, work, community, or anyone else to come to counselling. We can talk carefully about privacy, visibility, risk, and what feels possible.",
+      },
+      {
+        question: "Can I come if sexuality or gender is not the main reason I want counselling?",
+        answer:
+          "Yes. LGBTQIA+ affirming counselling is not only for identity issues. It can support ordinary life difficulties without treating your identity as irrelevant or as the whole story.",
+      },
+      {
+        question: "Do you work with trans and non-binary clients?",
+        answer:
+          "Yes. Trans and non-binary clients are welcome, including clients exploring gender, navigating systems, dealing with family strain, or seeking counselling for unrelated concerns.",
+      },
+      {
+        question: "Can I talk about family rejection, religion, or shame?",
+        answer:
+          "Yes. Family rejection, religious conflict, shame, and internalised criticism can be discussed directly and at your pace.",
+      },
+    ] satisfies FaqItem[],
+  },
 };
 
 function useSeo() {
@@ -105,11 +109,11 @@ function FaqSchema({ faqs }: { faqs: FaqItem[] }) {
 
 export default function LgbtqiaCounselling() {
   useSeo();
-  const { hero, firstSection, stance, individual, faqs } = pageContent;
+  const { hero, firstSection, stance, individual, faqSection } = pageContent;
 
   return (
     <main className="site-page inclusion-page lgbtqia-page">
-      <FaqSchema faqs={faqs} />
+      <FaqSchema faqs={faqSection.items} />
 
       <section className="hero-section hero-bg--diagonal lgbtqia-page__hero">
         <Container>
@@ -187,30 +191,7 @@ export default function LgbtqiaCounselling() {
         </Container>
       </section>
 
-      <section className="site-grid">
-        <Container className="site-split">
-          <div className="section-heading">
-            <span className="site-eyebrow">Questions</span>
-            <h2>Common questions before starting</h2>
-          </div>
-          <div className="site-faq-list">
-            {faqs.map((faq, index) => (
-              <details className="site-faq-item" key={faq.question} open={index === 0}>
-                <summary className="site-faq-question">
-                  <h3>{faq.question}</h3>
-                  <span className="site-faq-icon" aria-hidden="true">
-                    <span />
-                    <span />
-                  </span>
-                </summary>
-                <div className="site-faq-answer">
-                  <p>{faq.answer}</p>
-                </div>
-              </details>
-            ))}
-          </div>
-        </Container>
-      </section>
+      <FaqSection items={faqSection.items} title={faqSection.title} />
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">
