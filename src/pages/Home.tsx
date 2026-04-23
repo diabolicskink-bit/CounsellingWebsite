@@ -59,10 +59,14 @@ type HomePageContent = {
   workroom: {
     heading: string;
     intro: string;
-    letterLabel: string;
-    letterCopy: string;
+    joelName: string;
+    joelCopy: string[];
     profileHref: string;
     profileCta: string;
+    closingLead: string;
+    closingAccent: string;
+    ctaHref: string;
+    cta: string;
   };
   closingCta: {
     heading: EmphasisCopy;
@@ -169,12 +173,18 @@ const homePageContent: HomePageContent = {
   workroom: {
     heading: "Wherever you are is the place to begin.",
     intro:
-      "You do not need to have it sorted before you arrive. You do not need a clear explanation of what is wrong, the right words, or a sense that things are bad enough to justify coming. If something has been sitting with you, even vaguely, even without a name, that is enough to start. It begins with a conversation, and the conversation can start anywhere.",
-    letterLabel: "Working with Joel",
-    letterCopy:
-      "Sessions are direct and real. We can speak plainly, look beneath the immediate problem, and take what you bring seriously without making therapy feel stiff or clinical. I do not think people are meant to be tidy. The strange bits, the contradictions, the parts that do not quite fit anywhere, all of that belongs here.",
+      "You do not need to have it sorted before you arrive. You do not need a clear explanation of what is wrong, the right words, or a sense that things are bad enough to justify coming. If something has been sitting with you, even vaguely, even without a name, that is enough to start.",
+    joelName: "Joel Griffiths",
+    joelCopy: [
+      "I do not think people are meant to be tidy. The strange bits, the contradictions, the parts of yourself that do not quite fit anywhere — those belong here too.",
+      "Sessions are a straightforward conversation. Not what therapy looks like on television. No long silences, no waiting to be analysed. We talk about what you brought, directly, without a lot of ceremony.",
+    ],
     profileHref: "/working-with-joel",
-    profileCta: "Working with Joel",
+    profileCta: "More about how I work",
+    closingLead: "For when",
+    closingAccent: '"I just need to talk to someone."',
+    ctaHref: "/contact",
+    cta: "Get in touch",
   },
   closingCta: {
     heading: {
@@ -279,6 +289,29 @@ export default function Home() {
         </Container>
       </section>
 
+      <section className="site-grid home-page__workroom">
+        <Container className="home-workroom">
+          <div className="site-split home-workroom__split">
+            <div className="section-heading home-workroom__intro">
+              <h2>{workroom.heading}</h2>
+              <p className="section-heading__copy site-ruled-paragraph">{workroom.intro}</p>
+            </div>
+
+            <div className="home-workroom__joel">
+              <span className="home-workroom__joel-name">{workroom.joelName}</span>
+              {workroom.joelCopy.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              <div className="home-workroom__joel-actions">
+                <Button href={workroom.profileHref} variant="tertiary">
+                  {workroom.profileCta} <ArrowRight size={16} />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
       <section className="site-highlight home-page__inclusive">
         <Container>
           <div className="home-page__inclusive-frame">
@@ -316,27 +349,6 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="site-grid home-page__workroom">
-        <Container className="home-workroom">
-          <div className="site-split home-workroom__split">
-            <div className="section-heading home-workroom__intro">
-              <h2>{workroom.heading}</h2>
-              <p className="section-heading__copy site-ruled-paragraph">{workroom.intro}</p>
-            </div>
-
-            <article className="site-copy-panel home-workroom__letter">
-              <span className="site-highlight__eyebrow">{workroom.letterLabel}</span>
-              <p>{workroom.letterCopy}</p>
-              <div className="home-workroom__letter-actions">
-                <Button href={workroom.profileHref} variant="tertiary">
-                  {workroom.profileCta}
-                </Button>
-              </div>
-            </article>
-          </div>
-        </Container>
-      </section>
-
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">
           <div className="site-cta-block__copy">
@@ -351,6 +363,7 @@ export default function Home() {
           </Button>
         </Container>
       </section>
+
     </main>
   );
 }

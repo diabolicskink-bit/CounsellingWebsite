@@ -283,6 +283,36 @@
   align-items: start;
 }
 
+.home-workroom__joel {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  padding-left: clamp(1.25rem, 2vw, 1.75rem);
+  border-left: 1px solid rgba(35, 75, 61, 0.38);
+  margin-top: 14px;
+}
+
+.home-workroom__joel-name {
+  display: block;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.home-workroom__joel p {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.68;
+  color: var(--body);
+}
+
+.home-workroom__joel-actions {
+  padding-top: 4px;
+}
+
 .home-workroom__intro h2 {
   max-width: 700px;
 }
@@ -292,27 +322,6 @@
   color: var(--body);
   font-size: 1.02rem;
   line-height: 1.58;
-}
-
-.home-workroom__letter {
-  max-width: 520px;
-  margin-top: 14px;
-  justify-self: end;
-  width: 100%;
-}
-
-.home-workroom__letter-actions {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 16px;
-  padding-top: 2px;
-  justify-content: flex-start;
-}
-
-.home-workroom__letter-actions .button {
-  min-width: 156px;
-  flex: 0 1 auto;
-  padding-inline: 1rem;
 }
 
 /* Tablet: release the desktop tile collage into a simpler grid and stack the workroom */
@@ -462,15 +471,9 @@
     gap: 32px;
   }
 
-  .home-workroom__letter {
-    max-width: none;
-    margin-top: 0;
-    justify-self: stretch;
-  }
-
-  .home-workroom__letter-actions {
-    flex-direction: column;
-    align-items: stretch;
+  .home-workroom__joel {
+    padding-left: 1rem;
+    border-left-width: 1px;
   }
 
   .home-page__inclusive-frame {
