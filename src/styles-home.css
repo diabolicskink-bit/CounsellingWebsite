@@ -180,101 +180,11 @@
   align-content: start;
 }
 
-.home-page__inclusive-items {
-  display: grid;
-  gap: 0;
-}
-
-.home-page__inclusive-item {
-  display: grid;
-  gap: 6px;
-  position: relative;
-  padding-right: 6px;
-}
-
-.home-page__inclusive-link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.home-page__inclusive-heading {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.home-page__inclusive-item strong {
-  color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.3rem;
-  font-weight: 500;
-  line-height: 1.14;
-  letter-spacing: -0.01em;
-  text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.22);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.16em;
-  transition: color 180ms ease, text-decoration-color 180ms ease;
-}
-
-.home-page__inclusive-action {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  flex: none;
-  color: var(--cedar);
-  font-size: 1rem;
-  font-weight: 650;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-  opacity: 0.9;
-  transition: color 180ms ease, opacity 180ms ease;
-}
-
-.home-page__inclusive-icon {
-  flex: none;
-  margin-top: 1px;
-  color: var(--cedar);
-  opacity: 0.82;
-  transition: transform 180ms ease, opacity 180ms ease;
-}
-
-.home-page__inclusive-item-copy {
-  max-width: 33ch;
-}
-
-.home-page__inclusive-items > .home-page__inclusive-item:nth-child(even) {
-  padding-left: 0;
-}
-
-.home-page__inclusive-link:hover strong,
-.home-page__inclusive-link:focus-visible strong {
-  color: var(--cedar-dark);
-  text-decoration-color: rgba(35, 75, 61, 0.6);
-}
-
-.home-page__inclusive-link:hover .home-page__inclusive-action,
-.home-page__inclusive-link:focus-visible .home-page__inclusive-action {
-  color: var(--cedar-dark);
-  opacity: 1;
-}
-
-.home-page__inclusive-link:hover .home-page__inclusive-icon,
-.home-page__inclusive-link:focus-visible .home-page__inclusive-icon {
-  opacity: 1;
-  transform: translateX(4px);
-}
 
 /* Workroom: this section keeps its own composition until a shared pattern emerges */
 .home-page__workroom {
   /* The section above already provides the transition; avoid a doubled divider. */
   border-top: 0;
-}
-
-.home-workroom {
-  display: grid;
-  gap: 28px;
 }
 
 .home-workroom__split {
@@ -284,33 +194,71 @@
 }
 
 .home-workroom__joel {
+  --home-workroom-panel-inline: 16px;
+  gap: 0;
+  justify-self: end;
+  align-self: center;
+  width: min(80%, 36.8rem);
+  margin-top: 2px;
+  padding: 12px;
+  border-top: 3px solid rgba(35, 75, 61, 0.74);
+  border-left-width: 1px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(252, 252, 250, 0.98), rgba(248, 247, 243, 0.96));
+  box-shadow: 0 12px 26px rgba(31, 35, 31, 0.04);
+  overflow: hidden;
+}
+
+.home-workroom__joel-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px var(--home-workroom-panel-inline) 8px;
+}
+
+.home-workroom__joel-head::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(35, 75, 61, 0.14);
+}
+
+.home-workroom__joel-body {
   display: grid;
-  gap: 16px;
-  align-content: start;
-  padding-left: clamp(1.25rem, 2vw, 1.75rem);
-  border-left: 1px solid rgba(35, 75, 61, 0.38);
-  margin-top: 14px;
+  gap: 10px;
+  padding: 0 var(--home-workroom-panel-inline) 12px;
 }
 
 .home-workroom__joel-name {
   display: block;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  line-height: 1;
   text-transform: uppercase;
-  color: var(--faint);
+  color: rgba(35, 75, 61, 0.82);
+  white-space: nowrap;
 }
 
 .home-workroom__joel p {
   margin: 0;
-  font-size: 1.02rem;
-  line-height: 1.68;
   color: var(--body);
+  font-size: 1.02rem;
+  line-height: 1.58;
 }
 
 .home-workroom__joel-actions {
-  padding-top: 4px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 var(--home-workroom-panel-inline) 10px;
+}
+
+.home-workroom__joel-actions .button {
+  width: auto;
+  min-width: 0;
+  padding: 0.44rem 0.72rem;
+  line-height: 1.1;
 }
 
 .home-workroom__intro h2 {
@@ -322,6 +270,15 @@
   color: var(--body);
   font-size: 1.02rem;
   line-height: 1.58;
+}
+
+@media (max-width: 900px) {
+  .home-workroom__joel {
+    width: 100%;
+    margin-top: 0;
+    justify-self: stretch;
+    align-self: start;
+  }
 }
 
 /* Tablet: release the desktop tile collage into a simpler grid and stack the workroom */
@@ -356,14 +313,9 @@
     gap: 16px;
   }
 
-  .home-page__topics .home-topics__tile,
-  .home-page__topics .home-topics__tile--middle,
-  .home-page__topics .home-topics__tile--quiet,
-  .home-page__topics .home-topics__tile--lift,
-  .home-page__topics .home-topics__tile--wide,
-  .home-page__topics .home-topics__tile--deep,
-  .home-page__topics .home-topics__tile--soft {
-    /* Explicitly neutralize the desktop collage placement rules. */
+  .home-page__topics .home-topics__tile {
+    /* Every topic tile already carries the base tile class, so one reset selector
+       is enough to neutralize the desktop collage placement rules. */
     grid-column: auto;
     grid-row: auto;
     height: auto;
@@ -402,13 +354,7 @@
     gap: 14px;
   }
 
-  .home-page__topics .home-topics__tile,
-  .home-page__topics .home-topics__tile--middle,
-  .home-page__topics .home-topics__tile--quiet,
-  .home-page__topics .home-topics__tile--lift,
-  .home-page__topics .home-topics__tile--wide,
-  .home-page__topics .home-topics__tile--deep,
-  .home-page__topics .home-topics__tile--soft {
+  .home-page__topics .home-topics__tile {
     margin-left: 0;
   }
 
@@ -463,17 +409,13 @@
     display: none;
   }
 
-  .home-workroom {
-    gap: 28px;
-  }
-
   .home-workroom__split {
     gap: 32px;
   }
 
   .home-workroom__joel {
-    padding-left: 1rem;
-    border-left-width: 1px;
+    --home-workroom-panel-inline: 14px;
+    width: 100%;
   }
 
   .home-page__inclusive-frame {
@@ -486,13 +428,6 @@
     padding-left: 0;
     padding-right: 0;
     border-right: 0;
-  }
-}
-
-/* Mobile: keep the selected inclusion layout compact */
-@media (max-width: 640px) {
-  .home-page__inclusive-item strong {
-    font-size: 1.18rem;
   }
 }
 

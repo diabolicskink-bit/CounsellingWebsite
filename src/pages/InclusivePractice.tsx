@@ -12,7 +12,6 @@ type InclusionPanel = {
   heading: string;
   href: string;
   paragraphs: string[];
-  items: string[];
   cta: string;
 };
 
@@ -83,7 +82,6 @@ const inclusionPageContent: InclusionPageContent = {
           "Whatever the desire, it can be named plainly. Nothing about it needs to be introduced carefully or landed gently. D/s, bondage, fetish, masochism, desires that have lived privately for years. None of it needs softening or explaining first. Sometimes it is exactly what brings you here. Sometimes it is simply there, alongside everything else.",
           "Consensual kink, BDSM, D/s, fetish and power exchange are not treated here as damage, danger or a diagnosis to explain away. At the same time, nothing has to be smoothed over. Consent can be unclear. Boundaries can be crossed. Dynamics can stop feeling okay. Shame, secrecy, drop, disclosure, mismatch, trauma responses and relationship strain can all be talked about plainly, without panic or moralising.",
         ],
-        items: [],
         cta: "Explore kink & BDSM-aware counselling",
       },
       {
@@ -94,7 +92,6 @@ const inclusionPageContent: InclusionPageContent = {
           "Polyamory and ENM are just how some people's relationships work. Whether you are settled in how you live, newly opening, a hinge under pressure, in a mono/poly relationship, or wondering if it's actually for you, all of it belongs. Hinge dynamics, metamours, nesting partners, hierarchy, jealousy alongside compersion. None of it needs explaining. The relationships are real.",
           "Counselling without real knowledge of these relationships can cause genuine harm, even when nobody means to. What feels like progress through a monogamous lens can set things up to fail. The hard parts, the insecurity, comparison, stretched time, broken agreements, pressure to be fine, the weight of multiple attachments. They deserve real support, not a quiet suggestion that it would all be easier another way.",
         ],
-        items: [],
         cta: "Explore ENM & polyamory counselling",
       },
       {
@@ -105,7 +102,6 @@ const inclusionPageContent: InclusionPageContent = {
           "Affirming counselling means your sexuality, gender, relationships and self-description are respected rather than treated as complications. It also means there is room to talk about minority stress, family pressure, religion, shame, dating, transition, grief, belonging and the ordinary problems that would still matter even in a more accepting world.",
           "You do not need a neat label or a settled explanation before you start. Therapy can include identity, but it can also be about anxiety, relationships, trauma, self-worth, loss, burnout, sex, loneliness or simply wanting to speak freely with someone who will not make the wrong things difficult.",
         ],
-        items: [],
         cta: "Explore LGBTQIA+ affirming counselling",
       },
     ],
@@ -202,16 +198,6 @@ export default function InclusivePractice() {
                     {panel.paragraphs.map((paragraph) => (
                       <p key={paragraph}>{paragraph}</p>
                     ))}
-                    {panel.items.length > 0 ? (
-                      <div className="inclusion-hub__list-block">
-                        <p className="inclusion-hub__list-heading">This may include:</p>
-                        <ul className="site-card__list inclusion-hub__list">
-                          {panel.items.map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : null}
                   </div>
                   <div className="inclusion-hub__panel-action">
                     <Button href={panel.href} variant="tertiary" className="inclusion-hub__button">
@@ -225,7 +211,7 @@ export default function InclusivePractice() {
         </Container>
       </section>
 
-      <FaqSection items={faq.items} title={faq.heading} />
+      <FaqSection className="site-highlight" items={faq.items} title={faq.heading} />
     </main>
   );
 }

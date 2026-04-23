@@ -63,10 +63,6 @@ type HomePageContent = {
     joelCopy: string[];
     profileHref: string;
     profileCta: string;
-    closingLead: string;
-    closingAccent: string;
-    ctaHref: string;
-    cta: string;
   };
   closingCta: {
     heading: EmphasisCopy;
@@ -173,18 +169,14 @@ const homePageContent: HomePageContent = {
   workroom: {
     heading: "Wherever you are is the place to begin.",
     intro:
-      "You do not need to have it sorted before you arrive. You do not need a clear explanation of what is wrong, the right words, or a sense that things are bad enough to justify coming. If something has been sitting with you, even vaguely, even without a name, that is enough to start.",
+      "You do not need to have it sorted before you arrive. You do not need a clear explanation of what is wrong, the right words, or a sense that things are bad enough to justify coming. If something has been sitting with you, even vaguely, even without a name, that is enough to start. It begins with a conversation, and the conversation can start anywhere.",
     joelName: "Joel Griffiths",
     joelCopy: [
-      "I do not think people are meant to be tidy. The strange bits, the contradictions, the parts of yourself that do not quite fit anywhere — those belong here too.",
-      "Sessions are a straightforward conversation. Not what therapy looks like on television. No long silences, no waiting to be analysed. We talk about what you brought, directly, without a lot of ceremony.",
+      "I do not think people are meant to be tidy. The strange bits, the contradictions, the parts of yourself that do not quite fit anywhere. Those belong here too",
+      "Sessions are a straightforward conversation. We can speak plainly, look beneath the immediate problem, and take what you bring seriously without making therapy feel stiff or clinical.",
     ],
     profileHref: "/working-with-joel",
     profileCta: "More about how I work",
-    closingLead: "For when",
-    closingAccent: '"I just need to talk to someone."',
-    ctaHref: "/contact",
-    cta: "Get in touch",
   },
   closingCta: {
     heading: {
@@ -289,19 +281,23 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="site-grid home-page__workroom">
-        <Container className="home-workroom">
+      <section className="site-highlight home-page__workroom">
+        <Container>
           <div className="site-split home-workroom__split">
             <div className="section-heading home-workroom__intro">
               <h2>{workroom.heading}</h2>
               <p className="section-heading__copy site-ruled-paragraph">{workroom.intro}</p>
             </div>
 
-            <div className="home-workroom__joel">
-              <span className="home-workroom__joel-name">{workroom.joelName}</span>
-              {workroom.joelCopy.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+            <div className="site-copy-panel home-workroom__joel">
+              <div className="home-workroom__joel-head">
+                <span className="home-workroom__joel-name">{workroom.joelName}</span>
+              </div>
+              <div className="home-workroom__joel-body">
+                {workroom.joelCopy.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
               <div className="home-workroom__joel-actions">
                 <Button href={workroom.profileHref} variant="tertiary">
                   {workroom.profileCta} <ArrowRight size={16} />
@@ -312,7 +308,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="site-highlight home-page__inclusive">
+      <section className="site-grid home-page__inclusive">
         <Container>
           <div className="home-page__inclusive-frame">
             <div className="home-page__inclusive-main">
@@ -322,25 +318,25 @@ export default function Home() {
                 {inclusive.heading.after}
               </h2>
               <p className="home-page__inclusive-copy site-ruled-paragraph">{inclusive.copy}</p>
-              <Button href={inclusive.href} variant="secondary">
+              <Button href={inclusive.href} variant="tertiary">
                 {inclusive.cta} <ArrowRight size={16} />
               </Button>
             </div>
 
             <div className="home-page__inclusive-support">
-              <div className="home-page__inclusive-items site-detail-stack" aria-label={inclusive.detailsAriaLabel}>
+              <div className="site-detail-stack site-detail-stack--linked" aria-label={inclusive.detailsAriaLabel}>
                 {inclusive.details.map((detail) => (
-                  <div className="home-page__inclusive-item" key={detail.title}>
-                    <Link className="home-page__inclusive-link" to={detail.href}>
-                      <span className="home-page__inclusive-heading">
-                        <strong>{detail.title}</strong>
-                        <span className="home-page__inclusive-action">
+                  <div className="site-detail-stack__item" key={detail.title}>
+                    <Link className="site-detail-stack__link" to={detail.href}>
+                      <span className="site-detail-stack__heading">
+                        <strong className="site-detail-stack__title">{detail.title}</strong>
+                        <span className="site-detail-stack__action">
                           {inclusive.detailCtaLabel}
-                          <ArrowRight className="home-page__inclusive-icon" size={16} aria-hidden="true" />
+                          <ArrowRight className="site-detail-stack__icon" size={16} aria-hidden="true" />
                         </span>
                       </span>
                     </Link>
-                    <p className="home-page__inclusive-item-copy">{detail.copy}</p>
+                    <p className="site-detail-stack__copy">{detail.copy}</p>
                   </div>
                 ))}
               </div>
@@ -349,7 +345,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="site-cta-block">
+      <section className="site-highlight site-cta-block">
         <Container className="site-cta-block__inner">
           <div className="site-cta-block__copy">
             <h2>

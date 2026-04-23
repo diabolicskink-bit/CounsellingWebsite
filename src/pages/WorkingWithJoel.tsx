@@ -13,7 +13,6 @@ type EmphasisCopy = {
 type TopicItem = {
   title: string;
   body: string;
-  closing?: boolean;
 };
 
 type WorkingWithJoelPageContent = {
@@ -35,8 +34,8 @@ type WorkingWithJoelPageContent = {
   focus: {
     eyebrow: string;
     title: string;
-    intro?: string;
     items: TopicItem[];
+    closingItem: TopicItem;
   };
 };
 
@@ -120,18 +119,18 @@ const pageContent: WorkingWithJoelPageContent = {
         body:
           "Agreements, jealousy, comparison, disclosure, boundaries, repair, breakups, or relationship strain.",
       },
-      {
-        title: "Something else?",
-        body:
-          "Sometimes what's going on doesn't quite match any of these. It may be more specific, a bit of a mix, or just difficult to explain.",
-        closing: true,
-      },
     ],
+    closingItem: {
+      title: "Something else?",
+      body:
+        "Sometimes what's going on doesn't quite match any of these. It may be more specific, a bit of a mix, or just difficult to explain.",
+    },
   },
 };
 
 export default function WorkingWithJoel() {
   const { hero, approach, focus } = pageContent;
+  const hasTabletOrphan = focus.items.length % 2 === 1;
 
   useDocumentMetadata(pageContent.title, pageContent.meta);
 
@@ -140,15 +139,13 @@ export default function WorkingWithJoel() {
       <section className="hero-section hero-bg--default">
         <Container>
           <div className="hero-top working-with-joel-page__hero-top">
-            <div className="working-with-joel-page__hero-copy">
-              <h1 className="hero-display">
-                {hero.title.before}
-                <br />
-                <em>{hero.title.emphasis}</em>
-                <br />
-                {hero.title.after}
-              </h1>
-            </div>
+            <h1 className="hero-display">
+              {hero.title.before}
+              <br />
+              <em>{hero.title.emphasis}</em>
+              <br />
+              {hero.title.after}
+            </h1>
 
             <div className="hero-copy-panel working-with-joel-page__hero-support">
               <p>{hero.support}</p>
@@ -189,32 +186,32 @@ export default function WorkingWithJoel() {
       </section>
 
       <section
-        className="working-with-joel-page__focus working-topics"
+        className="site-highlight working-topics"
         aria-labelledby="working-with-joel-focus-title"
       >
         <Container>
           <div className="site-grid__heading working-topics__header">
             <span className="site-eyebrow">{focus.eyebrow}</span>
             <h2 id="working-with-joel-focus-title">{focus.title}</h2>
-            {focus.intro ? <p className="section-heading__copy">{focus.intro}</p> : null}
           </div>
 
           <div className="working-topics__panel">
             <div className="working-topics__grid" aria-label="Examples of what people bring to counselling">
-              {focus.items.map((item) => (
+              {focus.items.map((item, index) => (
                 <article
                   key={item.title}
-                  className={
-                    item.closing
-                      ? "working-topics__item working-topics__item--closing"
-                      : "working-topics__item"
-                  }
+                  className={`working-topics__item ${hasTabletOrphan && index === focus.items.length - 1 ? "working-topics__item--tablet-full" : ""}`.trim()}
                 >
                   <h3 className="working-topics__item-title">{item.title}</h3>
                   <p className="working-topics__item-body">{item.body}</p>
                 </article>
               ))}
             </div>
+
+            <article className="working-topics__item working-topics__item--closing">
+              <h3 className="working-topics__item-title">{focus.closingItem.title}</h3>
+              <p className="working-topics__item-body">{focus.closingItem.body}</p>
+            </article>
           </div>
         </Container>
       </section>

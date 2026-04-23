@@ -62,6 +62,24 @@ const detailStackItems = [
   "More room for what matters",
 ];
 
+const linkedDetailStackItems = [
+  {
+    title: "Kink & BDSM-aware counselling",
+    copy: "Nothing needs to be softened, translated, or defended before the real conversation begins.",
+    href: "/inclusion/kink-bdsm",
+  },
+  {
+    title: "Polyamory & ENM counselling",
+    copy: "Relationship structure is not treated as the problem before we understand what is actually difficult.",
+    href: "/inclusion/enm-polyamory",
+  },
+  {
+    title: "LGBTQIA+ inclusive counselling",
+    copy: "Gender, sexuality, identity, and belonging can be part of the conversation or simply part of who you are.",
+    href: "/inclusion/lgbtqia",
+  },
+];
+
 const faqItems = [
   {
     question: "Can this pattern hold several short questions?",
@@ -400,6 +418,28 @@ export default function DS_Components() {
                   <strong>Use for:</strong> Question-and-answer sections. Use the shared <code>FaqSection</code>{" "}
                   component rather than page-level accordion markup.
                 </div>
+              </div>
+            </div>
+
+            <div className="ds-demo" style={{ marginTop: "28px", maxWidth: "640px" }}>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Linked detail stack</p>
+              <div className="site-detail-stack site-detail-stack--linked" aria-label="Linked detail stack example">
+                {linkedDetailStackItems.map((item) => (
+                  <div className="site-detail-stack__item" key={item.title}>
+                    <a className="site-detail-stack__link" href={item.href}>
+                      <span className="site-detail-stack__heading">
+                        <strong className="site-detail-stack__title">{item.title}</strong>
+                        <span className="site-detail-stack__action">
+                          Learn more <ArrowRight className="site-detail-stack__icon" size={16} aria-hidden="true" />
+                        </span>
+                      </span>
+                    </a>
+                    <p className="site-detail-stack__copy">{item.copy}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="ds-usage-note" style={{ marginTop: "16px" }}>
+                <strong>Use for:</strong> Small destination lists where each item needs a clear next-step cue plus one short line of context. Keep it to a handful of links, not a full navigation menu.
               </div>
             </div>
 

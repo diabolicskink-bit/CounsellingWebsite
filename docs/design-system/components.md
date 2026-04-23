@@ -13,12 +13,16 @@ Prefer these shared building blocks before creating anything new.
 - `src/components/SectionHeading.tsx`
   Use for repeated section heading structure.
 - `src/components/FaqSection.tsx`
-  Use for shared FAQ sections site-wide. Keep question-and-answer content data-driven at page level and pass it into this component.
+  Use for shared FAQ sections site-wide. Keep question-and-answer content data-driven at page level and pass it into this component. When a page needs the highlighted alternating section surface, pass `className="site-highlight"`.
 - `src/components/Layout.tsx`
   Preserve the existing site shell, navigation treatment, and compact footer structure.
 
 ## Shared CSS Patterns
 
+- `.site-grid`
+  Default public-page section surface. Use this for the first non-hero section and as the neutral step in the shared alternating page rhythm.
+- `.site-highlight`
+  Alternate soft-green public-page section surface. Use this between `site-grid` sections to keep body sections alternating without inventing page-specific wrappers.
 - `.site-card`
   Primary card treatment for service themes, reassurance points, and practical grouped content.
 - `.site-card--link`
@@ -45,12 +49,14 @@ Prefer these shared building blocks before creating anything new.
   Single paragraph with a left rule and inset for short reflective or orienting copy that needs quiet emphasis without becoming a full panel.
 - `.site-detail-stack`
   Shared ruled stack for short detail items or compact grouped statements. It provides spacing and separators while the item markup controls the text hierarchy.
+- `.site-detail-stack--linked` and `site-detail-stack__*`
+  Shared linked variation of the detail stack for destination lists with a serif title, trailing action cue, and one short supporting line of copy.
 - `.site-split`
   Split layout pairing a heading block with contained reading content.
 - `.site-copy-panel`
   Contained panel for explanatory rich text.
 - `.site-cta-block`, `.site-cta-block__inner`, `.site-cta-block__copy`
-  Shared closing CTA section for one clear next step. This is the authoritative site-wide final prompt pattern: large serif heading, contained top rule, split layout, and a single right-aligned action.
+  Shared closing CTA section for one clear next step. This is the authoritative site-wide final prompt pattern: large serif heading, calm split layout, and a single right-aligned action. It can also sit on `site-highlight` when the alternating section rhythm calls for the highlighted surface.
 - `.site-contact-strip` and `.site-contact-item`
   Shared contact-value strip for small sets of practical contact details with icon, label, and value.
 - `.site-footer`, `.site-footer__primary`, `.site-footer__secondary`
