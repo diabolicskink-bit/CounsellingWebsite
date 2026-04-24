@@ -14,6 +14,8 @@ Prefer these shared building blocks before creating anything new.
   Use for repeated section heading structure.
 - `src/components/FaqSection.tsx`
   Use for shared FAQ sections site-wide. Keep question-and-answer content data-driven at page level and pass it into this component. When a page needs the highlighted alternating section surface, pass `className="site-highlight"`.
+- `src/components/EnquiryForm.tsx`
+  Use for the site contact/enquiry form. The production Enquire page and the design-system example should both render this component with `src/data/enquiry.ts` content so form flow, subject lines, fields, and mailto fallback stay aligned.
 - `src/components/Layout.tsx`
   Preserve the existing site shell, navigation treatment, and compact footer structure.
 
@@ -23,6 +25,10 @@ Prefer these shared building blocks before creating anything new.
   Default public-page section surface. Use this for the first non-hero section and as the neutral step in the shared alternating page rhythm.
 - `.site-highlight`
   Alternate soft-green public-page section surface. Use this between `site-grid` sections to keep body sections alternating without inventing page-specific wrappers.
+- `.site-content-stack`
+  Shared vertical stack for pairing a card grid, copy panel, principle list, or ruled note inside the content side of a split section.
+- `.site-topic-grid`
+  Shared responsive grid for compact topic cards inside a content column.
 - `.site-card`
   Primary card treatment for service themes, reassurance points, and practical grouped content.
 - `.site-card--link`
@@ -47,6 +53,8 @@ Prefer these shared building blocks before creating anything new.
   Optional trust-strip modifier that moves the final item onto its own line and gives it cedar emphasis when it functions as a positioning statement.
 - `.site-ruled-paragraph`
   Single paragraph with a left rule and inset for short reflective or orienting copy that needs quiet emphasis without becoming a full panel.
+- `.site-ruled-paragraph--wide`
+  Wider reading modifier for ruled notes that sit under card grids or rich-text panels.
 - `.site-detail-stack`
   Shared ruled stack for short detail items or compact grouped statements. It provides spacing and separators while the item markup controls the text hierarchy.
 - `.site-detail-stack--linked` and `site-detail-stack__*`
@@ -67,6 +75,10 @@ Prefer these shared building blocks before creating anything new.
   Shared grouped principle/value blocks.
 - `.site-form`
   Shared form shell; keep inputs aligned with existing field styling.
+- `.site-form__grid`, `.site-form__row--full`, `.site-form__submit`
+  Shared enquiry form layout helpers used by `EnquiryForm`. Do not recreate this two-column form grid with page-scoped classes.
+- `.site-form__choice-group`, `.site-form__choices`, `.site-form__choice`
+  Shared radio-choice treatment for the progressive enquiry flow. Use for compact form routing choices, not for navigation cards.
 - `.hero-intro`
   Shared intro paragraph for text-led heroes with longer opening copy. Use it under hero headings when the intro needs a controlled measure.
 - `.hero-bg--default`

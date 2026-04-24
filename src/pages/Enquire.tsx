@@ -1,8 +1,11 @@
 import type { LucideIcon } from "lucide-react";
 import { Clock3, Mail } from "lucide-react";
-import Button from "../components/Button";
 import Container from "../components/Container";
+import EnquiryForm from "../components/EnquiryForm";
+import type { EnquiryFormContent } from "../components/EnquiryForm";
+import { enquiryEmail, enquiryFormContent } from "../data/enquiry";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
+import { getActiveAustralianPerthBusinessHoursNotes, getPerthBusinessHoursPrimaryLabel } from "../utils/timeZones";
 import "../styles-enquire.css";
 
 type EnquiryHeroTitle = {
@@ -27,71 +30,10 @@ type ContactDetail = {
   notes?: string[];
 };
 
-type FormTextField = {
-  label: string;
-  placeholder: string;
-};
-
-type FormSelectOption = {
-  value: string;
-  label: string;
-};
-
-function getTimeParts(date: Date, timeZone: string) {
-  const parts = new Intl.DateTimeFormat("en-AU", {
-    timeZone,
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  }).formatToParts(date);
-
-  const hour = parts.find((part) => part.type === "hour")?.value ?? "";
-  const minute = parts.find((part) => part.type === "minute")?.value ?? "";
-  const dayPeriod = parts.find((part) => part.type === "dayPeriod")?.value.toLowerCase() ?? "";
-
-  return `${hour}.${minute}${dayPeriod}`;
-}
-
-function getTimeZoneAbbreviation(date: Date, timeZone: string) {
-  const parts = new Intl.DateTimeFormat("en-AU", {
-    timeZone,
-    timeZoneName: "short",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  }).formatToParts(date);
-
-  return parts.find((part) => part.type === "timeZoneName")?.value ?? "";
-}
-
-function getPerthToday() {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Australia/Perth",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(new Date());
-
-  return {
-    year: Number(parts.find((part) => part.type === "year")?.value ?? 0),
-    month: Number(parts.find((part) => part.type === "month")?.value ?? 1),
-    day: Number(parts.find((part) => part.type === "day")?.value ?? 1),
-  };
-}
-
-function getHoursRange(timeZone: string) {
-  const today = getPerthToday();
-  const start = new Date(Date.UTC(today.year, today.month - 1, today.day, 1, 30));
-  const end = new Date(Date.UTC(today.year, today.month - 1, today.day, 9, 0));
-
-  return `${getTimeParts(start, timeZone)} to ${getTimeParts(end, timeZone)}`;
-}
-
-function getHoursLabel(timeZone: string) {
-  const today = getPerthToday();
-  const start = new Date(Date.UTC(today.year, today.month - 1, today.day, 1, 30));
-
-  return `${getTimeZoneAbbreviation(start, timeZone)}: ${getHoursRange(timeZone)}`;
+function getServiceTierClassName(tier: ServiceTier) {
+  return ["enquire-page__service-tier", tier.featured ? "enquire-page__service-tier--featured" : ""]
+    .filter(Boolean)
+    .join(" ");
 }
 
 type EnquiryPageContent = {
@@ -105,19 +47,7 @@ type EnquiryPageContent = {
     feeCardAriaLabel: string;
   };
   serviceTiers: ServiceTier[];
-  form: {
-    eyebrow: string;
-    submitLabel: string;
-    fields: {
-      name: FormTextField;
-      email: FormTextField;
-      message: FormTextField & { rows: number };
-      timing: {
-        label: string;
-        options: FormSelectOption[];
-      };
-    };
-  };
+  form: EnquiryFormContent;
   contact: {
     eyebrow: string;
     listAriaLabel: string;
@@ -157,35 +87,7 @@ const enquiryPageContent: EnquiryPageContent = {
       featured: true,
     },
   ],
-  form: {
-    eyebrow: "Enquiry",
-    submitLabel: "Send enquiry",
-    fields: {
-      name: {
-        label: "Name",
-        placeholder: "Your name",
-      },
-      email: {
-        label: "Email",
-        placeholder: "you@example.com",
-      },
-      message: {
-        label: "Your message",
-        placeholder: "What would you like to ask or let Joel know?",
-        rows: 7,
-      },
-      timing: {
-        label: "Preferred timing (optional)",
-        options: [
-          { value: "", label: "No preference or not booking yet" },
-          { value: "weekday-morning", label: "Weekday mornings" },
-          { value: "weekday-afternoon", label: "Weekday afternoons" },
-          { value: "weekday-evening", label: "Weekday evenings" },
-          { value: "flexible", label: "Flexible" },
-        ],
-      },
-    },
-  },
+  form: enquiryFormContent,
   contact: {
     eyebrow: "Contact",
     listAriaLabel: "Contact details",
@@ -194,17 +96,14 @@ const enquiryPageContent: EnquiryPageContent = {
     {
       icon: Mail,
       label: "Email",
-      value: "hello@vivecounselling.com.au",
-      href: "mailto:hello@vivecounselling.com.au",
+      value: enquiryEmail,
+      href: `mailto:${enquiryEmail}`,
     },
     {
       icon: Clock3,
       label: "Hours",
-      value: "Mon to Fri, 9.30am to 5.00pm WST",
-      notes: [
-        getHoursLabel("Australia/Adelaide"),
-        getHoursLabel("Australia/Sydney"),
-      ],
+      value: getPerthBusinessHoursPrimaryLabel(),
+      notes: getActiveAustralianPerthBusinessHoursNotes(),
     },
   ],
   practical: {
@@ -227,7 +126,7 @@ export default function Enquire() {
       <section className="hero-section hero-bg--default">
         <Container>
           <div className="hero-top hero-top--supporting-media">
-            <div className="enquire-page__hero-copy">
+            <div>
               <h1 className="hero-display">
                 {hero.title.before}
                 <br />
@@ -247,12 +146,7 @@ export default function Enquire() {
             <aside className="site-fee-card" aria-label={hero.feeCardAriaLabel}>
               <div className="enquire-page__service-tier-list">
                 {serviceTiers.map((tier) => (
-                  <article
-                    className={`enquire-page__service-tier ${
-                      tier.featured ? "enquire-page__service-tier--featured" : ""
-                    }`.trim()}
-                    key={tier.label}
-                  >
+                  <article className={getServiceTierClassName(tier)} key={tier.label}>
                     <span className="enquire-page__service-tier-label">{tier.label}</span>
                     <strong className="enquire-page__service-tier-fee">{tier.fee}</strong>
                     <span className="enquire-page__service-tier-detail">{tier.detail}</span>
@@ -270,9 +164,9 @@ export default function Enquire() {
           <aside className="enquire-page__rail">
             <div className="enquire-page__rail-block">
               <span className="site-eyebrow">{contact.eyebrow}</span>
-              <div className="enquire-page__contact-list" aria-label={contact.listAriaLabel}>
+              <div className="enquire-page__contact-list" role="list" aria-label={contact.listAriaLabel}>
                 {contactDetails.map(({ icon: Icon, label, value, href, notes }) => (
-                  <div className="enquire-page__contact-item" key={label}>
+                  <div className="enquire-page__contact-item" role="listitem" key={label}>
                     <span className="icon-box">
                       <Icon size={20} />
                     </span>
@@ -308,58 +202,7 @@ export default function Enquire() {
             </div>
           </aside>
 
-          <form className="site-form enquire-page__form" action="#" method="post">
-            <div className="enquire-page__form-header">
-              <span className="site-eyebrow">{form.eyebrow}</span>
-            </div>
-
-            <div className="enquire-page__form-grid">
-              <div className="form-row">
-                <label htmlFor="enquire-name">{form.fields.name.label}</label>
-                <input
-                  id="enquire-name"
-                  name="name"
-                  autoComplete="name"
-                  type="text"
-                  placeholder={form.fields.name.placeholder}
-                />
-              </div>
-
-              <div className="form-row">
-                <label htmlFor="enquire-email">{form.fields.email.label}</label>
-                <input
-                  id="enquire-email"
-                  name="email"
-                  autoComplete="email"
-                  type="email"
-                  placeholder={form.fields.email.placeholder}
-                />
-              </div>
-
-              <div className="form-row enquire-page__form-row--full">
-                <label htmlFor="enquire-message">{form.fields.message.label}</label>
-                <textarea
-                  id="enquire-message"
-                  name="message"
-                  placeholder={form.fields.message.placeholder}
-                  rows={form.fields.message.rows}
-                />
-              </div>
-
-              <div className="form-row enquire-page__form-row--full">
-                <label htmlFor="enquire-timing">{form.fields.timing.label}</label>
-                <select id="enquire-timing" name="timing" defaultValue="">
-                  {form.fields.timing.options.map((option) => (
-                    <option key={option.value || "default"} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <Button type="submit">{form.submitLabel}</Button>
-          </form>
+          <EnquiryForm content={form} className="enquire-page__form" idPrefix="enquire" />
         </Container>
       </section>
     </main>

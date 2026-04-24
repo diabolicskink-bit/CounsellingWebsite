@@ -128,6 +128,12 @@ const pageContent: WorkingWithJoelPageContent = {
   },
 };
 
+function getWorkingTopicClassName(isTabletOrphan: boolean) {
+  return ["working-topics__item", isTabletOrphan ? "working-topics__item--tablet-full" : ""]
+    .filter(Boolean)
+    .join(" ");
+}
+
 export default function WorkingWithJoel() {
   const { hero, approach, focus } = pageContent;
   const hasTabletOrphan = focus.items.length % 2 === 1;
@@ -200,14 +206,7 @@ export default function WorkingWithJoel() {
               {focus.items.map((item, index) => (
                 <article
                   key={item.title}
-                  className={[
-                    "working-topics__item",
-                    hasTabletOrphan && index === focus.items.length - 1
-                      ? "working-topics__item--tablet-full"
-                      : "",
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
+                  className={getWorkingTopicClassName(hasTabletOrphan && index === focus.items.length - 1)}
                 >
                   <h3 className="working-topics__item-title">{item.title}</h3>
                   <p className="working-topics__item-body">{item.body}</p>

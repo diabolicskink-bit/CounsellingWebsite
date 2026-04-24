@@ -52,41 +52,9 @@
   max-width: 60ch;
 }
 
-.enm-page__topic-card {
-  gap: 16px;
-}
-
 .enm-page__focus .section-heading p {
   max-width: 56ch;
   margin: 0;
-}
-
-.enm-page__section-split {
-  align-items: start;
-}
-
-.enm-page__focus-content,
-.enm-page__stance-content,
-.enm-page__individual-content {
-  display: grid;
-  gap: 24px;
-}
-
-.enm-page__focus-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.enm-page__focus-card {
-  min-height: 100%;
-}
-
-.enm-page__focus-note,
-.enm-page__individual-note {
-  max-width: 54ch;
-  font-size: 1.02rem;
-  line-height: 1.68;
 }
 
 @media (max-width: 900px) {
@@ -96,9 +64,5 @@
 
   .enm-page__hero-panel {
     margin-top: 0;
-  }
-
-  .enm-page__focus-grid {
-    grid-template-columns: 1fr;
   }
 }

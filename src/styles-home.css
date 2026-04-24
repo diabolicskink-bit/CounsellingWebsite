@@ -80,13 +80,9 @@
   display: none;
 }
 
-.home-topics__tile {
-  box-shadow: 0 16px 34px rgba(31, 35, 31, 0.055);
-}
-
 .home-topics__tile h3 {
   text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.22);
+  text-decoration-color: var(--line);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.16em;
 }
@@ -145,7 +141,7 @@
   gap: 22px;
   align-content: start;
   padding-right: 30px;
-  border-right: 1px solid rgba(35, 75, 61, 0.22);
+  border-right: 1px solid var(--line);
 }
 
 .home-page__inclusive-main h2 {
@@ -192,11 +188,8 @@
   width: min(80%, 36.8rem);
   margin-top: 2px;
   padding: 12px;
-  border-top: 3px solid rgba(35, 75, 61, 0.74);
+  border-top: 3px solid var(--cedar);
   border-left-width: 1px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(252, 252, 250, 0.98), rgba(248, 247, 243, 0.96));
-  box-shadow: 0 12px 26px rgba(31, 35, 31, 0.04);
   overflow: hidden;
 }
 
@@ -211,7 +204,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: rgba(35, 75, 61, 0.14);
+  background: var(--line);
 }
 
 .home-workroom__joel-body {
@@ -222,13 +215,12 @@
 
 .home-workroom__joel-name {
   display: block;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   font-size: 0.74rem;
   font-weight: 750;
   letter-spacing: 0.12em;
   line-height: 1;
   text-transform: uppercase;
-  color: rgba(35, 75, 61, 0.82);
+  color: var(--cedar);
   white-space: nowrap;
 }
 
@@ -366,7 +358,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 6px;
-    color: rgba(35, 75, 61, 0.78);
+    color: var(--cedar);
     flex-shrink: 0;
   }
 

@@ -15,7 +15,9 @@ import Button from "../../components/Button";
 import Container from "../../components/Container";
 import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
+import EnquiryForm from "../../components/EnquiryForm";
 import FaqSection from "../../components/FaqSection";
+import { enquiryEmail, enquiryFormContent } from "../../data/enquiry";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
 const iconCards = [
@@ -99,7 +101,7 @@ const footerDemoLinks = [
 ];
 
 const footerDemoDetails = [
-  { label: "hello@vivecounselling.com.au", href: "mailto:hello@vivecounselling.com.au" },
+  { label: enquiryEmail, href: `mailto:${enquiryEmail}` },
   { label: "Online across Australia" },
   { label: "Mon to Fri, 9.30am to 5.00pm WST" },
 ];
@@ -188,6 +190,25 @@ export default function DS_Components() {
               </a>
             </div>
 
+            <div className="ds-demo" style={{ marginTop: "24px" }}>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Topic grid and content stack</p>
+              <div className="site-content-stack" style={{ maxWidth: "720px" }}>
+                <div className="site-topic-grid">
+                  <article className="site-topic-card">
+                    <h3>Anxiety and overthinking</h3>
+                    <p>For compact issue cards that need a consistent two-up rhythm inside a content column.</p>
+                  </article>
+                  <article className="site-topic-card">
+                    <h3>Relationship strain</h3>
+                    <p>Use the shared grid instead of recreating the same local two-column card layout.</p>
+                  </article>
+                </div>
+                <p className="site-ruled-paragraph site-ruled-paragraph--wide">
+                  Wider ruled notes can sit under a card grid without each page inventing its own note sizing.
+                </p>
+              </div>
+            </div>
+
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
               <strong>Icon cards</strong> (site-card) — For service features, practice signals, and grouped reassurances. Use a grid of 3 or 6.<br />
               <strong>Chips / pills</strong> — Use <code>.site-pill-row</code> for short categorical tags inside a panel. Not for standalone navigation.
@@ -242,37 +263,7 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-demo" style={{ maxWidth: "760px" }}>
-              <form className="site-form" action="#" method="post">
-                <div className="form-row">
-                  <label htmlFor="sample-name">Name</label>
-                  <input id="sample-name" name="name" placeholder="Your name" type="text" />
-                </div>
-                <div className="form-row">
-                  <label htmlFor="sample-email">Email</label>
-                  <input id="sample-email" name="email" placeholder="you@example.com" type="email" />
-                </div>
-                <div className="form-row">
-                  <label htmlFor="sample-message">Message</label>
-                  <textarea id="sample-message" name="message" placeholder="A short message is enough." rows={4} />
-                </div>
-                <div className="site-control-list">
-                  <label>
-                    <input name="sample-contact" type="checkbox" /> Email is the best first contact
-                  </label>
-                  <label>
-                    <input name="sample-session" type="radio" /> Online session
-                  </label>
-                </div>
-                <div className="form-row">
-                  <label htmlFor="sample-select">Preferred timing</label>
-                  <select id="sample-select" name="timing">
-                    <option>Weekday daytime</option>
-                    <option>Weekday evening</option>
-                    <option>Flexible</option>
-                  </select>
-                </div>
-                <Button type="submit">Send enquiry</Button>
-              </form>
+              <EnquiryForm content={enquiryFormContent} idPrefix="design-system-enquiry" />
             </div>
 
             <div className="site-contact-strip" style={{ marginTop: "32px" }}>
@@ -294,6 +285,7 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
+              <strong>Enquiry form</strong> - Use the shared <code>EnquiryForm</code> component and <code>src/data/enquiry.ts</code> content so the production contact form and this example stay identical.<br />
               <strong>All form elements</strong> share the same border, radius, and focus-ring treatment. Do not invent custom input styles.<br />
               <strong>Contact strip</strong> — Icon + label + value. Use for email, phone, and location. Sits below the form or in a page aside.
             </div>

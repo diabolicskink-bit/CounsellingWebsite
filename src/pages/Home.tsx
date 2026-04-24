@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import { Link } from "react-router-dom";
 import "../styles-home.css";
 
 const portraitSrc = "/joel-griffiths-portrait-temp.svg";
@@ -173,7 +173,7 @@ const homePageContent: HomePageContent = {
       "You do not need to have it sorted before you arrive. You do not need a clear explanation of what is wrong, the right words, or a sense that things are bad enough to justify coming. If something has been sitting with you, even vaguely, even without a name, that is enough to start. It begins with a conversation, and the conversation can start anywhere.",
     joelName: "Joel Griffiths",
     joelCopy: [
-      "I do not think people are meant to be tidy. The strange bits, the contradictions, the parts of yourself that do not quite fit anywhere. Those belong here too",
+      "I do not think people are meant to be tidy. The strange bits, the contradictions, the parts of yourself that do not quite fit anywhere. Those belong here too.",
       "Sessions are a straightforward conversation. We can speak plainly, look beneath the immediate problem, and take what you bring seriously without making therapy feel stiff or clinical.",
     ],
     profileHref: "/working-with-joel",
@@ -211,6 +211,18 @@ function useMediaQuery(query: string) {
   }, [query]);
 
   return matches;
+}
+
+function getHomeTopicClassName(topic: HomeTopicTile, isCompact: boolean) {
+  return [
+    "home-topics__tile",
+    "site-topic-card",
+    isCompact ? "site-card" : "",
+    topic.layoutClass,
+    topic.toneClass ?? "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 }
 
 export default function Home() {
@@ -261,15 +273,7 @@ export default function Home() {
 
           <div className="home-topics__tiles" aria-label={topics.ariaLabel}>
             {topics.items.map((topic) => {
-              const topicClassName = [
-                "home-topics__tile",
-                "site-topic-card",
-                isCompactTopics ? "site-card" : "",
-                topic.layoutClass,
-                topic.toneClass ?? "",
-              ]
-                .filter(Boolean)
-                .join(" ");
+              const topicClassName = getHomeTopicClassName(topic, isCompactTopics);
 
               return (
                 <details className={topicClassName} key={topic.title} open={!isMobileTopics}>
@@ -368,7 +372,6 @@ export default function Home() {
           </Button>
         </Container>
       </section>
-
     </main>
   );
 }

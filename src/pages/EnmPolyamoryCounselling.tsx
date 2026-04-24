@@ -211,7 +211,7 @@ export default function EnmPolyamoryCounselling() {
 
           <div className="site-card-grid">
             {pageContent.topicSection.cards.map((card) => (
-              <article className="site-card enm-page__topic-card" key={card.title}>
+              <article className="site-card" key={card.title}>
                 <h3>{card.title}</h3>
                 <p>{card.copy}</p>
                 <ul className="site-card__list">
@@ -226,36 +226,36 @@ export default function EnmPolyamoryCounselling() {
       </section>
 
       <section className="site-highlight enm-page__focus">
-        <Container className="site-split enm-page__section-split">
+        <Container className="site-split">
           <div className="section-heading">
             <span className="site-eyebrow">{pageContent.focusSection.eyebrow}</span>
             <h2>{pageContent.focusSection.heading}</h2>
             <p>{pageContent.focusSection.intro}</p>
           </div>
 
-          <div className="enm-page__focus-content">
-            <div className="enm-page__focus-grid" aria-label="Common therapy reasons">
+          <div className="site-content-stack">
+            <div className="site-topic-grid" aria-label="Common therapy reasons">
               {pageContent.focusSection.items.map((item) => (
-                <article className="site-topic-card enm-page__focus-card" key={item.title}>
+                <article className="site-topic-card" key={item.title}>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
                 </article>
               ))}
             </div>
 
-            <p className="site-ruled-paragraph enm-page__focus-note">{pageContent.focusSection.note}</p>
+            <p className="site-ruled-paragraph site-ruled-paragraph--wide">{pageContent.focusSection.note}</p>
           </div>
         </Container>
       </section>
 
       <section className="site-highlight enm-page__stance">
-        <Container className="site-split enm-page__section-split">
+        <Container className="site-split">
           <div className="section-heading">
             <span className="site-eyebrow">{pageContent.stance.eyebrow}</span>
             <h2>{pageContent.stance.heading}</h2>
           </div>
 
-          <div className="enm-page__stance-content">
+          <div className="site-content-stack">
             <article className="site-copy-panel rich-text">
               {pageContent.stance.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -281,7 +281,7 @@ export default function EnmPolyamoryCounselling() {
             <h2>{pageContent.individual.heading}</h2>
           </div>
 
-          <div className="enm-page__individual-content">
+          <div className="site-content-stack">
             <article className="site-copy-panel rich-text">
               {pageContent.individual.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -293,7 +293,7 @@ export default function EnmPolyamoryCounselling() {
               </p>
             </article>
 
-            <p className="site-ruled-paragraph enm-page__individual-note">{pageContent.individual.note}</p>
+            <p className="site-ruled-paragraph site-ruled-paragraph--wide">{pageContent.individual.note}</p>
           </div>
         </Container>
       </section>

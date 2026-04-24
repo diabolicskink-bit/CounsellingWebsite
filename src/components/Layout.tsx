@@ -1,6 +1,7 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { enquiryEmail } from "../data/enquiry";
 import { navItems, type NavItem } from "../data/site";
 import Button from "./Button";
 import Container from "./Container";
@@ -232,7 +233,7 @@ export default function Layout() {
           <div className="site-footer__secondary">
             <ul className="site-trust-list site-footer__details" aria-label="Footer details">
               <li>
-                <a href="mailto:hello@vivecounselling.com.au">hello@vivecounselling.com.au</a>
+                <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a>
               </li>
               <li>Online across Australia</li>
               <li>Mon to Fri, 9.30am to 5.00pm WST</li>

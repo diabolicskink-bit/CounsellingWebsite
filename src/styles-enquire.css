@@ -4,11 +4,6 @@
   padding-bottom: 32px;
 }
 
-.enquire-page__hero-copy {
-  display: grid;
-  gap: 0;
-}
-
 .enquire-page .hero-display {
   margin-bottom: 24px;
 }
@@ -35,7 +30,7 @@
   display: grid;
   gap: 10px;
   padding-top: 24px;
-  border-top: 1px solid rgba(35, 75, 61, 0.16);
+  border-top: 1px solid var(--line);
 }
 
 .enquire-page__service-tier:first-child {
@@ -94,8 +89,8 @@
 .enquire-page__contact-list {
   display: grid;
   gap: 0;
-  border-top: 1px solid rgba(35, 75, 61, 0.18);
-  border-bottom: 1px solid rgba(35, 75, 61, 0.18);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .enquire-page__contact-item {
@@ -104,7 +99,7 @@
   gap: 14px;
   align-items: center;
   padding: 18px 0;
-  border-bottom: 1px solid rgba(35, 75, 61, 0.18);
+  border-bottom: 1px solid var(--line);
 }
 
 .enquire-page__contact-item:last-child {
@@ -141,7 +136,7 @@
 
 .enquire-page__contact-link {
   text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.32);
+  text-decoration-color: var(--line);
   text-underline-offset: 4px;
   transition: text-decoration-color 160ms ease;
 }
@@ -164,26 +159,6 @@
   max-width: none;
 }
 
-.enquire-page__form .button {
-  width: 100%;
-}
-
-.enquire-page__form-header {
-  display: grid;
-  gap: 0;
-}
-
-.enquire-page__form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 16px;
-}
-
-.enquire-page__form-row--full {
-  grid-column: 1 / -1;
-}
-
-
 @media (max-width: 900px) {
   .enquire-page .hero-top--supporting-media {
     align-items: start;
@@ -202,14 +177,6 @@
 
   .enquire-page__rail {
     gap: 26px;
-  }
-
-  .enquire-page__form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .enquire-page__form-row--full {
-    grid-column: auto;
   }
 }
 

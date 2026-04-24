@@ -315,7 +315,7 @@ export default function KinkBdsmCounselling() {
                 </Link>
               </div>
 
-              <ul className="kink-page__hero-trust" aria-label="Practice details">
+              <ul className="site-trust-list kink-page__hero-trust" aria-label="Practice details">
                 {hero.trustItems.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -346,7 +346,7 @@ export default function KinkBdsmCounselling() {
 
           <div className="site-card-grid">
             {topicSection.cards.map((card) => (
-              <article className="site-card kink-page__topic-card" key={card.title}>
+              <article className="site-card" key={card.title}>
                 <h3>{card.title}</h3>
                 <p>{card.copy}</p>
                 <ul className="site-card__list">
@@ -361,36 +361,36 @@ export default function KinkBdsmCounselling() {
       </section>
 
       <section className="site-highlight kink-page__focus">
-        <Container className="site-split kink-page__stance-split">
+        <Container className="site-split">
           <div className="section-heading">
             <span className="site-eyebrow">{focusSection.eyebrow}</span>
             <h2>{focusSection.heading}</h2>
             <p>{focusSection.intro}</p>
           </div>
 
-          <div className="kink-page__focus-content">
-            <div className="kink-page__focus-grid" aria-label="Common therapy reasons">
+          <div className="site-content-stack">
+            <div className="site-topic-grid kink-page__focus-grid" aria-label="Common therapy reasons">
               {focusSection.items.map((item) => (
-                <article className="site-topic-card kink-page__focus-card" key={item.title}>
+                <article className="site-topic-card" key={item.title}>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
                 </article>
               ))}
             </div>
 
-            <p className="site-ruled-paragraph kink-page__focus-note">{focusSection.note}</p>
+            <p className="site-ruled-paragraph site-ruled-paragraph--wide">{focusSection.note}</p>
           </div>
         </Container>
       </section>
 
       <section className="site-highlight kink-page__stance">
-        <Container className="site-split kink-page__stance-split">
+        <Container className="site-split">
           <div className="section-heading">
             <span className="site-eyebrow">{stance.eyebrow}</span>
             <h2>{stance.heading}</h2>
           </div>
 
-          <div className="kink-page__stance-content">
+          <div className="site-content-stack">
             <article className="site-copy-panel rich-text">
               {stance.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -416,7 +416,7 @@ export default function KinkBdsmCounselling() {
             <h2>{individual.heading}</h2>
           </div>
 
-          <div className="kink-page__individual-content">
+          <div className="site-content-stack">
             <article className="site-copy-panel rich-text">
               {individual.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -433,7 +433,7 @@ export default function KinkBdsmCounselling() {
               </p>
             </article>
 
-            <p className="site-ruled-paragraph kink-page__individual-note">{individual.note}</p>
+            <p className="site-ruled-paragraph site-ruled-paragraph--wide">{individual.note}</p>
           </div>
         </Container>
       </section>
