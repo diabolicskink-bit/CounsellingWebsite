@@ -195,6 +195,75 @@ function getEmailHeading(details) {
   return "General Enquiry";
 }
 
+function getEmailTheme(emailHeading) {
+  if (emailHeading === "Appointment Enquiry") {
+    return {
+      accent: "#8fb7c0",
+      background: "#eef4f3",
+      cardBackground: "#f8fbfb",
+      cardBorder: "#c8dadd",
+      cue: "APPT",
+      cueBackground: "#d9edf0",
+      cueLabel: "Booking",
+      cueText: "#1f4c58",
+      headerBackground: "#1f4c58",
+      headerText: "#fffaf1",
+      labelText: "#d9edf0",
+      messageBorder: "#bfd4d8",
+      noteBackground: "#e8f2f4",
+      noteStrong: "#1f4c58",
+      noteText: "#5a7479",
+      panelBackground: "#fffaf1",
+      panelBorder: "#c8dadd",
+      subtleText: "#5a7479",
+    };
+  }
+
+  if (emailHeading === "Consult Enquiry") {
+    return {
+      accent: "#d8a85f",
+      background: "#f7efe2",
+      cardBackground: "#fffaf1",
+      cardBorder: "#e3c88f",
+      cue: "15",
+      cueBackground: "#fff1d1",
+      cueLabel: "Min",
+      cueText: "#7a4e1f",
+      headerBackground: "#7a4e1f",
+      headerText: "#fffaf1",
+      labelText: "#ffe6b7",
+      messageBorder: "#e3c88f",
+      noteBackground: "#fff4d8",
+      noteStrong: "#7a4e1f",
+      noteText: "#7b684b",
+      panelBackground: "#fffaf1",
+      panelBorder: "#e3c88f",
+      subtleText: "#7b684b",
+    };
+  }
+
+  return {
+    accent: "#d8a85f",
+    background: "#f4efe6",
+    cardBackground: "#ffffff",
+    cardBorder: "#d8e2d9",
+    cue: "GEN",
+    cueBackground: "#e5efe7",
+    cueLabel: "Enquiry",
+    cueText: "#234b3d",
+    headerBackground: "#234b3d",
+    headerText: "#fffaf1",
+    labelText: "#d7e4da",
+    messageBorder: "#cdd9cf",
+    noteBackground: "#f3f0e8",
+    noteStrong: "#405248",
+    noteText: "#6f7d73",
+    panelBackground: "#fffaf1",
+    panelBorder: "#cdd9cf",
+    subtleText: "#6f7d73",
+  };
+}
+
 function getLocationSummaryCards(details) {
   return [
     ["State", getDetailValue(details, "State or territory")],
@@ -202,7 +271,7 @@ function getLocationSummaryCards(details) {
   ];
 }
 
-function renderSummaryCards(details) {
+function renderSummaryCards(details, theme) {
   const cards = [
     ["Timing", getDetailValue(details, "Preferred timing") || getDetailValue(details, "Availability")],
     ...getLocationSummaryCards(details),
@@ -218,8 +287,8 @@ function renderSummaryCards(details) {
     .map(
       ([label, value]) => `
         <td style="width: ${cardWidth}; padding: 0 6px 12px 0; vertical-align: top;">
-          <div style="min-height: 88px; padding: 15px 16px; border: 1px solid #d8e2d9; border-radius: 18px; background: #ffffff;">
-            <p style="margin: 0 0 8px; color: #6f7d73; font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase;">${escapeHtml(label)}</p>
+          <div style="min-height: 88px; padding: 15px 16px; border: 1px solid ${theme.cardBorder}; border-radius: 18px; background: ${theme.cardBackground};">
+            <p style="margin: 0 0 8px; color: ${theme.subtleText}; font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase;">${escapeHtml(label)}</p>
             <p style="margin: 0; color: #1f2c25; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.45;">${escapeHtml(value)}</p>
           </div>
         </td>
@@ -231,50 +300,62 @@ function renderSummaryCards(details) {
 function getEnquiryHtml({ text }) {
   const { details, message, timingNote } = parseEnquiryText(text);
   const emailHeading = getEmailHeading(details);
+  const theme = getEmailTheme(emailHeading);
   const name = getDetailValue(details, "Name") || "Website visitor";
   const safeEmailHeading = escapeHtml(emailHeading);
   const safeName = escapeHtml(name);
   const safeMessage = escapeHtml(message || "No message supplied.").replace(/\n/g, "<br />");
   const formattedTimingNote = getFormattedTimingNote(timingNote);
+  const summaryCards = renderSummaryCards(details, theme);
 
   return `<!doctype html>
 <html lang="en">
-  <body style="margin: 0; padding: 0; background: #f4efe6; color: #1f2c25; font-family: Georgia, 'Times New Roman', serif;">
+  <body style="margin: 0; padding: 0; background: ${theme.background}; color: #1f2c25; font-family: Georgia, 'Times New Roman', serif;">
     <div style="display: none; max-height: 0; overflow: hidden; opacity: 0;">
       New enquiry from ${safeName} - ${safeEmailHeading}
     </div>
-    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background: #f4efe6; border-collapse: collapse;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background: ${theme.background}; border-collapse: collapse;">
       <tr>
         <td align="center" style="padding: 32px 14px;">
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width: 100%; max-width: 680px; border-collapse: collapse;">
             <tr>
-              <td style="border: 1px solid #cdd9cf; border-radius: 24px; overflow: hidden; background: #fffaf1;">
-                <div style="padding: 30px 30px 24px; background: #234b3d; color: #fffaf1;">
+              <td style="border: 1px solid ${theme.panelBorder}; border-radius: 24px; overflow: hidden; background: ${theme.panelBackground};">
+                <div style="padding: 30px 30px 24px; border-top: 7px solid ${theme.accent}; background: ${theme.headerBackground}; color: ${theme.headerText};">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
                     <tr>
                       <td style="vertical-align: top;">
-                        <p style="margin: 0 0 12px; color: #d7e4da; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">${safeEmailHeading}</p>
-                        <h1 style="margin: 0; color: #fffaf1; font-size: 31px; line-height: 1.12; font-weight: 500;">${safeName}</h1>
+                        <p style="margin: 0 0 12px; color: ${theme.labelText}; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">${safeEmailHeading}</p>
+                        <h1 style="margin: 0; color: ${theme.headerText}; font-size: 31px; line-height: 1.12; font-weight: 500;">${safeName}</h1>
+                      </td>
+                      <td align="right" style="vertical-align: top; width: 128px;">
+                        <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse: separate; border-spacing: 0;">
+                          <tr>
+                            <td align="center" style="width: 94px; height: 94px; border: 1px solid ${theme.accent}; border-radius: 999px; background: ${theme.cueBackground}; color: ${theme.cueText};">
+                              <p style="margin: 0; font-family: Arial, sans-serif; font-size: ${theme.cue.length > 2 ? "19px" : "34px"}; font-weight: 800; letter-spacing: ${theme.cue.length > 2 ? "0.08em" : "0"}; line-height: 1;">${theme.cue}</p>
+                              <p style="margin: 8px 0 0; font-family: Arial, sans-serif; font-size: 9px; font-weight: 800; letter-spacing: 0.12em; line-height: 1; text-transform: uppercase;">${theme.cueLabel}</p>
+                            </td>
+                          </tr>
+                        </table>
                       </td>
                     </tr>
                   </table>
                 </div>
 
                 <div style="padding: 24px 30px 28px;">
-                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin: 0 0 10px;">
-                    <tr>
-                      ${renderSummaryCards(details)}
-                    </tr>
-                  </table>
+                  ${
+                    summaryCards
+                      ? `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin: 0 0 10px;"><tr>${summaryCards}</tr></table>`
+                      : ""
+                  }
 
-                  <div style="margin: 0 0 22px; padding: 22px 24px; border: 1px solid #cdd9cf; border-radius: 20px; background: #ffffff;">
-                    <p style="margin: 0 0 12px; color: #6f7d73; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">Client message</p>
+                  <div style="margin: 0 0 22px; padding: 22px 24px; border: 1px solid ${theme.messageBorder}; border-radius: 20px; background: #ffffff;">
+                    <p style="margin: 0 0 12px; color: ${theme.subtleText}; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">Message</p>
                     <div style="color: #1f2c25; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.65;">${safeMessage}</div>
                   </div>
 
                   ${
                     formattedTimingNote
-                      ? `<div style="padding: 14px 16px; border-radius: 16px; background: #f3f0e8; color: #6f7d73; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.55;"><strong style="color: #405248;">${renderTimingNote(
+                      ? `<div style="padding: 14px 16px; border-radius: 16px; background: ${theme.noteBackground}; color: ${theme.noteText}; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.55;"><strong style="color: ${theme.noteStrong};">${renderTimingNote(
                           formattedTimingNote,
                         )}</strong></div>`
                       : ""
