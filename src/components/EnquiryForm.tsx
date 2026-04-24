@@ -289,183 +289,180 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
     }
   };
 
-  if (submitStatus === "success") {
-    return (
-      <div
-        className={joinClasses("site-form site-form--complete", className)}
-        ref={successRef}
-        role="status"
-        tabIndex={-1}
-      >
-        <span className="site-eyebrow">{content.eyebrow}</span>
-        <div className="site-form__status site-form__status--success site-form__status--complete">
-          <h2>{content.success.title}</h2>
-          <p>{content.success.message}</p>
-          <p>{content.success.note}</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <form
-      className={joinClasses("site-form", className)}
+      className={joinClasses("site-form", submitStatus === "success" ? "site-form--complete" : undefined, className)}
       action="/api/enquiry"
       method="post"
       onSubmit={handleSubmit}
     >
       <span className="site-eyebrow">{content.eyebrow}</span>
 
-      <div className="site-form__grid">
-        <input
-          className="site-form__honeypot"
-          name="website"
+      {submitStatus === "success" ? (
+        <div
+          className="site-form__status site-form__status--success site-form__status--complete"
+          ref={successRef}
+          role="status"
           tabIndex={-1}
-          autoComplete="off"
-          aria-hidden="true"
-        />
-
-        <div className="form-row">
-          <label htmlFor={`${idPrefix}-name`}>{fields.name.label}</label>
-          <input
-            id={`${idPrefix}-name`}
-            name="name"
-            autoComplete="name"
-            type="text"
-            required
-            placeholder={fields.name.placeholder}
-          />
+        >
+          <h2>{content.success.title}</h2>
+          <p>{content.success.message}</p>
+          <p>{content.success.note}</p>
         </div>
+      ) : (
+        <>
+          <div className="site-form__grid">
+            <input
+              className="site-form__honeypot"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+            />
 
-        <div className="form-row">
-          <label htmlFor={`${idPrefix}-email`}>{fields.email.label}</label>
-          <input
-            id={`${idPrefix}-email`}
-            name="email"
-            autoComplete="email"
-            type="email"
-            required
-            placeholder={fields.email.placeholder}
-          />
-        </div>
+            <div className="form-row">
+              <label htmlFor={`${idPrefix}-name`}>{fields.name.label}</label>
+              <input
+                id={`${idPrefix}-name`}
+                name="name"
+                autoComplete="name"
+                type="text"
+                required
+                placeholder={fields.name.placeholder}
+              />
+            </div>
 
-        <div className="form-row site-form__row--full">
-          <label htmlFor={`${idPrefix}-message`}>{fields.message.label}</label>
-          <textarea
-            id={`${idPrefix}-message`}
-            name="message"
-            placeholder={fields.message.placeholder}
-            required
-            rows={fields.message.rows}
-          />
-        </div>
+            <div className="form-row">
+              <label htmlFor={`${idPrefix}-email`}>{fields.email.label}</label>
+              <input
+                id={`${idPrefix}-email`}
+                name="email"
+                autoComplete="email"
+                type="email"
+                required
+                placeholder={fields.email.placeholder}
+              />
+            </div>
 
-        <fieldset className="site-form__choice-group site-form__row--full">
-          <legend className="site-form__legend">{fields.enquiryType.legend}</legend>
-          <div className="site-form__choices">
-            {fields.enquiryType.options.map((option) => (
-              <label className="site-form__choice" key={option.value}>
-                <input
-                  checked={enquiryType === option.value}
-                  name="enquiryType"
-                  onChange={() => handleEnquiryTypeChange(option.value)}
-                  required
-                  type="radio"
-                  value={option.value}
-                />
-                <span>{option.label}</span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
+            <div className="form-row site-form__row--full">
+              <label htmlFor={`${idPrefix}-message`}>{fields.message.label}</label>
+              <textarea
+                id={`${idPrefix}-message`}
+                name="message"
+                placeholder={fields.message.placeholder}
+                required
+                rows={fields.message.rows}
+              />
+            </div>
 
-        {isBookingEnquiry ? (
-          <fieldset className="site-form__choice-group site-form__row--full">
-            <legend className="site-form__legend">{fields.bookingType.legend}</legend>
-            <div className="site-form__choices">
-              {fields.bookingType.options.map((option) => (
-                <label className="site-form__choice" key={option.value}>
+            <fieldset className="site-form__choice-group site-form__row--full">
+              <legend className="site-form__legend">{fields.enquiryType.legend}</legend>
+              <div className="site-form__choices">
+                {fields.enquiryType.options.map((option) => (
+                  <label className="site-form__choice" key={option.value}>
+                    <input
+                      checked={enquiryType === option.value}
+                      name="enquiryType"
+                      onChange={() => handleEnquiryTypeChange(option.value)}
+                      required
+                      type="radio"
+                      value={option.value}
+                    />
+                    <span>{option.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            {isBookingEnquiry ? (
+              <fieldset className="site-form__choice-group site-form__row--full">
+                <legend className="site-form__legend">{fields.bookingType.legend}</legend>
+                <div className="site-form__choices">
+                  {fields.bookingType.options.map((option) => (
+                    <label className="site-form__choice" key={option.value}>
+                      <input
+                        checked={bookingType === option.value}
+                        name="bookingType"
+                        onChange={() => {
+                          setBookingType(option.value);
+                          setSubmitStatus("idle");
+                          setSubmitError("");
+                        }}
+                        required
+                        type="radio"
+                        value={option.value}
+                      />
+                      <span>{option.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            ) : null}
+
+            {isAppointmentRequest ? (
+              <>
+                <div className="form-row">
+                  <label htmlFor={`${idPrefix}-timing`}>{fields.timing.label}</label>
                   <input
-                    checked={bookingType === option.value}
-                    name="bookingType"
-                    onChange={() => {
-                      setBookingType(option.value);
-                      setSubmitStatus("idle");
-                      setSubmitError("");
-                    }}
+                    id={`${idPrefix}-timing`}
+                    name="timing"
+                    placeholder={fields.timing.placeholder}
                     required
-                    type="radio"
-                    value={option.value}
+                    type="text"
                   />
-                  <span>{option.label}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-        ) : null}
+                </div>
 
-        {isAppointmentRequest ? (
-          <>
-            <div className="form-row">
-              <label htmlFor={`${idPrefix}-timing`}>{fields.timing.label}</label>
-              <input
-                id={`${idPrefix}-timing`}
-                name="timing"
-                placeholder={fields.timing.placeholder}
-                required
-                type="text"
-              />
-            </div>
+                <div className="form-row">
+                  <label htmlFor={`${idPrefix}-state`}>{fields.state.label}</label>
+                  <select id={`${idPrefix}-state`} name="state" defaultValue="" required>
+                    {fields.state.options.map((option) => (
+                      <option key={option.value || "default"} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            ) : null}
 
-            <div className="form-row">
-              <label htmlFor={`${idPrefix}-state`}>{fields.state.label}</label>
-              <select id={`${idPrefix}-state`} name="state" defaultValue="" required>
-                {fields.state.options.map((option) => (
-                  <option key={option.value || "default"} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </>
-        ) : null}
+            {isConsultRequest ? (
+              <>
+                <div className="form-row">
+                  <label htmlFor={`${idPrefix}-availability`}>{fields.availability.label}</label>
+                  <input
+                    id={`${idPrefix}-availability`}
+                    name="availability"
+                    placeholder={fields.availability.placeholder}
+                    required
+                    type="text"
+                  />
+                </div>
 
-        {isConsultRequest ? (
-          <>
-            <div className="form-row">
-              <label htmlFor={`${idPrefix}-availability`}>{fields.availability.label}</label>
-              <input
-                id={`${idPrefix}-availability`}
-                name="availability"
-                placeholder={fields.availability.placeholder}
-                required
-                type="text"
-              />
-            </div>
+                <div className="form-row">
+                  <label htmlFor={`${idPrefix}-timezone`}>{fields.timeZone.label}</label>
+                  <select id={`${idPrefix}-timezone`} name="timeZone" defaultValue="" required>
+                    {fields.timeZone.options.map((option) => (
+                      <option key={option.value || "default"} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            ) : null}
+          </div>
 
-            <div className="form-row">
-              <label htmlFor={`${idPrefix}-timezone`}>{fields.timeZone.label}</label>
-              <select id={`${idPrefix}-timezone`} name="timeZone" defaultValue="" required>
-                {fields.timeZone.options.map((option) => (
-                  <option key={option.value || "default"} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+          <Button className="site-form__submit" disabled={submitStatus === "sending"} type="submit">
+            {submitStatus === "sending" ? "Sending..." : content.submitLabel}
+          </Button>
+          {submitStatus === "error" ? (
+            <div className="site-form__status site-form__status--error" role="alert">
+              <p>Sorry, the enquiry could not be sent. Please email {content.recipientEmail} directly.</p>
+              {submitError ? <small className="site-form__technical-error">Technical detail: {submitError}</small> : null}
             </div>
-          </>
-        ) : null}
-      </div>
-
-      <Button className="site-form__submit" disabled={submitStatus === "sending"} type="submit">
-        {submitStatus === "sending" ? "Sending..." : content.submitLabel}
-      </Button>
-      {submitStatus === "error" ? (
-        <div className="site-form__status site-form__status--error" role="alert">
-          <p>Sorry, the enquiry could not be sent. Please email {content.recipientEmail} directly.</p>
-          {submitError ? <small className="site-form__technical-error">Technical detail: {submitError}</small> : null}
-        </div>
-      ) : null}
+          ) : null}
+        </>
+      )}
     </form>
   );
 }

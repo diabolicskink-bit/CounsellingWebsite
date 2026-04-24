@@ -28,13 +28,37 @@ Primary tokens live in `src/styles.css`.
 
 ## Typography Baseline
 
-- Headings use serif styling defined in `src/styles.css`.
-- Body copy uses the shared sans-serif stack defined in `src/styles.css`.
-- `h1` is large, editorial, and should appear once per page.
-- `h2` is the main section heading.
-- `h3` supports cards and nested content groups.
+- `--font-serif`: Georgia, used for headings and editorial display roles.
+- `--font-sans`: Inter/system sans stack, used for body, forms, labels, and navigation.
+- `--font-mono`: monospace stack, used for inline code and technical references.
+- `h1` uses `--type-page-title` and should appear once per page when the page is not using `.hero-display`.
+- `h2` uses `--type-section` for major section statements.
+- `h3` uses `--type-card-title` for cards, grouped ideas, and nested content.
 - `.rich-text` is the shared editorial reading wrapper for paragraph groups, contextual links, lists, blockquotes, tables, dividers, and inline code.
 - Rich text links must stay visibly linked with cedar color, weight, underline, and a quiet focus outline.
+
+## Type Role Tokens
+
+| Token | Role |
+| --- | --- |
+| `--type-display` | Page-opening hero display via `.hero-display`. |
+| `--type-page-title` | Plain page `h1` when no hero display is used. |
+| `--type-section` | Main section headings, FAQ titles, and major section statements. |
+| `--type-section-compact` | Contained section headings, rich text `h2`, form success headings, and closing CTA headings. |
+| `--type-card-title` | Cards, grouped ideas, principles, linked detail titles, and nested headings. |
+| `--type-topic-title` | Topic cards where the title needs a little more editorial presence. |
+| `--type-body` | Default paragraphs, forms, FAQ answers, ruled stacks, and practical copy. |
+| `--type-body-rich` | Rich editorial paragraphs inside `.rich-text`. |
+| `--type-support` | Hero support copy, intro rails, and larger explanatory support text. |
+| `--type-small` | Helper text, card list items, compact actions, and supporting notes. |
+| `--type-label` | Eyebrows, small labels, form technical errors, and quiet metadata. |
+| `--type-caption` | Captions, badges, hero principle details, and very small labels. |
+| `--type-faq-question` | FAQ question text. |
+| `--type-hero-deck-lead` | Serif lead sentence inside `.hero-deck`. |
+| `--type-hero-detail` | Open hero detail stack items. |
+| `--type-fee-display` | Large numeric/fee display. |
+
+Type role variables are allowed to adjust at breakpoints. Avoid adding viewport-scaled font sizes to new shared production rules.
 
 ## Spacing Rules
 

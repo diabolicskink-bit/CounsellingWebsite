@@ -18,6 +18,41 @@
   --shadow: 0 8px 22px rgba(31, 35, 31, 0.055);
   --radius: 8px;
   --max: 1180px;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --type-display: 5.2rem;
+  --type-page-title: 4.5rem;
+  --type-section: 3.1rem;
+  --type-section-compact: 2.35rem;
+  --type-card-title: 1.45rem;
+  --type-topic-title: 1.46rem;
+  --type-body: 1.02rem;
+  --type-body-rich: 1.1rem;
+  --type-support: 1.08rem;
+  --type-small: 0.9rem;
+  --type-label: 0.86rem;
+  --type-caption: 0.78rem;
+  --type-faq-question: 1.34rem;
+  --type-hero-deck-lead: 1.28rem;
+  --type-hero-detail: 2.1rem;
+  --type-fee-display: 4rem;
+  --leading-display: 1.05;
+  --leading-heading: 1.1;
+  --leading-card: 1.18;
+  --leading-body: 1.58;
+  --leading-rich: 1.62;
+  --leading-loose: 1.72;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --type-display: 2.85rem;
+    --type-page-title: 3rem;
+    --type-section: 2.45rem;
+    --type-section-compact: 2rem;
+    --type-hero-detail: 1.85rem;
+  }
 }
 
 * {
@@ -33,9 +68,8 @@ body {
   min-width: 320px;
   background: var(--paper);
   color: var(--ink);
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  line-height: 1.58;
+  font-family: var(--font-sans);
+  line-height: var(--leading-body);
   text-rendering: optimizeLegibility;
 }
 
@@ -75,30 +109,30 @@ h1,
 h2,
 h3,
 .brand__name {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-weight: 500;
 }
 
 h1 {
   max-width: 920px;
-  font-size: clamp(3.15rem, 4.5rem, 4.75rem);
-  line-height: 1.03;
+  font-size: var(--type-page-title);
+  line-height: var(--leading-display);
 }
 
 h2 {
-  font-size: clamp(2.3rem, 3.1rem, 3.6rem);
-  line-height: 1.08;
+  font-size: var(--type-section);
+  line-height: var(--leading-heading);
 }
 
 h3 {
-  font-size: 1.45rem;
-  line-height: 1.18;
+  font-size: var(--type-card-title);
+  line-height: var(--leading-card);
 }
 
 p {
   color: var(--body);
-  font-size: 1.02rem;
-  line-height: 1.58;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
 }
 
 .site-shell {
@@ -316,7 +350,7 @@ p {
 
 .header-button {
   padding: 0.66rem 0.92rem;
-  font-size: 0.9rem;
+  font-size: var(--type-small);
 }
 
 .button {
@@ -428,19 +462,19 @@ p {
 }
 
 .card h3 {
-  font-size: 1.52rem;
+  font-size: var(--type-card-title);
   font-weight: 600;
 }
 
 .card p {
   color: var(--muted);
-  line-height: 1.58;
+  line-height: var(--leading-body);
 }
 
 .card-kicker {
   margin-bottom: 10px;
   color: var(--cedar);
-  font-size: 0.95rem;
+  font-size: var(--type-small);
   font-weight: 700;
 }
 
@@ -455,7 +489,7 @@ p {
   align-items: flex-start;
   gap: 11px;
   color: var(--body);
-  font-size: 1.02rem;
+  font-size: var(--type-body);
   line-height: 1.55;
 }
 
@@ -494,7 +528,7 @@ p {
 .fit-strip__item p {
   max-width: 26ch;
   color: var(--ink);
-  font-size: 1.03rem;
+  font-size: var(--type-body);
   font-weight: 600;
   line-height: 1.45;
 }
@@ -554,8 +588,8 @@ p {
 .section-heading__copy {
   max-width: 760px;
   color: var(--muted);
-  font-size: 1.14rem;
-  line-height: 1.62;
+  font-size: var(--type-support);
+  line-height: var(--leading-rich);
 }
 
 .rich-text {
@@ -563,14 +597,14 @@ p {
   gap: 20px;
   max-width: 680px;
   color: var(--body);
-  font-size: 1.12rem;
-  line-height: 1.62;
+  font-size: var(--type-body-rich);
+  line-height: var(--leading-rich);
 }
 
 .rich-text p {
   color: var(--muted);
-  font-size: 1.12rem;
-  line-height: 1.62;
+  font-size: var(--type-body-rich);
+  line-height: var(--leading-rich);
 }
 
 .rich-text h2,
@@ -582,17 +616,17 @@ p {
 
 .rich-text h2 {
   max-width: 18ch;
-  font-size: clamp(2rem, 2.5vw, 2.7rem);
-  line-height: 1.1;
+  font-size: var(--type-section-compact);
+  line-height: var(--leading-heading);
 }
 
 .rich-text h3 {
-  font-size: 1.42rem;
-  line-height: 1.18;
+  font-size: var(--type-card-title);
+  line-height: var(--leading-card);
 }
 
 .rich-text h4 {
-  font-size: 1.08rem;
+  font-size: var(--type-support);
   line-height: 1.3;
 }
 
@@ -620,8 +654,8 @@ p {
 
 .rich-text li {
   color: var(--muted);
-  font-size: 1.06rem;
-  line-height: 1.58;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
 }
 
 .rich-text strong {
@@ -633,7 +667,7 @@ p {
   border-radius: 4px;
   background: var(--cedar-soft);
   color: var(--cedar-dark);
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 0.9em;
 }
 
@@ -653,7 +687,7 @@ p {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid var(--line);
-  font-size: 0.96rem;
+  font-size: var(--type-small);
 }
 
 .rich-text th,
@@ -668,7 +702,7 @@ p {
 .rich-text th {
   background: var(--surface);
   color: var(--ink);
-  font-size: 0.78rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -1535,7 +1569,7 @@ p {
   color: var(--color-accent);
   letter-spacing: 0;
   font-weight: 700;
-  font-size: 0.84rem;
+  font-size: var(--type-label);
 }
 
 .site-spotlight__stats {
@@ -1582,7 +1616,7 @@ p {
   text-transform: uppercase;
   letter-spacing: 0;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: var(--type-label);
 }
 
 .site-card-grid {
@@ -1672,15 +1706,15 @@ p {
 .site-topic-card h3 {
   margin: 0;
   color: var(--ink);
-  font-size: 1.46rem;
-  line-height: 1.16;
+  font-size: var(--type-topic-title);
+  line-height: var(--leading-card);
 }
 
 .site-topic-card p {
   margin: 0;
   color: var(--muted);
-  font-size: 1.04rem;
-  line-height: 1.6;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
 }
 
 .site-card__list {
@@ -1693,7 +1727,7 @@ p {
 
 .site-card__list li {
   color: var(--body);
-  font-size: 0.97rem;
+  font-size: var(--type-small);
   line-height: 1.42;
 }
 
@@ -1748,7 +1782,7 @@ p {
   letter-spacing: 0;
   color: var(--cedar);
   font-weight: 700;
-  font-size: 0.82rem;
+  font-size: var(--type-label);
 }
 
 .site-pill-row {
@@ -1763,7 +1797,7 @@ p {
   background: var(--cedar-soft);
   color: var(--ink);
   border: 1px solid var(--line);
-  font-size: 0.94rem;
+  font-size: var(--type-small);
   font-weight: 600;
 }
 
@@ -1791,7 +1825,7 @@ p {
   margin: 0;
   padding: 0;
   color: #3f4a40;
-  font-size: 1.02rem;
+  font-size: var(--type-body);
   font-weight: 660;
   line-height: 1.35;
   list-style: none;
@@ -1829,7 +1863,7 @@ p {
 
 .site-ruled-paragraph--wide {
   max-width: 54ch;
-  font-size: 1.02rem;
+  font-size: var(--type-body);
   line-height: 1.68;
 }
 
@@ -1915,12 +1949,12 @@ p {
 .site-principle h2,
 .site-principle h3 {
   color: var(--ink);
-  font-size: 1.28rem;
+  font-size: var(--type-card-title);
 }
 
 .site-principle p {
   color: var(--muted);
-  line-height: 1.58;
+  line-height: var(--leading-body);
 }
 
 .site-contact-strip {
@@ -1975,8 +2009,8 @@ p {
 
 .site-fee-card strong {
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 4rem;
+  font-family: var(--font-serif);
+  font-size: var(--type-fee-display);
   font-weight: 500;
   line-height: 0.95;
 }
@@ -2017,7 +2051,7 @@ p {
   border-radius: var(--radius);
   padding: 12px 14px;
   color: var(--body);
-  font-size: 0.96rem;
+  font-size: var(--type-small);
   line-height: 1.45;
 }
 
@@ -2043,14 +2077,14 @@ p {
 .site-form__status--complete h2 {
   margin: 0;
   color: var(--ink);
-  font-size: clamp(1.85rem, 2.25rem, 2.5rem);
+  font-size: var(--type-section-compact);
   line-height: 1.12;
 }
 
 .site-form__status--complete p {
   color: var(--muted);
-  font-size: 1.02rem;
-  line-height: 1.58;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
 }
 
 .site-form__status--success {
@@ -2067,7 +2101,7 @@ p {
   display: block;
   margin-top: 8px;
   color: var(--muted);
-  font-size: 0.86rem;
+  font-size: var(--type-label);
   line-height: 1.45;
   overflow-wrap: anywhere;
 }
@@ -2208,7 +2242,7 @@ p {
 }
 
 .site-detail-stack p {
-  font-size: 1rem;
+  font-size: var(--type-body);
   line-height: 1.4;
 }
 
@@ -2237,11 +2271,11 @@ p {
 
 .site-detail-stack__title {
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.3rem;
+  font-family: var(--font-serif);
+  font-size: var(--type-card-title);
   font-weight: 500;
   line-height: 1.14;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   text-decoration: underline;
   text-decoration-color: rgba(35, 75, 61, 0.22);
   text-decoration-thickness: 1px;
@@ -2254,9 +2288,9 @@ p {
   align-items: center;
   gap: 8px;
   color: var(--cedar);
-  font-size: 1rem;
+  font-size: var(--type-small);
   font-weight: 650;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
   white-space: nowrap;
   opacity: 0.9;
   transition: color 180ms ease, opacity 180ms ease;
@@ -2326,11 +2360,11 @@ p {
 .site-faq-shell__title {
   margin: 0;
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.55rem, 4.4vw, 4.05rem);
+  font-family: var(--font-serif);
+  font-size: var(--type-section);
   font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 0.98;
+  letter-spacing: 0;
+  line-height: var(--leading-heading);
   text-wrap: balance;
 }
 
@@ -2338,7 +2372,7 @@ p {
   max-width: 62ch;
   margin: 0;
   color: var(--body);
-  font-size: 1.03rem;
+  font-size: var(--type-body);
   line-height: 1.68;
 }
 
@@ -2408,11 +2442,11 @@ p {
 .site-faq-question__text {
   align-self: center;
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.18rem, 1.35vw, 1.48rem);
+  font-family: var(--font-serif);
+  font-size: var(--type-faq-question);
   font-weight: 400;
-  line-height: 1.18;
-  letter-spacing: -0.014em;
+  line-height: var(--leading-card);
+  letter-spacing: 0;
   text-wrap: balance;
 }
 
@@ -2487,7 +2521,7 @@ p {
   overflow: hidden;
   padding: 0 22px 0 26px;
   color: var(--body);
-  font-size: 1rem;
+  font-size: var(--type-body);
   line-height: 1.66;
   opacity: 0;
   transition:
@@ -2519,7 +2553,7 @@ p {
 
 .site-faq-answer__inner :where(p, li) {
   color: var(--body);
-  font-size: 1rem;
+  font-size: var(--type-body);
   line-height: 1.66;
 }
 
@@ -2553,7 +2587,7 @@ p {
   }
 
   .site-faq-question__text {
-    font-size: clamp(1.14rem, 5.7vw, 1.42rem);
+    font-size: var(--type-faq-question);
     line-height: 1.18;
   }
 
@@ -2565,7 +2599,7 @@ p {
   .site-faq-answer__inner {
     max-width: none;
     padding: 0 16px 0 18px;
-    font-size: 1rem;
+    font-size: var(--type-body);
     line-height: 1.64;
   }
 
@@ -2614,10 +2648,10 @@ p {
   margin: 0;
   max-width: 760px;
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.75rem, 2.5vw, 2.3rem);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  font-family: var(--font-serif);
+  font-size: var(--type-section-compact);
+  line-height: var(--leading-heading);
+  letter-spacing: 0;
   text-wrap: balance;
 }
 
@@ -2625,8 +2659,8 @@ p {
   margin: 0;
   max-width: 46rem;
   color: var(--body);
-  font-size: 1.02rem;
-  line-height: 1.58;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
 }
 
 .site-cta-block .button {
@@ -3523,9 +3557,9 @@ p {
 
 .hero-display {
   max-width: var(--hero-display-max-width, none);
-  font-size: clamp(3rem, 5vw, 5.45rem);
+  font-size: var(--type-display);
   font-weight: 400;
-  line-height: 1.05;
+  line-height: var(--leading-display);
   letter-spacing: 0;
   color: var(--ink);
   margin: 0 0 32px;
@@ -3535,8 +3569,8 @@ p {
 .hero-intro {
   max-width: 38rem;
   margin: 0;
-  font-size: 1.08rem;
-  line-height: 1.78;
+  font-size: var(--type-support);
+  line-height: var(--leading-loose);
 }
 
 .site-emphasis,
@@ -3549,9 +3583,9 @@ p {
 /* â”€â”€ Right-column copy panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .hero-copy-panel {
-  font-size: 1.1rem;
+  font-size: var(--type-support);
   color: var(--body);
-  line-height: 1.72;
+  line-height: var(--leading-loose);
   margin: 0;
   padding-left: 22px;
   border-left: 2px solid var(--cedar);
@@ -3577,10 +3611,10 @@ p {
 .hero-deck__lead {
   margin: 0 0 1rem;
   max-width: 42ch;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.18rem, 1.35vw, 1.36rem);
+  font-family: var(--font-serif);
+  font-size: var(--type-hero-deck-lead);
   line-height: 1.38;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   color: var(--ink);
   text-wrap: balance;
 }
@@ -3588,8 +3622,8 @@ p {
 .hero-deck__body {
   margin: 0;
   max-width: 58ch;
-  font-size: clamp(0.98rem, 1vw, 1.06rem);
-  line-height: 1.72;
+  font-size: var(--type-body);
+  line-height: var(--leading-loose);
   color: rgba(31, 35, 31, 0.78);
   text-wrap: pretty;
 }
@@ -3608,7 +3642,7 @@ p {
   display: inline-flex;
   align-items: center;
   color: #4b574c;
-  font-size: 0.95rem;
+  font-size: var(--type-small);
   font-weight: 560;
   line-height: 1.5;
 }
@@ -3624,7 +3658,7 @@ p {
 
 .hero-badge {
   display: inline-block;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.3;
@@ -3659,8 +3693,8 @@ p {
 }
 
 .hero-principle-item h3 {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 1.05rem;
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
   font-weight: 400;
   color: var(--body);
   margin: 0 0 8px;
@@ -3669,9 +3703,9 @@ p {
 }
 
 .hero-principle-item p {
-  font-size: 0.83rem;
+  font-size: var(--type-caption);
   color: var(--muted);
-  line-height: 1.62;
+  line-height: var(--leading-rich);
   margin: 0;
 }
 
@@ -3782,23 +3816,21 @@ p {
 
 .hero-media-note__caption strong {
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1rem;
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
   font-weight: 500;
   line-height: 1.2;
 }
 
 .hero-media-note__caption span {
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: var(--type-caption);
   line-height: 1.42;
 }
 
 /* â”€â”€ Responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 @media (max-width: 900px) {
-  .hero-display { font-size: 2.85rem; }
-
   .hero-bg--default {
     background:
       radial-gradient(
@@ -3900,10 +3932,10 @@ p {
   margin: 0;
   display: block;
   padding: 8px 0 14px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.6rem, 2.55vw, 2.35rem);
+  font-family: var(--font-serif);
+  font-size: var(--type-hero-detail);
   line-height: 1;
-  letter-spacing: -0.025em;
+  letter-spacing: 0;
   color: var(--ink);
   text-wrap: balance;
   text-decoration: none;

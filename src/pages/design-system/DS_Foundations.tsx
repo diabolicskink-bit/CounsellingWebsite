@@ -59,6 +59,69 @@ const colorTokenGroups = [
   },
 ];
 
+const typeRoleRows = [
+  {
+    role: "Display hero",
+    token: "--type-display",
+    source: ".hero-display",
+    use: "Page-opening emotional statement. Keep this out of cards, forms, and compact panels.",
+  },
+  {
+    role: "Page title",
+    token: "--type-page-title",
+    source: "h1",
+    use: "Plain page titles when a page is not using the shared hero display pattern.",
+  },
+  {
+    role: "Section heading",
+    token: "--type-section",
+    source: "h2, .section-heading",
+    use: "Major section statements. Large enough to carry tone without becoming hero scale.",
+  },
+  {
+    role: "Compact section heading",
+    token: "--type-section-compact",
+    source: ".rich-text h2, .site-cta-block h2",
+    use: "Contained panels, rich text, form success states, and compact section moments.",
+  },
+  {
+    role: "Card title",
+    token: "--type-card-title",
+    source: "h3, .site-card h3",
+    use: "Cards, grouped ideas, FAQ links, principles, and repeated content items.",
+  },
+  {
+    role: "Body",
+    token: "--type-body",
+    source: "p",
+    use: "Default paragraphs, compact stack copy, forms, FAQ answers, and practical information.",
+  },
+  {
+    role: "Rich body",
+    token: "--type-body-rich",
+    source: ".rich-text p",
+    use: "Longer editorial reading copy where paragraphs need a little more presence.",
+  },
+  {
+    role: "Support copy",
+    token: "--type-support",
+    source: ".hero-intro, .hero-copy-panel",
+    use: "Hero support, section introductions, and explanatory rails.",
+  },
+  {
+    role: "Label and small",
+    token: "--type-label / --type-small",
+    source: ".site-eyebrow, helper text",
+    use: "Eyebrows, metadata, helper text, captions, notes, and practical labels.",
+  },
+  {
+    role: "Numeric display",
+    token: "--type-fee-display",
+    source: ".site-fee-card strong",
+    use: "Large figures such as session fees. Keep it rare and purposeful.",
+  },
+];
+
 const layoutRules = [
   {
     label: "Content width",
@@ -218,10 +281,33 @@ export default function DS_Foundations() {
               <span className="site-eyebrow">Typography</span>
               <h2>Serif headings create the voice; body copy does the work.</h2>
               <p>
-                These are live specimens from the shared CSS. Keep page headings deliberate, section headings readable,
-                and paragraph copy direct enough for someone scanning sensitive information.
+                The type scale now has named roles. Use these before adding page-specific sizes, and keep display type
+                reserved for page openings or deliberately large closing prompts.
               </p>
             </div>
+
+            <table className="ds-spacing-table ds-foundation-type-table">
+              <thead>
+                <tr>
+                  <th>Role</th>
+                  <th>Token</th>
+                  <th>Current source</th>
+                  <th>Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                {typeRoleRows.map((row) => (
+                  <tr key={row.role}>
+                    <td>{row.role}</td>
+                    <td>
+                      <code>{row.token}</code>
+                    </td>
+                    <td>{row.source}</td>
+                    <td>{row.use}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
             <div className="ds-foundation-type-showcase">
               <article className="ds-foundation-type-hero hero-bg--default">
@@ -237,19 +323,40 @@ export default function DS_Foundations() {
                 </p>
               </article>
 
-              <article className="site-copy-panel rich-text ds-foundation-type-copy">
-                <span className="site-eyebrow">Editorial text</span>
-                <h2>A section heading should read like a considered statement.</h2>
-                <p>
-                  Body copy should feel warm, specific, and plain. It can include a{" "}
-                  <a href="/working-with-joel">contextual text link</a> without needing page-specific link styling.
-                </p>
-                <h3>Card or group heading</h3>
-                <p>
-                  H3s support cards, grouped ideas, and smaller content clusters. They should not compete with section
-                  headings.
-                </p>
-              </article>
+              <div className="ds-foundation-type-specimen-grid" aria-label="Type role specimens">
+                <article className="ds-foundation-type-specimen ds-foundation-type-specimen--section">
+                  <span className="site-eyebrow">Section heading</span>
+                  <h2>A section heading should read like a considered statement.</h2>
+                  <p className="section-heading__copy">
+                    Support copy can orient the reader without becoming a second headline.
+                  </p>
+                </article>
+
+                <article className="site-card ds-foundation-type-specimen">
+                  <span className="site-eyebrow">Card title</span>
+                  <h3>Contained trust</h3>
+                  <p>Card copy stays quieter than section copy and should be easy to scan.</p>
+                </article>
+
+                <article className="site-copy-panel rich-text ds-foundation-type-copy">
+                  <span className="site-eyebrow">Rich text</span>
+                  <h2>Rich text gets its own compact heading role.</h2>
+                  <p>
+                    Body copy should feel warm, specific, and plain. It can include a{" "}
+                    <a href="/working-with-joel">contextual text link</a> without needing page-specific link styling.
+                  </p>
+                  <h3>Nested rich heading</h3>
+                  <p>
+                    H3s support smaller content clusters. They should not compete with the surrounding section heading.
+                  </p>
+                </article>
+
+                <aside className="site-fee-card ds-foundation-type-specimen">
+                  <p className="site-highlight__eyebrow">Numeric display</p>
+                  <strong>$120</strong>
+                  <span>Large numeric type is reserved for fee or figure moments.</span>
+                </aside>
+              </div>
             </div>
 
             <div className="ds-usage-note">

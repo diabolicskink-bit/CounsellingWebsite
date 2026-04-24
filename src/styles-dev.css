@@ -448,10 +448,16 @@
 .ds-foundation-type-showcase {
   display: grid;
   gap: 20px;
+  margin-top: 28px;
+}
+
+.ds-foundation-type-table {
+  margin-bottom: 0;
 }
 
 .ds-foundation-type-hero,
-.ds-foundation-type-copy {
+.ds-foundation-type-copy,
+.ds-foundation-type-specimen {
   min-width: 0;
 }
 
@@ -470,7 +476,7 @@
 
 .ds-foundation-type-hero .hero-display {
   margin: 12px 0 18px;
-  font-size: 4rem;
+  font-size: var(--type-display);
 }
 
 .ds-foundation-type-hero .hero-intro {
@@ -484,6 +490,31 @@
 .ds-foundation-type-copy .site-eyebrow {
   display: block;
   margin-bottom: 2px;
+}
+
+.ds-foundation-type-specimen-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.ds-foundation-type-specimen--section {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+}
+
+.ds-foundation-type-specimen--section h2 {
+  max-width: 16ch;
+}
+
+.ds-foundation-type-specimen--section .section-heading__copy {
+  margin: 0;
+  max-width: 42ch;
 }
 
 .ds-foundation-rhythm-demo {
@@ -907,6 +938,7 @@
 
   .ds-foundation-rule-grid,
   .ds-foundation-colour-demo,
+  .ds-foundation-type-specimen-grid,
   .ds-foundation-rhythm-demo .site-split,
   .ds-foundation-edge-grid,
   .ds-foundation-state-grid,
@@ -919,7 +951,7 @@
   }
 
   .ds-foundation-type-hero .hero-display {
-    font-size: 2.75rem;
+    font-size: var(--type-display);
   }
 
   .ds-hero-demo__body {

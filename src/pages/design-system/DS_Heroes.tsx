@@ -226,9 +226,9 @@ export default function DS_Heroes() {
                 <tr>
                   <td>font-size</td>
                   <td>
-                    <code>clamp(3rem, 5vw, 5.45rem)</code>
+                    <code>var(--type-display)</code>
                   </td>
-                  <td>Gives the heading presence without overpowering the first screen on desktop.</td>
+                  <td>Uses the shared display role so hero scale is controlled by the foundational type system.</td>
                 </tr>
                 <tr>
                   <td>font-weight</td>
@@ -240,7 +240,7 @@ export default function DS_Heroes() {
                 <tr>
                   <td>line-height</td>
                   <td>
-                    <code>1.05</code>
+                    <code>var(--leading-display)</code>
                   </td>
                   <td>Keeps display headings compact while giving longer multi-line titles a little more breathing room.</td>
                 </tr>

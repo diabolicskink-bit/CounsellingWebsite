@@ -4,6 +4,17 @@ This document captures the current state of the site's type scale and a high-lev
 
 The goal is not to make a large team-proof token system. This is a single-owner website, so the right outcome is a clear, usable set of type roles that make future page work easier and keep the site feeling calm, editorial, and coherent.
 
+## Implementation Status
+
+The first implementation slice has been completed:
+
+- Type role tokens now live in `src/styles.css`.
+- Core shared selectors now consume those roles for hero display, page titles, section headings, rich text, cards, labels, forms, FAQs, fee display, and hero support copy.
+- `docs/design-system/tokens.md` documents the implemented type roles.
+- The Foundations page shows a live type-role table and role specimens.
+
+Remaining work is mostly cleanup: reduce older page-specific type overrides, retire viewport-scaled font-size rules in current shared production code, and decide whether older test-bed or archived styles should be left alone or moved out of the main stylesheet.
+
 ## Current State
 
 The site already has a strong typographic direction:
@@ -120,15 +131,23 @@ Possible variables:
 
 - `--font-serif`
 - `--font-sans`
+- `--font-mono`
 - `--type-display`
 - `--type-page-title`
 - `--type-section`
 - `--type-section-compact`
 - `--type-card-title`
+- `--type-topic-title`
 - `--type-body`
 - `--type-body-rich`
+- `--type-support`
 - `--type-small`
 - `--type-label`
+- `--type-caption`
+- `--type-faq-question`
+- `--type-hero-deck-lead`
+- `--type-hero-detail`
+- `--type-fee-display`
 
 Possible line-height variables:
 
@@ -190,6 +209,8 @@ Start with a small, visible pass:
 
 This will give the site a clearer typographic center of gravity before doing cleanup.
 
+Status: completed. The next pass should focus on reducing page-specific type overrides and checking public pages visually after the shared role alignment.
+
 ## Done When
 
 The type-scale pass is successful when:
@@ -200,4 +221,3 @@ The type-scale pass is successful when:
 - Production shared classes no longer rely on scattered near-duplicate type values.
 - The Foundations page shows real examples of every major type role.
 - Page-specific CSS mostly adjusts layout and measure, not basic type scale.
-
