@@ -1,89 +1,136 @@
+import Button from "../../components/Button";
+import Container from "../../components/Container";
 import DevPageHero from "../../components/DevPageHero";
 import DesignSystemSidebar from "../../components/DesignSystemSidebar";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
-const colorTokens = [
-  { name: "Page background", token: "--paper", value: "#F7F6F2", role: "Main page canvas", usage: "Default background for every page. Never use a coloured surface here." },
-  { name: "Section surface", token: "--surface", value: "#EEF2EC", role: "Soft green section rhythm", usage: "Alternate sections on the page to create gentle visual rhythm without loud contrast." },
-  { name: "Card surface", token: "--surface-strong", value: "#FCFCFA", role: "Cards, forms and inset panels", usage: "Use for cards, form fields, and any surface that needs slight separation from paper." },
-  { name: "Surface muted", token: "--surface-muted", value: "#F4F6F2", role: "Subtle wash", usage: "Between paper and surface when a very faint wash is needed. Use sparingly." },
-  { name: "Border", token: "--line", value: "#CCD4CA", role: "Dividers and quiet structure", usage: "All borders and dividers. Prefer a single border over a shadow when separating surfaces." },
-  { name: "Heading text", token: "--ink", value: "#1F231F", role: "Primary headings and strong labels", usage: "H1, H2, H3 and any label that needs full weight. Avoid using on body paragraphs." },
-  { name: "Body text", token: "--body", value: "#3F493F", role: "Main reading copy", usage: "Standard paragraph copy. Warm near-black — not pure black." },
-  { name: "Muted text", token: "--muted", value: "#505A51", role: "Supporting copy and metadata", usage: "Descriptions, captions, helper text. One step quieter than body." },
-  { name: "Faint text", token: "--faint", value: "#687268", role: "Labels, eyebrows, metadata", usage: "Eyebrow labels, timestamps, very low-priority notes. Not for body copy." },
-  { name: "Primary accent", token: "--cedar", value: "#234B3D", role: "Buttons and small emphasis", usage: "Primary button background, icon emphasis, active states. Use disciplined — it carries authority." },
-  { name: "Accent hover", token: "--cedar-dark", value: "#1D4034", role: "Hover and active states", usage: "Only for hover/active on cedar elements. Never used as a standalone surface." },
-  { name: "Accent soft", token: "--cedar-soft", value: "#EEF2EC", role: "Chips, icon wells and subtle washes", usage: "Pill backgrounds, icon wells, tag backgrounds. Pairs with cedar text for readable chips." },
-  { name: "Accent secondary", token: "--accent", value: "#2D5946", role: "Secondary green accent", usage: "Use for decorative accents, hover states, or border emphasis. Not for primary actions." },
-  { name: "Accent deep", token: "--accent-deep", value: "#173028", role: "Deep green for heavy emphasis", usage: "Very dark green for text on cedar backgrounds, or deep decorative use only." },
-  { name: "Accent soft alt", token: "--accent-soft", value: "#EAF2EB", role: "Alternate light green wash", usage: "Similar to cedar-soft. Use for variety when two different light-green washes are needed on the same page." },
-  { name: "Shadow", token: "--shadow", value: "0 8px 22px rgba(31,35,31,0.055)", role: "Elevation for floating surfaces", usage: "Use very sparingly — only when a surface genuinely floats above the page (dropdowns, modals, cards on hover)." },
-  { name: "Border radius", token: "--radius", value: "8px", role: "Standard corner rounding", usage: "All cards, buttons, inputs, and panels use this value. Do not invent custom radii." },
-];
-
-const typographySamples = [
+const foundationRules = [
   {
-    label: "H1 / page title",
-    className: "type-sample--h1",
-    usage: "One per page. Sets the emotional register for the whole page. Use Georgia/serif.",
-    text: "Calm, grounded counselling for complicated lives.",
+    title: "Paper first",
+    text: "Most pages should read as paper with soft green rhythm, not as a themed green interface.",
   },
   {
-    label: "H2 / section title",
-    className: "type-sample--h2",
-    usage: "Opens each major section. Should feel like a considered statement, not a label.",
-    text: "A clear structure for sensitive information.",
+    title: "Type carries tone",
+    text: "Serif headings set the emotional register. Sans-serif body copy stays plain, practical, and readable.",
   },
   {
-    label: "H3 / card or sub-section title",
-    className: "type-sample--h3",
-    usage: "Card headings, feature labels, sub-section titles within a section.",
-    text: "Contained trust",
+    title: "Borders before effects",
+    text: "Structure comes from spacing, rules, and restrained borders. Shadows are reserved for true floating surfaces.",
   },
   {
-    label: "Body",
-    className: "type-sample--body",
-    usage: "All paragraph copy. Inter/sans-serif at 1.02rem. Line height 1.58.",
-    text: "Body copy should feel warm, readable, and direct without becoming casual or vague. Keep paragraphs short and purposeful.",
-  },
-  {
-    label: "Small",
-    className: "type-sample--small",
-    usage: "Caveats, form helper text, footnotes, practical policy notes.",
-    text: "Small notes, caveats, and practical details stay quiet but legible.",
-  },
-  {
-    label: "Eyebrow / label",
-    className: "type-sample--eyebrow",
-    usage: "Section category label above a heading. Uppercase, tracked, faint colour. Never bold.",
-    text: "Section label",
+    title: "Cedar is an accent",
+    text: "Use cedar for actions, labels, icons, links, and small emphasis. Do not turn it into a general background color.",
   },
 ];
 
-const spacingRules = [
-  { label: "Container max-width", token: "--max", value: "1180px", note: "Use the Container component for all major content. Never manually set a max-width." },
-  { label: "Page gutter", token: "—", value: "20px each side", note: "Container handles this via min(100% - 40px, var(--max))." },
-  { label: "Section padding", token: "—", value: "80–96px block", note: "Large sections need room to breathe. Tight sections feel clinical." },
-  { label: "Card padding", token: "—", value: "20–28px", note: "Consistent inner spacing so all cards feel intentional and related." },
-  { label: "Border radius", token: "--radius", value: "8px", note: "All rounded surfaces. Avoid larger values — they become pillowy." },
-  { label: "Elevation / shadow", token: "--shadow", value: "0 8px 22px rgba(31,35,31,0.055)", note: "Only when a surface needs separation. Borders do more work than shadows here." },
-  { label: "Grid gap (cards)", token: "—", value: "16–20px", note: "Card grids use consistent gaps. Do not exceed 24px in card grids." },
-  { label: "Section gap (stacked)", token: "—", value: "56–60px between ds-sections", note: "Used on design system sub-pages. Production pages use section padding instead." },
+const colorTokenGroups = [
+  {
+    title: "Canvas and structure",
+    text: "The surfaces that create the site rhythm.",
+    tokens: [
+      { name: "Page background", token: "--paper", value: "#F7F6F2", role: "Main page canvas" },
+      { name: "Section surface", token: "--surface", value: "#EEF2EC", role: "Soft green alternation" },
+      { name: "Strong surface", token: "--surface-strong", value: "#FCFCFA", role: "Cards, forms, panels" },
+      { name: "Muted surface", token: "--surface-muted", value: "#F4F6F2", role: "Very quiet wash" },
+      { name: "Line", token: "--line", value: "#CCD4CA", role: "Borders and dividers" },
+    ],
+  },
+  {
+    title: "Text hierarchy",
+    text: "The text colors are close together on purpose.",
+    tokens: [
+      { name: "Heading text", token: "--ink", value: "#1F231F", role: "Headings and strong labels" },
+      { name: "Body text", token: "--body", value: "#3F493F", role: "Main reading copy" },
+      { name: "Muted text", token: "--muted", value: "#505A51", role: "Support copy" },
+      { name: "Faint text", token: "--faint", value: "#687268", role: "Metadata and quiet labels" },
+    ],
+  },
+  {
+    title: "Accent system",
+    text: "Small, disciplined emphasis rather than decoration.",
+    tokens: [
+      { name: "Primary accent", token: "--cedar", value: "#234B3D", role: "Primary actions and active emphasis" },
+      { name: "Accent hover", token: "--cedar-dark", value: "#1D4034", role: "Hover and active states" },
+      { name: "Accent soft", token: "--cedar-soft", value: "#EEF2EC", role: "Icon wells, chips, soft emphasis" },
+      { name: "Secondary accent", token: "--accent", value: "#2D5946", role: "Secondary green emphasis" },
+      { name: "Deep accent", token: "--accent-deep", value: "#173028", role: "Limited deep emphasis" },
+      { name: "Soft alt accent", token: "--accent-soft", value: "#EAF2EB", role: "Alternate light wash" },
+    ],
+  },
 ];
 
-// AI maintainers: Foundations is for tokens, base typography, spacing, and
-// editorial HTML defaults. Component or page-layout examples belong in
-// DS_Components or DS_Patterns unless they change baseline text behaviour.
+const layoutRules = [
+  {
+    label: "Content width",
+    token: "--max",
+    value: "1180px",
+    guidance: "Use the Container component for major page content and demos that need the real site gutter.",
+  },
+  {
+    label: "Shared section",
+    token: ".site-grid",
+    value: "40px block padding",
+    guidance: "Default public-page section surface. Use as the neutral step in the alternating rhythm.",
+  },
+  {
+    label: "Highlighted section",
+    token: ".site-highlight",
+    value: "40px block padding",
+    guidance: "Soft green alternate surface. Use between site-grid sections instead of local wrapper classes.",
+  },
+  {
+    label: "Split layout",
+    token: ".site-split",
+    value: "0.72fr / 1fr",
+    guidance: "Pair a heading block with the reading or component side of a section.",
+  },
+  {
+    label: "Content stack",
+    token: ".site-content-stack",
+    value: "24px gap",
+    guidance: "Stack cards, panels, notes, and principle blocks inside the content column.",
+  },
+  {
+    label: "Standard radius",
+    token: "--radius",
+    value: "8px",
+    guidance: "Use for cards, buttons, inputs, chips, and docs-shell surfaces.",
+  },
+  {
+    label: "Shadow",
+    token: "--shadow",
+    value: "0 8px 22px rgba(31, 35, 31, 0.055)",
+    guidance: "Use sparingly. Most separation should come from borders and spacing.",
+  },
+];
+
+const stateRules = [
+  {
+    title: "Links stay visible",
+    text: "Inline rich-text links use cedar, weight, underline, and underline offset so they remain obvious in calm copy.",
+  },
+  {
+    title: "Focus is quiet but clear",
+    text: "Inputs, linked stacks, and editorial links use cedar outlines or rings. The state should be legible without feeling loud.",
+  },
+  {
+    title: "Hover is a small lift",
+    text: "Cards and buttons move slightly or deepen their border. Avoid large motion or decorative hover states.",
+  },
+];
+
+// AI maintainers: Foundations is for tokens, base typography, spacing, section rhythm,
+// shared rich-text behavior, and baseline state rules. Component-specific demos belong
+// in DS_Components; page-level composition belongs in DS_Patterns or DS_Heroes.
 export default function DS_Foundations() {
   useDocumentMetadata("Foundations | Design System | Vive Counselling");
 
   return (
-    <main className="site-page">
+    <main className="site-page ds-foundations-page">
       <DevPageHero
         badge="Design system"
         title="Foundations"
-        description="Colour tokens, typography scale, spacing rules, and base HTML — the building blocks everything else is made from."
+        description="The baseline rules behind the site: color, type, section rhythm, editorial HTML, and the small interaction states that keep sensitive content readable."
       />
 
       <div className="ds-layout">
@@ -92,137 +139,323 @@ export default function DS_Foundations() {
         </div>
 
         <div className="ds-layout__content">
-
-          <section className="ds-section" id="colour">
+          <section className="ds-section" id="rules">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Colour tokens</span>
-              <h2>The palette is a rule set, not just a mood.</h2>
-              <p>Use green with discipline. The site reads as paper, soft surface, cedar accent, and grounded text — not as a broad green wash.</p>
+              <span className="site-eyebrow">Core rules</span>
+              <h2>The foundations are practical constraints.</h2>
+              <p>
+                These rules keep the site grounded as pages change. Use them before reaching for new colors, special
+                wrappers, decorative effects, or page-specific typography.
+              </p>
             </div>
 
-            <div className="legacy-token-grid">
-              {colorTokens.map((color) => (
-                <article className="legacy-token-card" key={color.token}>
-                  <span className="legacy-token-card__swatch" style={{ background: color.value }} />
-                  <div>
-                    <h3>{color.name}</h3>
-                    <code>{color.token}</code>
-                    <p>{color.value} · {color.role}</p>
-                    <p style={{ fontSize: "0.82rem", color: "var(--faint)", marginTop: "4px" }}>{color.usage}</p>
-                  </div>
+            <div className="site-card-grid ds-foundation-rule-grid">
+              {foundationRules.map((rule) => (
+                <article className="site-card" key={rule.title}>
+                  <h3>{rule.title}</h3>
+                  <p>{rule.text}</p>
                 </article>
               ))}
             </div>
           </section>
 
-          <section className="ds-section" id="typography">
+          <section className="ds-section" id="colour">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Typography scale</span>
-              <h2>Serif-led, practical, and confident.</h2>
-              <p>Headings carry emotional weight. Body copy does the real work. Labels are restrained and used sparingly.</p>
+              <span className="site-eyebrow">Colour tokens</span>
+              <h2>The palette should read as paper, surface, text, and cedar.</h2>
+              <p>
+                Token values are shown here with live swatches using the actual CSS variables. Hex values are labels for
+                maintainers, not an invitation to hard-code colors in components.
+              </p>
             </div>
 
-            <div className="legacy-type-card">
-              {typographySamples.map((sample) => (
-                <div key={sample.label}>
-                  <div className={`legacy-type-sample ${sample.className}`}>
-                    <span>{sample.label}</span>
-                    <p>{sample.text}</p>
+            <div className="ds-foundation-token-groups">
+              {colorTokenGroups.map((group) => (
+                <section className="ds-foundation-token-group" key={group.title}>
+                  <div className="ds-foundation-token-group__header">
+                    <h3>{group.title}</h3>
+                    <p>{group.text}</p>
                   </div>
-                  <div className="ds-usage-note">
-                    <strong>Use when:</strong> {sample.usage}
+                  <div className="ds-foundation-token-grid">
+                    {group.tokens.map((color) => (
+                      <article className="ds-foundation-token" key={color.token}>
+                        <span
+                          className="ds-foundation-token__swatch"
+                          style={{ background: `var(${color.token})` }}
+                          aria-hidden="true"
+                        />
+                        <div className="ds-foundation-token__copy">
+                          <strong>{color.name}</strong>
+                          <code>{color.token}</code>
+                          <span>{color.value}</span>
+                          <p>{color.role}</p>
+                        </div>
+                      </article>
+                    ))}
                   </div>
-                </div>
+                </section>
               ))}
+            </div>
+
+            <div className="ds-demo ds-foundation-colour-demo">
+              <div className="ds-foundation-colour-demo__paper">
+                <span className="site-eyebrow">Live color composition</span>
+                <h3>Paper carries the page. Cedar only marks action and emphasis.</h3>
+                <p>
+                  The strongest color should usually be text or a focused call to action, not the whole section.
+                </p>
+                <Button href="/contact">Primary cedar action</Button>
+              </div>
+              <div className="ds-foundation-colour-demo__surface">
+                <strong>Soft surface</strong>
+                <span>Use for alternating rhythm, chips, icon wells, and low-pressure emphasis.</span>
+              </div>
+            </div>
+          </section>
+
+          <section className="ds-section" id="typography">
+            <div className="ds-section-heading">
+              <span className="site-eyebrow">Typography</span>
+              <h2>Serif headings create the voice; body copy does the work.</h2>
+              <p>
+                These are live specimens from the shared CSS. Keep page headings deliberate, section headings readable,
+                and paragraph copy direct enough for someone scanning sensitive information.
+              </p>
+            </div>
+
+            <div className="ds-foundation-type-showcase">
+              <article className="ds-foundation-type-hero hero-bg--default">
+                <span className="hero-badge">Hero display</span>
+                <h2 className="hero-display">
+                  Calm enough
+                  <br />
+                  for complicated things.
+                </h2>
+                <p className="hero-intro">
+                  Use <code>.hero-display</code> for production page openings. The scale is large, but the weight stays
+                  light and editorial.
+                </p>
+              </article>
+
+              <article className="site-copy-panel rich-text ds-foundation-type-copy">
+                <span className="site-eyebrow">Editorial text</span>
+                <h2>A section heading should read like a considered statement.</h2>
+                <p>
+                  Body copy should feel warm, specific, and plain. It can include a{" "}
+                  <a href="/working-with-joel">contextual text link</a> without needing page-specific link styling.
+                </p>
+                <h3>Card or group heading</h3>
+                <p>
+                  H3s support cards, grouped ideas, and smaller content clusters. They should not compete with section
+                  headings.
+                </p>
+              </article>
+            </div>
+
+            <div className="ds-usage-note">
+              <strong>Rule of thumb:</strong> one production <code>h1</code> per page, serif-led section headings, and
+              measured paragraph widths. Do not use display scale inside compact cards, sidebars, form panels, or small
+              support blocks.
             </div>
           </section>
 
           <section className="ds-section" id="spacing">
             <div className="ds-section-heading">
               <span className="site-eyebrow">Spacing & layout</span>
-              <h2>Spacing and borders do more work than decoration.</h2>
-              <p>Consistent spatial rhythm makes the site feel considered. These values should repeat predictably across all pages.</p>
+              <h2>Spacing, not decoration, creates the page rhythm.</h2>
+              <p>
+                Major content should sit inside the shared container. Page sections alternate between neutral
+                <code> .site-grid</code> and highlighted <code>.site-highlight</code> surfaces.
+              </p>
             </div>
 
             <table className="ds-spacing-table">
               <thead>
                 <tr>
-                  <th>Property</th>
-                  <th>Token / value</th>
+                  <th>Foundation</th>
+                  <th>Token or class</th>
+                  <th>Value</th>
                   <th>Guidance</th>
                 </tr>
               </thead>
               <tbody>
-                {spacingRules.map((rule) => (
+                {layoutRules.map((rule) => (
                   <tr key={rule.label}>
                     <td>{rule.label}</td>
                     <td>
-                      {rule.token !== "—" ? <code>{rule.token}</code> : null}
-                      {rule.token !== "—" ? <br /> : null}
-                      {rule.value}
+                      <code>{rule.token}</code>
                     </td>
-                    <td>{rule.note}</td>
+                    <td>{rule.value}</td>
+                    <td>{rule.guidance}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
+            <div className="ds-foundation-rhythm-demo" aria-label="Section rhythm example">
+              <section className="site-grid ds-foundation-rhythm-demo__section">
+                <Container>
+                  <div className="site-split">
+                    <div className="section-heading">
+                      <span className="site-eyebrow">Neutral section</span>
+                      <h3>Use site-grid for the default content step.</h3>
+                    </div>
+                    <p className="site-ruled-paragraph">
+                      This preview uses the real section class, container, split layout, and ruled paragraph treatment.
+                    </p>
+                  </div>
+                </Container>
+              </section>
+
+              <section className="site-highlight ds-foundation-rhythm-demo__section">
+                <Container>
+                  <div className="site-split">
+                    <div className="section-heading">
+                      <span className="site-eyebrow">Highlighted section</span>
+                      <h3>Use site-highlight as the soft alternate surface.</h3>
+                    </div>
+                    <div className="site-content-stack">
+                      <article className="site-card">
+                        <h3>Contained detail</h3>
+                        <p>The card remains quiet because the section surface already provides the rhythm.</p>
+                      </article>
+                    </div>
+                  </div>
+                </Container>
+              </section>
+            </div>
+          </section>
+
+          <section className="ds-section" id="surfaces">
+            <div className="ds-section-heading">
+              <span className="site-eyebrow">Surfaces & edges</span>
+              <h2>Edges should feel crisp, not glossy.</h2>
+              <p>
+                The system uses an 8px radius as the baseline, quiet borders for most containment, and a restrained
+                shadow only where a surface needs to feel lifted.
+              </p>
+            </div>
+
+            <div className="ds-foundation-edge-grid">
+              <article className="ds-foundation-edge-sample">
+                <span className="ds-foundation-edge-sample__preview ds-foundation-edge-sample__preview--radius" />
+                <div>
+                  <strong>Radius</strong>
+                  <code>--radius: 8px</code>
+                  <p>Cards, buttons, forms, chips, and docs previews should all feel related.</p>
+                </div>
+              </article>
+              <article className="ds-foundation-edge-sample">
+                <span className="ds-foundation-edge-sample__preview ds-foundation-edge-sample__preview--border" />
+                <div>
+                  <strong>Border</strong>
+                  <code>--line</code>
+                  <p>Use dividers and borders before adding decorative elevation.</p>
+                </div>
+              </article>
+              <article className="ds-foundation-edge-sample">
+                <span className="ds-foundation-edge-sample__preview ds-foundation-edge-sample__preview--shadow" />
+                <div>
+                  <strong>Shadow</strong>
+                  <code>--shadow</code>
+                  <p>Reserve for dropdowns, forms, fee cards, and cards that truly lift.</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section className="ds-section" id="states">
+            <div className="ds-section-heading">
+              <span className="site-eyebrow">Links & states</span>
+              <h2>Interaction states should be obvious without becoming noisy.</h2>
+              <p>
+                Foundational states apply across shared components: links, inputs, cards, buttons, and structured text.
+                Cedar is the signal color; motion stays small.
+              </p>
+            </div>
+
+            <div className="ds-foundation-state-grid">
+              {stateRules.map((rule) => (
+                <article className="site-card" key={rule.title}>
+                  <h3>{rule.title}</h3>
+                  <p>{rule.text}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="ds-demo ds-foundation-state-demo">
+              <div className="rich-text">
+                <p>
+                  A rich text link should look like a link:{" "}
+                  <a href="/fees">read the fee and session details</a>.
+                </p>
+              </div>
+              <form className="site-form ds-foundation-mini-form" action="#" method="post">
+                <div className="form-row">
+                  <label htmlFor="foundation-focus-example">Focused field treatment</label>
+                  <input
+                    id="foundation-focus-example"
+                    name="foundation-focus-example"
+                    placeholder="Border and ring use cedar"
+                    type="text"
+                  />
+                </div>
+              </form>
+            </div>
           </section>
 
           <section className="ds-section" id="html">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">HTML elements</span>
-              <h2>Base elements should still feel designed.</h2>
-              <p>Even where rich editorial content is not heavily used, the system handles all standard HTML elements consistently.</p>
+              <span className="site-eyebrow">Editorial HTML</span>
+              <h2>Rich text should still look designed.</h2>
+              <p>
+                The shared <code>.rich-text</code> baseline now covers headings, paragraphs, links, lists, quotes,
+                tables, dividers, and inline code. Use it for editorial content instead of styling each page by hand.
+              </p>
             </div>
 
-            <div className="legacy-html-card">
-              <h1>Heading one</h1>
-              <h2>Heading two</h2>
-              <h3>Heading three</h3>
-              <h4>Heading four</h4>
+            <article className="site-copy-panel rich-text ds-foundation-html-demo">
+              <h2>Heading two introduces a section of reading copy.</h2>
               <p>
-                Paragraph copy includes a <a href="/contact">text link</a>, a <strong>strong phrase</strong>, and{" "}
-                <code>inline code</code> for technical notes.
+                Paragraphs are muted, measured, and easy to scan. A paragraph can include{" "}
+                <strong>strong emphasis</strong>, <code>inline code</code>, and a{" "}
+                <a href="/contact">visible text link</a>.
               </p>
-              {/* AI maintainers: rich-text links are documented here because the link treatment is a baseline editorial rule. */}
-              <div className="rich-text">
-                <p>
-                  Rich editorial text can include contextual links like <a href="/working-with-joel">working with Joel</a>{" "}
-                  without needing page-specific link styles.
-                </p>
-              </div>
-              <blockquote>The design should make clear information feel steady, not sterile.</blockquote>
+              <h3>Heading three groups a smaller idea</h3>
+              <p>
+                Use lists when the content is genuinely list-shaped, such as practical requirements or related
+                considerations.
+              </p>
               <ul>
-                <li>Unordered list item</li>
-                <li>Another useful item</li>
+                <li>Use plain language before specialist language.</li>
+                <li>Keep each item short enough to scan.</li>
+                <li>Let the list sit inside the same reading rhythm as the paragraphs.</li>
               </ul>
-              <ol>
-                <li>Ordered list item</li>
-                <li>Second ordered item</li>
-              </ol>
+              <blockquote>
+                <p>The design should make clear information feel steady, not sterile.</p>
+              </blockquote>
               <table>
                 <thead>
                   <tr>
                     <th>Element</th>
-                    <th>Purpose</th>
+                    <th>Use</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Table</td>
-                    <td>Fees, availability, comparison, or simple structured data.</td>
+                    <td>Simple structured details such as fees, availability, or comparison notes.</td>
                   </tr>
                   <tr>
                     <td>Blockquote</td>
-                    <td>Editorial emphasis or a careful practice principle.</td>
+                    <td>A quiet editorial principle or short reflective statement.</td>
                   </tr>
                 </tbody>
               </table>
               <hr />
-              <p>Small closing copy can sit after a divider when a section needs a quiet final note.</p>
-            </div>
+              <p>Dividers should close a thought quietly, not split a page into heavy chunks.</p>
+            </article>
           </section>
-
         </div>
       </div>
     </main>

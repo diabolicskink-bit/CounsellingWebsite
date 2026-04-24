@@ -63,6 +63,8 @@ Prefer these shared building blocks before creating anything new.
   Split layout pairing a heading block with contained reading content.
 - `.site-copy-panel`
   Contained panel for explanatory rich text.
+- `.rich-text`
+  Shared editorial reading wrapper for paragraph groups, contextual links, lists, blockquotes, tables, dividers, and inline code. Use it when rich content needs baseline typography and link treatment without page-specific styling.
 - `.site-cta-block`, `.site-cta-block__inner`, `.site-cta-block__copy`
   Shared closing CTA section for one clear next step. This is the authoritative site-wide final prompt pattern: large serif heading, calm split layout, and a single right-aligned action. It can also sit on `site-highlight` when the alternating section rhythm calls for the highlighted surface.
 - `.site-contact-strip` and `.site-contact-item`

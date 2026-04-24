@@ -10,10 +10,13 @@ const navGroups: NavGroup[] = [
     group: "Foundations",
     basePath: "/design-language/foundations",
     items: [
+      { label: "Core rules", href: "/design-language/foundations#rules" },
       { label: "Colour tokens", href: "/design-language/foundations#colour" },
       { label: "Typography", href: "/design-language/foundations#typography" },
       { label: "Spacing & layout", href: "/design-language/foundations#spacing" },
-      { label: "HTML elements", href: "/design-language/foundations#html" },
+      { label: "Surfaces & edges", href: "/design-language/foundations#surfaces" },
+      { label: "Links & states", href: "/design-language/foundations#states" },
+      { label: "Editorial HTML", href: "/design-language/foundations#html" },
     ],
   },
   {

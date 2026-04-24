@@ -33,11 +33,14 @@ Primary tokens live in `src/styles.css`.
 - `h1` is large, editorial, and should appear once per page.
 - `h2` is the main section heading.
 - `h3` supports cards and nested content groups.
+- `.rich-text` is the shared editorial reading wrapper for paragraph groups, contextual links, lists, blockquotes, tables, dividers, and inline code.
+- Rich text links must stay visibly linked with cedar color, weight, underline, and a quiet focus outline.
 
 ## Spacing Rules
 
 - Use the shared `.container` width logic via the `Container` component.
 - Major sections should usually have generous block padding.
+- Use `.site-grid` for the neutral section surface and `.site-highlight` for the soft-green alternating surface before creating page-scoped section wrappers.
 - Card and panel spacing should stay consistent across pages.
 - Card grid gaps should stay in the restrained range already used across the site.
 

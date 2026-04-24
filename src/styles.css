@@ -573,12 +573,111 @@ p {
   line-height: 1.62;
 }
 
+.rich-text h2,
+.rich-text h3,
+.rich-text h4 {
+  margin: 0;
+  color: var(--ink);
+}
+
+.rich-text h2 {
+  max-width: 18ch;
+  font-size: clamp(2rem, 2.5vw, 2.7rem);
+  line-height: 1.1;
+}
+
+.rich-text h3 {
+  font-size: 1.42rem;
+  line-height: 1.18;
+}
+
+.rich-text h4 {
+  font-size: 1.08rem;
+  line-height: 1.3;
+}
+
 .rich-text a {
   color: var(--cedar);
   font-weight: 700;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
+}
+
+.rich-text a:focus-visible {
+  outline: 2px solid rgba(35, 75, 61, 0.28);
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+
+.rich-text ul,
+.rich-text ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.rich-text li {
+  color: var(--muted);
+  font-size: 1.06rem;
+  line-height: 1.58;
+}
+
+.rich-text strong {
+  color: var(--ink);
+}
+
+.rich-text code {
+  padding: 0.12rem 0.36rem;
+  border-radius: 4px;
+  background: var(--cedar-soft);
+  color: var(--cedar-dark);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+
+.rich-text blockquote {
+  margin: 0;
+  padding: 16px 18px;
+  border-left: 3px solid var(--cedar);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--cedar-soft);
+}
+
+.rich-text blockquote p {
+  color: var(--body);
+}
+
+.rich-text table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--line);
+  font-size: 0.96rem;
+}
+
+.rich-text th,
+.rich-text td {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  color: var(--body);
+  text-align: left;
+  vertical-align: top;
+}
+
+.rich-text th {
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.rich-text hr {
+  width: 100%;
+  margin: 4px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
 }
 
 .rich-text .button {

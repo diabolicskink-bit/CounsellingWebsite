@@ -9,6 +9,7 @@ Read these files together:
 - `components.md`: the reusable building blocks to prefer in implementation
 - `ai-rules.md`: the short, strict checklist AI tools should follow during edits
 - `cleanup-sweeps.md`: named cleanup passes for simplifying CSS, page structure, shared patterns, nested class complexity, and route/layout maintenance over time
+- `type-scale-plan.md`: assessment and staged plan for tightening the foundational typography roles
 
 Primary implementation sources:
 
