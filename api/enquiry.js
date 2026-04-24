@@ -195,10 +195,17 @@ function getEmailHeading(details) {
   return "General Enquiry";
 }
 
+function getLocationSummaryCards(details) {
+  return [
+    ["State", getDetailValue(details, "State or territory")],
+    ["Timezone", getDetailValue(details, "Timezone")],
+  ];
+}
+
 function renderSummaryCards(details) {
   const cards = [
     ["Timing", getDetailValue(details, "Preferred timing") || getDetailValue(details, "Availability")],
-    ["Location / zone", getDetailValue(details, "State or territory") || getDetailValue(details, "Timezone")],
+    ...getLocationSummaryCards(details),
   ].filter(([, value]) => value);
 
   if (!cards.length) {
