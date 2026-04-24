@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import {
   getActiveAustralianTimeZoneByAbbreviation,
@@ -21,6 +21,11 @@ export type EnquiryFormContent = {
   eyebrow: string;
   recipientEmail: string;
   submitLabel: string;
+  success: {
+    title: string;
+    message: string;
+    note: string;
+  };
   subject?: string;
   subjects?: {
     general: string;
@@ -227,6 +232,7 @@ async function getSubmitFailureDetail(response: Response) {
 
 export default function EnquiryForm({ content, className, idPrefix = "enquiry" }: EnquiryFormProps) {
   const { fields } = content;
+  const successRef = useRef<HTMLDivElement>(null);
   const [enquiryType, setEnquiryType] = useState("");
   const [bookingType, setBookingType] = useState("");
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
@@ -235,6 +241,12 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
   const isBookingEnquiry = enquiryType === bookingEnquiryValue;
   const isAppointmentRequest = isBookingEnquiry && bookingType === appointmentBookingValue;
   const isConsultRequest = isBookingEnquiry && bookingType === consultBookingValue;
+
+  useEffect(() => {
+    if (submitStatus === "success") {
+      successRef.current?.focus();
+    }
+  }, [submitStatus]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -276,6 +288,24 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
       setBookingType("");
     }
   };
+
+  if (submitStatus === "success") {
+    return (
+      <div
+        className={joinClasses("site-form site-form--complete", className)}
+        ref={successRef}
+        role="status"
+        tabIndex={-1}
+      >
+        <span className="site-eyebrow">{content.eyebrow}</span>
+        <div className="site-form__status site-form__status--success site-form__status--complete">
+          <h2>{content.success.title}</h2>
+          <p>{content.success.message}</p>
+          <p>{content.success.note}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form
@@ -430,11 +460,6 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
       <Button className="site-form__submit" disabled={submitStatus === "sending"} type="submit">
         {submitStatus === "sending" ? "Sending..." : content.submitLabel}
       </Button>
-      {submitStatus === "success" ? (
-        <p className="site-form__status site-form__status--success" role="status">
-          Thanks, your enquiry has been sent.
-        </p>
-      ) : null}
       {submitStatus === "error" ? (
         <div className="site-form__status site-form__status--error" role="alert">
           <p>Sorry, the enquiry could not be sent. Please email {content.recipientEmail} directly.</p>

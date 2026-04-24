@@ -41,10 +41,6 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (character) => htmlEscapeMap[character]);
 }
 
-function getMailtoHref(email, subject) {
-  return `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(`Re: ${subject}`)}`;
-}
-
 function getDetailValue(details, label) {
   return details.find((detail) => detail.label.toLowerCase() === label.toLowerCase())?.value ?? "";
 }
@@ -104,25 +100,81 @@ function parseEnquiryText(text) {
   };
 }
 
-function renderDetailRows(details) {
-  if (!details.length) {
-    return `
-      <tr>
-        <td style="padding: 16px 0; color: #6f7d73; font-size: 14px;">No structured details were supplied.</td>
-      </tr>
-    `;
+function getTimeMinutes(time) {
+  const match = time.match(/(\d{1,2})(?:[.:](\d{2}))?\s*(am|pm)/i);
+
+  if (!match) {
+    return undefined;
   }
 
-  return details
-    .map(
-      ({ label, value }) => `
-        <tr>
-          <td style="padding: 12px 14px; border-top: 1px solid #dde5db; color: #6f7d73; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; vertical-align: top; width: 34%;">${escapeHtml(label)}</td>
-          <td style="padding: 12px 14px; border-top: 1px solid #dde5db; color: #1f2c25; font-size: 15px; line-height: 1.5; vertical-align: top;">${escapeHtml(value)}</td>
-        </tr>
-      `,
-    )
-    .join("");
+  const period = match[3].toLowerCase();
+  const hour = Number(match[1]) % 12;
+  const minute = Number(match[2] ?? 0);
+
+  return hour * 60 + minute + (period === "pm" ? 12 * 60 : 0);
+}
+
+function formatTimeDifference(minutes) {
+  if (!minutes) {
+    return "0 hrs";
+  }
+
+  const sign = minutes > 0 ? "+" : "-";
+  const absoluteHours = Math.abs(minutes) / 60;
+  const hours = Number.isInteger(absoluteHours) ? String(absoluteHours) : absoluteHours.toFixed(1);
+
+  return `${sign}${hours} hrs`;
+}
+
+function normalizeTimeRange(range) {
+  return range
+    .replace(/\s+to\s+/i, " - ")
+    .replace(/:/g, ".")
+    .replace(/\.00(?=am|pm)/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getTimingRangeParts(timingNote) {
+  const olderFormat = timingNote.match(/\bis currently\s+(.+?)\s+in\s+([A-Z]{2,5})/);
+
+  if (olderFormat) {
+    return {
+      localAbbreviation: olderFormat[2],
+      localRange: olderFormat[1],
+    };
+  }
+
+  const currentFormat = timingNote.match(/\bis\s+(.+?)\s+([A-Z]{2,5})\.$/);
+
+  if (currentFormat) {
+    return {
+      localAbbreviation: currentFormat[2],
+      localRange: currentFormat[1],
+    };
+  }
+
+  return undefined;
+}
+
+function getFormattedTimingNote(timingNote) {
+  if (!timingNote) {
+    return "";
+  }
+
+  const timingRange = getTimingRangeParts(timingNote);
+
+  if (!timingRange) {
+    return `Time Difference: ${timingNote}`;
+  }
+
+  const localRange = normalizeTimeRange(timingRange.localRange);
+  const localStart = getTimeMinutes(localRange.split(" - ")[0]);
+  const difference = typeof localStart === "number" ? localStart - getTimeMinutes("9.30am") : undefined;
+
+  return `Time Difference: ${formatTimeDifference(difference)}. 9.30am - 5pm WST is ${localRange} ${
+    timingRange.localAbbreviation
+  }.`;
 }
 
 function renderSummaryCards(details, enquiryType) {
@@ -146,16 +198,14 @@ function renderSummaryCards(details, enquiryType) {
     .join("");
 }
 
-function getEnquiryHtml({ replyTo, subject, text }) {
+function getEnquiryHtml({ text }) {
   const { details, message, timingNote } = parseEnquiryText(text);
   const enquiryType = getDetailValue(details, "Enquiry type") || "Website enquiry";
   const name = getDetailValue(details, "Name") || "Website visitor";
   const safeEnquiryType = escapeHtml(enquiryType);
   const safeName = escapeHtml(name);
   const safeMessage = escapeHtml(message || "No message supplied.").replace(/\n/g, "<br />");
-  const safeReplyTo = escapeHtml(replyTo);
-  const safeSubject = escapeHtml(subject);
-  const replyHref = escapeHtml(getMailtoHref(replyTo, subject));
+  const formattedTimingNote = getFormattedTimingNote(timingNote);
 
   return `<!doctype html>
 <html lang="en">
@@ -173,12 +223,8 @@ function getEnquiryHtml({ replyTo, subject, text }) {
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
                     <tr>
                       <td style="vertical-align: top;">
-                        <p style="margin: 0 0 12px; color: #d7e4da; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">New counselling enquiry</p>
+                        <p style="margin: 0 0 12px; color: #d7e4da; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">${safeEnquiryType}</p>
                         <h1 style="margin: 0; color: #fffaf1; font-size: 31px; line-height: 1.12; font-weight: 500;">${safeName}</h1>
-                        <p style="margin: 12px 0 0; color: #eef5ef; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.55;">${safeEnquiryType} received through the website form.</p>
-                      </td>
-                      <td align="right" style="vertical-align: top; width: 130px;">
-                        <span style="display: inline-block; padding: 8px 11px; border: 1px solid rgba(255, 250, 241, 0.35); border-radius: 999px; color: #fffaf1; font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">Needs reply</span>
                       </td>
                     </tr>
                   </table>
@@ -191,40 +237,18 @@ function getEnquiryHtml({ replyTo, subject, text }) {
                     </tr>
                   </table>
 
-                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-bottom: 22px;">
-                    <tr>
-                      <td style="padding: 0 0 12px; color: #6f7d73; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">Fast reply</td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 16px 18px; border: 1px solid #cdd9cf; border-radius: 18px; background: #eef6ed; color: #1f2c25; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.55;">
-                        <a href="${replyHref}" style="display: inline-block; margin: 0 12px 8px 0; padding: 10px 16px; border-radius: 999px; background: #234b3d; color: #fffaf1; font-weight: 700; text-decoration: none;">Reply to ${safeName}</a>
-                        <span style="color: #405248;">Reply goes to <strong>${safeReplyTo}</strong></span>
-                      </td>
-                    </tr>
-                  </table>
-
-                  ${
-                    timingNote
-                      ? `<div style="margin: 0 0 22px; padding: 16px 18px; border-left: 4px solid #d8a85f; border-radius: 14px; background: #fff6e4; color: #314039; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.55;"><strong style="color: #234b3d;">Timing note:</strong> ${escapeHtml(timingNote)}</div>`
-                      : ""
-                  }
-
                   <div style="margin: 0 0 22px; padding: 22px 24px; border: 1px solid #cdd9cf; border-radius: 20px; background: #ffffff;">
                     <p style="margin: 0 0 12px; color: #6f7d73; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">Client message</p>
                     <div style="color: #1f2c25; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.65;">${safeMessage}</div>
                   </div>
 
-                  <div style="margin: 0 0 22px;">
-                    <p style="margin: 0 0 10px; color: #6f7d73; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">Full intake details</p>
-                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border: 1px solid #d8e2d9; border-radius: 18px; border-collapse: separate; border-spacing: 0; overflow: hidden; background: #ffffff; font-family: Arial, sans-serif;">
-                      ${renderDetailRows(details)}
-                    </table>
-                  </div>
-
-                  <div style="padding: 14px 16px; border-radius: 16px; background: #f3f0e8; color: #7d897f; font-family: Arial, sans-serif; font-size: 12px; line-height: 1.55;">
-                    <strong style="color: #405248;">Email subject:</strong> ${safeSubject}<br />
-                    Sent through the counselling website enquiry form.
-                  </div>
+                  ${
+                    formattedTimingNote
+                      ? `<div style="padding: 14px 16px; border-radius: 16px; background: #f3f0e8; color: #6f7d73; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.55;"><strong style="color: #405248;">${escapeHtml(
+                          formattedTimingNote,
+                        )}</strong></div>`
+                      : ""
+                  }
                 </div>
               </td>
             </tr>
@@ -293,7 +317,7 @@ export default async function handler(request, response) {
       },
       body: JSON.stringify({
         from,
-        html: getEnquiryHtml({ replyTo, subject, text }),
+        html: getEnquiryHtml({ text }),
         to,
         subject,
         text,

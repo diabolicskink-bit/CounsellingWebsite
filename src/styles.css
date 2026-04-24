@@ -1926,6 +1926,34 @@ p {
   margin: 0;
 }
 
+.site-form--complete {
+  align-content: start;
+}
+
+.site-form--complete:focus {
+  outline: none;
+}
+
+.site-form__status--complete {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 22px;
+}
+
+.site-form__status--complete h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.85rem, 2.25rem, 2.5rem);
+  line-height: 1.12;
+}
+
+.site-form__status--complete p {
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.58;
+}
+
 .site-form__status--success {
   border-color: var(--line);
   background: var(--cedar-soft);

@@ -78,7 +78,7 @@ Prefer these shared building blocks before creating anything new.
 - `.site-form__grid`, `.site-form__row--full`, `.site-form__submit`
   Shared enquiry form layout helpers used by `EnquiryForm`. Do not recreate this two-column form grid with page-scoped classes.
 - `.site-form__status`
-  Shared status message for direct form submission feedback.
+  Shared status message for direct form submission feedback. After a successful enquiry submission, `EnquiryForm` replaces the fields with the success state from `src/data/enquiry.ts` so the page only shows the confirmation and reply expectation.
 - `.site-form__choice-group`, `.site-form__choices`, `.site-form__choice`
   Shared radio-choice treatment for the progressive enquiry flow. Use for compact form routing choices, not for navigation cards.
 - `.hero-intro`

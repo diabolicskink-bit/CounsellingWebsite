@@ -7,6 +7,11 @@ export const enquiryFormContent: EnquiryFormContent = {
   eyebrow: "Enquiry",
   recipientEmail: enquiryEmail,
   submitLabel: "Send enquiry",
+  success: {
+    title: "Thanks, your enquiry has been sent.",
+    message: "I will respond as soon as I can.",
+    note: "If I am in client sessions or between appointments, there may be a delay before I can reply.",
+  },
   subject: "Counselling enquiry",
   subjects: {
     general: "General Enq",
