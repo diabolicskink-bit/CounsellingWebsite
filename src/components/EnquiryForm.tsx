@@ -186,11 +186,30 @@ function joinClasses(...classes: Array<string | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+async function getSubmitFailureDetail(response: Response) {
+  const fallback = `Request failed with status ${response.status}.`;
+  const responseBody = await response.text();
+
+  if (!responseBody) {
+    return fallback;
+  }
+
+  try {
+    const errorBody = JSON.parse(responseBody) as { error?: string; details?: string };
+    const apiMessage = [errorBody.error, errorBody.details].filter(Boolean).join(" ");
+
+    return apiMessage ? `${fallback} ${apiMessage}` : fallback;
+  } catch {
+    return `${fallback} ${responseBody}`;
+  }
+}
+
 export default function EnquiryForm({ content, className, idPrefix = "enquiry" }: EnquiryFormProps) {
   const { fields } = content;
   const [enquiryType, setEnquiryType] = useState("");
   const [bookingType, setBookingType] = useState("");
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
+  const [submitError, setSubmitError] = useState("");
 
   const isBookingEnquiry = enquiryType === bookingEnquiryValue;
   const isAppointmentRequest = isBookingEnquiry && bookingType === appointmentBookingValue;
@@ -201,6 +220,7 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
     const formElement = event.currentTarget;
 
     setSubmitStatus("sending");
+    setSubmitError("");
 
     try {
       const response = await fetch("/api/enquiry", {
@@ -212,14 +232,16 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
       });
 
       if (!response.ok) {
-        throw new Error("Enquiry send failed");
+        throw new Error(await getSubmitFailureDetail(response));
       }
 
       formElement.reset();
       setEnquiryType("");
       setBookingType("");
+      setSubmitError("");
       setSubmitStatus("success");
-    } catch {
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : String(error));
       setSubmitStatus("error");
     }
   };
@@ -227,6 +249,7 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
   const handleEnquiryTypeChange = (value: string) => {
     setEnquiryType(value);
     setSubmitStatus("idle");
+    setSubmitError("");
 
     if (value !== bookingEnquiryValue) {
       setBookingType("");
@@ -317,6 +340,7 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
                     onChange={() => {
                       setBookingType(option.value);
                       setSubmitStatus("idle");
+                      setSubmitError("");
                     }}
                     required
                     type="radio"
@@ -391,9 +415,10 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
         </p>
       ) : null}
       {submitStatus === "error" ? (
-        <p className="site-form__status site-form__status--error" role="alert">
-          Sorry, the enquiry could not be sent. Please email {content.recipientEmail} directly.
-        </p>
+        <div className="site-form__status site-form__status--error" role="alert">
+          <p>Sorry, the enquiry could not be sent. Please email {content.recipientEmail} directly.</p>
+          {submitError ? <small className="site-form__technical-error">Technical detail: {submitError}</small> : null}
+        </div>
       ) : null}
     </form>
   );

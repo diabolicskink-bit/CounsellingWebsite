@@ -1922,6 +1922,10 @@ p {
   line-height: 1.45;
 }
 
+.site-form__status p {
+  margin: 0;
+}
+
 .site-form__status--success {
   border-color: var(--line);
   background: var(--cedar-soft);
@@ -1930,6 +1934,15 @@ p {
 .site-form__status--error {
   border-color: var(--line);
   background: var(--surface-muted);
+}
+
+.site-form__technical-error {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .site-form__honeypot {

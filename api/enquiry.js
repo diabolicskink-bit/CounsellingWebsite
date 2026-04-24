@@ -17,10 +17,23 @@ function getPayloadBody(requestBody) {
   return requestBody && typeof requestBody === "object" ? requestBody : {};
 }
 
+function getMissingItems(items) {
+  return Object.entries(items)
+    .filter(([, value]) => !value)
+    .map(([label]) => label);
+}
+
+function sendError(response, status, error, details) {
+  return response.status(status).json({
+    error,
+    ...(details ? { details } : {}),
+  });
+}
+
 export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
-    return response.status(405).json({ error: "Method not allowed." });
+    return sendError(response, 405, "Method not allowed.", `Received ${request.method}; expected POST.`);
   }
 
   const payload = getPayloadBody(request.body);
@@ -37,32 +50,68 @@ export default async function handler(request, response) {
   const apiKey = process.env.RESEND_API_KEY;
 
   if (!subject || !text || !replyTo) {
-    return response.status(400).json({ error: "Missing required enquiry details." });
+    const missingFields = getMissingItems({
+      subject,
+      body: text,
+      replyTo,
+    });
+
+    return sendError(
+      response,
+      400,
+      "Missing required enquiry details.",
+      `Missing payload fields: ${missingFields.join(", ")}.`,
+    );
   }
 
   if (!apiKey || !from) {
-    return response.status(500).json({ error: "Email delivery is not configured yet." });
+    const missingEnvironment = getMissingItems({
+      RESEND_API_KEY: apiKey,
+      ENQUIRY_FROM_EMAIL: from,
+    });
+
+    return sendError(
+      response,
+      500,
+      "Email delivery is not configured yet.",
+      `Missing Vercel env vars: ${missingEnvironment.join(", ")}.`,
+    );
   }
 
-  const resendResponse = await fetch(resendEndpoint, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to,
-      subject,
-      text,
-      reply_to: replyTo,
-    }),
-  });
+  try {
+    const resendResponse = await fetch(resendEndpoint, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to,
+        subject,
+        text,
+        reply_to: replyTo,
+      }),
+    });
 
-  if (!resendResponse.ok) {
-    console.error("Resend enquiry send failed:", await resendResponse.text());
+    if (!resendResponse.ok) {
+      const resendError = await resendResponse.text();
 
-    return response.status(502).json({ error: "Email delivery failed." });
+      console.error("Resend enquiry send failed:", resendResponse.status, resendError);
+
+      return sendError(
+        response,
+        502,
+        "Email delivery failed.",
+        `Resend API ${resendResponse.status}: ${resendError || resendResponse.statusText}`,
+      );
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+
+    console.error("Unexpected enquiry send error:", message);
+
+    return sendError(response, 500, "Unexpected email delivery error.", message);
   }
 
   return response.status(200).json({ ok: true });
