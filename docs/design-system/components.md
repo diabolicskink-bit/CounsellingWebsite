@@ -15,7 +15,7 @@ Prefer these shared building blocks before creating anything new.
 - `src/components/FaqSection.tsx`
   Use for shared FAQ sections site-wide. Keep question-and-answer content data-driven at page level and pass it into this component. When a page needs the highlighted alternating section surface, pass `className="site-highlight"`.
 - `src/components/EnquiryForm.tsx`
-  Use for the site contact/enquiry form. The production Enquire page and the design-system example should both render this component with `src/data/enquiry.ts` content so form flow, subject lines, fields, and mailto fallback stay aligned.
+  Use for the site contact/enquiry form. The production Enquire page and the design-system example should both render this component with `src/data/enquiry.ts` content so form flow, subject lines, fields, and direct-submit behaviour stay aligned.
 - `src/components/Layout.tsx`
   Preserve the existing site shell, navigation treatment, and compact footer structure.
 
@@ -77,6 +77,8 @@ Prefer these shared building blocks before creating anything new.
   Shared form shell; keep inputs aligned with existing field styling.
 - `.site-form__grid`, `.site-form__row--full`, `.site-form__submit`
   Shared enquiry form layout helpers used by `EnquiryForm`. Do not recreate this two-column form grid with page-scoped classes.
+- `.site-form__status`
+  Shared status message for direct form submission feedback.
 - `.site-form__choice-group`, `.site-form__choices`, `.site-form__choice`
   Shared radio-choice treatment for the progressive enquiry flow. Use for compact form routing choices, not for navigation cards.
 - `.hero-intro`

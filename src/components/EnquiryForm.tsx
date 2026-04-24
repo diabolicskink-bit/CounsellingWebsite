@@ -59,6 +59,8 @@ type EnquiryFormProps = {
   idPrefix?: string;
 };
 
+type SubmitStatus = "idle" | "sending" | "success" | "error";
+
 const bookingEnquiryValue = "booking";
 const generalEnquiryValue = "general";
 const appointmentBookingValue = "appointment";
@@ -130,7 +132,7 @@ function getTimingNote(content: EnquiryFormContent, stateValue: string, timeZone
   return "";
 }
 
-function buildEnquiryMailto(content: EnquiryFormContent, formData: FormData) {
+function buildEnquiryPayload(content: EnquiryFormContent, formData: FormData) {
   const enquiryTypeValue = getFormText(formData, "enquiryType");
   const bookingTypeValue = getFormText(formData, "bookingType");
   const name = getFormText(formData, "name");
@@ -172,7 +174,12 @@ function buildEnquiryMailto(content: EnquiryFormContent, formData: FormData) {
     .filter(Boolean)
     .join(" - ");
 
-  return `mailto:${content.recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return {
+    body,
+    replyTo: email,
+    subject,
+    website: getFormText(formData, "website"),
+  };
 }
 
 function joinClasses(...classes: Array<string | undefined>) {
@@ -183,18 +190,43 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
   const { fields } = content;
   const [enquiryType, setEnquiryType] = useState("");
   const [bookingType, setBookingType] = useState("");
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
 
   const isBookingEnquiry = enquiryType === bookingEnquiryValue;
   const isAppointmentRequest = isBookingEnquiry && bookingType === appointmentBookingValue;
   const isConsultRequest = isBookingEnquiry && bookingType === consultBookingValue;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    window.location.href = buildEnquiryMailto(content, new FormData(event.currentTarget));
+    const formElement = event.currentTarget;
+
+    setSubmitStatus("sending");
+
+    try {
+      const response = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(buildEnquiryPayload(content, new FormData(formElement))),
+      });
+
+      if (!response.ok) {
+        throw new Error("Enquiry send failed");
+      }
+
+      formElement.reset();
+      setEnquiryType("");
+      setBookingType("");
+      setSubmitStatus("success");
+    } catch {
+      setSubmitStatus("error");
+    }
   };
 
   const handleEnquiryTypeChange = (value: string) => {
     setEnquiryType(value);
+    setSubmitStatus("idle");
 
     if (value !== bookingEnquiryValue) {
       setBookingType("");
@@ -204,14 +236,21 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
   return (
     <form
       className={joinClasses("site-form", className)}
-      action={`mailto:${content.recipientEmail}`}
+      action="/api/enquiry"
       method="post"
-      encType="text/plain"
       onSubmit={handleSubmit}
     >
       <span className="site-eyebrow">{content.eyebrow}</span>
 
       <div className="site-form__grid">
+        <input
+          className="site-form__honeypot"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+        />
+
         <div className="form-row">
           <label htmlFor={`${idPrefix}-name`}>{fields.name.label}</label>
           <input
@@ -275,7 +314,10 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
                   <input
                     checked={bookingType === option.value}
                     name="bookingType"
-                    onChange={() => setBookingType(option.value)}
+                    onChange={() => {
+                      setBookingType(option.value);
+                      setSubmitStatus("idle");
+                    }}
                     required
                     type="radio"
                     value={option.value}
@@ -340,9 +382,19 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
         ) : null}
       </div>
 
-      <Button className="site-form__submit" type="submit">
-        {content.submitLabel}
+      <Button className="site-form__submit" disabled={submitStatus === "sending"} type="submit">
+        {submitStatus === "sending" ? "Sending..." : content.submitLabel}
       </Button>
+      {submitStatus === "success" ? (
+        <p className="site-form__status site-form__status--success" role="status">
+          Thanks, your enquiry has been sent.
+        </p>
+      ) : null}
+      {submitStatus === "error" ? (
+        <p className="site-form__status site-form__status--error" role="alert">
+          Sorry, the enquiry could not be sent. Please email {content.recipientEmail} directly.
+        </p>
+      ) : null}
     </form>
   );
 }
