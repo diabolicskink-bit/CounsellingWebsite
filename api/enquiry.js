@@ -184,14 +184,20 @@ function renderTimingNote(timingNote) {
 function renderSummaryCards(details, enquiryType) {
   const cards = [
     ["Request", getDetailValue(details, "Booking request") || enquiryType],
-    ["Timing", getDetailValue(details, "Preferred timing") || getDetailValue(details, "Availability") || "Not specified"],
-    ["Location / zone", getDetailValue(details, "State or territory") || getDetailValue(details, "Timezone") || "Not specified"],
-  ];
+    ["Timing", getDetailValue(details, "Preferred timing") || getDetailValue(details, "Availability")],
+    ["Location / zone", getDetailValue(details, "State or territory") || getDetailValue(details, "Timezone")],
+  ].filter(([, value]) => value);
+
+  if (!cards.length) {
+    return "";
+  }
+
+  const cardWidth = `${100 / cards.length}%`;
 
   return cards
     .map(
       ([label, value]) => `
-        <td style="width: 33.33%; padding: 0 6px 12px 0; vertical-align: top;">
+        <td style="width: ${cardWidth}; padding: 0 6px 12px 0; vertical-align: top;">
           <div style="min-height: 88px; padding: 15px 16px; border: 1px solid #d8e2d9; border-radius: 18px; background: #ffffff;">
             <p style="margin: 0 0 8px; color: #6f7d73; font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase;">${escapeHtml(label)}</p>
             <p style="margin: 0; color: #1f2c25; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.45;">${escapeHtml(value)}</p>
@@ -205,8 +211,9 @@ function renderSummaryCards(details, enquiryType) {
 function getEnquiryHtml({ text }) {
   const { details, message, timingNote } = parseEnquiryText(text);
   const enquiryType = getDetailValue(details, "Enquiry type") || "Website enquiry";
+  const requestType = getDetailValue(details, "Booking request") || enquiryType;
   const name = getDetailValue(details, "Name") || "Website visitor";
-  const safeEnquiryType = escapeHtml(enquiryType);
+  const safeRequestType = escapeHtml(requestType);
   const safeName = escapeHtml(name);
   const safeMessage = escapeHtml(message || "No message supplied.").replace(/\n/g, "<br />");
   const formattedTimingNote = getFormattedTimingNote(timingNote);
@@ -215,7 +222,7 @@ function getEnquiryHtml({ text }) {
 <html lang="en">
   <body style="margin: 0; padding: 0; background: #f4efe6; color: #1f2c25; font-family: Georgia, 'Times New Roman', serif;">
     <div style="display: none; max-height: 0; overflow: hidden; opacity: 0;">
-      New enquiry from ${safeName} - ${safeEnquiryType}
+      New enquiry from ${safeName} - ${safeRequestType}
     </div>
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background: #f4efe6; border-collapse: collapse;">
       <tr>
@@ -227,7 +234,7 @@ function getEnquiryHtml({ text }) {
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
                     <tr>
                       <td style="vertical-align: top;">
-                        <p style="margin: 0 0 12px; color: #d7e4da; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">${safeEnquiryType}</p>
+                        <p style="margin: 0 0 12px; color: #d7e4da; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">${safeRequestType}</p>
                         <h1 style="margin: 0; color: #fffaf1; font-size: 31px; line-height: 1.12; font-weight: 500;">${safeName}</h1>
                       </td>
                     </tr>
@@ -237,7 +244,7 @@ function getEnquiryHtml({ text }) {
                 <div style="padding: 24px 30px 28px;">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin: 0 0 10px;">
                     <tr>
-                      ${renderSummaryCards(details, enquiryType)}
+                      ${renderSummaryCards(details, requestType)}
                     </tr>
                   </table>
 
