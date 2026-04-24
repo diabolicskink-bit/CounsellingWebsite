@@ -177,10 +177,6 @@ function getFormattedTimingNote(timingNote) {
   }.`;
 }
 
-function renderTimingNote(timingNote) {
-  return escapeHtml(timingNote).replace(/\n/g, "<br />");
-}
-
 function getEmailHeading(details) {
   const bookingRequest = getDetailValue(details, "Booking request").toLowerCase();
 
@@ -202,10 +198,6 @@ function getEmailTheme(emailHeading) {
       background: "#eef4f3",
       cardBackground: "#f8fbfb",
       cardBorder: "#c8dadd",
-      cue: "APPT",
-      cueBackground: "#d9edf0",
-      cueLabel: "Booking",
-      cueText: "#1f4c58",
       headerBackground: "#1f4c58",
       headerText: "#fffaf1",
       labelText: "#d9edf0",
@@ -225,10 +217,6 @@ function getEmailTheme(emailHeading) {
       background: "#f7efe2",
       cardBackground: "#fffaf1",
       cardBorder: "#e3c88f",
-      cue: "15",
-      cueBackground: "#fff1d1",
-      cueLabel: "Min",
-      cueText: "#7a4e1f",
       headerBackground: "#7a4e1f",
       headerText: "#fffaf1",
       labelText: "#ffe6b7",
@@ -247,10 +235,6 @@ function getEmailTheme(emailHeading) {
     background: "#f4efe6",
     cardBackground: "#ffffff",
     cardBorder: "#d8e2d9",
-    cue: "GEN",
-    cueBackground: "#e5efe7",
-    cueLabel: "Enquiry",
-    cueText: "#234b3d",
     headerBackground: "#234b3d",
     headerText: "#fffaf1",
     labelText: "#d7e4da",
@@ -271,30 +255,57 @@ function getLocationSummaryCards(details) {
   ];
 }
 
-function renderSummaryCards(details, theme) {
-  const cards = [
+function renderDetailPanel(details, theme) {
+  const rows = [
     ["Timing", getDetailValue(details, "Preferred timing") || getDetailValue(details, "Availability")],
     ...getLocationSummaryCards(details),
   ].filter(([, value]) => value);
 
-  if (!cards.length) {
+  if (!rows.length) {
     return "";
   }
 
-  const cardWidth = `${100 / cards.length}%`;
+  const rowMarkup = rows
+    .map(([label, value], index) => {
+      const borderTop = index === 0 ? "0" : `1px solid ${theme.cardBorder}`;
 
-  return cards
-    .map(
-      ([label, value]) => `
-        <td style="width: ${cardWidth}; padding: 0 6px 12px 0; vertical-align: top;">
-          <div style="min-height: 88px; padding: 15px 16px; border: 1px solid ${theme.cardBorder}; border-radius: 18px; background: ${theme.cardBackground};">
-            <p style="margin: 0 0 8px; color: ${theme.subtleText}; font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase;">${escapeHtml(label)}</p>
-            <p style="margin: 0; color: #1f2c25; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.45;">${escapeHtml(value)}</p>
-          </div>
-        </td>
-      `,
-    )
+      return `
+        <tr>
+          <td style="width: 116px; padding: 12px 16px 12px 18px; border-top: ${borderTop}; vertical-align: top;">
+            <p style="margin: 0; color: ${theme.subtleText}; font-family: Arial, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; line-height: 1.4; text-transform: uppercase;">${escapeHtml(
+              label,
+            )}</p>
+          </td>
+          <td style="padding: 12px 18px 12px 0; border-top: ${borderTop}; vertical-align: top;">
+            <p style="margin: 0; color: #1f2c25; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.45;">${escapeHtml(
+              value,
+            )}</p>
+          </td>
+        </tr>
+      `;
+    })
     .join("");
+
+  return `
+    <div style="margin: 0 0 18px; border: 1px solid ${theme.cardBorder}; border-left: 5px solid ${theme.accent}; border-radius: 18px; overflow: hidden; background: ${theme.cardBackground};">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+        ${rowMarkup}
+      </table>
+    </div>
+  `;
+}
+
+function renderTimingNote(timingNote, theme) {
+  const [summary, ...details] = timingNote.split("\n");
+  const detailText = details.join("\n").trim();
+
+  return `
+    <span style="color: ${theme.noteStrong}; font-weight: 700;">${escapeHtml(summary)}</span>${
+      detailText
+        ? `<br /><span>${escapeHtml(detailText).replace(/\n/g, "<br />")}</span>`
+        : ""
+    }
+  `;
 }
 
 function getEnquiryHtml({ text }) {
@@ -306,7 +317,7 @@ function getEnquiryHtml({ text }) {
   const safeName = escapeHtml(name);
   const safeMessage = escapeHtml(message || "No message supplied.").replace(/\n/g, "<br />");
   const formattedTimingNote = getFormattedTimingNote(timingNote);
-  const summaryCards = renderSummaryCards(details, theme);
+  const detailPanel = renderDetailPanel(details, theme);
 
   return `<!doctype html>
 <html lang="en">
@@ -320,44 +331,25 @@ function getEnquiryHtml({ text }) {
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width: 100%; max-width: 680px; border-collapse: collapse;">
             <tr>
               <td style="border: 1px solid ${theme.panelBorder}; border-radius: 24px; overflow: hidden; background: ${theme.panelBackground};">
-                <div style="padding: 30px 30px 24px; border-top: 7px solid ${theme.accent}; background: ${theme.headerBackground}; color: ${theme.headerText};">
-                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
-                    <tr>
-                      <td style="vertical-align: top;">
-                        <p style="margin: 0 0 12px; color: ${theme.labelText}; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">${safeEmailHeading}</p>
-                        <h1 style="margin: 0; color: ${theme.headerText}; font-size: 31px; line-height: 1.12; font-weight: 500;">${safeName}</h1>
-                      </td>
-                      <td align="right" style="vertical-align: top; width: 128px;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse: separate; border-spacing: 0;">
-                          <tr>
-                            <td align="center" style="width: 94px; height: 94px; border: 1px solid ${theme.accent}; border-radius: 999px; background: ${theme.cueBackground}; color: ${theme.cueText};">
-                              <p style="margin: 0; font-family: Arial, sans-serif; font-size: ${theme.cue.length > 2 ? "19px" : "34px"}; font-weight: 800; letter-spacing: ${theme.cue.length > 2 ? "0.08em" : "0"}; line-height: 1;">${theme.cue}</p>
-                              <p style="margin: 8px 0 0; font-family: Arial, sans-serif; font-size: 9px; font-weight: 800; letter-spacing: 0.12em; line-height: 1; text-transform: uppercase;">${theme.cueLabel}</p>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
+                <div style="padding: 28px 30px 25px; border-top: 7px solid ${theme.accent}; background: ${theme.headerBackground}; color: ${theme.headerText};">
+                  <p style="margin: 0 0 12px; color: ${theme.labelText}; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">${safeEmailHeading}</p>
+                  <h1 style="margin: 0; color: ${theme.headerText}; font-size: 31px; line-height: 1.12; font-weight: 500;">${safeName}</h1>
                 </div>
 
                 <div style="padding: 24px 30px 28px;">
-                  ${
-                    summaryCards
-                      ? `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin: 0 0 10px;"><tr>${summaryCards}</tr></table>`
-                      : ""
-                  }
+                  ${detailPanel}
 
-                  <div style="margin: 0 0 22px; padding: 22px 24px; border: 1px solid ${theme.messageBorder}; border-radius: 20px; background: #ffffff;">
+                  <div style="margin: 0 0 20px; padding: 21px 24px; border: 1px solid ${theme.messageBorder}; border-radius: 20px; background: #ffffff;">
                     <p style="margin: 0 0 12px; color: ${theme.subtleText}; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;">Message</p>
                     <div style="color: #1f2c25; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.65;">${safeMessage}</div>
                   </div>
 
                   ${
                     formattedTimingNote
-                      ? `<div style="padding: 14px 16px; border-radius: 16px; background: ${theme.noteBackground}; color: ${theme.noteText}; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.55;"><strong style="color: ${theme.noteStrong};">${renderTimingNote(
+                      ? `<div style="padding: 13px 16px; border-radius: 16px; background: ${theme.noteBackground}; color: ${theme.noteText}; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.55;">${renderTimingNote(
                           formattedTimingNote,
-                        )}</strong></div>`
+                          theme,
+                        )}</div>`
                       : ""
                   }
                 </div>
