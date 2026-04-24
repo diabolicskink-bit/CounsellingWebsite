@@ -186,21 +186,42 @@ function joinClasses(...classes: Array<string | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+function getTruncatedErrorBody(body: string) {
+  const normalizedBody = body.trim().replace(/\s+/g, " ");
+  const maxLength = 1600;
+
+  if (normalizedBody.length <= maxLength) {
+    return normalizedBody;
+  }
+
+  return `${normalizedBody.slice(0, maxLength)}...`;
+}
+
+function getClientFailureDetail(error: unknown) {
+  if (error instanceof Error) {
+    return `${error.name}: ${error.message}`;
+  }
+
+  return String(error);
+}
+
 async function getSubmitFailureDetail(response: Response) {
-  const fallback = `Request failed with status ${response.status}.`;
+  const endpoint = response.url || "/api/enquiry";
+  const statusText = response.statusText ? ` ${response.statusText}` : "";
+  const fallback = `Request to ${endpoint} failed with status ${response.status}${statusText}.`;
   const responseBody = await response.text();
 
-  if (!responseBody) {
-    return fallback;
+  if (!responseBody.trim()) {
+    return `${fallback} No response body was returned by the server.`;
   }
 
   try {
     const errorBody = JSON.parse(responseBody) as { error?: string; details?: string };
     const apiMessage = [errorBody.error, errorBody.details].filter(Boolean).join(" ");
 
-    return apiMessage ? `${fallback} ${apiMessage}` : fallback;
+    return apiMessage ? `${fallback} ${apiMessage}` : `${fallback} Response JSON: ${getTruncatedErrorBody(responseBody)}`;
   } catch {
-    return `${fallback} ${responseBody}`;
+    return `${fallback} Raw response body: ${getTruncatedErrorBody(responseBody)}`;
   }
 }
 
@@ -241,7 +262,7 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
       setSubmitError("");
       setSubmitStatus("success");
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : String(error));
+      setSubmitError(getClientFailureDetail(error));
       setSubmitStatus("error");
     }
   };
