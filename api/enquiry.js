@@ -165,16 +165,20 @@ function getFormattedTimingNote(timingNote) {
   const timingRange = getTimingRangeParts(timingNote);
 
   if (!timingRange) {
-    return `Time Difference: ${timingNote}`;
+    return `Time Difference:\n${timingNote}`;
   }
 
   const localRange = normalizeTimeRange(timingRange.localRange);
   const localStart = getTimeMinutes(localRange.split(" - ")[0]);
   const difference = typeof localStart === "number" ? localStart - getTimeMinutes("9.30am") : undefined;
 
-  return `Time Difference: ${formatTimeDifference(difference)}. 9.30am - 5pm WST is ${localRange} ${
+  return `Time Difference: ${formatTimeDifference(difference)}.\n9.30am - 5pm WST is ${localRange} ${
     timingRange.localAbbreviation
   }.`;
+}
+
+function renderTimingNote(timingNote) {
+  return escapeHtml(timingNote).replace(/\n/g, "<br />");
 }
 
 function renderSummaryCards(details, enquiryType) {
@@ -244,7 +248,7 @@ function getEnquiryHtml({ text }) {
 
                   ${
                     formattedTimingNote
-                      ? `<div style="padding: 14px 16px; border-radius: 16px; background: #f3f0e8; color: #6f7d73; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.55;"><strong style="color: #405248;">${escapeHtml(
+                      ? `<div style="padding: 14px 16px; border-radius: 16px; background: #f3f0e8; color: #6f7d73; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.55;"><strong style="color: #405248;">${renderTimingNote(
                           formattedTimingNote,
                         )}</strong></div>`
                       : ""
