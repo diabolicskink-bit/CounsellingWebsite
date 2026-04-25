@@ -3718,20 +3718,22 @@ p {
   background:
     radial-gradient(
       480px 320px at 12% 18%,
-      rgba(48, 86, 66, 0.10) 0%,
+      rgba(48, 86, 66, 0.11) 0%,
       transparent 60%
     ),
     radial-gradient(
       420px 280px at 82% 16%,
-      rgba(255, 255, 255, 0.70) 0%,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(255, 255, 255, 0.48) 38%,
       transparent 62%
     ),
     radial-gradient(
-      560px 220px at 25% 98%,
-      rgba(255, 255, 255, 0.55) 0%,
+      560px 220px at 38% 98%,
+      rgba(255, 255, 255, 0.82) 0%,
+      rgba(255, 255, 255, 0.36) 42%,
       transparent 64%
     ),
-    #edf1e8;
+    #f0f3ee;
   border-bottom: 1px solid rgba(34, 62, 47, 0.16);
 }
 
@@ -3810,11 +3812,12 @@ p {
         transparent 62%
       ),
       radial-gradient(
-        440px 180px at 25% 98%,
-        rgba(255, 255, 255, 0.48) 0%,
+        440px 180px at 38% 98%,
+        rgba(255, 255, 255, 0.75) 0%,
+        rgba(255, 255, 255, 0.32) 44%,
         transparent 66%
       ),
-      #edf1e8;
+      #f0f3ee;
   }
 
   .hero-bg--default::before {
