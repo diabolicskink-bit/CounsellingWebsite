@@ -1,12 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-  <filter id="noise">
+  <defs>
+  <filter id="noise-mask">
     <feTurbulence
       type="fractalNoise"
-      baseFrequency="0.75"
-      numOctaves="4"
+      baseFrequency="0.08"
+      numOctaves="2"
       stitchTiles="stitch"
+      result="noise"
     />
-    <feColorMatrix type="saturate" values="0" />
+    <feColorMatrix in="noise" type="saturate" values="0" result="mono" />
+    <feComponentTransfer in="mono">
+      <feFuncR type="table" tableValues="1 1 0 0" />
+      <feFuncG type="table" tableValues="1 1 0 0" />
+      <feFuncB type="table" tableValues="1 1 0 0" />
+    </feComponentTransfer>
   </filter>
-  <rect width="200" height="200" filter="url(#noise)" opacity="0.4" />
+  <mask id="paper-grain" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200" style="mask-type: luminance">
+    <rect width="200" height="200" filter="url(#noise-mask)" />
+  </mask>
+  </defs>
+  <rect width="200" height="200" fill="#f7f6f2" opacity="1" mask="url(#paper-grain)" />
 </svg>

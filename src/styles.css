@@ -3751,10 +3751,11 @@ p {
   z-index: 0;
   pointer-events: none;
   background-image: url("/hero-noise.svg");
-  background-repeat: repeat;
-  background-size: 200px 200px;
-  opacity: 0.055;
-  mix-blend-mode: multiply;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  opacity: 0.82;
+  mix-blend-mode: normal;
 }
 
 /* â”€â”€ DS page demo wrappers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
