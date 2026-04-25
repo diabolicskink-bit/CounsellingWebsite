@@ -3717,23 +3717,16 @@ p {
   overflow: clip;
   background:
     radial-gradient(
-      480px 320px at 12% 18%,
-      rgba(48, 86, 66, 0.11) 0%,
-      transparent 60%
+      680px 440px at 12% 20%,
+      rgba(255, 255, 255, 0.38) 0%,
+      transparent 68%
     ),
     radial-gradient(
-      420px 280px at 82% 16%,
-      rgba(255, 255, 255, 0.92) 0%,
-      rgba(255, 255, 255, 0.48) 38%,
-      transparent 62%
-    ),
-    radial-gradient(
-      560px 220px at 38% 98%,
-      rgba(255, 255, 255, 0.82) 0%,
-      rgba(255, 255, 255, 0.36) 42%,
+      520px 320px at 82% 16%,
+      rgba(255, 255, 255, 0.44) 0%,
       transparent 64%
     ),
-    #f0f3ee;
+    #dde5d9;
   border-bottom: 1px solid rgba(34, 62, 47, 0.16);
 }
 
@@ -3745,10 +3738,23 @@ p {
   pointer-events: none;
   background:
     radial-gradient(
-      700px 320px at 50% 0%,
-      rgba(255, 255, 255, 0.22) 0%,
-      transparent 72%
+      560px 260px at 50% 0%,
+      rgba(255, 255, 255, 0.28) 0%,
+      transparent 68%
     );
+}
+
+.hero-bg--default::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("/hero-noise.svg");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.055;
+  mix-blend-mode: multiply;
 }
 
 /* â”€â”€ DS page demo wrappers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -3807,25 +3813,19 @@ p {
   .hero-bg--default {
     background:
       radial-gradient(
-        360px 240px at 12% 16%,
-        rgba(48, 86, 66, 0.09) 0%,
-        transparent 62%
+        500px 360px at 12% 18%,
+        rgba(255, 255, 255, 0.34) 0%,
+        transparent 70%
       ),
-      radial-gradient(
-        440px 180px at 38% 98%,
-        rgba(255, 255, 255, 0.75) 0%,
-        rgba(255, 255, 255, 0.32) 44%,
-        transparent 66%
-      ),
-      #f0f3ee;
+      #dde5d9;
   }
 
   .hero-bg--default::before {
     background:
       radial-gradient(
-        480px 240px at 50% 0%,
-        rgba(255, 255, 255, 0.18) 0%,
-        transparent 74%
+        420px 220px at 50% 0%,
+        rgba(255, 255, 255, 0.24) 0%,
+        transparent 70%
       );
   }
 
