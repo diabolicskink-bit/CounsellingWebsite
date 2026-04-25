@@ -20,8 +20,8 @@ type WorkingWithJoelPageContent = {
   meta: string;
   hero: {
     title: EmphasisCopy;
-    support: string;
-    trustItems: string[];
+    supportLead: string;
+    supportBody: string;
     portrait: {
       name: string;
       descriptor: string;
@@ -49,13 +49,9 @@ const pageContent: WorkingWithJoelPageContent = {
       emphasis: "the bigger",
       after: " picture.",
     },
-    support:
-      "I work in a direct and unhurried way with people who are dealing with something difficult, stuck, or hard to make sense of. The aim is not to find a neat explanation but to understand what is actually going on well enough that something can begin to change.",
-    trustItems: [
-      "Graduate Diploma in Counselling and Psychotherapy",
-      "ACA registered counsellor",
-      "Kink and ENM informed, LGBTQIA+ affirming",
-    ],
+    supportLead: "People's lives are complicated.",
+    supportBody:
+      "Relationships, work, how you feel about yourself, the thing that's been sitting with you. It's all connected.",
     portrait: {
       name: "Joel Griffiths",
       descriptor: "Counselling and psychodynamic psychotherapy",
@@ -153,13 +149,9 @@ export default function WorkingWithJoel() {
               {hero.title.after}
             </h1>
 
-            <div className="hero-copy-panel working-with-joel-page__hero-support">
-              <p>{hero.support}</p>
-              <ul className="hero-support-tagline" aria-label="Practice details">
-                {hero.trustItems.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+            <div className="working-with-joel-page__hero-support">
+              <p className="working-with-joel-page__hero-support-lead">{hero.supportLead}</p>
+              <p className="working-with-joel-page__hero-support-body">{hero.supportBody}</p>
             </div>
           </div>
         </Container>

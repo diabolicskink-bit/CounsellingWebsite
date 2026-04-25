@@ -3,13 +3,43 @@
   --hero-display-max-width: 11ch;
 }
 
-.working-with-joel-page__hero-support {
-  gap: 18px;
-  max-width: 720px;
+.working-with-joel-page .working-with-joel-page__hero-top {
+  grid-template-columns: minmax(0, 0.92fr) minmax(280px, 0.48fr);
+  gap: clamp(3.5rem, 6vw, 6rem);
+  max-width: 1160px;
+  align-items: center;
+  padding-bottom: clamp(3.8rem, 6vw, 6.2rem);
 }
 
-.working-with-joel-page__hero-top {
-  align-items: start;
+.working-with-joel-page__hero-support {
+  display: grid;
+  gap: 12px;
+  align-self: center;
+  max-width: 33ch;
+  padding: clamp(1.15rem, 1.6vw, 1.45rem) 0 clamp(0.9rem, 1.3vw, 1.2rem)
+    clamp(1.35rem, 2vw, 1.8rem);
+  border-left: 2px solid var(--cedar);
+}
+
+.working-with-joel-page__hero-support-lead,
+.working-with-joel-page__hero-support-body {
+  margin: 0;
+}
+
+.working-with-joel-page__hero-support-lead {
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.26rem, 1.08rem + 0.54vw, 1.55rem);
+  line-height: 1.22;
+  text-wrap: balance;
+}
+
+.working-with-joel-page__hero-support-body {
+  max-width: 31ch;
+  color: rgba(31, 35, 31, 0.78);
+  font-size: var(--type-small);
+  line-height: 1.68;
+  text-wrap: pretty;
 }
 
 .working-with-joel-page__approach-heading {
@@ -97,6 +127,19 @@
 }
 
 @media (max-width: 900px) {
+  .working-with-joel-page .working-with-joel-page__hero-top {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-bottom: 40px;
+  }
+
+  .working-with-joel-page__hero-support {
+    max-width: none;
+    padding: 18px 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(35, 75, 61, 0.24);
+  }
+
   .working-with-joel-page__approach-title {
     max-width: none;
   }
