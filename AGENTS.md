@@ -12,5 +12,6 @@ For UI work in this repository:
 When changing the design system itself:
 
 - Update the relevant file in `docs/design-system/`.
+- Update `docs/design-system/current-scope.md` when design-system work changes what exists, what is partial, what is legacy, or what is out of scope.
 - Keep examples aligned with the real shared classes and components already in the app.
 - Document any new reusable pattern in the design-system showcase pages under `src/pages/design-system`.

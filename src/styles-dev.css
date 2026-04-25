@@ -305,6 +305,25 @@
   gap: 12px;
 }
 
+.ds-reference-name {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  padding: 4px 8px;
+  border: 1px solid rgba(35, 75, 61, 0.16);
+  border-radius: 4px;
+  background: var(--cedar-soft);
+  color: var(--cedar);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ds-reference-name--block {
+  margin-bottom: 14px;
+}
+
 /* Foundations page */
 
 .ds-foundations-page .ds-section-heading code {

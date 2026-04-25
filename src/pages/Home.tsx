@@ -302,7 +302,7 @@ export default function Home() {
               <p className="section-heading__copy site-ruled-paragraph">{workroom.intro}</p>
             </div>
 
-            <div className="site-copy-panel home-workroom__joel">
+            <article className="site-card home-workroom__joel">
               <div className="home-workroom__joel-head">
                 <span className="home-workroom__joel-name">{workroom.joelName}</span>
               </div>
@@ -311,12 +311,10 @@ export default function Home() {
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
-              <div className="home-workroom__joel-actions">
-                <Button href={workroom.profileHref} variant="tertiary">
-                  {workroom.profileCta} <ArrowRight size={16} />
-                </Button>
-              </div>
-            </div>
+              <Button href={workroom.profileHref} variant="tertiary">
+                {workroom.profileCta} <ArrowRight size={16} />
+              </Button>
+            </article>
           </div>
         </Container>
       </section>

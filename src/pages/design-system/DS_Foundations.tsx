@@ -182,6 +182,93 @@ const stateRules = [
   },
 ];
 
+const foundationReferenceNames = [
+  {
+    name: "Foundation rule card",
+    pointsTo: "The small principle cards in Core rules.",
+    status: "Active example built with .site-card.",
+  },
+  {
+    name: "Token swatch card",
+    pointsTo: "The colour token cards with a live swatch, token name, value, and role.",
+    status: "Docs-only token preview.",
+  },
+  {
+    name: "Paper action panel",
+    pointsTo: "The larger left panel in the live colour composition example.",
+    status: "Docs-only composition example using production tokens.",
+  },
+  {
+    name: "Soft surface block",
+    pointsTo: "The smaller soft-green block in the live colour composition example.",
+    status: "Docs-only surface example using production tokens.",
+  },
+  {
+    name: "Hero display specimen",
+    pointsTo: "The large hero typography sample in the Typography section.",
+    status: "Active hero-* system example.",
+  },
+  {
+    name: "Section heading specimen",
+    pointsTo: "The contained section heading sample in the type specimen grid.",
+    status: "Active type-role example.",
+  },
+  {
+    name: "Contained trust card",
+    pointsTo: "The Card title / Contained trust card in the type specimen grid.",
+    status: "Active .site-card example.",
+  },
+  {
+    name: "Rich text panel",
+    pointsTo: "The panel showing rich text headings, paragraphs, and contextual links.",
+    status: "Active .site-copy-panel.rich-text example.",
+  },
+  {
+    name: "Fee display card",
+    pointsTo: "The numeric display card showing a large session fee.",
+    status: "Active .site-fee-card example.",
+  },
+  {
+    name: "Section rhythm preview",
+    pointsTo: "The stacked neutral and highlighted section preview in Spacing & layout.",
+    status: "Active .site-grid and .site-highlight example.",
+  },
+  {
+    name: "Edge sample card",
+    pointsTo: "The radius, border, and shadow examples in Surfaces & edges.",
+    status: "Docs-only edge preview using production tokens.",
+  },
+  {
+    name: "State rule card",
+    pointsTo: "The Links stay visible, Focus is quiet, and Hover is a small lift cards.",
+    status: "Active behaviour guidance built with .site-card.",
+  },
+  {
+    name: "Rich text link sample",
+    pointsTo: "The small text block showing the shared rich-text link treatment.",
+    status: "Active .rich-text link-state example.",
+  },
+  {
+    name: "Mini form focus sample",
+    pointsTo: "The small form field in Links & states.",
+    status: "Active .site-form focus-state example.",
+  },
+  {
+    name: "Editorial HTML panel",
+    pointsTo: "The final rich-text demo with headings, links, lists, quote, table, code, and divider.",
+    status: "Active .rich-text baseline example.",
+  },
+];
+
+type ReferenceNameProps = {
+  block?: boolean;
+  children: string;
+};
+
+function ReferenceName({ block = false, children }: ReferenceNameProps) {
+  return <span className={`ds-reference-name${block ? " ds-reference-name--block" : ""}`}>Reference: {children}</span>;
+}
+
 // AI maintainers: Foundations is for tokens, base typography, spacing, section rhythm,
 // shared rich-text behavior, and baseline state rules. Component-specific demos belong
 // in DS_Components; page-level composition belongs in DS_Patterns or DS_Heroes.
@@ -212,6 +299,7 @@ export default function DS_Foundations() {
               </p>
             </div>
 
+            <ReferenceName block>Foundation rule card</ReferenceName>
             <div className="site-card-grid ds-foundation-rule-grid">
               {foundationRules.map((rule) => (
                 <article className="site-card" key={rule.title}>
@@ -220,6 +308,36 @@ export default function DS_Foundations() {
                 </article>
               ))}
             </div>
+          </section>
+
+          <section className="ds-section" id="reference-names">
+            <div className="ds-section-heading">
+              <span className="site-eyebrow">Reference names</span>
+              <h2>Use these names when pointing at a Foundations treatment.</h2>
+              <p>
+                These are stable conversational handles for the examples on this page. They do not create new
+                production components by themselves.
+              </p>
+            </div>
+
+            <table className="ds-spacing-table">
+              <thead>
+                <tr>
+                  <th>Name to use</th>
+                  <th>What it points to</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {foundationReferenceNames.map((item) => (
+                  <tr key={item.name}>
+                    <td>{item.name}</td>
+                    <td>{item.pointsTo}</td>
+                    <td>{item.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </section>
 
           <section className="ds-section" id="colour">
@@ -232,6 +350,7 @@ export default function DS_Foundations() {
               </p>
             </div>
 
+            <ReferenceName block>Token swatch card</ReferenceName>
             <div className="ds-foundation-token-groups">
               {colorTokenGroups.map((group) => (
                 <section className="ds-foundation-token-group" key={group.title}>
@@ -262,6 +381,7 @@ export default function DS_Foundations() {
 
             <div className="ds-demo ds-foundation-colour-demo">
               <div className="ds-foundation-colour-demo__paper">
+                <ReferenceName>Paper action panel</ReferenceName>
                 <span className="site-eyebrow">Live color composition</span>
                 <h3>Paper carries the page. Cedar only marks action and emphasis.</h3>
                 <p>
@@ -270,6 +390,7 @@ export default function DS_Foundations() {
                 <Button href="/contact">Primary cedar action</Button>
               </div>
               <div className="ds-foundation-colour-demo__surface">
+                <ReferenceName>Soft surface block</ReferenceName>
                 <strong>Soft surface</strong>
                 <span>Use for alternating rhythm, chips, icon wells, and low-pressure emphasis.</span>
               </div>
@@ -311,6 +432,7 @@ export default function DS_Foundations() {
 
             <div className="ds-foundation-type-showcase">
               <article className="ds-foundation-type-hero hero-bg--default">
+                <ReferenceName>Hero display specimen</ReferenceName>
                 <span className="hero-badge">Hero display</span>
                 <h2 className="hero-display">
                   Calm enough
@@ -325,6 +447,7 @@ export default function DS_Foundations() {
 
               <div className="ds-foundation-type-specimen-grid" aria-label="Type role specimens">
                 <article className="ds-foundation-type-specimen ds-foundation-type-specimen--section">
+                  <ReferenceName>Section heading specimen</ReferenceName>
                   <span className="site-eyebrow">Section heading</span>
                   <h2>A section heading should read like a considered statement.</h2>
                   <p className="section-heading__copy">
@@ -333,12 +456,14 @@ export default function DS_Foundations() {
                 </article>
 
                 <article className="site-card ds-foundation-type-specimen">
+                  <ReferenceName>Contained trust card</ReferenceName>
                   <span className="site-eyebrow">Card title</span>
                   <h3>Contained trust</h3>
                   <p>Card copy stays quieter than section copy and should be easy to scan.</p>
                 </article>
 
                 <article className="site-copy-panel rich-text ds-foundation-type-copy">
+                  <ReferenceName>Rich text panel</ReferenceName>
                   <span className="site-eyebrow">Rich text</span>
                   <h2>Rich text gets its own compact heading role.</h2>
                   <p>
@@ -352,6 +477,7 @@ export default function DS_Foundations() {
                 </article>
 
                 <aside className="site-fee-card ds-foundation-type-specimen">
+                  <ReferenceName>Fee display card</ReferenceName>
                   <p className="site-highlight__eyebrow">Numeric display</p>
                   <strong>$120</strong>
                   <span>Large numeric type is reserved for fee or figure moments.</span>
@@ -400,6 +526,7 @@ export default function DS_Foundations() {
             </table>
 
             <div className="ds-foundation-rhythm-demo" aria-label="Section rhythm example">
+              <ReferenceName>Section rhythm preview</ReferenceName>
               <section className="site-grid ds-foundation-rhythm-demo__section">
                 <Container>
                   <div className="site-split">
@@ -443,6 +570,7 @@ export default function DS_Foundations() {
               </p>
             </div>
 
+            <ReferenceName block>Edge sample card</ReferenceName>
             <div className="ds-foundation-edge-grid">
               <article className="ds-foundation-edge-sample">
                 <span className="ds-foundation-edge-sample__preview ds-foundation-edge-sample__preview--radius" />
@@ -481,6 +609,7 @@ export default function DS_Foundations() {
               </p>
             </div>
 
+            <ReferenceName block>State rule card</ReferenceName>
             <div className="ds-foundation-state-grid">
               {stateRules.map((rule) => (
                 <article className="site-card" key={rule.title}>
@@ -492,12 +621,14 @@ export default function DS_Foundations() {
 
             <div className="ds-demo ds-foundation-state-demo">
               <div className="rich-text">
+                <ReferenceName>Rich text link sample</ReferenceName>
                 <p>
                   A rich text link should look like a link:{" "}
                   <a href="/fees">read the fee and session details</a>.
                 </p>
               </div>
               <form className="site-form ds-foundation-mini-form" action="#" method="post">
+                <ReferenceName>Mini form focus sample</ReferenceName>
                 <div className="form-row">
                   <label htmlFor="foundation-focus-example">Focused field treatment</label>
                   <input
@@ -522,6 +653,7 @@ export default function DS_Foundations() {
             </div>
 
             <article className="site-copy-panel rich-text ds-foundation-html-demo">
+              <ReferenceName>Editorial HTML panel</ReferenceName>
               <h2>Heading two introduces a section of reading copy.</h2>
               <p>
                 Paragraphs are muted, measured, and easy to scan. A paragraph can include{" "}
