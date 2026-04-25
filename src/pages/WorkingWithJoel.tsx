@@ -22,6 +22,7 @@ type WorkingWithJoelPageContent = {
     title: EmphasisCopy;
     supportLead: string;
     supportBody: string;
+    credentials: string[];
     portrait: {
       name: string;
       descriptor: string;
@@ -52,6 +53,11 @@ const pageContent: WorkingWithJoelPageContent = {
     supportLead: "People's lives are complicated.",
     supportBody:
       "Relationships, work, how you feel about yourself, the thing that's been sitting with you. It's all connected.",
+    credentials: [
+      "Graduate Diploma in Counselling and Psychotherapy",
+      "ACA Registered Counsellor",
+      "Kink and ENM informed · LGBTQIA+ affirming",
+    ],
     portrait: {
       name: "Joel Griffiths",
       descriptor: "Counselling and psychodynamic psychotherapy",
@@ -153,6 +159,12 @@ export default function WorkingWithJoel() {
               <p className="working-with-joel-page__hero-support-lead">{hero.supportLead}</p>
               <p className="working-with-joel-page__hero-support-body">{hero.supportBody}</p>
             </div>
+          </div>
+
+          <div className="working-with-joel-page__hero-credentials">
+            {hero.credentials.map((credential) => (
+              <span key={credential}>{credential}</span>
+            ))}
           </div>
         </Container>
       </section>

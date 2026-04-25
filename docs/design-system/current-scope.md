@@ -26,7 +26,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 - The active contact-strip pattern exists as `.site-contact-strip` and `.site-contact-item`.
 - The active fee-card pattern exists as `.site-fee-card`.
 - The active footer pattern exists in `Layout` and is demonstrated on the Components page.
-- The design-system overview route exists at `/design-language`.
+- The design-system overview route exists at `/design-language` as an editorial index for system routes, visual language cues, principles, implementation order, and active/partial/legacy status.
 - The Foundations design-system page exists at `/design-language/foundations` and demonstrates core visual foundations.
 - The Components design-system page exists at `/design-language/components` and demonstrates shared components and UI pieces.
 - The Heroes design-system page exists at `/design-language/heroes` and documents the canonical hero system.

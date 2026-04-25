@@ -232,6 +232,393 @@
   border-bottom: none;
 }
 
+/* Design-system overview page */
+
+.ds-overview-page {
+  overflow-x: clip;
+  background: var(--paper);
+}
+
+.ds-overview-hero {
+  padding-top: 52px;
+}
+
+.ds-overview-hero__grid {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.42fr);
+  gap: 64px;
+  align-items: end;
+  padding-bottom: 52px;
+  min-width: 0;
+}
+
+.ds-overview-hero__copy {
+  display: grid;
+  align-content: end;
+  gap: 22px;
+  min-width: 0;
+}
+
+.ds-overview-hero__copy .hero-display {
+  max-width: 12ch;
+  margin-bottom: 0;
+}
+
+.ds-overview-hero__copy .hero-intro {
+  max-width: 52rem;
+}
+
+.ds-overview-hero__panel {
+  gap: 20px;
+  align-self: end;
+  align-content: start;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.ds-overview-hero__actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.ds-overview-hero__actions .button {
+  width: 100%;
+  min-width: 0;
+}
+
+.ds-overview-layout {
+  padding-top: 64px;
+}
+
+.ds-overview-route-grid,
+.ds-overview-principle-grid,
+.ds-overview-status-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.ds-overview-route-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ds-overview-route-card {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-width: 0;
+  min-height: 100%;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+  color: var(--body);
+  text-decoration: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.ds-overview-route-card:hover,
+.ds-overview-route-card:focus-visible {
+  border-color: var(--cedar);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.ds-overview-route-card:focus-visible {
+  outline: 2px solid rgba(35, 75, 61, 0.24);
+  outline-offset: 4px;
+}
+
+.ds-overview-route-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(35, 75, 61, 0.14);
+  border-radius: var(--radius);
+  background: var(--cedar-soft);
+  color: var(--cedar);
+}
+
+.ds-overview-route-card__eyebrow,
+.ds-overview-route-card__meta {
+  color: var(--cedar);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.ds-overview-route-card h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.5rem;
+}
+
+.ds-overview-route-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.58;
+}
+
+.ds-overview-route-card__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: var(--faint);
+  text-transform: none;
+}
+
+.ds-overview-language {
+  display: grid;
+  grid-template-columns: minmax(0, 0.62fr) minmax(300px, 1fr);
+  gap: 32px;
+  align-items: start;
+  min-width: 0;
+}
+
+.ds-overview-language .ds-section-heading {
+  margin-bottom: 0;
+}
+
+.ds-overview-specimen {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.ds-overview-specimen__type {
+  display: grid;
+  gap: 12px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+}
+
+.ds-overview-specimen__type strong {
+  max-width: 13ch;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.ds-overview-specimen__type p {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.ds-overview-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ds-overview-swatch {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+}
+
+.ds-overview-swatch__sample {
+  display: block;
+  min-height: 56px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.ds-overview-swatch--paper {
+  background: var(--paper);
+}
+
+.ds-overview-swatch--surface {
+  background: var(--surface);
+}
+
+.ds-overview-swatch--strong {
+  background: var(--surface-strong);
+}
+
+.ds-overview-swatch--cedar {
+  background: var(--cedar);
+}
+
+.ds-overview-swatch strong {
+  color: var(--ink);
+  font-size: 0.86rem;
+  line-height: 1.2;
+}
+
+.ds-overview-swatch code {
+  color: var(--faint);
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.ds-overview-specimen__trust {
+  max-width: none;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.ds-overview-principle-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ds-overview-principle {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 8px 12px;
+  align-content: start;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+}
+
+.ds-overview-principle svg {
+  color: var(--cedar);
+}
+
+.ds-overview-principle h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.12rem;
+}
+
+.ds-overview-principle p {
+  grid-column: 2;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.58;
+}
+
+.ds-overview-implementation {
+  display: grid;
+  grid-template-columns: minmax(0, 0.62fr) minmax(300px, 1fr);
+  gap: 32px;
+  align-items: start;
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.ds-overview-implementation h2 {
+  margin: 8px 0 14px;
+  font-size: var(--type-section-compact);
+}
+
+.ds-overview-implementation p {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--muted);
+}
+
+.ds-overview-steps {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  counter-reset: overview-step;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+  overflow: hidden;
+}
+
+.ds-overview-steps li {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 15px 18px;
+  color: var(--body);
+  font-size: 0.96rem;
+  line-height: 1.48;
+  counter-increment: overview-step;
+}
+
+.ds-overview-steps li + li {
+  border-top: 1px solid var(--line);
+}
+
+.ds-overview-steps li::before {
+  color: var(--cedar);
+  font-weight: 700;
+  content: counter(overview-step, decimal-leading-zero);
+}
+
+.ds-overview-status-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ds-overview-status {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+}
+
+.ds-overview-status__heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--cedar);
+}
+
+.ds-overview-status__heading h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.1rem;
+}
+
+.ds-overview-status ul {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 0;
+  padding-left: 1.1rem;
+}
+
+.ds-overview-status li {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.ds-overview-cta {
+  margin-top: 60px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.ds-overview-cta__inner {
+  padding: 24px;
+}
+
 .ds-spacing-table {
   width: 100%;
   border-collapse: collapse;
@@ -956,6 +1343,11 @@
   }
 
   .ds-foundation-rule-grid,
+  .ds-overview-route-grid,
+  .ds-overview-language,
+  .ds-overview-principle-grid,
+  .ds-overview-implementation,
+  .ds-overview-status-grid,
   .ds-foundation-colour-demo,
   .ds-foundation-type-specimen-grid,
   .ds-foundation-rhythm-demo .site-split,
@@ -981,10 +1373,44 @@
   .documents-viewer__empty {
     padding: 26px 22px;
   }
+
+  .ds-overview-hero {
+    padding-top: 36px;
+  }
+
+  .ds-overview-hero__grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-bottom: 42px;
+  }
+
+  .ds-overview-hero__copy .hero-display {
+    max-width: 13ch;
+  }
+
+  .ds-overview-layout {
+    padding-top: 44px;
+  }
 }
 
 @media (max-width: 640px) {
   .ds-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ds-overview-swatch-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ds-overview-principle {
+    grid-template-columns: 1fr;
+  }
+
+  .ds-overview-principle p {
+    grid-column: auto;
+  }
+
+  .ds-overview-steps li {
     grid-template-columns: 1fr;
   }
 }
