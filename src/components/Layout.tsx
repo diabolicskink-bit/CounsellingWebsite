@@ -10,17 +10,14 @@ const sharedChromePaths = new Set([
   "/about-joel",
   "/approach",
   "/contact",
-  "/design-language",
-  "/documents",
   "/enquire",
   "/fees",
   "/inclusion",
   "/working-with-joel",
-  "/codex-tb",
-  "/opus-tb",
+  ...(import.meta.env.DEV ? ["/codex-tb", "/design-language", "/documents", "/opus-tb"] : []),
 ]);
 
-const sharedChromePrefixes = ["/design-language/", "/inclusion/"];
+const sharedChromePrefixes = ["/inclusion/", ...(import.meta.env.DEV ? ["/design-language/"] : [])];
 
 const headerNavItems = navItems.filter(
   (item) => item.href !== "/contact" && (!item.devOnly || import.meta.env.DEV)

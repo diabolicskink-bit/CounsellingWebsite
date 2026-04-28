@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { spawn } from "node:child_process";
 
-const url = process.argv[2] ?? "http://127.0.0.1:4177";
+const url = process.argv[2] ?? "http://127.0.0.1:4287";
 const reportBase = "lighthouse-report";
 const reportJson = `${reportBase}.report.json`;
 const reportHtml = `${reportBase}.report.html`;

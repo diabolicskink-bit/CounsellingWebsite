@@ -7,12 +7,12 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "preview:qa": "vite preview --host 127.0.0.1 --port 4177 --strictPort",
+    "preview:qa": "vite preview --host 127.0.0.1 --port 4287 --strictPort",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "qa:site": "npm run build && start-server-and-test preview:qa http://127.0.0.1:4177 test:e2e",
-    "audit:lighthouse": "npm run build && start-server-and-test preview:qa http://127.0.0.1:4177 audit:lighthouse:run",
-    "audit:lighthouse:run": "node scripts/run-lighthouse.mjs http://127.0.0.1:4177"
+    "qa:site": "npm run build && start-server-and-test preview:qa http://127.0.0.1:4287 test:e2e",
+    "audit:lighthouse": "npm run build && start-server-and-test preview:qa http://127.0.0.1:4287 audit:lighthouse:run",
+    "audit:lighthouse:run": "node scripts/run-lighthouse.mjs http://127.0.0.1:4287"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

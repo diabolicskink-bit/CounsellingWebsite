@@ -14,7 +14,7 @@ export default function NotFound() {
             <div>
               <span className="hero-badge">404</span>
               <h1 className="hero-display">
-                This page does
+                This page does{" "}
                 <br />
                 not <em>exist</em>.
               </h1>

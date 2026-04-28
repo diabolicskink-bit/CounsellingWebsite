@@ -8,19 +8,31 @@ import Home from "./pages/Home";
 import InclusivePractice from "./pages/InclusivePractice";
 import KinkBdsmCounselling from "./pages/KinkBdsmCounselling";
 import LgbtqiaCounselling from "./pages/LgbtqiaCounselling";
-import CodexTB from "./pages/CodexTB";
-import DesignLanguage from "./pages/DesignLanguage";
-import DS_Foundations from "./pages/design-system/DS_Foundations";
-import DS_Components from "./pages/design-system/DS_Components";
-import DS_Heroes from "./pages/design-system/DS_Heroes";
-import DS_Patterns from "./pages/design-system/DS_Patterns";
-import OpusTB from "./pages/OpusTB";
 import NotFound from "./pages/NotFound";
 import WorkingWithJoel from "./pages/WorkingWithJoel";
 
-const DocumentsPage = import.meta.env.DEV ? lazy(() => import("./pages/Documents")) : null;
+const devPages = import.meta.env.DEV
+  ? {
+      CodexTB: lazy(() => import("./pages/CodexTB")),
+      DesignLanguage: lazy(() => import("./pages/DesignLanguage")),
+      Documents: lazy(() => import("./pages/Documents")),
+      DS_Components: lazy(() => import("./pages/design-system/DS_Components")),
+      DS_Foundations: lazy(() => import("./pages/design-system/DS_Foundations")),
+      DS_Heroes: lazy(() => import("./pages/design-system/DS_Heroes")),
+      DS_Patterns: lazy(() => import("./pages/design-system/DS_Patterns")),
+      OpusTB: lazy(() => import("./pages/OpusTB")),
+    }
+  : null;
 const workingWithJoelPaths = ["about-joel", "approach", "working-with-joel"] as const;
 const enquirePaths = ["fees", "enquire", "contact"] as const;
+
+function renderDevPage(Page: NonNullable<typeof devPages>[keyof NonNullable<typeof devPages>]) {
+  return (
+    <Suspense fallback={null}>
+      <Page />
+    </Suspense>
+  );
+}
 
 export default function App() {
   return (
@@ -36,23 +48,18 @@ export default function App() {
           <Route path="inclusion/kink-bdsm" element={<KinkBdsmCounselling />} />
           <Route path="inclusion/enm-polyamory" element={<EnmPolyamoryCounselling />} />
           <Route path="inclusion/lgbtqia" element={<LgbtqiaCounselling />} />
-          <Route path="codex-tb" element={<CodexTB />} />
-          <Route path="opus-tb" element={<OpusTB />} />
-          {DocumentsPage ? (
-            <Route
-              path="documents"
-              element={
-                <Suspense fallback={null}>
-                  <DocumentsPage />
-                </Suspense>
-              }
-            />
+          {devPages ? (
+            <>
+              <Route path="codex-tb" element={renderDevPage(devPages.CodexTB)} />
+              <Route path="opus-tb" element={renderDevPage(devPages.OpusTB)} />
+              <Route path="documents" element={renderDevPage(devPages.Documents)} />
+              <Route path="design-language" element={renderDevPage(devPages.DesignLanguage)} />
+              <Route path="design-language/foundations" element={renderDevPage(devPages.DS_Foundations)} />
+              <Route path="design-language/components" element={renderDevPage(devPages.DS_Components)} />
+              <Route path="design-language/heroes" element={renderDevPage(devPages.DS_Heroes)} />
+              <Route path="design-language/patterns" element={renderDevPage(devPages.DS_Patterns)} />
+            </>
           ) : null}
-          <Route path="design-language" element={<DesignLanguage />} />
-          <Route path="design-language/foundations" element={<DS_Foundations />} />
-          <Route path="design-language/components" element={<DS_Components />} />
-          <Route path="design-language/heroes" element={<DS_Heroes />} />
-          <Route path="design-language/patterns" element={<DS_Patterns />} />
           {enquirePaths.map((path) => (
             <Route key={path} path={path} element={<Enquire />} />
           ))}

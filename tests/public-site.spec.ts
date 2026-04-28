@@ -19,6 +19,14 @@ const accessibilitySmokeRoutes = [
   "/inclusion/kink-bdsm",
 ] as const;
 
+const devOnlyRoutes = [
+  "/codex-tb",
+  "/opus-tb",
+  "/documents",
+  "/design-language",
+  "/design-language/foundations",
+] as const;
+
 test.describe("public pages", () => {
   for (const route of publicRoutes) {
     test(`${route} renders core content and hydrated metadata`, async ({ page }) => {
@@ -45,6 +53,18 @@ test.describe("public pages", () => {
       expect(description?.length).toBeGreaterThan(50);
 
       expect(consoleErrors).toEqual([]);
+    });
+  }
+});
+
+test.describe("production route boundaries", () => {
+  for (const route of devOnlyRoutes) {
+    test(`${route} is not registered in the production build`, async ({ page }) => {
+      await page.goto(route, { waitUntil: "networkidle" });
+
+      await expect(page).toHaveTitle("Page not found | Vive Counselling");
+      await expect(page.locator("h1")).toContainText(/This page does\s*not exist/);
+      await expect(page.getByRole("link", { name: "Dev" })).toHaveCount(0);
     });
   }
 });

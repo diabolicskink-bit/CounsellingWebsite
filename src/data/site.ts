@@ -27,32 +27,36 @@ export const navItems: NavItem[] = [
       { label: "LGBTQIA+", href: "/inclusion/lgbtqia" },
     ],
   },
-  {
-    label: "Dev",
-    href: "/design-language",
-    devOnly: true,
-    children: [
-      {
-        label: "Design",
-        href: "/design-language",
-        children: [
-          { label: "Foundations", href: "/design-language/foundations" },
-          { label: "Components", href: "/design-language/components" },
-          { label: "Heroes", href: "/design-language/heroes" },
-          { label: "Patterns", href: "/design-language/patterns" },
-        ],
-      },
-      { label: "Documents", href: "/documents" },
-      {
-        label: "Test Beds",
-        href: "/codex-tb",
-        children: [
-          { label: "Codex TB", href: "/codex-tb" },
-          { label: "Opus TB", href: "/opus-tb" },
-        ],
-      },
-    ],
-  },
+  ...(import.meta.env.DEV
+    ? [
+        {
+          label: "Dev",
+          href: "/design-language",
+          devOnly: true,
+          children: [
+            {
+              label: "Design",
+              href: "/design-language",
+              children: [
+                { label: "Foundations", href: "/design-language/foundations" },
+                { label: "Components", href: "/design-language/components" },
+                { label: "Heroes", href: "/design-language/heroes" },
+                { label: "Patterns", href: "/design-language/patterns" },
+              ],
+            },
+            { label: "Documents", href: "/documents" },
+            {
+              label: "Test Beds",
+              href: "/codex-tb",
+              children: [
+                { label: "Codex TB", href: "/codex-tb" },
+                { label: "Opus TB", href: "/opus-tb" },
+              ],
+            },
+          ],
+        },
+      ]
+    : []),
   { label: "Fees", href: "/fees" },
   { label: "Contact", href: "/contact" },
 ];
