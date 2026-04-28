@@ -50,11 +50,11 @@ const pageContent: WorkingWithJoelPageContent = {
       emphasis: "the bigger",
       after: " picture.",
     },
-    supportLead: "People's lives are complicated.",
+    supportLead: "Life is complicated.",
     supportBody:
       "Relationships, work, how you feel about yourself, the thing that's been sitting with you. It's all connected.",
     credentials: [
-      "Graduate Diploma in Counselling and Psychotherapy",
+      "Graduate Diploma - Counselling and Psychotherapy",
       "ACA Registered Counsellor",
       "Kink and ENM informed · LGBTQIA+ affirming",
     ],

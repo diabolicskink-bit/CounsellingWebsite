@@ -13,12 +13,13 @@
 
 .working-with-joel-page__hero-support {
   display: grid;
-  gap: 12px;
+  gap: 14px;
   align-self: center;
   max-width: 33ch;
-  padding: clamp(1.15rem, 1.6vw, 1.45rem) 0 clamp(0.9rem, 1.3vw, 1.2rem)
-    clamp(1.35rem, 2vw, 1.8rem);
-  border-left: 2px solid var(--cedar);
+  padding: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
 
 .working-with-joel-page__hero-support-lead,
@@ -26,10 +27,11 @@
   margin: 0;
 }
 
-.working-with-joel-page__hero-support-lead {
+.working-with-joel-page .working-with-joel-page__hero-support-lead {
   color: var(--cedar);
   font-family: var(--font-serif);
-  font-size: clamp(1.26rem, 1.08rem + 0.54vw, 1.55rem);
+  font-size: clamp(1.12rem, 1rem + 0.36vw, 1.32rem);
+  font-style: italic;
   line-height: 1.22;
   text-wrap: balance;
 }
@@ -162,9 +164,7 @@
 
   .working-with-joel-page__hero-support {
     max-width: none;
-    padding: 18px 0 0;
-    border-left: 0;
-    border-top: 1px solid rgba(35, 75, 61, 0.24);
+    padding: 1.25rem;
   }
 
   .working-with-joel-page__hero-credentials {
