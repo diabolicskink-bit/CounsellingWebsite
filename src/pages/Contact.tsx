@@ -4,6 +4,7 @@ import Container from "../components/Container";
 import EnquiryForm from "../components/EnquiryForm";
 import type { EnquiryFormContent } from "../components/EnquiryForm";
 import { enquiryEmail, enquiryFormContent } from "../data/enquiry";
+import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { getActiveAustralianPerthBusinessHoursNotes, getPerthBusinessHoursPrimaryLabel } from "../utils/timeZones";
 import "../styles-contact.css";
@@ -59,10 +60,11 @@ type ContactPageContent = {
   };
 };
 
+const contactMetadata = getRouteMetadata("/contact");
+
 const contactPageContent: ContactPageContent = {
-  title: "Contact and Fees | Vive Counselling",
-  meta:
-    "Fees, practical details, and direct contact for online counselling with Vive Counselling. Standard sessions are $120 for 50 minutes online, with a free optional phone consult.",
+  title: contactMetadata.title,
+  meta: contactMetadata.description,
   hero: {
     title: {
       before: "Get",

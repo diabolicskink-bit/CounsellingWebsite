@@ -5,6 +5,7 @@ import Container from "../components/Container";
 import Button from "../components/Button";
 import FaqSection from "../components/FaqSection";
 import FaqSchema from "../components/FaqSchema";
+import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 
 type InclusionPanel = {
@@ -49,10 +50,11 @@ type InclusionPageContent = {
   };
 };
 
+const inclusionMetadata = getRouteMetadata("/inclusion");
+
 const inclusionPageContent: InclusionPageContent = {
-  title: "Inclusive Counselling for Diverse Relationships, Sexualities and Identities | Vive Counselling",
-  meta:
-    "Inclusive counselling for adults seeking thoughtful, non-shaming support around relationships, sexuality, identity, and emotional life. Perth-based, online across Australia.",
+  title: inclusionMetadata.title,
+  meta: inclusionMetadata.description,
   hero: {
     title: {
       lineOne: "Inclusive counselling",
@@ -99,9 +101,7 @@ const inclusionPageContent: InclusionPageContent = {
         heading: "Affirming support without making identity the whole story",
         href: "/inclusion/lgbtqia",
         paragraphs: [
-          "Affirming counselling means your sexuality, gender, relationships and self-description are respected rather than treated as complications. It also means there is room to talk about minority stress, family pressure, religion, shame, dating, transition, grief, belonging and the ordinary problems that would still matter even in a more accepting world.",
-          "You do not need a neat label or a settled explanation before you start. Therapy can include identity, but it can also be about anxiety, relationships, trauma, self-worth, loss, burnout, sex, loneliness or simply wanting to speak freely with someone who will not make the wrong things difficult.",
-        ],
+"The queer territory is already known here. Minority stress, family, religion, shame, transition, grief. So is everything else you bring. Anxiety, relationships, work, loss, the thing that's been sitting with you."        ],
         cta: "LGBTQIA+ affirming counselling",
       },
     ],

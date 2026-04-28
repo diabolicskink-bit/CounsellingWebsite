@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import Container from "../components/Container";
 import FaqSection from "../components/FaqSection";
 import FaqSchema from "../components/FaqSchema";
+import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-kink-bdsm.css";
 
@@ -105,10 +106,11 @@ type KinkPageContent = {
   };
 };
 
+const kinkMetadata = getRouteMetadata("/inclusion/kink-bdsm");
+
 const kinkPageContent: KinkPageContent = {
-  title: "Kink & BDSM-Aware Counselling | Vive Counselling",
-  meta:
-    "Counselling for kinky clients where kink is not pathologised, over-scrutinised, or treated as the whole story. Support for anxiety, relationships, shame, grief, trauma, and more. Perth-based, online across Australia.",
+  title: kinkMetadata.title,
+  meta: kinkMetadata.description,
   hero: {
     breadcrumb: [
       { label: "Home", href: "/" },

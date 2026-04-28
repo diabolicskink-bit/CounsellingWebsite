@@ -4,13 +4,15 @@ import Button from "../components/Button";
 import Container from "../components/Container";
 import FaqSection from "../components/FaqSection";
 import FaqSchema from "../components/FaqSchema";
+import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-enm-polyamory.css";
 
+const pageMetadata = getRouteMetadata("/inclusion/enm-polyamory");
+
 const pageContent = {
-  title: "Counselling for Polyamory, Open Relationships and ENM | Vive Counselling",
-  meta:
-    "Counselling for polyamorous and consensually non-monogamous clients where monogamy is not assumed to be the answer and the relationship structure is not treated as the whole story. Perth-based, online across Australia.",
+  title: pageMetadata.title,
+  meta: pageMetadata.description,
   hero: {
     badge: "ENM and polyamory counselling",
     title: "Counselling for polyamory, open relationships, and ENM",

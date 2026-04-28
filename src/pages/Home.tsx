@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-home.css";
 
@@ -71,9 +72,11 @@ type HomePageContent = {
   };
 };
 
+const homeMetadata = getRouteMetadata("/");
+
 const homePageContent: HomePageContent = {
-  title: "Vive Counselling | Online counselling across Australia",
-  meta: "Online counselling for adults across Australia with Joel Griffiths. Grounded, thoughtful, inclusive, and non-shaming support.",
+  title: homeMetadata.title,
+  meta: homeMetadata.description,
   hero: {
     title: {
       before: "Counselling for when life feels ",

@@ -1,5 +1,12 @@
 import AxeBuilder from "@axe-core/playwright";
+import { readFileSync } from "node:fs";
 import { expect, test } from "playwright/test";
+
+const routeMetadataData = JSON.parse(
+  readFileSync(new URL("../src/data/routeMetadata.json", import.meta.url), "utf8"),
+) as {
+  routes: Record<string, { title: string; description: string }>;
+};
 
 const publicRoutes = [
   "/",
@@ -10,6 +17,16 @@ const publicRoutes = [
   "/inclusion/lgbtqia",
   "/contact",
 ] as const;
+
+const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
 
 const aliasRedirects = [
   { from: "/about", to: "/working-with-joel" },
@@ -59,6 +76,21 @@ test.describe("public pages", () => {
       expect(description?.length).toBeGreaterThan(50);
 
       expect(consoleErrors).toEqual([]);
+    });
+  }
+});
+
+test.describe("first response metadata", () => {
+  for (const [route, metadata] of publicRouteMetadataEntries) {
+    test(`${route} includes route metadata before hydration`, async ({ request }) => {
+      const response = await request.get(route);
+      const html = await response.text();
+
+      expect(response.ok()).toBeTruthy();
+      expect(html).toContain(`<title>${escapeHtml(metadata.title)}</title>`);
+      expect(html).toContain(
+        `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
+      );
     });
   }
 });

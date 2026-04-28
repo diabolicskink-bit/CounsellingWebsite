@@ -1,4 +1,5 @@
 import Container from "../components/Container";
+import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-working-with-joel.css";
 
@@ -40,10 +41,11 @@ type WorkingWithJoelPageContent = {
   };
 };
 
+const pageMetadata = getRouteMetadata("/working-with-joel");
+
 const pageContent: WorkingWithJoelPageContent = {
-  title: "Working with Joel | Vive Counselling",
-  meta:
-    "Working with Joel Griffiths at Vive Counselling. Direct, thoughtful, non-shaming online counselling for adults across Australia, with particular understanding of shame, relationships, sexuality, kink, and ethical non-monogamy.",
+  title: pageMetadata.title,
+  meta: pageMetadata.description,
   hero: {
     title: {
       before: "Working with ",

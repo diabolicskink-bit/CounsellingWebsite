@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import Container from "../components/Container";
 import FaqSection from "../components/FaqSection";
 import FaqSchema from "../components/FaqSchema";
+import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-lgbtqia.css";
 
@@ -12,10 +13,11 @@ type FaqItem = {
   answer: string;
 };
 
+const pageMetadata = getRouteMetadata("/inclusion/lgbtqia");
+
 const pageContent = {
-  title: "LGBTQIA+ Affirming Counselling | Vive Counselling",
-  meta:
-    "Affirming counselling for LGBTQIA+ clients, including support with identity, relationships, shame, family strain, and mental health. Perth-based, online across Australia.",
+  title: pageMetadata.title,
+  meta: pageMetadata.description,
   hero: {
     badge: "Queer-affirming counselling",
     title: "LGBTQIA+ affirming counselling",

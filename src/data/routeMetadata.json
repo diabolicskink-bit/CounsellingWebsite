@@ -1,0 +1,32 @@
+{
+  "routes": {
+    "/": {
+      "title": "Vive Counselling | Online counselling across Australia",
+      "description": "Online counselling for adults across Australia with Joel Griffiths. Grounded, thoughtful, inclusive, and non-shaming support."
+    },
+    "/working-with-joel": {
+      "title": "Working with Joel | Vive Counselling",
+      "description": "Working with Joel Griffiths at Vive Counselling. Direct, thoughtful, non-shaming online counselling for adults across Australia, with particular understanding of shame, relationships, sexuality, kink, and ethical non-monogamy."
+    },
+    "/inclusion": {
+      "title": "Inclusive Counselling for Diverse Relationships, Sexualities and Identities | Vive Counselling",
+      "description": "Inclusive counselling for adults seeking thoughtful, non-shaming support around relationships, sexuality, identity, and emotional life. Perth-based, online across Australia."
+    },
+    "/inclusion/kink-bdsm": {
+      "title": "Kink & BDSM-Aware Counselling | Vive Counselling",
+      "description": "Counselling for kinky clients where kink is not pathologised, over-scrutinised, or treated as the whole story. Support for anxiety, relationships, shame, grief, trauma, and more. Perth-based, online across Australia."
+    },
+    "/inclusion/enm-polyamory": {
+      "title": "Counselling for Polyamory, Open Relationships and ENM | Vive Counselling",
+      "description": "Counselling for polyamorous and consensually non-monogamous clients where monogamy is not assumed to be the answer and the relationship structure is not treated as the whole story. Perth-based, online across Australia."
+    },
+    "/inclusion/lgbtqia": {
+      "title": "LGBTQIA+ Affirming Counselling | Vive Counselling",
+      "description": "Affirming counselling for LGBTQIA+ clients, including support with identity, relationships, shame, family strain, and mental health. Perth-based, online across Australia."
+    },
+    "/contact": {
+      "title": "Contact and Fees | Vive Counselling",
+      "description": "Fees, practical details, and direct contact for online counselling with Vive Counselling. Standard sessions are $120 for 50 minutes online, with a free optional phone consult."
+    }
+  }
+}
