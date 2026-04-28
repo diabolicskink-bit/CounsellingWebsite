@@ -156,7 +156,7 @@ export default function LgbtqiaCounselling() {
             ))}
             <p>
               You can also <Link to="/working-with-joel">read more about working with Joel</Link>, check{" "}
-              <Link to="/fees">online counselling fees and session details</Link>, or{" "}
+              <Link to="/contact">online counselling fees and session details</Link>, or{" "}
               <Link to="/contact">make an enquiry about counselling</Link>.
             </p>
           </div>

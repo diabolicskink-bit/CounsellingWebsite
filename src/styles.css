@@ -14,6 +14,9 @@
   --paper: #f7f6f2;
   --surface: #eef2ec;
   --surface-strong: #fcfcfa;
+  --site-highlight-bg: rgba(238, 242, 236, 0.84);
+  --site-footer-bg:
+    linear-gradient(180deg, #dbe8dc 0%, #cedfce 100%);
   --line: #ccd4ca;
   --shadow: 0 8px 22px rgba(31, 35, 31, 0.055);
   --radius: 8px;
@@ -1425,7 +1428,7 @@ p {
 
 .site-footer {
   border-top: 1px solid var(--line);
-  background: rgba(238, 242, 236, 0.84);
+  background: var(--site-footer-bg);
   padding-block: 18px 20px;
 }
 
@@ -1526,7 +1529,7 @@ p {
   --color-accent-hover: var(--cedar-dark);
   --color-accent-soft: var(--cedar-soft);
   --color-shadow-card: 0 14px 30px rgba(31, 35, 31, 0.045);
-  --color-footer: var(--surface);
+  --color-footer: var(--site-footer-bg);
 
   background: var(--color-bg-main);
   color: var(--color-text);
@@ -1550,9 +1553,7 @@ p {
 
 .site-spotlight {
   padding: 64px 0;
-  background:
-    linear-gradient(180deg, rgba(235, 241, 232, 0.86), rgba(229, 236, 225, 0.78)),
-    var(--color-bg-section);
+  background: var(--site-footer-bg);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -1760,9 +1761,7 @@ p {
 
 .site-highlight {
   padding: 40px 0;
-  background:
-    linear-gradient(180deg, rgba(235, 241, 232, 0.86), rgba(229, 236, 225, 0.78)),
-    var(--color-bg-section);
+  background: var(--site-highlight-bg);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -2337,9 +2336,7 @@ p {
 
 .site-faq-section.site-highlight,
 .site-cta-block.site-highlight {
-  background:
-    linear-gradient(180deg, rgba(235, 241, 232, 0.86), rgba(229, 236, 225, 0.78)),
-    var(--color-bg-section);
+  background: var(--site-highlight-bg);
 }
 
 .site-cta-block.site-highlight {
@@ -2708,7 +2705,7 @@ p {
 }
 
 .site-shell--shared .site-footer {
-  background: var(--surface);
+  background: var(--site-footer-bg);
   border-top-color: var(--line);
 }
 

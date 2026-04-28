@@ -1,9 +1,9 @@
 import { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
+import Contact from "./pages/Contact";
 import EnmPolyamoryCounselling from "./pages/EnmPolyamoryCounselling";
-import Enquire from "./pages/Enquire";
 import Home from "./pages/Home";
 import InclusivePractice from "./pages/InclusivePractice";
 import KinkBdsmCounselling from "./pages/KinkBdsmCounselling";
@@ -23,8 +23,6 @@ const devPages = import.meta.env.DEV
       OpusTB: lazy(() => import("./pages/OpusTB")),
     }
   : null;
-const workingWithJoelPaths = ["about-joel", "approach", "working-with-joel"] as const;
-const enquirePaths = ["fees", "enquire", "contact"] as const;
 
 function renderDevPage(Page: NonNullable<typeof devPages>[keyof NonNullable<typeof devPages>]) {
   return (
@@ -41,9 +39,8 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
-          {workingWithJoelPaths.map((path) => (
-            <Route key={path} path={path} element={<WorkingWithJoel />} />
-          ))}
+          <Route path="about" element={<Navigate to="/working-with-joel" replace />} />
+          <Route path="working-with-joel" element={<WorkingWithJoel />} />
           <Route path="inclusion" element={<InclusivePractice />} />
           <Route path="inclusion/kink-bdsm" element={<KinkBdsmCounselling />} />
           <Route path="inclusion/enm-polyamory" element={<EnmPolyamoryCounselling />} />
@@ -60,9 +57,8 @@ export default function App() {
               <Route path="design-language/patterns" element={renderDevPage(devPages.DS_Patterns)} />
             </>
           ) : null}
-          {enquirePaths.map((path) => (
-            <Route key={path} path={path} element={<Enquire />} />
-          ))}
+          <Route path="fees" element={<Navigate to="/contact" replace />} />
+          <Route path="contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

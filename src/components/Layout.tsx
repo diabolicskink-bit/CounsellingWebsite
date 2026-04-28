@@ -7,10 +7,8 @@ import Button from "./Button";
 import Container from "./Container";
 
 const sharedChromePaths = new Set([
-  "/about-joel",
-  "/approach",
+  "/about",
   "/contact",
-  "/enquire",
   "/fees",
   "/inclusion",
   "/working-with-joel",
@@ -19,9 +17,7 @@ const sharedChromePaths = new Set([
 
 const sharedChromePrefixes = ["/inclusion/", ...(import.meta.env.DEV ? ["/design-language/"] : [])];
 
-const headerNavItems = navItems.filter(
-  (item) => item.href !== "/contact" && (!item.devOnly || import.meta.env.DEV)
-);
+const headerNavItems = navItems.filter((item) => !item.devOnly || import.meta.env.DEV);
 
 function itemIsActive(item: NavItem, pathname: string): boolean {
   if (item.href === pathname) {
@@ -222,8 +218,7 @@ export default function Layout() {
             <nav className="site-footer__nav" aria-label="Footer navigation">
               <Link to="/working-with-joel">Working with Joel</Link>
               <Link to="/inclusion">Inclusive practice</Link>
-              <Link to="/fees">Fees</Link>
-              <Link to="/contact">Contact</Link>
+              <Link to="/contact">Fees</Link>
             </nav>
           </div>
 

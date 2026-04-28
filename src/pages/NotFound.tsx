@@ -1,10 +1,35 @@
 import { ArrowRight } from "lucide-react";
+import { useEffect } from "react";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 
+function useNoIndex() {
+  useEffect(() => {
+    const existingMeta = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    const robotsMeta = existingMeta ?? document.createElement("meta");
+    const previousContent = existingMeta?.content;
+
+    if (!existingMeta) {
+      robotsMeta.name = "robots";
+      document.head.append(robotsMeta);
+    }
+
+    robotsMeta.content = "noindex, nofollow";
+
+    return () => {
+      if (existingMeta) {
+        existingMeta.content = previousContent ?? "";
+      } else {
+        robotsMeta.remove();
+      }
+    };
+  }, []);
+}
+
 export default function NotFound() {
   useDocumentMetadata("Page not found | Vive Counselling");
+  useNoIndex();
 
   return (
     <main className="site-page">

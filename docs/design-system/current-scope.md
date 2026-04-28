@@ -4,9 +4,9 @@ This is the live inventory of the design system. Keep it factual and update it w
 
 ## Included
 
-- Production colour tokens are defined in `src/styles.css`, including paper, surface, text, cedar, accent, line, radius, shadow, and max-width variables.
+- Production colour tokens are defined in `src/styles.css`, including paper, surface, text, cedar, accent, reusable highlight/footer surfaces, line, radius, shadow, and max-width variables.
 - Production typography tokens are defined in `src/styles.css`, including font stacks, named type roles, and leading variables.
-- Layout and surface rules exist through shared section classes such as `.site-grid`, `.site-highlight`, `.site-split`, `.site-content-stack`, and `.site-copy-panel`.
+- Layout and surface rules exist through shared section classes such as `.site-grid`, the quieter `.site-highlight`, `.site-split`, `.site-content-stack`, and `.site-copy-panel`.
 - The active shared production class layer uses `site-*` classes for public-page sections, cards, panels, lists, forms, footer, FAQ, CTA, trust, detail, and contact patterns.
 - The active shared hero system uses `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-principles-strip`, and `.hero-detail-stack`.
 - Existing non-prefixed shared component classes remain active where they back real components, including `.container`, `.button`, `.card`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
@@ -25,7 +25,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 - The active check-panel pattern exists as `.site-check-panel` and `.site-check-panel--grid`.
 - The active contact-strip pattern exists as `.site-contact-strip` and `.site-contact-item`.
 - The active fee-card pattern exists as `.site-fee-card`.
-- The active footer pattern exists in `Layout` and is demonstrated on the Components page.
+- The active footer pattern exists in `Layout` and is demonstrated on the Components page with the deeper green closing surface.
 - The design-system overview route exists at `/design-language` as an editorial index for system routes, visual language cues, principles, implementation order, and active/partial/legacy status.
 - The Foundations design-system page exists at `/design-language/foundations` and demonstrates core visual foundations.
 - The Components design-system page exists at `/design-language/components` and demonstrates shared components and UI pieces.

@@ -57,8 +57,7 @@ export const navItems: NavItem[] = [
         },
       ]
     : []),
-  { label: "Fees", href: "/fees" },
-  { label: "Contact", href: "/contact" },
+  { label: "Fees", href: "/contact" },
 ];
 
 export const fitItems: Array<{ icon: LucideIcon; label: string }> = [

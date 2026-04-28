@@ -8,6 +8,8 @@ Primary tokens live in `src/styles.css`.
 - `--surface`: soft green section surface
 - `--surface-strong`: cards, form panels, inset surfaces
 - `--surface-muted`: very light alternate wash
+- `--site-highlight-bg`: quiet alternate section surface used by `.site-highlight`
+- `--site-footer-bg`: deeper green closing surface used by `.site-footer`
 - `--line`: borders and dividers
 - `--ink`: headings and strongest text
 - `--body`: paragraph text
@@ -64,13 +66,7 @@ Type role variables are allowed to adjust at breakpoints. Avoid adding viewport-
 
 - Use the shared `.container` width logic via the `Container` component.
 - Major sections should usually have generous block padding.
-- Use `.site-grid` for the neutral section surface and `.site-highlight` for the soft-green alternating surface before creating page-scoped section wrappers.
+- Use `.site-grid` for the neutral section surface and `.site-highlight` for the quieter alternating surface before creating page-scoped section wrappers.
 - Card and panel spacing should stay consistent across pages.
 - Card grid gaps should stay in the restrained range already used across the site.
 
-## Hard Constraints
-
-- Do not introduce hex values directly in components if an existing token can be used.
-- Do not introduce custom radius values unless the system is intentionally expanding.
-- Do not use heavy shadows where a border will do.
-- Do not create a new spacing scale ad hoc inside page components.

@@ -8,9 +8,15 @@ const publicRoutes = [
   "/inclusion/kink-bdsm",
   "/inclusion/enm-polyamory",
   "/inclusion/lgbtqia",
-  "/fees",
   "/contact",
 ] as const;
+
+const aliasRedirects = [
+  { from: "/about", to: "/working-with-joel" },
+  { from: "/fees", to: "/contact" },
+] as const;
+
+const retiredRoutes = ["/about-joel", "/approach", "/enquire"] as const;
 
 const accessibilitySmokeRoutes = [
   "/",
@@ -57,6 +63,30 @@ test.describe("public pages", () => {
   }
 });
 
+test.describe("alias URL redirects", () => {
+  for (const { from, to } of aliasRedirects) {
+    test(`${from} redirects to ${to}`, async ({ page }) => {
+      await page.goto(from, { waitUntil: "networkidle" });
+
+      await expect(page).toHaveURL(new RegExp(`${to}$`));
+      await expect(page.locator("h1")).toHaveCount(1);
+      await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+    });
+  }
+});
+
+test.describe("retired route boundaries", () => {
+  for (const route of retiredRoutes) {
+    test(`${route} is not registered`, async ({ page }) => {
+      await page.goto(route, { waitUntil: "networkidle" });
+
+      await expect(page).toHaveTitle("Page not found | Vive Counselling");
+      await expect(page.locator("h1")).toContainText(/This page does\s*not exist/);
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
+    });
+  }
+});
+
 test.describe("production route boundaries", () => {
   for (const route of devOnlyRoutes) {
     test(`${route} is not registered in the production build`, async ({ page }) => {
@@ -64,6 +94,7 @@ test.describe("production route boundaries", () => {
 
       await expect(page).toHaveTitle("Page not found | Vive Counselling");
       await expect(page.locator("h1")).toContainText(/This page does\s*not exist/);
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
       await expect(page.getByRole("link", { name: "Dev" })).toHaveCount(0);
     });
   }

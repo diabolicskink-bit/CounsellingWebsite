@@ -304,7 +304,7 @@ export default function DS_Components() {
           <section className="ds-section" id="footer">
             <div className="ds-section-heading">
               <span className="site-eyebrow">Footer</span>
-              <h2>The shared footer should close the page quietly.</h2>
+              <h2>The shared footer should close the page with a deeper green surface.</h2>
               <p>Keep it thin: brand, utility links, and one restrained detail line. It should feel finished, not promotional.</p>
             </div>
 

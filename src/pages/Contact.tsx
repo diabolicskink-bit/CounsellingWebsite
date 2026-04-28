@@ -6,9 +6,9 @@ import type { EnquiryFormContent } from "../components/EnquiryForm";
 import { enquiryEmail, enquiryFormContent } from "../data/enquiry";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { getActiveAustralianPerthBusinessHoursNotes, getPerthBusinessHoursPrimaryLabel } from "../utils/timeZones";
-import "../styles-enquire.css";
+import "../styles-contact.css";
 
-type EnquiryHeroTitle = {
+type ContactHeroTitle = {
   before: string;
   emphasis: string;
   after: string;
@@ -31,16 +31,16 @@ type ContactDetail = {
 };
 
 function getServiceTierClassName(tier: ServiceTier) {
-  return ["enquire-page__service-tier", tier.featured ? "enquire-page__service-tier--featured" : ""]
+  return ["contact-page__service-tier", tier.featured ? "contact-page__service-tier--featured" : ""]
     .filter(Boolean)
     .join(" ");
 }
 
-type EnquiryPageContent = {
+type ContactPageContent = {
   title: string;
   meta: string;
   hero: {
-    title: EnquiryHeroTitle;
+    title: ContactHeroTitle;
     support: string;
     detailsAriaLabel: string;
     details: string[];
@@ -59,8 +59,8 @@ type EnquiryPageContent = {
   };
 };
 
-const enquiryPageContent: EnquiryPageContent = {
-  title: "Enquire | Vive Counselling",
+const contactPageContent: ContactPageContent = {
+  title: "Contact and Fees | Vive Counselling",
   meta:
     "Fees, practical details, and direct contact for online counselling with Vive Counselling. Standard sessions are $120 for 50 minutes online, with a free optional phone consult.",
   hero: {
@@ -71,7 +71,7 @@ const enquiryPageContent: EnquiryPageContent = {
     },
     support:
       "Online counselling for adults across Australia. If you are considering a first session, you can enquire here about availability, fees, or arranging a time to begin.",
-    detailsAriaLabel: "Enquiry page details",
+    detailsAriaLabel: "Contact page details",
     details: [
       "Available across Australia",
       "No referral required",
@@ -116,13 +116,13 @@ const enquiryPageContent: EnquiryPageContent = {
   },
 };
 
-export default function Enquire() {
-  const { hero, serviceTiers, form, contact, contactDetails, practical } = enquiryPageContent;
+export default function Contact() {
+  const { hero, serviceTiers, form, contact, contactDetails, practical } = contactPageContent;
 
-  useDocumentMetadata(enquiryPageContent.title, enquiryPageContent.meta);
+  useDocumentMetadata(contactPageContent.title, contactPageContent.meta);
 
   return (
-    <main className="site-page enquire-page">
+    <main className="site-page contact-page">
       <section className="hero-section hero-bg--default">
         <Container>
           <div className="hero-top hero-top--supporting-media">
@@ -144,13 +144,13 @@ export default function Enquire() {
             </div>
 
             <aside className="site-fee-card" aria-label={hero.feeCardAriaLabel}>
-              <div className="enquire-page__service-tier-list">
+              <div className="contact-page__service-tier-list">
                 {serviceTiers.map((tier) => (
                   <article className={getServiceTierClassName(tier)} key={tier.label}>
-                    <span className="enquire-page__service-tier-label">{tier.label}</span>
-                    <strong className="enquire-page__service-tier-fee">{tier.fee}</strong>
-                    <span className="enquire-page__service-tier-detail">{tier.detail}</span>
-                    {tier.note ? <small className="enquire-page__service-tier-note">{tier.note}</small> : null}
+                    <span className="contact-page__service-tier-label">{tier.label}</span>
+                    <strong className="contact-page__service-tier-fee">{tier.fee}</strong>
+                    <span className="contact-page__service-tier-detail">{tier.detail}</span>
+                    {tier.note ? <small className="contact-page__service-tier-note">{tier.note}</small> : null}
                   </article>
                 ))}
               </div>
@@ -159,28 +159,28 @@ export default function Enquire() {
         </Container>
       </section>
 
-      <section className="site-grid enquire-page__desk-section">
-        <Container className="enquire-page__desk">
-          <aside className="enquire-page__rail">
-            <div className="enquire-page__rail-block">
+      <section className="site-grid contact-page__desk-section">
+        <Container className="contact-page__desk">
+          <aside className="contact-page__rail">
+            <div className="contact-page__rail-block">
               <span className="site-eyebrow">{contact.eyebrow}</span>
-              <div className="enquire-page__contact-list" role="list" aria-label={contact.listAriaLabel}>
+              <div className="contact-page__contact-list" role="list" aria-label={contact.listAriaLabel}>
                 {contactDetails.map(({ icon: Icon, label, value, href, notes }) => (
-                  <div className="enquire-page__contact-item" role="listitem" key={label}>
+                  <div className="contact-page__contact-item" role="listitem" key={label}>
                     <span className="icon-box">
                       <Icon size={20} />
                     </span>
-                    <div className="enquire-page__contact-copy">
+                    <div className="contact-page__contact-copy">
                       <strong>{label}</strong>
                       {href ? (
-                        <a className="enquire-page__contact-link" href={href}>
+                        <a className="contact-page__contact-link" href={href}>
                           {value}
                         </a>
                       ) : (
                         <span>{value}</span>
                       )}
                       {notes ? (
-                        <div className="enquire-page__contact-notes">
+                        <div className="contact-page__contact-notes">
                           {notes.map((note) => (
                             <small key={note}>{note}</small>
                           ))}
@@ -192,9 +192,9 @@ export default function Enquire() {
               </div>
             </div>
 
-            <div className="enquire-page__rail-block">
+            <div className="contact-page__rail-block">
               <span className="site-eyebrow">{practical.eyebrow}</span>
-              <div className="site-detail-stack enquire-page__notes-list">
+              <div className="site-detail-stack contact-page__notes-list">
                 {practical.notes.map((note) => (
                   <p key={note}>{note}</p>
                 ))}
@@ -202,7 +202,7 @@ export default function Enquire() {
             </div>
           </aside>
 
-          <EnquiryForm content={form} className="enquire-page__form" idPrefix="enquire" />
+          <EnquiryForm content={form} className="contact-page__form" idPrefix="contact" />
         </Container>
       </section>
     </main>

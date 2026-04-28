@@ -139,7 +139,7 @@ const layoutRules = [
     label: "Highlighted section",
     token: ".site-highlight",
     value: "40px block padding",
-    guidance: "Soft green alternate surface. Use between site-grid sections instead of local wrapper classes.",
+    guidance: "Quiet sage alternate surface. Use between site-grid sections instead of local wrapper classes.",
   },
   {
     label: "Split layout",
@@ -231,7 +231,7 @@ const foundationReferenceNames = [
   {
     name: "Section rhythm preview",
     pointsTo: "The stacked neutral and highlighted section preview in Spacing & layout.",
-    status: "Active .site-grid and .site-highlight example.",
+    status: "Active .site-grid and quieter .site-highlight example.",
   },
   {
     name: "Edge sample card",
@@ -498,7 +498,7 @@ export default function DS_Foundations() {
               <h2>Spacing, not decoration, creates the page rhythm.</h2>
               <p>
                 Major content should sit inside the shared container. Page sections alternate between neutral
-                <code> .site-grid</code> and highlighted <code>.site-highlight</code> surfaces.
+                <code> .site-grid</code> and quieter <code>.site-highlight</code> surfaces.
               </p>
             </div>
 
@@ -546,7 +546,7 @@ export default function DS_Foundations() {
                   <div className="site-split">
                     <div className="section-heading">
                       <span className="site-eyebrow">Highlighted section</span>
-                      <h3>Use site-highlight as the soft alternate surface.</h3>
+                      <h3>Use site-highlight as the quiet alternate surface.</h3>
                     </div>
                     <div className="site-content-stack">
                       <article className="site-card">

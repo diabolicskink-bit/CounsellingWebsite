@@ -237,7 +237,7 @@ const kinkPageContent: KinkPageContent = {
     resourcesLead: "You can also",
     resources: [
       { label: "read more about working with Joel", href: "/working-with-joel" },
-      { label: "check online counselling fees and session details", href: "/fees" },
+      { label: "check online counselling fees and session details", href: "/contact" },
       { label: "make an enquiry about counselling", href: "/contact" },
     ],
     note:
