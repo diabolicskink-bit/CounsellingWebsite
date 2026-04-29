@@ -5,6 +5,13 @@ import { expect, test } from "playwright/test";
 const routeMetadataData = JSON.parse(
   readFileSync(new URL("../src/data/routeMetadata.json", import.meta.url), "utf8"),
 ) as {
+  site: {
+    name: string;
+    defaultOrigin: string;
+    themeColor: string;
+    socialImage: string;
+    socialImageAlt: string;
+  };
   routes: Record<string, { title: string; description: string }>;
 };
 
@@ -19,6 +26,8 @@ const publicRoutes = [
 ] as const;
 
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
+const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
+const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
 
 function escapeHtml(value: string) {
   return value
@@ -26,6 +35,10 @@ function escapeHtml(value: string) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+function absoluteRouteUrl(route: string) {
+  return route === "/" ? `${siteOrigin}/` : `${siteOrigin}${route}`;
 }
 
 const aliasRedirects = [
@@ -85,12 +98,100 @@ test.describe("first response metadata", () => {
     test(`${route} includes route metadata before hydration`, async ({ request }) => {
       const response = await request.get(route);
       const html = await response.text();
+      const canonicalUrl = absoluteRouteUrl(route);
 
       expect(response.ok()).toBeTruthy();
       expect(html).toContain(`<title>${escapeHtml(metadata.title)}</title>`);
       expect(html).toContain(
         `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
       );
+      expect(html).toContain(`<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`);
+      expect(html).toContain(`<meta property="og:site_name" content="${escapeHtml(routeMetadataData.site.name)}" />`);
+      expect(html).toContain('<meta property="og:type" content="website" />');
+      expect(html).toContain(`<meta property="og:url" content="${escapeHtml(canonicalUrl)}" />`);
+      expect(html).toContain(`<meta property="og:title" content="${escapeHtml(metadata.title)}" />`);
+      expect(html).toContain(`<meta property="og:description" content="${escapeHtml(metadata.description)}" />`);
+      expect(html).toContain(`<meta property="og:image" content="${escapeHtml(socialImageUrl)}" />`);
+      expect(html).toContain('<meta property="og:image:width" content="1200" />');
+      expect(html).toContain('<meta property="og:image:height" content="630" />');
+      expect(html).toContain(
+        `<meta property="og:image:alt" content="${escapeHtml(routeMetadataData.site.socialImageAlt)}" />`,
+      );
+      expect(html).toContain('<meta name="twitter:card" content="summary_large_image" />');
+      expect(html).toContain(`<meta name="twitter:title" content="${escapeHtml(metadata.title)}" />`);
+      expect(html).toContain(`<meta name="twitter:description" content="${escapeHtml(metadata.description)}" />`);
+      expect(html).toContain(`<meta name="twitter:image" content="${escapeHtml(socialImageUrl)}" />`);
+      expect(html).toContain(
+        `<meta name="twitter:image:alt" content="${escapeHtml(routeMetadataData.site.socialImageAlt)}" />`,
+      );
+      expect(html).toContain('<link rel="icon" href="/favicon.svg" type="image/svg+xml" />');
+      expect(html).toContain('<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />');
+      expect(html).toContain('<link rel="apple-touch-icon" href="/apple-touch-icon.png" />');
+      expect(html).toContain('<link rel="manifest" href="/site.webmanifest" />');
+      expect(html).toContain(`<meta name="theme-color" content="${escapeHtml(routeMetadataData.site.themeColor)}" />`);
+    });
+  }
+});
+
+test.describe("crawl and app metadata assets", () => {
+  test("robots.txt allows crawling and points to the sitemap", async ({ request }) => {
+    const response = await request.get("/robots.txt");
+    const robots = await response.text();
+
+    expect(response.ok()).toBeTruthy();
+    expect(robots).toContain("User-agent: *");
+    expect(robots).toContain("Allow: /");
+    expect(robots).toContain(`Sitemap: ${siteOrigin}/sitemap.xml`);
+  });
+
+  test("sitemap.xml lists only canonical public routes", async ({ request }) => {
+    const response = await request.get("/sitemap.xml");
+    const sitemap = await response.text();
+
+    expect(response.ok()).toBeTruthy();
+
+    for (const route of Object.keys(routeMetadataData.routes)) {
+      expect(sitemap).toContain(`<loc>${absoluteRouteUrl(route)}</loc>`);
+    }
+
+    for (const route of [...aliasRedirects.map(({ from }) => from), ...retiredRoutes, ...devOnlyRoutes]) {
+      expect(sitemap).not.toContain(`<loc>${absoluteRouteUrl(route)}</loc>`);
+    }
+  });
+
+  test("site.webmanifest exposes the app identity and icons", async ({ request }) => {
+    const response = await request.get("/site.webmanifest");
+    const manifest = await response.json();
+
+    expect(response.ok()).toBeTruthy();
+    expect(manifest).toMatchObject({
+      name: "Vive Counselling",
+      short_name: "Vive",
+      start_url: "/",
+      display: "standalone",
+      background_color: "#f7f6f2",
+      theme_color: "#234b3d",
+    });
+    expect(manifest.icons).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ src: "/icon-192.png", sizes: "192x192", type: "image/png" }),
+        expect.objectContaining({ src: "/icon-512.png", sizes: "512x512", type: "image/png" }),
+      ]),
+    );
+  });
+
+  for (const assetPath of [
+    "/favicon.svg",
+    "/favicon-32x32.png",
+    "/apple-touch-icon.png",
+    "/icon-192.png",
+    "/icon-512.png",
+    "/og-vive-counselling.png",
+  ]) {
+    test(`${assetPath} is served`, async ({ request }) => {
+      const response = await request.get(assetPath);
+
+      expect(response.ok()).toBeTruthy();
     });
   }
 });

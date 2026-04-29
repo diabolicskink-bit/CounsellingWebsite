@@ -1,4 +1,12 @@
 {
+  "site": {
+    "name": "Vive Counselling",
+    "defaultOrigin": "http://127.0.0.1:4287",
+    "themeColor": "#234b3d",
+    "backgroundColor": "#f7f6f2",
+    "socialImage": "/og-vive-counselling.png",
+    "socialImageAlt": "Vive Counselling brand card with the text online counselling across Australia."
+  },
   "routes": {
     "/": {
       "title": "Vive Counselling | Online counselling across Australia",
