@@ -1,6 +1,6 @@
 # Shared Components And Patterns
 
-Prefer these shared building blocks before creating anything new.
+Start with these shared building blocks before creating anything new. Use them when they fit; create a new component or pattern when the design need is meaningfully different.
 
 ## React Components
 
@@ -24,7 +24,7 @@ Prefer these shared building blocks before creating anything new.
 - `.site-grid`
   Default public-page section surface. Use this for the first non-hero section and as the neutral step in the shared alternating page rhythm.
 - `.site-highlight`
-  Quieter sage public-page section surface. Use this between `site-grid` sections to keep body sections alternating without inventing page-specific wrappers.
+  Quieter sage public-page section surface. Use this between `site-grid` sections when the shared alternating rhythm fits; create a page-scoped wrapper when the section needs a genuinely different composition.
 - `.site-content-stack`
   Shared vertical stack for pairing a card grid, copy panel, principle list, or ruled note inside the content side of a split section.
 - `.site-topic-grid`
@@ -110,5 +110,7 @@ Use these pages as living examples of how shared patterns should look:
 If a new page needs a card, panel, hero, split section, principle block, or trust treatment that is close to an existing pattern, extend the shared pattern instead of creating a page-specific lookalike.
 
 Reuse should not flatten every page into the same card grid. Major public pages may have one memorable editorial move when it clarifies the subject and still uses the shared foundations.
+
+If the existing pattern is only a loose visual resemblance, do not force it. Build a page-scoped composition for a one-off need, or promote a new shared pattern when the need is repeated and clearly named.
 
 Thin ruled accents are part of the editorial language. Do not create new thick coloured side-stripe cards or callouts; if an existing component still uses that treatment, treat it as legacy-compatible rather than a pattern to expand.

@@ -13,13 +13,14 @@ It should support:
 - Written design-system documentation.
 - Cleanup and consolidation.
 - Future extension without visual drift.
+- New components and page-specific compositions when they serve the content better than existing patterns.
 
 It should prevent:
 
 - One-off page styling becoming accidental system.
 - Old demo classes leaking into production.
 - AI copying legacy examples into public pages.
-- Duplicate components or duplicate page patterns.
+- Unnecessary duplicate components or duplicate page patterns.
 - Undocumented reusable design elements.
 - Design-system pages becoming a separate visual language.
 
@@ -136,6 +137,8 @@ A design element becomes part of the active design system when:
 - It is not merely a one-off page class or legacy demo.
 
 Page-scoped implementations can be useful and production-safe without being design-system elements. They should only be promoted when they solve a repeated need.
+
+New design work is healthy when it is intentional. A new component or composition should have a clear role, use the existing token and type foundations, and avoid pretending to be reusable before it has proved that it is.
 
 ## Promotion Workflow
 

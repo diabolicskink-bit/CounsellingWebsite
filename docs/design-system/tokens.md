@@ -69,6 +69,6 @@ Type role variables are allowed to adjust at breakpoints. At the current compact
 
 - Use the shared `.container` width logic via the `Container` component.
 - Major sections should usually have generous block padding.
-- Use `.site-grid` for the neutral section surface and `.site-highlight` for the quieter alternating surface before creating page-scoped section wrappers.
+- Use `.site-grid` for the neutral section surface and `.site-highlight` for the quieter alternating surface when the shared section rhythm fits. Create page-scoped section wrappers when the content needs a genuinely different composition.
 - Card and panel spacing should stay consistent across pages.
 - Card grid gaps should stay in the restrained range already used across the site.

@@ -1,14 +1,16 @@
 # AI Rules For UI Changes
 
-Use this file as a strict checklist before changing visual code.
+Use this file as a decision guide before changing visual code. The goal is coherent, maintainable design, not reuse for its own sake.
 
 ## Always
 
 - Read `src/styles.css` before adding or changing shared visual styles.
 - Read `src/styles-dev.css` before adding or changing `ds-*` documentation-shell or dev-page styles.
 - Read `docs/design-system/cleanup-sweeps.md` when the request is about simplification, deduplication, cleanup, overrides, page-pattern convergence, or maintainability rather than new UI.
-- Reuse existing components in `src/components` before creating a new primitive.
-- Reuse documented shared classes before adding page-specific ones.
+- Check existing components in `src/components` before creating a new primitive.
+- Reuse existing components when they fit the content, interaction, accessibility, and responsive needs.
+- Reuse documented shared classes when they are a close fit.
+- Create or extend deliberately when reuse would make the page weaker, less clear, less accessible, or harder to maintain.
 - Treat `site-*` classes and the documented shared hero classes as the authoritative design-system API for production pages.
 - Treat `hero-*` as a separate shared hero design system for production pages, not as a minor variant of `site-*` and not as legacy scaffolding.
 - Treat `.hero-display` as the authoritative page-opening H1 pattern for production pages.
@@ -24,13 +26,30 @@ Use this file as a strict checklist before changing visual code.
 - Let major public pages have one memorable editorial move when it clarifies the page and fits the shared system.
 - Update these docs when adding a new reusable pattern or rule.
 
+## When To Create Something New
+
+Create a new component, shared pattern, or page-scoped composition when:
+
+- Existing components only match the surface appearance, not the real content structure or interaction.
+- Reuse would create awkward markup, fragile overrides, cramped responsive behaviour, or weaker accessibility.
+- The page needs a distinct editorial moment that clarifies the subject and still feels like Vive.
+- A repeated need is emerging and deserves a named, reusable pattern.
+- A simpler new component would be easier to maintain than bending a broad component with many exceptions.
+
+Keep new work disciplined:
+
+- Use existing tokens, type roles, spacing rhythm, border language, and accessibility expectations.
+- Keep page-specific ideas page-scoped until they prove reusable.
+- Promote repeated ideas into `site-*`, `hero-*`, or a shared React component.
+- Document new reusable patterns in the relevant markdown file and rendered design-system page.
+
 ## Class Prefix Rules
 
 - Use `site-*` for shared production components, panels, layout helpers, and public-page patterns.
 - Use `hero-*` for the shared public hero design system.
 - Treat `site-*` and `hero-*` as two separate authoritative shared production layers: one general, one hero-specific.
 - When a hero title only needs a different width, set `--hero-display-max-width` on the page scope before adding a page-specific title class.
-- Use page-scoped classes only to extend production pages after shared `site-*` / `hero-*` reuse has been exhausted.
+- Use page-scoped classes for composition-specific production needs when shared `site-*` / `hero-*` patterns are not a close fit.
 - Use `ds-*` only inside the design-system documentation experience and its support components such as doc layout, navigation, demo wrappers, and usage notes.
 - Use `design-language-*` only when maintaining legacy/reference examples in design-system pages.
 - Use `legacy-*` only for documentation-only legacy samples.
@@ -49,7 +68,7 @@ Use this file as a strict checklist before changing visual code.
 - Add loud gradients, glossy effects, glassmorphism, or decoration that has no content purpose.
 - Turn public pages into app-style dashboards, SaaS/product-launch templates, or pressure-heavy sales funnels.
 - Use strong shadows where subtle borders already provide separation.
-- Create one-off card, hero, or panel classes when a shared pattern is already close.
+- Create one-off card, hero, or panel classes solely to avoid a shared pattern that is already a close and honest fit.
 - Use `ds-*` classes on public pages.
 - Add new `ds-*` documentation-shell rules to `src/styles.css`; keep them in `src/styles-dev.css`.
 - Build a documentation page as if it has permission to invent a second visual system separate from the shared site system.
@@ -73,11 +92,12 @@ Use this file as a strict checklist before changing visual code.
 
 ## Preferred Implementation Order
 
-1. Reuse an existing React component.
-2. Reuse an existing shared `site-*` or `hero-*` class or pattern.
-3. Extend a shared production pattern in `src/styles.css`.
-4. Use a page-scoped class if the change is truly page-specific.
-5. Only then introduce a new reusable shared pattern and document it.
+1. Understand the content, interaction, responsive, and accessibility need.
+2. Reuse an existing React component when it fits.
+3. Reuse an existing shared `site-*` or `hero-*` class or pattern when it fits.
+4. Extend a shared production pattern in `src/styles.css` when the need is shared.
+5. Use a page-scoped class or composition when the need is truly page-specific.
+6. Introduce a new reusable shared pattern when the need is meaningfully new or repeated, then document it.
 
 For cleanup-only requests:
 
@@ -88,19 +108,20 @@ For cleanup-only requests:
 
 For design-system documentation pages:
 
-1. Reuse existing shared `site-*` / `hero-*` components and patterns for the showcased UI.
+1. Reuse existing shared `site-*` / `hero-*` components and patterns for the showcased UI when they fit the example.
 2. Use `ds-*` only for documentation shell/layout/supporting wrappers.
 3. If the documentation needs a new reusable visual pattern, promote it into the shared site system first.
 4. Put documentation-page-specific CSS in its own stylesheet when it does not belong in the shared production layer.
 
-## Questions To Resolve Before Inventing A New Pattern
+## Questions To Resolve Before Creating A New Pattern
 
 - Is there already a documented example in `src/pages/design-system`?
 - Is that example a production `site-*` / `hero-*` pattern, or only a `ds-*`, `design-language-*`, or `legacy-*` reference?
-- Can this be solved by composing `Container`, `SectionHeading`, `Button`, `Card`, or an existing site class?
+- Can this be solved cleanly by composing `Container`, `SectionHeading`, `Button`, `Card`, or an existing site class?
+- Would that composition make the content clearer, or would it force the design into the wrong shape?
 - Is this a real shared site need, or only documentation-shell scaffolding?
-- Is this truly reusable across at least two pages?
+- Is this truly reusable across at least two pages, or should it stay page-scoped for now?
 - Does it preserve the current tone of calm, grounded editorial trust?
 - Does it keep the brand authored, specific, and alive?
 
-If any answer suggests reuse, prefer reuse.
+Prefer reuse when it is a good fit. Prefer deliberate new design work when it gives the page a better structure, clearer meaning, or more maintainable implementation.

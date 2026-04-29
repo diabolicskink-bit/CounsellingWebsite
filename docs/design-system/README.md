@@ -1,6 +1,6 @@
 # Design System Documentation
 
-This directory documents the Vive Counselling design system: what exists, how it is organised, how to use it, and how to keep it from drifting.
+This directory documents the Vive Counselling design system: what exists, how it is organised, how to use it, when to extend it, and how to keep it from drifting.
 
 Start here when changing shared UI, rendered design-system pages, tokens, reusable patterns, or design-system documentation.
 
@@ -39,7 +39,7 @@ The route name is historical. Treat these as design-system pages.
 
 - `site-*` is the main shared production layer for sections, cards, panels, lists, forms, footer, FAQ, CTA, trust, contact, and general page structure.
 - `hero-*` is the shared production hero layer for page-opening sections, display headings, copy rails, hero support rows, media notes, and hero backgrounds.
-- Shared React components should be reused before creating new primitives.
+- Shared React components should be considered before creating new primitives, but new components are welcome when they produce a clearer, more accessible, more maintainable, or more content-specific result.
 - Existing non-prefixed shared classes such as `.container`, `.button`, `.card`, `.section-heading`, and `.rich-text` remain active where they back current shared components.
 
 ## Legacy, Demo, And Support Layers
@@ -57,3 +57,9 @@ The route name is historical. Treat these as design-system pages.
 If design-system work adds, removes, promotes, deprecates, or materially changes a token, component, pattern, rendered design-system page, or legacy layer, update `current-scope.md` in the same change.
 
 Tiny implementation changes that do not change design-system scope do not need a scope update.
+
+## Extension Rule
+
+Reuse is the default starting point, not a veto on new design work. When an existing component or pattern is only superficially similar, prefer a deliberate new page-scoped composition or a new reusable pattern over forcing content into the wrong shape.
+
+New reusable patterns should use existing tokens and visual principles, have a clear role, and be documented in the relevant markdown and rendered design-system page. New page-specific compositions may stay page-scoped until they prove useful in more than one place.
