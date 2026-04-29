@@ -31,11 +31,11 @@ function getSiteOrigin(siteMetadata) {
     return normalizeSiteOrigin(process.env.SITE_URL);
   }
 
-  if (process.env.VERCEL_ENV === "production") {
-    throw new Error("SITE_URL is required for Vercel production builds.");
-  }
-
   if (process.env.VERCEL_URL) {
+    if (process.env.VERCEL_ENV === "production") {
+      console.warn("TODO: Set SITE_URL to the canonical production domain. Using VERCEL_URL for this build.");
+    }
+
     return normalizeSiteOrigin(process.env.VERCEL_URL);
   }
 
