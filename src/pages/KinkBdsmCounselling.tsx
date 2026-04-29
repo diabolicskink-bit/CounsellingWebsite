@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Asterisk } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -23,15 +23,17 @@ type TextLink = {
   href: string;
 };
 
-type TopicCard = {
-  title: string;
-  copy: string;
-  items: string[];
-};
-
 type FaqItem = {
   question: string;
   answer: string;
+};
+
+type PanelItem = {
+  title?: string;
+  ariaLabel?: string;
+  variant?: "language-field";
+  listItems?: string[];
+  body?: string[];
 };
 
 type KinkPageContent = {
@@ -48,11 +50,8 @@ type KinkPageContent = {
     noteEyebrow: string;
     noteItems: string[];
   };
-  topicSection: {
-    eyebrow: string;
-    heading: string;
-    intro: string;
-    cards: TopicCard[];
+  panelSection: {
+    items: PanelItem[];
   };
   faqSection: {
     eyebrow: string;
@@ -97,36 +96,40 @@ const kinkPageContent: KinkPageContent = {
       "No need for the real issue to get lost.",
     ],
   },
-  topicSection: {
-    eyebrow: "What Often Goes Wrong",
-    heading: "Many kinky clients are looking for ordinary therapy in a room where kink will not be mishandled",
-    intro:
-      "For many kinky clients, this is not hypothetical. They come in after experiences of therapists getting stuck on kink, misreading it, confusing it with harm, or turning it into the explanation for everything else.",
-    cards: [
+  panelSection: {
+    items: [
       {
-        title: "Self-censoring in therapy",
-        copy:
-          "You may find yourself editing out partners, scenes, sexual history, marks, fears, or desires because it feels risky to let a therapist see the full picture.",
-        items: ["Holding back relevant context", "Trying not to be misread"],
+        title: "No translation needed.",
+        body: [
+          "This world is known here. Not read about. Lived in. The dynamics, the language, the things that do not survive translation to people outside it: none of it needs a preamble.",
+          "You won't be anyone's education. You won't spend the first session building context. However long you've been carrying this alone, it can come into the room as it is.",
+        ],
       },
       {
-        title: "Being treated as pathology",
-        copy:
-          "Many kinky clients worry that kink will be treated as evidence of trauma, instability, danger, or damage before the real conversation has even started.",
-        items: ["Not being reduced to a stereotype", "No automatic assumption of harm"],
+        title: "All of it belongs.",
+        ariaLabel: "Kink and BDSM language",
+        variant: "language-field",
+        listItems: [
+          "D/s",
+          "Bondage",
+          "Rope",
+          "Impact",
+          "Sensation",
+          "Masochism",
+          "Sadism",
+          "Fetish",
+          "Primal",
+          "Pet play",
+          "Service",
+          "Humiliation",
+          "Degradation",
+          "CNC",
+          "Objectification",
+          "Aftercare",
+        ],
       },
-      {
-        title: "Having to educate the therapist",
-        copy:
-          "Sometimes people come in already expecting they will have to explain basic kink concepts, correct assumptions, or manage another person's discomfort before anything useful can happen.",
-        items: ["Too much energy spent orienting the room", "Not enough space for the real work"],
-      },
-      {
-        title: "The real issue getting lost",
-        copy:
-          "You may be seeking therapy for anxiety, depression, burnout, grief, conflict, shame, attachment, loneliness, or self-worth, and still need the therapist not to get kink wrong.",
-        items: ["The actual problem stays central", "Kink can be context instead of the topic"],
-      },
+      { title: "Carried alone." },
+      { title: "And everything else." },
     ],
   },
   faqSection: {
@@ -160,7 +163,7 @@ const kinkPageContent: KinkPageContent = {
 
 export default function KinkBdsmCounselling() {
   useDocumentMetadata(kinkPageContent.title, kinkPageContent.meta);
-  const { hero, topicSection, faqSection } = kinkPageContent;
+  const { hero, panelSection, faqSection } = kinkPageContent;
 
   return (
     <main className="site-page kink-page">
@@ -214,27 +217,42 @@ export default function KinkBdsmCounselling() {
         </Container>
       </section>
 
-      <section className="site-grid kink-page__topics">
+      <section className="site-grid kink-page__panel-section" aria-label="Kink-aware counselling themes">
         <Container>
-          <div className="site-grid__heading kink-page__topics-heading">
-            <span className="site-eyebrow">{topicSection.eyebrow}</span>
-            <h2>{topicSection.heading}</h2>
-            <p>{topicSection.intro}</p>
-          </div>
-
-          <div className="site-card-grid">
-            {topicSection.cards.map((card) => (
-              <article className="site-card" key={card.title}>
-                <h3>{card.title}</h3>
-                <p>{card.copy}</p>
-                <ul className="site-card__list">
-                  {card.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </article>
+          <ul className="kink-page__panel-grid">
+            {panelSection.items.map((item) => (
+              <li
+                className={[
+                  "kink-page__panel",
+                  item.body ? "kink-page__panel--with-copy" : "",
+                  item.variant === "language-field" ? "kink-page__panel--language-field" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                key={item.title ?? item.ariaLabel}
+                aria-label={item.ariaLabel}
+              >
+                {item.title ? <h2 className="kink-page__panel-title">{item.title}</h2> : null}
+                {item.variant === "language-field" ? (
+                  <ul className="kink-page__language-field" aria-hidden="true">
+                    {item.listItems?.map((label) => (
+                      <li key={label}>
+                        <Asterisk className="kink-page__language-icon" size={15} strokeWidth={2.4} />
+                        <span>{label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                {item.body ? (
+                  <div className="kink-page__panel-body">
+                    {item.body.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                ) : null}
+              </li>
             ))}
-          </div>
+          </ul>
         </Container>
       </section>
 
