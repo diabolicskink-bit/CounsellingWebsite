@@ -22,6 +22,8 @@ Primary tokens live in `src/styles.css`.
 - `--accent-deep`: deepest accent for limited emphasis
 - `--accent-soft`: alternate light green wash
 
+`--surface` and `--cedar-soft` currently share the same value. Keep the role distinction clear: `--surface` is for section and structural surfaces, while `--cedar-soft` is for subtle cedar-related emphasis such as tertiary buttons, inline code, and selected choices.
+
 ## Layout Tokens
 
 - `--max`: `1180px` content width
@@ -60,7 +62,7 @@ Primary tokens live in `src/styles.css`.
 | `--type-hero-detail` | Open hero detail stack items. |
 | `--type-fee-display` | Large numeric/fee display. |
 
-Type role variables are allowed to adjust at breakpoints. Avoid adding viewport-scaled font sizes to new shared production rules.
+Type role variables are allowed to adjust at breakpoints. At the current compact breakpoint, `--type-display`, `--type-page-title`, `--type-section`, `--type-section-compact`, and `--type-hero-detail` compress. Avoid adding viewport-scaled font sizes to new shared production rules, and do not copy desktop display sizes into mobile-specific page styles.
 
 ## Spacing Rules
 
@@ -69,4 +71,3 @@ Type role variables are allowed to adjust at breakpoints. Avoid adding viewport-
 - Use `.site-grid` for the neutral section surface and `.site-highlight` for the quieter alternating surface before creating page-scoped section wrappers.
 - Card and panel spacing should stay consistent across pages.
 - Card grid gaps should stay in the restrained range already used across the site.
-

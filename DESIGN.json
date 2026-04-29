@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-29T13:06:48.5811787+08:00",
+  "title": "Design System: Vive Counselling",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Cedar Green",
+        "canonical": "#234b3d",
+        "tonalRamp": ["oklch(18% 0.035 165)", "oklch(28% 0.045 165)", "oklch(38% 0.05 165)", "oklch(48% 0.05 165)", "oklch(58% 0.045 165)", "oklch(70% 0.035 165)", "oklch(84% 0.025 165)", "oklch(94% 0.014 165)"]
+      },
+      "primary-deep": {
+        "role": "primary",
+        "displayName": "Deep Cedar",
+        "canonical": "#1d4034",
+        "tonalRamp": ["oklch(16% 0.032 165)", "oklch(24% 0.04 165)", "oklch(33% 0.044 165)", "oklch(43% 0.044 165)", "oklch(55% 0.038 165)", "oklch(69% 0.03 165)", "oklch(83% 0.022 165)", "oklch(94% 0.012 165)"]
+      },
+      "accent": {
+        "role": "secondary",
+        "displayName": "Ground Green",
+        "canonical": "#2d5946",
+        "tonalRamp": ["oklch(18% 0.04 160)", "oklch(29% 0.05 160)", "oklch(40% 0.055 160)", "oklch(51% 0.055 160)", "oklch(62% 0.048 160)", "oklch(73% 0.038 160)", "oklch(86% 0.026 160)", "oklch(95% 0.014 160)"]
+      },
+      "accent-deep": {
+        "role": "secondary",
+        "displayName": "Deep Ground",
+        "canonical": "#173028",
+        "tonalRamp": ["oklch(14% 0.03 160)", "oklch(22% 0.038 160)", "oklch(31% 0.044 160)", "oklch(42% 0.045 160)", "oklch(55% 0.038 160)", "oklch(70% 0.03 160)", "oklch(84% 0.022 160)", "oklch(94% 0.012 160)"]
+      },
+      "accent-soft": {
+        "role": "secondary",
+        "displayName": "Pale Green",
+        "canonical": "#eaf2eb",
+        "tonalRamp": ["oklch(18% 0.018 155)", "oklch(30% 0.022 155)", "oklch(43% 0.024 155)", "oklch(57% 0.024 155)", "oklch(70% 0.022 155)", "oklch(82% 0.018 155)", "oklch(91% 0.014 155)", "oklch(96% 0.01 155)"]
+      },
+      "cedar-soft": {
+        "role": "neutral",
+        "displayName": "Cedar Soft",
+        "canonical": "#eef2ec",
+        "tonalRamp": ["oklch(18% 0.012 150)", "oklch(31% 0.016 150)", "oklch(45% 0.018 150)", "oklch(59% 0.018 150)", "oklch(72% 0.016 150)", "oklch(84% 0.014 150)", "oklch(92% 0.011 150)", "oklch(96% 0.008 150)"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "#f7f6f2",
+        "tonalRamp": ["oklch(18% 0.008 95)", "oklch(31% 0.01 95)", "oklch(45% 0.011 95)", "oklch(60% 0.011 95)", "oklch(74% 0.01 95)", "oklch(86% 0.008 95)", "oklch(93% 0.006 95)", "oklch(97% 0.004 95)"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Sage Wash",
+        "canonical": "#eef2ec",
+        "tonalRamp": ["oklch(18% 0.012 150)", "oklch(31% 0.016 150)", "oklch(45% 0.018 150)", "oklch(59% 0.018 150)", "oklch(72% 0.016 150)", "oklch(84% 0.014 150)", "oklch(92% 0.011 150)", "oklch(96% 0.008 150)"]
+      },
+      "surface-strong": {
+        "role": "neutral",
+        "displayName": "Clean Paper",
+        "canonical": "#fcfcfa",
+        "tonalRamp": ["oklch(18% 0.004 95)", "oklch(32% 0.005 95)", "oklch(46% 0.006 95)", "oklch(61% 0.006 95)", "oklch(75% 0.005 95)", "oklch(88% 0.004 95)", "oklch(95% 0.003 95)", "oklch(98% 0.002 95)"]
+      },
+      "surface-muted": {
+        "role": "neutral",
+        "displayName": "Pale Wash",
+        "canonical": "#f4f6f2",
+        "tonalRamp": ["oklch(18% 0.008 130)", "oklch(31% 0.01 130)", "oklch(45% 0.012 130)", "oklch(60% 0.012 130)", "oklch(74% 0.01 130)", "oklch(86% 0.008 130)", "oklch(93% 0.006 130)", "oklch(97% 0.004 130)"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Green Black",
+        "canonical": "#1f231f",
+        "tonalRamp": ["oklch(14% 0.008 145)", "oklch(22% 0.01 145)", "oklch(32% 0.012 145)", "oklch(43% 0.012 145)", "oklch(56% 0.01 145)", "oklch(70% 0.008 145)", "oklch(84% 0.006 145)", "oklch(94% 0.004 145)"]
+      },
+      "body": {
+        "role": "neutral",
+        "displayName": "Reading Green Grey",
+        "canonical": "#3f493f",
+        "tonalRamp": ["oklch(16% 0.01 145)", "oklch(25% 0.012 145)", "oklch(35% 0.014 145)", "oklch(46% 0.014 145)", "oklch(58% 0.012 145)", "oklch(72% 0.01 145)", "oklch(86% 0.007 145)", "oklch(95% 0.004 145)"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Leaf",
+        "canonical": "#505a51",
+        "tonalRamp": ["oklch(18% 0.01 145)", "oklch(28% 0.012 145)", "oklch(39% 0.014 145)", "oklch(50% 0.014 145)", "oklch(62% 0.012 145)", "oklch(75% 0.01 145)", "oklch(88% 0.007 145)", "oklch(96% 0.004 145)"]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint Olive",
+        "canonical": "#687268",
+        "tonalRamp": ["oklch(20% 0.008 145)", "oklch(31% 0.01 145)", "oklch(43% 0.012 145)", "oklch(55% 0.012 145)", "oklch(67% 0.01 145)", "oklch(79% 0.008 145)", "oklch(90% 0.006 145)", "oklch(96% 0.004 145)"]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Soft Boundary",
+        "canonical": "#ccd4ca",
+        "tonalRamp": ["oklch(18% 0.008 145)", "oklch(31% 0.01 145)", "oklch(44% 0.012 145)", "oklch(58% 0.012 145)", "oklch(71% 0.01 145)", "oklch(82% 0.008 145)", "oklch(90% 0.006 145)", "oklch(95% 0.004 145)"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero statements and page-opening emotional register only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Major section statements and closing calls to action."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Cards, grouped ideas, linked detail titles, and nested headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Readable practical copy, form content, and explanatory paragraphs."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Short eyebrows, captions, metadata, and low-priority form support."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-low",
+        "value": "0 8px 22px rgba(31, 35, 31, 0.055)",
+        "purpose": "Shared restrained shadow for panels, menus, forms, and fee cards."
+      },
+      {
+        "name": "card-lift",
+        "value": "0 14px 30px rgba(31, 35, 31, 0.045)",
+        "purpose": "Light separation for reusable cards and copy panels."
+      },
+      {
+        "name": "hover-lift",
+        "value": "0 18px 36px rgba(31, 35, 31, 0.075)",
+        "purpose": "Hover-only lift for interactive cards."
+      },
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 3px rgba(35, 75, 61, 0.12)",
+        "purpose": "Keyboard and input focus treatment."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-fast",
+        "value": "160ms ease",
+        "purpose": "Button, navigation, and simple state changes."
+      },
+      {
+        "name": "card-hover",
+        "value": "180ms ease",
+        "purpose": "Interactive card transform, border, and shadow changes."
+      },
+      {
+        "name": "faq-ease",
+        "value": "230ms cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "FAQ grid-row expansion and answer reveal."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "640px"
+      },
+      {
+        "name": "type-compress",
+        "value": "900px"
+      },
+      {
+        "name": "wide-topic-adjust",
+        "value": "1080px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Cedar action button for the main enquiry or next step.",
+      "html": "<button class='ds-btn-primary'>Make an enquiry</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid var(--cedar, #234b3d); border-radius: var(--radius, 8px); padding: 0.78rem 1.08rem; background: var(--cedar, #234b3d); color: var(--surface-strong, #fcfcfa); box-shadow: 0 8px 18px rgba(35, 75, 61, 0.14); font: inherit; font-weight: 650; line-height: 1.2; cursor: pointer; transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease; } .ds-btn-primary:hover { background: var(--cedar-dark, #1d4034); border-color: var(--cedar-dark, #1d4034); transform: translateY(-1px); } .ds-btn-primary:focus-visible { outline: 2px solid rgba(35, 75, 61, 0.45); outline-offset: 4px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Quiet framed action for secondary paths.",
+      "html": "<button class='ds-btn-secondary'>Read more</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid var(--line, #ccd4ca); border-radius: var(--radius, 8px); padding: 0.78rem 1.08rem; background: var(--surface-strong, #fcfcfa); color: var(--ink, #1f231f); font: inherit; font-weight: 650; line-height: 1.2; cursor: pointer; transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease; } .ds-btn-secondary:hover { background: var(--paper, #f7f6f2); transform: translateY(-1px); } .ds-btn-secondary:focus-visible { outline: 2px solid rgba(35, 75, 61, 0.45); outline-offset: 4px; }"
+    },
+    {
+      "name": "Tertiary Button",
+      "kind": "button",
+      "refersTo": "button-tertiary",
+      "description": "Soft cedar action for low-pressure navigation.",
+      "html": "<button class='ds-btn-tertiary'>Inclusive counselling</button>",
+      "css": ".ds-btn-tertiary { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid var(--line, #ccd4ca); border-radius: var(--radius, 8px); padding: 0.78rem 1.08rem; background: var(--cedar-soft, #eef2ec); color: var(--cedar, #234b3d); font: inherit; font-weight: 650; line-height: 1.2; cursor: pointer; transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease; } .ds-btn-tertiary:hover { background: var(--surface, #eef2ec); transform: translateY(-1px); } .ds-btn-tertiary:focus-visible { outline: 2px solid rgba(35, 75, 61, 0.45); outline-offset: 4px; }"
+    },
+    {
+      "name": "Site Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Primary card shell for service themes and grouped practical content.",
+      "html": "<article class='ds-site-card'><h3>Shame and self-worth</h3><p>Harsh self-judgement, a persistent sense of not being enough, or something hard to say plainly.</p></article>",
+      "css": ".ds-site-card { display: grid; gap: 18px; padding: 28px; border: 1px solid var(--line, #ccd4ca); border-radius: 10px; background: var(--surface-strong, #fcfcfa); box-shadow: 0 14px 30px rgba(31, 35, 31, 0.045); transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease; } .ds-site-card:hover { transform: translateY(-4px); border-color: var(--cedar, #234b3d); box-shadow: 0 18px 36px rgba(31, 35, 31, 0.075); } .ds-site-card h3 { margin: 0; color: var(--ink, #1f231f); font-family: Georgia, Times New Roman, serif; font-size: 1.45rem; font-weight: 500; line-height: 1.18; } .ds-site-card p { margin: 0; color: var(--muted, #505a51); font-size: 1.02rem; line-height: 1.58; }"
+    },
+    {
+      "name": "Form Field",
+      "kind": "input",
+      "refersTo": "form-field",
+      "description": "Clean enquiry-form field with cedar focus state.",
+      "html": "<label class='ds-form-row'>Name<input placeholder='Your name' /></label>",
+      "css": ".ds-form-row { display: grid; gap: 8px; color: var(--ink, #1f231f); font-weight: 700; } .ds-form-row input { width: 100%; min-height: 50px; border: 1px solid var(--line, #ccd4ca); border-radius: var(--radius, 8px); background: var(--surface-strong, #fcfcfa); color: var(--ink, #1f231f); padding: 13px 14px; font: inherit; outline: none; transition: border-color 160ms ease, box-shadow 160ms ease; } .ds-form-row input:focus { border-color: var(--cedar, #234b3d); box-shadow: 0 0 0 3px rgba(35, 75, 61, 0.12); }"
+    },
+    {
+      "name": "Radio Choice",
+      "kind": "input",
+      "refersTo": "form-field",
+      "description": "Progressive enquiry choice with clear selected and focus states.",
+      "html": "<label class='ds-choice'><input type='radio' name='choice' checked />Booking enquiry</label>",
+      "css": ".ds-choice { display: flex; align-items: flex-start; gap: 10px; min-height: 50px; border: 1px solid var(--cedar, #234b3d); border-radius: var(--radius, 8px); background: var(--cedar-soft, #eef2ec); padding: 13px 14px; color: var(--ink, #1f231f); font: inherit; font-weight: 650; line-height: 1.35; cursor: pointer; transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease; } .ds-choice input { margin: 0.2em 0 0; accent-color: var(--cedar, #234b3d); } .ds-choice:focus-within { border-color: var(--cedar, #234b3d); box-shadow: 0 0 0 3px rgba(35, 75, 61, 0.12); }"
+    },
+    {
+      "name": "FAQ Item",
+      "kind": "custom",
+      "refersTo": "faq-item",
+      "description": "Calm accordion item with rounded paper surface and cedar icon.",
+      "html": "<article class='ds-faq-item'><button class='ds-faq-question'><span>Do I need to explain everything perfectly?</span><span class='ds-faq-icon'>+</span></button><p>A first enquiry can be brief. The work can begin from there.</p></article>",
+      "css": ".ds-faq-item { overflow: hidden; border: 1px solid rgba(204, 212, 202, 0.92); border-radius: 16px; background: linear-gradient(180deg, rgba(252, 252, 249, 0.96), rgba(247, 246, 242, 0.98)); transition: border-color 220ms cubic-bezier(0.2, 0.8, 0.2, 1), background 220ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1); } .ds-faq-question { display: grid; grid-template-columns: minmax(0, 1fr) 36px; gap: 16px; align-items: center; width: 100%; padding: 14px 22px 14px 26px; border: 0; background: transparent; color: var(--ink, #1f231f); text-align: left; cursor: pointer; font-family: Georgia, Times New Roman, serif; font-size: 1.34rem; line-height: 1.18; } .ds-faq-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid rgba(35, 75, 61, 0.16); border-radius: 999px; background: rgba(35, 75, 61, 0.04); color: var(--cedar, #234b3d); } .ds-faq-item p { margin: 0; padding: 0 26px 24px; color: var(--body, #3f493f); font-size: 1.02rem; line-height: 1.66; } .ds-faq-question:focus-visible { outline: 2px solid rgba(35, 75, 61, 0.45); outline-offset: 4px; border-radius: 12px; }"
+    },
+    {
+      "name": "Hero Copy Panel",
+      "kind": "custom",
+      "refersTo": "hero-copy-panel",
+      "description": "Ruled copy rail for page-opening hero support.",
+      "html": "<div class='ds-hero-copy-panel'><p>Online counselling for adults across Australia. Direct, thoughtful, and non-shaming.</p></div>",
+      "css": ".ds-hero-copy-panel { display: grid; margin: 0; padding-left: 22px; border-left: 2px solid var(--cedar, #234b3d); color: var(--body, #3f493f); font-size: 1.08rem; line-height: 1.72; } .ds-hero-copy-panel p { margin: 0; color: var(--body, #3f493f); }"
+    },
+    {
+      "name": "Trust List",
+      "kind": "custom",
+      "refersTo": "trust-list",
+      "description": "Short factual reassurance strip with dot separators.",
+      "html": "<ul class='ds-trust-list'><li>Online across Australia</li><li>For adults</li><li>Grounded and non-shaming</li></ul>",
+      "css": ".ds-trust-list { display: flex; flex-wrap: wrap; gap: 8px 0; max-width: 830px; margin: 0; padding: 0; color: #3f4a40; font-size: 1.02rem; font-weight: 660; line-height: 1.35; list-style: none; } .ds-trust-list li { display: inline-flex; align-items: center; } .ds-trust-list li:not(:last-child)::after { width: 4px; height: 4px; margin-inline: 12px; border-radius: 50%; background: rgba(35, 75, 61, 0.56); content: ''; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "A Serious Way In",
+    "overview": "Vive should feel like a clear way into difficult material: direct, human, a little unexpected, and not embarrassed by its own point of view. The system is grounded on purpose: paper backgrounds, sage surfaces, cedar action colour, serif headings, practical body copy, visible borders, and modest depth. It should not ingratiate, over-soothe, or decorate around the work. It can still be bold, memorable, and quietly playful.\n\nThe site should carry the plain-spoken trust of Beyond Blue without copying its institutional tone. It must feel human, literate, specific, and adult, with enough bite to avoid therapy-directory sameness. The product context is explicit: Make the room feel competent before it feels comforting. Visual decisions should do the same.\n\nThis system rejects AI wellness copy, vague safe space language, pastel counselling cliches, glossy startup therapy branding, floating positivity, solemn blandness, and any treatment that makes hard material look pre-solved.",
+    "keyCharacteristics": [
+      "Restrained paper-and-sage foundation with cedar used for action, emphasis, and controlled moments of bite.",
+      "Serif-led editorial hierarchy with practical sans-serif body copy.",
+      "Borders, spacing, and tonal shifts provide structure before shadow.",
+      "Components feel calm, direct, and functional, but major public pages can still have one memorable editorial move.",
+      "Inclusion is treated as ordinary competence, not badge language."
+    ],
+    "rules": [
+      {
+        "name": "The Cedar Rarity Rule",
+        "body": "Cedar is not a background system. Use it for actions, focus, links, active states, ruled emphasis, and small proof points.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Wellness Pastel Rule",
+        "body": "Sage can be soft, but it must stay grounded by ink, borders, and serious typography.",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper First Rule",
+        "body": "Most of the page should remain paper or near-paper. Let the writing and hierarchy do the work.",
+        "section": "colors"
+      },
+      {
+        "name": "The Controlled Rupture Rule",
+        "body": "A major page can break the quiet with one deliberate move: scale, asymmetry, a sharper support panel, or a stronger cedar moment. Never use rupture as decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Strong H1 Rule",
+        "body": "One page-opening H1 sets the emotional register. Do not stack competing hero statements.",
+        "section": "typography"
+      },
+      {
+        "name": "The Practical Body Rule",
+        "body": "Body copy is not where the brand performs. It should read cleanly, say the thing, and get out of the way.",
+        "section": "typography"
+      },
+      {
+        "name": "The Line Break Rule",
+        "body": "Hero and section line breaks can carry attitude. Use them deliberately instead of centering every message into a safe block.",
+        "section": "typography"
+      },
+      {
+        "name": "The Responsive Type Rule",
+        "body": "Type role variables compress at the 900px breakpoint. Never copy desktop display sizes into mobile-specific rules.",
+        "section": "typography"
+      },
+      {
+        "name": "The Border Before Shadow Rule",
+        "body": "Use borders and tonal layering first. Strong shadows make this site feel like a SaaS dashboard.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No Gloss Rule",
+        "body": "No glass, no blur, no shiny stacked cards, no decorative glow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do reuse the shared `site-*` and `hero-*` systems before creating page-specific styling.",
+      "Do keep pages grounded in Warm Paper, Sage Wash, Clean Paper, Green Black, and Cedar Green.",
+      "Do use borders, ruled paragraphs, split layouts, and spacing to create hierarchy.",
+      "Do keep ruled accents thin and editorial unless a legacy component already owns a thicker treatment.",
+      "Do give major public pages one memorable editorial move when the subject calls for it.",
+      "Do use controlled asymmetry, strong line breaks, and sharp supporting details to keep the site authored.",
+      "Do make practical details easy to scan: fees, format, availability, contact expectations, and limits.",
+      "Do write visual examples and copy with the PRODUCT.md line in mind: Make the room feel competent before it feels comforting.",
+      "Do preserve semantic HTML, visible focus states, keyboard-friendly controls, reduced-motion care, and readable contrast.",
+      "Do treat WCAG AA as the working accessibility floor."
+    ],
+    "donts": [
+      "Don't use AI wellness copy, vague safe space language, waffly therapy generalities, pastel counselling cliches, inspirational fluff, clinical coldness, glossy startup therapy branding, over-explaining, euphemism, or copy that sounds generated.",
+      "Don't make inclusion feel like badge language. Kink, ENM, polyamory, and LGBTQIA+ competence should read as ordinary practice knowledge.",
+      "Don't add floating blobs, soft-focus positivity, generic stock calm, glassmorphism, loud gradients, or glossy effects.",
+      "Don't turn public pages into app-style dashboards, SaaS/product-launch templates, or pressure-heavy sales funnels.",
+      "Don't introduce ad hoc colours when an existing token already fits.",
+      "Don't use `ds-*`, `design-language-*`, `legacy-*`, `test-bed-*`, `opus-*`, or `inc-lab-*` classes on production pages.",
+      "Don't add page-specific cards, heroes, panels, or CTA styles when a shared pattern is already close.",
+      "Don't confuse seriousness with blandness, institutional caution, or therapy-directory sameness.",
+      "Don't add new 4px coloured side stripes to cards, panels, callouts, or alerts. Use thin rules, full borders, background shifts, or typographic emphasis instead."
+    ]
+  }
+}

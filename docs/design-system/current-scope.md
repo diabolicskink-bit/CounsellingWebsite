@@ -36,6 +36,8 @@ This is the live inventory of the design system. Keep it factual and update it w
 - Written token guidance exists in `docs/design-system/tokens.md`.
 - Written component and pattern guidance exists in `docs/design-system/components.md`.
 - AI editing rules exist in `docs/design-system/ai-rules.md`.
+- Root strategic context exists in `PRODUCT.md` for agent-facing product, register, audience, voice, anti-reference, design-principle, and accessibility guidance.
+- Root visual context exists in `DESIGN.md` and `DESIGN.json` for Stitch-compatible tokens, design-system narrative, component snippets, and agent-facing visual rules extracted from the current site.
 - Cleanup sweep guidance exists in `docs/design-system/cleanup-sweeps.md`.
 - Type-scale direction exists in `docs/design-system/type-scale-plan.md`, and the first type-role implementation slice is documented as complete.
 - Architecture documentation exists in `docs/design-system/architecture.md`.

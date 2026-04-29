@@ -19,6 +19,9 @@ Use this file as a strict checklist before changing visual code.
 - Keep headings serif-led and body copy practical.
 - Use spacing, borders, and layout rhythm as the primary visual tools.
 - Preserve calm, readable forms and trust-building information hierarchy.
+- Treat WCAG AA as the working accessibility floor for new or changed public UI.
+- Preserve controlled boldness and human specificity. Calm must not collapse into bland, generic, or therapy-directory safe.
+- Let major public pages have one memorable editorial move when it clarifies the page and fits the shared system.
 - Update these docs when adding a new reusable pattern or rule.
 
 ## Class Prefix Rules
@@ -43,8 +46,8 @@ Use this file as a strict checklist before changing visual code.
 ## Never
 
 - Introduce ad hoc colours when an existing token already fits.
-- Add loud gradients, glossy effects, glassmorphism, or highly decorative UI.
-- Turn public pages into app-style dashboards or marketing landing pages.
+- Add loud gradients, glossy effects, glassmorphism, or decoration that has no content purpose.
+- Turn public pages into app-style dashboards, SaaS/product-launch templates, or pressure-heavy sales funnels.
 - Use strong shadows where subtle borders already provide separation.
 - Create one-off card, hero, or panel classes when a shared pattern is already close.
 - Use `ds-*` classes on public pages.
@@ -55,6 +58,9 @@ Use this file as a strict checklist before changing visual code.
 - Treat `site-hero-*` as legacy/demo scaffolding when the shared `hero-*` system already fits the job.
 - Add multiple competing CTA styles in the same section.
 - Replace calm editorial hierarchy with dense microcopy or cramped layouts.
+- Flatten distinctive page moments into interchangeable card grids just because reuse is easier.
+- Treat seriousness as permission to make the page dull.
+- Add new 4px coloured side stripes to cards, panels, callouts, or alerts. Use thin editorial rules, full borders, background shifts, or type emphasis instead.
 
 ## When Working Near Legacy Design-System Code
 
@@ -95,5 +101,6 @@ For design-system documentation pages:
 - Is this a real shared site need, or only documentation-shell scaffolding?
 - Is this truly reusable across at least two pages?
 - Does it preserve the current tone of calm, grounded editorial trust?
+- Does it keep the brand authored, specific, and alive?
 
 If any answer suggests reuse, prefer reuse.

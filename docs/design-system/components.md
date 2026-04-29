@@ -108,3 +108,7 @@ Use these pages as living examples of how shared patterns should look:
 ## Reuse Rule
 
 If a new page needs a card, panel, hero, split section, principle block, or trust treatment that is close to an existing pattern, extend the shared pattern instead of creating a page-specific lookalike.
+
+Reuse should not flatten every page into the same card grid. Major public pages may have one memorable editorial move when it clarifies the subject and still uses the shared foundations.
+
+Thin ruled accents are part of the editorial language. Do not create new thick coloured side-stripe cards or callouts; if an existing component still uses that treatment, treat it as legacy-compatible rather than a pattern to expand.
