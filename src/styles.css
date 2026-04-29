@@ -3529,7 +3529,7 @@ p {
   position: relative;
   isolation: isolate;
   width: 100%;
-  padding: 40px 0 0;
+  padding: 40px 0;
   border-bottom: 1px solid rgba(25, 54, 39, 0.14);
 }
 
@@ -3545,7 +3545,7 @@ p {
   grid-template-columns: 1fr minmax(240px, 310px);
   gap: 72px;
   align-items: center;
-  padding-bottom: 40px;
+  padding-bottom: 0;
 }
 
 /* â”€â”€ Display heading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */

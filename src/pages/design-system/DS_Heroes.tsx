@@ -44,7 +44,7 @@ const anatomyRows = [
   {
     zone: "Wrapper",
     className: ".hero-section",
-    desc: "Full-width page-opening section with the shared 40px top rhythm and a bottom divider.",
+    desc: "Full-width page-opening section with the shared 40px top and bottom rhythm plus a bottom divider.",
   },
   {
     zone: "Background",
@@ -261,9 +261,9 @@ export default function DS_Heroes() {
                 <tr>
                   <td>shared rhythm</td>
                   <td>
-                    <code>.hero-section 40px top / .hero-top 40px bottom</code>
+                    <code>.hero-section 40px top and bottom</code>
                   </td>
-                  <td>Sets the default opening field rhythm. Page-specific heroes can tighten or loosen it when the composition needs a stronger editorial lockup.</td>
+                  <td>Sets the default opening field rhythm from the hero content to the hero boundary.</td>
                 </tr>
               </tbody>
             </table>

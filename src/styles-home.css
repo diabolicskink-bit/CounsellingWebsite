@@ -5,12 +5,6 @@
   --hero-display-max-width: 15.6ch;
 }
 
-/* Hero: light page-specific sizing and spacing on top of the shared hero system */
-.home-page__hero {
-  /* Keeps a little more breathing room under the hero than the shared default. */
-  padding-bottom: 64px;
-}
-
 .home-page__hero-copy {
   /* Prevents the left column from forcing overflow in the supporting-media hero grid. */
   min-width: 0;

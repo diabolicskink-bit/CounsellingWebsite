@@ -17,13 +17,11 @@
   --inclusion-hero-headline-offset: clamp(0.85rem, 1.1vw, 1.15rem);
   --inclusion-hero-detail-max-width: 390px;
   --inclusion-hero-detail-size: clamp(1.52rem, 1.34rem + 0.7vw, 1.92rem);
-  padding: 0;
 }
 
 .inclusion-hero__masthead {
   position: relative;
   z-index: 1;
-  padding-bottom: 40px;
 }
 
 .inclusion-hero__top {

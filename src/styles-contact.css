@@ -5,7 +5,6 @@
 .contact-page .hero-top--supporting-media {
   align-items: center;
   gap: 48px;
-  padding-bottom: 32px;
 }
 
 .contact-page .hero-display {
@@ -167,7 +166,6 @@
   .contact-page .hero-top--supporting-media {
     align-items: start;
     gap: 28px;
-    padding-bottom: 28px;
   }
 
   .contact-page .site-fee-card {

@@ -28,12 +28,14 @@ type FaqItem = {
   answer: string;
 };
 
-type PanelItem = {
-  title?: string;
-  ariaLabel?: string;
-  variant?: "language-field";
-  listItems?: string[];
+type CopyPanel = {
+  title: string;
   body?: string[];
+};
+
+type LanguageField = {
+  ariaLabel: string;
+  listItems: string[];
 };
 
 type KinkPageContent = {
@@ -46,12 +48,15 @@ type KinkPageContent = {
     intro: string;
     primaryAction: PrimaryAction;
     secondaryAction: TextLink;
-    trustItems: string[];
     noteEyebrow: string;
     noteItems: string[];
   };
   panelSection: {
-    items: PanelItem[];
+    knowledgeSection: {
+      prose: CopyPanel;
+      language: LanguageField;
+    };
+    closingRow: CopyPanel[];
   };
   faqSection: {
     eyebrow: string;
@@ -84,11 +89,6 @@ const kinkPageContent: KinkPageContent = {
       label: "Working with Joel",
       href: "/working-with-joel",
     },
-    trustItems: [
-      "For adults",
-      "Perth-based",
-      "Online across Australia",
-    ],
     noteEyebrow: "What this changes",
     noteItems: [
       "No need for a kink-specific problem.",
@@ -97,18 +97,16 @@ const kinkPageContent: KinkPageContent = {
     ],
   },
   panelSection: {
-    items: [
-      {
+    knowledgeSection: {
+      prose: {
         title: "No translation needed.",
         body: [
           "This world is known here. Not read about. Lived in. The dynamics, the language, the things that do not survive translation to people outside it: none of it needs a preamble.",
           "You won't be anyone's education. You won't spend the first session building context. However long you've been carrying this alone, it can come into the room as it is.",
         ],
       },
-      {
-        title: "All of it belongs.",
+      language: {
         ariaLabel: "Kink and BDSM language",
-        variant: "language-field",
         listItems: [
           "D/s",
           "Bondage",
@@ -128,8 +126,21 @@ const kinkPageContent: KinkPageContent = {
           "Aftercare",
         ],
       },
-      { title: "Carried alone." },
-      { title: "And everything else." },
+    },
+    closingRow: [
+      {
+        title: "Carried alone.",
+        body: [
+          "Drop. The kind that follows a scene, whichever side of it you were on. Shame, a dynamic that stopped feeling okay. Something that crossed a line, or that you're not sure crossed a line. A disclosure that didn't land well. A desire that has lived privately for years and never been put down anywhere.",
+          "None of it needs to be resolved before it comes here. It can arrive as it is, as complicated as it actually is, without the conversation becoming about managing someone else's reaction to it.",
+        ],
+      },
+      {
+        title: "And everything else.",
+        body: [
+          "Kink being known here does not make it the subject. You might be coming for anxiety, grief, relationships, work, or something you have not named yet. Whatever brought you here, you will not have to manage this practice's relationship with kink while you deal with the real reason.",
+        ],
+      },
     ],
   },
   faqSection: {
@@ -196,11 +207,6 @@ export default function KinkBdsmCounselling() {
                 </Link>
               </div>
 
-              <ul className="site-trust-list kink-page__hero-trust" aria-label="Practice details">
-                {hero.trustItems.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
             </div>
 
             <aside className="kink-page__hero-note" aria-label="What this changes">
@@ -217,42 +223,48 @@ export default function KinkBdsmCounselling() {
         </Container>
       </section>
 
-      <section className="site-grid kink-page__panel-section" aria-label="Kink-aware counselling themes">
+      <section className="site-grid kink-page__knowledge-section" aria-label="Kink-aware counselling themes">
         <Container>
-          <ul className="kink-page__panel-grid">
-            {panelSection.items.map((item) => (
-              <li
-                className={[
-                  "kink-page__panel",
-                  item.body ? "kink-page__panel--with-copy" : "",
-                  item.variant === "language-field" ? "kink-page__panel--language-field" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-                key={item.title ?? item.ariaLabel}
-                aria-label={item.ariaLabel}
-              >
-                {item.title ? <h2 className="kink-page__panel-title">{item.title}</h2> : null}
-                {item.variant === "language-field" ? (
-                  <ul className="kink-page__language-field" aria-hidden="true">
-                    {item.listItems?.map((label) => (
-                      <li key={label}>
-                        <Asterisk className="kink-page__language-icon" size={15} strokeWidth={2.4} />
-                        <span>{label}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-                {item.body ? (
-                  <div className="kink-page__panel-body">
-                    {item.body.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
-                  </div>
-                ) : null}
-              </li>
-            ))}
-          </ul>
+          <div className="kink-page__knowledge-grid">
+            <article className="kink-page__knowledge-copy">
+              <h3 className="kink-page__panel-title">{panelSection.knowledgeSection.prose.title}</h3>
+              <div className="kink-page__panel-body">
+                {panelSection.knowledgeSection.prose.body?.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </article>
+
+            <div
+              className="kink-page__language-panel kink-page__panel--language-field"
+              role="group"
+              aria-label={panelSection.knowledgeSection.language.ariaLabel}
+            >
+              <ul className="kink-page__language-field">
+                {panelSection.knowledgeSection.language.listItems.map((label) => (
+                  <li key={label}>
+                    <Asterisk className="kink-page__language-icon" size={15} strokeWidth={2.4} />
+                    <span>{label}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="site-highlight kink-page__closing-section" aria-label="Kink-aware counselling context">
+        <Container className="kink-page__closing-row">
+          {panelSection.closingRow.map((item) => (
+            <article className="kink-page__closing-item" key={item.title}>
+              <h2 className="kink-page__panel-title">{item.title}</h2>
+              <div className="kink-page__panel-body">
+                {item.body?.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </article>
+          ))}
         </Container>
       </section>
 

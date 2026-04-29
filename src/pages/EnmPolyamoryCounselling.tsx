@@ -18,13 +18,7 @@ type LinkItem = {
   href: string;
 };
 
-type MapNode = {
-  label: string;
-  key: string;
-};
-
 type MisreadItem = {
-  label: string;
   title: string;
   copy: string;
 };
@@ -68,19 +62,13 @@ const pageContent = {
       href: "/inclusion",
     } satisfies LinkItem,
     trustItems: ["For adults", "Online across Australia", "Non-shaming and direct", "No default push toward monogamy"],
-    mapHeading: "More than one truth can be in the room.",
-    mapCopy:
-      "The structure can matter. It does not have to become the whole story.",
-    mapNodes: [
-      { label: "You", key: "you" },
-      { label: "Partner", key: "partner-a" },
-      { label: "Partner", key: "partner-b" },
-      { label: "Metamour", key: "metamour" },
-      { label: "Agreements", key: "agreements" },
-      { label: "Capacity", key: "capacity" },
-      { label: "Attachment", key: "attachment" },
-      { label: "Desire", key: "desire" },
-    ] satisfies MapNode[],
+    noteHeading: "More than one truth can be in the room.",
+    noteCopy: "The structure can matter. It does not have to become the whole story.",
+    noteItems: [
+      "No default push toward monogamy.",
+      "No need to teach basic consensual non-monogamy literacy.",
+      "Context is included without taking over the work.",
+    ],
   },
   misreadSection: {
     eyebrow: "What often goes wrong",
@@ -89,25 +77,21 @@ const pageContent = {
       "That extra work is tiring. It can also pull attention away from the actual problem.",
     items: [
       {
-        label: "Assumption 01",
         title: "Monogamy is framed as recovery",
         copy:
           "The conversation quietly points toward closing the relationship before anyone has understood your values, limits, history, or fit.",
       },
       {
-        label: "Assumption 02",
         title: "The structure gets blamed for every feeling",
         copy:
           "Jealousy, grief, shame, trauma, conflict, or exhaustion stop being listened to on their own terms.",
       },
       {
-        label: "Assumption 03",
         title: "You have to teach basic CNM literacy",
         copy:
           "Hinge dynamics, agreements, hierarchy, disclosure, pressure, and consent take over the session before your experience gets any room.",
       },
       {
-        label: "Assumption 04",
         title: "Complexity gets flattened into a moral story",
         copy:
           "Several bonds, needs, fears, and limits become one simplified problem to fix.",
@@ -222,8 +206,6 @@ const pageContent = {
   },
 };
 
-const mapThreads = ["one", "two", "three", "four", "five", "six", "seven"];
-
 export default function EnmPolyamoryCounselling() {
   useDocumentMetadata(pageContent.title, pageContent.meta);
   const { hero, misreadSection, focusSection, stance, individual, faqSection, ctaSection } = pageContent;
@@ -232,9 +214,9 @@ export default function EnmPolyamoryCounselling() {
     <main className="site-page enm-page">
       <FaqSchema faqs={faqSection.items} />
 
-      <section className="enm-hero">
-        <Container className="enm-hero__inner">
-          <nav className="breadcrumb enm-hero__breadcrumb" aria-label="Breadcrumb">
+      <section className="hero-section hero-bg--default enm-page__hero">
+        <Container className="enm-page__hero-inner">
+          <nav className="breadcrumb enm-page__breadcrumb" aria-label="Breadcrumb">
             {hero.breadcrumb.map((item) =>
               item.href ? (
                 <Link key={item.label} to={item.href}>
@@ -246,115 +228,102 @@ export default function EnmPolyamoryCounselling() {
             )}
           </nav>
 
-          <div className="enm-hero__grid">
-            <div className="enm-hero__copy">
-              <span className="hero-badge enm-hero__badge">{hero.badge}</span>
+          <div className="hero-top enm-page__hero-top">
+            <div className="enm-page__hero-heading">
+              <span className="hero-badge">{hero.badge}</span>
               <h1 className="hero-display">{hero.title}</h1>
-              <p className="enm-hero__intro">{hero.intro}</p>
 
-              <div className="enm-hero__actions">
-                <Button href={hero.primaryAction.href}>
-                  {hero.primaryAction.label} <ArrowRight size={16} />
-                </Button>
-                <Link className="site-text-link enm-hero__text-link" to={hero.secondaryAction.href}>
-                  {hero.secondaryAction.label}
-                </Link>
-              </div>
-
-              <ul className="enm-hero__trust" aria-label="Practice details">
+              <ul className="site-trust-list site-trust-list--highlight-last" aria-label="Practice details">
                 {hero.trustItems.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </div>
 
-            <aside className="enm-map" aria-labelledby="enm-map-heading">
-              <div className="enm-map__header">
-                <span className="enm-map__kicker">Relational map</span>
-                <h2 id="enm-map-heading">{hero.mapHeading}</h2>
-                <p>{hero.mapCopy}</p>
+            <div className="hero-copy-panel enm-page__hero-panel">
+              <p>{hero.intro}</p>
+              <div className="site-actions">
+                <Button href={hero.primaryAction.href}>
+                  {hero.primaryAction.label} <ArrowRight size={16} />
+                </Button>
+                <Link className="site-text-link" to={hero.secondaryAction.href}>
+                  {hero.secondaryAction.label}
+                </Link>
               </div>
-
-              <div
-                className="enm-map__canvas"
-                role="img"
-                aria-label="A relationship map with you, partners, metamours, agreements, capacity, attachment, and desire connected."
-              >
-                {mapThreads.map((thread) => (
-                  <span className={`enm-map__thread enm-map__thread--${thread}`} key={thread} />
-                ))}
-                {hero.mapNodes.map((node) => (
-                  <span className={`enm-map__node enm-map__node--${node.key}`} key={node.key} aria-hidden="true">
-                    {node.label}
-                  </span>
-                ))}
-              </div>
-            </aside>
+            </div>
           </div>
+
+          <aside className="enm-page__hero-note" aria-label="How ENM-aware counselling is held">
+            <div className="enm-page__hero-note-copy">
+              <h2>{hero.noteHeading}</h2>
+              <p>{hero.noteCopy}</p>
+            </div>
+            <ul className="enm-page__hero-note-list">
+              {hero.noteItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </aside>
         </Container>
       </section>
 
-      <section className="enm-misread">
-        <Container className="enm-misread__inner">
-          <div className="enm-section-heading enm-misread__heading">
+      <section className="site-highlight enm-page__misread">
+        <Container className="site-split">
+          <div className="section-heading">
             <span className="site-eyebrow">{misreadSection.eyebrow}</span>
             <h2>{misreadSection.heading}</h2>
-            <p>{misreadSection.intro}</p>
+            <p className="section-heading__copy">{misreadSection.intro}</p>
           </div>
 
-          <div className="enm-misread__list">
+          <div className="site-principles enm-page__misread-list">
             {misreadSection.items.map((item) => (
-              <article className="enm-misread__item" key={item.title}>
-                <span>{item.label}</span>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.copy}</p>
-                </div>
+              <article className="site-principle" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
               </article>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="enm-focus">
-        <Container className="enm-focus__inner">
-          <div className="enm-section-heading">
+      <section className="site-grid enm-page__focus">
+        <Container className="enm-page__focus-inner">
+          <div className="section-heading enm-page__focus-heading">
             <span className="site-eyebrow">{focusSection.eyebrow}</span>
             <h2>{focusSection.heading}</h2>
-            <p>{focusSection.intro}</p>
+            <p className="section-heading__copy">{focusSection.intro}</p>
           </div>
 
-          <div className="enm-focus__grid" aria-label="Common therapy reasons">
-            {focusSection.items.map((item) => (
-              <article className="enm-focus__item" key={item.title}>
+          <div className="site-topic-grid enm-page__focus-grid" aria-label="Common therapy reasons">
+            {focusSection.items.map((item, index) => (
+              <article className={`site-topic-card ${index % 3 === 1 ? "site-topic-card--soft" : index % 3 === 2 ? "site-topic-card--muted" : ""}`.trim()} key={item.title}>
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>
               </article>
             ))}
           </div>
 
-          <p className="enm-focus__note">{focusSection.note}</p>
+          <p className="site-ruled-paragraph site-ruled-paragraph--wide enm-page__note">{focusSection.note}</p>
         </Container>
       </section>
 
-      <section className="enm-stance">
-        <Container className="enm-stance__inner">
-          <div className="enm-section-heading enm-stance__heading">
+      <section className="site-grid enm-page__stance">
+        <Container className="site-split">
+          <div className="section-heading">
             <span className="site-eyebrow">{stance.eyebrow}</span>
             <h2>{stance.heading}</h2>
           </div>
 
-          <div className="enm-stance__body">
-            <div className="enm-stance__copy">
+          <div className="site-content-stack">
+            <div className="rich-text">
               {stance.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
 
-            <div className="enm-principles" aria-label="ENM-aware counselling principles">
-              {stance.principles.map((item, index) => (
-                <article className="enm-principle" key={item.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
+            <div className="site-principles" aria-label="ENM-aware counselling principles">
+              {stance.principles.map((item) => (
+                <article className="site-principle" key={item.title}>
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
                 </article>
@@ -364,15 +333,15 @@ export default function EnmPolyamoryCounselling() {
         </Container>
       </section>
 
-      <section className="enm-individual">
-        <Container className="enm-individual__inner">
-          <div className="enm-section-heading">
+      <section className="site-highlight enm-page__individual">
+        <Container className="site-split">
+          <div className="section-heading">
             <span className="site-eyebrow">{individual.eyebrow}</span>
             <h2>{individual.heading}</h2>
           </div>
 
-          <div className="enm-individual__body">
-            <article className="enm-individual__copy">
+          <div className="site-content-stack">
+            <article className="rich-text">
               {individual.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -388,14 +357,14 @@ export default function EnmPolyamoryCounselling() {
               </p>
             </article>
 
-            <aside className="enm-individual__signals" aria-label="Examples of relational context">
+            <aside className="site-detail-stack enm-page__signal-stack" aria-label="Examples of relational context">
               {individual.signals.map((signal) => (
-                <span key={signal}>{signal}</span>
+                <p key={signal}>{signal}</p>
               ))}
             </aside>
-          </div>
 
-          <p className="enm-individual__note">{individual.note}</p>
+            <p className="site-ruled-paragraph site-ruled-paragraph--wide enm-page__note">{individual.note}</p>
+          </div>
         </Container>
       </section>
 
