@@ -20,6 +20,7 @@ type WorkingWithJoelPageContent = {
   title: string;
   meta: string;
   hero: {
+    badge: string;
     title: EmphasisCopy;
     supportLead: string;
     supportBody: string;
@@ -47,6 +48,7 @@ const pageContent: WorkingWithJoelPageContent = {
   title: pageMetadata.title,
   meta: pageMetadata.description,
   hero: {
+    badge: "Working with Joel Griffiths",
     title: {
       before: "Working with ",
       emphasis: "the bigger",
@@ -149,25 +151,28 @@ export default function WorkingWithJoel() {
       <section className="hero-section hero-bg--default">
         <Container>
           <div className="hero-top working-with-joel-page__hero-top">
-            <h1 className="hero-display">
-              {hero.title.before}
-              <br />
-              <em>{hero.title.emphasis}</em>
-              <br />
-              {hero.title.after}
-            </h1>
+            <div className="working-with-joel-page__hero-heading">
+              <span className="hero-badge">{hero.badge}</span>
+              <h1 className="hero-display">
+                {hero.title.before}
+                <br />
+                <em>{hero.title.emphasis}</em>
+                <br />
+                {hero.title.after}
+              </h1>
+            </div>
 
-            <div className="working-with-joel-page__hero-support">
+            <div className="hero-deck working-with-joel-page__hero-support">
               <p className="working-with-joel-page__hero-support-lead">{hero.supportLead}</p>
               <p className="working-with-joel-page__hero-support-body">{hero.supportBody}</p>
             </div>
           </div>
 
-          <div className="working-with-joel-page__hero-credentials">
+          <ul className="hero-support-tagline working-with-joel-page__hero-credentials">
             {hero.credentials.map((credential) => (
-              <span key={credential}>{credential}</span>
+              <li key={credential}>{credential}</li>
             ))}
-          </div>
+          </ul>
         </Container>
       </section>
 

@@ -8,7 +8,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 - Production typography tokens are defined in `src/styles.css`, including font stacks, named type roles, and leading variables.
 - Layout and surface rules exist through shared section classes such as `.site-grid`, the quieter `.site-highlight`, `.site-split`, `.site-content-stack`, and `.site-copy-panel`.
 - The active shared production class layer uses `site-*` classes for public-page sections, cards, panels, lists, forms, footer, FAQ, CTA, trust, detail, and contact patterns.
-- The active shared hero system uses `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-principles-strip`, and `.hero-detail-stack`.
+- The active shared hero system uses `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-principles-strip`, and `.hero-detail-stack`; `.hero-display` owns the measured shared page-opening H1 typography and default title measure.
 - Existing non-prefixed shared component classes remain active where they back real components, including `.container`, `.button`, `.card`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
 - Shared `Container`, `Button`, `Card`, `SectionHeading`, and `SplitSection` components exist in `src/components/`.
 - Shared `Layout` implements the production header, navigation, mobile navigation, shared chrome detection, and footer.

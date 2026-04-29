@@ -113,18 +113,6 @@
   border-bottom: 1px solid color-mix(in oklch, var(--enm-clay) 42%, transparent);
 }
 
-.enm-hero h1 {
-  max-width: 18ch;
-  margin: 0;
-  color: var(--enm-ink);
-  font-family: var(--font-serif);
-  font-size: 3.85rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 0.98;
-  text-wrap: balance;
-}
-
 .enm-hero__intro {
   max-width: 39rem;
   margin: 0;
@@ -661,11 +649,6 @@
     gap: 42px;
   }
 
-  .enm-hero h1 {
-    max-width: 17ch;
-    font-size: 3.55rem;
-  }
-
   .enm-hero__trust {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -695,11 +678,6 @@
   .enm-hero__copy {
     align-content: start;
     padding-top: 0;
-  }
-
-  .enm-hero h1 {
-    max-width: 15ch;
-    font-size: 3.15rem;
   }
 
   .enm-map {
@@ -748,12 +726,6 @@
 
   .enm-hero__inner {
     gap: 24px;
-  }
-
-  .enm-hero h1 {
-    max-width: 13.5ch;
-    font-size: 2.5rem;
-    line-height: 1.02;
   }
 
   .enm-hero__intro,

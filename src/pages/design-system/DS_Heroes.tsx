@@ -64,7 +64,7 @@ const anatomyRows = [
   {
     zone: "Display heading",
     className: ".hero-display",
-    desc: "Large serif display type and the authoritative page-opening H1 pattern for production. Use h1 in production, and set --hero-display-max-width on the page scope when a hero only needs a different title measure.",
+    desc: "Measured serif display type and the authoritative page-opening H1 pattern for production. Use h1 in production, and set --hero-display-max-width on the page scope when a hero only needs a different title measure.",
   },
   {
     zone: "Intro paragraph",
@@ -219,9 +219,9 @@ export default function DS_Heroes() {
                 <tr>
                   <td>title measure</td>
                   <td>
-                    <code>max-width: var(--hero-display-max-width, none)</code>
+                    <code>max-width: var(--hero-display-max-width, 18ch)</code>
                   </td>
-                  <td>Lets pages tune title width through a shared variable instead of another page-specific H1 class.</td>
+                  <td>Gives hero titles a shared default measure while still letting pages tune width through a shared variable.</td>
                 </tr>
                 <tr>
                   <td>font-size</td>
@@ -233,9 +233,9 @@ export default function DS_Heroes() {
                 <tr>
                   <td>font-weight</td>
                   <td>
-                    <code>400</code>
+                    <code>500</code>
                   </td>
-                  <td>The scale carries the hierarchy; weight stays calm.</td>
+                  <td>Gives the serif display more presence without turning it into a heavy sales heading.</td>
                 </tr>
                 <tr>
                   <td>line-height</td>

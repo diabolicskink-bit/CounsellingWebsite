@@ -90,7 +90,7 @@ Prefer these shared building blocks before creating anything new.
 - `.hero-section`, `.hero-top`, `.hero-display`, `.hero-copy-panel`, `.hero-deck`, `.hero-detail-stack`
   Shared public-page hero design system. This is a separate authoritative shared subsystem alongside `site-*`, not a legacy variation.
 - `.hero-display`
-  The authoritative page-opening H1 pattern for production heroes. If a page only needs a narrower or wider title measure, set `--hero-display-max-width` at page scope instead of adding another page-specific H1 class.
+  The authoritative page-opening H1 pattern for production heroes. It uses the shared measured serif display style with an 18ch default title measure. If a page only needs a narrower or wider title measure, set `--hero-display-max-width` at page scope instead of adding another page-specific H1 class.
 
 ## Design System Showcase Pages
 

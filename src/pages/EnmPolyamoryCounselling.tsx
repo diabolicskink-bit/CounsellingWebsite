@@ -249,7 +249,7 @@ export default function EnmPolyamoryCounselling() {
           <div className="enm-hero__grid">
             <div className="enm-hero__copy">
               <span className="hero-badge enm-hero__badge">{hero.badge}</span>
-              <h1>{hero.title}</h1>
+              <h1 className="hero-display">{hero.title}</h1>
               <p className="enm-hero__intro">{hero.intro}</p>
 
               <div className="enm-hero__actions">

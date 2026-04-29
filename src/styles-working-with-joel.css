@@ -4,22 +4,29 @@
 }
 
 .working-with-joel-page .working-with-joel-page__hero-top {
-  grid-template-columns: minmax(0, 0.92fr) minmax(280px, 0.48fr);
-  gap: clamp(3.5rem, 6vw, 6rem);
-  max-width: 1160px;
+  grid-template-columns: minmax(0, 0.72fr) minmax(320px, 0.48fr);
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  max-width: 1100px;
   align-items: center;
   padding-bottom: clamp(1.8rem, 2.5vw, 2.4rem);
 }
 
-.working-with-joel-page__hero-support {
+.working-with-joel-page__hero-heading {
   display: grid;
+  gap: clamp(0.8rem, 1.2vw, 1rem);
+}
+
+.working-with-joel-page__hero-heading .hero-display {
+  margin-bottom: 0;
+}
+
+.working-with-joel-page .working-with-joel-page__hero-support {
   gap: 14px;
   align-self: center;
-  max-width: 33ch;
-  padding: 24px;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  justify-self: start;
+  max-width: 23rem;
+  margin: 0;
+  padding: 2px 0 2px clamp(1.1rem, 2vw, 1.4rem);
 }
 
 .working-with-joel-page__hero-support-lead,
@@ -44,31 +51,14 @@
   text-wrap: pretty;
 }
 
-.working-with-joel-page__hero-credentials {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 24px;
-  padding: 18px 0 clamp(1.8rem, 3vw, 2.8rem);
+.hero-support-tagline.working-with-joel-page__hero-credentials {
+  margin: 0;
+  padding: 18px 0;
   border-top: 1px solid rgba(35, 75, 61, 0.16);
-  font-family: var(--font-sans);
-  font-size: 0.74rem;
-  font-weight: 650;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--faint);
 }
 
-.working-with-joel-page__hero-credentials span {
-  display: inline-flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.working-with-joel-page__hero-credentials span + span::before {
-  content: "·";
-  color: var(--line);
-  font-weight: 400;
-  font-size: 1rem;
+.working-with-joel-page__hero-credentials li {
+  color: rgba(31, 35, 31, 0.72);
 }
 
 .working-with-joel-page__approach-heading {
@@ -158,22 +148,17 @@
 @media (max-width: 900px) {
   .working-with-joel-page .working-with-joel-page__hero-top {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 28px;
     padding-bottom: 40px;
   }
 
-  .working-with-joel-page__hero-support {
+  .working-with-joel-page .working-with-joel-page__hero-support {
     max-width: none;
-    padding: 1.25rem;
+    padding-left: 16px;
   }
 
-  .working-with-joel-page__hero-credentials {
-    gap: 6px 16px;
-    padding-bottom: 2rem;
-  }
-
-  .working-with-joel-page__hero-credentials span + span::before {
-    display: none;
+  .hero-support-tagline.working-with-joel-page__hero-credentials {
+    padding-bottom: 18px;
   }
 
   .working-with-joel-page__approach-title {

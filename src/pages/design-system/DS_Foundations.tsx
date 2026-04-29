@@ -440,8 +440,8 @@ export default function DS_Foundations() {
                   for complicated things.
                 </h2>
                 <p className="hero-intro">
-                  Use <code>.hero-display</code> for production page openings. The scale is large, but the weight stays
-                  light and editorial.
+                  Use <code>.hero-display</code> for production page openings. The scale is measured, the weight is
+                  deliberate, and the default title measure keeps longer headings under control.
                 </p>
               </article>
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Copywriter"
+  short_description: "Write and review counselling practice website copy."
+  default_prompt: "Write, review, edit, or structure counselling practice website copy with Australian private-practice ethical constraints."
