@@ -1,3 +1,7 @@
+.contact-page {
+  --hero-display-max-width: max-content;
+}
+
 .contact-page .hero-top--supporting-media {
   align-items: center;
   gap: 48px;

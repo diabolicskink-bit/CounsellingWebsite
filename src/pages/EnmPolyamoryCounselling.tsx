@@ -56,7 +56,7 @@ const pageContent = {
       { label: "ENM & polyamory" },
     ] satisfies BreadcrumbItem[],
     badge: "ENM and polyamory counselling",
-    title: "Polyamory and ENM therapy without making the structure the culprit.",
+    title: "Polyamory and ENM counselling",
     intro:
       "For people in consensual non-monogamy who want real therapy without first defending how their relationships work. Anxiety, jealousy, shame, grief, attachment, burnout, conflict, or uncertainty can be understood in context, without monogamy being treated as the default repair.",
     primaryAction: {

@@ -80,6 +80,7 @@ Keep new work disciplined:
 - Flatten distinctive page moments into interchangeable card grids just because reuse is easier.
 - Treat seriousness as permission to make the page dull.
 - Add new 4px coloured side stripes to cards, panels, callouts, or alerts. Use thin editorial rules, full borders, background shifts, or type emphasis instead.
+- Add decorative numbering, ordinal badges, or step labels to non-sequential content. If the items are not an actual ordered process, use headings, rules, grouping, or hierarchy instead.
 
 ## When Working Near Legacy Design-System Code
 

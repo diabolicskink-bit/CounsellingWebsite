@@ -23,26 +23,10 @@ type TextLink = {
   href: string;
 };
 
-type EmphasisCopy = {
-  before: string;
-  emphasis: string;
-  after: string;
-};
-
 type TopicCard = {
   title: string;
   copy: string;
   items: string[];
-};
-
-type FocusItem = {
-  title: string;
-  copy: string;
-};
-
-type PrincipleItem = {
-  title: string;
-  text: string;
 };
 
 type FaqItem = {
@@ -70,39 +54,11 @@ type KinkPageContent = {
     intro: string;
     cards: TopicCard[];
   };
-  focusSection: {
-    eyebrow: string;
-    heading: string;
-    intro: string;
-    items: FocusItem[];
-    note: string;
-  };
-  stance: {
-    eyebrow: string;
-    heading: string;
-    paragraphs: string[];
-    principles: PrincipleItem[];
-  };
-  individual: {
-    eyebrow: string;
-    heading: string;
-    paragraphs: string[];
-    resourcesLead: string;
-    resources: TextLink[];
-    note: string;
-  };
   faqSection: {
     eyebrow: string;
     heading: string;
     intro: string;
     items: FaqItem[];
-  };
-  ctaSection: {
-    heading: string;
-    copy: string;
-    buttonLabel: string;
-    buttonHref: string;
-    buttonVariant: "primary" | "secondary" | "tertiary";
   };
 };
 
@@ -118,9 +74,9 @@ const kinkPageContent: KinkPageContent = {
       { label: "Kink & BDSM" },
     ],
     eyebrow: "Kink & BDSM-aware counselling",
-    title: "Ordinary therapy where kink will not be mishandled.",
+    title: "Kink & BDSM-aware counselling",
     intro:
-      "You might be coming for anxiety, grief, shame, trauma, burnout, or relationship strain. What matters is being able to mention kink plainly without it being treated as pathology, danger, or the explanation for everything else.",
+      "Ordinary therapy where kink will not be mishandled. You might be coming for anxiety, grief, shame, trauma, burnout, or relationship strain. What matters is being able to mention kink plainly without it being treated as pathology, danger, or the explanation for everything else.",
     primaryAction: {
       label: "Make an enquiry",
       href: "/contact",
@@ -173,78 +129,6 @@ const kinkPageContent: KinkPageContent = {
       },
     ],
   },
-  focusSection: {
-    eyebrow: "What You Can Come For",
-    heading: "You do not need a kink issue to need kink-aware therapy",
-    intro:
-      "You might be coming for the same reasons anyone comes to therapy. What makes this relevant is that you should not have to hide part of your life in order to get proper help.",
-    items: [
-      {
-        title: "Anxiety and overthinking",
-        copy: "When you feel on edge, stuck in your head, or worn down by constant vigilance.",
-      },
-      {
-        title: "Shame and self-criticism",
-        copy: "When your inner life feels harsh, exposing, or hard to live inside.",
-      },
-      {
-        title: "Relationship strain",
-        copy: "When conflict, distance, trust, resentment, or communication are becoming difficult.",
-      },
-      {
-        title: "Trauma and self-protection",
-        copy: "When past experience still shapes the present, without kink being assumed to be the trauma.",
-      },
-      {
-        title: "Grief, loneliness, or loss",
-        copy: "When something important has been lost and you need room to feel it properly.",
-      },
-      {
-        title: "Burnout, flatness, or feeling stuck",
-        copy: "When life feels heavy, narrowed, or hard to move inside.",
-      },
-    ],
-    note:
-      "If kink matters to the work, it can be included directly. If it does not, it does not need to dominate the room.",
-  },
-  stance: {
-    eyebrow: "How I work",
-    heading: "This is therapy for your whole life, not a narrow service for kink problems only",
-    paragraphs: [
-      "If you are kinky, good therapy should not require you to split yourself in two. You should be able to talk about your life as it is, including the parts that involve kink, BDSM, fantasy, D/s, scenes, or power exchange, without those things being automatically treated as pathology or as the explanation for everything.",
-      "You can come for the same reasons anyone comes to therapy: anxiety, grief, shame, relationship difficulties, self-criticism, trauma, burnout, loneliness, desire, confusion, or a sense of being stuck. Kink can be part of the context when it matters and stay in the background when it does not.",
-    ],
-    principles: [
-      {
-        title: "No automatic judgement",
-        text: "You are not treated as suspect, broken, or unsafe simply because kink is part of your life.",
-      },
-      {
-        title: "No need to split yourself off",
-        text: "You do not need to hide, minimise, or edit out relevant parts of your life in order to be taken seriously.",
-      },
-      {
-        title: "The real issue stays central",
-        text: "If the problem is anxiety, grief, shame, conflict, or self-worth, the work can stay there while still making room for the truth of your life.",
-      },
-    ],
-  },
-  individual: {
-    eyebrow: "Individual counselling",
-    heading: "You do not need a kink issue to belong here",
-    paragraphs: [
-      "You can come because something feels difficult in your life and you want help with it. That might be anxiety, shame, grief, anger, low self-worth, relationship strain, trauma, uncertainty, burnout, or a general sense that something is not working.",
-      "What makes this relevant is not that every problem comes from kink. It is that therapy works better when you do not have to monitor yourself, leave things out, or worry that an important part of your life will derail the room. If kink matters, it can be included. If it is not the focus, it does not need to become one.",
-    ],
-    resourcesLead: "You can also",
-    resources: [
-      { label: "read more about working with Joel", href: "/working-with-joel" },
-      { label: "check online counselling fees and session details", href: "/contact" },
-      { label: "make an enquiry about counselling", href: "/contact" },
-    ],
-    note:
-      "You do not need a polished explanation before getting in touch. A brief, honest starting point is enough.",
-  },
   faqSection: {
     eyebrow: "Questions",
     heading: "Common questions before starting",
@@ -272,19 +156,11 @@ const kinkPageContent: KinkPageContent = {
       },
     ],
   },
-  ctaSection: {
-    heading: "You do not need to explain everything perfectly.",
-    copy:
-      "A first enquiry can be brief. Name what is bringing you to counselling, whether online sessions suit you, and anything important for first contact.",
-    buttonLabel: "Make an enquiry about counselling",
-    buttonHref: "/contact",
-    buttonVariant: "secondary",
-  },
 };
 
 export default function KinkBdsmCounselling() {
   useDocumentMetadata(kinkPageContent.title, kinkPageContent.meta);
-  const { hero, topicSection, focusSection, stance, individual, faqSection, ctaSection } = kinkPageContent;
+  const { hero, topicSection, faqSection } = kinkPageContent;
 
   return (
     <main className="site-page kink-page">
@@ -362,97 +238,7 @@ export default function KinkBdsmCounselling() {
         </Container>
       </section>
 
-      <section className="site-highlight kink-page__focus">
-        <Container className="site-split">
-          <div className="section-heading">
-            <span className="site-eyebrow">{focusSection.eyebrow}</span>
-            <h2>{focusSection.heading}</h2>
-            <p>{focusSection.intro}</p>
-          </div>
-
-          <div className="site-content-stack">
-            <div className="site-topic-grid kink-page__focus-grid" aria-label="Common therapy reasons">
-              {focusSection.items.map((item) => (
-                <article className="site-topic-card" key={item.title}>
-                  <h3>{item.title}</h3>
-                  <p>{item.copy}</p>
-                </article>
-              ))}
-            </div>
-
-            <p className="site-ruled-paragraph site-ruled-paragraph--wide">{focusSection.note}</p>
-          </div>
-        </Container>
-      </section>
-
-      <section className="site-highlight kink-page__stance">
-        <Container className="site-split">
-          <div className="section-heading">
-            <span className="site-eyebrow">{stance.eyebrow}</span>
-            <h2>{stance.heading}</h2>
-          </div>
-
-          <div className="site-content-stack">
-            <article className="site-copy-panel rich-text">
-              {stance.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </article>
-
-            <div className="site-principles" aria-label="Kink-aware counselling principles">
-              {stance.principles.map((item) => (
-                <article className="site-principle" key={item.title}>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="site-grid kink-page__individual">
-        <Container className="site-split">
-          <div className="section-heading">
-            <span className="site-eyebrow">{individual.eyebrow}</span>
-            <h2>{individual.heading}</h2>
-          </div>
-
-          <div className="site-content-stack">
-            <article className="site-copy-panel rich-text">
-              {individual.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-              <p>
-                {individual.resourcesLead}{" "}
-                {individual.resources.map((item, index) => (
-                  <span key={item.label}>
-                    {index === 0 ? "" : index === individual.resources.length - 1 ? ", or " : ", "}
-                    <Link to={item.href}>{item.label}</Link>
-                  </span>
-                ))}
-                .
-              </p>
-            </article>
-
-            <p className="site-ruled-paragraph site-ruled-paragraph--wide">{individual.note}</p>
-          </div>
-        </Container>
-      </section>
-
       <FaqSection intro={faqSection.intro} items={faqSection.items} title={faqSection.heading} />
-
-      <section className="site-cta-block">
-        <Container className="site-cta-block__inner">
-          <div className="site-cta-block__copy">
-            <h2>{ctaSection.heading}</h2>
-            <p>{ctaSection.copy}</p>
-          </div>
-          <Button href={ctaSection.buttonHref} variant={ctaSection.buttonVariant}>
-            {ctaSection.buttonLabel} <ArrowRight size={16} />
-          </Button>
-        </Container>
-      </section>
     </main>
   );
 }

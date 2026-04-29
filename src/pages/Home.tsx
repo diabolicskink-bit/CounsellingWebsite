@@ -110,7 +110,7 @@ const homePageContent: HomePageContent = {
         toneClass: "site-topic-card--soft",
       },
       {
-        title: "Anxiety and overthinking",
+        title: "Anxiety",
         copy: "A mind that will not settle. Going over the same things, bracing for things that have not happened yet, or carrying a background worry that is hard to name or put down.",
         layoutClass: "home-topics__tile--wide",
       },

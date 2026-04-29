@@ -38,11 +38,24 @@
 .home-topics__grid {
   /* This is a 36-column collage grid rather than a reusable card grid.
      The row height creates the loose masonry rhythm used by the six tiles. */
+  position: relative;
   display: grid;
   grid-template-columns: repeat(36, minmax(0, 1fr));
   grid-auto-rows: 10px;
   gap: 4px 6px;
   align-items: stretch;
+  padding-block: 16px 32px;
+}
+
+.home-topics__grid::before {
+  position: absolute;
+  inset: 52px 8% 54px 20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(35, 75, 61, 0), rgba(35, 75, 61, 0.18), rgba(35, 75, 61, 0)) 50% 43% / 100% 1px no-repeat,
+    linear-gradient(160deg, rgba(35, 75, 61, 0), rgba(35, 75, 61, 0.16), rgba(35, 75, 61, 0)) 58% 52% / 1px 74% no-repeat;
+  content: "";
 }
 
 .home-topics__intro {
@@ -87,34 +100,46 @@
   text-underline-offset: 0.16em;
 }
 
+.home-topics__tile {
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(35, 75, 61, 0.18);
+  box-shadow: 0 16px 28px rgba(31, 35, 31, 0.048);
+}
+
 .home-topics__tile--quiet {
   /* Upper-middle narrow card. */
   grid-column: 13 / span 9;
   grid-row: 4 / span 14;
+  border-radius: 18px 18px 6px 18px;
 }
 
 .home-topics__tile--lift {
   /* Top-right larger white card. */
   grid-column: 22 / span 12;
   grid-row: 1 / span 15;
+  border-radius: 18px 6px 18px 18px;
 }
 
 .home-topics__tile--middle {
   /* Lower-left green card under the heading. */
   grid-column: 1 / span 12;
   grid-row: 10 / span 13;
+  border-radius: 6px 18px 18px 18px;
 }
 
 .home-topics__tile--soft {
   /* Bottom-left smaller muted card. */
   grid-column: 2 / span 9;
   grid-row: 25 / span 13;
+  border-radius: 18px 18px 18px 6px;
 }
 
 .home-topics__tile--wide {
   /* Bottom-middle white card that bridges the left and centre zones. */
   grid-column: 11 / span 9;
   grid-row: 22 / span 18;
+  border-radius: 18px 18px 6px 18px;
 }
 
 .home-topics__tile--deep {
@@ -122,8 +147,9 @@
   grid-column: 20 / span 12;
   grid-row: 16 / span 13;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   margin-top: 10px;
+  border-radius: 18px 6px 18px 18px;
 }
 
 /* Inclusive practice: selected Home variation with a ruled support column */
@@ -264,6 +290,10 @@
     min-height: 0;
   }
 
+  .home-topics__grid::before {
+    display: none;
+  }
+
   .home-topics__intro,
   .home-topics__tiles {
     /* Clear any desktop grid placement from the collage composition. */
@@ -298,6 +328,8 @@
     margin: 0;
     gap: 0;
     padding: 0;
+    border-radius: var(--radius);
+    transform: none;
   }
 
   .home-topics__tile.site-card {

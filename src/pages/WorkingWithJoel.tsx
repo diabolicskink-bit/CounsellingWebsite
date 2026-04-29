@@ -1,3 +1,4 @@
+import { useId, useState } from "react";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
@@ -16,6 +17,12 @@ type TopicItem = {
   body: string;
 };
 
+type ApproachItem = {
+  title: string;
+  summary: string;
+  details: string[];
+};
+
 type WorkingWithJoelPageContent = {
   title: string;
   meta: string;
@@ -30,9 +37,15 @@ type WorkingWithJoelPageContent = {
       descriptor: string;
     };
   };
-  approach: {
+  introduction: {
     title: string;
     paragraphs: string[];
+  };
+  approach: {
+    eyebrow: string;
+    title: string;
+    overview: string[];
+    items: ApproachItem[];
   };
   focus: {
     eyebrow: string;
@@ -60,20 +73,53 @@ const pageContent: WorkingWithJoelPageContent = {
     credentials: [
       "Graduate Diploma - Counselling and Psychotherapy",
       "ACA Registered Counsellor",
-      "Kink and ENM informed · LGBTQIA+ affirming",
+      "Kink and ENM informed; LGBTQIA+ affirming",
     ],
     portrait: {
       name: "Joel Griffiths",
       descriptor: "Counselling and psychodynamic psychotherapy",
     },
   },
-  approach: {
+  introduction: {
     title: "Introducing Joel",
     paragraphs: [
-      "My approach is grounded in psychodynamic and attachment-based thinking. That means I am interested not just in what is happening now but in what is shaping it, where it came from, what keeps it going, and what might be maintaining it beneath the surface.",
-      "Attachment is central to how I work. The ways people learn closeness, distance, trust, and self-protection early in life tend to continue organising how they relate as adults, often without being fully visible. That is often where the most useful work happens.",
-      "The approach is integrative, which means I am not tied to one method. Other frameworks and tools come in where they are useful. But depth work, understanding what is actually going on rather than managing the symptoms of it, is the core of what I do.",
-      "If you have worked with therapists before and found it stayed on the surface, or focused on coping tools without looking at what was driving the need for them, this tends to feel different.",
+      "I'm Joel Griffiths, an ACA registered counsellor offering online counselling for adults across Australia from Perth.",
+      "People often come here with anxiety, relationship strain, self-criticism, shame, sexuality, intimacy, trauma, or a sense that something keeps repeating even when they understand it on paper.",
+      "My work is direct, thoughtful, and non-shaming. You do not need a polished story before making contact; a rough sense that something is not sitting right is enough to begin a conversation.",
+    ],
+  },
+  approach: {
+    eyebrow: "My approach",
+    title: "How I work",
+    overview: [
+      "My work is psychodynamic and attachment-informed, held within an integrative frame. In practice, that means paying attention to the pattern beneath the immediate problem: how it formed, how it protects you, and how it shows up in relationships, work, shame, desire, anger, and the room itself.",
+      "Sessions can include practical reflection, but the centre of the work is formulation: making sense of what is happening now in relation to older templates, current pressures, and the parts of experience that have had to stay less conscious.",
+    ],
+    items: [
+      {
+        title: "Psychodynamic",
+        summary: "Looking below the surface at unconscious patterns, defences, conflict, and repetition.",
+        details: [
+          "Psychodynamic work pays attention to the parts of experience that are active but not always obvious: old conflicts, defences, shame, desire, anger, avoidance, and the ways a familiar pattern can repeat even when you are trying to do something different.",
+          "The work is not about forcing a neat explanation onto your life. It is a shared formulation of what might be happening underneath the visible problem, including how that pattern may appear between us in the room.",
+        ],
+      },
+      {
+        title: "Attachment",
+        summary: "Thinking about closeness, distance, safety, repair, and early relational templates.",
+        details: [
+          "Attachment work looks at how closeness, distance, dependence, trust, and self-protection were learned. Those early relational templates can keep shaping adult relationships, often through strategies that once made sense but now create strain.",
+          "This can include how you manage conflict, jealousy, rupture, repair, need, withdrawal, people-pleasing, or the fear of being too much. The point is to understand the strategy before trying to change the strategy.",
+        ],
+      },
+      {
+        title: "Integrative",
+        summary: "Using other frameworks where useful without losing the depth frame.",
+        details: [
+          "Integrative does not mean a loose mix of techniques. It means other frameworks can be brought in when they help make sense of what is happening, support the work, or give language to something that would otherwise stay vague.",
+          "Practical tools, nervous-system ideas, parts language, values work, or communication frameworks may have a place. They sit inside the broader psychodynamic and attachment frame rather than replacing it.",
+        ],
+      },
     ],
   },
   focus: {
@@ -141,8 +187,10 @@ function getWorkingTopicClassName(isTabletOrphan: boolean) {
 }
 
 export default function WorkingWithJoel() {
-  const { hero, approach, focus } = pageContent;
+  const { hero, introduction, approach, focus } = pageContent;
   const hasTabletOrphan = focus.items.length % 2 === 1;
+  const approachBaseId = useId();
+  const [openApproachIndex, setOpenApproachIndex] = useState<number | null>(null);
 
   useDocumentMetadata(pageContent.title, pageContent.meta);
 
@@ -176,12 +224,12 @@ export default function WorkingWithJoel() {
         </Container>
       </section>
 
-      <section className="site-grid working-with-joel-page__approach">
+      <section className="site-grid working-with-joel-page__intro">
         <Container className="site-split">
-          <div className="section-heading working-with-joel-page__approach-heading">
-            <h2 className="working-with-joel-page__approach-title">{approach.title}</h2>
+          <div className="section-heading working-with-joel-page__intro-heading">
+            <h2 className="working-with-joel-page__intro-title">{introduction.title}</h2>
             <aside
-              className="hero-media-note working-with-joel-page__approach-note"
+              className="hero-media-note working-with-joel-page__intro-note"
               aria-label="About Joel Griffiths"
             >
               <div className="hero-media-note__image">
@@ -195,15 +243,80 @@ export default function WorkingWithJoel() {
           </div>
 
           <article className="site-copy-panel rich-text">
-            {approach.paragraphs.map((paragraph) => (
+            {introduction.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </article>
         </Container>
       </section>
 
+      <section className="site-highlight working-with-joel-page__approach">
+        <Container className="working-approach">
+          <div className="working-approach__header">
+            <div className="section-heading working-with-joel-page__approach-heading">
+              <span className="site-eyebrow">{approach.eyebrow}</span>
+              <h2 className="working-with-joel-page__approach-title">{approach.title}</h2>
+            </div>
+            <div className="working-approach__overview rich-text">
+              {approach.overview.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+
+          <div className="working-approach__accordion" aria-label="How Joel works in counselling">
+            {approach.items.map((item, index) => {
+              const isOpen = openApproachIndex === index;
+              const triggerId = `${approachBaseId}-approach-trigger-${index}`;
+              const panelId = `${approachBaseId}-approach-panel-${index}`;
+
+              return (
+                <article className="working-approach__item" data-open={isOpen ? "true" : "false"} key={item.title}>
+                  <h3 className="working-approach__item-heading">
+                    <button
+                      aria-controls={panelId}
+                      aria-expanded={isOpen}
+                      className="working-approach__trigger"
+                      id={triggerId}
+                      onClick={() => setOpenApproachIndex((currentIndex) => (currentIndex === index ? null : index))}
+                      type="button"
+                    >
+                      <span className="working-approach__trigger-copy">
+                        <span className="working-approach__item-title">{item.title}</span>
+                        <span className="working-approach__summary">{item.summary}</span>
+                      </span>
+                      <span className="working-approach__icon" aria-hidden="true" />
+                    </button>
+                  </h3>
+
+                  <div
+                    aria-hidden={!isOpen}
+                    aria-labelledby={triggerId}
+                    className="working-approach__panel"
+                    data-open={isOpen ? "true" : "false"}
+                    id={panelId}
+                    ref={(node) => {
+                      if (node) {
+                        node.inert = !isOpen;
+                      }
+                    }}
+                    role="region"
+                  >
+                    <div className="working-approach__panel-inner">
+                      {item.details.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </Container>
+      </section>
+
       <section
-        className="site-highlight working-topics"
+        className="site-grid working-topics"
         aria-labelledby="working-with-joel-focus-title"
       >
         <Container>

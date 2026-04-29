@@ -31,17 +31,19 @@ type InclusionPageContent = {
       emphasis: string;
       lineTwoAfter: string;
     };
-    statement: {
-      lineOne: string;
-      lineTwo: string;
-    };
-    support: string;
     topics: {
       label: string;
       href: string;
     }[];
   };
   hub: {
+    intro: {
+      statement: {
+        lineOne: string;
+        lineTwo: string;
+      };
+      support: string;
+    };
     panels: InclusionPanel[];
   };
   faq: {
@@ -62,12 +64,6 @@ const inclusionPageContent: InclusionPageContent = {
       emphasis: "diverse lives",
       lineTwoAfter: ".",
     },
-    statement: {
-      lineOne: "Known before you arrive.",
-      lineTwo: "Not learned as you go.",
-    },
-    support:
-      "Kinky, non-monogamous, queer, or some mix of all three. As a member of Perth's kink and non-monogamy communities, Joel knows it from the inside. Even if what brings you here is entirely unrelated, nothing needs to be left at the door.",
     topics: [
       { label: "Kink & BDSM", href: "/inclusion/kink-bdsm" },
       { label: "ENM & Polyamory", href: "/inclusion/enm-polyamory" },
@@ -75,15 +71,22 @@ const inclusionPageContent: InclusionPageContent = {
     ],
   },
   hub: {
+    intro: {
+      statement: {
+        lineOne: "Known before you arrive.",
+        lineTwo: "Not learned as you go.",
+      },
+      support:
+        "Kinky, non-monogamous, queer, or some mix of all three. As a member of Perth's kink and non-monogamy communities, Joel knows it from the inside. Even if what brings you here is entirely unrelated, nothing needs to be left at the door.",
+    },
     panels: [
       {
         eyebrow: "Kink & BDSM-aware counselling",
         heading: "Not the problem by default. Not off limits either.",
         href: "/inclusion/kink-bdsm",
         paragraphs: [
-          "Whatever the desire, it can be named plainly. Nothing about it needs to be introduced carefully or landed gently. D/s, bondage, fetish, masochism, desires that have lived privately for years. None of it needs softening or explaining first. Sometimes it is exactly what brings you here. Sometimes it is simply there, alongside everything else.",
-          "Consensual kink, BDSM, D/s, fetish and power exchange are not treated here as damage, danger or a diagnosis to explain away. At the same time, nothing has to be smoothed over. Consent can be unclear. Boundaries can be crossed. Dynamics can stop feeling okay. Shame, secrecy, drop, disclosure, mismatch, trauma responses and relationship strain can all be talked about plainly, without panic or moralising.",
-        ],
+          "Whatever the desire, it can be named plainly. Nothing about it needs to be introduced carefully or landed gently. D/s, bondage, fetish, masochism, desires that have lived privately for years. Sometimes it is exactly what brings you here. Sometimes it is simply there, alongside everything else.",
+"Consensual kink is not treated here as damage, danger or a diagnosis to explain away. And nothing has to be smoothed over. Consent can be unclear. Boundaries can be crossed. Dynamics can stop feeling okay. All of it can be talked about plainly, without panic or moralising."        ],
         cta: "Kink & BDSM-aware counselling",
       },
       {
@@ -91,8 +94,8 @@ const inclusionPageContent: InclusionPageContent = {
         heading: "Your relationships are real. So are the hard parts.",
         href: "/inclusion/enm-polyamory",
         paragraphs: [
-          "Polyamory and ENM are just how some people's relationships work. Whether you are settled in how you live, newly opening, a hinge under pressure, in a mono/poly relationship, or wondering if it's actually for you, all of it belongs. Hinge dynamics, metamours, nesting partners, hierarchy, jealousy alongside compersion. None of it needs explaining. The relationships are real.",
-          "Counselling without real knowledge of these relationships can cause genuine harm, even when nobody means to. What feels like progress through a monogamous lens can set things up to fail. The hard parts, the insecurity, comparison, stretched time, broken agreements, pressure to be fine, the weight of multiple attachments. They deserve real support, not a quiet suggestion that it would all be easier another way.",
+          "Polyamory and ENM aren't edge cases, they're just how some people's relationships work. Whether you're settled in that, newly opening, a hinge under pressure, or still working out whether it's actually for you, the whole shape of it belongs here. The structures, the agreements, the places where jealousy and compersion sit right next to each other. The relationships are real.",
+          "Counselling without genuine knowledge of these relationships can cause real harm, even when nobody means it to. What feels like progress through a monogamous lens can set things up to fail. The hard parts, insecurity, stretched time, broken agreements, the pressure to seem fine, the weight of caring about more than one person, deserve real support, not a quiet suggestion that it would all be easier another way.",
         ],
         cta: "ENM & polyamory counselling",
       },
@@ -101,7 +104,9 @@ const inclusionPageContent: InclusionPageContent = {
         heading: "Affirming support without making identity the whole story",
         href: "/inclusion/lgbtqia",
         paragraphs: [
-"The queer territory is already known here. Minority stress, family, religion, shame, transition, grief. So is everything else you bring. Anxiety, relationships, work, loss, the thing that's been sitting with you."        ],
+          "This is a straight practitioner. That is worth knowing, and it is not the whole picture. Kink, non-monogamy, chosen family, trans experience, the particular weight of religious backgrounds, the grief that comes with families who don't come through. This is not a world visited professionally. It is the world this practice comes from.",
+          "Being queer is part of what you bring here. It is not a lens imposed on everything else you bring. The anxiety, the relationship, the work situation, the thing that has been sitting with you. None of it gets routed back through identity unless that is where it actually leads.",
+        ],
         cta: "LGBTQIA+ affirming counselling",
       },
     ],
@@ -152,6 +157,7 @@ export default function InclusivePractice() {
               <div className="inclusion-hero__headline-block">
                 <h1 className="hero-display inclusion-hero__title">
                   <span>{hero.title.lineOne}</span>
+                  {" "}
                   <span>
                     {hero.title.lineTwoBefore}
                     <em>
@@ -172,20 +178,20 @@ export default function InclusivePractice() {
                 </div>
               </nav>
             </div>
-
-            <div className="inclusion-hero__caption">
-              <p className="inclusion-hero__statement">
-                <span>{hero.statement.lineOne}</span>
-                <span>{hero.statement.lineTwo}</span>
-              </p>
-              <p className="inclusion-hero__support">{hero.support}</p>
-            </div>
           </Container>
         </div>
       </section>
 
       <section className="site-grid inclusion-hub">
         <Container>
+          <div className="inclusion-hub__intro">
+            <h2 className="inclusion-hub__intro-statement">
+              <span>{hub.intro.statement.lineOne}</span>
+              <span>{hub.intro.statement.lineTwo}</span>
+            </h2>
+            <p className="inclusion-hub__intro-support">{hub.intro.support}</p>
+          </div>
+
           <div className="inclusion-hub__panels">
             {hub.panels.map((panel) => (
               <article className="site-copy-panel inclusion-hub__panel" key={panel.heading}>

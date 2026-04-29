@@ -130,8 +130,7 @@ export default function Contact() {
           <div className="hero-top hero-top--supporting-media">
             <div>
               <h1 className="hero-display">
-                {hero.title.before}
-                <br />
+                {hero.title.before}{" "}
                 <em>{hero.title.emphasis}</em>
                 {hero.title.after}
               </h1>

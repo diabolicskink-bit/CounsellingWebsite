@@ -6,7 +6,6 @@ The site should feel:
 
 - grounded
 - spacious
-- emotionally steady
 - warm but not casual
 - confident without being sales-driven
 - quietly playful where it sharpens the human voice
@@ -15,10 +14,8 @@ The site should feel:
 The site should not feel:
 
 - loud
-- glossy
 - startup-branded
 - app-like
-- heavily decorative
 - clinical or cold
 - solemnly bland
 - like generic wellness content
@@ -30,10 +27,7 @@ Typography and spacing do most of the work, but they should not make the site ti
 - Serif headings carry emotional and editorial weight.
 - Sans-serif body copy stays practical and easy to read.
 - Section rhythm comes from alternating paper and soft surface backgrounds.
-- Borders and spacing are preferred over strong shadow or ornamental effects.
 - Accent colour is used sparingly for actions and emphasis, not as a general background system.
-- Major public pages can have one memorable editorial move: an unusually strong line break, a confident asymmetry, a distinctive support panel, or a sharper content rhythm.
-- Playfulness should come from specificity, tension, proportion, and language, not from cute decoration.
 
 ## Content Hierarchy
 

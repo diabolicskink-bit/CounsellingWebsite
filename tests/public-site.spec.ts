@@ -208,6 +208,44 @@ test.describe("alias URL redirects", () => {
   }
 });
 
+test.describe("working with Joel approach accordion", () => {
+  test("starts closed and keeps zero-or-one panel open", async ({ page }) => {
+    await page.goto("/working-with-joel", { waitUntil: "networkidle" });
+
+    const psychodynamic = page.getByRole("button", { name: /Psychodynamic/ });
+    const attachment = page.getByRole("button", { name: /Attachment/ });
+    const integrative = page.getByRole("button", { name: /Integrative/ });
+
+    await expect(page.locator(".working-approach__number")).toHaveCount(0);
+    await expect(psychodynamic).toHaveAttribute("aria-expanded", "false");
+    await expect(attachment).toHaveAttribute("aria-expanded", "false");
+    await expect(integrative).toHaveAttribute("aria-expanded", "false");
+
+    const psychodynamicPanelId = await psychodynamic.getAttribute("aria-controls");
+
+    expect(psychodynamicPanelId).toBeTruthy();
+
+    await psychodynamic.click();
+    await expect(psychodynamic).toHaveAttribute("aria-expanded", "true");
+    await expect(attachment).toHaveAttribute("aria-expanded", "false");
+    await expect(integrative).toHaveAttribute("aria-expanded", "false");
+
+    if (psychodynamicPanelId) {
+      await expect(page.locator(`[id="${psychodynamicPanelId}"]`)).toHaveAttribute("data-open", "true");
+    }
+
+    await attachment.click();
+    await expect(psychodynamic).toHaveAttribute("aria-expanded", "false");
+    await expect(attachment).toHaveAttribute("aria-expanded", "true");
+    await expect(integrative).toHaveAttribute("aria-expanded", "false");
+
+    await attachment.click();
+    await expect(psychodynamic).toHaveAttribute("aria-expanded", "false");
+    await expect(attachment).toHaveAttribute("aria-expanded", "false");
+    await expect(integrative).toHaveAttribute("aria-expanded", "false");
+  });
+});
+
 test.describe("retired route boundaries", () => {
   for (const route of retiredRoutes) {
     test(`${route} is not registered`, async ({ page }) => {
