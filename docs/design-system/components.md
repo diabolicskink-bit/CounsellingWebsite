@@ -22,9 +22,9 @@ Start with these shared building blocks before creating anything new. Use them w
 ## Shared CSS Patterns
 
 - `.site-grid`
-  Default public-page section surface. Use this for the first non-hero section and as the neutral step in the shared alternating page rhythm.
+  Default public-page section surface with a pale paper gradient. Use this for the first non-hero section and as the neutral step in the shared alternating page rhythm.
 - `.site-highlight`
-  Quieter sage public-page section surface. Use this between `site-grid` sections when the shared alternating rhythm fits; create a page-scoped wrapper when the section needs a genuinely different composition.
+  Muted paper-sage public-page section band. Use this between `site-grid` sections when the shared alternating rhythm fits; create a page-scoped wrapper when the section needs a genuinely different composition.
 - `.site-content-stack`
   Shared vertical stack for pairing a card grid, copy panel, principle list, or ruled note inside the content side of a split section.
 - `.site-topic-grid`

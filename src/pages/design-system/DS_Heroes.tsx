@@ -126,7 +126,7 @@ export default function DS_Heroes() {
   useDocumentMetadata("Heroes | Design System | Vive Counselling");
 
   return (
-    <main className="site-page design-language-page">
+    <main className="site-page">
       <DevPageHero
         badge="Design system"
         title="Heroes"

@@ -8,7 +8,7 @@ Primary tokens live in `src/styles.css`.
 - `--surface`: soft green section surface
 - `--surface-strong`: cards, form panels, inset surfaces
 - `--surface-muted`: very light alternate wash
-- `--site-highlight-bg`: quiet alternate section surface used by `.site-highlight`
+- `--site-highlight-bg`: muted paper-sage alternate section band used by `.site-highlight`
 - `--site-footer-bg`: deeper green closing surface used by `.site-footer`
 - `--line`: borders and dividers
 - `--ink`: headings and strongest text
@@ -69,6 +69,6 @@ Type role variables are allowed to adjust at breakpoints. At the current compact
 
 - Use the shared `.container` width logic via the `Container` component.
 - Major sections should usually have generous block padding.
-- Use `.site-grid` for the neutral section surface and `.site-highlight` for the quieter alternating surface when the shared section rhythm fits. Create page-scoped section wrappers when the content needs a genuinely different composition.
+- Use `.site-grid` for the neutral section surface and `.site-highlight` for the darker paper-sage alternating band when the shared section rhythm fits. Create page-scoped section wrappers when the content needs a genuinely different composition.
 - Card and panel spacing should stay consistent across pages.
 - Card grid gaps should stay in the restrained range already used across the site.

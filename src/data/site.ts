@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
+import { devRoutePaths, publicRoutePaths, routeHref } from "./routes";
 
 export type NavItem = {
   label: string;
@@ -16,48 +17,48 @@ export type NavItem = {
 };
 
 export const navItems: NavItem[] = [
-  { label: "Home", href: "/" },
-  { label: "Working with Joel", href: "/working-with-joel" },
+  { label: "Home", href: routeHref(publicRoutePaths.home) },
+  { label: "Working with Joel", href: routeHref(publicRoutePaths.workingWithJoel) },
   {
     label: "Inclusion",
-    href: "/inclusion",
+    href: routeHref(publicRoutePaths.inclusion),
     children: [
-      { label: "Kink & BDSM", href: "/inclusion/kink-bdsm" },
-      { label: "ENM & polyamory", href: "/inclusion/enm-polyamory" },
-      { label: "LGBTQIA+", href: "/inclusion/lgbtqia" },
+      { label: "Kink & BDSM", href: routeHref(publicRoutePaths.kinkBdsm) },
+      { label: "ENM & polyamory", href: routeHref(publicRoutePaths.enmPolyamory) },
+      { label: "LGBTQIA+", href: routeHref(publicRoutePaths.lgbtqia) },
     ],
   },
   ...(import.meta.env.DEV
     ? [
         {
           label: "Dev",
-          href: "/design-language",
+          href: routeHref(devRoutePaths.designLanguage),
           devOnly: true,
           children: [
             {
               label: "Design",
-              href: "/design-language",
+              href: routeHref(devRoutePaths.designLanguage),
               children: [
-                { label: "Foundations", href: "/design-language/foundations" },
-                { label: "Components", href: "/design-language/components" },
-                { label: "Heroes", href: "/design-language/heroes" },
-                { label: "Patterns", href: "/design-language/patterns" },
+                { label: "Foundations", href: routeHref(devRoutePaths.designLanguageFoundations) },
+                { label: "Components", href: routeHref(devRoutePaths.designLanguageComponents) },
+                { label: "Heroes", href: routeHref(devRoutePaths.designLanguageHeroes) },
+                { label: "Patterns", href: routeHref(devRoutePaths.designLanguagePatterns) },
               ],
             },
-            { label: "Documents", href: "/documents" },
+            { label: "Documents", href: routeHref(devRoutePaths.documents) },
             {
               label: "Test Beds",
-              href: "/codex-tb",
+              href: routeHref(devRoutePaths.codexTestBed),
               children: [
-                { label: "Codex TB", href: "/codex-tb" },
-                { label: "Opus TB", href: "/opus-tb" },
+                { label: "Codex TB", href: routeHref(devRoutePaths.codexTestBed) },
+                { label: "Opus TB", href: routeHref(devRoutePaths.opusTestBed) },
               ],
             },
           ],
         },
       ]
     : []),
-  { label: "Fees", href: "/contact" },
+  { label: "Fees", href: routeHref(publicRoutePaths.contact) },
 ];
 
 export const fitItems: Array<{ icon: LucideIcon; label: string }> = [

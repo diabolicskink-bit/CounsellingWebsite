@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useState, type KeyboardEvent } from "react";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
@@ -42,7 +42,6 @@ type WorkingWithJoelPageContent = {
     paragraphs: string[];
   };
   approach: {
-    eyebrow: string;
     title: string;
     overview: string[];
     items: ApproachItem[];
@@ -71,9 +70,10 @@ const pageContent: WorkingWithJoelPageContent = {
     supportBody:
       "Relationships, work, how you feel about yourself, the thing that's been sitting with you. It's all connected.",
     credentials: [
-      "Graduate Diploma - Counselling and Psychotherapy",
-      "ACA Registered Counsellor",
-      "Kink and ENM informed; LGBTQIA+ affirming",
+      "GradDip. Counselling and Psychotherapy",
+      "ACA Registered",
+      "Kink & ENM informed",
+      "LGBTQIA+ affirming",
     ],
     portrait: {
       name: "Joel Griffiths",
@@ -89,7 +89,6 @@ const pageContent: WorkingWithJoelPageContent = {
     ],
   },
   approach: {
-    eyebrow: "My approach",
     title: "How I work",
     overview: [
       "My work is psychodynamic and attachment-informed, held within an integrative frame. In practice, that means paying attention to the pattern beneath the immediate problem: how it formed, how it protects you, and how it shows up in relationships, work, shame, desire, anger, and the room itself.",
@@ -186,11 +185,52 @@ function getWorkingTopicClassName(isTabletOrphan: boolean) {
     .join(" ");
 }
 
+const approachPanelId = "working-with-joel-approach-tab-panel";
+
+function getApproachTabId(index: number) {
+  return `working-with-joel-approach-tab-${index}`;
+}
+
 export default function WorkingWithJoel() {
   const { hero, introduction, approach, focus } = pageContent;
   const hasTabletOrphan = focus.items.length % 2 === 1;
-  const approachBaseId = useId();
-  const [openApproachIndex, setOpenApproachIndex] = useState<number | null>(null);
+  const [activeApproachTab, setActiveApproachTab] = useState(0);
+  const activeApproachItem = approach.items[activeApproachTab];
+
+  function focusApproachTab(index: number) {
+    window.requestAnimationFrame(() => {
+      document.getElementById(getApproachTabId(index))?.focus();
+    });
+  }
+
+  function handleApproachTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    const lastIndex = approach.items.length - 1;
+    let nextIndex: number | null = null;
+
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      nextIndex = index === lastIndex ? 0 : index + 1;
+    }
+
+    if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      nextIndex = index === 0 ? lastIndex : index - 1;
+    }
+
+    if (event.key === "Home") {
+      nextIndex = 0;
+    }
+
+    if (event.key === "End") {
+      nextIndex = lastIndex;
+    }
+
+    if (nextIndex === null) {
+      return;
+    }
+
+    event.preventDefault();
+    setActiveApproachTab(nextIndex);
+    focusApproachTab(nextIndex);
+  }
 
   useDocumentMetadata(pageContent.title, pageContent.meta);
 
@@ -227,7 +267,7 @@ export default function WorkingWithJoel() {
       <section className="site-grid working-with-joel-page__intro">
         <Container className="site-split">
           <div className="section-heading working-with-joel-page__intro-heading">
-            <h2 className="working-with-joel-page__intro-title">{introduction.title}</h2>
+            <h2 className="working-with-joel-page__section-title">{introduction.title}</h2>
             <aside
               className="hero-media-note working-with-joel-page__intro-note"
               aria-label="About Joel Griffiths"
@@ -250,67 +290,46 @@ export default function WorkingWithJoel() {
         </Container>
       </section>
 
-      <section className="site-highlight working-with-joel-page__approach">
-        <Container className="working-approach">
-          <div className="working-approach__header">
-            <div className="section-heading working-with-joel-page__approach-heading">
-              <span className="site-eyebrow">{approach.eyebrow}</span>
-              <h2 className="working-with-joel-page__approach-title">{approach.title}</h2>
-            </div>
-            <div className="working-approach__overview rich-text">
+      <section className="site-highlight working-with-joel-page__approach-tab">
+        <Container className="approach-tab">
+          <div className="section-heading approach-tab__intro">
+            <h2 className="working-with-joel-page__section-title">{approach.title}</h2>
+            <div className="approach-tab__overview">
               {approach.overview.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+                <p className="section-heading__copy" key={paragraph}>{paragraph}</p>
               ))}
             </div>
           </div>
-
-          <div className="working-approach__accordion" aria-label="How Joel works in counselling">
-            {approach.items.map((item, index) => {
-              const isOpen = openApproachIndex === index;
-              const triggerId = `${approachBaseId}-approach-trigger-${index}`;
-              const panelId = `${approachBaseId}-approach-panel-${index}`;
-
-              return (
-                <article className="working-approach__item" data-open={isOpen ? "true" : "false"} key={item.title}>
-                  <h3 className="working-approach__item-heading">
-                    <button
-                      aria-controls={panelId}
-                      aria-expanded={isOpen}
-                      className="working-approach__trigger"
-                      id={triggerId}
-                      onClick={() => setOpenApproachIndex((currentIndex) => (currentIndex === index ? null : index))}
-                      type="button"
-                    >
-                      <span className="working-approach__trigger-copy">
-                        <span className="working-approach__item-title">{item.title}</span>
-                        <span className="working-approach__summary">{item.summary}</span>
-                      </span>
-                      <span className="working-approach__icon" aria-hidden="true" />
-                    </button>
-                  </h3>
-
-                  <div
-                    aria-hidden={!isOpen}
-                    aria-labelledby={triggerId}
-                    className="working-approach__panel"
-                    data-open={isOpen ? "true" : "false"}
-                    id={panelId}
-                    ref={(node) => {
-                      if (node) {
-                        node.inert = !isOpen;
-                      }
-                    }}
-                    role="region"
-                  >
-                    <div className="working-approach__panel-inner">
-                      {item.details.map((paragraph) => (
-                        <p key={paragraph}>{paragraph}</p>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+          <div className="approach-tab__card">
+            <div className="approach-tab__tabs" role="tablist" aria-label="Counselling approach">
+              {approach.items.map((item, index) => (
+                <button
+                  aria-controls={approachPanelId}
+                  aria-selected={activeApproachTab === index}
+                  className="approach-tab__tab"
+                  data-active={activeApproachTab === index ? "true" : "false"}
+                  id={getApproachTabId(index)}
+                  key={item.title}
+                  onKeyDown={(event) => handleApproachTabKeyDown(event, index)}
+                  onClick={() => setActiveApproachTab(index)}
+                  role="tab"
+                  tabIndex={activeApproachTab === index ? 0 : -1}
+                  type="button"
+                >
+                  {item.title}
+                </button>
+              ))}
+            </div>
+            <div
+              aria-labelledby={getApproachTabId(activeApproachTab)}
+              className="approach-tab__content"
+              id={approachPanelId}
+              role="tabpanel"
+            >
+              {activeApproachItem.details.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
           </div>
         </Container>
       </section>
@@ -322,7 +341,7 @@ export default function WorkingWithJoel() {
         <Container>
           <div className="site-grid__heading working-topics__header">
             <span className="site-eyebrow">{focus.eyebrow}</span>
-            <h2 id="working-with-joel-focus-title">{focus.title}</h2>
+            <h2 className="working-with-joel-page__section-title" id="working-with-joel-focus-title">{focus.title}</h2>
           </div>
 
           <div className="working-topics__panel">

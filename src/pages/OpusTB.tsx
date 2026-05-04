@@ -3,44 +3,41 @@ import Button from "../components/Button";
 import Container from "../components/Container";
 import DevPageHero from "../components/DevPageHero";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
+import "../styles-opus-tb.css";
 
 const cleanupNotes = [
-  "The approach hero background candidates have been retired now that the shared hero system is established.",
-  "Shared hero spacing, display type scale, and the default hero background now live in the design system rather than this test route.",
-  "This page remains as a lightweight Opus workspace so future experiments can start cleanly instead of inheriting old candidate code.",
+  "Five How I Work section candidates were explored here: Ledger split, Triptych cards, Manifesto, Tab panel, and Essay.",
+  "The tab panel direction was selected and shipped to the Working With Joel page with keyboard navigation and full ARIA support.",
+  "This page is now a clean workspace — ready for the next experiment.",
 ];
 
 export default function OpusTB() {
   useDocumentMetadata(
-    "Opus TB | Hero archive",
-    "Opus test bed archive. The approach hero background trials have been retired now that the shared hero system is in place."
+    "Opus TB",
+    "Opus test bed. How I Work candidates have been retired — tab panel shipped to the live page.",
   );
 
   return (
     <main className="site-page opus-tb-page">
       <DevPageHero
         badge="Opus TB"
-        title="Hero trials retired."
-        description="The older hero background candidates have been cleared out now that the shared hero system and live page direction are in place."
+        title="How I work — shipped."
+        description="The tab panel direction from the How I Work candidates has been implemented on the live Working With Joel page. This workspace is clear for the next experiment."
       >
         <div className="site-actions">
           <Button href="/working-with-joel" variant="secondary">
-            Current live page <ArrowRight size={16} />
-          </Button>
-          <Button href="/design-language/heroes" variant="secondary">
-            Hero system <ArrowRight size={16} />
+            Live page <ArrowRight size={16} />
           </Button>
         </div>
       </DevPageHero>
 
-      <section className="test-bed-commentary-section">
+      <section className="opus-tb-commentary">
         <Container>
           <div className="site-grid__heading">
             <p className="site-eyebrow">Cleanup</p>
-            <h2>What changed</h2>
+            <h2>What shipped</h2>
           </div>
-
-          <div className="test-bed-commentary-grid">
+          <div className="opus-tb-commentary__grid">
             {cleanupNotes.map((note) => (
               <article className="site-card" key={note}>
                 <p>{note}</p>

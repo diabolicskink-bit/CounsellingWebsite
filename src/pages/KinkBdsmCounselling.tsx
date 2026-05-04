@@ -1,4 +1,4 @@
-import { ArrowRight, Asterisk } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -97,7 +97,7 @@ const kinkPageContent: KinkPageContent = {
       language: {
         ariaLabel: "Kink and BDSM language",
         listItems: [
-          "D/s",
+          "D/S",
           "Bondage",
           "Rope",
           "Impact",
@@ -112,7 +112,7 @@ const kinkPageContent: KinkPageContent = {
           "Degradation",
           "CNC",
           "Objectification",
-          "Aftercare",
+          "High Protocol",
         ],
       },
     },
@@ -221,7 +221,6 @@ export default function KinkBdsmCounselling() {
               <ul className="kink-page__language-field">
                 {panelSection.knowledgeSection.language.listItems.map((label) => (
                   <li key={label}>
-                    <Asterisk className="kink-page__language-icon" size={15} strokeWidth={2.4} />
                     <span>{label}</span>
                   </li>
                 ))}

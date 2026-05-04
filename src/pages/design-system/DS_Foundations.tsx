@@ -133,13 +133,13 @@ const layoutRules = [
     label: "Shared section",
     token: ".site-grid",
     value: "40px block padding",
-    guidance: "Default public-page section surface. Use as the neutral step in the alternating rhythm.",
+    guidance: "Pale paper-gradient section surface. Use as the neutral step in the alternating rhythm.",
   },
   {
     label: "Highlighted section",
     token: ".site-highlight",
     value: "40px block padding",
-    guidance: "Quiet sage alternate surface. Use between site-grid sections instead of local wrapper classes.",
+    guidance: "Muted paper-sage alternate band. Use between site-grid sections instead of local wrapper classes.",
   },
   {
     label: "Split layout",

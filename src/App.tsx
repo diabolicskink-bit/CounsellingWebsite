@@ -10,6 +10,7 @@ import KinkBdsmCounselling from "./pages/KinkBdsmCounselling";
 import LgbtqiaCounselling from "./pages/LgbtqiaCounselling";
 import NotFound from "./pages/NotFound";
 import WorkingWithJoel from "./pages/WorkingWithJoel";
+import { devRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/routes";
 
 const devPages = import.meta.env.DEV
   ? {
@@ -24,7 +25,21 @@ const devPages = import.meta.env.DEV
     }
   : null;
 
-function renderDevPage(Page: NonNullable<typeof devPages>[keyof NonNullable<typeof devPages>]) {
+type DevPages = NonNullable<typeof devPages>;
+type DevPageKey = keyof DevPages;
+
+const devRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof typeof devRoutePaths] }> = [
+  { path: devRoutePaths.codexTestBed, page: "CodexTB" },
+  { path: devRoutePaths.opusTestBed, page: "OpusTB" },
+  { path: devRoutePaths.documents, page: "Documents" },
+  { path: devRoutePaths.designLanguage, page: "DesignLanguage" },
+  { path: devRoutePaths.designLanguageFoundations, page: "DS_Foundations" },
+  { path: devRoutePaths.designLanguageComponents, page: "DS_Components" },
+  { path: devRoutePaths.designLanguageHeroes, page: "DS_Heroes" },
+  { path: devRoutePaths.designLanguagePatterns, page: "DS_Patterns" },
+];
+
+function renderDevPage(Page: DevPages[DevPageKey]) {
   return (
     <Suspense fallback={null}>
       <Page />
@@ -39,26 +54,20 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="about" element={<Navigate to="/working-with-joel" replace />} />
-          <Route path="working-with-joel" element={<WorkingWithJoel />} />
-          <Route path="inclusion" element={<InclusivePractice />} />
-          <Route path="inclusion/kink-bdsm" element={<KinkBdsmCounselling />} />
-          <Route path="inclusion/enm-polyamory" element={<EnmPolyamoryCounselling />} />
-          <Route path="inclusion/lgbtqia" element={<LgbtqiaCounselling />} />
-          {devPages ? (
-            <>
-              <Route path="codex-tb" element={renderDevPage(devPages.CodexTB)} />
-              <Route path="opus-tb" element={renderDevPage(devPages.OpusTB)} />
-              <Route path="documents" element={renderDevPage(devPages.Documents)} />
-              <Route path="design-language" element={renderDevPage(devPages.DesignLanguage)} />
-              <Route path="design-language/foundations" element={renderDevPage(devPages.DS_Foundations)} />
-              <Route path="design-language/components" element={renderDevPage(devPages.DS_Components)} />
-              <Route path="design-language/heroes" element={renderDevPage(devPages.DS_Heroes)} />
-              <Route path="design-language/patterns" element={renderDevPage(devPages.DS_Patterns)} />
-            </>
-          ) : null}
-          <Route path="fees" element={<Navigate to="/contact" replace />} />
-          <Route path="contact" element={<Contact />} />
+          {publicRedirectRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={<Navigate to={route.to} replace />} />
+          ))}
+          <Route path={publicRoutePaths.workingWithJoel} element={<WorkingWithJoel />} />
+          <Route path={publicRoutePaths.inclusion} element={<InclusivePractice />} />
+          <Route path={publicRoutePaths.kinkBdsm} element={<KinkBdsmCounselling />} />
+          <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
+          <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
+          {devPages
+            ? devRoutes.map((route) => (
+                <Route key={route.path} path={route.path} element={renderDevPage(devPages[route.page])} />
+              ))
+            : null}
+          <Route path={publicRoutePaths.contact} element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

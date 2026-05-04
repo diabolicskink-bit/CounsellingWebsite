@@ -45,7 +45,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 
 ## Partially Included / In Progress
 
-- The design-system pages exist, but they still depend on `ds-*` documentation scaffolding and some older `design-language-*` wrappers.
+- The design-system pages exist, but they still depend on `ds-*` documentation scaffolding and some older `design-language-*` reference/demo classes.
 - `ds-*` is still used for docs/dev scaffolding in `src/styles-dev.css`, the design-system pages, the Documents page, and design-system support components. It can remain where the need is truly docs-only and no shared production pattern fits, but it is not an active production layer.
 - The Patterns page is mixed. It includes active `site-*` and `hero-*` examples, but it also shows older `design-language-*` candidate/reference patterns that should not be copied into production as-is.
 - The hero system is active and canonical, but some pages still layer page-scoped hero classes on top of it for composition-specific needs.

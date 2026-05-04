@@ -116,7 +116,7 @@ Current rendered design-system routes are under `/design-language/...`, even tho
   Purpose: active reference for the shared `hero-*` system.
   Belongs there: hero anatomy, display heading, intro/deck/copy-panel variants, support strips, media notes, background, and full hero composition.
   Status: active canonical hero reference.
-  Gap: the page still carries the `design-language-page` wrapper class, which is a legacy name even when the examples themselves use active `hero-*` classes.
+  Gap: keep hero examples aligned with the active `hero-*` system when shared hero behaviour changes.
 
 - Patterns page: `src/pages/design-system/DS_Patterns.tsx`
   Purpose: page-level composition reference.

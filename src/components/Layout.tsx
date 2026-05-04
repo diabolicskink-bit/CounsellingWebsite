@@ -2,20 +2,10 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
+import { usesSharedChromePath } from "../data/routes";
 import { navItems, type NavItem } from "../data/site";
 import Button from "./Button";
 import Container from "./Container";
-
-const sharedChromePaths = new Set([
-  "/about",
-  "/contact",
-  "/fees",
-  "/inclusion",
-  "/working-with-joel",
-  ...(import.meta.env.DEV ? ["/codex-tb", "/design-language", "/documents", "/opus-tb"] : []),
-]);
-
-const sharedChromePrefixes = ["/inclusion/", ...(import.meta.env.DEV ? ["/design-language/"] : [])];
 
 const headerNavItems = navItems.filter((item) => !item.devOnly || import.meta.env.DEV);
 
@@ -27,15 +17,11 @@ function itemIsActive(item: NavItem, pathname: string): boolean {
   return item.children?.some((child) => itemIsActive(child, pathname)) ?? false;
 }
 
-function usesSharedChrome(pathname: string) {
-  return sharedChromePaths.has(pathname) || sharedChromePrefixes.some((prefix) => pathname.startsWith(prefix));
-}
-
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const currentYear = new Date().getFullYear();
-  const usesSiteChrome = usesSharedChrome(location.pathname);
+  const usesSiteChrome = usesSharedChromePath(location.pathname);
 
   const closeMenu = () => setIsOpen(false);
   const blurDesktopNavLinkAfterPointerClick = (event: ReactPointerEvent<HTMLAnchorElement>) => {

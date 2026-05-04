@@ -1,0 +1,22 @@
+/* Opus TB — workspace styles. Add experiment-scoped CSS here. */
+
+.opus-tb-page {
+  background: var(--paper);
+}
+
+.opus-tb-commentary {
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+.opus-tb-commentary__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.6rem);
+  margin-top: clamp(1.5rem, 3vw, 2.4rem);
+}
+
+@media (max-width: 700px) {
+  .opus-tb-commentary__grid {
+    grid-template-columns: 1fr;
+  }
+}
