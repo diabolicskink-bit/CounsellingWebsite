@@ -171,7 +171,7 @@ The palette is a grounded counselling palette: warm paper, quiet sage, and deep 
 
 ### Named Rules
 
-**The One Strong H1 Rule.** One page-opening H1 sets the emotional register. Do not stack competing hero statements.
+**The One Visible H1 Rule.** One visible H1 names the page topic. In shared heroes, the concise H1 label is followed by one expressive display statement.
 
 **The Practical Body Rule.** Body copy is not where the brand performs. It should read cleanly, say the thing, and get out of the way.
 
@@ -234,7 +234,7 @@ Desktop navigation is text-led, medium weight, and quiet. Active states use ceda
 
 ### Signature Component: Public Hero
 
-The hero system is canonical. Use a full-width hero section with a continuous paper/sage background, a large serif display heading, optional cedar emphasis, a ruled copy panel, and quiet support details. Extend it intentionally when a page needs stronger art direction; document the extension instead of inventing an untracked skin.
+The hero system is canonical. Use a full-width hero section with a continuous paper/sage background, a concise visible H1 topic label, a large serif display statement, optional cedar emphasis, a ruled copy panel, and quiet support details. Extend it intentionally when a page needs stronger art direction; document the extension instead of inventing an untracked skin.
 
 ### Signature Component: Enquiry Form
 

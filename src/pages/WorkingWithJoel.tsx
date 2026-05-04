@@ -200,14 +200,14 @@ export default function WorkingWithJoel() {
         <Container>
           <div className="hero-top working-with-joel-page__hero-top">
             <div className="working-with-joel-page__hero-heading">
-              <span className="hero-badge">{hero.badge}</span>
-              <h1 className="hero-display">
+              <h1 className="hero-badge">{hero.badge}</h1>
+              <h2 className="hero-display">
                 {hero.title.before}
                 <br />
                 <em>{hero.title.emphasis}</em>
                 <br />
                 {hero.title.after}
-              </h1>
+              </h2>
             </div>
 
             <div className="hero-deck working-with-joel-page__hero-support">

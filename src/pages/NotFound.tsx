@@ -37,12 +37,12 @@ export default function NotFound() {
         <Container>
           <div className="hero-top">
             <div>
-              <span className="hero-badge">404</span>
-              <h1 className="hero-display">
+              <h1 className="hero-badge">Page not found</h1>
+              <h2 className="hero-display">
                 This page does{" "}
                 <br />
                 not <em>exist</em>.
-              </h1>
+              </h2>
             </div>
             <div className="hero-copy-panel">
               <p>

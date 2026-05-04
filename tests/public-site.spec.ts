@@ -25,6 +25,16 @@ const publicRoutes = [
   "/contact",
 ] as const;
 
+const expectedPublicH1Text: Record<(typeof publicRoutes)[number], string> = {
+  "/": "Online counselling across Australia",
+  "/working-with-joel": "Working with Joel Griffiths",
+  "/inclusion": "Inclusive counselling",
+  "/inclusion/kink-bdsm": "Kink & BDSM-aware counselling",
+  "/inclusion/enm-polyamory": "ENM and polyamory counselling",
+  "/inclusion/lgbtqia": "Queer-affirming counselling",
+  "/contact": "Contact and fees",
+};
+
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
@@ -79,6 +89,8 @@ test.describe("public pages", () => {
       await expect(page.locator("main").first()).toBeVisible();
       await expect(page.locator("h1")).toHaveCount(1);
       await expect(page.locator("h1")).toBeVisible();
+      await expect(page.locator("h1")).toHaveText(expectedPublicH1Text[route]);
+      await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(1);
       await expect(page).not.toHaveTitle(/^Vive Counselling$/);
 
       const h1Text = (await page.locator("h1").innerText()).trim();
@@ -252,7 +264,8 @@ test.describe("retired route boundaries", () => {
       await page.goto(route, { waitUntil: "networkidle" });
 
       await expect(page).toHaveTitle("Page not found | Vive Counselling");
-      await expect(page.locator("h1")).toContainText(/This page does\s*not exist/);
+      await expect(page.locator("h1")).toHaveText("Page not found");
+      await expect(page.locator("h2.hero-display")).toContainText(/This page does\s*not exist/);
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
     });
   }
@@ -264,7 +277,8 @@ test.describe("production route boundaries", () => {
       await page.goto(route, { waitUntil: "networkidle" });
 
       await expect(page).toHaveTitle("Page not found | Vive Counselling");
-      await expect(page.locator("h1")).toContainText(/This page does\s*not exist/);
+      await expect(page.locator("h1")).toHaveText("Page not found");
+      await expect(page.locator("h2.hero-display")).toContainText(/This page does\s*not exist/);
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
       await expect(page.getByRole("link", { name: "Dev" })).toHaveCount(0);
     });

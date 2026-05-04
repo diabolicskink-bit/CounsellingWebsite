@@ -76,7 +76,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-body,
 button,
 input,
 textarea,
@@ -3549,9 +3548,9 @@ p {
 }
 
 /* â”€â”€ Display heading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-/* .hero-display is the authoritative page-opening H1 pattern for production heroes.
+/* .hero-display is the authoritative page-opening display heading for production heroes.
    If a page only needs a different title measure, set --hero-display-max-width on the
-   page scope instead of introducing another page-specific title class. */
+   page scope instead of introducing another page-specific display-heading class. */
 
 .hero-display {
   max-width: var(--hero-display-max-width, 18ch);
@@ -3654,8 +3653,12 @@ p {
   background: rgba(35, 75, 61, 0.56);
 }
 
-.hero-badge {
+.hero-badge,
+h1.hero-badge {
   display: inline-block;
+  max-width: none;
+  margin: 0;
+  font-family: var(--font-sans);
   font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0;

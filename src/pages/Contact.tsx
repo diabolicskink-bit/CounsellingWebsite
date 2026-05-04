@@ -41,6 +41,7 @@ type ContactPageContent = {
   title: string;
   meta: string;
   hero: {
+    eyebrow: string;
     title: ContactHeroTitle;
     support: string;
     detailsAriaLabel: string;
@@ -66,6 +67,7 @@ const contactPageContent: ContactPageContent = {
   title: contactMetadata.title,
   meta: contactMetadata.description,
   hero: {
+    eyebrow: "Contact and fees",
     title: {
       before: "Get",
       emphasis: "in touch",
@@ -129,11 +131,12 @@ export default function Contact() {
         <Container>
           <div className="hero-top hero-top--supporting-media">
             <div>
-              <h1 className="hero-display">
+              <h1 className="hero-badge">{hero.eyebrow}</h1>
+              <h2 className="hero-display">
                 {hero.title.before}{" "}
                 <em>{hero.title.emphasis}</em>
                 {hero.title.after}
-              </h1>
+              </h2>
               <div className="hero-copy-panel">
                 <p>{hero.support}</p>
                 <ul className="hero-support-tagline" aria-label={hero.detailsAriaLabel}>

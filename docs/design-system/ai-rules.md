@@ -13,7 +13,7 @@ Use this file as a decision guide before changing visual code. The goal is coher
 - Create or extend deliberately when reuse would make the page weaker, less clear, less accessible, or harder to maintain.
 - Treat `site-*` classes and the documented shared hero classes as the authoritative design-system API for production pages.
 - Treat `hero-*` as a separate shared hero design system for production pages, not as a minor variant of `site-*` and not as legacy scaffolding.
-- Treat `.hero-display` as the authoritative page-opening H1 pattern for production pages.
+- Treat `h1.hero-badge` as the authoritative visible H1 pattern for production heroes, followed by `h2.hero-display` for the expressive hero statement.
 - Treat `ds-*` classes as design-system documentation shell classes, not as production UI primitives.
 - Treat `design-language-*`, `legacy-*`, and `site-hero-*` as legacy/demo/reference layers unless a pattern has been explicitly promoted into the current shared system.
 - Treat design-system documentation pages as consumers of the authoritative shared site system, not as a separate parallel design language.
@@ -48,7 +48,7 @@ Keep new work disciplined:
 - Use `site-*` for shared production components, panels, layout helpers, and public-page patterns.
 - Use `hero-*` for the shared public hero design system.
 - Treat `site-*` and `hero-*` as two separate authoritative shared production layers: one general, one hero-specific.
-- When a hero title only needs a different width, set `--hero-display-max-width` on the page scope before adding a page-specific title class.
+- When a hero display statement only needs a different width, set `--hero-display-max-width` on the page scope before adding a page-specific display-heading class.
 - Use page-scoped classes for composition-specific production needs when shared `site-*` / `hero-*` patterns are not a close fit.
 - Use `ds-*` only inside the design-system documentation experience and its support components such as doc layout, navigation, demo wrappers, and usage notes.
 - Use `design-language-*` only when maintaining legacy/reference examples in design-system pages.

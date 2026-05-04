@@ -35,8 +35,8 @@ Primary tokens live in `src/styles.css`.
 - `--font-serif`: Georgia, used for headings and editorial display roles.
 - `--font-sans`: Inter/system sans stack, used for body, forms, labels, and navigation.
 - `--font-mono`: monospace stack, used for inline code and technical references.
-- `h1` uses `--type-page-title` and should appear once per page when the page is not using `.hero-display`.
-- `.hero-display` is the shared page-opening hero H1 style: measured serif display type, 500 weight, tight display leading, and an 18ch default title measure.
+- `h1` uses `--type-page-title` by default and should appear once per page. In shared heroes, use `h1.hero-badge` for the concise visible page-topic label.
+- `.hero-display` is the shared expressive hero statement style: measured serif display type, 500 weight, tight display leading, and an 18ch default title measure. In production heroes it sits on `h2` after `h1.hero-badge`.
 - `h2` uses `--type-section` for major section statements.
 - `h3` uses `--type-card-title` for cards, grouped ideas, and nested content.
 - `.rich-text` is the shared editorial reading wrapper for paragraph groups, contextual links, lists, blockquotes, tables, dividers, and inline code.
@@ -46,8 +46,8 @@ Primary tokens live in `src/styles.css`.
 
 | Token | Role |
 | --- | --- |
-| `--type-display` | Page-opening hero display via `.hero-display` (3.85rem desktop / 2.5rem compact). |
-| `--type-page-title` | Plain page `h1` when no hero display is used. |
+| `--type-display` | Expressive hero display via `.hero-display` (3.85rem desktop / 2.5rem compact). |
+| `--type-page-title` | Plain page `h1` when no shared hero label is used. |
 | `--type-section` | Main section headings, FAQ titles, and major section statements. |
 | `--type-section-compact` | Contained section headings, rich text `h2`, form success headings, and closing CTA headings. |
 | `--type-card-title` | Cards, grouped ideas, principles, linked detail titles, and nested headings. |

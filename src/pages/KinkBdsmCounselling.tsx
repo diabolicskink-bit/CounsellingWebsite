@@ -8,11 +8,6 @@ import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-kink-bdsm.css";
 
-type BreadcrumbItem = {
-  label: string;
-  href?: string;
-};
-
 type PrimaryAction = {
   label: string;
   href: string;
@@ -42,7 +37,6 @@ type KinkPageContent = {
   title: string;
   meta: string;
   hero: {
-    breadcrumb: BreadcrumbItem[];
     eyebrow: string;
     title: string;
     intro: string;
@@ -72,22 +66,17 @@ const kinkPageContent: KinkPageContent = {
   title: kinkMetadata.title,
   meta: kinkMetadata.description,
   hero: {
-    breadcrumb: [
-      { label: "Home", href: "/" },
-      { label: "Inclusive practice", href: "/inclusion" },
-      { label: "Kink & BDSM" },
-    ],
     eyebrow: "Kink & BDSM-aware counselling",
     title: "Kink & BDSM-aware counselling",
     intro:
-      "Ordinary therapy where kink will not be mishandled. You might be coming for anxiety, grief, shame, trauma, burnout, or relationship strain. What matters is being able to mention kink plainly without it being treated as pathology, danger, or the explanation for everything else.",
+      "Ordinary therapy where kink will not be mishandled. Kink sits alongside everything else you bring, neither ignored nor made into the subject. What you actually came for stays the work.",
     primaryAction: {
       label: "Make an enquiry",
       href: "/contact",
     },
     secondaryAction: {
-      label: "Working with Joel",
-      href: "/working-with-joel",
+      label: "Back to inclusion hub",
+      href: "/inclusion",
     },
     noteEyebrow: "What this changes",
     noteItems: [
@@ -145,8 +134,8 @@ const kinkPageContent: KinkPageContent = {
   },
   faqSection: {
     eyebrow: "Questions",
-    heading: "Common questions before starting",
-    intro: "These are some of the things people often want to know before making first contact.",
+    heading: "Frequently asked questions",
+    intro: "",
     items: [
       {
         question: "Do I need to be coming for a kink-related issue?",
@@ -175,6 +164,7 @@ const kinkPageContent: KinkPageContent = {
 export default function KinkBdsmCounselling() {
   useDocumentMetadata(kinkPageContent.title, kinkPageContent.meta);
   const { hero, panelSection, faqSection } = kinkPageContent;
+  const [closingIntro, closingSupport] = panelSection.closingRow;
 
   return (
     <main className="site-page kink-page">
@@ -182,22 +172,10 @@ export default function KinkBdsmCounselling() {
 
       <section className="hero-section hero-bg--default kink-page__hero">
         <Container className="kink-page__hero-inner">
-          <nav className="breadcrumb" aria-label="Breadcrumb">
-            {hero.breadcrumb.map((item) =>
-              item.href ? (
-                <Link key={item.label} to={item.href}>
-                  {item.label}
-                </Link>
-              ) : (
-                <span key={item.label}>{item.label}</span>
-              ),
-            )}
-          </nav>
-
           <div className="kink-page__hero-main">
             <div className="kink-page__hero-copy">
-              <span className="hero-badge">{hero.eyebrow}</span>
-              <h1 className="hero-display">{hero.title}</h1>
+              <h1 className="hero-badge">{hero.eyebrow}</h1>
+              <h2 className="hero-display">{hero.title}</h2>
               <p className="kink-page__hero-intro">{hero.intro}</p>
 
               <div className="kink-page__hero-actions">
@@ -254,21 +232,41 @@ export default function KinkBdsmCounselling() {
       </section>
 
       <section className="site-highlight kink-page__closing-section" aria-label="Kink-aware counselling context">
-        <Container className="kink-page__closing-row">
-          {panelSection.closingRow.map((item) => (
-            <article className="kink-page__closing-item" key={item.title}>
-              <h2 className="kink-page__panel-title">{item.title}</h2>
-              <div className="kink-page__panel-body">
-                {item.body?.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
+        <Container>
+          <div className="site-split kink-page__closing-split">
+            {closingIntro ? (
+              <div className="section-heading kink-page__closing-intro">
+                <h2>{closingIntro.title}</h2>
+                <div className="kink-page__closing-intro-body">
+                  {closingIntro.body?.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
               </div>
-            </article>
-          ))}
+            ) : null}
+
+            {closingSupport ? (
+              <article className="site-card kink-page__closing-card">
+                <div className="kink-page__closing-card-head">
+                  <h3>{closingSupport.title}</h3>
+                </div>
+                <div className="kink-page__closing-card-body">
+                  {closingSupport.body?.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </article>
+            ) : null}
+          </div>
         </Container>
       </section>
 
-      <FaqSection intro={faqSection.intro} items={faqSection.items} title={faqSection.heading} />
+      <FaqSection
+        className="kink-page__faq-section"
+        intro={faqSection.intro}
+        items={faqSection.items}
+        title={faqSection.heading}
+      />
     </main>
   );
 }

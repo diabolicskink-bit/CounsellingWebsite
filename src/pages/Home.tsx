@@ -32,6 +32,7 @@ type HomePageContent = {
   title: string;
   meta: string;
   hero: {
+    eyebrow: string;
     title: EmphasisCopy;
     support: string;
     trustAriaLabel: string;
@@ -78,6 +79,7 @@ const homePageContent: HomePageContent = {
   title: homeMetadata.title,
   meta: homeMetadata.description,
   hero: {
+    eyebrow: "Online counselling across Australia",
     title: {
       before: "Counselling for when life feels ",
       emphasis: "hard to untangle",
@@ -240,11 +242,12 @@ export default function Home() {
         <Container>
           <div className="hero-top hero-top--supporting-media">
             <div className="home-page__hero-copy">
-              <h1 className="hero-display">
+              <h1 className="hero-badge">{hero.eyebrow}</h1>
+              <h2 className="hero-display">
                 {hero.title.before}
                 <em>{hero.title.emphasis}</em>
                 {hero.title.after}
-              </h1>
+              </h2>
               <div className="hero-copy-panel home-page__hero-support">
                 <p>{hero.support}</p>
                 <ul className="hero-support-tagline" aria-label={hero.trustAriaLabel}>

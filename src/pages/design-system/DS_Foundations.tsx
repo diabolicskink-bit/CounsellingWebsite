@@ -64,13 +64,13 @@ const typeRoleRows = [
     role: "Display hero",
     token: "--type-display",
     source: ".hero-display",
-    use: "Page-opening emotional statement. Keep this out of cards, forms, and compact panels.",
+    use: "Expressive hero statement, usually on h2.hero-display after the page-topic h1.hero-badge. Keep this out of cards, forms, and compact panels.",
   },
   {
     role: "Page title",
     token: "--type-page-title",
-    source: "h1",
-    use: "Plain page titles when a page is not using the shared hero display pattern.",
+    source: "h1, h1.hero-badge",
+    use: "The page's single visible H1: either a plain title or the concise hero topic label.",
   },
   {
     role: "Section heading",
@@ -440,8 +440,8 @@ export default function DS_Foundations() {
                   for complicated things.
                 </h2>
                 <p className="hero-intro">
-                  Use <code>.hero-display</code> for production page openings. The scale is measured, the weight is
-                  deliberate, and the default title measure keeps longer headings under control.
+                  Use <code>.hero-display</code> for the expressive production hero statement. The scale is measured,
+                  the weight is deliberate, and the default title measure keeps longer headings under control.
                 </p>
               </article>
 
@@ -486,9 +486,9 @@ export default function DS_Foundations() {
             </div>
 
             <div className="ds-usage-note">
-              <strong>Rule of thumb:</strong> one production <code>h1</code> per page, serif-led section headings, and
-              measured paragraph widths. Do not use display scale inside compact cards, sidebars, form panels, or small
-              support blocks.
+              <strong>Rule of thumb:</strong> one visible production <code>h1</code> per page, usually the hero topic
+              label, followed by a serif-led <code>h2.hero-display</code> when the page uses the shared hero system.
+              Do not use display scale inside compact cards, sidebars, form panels, or small support blocks.
             </div>
           </section>
 

@@ -230,8 +230,8 @@ export default function EnmPolyamoryCounselling() {
 
           <div className="hero-top enm-page__hero-top">
             <div className="enm-page__hero-heading">
-              <span className="hero-badge">{hero.badge}</span>
-              <h1 className="hero-display">{hero.title}</h1>
+              <h1 className="hero-badge">{hero.badge}</h1>
+              <h2 className="hero-display">{hero.title}</h2>
 
               <ul className="site-trust-list site-trust-list--highlight-last" aria-label="Practice details">
                 {hero.trustItems.map((item) => (

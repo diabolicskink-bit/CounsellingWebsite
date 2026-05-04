@@ -25,6 +25,7 @@ type InclusionPageContent = {
   title: string;
   meta: string;
   hero: {
+    eyebrow: string;
     title: {
       lineOne: string;
       lineTwoBefore: string;
@@ -58,6 +59,7 @@ const inclusionPageContent: InclusionPageContent = {
   title: inclusionMetadata.title,
   meta: inclusionMetadata.description,
   hero: {
+    eyebrow: "Inclusive counselling",
     title: {
       lineOne: "Inclusive counselling",
       lineTwoBefore: "for ",
@@ -155,7 +157,8 @@ export default function InclusivePractice() {
           <Container>
             <div className="hero-top inclusion-hero__top">
               <div className="inclusion-hero__headline-block">
-                <h1 className="hero-display inclusion-hero__title">
+                <h1 className="hero-badge">{hero.eyebrow}</h1>
+                <h2 className="hero-display inclusion-hero__title">
                   <span>{hero.title.lineOne}</span>
                   {" "}
                   <span>
@@ -165,7 +168,7 @@ export default function InclusivePractice() {
                       {hero.title.lineTwoAfter}
                     </em>
                   </span>
-                </h1>
+                </h2>
               </div>
 
               <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">

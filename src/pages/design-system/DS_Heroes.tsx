@@ -64,7 +64,7 @@ const anatomyRows = [
   {
     zone: "Display heading",
     className: ".hero-display",
-    desc: "Measured serif display type and the authoritative page-opening H1 pattern for production. Use h1 in production, and set --hero-display-max-width on the page scope when a hero only needs a different title measure.",
+    desc: "Measured serif display type for the expressive hero statement. Use it on the production hero h2 after the page-topic h1.hero-badge, and set --hero-display-max-width on the page scope when a hero only needs a different title measure.",
   },
   {
     zone: "Intro paragraph",
@@ -94,7 +94,7 @@ const anatomyRows = [
   {
     zone: "Badge",
     className: ".hero-badge",
-    desc: "Small uppercase cedar label for hero metadata inside richer copy panels.",
+    desc: "Small uppercase cedar label. In production page heroes, use h1.hero-badge as the visible page-topic heading above h2.hero-display.",
   },
   {
     zone: "Detail stack",
@@ -176,11 +176,12 @@ export default function DS_Heroes() {
           <section className="ds-section" id="display-heading">
             <div className="ds-section-heading">
               <span className="site-eyebrow">Display Heading</span>
-              <h2>Large, light, and still readable across longer hero titles.</h2>
+              <h2>Large, light, and still readable across longer hero statements.</h2>
               <p>
-                `.hero-display` is the authoritative page-opening H1 pattern for public pages. Keep the phrase
+                `.hero-display` is the authoritative expressive display-heading pattern for public page heroes. In
+                production it sits on an <code>h2</code> after the visible <code>h1.hero-badge</code>. Keep the phrase
                 deliberate, use line breaks intentionally when you control them, and adjust width with
-                `--hero-display-max-width` on the page scope before reaching for a page-specific title class.
+                `--hero-display-max-width` on the page scope before reaching for a page-specific display-heading class.
               </p>
             </div>
 
@@ -221,7 +222,7 @@ export default function DS_Heroes() {
                   <td>
                     <code>max-width: var(--hero-display-max-width, 18ch)</code>
                   </td>
-                  <td>Gives hero titles a shared default measure while still letting pages tune width through a shared variable.</td>
+                  <td>Gives hero statements a shared default measure while still letting pages tune width through a shared variable.</td>
                 </tr>
                 <tr>
                   <td>font-size</td>
@@ -449,10 +450,10 @@ export default function DS_Heroes() {
               <span className="site-eyebrow">Full Composition</span>
               <h2>The shared hero composition.</h2>
               <p>
-                This sample uses the same shared classes as the live hero system. In production, use <code>h1</code> for
-                the display heading (the demo uses <code>h2</code> to avoid a duplicate landmark). Treat this as the
-                reference for new page-opening heroes, then layer only the page-specific content and supporting pieces
-                on top.
+                This sample uses the same shared classes as the live hero system. In production, use{" "}
+                <code>h1.hero-badge</code> for the visible page-topic label and <code>h2.hero-display</code> for the
+                expressive hero statement. The demo keeps the badge as a non-heading label to avoid adding a duplicate
+                page H1 inside the documentation page.
               </p>
             </div>
 
@@ -461,13 +462,16 @@ export default function DS_Heroes() {
               <section className="hero-section hero-bg--default" style={{ borderBottom: "none" }}>
                 <Container>
                   <div className="hero-top">
-                    <h2 className="hero-display">
-                      Working with
-                      <br />
-                      <em>the bigger</em>
-                      <br />
-                      picture.
-                    </h2>
+                    <div>
+                      <span className="hero-badge">Working with Joel Griffiths</span>
+                      <h2 className="hero-display">
+                        Working with
+                        <br />
+                        <em>the bigger</em>
+                        <br />
+                        picture.
+                      </h2>
+                    </div>
                     <p className="hero-copy-panel">
                       I seek to understand the problem you are dealing with in the context of your actual life. That
                       means paying attention not only to what is happening now, but also to the patterns, pressures, and

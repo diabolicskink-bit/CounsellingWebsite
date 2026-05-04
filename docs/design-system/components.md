@@ -87,10 +87,12 @@ Start with these shared building blocks before creating anything new. Use them w
   Shared intro paragraph for text-led heroes with longer opening copy. Use it under hero headings when the intro needs a controlled measure.
 - `.hero-bg--default`
   Shared continuous paper-and-sage hero surface. This is the one shared hero background in the system, and it should read as one calm editorial field with soft depth rather than a visible shape or alternate skin.
-- `.hero-section`, `.hero-top`, `.hero-display`, `.hero-copy-panel`, `.hero-deck`, `.hero-detail-stack`
+- `.hero-section`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-copy-panel`, `.hero-deck`, `.hero-detail-stack`
   Shared public-page hero design system. `.hero-section` owns the default 40px top and bottom spacing from content to hero boundary. This is a separate authoritative shared subsystem alongside `site-*`, not a legacy variation.
+- `.hero-badge`
+  The concise visible page-topic label in production heroes. Use it on the page's single `h1` before the expressive display statement.
 - `.hero-display`
-  The authoritative page-opening H1 pattern for production heroes. It uses the shared measured serif display style with an 18ch default title measure. If a page only needs a narrower or wider title measure, set `--hero-display-max-width` at page scope instead of adding another page-specific H1 class.
+  The authoritative expressive display-heading pattern for production heroes. Use it on the hero `h2` after `h1.hero-badge`; it uses the shared measured serif display style with an 18ch default title measure. If a page only needs a narrower or wider title measure, set `--hero-display-max-width` at page scope instead of adding another page-specific display-heading class.
 
 ## Design System Showcase Pages
 

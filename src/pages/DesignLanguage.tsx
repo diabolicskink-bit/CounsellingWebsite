@@ -101,8 +101,8 @@ export default function DesignLanguage() {
         <Container>
           <div className="hero-top ds-overview-hero__grid">
             <div className="ds-overview-hero__copy">
-              <span className="hero-badge">Design system</span>
-              <h1 className="hero-display">A calm, practical design language for sensitive work.</h1>
+              <h1 className="hero-badge">Design system</h1>
+              <h2 className="hero-display">A calm, practical design language for sensitive work.</h2>
               <p className="hero-intro">
                 Vive's design system keeps counselling content clear, grounded, and human: paper-first layouts, serif-led
                 hierarchy, cedar accents, quiet components, and patterns that make inclusive practice easier to understand.

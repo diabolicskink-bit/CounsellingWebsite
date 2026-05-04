@@ -98,8 +98,8 @@ export default function LgbtqiaCounselling() {
                 <Link to="/inclusion">Inclusive practice</Link>
                 <span>LGBTQIA+</span>
               </nav>
-              <span className="hero-badge">{hero.badge}</span>
-              <h1 className="hero-display">{hero.title}</h1>
+              <h1 className="hero-badge">{hero.badge}</h1>
+              <h2 className="hero-display">{hero.title}</h2>
             </div>
 
             <div className="hero-copy-panel lgbtqia-page__hero-panel">
