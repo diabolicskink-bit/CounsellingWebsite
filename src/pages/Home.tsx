@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
@@ -15,11 +14,9 @@ type EmphasisCopy = {
   after: string;
 };
 
-type HomeTopicTile = {
+type HomeTopic = {
   title: string;
   copy: string;
-  layoutClass: string;
-  toneClass?: string;
 };
 
 type HomeInclusiveDetail = {
@@ -45,9 +42,8 @@ type HomePageContent = {
     };
   };
   topics: {
-    heading: string;
     ariaLabel: string;
-    items: HomeTopicTile[];
+    items: HomeTopic[];
   };
   inclusive: {
     heading: EmphasisCopy;
@@ -102,44 +98,32 @@ const homePageContent: HomePageContent = {
     },
   },
   topics: {
-    heading: "What counselling is for.",
     ariaLabel: "Common themes",
     items: [
       {
         title: "Low mood and depression",
         copy: "Heaviness, numbness, hopelessness, or a flatness that does not lift and is hard to explain. Feeling distant from yourself, from other people, or from things that used to matter.",
-        layoutClass: "home-topics__tile--middle",
-        toneClass: "site-topic-card--soft",
       },
       {
         title: "Anxiety",
         copy: "A mind that will not settle. Going over the same things, bracing for things that have not happened yet, or carrying a background worry that is hard to name or put down.",
-        layoutClass: "home-topics__tile--wide",
       },
       {
         title: "Relationships and attachment",
         copy: "Feeling disconnected, stuck in the same arguments, or unable to get as close as you want to be. Ongoing conflict, or patterns in how you attach, trust, or pull away that keep repeating regardless of who you are with.",
-        layoutClass: "home-topics__tile--lift",
-        toneClass: "site-topic-card--narrow",
       },
       {
         title: "Shame and self-worth",
         copy: "Harsh self-judgement, a persistent sense of not being enough, or something about yourself that feels too difficult or too exposing to say.",
-        layoutClass: "home-topics__tile--soft",
-        toneClass: "site-topic-card--muted",
       },
       {
         title: "Trauma, abuse, and neglect",
         copy: "Experiences of harm, control, or neglect that left a mark on how safe the world feels, how much you trust people, how close you let yourself get, or how you move through ordinary life.",
-        layoutClass: "home-topics__tile--deep",
-        toneClass: "site-topic-card--soft",
       },
       {
         title: "Intense emotions",
         copy:
           "Emotions that hit hard and are slow to come down, often with a sense of being too much. Closeness that can shift to distance without much warning.",
-        layoutClass: "home-topics__tile--quiet",
-        toneClass: "site-topic-card--muted",
       },
     ],
   },
@@ -195,45 +179,8 @@ const homePageContent: HomePageContent = {
   },
 };
 
-function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState(() =>
-    typeof window !== "undefined" ? window.matchMedia(query).matches : false,
-  );
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(query);
-    const sync = () => setMatches(mediaQuery.matches);
-
-    sync();
-
-    if (typeof mediaQuery.addEventListener === "function") {
-      mediaQuery.addEventListener("change", sync);
-      return () => mediaQuery.removeEventListener("change", sync);
-    }
-
-    mediaQuery.addListener(sync);
-    return () => mediaQuery.removeListener(sync);
-  }, [query]);
-
-  return matches;
-}
-
-function getHomeTopicClassName(topic: HomeTopicTile, isCompact: boolean) {
-  return [
-    "home-topics__tile",
-    "site-topic-card",
-    isCompact ? "site-card" : "",
-    topic.layoutClass,
-    topic.toneClass ?? "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-}
-
 export default function Home() {
   useDocumentMetadata(homePageContent.title, homePageContent.meta);
-  const isCompactTopics = useMediaQuery("(max-width: 1080px)");
-  const isMobileTopics = useMediaQuery("(max-width: 700px)");
   const { hero, topics, inclusive, workroom, closingCta } = homePageContent;
 
   return (
@@ -272,44 +219,15 @@ export default function Home() {
       </section>
 
       <section className="site-grid home-page__topics">
-        <Container className="home-topics__grid">
-          <div className="home-topics__intro site-grid__heading">
-            <h2>{topics.heading}</h2>
-          </div>
-
-          <div className="home-topics__tiles" aria-label={topics.ariaLabel}>
-            {topics.items.map((topic) => {
-              const topicClassName = getHomeTopicClassName(topic, isCompactTopics);
-
-              return (
-                <details className={topicClassName} key={topic.title} open={!isMobileTopics}>
-                  <summary className="home-topics__summary">
-                    <h3>{topic.title}</h3>
-                    <span className="home-topics__toggle" aria-hidden="true">
-                      <span />
-                      <span />
-                    </span>
-                  </summary>
-                  <div className="home-topics__body">
-                    <p>{topic.copy}</p>
-                  </div>
-                </details>
-              );
-            })}
-          </div>
-        </Container>
-      </section>
-
-      <section className="site-grid home-page__topics-candidate">
         <Container>
-          <div className="home-topics-candidate__header">
+          <div className="home-topics__header">
             <span className="site-eyebrow">What counselling is for</span>
             <h2>What people bring.</h2>
           </div>
 
-          <div className="home-topics-candidate__grid" aria-label={`${topics.ariaLabel} alternate layout`}>
+          <div className="home-topics__grid" aria-label={topics.ariaLabel}>
             {topics.items.map((topic) => (
-              <article className="home-topics-candidate__cell" key={topic.title}>
+              <article className="home-topics__cell" key={topic.title}>
                 <h3>{topic.title}</h3>
                 <p>{topic.copy}</p>
               </article>
@@ -318,7 +236,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className="site-highlight home-page__workroom">
+      <section className="site-highlight">
         <Container>
           <div className="site-split home-workroom__split">
             <div className="section-heading home-workroom__intro">

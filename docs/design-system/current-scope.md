@@ -69,7 +69,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 - `design-language-*` exists as older design-language/demo/reference styling and should not be expanded for new production work.
 - `legacy-*` CSS remnants exist in `src/styles.css` and should be treated as reference only.
 - `test-bed-*` classes and test-bed routes exist as archive/test-bed material and should not be copied into production pages.
-- `opus-*` hero/archive classes exist in `src/styles.css` and should not be treated as active hero-system work.
+- The old `opus-*` hero/archive CSS layer has been retired from `src/styles.css`; the `/opus-tb` route remains as a clean dev test-bed shell with page-scoped styling.
 - `inc-lab-*` CSS remains in `src/styles.css` but no routed page usage was found during this pass; treat it as legacy or dead CSS unless a future task proves otherwise.
 - No active `site-hero-*` source usage was found during this pass. If it appears in old docs or branches, treat it as superseded by `hero-*`.
 - Old visual experiments should be promoted into `site-*`, `hero-*`, or shared components before production use.

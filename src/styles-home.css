@@ -3,21 +3,21 @@
 
 .home-page {
   --hero-display-max-width: 15.6ch;
+  --home-copy-color: var(--body);
+  --home-copy-font-size: 0.98rem;
+  --home-copy-line-height: 1.52;
 }
 
 .home-page__hero-copy {
-  /* Prevents the left column from forcing overflow in the supporting-media hero grid. */
   min-width: 0;
 }
 
 .home-page__hero-support {
-  /* Lets the intro paragraph and trust list breathe as one support block. */
   gap: 20px;
   max-width: 62rem;
 }
 
 .home-page__hero-support p {
-  /* The shared hero copy caps paragraph width; Home wants the full support panel width. */
   max-width: none;
 }
 
@@ -25,180 +25,51 @@
   margin-top: 0;
 }
 
-/* Home-specific body-copy adjustments where shared component defaults intentionally differ. */
-.home-page .home-page__hero-support p,
-.home-page .home-topics__body p,
-.home-page .home-topics__tile p,
-.home-page .home-topics-candidate__cell p,
-.home-page .home-page__inclusive-copy,
-.home-page .home-page__inclusive-support p,
-.home-page .home-page__inclusive-support .site-detail-stack__copy,
-.home-page .home-workroom__intro .section-heading__copy,
-.home-page .home-workroom__joel p {
-  color: var(--body);
-  font-size: 0.98rem;
-  line-height: 1.52;
+.home-page p {
+  color: var(--home-copy-color);
+  font-size: var(--home-copy-font-size);
+  line-height: var(--home-copy-line-height);
 }
 
-/* Topics: custom editorial tile placement for the Home page only */
-.home-topics__grid {
-  /* This is a 36-column collage grid rather than a reusable card grid.
-     The row height creates the loose masonry rhythm used by the six tiles. */
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(36, minmax(0, 1fr));
-  grid-auto-rows: 10px;
-  gap: 4px 6px;
-  align-items: stretch;
-  padding-block: 16px 32px;
+.home-page__topics {
+  --home-topics-rule: rgba(35, 75, 61, 0.16);
+  --home-topics-cell: var(--surface);
+  --home-topics-cell-alt: var(--surface-strong);
 }
 
-.home-topics__grid::before {
-  position: absolute;
-  inset: 52px 8% 54px 20%;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(35, 75, 61, 0), rgba(35, 75, 61, 0.18), rgba(35, 75, 61, 0)) 50% 43% / 100% 1px no-repeat,
-    linear-gradient(160deg, rgba(35, 75, 61, 0), rgba(35, 75, 61, 0.16), rgba(35, 75, 61, 0)) 58% 52% / 1px 74% no-repeat;
-  content: "";
-}
-
-.home-topics__intro {
-  /* The heading occupies the left column block and anchors the collage vertically. */
-  display: grid;
-  grid-column: 1 / span 12;
-  grid-row: 1 / span 12;
-  align-content: start;
-  gap: 18px;
-  max-width: 430px;
-  margin-bottom: 0;
-  padding-top: 8px;
-}
-
-.home-topics__tiles {
-  /* The cards participate directly in the parent grid so each tile can place itself.
-     This avoids wrapping the tiles in another layout layer. */
-  display: contents;
-}
-
-.home-topics__summary {
-  list-style: none;
-  pointer-events: none;
-}
-
-.home-topics__summary::-webkit-details-marker {
-  display: none;
-}
-
-.home-topics__body {
-  display: grid;
-}
-
-.home-topics__toggle {
-  display: none;
-}
-
-.home-topics__tile h3 {
-  text-decoration: underline;
-  text-decoration-color: var(--line);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.16em;
-}
-
-.home-topics__tile {
-  position: relative;
-  z-index: 1;
-  border: 1px solid rgba(35, 75, 61, 0.18);
-  box-shadow: 0 16px 28px rgba(31, 35, 31, 0.048);
-}
-
-.home-topics__tile--quiet {
-  /* Upper-middle narrow card. */
-  grid-column: 13 / span 9;
-  grid-row: 4 / span 14;
-  border-radius: 18px 18px 6px 18px;
-}
-
-.home-topics__tile--lift {
-  /* Top-right larger white card. */
-  grid-column: 22 / span 12;
-  grid-row: 1 / span 15;
-  border-radius: 18px 6px 18px 18px;
-}
-
-.home-topics__tile--middle {
-  /* Lower-left green card under the heading. */
-  grid-column: 1 / span 12;
-  grid-row: 10 / span 13;
-  border-radius: 6px 18px 18px 18px;
-}
-
-.home-topics__tile--soft {
-  /* Bottom-left smaller muted card. */
-  grid-column: 2 / span 9;
-  grid-row: 25 / span 13;
-  border-radius: 18px 18px 18px 6px;
-}
-
-.home-topics__tile--wide {
-  /* Bottom-middle white card that bridges the left and centre zones. */
-  grid-column: 11 / span 9;
-  grid-row: 22 / span 18;
-  border-radius: 18px 18px 6px 18px;
-}
-
-.home-topics__tile--deep {
-  /* Bottom-right green card intentionally overlaps the quiet card and sits in front. */
-  grid-column: 20 / span 12;
-  grid-row: 16 / span 13;
-  position: relative;
-  z-index: 2;
-  margin-top: 10px;
-  border-radius: 18px 6px 18px 18px;
-}
-
-/* Topics candidate: transplanted ruled 3x2 grid for comparison */
-.home-page__topics-candidate {
-  --home-topics-candidate-rule: rgba(35, 75, 61, 0.16);
-  --home-topics-candidate-cell: var(--surface);
-  --home-topics-candidate-cell-alt: var(--surface-strong);
-
-  border-top: 0;
-}
-
-.home-topics-candidate__header {
+.home-topics__header {
   display: grid;
   gap: 0.55rem;
   margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
-.home-topics-candidate__header h2 {
+.home-topics__header h2 {
   max-width: 15ch;
   font-size: clamp(2.2rem, 4vw, 4rem);
   line-height: 1;
   text-wrap: balance;
 }
 
-.home-topics-candidate__grid {
+.home-topics__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: 1px;
-  border: 1px solid var(--home-topics-candidate-rule);
-  background: var(--home-topics-candidate-rule);
+  border: 1px solid var(--home-topics-rule);
+  background: var(--home-topics-rule);
 }
 
-.home-topics-candidate__cell {
+.home-topics__cell {
   position: relative;
   display: grid;
   align-content: start;
   gap: clamp(0.7rem, 1.1vw, 0.95rem);
   min-width: 0;
   padding: clamp(1.15rem, 1.8vw, 1.55rem) clamp(1.2rem, 1.8vw, 1.55rem);
-  background: var(--home-topics-candidate-cell);
+  background: var(--home-topics-cell);
 }
 
-.home-topics-candidate__cell::before {
+.home-topics__cell::before {
   position: absolute;
   top: -1px;
   left: clamp(1.4rem, 2.3vw, 1.9rem);
@@ -208,30 +79,20 @@
   content: "";
 }
 
-.home-topics-candidate__cell:nth-child(even) {
-  background: var(--home-topics-candidate-cell-alt);
+.home-topics__cell:nth-child(even) {
+  background: var(--home-topics-cell-alt);
 }
 
-.home-topics-candidate__cell h3 {
-  width: 100%;
-  max-width: none;
+.home-topics__cell h3 {
   font-size: clamp(1.1rem, 1.5vw, 1.45rem);
   line-height: 1.1;
   text-decoration: underline;
   text-decoration-color: var(--line);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.15em;
-  text-wrap: auto;
 }
 
-.home-topics-candidate__cell p {
-  width: 100%;
-  max-width: none;
-}
-
-/* Inclusive practice: selected Home variation with a ruled support column */
 .home-page__inclusive-frame {
-  /* Selected Home variation: large left statement with a ruled support column. */
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(340px, 0.82fr);
   gap: 44px;
@@ -239,7 +100,6 @@
 }
 
 .home-page__inclusive-main {
-  /* Keep the left column reading like a compact statement block. */
   display: grid;
   gap: 22px;
   align-content: start;
@@ -253,28 +113,18 @@
 }
 
 .home-page__inclusive-copy {
-  /* Shared ruled paragraph with a local measure for Home. */
   max-width: 760px;
 }
 
 .home-page__inclusive-main .button {
-  /* Keep the CTA aligned to the left edge of the copy block. */
   justify-self: start;
 }
 
 .home-page__inclusive-support {
-  /* The right-hand list sits centrally in the section height. */
   display: grid;
   gap: 18px;
   align-self: center;
   align-content: start;
-}
-
-
-/* Workroom: this section keeps its own composition until a shared pattern emerges */
-.home-page__workroom {
-  /* The section above already provides the transition; avoid a doubled divider. */
-  border-top: 0;
 }
 
 .home-workroom__split {
@@ -283,7 +133,7 @@
   align-items: start;
 }
 
-.home-page .home-workroom__joel.site-card {
+.home-workroom__joel {
   justify-self: end;
   align-self: center;
   width: min(84%, 36.8rem);
@@ -294,7 +144,7 @@
   overflow: hidden;
 }
 
-.home-page .home-workroom__joel.site-card:hover {
+.home-workroom__joel:hover {
   transform: none;
   border-color: var(--line);
   box-shadow: var(--color-shadow-card);
@@ -361,140 +211,16 @@
   }
 }
 
-/* Tablet: release the desktop tile collage into a simpler grid and stack the workroom */
 @media (max-width: 1080px) {
   .home-topics__grid {
-    /* Replace the desktop collage with a clean responsive layout. */
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto;
-    gap: 32px;
-    min-height: 0;
-  }
-
-  .home-topics__grid::before {
-    display: none;
-  }
-
-  .home-topics__intro,
-  .home-topics__tiles {
-    /* Clear any desktop grid placement from the collage composition. */
-    grid-column: auto;
-    grid-row: auto;
-  }
-
-  .home-topics__intro {
-    /* Let the heading become a normal section intro again. */
-    position: static;
-    max-width: 46rem;
-    padding-top: 0;
-  }
-
-  .home-topics__tiles {
-    /* Tablet uses a clean two-column card grid instead of floating tiles. */
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-  }
-
-  .home-topics-candidate__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .home-topics__tile {
-    /* Every topic tile already carries the base tile class, so one reset selector
-       is enough to neutralize the desktop collage placement rules while the shared
-       card shell takes over for tablet sizing. */
-    grid-column: auto;
-    grid-row: auto;
-    height: auto;
-    position: static;
-    width: auto;
-    min-height: 0;
-    margin: 0;
-    gap: 0;
-    padding: 0;
-    border-radius: var(--radius);
-    transform: none;
-  }
-
-  .home-topics__tile.site-card {
-    transition: none;
-    background: var(--surface-strong);
-  }
-
-  .home-topics__summary {
-    padding: 26px 26px 0;
-  }
-
-  .home-topics__body {
-    padding: 12px 26px 26px;
-  }
-
 }
 
-/* Narrow screens: single-column tiles and softer workroom spacing */
 @media (max-width: 700px) {
-  .home-topics__tiles {
-    /* Mobile becomes a simple single-column stack. */
+  .home-topics__grid {
     grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .home-topics-candidate__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .home-topics__tile {
-    margin-left: 0;
-    overflow: hidden;
-  }
-
-  .home-topics__summary {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 18px;
-    gap: 14px;
-    align-items: start;
-    padding: 22px;
-    cursor: pointer;
-    pointer-events: auto;
-  }
-
-  .home-topics__body {
-    padding: 0 22px 22px;
-  }
-
-  .home-topics__toggle {
-    position: relative;
-    width: 18px;
-    height: 18px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 6px;
-    color: var(--cedar);
-    flex-shrink: 0;
-  }
-
-  .home-topics__toggle span {
-    position: absolute;
-    width: 12px;
-    height: 1px;
-    background: currentColor;
-    transition: transform 180ms ease, opacity 180ms ease;
-  }
-
-  .home-topics__toggle span:last-child {
-    transform: rotate(90deg);
-  }
-
-  .home-topics__tile[open] .home-topics__toggle span:last-child {
-    transform: rotate(90deg) scaleX(0);
-    opacity: 0;
-  }
-
-  .home-topics__tile:not([open]) .home-topics__body {
-    display: none;
+    grid-auto-rows: auto;
   }
 
   .home-workroom__split {
@@ -506,55 +232,45 @@
   }
 
   .home-page__inclusive-frame {
-    /* Collapse the selected inclusion layout into a stacked section on narrower screens. */
     grid-template-columns: 1fr;
     gap: 30px;
   }
 
   .home-page__inclusive-main {
-    padding-left: 0;
     padding-right: 0;
     border-right: 0;
   }
 }
 
-/* Small mobile: let the Home hero content use the full container width */
 @media (max-width: 660px) {
   .home-page .container {
-    /* Match the tighter mobile shell used elsewhere across the site. */
     width: calc(100vw - 28px);
     max-width: calc(100vw - 28px);
   }
 
   .home-page__hero-copy,
   .home-page__hero-support {
-    /* Avoid narrow max-width constraints on the compact hero layout. */
     max-width: 100%;
   }
 
   .home-page__hero-copy {
-    /* Make the hero copy consume the full available width in the stacked layout. */
     width: 100%;
   }
 
   .home-page {
-    /* Remove the desktop measure cap in the stacked layout. */
     --hero-display-max-width: 100%;
   }
 
   .home-page .hero-display {
-    /* Allow wrapping more freely on the compact stacked hero. */
     overflow-wrap: break-word;
     text-wrap: auto;
   }
 
   .home-page__hero-support {
-    /* The support panel should follow the title width on small screens. */
     width: 100%;
   }
 
   .home-page__hero-support p {
-    /* Keep long phrases from creating awkward overflow in the mobile hero copy. */
     width: 100%;
     overflow-wrap: anywhere;
     text-wrap: auto;
