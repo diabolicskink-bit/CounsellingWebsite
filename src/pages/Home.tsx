@@ -300,6 +300,24 @@ export default function Home() {
         </Container>
       </section>
 
+      <section className="site-grid home-page__topics-candidate">
+        <Container>
+          <div className="home-topics-candidate__header">
+            <span className="site-eyebrow">What counselling is for</span>
+            <h2>What people bring.</h2>
+          </div>
+
+          <div className="home-topics-candidate__grid" aria-label={`${topics.ariaLabel} alternate layout`}>
+            {topics.items.map((topic) => (
+              <article className="home-topics-candidate__cell" key={topic.title}>
+                <h3>{topic.title}</h3>
+                <p>{topic.copy}</p>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+
       <section className="site-highlight home-page__workroom">
         <Container>
           <div className="site-split home-workroom__split">

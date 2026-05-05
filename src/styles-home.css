@@ -29,6 +29,7 @@
 .home-page .home-page__hero-support p,
 .home-page .home-topics__body p,
 .home-page .home-topics__tile p,
+.home-page .home-topics-candidate__cell p,
 .home-page .home-page__inclusive-copy,
 .home-page .home-page__inclusive-support p,
 .home-page .home-page__inclusive-support .site-detail-stack__copy,
@@ -157,6 +158,77 @@
   border-radius: 18px 6px 18px 18px;
 }
 
+/* Topics candidate: transplanted ruled 3x2 grid for comparison */
+.home-page__topics-candidate {
+  --home-topics-candidate-rule: rgba(35, 75, 61, 0.16);
+  --home-topics-candidate-cell: var(--surface);
+  --home-topics-candidate-cell-alt: var(--surface-strong);
+
+  border-top: 0;
+}
+
+.home-topics-candidate__header {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.home-topics-candidate__header h2 {
+  max-width: 15ch;
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.home-topics-candidate__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--home-topics-candidate-rule);
+  background: var(--home-topics-candidate-rule);
+}
+
+.home-topics-candidate__cell {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: clamp(0.7rem, 1.1vw, 0.95rem);
+  min-width: 0;
+  padding: clamp(1.15rem, 1.8vw, 1.55rem) clamp(1.2rem, 1.8vw, 1.55rem);
+  background: var(--home-topics-candidate-cell);
+}
+
+.home-topics-candidate__cell::before {
+  position: absolute;
+  top: -1px;
+  left: clamp(1.4rem, 2.3vw, 1.9rem);
+  width: clamp(2.7rem, 30%, 5.4rem);
+  height: 1px;
+  background: rgba(35, 75, 61, 0.62);
+  content: "";
+}
+
+.home-topics-candidate__cell:nth-child(even) {
+  background: var(--home-topics-candidate-cell-alt);
+}
+
+.home-topics-candidate__cell h3 {
+  width: 100%;
+  max-width: none;
+  font-size: clamp(1.1rem, 1.5vw, 1.45rem);
+  line-height: 1.1;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  text-wrap: auto;
+}
+
+.home-topics-candidate__cell p {
+  width: 100%;
+  max-width: none;
+}
+
 /* Inclusive practice: selected Home variation with a ruled support column */
 .home-page__inclusive-frame {
   /* Selected Home variation: large left statement with a ruled support column. */
@@ -232,7 +304,6 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-block: 10px 8px;
 }
 
 .home-workroom__joel-head::before,
@@ -259,8 +330,7 @@
 .home-workroom__joel-name {
   display: block;
   color: var(--cedar);
-  font-family: var(--font-sans);
-  font-size: 0.74rem;
+  font-family: var(--font-serif);
   font-weight: 750;
   letter-spacing: 0.12em;
   line-height: 1;
@@ -327,6 +397,10 @@
     gap: 16px;
   }
 
+  .home-topics-candidate__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .home-topics__tile {
     /* Every topic tile already carries the base tile class, so one reset selector
        is enough to neutralize the desktop collage placement rules while the shared
@@ -365,6 +439,10 @@
     /* Mobile becomes a simple single-column stack. */
     grid-template-columns: 1fr;
     gap: 14px;
+  }
+
+  .home-topics-candidate__grid {
+    grid-template-columns: 1fr;
   }
 
   .home-topics__tile {

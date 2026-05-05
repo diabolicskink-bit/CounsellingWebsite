@@ -81,7 +81,7 @@ function TopicBlock({ topic }: { topic: CounsellingTopic }) {
 
 function IndexColumnsSection() {
   return (
-    <section className="tb-section tb-section--index-columns" aria-label="Simple index columns section">
+    <section className="site-grid tb-section--index-columns" aria-label="Clean index columns section">
       <Container className="tb-index-columns">
         <div className="tb-section-intro tb-index-columns__intro">
           <h3>What counselling is for.</h3>
@@ -89,7 +89,7 @@ function IndexColumnsSection() {
         </div>
         <div className="tb-index-columns__topics">
           {counsellingTopics.map((topic) => (
-            <article className="tb-index-topic" key={topic.id}>
+            <article className={`tb-index-topic tb-index-topic--${topic.id}`} key={topic.id}>
               <TopicBlock topic={topic} />
             </article>
           ))}

@@ -58,26 +58,26 @@
 .otb-section h3 {
   color: var(--ink);
   font-family: var(--font-serif);
-  font-size: clamp(2.6rem, 5.5vw, 5.2rem);
+  font-size: clamp(2.2rem, 4vw, 4rem);
   font-weight: 500;
   letter-spacing: 0;
-  line-height: 0.96;
+  line-height: 1;
   text-wrap: balance;
 }
 
 .otb-section h4 {
   color: var(--ink);
   font-family: var(--font-serif);
-  font-size: clamp(1.15rem, 1.6vw, 1.55rem);
+  font-size: clamp(1.1rem, 1.5vw, 1.45rem);
   font-weight: 500;
   letter-spacing: 0;
-  line-height: 1.12;
+  line-height: 1.1;
   text-wrap: balance;
 }
 
 .otb-section p {
   color: var(--body);
-  font-size: clamp(0.94rem, 1vw, 1rem);
+  font-size: clamp(0.92rem, 0.95vw, 0.98rem);
   line-height: 1.58;
 }
 
@@ -92,125 +92,234 @@
 }
 
 .otb-eyebrow--inverted {
-  color: rgba(252, 252, 250, 0.58);
+  color: rgba(252, 252, 250, 0.55);
 }
 
-/* Option 03: Marquee herald */
+/* ── Option 01 · Card grid ───────────────────────────────────────────────── */
+/* Ruled 3x2 grid carried from the selected candidate into Home. */
 
-.otb-section--herald {
+.otb-section--cg {
+  --otb-cg-rule: rgba(35, 75, 61, 0.16);
+  --otb-cg-cell: var(--surface);
+  --otb-cg-cell-alt: var(--surface-strong);
+
   background: var(--surface-strong);
 }
 
-.otb-herald__header {
+.otb-cg__header {
   display: grid;
-  gap: 0.6rem;
-  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  gap: 0.55rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
-.otb-herald__list {
+.otb-cg__grid {
   display: grid;
-  border-top: 2px solid var(--ink);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--otb-cg-rule);
+  background: var(--otb-cg-rule);
 }
 
-.otb-herald__item {
+.otb-cg__card {
+  position: relative;
   display: grid;
-  grid-template-columns: clamp(6rem, 10vw, 10.5rem) minmax(0, 1fr);
-  gap: clamp(1rem, 2.5vw, 2.5rem);
+  align-content: start;
+  gap: clamp(0.7rem, 1.1vw, 0.95rem);
+  min-width: 0;
+  padding: clamp(1.15rem, 1.8vw, 1.55rem) clamp(1.2rem, 1.8vw, 1.55rem);
+  background: var(--otb-cg-cell);
+}
+
+.otb-cg__card::before {
+  position: absolute;
+  top: -1px;
+  left: clamp(1.4rem, 2.3vw, 1.9rem);
+  width: clamp(2.7rem, 30%, 5.4rem);
+  height: 1px;
+  background: rgba(35, 75, 61, 0.62);
+  content: "";
+}
+
+.otb-cg__card:nth-child(even) {
+  background: var(--otb-cg-cell-alt);
+}
+
+.otb-cg__card h4 {
+  width: 100%;
+  max-width: none;
+  font-size: clamp(1.1rem, 1.5vw, 1.45rem);
+  line-height: 1.1;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  text-wrap: auto;
+}
+
+.otb-cg__card p {
+  width: 100%;
+  max-width: none;
+  font-size: 0.98rem;
+  line-height: 1.52;
+}
+
+/* ── Option 02 · Strip panels ────────────────────────────────────────────── */
+/* Six full-width horizontal strips stacked vertically. Each strip panel has
+   a two-column layout: title on the left, copy on the right. */
+
+.otb-section--sp {
+  background: var(--paper);
+}
+
+.otb-sp__header {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.otb-sp__list {
+  display: grid;
+  gap: clamp(0.6rem, 1.1vw, 0.85rem);
+}
+
+.otb-sp__strip {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 3.5rem);
   align-items: center;
-  padding-block: clamp(1.2rem, 2.4vw, 2rem);
-  border-bottom: 1px solid rgba(35, 75, 61, 0.14);
+  padding: clamp(1.4rem, 2.5vw, 2rem) clamp(1.6rem, 2.8vw, 2.4rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-.otb-herald__num {
-  display: block;
-  color: rgba(35, 75, 61, 0.1);
-  font-family: var(--font-serif);
-  font-size: clamp(5.5rem, 9vw, 10.5rem);
-  font-weight: 500;
-  line-height: 0.8;
-  letter-spacing: -0.03em;
-  user-select: none;
-}
-
-.otb-herald__body {
-  display: grid;
-  grid-template-columns: minmax(14rem, 0.34fr) minmax(0, 1fr);
-  gap: clamp(1.2rem, 3vw, 3.5rem);
-  align-items: baseline;
-}
-
-.otb-herald__body h4 {
+.otb-sp__strip h4 {
   color: var(--cedar-dark);
-  font-size: clamp(1.2rem, 1.8vw, 1.75rem);
 }
 
-.otb-herald__body p {
+.otb-sp__strip p {
   max-width: 54ch;
-  font-size: 0.94rem;
+  border-left: 1px solid var(--line);
+  padding-left: clamp(1.5rem, 3vw, 3.5rem);
 }
 
-/* Option 05: Cedar scroll */
+/* ── Option 03 · Cedar mosaic ────────────────────────────────────────────── */
+/* Dark cedar background. Cards in light tones set into an asymmetric 12-column
+   mosaic — lead spans 7 cols × 2 rows; others vary from 2 to 8 cols wide. */
 
-.otb-section--cedar {
-  border-bottom-color: rgba(252, 252, 250, 0.1);
+.otb-section--cm {
   background: var(--cedar-dark);
+  border-bottom-color: rgba(252, 252, 250, 0.1);
 }
 
-.otb-cedar {
-  display: grid;
-  grid-template-columns: minmax(16rem, 0.3fr) minmax(0, 1fr);
-  gap: clamp(2.5rem, 5vw, 5.5rem);
-  align-items: start;
-}
-
-.otb-cedar__intro {
-  display: grid;
-  gap: 1.25rem;
-  position: sticky;
-  top: clamp(6rem, 10vw, 8rem);
-}
-
-.otb-cedar__intro h3 {
-  max-width: 10ch;
+.otb-section--cm h3 {
   color: var(--surface-strong);
-  font-size: clamp(2.4rem, 4.5vw, 4.8rem);
-  line-height: 0.92;
 }
 
-.otb-cedar__intro p {
-  max-width: 26rem;
-  color: rgba(252, 252, 250, 0.72);
+.otb-cm__header {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
-/* Responsive */
+.otb-cm__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(0.6rem, 1.1vw, 0.9rem);
+}
 
-@media (max-width: 1000px) {
+.otb-cm__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(0.85rem, 1.5vw, 1.2rem);
+  padding: clamp(1.4rem, 2.5vw, 2.2rem);
+  background: var(--surface-strong);
+  border-radius: 14px;
+  min-height: 160px;
+}
+
+.otb-cm__card h4 {
+  color: var(--cedar-dark);
+}
+
+.otb-cm__card p {
+  font-size: 0.91rem;
+  line-height: 1.54;
+}
+
+/* Explicit mosaic placements */
+
+.otb-cm__card--lead        { grid-column: 1 / 8;  grid-row: 1 / 3; background: var(--surface); min-height: 0; }
+.otb-cm__card:nth-child(2) { grid-column: 8 / 13; grid-row: 1 / 2; }
+.otb-cm__card:nth-child(3) { grid-column: 8 / 11; grid-row: 2 / 3; }
+.otb-cm__card:nth-child(4) { grid-column: 11 / 13; grid-row: 2 / 3; background: rgba(238, 244, 238, 0.92); }
+.otb-cm__card:nth-child(5) { grid-column: 1 / 6;  grid-row: 3 / 4; }
+.otb-cm__card:nth-child(6) { grid-column: 6 / 13; grid-row: 3 / 4; background: var(--surface); }
+
+.otb-cm__card--lead h4 {
+  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+  line-height: 1.06;
+}
+
+.otb-cm__card--lead p {
+  max-width: 44ch;
+  font-size: clamp(0.94rem, 1vw, 1rem);
+  line-height: 1.6;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 960px) {
   .otb-variant__label {
     grid-template-columns: auto 1fr;
     gap: 0.5rem;
   }
 
-  .otb-cedar {
-    grid-template-columns: 1fr;
+  .otb-cm__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .otb-cedar__intro {
-    position: static;
+  .otb-cm__card--lead,
+  .otb-cm__card:nth-child(2),
+  .otb-cm__card:nth-child(3),
+  .otb-cm__card:nth-child(4),
+  .otb-cm__card:nth-child(5),
+  .otb-cm__card:nth-child(6) {
+    grid-column: auto;
+    grid-row: auto;
   }
 
-  .otb-herald__body {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+  .otb-cm__card--lead {
+    grid-column: 1 / -1;
   }
 }
 
-@media (max-width: 720px) {
-  .otb-herald__item {
-    grid-template-columns: clamp(4rem, 10vw, 6rem) minmax(0, 1fr);
-    align-items: start;
+@media (max-width: 740px) {
+  .otb-cg__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .otb-herald__num {
-    font-size: clamp(3rem, 10vw, 5rem);
+  .otb-sp__strip {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .otb-sp__strip p {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .otb-cg__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .otb-cm__grid {
+    grid-template-columns: 1fr;
   }
 }
