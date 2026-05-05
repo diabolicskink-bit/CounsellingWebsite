@@ -7,13 +7,14 @@ This is the live inventory of the design system. Keep it factual and update it w
 - Production colour tokens are defined in `src/styles.css`, including paper, surface, text, cedar, accent, reusable highlight/footer surfaces, line, radius, shadow, and max-width variables.
 - Production typography tokens are defined in `src/styles.css`, including font stacks, named type roles, and leading variables.
 - Layout and surface rules exist through shared section classes such as `.site-grid`, the quieter `.site-highlight`, `.site-split`, `.site-content-stack`, and `.site-copy-panel`.
-- The active shared production class layer uses `site-*` classes for public-page sections, cards, panels, lists, forms, footer, FAQ, CTA, trust, detail, and contact patterns.
+- The active shared production class layer uses `site-*` classes for public-page sections, cards, panels, lists, tabs, forms, footer, FAQ, CTA, trust, detail, and contact patterns.
 - The active shared hero system uses `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-principles-strip`, and `.hero-detail-stack`; `.hero-section` owns the shared 40px top and bottom spacing, `h1.hero-badge` owns the concise visible page-topic H1, and `.hero-display` owns the measured shared expressive hero statement typography and default title measure.
 - Existing non-prefixed shared component classes remain active where they back real components, including `.container`, `.button`, `.card`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
 - Shared `Container`, `Button`, `Card`, `SectionHeading`, and `SplitSection` components exist in `src/components/`.
 - Shared `Layout` implements the production header, navigation, mobile navigation, shared chrome detection, and footer.
 - Shared `FaqSection` exists with accordion state, ARIA wiring, reduced-motion handling, and `site-faq-*` styling.
 - Shared `FaqSchema` exists for FAQ structured data.
+- Shared `BroadTabPanel` exists with ARIA tab semantics, roving keyboard focus, responsive stacking, reduced-motion handling, and `site-broad-tabs*` styling.
 - Shared `EnquiryForm` exists with data-driven content, progressive enquiry choices, success/error states, direct submit behaviour, and `.site-form*` styling.
 - Shared `DevPageHero`, `DesignSystemSidebar`, and `DocumentsSidebar` exist for dev/design-system/documentation routes.
 - The active FAQ pattern exists as the `FaqSection` component and is demonstrated on the Components page.
@@ -22,6 +23,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 - The active hero support-strip pattern exists as `.hero-support-tagline`.
 - The active topic-card pattern exists as `.site-topic-grid`, `.site-topic-card`, and topic-card modifiers.
 - The active detail-stack pattern exists as `.site-detail-stack` and `.site-detail-stack--linked`.
+- The active broad-tab-panel pattern exists as the `BroadTabPanel` component and is demonstrated on the Components page.
 - The active check-panel pattern exists as `.site-check-panel` and `.site-check-panel--grid`.
 - The active contact-strip pattern exists as `.site-contact-strip` and `.site-contact-item`.
 - The active fee-card pattern exists as `.site-fee-card`.
@@ -59,7 +61,6 @@ This is the live inventory of the design system. Keep it factual and update it w
 - Focus states, FAQ semantics, form states, and reduced-motion handling exist in places, but there is no complete accessibility audit matrix.
 - Responsive CSS exists across shared and page-scoped styles, but there is no responsive QA matrix.
 - The production header and navigation are implemented, but they are not yet represented as a dedicated design-system page section.
-- The Components sidebar does not currently link every section shown on the Components page, including Footer and FAQ accordion.
 - The design-system route name is still `/design-language`, even though the docs now describe this as the design system.
 
 ## Legacy / Deprecated / Reference Only

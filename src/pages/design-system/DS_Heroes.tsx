@@ -94,7 +94,7 @@ const anatomyRows = [
   {
     zone: "Badge",
     className: ".hero-badge",
-    desc: "Small uppercase cedar label. In production page heroes, use h1.hero-badge as the visible page-topic heading above h2.hero-display.",
+    desc: "Small uppercase cedar block label. In production page heroes, use h1.hero-badge as the visible page-topic heading above h2.hero-display.",
   },
   {
     zone: "Detail stack",

@@ -11,6 +11,7 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
+import BroadTabPanel from "../../components/BroadTabPanel";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
 import DevPageHero from "../../components/DevPageHero";
@@ -79,6 +80,30 @@ const linkedDetailStackItems = [
     title: "LGBTQIA+ inclusive counselling",
     copy: "Gender, sexuality, identity, and belonging can be part of the conversation or simply part of who you are.",
     href: "/inclusion/lgbtqia",
+  },
+];
+
+const broadTabPanelItems = [
+  {
+    title: "Psychodynamic",
+    details: [
+      "Use this shape when a short set of labels needs one shared reading surface with enough room for substantial paragraphs.",
+      "The tab column stays compact while the content side is allowed to be longer, so the panel does not create a stray blank block under the final tab.",
+    ],
+  },
+  {
+    title: "Attachment",
+    details: [
+      "The treatment suits related lenses, modes, or service frames where each item deserves more than a card but less than a full section.",
+      "Keep tab labels short. If the labels wrap heavily or the set grows beyond five, use a different pattern.",
+    ],
+  },
+  {
+    title: "Integrative",
+    details: [
+      "Use the shared component rather than rebuilding ARIA tabs, roving focus, keyboard handling, borders, and responsive stacking page by page.",
+      "The active state uses a quiet cedar rule, clean paper, and the same serif title voice as the rest of the site.",
+    ],
   },
 ];
 
@@ -446,6 +471,29 @@ export default function DS_Components() {
                 <strong>Use for:</strong> One paragraph at a time. A subtle left-rule cue for reflective, orienting, or
                 trust-building copy. Do not use it for long rich-text blocks or stacked multi-paragraph content.
               </div>
+            </div>
+          </section>
+
+          <section className="ds-section" id="broad-tab-panel">
+            <div className="ds-section-heading">
+              <span className="site-eyebrow">Broad tab panel</span>
+              <h2>Tabs for a small set of substantial explanations.</h2>
+              <p>Use this when the layout needs one compact label column and one generous reading panel.</p>
+            </div>
+
+            <div className="ds-demo" style={{ maxWidth: "920px" }}>
+              <BroadTabPanel
+                ariaLabel="Broad tab panel example"
+                items={broadTabPanelItems.map((item) => ({
+                  title: item.title,
+                  content: item.details.map((paragraph) => <p key={paragraph}>{paragraph}</p>),
+                }))}
+              />
+            </div>
+
+            <div className="ds-usage-note" style={{ marginTop: "16px" }}>
+              <strong>Use for:</strong> Three to five related lenses, modes, or explanations with paragraph-length content.<br />
+              <strong>Avoid:</strong> primary navigation, filters, tiny metadata, or large topic sets that should be a list or accordion.
             </div>
           </section>
 

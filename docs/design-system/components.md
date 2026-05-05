@@ -14,6 +14,8 @@ Start with these shared building blocks before creating anything new. Use them w
   Use for repeated section heading structure.
 - `src/components/FaqSection.tsx`
   Use for shared FAQ sections site-wide. Keep question-and-answer content data-driven at page level and pass it into this component. When a page needs the quieter alternating section surface, pass `className="site-highlight"`.
+- `src/components/BroadTabPanel.tsx`
+  Use for a compact set of three to five related labels where each tab opens paragraph-length content in one broad panel. The component owns ARIA tab semantics, roving keyboard focus, and the shared `site-broad-tabs*` styling.
 - `src/components/EnquiryForm.tsx`
   Use for the site contact/enquiry form. The production Enquire page and the design-system example should both render this component with `src/data/enquiry.ts` content so form flow, subject lines, fields, and direct-submit behaviour stay aligned.
 - `src/components/Layout.tsx`
@@ -59,6 +61,8 @@ Start with these shared building blocks before creating anything new. Use them w
   Shared ruled stack for short detail items or compact grouped statements. It provides spacing and separators while the item markup controls the text hierarchy.
 - `.site-detail-stack--linked` and `site-detail-stack__*`
   Shared linked variation of the detail stack for destination lists with a serif title, trailing action cue, and one short supporting line of copy.
+- `.site-broad-tabs` and `.site-broad-tabs__*`
+  Shared broad tab-panel treatment used by `BroadTabPanel`. Use for related explanatory frames where the tabs are labels and the content side needs more reading room than the tab column. Do not use it for page navigation, filters, or large topic sets.
 - `.site-split`
   Split layout pairing a heading block with contained reading content.
 - `.site-copy-panel`
@@ -90,7 +94,7 @@ Start with these shared building blocks before creating anything new. Use them w
 - `.hero-section`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-copy-panel`, `.hero-deck`, `.hero-detail-stack`
   Shared public-page hero design system. `.hero-section` owns the default 40px top and bottom spacing from content to hero boundary. This is a separate authoritative shared subsystem alongside `site-*`, not a legacy variation.
 - `.hero-badge`
-  The concise visible page-topic label in production heroes. Use it on the page's single `h1` before the expressive display statement.
+  The concise visible page-topic block label in production heroes. Use it on the page's single `h1` before the expressive display statement.
 - `.hero-display`
   The authoritative expressive display-heading pattern for production heroes. Use it on the hero `h2` after `h1.hero-badge`; it uses the shared measured serif display style with an 18ch default title measure. If a page only needs a narrower or wider title measure, set `--hero-display-max-width` at page scope instead of adding another page-specific display-heading class.
 

@@ -21,11 +21,22 @@
   max-width: none;
 }
 
+.home-page .hero-media-note {
+  margin-top: 0;
+}
+
 /* Home-specific body-copy adjustments where shared component defaults intentionally differ. */
-.home-topics__tile p {
+.home-page .home-page__hero-support p,
+.home-page .home-topics__body p,
+.home-page .home-topics__tile p,
+.home-page .home-page__inclusive-copy,
+.home-page .home-page__inclusive-support p,
+.home-page .home-page__inclusive-support .site-detail-stack__copy,
+.home-page .home-workroom__intro .section-heading__copy,
+.home-page .home-workroom__joel p {
   color: var(--body);
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: 0.98rem;
+  line-height: 1.52;
 }
 
 /* Topics: custom editorial tile placement for the Home page only */
@@ -200,31 +211,44 @@
   align-items: start;
 }
 
-.home-workroom__joel {
+.home-page .home-workroom__joel.site-card {
   justify-self: end;
   align-self: center;
   width: min(84%, 36.8rem);
+  border-color: var(--line);
+  box-shadow: var(--color-shadow-card);
+  transform: none;
+  transition: none;
+  overflow: hidden;
+}
+
+.home-page .home-workroom__joel.site-card:hover {
+  transform: none;
+  border-color: var(--line);
+  box-shadow: var(--color-shadow-card);
 }
 
 .home-workroom__joel-head {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  padding-block: 10px 8px;
 }
 
 .home-workroom__joel-head::before,
 .home-workroom__joel-head::after {
   content: "";
-  height: 1px;
-  background: var(--line);
+  height: 2px;
 }
 
 .home-workroom__joel-head::before {
-  flex: 0 0 18px;
+  flex: 0 0 22px;
+  background: linear-gradient(90deg, rgba(35, 75, 61, 0), rgba(35, 75, 61, 0.26));
 }
 
 .home-workroom__joel-head::after {
   flex: 1;
+  background: linear-gradient(90deg, rgba(35, 75, 61, 0.26), rgba(35, 75, 61, 0));
 }
 
 .home-workroom__joel-body {
@@ -235,7 +259,8 @@
 .home-workroom__joel-name {
   display: block;
   color: var(--cedar);
-  font-size: 1.1rem;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
   font-weight: 750;
   letter-spacing: 0.12em;
   line-height: 1;
@@ -251,13 +276,6 @@
 
 .home-workroom__intro h2 {
   max-width: 700px;
-}
-
-.home-workroom__intro .section-heading__copy,
-.home-workroom__joel p {
-  color: var(--body);
-  font-size: 1.02rem;
-  line-height: 1.58;
 }
 
 .home-workroom__intro .section-heading__copy {

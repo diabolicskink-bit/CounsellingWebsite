@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from "react";
+import BroadTabPanel from "../components/BroadTabPanel";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
@@ -19,7 +19,6 @@ type TopicItem = {
 
 type ApproachItem = {
   title: string;
-  summary: string;
   details: string[];
 };
 
@@ -97,7 +96,6 @@ const pageContent: WorkingWithJoelPageContent = {
     items: [
       {
         title: "Psychodynamic",
-        summary: "Looking below the surface at unconscious patterns, defences, conflict, and repetition.",
         details: [
           "Psychodynamic work pays attention to the parts of experience that are active but not always obvious: old conflicts, defences, shame, desire, anger, avoidance, and the ways a familiar pattern can repeat even when you are trying to do something different.",
           "The work is not about forcing a neat explanation onto your life. It is a shared formulation of what might be happening underneath the visible problem, including how that pattern may appear between us in the room.",
@@ -105,7 +103,6 @@ const pageContent: WorkingWithJoelPageContent = {
       },
       {
         title: "Attachment",
-        summary: "Thinking about closeness, distance, safety, repair, and early relational templates.",
         details: [
           "Attachment work looks at how closeness, distance, dependence, trust, and self-protection were learned. Those early relational templates can keep shaping adult relationships, often through strategies that once made sense but now create strain.",
           "This can include how you manage conflict, jealousy, rupture, repair, need, withdrawal, people-pleasing, or the fear of being too much. The point is to understand the strategy before trying to change the strategy.",
@@ -113,7 +110,6 @@ const pageContent: WorkingWithJoelPageContent = {
       },
       {
         title: "Integrative",
-        summary: "Using other frameworks where useful without losing the depth frame.",
         details: [
           "Integrative does not mean a loose mix of techniques. It means other frameworks can be brought in when they help make sense of what is happening, support the work, or give language to something that would otherwise stay vague.",
           "Practical tools, nervous-system ideas, parts language, values work, or communication frameworks may have a place. They sit inside the broader psychodynamic and attachment frame rather than replacing it.",
@@ -185,52 +181,9 @@ function getWorkingTopicClassName(isTabletOrphan: boolean) {
     .join(" ");
 }
 
-const approachPanelId = "working-with-joel-approach-tab-panel";
-
-function getApproachTabId(index: number) {
-  return `working-with-joel-approach-tab-${index}`;
-}
-
 export default function WorkingWithJoel() {
   const { hero, introduction, approach, focus } = pageContent;
   const hasTabletOrphan = focus.items.length % 2 === 1;
-  const [activeApproachTab, setActiveApproachTab] = useState(0);
-  const activeApproachItem = approach.items[activeApproachTab];
-
-  function focusApproachTab(index: number) {
-    window.requestAnimationFrame(() => {
-      document.getElementById(getApproachTabId(index))?.focus();
-    });
-  }
-
-  function handleApproachTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    const lastIndex = approach.items.length - 1;
-    let nextIndex: number | null = null;
-
-    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      nextIndex = index === lastIndex ? 0 : index + 1;
-    }
-
-    if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-      nextIndex = index === 0 ? lastIndex : index - 1;
-    }
-
-    if (event.key === "Home") {
-      nextIndex = 0;
-    }
-
-    if (event.key === "End") {
-      nextIndex = lastIndex;
-    }
-
-    if (nextIndex === null) {
-      return;
-    }
-
-    event.preventDefault();
-    setActiveApproachTab(nextIndex);
-    focusApproachTab(nextIndex);
-  }
 
   useDocumentMetadata(pageContent.title, pageContent.meta);
 
@@ -300,37 +253,13 @@ export default function WorkingWithJoel() {
               ))}
             </div>
           </div>
-          <div className="approach-tab__card">
-            <div className="approach-tab__tabs" role="tablist" aria-label="Counselling approach">
-              {approach.items.map((item, index) => (
-                <button
-                  aria-controls={approachPanelId}
-                  aria-selected={activeApproachTab === index}
-                  className="approach-tab__tab"
-                  data-active={activeApproachTab === index ? "true" : "false"}
-                  id={getApproachTabId(index)}
-                  key={item.title}
-                  onKeyDown={(event) => handleApproachTabKeyDown(event, index)}
-                  onClick={() => setActiveApproachTab(index)}
-                  role="tab"
-                  tabIndex={activeApproachTab === index ? 0 : -1}
-                  type="button"
-                >
-                  {item.title}
-                </button>
-              ))}
-            </div>
-            <div
-              aria-labelledby={getApproachTabId(activeApproachTab)}
-              className="approach-tab__content"
-              id={approachPanelId}
-              role="tabpanel"
-            >
-              {activeApproachItem.details.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-          </div>
+          <BroadTabPanel
+            ariaLabel="Counselling approach"
+            items={approach.items.map((item) => ({
+              title: item.title,
+              content: item.details.map((paragraph) => <p key={paragraph}>{paragraph}</p>),
+            }))}
+          />
         </Container>
       </section>
 

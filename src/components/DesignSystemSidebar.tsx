@@ -28,7 +28,10 @@ const navGroups: NavGroup[] = [
       { label: "Cards", href: "/design-language/components#cards" },
       { label: "Trust strip", href: "/design-language/components#trust-strip" },
       { label: "Forms", href: "/design-language/components#forms" },
+      { label: "Footer", href: "/design-language/components#footer" },
       { label: "Lists & stacks", href: "/design-language/components#lists" },
+      { label: "Broad tab panel", href: "/design-language/components#broad-tab-panel" },
+      { label: "FAQ accordion", href: "/design-language/components#faq-accordion" },
     ],
   },
   {

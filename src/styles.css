@@ -2330,6 +2330,187 @@ p {
   outline-offset: 6px;
 }
 
+.site-broad-tabs {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: start;
+  filter: drop-shadow(0 14px 18px rgba(31, 35, 31, 0.035));
+}
+
+.site-broad-tabs__tabs {
+  display: grid;
+  align-content: start;
+  align-self: start;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-right: 0;
+  border-radius: 10px 0 0 10px;
+  background: rgba(238, 242, 236, 0.78);
+}
+
+.site-broad-tabs__tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 24px;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--muted);
+  font-family: var(--font-serif);
+  font-size: var(--type-card-title);
+  font-weight: 500;
+  line-height: var(--leading-card);
+  white-space: nowrap;
+  text-wrap: balance;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.site-broad-tabs__tab:last-child {
+  border-bottom: none;
+}
+
+.site-broad-tabs__tab::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: transparent;
+  content: "";
+  transition: background 0.15s ease;
+}
+
+.site-broad-tabs__tab:hover {
+  color: var(--ink);
+}
+
+.site-broad-tabs__tab[data-active="true"] {
+  z-index: 1;
+  color: var(--cedar-dark);
+  background: var(--surface-strong);
+}
+
+.site-broad-tabs__tab[data-active="true"]::before {
+  background: var(--cedar);
+}
+
+.site-broad-tabs__tab:focus-visible {
+  z-index: 1;
+  outline: 2px solid rgba(35, 75, 61, 0.34);
+  outline-offset: -5px;
+}
+
+.site-broad-tabs__content {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-height: 18rem;
+  padding: 32px 34px 34px 40px;
+  border: 1px solid var(--line);
+  border-radius: 0 10px 10px 10px;
+  background: var(--surface-strong);
+}
+
+.site-broad-tabs__content p {
+  margin: 0;
+  max-width: 54ch;
+  color: var(--body);
+  font-size: var(--type-body);
+  line-height: 1.66;
+  text-wrap: pretty;
+}
+
+.site-broad-tabs__content:focus-visible {
+  outline: 2px solid rgba(35, 75, 61, 0.24);
+  outline-offset: -5px;
+}
+
+@media (max-width: 900px) {
+  .site-broad-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .site-broad-tabs__tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 1px solid var(--line);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .site-broad-tabs__tab {
+    justify-content: center;
+    min-height: 0;
+    padding: 17px 12px;
+    border-right: 1px solid var(--line);
+    border-bottom: none;
+    font-size: clamp(0.92rem, 1.8vw, var(--type-body));
+    text-align: center;
+  }
+
+  .site-broad-tabs__tab:last-child {
+    border-right: none;
+  }
+
+  .site-broad-tabs__tab::before {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: 2px;
+  }
+
+  .site-broad-tabs__content {
+    min-height: 0;
+    padding: 26px 24px 28px;
+    border: 1px solid var(--line);
+    border-radius: 0 0 10px 10px;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-broad-tabs__tabs {
+    grid-template-columns: 1fr;
+    border: 1px solid var(--line);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .site-broad-tabs__tab {
+    justify-content: flex-start;
+    padding: 16px 18px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    font-size: var(--type-body);
+    text-align: left;
+  }
+
+  .site-broad-tabs__tab:last-child {
+    border-bottom: 0;
+  }
+
+  .site-broad-tabs__tab::before {
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-broad-tabs__tab,
+  .site-broad-tabs__tab::before {
+    transition: none;
+  }
+}
+
 .site-faq-section {
   background: var(--color-bg-main);
 }
@@ -3667,7 +3848,8 @@ p {
 
 .hero-badge,
 h1.hero-badge {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   max-width: none;
   margin: 0;
   font-family: var(--font-sans);
