@@ -368,7 +368,12 @@ export default function EnmPolyamoryCounselling() {
         </Container>
       </section>
 
-      <FaqSection intro={faqSection.intro} items={faqSection.items} title={faqSection.heading} />
+      <FaqSection
+        className="site-grid"
+        intro={faqSection.intro}
+        items={faqSection.items}
+        title={faqSection.heading}
+      />
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">

@@ -261,7 +261,7 @@ export default function KinkBdsmCounselling() {
       </section>
 
       <FaqSection
-        className="kink-page__faq-section"
+        className="site-grid kink-page__faq-section"
         intro={faqSection.intro}
         items={faqSection.items}
         title={faqSection.heading}

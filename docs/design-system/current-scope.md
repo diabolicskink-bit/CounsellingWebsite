@@ -13,13 +13,13 @@ This is the live inventory of the design system. Keep it factual and update it w
 - Existing non-prefixed shared component classes remain active where they back real components, including `.container`, `.button`, `.card`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
 - Shared `Container`, `Button`, `Card`, `SectionHeading`, and `SplitSection` components exist in `src/components/`.
 - Shared `Layout` implements the production header, navigation, mobile navigation, shared chrome detection, and footer.
-- Shared `FaqSection` exists with accordion state, ARIA wiring, reduced-motion handling, and `site-faq-*` styling.
+- Shared `FaqSection` exists with accordion state, ARIA wiring, reduced-motion handling, and `site-faq-*` styling. It is surface-neutral, so each usage supplies a section surface such as `.site-grid`, `.site-highlight`, or a deliberate page-scoped section class.
 - Shared `FaqSchema` exists for FAQ structured data.
 - Shared `BroadTabPanel` exists with ARIA tab semantics, roving keyboard focus, responsive stacking, reduced-motion handling, and `site-broad-tabs*` styling.
 - Shared `EnquiryForm` exists with data-driven content, progressive enquiry choices, success/error states, direct submit behaviour, and `.site-form*` styling.
 - Shared `DevPageHero`, `DesignSystemSidebar`, and `DocumentsSidebar` exist for dev/design-system/documentation routes.
 - Dev-only page modules are grouped under `src/pages/dev/`, with rendered design-system pages in `src/pages/dev/design-system/` and test beds in `src/pages/dev/test-beds/`.
-- The active FAQ pattern exists as the `FaqSection` component and is demonstrated on the Components page.
+- The active FAQ pattern exists as the surface-neutral `FaqSection` component and is demonstrated on the Components page inside an explicit section surface.
 - The active CTA pattern exists as `.site-cta-block` and is demonstrated on the Patterns page.
 - The active trust-strip pattern exists as `.site-trust-list` and `.site-trust-list--highlight-last`.
 - The active hero support-strip pattern exists as `.hero-support-tagline`.

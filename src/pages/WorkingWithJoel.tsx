@@ -12,9 +12,26 @@ type EmphasisCopy = {
   after: string;
 };
 
-type TopicItem = {
+type WorkingHeroPortrait = {
+  imageSrc: string;
+  ariaLabel: string;
+  name: string;
+  descriptor: string;
+};
+
+type WorkingHeroContent = {
+  badge: string;
+  title: EmphasisCopy;
+  supportLead: string;
+  supportBody: string;
+  credentialsAriaLabel: string;
+  credentials: string[];
+  portrait: WorkingHeroPortrait;
+};
+
+type IntroductionContent = {
   title: string;
-  body: string;
+  paragraphs: string[];
 };
 
 type ApproachItem = {
@@ -22,35 +39,32 @@ type ApproachItem = {
   details: string[];
 };
 
+type ApproachContent = {
+  title: string;
+  overview: string[];
+  items: ApproachItem[];
+};
+
+type FocusItem = {
+  title: string;
+  body: string;
+};
+
+type FocusContent = {
+  eyebrow: string;
+  title: string;
+  itemsAriaLabel: string;
+  items: FocusItem[];
+  closingItem: FocusItem;
+};
+
 type WorkingWithJoelPageContent = {
   title: string;
   meta: string;
-  hero: {
-    badge: string;
-    title: EmphasisCopy;
-    supportLead: string;
-    supportBody: string;
-    credentials: string[];
-    portrait: {
-      name: string;
-      descriptor: string;
-    };
-  };
-  introduction: {
-    title: string;
-    paragraphs: string[];
-  };
-  approach: {
-    title: string;
-    overview: string[];
-    items: ApproachItem[];
-  };
-  focus: {
-    eyebrow: string;
-    title: string;
-    items: TopicItem[];
-    closingItem: TopicItem;
-  };
+  hero: WorkingHeroContent;
+  introduction: IntroductionContent;
+  approach: ApproachContent;
+  focus: FocusContent;
 };
 
 const pageMetadata = getRouteMetadata("/working-with-joel");
@@ -68,6 +82,7 @@ const pageContent: WorkingWithJoelPageContent = {
     supportLead: "Life is complicated.",
     supportBody:
       "Relationships, work, how you feel about yourself, the thing that's been sitting with you. It's all connected.",
+    credentialsAriaLabel: "Joel Griffiths credentials and practice details",
     credentials: [
       "GradDip. Counselling and Psychotherapy",
       "ACA Registered",
@@ -75,6 +90,8 @@ const pageContent: WorkingWithJoelPageContent = {
       "LGBTQIA+ affirming",
     ],
     portrait: {
+      imageSrc: portraitSrc,
+      ariaLabel: "About Joel Griffiths",
       name: "Joel Griffiths",
       descriptor: "Counselling and psychodynamic psychotherapy",
     },
@@ -120,6 +137,7 @@ const pageContent: WorkingWithJoelPageContent = {
   focus: {
     eyebrow: "What I work with",
     title: "Some of the issues I work with",
+    itemsAriaLabel: "Examples of what people bring to counselling",
     items: [
       {
         title: "Anxiety, panic & overwhelm",
@@ -175,124 +193,172 @@ const pageContent: WorkingWithJoelPageContent = {
   },
 };
 
-function getWorkingTopicClassName(isTabletOrphan: boolean) {
-  return ["working-topics__item", isTabletOrphan ? "working-topics__item--tablet-full" : ""]
-    .filter(Boolean)
-    .join(" ");
+function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
+  return (
+    <section className="hero-section hero-bg--default working-with-joel-page__hero">
+      <Container>
+        <div className="hero-top working-with-joel-page__hero-top">
+          <div className="working-with-joel-page__hero-heading">
+            <h1 className="hero-badge">{hero.badge}</h1>
+            <h2 className="hero-display">
+              {hero.title.before}
+              <br />
+              <em>{hero.title.emphasis}</em>
+              <br />
+              {hero.title.after}
+            </h2>
+          </div>
+
+          <div className="hero-deck working-with-joel-page__hero-support">
+            <p className="hero-deck__lead working-with-joel-page__hero-support-lead">
+              {hero.supportLead}
+            </p>
+            <p className="hero-deck__body site-body-copy">{hero.supportBody}</p>
+          </div>
+        </div>
+
+        <CredentialsList items={hero.credentials} ariaLabel={hero.credentialsAriaLabel} />
+      </Container>
+    </section>
+  );
+}
+
+function CredentialsList({ items, ariaLabel }: { items: string[]; ariaLabel: string }) {
+  return (
+    <ul className="hero-support-tagline working-with-joel-page__hero-credentials" aria-label={ariaLabel}>
+      {items.map((credential) => (
+        <li key={credential}>{credential}</li>
+      ))}
+    </ul>
+  );
+}
+
+function IntroductionSection({
+  introduction,
+  portrait,
+}: {
+  introduction: IntroductionContent;
+  portrait: WorkingHeroPortrait;
+}) {
+  return (
+    <section className="site-grid working-with-joel-page__intro" aria-labelledby="working-with-joel-intro-title">
+      <Container className="site-split">
+        <div className="section-heading working-with-joel-page__intro-heading">
+          <h2 className="working-with-joel-page__section-title" id="working-with-joel-intro-title">
+            {introduction.title}
+          </h2>
+          <PortraitNote portrait={portrait} />
+        </div>
+
+        <article className="site-copy-panel rich-text">
+          {introduction.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </article>
+      </Container>
+    </section>
+  );
+}
+
+function PortraitNote({ portrait }: { portrait: WorkingHeroPortrait }) {
+  return (
+    <aside className="hero-media-note working-with-joel-page__intro-note" aria-label={portrait.ariaLabel}>
+      <div className="hero-media-note__image">
+        <img src={portrait.imageSrc} alt="" />
+      </div>
+      <div className="hero-media-note__caption">
+        <strong>{portrait.name}</strong>
+        <span>{portrait.descriptor}</span>
+      </div>
+    </aside>
+  );
+}
+
+function ApproachSection({ approach }: { approach: ApproachContent }) {
+  const tabItems = approach.items.map((item) => ({
+    title: item.title,
+    content: item.details.map((paragraph) => <p key={paragraph}>{paragraph}</p>),
+  }));
+
+  return (
+    <section className="site-highlight working-with-joel-page__approach" aria-labelledby="working-approach-title">
+      <Container className="working-approach">
+        <div className="section-heading working-approach__intro">
+          <h2 className="working-with-joel-page__section-title" id="working-approach-title">
+            {approach.title}
+          </h2>
+          <div className="working-approach__overview">
+            {approach.overview.map((paragraph) => (
+              <p className="section-heading__copy" key={paragraph}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        <BroadTabPanel ariaLabel="Counselling approach" items={tabItems} />
+      </Container>
+    </section>
+  );
+}
+
+function FocusSection({ focus }: { focus: FocusContent }) {
+  const focusItems = [...focus.items, focus.closingItem];
+
+  return (
+    <section className="site-grid working-topics" aria-labelledby="working-with-joel-focus-title">
+      <Container>
+        <div className="site-grid__heading working-topics__header">
+          <span className="site-eyebrow">{focus.eyebrow}</span>
+          <h2 className="working-with-joel-page__section-title" id="working-with-joel-focus-title">
+            {focus.title}
+          </h2>
+        </div>
+
+        <div className="working-topics__panel">
+          <ul className="working-topics__list" aria-label={focus.itemsAriaLabel}>
+            {focusItems.map((item, index) => {
+              const isClosingItem = index === focusItems.length - 1;
+
+              return <FocusTopicItem item={item} isClosingItem={isClosingItem} key={item.title} />;
+            })}
+          </ul>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function FocusTopicItem({
+  item,
+  isClosingItem,
+}: {
+  item: FocusItem;
+  isClosingItem: boolean;
+}) {
+  const itemClassName = isClosingItem
+    ? "working-topics__item working-topics__item--closing"
+    : "working-topics__item";
+
+  return (
+    <li className={itemClassName}>
+      <h3 className="working-topics__item-title">{item.title}</h3>
+      <p className="working-topics__item-body">{item.body}</p>
+    </li>
+  );
 }
 
 export default function WorkingWithJoel() {
   const { hero, introduction, approach, focus } = pageContent;
-  const hasTabletOrphan = focus.items.length % 2 === 1;
 
   useDocumentMetadata(pageContent.title, pageContent.meta);
 
   return (
     <main className="site-page working-with-joel-page">
-      <section className="hero-section hero-bg--default">
-        <Container>
-          <div className="hero-top working-with-joel-page__hero-top">
-            <div className="working-with-joel-page__hero-heading">
-              <h1 className="hero-badge">{hero.badge}</h1>
-              <h2 className="hero-display">
-                {hero.title.before}
-                <br />
-                <em>{hero.title.emphasis}</em>
-                <br />
-                {hero.title.after}
-              </h2>
-            </div>
-
-            <div className="hero-deck working-with-joel-page__hero-support">
-              <p className="working-with-joel-page__hero-support-lead">{hero.supportLead}</p>
-              <p className="working-with-joel-page__hero-support-body site-body-copy">{hero.supportBody}</p>
-            </div>
-          </div>
-
-          <ul className="hero-support-tagline working-with-joel-page__hero-credentials">
-            {hero.credentials.map((credential) => (
-              <li key={credential}>{credential}</li>
-            ))}
-          </ul>
-        </Container>
-      </section>
-
-      <section className="site-grid working-with-joel-page__intro">
-        <Container className="site-split">
-          <div className="section-heading working-with-joel-page__intro-heading">
-            <h2 className="working-with-joel-page__section-title">{introduction.title}</h2>
-            <aside
-              className="hero-media-note working-with-joel-page__intro-note"
-              aria-label="About Joel Griffiths"
-            >
-              <div className="hero-media-note__image">
-                <img src={portraitSrc} alt="" />
-              </div>
-              <div className="hero-media-note__caption">
-                <strong>{hero.portrait.name}</strong>
-                <span>{hero.portrait.descriptor}</span>
-              </div>
-            </aside>
-          </div>
-
-          <article className="site-copy-panel rich-text">
-            {introduction.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </article>
-        </Container>
-      </section>
-
-      <section className="site-highlight working-with-joel-page__approach-tab">
-        <Container className="approach-tab">
-          <div className="section-heading approach-tab__intro">
-            <h2 className="working-with-joel-page__section-title">{approach.title}</h2>
-            <div className="approach-tab__overview">
-              {approach.overview.map((paragraph) => (
-                <p className="section-heading__copy" key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-          </div>
-          <BroadTabPanel
-            ariaLabel="Counselling approach"
-            items={approach.items.map((item) => ({
-              title: item.title,
-              content: item.details.map((paragraph) => <p key={paragraph}>{paragraph}</p>),
-            }))}
-          />
-        </Container>
-      </section>
-
-      <section
-        className="site-grid working-topics"
-        aria-labelledby="working-with-joel-focus-title"
-      >
-        <Container>
-          <div className="site-grid__heading working-topics__header">
-            <span className="site-eyebrow">{focus.eyebrow}</span>
-            <h2 className="working-with-joel-page__section-title" id="working-with-joel-focus-title">{focus.title}</h2>
-          </div>
-
-          <div className="working-topics__panel">
-            <div className="working-topics__grid" aria-label="Examples of what people bring to counselling">
-              {focus.items.map((item, index) => (
-                <article
-                  key={item.title}
-                  className={getWorkingTopicClassName(hasTabletOrphan && index === focus.items.length - 1)}
-                >
-                  <h3 className="working-topics__item-title">{item.title}</h3>
-                  <p className="working-topics__item-body">{item.body}</p>
-                </article>
-              ))}
-            </div>
-
-            <article className="working-topics__item working-topics__item--closing">
-              <h3 className="working-topics__item-title">{focus.closingItem.title}</h3>
-              <p className="working-topics__item-body">{focus.closingItem.body}</p>
-            </article>
-          </div>
-        </Container>
-      </section>
+      <WorkingHeroSection hero={hero} />
+      <IntroductionSection introduction={introduction} portrait={hero.portrait} />
+      <ApproachSection approach={approach} />
+      <FocusSection focus={focus} />
     </main>
   );
 }

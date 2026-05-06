@@ -3,12 +3,39 @@
 }
 
 .contact-page .hero-top--supporting-media {
-  align-items: center;
+  align-items: stretch;
   gap: 48px;
 }
 
-.contact-page .hero-display {
-  margin-bottom: 24px;
+.contact-page__hero-content {
+  display: grid;
+  grid-template-rows: minmax(6rem, auto) auto;
+  gap: 24px;
+  align-content: start;
+  min-width: 0;
+}
+
+.contact-page__hero-heading {
+  display: grid;
+  grid-template-areas: "contact-hero-heading";
+  min-width: 0;
+}
+
+.contact-page__hero-heading > :where(.hero-badge, .hero-display) {
+  grid-area: contact-hero-heading;
+}
+
+.contact-page__hero-heading > .hero-badge {
+  align-self: start;
+}
+
+.contact-page__hero-heading > .hero-display {
+  align-self: center;
+  margin: 0;
+}
+
+.contact-page__hero-content > .hero-copy-panel {
+  align-self: start;
 }
 
 .contact-page .hero-copy-panel {
@@ -16,55 +43,19 @@
   max-width: 660px;
 }
 
-.contact-page .site-fee-card {
+.contact-page__fee-card {
   align-self: center;
   min-height: 0;
-  height: auto;
   align-content: start;
   max-width: 330px;
 }
 
-.contact-page__service-tier-list {
-  display: grid;
-  gap: 0;
-}
-
-.contact-page__service-tier {
-  display: grid;
-  gap: 10px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-}
-
-.contact-page__service-tier:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-.contact-page__service-tier-label {
+.contact-page__fee-label {
   color: var(--cedar);
-  font-size: 0.78rem;
+  font-size: var(--type-label);
   font-weight: 700;
   line-height: 1.35;
   text-transform: uppercase;
-}
-
-.contact-page__service-tier-fee {
-  display: block;
-}
-
-.contact-page__service-tier--featured .contact-page__service-tier-fee {
-  font-size: clamp(4.45rem, 7.4vw, 5.25rem);
-}
-
-.contact-page__service-tier-detail {
-  color: var(--muted);
-}
-
-.contact-page__service-tier-note {
-  color: var(--muted);
-  font-size: 0.86rem;
-  line-height: 1.5;
 }
 
 .contact-page__desk-section {
@@ -89,11 +80,18 @@
   gap: 16px;
 }
 
+.contact-page__rail-heading {
+  margin: 0;
+  font-family: var(--font-sans);
+}
+
 .contact-page__contact-list {
   display: grid;
-  gap: 0;
+  margin: 0;
+  padding: 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  list-style: none;
 }
 
 .contact-page__contact-item {
@@ -119,7 +117,7 @@
   font-size: 0.96rem;
 }
 
-.contact-page__contact-copy span,
+.contact-page__contact-value,
 .contact-page__contact-link {
   color: var(--muted);
   line-height: 1.55;
@@ -149,11 +147,10 @@
 }
 
 .contact-page__notes-list {
+  margin: 0;
   max-width: none;
-}
-
-.contact-page__form {
-  max-width: none;
+  padding-left: 0;
+  list-style: none;
 }
 
 @media (max-width: 900px) {
@@ -162,7 +159,27 @@
     gap: 28px;
   }
 
-  .contact-page .site-fee-card {
+  .contact-page__hero-content {
+    gap: 24px;
+    grid-template-rows: auto;
+    min-height: 0;
+  }
+
+  .contact-page__hero-heading {
+    gap: 24px;
+    grid-template-areas: none;
+  }
+
+  .contact-page__hero-heading > :where(.hero-badge, .hero-display) {
+    grid-area: auto;
+  }
+
+  .contact-page__hero-heading > .hero-display,
+  .contact-page__hero-content > .hero-copy-panel {
+    align-self: start;
+  }
+
+  .contact-page__fee-card {
     align-self: start;
   }
 
@@ -179,10 +196,6 @@
 @media (max-width: 660px) {
   .contact-page__desk-section {
     padding: 34px 0 40px;
-  }
-
-  .contact-page__service-tier--featured .contact-page__service-tier-fee {
-    font-size: 3.6rem;
   }
 
   .contact-page__contact-item {

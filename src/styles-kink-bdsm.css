@@ -280,10 +280,6 @@
   gap: 10px;
 }
 
-.kink-page__faq-section {
-  padding: 24px 0 50px;
-}
-
 .kink-page__faq-section .site-faq-shell__header {
   margin-bottom: 24px;
 }
@@ -337,10 +333,6 @@
 
   .kink-page__closing-split {
     gap: 32px;
-  }
-
-  .kink-page__faq-section {
-    padding: 24px 0 42px;
   }
 
   .kink-page__faq-section .site-faq-shell__header {

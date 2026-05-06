@@ -165,7 +165,7 @@ export default function LgbtqiaCounselling() {
         </Container>
       </section>
 
-      <FaqSection items={faqSection.items} title={faqSection.title} />
+      <FaqSection className="site-highlight" items={faqSection.items} title={faqSection.title} />
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">

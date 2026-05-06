@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
+import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-home.css";
 
@@ -25,48 +26,61 @@ type HomeInclusiveDetail = {
   href: string;
 };
 
+type HomePortrait = {
+  imageSrc: string;
+  ariaLabel: string;
+  name: string;
+  descriptor: string;
+};
+
+type HomeHeroContent = {
+  eyebrow: string;
+  title: EmphasisCopy;
+  support: string;
+  trustAriaLabel: string;
+  trustItems: string[];
+  portrait: HomePortrait;
+};
+
+type HomeTopicsContent = {
+  heading: string;
+  ariaLabel: string;
+  items: HomeTopic[];
+};
+
+type HomeInclusiveContent = {
+  heading: EmphasisCopy;
+  copy: string;
+  href: string;
+  cta: string;
+  detailCtaLabel: string;
+  detailsAriaLabel: string;
+  details: HomeInclusiveDetail[];
+};
+
+type HomeWorkroomContent = {
+  heading: string;
+  intro: string;
+  joelName: string;
+  joelCopy: string[];
+  profileHref: string;
+  profileCta: string;
+};
+
+type HomeClosingCtaContent = {
+  heading: EmphasisCopy;
+  href: string;
+  cta: string;
+};
+
 type HomePageContent = {
   title: string;
   meta: string;
-  hero: {
-    eyebrow: string;
-    title: EmphasisCopy;
-    support: string;
-    trustAriaLabel: string;
-    trustItems: string[];
-    portrait: {
-      imageSrc: string;
-      ariaLabel: string;
-      name: string;
-      descriptor: string;
-    };
-  };
-  topics: {
-    ariaLabel: string;
-    items: HomeTopic[];
-  };
-  inclusive: {
-    heading: EmphasisCopy;
-    copy: string;
-    href: string;
-    cta: string;
-    detailCtaLabel: string;
-    detailsAriaLabel: string;
-    details: HomeInclusiveDetail[];
-  };
-  workroom: {
-    heading: string;
-    intro: string;
-    joelName: string;
-    joelCopy: string[];
-    profileHref: string;
-    profileCta: string;
-  };
-  closingCta: {
-    heading: EmphasisCopy;
-    href: string;
-    cta: string;
-  };
+  hero: HomeHeroContent;
+  topics: HomeTopicsContent;
+  inclusive: HomeInclusiveContent;
+  workroom: HomeWorkroomContent;
+  closingCta: HomeClosingCtaContent;
 };
 
 const homeMetadata = getRouteMetadata("/");
@@ -98,6 +112,7 @@ const homePageContent: HomePageContent = {
     },
   },
   topics: {
+    heading: "What people bring.",
     ariaLabel: "Common themes",
     items: [
       {
@@ -134,7 +149,7 @@ const homePageContent: HomePageContent = {
       after: " of yourself.",
     },
     copy: "If your relationships, sexuality, or identity sit outside what people usually assume, you may be used to doing extra work before you can talk about what is actually difficult. Explaining the basics. Adding caveats. Holding things back. Watching for judgement. Wondering whether something important about your life will be misunderstood, judged, or treated as though it is the problem. Here, you do not need to do that. You can speak plainly, without defending yourself first.",
-    href: "/inclusion",
+    href: routeHref(publicRoutePaths.inclusion),
     cta: "Explore inclusive counselling",
     detailCtaLabel: "Learn more",
     detailsAriaLabel: "Inclusive practice topics",
@@ -142,17 +157,17 @@ const homePageContent: HomePageContent = {
       {
         title: "Kink & BDSM counselling",
         copy: "Nothing needs to be left out, softened, or carefully introduced.",
-        href: "/inclusion/kink-bdsm",
+        href: routeHref(publicRoutePaths.kinkBdsm),
       },
       {
         title: "Polyamory & ENM counselling",
         copy: "You can speak about what is actually hard without justifying how you live first.",
-        href: "/inclusion/enm-polyamory",
+        href: routeHref(publicRoutePaths.enmPolyamory),
       },
       {
         title: "LGBTQIA+ inclusive",
         copy: "Gender, sexuality, and identity can be part of the conversation, or simply part of who you are.",
-        href: "/inclusion/lgbtqia",
+        href: routeHref(publicRoutePaths.lgbtqia),
       },
     ],
   },
@@ -165,7 +180,7 @@ const homePageContent: HomePageContent = {
       "I do not think people are meant to be tidy. The strange bits, the contradictions, the parts of yourself that do not quite fit anywhere. Those belong here too.",
       "Sessions are a straightforward conversation. We can speak plainly, look beneath the immediate problem, and take what you bring seriously without making therapy feel stiff or clinical.",
     ],
-    profileHref: "/working-with-joel",
+    profileHref: routeHref(publicRoutePaths.workingWithJoel),
     profileCta: "More about how I work",
   },
   closingCta: {
@@ -174,10 +189,175 @@ const homePageContent: HomePageContent = {
       emphasis: '"I just need to talk to someone."',
       after: "",
     },
-    href: "/contact",
+    href: routeHref(publicRoutePaths.contact),
     cta: "Get in touch",
   },
 };
+
+function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
+  return (
+    <section className="hero-section hero-bg--default">
+      <Container>
+        <div className="hero-top hero-top--supporting-media">
+          <div>
+            <h1 className="hero-badge">{hero.eyebrow}</h1>
+            <h2 className="hero-display">
+              {hero.title.before}
+              <em>{hero.title.emphasis}</em>
+              {hero.title.after}
+            </h2>
+            <div className="hero-copy-panel home-page__hero-support">
+              <p>{hero.support}</p>
+              <ul className="hero-support-tagline" aria-label={hero.trustAriaLabel}>
+                {hero.trustItems.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <HeroPortrait portrait={hero.portrait} />
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function HeroPortrait({ portrait }: { portrait: HomePortrait }) {
+  return (
+    <aside className="hero-media-note" aria-label={portrait.ariaLabel}>
+      <div className="hero-media-note__image">
+        <img src={portrait.imageSrc} alt="" />
+      </div>
+      <div className="hero-media-note__caption">
+        <strong>{portrait.name}</strong>
+        <span>{portrait.descriptor}</span>
+      </div>
+    </aside>
+  );
+}
+
+function TopicsSection({ topics }: { topics: HomeTopicsContent }) {
+  return (
+    <section className="site-grid">
+      <Container>
+        <h2 className="home-topics__heading">{topics.heading}</h2>
+
+        <ul className="home-topics__grid" aria-label={topics.ariaLabel}>
+          {topics.items.map((topic) => (
+            <li className="home-topics__cell" key={topic.title}>
+              <h3>{topic.title}</h3>
+              <p>{topic.copy}</p>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </section>
+  );
+}
+
+function WorkroomSection({ workroom }: { workroom: HomeWorkroomContent }) {
+  return (
+    <section className="site-highlight">
+      <Container>
+        <div className="site-split home-workroom__split">
+          <div className="section-heading home-workroom__intro">
+            <h2>{workroom.heading}</h2>
+            <p className="section-heading__copy site-ruled-paragraph">{workroom.intro}</p>
+          </div>
+
+          <JoelCard workroom={workroom} />
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function JoelCard({ workroom }: { workroom: HomeWorkroomContent }) {
+  return (
+    <article className="site-card home-workroom__joel">
+      <h3 className="home-workroom__joel-name">{workroom.joelName}</h3>
+      <div className="home-workroom__joel-body">
+        {workroom.joelCopy.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </div>
+      <Button href={workroom.profileHref} variant="tertiary">
+        {workroom.profileCta} <ArrowRight size={16} />
+      </Button>
+    </article>
+  );
+}
+
+function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
+  return (
+    <section className="site-grid">
+      <Container>
+        <div className="home-page__inclusive-frame">
+          <div className="home-page__inclusive-main">
+            <h2>
+              {inclusive.heading.before}
+              <em className="site-emphasis">{inclusive.heading.emphasis}</em>
+              {inclusive.heading.after}
+            </h2>
+            <p className="site-ruled-paragraph site-ruled-paragraph--wide">{inclusive.copy}</p>
+            <Button href={inclusive.href} variant="tertiary">
+              {inclusive.cta} <ArrowRight size={16} />
+            </Button>
+          </div>
+
+          <nav className="home-page__inclusive-details" aria-label={inclusive.detailsAriaLabel}>
+            <ul className="site-detail-stack site-detail-stack--linked home-page__inclusive-list">
+              {inclusive.details.map((detail) => (
+                <InclusiveDetailItem
+                  detail={detail}
+                  ctaLabel={inclusive.detailCtaLabel}
+                  key={detail.title}
+                />
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function InclusiveDetailItem({ detail, ctaLabel }: { detail: HomeInclusiveDetail; ctaLabel: string }) {
+  return (
+    <li className="site-detail-stack__item">
+      <Link className="site-detail-stack__link" to={detail.href}>
+        <span className="site-detail-stack__heading">
+          <strong className="site-detail-stack__title">{detail.title}</strong>
+          <span className="site-detail-stack__action">
+            {ctaLabel}
+            <ArrowRight className="site-detail-stack__icon" size={16} aria-hidden="true" />
+          </span>
+        </span>
+      </Link>
+      <p className="site-detail-stack__copy">{detail.copy}</p>
+    </li>
+  );
+}
+
+function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }) {
+  return (
+    <section className="site-highlight site-cta-block">
+      <Container className="site-cta-block__inner">
+        <div className="site-cta-block__copy">
+          <h2>
+            {closingCta.heading.before}
+            <span className="site-emphasis">{closingCta.heading.emphasis}</span>
+            {closingCta.heading.after}
+          </h2>
+        </div>
+        <Button href={closingCta.href}>
+          {closingCta.cta} <ArrowRight size={16} />
+        </Button>
+      </Container>
+    </section>
+  );
+}
 
 export default function Home() {
   useDocumentMetadata(homePageContent.title, homePageContent.meta);
@@ -185,132 +365,11 @@ export default function Home() {
 
   return (
     <main className="site-page home-page">
-      <section className="hero-section hero-bg--default home-page__hero">
-        <Container>
-          <div className="hero-top hero-top--supporting-media">
-            <div className="home-page__hero-copy">
-              <h1 className="hero-badge">{hero.eyebrow}</h1>
-              <h2 className="hero-display">
-                {hero.title.before}
-                <em>{hero.title.emphasis}</em>
-                {hero.title.after}
-              </h2>
-              <div className="hero-copy-panel home-page__hero-support">
-                <p>{hero.support}</p>
-                <ul className="hero-support-tagline" aria-label={hero.trustAriaLabel}>
-                  {hero.trustItems.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <aside className="hero-media-note" aria-label={hero.portrait.ariaLabel}>
-              <div className="hero-media-note__image">
-                <img src={hero.portrait.imageSrc} alt="" />
-              </div>
-              <div className="hero-media-note__caption">
-                <strong>{hero.portrait.name}</strong>
-                <span>{hero.portrait.descriptor}</span>
-              </div>
-            </aside>
-          </div>
-        </Container>
-      </section>
-
-      <section className="site-grid home-page__topics">
-        <Container>
-          <div className="home-topics__header">
-            <h2>What people bring.</h2>
-          </div>
-
-          <div className="home-topics__grid" aria-label={topics.ariaLabel}>
-            {topics.items.map((topic) => (
-              <article className="home-topics__cell" key={topic.title}>
-                <h3>{topic.title}</h3>
-                <p>{topic.copy}</p>
-              </article>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="site-highlight">
-        <Container>
-          <div className="site-split home-workroom__split">
-            <div className="section-heading home-workroom__intro">
-              <h2>{workroom.heading}</h2>
-              <p className="section-heading__copy site-ruled-paragraph">{workroom.intro}</p>
-            </div>
-
-            <article className="site-card home-workroom__joel">
-              <div className="home-workroom__joel-head">
-                <span className="home-workroom__joel-name">{workroom.joelName}</span>
-              </div>
-              <div className="home-workroom__joel-body">
-                {workroom.joelCopy.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
-              <Button href={workroom.profileHref} variant="tertiary">
-                {workroom.profileCta} <ArrowRight size={16} />
-              </Button>
-            </article>
-          </div>
-        </Container>
-      </section>
-
-      <section className="site-grid home-page__inclusive">
-        <Container>
-          <div className="home-page__inclusive-frame">
-            <div className="home-page__inclusive-main">
-              <h2>
-                {inclusive.heading.before}
-                <em className="site-emphasis">{inclusive.heading.emphasis}</em>
-                {inclusive.heading.after}
-              </h2>
-              <p className="home-page__inclusive-copy site-ruled-paragraph">{inclusive.copy}</p>
-              <Button href={inclusive.href} variant="tertiary">
-                {inclusive.cta} <ArrowRight size={16} />
-              </Button>
-            </div>
-
-            <div className="home-page__inclusive-support">
-              <div className="site-detail-stack site-detail-stack--linked" aria-label={inclusive.detailsAriaLabel}>
-                {inclusive.details.map((detail) => (
-                  <div className="site-detail-stack__item" key={detail.title}>
-                    <Link className="site-detail-stack__link" to={detail.href}>
-                      <span className="site-detail-stack__heading">
-                        <strong className="site-detail-stack__title">{detail.title}</strong>
-                        <span className="site-detail-stack__action">
-                          {inclusive.detailCtaLabel}
-                          <ArrowRight className="site-detail-stack__icon" size={16} aria-hidden="true" />
-                        </span>
-                      </span>
-                    </Link>
-                    <p className="site-detail-stack__copy">{detail.copy}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="site-highlight site-cta-block">
-        <Container className="site-cta-block__inner">
-          <div className="site-cta-block__copy">
-            <h2>
-              {closingCta.heading.before}
-              <span className="site-emphasis">{closingCta.heading.emphasis}</span>
-              {closingCta.heading.after}
-            </h2>
-          </div>
-          <Button href={closingCta.href}>
-            {closingCta.cta} <ArrowRight size={16} />
-          </Button>
-        </Container>
-      </section>
+      <HomeHeroSection hero={hero} />
+      <TopicsSection topics={topics} />
+      <WorkroomSection workroom={workroom} />
+      <InclusiveSection inclusive={inclusive} />
+      <ClosingCtaSection closingCta={closingCta} />
     </main>
   );
 }

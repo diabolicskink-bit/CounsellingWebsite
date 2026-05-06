@@ -13,7 +13,7 @@ Start with these shared building blocks before creating anything new. Use them w
 - `src/components/SectionHeading.tsx`
   Use for repeated section heading structure.
 - `src/components/FaqSection.tsx`
-  Use for shared FAQ sections site-wide. Keep question-and-answer content data-driven at page level and pass it into this component. When a page needs the quieter alternating section surface, pass `className="site-highlight"`.
+  Use for shared FAQ sections site-wide. Keep question-and-answer content data-driven at page level and pass it into this component. `FaqSection` is surface-neutral: pair it with an explicit section surface such as `className="site-grid"` or `className="site-highlight"`, or a deliberate page-scoped section class when the page needs something different.
 - `src/components/BroadTabPanel.tsx`
   Use for a compact set of three to five related labels where each tab opens paragraph-length content in one broad panel. The component owns ARIA tab semantics, roving keyboard focus, and the shared `site-broad-tabs*` styling.
 - `src/components/EnquiryForm.tsx`
@@ -32,9 +32,9 @@ Start with these shared building blocks before creating anything new. Use them w
 - `.site-topic-grid`
   Shared responsive grid for compact topic cards inside a content column.
 - `.site-card`
-  Primary card treatment for service themes, reassurance points, and practical grouped content.
+  Static card treatment for service themes, reassurance points, and practical grouped content. It does not lift on hover unless paired with an interactive modifier.
 - `.site-card--link`
-  Linked destination card based on the shared card primitive.
+  Linked destination card based on the shared card primitive. This modifier owns card hover and focus lift.
 - `.site-card__list`
   Short bullet lists inside linked or richer cards.
 - `.site-card__action`

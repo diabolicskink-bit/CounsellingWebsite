@@ -15,12 +15,12 @@ type ContactHeroTitle = {
   after: string;
 };
 
-type ServiceTier = {
+type FeeSummary = {
+  ariaLabel: string;
   label: string;
-  fee: string;
+  amount: string;
   detail: string;
-  note?: string;
-  featured?: boolean;
+  note: string;
 };
 
 type ContactDetail = {
@@ -31,34 +31,33 @@ type ContactDetail = {
   notes?: string[];
 };
 
-function getServiceTierClassName(tier: ServiceTier) {
-  return ["contact-page__service-tier", tier.featured ? "contact-page__service-tier--featured" : ""]
-    .filter(Boolean)
-    .join(" ");
-}
+type ContactHeroContent = {
+  eyebrow: string;
+  title: ContactHeroTitle;
+  support: string;
+  detailsAriaLabel: string;
+  details: string[];
+};
+
+type ContactDetailsContent = {
+  eyebrow: string;
+  listAriaLabel: string;
+  items: ContactDetail[];
+};
+
+type PracticalDetailsContent = {
+  eyebrow: string;
+  notes: string[];
+};
 
 type ContactPageContent = {
   title: string;
   meta: string;
-  hero: {
-    eyebrow: string;
-    title: ContactHeroTitle;
-    support: string;
-    detailsAriaLabel: string;
-    details: string[];
-    feeCardAriaLabel: string;
-  };
-  serviceTiers: ServiceTier[];
+  hero: ContactHeroContent;
+  fee: FeeSummary;
   form: EnquiryFormContent;
-  contact: {
-    eyebrow: string;
-    listAriaLabel: string;
-  };
-  contactDetails: ContactDetail[];
-  practical: {
-    eyebrow: string;
-    notes: string[];
-  };
+  contact: ContactDetailsContent;
+  practical: PracticalDetailsContent;
 };
 
 const contactMetadata = getRouteMetadata("/contact");
@@ -80,36 +79,33 @@ const contactPageContent: ContactPageContent = {
       "Available across Australia",
       "No referral required",
     ],
-    feeCardAriaLabel: "Session fees",
   },
-  serviceTiers: [
-    {
-      label: "Standard session",
-      fee: "$120",
-      detail: "50 minutes / Online",
-      note: "Free 15-minute initial consult available",
-      featured: true,
-    },
-  ],
+  fee: {
+    ariaLabel: "Session fees",
+    label: "Standard session",
+    amount: "$120",
+    detail: "50 minutes / Online",
+    note: "Free 15-minute initial consult available",
+  },
   form: enquiryFormContent,
   contact: {
     eyebrow: "Contact",
     listAriaLabel: "Contact details",
+    items: [
+      {
+        icon: Mail,
+        label: "Email",
+        value: enquiryEmail,
+        href: `mailto:${enquiryEmail}`,
+      },
+      {
+        icon: Clock3,
+        label: "Hours",
+        value: getPerthBusinessHoursPrimaryLabel(),
+        notes: getActiveAustralianPerthBusinessHoursNotes(),
+      },
+    ],
   },
-  contactDetails: [
-    {
-      icon: Mail,
-      label: "Email",
-      value: enquiryEmail,
-      href: `mailto:${enquiryEmail}`,
-    },
-    {
-      icon: Clock3,
-      label: "Hours",
-      value: getPerthBusinessHoursPrimaryLabel(),
-      notes: getActiveAustralianPerthBusinessHoursNotes(),
-    },
-  ],
   practical: {
     eyebrow: "Practical details",
     notes: [
@@ -120,93 +116,124 @@ const contactPageContent: ContactPageContent = {
   },
 };
 
-export default function Contact() {
-  const { hero, serviceTiers, form, contact, contactDetails, practical } = contactPageContent;
-
-  useDocumentMetadata(contactPageContent.title, contactPageContent.meta);
-
+function ContactHeroSection({ hero, fee }: { hero: ContactHeroContent; fee: FeeSummary }) {
   return (
-    <main className="site-page contact-page">
-      <section className="hero-section hero-bg--default">
-        <Container>
-          <div className="hero-top hero-top--supporting-media">
-            <div>
+    <section className="hero-section hero-bg--default">
+      <Container>
+        <div className="hero-top hero-top--supporting-media">
+          <div className="contact-page__hero-content">
+            <div className="contact-page__hero-heading">
               <h1 className="hero-badge">{hero.eyebrow}</h1>
               <h2 className="hero-display">
                 {hero.title.before}{" "}
                 <em>{hero.title.emphasis}</em>
                 {hero.title.after}
               </h2>
-              <div className="hero-copy-panel">
-                <p>{hero.support}</p>
-                <ul className="hero-support-tagline" aria-label={hero.detailsAriaLabel}>
-                  {hero.details.map((detail) => (
-                    <li key={detail}>{detail}</li>
-                  ))}
-                </ul>
-              </div>
             </div>
-
-            <aside className="site-fee-card" aria-label={hero.feeCardAriaLabel}>
-              <div className="contact-page__service-tier-list">
-                {serviceTiers.map((tier) => (
-                  <article className={getServiceTierClassName(tier)} key={tier.label}>
-                    <span className="contact-page__service-tier-label">{tier.label}</span>
-                    <strong className="contact-page__service-tier-fee">{tier.fee}</strong>
-                    <span className="contact-page__service-tier-detail">{tier.detail}</span>
-                    {tier.note ? <small className="contact-page__service-tier-note">{tier.note}</small> : null}
-                  </article>
+            <div className="hero-copy-panel">
+              <p>{hero.support}</p>
+              <ul className="hero-support-tagline" aria-label={hero.detailsAriaLabel}>
+                {hero.details.map((detail) => (
+                  <li key={detail}>{detail}</li>
                 ))}
-              </div>
-            </aside>
+              </ul>
+            </div>
           </div>
-        </Container>
+
+          <FeeCard fee={fee} />
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function FeeCard({ fee }: { fee: FeeSummary }) {
+  return (
+    <aside className="site-fee-card contact-page__fee-card" aria-label={fee.ariaLabel}>
+      <span className="contact-page__fee-label">{fee.label}</span>
+      <strong>{fee.amount}</strong>
+      <span>{fee.detail}</span>
+      <small>{fee.note}</small>
+    </aside>
+  );
+}
+
+function ContactRail({
+  contact,
+  practical,
+}: {
+  contact: ContactDetailsContent;
+  practical: PracticalDetailsContent;
+}) {
+  return (
+    <aside className="contact-page__rail" aria-label="Contact and practical details">
+      <section className="contact-page__rail-block" aria-labelledby="contact-details-title">
+        <h2 className="site-eyebrow contact-page__rail-heading" id="contact-details-title">
+          {contact.eyebrow}
+        </h2>
+        <ul className="contact-page__contact-list" aria-label={contact.listAriaLabel}>
+          {contact.items.map((detail) => (
+            <ContactDetailItem detail={detail} key={detail.label} />
+          ))}
+        </ul>
       </section>
+
+      <section className="contact-page__rail-block" aria-labelledby="contact-practical-title">
+        <h2 className="site-eyebrow contact-page__rail-heading" id="contact-practical-title">
+          {practical.eyebrow}
+        </h2>
+        <ul className="site-detail-stack contact-page__notes-list">
+          {practical.notes.map((note) => (
+            <li key={note}>{note}</li>
+          ))}
+        </ul>
+      </section>
+    </aside>
+  );
+}
+
+function ContactDetailItem({ detail }: { detail: ContactDetail }) {
+  const { icon: Icon, label, value, href, notes } = detail;
+
+  return (
+    <li className="contact-page__contact-item">
+      <span className="icon-box" aria-hidden="true">
+        <Icon size={20} />
+      </span>
+      <div className="contact-page__contact-copy">
+        <strong>{label}</strong>
+        {href ? (
+          <a className="contact-page__contact-link" href={href}>
+            {value}
+          </a>
+        ) : (
+          <span className="contact-page__contact-value">{value}</span>
+        )}
+        {notes && notes.length > 0 ? (
+          <div className="contact-page__contact-notes">
+            {notes.map((note) => (
+              <small key={note}>{note}</small>
+            ))}
+          </div>
+        ) : null}
+      </div>
+    </li>
+  );
+}
+
+export default function Contact() {
+  const { hero, fee, form, contact, practical } = contactPageContent;
+
+  useDocumentMetadata(contactPageContent.title, contactPageContent.meta);
+
+  return (
+    <main className="site-page contact-page">
+      <ContactHeroSection hero={hero} fee={fee} />
 
       <section className="site-grid contact-page__desk-section">
         <Container className="contact-page__desk">
-          <aside className="contact-page__rail">
-            <div className="contact-page__rail-block">
-              <span className="site-eyebrow">{contact.eyebrow}</span>
-              <div className="contact-page__contact-list" role="list" aria-label={contact.listAriaLabel}>
-                {contactDetails.map(({ icon: Icon, label, value, href, notes }) => (
-                  <div className="contact-page__contact-item" role="listitem" key={label}>
-                    <span className="icon-box">
-                      <Icon size={20} />
-                    </span>
-                    <div className="contact-page__contact-copy">
-                      <strong>{label}</strong>
-                      {href ? (
-                        <a className="contact-page__contact-link" href={href}>
-                          {value}
-                        </a>
-                      ) : (
-                        <span>{value}</span>
-                      )}
-                      {notes ? (
-                        <div className="contact-page__contact-notes">
-                          {notes.map((note) => (
-                            <small key={note}>{note}</small>
-                          ))}
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="contact-page__rail-block">
-              <span className="site-eyebrow">{practical.eyebrow}</span>
-              <div className="site-detail-stack contact-page__notes-list">
-                {practical.notes.map((note) => (
-                  <p key={note}>{note}</p>
-                ))}
-              </div>
-            </div>
-          </aside>
-
-          <EnquiryForm content={form} className="contact-page__form" idPrefix="contact" />
+          <ContactRail contact={contact} practical={practical} />
+          <EnquiryForm content={form} idPrefix="contact" />
         </Container>
       </section>
     </main>

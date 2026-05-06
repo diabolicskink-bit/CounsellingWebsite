@@ -5,7 +5,7 @@
   --hero-display-max-width: 15.6ch;
 }
 
-.home-page__hero-copy {
+.home-page .hero-top--supporting-media > * {
   min-width: 0;
 }
 
@@ -14,28 +14,13 @@
   max-width: 62rem;
 }
 
-.home-page__hero-support p {
-  max-width: none;
-}
-
 .home-page .hero-media-note {
   margin-top: 0;
 }
 
-.home-page__topics {
-  --home-topics-rule: rgba(35, 75, 61, 0.16);
-  --home-topics-cell: var(--surface);
-  --home-topics-cell-alt: var(--surface-strong);
-}
-
-.home-topics__header {
-  display: grid;
-  gap: 0.55rem;
-  margin-bottom: clamp(2rem, 4vw, 3rem);
-}
-
-.home-topics__header h2 {
+.home-topics__heading {
   max-width: 700px;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
   text-wrap: balance;
 }
 
@@ -44,8 +29,11 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-auto-rows: 1fr;
   gap: 1px;
-  border: 1px solid var(--home-topics-rule);
-  background: var(--home-topics-rule);
+  margin: 0;
+  border: 1px solid rgba(35, 75, 61, 0.16);
+  background: rgba(35, 75, 61, 0.16);
+  padding: 0;
+  list-style: none;
 }
 
 .home-topics__cell {
@@ -55,7 +43,7 @@
   gap: clamp(0.7rem, 1.1vw, 0.95rem);
   min-width: 0;
   padding: clamp(1.15rem, 1.8vw, 1.55rem) clamp(1.2rem, 1.8vw, 1.55rem);
-  background: var(--home-topics-cell);
+  background: var(--surface);
 }
 
 .home-topics__cell::before {
@@ -69,7 +57,7 @@
 }
 
 .home-topics__cell:nth-child(even) {
-  background: var(--home-topics-cell-alt);
+  background: var(--surface-strong);
 }
 
 .home-topics__cell h3 {
@@ -101,19 +89,18 @@
   text-wrap: balance;
 }
 
-.home-page__inclusive-copy {
-  max-width: 760px;
-}
-
 .home-page__inclusive-main .button {
   justify-self: start;
 }
 
-.home-page__inclusive-support {
-  display: grid;
-  gap: 18px;
+.home-page__inclusive-details {
   align-self: center;
-  align-content: start;
+}
+
+.home-page__inclusive-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .home-workroom__split {
@@ -126,37 +113,35 @@
   justify-self: end;
   align-self: center;
   width: min(84%, 36.8rem);
-  border-color: var(--line);
-  box-shadow: var(--color-shadow-card);
-  transform: none;
-  transition: none;
-  overflow: hidden;
 }
 
-.home-workroom__joel:hover {
-  transform: none;
-  border-color: var(--line);
-  box-shadow: var(--color-shadow-card);
-}
-
-.home-workroom__joel-head {
+.home-workroom__joel .home-workroom__joel-name {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin: 0;
+  color: var(--cedar);
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.home-workroom__joel-head::before,
-.home-workroom__joel-head::after {
+.home-workroom__joel .home-workroom__joel-name::before,
+.home-workroom__joel .home-workroom__joel-name::after {
   content: "";
   height: 2px;
 }
 
-.home-workroom__joel-head::before {
+.home-workroom__joel .home-workroom__joel-name::before {
   flex: 0 0 22px;
   background: linear-gradient(90deg, rgba(35, 75, 61, 0), rgba(35, 75, 61, 0.26));
 }
 
-.home-workroom__joel-head::after {
+.home-workroom__joel .home-workroom__joel-name::after {
   flex: 1;
   background: linear-gradient(90deg, rgba(35, 75, 61, 0.26), rgba(35, 75, 61, 0));
 }
@@ -164,17 +149,6 @@
 .home-workroom__joel-body {
   display: grid;
   gap: 10px;
-}
-
-.home-workroom__joel-name {
-  display: block;
-  color: var(--cedar);
-  font-family: var(--font-serif);
-  font-weight: 750;
-  letter-spacing: 0.12em;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
 }
 
 .home-workroom__joel .button {
@@ -232,36 +206,7 @@
 }
 
 @media (max-width: 660px) {
-  .home-page .container {
-    width: calc(100vw - 28px);
-    max-width: calc(100vw - 28px);
-  }
-
-  .home-page__hero-copy,
-  .home-page__hero-support {
-    max-width: 100%;
-  }
-
-  .home-page__hero-copy {
-    width: 100%;
-  }
-
   .home-page {
     --hero-display-max-width: 100%;
-  }
-
-  .home-page .hero-display {
-    overflow-wrap: break-word;
-    text-wrap: auto;
-  }
-
-  .home-page__hero-support {
-    width: 100%;
-  }
-
-  .home-page__hero-support p {
-    width: 100%;
-    overflow-wrap: anywhere;
-    text-wrap: auto;
   }
 }

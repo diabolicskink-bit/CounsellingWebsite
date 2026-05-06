@@ -235,7 +235,7 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
-              <strong>Icon cards</strong> (site-card) — For service features, practice signals, and grouped reassurances. Use a grid of 3 or 6.<br />
+              <strong>Icon cards</strong> (site-card) — Static cards for service features, practice signals, and grouped reassurances. Add <code>site-card--link</code> only when the whole card is a destination.<br />
               <strong>Chips / pills</strong> — Use <code>.site-pill-row</code> for short categorical tags inside a panel. Not for standalone navigation.
             </div>
 
@@ -427,13 +427,14 @@ export default function DS_Components() {
                 <p className="site-eyebrow" style={{ marginBottom: "14px" }}>FAQ accordion</p>
                 <div className="site-copy-panel">
                   <p style={{ maxWidth: "42ch", margin: 0 }}>
-                    FAQ sections now use the shared <code>FaqSection</code> component so spacing, motion, semantics,
-                    and open-state behaviour stay consistent across the public site.
+                    FAQ sections now use the shared <code>FaqSection</code> component for motion, semantics, and
+                    open-state behaviour. Pair it with a section surface such as <code>site-grid</code> or{" "}
+                    <code>site-highlight</code>.
                   </p>
                 </div>
                 <div className="ds-usage-note">
                   <strong>Use for:</strong> Question-and-answer sections. Use the shared <code>FaqSection</code>{" "}
-                  component rather than page-level accordion markup.
+                  component rather than page-level accordion markup, and pass the section surface explicitly.
                 </div>
               </div>
             </div>
@@ -508,6 +509,7 @@ export default function DS_Components() {
             </div>
 
             <FaqSection
+              className="site-grid"
               intro="Use this shared section when answers need comfortable reading space and the interaction should feel calm, clear, and contained."
               items={faqItems}
               title="Common questions before starting"

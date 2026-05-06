@@ -220,41 +220,39 @@ test.describe("alias URL redirects", () => {
   }
 });
 
-test.describe("working with Joel approach accordion", () => {
-  test("starts closed and keeps zero-or-one panel open", async ({ page }) => {
+test.describe("working with Joel approach tabs", () => {
+  test("starts on the first tab and keeps one panel active", async ({ page }) => {
     await page.goto("/working-with-joel", { waitUntil: "networkidle" });
 
-    const psychodynamic = page.getByRole("button", { name: /Psychodynamic/ });
-    const attachment = page.getByRole("button", { name: /Attachment/ });
-    const integrative = page.getByRole("button", { name: /Integrative/ });
+    const tablist = page.getByRole("tablist", { name: "Counselling approach" });
+    const psychodynamic = tablist.getByRole("tab", { name: /Psychodynamic/ });
+    const attachment = tablist.getByRole("tab", { name: /Attachment/ });
+    const integrative = tablist.getByRole("tab", { name: /Integrative/ });
 
     await expect(page.locator(".working-approach__number")).toHaveCount(0);
-    await expect(psychodynamic).toHaveAttribute("aria-expanded", "false");
-    await expect(attachment).toHaveAttribute("aria-expanded", "false");
-    await expect(integrative).toHaveAttribute("aria-expanded", "false");
+    await expect(psychodynamic).toHaveAttribute("aria-selected", "true");
+    await expect(attachment).toHaveAttribute("aria-selected", "false");
+    await expect(integrative).toHaveAttribute("aria-selected", "false");
 
     const psychodynamicPanelId = await psychodynamic.getAttribute("aria-controls");
 
     expect(psychodynamicPanelId).toBeTruthy();
 
-    await psychodynamic.click();
-    await expect(psychodynamic).toHaveAttribute("aria-expanded", "true");
-    await expect(attachment).toHaveAttribute("aria-expanded", "false");
-    await expect(integrative).toHaveAttribute("aria-expanded", "false");
-
     if (psychodynamicPanelId) {
-      await expect(page.locator(`[id="${psychodynamicPanelId}"]`)).toHaveAttribute("data-open", "true");
+      await expect(page.locator(`[id="${psychodynamicPanelId}"]`)).toHaveAttribute("role", "tabpanel");
     }
 
     await attachment.click();
-    await expect(psychodynamic).toHaveAttribute("aria-expanded", "false");
-    await expect(attachment).toHaveAttribute("aria-expanded", "true");
-    await expect(integrative).toHaveAttribute("aria-expanded", "false");
+    await expect(psychodynamic).toHaveAttribute("aria-selected", "false");
+    await expect(attachment).toHaveAttribute("aria-selected", "true");
+    await expect(integrative).toHaveAttribute("aria-selected", "false");
+    await expect(page.getByRole("tabpanel", { name: "Attachment" })).toContainText("Attachment work");
 
-    await attachment.click();
-    await expect(psychodynamic).toHaveAttribute("aria-expanded", "false");
-    await expect(attachment).toHaveAttribute("aria-expanded", "false");
-    await expect(integrative).toHaveAttribute("aria-expanded", "false");
+    await integrative.click();
+    await expect(psychodynamic).toHaveAttribute("aria-selected", "false");
+    await expect(attachment).toHaveAttribute("aria-selected", "false");
+    await expect(integrative).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("tabpanel", { name: "Integrative" })).toContainText("Integrative");
   });
 });
 
