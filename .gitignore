@@ -9,3 +9,9 @@ vite.config.js
 vite.config.d.ts
 .vite-dev.err.log
 .vite-dev.out.log
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
