@@ -69,7 +69,7 @@ const kinkPageContent: KinkPageContent = {
     eyebrow: "Kink & BDSM-aware counselling",
     title: "Kink & BDSM-aware counselling",
     intro:
-      "Ordinary therapy where kink will not be mishandled. Kink sits alongside everything else you bring, neither ignored nor made into the subject. What you actually came for stays the work.",
+      "Ordinary therapy where kink will not be mishandled. You will not have to explain it, hide it, or watch it take over the conversation. What you came for doesn't get lost.",
     primaryAction: {
       label: "Make an enquiry",
       href: "/contact",

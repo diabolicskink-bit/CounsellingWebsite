@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(Get-ChildItem -Recurse -Force)",
+      "Bash(Select-Object FullName)",
+      "Bash(Get-Content \"c:\\\\Users\\\\auzzi\\\\OneDrive\\\\Documents\\\\CounsellingWebsite\\\\vite-dev.out.log\" -Tail 10)"
     ]
   }
 }

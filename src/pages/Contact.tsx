@@ -3,6 +3,8 @@ import { Clock3, Mail } from "lucide-react";
 import Container from "../components/Container";
 import EnquiryForm from "../components/EnquiryForm";
 import type { EnquiryFormContent } from "../components/EnquiryForm";
+import FaqSection from "../components/FaqSection";
+import FaqSchema from "../components/FaqSchema";
 import { enquiryEmail, enquiryFormContent } from "../data/enquiry";
 import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
@@ -50,6 +52,17 @@ type PracticalDetailsContent = {
   notes: string[];
 };
 
+type ContactFaqItem = {
+  question: string;
+  answer: string;
+};
+
+type ContactFaqContent = {
+  heading: string;
+  intro: string;
+  items: ContactFaqItem[];
+};
+
 type ContactPageContent = {
   title: string;
   meta: string;
@@ -58,6 +71,7 @@ type ContactPageContent = {
   form: EnquiryFormContent;
   contact: ContactDetailsContent;
   practical: PracticalDetailsContent;
+  faq: ContactFaqContent;
 };
 
 const contactMetadata = getRouteMetadata("/contact");
@@ -112,6 +126,37 @@ const contactPageContent: ContactPageContent = {
       "Payment details are confirmed before the first appointment.",
       "If you cancel or change an appointment with less than 48 hours' notice, the full fee is payable, except in cases of illness.",
       "Vive Counselling is not a crisis service. If you are in immediate danger, call 000 or contact a crisis support service.",
+    ],
+  },
+  faq: {
+    heading: "Common questions before making contact",
+    intro: "A few practical things people often want to know before sending a first enquiry.",
+    items: [
+      {
+        question: "Do I need a referral?",
+        answer:
+          "No. You can make an enquiry directly. You do not need a GP referral, prepared paperwork, or a fully formed explanation before getting in touch.",
+      },
+      {
+        question: "What should I put in the first message?",
+        answer:
+          "A short message is enough. You can include what is bringing you to counselling, whether online sessions suit you, and any days or times that are usually easier.",
+      },
+      {
+        question: "Are sessions online?",
+        answer:
+          "Yes. Sessions are online for adults across Australia. Standard sessions are 50 minutes.",
+      },
+      {
+        question: "How much does a session cost?",
+        answer:
+          "The standard fee is $120 for a 50-minute online session. A free 15-minute initial consult is available if you would like to ask a few questions before booking a full session.",
+      },
+      {
+        question: "Can I use this form in a crisis?",
+        answer:
+          "No. Vive Counselling is not a crisis service and the enquiry form is not monitored for urgent support. If you are in immediate danger, call 000 or contact a crisis support service.",
+      },
     ],
   },
 };
@@ -222,12 +267,13 @@ function ContactDetailItem({ detail }: { detail: ContactDetail }) {
 }
 
 export default function Contact() {
-  const { hero, fee, form, contact, practical } = contactPageContent;
+  const { hero, fee, form, contact, practical, faq } = contactPageContent;
 
   useDocumentMetadata(contactPageContent.title, contactPageContent.meta);
 
   return (
     <main className="site-page contact-page">
+      <FaqSchema faqs={faq.items} />
       <ContactHeroSection hero={hero} fee={fee} />
 
       <section className="site-grid contact-page__desk-section">
@@ -236,6 +282,8 @@ export default function Contact() {
           <EnquiryForm content={form} idPrefix="contact" />
         </Container>
       </section>
+
+      <FaqSection className="site-highlight" intro={faq.intro} items={faq.items} title={faq.heading} />
     </main>
   );
 }
