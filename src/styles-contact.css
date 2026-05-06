@@ -9,33 +9,24 @@
 
 .contact-page__hero-content {
   display: grid;
-  grid-template-rows: minmax(6rem, auto) auto;
-  gap: 24px;
-  align-content: start;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px;
   min-width: 0;
 }
 
-.contact-page__hero-heading {
+.contact-page__hero-content > .hero-badge {
+  align-self: start;
+}
+
+.contact-page__hero-body {
   display: grid;
-  grid-template-areas: "contact-hero-heading";
+  gap: 24px;
+  align-self: center;
   min-width: 0;
 }
 
-.contact-page__hero-heading > :where(.hero-badge, .hero-display) {
-  grid-area: contact-hero-heading;
-}
-
-.contact-page__hero-heading > .hero-badge {
-  align-self: start;
-}
-
-.contact-page__hero-heading > .hero-display {
-  align-self: center;
+.contact-page__hero-body > .hero-display {
   margin: 0;
-}
-
-.contact-page__hero-content > .hero-copy-panel {
-  align-self: start;
 }
 
 .contact-page .hero-copy-panel {
@@ -45,8 +36,6 @@
 
 .contact-page__fee-card {
   align-self: center;
-  min-height: 0;
-  align-content: start;
   max-width: 330px;
 }
 
@@ -162,20 +151,9 @@
   .contact-page__hero-content {
     gap: 24px;
     grid-template-rows: auto;
-    min-height: 0;
   }
 
-  .contact-page__hero-heading {
-    gap: 24px;
-    grid-template-areas: none;
-  }
-
-  .contact-page__hero-heading > :where(.hero-badge, .hero-display) {
-    grid-area: auto;
-  }
-
-  .contact-page__hero-heading > .hero-display,
-  .contact-page__hero-content > .hero-copy-panel {
+  .contact-page__hero-body {
     align-self: start;
   }
 

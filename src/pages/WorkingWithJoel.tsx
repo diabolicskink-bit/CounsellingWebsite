@@ -4,7 +4,7 @@ import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-working-with-joel.css";
 
-const portraitSrc = "/joel-griffiths-portrait-temp.svg";
+const portraitSrc = "/joel-griffiths-working-with-joel-portrait.jpg";
 
 type EmphasisCopy = {
   before: string;
@@ -16,7 +16,6 @@ type WorkingHeroPortrait = {
   imageSrc: string;
   ariaLabel: string;
   name: string;
-  descriptor: string;
 };
 
 type WorkingHeroContent = {
@@ -51,7 +50,6 @@ type FocusItem = {
 };
 
 type FocusContent = {
-  eyebrow: string;
   title: string;
   itemsAriaLabel: string;
   items: FocusItem[];
@@ -73,7 +71,7 @@ const pageContent: WorkingWithJoelPageContent = {
   title: pageMetadata.title,
   meta: pageMetadata.description,
   hero: {
-    badge: "Working with Joel Griffiths",
+    badge: "Working with Joel",
     title: {
       before: "Working with ",
       emphasis: "the bigger",
@@ -93,7 +91,6 @@ const pageContent: WorkingWithJoelPageContent = {
       imageSrc: portraitSrc,
       ariaLabel: "About Joel Griffiths",
       name: "Joel Griffiths",
-      descriptor: "Counselling and psychodynamic psychotherapy",
     },
   },
   introduction: {
@@ -135,7 +132,6 @@ const pageContent: WorkingWithJoelPageContent = {
     ],
   },
   focus: {
-    eyebrow: "What I work with",
     title: "Some of the issues I work with",
     itemsAriaLabel: "Examples of what people bring to counselling",
     items: [
@@ -197,7 +193,7 @@ function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
   return (
     <section className="hero-section hero-bg--default working-with-joel-page__hero">
       <Container>
-        <div className="hero-top working-with-joel-page__hero-top">
+        <div className="working-with-joel-page__hero-layout">
           <div className="working-with-joel-page__hero-heading">
             <h1 className="hero-badge">{hero.badge}</h1>
             <h2 className="hero-display">
@@ -209,15 +205,15 @@ function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
             </h2>
           </div>
 
-          <div className="hero-deck working-with-joel-page__hero-support">
-            <p className="hero-deck__lead working-with-joel-page__hero-support-lead">
+          <div className="working-with-joel-page__hero-note">
+            <p className="working-with-joel-page__hero-note-lead">
               {hero.supportLead}
             </p>
-            <p className="hero-deck__body site-body-copy">{hero.supportBody}</p>
+            <p className="working-with-joel-page__hero-note-body site-body-copy">{hero.supportBody}</p>
           </div>
-        </div>
 
-        <CredentialsList items={hero.credentials} ariaLabel={hero.credentialsAriaLabel} />
+          <CredentialsList items={hero.credentials} ariaLabel={hero.credentialsAriaLabel} />
+        </div>
       </Container>
     </section>
   );
@@ -243,18 +239,20 @@ function IntroductionSection({
   return (
     <section className="site-grid working-with-joel-page__intro" aria-labelledby="working-with-joel-intro-title">
       <Container className="site-split">
-        <div className="section-heading working-with-joel-page__intro-heading">
+        <article className="working-with-joel-page__intro-copy">
           <h2 className="working-with-joel-page__section-title" id="working-with-joel-intro-title">
             {introduction.title}
           </h2>
+          <div className="rich-text site-ruled-paragraph site-ruled-paragraph--wide working-with-joel-page__intro-body">
+            {introduction.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+        </article>
+
+        <div className="working-with-joel-page__intro-media">
           <PortraitNote portrait={portrait} />
         </div>
-
-        <article className="site-copy-panel rich-text">
-          {introduction.paragraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </article>
       </Container>
     </section>
   );
@@ -264,12 +262,9 @@ function PortraitNote({ portrait }: { portrait: WorkingHeroPortrait }) {
   return (
     <aside className="hero-media-note working-with-joel-page__intro-note" aria-label={portrait.ariaLabel}>
       <div className="hero-media-note__image">
-        <img src={portrait.imageSrc} alt="" />
+        <img src={portrait.imageSrc} alt="" loading="lazy" decoding="async" />
       </div>
-      <div className="hero-media-note__caption">
-        <strong>{portrait.name}</strong>
-        <span>{portrait.descriptor}</span>
-      </div>
+      <span className="working-with-joel-page__portrait-tag">{portrait.name}</span>
     </aside>
   );
 }
@@ -309,7 +304,6 @@ function FocusSection({ focus }: { focus: FocusContent }) {
     <section className="site-grid working-topics" aria-labelledby="working-with-joel-focus-title">
       <Container>
         <div className="site-grid__heading working-topics__header">
-          <span className="site-eyebrow">{focus.eyebrow}</span>
           <h2 className="working-with-joel-page__section-title" id="working-with-joel-focus-title">
             {focus.title}
           </h2>

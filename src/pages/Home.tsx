@@ -7,7 +7,7 @@ import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-home.css";
 
-const portraitSrc = "/joel-griffiths-portrait-temp.svg";
+const portraitSrc = "/joel-griffiths-homepage-portrait.jpg";
 
 type EmphasisCopy = {
   before: string;
@@ -28,9 +28,7 @@ type HomeInclusiveDetail = {
 
 type HomePortrait = {
   imageSrc: string;
-  ariaLabel: string;
-  name: string;
-  descriptor: string;
+  label: string;
 };
 
 type HomeHeroContent = {
@@ -106,9 +104,7 @@ const homePageContent: HomePageContent = {
     ],
     portrait: {
       imageSrc: portraitSrc,
-      ariaLabel: "About Joel Griffiths",
-      name: "Joel Griffiths",
-      descriptor: "Counselling and psychodynamic psychotherapy",
+      label: "Joel Griffiths",
     },
   },
   topics: {
@@ -225,15 +221,12 @@ function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
 
 function HeroPortrait({ portrait }: { portrait: HomePortrait }) {
   return (
-    <aside className="hero-media-note" aria-label={portrait.ariaLabel}>
+    <div className="hero-media-note">
       <div className="hero-media-note__image">
-        <img src={portrait.imageSrc} alt="" />
+        <img src={portrait.imageSrc} alt="" decoding="async" fetchPriority="high" />
       </div>
-      <div className="hero-media-note__caption">
-        <strong>{portrait.name}</strong>
-        <span>{portrait.descriptor}</span>
-      </div>
-    </aside>
+      <span className="home-page__portrait-tag">{portrait.label}</span>
+    </div>
   );
 }
 

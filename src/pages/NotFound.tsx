@@ -1,8 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
+import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
+import "../styles-not-found.css";
 
 function useNoIndex() {
   useEffect(() => {
@@ -27,52 +30,85 @@ function useNoIndex() {
   }, []);
 }
 
+const notFoundRoutes = [
+  {
+    title: "Working with Joel",
+    copy: "How sessions work, Joel's background, and the shape of the work.",
+    href: routeHref(publicRoutePaths.workingWithJoel),
+  },
+  {
+    title: "Inclusive practice",
+    copy: "Kink, ENM, polyamory, LGBTQIA+ lives, and other misunderstood parts of life.",
+    href: routeHref(publicRoutePaths.inclusion),
+  },
+  {
+    title: "Fees and contact",
+    copy: "Session fee, availability, and the enquiry form.",
+    href: routeHref(publicRoutePaths.contact),
+  },
+] as const;
+
+function getReadablePath(pathname: string) {
+  try {
+    return decodeURIComponent(pathname);
+  } catch {
+    return pathname;
+  }
+}
+
 export default function NotFound() {
   useDocumentMetadata("Page not found | Vive Counselling");
   useNoIndex();
+  const location = useLocation();
+  const requestedPath = getReadablePath(location.pathname);
 
   return (
-    <main className="site-page">
-      <section className="hero-section hero-bg--default">
-        <Container>
-          <div className="hero-top">
-            <div>
-              <h1 className="hero-badge">Page not found</h1>
-              <h2 className="hero-display">
-                This page does{" "}
-                <br />
-                not <em>exist</em>.
-              </h2>
-            </div>
-            <div className="hero-copy-panel">
-              <p>
-                The link may be out of date, or the page may have moved. You
-                can return to the homepage or reach out directly.
-              </p>
-              <div className="site-actions">
-                <Button href="/">Go to homepage</Button>
-                <Button href="/contact" variant="secondary">
-                  Make an enquiry <ArrowRight size={16} />
-                </Button>
-              </div>
-            </div>
+    <main className="site-page not-found-page">
+      <Container className="not-found-page__shell">
+        <div className="not-found-page__mark" aria-hidden="true">
+          <span>4</span>
+          <span>0</span>
+          <span>4</span>
+        </div>
+
+        <div className="not-found-page__content">
+          <p className="not-found-page__label">Page not found</p>
+          <h1>This is not the room.</h1>
+          <p className="not-found-page__lead">
+            The address you used does not lead to a page on this site. It may
+            be an old link, a mistyped URL, or something that has moved.
+          </p>
+
+          <div className="not-found-page__address" aria-label="Requested address">
+            <span>Requested address</span>
+            <code>{requestedPath}</code>
           </div>
-          <div className="hero-principles-strip">
-            <div className="hero-principle-item">
-              <h3>Working with Joel</h3>
-              <p>Background, training, and what the work actually involves.</p>
-            </div>
-            <div className="hero-principle-item">
-              <h3>Inclusive practice</h3>
-              <p>Support for kink, ENM, LGBTQIA+ lives, and other misunderstood parts of life.</p>
-            </div>
-            <div className="hero-principle-item">
-              <h3>Fees and booking</h3>
-              <p>Practical details, session length, and how to get started.</p>
-            </div>
+
+          <div className="not-found-page__actions">
+            <Button href={routeHref(publicRoutePaths.home)}>Go to homepage</Button>
+            <Button href={routeHref(publicRoutePaths.contact)} variant="secondary">
+              Make an enquiry <ArrowRight size={16} aria-hidden="true" />
+            </Button>
           </div>
-        </Container>
-      </section>
+        </div>
+
+        <nav className="not-found-page__routes" aria-labelledby="not-found-routes-title">
+          <h2 id="not-found-routes-title">Useful ways back in</h2>
+          <ul>
+            {notFoundRoutes.map((route) => (
+              <li key={route.href}>
+                <Link className="not-found-page__route" to={route.href}>
+                  <span className="not-found-page__route-heading">
+                    <strong>{route.title}</strong>
+                    <ArrowRight size={16} aria-hidden="true" />
+                  </span>
+                  <span className="not-found-page__route-copy">{route.copy}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </Container>
     </main>
   );
 }
