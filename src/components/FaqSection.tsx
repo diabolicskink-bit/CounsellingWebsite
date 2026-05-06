@@ -80,7 +80,7 @@ export default function FaqSection({
           {title || intro ? (
             <div className="site-faq-shell__header">
               {title ? <h2 className="site-faq-shell__title">{title}</h2> : null}
-              {intro ? <p className="site-faq-shell__intro">{intro}</p> : null}
+              {intro ? <p className="site-faq-shell__intro site-body-copy">{intro}</p> : null}
             </div>
           ) : null}
 
@@ -122,7 +122,7 @@ export default function FaqSection({
                     role="region"
                   >
                     <div className="site-faq-answer">
-                      <div className="site-faq-answer__inner">{answerContent}</div>
+                      <div className="site-faq-answer__inner site-copy-flow">{answerContent}</div>
                     </div>
                   </div>
                 </article>

@@ -52,9 +52,9 @@ Primary tokens live in `src/styles.css`.
 | `--type-section-compact` | Contained section headings, rich text `h2`, form success headings, and closing CTA headings. |
 | `--type-card-title` | Cards, grouped ideas, principles, linked detail titles, and nested headings. |
 | `--type-topic-title` | Topic cards where the title needs a little more editorial presence. |
-| `--type-body` | Default paragraphs, forms, FAQ answers, ruled stacks, and practical copy. |
-| `--type-body-rich` | Rich editorial paragraphs inside `.rich-text`. |
-| `--type-support` | Hero support copy, intro rails, and larger explanatory support text. |
+| `--type-body` | Standard paragraph copy: default paragraphs, `.site-body-copy`, `.site-copy-flow`, forms, FAQ answers, ruled stacks, and practical copy. Current size is `0.98rem` with `--leading-body` at `1.52`. |
+| `--type-body-rich` | Rich editorial paragraphs inside `.rich-text`; currently aliases the standard body size. |
+| `--type-support` | Hero support copy, intro rails, and explanatory support text; currently aliases the standard body size unless a component has a deliberate non-body role. |
 | `--type-small` | Helper text, card list items, compact actions, and supporting notes. |
 | `--type-label` | Eyebrows, small labels, form technical errors, and quiet metadata. |
 | `--type-caption` | Captions, badges, hero principle details, and very small labels. |
@@ -64,6 +64,8 @@ Primary tokens live in `src/styles.css`.
 | `--type-fee-display` | Large numeric/fee display. |
 
 Type role variables are allowed to adjust at breakpoints. At the current compact breakpoint, `--type-display`, `--type-page-title`, `--type-section`, `--type-section-compact`, and `--type-hero-detail` compress. Avoid adding viewport-scaled font sizes to new shared production rules, and do not copy desktop display sizes into mobile-specific page styles.
+
+Ordinary paragraph-style copy should use a literal `p` by default. If the text is body copy but cannot be a paragraph, use `.site-body-copy`; if a container owns body-copy children such as mixed `p` and `li` content, use `.site-copy-flow`. Page CSS should keep layout concerns such as width, margin, and gaps, and should not restate `color: var(--body)`, `font-size: var(--type-body)`, and `line-height: var(--leading-body)` unless a deliberately different role is being defined.
 
 ## Spacing Rules
 

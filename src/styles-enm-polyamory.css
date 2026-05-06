@@ -85,9 +85,6 @@
 
 .enm-page__hero-note p {
   max-width: 44ch;
-  color: var(--body);
-  font-size: var(--type-body);
-  line-height: var(--leading-rich);
 }
 
 .enm-page__hero-note-list {

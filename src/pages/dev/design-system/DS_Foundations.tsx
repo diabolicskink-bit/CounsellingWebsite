@@ -93,20 +93,20 @@ const typeRoleRows = [
   {
     role: "Body",
     token: "--type-body",
-    source: "p",
+    source: "p, .site-body-copy, .site-copy-flow",
     use: "Default paragraphs, compact stack copy, forms, FAQ answers, and practical information.",
   },
   {
     role: "Rich body",
     token: "--type-body-rich",
     source: ".rich-text p",
-    use: "Longer editorial reading copy where paragraphs need a little more presence.",
+    use: "Longer editorial reading copy; currently aliases the standard body rhythm.",
   },
   {
     role: "Support copy",
     token: "--type-support",
     source: ".hero-intro, .hero-copy-panel",
-    use: "Hero support, section introductions, and explanatory rails.",
+    use: "Hero support, section introductions, and explanatory rails; currently aliases the standard body rhythm.",
   },
   {
     role: "Label and small",

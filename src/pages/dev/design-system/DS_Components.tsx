@@ -462,7 +462,7 @@ export default function DS_Components() {
 
             <div className="ds-demo" style={{ marginTop: "28px" }}>
               <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Ruled paragraph</p>
-              <p className="site-ruled-paragraph" style={{ maxWidth: "52ch", fontSize: "1.04rem", lineHeight: 1.68 }}>
+              <p className="site-ruled-paragraph" style={{ maxWidth: "52ch" }}>
                 Use this for a single paragraph that needs a little more visual weight than plain body copy, but not the
                 full containment of a panel. It works well for orienting copy, quiet reassurance, or a paragraph that
                 should feel slightly set apart from the surrounding text.

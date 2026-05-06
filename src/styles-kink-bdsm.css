@@ -23,11 +23,6 @@
 
 .kink-page__hero-intro {
   max-width: 39rem;
-  margin: 0;
-  color: var(--body);
-  font-family: var(--font-sans);
-  font-size: var(--type-support);
-  line-height: var(--leading-loose);
 }
 
 .kink-page__hero-actions {
@@ -212,9 +207,6 @@
 
 .kink-page__panel-body p {
   margin: 0;
-  color: var(--body);
-  font-size: 1rem;
-  line-height: 1.64;
 }
 
 .kink-page__closing-section {
@@ -246,9 +238,6 @@
 .kink-page__closing-intro-body p,
 .kink-page__closing-card-body p {
   margin: 0;
-  color: var(--body);
-  font-size: 1.02rem;
-  line-height: 1.58;
 }
 
 .kink-page__closing-card {
@@ -324,11 +313,6 @@
 @media (max-width: 640px) {
   .kink-page__hero-inner {
     gap: 24px;
-  }
-
-  .kink-page__hero-intro {
-    font-size: 1.02rem;
-    line-height: 1.68;
   }
 
   .kink-page__hero-actions {

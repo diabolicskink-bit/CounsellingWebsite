@@ -49,9 +49,6 @@
 
 .working-with-joel-page__hero-support-body {
   max-width: 31ch;
-  color: rgba(31, 35, 31, 0.78);
-  font-size: var(--type-small);
-  line-height: 1.68;
   text-wrap: pretty;
 }
 
@@ -73,20 +70,8 @@
   margin-top: 0;
 }
 
-.working-with-joel-page__intro .site-copy-panel p {
-  color: var(--body);
-  font-size: 0.98rem;
-  line-height: 1.52;
-}
-
 .working-with-joel-page__section-title {
-  max-width: 24ch;
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--font-serif);
-  font-size: var(--type-section-compact);
-  line-height: 1.03;
-  letter-spacing: 0;
+  max-width: 700px;
   text-wrap: balance;
 }
 
@@ -111,7 +96,6 @@
 
 .working-topics__item {
   --working-topic-title-size: clamp(1.12rem, 1.25vw, 1.36rem);
-  --working-topic-body-size: 0.98rem;
   --working-topic-body-max-width: 35ch;
   display: grid;
   align-content: start;
@@ -142,14 +126,10 @@
 .working-topics__item-body {
   margin: 0;
   max-width: var(--working-topic-body-max-width);
-  color: var(--body);
-  font-size: var(--working-topic-body-size);
-  line-height: 1.52;
 }
 
 .working-topics__item--closing {
   --working-topic-title-size: clamp(1.3rem, 1.6vw, 1.65rem);
-  --working-topic-body-size: 1.02rem;
   --working-topic-body-max-width: 64ch;
   min-height: 0;
   padding: 24px 28px;
@@ -176,10 +156,6 @@
 
   .hero-support-tagline.working-with-joel-page__hero-credentials {
     padding-bottom: 0;
-  }
-
-  .working-with-joel-page__section-title {
-    max-width: none;
   }
 
   .working-topics__header {
@@ -247,13 +223,6 @@
   display: grid;
   gap: 18px;
   max-width: 58ch;
-}
-
-.approach-tab__overview .section-heading__copy,
-.working-with-joel-page__approach-tab .site-broad-tabs__content p {
-  color: var(--body);
-  font-size: 0.98rem;
-  line-height: 1.52;
 }
 
 @media (max-width: 900px) {

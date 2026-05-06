@@ -38,9 +38,9 @@ typography:
     letterSpacing: "0"
   body:
     fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "1.02rem"
+    fontSize: "0.98rem"
     fontWeight: 400
-    lineHeight: 1.58
+    lineHeight: 1.52
     letterSpacing: "0"
   label:
     fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
@@ -166,7 +166,7 @@ The palette is a grounded counselling palette: warm paper, quiet sage, and deep 
 - **Display** (400, 5.2rem desktop / 2.85rem compact, 1.05): Page-opening hero statements only, usually through the canonical hero display pattern.
 - **Headline** (500, 3.1rem desktop / 2.45rem compact, 1.1): Major section statements, FAQ titles, and closing calls to action.
 - **Title** (500, 1.45rem, 1.18): Cards, grouped ideas, linked detail titles, and nested headings.
-- **Body** (400, 1.02rem, 1.58): Default paragraphs, form labels, practical notes, and support copy. Keep ordinary reading copy around 65 to 75 characters where possible.
+- **Body** (400, 0.98rem, 1.52): Default paragraphs, `.site-body-copy`, `.site-copy-flow`, form labels, practical notes, and support copy. Keep ordinary reading copy around 65 to 75 characters where possible.
 - **Label** (700, 0.86rem, uppercase only for short labels): Eyebrows, quiet metadata, form technical errors, and small captions.
 
 ### Named Rules

@@ -3,9 +3,6 @@
 
 .home-page {
   --hero-display-max-width: 15.6ch;
-  --home-copy-color: var(--body);
-  --home-copy-font-size: 0.98rem;
-  --home-copy-line-height: 1.52;
 }
 
 .home-page__hero-copy {
@@ -25,12 +22,6 @@
   margin-top: 0;
 }
 
-.home-page p {
-  color: var(--home-copy-color);
-  font-size: var(--home-copy-font-size);
-  line-height: var(--home-copy-line-height);
-}
-
 .home-page__topics {
   --home-topics-rule: rgba(35, 75, 61, 0.16);
   --home-topics-cell: var(--surface);
@@ -44,9 +35,7 @@
 }
 
 .home-topics__header h2 {
-  max-width: 15ch;
-  font-size: clamp(2.2rem, 4vw, 4rem);
-  line-height: 1;
+  max-width: 700px;
   text-wrap: balance;
 }
 

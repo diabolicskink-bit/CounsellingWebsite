@@ -205,7 +205,7 @@ export default function WorkingWithJoel() {
 
             <div className="hero-deck working-with-joel-page__hero-support">
               <p className="working-with-joel-page__hero-support-lead">{hero.supportLead}</p>
-              <p className="working-with-joel-page__hero-support-body">{hero.supportBody}</p>
+              <p className="working-with-joel-page__hero-support-body site-body-copy">{hero.supportBody}</p>
             </div>
           </div>
 

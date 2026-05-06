@@ -6,6 +6,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 
 - Production colour tokens are defined in `src/styles.css`, including paper, surface, text, cedar, accent, reusable highlight/footer surfaces, line, radius, shadow, and max-width variables.
 - Production typography tokens are defined in `src/styles.css`, including font stacks, named type roles, and leading variables.
+- Standard paragraph-style copy is defined through `--type-body` at `0.98rem` and `--leading-body` at `1.52`; literal `p`, `.site-body-copy`, and `.site-copy-flow` are the shared implementation path for body-like copy, including rich body, support copy, hero paragraph copy, FAQ answers, broad-tab paragraphs, and page-specific body blocks unless they have a deliberate non-body role.
 - Layout and surface rules exist through shared section classes such as `.site-grid`, the quieter `.site-highlight`, `.site-split`, `.site-content-stack`, and `.site-copy-panel`.
 - The active shared production class layer uses `site-*` classes for public-page sections, cards, panels, lists, tabs, forms, footer, FAQ, CTA, trust, detail, and contact patterns.
 - The active shared hero system uses `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-principles-strip`, and `.hero-detail-stack`; `.hero-section` owns the shared 40px top and bottom spacing, `h1.hero-badge` owns the concise visible page-topic H1, and `.hero-display` owns the measured shared expressive hero statement typography and default title measure.
@@ -52,7 +53,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 - `ds-*` is still used for docs/dev scaffolding in `src/styles-dev.css`, the design-system pages, the Documents page, and design-system support components. It can remain where the need is truly docs-only and no shared production pattern fits, but it is not an active production layer.
 - The Patterns page is mixed. It includes active `site-*` and `hero-*` examples, but it also shows older `design-language-*` candidate/reference patterns that should not be copied into production as-is.
 - The hero system is active and canonical, but some pages still layer page-scoped hero classes on top of it for composition-specific needs.
-- Type roles exist and are documented, but page-specific type overrides and older experimental styles have not all been audited.
+- Type roles exist and are documented, and the shared paragraph/body rhythm has been normalised. Page-specific type overrides and older experimental styles still need periodic audit for non-body roles.
 - Foundations reference names exist in a table and on the rendered samples, but reference-name labelling has not been rolled out across all design-system pages.
 - Page pattern consolidation is partial. Shared patterns exist, but not every repeated public-page composition has been promoted or catalogued.
 - Topic/issue grids exist through `site-topic-grid`, `site-topic-card`, and page-specific topic layouts, but there is no separately named `issue-grid` component.
@@ -67,8 +68,8 @@ This is the live inventory of the design system. Keep it factual and update it w
 ## Legacy / Deprecated / Reference Only
 
 - `ds-*` exists as docs/dev-page support styling, not as a production system and not as the preferred future architecture. Keep it narrow, docs-only, and only where the shared system should not be used.
-- `design-language-*` exists as older design-language/demo/reference styling and should not be expanded for new production work.
-- `legacy-*` CSS remnants exist in `src/styles.css` and should be treated as reference only.
+- `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css` and should not be expanded for new production work.
+- `legacy-*` CSS remnants now live with docs/dev support styling in `src/styles-dev.css` and should be treated as reference only.
 - The old `test-bed-*` shared CSS layer has been retired from `src/styles.css`; test-bed routes remain as dev-only clean shells and should not be copied into production pages.
 - The old `opus-*` hero/archive CSS layer has been retired from `src/styles.css`; the `/opus-tb` route remains as a clean dev test-bed shell with page-scoped styling.
 - The old `inc-lab-*` experiment CSS layer has been retired from `src/styles.css` after no routed page usage was found; future inclusion experiments should use page-scoped styles or promoted `site-*` / `hero-*` patterns.

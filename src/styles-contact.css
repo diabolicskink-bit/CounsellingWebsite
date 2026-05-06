@@ -152,12 +152,6 @@
   max-width: none;
 }
 
-.contact-page__notes-list p {
-  color: var(--body);
-  font-size: 0.98rem;
-  line-height: 1.6;
-}
-
 .contact-page__form {
   max-width: none;
 }

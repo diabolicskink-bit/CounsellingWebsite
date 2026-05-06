@@ -176,7 +176,7 @@ export default function KinkBdsmCounselling() {
             <div className="kink-page__hero-copy">
               <h1 className="hero-badge">{hero.eyebrow}</h1>
               <h2 className="hero-display">{hero.title}</h2>
-              <p className="kink-page__hero-intro">{hero.intro}</p>
+              <p className="hero-intro kink-page__hero-intro">{hero.intro}</p>
 
               <div className="kink-page__hero-actions">
                 <Button href={hero.primaryAction.href}>{hero.primaryAction.label}</Button>

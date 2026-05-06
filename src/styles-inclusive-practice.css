@@ -2,33 +2,23 @@
    Shared hero backgrounds, typography, panels, buttons, and tokens live in src/styles.css. */
 
 .inclusion-page {
-  --inclusion-copy-strong: rgba(27, 32, 28, 0.92);
-  --inclusion-copy: rgba(27, 32, 28, 0.78);
-  --inclusion-line-strong: rgba(34, 62, 47, 0.22);
   --inclusion-line-soft: rgba(35, 75, 61, 0.14);
-  --inclusion-hub-divider-offset: 32px;
   --inclusion-hub-column-gap: clamp(2.5rem, 5vw, 4rem);
-  --inclusion-panel-surface:
-    linear-gradient(135deg, rgba(238, 242, 236, 0.46), rgba(252, 252, 250, 0.94) 34%, rgba(252, 252, 250, 0.98)),
-    var(--surface-strong);
-}
-
-.inclusion-hero {
-  --inclusion-hero-detail-max-width: 390px;
-  --inclusion-hero-detail-size: clamp(1.52rem, 1.34rem + 0.7vw, 1.92rem);
-}
-
-.inclusion-hero__masthead {
-  position: relative;
-  z-index: 1;
 }
 
 .inclusion-hero__top {
-  display: grid;
   grid-template-columns: minmax(0, 1.36fr) minmax(320px, 0.64fr);
   gap: clamp(3rem, 5.6vw, 5.75rem);
-  align-items: stretch;
-  padding-bottom: 0;
+  align-items: center;
+}
+
+.inclusion-hero__top > * {
+  min-width: 0;
+}
+
+.inclusion-hero__heading {
+  display: grid;
+  align-content: start;
 }
 
 .inclusion-hero__title {
@@ -39,40 +29,28 @@
   display: block;
 }
 
-.inclusion-hero__headline-block {
-  display: grid;
-  place-content: start;
-  height: 100%;
-}
-
 .inclusion-hero__details {
   display: grid;
   align-content: center;
-}
-
-.inclusion-hero__detail-stack {
   width: 100%;
-  max-width: var(--inclusion-hero-detail-max-width);
+  max-width: 390px;
   margin-left: auto;
 }
 
 .inclusion-hero__detail-link {
   display: block;
-  position: relative;
   padding: clamp(0.72rem, 1vw, 0.95rem) 0 clamp(0.78rem, 1.08vw, 1rem);
-  color: var(--inclusion-copy-strong);
-  text-decoration: none;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: var(--inclusion-hero-detail-size);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.52rem, 1.34rem + 0.7vw, 1.92rem);
   line-height: 1.05;
   letter-spacing: 0;
-  transition:
-    color 180ms ease,
-    transform 180ms ease;
+  text-decoration: none;
+  transition: color 180ms ease;
 }
 
 .inclusion-hero__detail-link:not(:last-child) {
-  border-bottom: 1px solid var(--inclusion-line-strong);
+  border-bottom: 1px solid var(--line);
 }
 
 .inclusion-hero__detail-link:nth-child(2) {
@@ -87,35 +65,31 @@
 .inclusion-hero__detail-link:hover,
 .inclusion-hero__detail-link:focus-visible {
   color: var(--cedar);
-  transform: translateX(0.28rem);
 }
 
 .inclusion-hero__detail-link:focus-visible {
-  outline: 2px solid rgba(23, 71, 52, 0.36);
+  outline: 2px solid var(--cedar);
   outline-offset: 0.25rem;
 }
 
 .inclusion-hub__intro {
-  position: relative;
   display: grid;
   grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1fr);
-  column-gap: var(--inclusion-hub-column-gap);
-  row-gap: 24px;
-  align-items: start;
-  margin-bottom: clamp(1rem, 2vw, 1.35rem);
-  padding: clamp(0.2rem, 0.8vw, 0.55rem) 0 clamp(1.45rem, 2.5vw, 2rem);
-  border-bottom: 1px solid var(--inclusion-line-strong);
+  gap: 24px var(--inclusion-hub-column-gap);
+  align-items: center;
+  margin-bottom: 40px;
+  padding-inline: 34px;
 }
 
 .inclusion-hub__intro-statement {
   margin: 0;
   max-width: 22ch;
-  font-family: Georgia, "Times New Roman", serif;
-  font-style: normal;
+  color: var(--ink);
+  font-family: var(--font-serif);
   font-size: clamp(1.8rem, 1.48rem + 1.25vw, 2.6rem);
+  font-style: normal;
   line-height: 1.06;
   letter-spacing: 0;
-  color: var(--ink);
   text-wrap: balance;
 }
 
@@ -128,32 +102,12 @@
 }
 
 .inclusion-hub__intro-support {
-  position: relative;
-  margin: 0;
-  max-width: 62ch;
-  font-size: clamp(1.04rem, 0.98rem + 0.24vw, 1.16rem);
-  line-height: 1.72;
-  color: var(--body);
   text-wrap: pretty;
-}
-
-.inclusion-hub__intro-support::before {
-  content: "";
-  position: absolute;
-  top: 0.32rem;
-  bottom: 0.28rem;
-  left: calc(var(--inclusion-hub-divider-offset) * -1);
-  width: 1px;
-  background: var(--inclusion-line-soft);
 }
 
 .inclusion-hub__panels {
   display: grid;
   gap: 20px;
-}
-
-.inclusion-hub__panel {
-  background: var(--inclusion-panel-surface);
 }
 
 .inclusion-hub__panel-layout {
@@ -163,14 +117,10 @@
     "lead body"
     "action body";
   grid-template-rows: auto 1fr;
-  column-gap: var(--inclusion-hub-column-gap);
-  row-gap: 28px;
-  min-width: 0;
+  gap: 28px var(--inclusion-hub-column-gap);
 }
 
-.inclusion-hub__panel-lead,
-.inclusion-hub__panel-body,
-.inclusion-hub__panel-action {
+.inclusion-hub__panel-layout > * {
   min-width: 0;
 }
 
@@ -191,27 +141,11 @@
 
 .inclusion-hub__panel-body {
   grid-area: body;
-  position: relative;
   display: grid;
   gap: 18px;
-  min-width: 0;
-}
-
-.inclusion-hub__panel-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: calc(var(--inclusion-hub-divider-offset) * -1);
-  width: 1px;
-  background: var(--inclusion-line-soft);
-}
-
-.inclusion-hub__panel-copy {
-  margin: 0;
-  color: var(--body);
-  font-size: 1.03rem;
-  line-height: 1.72;
+  align-content: start;
+  border-left: 1px solid var(--inclusion-line-soft);
+  padding-left: 32px;
 }
 
 .inclusion-hub__panel-action {
@@ -228,17 +162,17 @@
 }
 
 @media (max-width: 980px) {
-  .inclusion-hero {
-    --inclusion-hero-headline-offset: 0;
-    --inclusion-hero-detail-max-width: 520px;
+  .inclusion-hero__top,
+  .inclusion-hub__intro {
+    grid-template-columns: 1fr;
   }
 
   .inclusion-hero__top {
-    grid-template-columns: 1fr;
     gap: clamp(2rem, 5vw, 3rem);
   }
 
-  .inclusion-hero__detail-stack {
+  .inclusion-hero__details {
+    max-width: 520px;
     margin-left: 0;
   }
 
@@ -248,16 +182,11 @@
   }
 
   .inclusion-hub__intro {
-    grid-template-columns: 1fr;
-    gap: clamp(1rem, 3vw, 1.4rem);
+    row-gap: clamp(1rem, 3vw, 1.4rem);
   }
 
   .inclusion-hub__intro-statement {
     max-width: 17ch;
-  }
-
-  .inclusion-hub__intro-support::before {
-    display: none;
   }
 }
 
@@ -272,26 +201,24 @@
     gap: 20px;
   }
 
-  .inclusion-hub__panel-body::before {
-    display: none;
+  .inclusion-hub__panel-body {
+    border-top: 1px solid var(--inclusion-line-soft);
+    border-left: 0;
+    padding-top: 20px;
+    padding-left: 0;
   }
 }
 
 @media (max-width: 640px) {
+  .inclusion-hub__intro {
+    padding-inline: 24px;
+  }
+
   .inclusion-hero__title span {
     display: inline;
   }
 
-  .inclusion-hub__intro {
-    padding-top: clamp(1.1rem, 5vw, 1.45rem);
-  }
-
   .inclusion-hub__intro-statement {
     font-size: clamp(1.35rem, 6.4vw, 1.75rem);
-  }
-
-  .inclusion-hub__intro-support {
-    font-size: 1rem;
-    line-height: 1.65;
   }
 }

@@ -72,11 +72,13 @@ Recommended direction:
 
 The design-system rules now prefer `letter-spacing: 0`, but older and experimental sections still contain negative or positive tracking. Some of that may be harmless in archived/test-bed code, but production-facing shared classes should converge on zero letter spacing unless there is a deliberate exception.
 
-### 5. Body copy has several close-but-different sizes
+### 5. Body copy had several close-but-different sizes
 
-The site currently uses body-ish text at several nearby sizes, including `1rem`, `1.02rem`, `1.04rem`, `1.06rem`, `1.08rem`, `1.12rem`, and `1.14rem`.
+The site previously used body-ish text at several nearby sizes, including `1rem`, `1.02rem`, `1.04rem`, `1.06rem`, `1.08rem`, `1.12rem`, and `1.14rem`.
 
-That can be fine if each role is named, but right now it is hard to tell which size is the intended default for:
+The current shared default for ordinary paragraph-style copy is `--type-body` at `0.98rem` with `--leading-body` at `1.52`. Literal `p`, `.site-body-copy`, and `.site-copy-flow` are the implementation path. `--type-body-rich`, `--type-support`, `--leading-rich`, and `--leading-loose` now alias the same body rhythm so rich text, section support, hero paragraph copy, broad-tab paragraphs, FAQ answers, and page-specific body blocks do not drift by default.
+
+Different sizes can still be fine when each role is named, but future work should avoid reintroducing near-body one-offs for:
 
 - ordinary paragraph copy
 - rich editorial copy
@@ -103,9 +105,9 @@ These roles should become the mental model before any code change.
 | Compact section heading | Smaller section title inside panels/docs/components | local/shared component rules |
 | Card title | Individual card or repeated item title | `.site-card h3`, `.site-topic-card h3` |
 | Rich text heading | Heading inside editorial copy | `.rich-text h2`, `.rich-text h3` |
-| Body | Standard paragraph copy | global `p` |
+| Body | Standard paragraph copy | global `p`, `.site-body-copy`, `.site-copy-flow` |
 | Rich body | Longer editorial paragraph copy | `.rich-text p` |
-| Support copy | Section intro, hero support, captions | `.section-heading__copy`, `.hero-intro`, local caption rules |
+| Support copy | Section intro, hero support, captions | `.section-heading__copy`, `.hero-intro`, local caption rules; currently aliases the standard body rhythm unless the text has a non-body role |
 | Small note | Helper text, caveats, metadata | scattered local rules |
 | Label | Eyebrows, form labels, metadata labels | `.site-eyebrow`, form labels, local metadata |
 | Numeric display | Fees or large figures | `.site-fee-card strong` |

@@ -1391,6 +1391,112 @@
   .ds-overview-layout {
     padding-top: 44px;
   }
+
+  .design-language-split,
+  .design-language-media-grid,
+  .design-language-html-grid,
+  .design-language-type-grid,
+  .design-language-button-grid,
+  .design-language-rules-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .design-language-topic-grid,
+  .design-language-pattern-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .design-language-pattern,
+  .design-language-pattern--notice,
+  .design-language-pattern--compare,
+  .design-language-pattern--boundary {
+    grid-column: auto;
+  }
+
+  .design-language-info-pattern {
+    grid-template-columns: 1fr;
+  }
+
+  .design-language-info-pattern__intro {
+    border-right: 0;
+    border-bottom: 1px solid rgba(35, 75, 61, 0.16);
+    padding-right: 0;
+    padding-bottom: 20px;
+  }
+
+  .info-pattern--steps .design-language-info-pattern__sample,
+  .info-pattern--quote-note .design-language-info-pattern__sample,
+  .info-pattern--comparison .design-language-info-pattern__sample,
+  .info-pattern--final-prompt .design-language-info-pattern__sample {
+    grid-template-columns: 1fr;
+  }
+
+  .design-language-principle {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .design-language-split h2,
+  .design-language-reference-heading h2 {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 660px) {
+  .design-language-topic-grid,
+  .design-language-pattern-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .design-language-split h2,
+  .design-language-reference-heading h2 {
+    font-size: 2.45rem;
+  }
+
+  .type-sample--h1 p {
+    font-size: 2.35rem;
+  }
+
+  .type-sample--h2 p {
+    font-size: 1.9rem;
+  }
+
+  .design-language-rule-list p,
+  .legacy-token-card {
+    grid-template-columns: 1fr;
+  }
+
+  .legacy-html-card,
+  .design-language-check-panel {
+    padding: 24px;
+  }
+
+  .legacy-html-card h1 {
+    font-size: 2.35rem;
+  }
+
+  .legacy-html-card h2 {
+    font-size: 1.9rem;
+  }
+
+  .design-language-info-pattern {
+    padding: 22px;
+  }
+
+  .info-pattern--ledger .design-language-info-pattern__sample span {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .info-pattern--constellation .design-language-info-pattern__sample {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .info-pattern--final-prompt .design-language-info-pattern__sample span:first-child {
+    font-size: 1.8rem;
+  }
 }
 
 @media (max-width: 640px) {

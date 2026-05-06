@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import FaqSection from "../components/FaqSection";
 import FaqSchema from "../components/FaqSchema";
 import { getRouteMetadata } from "../data/routeMetadata";
+import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 
 type InclusionPanel = {
@@ -67,9 +68,9 @@ const inclusionPageContent: InclusionPageContent = {
       lineTwoAfter: ".",
     },
     topics: [
-      { label: "Kink & BDSM", href: "/inclusion/kink-bdsm" },
-      { label: "ENM & Polyamory", href: "/inclusion/enm-polyamory" },
-      { label: "LGBTQIA+", href: "/inclusion/lgbtqia" },
+      { label: "Kink & BDSM", href: routeHref(publicRoutePaths.kinkBdsm) },
+      { label: "ENM & Polyamory", href: routeHref(publicRoutePaths.enmPolyamory) },
+      { label: "LGBTQIA+", href: routeHref(publicRoutePaths.lgbtqia) },
     ],
   },
   hub: {
@@ -85,16 +86,17 @@ const inclusionPageContent: InclusionPageContent = {
       {
         eyebrow: "Kink & BDSM-aware counselling",
         heading: "Not the problem by default. Not off limits either.",
-        href: "/inclusion/kink-bdsm",
+        href: routeHref(publicRoutePaths.kinkBdsm),
         paragraphs: [
           "Whatever the desire, it can be named plainly. Nothing about it needs to be introduced carefully or landed gently. D/s, bondage, fetish, masochism, desires that have lived privately for years. Sometimes it is exactly what brings you here. Sometimes it is simply there, alongside everything else.",
-"Consensual kink is not treated here as damage, danger or a diagnosis to explain away. And nothing has to be smoothed over. Consent can be unclear. Boundaries can be crossed. Dynamics can stop feeling okay. All of it can be talked about plainly, without panic or moralising."        ],
+          "Consensual kink is not treated here as damage, danger or a diagnosis to explain away. And nothing has to be smoothed over. Consent can be unclear. Boundaries can be crossed. Dynamics can stop feeling okay. All of it can be talked about plainly, without panic or moralising.",
+        ],
         cta: "Kink & BDSM-aware counselling",
       },
       {
         eyebrow: "ENM & polyamory counselling",
         heading: "Your relationships are real. So are the hard parts.",
-        href: "/inclusion/enm-polyamory",
+        href: routeHref(publicRoutePaths.enmPolyamory),
         paragraphs: [
           "Polyamory and ENM aren't edge cases, they're just how some people's relationships work. Whether you're settled in that, newly opening, a hinge under pressure, or still working out whether it's actually for you, the whole shape of it belongs here. The structures, the agreements, the places where jealousy and compersion sit right next to each other. The relationships are real.",
           "Counselling without genuine knowledge of these relationships can cause real harm, even when nobody means it to. What feels like progress through a monogamous lens can set things up to fail. The hard parts, insecurity, stretched time, broken agreements, the pressure to seem fine, the weight of caring about more than one person, deserve real support, not a quiet suggestion that it would all be easier another way.",
@@ -104,7 +106,7 @@ const inclusionPageContent: InclusionPageContent = {
       {
         eyebrow: "LGBTQIA+ affirming counselling",
         heading: "Affirming support without making identity the whole story",
-        href: "/inclusion/lgbtqia",
+        href: routeHref(publicRoutePaths.lgbtqia),
         paragraphs: [
           "This is a straight practitioner. That is worth knowing, and it is not the whole picture. Kink, non-monogamy, chosen family, trans experience, the particular weight of religious backgrounds, the grief that comes with families who don't come through. This is not a world visited professionally. It is the world this practice comes from.",
           "Being queer is part of what you bring here. It is not a lens imposed on everything else you bring. The anxiety, the relationship, the work situation, the thing that has been sitting with you. None of it gets routed back through identity unless that is where it actually leads.",
@@ -152,37 +154,32 @@ export default function InclusivePractice() {
   return (
     <main className="site-page inclusion-page">
       <FaqSchema faqs={faq.items} />
-      <section className="hero-section hero-bg--default inclusion-hero">
-        <div className="inclusion-hero__masthead">
-          <Container>
-            <div className="hero-top inclusion-hero__top">
-              <div className="inclusion-hero__headline-block">
-                <h1 className="hero-badge">{hero.eyebrow}</h1>
-                <h2 className="hero-display inclusion-hero__title">
-                  <span>{hero.title.lineOne}</span>
-                  {" "}
-                  <span>
-                    {hero.title.lineTwoBefore}
-                    <em>
-                      {hero.title.emphasis}
-                      {hero.title.lineTwoAfter}
-                    </em>
-                  </span>
-                </h2>
-              </div>
-
-              <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
-                <div className="inclusion-hero__detail-stack">
-                  {hero.topics.map((item) => (
-                    <Link className="inclusion-hero__detail-link" key={item.label} to={item.href}>
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              </nav>
+      <section className="hero-section hero-bg--default">
+        <Container>
+          <div className="hero-top inclusion-hero__top">
+            <div className="inclusion-hero__heading">
+              <h1 className="hero-badge">{hero.eyebrow}</h1>
+              <h2 className="hero-display inclusion-hero__title">
+                <span>{hero.title.lineOne}</span>{" "}
+                <span>
+                  {hero.title.lineTwoBefore}
+                  <em>
+                    {hero.title.emphasis}
+                    {hero.title.lineTwoAfter}
+                  </em>
+                </span>
+              </h2>
             </div>
-          </Container>
-        </div>
+
+            <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
+              {hero.topics.map((item) => (
+                <Link className="inclusion-hero__detail-link" key={item.label} to={item.href}>
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </Container>
       </section>
 
       <section className="site-grid inclusion-hub">
@@ -197,7 +194,7 @@ export default function InclusivePractice() {
 
           <div className="inclusion-hub__panels">
             {hub.panels.map((panel) => (
-              <article className="site-copy-panel inclusion-hub__panel" key={panel.heading}>
+              <article className="site-copy-panel" key={panel.heading}>
                 <div className="inclusion-hub__panel-layout">
                   <div className="inclusion-hub__panel-lead">
                     <span className="site-eyebrow">{panel.eyebrow}</span>
@@ -205,9 +202,7 @@ export default function InclusivePractice() {
                   </div>
                   <div className="inclusion-hub__panel-body">
                     {panel.paragraphs.map((paragraph) => (
-                      <p className="inclusion-hub__panel-copy" key={paragraph}>
-                        {paragraph}
-                      </p>
+                      <p key={paragraph}>{paragraph}</p>
                     ))}
                   </div>
                   <div className="inclusion-hub__panel-action">
