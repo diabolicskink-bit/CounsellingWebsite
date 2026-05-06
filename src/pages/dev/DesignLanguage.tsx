@@ -1,9 +1,10 @@
 import { ArrowRight, BookOpen, Boxes, CheckCircle2, Compass, Layers3, Palette, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
-import Container from "../components/Container";
-import DesignSystemSidebar from "../components/DesignSystemSidebar";
-import useDocumentMetadata from "../hooks/useDocumentMetadata";
+import Button from "../../components/Button";
+import Container from "../../components/Container";
+import DesignSystemSidebar from "../../components/DesignSystemSidebar";
+import useDocumentMetadata from "../../hooks/useDocumentMetadata";
+import "../../styles-dev.css";
 
 const systemRoutes = [
   {

@@ -116,7 +116,7 @@ For design-system documentation pages:
 
 ## Questions To Resolve Before Creating A New Pattern
 
-- Is there already a documented example in `src/pages/design-system`?
+- Is there already a documented example in `src/pages/dev/design-system`?
 - Is that example a production `site-*` / `hero-*` pattern, or only a `ds-*`, `design-language-*`, or `legacy-*` reference?
 - Can this be solved cleanly by composing `Container`, `SectionHeading`, `Button`, `Card`, or an existing site class?
 - Would that composition make the content clearer, or would it force the design into the wrong shape?

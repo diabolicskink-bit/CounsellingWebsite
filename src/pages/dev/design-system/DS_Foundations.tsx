@@ -1,8 +1,8 @@
-import Button from "../../components/Button";
-import Container from "../../components/Container";
-import DevPageHero from "../../components/DevPageHero";
-import DesignSystemSidebar from "../../components/DesignSystemSidebar";
-import useDocumentMetadata from "../../hooks/useDocumentMetadata";
+import Button from "../../../components/Button";
+import Container from "../../../components/Container";
+import DevPageHero from "../../../components/DevPageHero";
+import DesignSystemSidebar from "../../../components/DesignSystemSidebar";
+import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
 
 const foundationRules = [
   {

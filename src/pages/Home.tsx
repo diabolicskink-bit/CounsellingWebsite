@@ -221,7 +221,6 @@ export default function Home() {
       <section className="site-grid home-page__topics">
         <Container>
           <div className="home-topics__header">
-            <span className="site-eyebrow">What counselling is for</span>
             <h2>What people bring.</h2>
           </div>
 

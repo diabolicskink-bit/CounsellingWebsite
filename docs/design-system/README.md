@@ -19,7 +19,8 @@ Start here when changing shared UI, rendered design-system pages, tokens, reusab
 
 - `src/styles.css` is the primary production source of truth for tokens, shared classes, `site-*`, `hero-*`, and promoted reusable patterns.
 - `src/components/` contains shared React components used by production and documentation pages.
-- `src/pages/design-system/` contains rendered design-system pages.
+- `src/pages/dev/design-system/` contains rendered design-system pages.
+- `src/pages/dev/` contains dev-only page entry points such as the design-system overview, Documents page, and test-bed routes.
 - `src/styles-dev.css` contains development, documentation, and rendered-doc support styles.
 - Page-scoped CSS files can implement page-specific composition, but they are not automatically part of the design system.
 

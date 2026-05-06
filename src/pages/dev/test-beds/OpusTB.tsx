@@ -1,6 +1,6 @@
-import DevPageHero from "../components/DevPageHero";
-import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import "../styles-opus-tb.css";
+import DevPageHero from "../../../components/DevPageHero";
+import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
+import "../../../styles-opus-tb.css";
 
 export default function OpusTB() {
   useDocumentMetadata(

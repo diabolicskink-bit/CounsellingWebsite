@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
-import Button from "../../components/Button";
-import Container from "../../components/Container";
-import DevPageHero from "../../components/DevPageHero";
-import DesignSystemSidebar from "../../components/DesignSystemSidebar";
-import useDocumentMetadata from "../../hooks/useDocumentMetadata";
+import Button from "../../../components/Button";
+import Container from "../../../components/Container";
+import DevPageHero from "../../../components/DevPageHero";
+import DesignSystemSidebar from "../../../components/DesignSystemSidebar";
+import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
 
 const potentialPatterns = [
   { title: "Notice banner", label: "Availability", text: "A quiet announcement strip for availability, holidays, or important practice updates.", className: "design-language-pattern--notice" },

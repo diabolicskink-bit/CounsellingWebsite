@@ -11,15 +11,15 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
-import BroadTabPanel from "../../components/BroadTabPanel";
-import Button from "../../components/Button";
-import Container from "../../components/Container";
-import DevPageHero from "../../components/DevPageHero";
-import DesignSystemSidebar from "../../components/DesignSystemSidebar";
-import EnquiryForm from "../../components/EnquiryForm";
-import FaqSection from "../../components/FaqSection";
-import { enquiryEmail, enquiryFormContent } from "../../data/enquiry";
-import useDocumentMetadata from "../../hooks/useDocumentMetadata";
+import BroadTabPanel from "../../../components/BroadTabPanel";
+import Button from "../../../components/Button";
+import Container from "../../../components/Container";
+import DevPageHero from "../../../components/DevPageHero";
+import DesignSystemSidebar from "../../../components/DesignSystemSidebar";
+import EnquiryForm from "../../../components/EnquiryForm";
+import FaqSection from "../../../components/FaqSection";
+import { enquiryEmail, enquiryFormContent } from "../../../data/enquiry";
+import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
 
 const iconCards = [
   { icon: Sparkles, title: "Composed first impressions", description: "A restrained visual system with enough structure to feel confident, calm, and deliberate." },

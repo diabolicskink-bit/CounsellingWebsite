@@ -14,14 +14,14 @@ import { devRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/ro
 
 const devPages = import.meta.env.DEV
   ? {
-      CodexTB: lazy(() => import("./pages/CodexTB")),
-      DesignLanguage: lazy(() => import("./pages/DesignLanguage")),
-      Documents: lazy(() => import("./pages/Documents")),
-      DS_Components: lazy(() => import("./pages/design-system/DS_Components")),
-      DS_Foundations: lazy(() => import("./pages/design-system/DS_Foundations")),
-      DS_Heroes: lazy(() => import("./pages/design-system/DS_Heroes")),
-      DS_Patterns: lazy(() => import("./pages/design-system/DS_Patterns")),
-      OpusTB: lazy(() => import("./pages/OpusTB")),
+      CodexTB: lazy(() => import("./pages/dev/test-beds/CodexTB")),
+      DesignLanguage: lazy(() => import("./pages/dev/DesignLanguage")),
+      Documents: lazy(() => import("./pages/dev/Documents")),
+      DS_Components: lazy(() => import("./pages/dev/design-system/DS_Components")),
+      DS_Foundations: lazy(() => import("./pages/dev/design-system/DS_Foundations")),
+      DS_Heroes: lazy(() => import("./pages/dev/design-system/DS_Heroes")),
+      DS_Patterns: lazy(() => import("./pages/dev/design-system/DS_Patterns")),
+      OpusTB: lazy(() => import("./pages/dev/test-beds/OpusTB")),
     }
   : null;
 

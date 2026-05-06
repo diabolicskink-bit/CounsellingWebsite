@@ -102,13 +102,13 @@ Start with these shared building blocks before creating anything new. Use them w
 
 Use these pages as living examples of how shared patterns should look:
 
-- `src/pages/design-system/DS_Foundations.tsx`
+- `src/pages/dev/design-system/DS_Foundations.tsx`
   Tokens, typography, spacing, and baseline HTML treatment.
-- `src/pages/design-system/DS_Components.tsx`
+- `src/pages/dev/design-system/DS_Components.tsx`
   Reusable UI pieces such as buttons, cards, trust strips, and forms.
-- `src/pages/design-system/DS_Patterns.tsx`
+- `src/pages/dev/design-system/DS_Patterns.tsx`
   Reusable page-level composition patterns.
-- `src/pages/design-system/DS_Heroes.tsx`
+- `src/pages/dev/design-system/DS_Heroes.tsx`
   Hero variations and hero usage guidance.
 
 ## Reuse Rule

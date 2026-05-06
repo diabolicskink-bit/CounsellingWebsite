@@ -4,9 +4,9 @@ import remarkGfm from "remark-gfm";
 import { Link, useSearchParams } from "react-router-dom";
 import DocumentsSidebar, {
   type DocumentsSidebarGroup,
-} from "../components/DocumentsSidebar";
-import DevPageHero from "../components/DevPageHero";
-import useDocumentMetadata from "../hooks/useDocumentMetadata";
+} from "../../components/DocumentsSidebar";
+import DevPageHero from "../../components/DevPageHero";
+import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
 type DocumentCategory = "documentation" | "reports" | "plans";
 
@@ -39,7 +39,7 @@ const categoryMeta: Array<{
   },
 ];
 
-const markdownFiles = import.meta.glob("../../docs/**/*.md", {
+const markdownFiles = import.meta.glob("../../../docs/**/*.md", {
   eager: true,
   import: "default",
   query: "?raw",

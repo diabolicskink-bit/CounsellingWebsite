@@ -17,6 +17,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 - Shared `BroadTabPanel` exists with ARIA tab semantics, roving keyboard focus, responsive stacking, reduced-motion handling, and `site-broad-tabs*` styling.
 - Shared `EnquiryForm` exists with data-driven content, progressive enquiry choices, success/error states, direct submit behaviour, and `.site-form*` styling.
 - Shared `DevPageHero`, `DesignSystemSidebar`, and `DocumentsSidebar` exist for dev/design-system/documentation routes.
+- Dev-only page modules are grouped under `src/pages/dev/`, with rendered design-system pages in `src/pages/dev/design-system/` and test beds in `src/pages/dev/test-beds/`.
 - The active FAQ pattern exists as the `FaqSection` component and is demonstrated on the Components page.
 - The active CTA pattern exists as `.site-cta-block` and is demonstrated on the Patterns page.
 - The active trust-strip pattern exists as `.site-trust-list` and `.site-trust-list--highlight-last`.
@@ -68,9 +69,9 @@ This is the live inventory of the design system. Keep it factual and update it w
 - `ds-*` exists as docs/dev-page support styling, not as a production system and not as the preferred future architecture. Keep it narrow, docs-only, and only where the shared system should not be used.
 - `design-language-*` exists as older design-language/demo/reference styling and should not be expanded for new production work.
 - `legacy-*` CSS remnants exist in `src/styles.css` and should be treated as reference only.
-- `test-bed-*` classes and test-bed routes exist as archive/test-bed material and should not be copied into production pages.
+- The old `test-bed-*` shared CSS layer has been retired from `src/styles.css`; test-bed routes remain as dev-only clean shells and should not be copied into production pages.
 - The old `opus-*` hero/archive CSS layer has been retired from `src/styles.css`; the `/opus-tb` route remains as a clean dev test-bed shell with page-scoped styling.
-- `inc-lab-*` CSS remains in `src/styles.css` but no routed page usage was found during this pass; treat it as legacy or dead CSS unless a future task proves otherwise.
+- The old `inc-lab-*` experiment CSS layer has been retired from `src/styles.css` after no routed page usage was found; future inclusion experiments should use page-scoped styles or promoted `site-*` / `hero-*` patterns.
 - No active `site-hero-*` source usage was found during this pass. If it appears in old docs or branches, treat it as superseded by `hero-*`.
 - Old visual experiments should be promoted into `site-*`, `hero-*`, or shared components before production use.
 

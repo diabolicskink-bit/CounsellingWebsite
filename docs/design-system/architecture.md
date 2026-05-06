@@ -34,7 +34,7 @@ Use this hierarchy when deciding where design-system truth lives.
 2. `src/components/`
    Reusable React components used by production pages, including the site shell, buttons, layout wrappers, FAQ sections, and enquiry form.
 
-3. `src/pages/design-system/`
+3. `src/pages/dev/design-system/`
    Rendered design-system pages showing active foundations, components, heroes, and patterns.
 
 4. `docs/design-system/`
@@ -94,31 +94,31 @@ They should not:
 
 Current rendered design-system routes are under `/design-language/...`, even though the product concept is the design system.
 
-- Overview page: `src/pages/DesignLanguage.tsx`
+- Overview page: `src/pages/dev/DesignLanguage.tsx`
   Purpose: top-level route for the rendered design-system experience.
   Belongs there: links to the design-system sections and high-level usage principles.
   Status: active overview, but it still uses `ds-*` and `design-language-*` support classes.
   Gap: the route naming and some overview counts may need future audit if the rendered docs are renamed or expanded.
 
-- Foundations page: `src/pages/design-system/DS_Foundations.tsx`
+- Foundations page: `src/pages/dev/design-system/DS_Foundations.tsx`
   Purpose: active reference for tokens, base typography, spacing, section rhythm, surfaces, focus/link states, and rich-text HTML.
   Belongs there: token tables, type role specimens, foundational state rules, and baseline layout examples.
   Status: active, with `ds-*` documentation scaffolding.
   Gap: keep the token examples aligned with `src/styles.css` when tokens change.
 
-- Components page: `src/pages/design-system/DS_Components.tsx`
+- Components page: `src/pages/dev/design-system/DS_Components.tsx`
   Purpose: active reference for reusable UI pieces such as buttons, cards, trust strips, forms, footer, lists, stacks, and FAQ sections.
   Belongs there: production-safe shared components and `site-*` examples.
   Status: active, with `ds-*` demo wrappers.
   Gap: the sidebar lists the main sections but does not currently link every section shown on the page, such as Footer and FAQ accordion.
 
-- Heroes page: `src/pages/design-system/DS_Heroes.tsx`
+- Heroes page: `src/pages/dev/design-system/DS_Heroes.tsx`
   Purpose: active reference for the shared `hero-*` system.
   Belongs there: hero anatomy, display heading, intro/deck/copy-panel variants, support strips, media notes, background, and full hero composition.
   Status: active canonical hero reference.
   Gap: keep hero examples aligned with the active `hero-*` system when shared hero behaviour changes.
 
-- Patterns page: `src/pages/design-system/DS_Patterns.tsx`
+- Patterns page: `src/pages/dev/design-system/DS_Patterns.tsx`
   Purpose: page-level composition reference.
   Belongs there: active section patterns and clearly labelled candidate/reference patterns.
   Status: mixed. It contains active shared examples such as `site-split`, `site-copy-panel`, `site-cta-block`, `site-principles`, and `hero-*`, but also older `design-language-*` pattern demos.
