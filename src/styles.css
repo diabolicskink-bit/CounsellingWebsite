@@ -369,6 +369,7 @@ h3 {
 .header-button {
   padding: 0.66rem 0.92rem;
   font-size: var(--type-small);
+  white-space: nowrap;
 }
 
 .button {
@@ -2395,11 +2396,6 @@ h3 {
     color: var(--cedar);
   }
 
-  .mobile-nav__button {
-    justify-self: start;
-    margin-bottom: 12px;
-  }
-
   .split,
   .feature-panel,
   .feature-panel--compact,
@@ -2502,6 +2498,10 @@ h3 {
     width: 100%;
   }
 
+  .site-header .header-button {
+    width: auto;
+  }
+
   .site-cta-block__inner {
     gap: 20px;
   }
@@ -2518,6 +2518,30 @@ h3 {
     align-items: flex-start;
   }
 
+}
+
+@media (max-width: 430px) {
+  .site-header__inner {
+    gap: 8px;
+  }
+
+  .site-header__actions {
+    gap: 8px;
+  }
+
+  .header-button {
+    padding: 0.58rem 0.64rem;
+    font-size: 0.82rem;
+  }
+
+  .brand__name {
+    font-size: 1.18rem;
+  }
+
+  .menu-toggle {
+    width: 38px;
+    height: 38px;
+  }
 }
 
 @media (max-width: 640px) {

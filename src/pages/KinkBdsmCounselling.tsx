@@ -1,19 +1,13 @@
-import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import FaqSection from "../components/FaqSection";
 import FaqSchema from "../components/FaqSchema";
 import { getRouteMetadata } from "../data/routeMetadata";
+import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-kink-bdsm.css";
 
 type PrimaryAction = {
-  label: string;
-  href: string;
-};
-
-type TextLink = {
   label: string;
   href: string;
 };
@@ -41,9 +35,6 @@ type KinkPageContent = {
     title: string;
     intro: string;
     primaryAction: PrimaryAction;
-    secondaryAction: TextLink;
-    noteEyebrow: string;
-    noteItems: string[];
   };
   panelSection: {
     knowledgeSection: {
@@ -67,30 +58,20 @@ const kinkPageContent: KinkPageContent = {
   meta: kinkMetadata.description,
   hero: {
     eyebrow: "Kink & BDSM-aware counselling",
-    title: "Kink & BDSM-aware counselling",
+    title: "Therapy where kink doesn't need a preamble.",
     intro:
       "Ordinary therapy where kink will not be mishandled. You will not have to explain it, hide it, or watch it take over the conversation. What you came for doesn't get lost.",
     primaryAction: {
       label: "Make an enquiry",
-      href: "/contact",
+      href: routeHref(publicRoutePaths.contact),
     },
-    secondaryAction: {
-      label: "Back to inclusion hub",
-      href: "/inclusion",
-    },
-    noteEyebrow: "What this changes",
-    noteItems: [
-      "No need for a kink-specific problem.",
-      "No need to explain the basics.",
-      "No need for the real issue to get lost.",
-    ],
   },
   panelSection: {
     knowledgeSection: {
       prose: {
         title: "No translation needed.",
         body: [
-          "This world is known here. Not read about. Lived in. The dynamics, the language, the things that do not survive translation to people outside it: none of it needs a preamble.",
+          "This world is known here. Not read about. Lived in. The dynamics, the language, the things that do not survive translation to people outside it. It can be said without setup.",
           "You won't be anyone's education. You won't spend the first session building context. However long you've been carrying this alone, it can come into the room as it is.",
         ],
       },
@@ -118,14 +99,14 @@ const kinkPageContent: KinkPageContent = {
     },
     closingRow: [
       {
-        title: "Carried alone.",
+        title: "What goes unspoken.",
         body: [
           "Drop. The kind that follows a scene, whichever side of it you were on. Shame, a dynamic that stopped feeling okay. Something that crossed a line, or that you're not sure crossed a line. A disclosure that didn't land well. A desire that has lived privately for years and never been put down anywhere.",
           "None of it needs to be resolved before it comes here. It can arrive as it is, as complicated as it actually is, without the conversation becoming about managing someone else's reaction to it.",
         ],
       },
       {
-        title: "And everything else.",
+        title: "More than kink.",
         body: [
           "Kink being known here does not make it the subject. You might be coming for anxiety, grief, relationships, work, or something you have not named yet. Whatever brought you here, you will not have to manage this practice's relationship with kink while you deal with the real reason.",
         ],
@@ -171,32 +152,19 @@ export default function KinkBdsmCounselling() {
       <FaqSchema faqs={faqSection.items} />
 
       <section className="hero-section hero-bg--default kink-page__hero">
-        <Container className="kink-page__hero-inner">
+        <Container>
           <div className="kink-page__hero-main">
             <div className="kink-page__hero-copy">
               <h1 className="hero-badge">{hero.eyebrow}</h1>
               <h2 className="hero-display">{hero.title}</h2>
-              <p className="hero-intro kink-page__hero-intro">{hero.intro}</p>
 
-              <div className="kink-page__hero-actions">
-                <Button href={hero.primaryAction.href}>{hero.primaryAction.label}</Button>
-                <Link className="site-text-link kink-page__hero-text-link" to={hero.secondaryAction.href}>
-                  {hero.secondaryAction.label} <ArrowRight size={16} />
-                </Link>
+              <div className="hero-copy-panel kink-page__hero-support">
+                <p>{hero.intro}</p>
+                <div className="site-actions kink-page__hero-actions">
+                  <Button href={hero.primaryAction.href}>{hero.primaryAction.label}</Button>
+                </div>
               </div>
-
             </div>
-
-            <aside className="kink-page__hero-note" aria-label="What this changes">
-              <p className="kink-page__hero-note-eyebrow">{hero.noteEyebrow}</p>
-              <div className="kink-page__hero-note-list">
-                {hero.noteItems.map((item) => (
-                  <p className="kink-page__hero-note-item" key={item}>
-                    {item}
-                  </p>
-                ))}
-              </div>
-            </aside>
           </div>
         </Container>
       </section>

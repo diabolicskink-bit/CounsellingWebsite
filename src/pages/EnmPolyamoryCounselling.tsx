@@ -8,7 +8,6 @@ import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-enm-polyamory.css";
 
-type BreadcrumbItem = { label: string; href?: string };
 type LinkItem = { label: string; href: string };
 type GapItem = { title: string; copy: string };
 type TopicItem = { title: string; copy: string };
@@ -22,23 +21,14 @@ const pageContent = {
   meta: pageMetadata.description,
 
   hero: {
-    breadcrumb: [
-      { label: "Home", href: "/" },
-      { label: "Inclusive practice", href: "/inclusion" },
-      { label: "ENM & polyamory" },
-    ] satisfies BreadcrumbItem[],
     badge: "ENM & polyamory counselling",
-    heading: "Counselling for people in polyamory and ENM",
     intro:
-      "For adults in consensual non-monogamy who want therapy without first justifying how their relationships work. Your relationship structure is context. Not the patient.",
-    primaryAction: { label: "Make an enquiry", href: "/contact" },
-    secondaryAction: { label: "Inclusive practice hub", href: "/inclusion" } satisfies LinkItem,
-    trustItems: ["Individual sessions", "Online across Australia", "Psychodynamic approach"],
-    commitments: [
-      "No default assumption that monogamy is healthier.",
-      "No session time spent teaching basic CNM literacy.",
-      "No steering toward closing or restructuring.",
-    ],
+      "These relationships are known here. Not just the structures. There is no implicit goal of simplification. Jealousy is not treated as evidence that the structure is failing. Whatever you are carrying within these relationships, it can come here. The weight of it, taken seriously.",
+    hubAside: {
+      label: "Wider context",
+      copy: "If ENM is only one part of why this page felt relevant, the inclusion hub keeps the wider context in view: kink, LGBTQIA+ lives, shame, family, community overlap, and the parts that do not sit neatly under one label.",
+      link: { label: "Back to inclusion hub", href: "/inclusion" } satisfies LinkItem,
+    },
   },
 
   gapSection: {
@@ -196,50 +186,26 @@ export default function EnmPolyamoryCounselling() {
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="hero-section hero-bg--default enm-page__hero">
         <Container className="enm-page__hero-inner">
-          <nav className="breadcrumb enm-page__breadcrumb" aria-label="Breadcrumb">
-            {hero.breadcrumb.map((item) =>
-              item.href ? (
-                <Link key={item.label} to={item.href}>{item.label}</Link>
-              ) : (
-                <span key={item.label}>{item.label}</span>
-              ),
-            )}
-          </nav>
-
           <div className="hero-top enm-page__hero-top">
             <div className="enm-page__hero-heading">
               <h1 className="hero-badge">{hero.badge}</h1>
-              <h2 className="hero-display">{hero.heading}</h2>
-              <ul className="site-trust-list" aria-label="Practice details">
-                {hero.trustItems.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="hero-copy-panel enm-page__hero-copy">
-              <p>{hero.intro}</p>
-              <div className="site-actions">
-                <Button href={hero.primaryAction.href}>
-                  {hero.primaryAction.label} <ArrowRight size={16} />
-                </Button>
-                <Link className="site-text-link" to={hero.secondaryAction.href}>
-                  {hero.secondaryAction.label}
-                </Link>
+              <h2 className="hero-display">
+                <span className="enm-page__hero-line">Your <em>relationships</em>.</span>
+                <span className="enm-page__hero-line">Your <em>people</em>.</span>
+                <span className="enm-page__hero-line">Taken <em>seriously</em>.</span>
+              </h2>
+              <div className="hero-copy-panel enm-page__hero-copy">
+                <p>{hero.intro}</p>
               </div>
             </div>
-          </div>
 
-          <div
-            className="enm-page__commitment-strip"
-            role="list"
-            aria-label="What is different about this practice"
-          >
-            {hero.commitments.map((item) => (
-              <div className="enm-page__commitment-item" role="listitem" key={item}>
-                {item}
-              </div>
-            ))}
+            <aside className="enm-page__hub-aside" aria-label="Inclusion hub">
+              <span className="site-eyebrow">{hero.hubAside.label}</span>
+              <p>{hero.hubAside.copy}</p>
+              <Link className="site-text-link enm-page__hub-link" to={hero.hubAside.link.href}>
+                {hero.hubAside.link.label}
+              </Link>
+            </aside>
           </div>
         </Container>
       </section>

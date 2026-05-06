@@ -3,39 +3,8 @@
    ══════════════════════════════════════════════════════════════════════ */
 
 .enm-page {
-  --hero-display-max-width: 15ch;
+  --hero-display-max-width: 16ch;
   background: var(--paper);
-}
-
-/* ── Breadcrumb ──────────────────────────────────────────────────────── */
-
-.enm-page__breadcrumb {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  color: var(--faint);
-  font-size: 0.9rem;
-  font-weight: 650;
-  line-height: 1.35;
-}
-
-.enm-page__breadcrumb a {
-  color: var(--cedar);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-  transition: color 160ms ease;
-}
-
-.enm-page__breadcrumb a:hover {
-  color: var(--cedar-dark);
-}
-
-.enm-page__breadcrumb a::after {
-  margin-left: 8px;
-  color: var(--faint);
-  text-decoration: none;
-  content: "/";
 }
 
 /* ── Hero ────────────────────────────────────────────────────────────── */
@@ -46,10 +15,9 @@
 }
 
 .enm-page__hero-top {
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.62fr);
-  gap: clamp(2.5rem, 5vw, 5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
+  gap: clamp(2.25rem, 5vw, 5.75rem);
   align-items: start;
-  padding-bottom: 32px;
 }
 
 .enm-page__hero-heading {
@@ -62,31 +30,34 @@
   margin-bottom: 0;
 }
 
+.enm-page__hero-line {
+  display: block;
+}
+
 .enm-page__hero-copy {
   display: grid;
   gap: 22px;
   align-content: start;
+  max-width: 62rem;
   padding-top: 4px;
 }
 
-/* ── Commitment strip ────────────────────────────────────────────────── */
-
-.enm-page__commitment-strip {
+.enm-page__hub-aside {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid rgba(35, 75, 61, 0.18);
+  gap: 14px;
+  align-self: end;
+  max-width: 370px;
+  padding-block: 18px 2px;
+  border-top: 1px solid rgba(35, 75, 61, 0.28);
 }
 
-.enm-page__commitment-item {
-  padding: 18px 20px;
-  color: var(--ink);
-  font-size: var(--type-small);
-  font-weight: 660;
-  line-height: 1.44;
+.enm-page__hub-aside p {
+  margin: 0;
 }
 
-.enm-page__commitment-item + .enm-page__commitment-item {
-  border-left: 1px solid rgba(35, 75, 61, 0.14);
+.enm-page__hub-link {
+  justify-self: start;
+  margin-top: 2px;
 }
 
 /* ── Gap section ─────────────────────────────────────────────────────── */
@@ -307,13 +278,10 @@
     gap: 24px;
   }
 
-  .enm-page__commitment-strip {
-    grid-template-columns: 1fr;
-  }
-
-  .enm-page__commitment-item + .enm-page__commitment-item {
-    border-left: 0;
-    border-top: 1px solid rgba(35, 75, 61, 0.14);
+  .enm-page__hub-aside {
+    align-self: start;
+    max-width: 56rem;
+    margin-top: 4px;
   }
 
   .enm-page__gap-grid {
@@ -363,14 +331,6 @@
 }
 
 @media (max-width: 640px) {
-  .enm-page__hero-top {
-    padding-bottom: 24px;
-  }
-
-  .enm-page__commitment-item {
-    padding: 14px 0;
-  }
-
   .enm-page__gap-card {
     padding: 22px 20px;
   }

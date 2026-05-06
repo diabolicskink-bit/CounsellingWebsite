@@ -1,28 +1,31 @@
 .kink-page {
   background: var(--paper);
-  --hero-display-max-width: 10ch;
-}
-
-.kink-page__hero-inner {
-  display: grid;
-  gap: 30px;
+  --hero-display-max-width: 22ch;
 }
 
 .kink-page__hero-main {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
-  gap: 56px;
   align-items: start;
+  min-width: 0;
+}
+
+.kink-page__hero-main > * {
+  min-width: 0;
 }
 
 .kink-page__hero-copy {
   display: grid;
-  gap: 16px;
+  align-content: start;
   min-width: 0;
 }
 
-.kink-page__hero-intro {
-  max-width: 39rem;
+.kink-page__hero-support {
+  gap: 20px;
+  max-width: 54rem;
+}
+
+.kink-page__hero-support > p {
+  text-wrap: balance;
 }
 
 .kink-page__hero-actions {
@@ -31,55 +34,6 @@
   gap: 12px;
   align-items: center;
   padding-top: 10px;
-}
-
-.kink-page__hero-text-link {
-  font-size: 1rem;
-}
-
-.kink-page__hero-note {
-  display: grid;
-  gap: 18px;
-  align-content: start;
-  padding: 0;
-  border-top: 1px solid rgba(35, 75, 61, 0.18);
-  border-bottom: 1px solid rgba(35, 75, 61, 0.18);
-}
-
-.kink-page__hero-note-eyebrow {
-  margin: 0;
-  color: var(--cedar);
-  font-size: 0.77rem;
-  font-weight: 740;
-  letter-spacing: 0.07em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.kink-page__hero-note-list {
-  display: grid;
-  gap: 0;
-}
-
-.kink-page__hero-note-item {
-  margin: 0;
-  padding: 16px 0;
-  color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.55rem, 2.1vw, 2rem);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
-  border-top: 1px solid rgba(35, 75, 61, 0.12);
-}
-
-.kink-page__hero-note-item:first-child {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.kink-page__hero-note-item:last-child {
-  padding-bottom: 18px;
 }
 
 .kink-page__knowledge-section {
@@ -285,15 +239,6 @@
 }
 
 @media (max-width: 980px) {
-  .kink-page__hero-main {
-    grid-template-columns: 1fr;
-    gap: 34px;
-  }
-
-  .kink-page__hero-note {
-    max-width: 34rem;
-  }
-
   .kink-page__knowledge-grid,
   .kink-page__closing-split {
     grid-template-columns: 1fr;
@@ -307,16 +252,12 @@
 }
 
 @media (max-width: 640px) {
-  .kink-page__hero-inner {
-    gap: 24px;
+  .kink-page {
+    --hero-display-max-width: 100%;
   }
 
   .kink-page__hero-actions {
     align-items: flex-start;
-  }
-
-  .kink-page__hero-note-item {
-    font-size: clamp(1.34rem, 6vw, 1.72rem);
   }
 
   .kink-page__knowledge-section {

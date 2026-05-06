@@ -116,13 +116,12 @@ export default function Layout() {
                 );
               })}
             </nav>
-
-            <Button href="/contact" className="header-button">
-              Get in touch
-            </Button>
           </div>
 
           <div className="site-header__actions">
+            <Button href="/contact" className="header-button" onClick={closeMenu}>
+              Get in touch
+            </Button>
             <button
               aria-controls="mobile-navigation"
               aria-expanded={isOpen}
@@ -138,9 +137,6 @@ export default function Layout() {
 
         {isOpen ? (
           <nav className="mobile-nav" id="mobile-navigation" aria-label="Mobile navigation">
-            <Button href="/contact" className="mobile-nav__button" onClick={closeMenu}>
-              Get in touch
-            </Button>
             {headerNavItems.map((item) => (
               <div key={item.href ?? item.label}>
                 <NavLink

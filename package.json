@@ -15,6 +15,7 @@
     "audit:lighthouse:run": "node scripts/run-lighthouse.mjs http://127.0.0.1:4287"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "lucide-react": "^0.468.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
