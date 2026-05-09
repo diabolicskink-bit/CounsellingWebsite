@@ -60,6 +60,47 @@
   margin-top: 2px;
 }
 
+.enm-page__positions-inner {
+  display: grid;
+  gap: clamp(1.8rem, 4vw, 3rem);
+}
+
+.enm-page__positions-heading {
+  max-width: none;
+}
+
+.enm-page__position-list {
+  display: grid;
+}
+
+.enm-page__position-block {
+  display: grid;
+  grid-template-columns: minmax(0, 0.3fr) minmax(0, 0.7fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  padding-block: 24px;
+  border-bottom: 1px solid rgba(35, 75, 61, 0.16);
+}
+
+.enm-page__position-block:first-child {
+  padding-top: 0;
+}
+
+.enm-page__position-block:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.enm-page__position-block h3 {
+  color: var(--ink);
+  font-size: var(--type-card-title);
+  line-height: var(--leading-card);
+}
+
+.enm-page__position-block p {
+  margin: 0;
+}
+
 /* ── Gap section ─────────────────────────────────────────────────────── */
 
 .enm-page__gap-inner {
@@ -309,6 +350,16 @@
 }
 
 @media (max-width: 700px) {
+  .enm-page__position-block {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-block: 20px;
+  }
+
+  .enm-page__position-block h3 {
+    max-width: none;
+  }
+
   .enm-page__topics-list {
     grid-template-columns: 1fr;
   }

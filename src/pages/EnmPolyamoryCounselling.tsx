@@ -9,6 +9,7 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-enm-polyamory.css";
 
 type LinkItem = { label: string; href: string };
+type PositionItem = { label: string; prose: string };
 type GapItem = { title: string; copy: string };
 type TopicItem = { title: string; copy: string };
 type PrincipleItem = { title: string; text: string };
@@ -23,12 +24,43 @@ const pageContent = {
   hero: {
     badge: "ENM & polyamory counselling",
     intro:
-      "These relationships are known here. Not just the structures. There is no implicit goal of simplification. Jealousy is not treated as evidence that the structure is failing. Whatever you are carrying within these relationships, it can come here. The weight of it, taken seriously.",
+      "These relationships are known here. What it actually feels like to live inside them. There is no implicit goal of simplification. Jealousy is not treated as evidence that your relationships are the problem. Whatever you are carrying within these relationships, it can come here. The weight of it, taken seriously.",
     hubAside: {
       label: "Wider context",
       copy: "If ENM is only one part of why this page felt relevant, the inclusion hub keeps the wider context in view: kink, LGBTQIA+ lives, shame, family, community overlap, and the parts that do not sit neatly under one label.",
       link: { label: "Back to inclusion hub", href: "/inclusion" } satisfies LinkItem,
     },
+  },
+
+  positionsSection: {
+    heading: "Wherever you are in this.",
+    items: [
+      {
+        label: "When the ground shifts.",
+        prose:
+          "The relationship you thought you were in has become uncertain. Whether you brought this question into the relationship or it arrived with your partner, the usual scripts don't fit. What you haven't been able to say yet belongs here too. This can be the place to find out what you actually think and feel, without the answer being decided before you arrive.",
+      },
+      {
+        label: "Jealousy, insecurity, the gap.",
+        prose:
+          "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Integer posuere erat a ante venenatis dapibus.",
+      },
+      {
+        label: "Running the middle.",
+        prose:
+          "Donec ullamcorper nulla non metus auctor fringilla. Curabitur blandit tempus porttitor, mauris condimentum.",
+      },
+      {
+        label: "When the needs don't match.",
+        prose:
+          "Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper.",
+      },
+      {
+        label: "Not knowing yet.",
+        prose:
+          "Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas faucibus mollis interdum.",
+      },
+    ] satisfies PositionItem[],
   },
 
   gapSection: {
@@ -176,8 +208,16 @@ const pageContent = {
 
 export default function EnmPolyamoryCounselling() {
   useDocumentMetadata(pageContent.title, pageContent.meta);
-  const { hero, gapSection, topicsSection, approachSection, individualSection, faqSection, ctaSection } =
-    pageContent;
+  const {
+    hero,
+    positionsSection,
+    gapSection,
+    topicsSection,
+    approachSection,
+    individualSection,
+    faqSection,
+    ctaSection,
+  } = pageContent;
 
   return (
     <main className="site-page enm-page">
@@ -206,6 +246,20 @@ export default function EnmPolyamoryCounselling() {
                 {hero.hubAside.link.label}
               </Link>
             </aside>
+          </div>
+        </Container>
+      </section>
+
+      <section className="site-grid enm-page__positions">
+        <Container className="enm-page__positions-inner">
+          <h2 className="enm-page__positions-heading">{positionsSection.heading}</h2>
+          <div className="enm-page__position-list" aria-label="Common positions in ENM relationships">
+            {positionsSection.items.map((item) => (
+              <article className="enm-page__position-block" key={item.label}>
+                <h3>{item.label}</h3>
+                <p>{item.prose}</p>
+              </article>
+            ))}
           </div>
         </Container>
       </section>
