@@ -6,11 +6,11 @@ Use `../project/project-debt.md` for stable `DEBT-*` tracking. This file gives d
 
 ## Card Boundary
 
-Status: instruction-level boundary resolved; source cleanup still open.
+Status: instruction-level boundary and source cleanup resolved.
 
 - Active card API: `.site-card`, `.site-card--link`, `.site-card__*`, `.site-topic-card`, `.site-fee-card`, and deliberate page-scoped classes.
-- Legacy cleanup targets: `src/components/Card.tsx`, `.card`, `.card-grid`, `.card-kicker`, and old card-adjacent selectors.
-- Related debt: `DEBT-17`, with broader context in `DEBT-13`.
+- Removed source: `src/components/Card.tsx`, generic `.card`, `.card-grid`, `.card-kicker`, and the card-specific responsive hooks were removed while preserving the active `site-*` card system.
+- Related debt: archived `DEBT-17`, with broader remaining legacy CSS context in `DEBT-13`.
 
 ## Legacy CSS Layers
 

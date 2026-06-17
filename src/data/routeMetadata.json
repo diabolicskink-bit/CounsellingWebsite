@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "Vive Counselling",
-    "defaultOrigin": "http://127.0.0.1:4287",
+    "defaultOrigin": "https://counselling-website-seven.vercel.app",
     "themeColor": "#234b3d",
     "backgroundColor": "#f7f6f2",
     "socialImage": "/og-vive-counselling.png",

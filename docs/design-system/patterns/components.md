@@ -27,8 +27,8 @@ This catalogue lists active React components and component-backed API. A file ex
 
 ## Legacy Component Boundary
 
-- `src/components/Card.tsx` is not active card API for new work.
-- `.card`, `.card-grid`, `.card-kicker`, and old card-adjacent selectors are legacy cleanup targets.
+- The old `src/components/Card.tsx` component has been removed and is not active card API for new work.
+- Generic `.card`, `.card-grid`, and `.card-kicker` production selectors have been removed. Do not reintroduce them as compatibility aliases.
 - New card-like production UI should use active `site-*` card patterns or a page-scoped composition when the need is specific.
 
 ## Component Selection Rules

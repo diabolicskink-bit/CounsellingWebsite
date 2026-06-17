@@ -12,6 +12,7 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 
 ## Working Rules
 
+- Default collaboration preference: ask as many clarifying questions as are genuinely useful before planning or implementing; do not artificially limit the count to one. Keep questions concise, grouped, and focused on details that would change the work.
 - Treat trackers as memory and triage, not permission to implement unrelated scope.
 - Keep project scope and design-system scope separate.
 - For UI work, use active design-system guidance before treating source files, rendered examples, or old classes as reusable API.

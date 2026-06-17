@@ -97,6 +97,8 @@ const principleSamples = [
   { title: "Recurring difficulties", text: "Repeated themes need room for explanation without making the page feel dense or clinical." },
 ];
 
+const demoPortraitSrc = "/joel-griffiths-homepage-portrait.jpg";
+
 // AI maintainers: this page documents page-level composition. If a production
 // page repeats a layout such as split copy, principles, FAQ beside a heading,
 // or a single-column hero, document it here and use shared site-* classes.
@@ -231,7 +233,7 @@ export default function DS_Patterns() {
 
             <div className="design-language-media-grid">
               <div className="design-language-portrait-card">
-                <img src="/joel-griffiths-portrait-temp.svg" alt="" />
+                <img src={demoPortraitSrc} alt="" />
                 <div>
                   <strong>Portrait or image panel</strong>
                   <span>Use for practitioner images, article visuals, or grounded supporting context.</span>
@@ -269,7 +271,7 @@ export default function DS_Patterns() {
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
-              <strong>Portrait card</strong> — For the practitioner image and name. Keep the image placeholder until a real photo exists.<br />
+              <strong>Portrait card</strong> - For the practitioner image and name. Use a real project portrait when the treatment is demonstrating practitioner imagery.<br />
               <strong>Note panel</strong> — For reflective or first-person copy that should feel less formal than a card.<br />
               <strong>Principle blocks</strong> — For grouped values or stance statements. Three items is the right number.
             </div>

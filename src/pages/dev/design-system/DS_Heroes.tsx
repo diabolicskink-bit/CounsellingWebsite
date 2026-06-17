@@ -11,7 +11,7 @@ const demoTaglineItems = [
   "Kink-, ENM-, and LGBTQIA+-aware",
 ];
 
-const demoPortraitSrc = "/joel-griffiths-portrait-temp.svg";
+const demoPortraitSrc = "/joel-griffiths-homepage-portrait.jpg";
 
 const demoPrinciples = [
   {

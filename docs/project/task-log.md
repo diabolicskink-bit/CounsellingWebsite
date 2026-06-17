@@ -16,6 +16,24 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-06-17 - DEBT-6 Production URL And 404 Fallback Resolved
+
+- Changed: Build-time route metadata now defaults to `https://counselling-website-seven.vercel.app`, keeps `SITE_URL` as the future custom-domain override, and prevents production builds from using localhost or unique deployment URLs as canonicals.
+- Changed: The prerender step now generates an app-powered noindex `404.html` fallback while preserving route-specific first-response metadata for known public routes.
+- Closed: Archived `DEBT-6`; live Vercel post-deploy smoke testing remains open as `DEBT-24`.
+
+## 2026-06-17 - DEBT-3 Enquiry Request-Shape Hardening Resolved
+
+- Changed: Enquiry submissions now pass through a pre-parse request-shape guard that blocks unsupported content types, multipart posts, oversized declared bodies, and explicit cross-site fetch/origin/referer signals before validation or email delivery.
+- Preserved: Valid JSON fetch submissions and endpoint-level URL-encoded native form posts still work, with blocked requests using the generic `DEBT-5` public error contract.
+- Closed: Archived `DEBT-3`; Vercel Firewall rate limiting remains open under `DEBT-23`.
+
+## 2026-06-17 - DEBT-17 Legacy Card Source Removed
+
+- Changed: Removed unused `src/components/Card.tsx` plus dead generic `.card`, `.card-grid`, `.card-kicker`, and card-specific responsive CSS.
+- Preserved: Active `.site-card*`, `.site-topic-card`, and `.site-fee-card` patterns remain the documented card API.
+- Closed: Archived `DEBT-17`; broader legacy panel/strip and issue/topic selector work remains tracked separately.
+
 ## 2026-06-17 - DEBT-5 Safe Enquiry Error Contract Resolved
 
 - Changed: Enquiry API failures now return generic visitor-safe public errors while provider, configuration, and runtime diagnostics stay in server logs.

@@ -39,7 +39,7 @@ Use this order when design-system sources disagree:
 - `ds-*` is docs/dev support styling and should stay out of production pages.
 - `design-language-*` is older rendered-doc/demo styling and is not production-safe by default.
 - `legacy-*`, `test-bed-*`, `opus-*`, `inc-lab-*`, and superseded `site-hero-*` are reference or retired layers.
-- `src/components/Card.tsx`, `.card`, `.card-grid`, `.card-kicker`, and old card-adjacent selectors are legacy cleanup targets, not active card API.
+- The old `src/components/Card.tsx`, `.card`, `.card-grid`, and `.card-kicker` path has been removed. Do not reintroduce it as card API.
 
 Useful legacy ideas can be promoted, but the idea must be rebuilt into the active `site-*`, `hero-*`, or component layer and documented before production use.
 

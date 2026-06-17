@@ -6,6 +6,7 @@ const deliveryEnvKeys = ["RESEND_API_KEY", "ENQUIRY_FROM_EMAIL", "ENQUIRY_TO_EMA
 const originalEnv = Object.fromEntries(deliveryEnvKeys.map((key) => [key, process.env[key]]));
 const originalFetch = globalThis.fetch;
 const originalConsoleError = console.error;
+const originalConsoleWarn = console.warn;
 const publicFailureMessage = "Sorry, the enquiry could not be sent. Please email diabolicskink@gmail.com directly.";
 
 afterEach(() => {
@@ -19,6 +20,7 @@ afterEach(() => {
 
   globalThis.fetch = originalFetch;
   console.error = originalConsoleError;
+  console.warn = originalConsoleWarn;
 });
 
 function setDeliveryEnv() {
@@ -63,10 +65,11 @@ function createResponse() {
 
 async function invokeHandler(body, options = {}) {
   const { response, result } = createResponse();
+  const headers = options.headers === undefined ? jsonHeaders() : options.headers;
   const returned = await handler(
     {
       body,
-      headers: options.headers,
+      headers,
       method: options.method ?? "POST",
     },
     response,
@@ -129,12 +132,51 @@ function mockConsoleError() {
   return calls;
 }
 
+function mockConsoleWarn() {
+  const calls = [];
+
+  console.warn = (...args) => {
+    calls.push(args);
+  };
+
+  return calls;
+}
+
+function jsonHeaders(headers = {}) {
+  return {
+    "content-type": "application/json",
+    ...headers,
+  };
+}
+
 function encodeForm(fields) {
   return new URLSearchParams(fields).toString();
 }
 
 function assertNoPublicDetails(result) {
   assert.equal(Object.hasOwn(result.body, "details"), false);
+}
+
+function validGeneralPayload(overrides = {}) {
+  return {
+    email: "alex@example.com",
+    enquiryType: "general",
+    message: "I would like to ask a question.",
+    name: "Alex Person",
+    website: "",
+    ...overrides,
+  };
+}
+
+function assertBlockedWithoutDelivery(result, fetchCalled, consoleWarnings, { reason, status }) {
+  const warningText = JSON.stringify(consoleWarnings);
+
+  assert.equal(result.statusCode, status);
+  assert.equal(result.body.error, publicFailureMessage);
+  assertNoPublicDetails(result);
+  assert.equal(fetchCalled, false);
+  assert.match(warningText, new RegExp(reason));
+  assert.doesNotMatch(warningText, /I would like to ask a question|secret body|alex@example\.com|Alex Person/);
 }
 
 test("accepts a structured general enquiry and builds the Resend email server-side", async () => {
@@ -228,6 +270,173 @@ test("accepts a structured consult booking payload", async () => {
   assert.match(email.text, /Timezone: AWST \(WA\)/);
   assert.match(email.html, /Consult Enquiry/);
   assert.match(email.html, /Thursday morning/);
+});
+
+test("accepts a valid JSON submission when origin, referer, and fetch-site headers are absent", async () => {
+  setDeliveryEnv();
+  const fetchCalls = mockResendSuccess();
+
+  const result = await invokeHandler(validGeneralPayload());
+
+  assert.equal(result.statusCode, 200);
+  assert.deepEqual(result.body, { ok: true });
+  assert.equal(fetchCalls.length, 1);
+});
+
+test("rejects a missing content type safely before delivery", async () => {
+  setDeliveryEnv();
+  const consoleWarnings = mockConsoleWarn();
+  let fetchCalled = false;
+  globalThis.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("fetch should not be called for blocked request shapes");
+  };
+
+  const result = await invokeHandler(validGeneralPayload(), { headers: {} });
+
+  assertBlockedWithoutDelivery(result, fetchCalled, consoleWarnings, {
+    reason: "unsupported_content_type",
+    status: 415,
+  });
+});
+
+test("rejects an unsupported content type safely before delivery", async () => {
+  setDeliveryEnv();
+  const consoleWarnings = mockConsoleWarn();
+  let fetchCalled = false;
+  globalThis.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("fetch should not be called for blocked request shapes");
+  };
+
+  const result = await invokeHandler("secret body", {
+    headers: {
+      "content-type": "text/plain",
+    },
+  });
+
+  assertBlockedWithoutDelivery(result, fetchCalled, consoleWarnings, {
+    reason: "unsupported_content_type",
+    status: 415,
+  });
+});
+
+test("rejects multipart form submissions with a safe HTML failure page", async () => {
+  setDeliveryEnv();
+  const consoleWarnings = mockConsoleWarn();
+  let fetchCalled = false;
+  globalThis.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("fetch should not be called for multipart submissions");
+  };
+
+  const result = await invokeHandler("secret body", {
+    headers: {
+      accept: "text/html",
+      "content-type": "multipart/form-data; boundary=abc123",
+    },
+  });
+  const warningText = JSON.stringify(consoleWarnings);
+
+  assert.equal(result.statusCode, 415);
+  assert.equal(result.headers["content-type"], "text/html; charset=utf-8");
+  assert.equal(typeof result.body, "string");
+  assert.match(result.body, /The enquiry could not be sent\./);
+  assert.match(result.body, /diabolicskink@gmail\.com/);
+  assert.doesNotMatch(result.body, /multipart|unsupported_content_type|secret body/);
+  assert.equal(fetchCalled, false);
+  assert.match(warningText, /unsupported_content_type/);
+  assert.doesNotMatch(warningText, /secret body/);
+});
+
+test("rejects an oversized declared body safely before delivery", async () => {
+  setDeliveryEnv();
+  const consoleWarnings = mockConsoleWarn();
+  let fetchCalled = false;
+  globalThis.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("fetch should not be called for oversized submissions");
+  };
+
+  const result = await invokeHandler(validGeneralPayload(), {
+    headers: jsonHeaders({
+      "content-length": "25601",
+    }),
+  });
+
+  assertBlockedWithoutDelivery(result, fetchCalled, consoleWarnings, {
+    reason: "body_too_large",
+    status: 413,
+  });
+});
+
+test("rejects an explicit cross-site fetch-site signal safely before delivery", async () => {
+  setDeliveryEnv();
+  const consoleWarnings = mockConsoleWarn();
+  let fetchCalled = false;
+  globalThis.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("fetch should not be called for cross-site submissions");
+  };
+
+  const result = await invokeHandler(validGeneralPayload(), {
+    headers: jsonHeaders({
+      "sec-fetch-site": "cross-site",
+    }),
+  });
+
+  assertBlockedWithoutDelivery(result, fetchCalled, consoleWarnings, {
+    reason: "cross_site_fetch_site",
+    status: 403,
+  });
+});
+
+test("rejects a mismatched origin safely before delivery", async () => {
+  setDeliveryEnv();
+  const consoleWarnings = mockConsoleWarn();
+  let fetchCalled = false;
+  globalThis.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("fetch should not be called for mismatched origins");
+  };
+
+  const result = await invokeHandler(validGeneralPayload(), {
+    headers: jsonHeaders({
+      host: "vivecounselling.com",
+      origin: "https://attacker.example",
+      "x-forwarded-proto": "https",
+    }),
+  });
+
+  assertBlockedWithoutDelivery(result, fetchCalled, consoleWarnings, {
+    reason: "mismatched_origin",
+    status: 403,
+  });
+});
+
+test("rejects a mismatched referer when origin is absent safely before delivery", async () => {
+  setDeliveryEnv();
+  const consoleWarnings = mockConsoleWarn();
+  let fetchCalled = false;
+  globalThis.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("fetch should not be called for mismatched referers");
+  };
+
+  const result = await invokeHandler(validGeneralPayload(), {
+    headers: jsonHeaders({
+      host: "vivecounselling.com",
+      referer: "https://attacker.example/secret-body",
+      "x-forwarded-proto": "https",
+    }),
+  });
+  const warningText = JSON.stringify(consoleWarnings);
+
+  assertBlockedWithoutDelivery(result, fetchCalled, consoleWarnings, {
+    reason: "mismatched_referer",
+    status: 403,
+  });
+  assert.doesNotMatch(warningText, /secret-body/);
 });
 
 test("short-circuits honeypot submissions without sending email", async () => {

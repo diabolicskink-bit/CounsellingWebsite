@@ -38,6 +38,8 @@ const expectedPublicH1Text: Record<(typeof publicRoutes)[number], string> = {
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
+const uniqueDeploymentOriginPattern =
+  /counselling-website-[a-z0-9]{8,}-diabolicskink-7990s-projects\.vercel\.app/i;
 
 function escapeHtml(value: string) {
   return value
@@ -49,6 +51,12 @@ function escapeHtml(value: string) {
 
 function absoluteRouteUrl(route: string) {
   return route === "/" ? `${siteOrigin}/` : `${siteOrigin}${route}`;
+}
+
+function expectNoGeneratedOriginLeak(content: string) {
+  expect(content).not.toMatch(/localhost/i);
+  expect(content).not.toMatch(/127\.0\.0\.1/);
+  expect(content).not.toMatch(uniqueDeploymentOriginPattern);
 }
 
 function isAnalyticsUrl(rawUrl: string) {
@@ -196,6 +204,7 @@ test.describe("first response metadata", () => {
       const canonicalUrl = absoluteRouteUrl(route);
 
       expect(response.ok()).toBeTruthy();
+      expectNoGeneratedOriginLeak(html);
       expect(html).toContain(`<title>${escapeHtml(metadata.title)}</title>`);
       expect(html).toContain(
         `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
@@ -234,6 +243,7 @@ test.describe("crawl and app metadata assets", () => {
     const robots = await response.text();
 
     expect(response.ok()).toBeTruthy();
+    expectNoGeneratedOriginLeak(robots);
     expect(robots).toContain("User-agent: *");
     expect(robots).toContain("Allow: /");
     expect(robots).toContain(`Sitemap: ${siteOrigin}/sitemap.xml`);
@@ -244,6 +254,7 @@ test.describe("crawl and app metadata assets", () => {
     const sitemap = await response.text();
 
     expect(response.ok()).toBeTruthy();
+    expectNoGeneratedOriginLeak(sitemap);
 
     for (const route of Object.keys(routeMetadataData.routes)) {
       expect(sitemap).toContain(`<loc>${absoluteRouteUrl(route)}</loc>`);
@@ -252,6 +263,22 @@ test.describe("crawl and app metadata assets", () => {
     for (const route of [...aliasRedirects.map(({ from }) => from), ...retiredRoutes, ...devOnlyRoutes]) {
       expect(sitemap).not.toContain(`<loc>${absoluteRouteUrl(route)}</loc>`);
     }
+
+    expect(sitemap).not.toContain(`${siteOrigin}/404`);
+    expect(sitemap).not.toContain(`${siteOrigin}/404.html`);
+  });
+
+  test("404.html serves an app-powered noindex fallback shell", async ({ request }) => {
+    const response = await request.get("/404.html");
+    const html = await response.text();
+
+    expect(response.ok()).toBeTruthy();
+    expectNoGeneratedOriginLeak(html);
+    expect(html).toContain("<title>Page not found | Vive Counselling</title>");
+    expect(html).toContain('<meta name="robots" content="noindex, nofollow" />');
+    expect(html).toContain('script type="module"');
+    expect(html).toContain("/assets/");
+    expect(html).not.toContain('<link rel="canonical"');
   });
 
   test("site.webmanifest exposes the app identity and icons", async ({ request }) => {

@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { getSiteOrigin } from "./route-metadata-origin.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(rootDir, "dist");
@@ -17,29 +18,6 @@ function escapeHtml(value) {
 
 function escapeXml(value) {
   return escapeHtml(value).replaceAll("'", "&apos;");
-}
-
-function normalizeSiteOrigin(rawOrigin) {
-  const withProtocol = rawOrigin.includes("://") ? rawOrigin : `https://${rawOrigin}`;
-  const url = new URL(withProtocol);
-
-  return url.origin;
-}
-
-function getSiteOrigin(siteMetadata) {
-  if (process.env.SITE_URL) {
-    return normalizeSiteOrigin(process.env.SITE_URL);
-  }
-
-  if (process.env.VERCEL_URL) {
-    if (process.env.VERCEL_ENV === "production") {
-      console.warn("TODO: Set SITE_URL to the canonical production domain. Using VERCEL_URL for this build.");
-    }
-
-    return normalizeSiteOrigin(process.env.VERCEL_URL);
-  }
-
-  return normalizeSiteOrigin(siteMetadata.defaultOrigin);
 }
 
 function getAbsoluteUrl(siteOrigin, routePath) {
@@ -94,6 +72,31 @@ function applyMetadata(html, routePath, routeMetadata, siteMetadata, siteOrigin)
     .replace("</head>", `    ${seoTags}\n  </head>`);
 }
 
+function getNotFoundTags(siteMetadata) {
+  return [
+    "<!-- SEO metadata generated at build time -->",
+    "<title>Page not found | Vive Counselling</title>",
+    '<meta name="description" content="This page could not be found on the Vive Counselling website." />',
+    '<meta name="robots" content="noindex, nofollow" />',
+    '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />',
+    '<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />',
+    '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
+    '<link rel="manifest" href="/site.webmanifest" />',
+    `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
+    "<!-- /SEO metadata generated at build time -->",
+  ].join("\n    ");
+}
+
+function applyNotFoundMetadata(html, siteMetadata) {
+  const seoTags = getNotFoundTags(siteMetadata);
+
+  return html
+    .replace(/\s*<!-- SEO metadata generated at build time -->.*?<!-- \/SEO metadata generated at build time -->/s, "")
+    .replace(/\s*<title>.*?<\/title>/s, "")
+    .replace(/\s*<meta\s+name="description"\s+content="[^"]*"\s*\/?>/s, "")
+    .replace("</head>", `    ${seoTags}\n  </head>`);
+}
+
 function getRouteOutputPaths(routePath) {
   if (routePath === "/") {
     return [indexPath];
@@ -139,6 +142,7 @@ const robotsTxt = [
 ].join("\n");
 
 await Promise.all([
+  writeFile(path.join(distDir, "404.html"), applyNotFoundMetadata(templateHtml, site)),
   writeFile(path.join(distDir, "sitemap.xml"), sitemapXml),
   writeFile(path.join(distDir, "robots.txt"), robotsTxt),
 ]);

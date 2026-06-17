@@ -40,7 +40,7 @@ This is the live factual inventory of the design system. Keep it current when th
 ## Legacy / Deprecated / Reference Only
 
 - `ds-*` is docs/dev-page support styling, not a production system.
-- `src/components/Card.tsx`, `.card`, `.card-grid`, `.card-kicker`, and old card-adjacent selectors remain in source as legacy cleanup targets. Do not use them for new production or design-system work.
+- The old `src/components/Card.tsx` component and generic `.card`, `.card-grid`, `.card-kicker`, and card-specific responsive selectors have been removed from source. Do not reintroduce them for new production or design-system work.
 - `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css` and should not be expanded for production work.
 - `legacy-*`, old `test-bed-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only.
 - No active `site-hero-*` source usage was found during the latest pass. Treat any future discovery as superseded by `hero-*` unless deliberately re-promoted.

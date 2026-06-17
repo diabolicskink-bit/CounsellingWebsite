@@ -67,53 +67,33 @@ Statuses:
 
 Each active item should include enough direction that a future session can choose a small, behavior-preserving slice without rediscovering the whole problem. `Priority Rationale` explains the rating, `Resolution Path` describes the likely sequence, `Resolved When` describes the signal for moving the item to the archive, `Related Items` records nearby tracker context, `Dependencies` records prerequisite `DEBT-*` work, and `Notes` captures living context that does not fit cleanly in canonical fields.
 
-### DEBT-3 - Enquiry endpoint needs abuse hardening
-
-- `Priority`: `P1`
-- `Size`: `L`
-- `Priority Rationale`: This is `P1` because the enquiry endpoint is public and abuse can create inbox or provider-quota harm. It is not `P0` because no active abuse incident is recorded and the first hardening slices can be incremental.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: Security, API, Email
-- `Problem`: The enquiry endpoint has a honeypot but no rate limiting, origin policy, bot protection, IP throttling, quota guard, or monitoring boundary.
-- `Why It Matters`: The endpoint has a fixed recipient, but it can still spam the inbox or burn email quota.
-- `Preferred Direction`: Add Vercel-suitable rate limiting or bot protection, validate expected origins, and keep diagnostics server-side.
-- `Resolution Path`: Start with low-risk origin and request-shape checks, then add a Vercel-suitable rate-limit or bot-protection slice, and finally cover accepted and blocked submissions with direct API tests.
-- `Next Action`: Pick the first hardening slice, likely origin validation plus a simple rate-limit strategy.
-- `Resolved When`: Automated abuse is materially harder, legitimate submissions still work, and tests cover blocked and accepted submissions.
-- `Related Items`:
-  - `DEBT-4`: Structured server-side validation gives hardening rules a safer payload boundary to inspect.
-  - `DEBT-5`: Archived generic public error and endpoint fallback contract should be reused when abuse or provider failures are blocked.
-  - `DEBT-10`: Archived direct API coverage provides the harness future hardening rejections can extend.
-  - `DEBT-11`: Explicit delivery configuration reduces operational ambiguity while hardening the public endpoint.
-  - `SITE-6`: Visitor-facing form-flow tests should keep legitimate enquiry states working while abuse controls are added.
-- `Dependencies`: `None`
-- `Notes`:
-- `Links`: `api/enquiry.ts`, `src/components/EnquiryForm.tsx`
-
-### DEBT-6 - Production URL and Vercel routing behaviour are not locked down
+### DEBT-23 - Enquiry endpoint needs Vercel Firewall rate limiting
 
 - `Priority`: `P1`
 - `Size`: `M`
-- `Priority Rationale`: This is `P1` because incorrect production URLs or routing assumptions can damage canonical metadata, sitemap output, sharing previews, and deployed deep links. It is not `P0` because the issue is configuration and verification pressure rather than a confirmed production outage.
+- `Priority Rationale`: This is `P1` because endpoint-level checks still allow a determined script to send many valid-looking requests unless the platform throttles repeated POSTs before email delivery. It is not `P0` because no active abuse incident is recorded and a conservative first rule can be added incrementally.
 - `Status`: `Open`
 - `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: Deployment, Routing, Metadata
-- `Problem`: Production metadata can fall back to preview or localhost URLs, and local QA does not verify Vercel clean URL/fallback behaviour.
-- `Why It Matters`: Canonicals, OG URLs, sitemap URLs, robots output, redirects, and unknown-route hydration need production-safe behaviour.
-- `Preferred Direction`: Require canonical `SITE_URL` for production builds and explicitly verify Vercel routing/fallback behaviour.
-- `Resolution Path`: Add production configuration validation for canonical URL generation, then verify the intended Vercel clean-URL and SPA fallback behaviour locally or on preview before changing redirects or rewrites.
-- `Next Action`: Add production `SITE_URL` validation and decide the intended Vercel fallback strategy for SPA deep links.
-- `Resolved When`: Production builds cannot emit preview/localhost canonicals by accident, and Vercel route behaviour is verified.
+- `Source`: `DEBT-3` split after `DEBT-5` resolution
+- `Area`: Security, Vercel Firewall, API, Email
+- `Problem`: `POST /api/enquiry` has no edge or platform rate limit, so repeated valid-looking submissions can still invoke the serverless function and potentially burn email quota.
+- `Why It Matters`: Application-level validation protects payload shape, but it does not reduce repeated request volume before function invocation or provider calls.
+- `Preferred Direction`: Add a Vercel Firewall rate-limit rule scoped to `POST /api/enquiry`, keyed by IP, with a conservative fixed window and deny action once exceeded.
+- `Resolution Path`: Confirm the intended threshold, add or stage the Vercel Firewall rule through the dashboard/CLI/API, verify the React form and endpoint-level native fallback handle a blocked request safely, and record the live rule details in project docs or the archive when resolved.
+- `Next Action`: Choose a first threshold, likely a small number of submissions per IP per 10 minutes, then add the platform rule in log/observe mode first if the current Vercel plan and tooling make that practical.
+- `Resolved When`: A deployed Vercel Firewall rate-limit rule protects `POST /api/enquiry`, blocked repeat submissions do not reach email delivery, and the public form still collapses blocked attempts into the generic safe failure state.
 - `Related Items`:
-  - `DEBT-8`: Route manifest or parity work should agree with the production URL and fallback strategy.
-  - `DEBT-16`: Runtime and package-manager pinning can reduce environment drift while production build validation is tightened.
-  - `SITE-3`: The public SEO/metadata matrix depends on locked-down canonical URLs, sitemap output, redirects, and noindex policy.
+  - `DEBT-3`: Archived code-level request-shape checks complement this platform edge limit.
+  - `DEBT-5`: Archived generic public error handling defines what visitors should see when blocked submissions fail in the form.
+  - `DEBT-10`: Archived direct API coverage can be extended for any local 429/form-failure handling that remains testable outside Vercel.
+  - `DEBT-11`: Explicit delivery configuration and platform rate limiting both reduce operational ambiguity around public submissions.
+  - `SITE-6`: Browser form-flow tests should keep the visible failure state working when platform blocks occur.
 - `Dependencies`: `None`
 - `Notes`:
-- `Links`: `scripts/prerender-route-metadata.mjs`, `src/data/routeMetadata.json`, `vercel.json`
+  - Vercel Firewall configuration may live outside the repo. If the rule is added through the dashboard, record the exact rule name, path/method conditions, threshold, key, and action when resolving this item.
+  - Avoid CAPTCHA or challenge flows as the first implementation unless rate limiting and request-shape checks prove insufficient. The enquiry form should remain low-friction for legitimate visitors.
+  - If Bot Protection is enabled later, test it carefully against both React `fetch` submissions and endpoint-level native form posts.
+- `Links`: `api/enquiry.ts`, `vercel.json`, `src/components/EnquiryForm.tsx`
 
 ### DEBT-8 - Routes, metadata, prerendering, and tests are duplicated
 
@@ -132,7 +112,7 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Public route changes fail clearly when metadata, prerendering, redirects, or tests are out of sync.
 - `Related Items`:
   - `DEBT-1`: Route parity assertions can now build on the restored public-site QA gate.
-  - `DEBT-6`: Production routing and canonical URL decisions need to match any route manifest or parity test.
+  - `DEBT-6`: Archived production URL and fallback decisions need to match any future route manifest or parity test.
   - `SITE-3`: The SEO/metadata matrix is the visitor-facing counterpart to this technical route consistency work.
 - `Dependencies`: `None`
 - `Notes`:
@@ -195,7 +175,7 @@ Each active item should include enough direction that a future session can choos
 - `Detected`: 2026-06-17
 - `Source`: `docs/reports/2026-06-17-technical-code-review.md`
 - `Area`: Design System, CSS, Maintainability
-- `Problem`: Older shared CSS layers such as `.image-panel`, `.card`, `.fit-strip`, `.section`, `.feature-panel`, `.topic-card`, and related overrides still live in production CSS while most pages now use `site-*` and `hero-*`.
+- `Problem`: Older shared CSS layers such as `.image-panel`, `.fit-strip`, `.section`, `.feature-panel`, `.topic-card`, and related overrides still live in production CSS while most pages now use `site-*` and `hero-*`.
 - `Why It Matters`: Legacy layers increase cascade surface area and make it harder to know which patterns are active, deprecated, or safe to copy.
 - `Preferred Direction`: Use focused cleanup sweeps to audit actual usage, remove dead rules, quarantine legacy aliases, and preserve still-used pieces until replacements exist.
 - `Resolution Path`: Treat this as a parent card. Use targeted usage scans to create or work through smaller linked debt items, remove only confirmed-dead rules, and preserve or document compatibility paths that are still needed.
@@ -204,17 +184,16 @@ Each active item should include enough direction that a future session can choos
 - `Related Items`:
   - `DEBT-14`: Archived `DEBT-14` resolved a side-stripe rule conflict in the same design-system CSS surface by removing the blanket prohibition rather than changing the UI.
   - `DEBT-15`: Global CSS bundling increases the impact of lingering legacy selectors.
-  - `DEBT-17`: This is the smaller card/component cleanup slice split out of the broader legacy CSS issue.
+  - `DEBT-17`: Archived card/component cleanup removed the generic legacy card source from this broader legacy CSS issue.
   - `DEBT-18`: This is the smaller panel/strip selector audit split from the same legacy CSS cluster.
   - `DEBT-19`: This is the smaller issue/topic grid audit that overlaps with active card patterns.
   - `DEBT-21`: Shared typography cleanup is another focused design-system CSS cleanup lane, though it is about type roles rather than legacy selector removal.
 - `Dependencies`:
-  - `DEBT-17`: Complete, retain, or supersede the concrete legacy card cleanup slice before closing the broad legacy CSS parent.
   - `DEBT-18`: Complete, retain, or supersede the concrete panel/strip selector slice before closing the broad legacy CSS parent.
   - `DEBT-19`: Complete, retain, or supersede the concrete issue/topic grid slice before closing the broad legacy CSS parent.
 - `Notes`:
   - This is a broad cleanup parent. When a concrete slice is found, add a smaller linked `DEBT-*` item instead of expanding this card indefinitely.
-  - `DEBT-17` covers the specific `src/components/Card.tsx`, `.card`, and `.card-grid` cleanup slice discovered while resolving `DEBT-12`.
+  - Archived `DEBT-17` removed `src/components/Card.tsx`, generic `.card`, `.card-grid`, `.card-kicker`, and card-specific responsive hooks.
   - `DEBT-18` covers old panel/strip selectors found in the same legacy CSS cluster.
   - `DEBT-19` covers old issue/topic grid selectors that overlap with the active `site-topic-*` card system.
 - `Links`: `src/styles.css`, `docs/design-system/maintenance/cleanup-sweeps.md`, `docs/design-system/current-scope.md`
@@ -244,31 +223,6 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
 - `Links`: `src/App.tsx`, `src/pages/`, `src/styles-*.css`
 
-### DEBT-17 - Legacy Card component and card CSS need cleanup
-
-- `Priority`: `P2`
-- `Size`: `S`
-- `Priority Rationale`: This is `P2` because the old card path is easy for future agents to copy, but the cleanup itself should be a small focused audit and removal slice.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `DEBT-12`, `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: Design System, Components, CSS
-- `Problem`: `src/components/Card.tsx` appears unused, while `.card`, `.card-grid`, `.card-kicker`, and related card selectors remain in production CSS as legacy compatibility code.
-- `Why It Matters`: Dead or legacy card code can be copied by future work unless it is removed or explicitly retained.
-- `Preferred Direction`: Run a focused usage audit, remove confirmed-dead component/CSS where safe, and split any larger discovered cleanup into new linked `DEBT-*` items.
-- `Resolution Path`: Confirm source usage for the legacy component and selectors, remove confirmed-dead code in one small cleanup, and split any coupled responsive or adjacent selector work into linked debt if needed.
-- `Next Action`: Run a targeted usage scan for `Card.tsx`, `.card`, `.card-grid`, `.card-kicker`, and related selectors, then remove only the confirmed-dead slice.
-- `Resolved When`: The unused `Card` component and legacy card CSS are either removed, deliberately retained with documentation, or split into smaller tracked cleanup items.
-- `Related Items`:
-  - `DEBT-12`: The archived item resolved the AI instruction boundary; this item stores the remaining source cleanup work.
-  - `DEBT-13`: This is a smaller concrete slice of the broad legacy CSS cleanup parent.
-  - `DEBT-18`: Old panel/strip selectors sit near the same legacy CSS cluster and may share responsive cleanup.
-  - `DEBT-19`: Old issue/topic card selectors overlap with card naming and active `site-topic-*` guidance.
-- `Dependencies`: `None`
-- `Notes`:
-  - This is the open implementation cleanup work split out after `DEBT-12` resolved the AI instruction boundary. `DEBT-13` remains the broad legacy CSS cleanup parent.
-- `Links`: `src/components/Card.tsx`, `src/styles.css`, `docs/design-system/current-scope.md`, `docs/design-system/patterns/components.md`, `docs/design-system/maintenance/migration-notes.md`
-
 ### DEBT-18 - Legacy panel and strip CSS need usage audit
 
 - `Priority`: `P2`
@@ -287,7 +241,7 @@ Each active item should include enough direction that a future session can choos
 - `Related Items`:
   - `DEBT-13`: This is a concrete child slice of the broader legacy CSS cleanup parent.
   - `DEBT-15`: Removing unused global selectors reduces the risk created by the globally bundled CSS cascade.
-  - `DEBT-17`: The old panel/strip rules sit near legacy card rules and may share responsive selectors.
+  - `DEBT-17`: Archived card cleanup removed the adjacent generic card selectors; this item keeps the remaining panel/strip slice separate.
   - `DEBT-19`: Old topic and panel selectors may be removed in adjacent dead-CSS sweeps if scans confirm they are unused.
 - `Dependencies`: `None`
 - `Notes`:
@@ -311,12 +265,12 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Old issue/topic grid selectors are removed, explicitly retained, or split into narrower cleanup items if hidden usage is found.
 - `Related Items`:
   - `DEBT-13`: This is a concrete child slice of the broader legacy CSS cleanup parent.
-  - `DEBT-17`: Legacy issue/topic card naming overlaps with the legacy card cleanup lane.
+  - `DEBT-17`: Archived card cleanup removed the generic `.card` path; this item keeps the remaining issue/topic selector audit separate.
   - `DEBT-18`: Old issue/topic and panel/strip selectors appear in the same legacy CSS region and may be audited together.
   - `SITE-8`: If media/hero patterns are promoted later, this cleanup helps keep active design-system naming clearer.
 - `Dependencies`: `None`
 - `Notes`:
-  - Overlaps with `DEBT-13` and the card cleanup lane in `DEBT-17`; keep cross-links rather than merging the items.
+  - Overlaps with `DEBT-13`; archived `DEBT-17` removed only the generic card path, not the remaining issue/topic selectors.
 - `Links`: `src/styles.css`, `docs/design-system/patterns/page-patterns.md`, `docs/design-system/current-scope.md`, `docs/design-system/maintenance/migration-notes.md`
 
 ### DEBT-20 - Page-specific typography overrides need role audit
@@ -397,6 +351,31 @@ Each active item should include enough direction that a future session can choos
   - Do not use server IP geolocation as a source of truth. Browser timezone detection may be a convenience default later, but submitted explicit user-confirmed fields should drive email output.
 - `Links`: `api/enquiry.ts`, `src/components/EnquiryForm.tsx`, `src/utils/timeZones.ts`
 
+### DEBT-24 - Live Vercel deployment smoke testing is manual
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Priority Rationale`: This is `P2` because repository-level build and artifact tests now lock down canonical metadata and fallback files, but live Vercel aliases, deployment protection, clean URLs, redirects, and custom 404 serving can still drift outside local QA.
+- `Status`: `Open`
+- `Detected`: 2026-06-17
+- `Source`: `DEBT-6` implementation
+- `Area`: Deployment, Routing, Metadata, QA
+- `Problem`: Local QA verifies generated artifacts, but no automated or documented post-deploy smoke test verifies the current Vercel production or preview URL behaviour after deployment.
+- `Why It Matters`: Vercel can differ from local preview for alias protection, clean URL redirects, platform 404 serving, and generated artifact delivery.
+- `Preferred Direction`: Add a small live smoke script or documented checklist for a deployed Vercel URL that checks canonical metadata, `robots.txt`, `sitemap.xml`, `/about` and `/fees` redirects, clean URL behaviour, and an unknown path serving the app-powered 404 fallback.
+- `Resolution Path`: Start with a script that accepts `PLAYWRIGHT_BASE_URL` or `VERCEL_SMOKE_URL`, avoids deployment by itself, and can run against a preview or production URL after deployment.
+- `Next Action`: Decide whether the smoke check should be a local command, CI-only command, or Vercel post-deploy checklist.
+- `Resolved When`: A repeatable live Vercel smoke check verifies the selected deployed URL without relying on manual browser inspection.
+- `Related Items`:
+  - `DEBT-6`: Archived repo-level canonical and 404 fallback lock-down created this live verification follow-up.
+  - `DEBT-8`: Route-manifest or parity work can share route lists and redirect expectations with this smoke check.
+  - `SITE-3`: Public SEO/metadata QA can reuse the live canonical, sitemap, robots, and noindex checks.
+- `Dependencies`: `None`
+- `Notes`:
+  - Do not make this smoke script deploy or promote by itself. Deployment should remain an explicit operator action unless a future CI/CD item decides otherwise.
+  - Account for Vercel Deployment Protection: protected preview URLs may require MCP access, a bypass token, or a trusted automation source.
+- `Links`: `vercel.json`, `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`
+
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
 - `Priority`: `P3`
@@ -414,7 +393,7 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Runtime and package-manager expectations are explicit and available to local tooling and deployment environments.
 - `Related Items`:
   - `DEBT-1`: Stable runtime/tooling expectations help keep the restored QA gate reproducible across machines.
-  - `DEBT-6`: Production build validation and deployment routing assumptions depend on consistent runtime behaviour.
+  - `DEBT-6`: Archived production build validation and fallback handling benefit from consistent runtime behaviour.
   - `DEBT-9`: Expanded typecheck and script coverage is easier to trust when Node and package-manager versions are pinned.
 - `Dependencies`: `None`
 - `Notes`:
@@ -434,6 +413,12 @@ Resolved on 2026-06-17 by making page components the sole owners of the primary 
 
 The fix preserved routes, copy, visual design, API behaviour, and page-level `.site-page` wrappers. Public-site Playwright coverage now asserts one visible main landmark across canonical public routes and not-found boundary routes.
 
+### DEBT-3 - Enquiry endpoint request-shape hardening
+
+Resolved on 2026-06-17 by adding a pre-parse enquiry request guard. Valid JSON fetch submissions and endpoint-level URL-encoded native form posts still work, while missing or unsupported content types, multipart posts, oversized declared bodies, and explicit cross-site fetch/origin/referer signals are blocked before validation or email delivery.
+
+Blocked requests reuse the archived `DEBT-5` generic public error contract and log only safe request metadata server-side. Platform-level rate limiting remains tracked separately under `DEBT-23`.
+
 ### DEBT-4 - Enquiry validation and email rendering depend on client-built strings
 
 Resolved on 2026-06-17 by changing enquiry submissions to structured JSON fields and making the API validate those fields before building the email subject, reply-to, plain text, and HTML output server-side.
@@ -445,6 +430,12 @@ The old composed `{ subject, body, replyTo }` payload is now rejected by validat
 Resolved on 2026-06-17 by removing temporary public diagnostic detail from enquiry API and form failures. Public JSON errors are now generic, provider/configuration/runtime details are logged server-side, and the React form no longer renders technical failure detail to visitors.
 
 The endpoint now accepts URL-encoded native form posts and returns safe minimal HTML success or failure pages for those submissions. Full JavaScript-disabled public-page rendering remains out of scope because the current Vite app still renders the contact form through client-side React.
+
+### DEBT-6 - Production URL and Vercel routing behaviour are not locked down
+
+Resolved on 2026-06-17 at the repository level by locking the default canonical origin to `https://counselling-website-seven.vercel.app`, preserving `SITE_URL` as the future custom-domain override, and preventing production builds from falling back to unique Vercel deployment URLs or localhost origins.
+
+The build now generates an app-powered `404.html` fallback with noindex metadata while preserving route-specific first-response HTML for known public routes. Local script and public-site tests cover the canonical origin policy, generated metadata artifacts, sitemap, robots, and 404 fallback. Live Vercel post-deploy smoke testing was intentionally split into `DEBT-24`.
 
 ### DEBT-7 - Encoding mojibake exists in source and rendered output
 
@@ -470,4 +461,10 @@ Visual audit report: `docs/reports/2026-06-17-debt-14-side-stripe-visual-audit.m
 
 Resolved on 2026-06-17 by clarifying the AI-facing card boundary in the repository guidance and design-system docs. Active card work now points to `.site-card`, `.site-card--link`, `.site-card__*`, `.site-topic-card`, `.site-fee-card`, and deliberate page-scoped compositions; `Card.tsx`, `.card`, and `.card-grid` are no longer described as active card API.
 
-The remaining source cleanup did not disappear with this instruction-level fix. It was split into open implementation debt under `DEBT-17`, with broader legacy CSS context linked from `DEBT-13`. Future discoveries can split into additional smaller `DEBT-*` items rather than reopening this archived boundary item.
+The remaining source cleanup was split into `DEBT-17` and later resolved there by removing the unused legacy card component and generic card CSS. Broader legacy CSS cleanup context remains linked from `DEBT-13`, and future discoveries can split into additional smaller `DEBT-*` items rather than reopening this archived boundary item.
+
+### DEBT-17 - Legacy Card component and card CSS need cleanup
+
+Resolved on 2026-06-17 by confirming that the legacy `Card` component and generic card selectors had no active source usage, then removing `src/components/Card.tsx`, `.card`, `.card-grid`, `.card-kicker`, `.card-title--small`, the `.issues-section .card*` overrides, and card-specific responsive hooks from production CSS.
+
+The active card API remains `.site-card`, `.site-card--link`, `.site-card__*`, `.site-card-grid`, `.site-topic-card`, `.site-fee-card`, and deliberate page-scoped compositions. Broader legacy CSS cleanup remains tracked under `DEBT-13`, with panel/strip selectors in `DEBT-18` and issue/topic selectors in `DEBT-19`.
