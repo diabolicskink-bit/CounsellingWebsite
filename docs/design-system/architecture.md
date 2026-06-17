@@ -32,7 +32,7 @@ Use this hierarchy when deciding where design-system truth lives.
    Production visual tokens, base typography, shared classes, `site-*` classes, `hero-*` classes, and promoted reusable patterns.
 
 2. `src/components/`
-   Reusable React components used by production pages, including the site shell, buttons, layout wrappers, FAQ sections, and enquiry form.
+   Reusable React components used by production pages, including the site shell, buttons, layout wrappers, FAQ sections, and enquiry form. A component file is not automatically active design-system API; the current-scope and component docs decide whether it is promoted, legacy, or merely present.
 
 3. `src/pages/dev/design-system/`
    Rendered design-system pages showing active foundations, components, heroes, and patterns.
@@ -56,12 +56,14 @@ Active layers:
 - Production tokens in `src/styles.css`.
 - `site-*` shared production classes.
 - `hero-*` shared production hero classes.
-- Shared React components in `src/components/`.
+- Shared React components in `src/components/` that are documented as active.
 - Active page-scoped classes when the need is genuinely page-specific.
-- Existing non-prefixed component classes such as `.container`, `.button`, `.card`, `.section-heading`, and `.rich-text` where they back current shared components.
+- Existing non-prefixed component classes such as `.container`, `.button`, `.section-heading`, and `.rich-text` where they back current shared components.
+- Active card-like patterns use `.site-card`, `.site-card--link`, `.site-card__*`, `.site-topic-card`, `.site-fee-card`, or a deliberate page-scoped class.
 
 Legacy, demo, reference, or narrow support layers:
 
+- `src/components/Card.tsx`, `.card`, `.card-grid`, and old card-adjacent selectors are legacy cleanup targets. They remain in source for now but are not active card API for new work.
 - `ds-*` exists for rendered docs and dev-page scaffolding. It is not a production layer and is not the preferred future architecture. It may still be used when a design-system or dev page needs scaffolding that truly does not belong in `site-*`, `hero-*`, or a shared component.
 - `design-language-*` is an older design-language/demo layer and should be treated as legacy or reference unless a specific idea is promoted into the active system.
 - `legacy-*` is reference only.

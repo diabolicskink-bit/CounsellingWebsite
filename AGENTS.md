@@ -15,7 +15,8 @@ Consult [docs/design-system/README.md](docs/design-system/README.md) before maki
 For UI work in this repository:
 
 - Treat `src/styles.css` as the source of truth for tokens, shared classes, and visual rhythm.
-- Start with existing shared React components from `src/components`, but create a new component when the existing options would weaken the content, UX, accessibility, responsiveness, or maintainability.
+- Start with existing shared React components from `src/components`, but do not treat a component file as active design-system API unless `docs/design-system/current-scope.md` and `docs/design-system/components.md` describe it that way.
+- Create a new component when the existing active options would weaken the content, UX, accessibility, responsiveness, or maintainability.
 - Prefer extending patterns already documented in `src/pages/dev/design-system` when they are a close fit; prefer a new page-specific composition or reusable pattern when the design need is meaningfully different.
 - Follow the decision rules in [docs/design-system/ai-rules.md](docs/design-system/ai-rules.md) so reuse is intentional and new design work is deliberate.
 

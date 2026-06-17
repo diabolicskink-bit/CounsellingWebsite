@@ -327,8 +327,7 @@
       "Don't introduce ad hoc colours when an existing token already fits.",
       "Don't use `ds-*`, `design-language-*`, `legacy-*`, `test-bed-*`, `opus-*`, or `inc-lab-*` classes on production pages.",
       "Don't add page-specific cards, heroes, panels, or CTA styles when a shared pattern is already close.",
-      "Don't confuse seriousness with blandness, institutional caution, or therapy-directory sameness.",
-      "Don't add new 4px coloured side stripes to cards, panels, callouts, or alerts. Use thin rules, full borders, background shifts, or typographic emphasis instead."
+      "Don't confuse seriousness with blandness, institutional caution, or therapy-directory sameness."
     ]
   }
 }

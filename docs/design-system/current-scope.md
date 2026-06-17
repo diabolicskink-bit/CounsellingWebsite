@@ -10,8 +10,8 @@ This is the live inventory of the design system. Keep it factual and update it w
 - Layout and surface rules exist through shared section classes such as `.site-grid`, the quieter `.site-highlight`, `.site-split`, `.site-content-stack`, and `.site-copy-panel`.
 - The active shared production class layer uses `site-*` classes for public-page sections, cards, panels, lists, tabs, forms, footer, FAQ, CTA, trust, detail, and contact patterns.
 - The active shared hero system uses `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-principles-strip`, and `.hero-detail-stack`; `.hero-section` owns the shared 40px top and bottom spacing, `h1.hero-badge` owns the concise visible page-topic H1, and `.hero-display` owns the measured shared expressive hero statement typography and default title measure.
-- Existing non-prefixed shared component classes remain active where they back real components, including `.container`, `.button`, `.card`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
-- Shared `Container`, `Button`, `Card`, `SectionHeading`, and `SplitSection` components exist in `src/components/`.
+- Existing non-prefixed shared component classes remain active where they back current promoted components or patterns, including `.container`, `.button`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
+- Shared `Container`, `Button`, `SectionHeading`, and `SplitSection` components exist as active reusable components in `src/components/`.
 - Shared `Layout` implements the production header, navigation, mobile navigation, shared chrome detection, and footer.
 - Shared `FaqSection` exists with accordion state, ARIA wiring, reduced-motion handling, and `site-faq-*` styling. It is surface-neutral, so each usage supplies a section surface such as `.site-grid`, `.site-highlight`, or a deliberate page-scoped section class.
 - Shared `FaqSchema` exists for FAQ structured data.
@@ -23,6 +23,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 - The active CTA pattern exists as `.site-cta-block` and is demonstrated on the Patterns page.
 - The active trust-strip pattern exists as `.site-trust-list` and `.site-trust-list--highlight-last`.
 - The active hero support-strip pattern exists as `.hero-support-tagline`.
+- The active general card pattern exists as `.site-card`, `.site-card--link`, `.site-card__list`, `.site-card__action`, and `.site-card-grid`.
 - The active topic-card pattern exists as `.site-topic-grid`, `.site-topic-card`, and topic-card modifiers.
 - The active detail-stack pattern exists as `.site-detail-stack` and `.site-detail-stack--linked`.
 - The active broad-tab-panel pattern exists as the `BroadTabPanel` component and is demonstrated on the Components page.
@@ -68,6 +69,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 ## Legacy / Deprecated / Reference Only
 
 - `ds-*` exists as docs/dev-page support styling, not as a production system and not as the preferred future architecture. Keep it narrow, docs-only, and only where the shared system should not be used.
+- `src/components/Card.tsx`, `.card`, `.card-grid`, `.card-kicker`, and old card-adjacent selectors remain in source as legacy cleanup targets. Do not use them for new production or design-system work; use active `site-*` card patterns or a page-scoped composition instead.
 - `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css` and should not be expanded for new production work.
 - `legacy-*` CSS remnants now live with docs/dev support styling in `src/styles-dev.css` and should be treated as reference only.
 - The old `test-bed-*` shared CSS layer has been retired from `src/styles.css`; test-bed routes remain as dev-only clean shells and should not be copied into production pages.

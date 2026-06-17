@@ -221,7 +221,7 @@ Components should feel calm and capable. They are practical objects in a counsel
 - **Background:** Cards, panels, and forms use Clean Paper over Warm Paper or Sage Wash.
 - **Shadow Strategy:** Ambient and low only. Interactive cards can lift by 4px on hover.
 - **Border:** Soft Boundary by default. Cedar border only when the element is genuinely active, focused, or positioned as a key emphasis.
-- **Ruled accents:** Thin editorial rules are welcome for copy rails and reflective paragraphs. Do not add new thick coloured side stripes to ordinary cards or panels.
+- **Ruled accents:** Editorial rules are welcome where they support hierarchy, including copy rails, reflective paragraphs, and established panel/card treatments.
 - **Internal Padding:** Cards use 28px; larger panels and forms use 34px.
 
 ### Inputs / Fields
@@ -267,4 +267,3 @@ The enquiry form is a low-friction practical object. It uses a clean paper panel
 - **Don't** use `ds-*`, `design-language-*`, `legacy-*`, `test-bed-*`, `opus-*`, or `inc-lab-*` classes on production pages.
 - **Don't** add page-specific cards, heroes, panels, or CTA styles when a shared pattern is already close.
 - **Don't** confuse seriousness with blandness, institutional caution, or therapy-directory sameness.
-- **Don't** add new 4px coloured side stripes to cards, panels, callouts, or alerts. Use thin rules, full borders, background shifts, or typographic emphasis instead.

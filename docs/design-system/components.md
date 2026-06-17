@@ -8,8 +8,6 @@ Start with these shared building blocks before creating anything new. Use them w
   Use for major page width containment.
 - `src/components/Button.tsx`
   Use for shared action styles. Prefer its built-in variants: `primary`, `secondary`, `tertiary`, `light`.
-- `src/components/Card.tsx`
-  Use for generic card containment when the shared card shell is appropriate.
 - `src/components/SectionHeading.tsx`
   Use for repeated section heading structure.
 - `src/components/FaqSection.tsx`
@@ -22,6 +20,8 @@ Start with these shared building blocks before creating anything new. Use them w
   Preserve the existing site shell, navigation treatment, and compact footer structure.
 
 ## Shared CSS Patterns
+
+Card-like production UI should use the active `site-*` card patterns below, or a deliberate page-scoped class when the composition is specific to one page. Do not use `src/components/Card.tsx`, `.card`, or `.card-grid` for new work; those belong to the legacy cleanup track.
 
 - `.site-grid`
   Default public-page section surface with a pale paper gradient. Use this for the first non-hero section and as the neutral step in the shared alternating page rhythm.
@@ -119,4 +119,4 @@ Reuse should not flatten every page into the same card grid. Major public pages 
 
 If the existing pattern is only a loose visual resemblance, do not force it. Build a page-scoped composition for a one-off need, or promote a new shared pattern when the need is repeated and clearly named.
 
-Thin ruled accents are part of the editorial language. Do not create new thick coloured side-stripe cards or callouts; if an existing component still uses that treatment, treat it as legacy-compatible rather than a pattern to expand.
+Ruled accents are part of the editorial language. Use the active shared pattern that fits the content instead of creating near-duplicate card, panel, or callout treatments.

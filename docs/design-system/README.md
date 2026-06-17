@@ -26,6 +26,7 @@ Start here when changing shared UI, rendered design-system pages, tokens, reusab
 
 - `src/styles.css` is the primary production source of truth for tokens, shared classes, `site-*`, `hero-*`, and promoted reusable patterns.
 - `src/components/` contains shared React components used by production and documentation pages.
+- A file existing in `src/components/` does not automatically make it active design-system API. Check `current-scope.md` and `components.md` before using a component as a reusable primitive.
 - `src/pages/dev/design-system/` contains rendered design-system pages.
 - `src/pages/dev/` contains dev-only page entry points such as the design-system overview, Documents page, and test-bed routes.
 - `src/styles-dev.css` contains development, documentation, and rendered-doc support styles.
@@ -49,7 +50,8 @@ The route name is historical. Treat these as design-system pages.
 - `site-*` is the main shared production layer for sections, cards, panels, lists, forms, footer, FAQ, CTA, trust, contact, and general page structure.
 - `hero-*` is the shared production hero layer for page-opening sections, display headings, copy rails, hero support rows, media notes, and hero backgrounds.
 - Shared React components should be considered before creating new primitives, but new components are welcome when they produce a clearer, more accessible, more maintainable, or more content-specific result.
-- Existing non-prefixed shared classes such as `.container`, `.button`, `.card`, `.section-heading`, and `.rich-text` remain active where they back current shared components.
+- The active production card API is `.site-card`, `.site-card--link`, `.site-card__*`, `.site-topic-card`, and specialised `site-*` card patterns such as `.site-fee-card`. Use page-scoped card classes when a card-like composition is genuinely page-specific.
+- Existing non-prefixed shared classes such as `.container`, `.button`, `.section-heading`, and `.rich-text` remain active where they back current shared components.
 
 ## Legacy, Demo, And Support Layers
 
@@ -59,6 +61,7 @@ The route name is historical. Treat these as design-system pages.
 - Do not copy `ds-*` into production pages.
 - Do not expand `ds-*` as an active production layer.
 - Useful `ds-*` ideas should be promoted into active `site-*`, `hero-*`, or shared component layers.
+- `src/components/Card.tsx`, `.card`, `.card-grid`, and old card-adjacent selectors are legacy cleanup targets. Do not use them for new production or design-system work.
 - `design-language-*`, `legacy-*`, `test-bed-*`, `opus-*`, `inc-lab-*`, and any discovered `site-hero-*` usage are legacy/demo/reference layers unless a future task deliberately promotes a useful idea into the active system.
 
 ## Update Rule

@@ -7,11 +7,12 @@ Use this file as a decision guide before changing visual code. The goal is coher
 - Read `src/styles.css` before adding or changing shared visual styles.
 - Read `src/styles-dev.css` before adding or changing `ds-*` documentation-shell or dev-page styles.
 - Read `docs/design-system/cleanup-sweeps.md` when the request is about simplification, deduplication, cleanup, overrides, page-pattern convergence, or maintainability rather than new UI.
-- Check existing components in `src/components` before creating a new primitive.
+- Check existing components in `src/components` before creating a new primitive, but confirm the component is active in `docs/design-system/current-scope.md` and `docs/design-system/components.md` before treating it as reusable API.
 - Reuse existing components when they fit the content, interaction, accessibility, and responsive needs.
 - Reuse documented shared classes when they are a close fit.
 - Create or extend deliberately when reuse would make the page weaker, less clear, less accessible, or harder to maintain.
 - Treat `site-*` classes and the documented shared hero classes as the authoritative design-system API for production pages.
+- Treat `.site-card`, `.site-card--link`, `.site-card__*`, `.site-topic-card`, and specialised `site-*` card patterns such as `.site-fee-card` as the active card API.
 - Treat `hero-*` as a separate shared hero design system for production pages, not as a minor variant of `site-*` and not as legacy scaffolding.
 - Treat `h1.hero-badge` as the authoritative visible H1 pattern for production heroes, followed by `h2.hero-display` for the expressive hero statement.
 - Treat `ds-*` classes as design-system documentation shell classes, not as production UI primitives.
@@ -53,6 +54,7 @@ Keep new work disciplined:
 - Use `ds-*` only inside the design-system documentation experience and its support components such as doc layout, navigation, demo wrappers, and usage notes.
 - Use `design-language-*` only when maintaining legacy/reference examples in design-system pages.
 - Use `legacy-*` only for documentation-only legacy samples.
+- Do not use `.card`, `.card-grid`, or `src/components/Card.tsx` for new production or design-system work. They are legacy cleanup targets unless a future task deliberately promotes or rewires them.
 
 ## How To Judge A Prefix Quickly
 
@@ -79,7 +81,6 @@ Keep new work disciplined:
 - Replace calm editorial hierarchy with dense microcopy or cramped layouts.
 - Flatten distinctive page moments into interchangeable card grids just because reuse is easier.
 - Treat seriousness as permission to make the page dull.
-- Add new 4px coloured side stripes to cards, panels, callouts, or alerts. Use thin editorial rules, full borders, background shifts, or type emphasis instead.
 - Add decorative numbering, ordinal badges, or step labels to non-sequential content. If the items are not an actual ordered process, use headings, rules, grouping, or hierarchy instead.
 
 ## When Working Near Legacy Design-System Code
@@ -88,6 +89,7 @@ Keep new work disciplined:
 - Do not "clean up" legacy demo classes by moving them into production pages.
 - Do not assume a visually attractive demo pattern is production-approved just because it exists in a design-system page.
 - If you need a legacy pattern in production, re-implement it with current `site-*` / `hero-*` primitives and document the promoted version.
+- If you encounter `Card.tsx`, `.card`, `.card-grid`, or old card-adjacent selectors, treat them as compatibility code to preserve unless the task is a focused cleanup sweep.
 - If a docs page needs its own layout or shell CSS, put that CSS in a dedicated docs/page stylesheet rather than continuing to accumulate documentation-shell rules in `src/styles.css`.
 - If a docs page needs a reusable component or pattern beyond the shell, add it to the shared site system and document it there.
 
@@ -118,7 +120,7 @@ For design-system documentation pages:
 
 - Is there already a documented example in `src/pages/dev/design-system`?
 - Is that example a production `site-*` / `hero-*` pattern, or only a `ds-*`, `design-language-*`, or `legacy-*` reference?
-- Can this be solved cleanly by composing `Container`, `SectionHeading`, `Button`, `Card`, or an existing site class?
+- Can this be solved cleanly by composing active components such as `Container`, `SectionHeading`, `Button`, or an existing `site-*` / `hero-*` class?
 - Would that composition make the content clearer, or would it force the design into the wrong shape?
 - Is this a real shared site need, or only documentation-shell scaffolding?
 - Is this truly reusable across at least two pages, or should it stay page-scoped for now?
