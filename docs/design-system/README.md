@@ -1,41 +1,53 @@
 # Design System Documentation
 
-This directory documents the Vive Counselling design system: what exists, how it is organised, how to use it, when to extend it, and how to keep it from drifting.
+This directory is the active design-system guidance for Vive Counselling. It covers visual foundations, shared components, page patterns, rendered design-system pages, cleanup rules, and legacy migration context.
 
-Start here when changing shared UI, rendered design-system pages, tokens, reusable patterns, or design-system documentation.
+Start here before changing shared UI, layout, reusable CSS, rendered design-system pages, or design-system documentation.
 
-## Core Docs
+## Reading Order
 
-- `architecture.md` explains how the design system is organised, maintained, extended, and cleaned up.
-- `current-scope.md` is the live inventory of what the design system currently includes, partially includes, does not include yet, and treats as legacy.
-- `principles.md` explains the design and tone principles behind the site.
-- `tokens.md` explains production visual tokens and baseline layout/type rules.
-- `components.md` explains reusable components and production-safe patterns.
-- `ai-rules.md` provides quick AI-editing rules.
-- `cleanup-sweeps.md` tracks cleanup passes for CSS, page structure, shared patterns, route/layout maintenance, and legacy layers.
-- `type-scale-plan.md` tracks typography direction and remaining type-scale cleanup.
-- `design-export.md` and `design-export.json` preserve the Stitch-compatible design export as reference material, not as the production source of truth.
+For normal UI or layout work:
 
-## Related Project Docs
+1. Read `../project/product-direction.md` for audience, voice, and public-site intent.
+2. Read `ai-rules.md` for the compact working checklist.
+3. Check `current-scope.md` for what is active, partial, legacy, or out of scope.
+4. Use `patterns/components.md` and `patterns/page-patterns.md` before creating new UI.
 
-- `../project/README.md` is the whole-project documentation hub.
-- `../project/product-direction.md` owns audience, voice, product purpose, inclusion stance, and anti-references.
-- `../project/current-scope.md` owns public-site and app scope, separate from this design-system inventory.
+For design-system architecture or promotion work:
+
+1. Read `governance.md`.
+2. Check `current-scope.md`.
+3. Update the relevant foundation, pattern, or maintenance doc in the same change.
+
+For cleanup work:
+
+1. Read `maintenance/cleanup-sweeps.md`.
+2. Check `maintenance/migration-notes.md` and `../project/project-debt.md` for related `DEBT-*` items.
+3. Keep cleanup focused and behaviour-preserving unless the task explicitly asks for redesign.
+
+## File Map
+
+- `ai-rules.md` is the short AI checklist for visual work.
+- `governance.md` owns source-of-truth order, active and legacy layer policy, promotion rules, and update duties.
+- `current-scope.md` is the factual inventory of what the design system currently includes.
+- `foundations/principles.md` owns visual intent and tone.
+- `foundations/tokens.md` owns colour, spacing, type roles, and baseline typography guidance.
+- `patterns/components.md` owns active React components and component-backed API.
+- `patterns/page-patterns.md` owns shared `site-*`, `hero-*`, section, card, panel, rich-text, CTA, form, and page-pattern guidance.
+- `maintenance/cleanup-sweeps.md` owns cleanup sweep behaviour and named cleanup modes.
+- `maintenance/migration-notes.md` owns legacy and migration context that should stay visible across future design-system work.
 
 ## Implementation Sources
 
-- `src/styles.css` is the primary production source of truth for tokens, shared classes, `site-*`, `hero-*`, and promoted reusable patterns.
-- `src/components/` contains shared React components used by production and documentation pages.
-- A file existing in `src/components/` does not automatically make it active design-system API. Check `current-scope.md` and `components.md` before using a component as a reusable primitive.
-- `src/pages/dev/design-system/` contains rendered design-system pages.
-- `src/pages/dev/` contains dev-only page entry points such as the design-system overview, Documents page, and test-bed routes.
-- `src/styles-dev.css` contains development, documentation, and rendered-doc support styles.
-- Page-scoped CSS files can implement page-specific composition, but they are not automatically part of the design system.
-- `design-export.md` and `design-export.json` are external/reference exports and should not override `src/styles.css`, shared components, or the written design-system docs.
+- `src/styles.css` is the production source of truth for tokens, base typography, shared classes, `site-*`, `hero-*`, and promoted reusable patterns.
+- `src/components/` contains shared React components, but a file existing there does not automatically make it active design-system API. Check `current-scope.md` and `patterns/components.md`.
+- `src/pages/dev/design-system/` contains the rendered design-system pages.
+- `src/styles-dev.css` contains docs/dev support styling such as `ds-*`.
+- Page-scoped CSS can be production-safe without being design-system API.
 
-## Rendered Design-System Pages
+## Rendered Pages
 
-The rendered design-system experience currently lives under `/design-language` routes:
+The rendered design-system experience currently lives under historical `/design-language` routes:
 
 - `/design-language`
 - `/design-language/foundations`
@@ -43,35 +55,10 @@ The rendered design-system experience currently lives under `/design-language` r
 - `/design-language/heroes`
 - `/design-language/patterns`
 
-The route name is historical. Treat these as design-system pages.
-
-## Active Production Layers
-
-- `site-*` is the main shared production layer for sections, cards, panels, lists, forms, footer, FAQ, CTA, trust, contact, and general page structure.
-- `hero-*` is the shared production hero layer for page-opening sections, display headings, copy rails, hero support rows, media notes, and hero backgrounds.
-- Shared React components should be considered before creating new primitives, but new components are welcome when they produce a clearer, more accessible, more maintainable, or more content-specific result.
-- The active production card API is `.site-card`, `.site-card--link`, `.site-card__*`, `.site-topic-card`, and specialised `site-*` card patterns such as `.site-fee-card`. Use page-scoped card classes when a card-like composition is genuinely page-specific.
-- Existing non-prefixed shared classes such as `.container`, `.button`, `.section-heading`, and `.rich-text` remain active where they back current shared components.
-
-## Legacy, Demo, And Support Layers
-
-- `ds-*` is documentation/dev-page support styling, not a production layer and not the preferred future architecture.
-- `ds-*` may still exist in current design-system pages and support components.
-- `ds-*` may be used only when a docs/dev page needs scaffolding that truly does not make sense in `site-*`, `hero-*`, or a shared component.
-- Do not copy `ds-*` into production pages.
-- Do not expand `ds-*` as an active production layer.
-- Useful `ds-*` ideas should be promoted into active `site-*`, `hero-*`, or shared component layers.
-- `src/components/Card.tsx`, `.card`, `.card-grid`, and old card-adjacent selectors are legacy cleanup targets. Do not use them for new production or design-system work.
-- `design-language-*`, `legacy-*`, `test-bed-*`, `opus-*`, `inc-lab-*`, and any discovered `site-hero-*` usage are legacy/demo/reference layers unless a future task deliberately promotes a useful idea into the active system.
+Treat those as design-system pages even though the route name is historical.
 
 ## Update Rule
 
-If design-system work adds, removes, promotes, deprecates, or materially changes a token, component, pattern, rendered design-system page, or legacy layer, update `current-scope.md` in the same change.
+If design-system work adds, removes, promotes, deprecates, or materially changes a token, component, pattern, rendered design-system page, legacy layer, or known missing area, update `current-scope.md` in the same change.
 
 Tiny implementation changes that do not change design-system scope do not need a scope update.
-
-## Extension Rule
-
-Reuse is the default starting point, not a veto on new design work. When an existing component or pattern is only superficially similar, prefer a deliberate new page-scoped composition or a new reusable pattern over forcing content into the wrong shape.
-
-New reusable patterns should use existing tokens and visual principles, have a clear role, and be documented in the relevant markdown and rendered design-system page. New page-specific compositions may stay page-scoped until they prove useful in more than one place.

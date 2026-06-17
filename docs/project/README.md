@@ -19,7 +19,8 @@ For UI, layout, component, visual, or design-system work:
 1. Read this file and [product-direction.md](product-direction.md).
 2. Read [../design-system/README.md](../design-system/README.md).
 3. Follow [../design-system/ai-rules.md](../design-system/ai-rules.md).
-4. Update [../design-system/current-scope.md](../design-system/current-scope.md) when design-system scope changes.
+4. Check [../design-system/patterns/components.md](../design-system/patterns/components.md) and [../design-system/patterns/page-patterns.md](../design-system/patterns/page-patterns.md) before creating reusable UI.
+5. Update [../design-system/current-scope.md](../design-system/current-scope.md) when design-system scope changes.
 
 For technical, API, routing, build, deployment, test, or security work:
 
@@ -41,6 +42,10 @@ For public content, SEO, accessibility, form-flow, performance, or operations id
 - [site-backlog.md](site-backlog.md) tracks visitor-facing future work with stable `SITE-*` IDs and a classification label for possible future splitting.
 - [task-log.md](task-log.md) records durable milestones. It is not a full changelog.
 - [../design-system/README.md](../design-system/README.md) is the design-system entry point.
+- [../design-system/governance.md](../design-system/governance.md) owns design-system source-of-truth order, active/legacy layers, promotion rules, and update duties.
+- [../design-system/foundations/tokens.md](../design-system/foundations/tokens.md) owns design-system token and type-role guidance.
+- [../design-system/patterns/components.md](../design-system/patterns/components.md) and [../design-system/patterns/page-patterns.md](../design-system/patterns/page-patterns.md) own reusable component and pattern guidance.
+- [../design-system/maintenance/cleanup-sweeps.md](../design-system/maintenance/cleanup-sweeps.md) owns design-system cleanup behaviour.
 - `../reports/` contains generated audits and reports.
 - `../plans/` contains draft plans and thinking documents.
 

@@ -145,7 +145,7 @@ Statuses:
 - `First Useful Slice`: Add a global `prefers-reduced-motion: reduce` baseline for scroll behaviour and broad shared transitions.
 - `Implemented When`: Reduced-motion preference disables smooth scrolling and avoids non-essential shared motion without breaking component states.
 - `Notes`:
-- `Links`: `src/styles.css`, `docs/design-system/tokens.md`, `docs/design-system/ai-rules.md`
+- `Links`: `src/styles.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system/ai-rules.md`
 
 ### SITE-8 - Shared portrait/media hero treatment
 
@@ -160,7 +160,7 @@ Statuses:
 - `First Useful Slice`: Promote a shared `hero-media-note` portrait modifier, or document why the two page-specific treatments should stay separate.
 - `Implemented When`: Repeated portrait/media styling is either shared through the hero system or intentionally documented as page-specific.
 - `Notes`:
-- `Links`: `src/styles-home.css`, `src/styles-working-with-joel.css`, `docs/design-system/components.md`, `docs/design-system/current-scope.md`
+- `Links`: `src/styles-home.css`, `src/styles-working-with-joel.css`, `docs/design-system/patterns/page-patterns.md`, `docs/design-system/current-scope.md`
 
 ## Archive
 

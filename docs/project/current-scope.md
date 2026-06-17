@@ -11,7 +11,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Development-only routes include the rendered design-system pages, Documents, Codex test bed, and Opus test bed.
 - The dev Documents page imports markdown only from `docs/reports/` and `docs/plans/` and renders those reports and draft plans through the app in development.
 - Root project guidance now lives under `docs/project/`; visual-system guidance lives under `docs/design-system/`.
-- The design system has written docs, rendered dev pages, shared components, shared CSS class layers, and cleanup guidance.
+- The design system has rebuilt written docs, rendered dev pages, shared components, shared CSS class layers, and cleanup guidance.
 - Public-page content and product positioning are governed by `docs/project/product-direction.md`.
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
 - A prerender script updates route metadata artifacts as part of `npm run build`.

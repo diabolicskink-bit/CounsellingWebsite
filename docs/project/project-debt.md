@@ -343,7 +343,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-17` covers the specific `src/components/Card.tsx`, `.card`, and `.card-grid` cleanup slice discovered while resolving `DEBT-12`.
   - `DEBT-18` covers old panel/strip selectors found in the same legacy CSS cluster.
   - `DEBT-19` covers old issue/topic grid selectors that overlap with the active `site-topic-*` card system.
-- `Links`: `src/styles.css`, `docs/design-system/cleanup-sweeps.md`, `docs/design-system/current-scope.md`
+- `Links`: `src/styles.css`, `docs/design-system/maintenance/cleanup-sweeps.md`, `docs/design-system/current-scope.md`
 
 ### DEBT-15 - Public page CSS is globally bundled and relies on naming discipline
 
@@ -390,7 +390,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-19`: Old issue/topic card selectors overlap with card naming and active `site-topic-*` guidance.
 - `Notes`:
   - This is the open implementation cleanup work split out after `DEBT-12` resolved the AI instruction boundary. `DEBT-13` remains the broad legacy CSS cleanup parent.
-- `Links`: `src/components/Card.tsx`, `src/styles.css`, `docs/design-system/current-scope.md`, `docs/design-system/components.md`
+- `Links`: `src/components/Card.tsx`, `src/styles.css`, `docs/design-system/current-scope.md`, `docs/design-system/patterns/components.md`, `docs/design-system/maintenance/migration-notes.md`
 
 ### DEBT-18 - Legacy panel and strip CSS need usage audit
 
@@ -414,7 +414,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-19`: Old topic and panel selectors may be removed in adjacent dead-CSS sweeps if scans confirm they are unused.
 - `Notes`:
   - Overlaps with `DEBT-13` as one concrete legacy CSS slice.
-- `Links`: `src/styles.css`, `docs/design-system/cleanup-sweeps.md`
+- `Links`: `src/styles.css`, `docs/design-system/maintenance/cleanup-sweeps.md`, `docs/design-system/maintenance/migration-notes.md`
 
 ### DEBT-19 - Legacy issue and topic grid CSS needs usage audit
 
@@ -438,7 +438,7 @@ Each active item should include enough direction that a future session can choos
   - `SITE-8`: If media/hero patterns are promoted later, this cleanup helps keep active design-system naming clearer.
 - `Notes`:
   - Overlaps with `DEBT-13` and the card cleanup lane in `DEBT-17`; keep cross-links rather than merging the items.
-- `Links`: `src/styles.css`, `docs/design-system/components.md`, `docs/design-system/current-scope.md`
+- `Links`: `src/styles.css`, `docs/design-system/patterns/page-patterns.md`, `docs/design-system/current-scope.md`, `docs/design-system/maintenance/migration-notes.md`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
