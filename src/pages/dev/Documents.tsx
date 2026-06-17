@@ -8,7 +8,7 @@ import DocumentsSidebar, {
 import DevPageHero from "../../components/DevPageHero";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
-type DocumentCategory = "documentation" | "reports" | "plans";
+type DocumentCategory = "reports" | "plans";
 
 type DocumentItem = {
   category: DocumentCategory;
@@ -23,11 +23,6 @@ const categoryMeta: Array<{
   label: string;
 }> = [
   {
-    key: "documentation",
-    label: "Documentation",
-    emptyLabel: "No permanent documentation yet.",
-  },
-  {
     key: "reports",
     label: "Reports",
     emptyLabel: "No reports yet.",
@@ -39,7 +34,7 @@ const categoryMeta: Array<{
   },
 ];
 
-const markdownFiles = import.meta.glob("../../../docs/**/*.md", {
+const markdownFiles = import.meta.glob(["../../../docs/reports/**/*.md", "../../../docs/plans/**/*.md"], {
   eager: true,
   import: "default",
   query: "?raw",
@@ -78,11 +73,7 @@ function getCategory(path: string): DocumentCategory {
     return "reports";
   }
 
-  if (path.startsWith("docs/plans/")) {
-    return "plans";
-  }
-
-  return "documentation";
+  return "plans";
 }
 
 function compareDocuments(a: DocumentItem, b: DocumentItem) {
@@ -91,10 +82,6 @@ function compareDocuments(a: DocumentItem, b: DocumentItem) {
 
   if (categoryDifference !== 0) {
     return categoryDifference;
-  }
-
-  if (a.category === "documentation") {
-    return a.path.localeCompare(b.path);
   }
 
   return b.path.localeCompare(a.path);
@@ -137,7 +124,7 @@ export default function Documents() {
 
   useDocumentMetadata(
     "Documents | Vive Counselling",
-    "Developer-only markdown reader for documentation, reports, and plans."
+    "Developer-only markdown reader for generated reports and draft plans."
   );
 
   const groups = useMemo<DocumentsSidebarGroup[]>(
@@ -164,14 +151,14 @@ export default function Documents() {
   }, [requestedPath, searchParams, selectedDocument, setSearchParams]);
 
   const selectedCategoryLabel =
-    categoryMeta.find((category) => category.key === selectedDocument?.category)?.label ?? "Documentation";
+    categoryMeta.find((category) => category.key === selectedDocument?.category)?.label ?? "Documents";
 
   return (
     <main className="site-page">
       <DevPageHero
         badge="Dev documents"
         title="Documents"
-        description="A small reader for markdown documentation, generated reports, and draft plans. Drop files into the docs folders and they will appear here automatically in development."
+        description="A small reader for generated reports and draft plans. Drop markdown into the reports or plans folders and it will appear here automatically in development."
       />
 
       <div className="ds-layout">
@@ -229,7 +216,7 @@ export default function Documents() {
             ) : (
               <div className="documents-viewer__empty">
                 <h2>No markdown files found.</h2>
-                <p>Add `.md` files under `docs/` to populate this page.</p>
+                <p>Add `.md` files under `docs/reports/` or `docs/plans/` to populate this page.</p>
               </div>
             )}
           </section>

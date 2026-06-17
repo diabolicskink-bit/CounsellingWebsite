@@ -40,8 +40,8 @@ This is the live inventory of the design system. Keep it factual and update it w
 - Written token guidance exists in `docs/design-system/tokens.md`.
 - Written component and pattern guidance exists in `docs/design-system/components.md`.
 - AI editing rules exist in `docs/design-system/ai-rules.md`.
-- Root strategic context exists in `PRODUCT.md` for agent-facing product, register, audience, voice, anti-reference, design-principle, and accessibility guidance.
-- Root visual context exists in `DESIGN.md` and `DESIGN.json` for Stitch-compatible tokens, design-system narrative, component snippets, and agent-facing visual rules extracted from the current site.
+- Project strategic context exists in `docs/project/product-direction.md` for agent-facing product, register, audience, voice, anti-reference, design-principle, and accessibility guidance.
+- Reference visual export context exists in `docs/design-system/design-export.md` and `docs/design-system/design-export.json` for Stitch-compatible tokens, design-system narrative, component snippets, and extracted agent-facing visual rules. These are reference exports, not the production source of truth.
 - Cleanup sweep guidance exists in `docs/design-system/cleanup-sweeps.md`.
 - Type-scale direction exists in `docs/design-system/type-scale-plan.md`, and the first type-role implementation slice is documented as complete.
 - Architecture documentation exists in `docs/design-system/architecture.md`.
@@ -91,7 +91,7 @@ This is the live inventory of the design system. Keep it factual and update it w
 - No design decision log exists.
 - No formal migration tracker for legacy classes exists.
 - No full public page pattern catalogue exists.
-- No machine-readable token reference exists beyond the markdown docs and rendered Foundations examples.
+- No canonical app-consumed machine-readable token source exists beyond `src/styles.css`; `docs/design-system/design-export.json` is a reference export only.
 
 ## Explicitly Out Of Scope Unless Requested
 

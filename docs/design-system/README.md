@@ -14,6 +14,13 @@ Start here when changing shared UI, rendered design-system pages, tokens, reusab
 - `ai-rules.md` provides quick AI-editing rules.
 - `cleanup-sweeps.md` tracks cleanup passes for CSS, page structure, shared patterns, route/layout maintenance, and legacy layers.
 - `type-scale-plan.md` tracks typography direction and remaining type-scale cleanup.
+- `design-export.md` and `design-export.json` preserve the Stitch-compatible design export as reference material, not as the production source of truth.
+
+## Related Project Docs
+
+- `../project/README.md` is the whole-project documentation hub.
+- `../project/product-direction.md` owns audience, voice, product purpose, inclusion stance, and anti-references.
+- `../project/current-scope.md` owns public-site and app scope, separate from this design-system inventory.
 
 ## Implementation Sources
 
@@ -23,6 +30,7 @@ Start here when changing shared UI, rendered design-system pages, tokens, reusab
 - `src/pages/dev/` contains dev-only page entry points such as the design-system overview, Documents page, and test-bed routes.
 - `src/styles-dev.css` contains development, documentation, and rendered-doc support styles.
 - Page-scoped CSS files can implement page-specific composition, but they are not automatically part of the design system.
+- `design-export.md` and `design-export.json` are external/reference exports and should not override `src/styles.css`, shared components, or the written design-system docs.
 
 ## Rendered Design-System Pages
 

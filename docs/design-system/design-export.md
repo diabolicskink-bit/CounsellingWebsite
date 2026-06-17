@@ -94,7 +94,9 @@ components:
     padding: "13px 14px"
 ---
 
-# Design System: Vive Counselling
+# Design Export: Vive Counselling
+
+This is a reference export for external/design-tool compatibility. The production source of truth remains `src/styles.css`, shared React components, and the written docs in `docs/design-system/`. Product voice and audience guidance live in `docs/project/product-direction.md`.
 
 ## 1. Overview
 
@@ -251,7 +253,7 @@ The enquiry form is a low-friction practical object. It uses a clean paper panel
 - **Do** give major public pages one memorable editorial move when the subject calls for it.
 - **Do** use controlled asymmetry, strong line breaks, and sharp supporting details to keep the site authored.
 - **Do** make practical details easy to scan: fees, format, availability, contact expectations, and limits.
-- **Do** write visual examples and copy with the PRODUCT.md line in mind: "Make the room feel competent before it feels comforting."
+- **Do** write visual examples and copy with the product-direction line in mind: "Make the room feel competent before it feels comforting."
 - **Do** preserve semantic HTML, visible focus states, keyboard-friendly controls, reduced-motion care, and readable contrast.
 - **Do** treat WCAG AA as the working accessibility floor.
 

@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
-import { Analytics } from "@vercel/analytics/react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
+import SiteAnalytics from "./components/SiteAnalytics";
 import Contact from "./pages/Contact";
 import EnmPolyamoryCounselling from "./pages/EnmPolyamoryCounselling";
 import Home from "./pages/Home";
@@ -72,7 +72,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-      <Analytics />
+      <SiteAnalytics />
     </>
   );
 }

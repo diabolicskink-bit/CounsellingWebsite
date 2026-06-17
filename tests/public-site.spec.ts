@@ -51,6 +51,21 @@ function absoluteRouteUrl(route: string) {
   return route === "/" ? `${siteOrigin}/` : `${siteOrigin}${route}`;
 }
 
+function isAnalyticsUrl(rawUrl: string) {
+  try {
+    const url = new URL(rawUrl);
+
+    return (
+      url.hostname === "www.googletagmanager.com" ||
+      url.hostname === "www.google-analytics.com" ||
+      url.hostname === "analytics.google.com" ||
+      url.pathname.startsWith("/_vercel/insights")
+    );
+  } catch {
+    return rawUrl.includes("googletagmanager.com") || rawUrl.includes("google-analytics.com");
+  }
+}
+
 const aliasRedirects = [
   { from: "/about", to: "/working-with-joel" },
   { from: "/fees", to: "/contact" },
@@ -77,10 +92,20 @@ test.describe("public pages", () => {
   for (const route of publicRoutes) {
     test(`${route} renders core content and hydrated metadata`, async ({ page }) => {
       const consoleErrors: string[] = [];
+      const failedResponses: string[] = [];
 
       page.on("console", (message) => {
         if (message.type() === "error") {
-          consoleErrors.push(message.text());
+          const location = message.location();
+          const source = location.url ? ` (${location.url}:${location.lineNumber})` : "";
+
+          consoleErrors.push(`${message.text()}${source}`);
+        }
+      });
+
+      page.on("response", (response) => {
+        if (response.status() >= 400) {
+          failedResponses.push(`${response.status()} ${response.url()}`);
         }
       });
 
@@ -100,7 +125,7 @@ test.describe("public pages", () => {
       expect(description).toBeTruthy();
       expect(description?.length).toBeGreaterThan(50);
 
-      expect(consoleErrors).toEqual([]);
+      expect({ consoleErrors, failedResponses }).toEqual({ consoleErrors: [], failedResponses: [] });
     });
   }
 });
@@ -190,6 +215,31 @@ test.describe("crawl and app metadata assets", () => {
         expect.objectContaining({ src: "/icon-512.png", sizes: "512x512", type: "image/png" }),
       ]),
     );
+  });
+
+  test("analytics providers are disabled in default QA builds", async ({ page }) => {
+    const analyticsRequests: string[] = [];
+
+    page.on("request", (request) => {
+      if (isAnalyticsUrl(request.url())) {
+        analyticsRequests.push(request.url());
+      }
+    });
+
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    expect(analyticsRequests).toEqual([]);
+    await expect(
+      page.locator(
+        [
+          'script[src*="googletagmanager.com"]',
+          'script[src*="google-analytics.com"]',
+          'script[src*="/_vercel/insights"]',
+          "#vive-google-analytics",
+          "#vive-google-analytics-config",
+        ].join(", "),
+      ),
+    ).toHaveCount(0);
   });
 
   for (const assetPath of [
