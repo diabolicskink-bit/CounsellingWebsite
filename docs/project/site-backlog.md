@@ -109,7 +109,7 @@ Statuses:
 - `Source`: `docs/reports/2026-06-17-technical-code-review.md`
 - `Visitor-Facing Goal`: Keep analytics intentional while preventing local/test third-party failures from obscuring real site regressions.
 - `Current State`: Google Tag Manager and Vercel Analytics are present, and tests can be affected by generic third-party or failed-request noise.
-- `Why Deferred`: It should coordinate with the QA suite cleanup in `DEBT-1`.
+- `Why Deferred`: It should build on the restored QA suite from `DEBT-1`.
 - `First Useful Slice`: Decide whether analytics should run in local, preview, and test contexts; document the policy and update tests or app loading accordingly.
 - `Implemented When`: Analytics behaviour is environment-aware and test failures identify app problems rather than third-party noise.
 - `Notes`:

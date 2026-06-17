@@ -16,6 +16,35 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-06-17 - Enquiry API Moved To TypeScript
+
+- Changed: Moved the serverless enquiry endpoint from `api/enquiry.js` to `api/enquiry.ts` with typed request, response, validation, and email-rendering boundaries.
+- Changed: Included `api/` in the main TypeScript build and updated direct API tests to import the TypeScript endpoint.
+- Updated: Narrowed `DEBT-9` to the remaining tests, scripts, and config type-checking gap.
+
+## 2026-06-17 - DEBT-4 Structured Enquiry Payload Resolved
+
+- Changed: Enquiry submissions now send structured JSON fields, and the API validates those fields before building the email subject, reply-to, plain text, and HTML output server-side.
+- Changed: Added direct Node API tests for accepted submissions, invalid payloads, honeypot handling, missing delivery config, and provider failures, plus a top-level `npm run qa` aggregate gate.
+- Closed: Archived `DEBT-4`, archived the baseline direct-test gap under `DEBT-10`, and split canonical server-owned timezone comparison notes into `DEBT-22`.
+
+## 2026-06-17 - Debt Dependency Field Added
+
+- Changed: Added a `Dependencies` field to active project debt items so prerequisite work is distinct from broader related context.
+- Changed: Updated project debt maintenance guidance to keep loose relationships in `Related Items` and reserve `Dependencies` for true predecessor work.
+
+## 2026-06-17 - DEBT-1 QA Gate Restored
+
+- Changed: Updated stale public-site Playwright expectations for current page headings and not-found route behaviour.
+- Changed: Added clearer page diagnostics for console errors, failed responses, and failed requests.
+- Closed: Archived `DEBT-1` after `npm run qa:site` passed locally with the current public-site suite.
+
+## 2026-06-17 - DEBT-2 Main Landmark Resolved
+
+- Changed: Removed the redundant `Layout` main wrapper so page components own the single primary main landmark.
+- Changed: Added public-site Playwright coverage for one visible main landmark across public routes and not-found boundary routes.
+- Closed: Archived `DEBT-2` after the landmark contract was implemented and covered by tests.
+
 ## 2026-06-17 - Type-Scale Cleanup Debt Captured
 
 - Changed: Assessed the old type-scale plan before deleting legacy design-system docs and split remaining typography cleanup into focused `DEBT-*` items.

@@ -184,9 +184,7 @@ export default function Layout() {
         ) : null}
       </header>
 
-      <main>
-        <Outlet />
-      </main>
+      <Outlet />
 
       <footer className="site-footer">
         <Container className="site-footer__inner">

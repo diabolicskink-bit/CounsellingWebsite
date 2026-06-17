@@ -11,7 +11,8 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 - When planning a `DEBT-*` implementation, first assess whether the item is too broad for one safe, behavior-preserving change. If it is, propose a split into smaller `DEBT-*` items instead of forcing one large implementation plan.
 - If a split is accepted, preserve stable IDs by creating new `DEBT-*` items and either narrowing the original item or marking it `Superseded` with links to the replacement items.
 - Split a broad item into smaller `DEBT-*` items when investigation finds a concrete, separately actionable slice. Link the parent and child items through `Notes` rather than forcing all detail into one broad card. Overlap is acceptable when it makes future work easier to find.
-- Use `Related Items` for nearby `DEBT-*` or `SITE-*` items, with one short sentence explaining the relationship. Relationships may be parent/child, sibling slices, overlapping risk areas, dependencies, or items that can affect each other.
+- Use `Related Items` for nearby `DEBT-*` or `SITE-*` items, with one short sentence explaining the relationship. Relationships may be parent/child, sibling slices, overlapping risk areas, or items that can affect each other.
+- Use `Dependencies` only when another `DEBT-*` item must be resolved, narrowed, or explicitly decided before this item can be completed safely. Do not copy loose related items into dependencies. Use `None` when no prerequisite is known.
 - Use `Notes` as living tracker memory for item-specific context, including implementation considerations, extra guidance, additional thoughts, reminders, unresolved questions, risks, discoveries, and future-session hints.
 - Notes may be bullets, paragraphs, or mixed, and may be edited, merged, expanded, rewritten, or pruned over time.
 - If new information changes a canonical field such as priority, size, preferred direction, next action, or completion signal, update that field as well.
@@ -64,51 +65,7 @@ Statuses:
 
 ## Active Items
 
-Each active item should include enough direction that a future session can choose a small, behavior-preserving slice without rediscovering the whole problem. `Priority Rationale` explains the rating, `Resolution Path` describes the likely sequence, `Resolved When` describes the signal for moving the item to the archive, `Related Items` records nearby tracker context, and `Notes` captures living context that does not fit cleanly in canonical fields.
-
-### DEBT-1 - QA suite is not a trustworthy release gate
-
-- `Priority`: `P1`
-- `Size`: `M`
-- `Priority Rationale`: This is `P1` because the named site QA gate currently fails, so it cannot be trusted as a release signal. It is not `P0` because the failures are known stale expectations and diagnostics gaps rather than confirmed broken production behaviour.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: Testing, QA
-- `Problem`: `npm run qa:site` currently fails against stale expectations and generic console/network 404 noise.
-- `Why It Matters`: A failing QA suite cannot reliably distinguish real regressions from stale tests.
-- `Preferred Direction`: Update stale semantic expectations, capture failed request URLs, and make the suite pass for the current intended site behaviour.
-- `Resolution Path`: First fix stale route/heading expectations and improve failed-request diagnostics. Then rerun the full site QA path and keep any newly discovered failures as separate focused items if they are unrelated.
-- `Next Action`: Fix the stale H1/404 expectations and add clearer failed-request diagnostics.
-- `Resolved When`: `npm run qa:site` passes locally and failures identify concrete app or asset problems.
-- `Related Items`:
-  - `SITE-1`: The accessibility audit matrix should build on a trustworthy QA suite rather than stale landmark or axe failures.
-  - `SITE-2`: Responsive QA needs the same reliable test foundation before viewport coverage is expanded.
-  - `SITE-5`: Analytics/test policy overlaps with this because third-party noise can hide real app failures in the QA output.
-  - `DEBT-8`: Route parity work may add useful assertions once the current QA gate is passing.
-- `Notes`:
-- `Links`: `tests/public-site.spec.ts`, `docs/reports/2026-06-17-technical-code-review.md`
-
-### DEBT-2 - Public routes expose nested main landmarks
-
-- `Priority`: `P1`
-- `Size`: `S`
-- `Priority Rationale`: This is `P1` because nested main landmarks affect every public route and undermine accessibility confidence. It is small enough to fix directly, but not `P0` because the visual site still works.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: Accessibility, Layout Structure
-- `Problem`: `Layout` wraps routes in a `<main>` while pages also return `<main>`, creating nested main landmarks.
-- `Why It Matters`: Landmark structure should be clear for assistive technology and automated accessibility tests.
-- `Preferred Direction`: Choose one main-landmark owner and update page/layout markup consistently.
-- `Resolution Path`: Decide whether `Layout` or individual pages own the single `<main>` landmark, update the narrower side consistently, and add or adjust tests to lock the contract.
-- `Next Action`: Decide whether `Layout` or pages own `<main>`, then update the narrower side.
-- `Resolved When`: Each route exposes one primary main landmark and relevant tests assert that contract.
-- `Related Items`:
-  - `SITE-1`: This is one concrete accessibility gap that should appear in, or be cleared before, the route-by-route accessibility matrix.
-  - `DEBT-1`: The QA suite currently reports stale semantic expectations, so landmark cleanup and QA repair should avoid masking each other.
-- `Notes`:
-- `Links`: `src/components/Layout.tsx`, `src/pages/`
+Each active item should include enough direction that a future session can choose a small, behavior-preserving slice without rediscovering the whole problem. `Priority Rationale` explains the rating, `Resolution Path` describes the likely sequence, `Resolved When` describes the signal for moving the item to the archive, `Related Items` records nearby tracker context, `Dependencies` records prerequisite `DEBT-*` work, and `Notes` captures living context that does not fit cleanly in canonical fields.
 
 ### DEBT-3 - Enquiry endpoint needs abuse hardening
 
@@ -128,36 +85,13 @@ Each active item should include enough direction that a future session can choos
 - `Related Items`:
   - `DEBT-4`: Structured server-side validation gives hardening rules a safer payload boundary to inspect.
   - `DEBT-5`: Public error handling must stay generic when abuse or provider failures are blocked.
-  - `DEBT-10`: Direct API tests should cover accepted submissions and hardening rejections together.
+  - `DEBT-10`: Archived direct API coverage provides the harness future hardening rejections can extend.
   - `DEBT-11`: Explicit delivery configuration reduces operational ambiguity while hardening the public endpoint.
   - `SITE-6`: Visitor-facing form-flow tests should keep legitimate enquiry states working while abuse controls are added.
+- `Dependencies`:
+  - `DEBT-5`: Decide safe public error/fallback behaviour before adding new visitor-visible hardening rejection paths.
 - `Notes`:
-- `Links`: `api/enquiry.js`, `src/components/EnquiryForm.tsx`
-
-### DEBT-4 - Enquiry validation and email rendering depend on client-built strings
-
-- `Priority`: `P1`
-- `Size`: `L`
-- `Priority Rationale`: This is `P1` because client-built email strings make validation, conditional form rules, and email rendering harder to trust at the main conversion point. It is not `P0` because current submissions can still be sent.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: API, Forms, Validation
-- `Problem`: The browser composes `subject`, `body`, and `replyTo`, while the API validates only those strings and reparses text rows for HTML email rendering.
-- `Why It Matters`: Validation, email rendering, and conditional form rules should be server-owned so malformed or manipulated submissions fail safely.
-- `Preferred Direction`: Send structured JSON fields from the client, validate allowed values server-side, and build subject/text/HTML email on the server.
-- `Resolution Path`: Define the structured payload contract, update the client to send validated field values instead of composed email strings, move subject/body/reply-to construction server-side, and add direct API tests around accepted and rejected payloads.
-- `Next Action`: Define the structured payload shape and server validation rules for the existing form fields.
-- `Resolved When`: The API validates structured fields, produces email bodies from validated data, and tests cover invalid payloads and successful submissions.
-- `Related Items`:
-  - `DEBT-3`: Abuse hardening is more reliable once the API validates structured fields rather than client-composed strings.
-  - `DEBT-5`: Error and fallback behaviour should be decided alongside the server-owned validation contract.
-  - `DEBT-10`: API-level tests are the natural verification path for structured valid and invalid payloads.
-  - `DEBT-11`: Server-side email rendering should align with explicit delivery configuration.
-  - `SITE-6`: Public form-flow QA depends on the validation and response states chosen here.
-- `Notes`:
-  - This also covers review item 14: removing brittle text parsing from the email renderer by using one validated structured object for subject, reply-to, text email, HTML email, and timing notes.
-- `Links`: `src/components/EnquiryForm.tsx`, `api/enquiry.js`, `src/data/enquiry.ts`
+- `Links`: `api/enquiry.ts`, `src/components/EnquiryForm.tsx`
 
 ### DEBT-5 - Enquiry error handling and no-JavaScript fallback are inconsistent
 
@@ -177,10 +111,11 @@ Each active item should include enough direction that a future session can choos
 - `Related Items`:
   - `DEBT-3`: Hardening failures should return safe public messages without leaking security or provider details.
   - `DEBT-4`: Validation shape determines which visitor-facing error states can be shown clearly.
-  - `DEBT-10`: Direct API tests should cover generic public errors and detailed server-side failure paths.
+  - `DEBT-10`: Archived direct API coverage provides the harness this item can extend for generic public errors and fallback policy.
   - `SITE-6`: Browser form-flow tests should verify the visible success, failure, validation, and fallback states.
+- `Dependencies`: `None`
 - `Notes`:
-- `Links`: `api/enquiry.js`, `src/components/EnquiryForm.tsx`
+- `Links`: `api/enquiry.ts`, `src/components/EnquiryForm.tsx`
 
 ### DEBT-6 - Production URL and Vercel routing behaviour are not locked down
 
@@ -201,6 +136,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-8`: Route manifest or parity work should agree with the production URL and fallback strategy.
   - `DEBT-16`: Runtime and package-manager pinning can reduce environment drift while production build validation is tightened.
   - `SITE-3`: The public SEO/metadata matrix depends on locked-down canonical URLs, sitemap output, redirects, and noindex policy.
+- `Dependencies`: `None`
 - `Notes`:
 - `Links`: `scripts/prerender-route-metadata.mjs`, `src/data/routeMetadata.json`, `vercel.json`
 
@@ -220,8 +156,9 @@ Each active item should include enough direction that a future session can choos
 - `Next Action`: Fix the known CSS/footer mojibake and run a repository search for common corruption markers.
 - `Resolved When`: Known mojibake is gone and future corruption is easy to detect.
 - `Related Items`:
-  - `DEBT-1`: A trustworthy QA path may catch rendered encoding damage once stale failures are cleared.
+  - `DEBT-1`: The restored QA gate may catch rendered encoding damage without stale expectation noise.
   - `SITE-3`: Metadata and SEO copy should be included in any encoding scan so corrupted canonical or social text does not slip through.
+- `Dependencies`: `None`
 - `Notes`:
 - `Links`: `src/styles.css`, `docs/reports/2026-06-17-technical-code-review.md`
 
@@ -241,58 +178,36 @@ Each active item should include enough direction that a future session can choos
 - `Next Action`: Add a focused parity test before a broader manifest refactor.
 - `Resolved When`: Public route changes fail clearly when metadata, prerendering, redirects, or tests are out of sync.
 - `Related Items`:
-  - `DEBT-1`: Route parity assertions should be added after the failing QA gate is trustworthy enough to carry them.
+  - `DEBT-1`: Route parity assertions can now build on the restored public-site QA gate.
   - `DEBT-6`: Production routing and canonical URL decisions need to match any route manifest or parity test.
   - `SITE-3`: The SEO/metadata matrix is the visitor-facing counterpart to this technical route consistency work.
+- `Dependencies`: `None`
 - `Notes`:
 - `Links`: `src/data/routes.ts`, `src/App.tsx`, `src/data/routeMetadata.json`, `tests/public-site.spec.ts`
 
-### DEBT-9 - Type checking does not cover tests, scripts, config, or API code
+### DEBT-9 - Type checking does not cover tests, scripts, or most config code
 
 - `Priority`: `P2`
 - `Size`: `M`
-- `Priority Rationale`: This is `P2` because important tests, scripts, config, and API code sit outside the main TypeScript safety net. It is not `P1` because runtime behaviour is covered partly by build and browser checks today.
+- `Priority Rationale`: This is `P2` because important tests, scripts, and config code still sit outside the main TypeScript safety net. It is not `P1` because runtime behaviour is covered partly by build and browser checks today.
 - `Status`: `Open`
 - `Detected`: 2026-06-17
 - `Source`: `docs/reports/2026-06-17-technical-code-review.md`
 - `Area`: TypeScript, Tooling, API
-- `Problem`: The main TypeScript config covers `src`, while API, tests, scripts, and most config files are outside normal type checking.
+- `Problem`: The main TypeScript config covers `src` and the enquiry API, while tests, scripts, and most config files remain outside normal type checking.
 - `Why It Matters`: Important build, deploy, test, and serverless code can drift without type feedback.
-- `Preferred Direction`: Add dedicated typecheck coverage for tests/config/scripts and either migrate the API to TypeScript or protect it with focused validation tests.
-- `Resolution Path`: Add a separate typecheck path for tests and scripts first, then decide whether API code should move to TypeScript or be protected by direct JavaScript tests and validation boundaries.
-- `Next Action`: Add a separate typecheck target for Playwright tests and scripts, then assess the API path.
-- `Resolved When`: Non-`src` project code has an explicit verification path in local checks or CI.
+- `Preferred Direction`: Add dedicated typecheck coverage for tests, config, and scripts.
+- `Resolution Path`: Add a separate typecheck path for tests and scripts first, then decide how much config code should join it without slowing ordinary builds.
+- `Next Action`: Add a separate typecheck target for Playwright tests and project scripts.
+- `Resolved When`: Tests, scripts, and key config files have an explicit type verification path in local checks or CI.
 - `Related Items`:
-  - `DEBT-1`: A broader typecheck path can strengthen release trust once the current QA gate is repaired.
+  - `DEBT-1`: A broader typecheck path can strengthen the restored public-site release gate.
   - `DEBT-8`: Route metadata, prerender scripts, and tests are part of the non-`src` code that may need type or parity coverage.
-  - `DEBT-10`: API test coverage may be the safer first protection if the API remains JavaScript.
+  - `DEBT-10`: Archived API tests provide baseline runtime protection alongside the TypeScript enquiry endpoint.
   - `DEBT-16`: Runtime/package-manager pinning helps keep expanded tooling checks stable across environments.
+- `Dependencies`: `None`
 - `Notes`:
-- `Links`: `tsconfig.json`, `tsconfig.node.json`, `tests/`, `scripts/`, `api/enquiry.js`
-
-### DEBT-10 - Enquiry API lacks direct tests
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Priority Rationale`: This is `P2` because the enquiry API is the most sensitive integration point, but existing browser-level tests still provide some coverage of the visible flow.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: API, Testing, Email
-- `Problem`: Existing tests cover public pages and some browser behaviour, but not direct `/api/enquiry` outcomes such as honeypot handling, invalid payloads, missing environment variables, Resend failures, or native submission policy.
-- `Why It Matters`: The enquiry endpoint is the most sensitive public integration point and needs fast, isolated tests in addition to browser-flow coverage.
-- `Preferred Direction`: Add API-level tests with mocked Resend/fetch behaviour, then pair them with the public form-flow tests tracked in `SITE-6`.
-- `Resolution Path`: Choose a direct API test harness, mock provider calls and environment configuration, cover success and rejection paths, then keep browser tests focused on visitor-visible form states.
-- `Next Action`: Choose the API test harness and cover success, invalid payload, honeypot, missing config, and provider failure paths.
-- `Resolved When`: `/api/enquiry` has direct tests for accepted and rejected submissions, and public form-flow browser tests cover the visible visitor states.
-- `Related Items`:
-  - `DEBT-3`: Hardening rules need direct tests for blocked and accepted submissions.
-  - `DEBT-4`: Structured validation requires API-level tests for accepted and rejected payloads.
-  - `DEBT-5`: Public error and fallback policies should be covered at the API boundary.
-  - `DEBT-11`: Missing or invalid email delivery configuration should be tested directly.
-  - `SITE-6`: Browser form-flow QA should complement these API tests by checking visitor-visible states.
-- `Notes`:
-- `Links`: `api/enquiry.js`, `src/components/EnquiryForm.tsx`, `docs/project/site-backlog.md`
+- `Links`: `tsconfig.json`, `tsconfig.node.json`, `tests/`, `scripts/`, `api/enquiry.ts`
 
 ### DEBT-11 - Email delivery configuration is implicit
 
@@ -313,9 +228,10 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-3`: Endpoint hardening and delivery configuration both reduce operational risk around public submissions.
   - `DEBT-4`: Server-side email rendering should use the same explicit delivery configuration.
   - `DEBT-5`: Missing configuration should fail with safe public errors and useful server-side diagnostics.
-  - `DEBT-10`: Direct API tests should cover missing config and provider failure paths.
+  - `DEBT-10`: Archived direct API coverage already covers missing config and provider failure baselines that this item can extend.
+- `Dependencies`: `None`
 - `Notes`:
-- `Links`: `api/enquiry.js`, `src/data/enquiry.ts`
+- `Links`: `api/enquiry.ts`, `src/data/enquiry.ts`
 
 ### DEBT-13 - Legacy CSS layers need focused cleanup
 
@@ -339,6 +255,10 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-18`: This is the smaller panel/strip selector audit split from the same legacy CSS cluster.
   - `DEBT-19`: This is the smaller issue/topic grid audit that overlaps with active card patterns.
   - `DEBT-21`: Shared typography cleanup is another focused design-system CSS cleanup lane, though it is about type roles rather than legacy selector removal.
+- `Dependencies`:
+  - `DEBT-17`: Complete, retain, or supersede the concrete legacy card cleanup slice before closing the broad legacy CSS parent.
+  - `DEBT-18`: Complete, retain, or supersede the concrete panel/strip selector slice before closing the broad legacy CSS parent.
+  - `DEBT-19`: Complete, retain, or supersede the concrete issue/topic grid slice before closing the broad legacy CSS parent.
 - `Notes`:
   - This is a broad cleanup parent. When a concrete slice is found, add a smaller linked `DEBT-*` item instead of expanding this card indefinitely.
   - `DEBT-17` covers the specific `src/components/Card.tsx`, `.card`, and `.card-grid` cleanup slice discovered while resolving `DEBT-12`.
@@ -367,6 +287,7 @@ Each active item should include enough direction that a future session can choos
   - `SITE-4`: Performance and image delivery review may also need to consider route-level CSS/JS growth.
   - `SITE-8`: Shared portrait/media treatment may reduce duplicated page-scoped CSS if the pattern is promoted.
   - `DEBT-20`: Page-specific typography overrides are one concrete way global page CSS can drift from shared design-system roles.
+- `Dependencies`: `None`
 - `Notes`:
 - `Links`: `src/App.tsx`, `src/pages/`, `src/styles-*.css`
 
@@ -390,6 +311,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-13`: This is a smaller concrete slice of the broad legacy CSS cleanup parent.
   - `DEBT-18`: Old panel/strip selectors sit near the same legacy CSS cluster and may share responsive cleanup.
   - `DEBT-19`: Old issue/topic card selectors overlap with card naming and active `site-topic-*` guidance.
+- `Dependencies`: `None`
 - `Notes`:
   - This is the open implementation cleanup work split out after `DEBT-12` resolved the AI instruction boundary. `DEBT-13` remains the broad legacy CSS cleanup parent.
 - `Links`: `src/components/Card.tsx`, `src/styles.css`, `docs/design-system/current-scope.md`, `docs/design-system/patterns/components.md`, `docs/design-system/maintenance/migration-notes.md`
@@ -414,6 +336,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-15`: Removing unused global selectors reduces the risk created by the globally bundled CSS cascade.
   - `DEBT-17`: The old panel/strip rules sit near legacy card rules and may share responsive selectors.
   - `DEBT-19`: Old topic and panel selectors may be removed in adjacent dead-CSS sweeps if scans confirm they are unused.
+- `Dependencies`: `None`
 - `Notes`:
   - Overlaps with `DEBT-13` as one concrete legacy CSS slice.
 - `Links`: `src/styles.css`, `docs/design-system/maintenance/cleanup-sweeps.md`, `docs/design-system/maintenance/migration-notes.md`
@@ -438,6 +361,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-17`: Legacy issue/topic card naming overlaps with the legacy card cleanup lane.
   - `DEBT-18`: Old issue/topic and panel/strip selectors appear in the same legacy CSS region and may be audited together.
   - `SITE-8`: If media/hero patterns are promoted later, this cleanup helps keep active design-system naming clearer.
+- `Dependencies`: `None`
 - `Notes`:
   - Overlaps with `DEBT-13` and the card cleanup lane in `DEBT-17`; keep cross-links rather than merging the items.
 - `Links`: `src/styles.css`, `docs/design-system/patterns/page-patterns.md`, `docs/design-system/current-scope.md`, `docs/design-system/maintenance/migration-notes.md`
@@ -462,6 +386,8 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-21`: Shared production typography should be audited first or alongside this so page cleanup has stable roles to target.
   - `SITE-2`: Responsive QA should catch visual regressions when local type overrides are reduced.
   - `SITE-8`: Shared portrait/media hero work may overlap with page-specific hero and support-copy type cleanup.
+- `Dependencies`:
+  - `DEBT-21`: Audit shared production typography first so page-specific cleanup has stable shared roles to target.
 - `Notes`:
   - Do not treat this as a redesign or global re-scale. The first type-role implementation slice is already complete; this is follow-up cleanup.
   - Preserve page-specific type where a page has a genuine editorial composition, such as special hero title measures or unique visual moments.
@@ -486,10 +412,37 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-13`: This is a focused design-system CSS cleanup lane that should stay small like the other legacy cleanup slices.
   - `DEBT-20`: Page-specific typography cleanup depends on the shared roles being stable and clear.
   - `SITE-2`: Responsive QA should cover any shared type changes across compact and desktop viewports.
+- `Dependencies`: `None`
 - `Notes`:
   - The old plan recommended fluid display/hero roles, mostly fixed body/label/card/form roles, and lightly responsive section headings. Use that as classification guidance, not as permission to re-scale the site.
   - Some raw values may remain appropriate for icons, nav details, compact metadata, or deliberately non-body roles.
 - `Links`: `src/styles.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system-old/type-scale-plan.md`
+
+### DEBT-22 - Enquiry timezone comparison notes need server-owned handling
+
+- `Priority`: `P2`
+- `Size`: `M`
+- `Priority Rationale`: This is `P2` because timezone comparison notes are useful booking context but should not block the safer structured enquiry payload. It is not `P1` while explicit state/timezone fields are still captured and sent in enquiry emails.
+- `Status`: `Open`
+- `Detected`: 2026-06-17
+- `Source`: `DEBT-4` implementation planning
+- `Area`: API, Forms, Email, Timezones
+- `Problem`: The old enquiry flow generated a Perth business-hours comparison note in the browser while composing the whole email body. After structured server-side rendering, timezone/state values are trusted fields but the derived comparison note is not yet canonical server-owned output.
+- `Why It Matters`: Booking logistics should use an explicit, testable timezone policy rather than browser-composed prose or automatic timezone guesses.
+- `Preferred Direction`: Generate any Perth business-hours comparison note server-side from explicit submitted state/timezone values, using shared or duplicated canonical timezone helpers with tests for daylight-saving and non-Australian/unsure cases.
+- `Resolution Path`: Decide the canonical state/timezone value model, move comparison-note generation to the API email renderer, and add direct API tests for representative winter/summer timezone outputs.
+- `Next Action`: Define whether timezone payload values should remain abbreviations or move to stable region identifiers before reintroducing the comparison note.
+- `Resolved When`: Enquiry emails include any intended timezone comparison note from server-owned logic, with tests covering accepted timezone/state values and seasonal offset changes.
+- `Related Items`:
+  - `DEBT-4`: Structured enquiry payloads now give this item the server-side field boundary it needs.
+  - `DEBT-5`: Visitor-facing validation/error policy may affect how timezone field problems are reported.
+  - `DEBT-10`: Archived direct API coverage provides the harness for timezone-note rendering tests once the policy is chosen.
+  - `SITE-6`: Form-flow QA may later verify the visible timezone/state choices that feed the email.
+- `Dependencies`:
+  - `DEBT-4`: Keep structured enquiry payload and server-rendered email content in place before adding derived timezone prose.
+- `Notes`:
+  - Do not use server IP geolocation as a source of truth. Browser timezone detection may be a convenience default later, but submitted explicit user-confirmed fields should drive email output.
+- `Links`: `api/enquiry.ts`, `src/components/EnquiryForm.tsx`, `src/utils/timeZones.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
@@ -507,13 +460,38 @@ Each active item should include enough direction that a future session can choos
 - `Next Action`: Confirm the intended Node and npm versions, then pin them in `package.json`.
 - `Resolved When`: Runtime and package-manager expectations are explicit and available to local tooling and deployment environments.
 - `Related Items`:
-  - `DEBT-1`: Stable runtime/tooling expectations help make the QA gate reproducible across machines.
+  - `DEBT-1`: Stable runtime/tooling expectations help keep the restored QA gate reproducible across machines.
   - `DEBT-6`: Production build validation and deployment routing assumptions depend on consistent runtime behaviour.
   - `DEBT-9`: Expanded typecheck and script coverage is easier to trust when Node and package-manager versions are pinned.
+- `Dependencies`: `None`
 - `Notes`:
 - `Links`: `package.json`
 
 ## Archive
+
+### DEBT-1 - QA suite is not a trustworthy release gate
+
+Resolved on 2026-06-17 by updating stale public-site Playwright expectations for current page headings and not-found route behaviour, and by improving page diagnostics for console errors, failed responses, and failed requests.
+
+The full `npm run qa:site` gate now passes locally. No new follow-up debt was created from this pass because the full public-site suite passed after the stale expectations and diagnostics gap were fixed.
+
+### DEBT-2 - Public routes expose nested main landmarks
+
+Resolved on 2026-06-17 by making page components the sole owners of the primary `<main>` landmark. `Layout` now renders the routed page directly between the shared header and footer instead of wrapping the outlet in an additional main.
+
+The fix preserved routes, copy, visual design, API behaviour, and page-level `.site-page` wrappers. Public-site Playwright coverage now asserts one visible main landmark across canonical public routes and not-found boundary routes.
+
+### DEBT-4 - Enquiry validation and email rendering depend on client-built strings
+
+Resolved on 2026-06-17 by changing enquiry submissions to structured JSON fields and making the API validate those fields before building the email subject, reply-to, plain text, and HTML output server-side.
+
+The old composed `{ subject, body, replyTo }` payload is now rejected by validation, and direct Node API tests cover successful submissions, invalid payloads, honeypot handling, missing delivery config, and provider failure. The derived Perth business-hours comparison note was intentionally split into `DEBT-22` so timezone policy can be cleaned up separately.
+
+### DEBT-10 - Enquiry API lacks direct tests
+
+Resolved on 2026-06-17 by adding direct Node API tests for `/api/enquiry` with mocked Resend/fetch behaviour. Coverage now includes accepted general, appointment, and consult submissions; invalid structured payloads; legacy composed payload rejection; honeypot short-circuiting; missing delivery configuration; and provider failure.
+
+The remaining visitor-visible form-flow browser coverage stays tracked in `SITE-6`, and future hardening/configuration work can extend the API tests added here instead of reopening this baseline coverage item.
 
 ### DEBT-14 - Side-stripe panel rules conflict with active patterns
 

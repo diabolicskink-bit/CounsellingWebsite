@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
-import {
-  getActiveAustralianTimeZoneByAbbreviation,
-  getActiveAustralianTimeZoneByState,
-  getPerthBusinessHoursComparisonNote,
-} from "../utils/timeZones";
 import Button from "./Button";
 
 export type EnquiryFormTextField = {
@@ -25,13 +20,6 @@ export type EnquiryFormContent = {
     title: string;
     message: string;
     note: string;
-  };
-  subject?: string;
-  subjects?: {
-    general: string;
-    appointment: string;
-    consult: string;
-    booking: string;
   };
   fields: {
     enquiryType: {
@@ -76,113 +64,21 @@ function getFormText(formData: FormData, fieldName: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function getSelectedOptionLabel(value: string, options: EnquiryFormSelectOption[]) {
-  return options.find((option) => option.value === value)?.label ?? value;
-}
-
-function getEnquirySubject(content: EnquiryFormContent, enquiryTypeValue: string, bookingTypeValue: string) {
-  const subjects = content.subjects;
-
-  if (enquiryTypeValue === generalEnquiryValue) {
-    return subjects?.general ?? content.subject ?? "General enquiry";
-  }
-
-  if (enquiryTypeValue === bookingEnquiryValue && bookingTypeValue === appointmentBookingValue) {
-    return subjects?.appointment ?? content.subject ?? "Booking enquiry";
-  }
-
-  if (enquiryTypeValue === bookingEnquiryValue && bookingTypeValue === consultBookingValue) {
-    return subjects?.consult ?? content.subject ?? "15-minute consult request";
-  }
-
-  if (enquiryTypeValue === bookingEnquiryValue) {
-    return subjects?.booking ?? content.subject ?? "Booking enquiry";
-  }
-
-  return content.subject ?? "Counselling enquiry";
-}
-
-function getSubjectName(name: string) {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  const firstName = parts[0] ?? "";
-  const lastInitial = parts.length > 1 ? parts[parts.length - 1][0].toUpperCase() : "";
-
-  return [firstName, lastInitial].filter(Boolean).join(" ");
-}
-
-function getTimingNote(content: EnquiryFormContent, stateValue: string, timeZoneValue: string) {
-  if (stateValue) {
-    const activeTimeZone = getActiveAustralianTimeZoneByState(stateValue);
-
-    if (activeTimeZone) {
-      return getPerthBusinessHoursComparisonNote({
-        stateLabel: getSelectedOptionLabel(stateValue, content.fields.state.options),
-        timeZone: activeTimeZone.timeZone,
-        timeZoneLabel: activeTimeZone.abbreviation,
-      });
-    }
-  }
-
-  if (timeZoneValue) {
-    const activeTimeZone = getActiveAustralianTimeZoneByAbbreviation(timeZoneValue);
-
-    if (activeTimeZone) {
-      return getPerthBusinessHoursComparisonNote({
-        timeZone: activeTimeZone.timeZone,
-        timeZoneLabel: getSelectedOptionLabel(timeZoneValue, content.fields.timeZone.options),
-      });
-    }
-  }
-
-  return "";
-}
-
-function buildEnquiryPayload(content: EnquiryFormContent, formData: FormData) {
-  const enquiryTypeValue = getFormText(formData, "enquiryType");
-  const bookingTypeValue = getFormText(formData, "bookingType");
+function buildEnquiryPayload(formData: FormData) {
   const name = getFormText(formData, "name");
   const email = getFormText(formData, "email");
   const message = getFormText(formData, "message");
-  const timingValue = getFormText(formData, "timing");
-  const stateValue = getFormText(formData, "state");
-  const availability = getFormText(formData, "availability");
-  const timeZoneValue = getFormText(formData, "timeZone");
-
-  const enquiryType = getSelectedOptionLabel(enquiryTypeValue, content.fields.enquiryType.options);
-  const bookingType = getSelectedOptionLabel(bookingTypeValue, content.fields.bookingType.options);
-  const timing = timingValue;
-  const state = stateValue ? getSelectedOptionLabel(stateValue, content.fields.state.options) : "";
-  const timeZone = timeZoneValue ? getSelectedOptionLabel(timeZoneValue, content.fields.timeZone.options) : "";
-  const timingNote = getTimingNote(content, stateValue, timeZoneValue);
-
-  const details = [
-    ["Enquiry type", enquiryType],
-    ["Booking request", bookingType],
-    ["Name", name],
-    ["Email", email],
-    ["Preferred timing", timing],
-    ["State or territory", state],
-    ["Availability", availability],
-    ["Timezone", timeZone],
-  ]
-    .filter(([, value]) => value)
-    .map(([label, value]) => `${label}: ${value}`);
-
-  const body = [
-    ...(timingNote ? [`Timing note: ${timingNote}`, ""] : []),
-    ...details,
-    "",
-    message ? `Message:\n${message}` : "Message:",
-  ].join("\n");
-  const subjectName = getSubjectName(name);
-  const subject = [getEnquirySubject(content, enquiryTypeValue, bookingTypeValue), subjectName]
-    .filter(Boolean)
-    .join(" - ");
 
   return {
-    body,
-    replyTo: email,
-    subject,
+    availability: getFormText(formData, "availability"),
+    bookingType: getFormText(formData, "bookingType"),
+    email,
+    enquiryType: getFormText(formData, "enquiryType"),
+    message,
+    name,
+    state: getFormText(formData, "state"),
+    timing: getFormText(formData, "timing"),
+    timeZone: getFormText(formData, "timeZone"),
     website: getFormText(formData, "website"),
   };
 }
@@ -221,8 +117,14 @@ async function getSubmitFailureDetail(response: Response) {
   }
 
   try {
-    const errorBody = JSON.parse(responseBody) as { error?: string; details?: string };
-    const apiMessage = [errorBody.error, errorBody.details].filter(Boolean).join(" ");
+    const errorBody = JSON.parse(responseBody) as { error?: string; details?: unknown };
+    const details =
+      typeof errorBody.details === "string"
+        ? errorBody.details
+        : errorBody.details
+          ? JSON.stringify(errorBody.details)
+          : "";
+    const apiMessage = [errorBody.error, details].filter(Boolean).join(" ");
 
     return apiMessage ? `${fallback} ${apiMessage}` : `${fallback} Response JSON: ${getTruncatedErrorBody(responseBody)}`;
   } catch {
@@ -261,7 +163,7 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(buildEnquiryPayload(content, new FormData(formElement))),
+        body: JSON.stringify(buildEnquiryPayload(new FormData(formElement))),
       });
 
       if (!response.ok) {

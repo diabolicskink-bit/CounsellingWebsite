@@ -1,6 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
-import { expect, test } from "playwright/test";
+import { expect, test, type Page } from "playwright/test";
 
 const routeMetadataData = JSON.parse(
   readFileSync(new URL("../src/data/routeMetadata.json", import.meta.url), "utf8"),
@@ -27,10 +27,10 @@ const publicRoutes = [
 
 const expectedPublicH1Text: Record<(typeof publicRoutes)[number], string> = {
   "/": "Online counselling across Australia",
-  "/working-with-joel": "Working with Joel Griffiths",
+  "/working-with-joel": "Working with Joel",
   "/inclusion": "Inclusive counselling",
   "/inclusion/kink-bdsm": "Kink & BDSM-aware counselling",
-  "/inclusion/enm-polyamory": "ENM and polyamory counselling",
+  "/inclusion/enm-polyamory": "ENM & polyamory counselling",
   "/inclusion/lgbtqia": "Queer-affirming counselling",
   "/contact": "Contact and fees",
 };
@@ -66,6 +66,63 @@ function isAnalyticsUrl(rawUrl: string) {
   }
 }
 
+type PageDiagnostics = {
+  consoleErrors: string[];
+  failedRequests: string[];
+  failedResponses: string[];
+};
+
+function collectPageDiagnostics(page: Page): PageDiagnostics {
+  const diagnostics: PageDiagnostics = {
+    consoleErrors: [],
+    failedRequests: [],
+    failedResponses: [],
+  };
+
+  page.on("console", (message) => {
+    if (message.type() === "error") {
+      const location = message.location();
+      const source = location.url ? ` (${location.url}:${location.lineNumber}:${location.columnNumber})` : "";
+
+      diagnostics.consoleErrors.push(`${message.text()}${source}`);
+    }
+  });
+
+  page.on("response", (response) => {
+    if (response.status() >= 400) {
+      const request = response.request();
+
+      diagnostics.failedResponses.push(
+        `${response.status()} ${response.statusText()} ${request.method()} ${request.resourceType()} ${response.url()}`,
+      );
+    }
+  });
+
+  page.on("requestfailed", (request) => {
+    diagnostics.failedRequests.push(
+      `${request.method()} ${request.resourceType()} ${request.url()} - ${request.failure()?.errorText ?? "unknown failure"}`,
+    );
+  });
+
+  return diagnostics;
+}
+
+async function expectNoPageDiagnostics(diagnostics: PageDiagnostics) {
+  expect(diagnostics).toEqual({
+    consoleErrors: [],
+    failedRequests: [],
+    failedResponses: [],
+  });
+}
+
+async function expectNotFoundPage(page: Page, requestedPath: string) {
+  await expect(page).toHaveTitle("Page not found | Vive Counselling");
+  await expect(page.locator(".not-found-page__label")).toHaveText("Page not found");
+  await expect(page.locator("h1")).toHaveText("This is not the room.");
+  await expect(page.getByLabel("Requested address")).toContainText(requestedPath);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
+}
+
 const aliasRedirects = [
   { from: "/about", to: "/working-with-joel" },
   { from: "/fees", to: "/contact" },
@@ -88,26 +145,13 @@ const devOnlyRoutes = [
   "/design-language/foundations",
 ] as const;
 
+const notFoundBoundaryRoutes = [...retiredRoutes, ...devOnlyRoutes, "/not-a-real-page"] as const;
+const landmarkContractRoutes = [...publicRoutes, ...notFoundBoundaryRoutes] as const;
+
 test.describe("public pages", () => {
   for (const route of publicRoutes) {
     test(`${route} renders core content and hydrated metadata`, async ({ page }) => {
-      const consoleErrors: string[] = [];
-      const failedResponses: string[] = [];
-
-      page.on("console", (message) => {
-        if (message.type() === "error") {
-          const location = message.location();
-          const source = location.url ? ` (${location.url}:${location.lineNumber})` : "";
-
-          consoleErrors.push(`${message.text()}${source}`);
-        }
-      });
-
-      page.on("response", (response) => {
-        if (response.status() >= 400) {
-          failedResponses.push(`${response.status()} ${response.url()}`);
-        }
-      });
+      const diagnostics = collectPageDiagnostics(page);
 
       await page.goto(route, { waitUntil: "networkidle" });
 
@@ -125,7 +169,21 @@ test.describe("public pages", () => {
       expect(description).toBeTruthy();
       expect(description?.length).toBeGreaterThan(50);
 
-      expect({ consoleErrors, failedResponses }).toEqual({ consoleErrors: [], failedResponses: [] });
+      await expectNoPageDiagnostics(diagnostics);
+    });
+  }
+});
+
+test.describe("landmark structure", () => {
+  for (const route of landmarkContractRoutes) {
+    test(`${route} exposes one main landmark`, async ({ page }) => {
+      await page.goto(route, { waitUntil: "networkidle" });
+
+      const mainLandmark = page.getByRole("main");
+
+      await expect(mainLandmark).toHaveCount(1);
+      await expect(mainLandmark).toBeVisible();
+      await expect(page.locator("main")).toHaveCount(1);
     });
   }
 });
@@ -311,10 +369,7 @@ test.describe("retired route boundaries", () => {
     test(`${route} is not registered`, async ({ page }) => {
       await page.goto(route, { waitUntil: "networkidle" });
 
-      await expect(page).toHaveTitle("Page not found | Vive Counselling");
-      await expect(page.locator("h1")).toHaveText("Page not found");
-      await expect(page.locator("h2.hero-display")).toContainText(/This page does\s*not exist/);
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
+      await expectNotFoundPage(page, route);
     });
   }
 });
@@ -324,10 +379,7 @@ test.describe("production route boundaries", () => {
     test(`${route} is not registered in the production build`, async ({ page }) => {
       await page.goto(route, { waitUntil: "networkidle" });
 
-      await expect(page).toHaveTitle("Page not found | Vive Counselling");
-      await expect(page.locator("h1")).toHaveText("Page not found");
-      await expect(page.locator("h2.hero-display")).toContainText(/This page does\s*not exist/);
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
+      await expectNotFoundPage(page, route);
       await expect(page.getByRole("link", { name: "Dev" })).toHaveCount(0);
     });
   }
