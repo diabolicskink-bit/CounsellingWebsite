@@ -16,6 +16,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-06-17 - Type-Scale Cleanup Debt Captured
+
+- Changed: Assessed the old type-scale plan before deleting legacy design-system docs and split remaining typography cleanup into focused `DEBT-*` items.
+- Preserved: The completed type-role foundation remains documented in the rebuilt design-system docs; no CSS or rendered design changes were made.
+
 ## 2026-06-17 - Design-System AI Docs Rebuilt
 
 - Changed: Rebuilt `docs/design-system/` as a lean canonical AI/design-system instruction structure and moved the previous design-system docs aside for review.

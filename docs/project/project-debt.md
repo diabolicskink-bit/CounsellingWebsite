@@ -338,6 +338,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-17`: This is the smaller card/component cleanup slice split out of the broader legacy CSS issue.
   - `DEBT-18`: This is the smaller panel/strip selector audit split from the same legacy CSS cluster.
   - `DEBT-19`: This is the smaller issue/topic grid audit that overlaps with active card patterns.
+  - `DEBT-21`: Shared typography cleanup is another focused design-system CSS cleanup lane, though it is about type roles rather than legacy selector removal.
 - `Notes`:
   - This is a broad cleanup parent. When a concrete slice is found, add a smaller linked `DEBT-*` item instead of expanding this card indefinitely.
   - `DEBT-17` covers the specific `src/components/Card.tsx`, `.card`, and `.card-grid` cleanup slice discovered while resolving `DEBT-12`.
@@ -365,6 +366,7 @@ Each active item should include enough direction that a future session can choos
   - `SITE-2`: Responsive QA can reveal cross-page cascade issues caused by global page CSS.
   - `SITE-4`: Performance and image delivery review may also need to consider route-level CSS/JS growth.
   - `SITE-8`: Shared portrait/media treatment may reduce duplicated page-scoped CSS if the pattern is promoted.
+  - `DEBT-20`: Page-specific typography overrides are one concrete way global page CSS can drift from shared design-system roles.
 - `Notes`:
 - `Links`: `src/App.tsx`, `src/pages/`, `src/styles-*.css`
 
@@ -439,6 +441,55 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - Overlaps with `DEBT-13` and the card cleanup lane in `DEBT-17`; keep cross-links rather than merging the items.
 - `Links`: `src/styles.css`, `docs/design-system/patterns/page-patterns.md`, `docs/design-system/current-scope.md`, `docs/design-system/maintenance/migration-notes.md`
+
+### DEBT-20 - Page-specific typography overrides need role audit
+
+- `Priority`: `P2`
+- `Size`: `M`
+- `Priority Rationale`: This is `P2` because the type-role foundation is now documented, but page CSS can still drift through local font-size, fluid-size, and tracking overrides.
+- `Status`: `Open`
+- `Detected`: 2026-06-17
+- `Source`: `docs/design-system-old/type-scale-plan.md`
+- `Area`: Design System, CSS, Typography, Maintainability
+- `Problem`: The old type-scale plan completed the shared role baseline, but remaining cleanup calls for reducing page-specific type overrides so page CSS mostly controls layout and measure, not basic type scale.
+- `Why It Matters`: Local type sizes make new pages harder to build consistently and can reintroduce near-body one-offs that the type-role work was meant to remove.
+- `Preferred Direction`: Audit page-scoped CSS for local font-size, clamp, and letter-spacing rules; convert clear duplicates to shared type roles while preserving deliberate editorial compositions.
+- `Resolution Path`: Inventory page CSS typography rules, classify each as shared-role candidate or deliberate page-specific expression, then clean up one low-risk route group at a time with visual checks.
+- `Next Action`: Run a focused typography scan across `src/styles-*.css`, pick one public route group, and remove or convert only the obvious duplicate type overrides.
+- `Resolved When`: Public page CSS mostly adjusts layout, measure, and composition; remaining local type rules are deliberate and documented by role or page need.
+- `Related Items`:
+  - `DEBT-15`: Page-specific typography drift is one concrete risk created by globally bundled page CSS.
+  - `DEBT-21`: Shared production typography should be audited first or alongside this so page cleanup has stable roles to target.
+  - `SITE-2`: Responsive QA should catch visual regressions when local type overrides are reduced.
+  - `SITE-8`: Shared portrait/media hero work may overlap with page-specific hero and support-copy type cleanup.
+- `Notes`:
+  - Do not treat this as a redesign or global re-scale. The first type-role implementation slice is already complete; this is follow-up cleanup.
+  - Preserve page-specific type where a page has a genuine editorial composition, such as special hero title measures or unique visual moments.
+- `Links`: `src/styles-*.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system/current-scope.md`, `docs/design-system-old/type-scale-plan.md`
+
+### DEBT-21 - Shared production typography needs raw-size and fluid-rule audit
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Priority Rationale`: This is `P2` because shared production CSS still contains raw or fluid typography rules that may bypass the documented type-role system, but the safe next step is a narrow audit.
+- `Status`: `Open`
+- `Detected`: 2026-06-17
+- `Source`: `docs/design-system-old/type-scale-plan.md`
+- `Area`: Design System, CSS, Typography, Maintainability
+- `Problem`: After the shared type-role implementation, `src/styles.css` still contains raw `font-size` values and some fluid `clamp(...)` rules that should be classified as role-backed, deliberate exceptions, or cleanup candidates.
+- `Why It Matters`: Shared selectors teach future page work. If shared typography mixes role tokens with unexplained raw sizes, future agents may copy the wrong pattern.
+- `Preferred Direction`: Audit shared production selectors before page-specific cleanup, convert clear duplicates to type-role variables, and document deliberate exceptions where a raw or fluid value remains.
+- `Resolution Path`: Search `src/styles.css` for `font-size`, `letter-spacing`, and fluid `clamp(...)` rules, classify each shared selector by role, then make one small conversion pass at a time with visual verification.
+- `Next Action`: Run a shared typography audit on `src/styles.css` and identify the first low-risk group of raw sizes that can move to existing type roles.
+- `Resolved When`: Shared production typography either uses documented type roles or has clear, deliberate exceptions; future page work can choose type roles without guessing.
+- `Related Items`:
+  - `DEBT-13`: This is a focused design-system CSS cleanup lane that should stay small like the other legacy cleanup slices.
+  - `DEBT-20`: Page-specific typography cleanup depends on the shared roles being stable and clear.
+  - `SITE-2`: Responsive QA should cover any shared type changes across compact and desktop viewports.
+- `Notes`:
+  - The old plan recommended fluid display/hero roles, mostly fixed body/label/card/form roles, and lightly responsive section headings. Use that as classification guidance, not as permission to re-scale the site.
+  - Some raw values may remain appropriate for icons, nav details, compact metadata, or deliberately non-body roles.
+- `Links`: `src/styles.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
