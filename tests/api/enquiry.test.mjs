@@ -6,6 +6,7 @@ const deliveryEnvKeys = ["RESEND_API_KEY", "ENQUIRY_FROM_EMAIL", "ENQUIRY_TO_EMA
 const originalEnv = Object.fromEntries(deliveryEnvKeys.map((key) => [key, process.env[key]]));
 const originalFetch = globalThis.fetch;
 const originalConsoleError = console.error;
+const publicFailureMessage = "Sorry, the enquiry could not be sent. Please email diabolicskink@gmail.com directly.";
 
 afterEach(() => {
   for (const key of deliveryEnvKeys) {
@@ -51,6 +52,10 @@ function createResponse() {
       result.body = body;
       return result;
     },
+    send(body) {
+      result.body = body;
+      return result;
+    },
   };
 
   return { response, result };
@@ -61,6 +66,7 @@ async function invokeHandler(body, options = {}) {
   const returned = await handler(
     {
       body,
+      headers: options.headers,
       method: options.method ?? "POST",
     },
     response,
@@ -113,8 +119,22 @@ function mockResendFailure({ status = 429, statusText = "Too Many Requests", tex
   return calls;
 }
 
-function getFieldCodes(result) {
-  return Object.fromEntries(result.body.details.map((detail) => [detail.field, detail.code]));
+function mockConsoleError() {
+  const calls = [];
+
+  console.error = (...args) => {
+    calls.push(args.map(String).join(" "));
+  };
+
+  return calls;
+}
+
+function encodeForm(fields) {
+  return new URLSearchParams(fields).toString();
+}
+
+function assertNoPublicDetails(result) {
+  assert.equal(Object.hasOwn(result.body, "details"), false);
 }
 
 test("accepts a structured general enquiry and builds the Resend email server-side", async () => {
@@ -247,17 +267,11 @@ test("rejects the old composed subject body replyTo payload", async () => {
 
   assert.equal(result.statusCode, 400);
   assert.equal(result.body.error, "Invalid enquiry submission.");
+  assertNoPublicDetails(result);
   assert.equal(fetchCalled, false);
-
-  const fieldCodes = getFieldCodes(result);
-
-  assert.equal(fieldCodes.enquiryType, "required");
-  assert.equal(fieldCodes.name, "required");
-  assert.equal(fieldCodes.email, "required");
-  assert.equal(fieldCodes.message, "required");
 });
 
-test("returns field-level validation details for missing and invalid base fields", async () => {
+test("returns a generic validation error for missing and invalid base fields", async () => {
   setDeliveryEnv();
   const result = await invokeHandler({
     email: "not-an-email",
@@ -269,16 +283,10 @@ test("returns field-level validation details for missing and invalid base fields
 
   assert.equal(result.statusCode, 400);
   assert.equal(result.body.error, "Invalid enquiry submission.");
-
-  const fieldCodes = getFieldCodes(result);
-
-  assert.equal(fieldCodes.enquiryType, "invalid_value");
-  assert.equal(fieldCodes.name, "required");
-  assert.equal(fieldCodes.email, "invalid_format");
-  assert.equal(fieldCodes.message, "required");
+  assertNoPublicDetails(result);
 });
 
-test("returns field-level validation details for invalid booking fields", async () => {
+test("returns a generic validation error for invalid booking fields", async () => {
   setDeliveryEnv();
   const result = await invokeHandler({
     bookingType: "appointment",
@@ -293,15 +301,12 @@ test("returns field-level validation details for invalid booking fields", async 
 
   assert.equal(result.statusCode, 400);
   assert.equal(result.body.error, "Invalid enquiry submission.");
-
-  const fieldCodes = getFieldCodes(result);
-
-  assert.equal(fieldCodes.timing, "required");
-  assert.equal(fieldCodes.state, "invalid_value");
+  assertNoPublicDetails(result);
 });
 
-test("returns configuration errors after a valid structured payload when delivery env is missing", async () => {
+test("returns a generic public error and logs details when delivery env is missing", async () => {
   clearDeliveryEnv();
+  const consoleErrors = mockConsoleError();
   let fetchCalled = false;
   globalThis.fetch = async () => {
     fetchCalled = true;
@@ -317,15 +322,16 @@ test("returns configuration errors after a valid structured payload when deliver
   });
 
   assert.equal(result.statusCode, 500);
-  assert.equal(result.body.error, "Email delivery is not configured yet.");
-  assert.match(result.body.details, /RESEND_API_KEY/);
-  assert.match(result.body.details, /ENQUIRY_FROM_EMAIL/);
+  assert.equal(result.body.error, publicFailureMessage);
+  assertNoPublicDetails(result);
+  assert.match(consoleErrors.join("\n"), /RESEND_API_KEY/);
+  assert.match(consoleErrors.join("\n"), /ENQUIRY_FROM_EMAIL/);
   assert.equal(fetchCalled, false);
 });
 
-test("returns provider failure details when Resend rejects a valid structured payload", async () => {
+test("returns a generic public error and logs details when Resend rejects a valid payload", async () => {
   setDeliveryEnv();
-  console.error = () => {};
+  const consoleErrors = mockConsoleError();
   const fetchCalls = mockResendFailure();
 
   const result = await invokeHandler({
@@ -338,6 +344,87 @@ test("returns provider failure details when Resend rejects a valid structured pa
 
   assert.equal(fetchCalls.length, 1);
   assert.equal(result.statusCode, 502);
-  assert.equal(result.body.error, "Email delivery failed.");
-  assert.match(result.body.details, /Resend API 429: quota exceeded/);
+  assert.equal(result.body.error, publicFailureMessage);
+  assertNoPublicDetails(result);
+  assert.match(consoleErrors.join("\n"), /Resend enquiry send failed: 429 quota exceeded/);
+});
+
+test("returns a generic public error and logs details when Resend throws unexpectedly", async () => {
+  setDeliveryEnv();
+  const consoleErrors = mockConsoleError();
+
+  globalThis.fetch = async () => {
+    throw new Error("network socket reset");
+  };
+
+  const result = await invokeHandler({
+    email: "alex@example.com",
+    enquiryType: "general",
+    message: "Hello",
+    name: "Alex Person",
+    website: "",
+  });
+
+  assert.equal(result.statusCode, 500);
+  assert.equal(result.body.error, publicFailureMessage);
+  assertNoPublicDetails(result);
+  assert.match(consoleErrors.join("\n"), /Unexpected enquiry send error: network socket reset/);
+});
+
+test("accepts a URL-encoded native form submission and returns a safe HTML success page", async () => {
+  setDeliveryEnv();
+  const fetchCalls = mockResendSuccess();
+
+  const result = await invokeHandler(
+    encodeForm({
+      email: "alex@example.com",
+      enquiryType: "general",
+      message: "I would like to ask a question.",
+      name: "Alex Person",
+      website: "",
+    }),
+    {
+      headers: {
+        accept: "text/html",
+        "content-type": "application/x-www-form-urlencoded",
+      },
+    },
+  );
+
+  assert.equal(result.statusCode, 200);
+  assert.equal(result.headers["content-type"], "text/html; charset=utf-8");
+  assert.equal(fetchCalls.length, 1);
+  assert.equal(typeof result.body, "string");
+  assert.match(result.body, /Thanks, your enquiry has been sent\./);
+  assert.match(result.body, /I will respond as soon as I can\./);
+  assert.doesNotMatch(result.body, /RESEND_API_KEY|ENQUIRY_FROM_EMAIL|quota exceeded|network socket reset/);
+});
+
+test("returns a safe HTML failure page for a URL-encoded native form submission failure", async () => {
+  clearDeliveryEnv();
+  const consoleErrors = mockConsoleError();
+
+  const result = await invokeHandler(
+    encodeForm({
+      email: "alex@example.com",
+      enquiryType: "general",
+      message: "Hello",
+      name: "Alex Person",
+      website: "",
+    }),
+    {
+      headers: {
+        accept: "text/html",
+        "content-type": "application/x-www-form-urlencoded",
+      },
+    },
+  );
+
+  assert.equal(result.statusCode, 500);
+  assert.equal(result.headers["content-type"], "text/html; charset=utf-8");
+  assert.equal(typeof result.body, "string");
+  assert.match(result.body, /The enquiry could not be sent\./);
+  assert.match(result.body, /diabolicskink@gmail\.com/);
+  assert.doesNotMatch(result.body, /RESEND_API_KEY|ENQUIRY_FROM_EMAIL|Missing Vercel env vars/);
+  assert.match(consoleErrors.join("\n"), /RESEND_API_KEY/);
 });

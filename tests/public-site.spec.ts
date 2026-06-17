@@ -364,6 +364,40 @@ test.describe("working with Joel approach tabs", () => {
   });
 });
 
+test.describe("enquiry form", () => {
+  test("shows a safe public error without technical details", async ({ page }) => {
+    await page.route("**/api/enquiry", async (route) => {
+      await route.fulfill({
+        body: JSON.stringify({
+          details: "Missing Vercel env vars: RESEND_API_KEY.",
+          error: "Email delivery is not configured yet.",
+        }),
+        contentType: "application/json",
+        status: 502,
+      });
+    });
+
+    await page.goto("/contact", { waitUntil: "networkidle" });
+
+    const form = page.locator("form.site-form");
+
+    await form.getByLabel("Name").fill("Alex Person");
+    await form.getByLabel("Email").fill("alex@example.com");
+    await form.getByLabel("Your message").fill("Hello");
+    await form.getByLabel("General enquiry").check();
+    await form.getByRole("button", { name: "Send enquiry" }).click();
+
+    const alert = form.getByRole("alert");
+
+    await expect(alert).toContainText(
+      "Sorry, the enquiry could not be sent. Please email diabolicskink@gmail.com directly.",
+    );
+    await expect(alert).not.toContainText("Technical detail");
+    await expect(alert).not.toContainText("RESEND_API_KEY");
+    await expect(page.getByText(/Technical detail/i)).toHaveCount(0);
+  });
+});
+
 test.describe("retired route boundaries", () => {
   for (const route of retiredRoutes) {
     test(`${route} is not registered`, async ({ page }) => {

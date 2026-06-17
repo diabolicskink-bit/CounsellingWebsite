@@ -87,58 +87,12 @@ function joinClasses(...classes: Array<string | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
-function getTruncatedErrorBody(body: string) {
-  const normalizedBody = body.trim().replace(/\s+/g, " ");
-  const maxLength = 1600;
-
-  if (normalizedBody.length <= maxLength) {
-    return normalizedBody;
-  }
-
-  return `${normalizedBody.slice(0, maxLength)}...`;
-}
-
-function getClientFailureDetail(error: unknown) {
-  if (error instanceof Error) {
-    return `${error.name}: ${error.message}`;
-  }
-
-  return String(error);
-}
-
-async function getSubmitFailureDetail(response: Response) {
-  const endpoint = response.url || "/api/enquiry";
-  const statusText = response.statusText ? ` ${response.statusText}` : "";
-  const fallback = `Request to ${endpoint} failed with status ${response.status}${statusText}.`;
-  const responseBody = await response.text();
-
-  if (!responseBody.trim()) {
-    return `${fallback} No response body was returned by the server.`;
-  }
-
-  try {
-    const errorBody = JSON.parse(responseBody) as { error?: string; details?: unknown };
-    const details =
-      typeof errorBody.details === "string"
-        ? errorBody.details
-        : errorBody.details
-          ? JSON.stringify(errorBody.details)
-          : "";
-    const apiMessage = [errorBody.error, details].filter(Boolean).join(" ");
-
-    return apiMessage ? `${fallback} ${apiMessage}` : `${fallback} Response JSON: ${getTruncatedErrorBody(responseBody)}`;
-  } catch {
-    return `${fallback} Raw response body: ${getTruncatedErrorBody(responseBody)}`;
-  }
-}
-
 export default function EnquiryForm({ content, className, idPrefix = "enquiry" }: EnquiryFormProps) {
   const { fields } = content;
   const successRef = useRef<HTMLDivElement>(null);
   const [enquiryType, setEnquiryType] = useState("");
   const [bookingType, setBookingType] = useState("");
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
-  const [submitError, setSubmitError] = useState("");
 
   const isBookingEnquiry = enquiryType === bookingEnquiryValue;
   const isAppointmentRequest = isBookingEnquiry && bookingType === appointmentBookingValue;
@@ -155,7 +109,6 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
     const formElement = event.currentTarget;
 
     setSubmitStatus("sending");
-    setSubmitError("");
 
     try {
       const response = await fetch("/api/enquiry", {
@@ -167,16 +120,14 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
       });
 
       if (!response.ok) {
-        throw new Error(await getSubmitFailureDetail(response));
+        throw new Error("Enquiry submission failed.");
       }
 
       formElement.reset();
       setEnquiryType("");
       setBookingType("");
-      setSubmitError("");
       setSubmitStatus("success");
-    } catch (error) {
-      setSubmitError(getClientFailureDetail(error));
+    } catch {
       setSubmitStatus("error");
     }
   };
@@ -184,7 +135,6 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
   const handleEnquiryTypeChange = (value: string) => {
     setEnquiryType(value);
     setSubmitStatus("idle");
-    setSubmitError("");
 
     if (value !== bookingEnquiryValue) {
       setBookingType("");
@@ -288,7 +238,6 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
                         onChange={() => {
                           setBookingType(option.value);
                           setSubmitStatus("idle");
-                          setSubmitError("");
                         }}
                         required
                         type="radio"
@@ -360,7 +309,6 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
           {submitStatus === "error" ? (
             <div className="site-form__status site-form__status--error" role="alert">
               <p>Sorry, the enquiry could not be sent. Please email {content.recipientEmail} directly.</p>
-              {submitError ? <small className="site-form__technical-error">Technical detail: {submitError}</small> : null}
             </div>
           ) : null}
         </>

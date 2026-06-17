@@ -84,35 +84,10 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Automated abuse is materially harder, legitimate submissions still work, and tests cover blocked and accepted submissions.
 - `Related Items`:
   - `DEBT-4`: Structured server-side validation gives hardening rules a safer payload boundary to inspect.
-  - `DEBT-5`: Public error handling must stay generic when abuse or provider failures are blocked.
+  - `DEBT-5`: Archived generic public error and endpoint fallback contract should be reused when abuse or provider failures are blocked.
   - `DEBT-10`: Archived direct API coverage provides the harness future hardening rejections can extend.
   - `DEBT-11`: Explicit delivery configuration reduces operational ambiguity while hardening the public endpoint.
   - `SITE-6`: Visitor-facing form-flow tests should keep legitimate enquiry states working while abuse controls are added.
-- `Dependencies`:
-  - `DEBT-5`: Decide safe public error/fallback behaviour before adding new visitor-visible hardening rejection paths.
-- `Notes`:
-- `Links`: `api/enquiry.ts`, `src/components/EnquiryForm.tsx`
-
-### DEBT-5 - Enquiry error handling and no-JavaScript fallback are inconsistent
-
-- `Priority`: `P1`
-- `Size`: `M`
-- `Priority Rationale`: This is `P1` because public error shape and fallback behaviour affect visitor trust at the enquiry boundary. It is not `P0` because the JavaScript submission path can remain functional while the policy is clarified.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: API, Forms, Public Errors
-- `Problem`: Public API responses can expose technical details, and the form declares a native post fallback that the API does not actually support.
-- `Why It Matters`: Visitors should receive safe, useful fallback messages, and the form should not imply progressive enhancement that is broken.
-- `Preferred Direction`: Return generic public errors with detailed server logs, and either support native form posts or remove the implied fallback.
-- `Resolution Path`: Choose the no-JavaScript/native-post policy, make public responses generic and non-diagnostic, keep detailed provider/config errors server-side, and test the chosen failure and fallback states.
-- `Next Action`: Choose the no-JavaScript policy while hiding provider/env diagnostics from public responses.
-- `Resolved When`: Visitor-facing errors are safe, fallback behaviour is intentional, and tests cover missing-env/provider failure/native-post policy.
-- `Related Items`:
-  - `DEBT-3`: Hardening failures should return safe public messages without leaking security or provider details.
-  - `DEBT-4`: Validation shape determines which visitor-facing error states can be shown clearly.
-  - `DEBT-10`: Archived direct API coverage provides the harness this item can extend for generic public errors and fallback policy.
-  - `SITE-6`: Browser form-flow tests should verify the visible success, failure, validation, and fallback states.
 - `Dependencies`: `None`
 - `Notes`:
 - `Links`: `api/enquiry.ts`, `src/components/EnquiryForm.tsx`
@@ -139,28 +114,6 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
 - `Links`: `scripts/prerender-route-metadata.mjs`, `src/data/routeMetadata.json`, `vercel.json`
-
-### DEBT-7 - Encoding mojibake exists in source and rendered output
-
-- `Priority`: `P1`
-- `Size`: `S`
-- `Priority Rationale`: This is `P1` because visible encoding corruption makes the site and source look untrustworthy, but the known fix appears narrow and low-risk.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: Encoding, Source Hygiene
-- `Problem`: Source and rendered output contain mojibake sequences such as corrupted symbols in CSS content and footer output.
-- `Why It Matters`: Encoding damage makes the site look unpolished and can hide future text corruption.
-- `Preferred Direction`: Normalize affected files to UTF-8, replace corrupted sequences with intended text or ASCII, and add a lightweight detection check.
-- `Resolution Path`: Fix the known corrupted strings, search for common mojibake markers, and add a lightweight check or repeatable search so future corruption is easy to catch.
-- `Next Action`: Fix the known CSS/footer mojibake and run a repository search for common corruption markers.
-- `Resolved When`: Known mojibake is gone and future corruption is easy to detect.
-- `Related Items`:
-  - `DEBT-1`: The restored QA gate may catch rendered encoding damage without stale expectation noise.
-  - `SITE-3`: Metadata and SEO copy should be included in any encoding scan so corrupted canonical or social text does not slip through.
-- `Dependencies`: `None`
-- `Notes`:
-- `Links`: `src/styles.css`, `docs/reports/2026-06-17-technical-code-review.md`
 
 ### DEBT-8 - Routes, metadata, prerendering, and tests are duplicated
 
@@ -227,7 +180,7 @@ Each active item should include enough direction that a future session can choos
 - `Related Items`:
   - `DEBT-3`: Endpoint hardening and delivery configuration both reduce operational risk around public submissions.
   - `DEBT-4`: Server-side email rendering should use the same explicit delivery configuration.
-  - `DEBT-5`: Missing configuration should fail with safe public errors and useful server-side diagnostics.
+  - `DEBT-5`: Archived generic public error handling gives missing-configuration failures their visitor-safe response shape.
   - `DEBT-10`: Archived direct API coverage already covers missing config and provider failure baselines that this item can extend.
 - `Dependencies`: `None`
 - `Notes`:
@@ -435,7 +388,7 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Enquiry emails include any intended timezone comparison note from server-owned logic, with tests covering accepted timezone/state values and seasonal offset changes.
 - `Related Items`:
   - `DEBT-4`: Structured enquiry payloads now give this item the server-side field boundary it needs.
-  - `DEBT-5`: Visitor-facing validation/error policy may affect how timezone field problems are reported.
+  - `DEBT-5`: Archived generic public error handling is the current boundary for any timezone field problems.
   - `DEBT-10`: Archived direct API coverage provides the harness for timezone-note rendering tests once the policy is chosen.
   - `SITE-6`: Form-flow QA may later verify the visible timezone/state choices that feed the email.
 - `Dependencies`:
@@ -486,6 +439,18 @@ The fix preserved routes, copy, visual design, API behaviour, and page-level `.s
 Resolved on 2026-06-17 by changing enquiry submissions to structured JSON fields and making the API validate those fields before building the email subject, reply-to, plain text, and HTML output server-side.
 
 The old composed `{ subject, body, replyTo }` payload is now rejected by validation, and direct Node API tests cover successful submissions, invalid payloads, honeypot handling, missing delivery config, and provider failure. The derived Perth business-hours comparison note was intentionally split into `DEBT-22` so timezone policy can be cleaned up separately.
+
+### DEBT-5 - Enquiry error handling and no-JavaScript fallback are inconsistent
+
+Resolved on 2026-06-17 by removing temporary public diagnostic detail from enquiry API and form failures. Public JSON errors are now generic, provider/configuration/runtime details are logged server-side, and the React form no longer renders technical failure detail to visitors.
+
+The endpoint now accepts URL-encoded native form posts and returns safe minimal HTML success or failure pages for those submissions. Full JavaScript-disabled public-page rendering remains out of scope because the current Vite app still renders the contact form through client-side React.
+
+### DEBT-7 - Encoding mojibake exists in source and rendered output
+
+Resolved on 2026-06-17 by repairing the known mojibake in `src/styles.css`, including the rendered navigation submenu glyph and corrupted hero-system comment separators.
+
+Future corruption is guarded by `npm run check:encoding`, which scans project text files for common mojibake markers and now runs as part of both `npm run qa` and `npm run qa:site`. Generated and third-party output directories are intentionally excluded from the source scan.
 
 ### DEBT-10 - Enquiry API lacks direct tests
 

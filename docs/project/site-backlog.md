@@ -125,7 +125,7 @@ Statuses:
 - `Source`: `docs/project/current-scope.md`, `docs/reports/2026-06-17-technical-code-review.md`
 - `Visitor-Facing Goal`: Make the enquiry path easy to trust by verifying success, error, validation, fallback, and contact-instruction states from a visitor's point of view.
 - `Current State`: The enquiry form has progressive choices, success and error UI, and direct submit behaviour, but there are no dedicated form-flow browser tests.
-- `Why Deferred`: It depends on the API validation/error-handling direction tracked in `DEBT-4` and `DEBT-5`.
+- `Why Deferred`: It follows the API validation and safe error-handling foundations resolved in archived `DEBT-4` and `DEBT-5`.
 - `First Useful Slice`: Add a browser test that mocks `/api/enquiry` success and failure responses and verifies the visible public states.
 - `Implemented When`: The main enquiry success and failure paths are covered by tests and public messages remain safe and useful.
 - `Notes`:

@@ -239,10 +239,13 @@ h3 {
 }
 
 .nav-link--parent::after {
-  content: "â–¾";
+  content: "";
   display: inline-block;
   margin-left: 6px;
-  font-size: 0.8rem;
+  width: 0;
+  height: 0;
+  border-inline: 4px solid transparent;
+  border-top: 5px solid currentColor;
   vertical-align: middle;
 }
 
@@ -1528,15 +1531,6 @@ h3 {
   background: var(--surface-muted);
 }
 
-.site-form__technical-error {
-  display: block;
-  margin-top: 8px;
-  color: var(--muted);
-  font-size: var(--type-label);
-  line-height: 1.45;
-  overflow-wrap: anywhere;
-}
-
 .site-form__honeypot {
   display: none;
 }
@@ -2573,14 +2567,14 @@ h3 {
   }
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ---------------------------------------------------------------------------
    HERO DESIGN LANGUAGE
    Shared building blocks for page-level heroes.
    The shared hero classes below are the canonical implementation. New page heroes should compose from these classes
    rather than creating new scoped variants.
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   --------------------------------------------------------------------------- */
 
-/* â”€â”€ Wrapper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Wrapper ------------------------------------------------------------------ */
 
 .hero-section {
   position: relative;
@@ -2595,7 +2589,7 @@ h3 {
   z-index: 1;
 }
 
-/* â”€â”€ Top zone: heading + copy column â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Top zone: heading + copy column ------------------------------------------ */
 
 .hero-top {
   display: grid;
@@ -2605,7 +2599,7 @@ h3 {
   padding-bottom: 0;
 }
 
-/* â”€â”€ Display heading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Display heading ---------------------------------------------------------- */
 /* .hero-display is the authoritative page-opening display heading for production heroes.
    If a page only needs a different title measure, set --hero-display-max-width on the
    page scope instead of introducing another page-specific display-heading class. */
@@ -2633,7 +2627,7 @@ h3 {
   font-weight: 600;
 }
 
-/* â”€â”€ Right-column copy panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Right-column copy panel -------------------------------------------------- */
 
 .hero-copy-panel {
   margin: 0;
@@ -2718,7 +2712,7 @@ h1.hero-badge {
   color: var(--cedar);
 }
 
-/* â”€â”€ Principles strip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Principles strip --------------------------------------------------------- */
 
 .hero-principles-strip {
   display: grid;
@@ -2761,7 +2755,7 @@ h1.hero-badge {
   margin: 0;
 }
 
-/* â”€â”€ Background treatment â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Background treatment ----------------------------------------------------- */
 
 .hero-bg--default {
   position: relative;
@@ -2810,7 +2804,7 @@ h1.hero-badge {
   mix-blend-mode: normal;
 }
 
-/* â”€â”€ DS page demo wrappers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* DS page demo wrappers ---------------------------------------------------- */
 
 .hero-top--supporting-media {
   grid-template-columns: minmax(0, 1fr) minmax(240px, 330px);
@@ -2860,7 +2854,7 @@ h1.hero-badge {
   line-height: 1.42;
 }
 
-/* â”€â”€ Responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Responsive --------------------------------------------------------------- */
 
 @media (max-width: 900px) {
   .hero-bg--default {

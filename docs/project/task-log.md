@@ -16,6 +16,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-06-17 - DEBT-5 Safe Enquiry Error Contract Resolved
+
+- Changed: Enquiry API failures now return generic visitor-safe public errors while provider, configuration, and runtime diagnostics stay in server logs.
+- Changed: Endpoint-level URL-encoded native form posts now receive safe minimal HTML success or failure pages; full JavaScript-disabled public-page rendering remains out of scope.
+- Closed: Archived `DEBT-5` and removed it as a prerequisite for `DEBT-3` enquiry endpoint hardening.
+
+## 2026-06-17 - DEBT-7 Encoding Check Resolved
+
+- Changed: Repaired the known CSS mojibake in the navigation submenu glyph and hero-system comment separators.
+- Changed: Added `npm run check:encoding` for common mojibake markers and included it in `npm run qa` and `npm run qa:site`.
+- Closed: Archived `DEBT-7` after the source scan and QA path had a repeatable encoding guard.
+
 ## 2026-06-17 - Enquiry API Moved To TypeScript
 
 - Changed: Moved the serverless enquiry endpoint from `api/enquiry.js` to `api/enquiry.ts` with typed request, response, validation, and email-rendering boundaries.

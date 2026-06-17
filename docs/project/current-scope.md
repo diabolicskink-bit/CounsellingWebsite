@@ -18,13 +18,15 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Public assets include favicons, app icons, a web manifest, an OG image, and portrait/media assets under `public/`.
 - The Contact/Fees page uses the shared `EnquiryForm` component and data from `src/data/enquiry.ts`.
 - The enquiry form submits to the serverless `/api/enquiry` endpoint.
-- The TypeScript enquiry API validates structured form fields server-side, builds the email subject/reply-to/plain text/HTML from the validated payload, and sends email through Resend when configured.
+- The TypeScript enquiry API validates structured form fields server-side, supports endpoint-level URL-encoded native form posts, builds the email subject/reply-to/plain text/HTML from the validated payload, and sends email through Resend when configured.
+- Enquiry API failures return generic visitor-safe public errors, while provider/configuration/runtime diagnostics stay in server logs.
 - Basic honeypot spam protection exists for enquiry submissions.
 - Vercel Analytics is rendered by the app, and Google Tag Manager is loaded from `index.html`.
 - Playwright public-site tests exist under `tests/public-site.spec.ts`, including one-main-landmark contract coverage for public and not-found boundary routes.
 - Direct Node API tests cover accepted and rejected enquiry submissions under `tests/api/`.
 - The public-site QA gate, `npm run qa:site`, builds the app, starts the QA preview server, and passes the Playwright public-site suite locally.
 - The aggregate QA command, `npm run qa`, runs the build, direct API tests, and public-site Playwright suite.
+- Static encoding checks run through `npm run check:encoding` and are included in `npm run qa` and `npm run qa:site`.
 - Test tooling includes axe checks through Playwright and Lighthouse audit scripts.
 - Build tooling includes TypeScript build for `src`, Vite build, and route metadata prerendering.
 - The TypeScript build includes the `api/` serverless endpoint.
@@ -34,8 +36,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 
 - Enquiry spam protection is minimal and should not be treated as complete abuse protection.
 - Enquiry timezone comparison notes are not yet generated from canonical server-owned timezone logic.
-- The form declares a native action/method path, but the API does not currently support a true no-JavaScript form post with native field names.
-- API error responses can expose technical/provider details to visitors.
+- Endpoint-level native form posts are supported, but full JavaScript-disabled public-page rendering is not; the current Vite app still renders the contact form through client-side React.
 - Route definitions, route metadata, prerendering, and tests are not yet unified behind one manifest.
 - Type checking does not currently cover tests, scripts, and most config files.
 - Vercel clean URL and fallback behaviour is not directly exercised by the local QA command.
