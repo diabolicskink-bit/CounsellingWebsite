@@ -95,27 +95,53 @@ Each active item should include enough direction that a future session can choos
   - If Bot Protection is enabled later, test it carefully against both React `fetch` submissions and endpoint-level native form posts.
 - `Links`: `api/enquiry.ts`, `vercel.json`, `src/components/EnquiryForm.tsx`
 
-### DEBT-8 - Routes, metadata, prerendering, and tests are duplicated
+### DEBT-26 - Social sharing image metadata points at a missing asset
+
+- `Priority`: `P1`
+- `Size`: `XS`
+- `Priority Rationale`: This is `P1` because the site advertises an OG/social image in generated metadata and tests, but the referenced asset is absent from `public/`, which can break social previews and release trust. It is not `P0` because core page rendering and enquiry flow are not blocked.
+- `Status`: `Open`
+- `Detected`: 2026-06-18
+- `Source`: Fresh site debt review
+- `Area`: Metadata, Assets, SEO, QA
+- `Problem`: `src/data/routeMetadata.json` references `/og-vive-counselling.png`, and public-site tests expect that asset to be served, but `public/og-vive-counselling.png` is not present.
+- `Why It Matters`: Social cards and generated Open Graph/Twitter metadata can point crawlers to a broken image, making shared links look unfinished and causing QA to fail when the asset check runs.
+- `Preferred Direction`: Restore or regenerate the intended 1200x630 OG image asset, or update metadata/tests to point at an existing intentional social image.
+- `Resolution Path`: Confirm the intended social card image, add the asset under `public/` or update the metadata path, then run the public-site asset and first-response metadata checks.
+- `Next Action`: Decide whether `/og-vive-counselling.png` should be restored as the canonical social image or replaced with a new generated/social-card asset.
+- `Resolved When`: The social image path in route metadata resolves successfully in the built site and generated OG/Twitter metadata points at the intended image.
+- `Related Items`:
+  - `SITE-3`: SEO and metadata QA should include social image expectations.
+  - `SITE-4`: Performance and image delivery review may later check social image dimensions, format, and weight.
+- `Dependencies`: `None`
+- `Notes`:
+  - `Test-Path public\og-vive-counselling.png` returned `False` during the review.
+- `Links`: `src/data/routeMetadata.json`, `public/`, `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`
+
+### DEBT-8 - Route parity coverage needs explicit enforcement
 
 - `Priority`: `P2`
-- `Size`: `L`
-- `Priority Rationale`: This is `P2` because duplicated route truth will keep creating drift as pages, metadata, redirects, tests, and prerendering change. It is not `P1` while the current route set is still small enough to manage with parity tests.
+- `Size`: `M`
+- `Priority Rationale`: This is `P2` because duplicated route, metadata, redirect, prerender, and test expectations can drift without a clear failing check. It is not `P1` while the current route set is still small and local QA already covers key generated artifacts.
 - `Status`: `Open`
 - `Detected`: 2026-06-17
 - `Source`: `docs/reports/2026-06-17-technical-code-review.md`
 - `Area`: Routing, Metadata, Tests
-- `Problem`: Public route data is repeated across route definitions, app registration, metadata JSON, prerendering, and tests.
-- `Why It Matters`: Duplication makes it easy to add, rename, or redirect a route without updating metadata, sitemap, tests, or navigation expectations.
-- `Preferred Direction`: Create one route manifest or add parity tests that enforce consistency across routes, metadata, prerender output, sitemap, navigation intent, and coverage.
-- `Resolution Path`: Start with parity tests that expose route/metadata/prerender/test drift, then decide whether a shared manifest is warranted once the current duplication points are visible.
-- `Next Action`: Add a focused parity test before a broader manifest refactor.
-- `Resolved When`: Public route changes fail clearly when metadata, prerendering, redirects, or tests are out of sync.
+- `Problem`: Public route expectations are repeated across route definitions, app registration, metadata JSON, prerendering, redirects, and tests without one explicit parity check that verifies those surfaces stay aligned.
+- `Why It Matters`: It is easy to add, rename, or redirect a route without getting a clear local failure for missing metadata, prerender output, sitemap coverage, redirect expectations, or public-site test coverage.
+- `Preferred Direction`: Add focused parity tests that enforce consistency across the current duplicated route surfaces while preserving the existing route implementation.
+- `Resolution Path`: Identify the route surfaces that should agree today, add the smallest useful parity test around them, and keep failures specific enough that future route changes tell the maintainer what was missed.
+- `Next Action`: Add a focused parity test for the current route, metadata, prerender, redirect, and public-site coverage surfaces.
+- `Resolved When`: Public route changes fail clearly when metadata, prerendering, redirects, sitemap output, or tests are out of sync.
 - `Related Items`:
   - `DEBT-1`: Route parity assertions can now build on the restored public-site QA gate.
   - `DEBT-6`: Archived production URL and fallback decisions need to match any future route manifest or parity test.
+  - `DEBT-25`: Archived route-manifest consolidation was assessed as not worth pursuing for this small, mostly static site.
   - `SITE-3`: The SEO/metadata matrix is the visitor-facing counterpart to this technical route consistency work.
 - `Dependencies`: `None`
 - `Notes`:
+  - Split from the old broad `DEBT-8` on 2026-06-18. The shared-manifest/source-of-truth question was assessed and closed in archived sibling item `DEBT-25`.
+  - Brief breakdown assessment: do not split this further yet. It should be attempted as one focused parity-test slice first. If implementation reveals unrelated checks with different owners, split those then rather than pre-creating child items now.
 - `Links`: `src/data/routes.ts`, `src/App.tsx`, `src/data/routeMetadata.json`, `tests/public-site.spec.ts`
 
 ### DEBT-9 - Type checking does not cover tests, scripts, or most config code
@@ -376,6 +402,100 @@ Each active item should include enough direction that a future session can choos
   - Account for Vercel Deployment Protection: protected preview URLs may require MCP access, a bypass token, or a trusted automation source.
 - `Links`: `vercel.json`, `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`
 
+### DEBT-27 - Runtime head metadata can drift after client-side navigation
+
+- `Priority`: `P2`
+- `Size`: `M`
+- `Priority Rationale`: This is `P2` because first-response metadata is well covered, but hydrated navigation can leave stale canonical, social, or robots tags in the live DOM. It is not `P1` while crawlers primarily consume first-response HTML and current tests cover generated metadata artifacts.
+- `Status`: `Open`
+- `Detected`: 2026-06-18
+- `Source`: Fresh site debt review
+- `Area`: Metadata, Routing, SEO, Accessibility
+- `Problem`: Public pages call `useDocumentMetadata`, which updates only `document.title` and the meta description. The richer generated head state for canonical, OG, Twitter, and robots metadata is owned separately by `scripts/prerender-route-metadata.mjs`, while `NotFound` manages `robots` through its own hook.
+- `Why It Matters`: A visitor or bot that navigates within the hydrated app can see stale canonical/social metadata from the first loaded route, and a `noindex` robots tag can leak from a not-found route if head ownership is not centralized.
+- `Preferred Direction`: Replace the narrow title/description hook with a route-aware head metadata helper that owns title, description, canonical, OG/Twitter tags, and route-specific robots state in one place.
+- `Resolution Path`: Define the runtime head contract from `routeMetadata.json`, update public routes and `NotFound` to use the shared helper, and add a browser test that navigates between public and not-found routes while checking the live head.
+- `Next Action`: Add a small failing test that starts on a not-found route, navigates to a public route, and verifies `robots` is removed and route metadata matches the destination.
+- `Resolved When`: Hydrated route changes keep title, description, canonical, OG/Twitter tags, and robots policy aligned with the current route.
+- `Related Items`:
+  - `DEBT-8`: Route parity coverage can help keep runtime metadata expectations aligned with route metadata data.
+  - `DEBT-26`: The runtime metadata helper should preserve the intended social image path once the missing asset is fixed.
+  - `SITE-3`: Public SEO and metadata QA should include live DOM metadata where it matters.
+- `Dependencies`: `None`
+- `Notes`:
+  - `NotFound` currently restores a pre-existing `robots` meta tag to its previous content; when the initial document is the app-powered `404.html`, that previous content can already be `noindex, nofollow`.
+- `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/public-site.spec.ts`
+
+### DEBT-28 - Google Analytics does not explicitly track SPA route changes
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Priority Rationale`: This is `P2` because analytics are part of operational trust and content decisions, but the issue does not affect core visitor rendering or enquiry delivery.
+- `Status`: `Open`
+- `Detected`: 2026-06-18
+- `Source`: Fresh site debt review
+- `Area`: Analytics, Routing, Operations
+- `Problem`: `SiteAnalytics` injects the Google Analytics script and initial `gtag('config', ...)`, but it does not listen to React Router location changes or explicitly send page views for client-side navigation.
+- `Why It Matters`: On a single-page app, internal navigation can be undercounted or attributed unclearly unless GA route-change behaviour is intentional and tested.
+- `Preferred Direction`: Decide the desired GA behaviour for SPA navigation, then add a small route-change pageview effect or document why the current provider behaviour is sufficient.
+- `Resolution Path`: Confirm whether GA should receive a page view on each public route change, implement a location-aware tracking helper if needed, and keep analytics disabled in default QA builds.
+- `Next Action`: Add an analytics route-change design note or test harness that can verify pageview calls without loading third-party scripts in QA.
+- `Resolved When`: Google Analytics route-change behaviour is explicit, tested or documented, and does not reintroduce third-party noise into default QA.
+- `Related Items`:
+  - `SITE-5`: Analytics environment policy should stay aligned with any route-change tracking behaviour.
+  - `DEBT-27`: Runtime metadata and analytics both depend on correct current-route awareness after client-side navigation.
+- `Dependencies`: `None`
+- `Notes`:
+  - Vercel Analytics may already handle SPA route changes separately; this item is specifically about the manually injected Google Analytics path.
+- `Links`: `src/components/SiteAnalytics.tsx`, `src/App.tsx`, `tests/public-site.spec.ts`, `scripts/validate-analytics-env.mjs`
+
+### DEBT-29 - Route changes lack focus restoration and a skip-link baseline
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Priority Rationale`: This is `P2` because keyboard and screen-reader users can lose context on SPA route changes, but the fix should be narrow and behaviour-preserving.
+- `Status`: `Open`
+- `Detected`: 2026-06-18
+- `Source`: Fresh site debt review
+- `Area`: Accessibility, Routing, Navigation
+- `Problem`: `ScrollToTop` scrolls to the top on pathname changes, but the shared shell does not move focus to the new page's main content or provide a skip link to bypass the repeated header navigation.
+- `Why It Matters`: Visual scroll restoration is not enough for keyboard and assistive-technology users; after navigation, focus can remain on the old link/header area while the page content changes elsewhere.
+- `Preferred Direction`: Add a production skip link and a small route-focus policy that moves focus to the main landmark or first heading after navigation without creating visible focus jumps for pointer users.
+- `Resolution Path`: Add a skip link in `Layout`, give the main content a stable focus target, update route-change handling, and cover keyboard navigation in a focused browser test.
+- `Next Action`: Prototype the smallest route-focus helper that cooperates with existing page-owned `<main>` elements.
+- `Resolved When`: Keyboard users can bypass navigation and client-side route changes place focus on an appropriate page content target.
+- `Related Items`:
+  - `SITE-1`: The accessibility audit matrix should record route focus and bypass-navigation behaviour.
+  - `SITE-7`: Reduced-motion and route-focus behaviour should both respect user accessibility preferences.
+- `Dependencies`: `None`
+- `Notes`:
+  - Current public-site tests assert one main landmark, but they do not check focus movement or bypass navigation.
+- `Links`: `src/components/Layout.tsx`, `src/components/ScrollToTop.tsx`, `src/pages/`, `tests/public-site.spec.ts`
+
+### DEBT-30 - Shared navigation disclosure semantics are CSS-driven and untested
+
+- `Priority`: `P2`
+- `Size`: `M`
+- `Priority Rationale`: This is `P2` because the header is the primary way visitors move through the site, and submenu/menu semantics affect keyboard and assistive-technology use. It is not `P1` while links remain present and the mobile menu exposes `aria-expanded`.
+- `Status`: `Open`
+- `Detected`: 2026-06-18
+- `Source`: Fresh site debt review
+- `Area`: Accessibility, Navigation, Tests
+- `Problem`: Desktop submenus open through hover/focus CSS without explicit disclosure state such as `aria-haspopup`/`aria-expanded`, while the mobile menu opens and locks body scroll without focused tests for focus movement, escape behaviour, tab order, or return focus.
+- `Why It Matters`: Navigation may be visually usable while remaining ambiguous to assistive technology, and regressions in keyboard access would be easy to miss because current tests do not exercise header navigation interactions.
+- `Preferred Direction`: Audit the header against a clear navigation pattern, add only the semantics/focus handling that match that pattern, and cover the expected desktop and mobile keyboard flows with focused tests.
+- `Resolution Path`: Decide whether desktop parent items are simple links with hover/focus submenus or true disclosure buttons, then align ARIA, focus lifecycle, Escape behaviour, and tests with that decision.
+- `Next Action`: Add a navigation accessibility audit note or failing browser test for keyboard access to the Inclusion submenu and mobile menu open/close flow.
+- `Resolved When`: Header navigation has documented semantics and tests for keyboard submenu access, mobile menu open/close, Escape handling, and focus return.
+- `Related Items`:
+  - `DEBT-29`: Skip-link and route-focus work covers page navigation context; this item covers the header menu interaction itself.
+  - `SITE-1`: The accessibility audit matrix should include primary navigation behaviour.
+  - `SITE-2`: Responsive QA should include the mobile menu layout and interaction path.
+- `Dependencies`: `None`
+- `Notes`:
+  - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
+- `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site.spec.ts`
+
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
 - `Priority`: `P3`
@@ -398,6 +518,31 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
 - `Links`: `package.json`
+
+### DEBT-31 - Favicon, touch, and app icon assets need quality and usage audit
+
+- `Priority`: `P3`
+- `Size`: `S`
+- `Priority Rationale`: This is `P3` because low-quality favicon, touch, and app icon artwork can make the site feel less polished in browser tabs, bookmarks, home-screen shortcuts, or share surfaces, but it does not affect core page content, accessibility, or enquiry delivery.
+- `Status`: `Open`
+- `Detected`: 2026-06-18
+- `Source`: User review note
+- `Area`: Assets, Metadata, Brand, QA
+- `Problem`: The icon assets (`favicon.svg`, `favicon-32x32.png`, `apple-touch-icon.png`, `icon-192.png`, and `icon-512.png`) appear visually weak, described as an off-centre "V" in a green shape, and their actual browser/device usage has not been audited.
+- `Why It Matters`: These assets are small, but they appear in high-trust surfaces such as browser tabs, saved bookmarks, home-screen icons, and app install prompts. Poor or misaligned icon artwork can make the public site feel unfinished.
+- `Preferred Direction`: Audit which icon files are referenced and actually used, then replace the favicon/touch/app icon set with centered, crisp, brand-consistent assets at the required sizes.
+- `Resolution Path`: Confirm references in generated head metadata and `site.webmanifest`, inspect the rendered SVG and PNG icons at their native display sizes, regenerate the active icon set from an approved source, and update tests to verify references and dimensions rather than only existence.
+- `Next Action`: Review `favicon.svg`, `favicon-32x32.png`, `apple-touch-icon.png`, `icon-192.png`, and `icon-512.png` visually at native display sizes and confirm which are consumed by the generated head and web manifest.
+- `Resolved When`: The active favicon/touch/app icon set is visually aligned, centered, brand-consistent, referenced only where needed, and covered by asset checks that match the chosen icon policy.
+- `Related Items`:
+  - `DEBT-26`: Social sharing image and icon assets both affect off-page trust surfaces.
+  - `SITE-3`: Public SEO/metadata QA can include icon and manifest asset expectations.
+  - `SITE-4`: Performance/image review may include icon dimensions and file weights.
+- `Dependencies`: `None`
+- `Notes`:
+  - Source search found icon references in `scripts/prerender-route-metadata.mjs`, `public/site.webmanifest`, and `tests/public-site.spec.ts`.
+  - Current tests assert the icon files are served and listed, but do not verify visual quality, centering, dimensions, or whether all SVG/PNG variants are still necessary.
+- `Links`: `public/apple-touch-icon.png`, `public/favicon-32x32.png`, `public/icon-192.png`, `public/icon-512.png`, `public/favicon.svg`, `public/site.webmanifest`, `scripts/prerender-route-metadata.mjs`, `tests/public-site.spec.ts`
 
 ## Archive
 
@@ -468,3 +613,9 @@ The remaining source cleanup was split into `DEBT-17` and later resolved there b
 Resolved on 2026-06-17 by confirming that the legacy `Card` component and generic card selectors had no active source usage, then removing `src/components/Card.tsx`, `.card`, `.card-grid`, `.card-kicker`, `.card-title--small`, the `.issues-section .card*` overrides, and card-specific responsive hooks from production CSS.
 
 The active card API remains `.site-card`, `.site-card--link`, `.site-card__*`, `.site-card-grid`, `.site-topic-card`, `.site-fee-card`, and deliberate page-scoped compositions. Broader legacy CSS cleanup remains tracked under `DEBT-13`, with panel/strip selectors in `DEBT-18` and issue/topic selectors in `DEBT-19`.
+
+### DEBT-25 - Shared public route manifest may be needed
+
+Closed on 2026-06-18 after assessment found that a shared route manifest would likely add more architecture than value for this small, mostly static counselling practice site. The public route set is not expected to grow much, and route registration, navigation, redirects, metadata, sitemap, prerendering, and tests overlap without all wanting the same data shape.
+
+Route drift prevention remains tracked under `DEBT-8`, which should add focused parity coverage. If future route churn makes the current duplication materially painful, a new debt item can revisit manifest consolidation with fresh evidence.

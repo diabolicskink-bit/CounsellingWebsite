@@ -73,7 +73,7 @@ export default function NotFound() {
 
         <div className="not-found-page__content">
           <p className="not-found-page__label">Page not found</p>
-          <h1>This is not the room.</h1>
+          <h1>That page isn't here.</h1>
           <p className="not-found-page__lead">
             The address you used does not lead to a page on this site. It may
             be an old link, a mistyped URL, or something that has moved.

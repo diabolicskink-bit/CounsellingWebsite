@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Vive icon candidate 10, listening mark</title>
+  <desc id="desc">A V mark with a small offset listening dot and calm outer ring.</desc>
+  <rect width="512" height="512" rx="116" fill="#e3e9df"/>
+  <circle cx="256" cy="256" r="184" fill="#f7f6f2" stroke="#234b3d" stroke-width="28"/>
+  <path d="M148 154h64l44 171 44-171h64l-74 228h-68l-74-228z" fill="#234b3d"/>
+  <circle cx="358" cy="143" r="28" fill="#d8a85f"/>
+  <path d="M170 396h172" stroke="#234b3d" stroke-width="18" stroke-linecap="round" opacity=".35"/>
+</svg>

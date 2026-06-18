@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Vive icon candidate 09, uneven ground</title>
+  <desc id="desc">A plain V above an intentionally uneven ground line.</desc>
+  <rect width="512" height="512" rx="96" fill="#f7f6f2"/>
+  <rect x="72" y="72" width="368" height="368" rx="82" fill="#234b3d"/>
+  <path d="M146 134h64l46 174 46-174h64l-75 226h-70l-75-226z" fill="#f7f6f2"/>
+  <path d="M128 382c50 20 87-20 128 0s78 20 128 0" fill="none" stroke="#d8a85f" stroke-width="20" stroke-linecap="round"/>
+</svg>

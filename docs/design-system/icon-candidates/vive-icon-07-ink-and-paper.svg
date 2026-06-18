@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Vive icon candidate 07, ink and paper</title>
+  <desc id="desc">A deep ink V on a soft paper card with one folded corner.</desc>
+  <rect width="512" height="512" rx="118" fill="#234b3d"/>
+  <path d="M118 74h238l38 38v326H118V74z" fill="#f7f6f2"/>
+  <path d="M356 74v38h38" fill="#e3e9df"/>
+  <path d="M166 145h62l28 132 28-132h62l-58 216h-64l-58-216z" fill="#234b3d"/>
+  <path d="M167 384h178" stroke="#d8a85f" stroke-width="18" stroke-linecap="round"/>
+</svg>

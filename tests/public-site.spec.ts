@@ -126,7 +126,7 @@ async function expectNoPageDiagnostics(diagnostics: PageDiagnostics) {
 async function expectNotFoundPage(page: Page, requestedPath: string) {
   await expect(page).toHaveTitle("Page not found | Vive Counselling");
   await expect(page.locator(".not-found-page__label")).toHaveText("Page not found");
-  await expect(page.locator("h1")).toHaveText("This is not the room.");
+  await expect(page.locator("h1")).toHaveText("That page isn't here.");
   await expect(page.getByLabel("Requested address")).toContainText(requestedPath);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
 }

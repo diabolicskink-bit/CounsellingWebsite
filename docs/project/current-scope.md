@@ -16,7 +16,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
 - A prerender script updates route metadata artifacts, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.
 - Production metadata defaults to the stable Vercel canonical origin `https://counselling-website-seven.vercel.app`; `SITE_URL` can override this when a custom canonical domain is ready.
-- Public assets include favicons, app icons, a web manifest, an OG image, and portrait/media assets under `public/`.
+- Public assets include favicons, app icons, a web manifest, and portrait/media assets under `public/`.
 - The Contact/Fees page uses the shared `EnquiryForm` component and data from `src/data/enquiry.ts`.
 - The enquiry form submits to the serverless `/api/enquiry` endpoint.
 - The TypeScript enquiry API validates structured form fields server-side, supports endpoint-level URL-encoded native form posts, builds the email subject/reply-to/plain text/HTML from the validated payload, and sends email through Resend when configured.
@@ -40,7 +40,8 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Enquiry spam protection includes a honeypot and conservative request-shape checks, but does not include platform rate limiting or complete abuse protection.
 - Enquiry timezone comparison notes are not yet generated from canonical server-owned timezone logic.
 - Endpoint-level native form posts are supported, but full JavaScript-disabled public-page rendering is not; the current Vite app still renders the contact form through client-side React.
-- Route definitions, route metadata, prerendering, and tests are not yet unified behind one manifest.
+- Route metadata references a social sharing image that is not currently present in `public/`.
+- Route definitions, route metadata, prerendering, and tests remain separate by design for this small route set; explicit route parity coverage is still tracked as debt.
 - Type checking does not currently cover tests, scripts, and most config files.
 - Vercel clean URL config and generated app 404 fallback are covered locally, but live Vercel smoke testing is not automated.
 - Accessibility support exists in components and tests, but there is no complete accessibility status matrix.
