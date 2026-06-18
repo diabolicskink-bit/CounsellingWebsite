@@ -75,13 +75,13 @@ Statuses:
 - `Priority`: `P2`
 - `Size`: `M`
 - `Status`: `Open`
-- `Source`: Supersedes `SITE-3`, `docs/project/current-scope.md`, `docs/reports/2026-06-17-technical-code-review.md`
+- `Source`: Supersedes `SITE-3`, `docs/checklists/seo-metadata-launch.md`, `docs/project/current-scope.md`, `docs/reports/2026-06-17-technical-code-review.md`
 - `Launch Goal`: Confirm public pages are discoverable, shareable, and semantically clear before launch.
-- `Current State`: Metadata exists and is prerendered, but route metadata, canonicals, sitemap output, redirects, and social sharing expectations are not governed by one completed launch review.
-- `Review Method`: Check every public route for title, description, canonical, noindex policy, redirect policy, sitemap inclusion, and social image expectations.
+- `Current State`: Metadata exists and is prerendered, and `docs/checklists/seo-metadata-launch.md` is now the working checklist artifact, but route metadata, canonicals, sitemap output, redirects, and social sharing expectations have not been assessed through one completed launch review.
+- `Review Method`: Work through the checklist for global metadata outputs, each public route, redirect routes, and the not-found route, with notes that link any concrete gap to `SITE-*` or `DEBT-*`.
 - `Passes When`: Every public route has reviewed metadata expectations, and missing or incorrect required values are resolved or linked to `SITE-*` / `DEBT-*`.
 - `Linked Work`: `DEBT-8`, `DEBT-26`, `DEBT-27`, `LAUNCH-8`
-- `Links`: `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `docs/project/project-debt.md`
+- `Links`: `docs/checklists/seo-metadata-launch.md`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `docs/project/project-debt.md`
 
 ### LAUNCH-4 - Performance and image delivery launch review
 
