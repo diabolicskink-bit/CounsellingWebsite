@@ -1,5 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Vive Counselling">
   <rect width="64" height="64" rx="14" fill="#f7f6f2"/>
   <circle cx="32" cy="32" r="24" fill="#234b3d"/>
-  <path d="M18 21h8l6 24 6-24h8L36 50h-8L18 21z" fill="#f7f6f2"/>
+  <path d="M16 18.5 26.2 26.3 31.9 48 22.5 40.7z" fill="#f7f6f2"/>
+  <path d="M48 18.5 37.8 26.3 32.1 48 41.5 40.7z" fill="#f7f6f2"/>
+  <path d="M22.5 40.7 31.9 48 24.5 32.2 18.9 28.3z" fill="#d8cdb3"/>
+  <path d="M41.5 40.7 32.1 48 39.5 32.2 45.1 28.3z" fill="#d8cdb3"/>
+  <circle cx="32" cy="29.5" r="2.7" fill="#c49a4b"/>
 </svg>

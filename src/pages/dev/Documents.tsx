@@ -8,7 +8,7 @@ import DocumentsSidebar, {
 import DevPageHero from "../../components/DevPageHero";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
-type DocumentCategory = "reports" | "plans";
+type DocumentCategory = "checklists" | "reports" | "plans";
 
 type DocumentItem = {
   category: DocumentCategory;
@@ -23,6 +23,11 @@ const categoryMeta: Array<{
   label: string;
 }> = [
   {
+    key: "checklists",
+    label: "Checklists",
+    emptyLabel: "No checklists yet.",
+  },
+  {
     key: "reports",
     label: "Reports",
     emptyLabel: "No reports yet.",
@@ -34,11 +39,22 @@ const categoryMeta: Array<{
   },
 ];
 
-const markdownFiles = import.meta.glob(["../../../docs/reports/**/*.md", "../../../docs/plans/**/*.md"], {
-  eager: true,
-  import: "default",
-  query: "?raw",
-}) as Record<string, string>;
+const markdownFiles = import.meta.glob(
+  ["../../../docs/checklists/**/*.md", "../../../docs/reports/**/*.md", "../../../docs/plans/**/*.md"],
+  {
+    eager: true,
+    import: "default",
+    query: "?raw",
+  },
+) as Record<string, string>;
+
+const statusClassNames: Record<string, string> = {
+  "fail": "fail",
+  "n/a": "na",
+  "not checked": "not-checked",
+  "partial": "partial",
+  "pass": "pass",
+};
 
 function normalizePath(modulePath: string) {
   return modulePath.replace(/^(\.\.\/)+/, "").replace(/\\/g, "/");
@@ -69,6 +85,10 @@ function extractTitle(content: string, path: string) {
 }
 
 function getCategory(path: string): DocumentCategory {
+  if (path.startsWith("docs/checklists/")) {
+    return "checklists";
+  }
+
   if (path.startsWith("docs/reports/")) {
     return "reports";
   }
@@ -102,6 +122,14 @@ function resolveMarkdownPath(currentPath: string, href: string) {
   }
 }
 
+function getStatusClassName(children: unknown) {
+  const label = String(children).trim();
+  const statusKey = label.toLowerCase();
+  const modifier = statusClassNames[statusKey];
+
+  return modifier ? `documents-status documents-status--${modifier}` : null;
+}
+
 const documents = Object.entries(markdownFiles)
   .map(([modulePath, content]) => {
     const path = normalizePath(modulePath);
@@ -124,7 +152,7 @@ export default function Documents() {
 
   useDocumentMetadata(
     "Documents | Vive Counselling",
-    "Developer-only markdown reader for generated reports and draft plans."
+    "Developer-only markdown reader for project checklists, generated reports, and draft plans."
   );
 
   const groups = useMemo<DocumentsSidebarGroup[]>(
@@ -158,7 +186,7 @@ export default function Documents() {
       <DevPageHero
         badge="Dev documents"
         title="Documents"
-        description="A small reader for generated reports and draft plans. Drop markdown into the reports or plans folders and it will appear here automatically in development."
+        description="A small reader for project checklists, generated reports, and draft plans. Drop markdown into the checklists, reports, or plans folders and it will appear here automatically in development."
       />
 
       <div className="ds-layout">
@@ -205,6 +233,19 @@ export default function Documents() {
                             </a>
                           );
                         },
+                        code({ children, className, node: _node, ...props }) {
+                          const statusClassName = className ? null : getStatusClassName(children);
+
+                          if (statusClassName) {
+                            return <span className={statusClassName}>{children}</span>;
+                          }
+
+                          return (
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          );
+                        },
                       }}
                       remarkPlugins={[remarkGfm]}
                     >
@@ -216,7 +257,7 @@ export default function Documents() {
             ) : (
               <div className="documents-viewer__empty">
                 <h2>No markdown files found.</h2>
-                <p>Add `.md` files under `docs/reports/` or `docs/plans/` to populate this page.</p>
+                <p>Add `.md` files under `docs/checklists/`, `docs/reports/`, or `docs/plans/` to populate this page.</p>
               </div>
             )}
           </section>

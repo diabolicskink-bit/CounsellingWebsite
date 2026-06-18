@@ -38,6 +38,22 @@ const expectedPublicH1Text: Record<(typeof publicRoutes)[number], string> = {
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
+
+const expectedIconAssets = [
+  { path: "/favicon-32x32.png", width: 32, height: 32 },
+  { path: "/apple-touch-icon.png", width: 180, height: 180 },
+  { path: "/icon-192.png", width: 192, height: 192 },
+  { path: "/icon-512.png", width: 512, height: 512 },
+] as const;
+
+const readPngDimensions = (body: Uint8Array) => {
+  const view = new DataView(body.buffer, body.byteOffset, body.byteLength);
+
+  return {
+    width: view.getUint32(16),
+    height: view.getUint32(20),
+  };
+};
 const uniqueDeploymentOriginPattern =
   /counselling-website-[a-z0-9]{8,}-diabolicskink-7990s-projects\.vercel\.app/i;
 
@@ -301,6 +317,27 @@ test.describe("crawl and app metadata assets", () => {
       ]),
     );
   });
+
+  test("favicon SVG exposes the current app icon mark", async ({ request }) => {
+    const response = await request.get("/favicon.svg");
+    const svg = await response.text();
+
+    expect(response.ok()).toBeTruthy();
+    expect(svg).toContain('viewBox="0 0 64 64"');
+    expect(svg).toContain('fill="#234b3d"');
+    expect(svg).toContain('fill="#c49a4b"');
+  });
+
+  for (const { path, width, height } of expectedIconAssets) {
+    test(`${path} has the expected icon dimensions`, async ({ request }) => {
+      const response = await request.get(path);
+
+      expect(response.ok()).toBeTruthy();
+      const dimensions = readPngDimensions(await response.body());
+
+      expect(dimensions).toEqual({ width, height });
+    });
+  }
 
   test("analytics providers are disabled in default QA builds", async ({ page }) => {
     const analyticsRequests: string[] = [];

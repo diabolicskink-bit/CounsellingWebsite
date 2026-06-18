@@ -1,13 +1,18 @@
 # Site Backlog
 
-This is the living tracker for deferred visitor-facing site work: public UX, content, SEO, accessibility, performance, forms, analytics, and operations. It is separate from `project-debt.md`, which tracks technical pressure.
+This is the living tracker for concrete deferred visitor-facing change work: public UX, content, accessibility fixes, form-flow improvements, visual polish, and public operations changes. It is separate from `launch-readiness.md`, which tracks launch gates and review passes, and `project-debt.md`, which tracks technical pressure.
 
 Use stable IDs when discussing or working on these items, such as `SITE-1`. Do not renumber existing items. The `Classification` field is required so the backlog can be split later if one category becomes large enough to deserve its own tracker.
 
+## Tracker Metadata
+
+- `Next ID`: `SITE-23`
+
 ## How To Maintain This Backlog
 
-- Add an item when a meaningful visitor-facing improvement is identified but intentionally left out of current scope.
+- Add an item when a meaningful visitor-facing change is identified but intentionally left out of current scope.
 - Keep items focused on one useful slice, not whole site-wide ambitions.
+- Do not add broad launch gates, review passes, sign-off tasks, or "ensure X across the site" matrices here; use `launch-readiness.md` for `LAUNCH-*` items.
 - Use `Classification` for future splitting. Suggested labels include `Accessibility`, `Responsive QA`, `SEO/Metadata`, `Performance`, `Analytics/Operations`, `Content`, `Form Flow`, and `Public UX`.
 - Update an item when new work changes priority, status, first slice, dependencies, or completion signal.
 - Move implemented or superseded items to the archive with a short functional summary.
@@ -38,21 +43,6 @@ Statuses:
 - `Superseded`: Replaced by another item or direction.
 
 ## Active Items
-
-### SITE-1 - Accessibility audit matrix
-
-- `Priority`: `P1`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `Accessibility`
-- `Source`: `docs/project/current-scope.md`, `docs/reports/2026-06-17-technical-code-review.md`
-- `Visitor-Facing Goal`: Make accessibility coverage visible enough that future work can preserve semantic structure, keyboard access, focus states, contrast, reduced motion, and form clarity.
-- `Current State`: Components and Playwright axe checks cover some accessibility concerns, but there is no route-by-route accessibility status matrix.
-- `Why Deferred`: It is documentation and verification work that should follow the current QA cleanup.
-- `First Useful Slice`: Add a matrix for public routes covering landmarks, heading structure, keyboard navigation, forms, focus states, contrast-sensitive components, and known exceptions.
-- `Implemented When`: Public routes have an accessibility status matrix and at least one known gap is linked to a tracker item or resolved.
-- `Notes`:
-- `Links`: `tests/public-site.spec.ts`, `docs/project/project-debt.md`
 
 ### SITE-9 - ENM and polyamory page copy completion
 
@@ -116,115 +106,35 @@ Statuses:
 - `Notes`:
 - `Links`: `src/pages/Contact.tsx`, `docs/project/product-direction.md`
 
-### SITE-13 - Final public copy and ethical-claims proofread
+### SITE-20 - Contact enquiry form semantic heading
 
 - `Priority`: `P1`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `Content`
-- `Source`: `Fresh launch-readiness review, src/pages/`, `docs/project/product-direction.md`
-- `Visitor-Facing Goal`: Launch with copy that is finished, accurate, ethical, and consistent across every public route.
-- `Current State`: The site has strong page-level copy, but there is no tracked final proofread for placeholders, typos, visible encoding artifacts, outcome claims, inclusion language, credential wording, fee details, and repeated practical information.
-- `Why Deferred`: A final copy pass should happen after the remaining launch content gaps are filled so the proofread is not wasted on unfinished sections.
-- `First Useful Slice`: Review each public route against the product direction and counselling-copy constraints, then fix or explicitly waive any issue found.
-- `Implemented When`: Home, Working with Joel, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, Contact/Fees, and Not Found have completed a final content QA pass.
-- `Notes`:
-  - This is intentionally separate from `SITE-3`, which is about SEO and metadata QA rather than the human-read copy.
-- `Links`: `src/pages/`, `src/data/routeMetadata.json`, `docs/project/product-direction.md`, `docs/project/site-backlog.md`
-
-### SITE-18 - Custom launch domain and canonical public identity
-
-- `Priority`: `P1`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `SEO/Metadata`
-- `Source`: `Fresh launch-readiness review, docs/project/current-scope.md`, `src/data/routeMetadata.json`
-- `Visitor-Facing Goal`: Launch on a public identity that feels finished and keeps canonical, share, and search signals aligned with the real practice.
-- `Current State`: Production metadata defaults to the stable Vercel URL, and `SITE_URL` can override it when a custom canonical domain is ready.
-- `Why Deferred`: The domain decision, DNS, Vercel configuration, and launch smoke check need owner confirmation and deployment access.
-- `First Useful Slice`: Choose the launch canonical domain, configure it in Vercel, set `SITE_URL`, and verify generated canonical URLs, sitemap, robots, redirects, and social metadata against that domain.
-- `Implemented When`: Public visitors, search crawlers, social previews, and generated metadata all use the intended launch domain rather than the temporary Vercel hostname.
-- `Notes`:
-  - `DEBT-24` covers live Vercel smoke-test automation; this card is about making the public launch identity itself intentional.
-- `Links`: `docs/project/current-scope.md`, `src/data/routeMetadata.json`, `vercel.json`, `docs/project/project-debt.md`
-
-### SITE-2 - Responsive QA matrix
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `Responsive QA`
-- `Source`: `docs/project/current-scope.md`
-- `Visitor-Facing Goal`: Make mobile and desktop layout expectations explicit so page changes do not quietly break reading, navigation, forms, or hero composition.
-- `Current State`: Responsive CSS exists across shared and page-scoped styles, but there is no formal matrix of viewports and page checks.
-- `Why Deferred`: It should be added after the QA suite is trustworthy enough to support ongoing checks.
-- `First Useful Slice`: Define a small viewport matrix for public routes and add manual or automated checks for navigation, hero readability, form layout, and footer behaviour.
-- `Implemented When`: Public pages have documented responsive checkpoints and at least the highest-risk layout flows are covered.
-- `Notes`:
-- `Links`: `src/pages/`, `tests/public-site.spec.ts`
-
-### SITE-3 - Public SEO and metadata QA matrix
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `SEO/Metadata`
-- `Source`: `docs/project/current-scope.md`, `docs/reports/2026-06-17-technical-code-review.md`
-- `Visitor-Facing Goal`: Keep public pages discoverable, shareable, and semantically clear without relying on scattered route metadata checks.
-- `Current State`: Metadata exists and is prerendered, but route metadata, canonicals, sitemap output, redirects, and tests are not governed by one visible matrix.
-- `Why Deferred`: Technical manifest/parity work is tracked separately in `DEBT-8`.
-- `First Useful Slice`: Add a public route matrix for title, description, canonical, noindex policy, redirect policy, sitemap inclusion, and OG image expectations.
-- `Implemented When`: Every public route has visible metadata expectations and tests or scripts catch missing required values.
-- `Notes`:
-- `Links`: `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `docs/project/project-debt.md`
-
-### SITE-4 - Performance and image delivery review
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `Performance`
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Visitor-Facing Goal`: Keep the public site quick and stable, especially around portraits, public assets, and route-level CSS/JS growth.
-- `Current State`: Lighthouse tooling exists, portrait assets are served directly from `public`, and there are no enforced performance budgets.
-- `Why Deferred`: Current release trust issues in QA/API/routing are higher priority.
-- `First Useful Slice`: Add Lighthouse thresholds or budgets, then review portrait image sizes, explicit dimensions, and modern format options.
-- `Implemented When`: Performance budgets fail on meaningful regressions and major public images have documented delivery expectations.
-- `Notes`:
-  - This covers technical review items 23 and 25: Lighthouse budget enforcement and image delivery improvements for public portrait/media assets.
-- `Links`: `scripts/run-lighthouse.mjs`, `public/`, `src/pages/Home.tsx`, `src/pages/WorkingWithJoel.tsx`
-
-### SITE-5 - Analytics and local/test policy
-
-- `Priority`: `P2`
 - `Size`: `S`
 - `Status`: `Open`
-- `Classification`: `Analytics/Operations`
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Visitor-Facing Goal`: Keep analytics intentional while preventing local/test third-party failures from obscuring real site regressions.
-- `Current State`: Google Tag Manager and Vercel Analytics are present, and tests can be affected by generic third-party or failed-request noise.
-- `Why Deferred`: It should build on the restored QA suite from `DEBT-1`.
-- `First Useful Slice`: Decide whether analytics should run in local, preview, and test contexts; document the policy and update tests or app loading accordingly.
-- `Implemented When`: Analytics behaviour is environment-aware and test failures identify app problems rather than third-party noise.
+- `Classification`: `Accessibility`
+- `Source`: `docs/checklists/accessibility-launch.md`, Contact page accessibility assessment
+- `Visitor-Facing Goal`: Make the Contact enquiry form reachable through semantic page navigation, not only through visual scanning.
+- `Current State`: The Contact page has a visible "Enquiry" label above the form, but it is rendered as a styled span rather than a heading or named form landmark, so screen-reader heading navigation skips the form section.
+- `Why Deferred`: This was identified during checklist assessment; the assessment updated tracking only and did not change page code.
+- `First Useful Slice`: Make the form label semantic, for example by rendering it as an `h2` or by giving the form an accessible name with `aria-labelledby`, while preserving the current visual treatment.
+- `Implemented When`: The Contact enquiry form is discoverable through semantic navigation, heading order remains coherent, and the Contact checklist heading-order item can move from `Partial` to `Pass`.
 - `Notes`:
-  - This covers technical review item 22.
-- `Links`: `index.html`, `src/App.tsx`, `tests/public-site.spec.ts`
+- `Links`: `src/components/EnquiryForm.tsx`, `src/pages/Contact.tsx`, `docs/checklists/accessibility-launch.md`
 
-### SITE-6 - Enquiry form public-flow QA
+### SITE-21 - Contact form required-field clarity
 
-- `Priority`: `P2`
-- `Size`: `M`
+- `Priority`: `P1`
+- `Size`: `S`
 - `Status`: `Open`
-- `Classification`: `Form Flow`
-- `Source`: `docs/project/current-scope.md`, `docs/reports/2026-06-17-technical-code-review.md`
-- `Visitor-Facing Goal`: Make the enquiry path easy to trust by verifying success, error, validation, fallback, and contact-instruction states from a visitor's point of view.
-- `Current State`: The enquiry form has progressive choices, success and error UI, and direct submit behaviour, but there are no dedicated form-flow browser tests.
-- `Why Deferred`: It follows the API validation and safe error-handling foundations resolved in archived `DEBT-4` and `DEBT-5`.
-- `First Useful Slice`: Add a browser test that mocks `/api/enquiry` success and failure responses and verifies the visible public states.
-- `Implemented When`: The main enquiry success and failure paths are covered by tests and public messages remain safe and useful.
+- `Classification`: `Accessibility`
+- `Source`: `docs/checklists/accessibility-launch.md`, Contact page accessibility assessment
+- `Visitor-Facing Goal`: Let visitors know which enquiry form fields and choices are required before they try to submit.
+- `Current State`: The Contact form uses native `required` attributes and browser validation, but the visible labels do not mark required fields or explain required choices before submission.
+- `Why Deferred`: This was identified during checklist assessment; the right fix should be small but deliberate so the form stays calm and readable.
+- `First Useful Slice`: Add a concise required-field cue near the form and/or required labels, covering the always-required fields and the required radio choice groups without making the form feel noisy.
+- `Implemented When`: Visitors can see what is required before submitting, native validation still works, and the Contact checklist required-field clarity item can move from `Partial` to `Pass`.
 - `Notes`:
-  - Direct API-level enquiry tests are tracked separately in `DEBT-10`.
-- `Links`: `src/components/EnquiryForm.tsx`, `src/data/enquiry.ts`, `docs/project/project-debt.md`
+- `Links`: `src/components/EnquiryForm.tsx`, `src/data/enquiry.ts`, `docs/checklists/accessibility-launch.md`
 
 ### SITE-7 - Global reduced-motion baseline
 
@@ -316,6 +226,69 @@ Statuses:
 - `Notes`:
 - `Links`: `src/pages/WorkingWithJoel.tsx`, `docs/project/product-direction.md`
 
+### SITE-19 - Kink language table cell colour distinction
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Status`: `Open`
+- `Classification`: `Accessibility`
+- `Source`: `User screenshot/review, src/pages/KinkBdsmCounselling.tsx, src/styles-kink-bdsm.css, WCAG 2.2 SC 1.4.1 and 1.4.11`
+- `Visitor-Facing Goal`: Make the Kink & BDSM language table feel intentional and easy to scan, with cell colour differences that are actually distinguishable rather than almost invisible.
+- `Current State`: The language field lists 16 terms and applies four page-scoped `nth-child` background groups. Local token research found the rendered mixes are clustered around `#ebeeeb`, `#edefeb`, `#eef1ed`, and `#f8f8f4`; text contrast is strong, but adjacent cell-background contrast is only about `1.01:1` to `1.10:1`, so most of the intended colour variation is hard to perceive.
+- `Why Deferred`: This is a focused visual/accessibility polish task for the Kink/BDSM page, not part of the current backlog update.
+- `First Useful Slice`: Decide whether the colours are decorative rhythm or meaningful grouping. If decorative, simplify or strengthen the cell rhythm within the existing palette; if meaningful, add a non-colour cue or clear grouping treatment and test it without relying on hue alone.
+- `Implemented When`: The table has visibly distinct, on-brand cell treatments across desktop and mobile, preserves readable text contrast, and remains understandable in grayscale or colour-vision-deficiency checks.
+- `Notes`:
+  - W3C WCAG guidance says colour should not be the only visual means of distinguishing an element, and non-text visual information needed for understanding should have sufficient contrast against adjacent colours.
+  - Keep this page-scoped unless the treatment proves useful for other inclusion-oriented language fields.
+- `Links`: `src/pages/KinkBdsmCounselling.tsx`, `src/styles-kink-bdsm.css`, `docs/design-system/foundations/principles.md`, `https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html`, `https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html`
+
+### SITE-22 - Working With Joel hero support design polish
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Status`: `Open`
+- `Classification`: `Public UX`
+- `Source`: User feedback on the Working With Joel hero support copy, `src/pages/WorkingWithJoel.tsx`
+- `Visitor-Facing Goal`: Make the "Life is complicated" support copy feel visually intentional, emotionally grounded, and worthy of its prominent hero placement.
+- `Current State`: The Working With Joel hero includes the copy "Life is complicated." followed by "Relationships, work, how you feel about yourself, the thing that's been sitting with you. It's all connected." The wording is directionally right, but the current visual treatment does not feel satisfying or resolved.
+- `Why Deferred`: This is a focused design polish item rather than a copy rewrite or accessibility blocker, and it should be handled with a small visual pass instead of a quick tracker edit.
+- `First Useful Slice`: Create one or two page-scoped treatment options for the hero support block, improving hierarchy, spacing, rhythm, and relationship to the portrait/credentials while preserving the copy unless the owner explicitly wants copy changes.
+- `Implemented When`: The support copy has a deliberate, on-brand treatment across desktop and mobile, does not read like filler or a generic card, and the practice owner is happy with how it looks.
+- `Notes`:
+  - Keep the work page-scoped unless the treatment clearly belongs in the shared hero system.
+- `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system/patterns/page-patterns.md`, `docs/project/product-direction.md`
+
 ## Archive
 
-No archived site backlog items yet.
+### SITE-1 - Launch accessibility checklist
+
+Superseded by `LAUNCH-1`. The working checklist remains at `docs/checklists/accessibility-launch.md`; concrete visitor-facing gaps found during that review should be tracked as `SITE-*` or `DEBT-*` items.
+
+### SITE-2 - Responsive QA matrix
+
+Superseded by `LAUNCH-2`. Responsive route review is now launch-readiness work rather than a concrete SITE change card.
+
+### SITE-3 - Public SEO and metadata QA matrix
+
+Superseded by `LAUNCH-3`. Metadata review is now tracked as a launch-readiness gate; concrete metadata fixes should be tracked separately.
+
+### SITE-4 - Performance and image delivery review
+
+Superseded by `LAUNCH-4`. Performance and media delivery review is now tracked as a launch-readiness gate; concrete follow-up work should be linked from that review.
+
+### SITE-5 - Analytics and local/test policy
+
+Superseded by `LAUNCH-5`. Analytics environment policy is now tracked as launch-readiness work, with technical follow-up linked separately.
+
+### SITE-6 - Enquiry form public-flow QA
+
+Superseded by `LAUNCH-6`. Public enquiry-flow review is now tracked as launch-readiness work; concrete form changes remain in active SITE cards where needed.
+
+### SITE-13 - Final public copy and ethical-claims proofread
+
+Superseded by `LAUNCH-7`. Final cross-route copy proofing is now launch-readiness work; concrete copy changes remain as active `SITE-*` items.
+
+### SITE-18 - Custom launch domain and canonical public identity
+
+Superseded by `LAUNCH-8`. Domain and canonical identity sign-off is now tracked as launch-readiness work rather than a SITE change card.

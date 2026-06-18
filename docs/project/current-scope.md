@@ -9,8 +9,9 @@ This is the factual current scope of the Vive Counselling website and supporting
 - `/about` redirects to Working with Joel, and `/fees` redirects to Contact/Fees.
 - Public navigation includes Home, Working with Joel, Inclusion child pages, and Fees.
 - Development-only routes include the rendered design-system pages, Documents, Codex test bed, and Opus test bed.
-- The dev Documents page imports markdown only from `docs/reports/` and `docs/plans/` and renders those reports and draft plans through the app in development.
+- The dev Documents page imports markdown from `docs/checklists/`, `docs/reports/`, and `docs/plans/` and renders checklists, reports, and draft plans through the app in development; exact inline checklist status labels render as quiet coloured badges.
 - Root project guidance now lives under `docs/project/`; visual-system guidance lives under `docs/design-system/`.
+- Launch readiness gates, review passes, and acceptance checks are tracked separately in `docs/project/launch-readiness.md` with stable `LAUNCH-*` IDs.
 - The design system has rebuilt written docs, rendered dev pages, shared components, shared CSS class layers, and cleanup guidance.
 - Public-page content and product positioning are governed by `docs/project/product-direction.md`.
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
@@ -44,8 +45,8 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Route definitions, route metadata, prerendering, and tests remain separate by design for this small route set; explicit route parity coverage is still tracked as debt.
 - Type checking does not currently cover tests, scripts, and most config files.
 - Vercel clean URL config and generated app 404 fallback are covered locally, but live Vercel smoke testing is not automated.
-- Accessibility support exists in components and tests, but there is no complete accessibility status matrix.
-- Responsive styling exists, but there is no formal responsive QA matrix.
+- Accessibility support exists in components and tests, and `docs/checklists/accessibility-launch.md` provides the working route-by-route checklist for `LAUNCH-1`, but the launch accessibility review is not complete.
+- Responsive styling exists, but the `LAUNCH-2` responsive review is not complete.
 - Performance tooling exists, but Lighthouse budgets are not enforced.
 - Analytics are active in local/test contexts unless separately blocked by the test environment.
 
@@ -60,9 +61,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Dark mode.
 - Storybook or an external component explorer.
 - Visual regression testing.
-- Complete accessibility audit matrix.
-- Complete responsive QA matrix.
-- Complete public-page SEO/content QA matrix.
+- Completed `LAUNCH-*` review passes for accessibility, responsive layout, public SEO/metadata, performance, analytics policy, enquiry flow, final public copy, and launch domain readiness.
 - Form-flow browser tests with mocked API outcomes.
 - Dedicated live Vercel production or preview smoke tests.
 

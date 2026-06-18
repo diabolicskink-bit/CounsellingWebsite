@@ -1253,6 +1253,46 @@
   font-size: 0.88em;
 }
 
+.documents-status {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.08rem 0.38rem 0.1rem;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.documents-status--na {
+  background: #f1f1ee;
+  color: #59625a;
+}
+
+.documents-status--not-checked {
+  background: #edf3f8;
+  color: #2d5876;
+}
+
+.documents-status--pass {
+  background: #edf5ed;
+  color: #2f673f;
+}
+
+.documents-status--partial {
+  background: #f7f0dc;
+  color: #765a1f;
+}
+
+.documents-status--fail {
+  background: #f8ece8;
+  color: #8a3c31;
+}
+
 .documents-markdown pre {
   overflow-x: auto;
   padding: 18px 20px;

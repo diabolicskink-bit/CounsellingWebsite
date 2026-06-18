@@ -4,6 +4,10 @@ This is the living index for technical, security, routing, API, testing, deploym
 
 Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do not renumber existing items. When an item is resolved or superseded, move it to the archive section, keep its ID intact, and condense it to a short functional summary instead of preserving the active-item field list.
 
+## Tracker Metadata
+
+- `Next ID`: `DEBT-32`
+
 ## How To Maintain This Tracker
 
 - Add an item when project debt is important enough that future sessions should remember it across tasks.
@@ -519,31 +523,6 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
 - `Links`: `package.json`
 
-### DEBT-31 - Favicon, touch, and app icon assets need quality and usage audit
-
-- `Priority`: `P3`
-- `Size`: `S`
-- `Priority Rationale`: This is `P3` because low-quality favicon, touch, and app icon artwork can make the site feel less polished in browser tabs, bookmarks, home-screen shortcuts, or share surfaces, but it does not affect core page content, accessibility, or enquiry delivery.
-- `Status`: `Open`
-- `Detected`: 2026-06-18
-- `Source`: User review note
-- `Area`: Assets, Metadata, Brand, QA
-- `Problem`: The icon assets (`favicon.svg`, `favicon-32x32.png`, `apple-touch-icon.png`, `icon-192.png`, and `icon-512.png`) appear visually weak, described as an off-centre "V" in a green shape, and their actual browser/device usage has not been audited.
-- `Why It Matters`: These assets are small, but they appear in high-trust surfaces such as browser tabs, saved bookmarks, home-screen icons, and app install prompts. Poor or misaligned icon artwork can make the public site feel unfinished.
-- `Preferred Direction`: Audit which icon files are referenced and actually used, then replace the favicon/touch/app icon set with centered, crisp, brand-consistent assets at the required sizes.
-- `Resolution Path`: Confirm references in generated head metadata and `site.webmanifest`, inspect the rendered SVG and PNG icons at their native display sizes, regenerate the active icon set from an approved source, and update tests to verify references and dimensions rather than only existence.
-- `Next Action`: Review `favicon.svg`, `favicon-32x32.png`, `apple-touch-icon.png`, `icon-192.png`, and `icon-512.png` visually at native display sizes and confirm which are consumed by the generated head and web manifest.
-- `Resolved When`: The active favicon/touch/app icon set is visually aligned, centered, brand-consistent, referenced only where needed, and covered by asset checks that match the chosen icon policy.
-- `Related Items`:
-  - `DEBT-26`: Social sharing image and icon assets both affect off-page trust surfaces.
-  - `SITE-3`: Public SEO/metadata QA can include icon and manifest asset expectations.
-  - `SITE-4`: Performance/image review may include icon dimensions and file weights.
-- `Dependencies`: `None`
-- `Notes`:
-  - Source search found icon references in `scripts/prerender-route-metadata.mjs`, `public/site.webmanifest`, and `tests/public-site.spec.ts`.
-  - Current tests assert the icon files are served and listed, but do not verify visual quality, centering, dimensions, or whether all SVG/PNG variants are still necessary.
-- `Links`: `public/apple-touch-icon.png`, `public/favicon-32x32.png`, `public/icon-192.png`, `public/icon-512.png`, `public/favicon.svg`, `public/site.webmanifest`, `scripts/prerender-route-metadata.mjs`, `tests/public-site.spec.ts`
-
 ## Archive
 
 ### DEBT-1 - QA suite is not a trustworthy release gate
@@ -619,3 +598,9 @@ The active card API remains `.site-card`, `.site-card--link`, `.site-card__*`, `
 Closed on 2026-06-18 after assessment found that a shared route manifest would likely add more architecture than value for this small, mostly static counselling practice site. The public route set is not expected to grow much, and route registration, navigation, redirects, metadata, sitemap, prerendering, and tests overlap without all wanting the same data shape.
 
 Route drift prevention remains tracked under `DEBT-8`, which should add focused parity coverage. If future route churn makes the current duplication materially painful, a new debt item can revisit manifest consolidation with fresh evidence.
+
+### DEBT-31 - Favicon, touch, and app icon assets need quality and usage audit
+
+Resolved on 2026-06-18 by replacing the active public favicon, touch, and web-app icon assets with the approved folded-paper `v07` candidate. The PNG set now derives from `docs/design-system/icon-candidates-ai/vive-ai-folded-paper-v07-balanced-arms.png` at the referenced browser/device sizes, and `public/favicon.svg` has been replaced with a compact vector sibling so SVG-capable browsers do not keep showing the old mark.
+
+The icon references were confirmed in generated head metadata and `public/site.webmanifest`, and public-site tests now verify the served PNG icon dimensions in addition to existence.

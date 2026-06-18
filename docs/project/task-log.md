@@ -7,7 +7,8 @@ Curated milestone history for durable project state. This is not a full changelo
 - Read this for important project milestones and durable context.
 - Use `current-scope.md` for exact current scope.
 - Use `project-debt.md` for technical pressure.
-- Use `site-backlog.md` for deferred visitor-facing work.
+- Use `launch-readiness.md` for launch gates and review passes.
+- Use `site-backlog.md` for concrete deferred visitor-facing change work.
 - Use `docs/design-system/current-scope.md` for design-system scope.
 
 ## Admission Rule
@@ -15,6 +16,25 @@ Curated milestone history for durable project state. This is not a full changelo
 - Add entries for public behaviour changes, documentation governance changes, major design-system state changes, deployment/testing posture changes, API/form milestones, or tracker creation/resolution.
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
+
+## 2026-06-18 - Launch Readiness Tracker Added
+
+- Added: Created `docs/project/launch-readiness.md` with stable `LAUNCH-*` IDs for launch gates, review passes, acceptance checks, and sign-off work.
+- Changed: Moved broad review items out of active `SITE-*` tracking and archived the superseded SITE IDs with pointers to `LAUNCH-1` through `LAUNCH-8`.
+- Clarified: `SITE-*` now owns concrete visitor-facing change work, while `LAUNCH-*` owns cross-site review and readiness tracking.
+
+## 2026-06-18 - DEBT-31 Public Icon Set Replaced
+
+- Changed: Replaced the public favicon, touch, and web-app icon PNGs with the approved folded-paper `v07` candidate at the referenced browser/device sizes.
+- Changed: Updated `public/favicon.svg` to a compact vector sibling of the same folded-paper mark so SVG-capable browsers do not keep showing the old icon.
+- Closed: Archived `DEBT-31` and added public-site checks for served PNG icon dimensions.
+
+## 2026-06-18 - Checklists Added To Documents Reader
+
+- Changed: Added `docs/checklists/` as a rendered markdown source for the dev Documents page alongside reports and plans.
+- Added: Created `docs/checklists/accessibility-launch.md` as the human-readable launch accessibility checklist shell, now owned by `LAUNCH-1`, while keeping `docs/checklists/accessibility.md` as the earlier sample.
+- Changed: Checklist status labels render as quiet coloured badges in the dev Documents reader while staying plain inline-code labels in markdown.
+- Updated: Clarified the accessibility matrix idea as a launch checklist rather than a wide spreadsheet.
 
 ## 2026-06-17 - DEBT-6 Production URL And 404 Fallback Resolved
 
