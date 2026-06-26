@@ -77,10 +77,10 @@ Statuses:
 - `Status`: `Partial`
 - `Source`: Supersedes `SITE-3`, `docs/checklists/seo-metadata-launch.md`, `docs/project/current-scope.md`, `docs/reports/2026-06-17-technical-code-review.md`
 - `Launch Goal`: Confirm public pages are discoverable, shareable, and semantically clear before launch.
-- `Current State`: Metadata exists and is prerendered, and `docs/checklists/seo-metadata-launch.md` is now the working checklist artifact. Inclusion Hub has begun assessment; its route-specific social image and hydrated metadata gaps are linked to existing debt items.
+- `Current State`: Metadata exists and is prerendered, and `docs/checklists/seo-metadata-launch.md` is now the working checklist artifact. Temporary site-wide `noindex, nofollow` is active while launch indexing is deferred; `SITE-23` tracks restoring indexability when the custom domain is ready. Inclusion Hub has begun assessment; its route-specific social image and hydrated metadata gaps are linked to existing debt items.
 - `Review Method`: Work through the checklist for global metadata outputs, each public route, redirect routes, and the not-found route, with notes that link any concrete gap to `SITE-*` or `DEBT-*`.
 - `Passes When`: Every public route has reviewed metadata expectations, and missing or incorrect required values are resolved or linked to `SITE-*` / `DEBT-*`.
-- `Linked Work`: `DEBT-8`, `DEBT-26`, `DEBT-27`, `LAUNCH-8`
+- `Linked Work`: `DEBT-8`, `DEBT-26`, `DEBT-27`, `LAUNCH-8`, `SITE-23`
 - `Links`: `docs/checklists/seo-metadata-launch.md`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `docs/project/project-debt.md`
 
 ### LAUNCH-4 - Performance and image delivery launch review
@@ -142,10 +142,10 @@ Statuses:
 - `Status`: `Blocked`
 - `Source`: Supersedes `SITE-18`, `docs/project/current-scope.md`, `src/data/routeMetadata.json`
 - `Launch Goal`: Launch on a public identity that feels finished and keeps canonical, share, and search signals aligned with the real practice.
-- `Current State`: Production metadata defaults to the stable Vercel URL, and `SITE_URL` can override it when a custom canonical domain is ready.
+- `Current State`: The owner has registered a custom domain, but the canonical launch domain value and DNS/Vercel verification are not yet recorded here. Production metadata defaults to the stable Vercel URL, `SITE_URL` can override it when a custom canonical domain is ready, and temporary site-wide `noindex, nofollow` is active until `SITE-23` is implemented.
 - `Review Method`: Confirm the launch canonical domain, configure DNS/Vercel as needed, set `SITE_URL`, and verify canonical URLs, sitemap, robots, redirects, and social metadata against that domain.
 - `Passes When`: Public visitors, search crawlers, social previews, and generated metadata all use the intended launch domain rather than the temporary Vercel hostname.
-- `Linked Work`: `DEBT-24`
+- `Linked Work`: `DEBT-24`, `SITE-23`
 - `Links`: `docs/project/current-scope.md`, `src/data/routeMetadata.json`, `vercel.json`, `docs/project/project-debt.md`
 
 ## Archive

@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-06-26 - Temporary Public Noindex Enabled
+
+- Changed: Generated public route HTML now includes `noindex, nofollow`, and Vercel deployment config adds a matching `X-Robots-Tag` header.
+- Changed: Pre-launch crawl artifacts no longer advertise indexable public URLs; `sitemap.xml` is intentionally empty and `robots.txt` allows crawling without linking the sitemap so page-level noindex can be read.
+- Added: `SITE-23` tracks restoring indexability on the final custom domain when the owner is ready to launch.
+
 ## 2026-06-23 - SITE-8 Shared Portrait Hero Treatment Resolved
 
 - Changed: Promoted the repeated Joel portrait frame and overlaid name tag into the shared hero system with `.hero-media-note--portrait` and `.hero-media-note__tag`.

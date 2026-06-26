@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `SITE-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `SITE-23`
+- `Next ID`: `SITE-24`
 
 ## How To Maintain This Backlog
 
@@ -135,6 +135,22 @@ Statuses:
 - `Implemented When`: Visitors can see what is required before submitting, native validation still works, and the Contact checklist required-field clarity item can move from `Partial` to `Pass`.
 - `Notes`:
 - `Links`: `src/components/EnquiryForm.tsx`, `src/data/enquiry.ts`, `docs/checklists/accessibility-launch.md`
+
+### SITE-23 - Enable launch indexing on the final domain
+
+- `Priority`: `P1`
+- `Size`: `M`
+- `Status`: `Open`
+- `Classification`: `SEO/Metadata`
+- `Source`: User request after custom domain registration, temporary noindex implementation, `LAUNCH-3`, `LAUNCH-8`
+- `Visitor-Facing Goal`: Make the site intentionally indexable on the final canonical public domain when the practice owner is ready to launch.
+- `Current State`: Temporary pre-launch indexability controls are active. Generated public route HTML includes `noindex, nofollow`, `vercel.json` adds a matching `X-Robots-Tag` header, `sitemap.xml` is intentionally empty, and `robots.txt` allows crawling without advertising the sitemap so crawlers can read the page-level noindex directive.
+- `Why Deferred`: The owner does not want the newly registered domain indexed yet while launch/domain readiness work is still underway.
+- `First Useful Slice`: Confirm the final canonical domain, set `SITE_URL`, remove the temporary `noindex, nofollow` meta/header layer, restore public route URLs to `sitemap.xml`, restore the sitemap reference in `robots.txt`, then run local site QA and a live Vercel/domain smoke check.
+- `Implemented When`: Public pages on the chosen custom domain are indexable, generated canonical/social URLs use that domain, `robots.txt` and `sitemap.xml` advertise the intended public routes, and live checks confirm the deployed response headers and page metadata no longer block indexing.
+- `Notes`:
+  - Do not implement until the owner explicitly confirms the site is ready to be indexed.
+- `Links`: `scripts/prerender-route-metadata.mjs`, `vercel.json`, `tests/public-site.spec.ts`, `docs/project/launch-readiness.md`, `docs/project/current-scope.md`
 
 ### SITE-7 - Global reduced-motion baseline
 

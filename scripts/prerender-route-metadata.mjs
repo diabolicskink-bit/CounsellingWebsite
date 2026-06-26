@@ -7,6 +7,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const distDir = path.join(rootDir, "dist");
 const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
+const temporaryNoindexDirective = "noindex, nofollow";
 
 function escapeHtml(value) {
   return value
@@ -38,6 +39,7 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
     "<!-- SEO metadata generated at build time -->",
     title,
     description,
+    `<meta name="robots" content="${escapeHtml(temporaryNoindexDirective)}" />`,
     `<link rel="canonical" href="${escapeHtml(pageUrl)}" />`,
     `<meta property="og:site_name" content="${escapeHtml(siteMetadata.name)}" />`,
     '<meta property="og:type" content="website" />',
@@ -77,7 +79,7 @@ function getNotFoundTags(siteMetadata) {
     "<!-- SEO metadata generated at build time -->",
     "<title>Page not found | Vive Counselling</title>",
     '<meta name="description" content="This page could not be found on the Vive Counselling website." />',
-    '<meta name="robots" content="noindex, nofollow" />',
+    `<meta name="robots" content="${escapeHtml(temporaryNoindexDirective)}" />`,
     '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />',
     '<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />',
     '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
@@ -128,7 +130,7 @@ for (const [routePath, routeMetadata] of Object.entries(routes)) {
 const sitemapXml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-  ...Object.keys(routes).map((routePath) => `  <url><loc>${escapeXml(getAbsoluteUrl(siteOrigin, routePath))}</loc></url>`),
+  "  <!-- Temporarily empty while SITE-23 keeps launch indexing deferred. -->",
   "</urlset>",
   "",
 ].join("\n");
@@ -137,7 +139,7 @@ const robotsTxt = [
   "User-agent: *",
   "Allow: /",
   "",
-  `Sitemap: ${getAssetUrl(siteOrigin, "/sitemap.xml")}`,
+  "# Public pages currently carry noindex,nofollow metadata while launch indexing is deferred.",
   "",
 ].join("\n");
 

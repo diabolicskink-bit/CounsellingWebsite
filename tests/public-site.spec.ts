@@ -14,6 +14,12 @@ const routeMetadataData = JSON.parse(
   };
   routes: Record<string, { title: string; description: string }>;
 };
+const vercelConfigData = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url), "utf8")) as {
+  headers?: Array<{
+    source: string;
+    headers: Array<{ key: string; value: string }>;
+  }>;
+};
 
 const publicRoutes = [
   "/",
@@ -38,6 +44,7 @@ const expectedPublicH1Text: Record<(typeof publicRoutes)[number], string> = {
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
+const temporaryRobotsDirective = "noindex, nofollow";
 
 const expectedIconAssets = [
   { path: "/favicon-32x32.png", width: 32, height: 32 },
@@ -144,7 +151,7 @@ async function expectNotFoundPage(page: Page, requestedPath: string) {
   await expect(page.locator(".not-found-page__label")).toHaveText("Page not found");
   await expect(page.locator("h1")).toHaveText("That page isn't here.");
   await expect(page.getByLabel("Requested address")).toContainText(requestedPath);
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", temporaryRobotsDirective);
 }
 
 const aliasRedirects = [
@@ -192,6 +199,7 @@ test.describe("public pages", () => {
       const description = await page.locator('meta[name="description"]').getAttribute("content");
       expect(description).toBeTruthy();
       expect(description?.length).toBeGreaterThan(50);
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", temporaryRobotsDirective);
 
       await expectNoPageDiagnostics(diagnostics);
     });
@@ -225,6 +233,7 @@ test.describe("first response metadata", () => {
       expect(html).toContain(
         `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
       );
+      expect(html).toContain(`<meta name="robots" content="${temporaryRobotsDirective}" />`);
       expect(html).toContain(`<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`);
       expect(html).toContain(`<meta property="og:site_name" content="${escapeHtml(routeMetadataData.site.name)}" />`);
       expect(html).toContain('<meta property="og:type" content="website" />');
@@ -254,7 +263,7 @@ test.describe("first response metadata", () => {
 });
 
 test.describe("crawl and app metadata assets", () => {
-  test("robots.txt allows crawling and points to the sitemap", async ({ request }) => {
+  test("robots.txt allows crawling without advertising a pre-launch sitemap", async ({ request }) => {
     const response = await request.get("/robots.txt");
     const robots = await response.text();
 
@@ -262,26 +271,42 @@ test.describe("crawl and app metadata assets", () => {
     expectNoGeneratedOriginLeak(robots);
     expect(robots).toContain("User-agent: *");
     expect(robots).toContain("Allow: /");
-    expect(robots).toContain(`Sitemap: ${siteOrigin}/sitemap.xml`);
+    expect(robots).not.toContain("Disallow: /");
+    expect(robots).not.toContain("Sitemap:");
   });
 
-  test("sitemap.xml lists only canonical public routes", async ({ request }) => {
+  test("sitemap.xml is intentionally empty while launch indexing is deferred", async ({ request }) => {
     const response = await request.get("/sitemap.xml");
     const sitemap = await response.text();
 
     expect(response.ok()).toBeTruthy();
     expectNoGeneratedOriginLeak(sitemap);
+    expect(sitemap).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
 
     for (const route of Object.keys(routeMetadataData.routes)) {
-      expect(sitemap).toContain(`<loc>${absoluteRouteUrl(route)}</loc>`);
+      expect(sitemap).not.toContain(`<loc>${absoluteRouteUrl(route)}</loc>`);
     }
 
     for (const route of [...aliasRedirects.map(({ from }) => from), ...retiredRoutes, ...devOnlyRoutes]) {
       expect(sitemap).not.toContain(`<loc>${absoluteRouteUrl(route)}</loc>`);
     }
 
+    expect(sitemap).not.toContain("<loc>");
     expect(sitemap).not.toContain(`${siteOrigin}/404`);
     expect(sitemap).not.toContain(`${siteOrigin}/404.html`);
+  });
+
+  test("Vercel config applies temporary noindex headers", () => {
+    const siteWideHeader = vercelConfigData.headers?.find(({ source }) => source === "/(.*)");
+
+    expect(siteWideHeader?.headers).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: "X-Robots-Tag",
+          value: temporaryRobotsDirective,
+        }),
+      ]),
+    );
   });
 
   test("404.html serves an app-powered noindex fallback shell", async ({ request }) => {
@@ -291,7 +316,7 @@ test.describe("crawl and app metadata assets", () => {
     expect(response.ok()).toBeTruthy();
     expectNoGeneratedOriginLeak(html);
     expect(html).toContain("<title>Page not found | Vive Counselling</title>");
-    expect(html).toContain('<meta name="robots" content="noindex, nofollow" />');
+    expect(html).toContain(`<meta name="robots" content="${temporaryRobotsDirective}" />`);
     expect(html).toContain('script type="module"');
     expect(html).toContain("/assets/");
     expect(html).not.toContain('<link rel="canonical"');
@@ -387,7 +412,7 @@ test.describe("alias URL redirects", () => {
 
       await expect(page).toHaveURL(new RegExp(`${to}$`));
       await expect(page.locator("h1")).toHaveCount(1);
-      await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", temporaryRobotsDirective);
     });
   }
 });

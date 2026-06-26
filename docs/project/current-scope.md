@@ -16,6 +16,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Public-page content and product positioning are governed by `docs/project/product-direction.md`.
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
 - A prerender script updates route metadata artifacts, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.
+- Temporary pre-launch indexability controls are active: generated public route HTML includes `noindex, nofollow`, `vercel.json` adds a matching `X-Robots-Tag` header, `sitemap.xml` is intentionally empty, and `robots.txt` allows crawling without advertising the sitemap so crawlers can read the page-level noindex directive.
 - Production metadata defaults to the stable Vercel canonical origin `https://counselling-website-seven.vercel.app`; `SITE_URL` can override this when a custom canonical domain is ready.
 - Public assets include favicons, app icons, a web manifest, and portrait/media assets under `public/`.
 - The Contact/Fees page uses the shared `EnquiryForm` component and data from `src/data/enquiry.ts`.
