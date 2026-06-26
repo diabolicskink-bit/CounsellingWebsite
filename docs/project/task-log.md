@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-06-23 - SITE-8 Shared Portrait Hero Treatment Resolved
+
+- Changed: Promoted the repeated Joel portrait frame and overlaid name tag into the shared hero system with `.hero-media-note--portrait` and `.hero-media-note__tag`.
+- Changed: Home, Working with Joel, and the rendered hero design-system page now use the shared portrait media treatment instead of page-specific tag/frame styling.
+- Closed: Archived `SITE-8` after documenting the shared hero modifier in the design-system scope and page-pattern guidance.
+
 ## 2026-06-18 - Launch Readiness Tracker Added
 
 - Added: Created `docs/project/launch-readiness.md` with stable `LAUNCH-*` IDs for launch gates, review passes, acceptance checks, and sign-off work.

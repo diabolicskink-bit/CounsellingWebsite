@@ -151,21 +151,6 @@ Statuses:
 - `Notes`:
 - `Links`: `src/styles.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system/ai-rules.md`
 
-### SITE-8 - Shared portrait/media hero treatment
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `Public UX`
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Visitor-Facing Goal`: Keep portrait/media hero treatments consistent and intentional across public pages that use Joel portrait imagery or similar media notes.
-- `Current State`: Home and Working with Joel repeat similar hero media and portrait tag styling through page-scoped CSS.
-- `Why Deferred`: It should be handled as a small design-system promotion only after confirming the repeated pattern is meant to remain.
-- `First Useful Slice`: Promote a shared `hero-media-note` portrait modifier, or document why the two page-specific treatments should stay separate.
-- `Implemented When`: Repeated portrait/media styling is either shared through the hero system or intentionally documented as page-specific.
-- `Notes`:
-- `Links`: `src/styles-home.css`, `src/styles-working-with-joel.css`, `docs/design-system/patterns/page-patterns.md`, `docs/design-system/current-scope.md`
-
 ### SITE-14 - Contact availability and reply-time expectations
 
 - `Priority`: `P2`
@@ -284,6 +269,10 @@ Superseded by `LAUNCH-5`. Analytics environment policy is now tracked as launch-
 ### SITE-6 - Enquiry form public-flow QA
 
 Superseded by `LAUNCH-6`. Public enquiry-flow review is now tracked as launch-readiness work; concrete form changes remain in active SITE cards where needed.
+
+### SITE-8 - Shared portrait/media hero treatment
+
+Implemented on 2026-06-23. Home and Working with Joel now use the shared `.hero-media-note--portrait` modifier and `.hero-media-note__tag`, with the portrait frame/tag treatment documented in the hero system and shown on the rendered hero design-system page.
 
 ### SITE-13 - Final public copy and ethical-claims proofread
 

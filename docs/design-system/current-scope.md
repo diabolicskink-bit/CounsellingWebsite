@@ -7,7 +7,7 @@ This is the live factual inventory of the design system. Keep it current when th
 - Production colour, typography, spacing, radius, shadow, surface, and layout tokens are defined in `src/styles.css`.
 - Standard paragraph-style copy uses `--type-body` and `--leading-body`; literal `p`, `.site-body-copy`, `.site-copy-flow`, and `.rich-text` are the shared body-copy paths.
 - The active shared production class layer uses `site-*` classes for public-page sections, cards, panels, lists, tabs, forms, footer, FAQ, CTA, trust, detail, and contact patterns.
-- The active shared hero system uses `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-principles-strip`, and `.hero-detail-stack`.
+- The active shared hero system uses `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-media-note--portrait`, `.hero-media-note__tag`, `.hero-principles-strip`, and `.hero-detail-stack`.
 - Existing non-prefixed shared component classes remain active where they back current promoted components or patterns: `.container`, `.button`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
 - Active shared React components include `Container`, `Button`, `SectionHeading`, `SplitSection`, `FaqSection`, `FaqSchema`, `BroadTabPanel`, `EnquiryForm`, `Layout`, `DevPageHero`, `DesignSystemSidebar`, and `DocumentsSidebar`.
 - The active general card pattern is `.site-card`, `.site-card--link`, `.site-card__list`, `.site-card__action`, and `.site-card-grid`.

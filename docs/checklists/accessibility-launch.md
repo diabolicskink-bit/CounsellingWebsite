@@ -10,9 +10,18 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 
 - `Not checked`: No review has been recorded yet.
 - `Pass`: Checked and acceptable for launch.
-- `Partial`: Somewhat done, with one or more tracked gaps.
-- `Fail`: Mostly not good enough for launch.
+- `Partial`: Checked, but one or more accepted or tracker-linked gaps remain.
+- `Fail`: Checked and not acceptable for launch until resolved or linked.
 - `N/A`: The condition does not apply.
+
+## Review Standard
+
+Use browser checks plus source inspection where useful. Notes should name the route, state, viewport, or interaction that was reviewed.
+
+- Keyboard-only review covers the shared shell and page-specific interactive elements.
+- Axe or equivalent automated checks show no unresolved serious or critical violations in the reviewed scope.
+- Mobile and reflow checks include a narrow mobile viewport and a 200 percent zoom proxy.
+- Non-pass notes link the relevant `SITE-*` / `DEBT-*` item or state explicit launch acceptance.
 
 ## Global Shared Shell
 
@@ -28,10 +37,13 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Inclusion subnavigation is usable without a mouse.
   - Note:
 
-- `Not checked` Current page or current section is clear in the navigation where relevant.
+- `Not checked` Current page or current section is clear visually and programmatically, such as with `aria-current` where relevant.
   - Note:
 
-- `Not checked` Visitors can bypass repeated navigation or arrive clearly at new page content after route changes.
+- `Not checked` Visitors can bypass repeated navigation.
+  - Note:
+
+- `Not checked` SPA route changes update title, focus, or another clear orientation cue for assistive-technology users.
   - Note:
 
 - `Not checked` Shared header, footer, navigation, links, and buttons all have visible focus states.
@@ -48,6 +60,13 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 
 - `Not checked` Shared links and buttons have names that make sense out of context.
   - Note:
+
+- `Not checked` Automated accessibility scans for reviewed routes have no unresolved serious or critical violations.
+  - Note:
+
+## Redirect Aliases
+
+Redirect aliases `/about` and `/fees` are covered by `docs/checklists/seo-metadata-launch.md`; accessibility review begins at their destination pages unless a redirect-specific visitor-facing issue appears.
 
 ## `/` - Home
 
@@ -69,7 +88,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Pass` Focus is visible on every page-specific link and CTA.
   - Note: Checked all six main content links in browser. CTA links receive the browser focus outline, and inclusion detail links receive a visible outlined focus state plus text colour change.
 
-- `Pass` Text and interactive states meet acceptable contrast.
+- `Pass` Text, non-text UI, and focus states meet WCAG AA contrast expectations.
   - Note: Checked `/` with axe scoped to `main`; no colour-contrast or other main-content violations were reported. Focused link and CTA states remained readable in sampled browser checks.
 
 - `Pass` Page remains readable at mobile widths.
@@ -81,7 +100,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Pass` Portrait/media treatment is intentionally accessible, either decorative or meaningfully named.
   - Note: Checked hero portrait in browser and source. The image uses empty alt text, so it is treated as decorative; the visible "Joel Griffiths" label remains present as nearby text.
 
-## `/working-with-joel` - Working With Joel
+## `/working-with-joel` - Working with Joel
 
 - `Not checked` Page has one clear main content landmark.
   - Note:
@@ -107,7 +126,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Approach tab content remains reachable and understandable with keyboard alone.
   - Note:
 
-- `Not checked` Text and interactive states meet acceptable contrast.
+- `Not checked` Text, non-text UI, and focus states meet WCAG AA contrast expectations.
   - Note:
 
 - `Not checked` Page remains readable at mobile widths.
@@ -121,40 +140,40 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 
 ## `/inclusion` - Inclusion Hub
 
-- `Not checked` Page has one clear main content landmark.
-  - Note:
+- `Pass` Page has one clear main content landmark.
+  - Note: Checked on `/inclusion` in browser at 1280x900. The DOM exposes one visible `<main>` and Playwright finds one `main` landmark.
 
-- `Not checked` Page has one clear page-level heading that matches the page purpose.
-  - Note:
+- `Pass` Page has one clear page-level heading that matches the page purpose.
+  - Note: Checked on `/inclusion` in browser. The page has one visible `h1`, "Inclusive counselling", with the adjacent hero `h2` extending the purpose as "Inclusive counselling for diverse lives."
 
-- `Not checked` Heading order supports scanning and screen-reader navigation.
-  - Note:
+- `Pass` Heading order supports scanning and screen-reader navigation.
+  - Note: Checked on `/inclusion` in browser. Heading order is one `h1`, then section `h2`s, with inclusion-panel and FAQ question `h3`s nested under their sections.
 
-- `Not checked` Hero topic links, inclusion panels, and FAQ appear in a sensible reading order.
-  - Note:
+- `Pass` Hero topic links, inclusion panels, and FAQ appear in a sensible reading order.
+  - Note: Checked rendered DOM and source. Reading order is hero title and topic links, hub introduction, three inclusion panels with CTAs, then FAQ.
 
-- `Not checked` Page-specific links, buttons, and FAQ controls have meaningful names.
-  - Note:
+- `Pass` Page-specific links, buttons, and FAQ controls have meaningful names.
+  - Note: Checked main content controls in browser. Topic links are named "Kink & BDSM", "ENM & Polyamory", and "LGBTQIA+"; panel CTAs name their destination topics; FAQ buttons use the full question text.
 
-- `Not checked` Focus is visible on every page-specific link, button, and FAQ control.
-  - Note:
+- `Pass` Focus is visible on every page-specific link, button, and FAQ control.
+  - Note: Checked keyboard Tab through 11 main controls. Hero topic links, panel CTA links, and FAQ buttons all exposed visible outline or outline plus box-shadow focus treatment.
 
-- `Not checked` FAQ controls expose expanded and collapsed state.
-  - Note:
+- `Pass` FAQ controls expose expanded and collapsed state.
+  - Note: Checked in browser. FAQ buttons expose `aria-expanded` and `aria-controls`; pressing Enter on the first FAQ changed `aria-expanded` from `false` to `true`.
 
-- `Not checked` FAQ answers remain associated with their questions.
-  - Note:
+- `Pass` FAQ answers remain associated with their questions.
+  - Note: Checked in browser and source. Answer regions use `role="region"` and `aria-labelledby` pointing to the matching question button, and closed answers are hidden and inert.
 
-- `Not checked` Text and interactive states meet acceptable contrast.
-  - Note:
+- `Pass` Text, non-text UI, and focus states meet WCAG AA contrast expectations.
+  - Note: Checked `/inclusion` with axe scoped to `main`; no violations were reported. Sampled focused topic links, CTA links, and FAQ buttons retained visible focus treatment.
 
-- `Not checked` Page remains readable at mobile widths.
-  - Note:
+- `Pass` Page remains readable at mobile widths.
+  - Note: Checked at 390x844. Document, body, and main scroll widths matched the viewport width, with no horizontal page overflow.
 
-- `Not checked` Page remains usable at 200 percent browser zoom without horizontal scrolling.
-  - Note:
+- `Pass` Page remains usable at 200 percent browser zoom without horizontal scrolling.
+  - Note: Checked with a 640px CSS viewport as the 200 percent zoom proxy. Document, body, and main scroll widths matched the viewport width, with no horizontal page overflow.
 
-## `/inclusion/kink-bdsm` - Kink And BDSM
+## `/inclusion/kink-bdsm` - Kink and BDSM
 
 - `Not checked` Page has one clear main content landmark.
   - Note:
@@ -183,7 +202,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` FAQ answers remain associated with their questions.
   - Note:
 
-- `Not checked` Text and interactive states meet acceptable contrast.
+- `Not checked` Text, non-text UI, and focus states meet WCAG AA contrast expectations.
   - Note:
 
 - `Not checked` Page remains readable at mobile widths.
@@ -192,7 +211,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Page remains usable at 200 percent browser zoom without horizontal scrolling.
   - Note:
 
-## `/inclusion/enm-polyamory` - ENM And Polyamory
+## `/inclusion/enm-polyamory` - ENM and polyamory
 
 - `Not checked` Page has one clear main content landmark.
   - Note:
@@ -218,7 +237,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` FAQ answers remain associated with their questions.
   - Note:
 
-- `Not checked` Text and interactive states meet acceptable contrast.
+- `Not checked` Text, non-text UI, and focus states meet WCAG AA contrast expectations.
   - Note:
 
 - `Not checked` Page remains readable at mobile widths.
@@ -227,7 +246,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Page remains usable at 200 percent browser zoom without horizontal scrolling.
   - Note:
 
-- `Not checked` Page copy is complete enough that accessibility review is not masking unfinished content.
+- `Not checked` Visible labels, headings, instructions, and link text are complete enough to support the reviewed interactions.
   - Note:
 
 ## `/inclusion/lgbtqia` - LGBTQIA+
@@ -259,7 +278,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` FAQ answers remain associated with their questions.
   - Note:
 
-- `Not checked` Text and interactive states meet acceptable contrast.
+- `Not checked` Text, non-text UI, and focus states meet WCAG AA contrast expectations.
   - Note:
 
 - `Not checked` Page remains readable at mobile widths.
@@ -268,7 +287,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Page remains usable at 200 percent browser zoom without horizontal scrolling.
   - Note:
 
-## `/contact` - Contact And Fees
+## `/contact` - Contact/Fees
 
 - `Pass` Page has one clear main content landmark.
   - Note: Checked on `/contact` in browser at 1280x900. The DOM exposes one visible `<main>` and Playwright finds one `main` landmark.
@@ -293,6 +312,18 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 
 - `Partial` Required fields are clear before submission.
   - Note: Required controls use native `required` attributes and browser validation, but the visible labels do not identify which fields or choices are required before a visitor submits. Tracked by `SITE-21`.
+
+- `Not checked` Validation errors identify the affected fields or groups.
+  - Note:
+
+- `Not checked` Validation errors are associated with the relevant controls.
+  - Note:
+
+- `Not checked` Validation errors are announced or focused where visitors can find them.
+  - Note:
+
+- `Not checked` Failed validation preserves entered visitor content.
+  - Note:
 
 - `Pass` Radio groups and conditional fields have clear group labels.
   - Note: Checked in browser and source. Radio choices sit inside fieldsets with legends, including "What would you like to enquire about?" and the conditional booking-type group, and conditional fields have explicit labels.
@@ -321,7 +352,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Pass` FAQ answers remain associated with their questions.
   - Note: Checked in browser and source. Open answer regions use `role="region"` and `aria-labelledby` pointing back to the matching question button.
 
-- `Pass` Text and interactive states meet acceptable contrast.
+- `Pass` Text, non-text UI, and focus states meet WCAG AA contrast expectations.
   - Note: Checked `/contact` with axe scoped to `main`; no colour-contrast or other main-content violations were reported. Sampled focus, success, and error states remained readable.
 
 - `Pass` Page remains readable at mobile widths.
@@ -356,7 +387,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Long or malformed requested URLs wrap without breaking the layout.
   - Note:
 
-- `Not checked` Text and interactive states meet acceptable contrast.
+- `Not checked` Text, non-text UI, and focus states meet WCAG AA contrast expectations.
   - Note:
 
 - `Not checked` Page remains readable at mobile widths.

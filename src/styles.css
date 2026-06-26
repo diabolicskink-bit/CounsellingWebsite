@@ -2715,6 +2715,11 @@ h1.hero-badge {
   border-bottom: 1px solid rgba(34, 62, 47, 0.16);
 }
 
+.hero-bg--default > * {
+  position: relative;
+  z-index: 1;
+}
+
 .hero-bg--default::before {
   content: "";
   position: absolute;
@@ -2770,6 +2775,53 @@ h1.hero-badge {
   width: 100%;
   aspect-ratio: 4 / 4.05;
   object-fit: cover;
+}
+
+.hero-media-note--portrait {
+  position: relative;
+}
+
+.hero-media-note--portrait .hero-media-note__image {
+  display: grid;
+  aspect-ratio: var(--hero-media-portrait-frame-ratio, auto);
+  align-items: center;
+  justify-items: center;
+  background: var(--surface-strong);
+  border-color: rgba(35, 75, 61, 0.42);
+  box-shadow:
+    0 0 0 3px rgba(252, 252, 250, 0.56),
+    0 22px 42px rgba(31, 35, 31, 0.16),
+    0 6px 14px rgba(31, 35, 31, 0.1);
+}
+
+.hero-media-note--portrait .hero-media-note__image img {
+  width: var(--hero-media-portrait-image-width, 100%);
+  max-width: 100%;
+  height: var(--hero-media-portrait-image-height, auto);
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+.hero-media-note--portrait .hero-media-note__tag {
+  position: absolute;
+  right: 0;
+  bottom: 18px;
+  display: inline-flex;
+  max-width: calc(100% - 18px);
+  border: 1px solid rgba(35, 75, 61, 0.3);
+  border-right: 0;
+  border-radius: 6px 0 0 6px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0.44rem 0.62rem 0.44rem 0.7rem;
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.1;
+  box-shadow: -5px 6px 12px rgba(31, 35, 31, 0.08);
+  pointer-events: none;
 }
 
 .hero-media-note__caption {

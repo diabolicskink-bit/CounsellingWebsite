@@ -10,9 +10,18 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 
 - `Not checked`: No review has been recorded yet.
 - `Pass`: Checked and acceptable for launch.
-- `Partial`: Somewhat done, with one or more tracked gaps.
-- `Fail`: Mostly not good enough for launch.
+- `Partial`: Checked, but one or more accepted or tracker-linked gaps remain.
+- `Fail`: Checked and not acceptable for launch until resolved or linked.
 - `N/A`: The condition does not apply.
+
+## Review Standard
+
+Review generated files, served route responses, and hydrated browser state where relevant. Notes should name what was checked, such as generated HTML, runtime head metadata, sitemap, robots, social image response, redirect response, or not-found response.
+
+- Canonical public pages should return `200`.
+- Redirect aliases should resolve through the intended one-hop redirect.
+- Unknown public URLs should expose a not-found response state and `noindex, nofollow`.
+- Non-pass notes link the relevant `SITE-*` / `DEBT-*` item or state explicit launch acceptance.
 
 ## Global Metadata Outputs
 
@@ -31,15 +40,27 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Canonical origin uses the intended launch domain or an explicitly accepted temporary origin consistently.
   - Note:
 
+- `Not checked` Canonical and social URL values are absolute where crawlers and social previews expect absolute URLs.
+  - Note:
+
+- `Not checked` Site HTML includes correct `lang` and viewport metadata.
+  - Note:
+
+- `Not checked` Favicons, app icons, and web manifest resolve from their configured public paths.
+  - Note:
+
 - `Not checked` The shared social image asset exists at the configured path and is publicly served.
   - Note:
 
-- `Not checked` Shared social image dimensions and alt text match generated metadata expectations.
+- `Not checked` Shared social image dimensions and social image alt metadata match generated metadata expectations.
+  - Note:
+
+- `Not checked` Structured data is intentionally absent, or valid and aligned with public claims if present.
   - Note:
 
 ## `/` - Home
 
-- `Not checked` Page title is specific, unique enough, and matches the page purpose.
+- `Not checked` Page title is non-empty, unique among public routes, and accurate to the route purpose.
   - Note:
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
@@ -48,27 +69,33 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Canonical URL resolves to this route on the intended launch origin.
   - Note:
 
-- `Not checked` Indexability policy allows this public page to be indexed unless a launch owner intentionally decides otherwise.
+- `Not checked` Canonical public URL returns a `200` response.
+  - Note:
+
+- `Not checked` Indexability policy is not blocked by `robots.txt`, meta robots, or `X-Robots-Tag` unless intentionally accepted for launch.
   - Note:
 
 - `Not checked` Sitemap output includes this route exactly once.
   - Note:
 
-- `Not checked` Open Graph and Twitter/social metadata describe this page, not only the site as a whole.
+- `Not checked` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
   - Note:
 
-- `Not checked` Social image URL resolves, has expected dimensions, and uses suitable alt text or an intentionally shared fallback.
+- `Not checked` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
   - Note:
 
-- `Not checked` Generated/prerendered metadata matches the runtime metadata visitors and crawlers receive.
+- `Not checked` Generated initial HTML/head metadata matches expected route metadata.
+  - Note:
+
+- `Not checked` Hydrated and client-side navigation metadata remains correct, or any known gap is linked to `DEBT-27`.
   - Note:
 
 - `Not checked` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
   - Note:
 
-## `/working-with-joel` - Working With Joel
+## `/working-with-joel` - Working with Joel
 
-- `Not checked` Page title is specific, unique enough, and matches the page purpose.
+- `Not checked` Page title is non-empty, unique among public routes, and accurate to the route purpose.
   - Note:
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
@@ -77,19 +104,25 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Canonical URL resolves to this route on the intended launch origin.
   - Note:
 
-- `Not checked` Indexability policy allows this public page to be indexed unless a launch owner intentionally decides otherwise.
+- `Not checked` Canonical public URL returns a `200` response.
+  - Note:
+
+- `Not checked` Indexability policy is not blocked by `robots.txt`, meta robots, or `X-Robots-Tag` unless intentionally accepted for launch.
   - Note:
 
 - `Not checked` Sitemap output includes this route exactly once.
   - Note:
 
-- `Not checked` Open Graph and Twitter/social metadata describe this page, not only the site as a whole.
+- `Not checked` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
   - Note:
 
-- `Not checked` Social image URL resolves, has expected dimensions, and uses suitable alt text or an intentionally shared fallback.
+- `Not checked` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
   - Note:
 
-- `Not checked` Generated/prerendered metadata matches the runtime metadata visitors and crawlers receive.
+- `Not checked` Generated initial HTML/head metadata matches expected route metadata.
+  - Note:
+
+- `Not checked` Hydrated and client-side navigation metadata remains correct, or any known gap is linked to `DEBT-27`.
   - Note:
 
 - `Not checked` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
@@ -97,7 +130,42 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 
 ## `/inclusion` - Inclusion Hub
 
-- `Not checked` Page title is specific, unique enough, and matches the page purpose.
+- `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
+  - Note: Checked `src/data/routeMetadata.json`, `dist/inclusion.html`, and built preview `/inclusion`. Title is "Inclusive Counselling for Diverse Relationships, Sexualities and Identities | Vive Counselling" and is unique among the seven public route titles.
+
+- `Pass` Meta description is present, human-readable, and matches visible page content.
+  - Note: Checked route metadata, generated HTML, and direct preview head. Description matches the visible Inclusion Hub content around inclusive counselling, relationships, sexuality, identity, and non-shaming support.
+
+- `Pass` Canonical URL resolves to this route on the intended launch origin.
+  - Note: Checked generated HTML and direct preview head. Canonical is `https://counselling-website-seven.vercel.app/inclusion`, matching the current configured production origin and route; final custom-domain sign-off remains owned by `LAUNCH-8`.
+
+- `Pass` Canonical public URL returns a `200` response.
+  - Note: Checked built preview route `/inclusion`; it returned `200` with `text/html`. Live Vercel smoke testing remains tracked separately by `DEBT-24`.
+
+- `Pass` Indexability policy is not blocked by `robots.txt`, meta robots, or `X-Robots-Tag` unless intentionally accepted for launch.
+  - Note: Checked generated `robots.txt`, direct preview `/inclusion`, and generated head. Robots allows all, `/inclusion` has no route-level robots meta tag, and the preview response had no `X-Robots-Tag` header.
+
+- `Pass` Sitemap output includes this route exactly once.
+  - Note: Checked generated `dist/sitemap.xml`. It includes exact `<loc>https://counselling-website-seven.vercel.app/inclusion</loc>` once, with child inclusion routes listed separately.
+
+- `Pass` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
+  - Note: Checked `dist/inclusion.html` and direct preview head. OG/Twitter title, description, URL, card type, image URL, image dimensions, and social image alt metadata are present and match the Inclusion Hub route purpose.
+
+- `Partial` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
+  - Note: `/inclusion` uses the configured shared fallback image path and social image alt metadata, but `/og-vive-counselling.png` is absent from `public/` and `dist/`; preview serves an HTML fallback rather than an image. Tracked by `DEBT-26`.
+
+- `Pass` Generated initial HTML/head metadata matches expected route metadata.
+  - Note: Checked `dist/inclusion.html` against `src/data/routeMetadata.json`. Generated title, description, canonical, OG, and Twitter metadata match the route metadata and configured site metadata.
+
+- `Partial` Hydrated and client-side navigation metadata remains correct, or any known gap is linked to `DEBT-27`.
+  - Note: Direct hydrated load of `/inclusion` preserved the expected title, description, canonical, OG, and Twitter metadata. Navigating client-side from `/` to `/inclusion` updated title and description but left canonical, OG, and Twitter title/description on the Home values. Tracked by `DEBT-27`.
+
+- `Pass` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
+  - Note: Checked title and description against project direction. Wording describes inclusive, non-shaming support without promising outcomes, pathologising identities or relationship structures, or overstating clinical claims.
+
+## `/inclusion/kink-bdsm` - Kink and BDSM
+
+- `Not checked` Page title is non-empty, unique among public routes, and accurate to the route purpose.
   - Note:
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
@@ -106,27 +174,33 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Canonical URL resolves to this route on the intended launch origin.
   - Note:
 
-- `Not checked` Indexability policy allows this public page to be indexed unless a launch owner intentionally decides otherwise.
+- `Not checked` Canonical public URL returns a `200` response.
+  - Note:
+
+- `Not checked` Indexability policy is not blocked by `robots.txt`, meta robots, or `X-Robots-Tag` unless intentionally accepted for launch.
   - Note:
 
 - `Not checked` Sitemap output includes this route exactly once.
   - Note:
 
-- `Not checked` Open Graph and Twitter/social metadata describe this page, not only the site as a whole.
+- `Not checked` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
   - Note:
 
-- `Not checked` Social image URL resolves, has expected dimensions, and uses suitable alt text or an intentionally shared fallback.
+- `Not checked` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
   - Note:
 
-- `Not checked` Generated/prerendered metadata matches the runtime metadata visitors and crawlers receive.
+- `Not checked` Generated initial HTML/head metadata matches expected route metadata.
+  - Note:
+
+- `Not checked` Hydrated and client-side navigation metadata remains correct, or any known gap is linked to `DEBT-27`.
   - Note:
 
 - `Not checked` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
   - Note:
 
-## `/inclusion/kink-bdsm` - Kink And BDSM
+## `/inclusion/enm-polyamory` - ENM and polyamory
 
-- `Not checked` Page title is specific, unique enough, and matches the page purpose.
+- `Not checked` Page title is non-empty, unique among public routes, and accurate to the route purpose.
   - Note:
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
@@ -135,48 +209,25 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Canonical URL resolves to this route on the intended launch origin.
   - Note:
 
-- `Not checked` Indexability policy allows this public page to be indexed unless a launch owner intentionally decides otherwise.
+- `Not checked` Canonical public URL returns a `200` response.
+  - Note:
+
+- `Not checked` Indexability policy is not blocked by `robots.txt`, meta robots, or `X-Robots-Tag` unless intentionally accepted for launch.
   - Note:
 
 - `Not checked` Sitemap output includes this route exactly once.
   - Note:
 
-- `Not checked` Open Graph and Twitter/social metadata describe this page, not only the site as a whole.
+- `Not checked` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
   - Note:
 
-- `Not checked` Social image URL resolves, has expected dimensions, and uses suitable alt text or an intentionally shared fallback.
+- `Not checked` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
   - Note:
 
-- `Not checked` Generated/prerendered metadata matches the runtime metadata visitors and crawlers receive.
+- `Not checked` Generated initial HTML/head metadata matches expected route metadata.
   - Note:
 
-- `Not checked` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
-  - Note:
-
-## `/inclusion/enm-polyamory` - ENM And Polyamory
-
-- `Not checked` Page title is specific, unique enough, and matches the page purpose.
-  - Note:
-
-- `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - Note:
-
-- `Not checked` Canonical URL resolves to this route on the intended launch origin.
-  - Note:
-
-- `Not checked` Indexability policy allows this public page to be indexed unless a launch owner intentionally decides otherwise.
-  - Note:
-
-- `Not checked` Sitemap output includes this route exactly once.
-  - Note:
-
-- `Not checked` Open Graph and Twitter/social metadata describe this page, not only the site as a whole.
-  - Note:
-
-- `Not checked` Social image URL resolves, has expected dimensions, and uses suitable alt text or an intentionally shared fallback.
-  - Note:
-
-- `Not checked` Generated/prerendered metadata matches the runtime metadata visitors and crawlers receive.
+- `Not checked` Hydrated and client-side navigation metadata remains correct, or any known gap is linked to `DEBT-27`.
   - Note:
 
 - `Not checked` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
@@ -184,7 +235,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 
 ## `/inclusion/lgbtqia` - LGBTQIA+
 
-- `Not checked` Page title is specific, unique enough, and matches the page purpose.
+- `Not checked` Page title is non-empty, unique among public routes, and accurate to the route purpose.
   - Note:
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
@@ -193,27 +244,33 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Canonical URL resolves to this route on the intended launch origin.
   - Note:
 
-- `Not checked` Indexability policy allows this public page to be indexed unless a launch owner intentionally decides otherwise.
+- `Not checked` Canonical public URL returns a `200` response.
+  - Note:
+
+- `Not checked` Indexability policy is not blocked by `robots.txt`, meta robots, or `X-Robots-Tag` unless intentionally accepted for launch.
   - Note:
 
 - `Not checked` Sitemap output includes this route exactly once.
   - Note:
 
-- `Not checked` Open Graph and Twitter/social metadata describe this page, not only the site as a whole.
+- `Not checked` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
   - Note:
 
-- `Not checked` Social image URL resolves, has expected dimensions, and uses suitable alt text or an intentionally shared fallback.
+- `Not checked` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
   - Note:
 
-- `Not checked` Generated/prerendered metadata matches the runtime metadata visitors and crawlers receive.
+- `Not checked` Generated initial HTML/head metadata matches expected route metadata.
+  - Note:
+
+- `Not checked` Hydrated and client-side navigation metadata remains correct, or any known gap is linked to `DEBT-27`.
   - Note:
 
 - `Not checked` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
   - Note:
 
-## `/contact` - Contact And Fees
+## `/contact` - Contact/Fees
 
-- `Not checked` Page title is specific, unique enough, and matches the page purpose.
+- `Not checked` Page title is non-empty, unique among public routes, and accurate to the route purpose.
   - Note:
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
@@ -222,19 +279,25 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` Canonical URL resolves to this route on the intended launch origin.
   - Note:
 
-- `Not checked` Indexability policy allows this public page to be indexed unless a launch owner intentionally decides otherwise.
+- `Not checked` Canonical public URL returns a `200` response.
+  - Note:
+
+- `Not checked` Indexability policy is not blocked by `robots.txt`, meta robots, or `X-Robots-Tag` unless intentionally accepted for launch.
   - Note:
 
 - `Not checked` Sitemap output includes this route exactly once.
   - Note:
 
-- `Not checked` Open Graph and Twitter/social metadata describe this page, not only the site as a whole.
+- `Not checked` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
   - Note:
 
-- `Not checked` Social image URL resolves, has expected dimensions, and uses suitable alt text or an intentionally shared fallback.
+- `Not checked` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
   - Note:
 
-- `Not checked` Generated/prerendered metadata matches the runtime metadata visitors and crawlers receive.
+- `Not checked` Generated initial HTML/head metadata matches expected route metadata.
+  - Note:
+
+- `Not checked` Hydrated and client-side navigation metadata remains correct, or any known gap is linked to `DEBT-27`.
   - Note:
 
 - `Not checked` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
@@ -242,7 +305,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 
 ## Redirect Routes
 
-- `Not checked` `/about` redirects intentionally to `/working-with-joel`.
+- `Not checked` `/about` returns the intended one-hop redirect status to `/working-with-joel`.
   - Note:
 
 - `Not checked` `/about` is excluded as a standalone sitemap URL.
@@ -251,7 +314,7 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 - `Not checked` `/about` does not expose stale standalone canonical metadata.
   - Note:
 
-- `Not checked` `/fees` redirects intentionally to `/contact`.
+- `Not checked` `/fees` returns the intended one-hop redirect status to `/contact`.
   - Note:
 
 - `Not checked` `/fees` is excluded as a standalone sitemap URL.
@@ -262,11 +325,11 @@ Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is 
 
 ## Not-Found Route
 
-- `Not checked` Not-found responses use `noindex, nofollow` so missing URLs are not invited into search results.
+- `Not checked` Unknown public URLs expose a not-found response state and `noindex, nofollow`.
   - Note:
 
 - `Not checked` Generated fallback metadata does not present missing URLs as normal indexable public pages.
   - Note:
 
-- `Not checked` Recovery metadata and visible navigation context help visitors reach real public pages.
+- `Not checked` Not-found title and description identify the missing-page state and do not present it as a normal service page.
   - Note:

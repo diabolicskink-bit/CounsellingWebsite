@@ -77,6 +77,8 @@ The `hero-*` system is a separate active shared subsystem alongside `site-*`.
   Short trust/support row.
 - `.hero-media-note`
   Quiet media note/caption.
+- `.hero-media-note--portrait`, `.hero-media-note__tag`
+  Portrait media variant with the shared framed image treatment and overlaid practitioner name tag.
 - `.hero-principles-strip`
   Hero-adjacent principle strip.
 - `.hero-detail-stack`

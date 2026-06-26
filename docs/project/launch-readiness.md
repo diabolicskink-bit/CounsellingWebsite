@@ -51,7 +51,7 @@ Statuses:
 - `Status`: `Partial`
 - `Source`: Supersedes `SITE-1`, `docs/checklists/accessibility-launch.md`
 - `Launch Goal`: Make accessibility coverage visible enough that launch does not ship with unreviewed semantic structure, keyboard access, focus states, contrast, reduced-motion, or form clarity gaps.
-- `Current State`: `docs/checklists/accessibility-launch.md` is the working route-by-route checklist artifact, and Home plus Contact/Fees have begun assessment. Contact gaps are now tracked as `SITE-20` and `SITE-21`.
+- `Current State`: `docs/checklists/accessibility-launch.md` is the working route-by-route checklist artifact, and Home, Inclusion Hub, plus Contact/Fees have begun assessment. Contact gaps are now tracked as `SITE-20` and `SITE-21`.
 - `Review Method`: Work through the checklist for each public route in browser, with axe where useful, keyboard checks for interactive states, mobile/reflow checks, and notes that link any concrete gap to `SITE-*` or `DEBT-*`.
 - `Passes When`: Public routes have completed accessibility checklist entries, and every non-pass item is either resolved, accepted for launch, or linked to a concrete tracker item.
 - `Linked Work`: `SITE-20`, `SITE-21`, `DEBT-29`, `DEBT-30`
@@ -62,22 +62,22 @@ Statuses:
 - `Priority`: `P2`
 - `Size`: `M`
 - `Status`: `Open`
-- `Source`: Supersedes `SITE-2`, `docs/project/current-scope.md`
+- `Source`: Supersedes `SITE-2`, `docs/checklists/responsive-launch.md`, `docs/project/current-scope.md`
 - `Launch Goal`: Make mobile and desktop layout expectations explicit so launch does not ship with broken reading, navigation, form, or hero behaviour at common viewport sizes.
-- `Current State`: Responsive CSS exists across shared and page-scoped styles, but there is no completed route-by-route responsive readiness pass.
-- `Review Method`: Define a small viewport matrix for public routes and check navigation, hero readability, form layout, footer behaviour, long text wrapping, and obvious overflow.
+- `Current State`: Responsive CSS exists across shared and page-scoped styles, and `docs/checklists/responsive-launch.md` is now the working route-by-route checklist artifact. Inclusion Hub has begun assessment, but there is no completed responsive readiness pass.
+- `Review Method`: Work through the checklist for the shared shell, each public route, and the not-found route across representative mobile, tablet, desktop, and wide desktop viewports, with notes that link any concrete gap to `SITE-*` or `DEBT-*`.
 - `Passes When`: Public routes have completed responsive checkpoints and any discovered concrete layout work is resolved or linked to `SITE-*` or `DEBT-*`.
 - `Linked Work`: None yet.
-- `Links`: `src/pages/`, `tests/public-site.spec.ts`
+- `Links`: `docs/checklists/responsive-launch.md`, `src/pages/`, `tests/public-site.spec.ts`
 
 ### LAUNCH-3 - Public SEO and metadata launch review
 
 - `Priority`: `P2`
 - `Size`: `M`
-- `Status`: `Open`
+- `Status`: `Partial`
 - `Source`: Supersedes `SITE-3`, `docs/checklists/seo-metadata-launch.md`, `docs/project/current-scope.md`, `docs/reports/2026-06-17-technical-code-review.md`
 - `Launch Goal`: Confirm public pages are discoverable, shareable, and semantically clear before launch.
-- `Current State`: Metadata exists and is prerendered, and `docs/checklists/seo-metadata-launch.md` is now the working checklist artifact, but route metadata, canonicals, sitemap output, redirects, and social sharing expectations have not been assessed through one completed launch review.
+- `Current State`: Metadata exists and is prerendered, and `docs/checklists/seo-metadata-launch.md` is now the working checklist artifact. Inclusion Hub has begun assessment; its route-specific social image and hydrated metadata gaps are linked to existing debt items.
 - `Review Method`: Work through the checklist for global metadata outputs, each public route, redirect routes, and the not-found route, with notes that link any concrete gap to `SITE-*` or `DEBT-*`.
 - `Passes When`: Every public route has reviewed metadata expectations, and missing or incorrect required values are resolved or linked to `SITE-*` / `DEBT-*`.
 - `Linked Work`: `DEBT-8`, `DEBT-26`, `DEBT-27`, `LAUNCH-8`

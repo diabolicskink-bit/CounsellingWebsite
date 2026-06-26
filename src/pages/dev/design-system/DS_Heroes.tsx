@@ -89,7 +89,7 @@ const anatomyRows = [
   {
     zone: "Media note",
     className: ".hero-media-note*",
-    desc: "Supporting portrait or image note with a quiet caption, used when the top zone needs a human anchor.",
+    desc: "Supporting portrait or image note with a quiet caption. Add .hero-media-note--portrait and .hero-media-note__tag when the image needs the shared practitioner portrait frame.",
   },
   {
     zone: "Badge",
@@ -322,7 +322,7 @@ export default function DS_Heroes() {
             </div>
 
             <div className="ds-hero-demo">
-              <div className="ds-hero-demo__label">Live sample: .hero-support-tagline + .hero-media-note</div>
+              <div className="ds-hero-demo__label">Live sample: .hero-support-tagline + .hero-media-note--portrait</div>
               <div className="ds-hero-demo__body hero-bg--default">
                 <div className="hero-top hero-top--supporting-media" style={{ paddingBottom: 0 }}>
                   <div className="hero-copy-panel ds-hero-demo__copy-panel">
@@ -336,14 +336,11 @@ export default function DS_Heroes() {
                     </ul>
                   </div>
 
-                  <aside className="hero-media-note" aria-label="Example media note">
+                  <aside className="hero-media-note hero-media-note--portrait" aria-label="Example portrait media note">
                     <div className="hero-media-note__image">
                       <img src={demoPortraitSrc} alt="" />
                     </div>
-                    <div className="hero-media-note__caption">
-                      <strong>Joel Griffiths</strong>
-                      <span>Counselling and psychodynamic psychotherapy</span>
-                    </div>
+                    <span className="hero-media-note__tag">Joel Griffiths</span>
                   </aside>
                 </div>
               </div>

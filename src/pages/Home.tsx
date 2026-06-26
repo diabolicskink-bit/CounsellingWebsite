@@ -221,11 +221,11 @@ function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
 
 function HeroPortrait({ portrait }: { portrait: HomePortrait }) {
   return (
-    <div className="hero-media-note">
+    <div className="hero-media-note hero-media-note--portrait">
       <div className="hero-media-note__image">
         <img src={portrait.imageSrc} alt="" decoding="async" fetchPriority="high" />
       </div>
-      <span className="home-page__portrait-tag">{portrait.label}</span>
+      <span className="hero-media-note__tag">{portrait.label}</span>
     </div>
   );
 }

@@ -260,11 +260,14 @@ function IntroductionSection({
 
 function PortraitNote({ portrait }: { portrait: WorkingHeroPortrait }) {
   return (
-    <aside className="hero-media-note working-with-joel-page__intro-note" aria-label={portrait.ariaLabel}>
+    <aside
+      className="hero-media-note hero-media-note--portrait working-with-joel-page__intro-note"
+      aria-label={portrait.ariaLabel}
+    >
       <div className="hero-media-note__image">
         <img src={portrait.imageSrc} alt="" loading="lazy" decoding="async" />
       </div>
-      <span className="working-with-joel-page__portrait-tag">{portrait.name}</span>
+      <span className="hero-media-note__tag">{portrait.name}</span>
     </aside>
   );
 }
