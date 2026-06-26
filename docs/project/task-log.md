@@ -23,6 +23,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Changed: Pre-launch crawl artifacts no longer advertise indexable public URLs; `sitemap.xml` is intentionally empty and `robots.txt` allows crawling without linking the sitemap so page-level noindex can be read.
 - Added: `SITE-23` tracks restoring indexability on the final custom domain when the owner is ready to launch.
 
+## 2026-06-26 - Custom Domain Assigned In Vercel
+
+- Changed: Assigned `vivecounselling.com.au` to the `counselling-website` Vercel project and configured `www.vivecounselling.com.au` as a 301 redirect to the apex domain.
+- Preserved: `SITE_URL` still points metadata at the stable Vercel hostname, and the temporary noindex guard remains active until `SITE-23` is implemented.
+- Pending: Registrar DNS propagation/configuration still needs to resolve before live custom-domain HTTPS and redirect checks can pass.
+
 ## 2026-06-23 - SITE-8 Shared Portrait Hero Treatment Resolved
 
 - Changed: Promoted the repeated Joel portrait frame and overlaid name tag into the shared hero system with `.hero-media-note--portrait` and `.hero-media-note__tag`.

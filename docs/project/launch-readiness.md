@@ -139,10 +139,10 @@ Statuses:
 
 - `Priority`: `P1`
 - `Size`: `M`
-- `Status`: `Blocked`
+- `Status`: `Partial`
 - `Source`: Supersedes `SITE-18`, `docs/project/current-scope.md`, `src/data/routeMetadata.json`
 - `Launch Goal`: Launch on a public identity that feels finished and keeps canonical, share, and search signals aligned with the real practice.
-- `Current State`: The owner has registered a custom domain, but the canonical launch domain value and DNS/Vercel verification are not yet recorded here. Production metadata defaults to the stable Vercel URL, `SITE_URL` can override it when a custom canonical domain is ready, and temporary site-wide `noindex, nofollow` is active until `SITE-23` is implemented.
+- `Current State`: `vivecounselling.com.au` is registered and assigned to the Vercel project as the eventual apex canonical domain; `www.vivecounselling.com.au` is assigned as a 301 redirect to the apex. Registrar DNS propagation/configuration is still pending, `SITE_URL` remains unset for the custom domain, and temporary site-wide `noindex, nofollow` is active until `SITE-23` is implemented.
 - `Review Method`: Confirm the launch canonical domain, configure DNS/Vercel as needed, set `SITE_URL`, and verify canonical URLs, sitemap, robots, redirects, and social metadata against that domain.
 - `Passes When`: Public visitors, search crawlers, social previews, and generated metadata all use the intended launch domain rather than the temporary Vercel hostname.
 - `Linked Work`: `DEBT-24`, `SITE-23`
