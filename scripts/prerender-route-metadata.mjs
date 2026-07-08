@@ -29,17 +29,22 @@ function getAssetUrl(siteOrigin, assetPath) {
   return `${siteOrigin}${assetPath.startsWith("/") ? assetPath : `/${assetPath}`}`;
 }
 
+function getRobotsDirective(routeMetadata) {
+  return routeMetadata.robots ?? temporaryNoindexDirective;
+}
+
 function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
   const imageUrl = getAssetUrl(siteOrigin, siteMetadata.socialImage);
   const title = `<title>${escapeHtml(routeMetadata.title)}</title>`;
   const description = `<meta name="description" content="${escapeHtml(routeMetadata.description)}" />`;
+  const robots = getRobotsDirective(routeMetadata);
 
   return [
     "<!-- SEO metadata generated at build time -->",
     title,
     description,
-    `<meta name="robots" content="${escapeHtml(temporaryNoindexDirective)}" />`,
+    `<meta name="robots" content="${escapeHtml(robots)}" />`,
     `<link rel="canonical" href="${escapeHtml(pageUrl)}" />`,
     `<meta property="og:site_name" content="${escapeHtml(siteMetadata.name)}" />`,
     '<meta property="og:type" content="website" />',

@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import FaqSection from "../components/FaqSection";
 import FaqSchema from "../components/FaqSchema";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths, routeHref, showDraftInclusionLinks } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 
 type InclusionPanel = {
@@ -67,11 +67,13 @@ const inclusionPageContent: InclusionPageContent = {
       emphasis: "diverse lives",
       lineTwoAfter: ".",
     },
-    topics: [
-      { label: "Kink & BDSM", href: routeHref(publicRoutePaths.kinkBdsm) },
-      { label: "ENM & Polyamory", href: routeHref(publicRoutePaths.enmPolyamory) },
-      { label: "LGBTQIA+", href: routeHref(publicRoutePaths.lgbtqia) },
-    ],
+    topics: showDraftInclusionLinks
+      ? [
+          { label: "Kink & BDSM", href: routeHref(publicRoutePaths.kinkBdsm) },
+          { label: "ENM & Polyamory", href: routeHref(publicRoutePaths.enmPolyamory) },
+          { label: "LGBTQIA+", href: routeHref(publicRoutePaths.lgbtqia) },
+        ]
+      : [],
   },
   hub: {
     intro: {
@@ -108,8 +110,9 @@ const inclusionPageContent: InclusionPageContent = {
         heading: "No soft launch of who you are.",
         href: routeHref(publicRoutePaths.lgbtqia),
         paragraphs: [
-"Being LGBTQIA+ can shape safety, family, desire, belonging, shame, faith, work, relationships, and the way you have had to move through the world. It can also be completely beside the point of what you need to talk about that day. Both can be true.",         
-"This is counselling that does not treat queerness, transness, or gender difference as pathology, novelty, or background trivia. It is part of what you bring here. Sometimes central. Sometimes ordinary. Sometimes complicated."        ],
+          "Being LGBTQIA+ can shape safety, family, desire, belonging, shame, faith, work, relationships, and the way you have had to move through the world. It can also be completely beside the point of what you need to talk about that day. Both can be true.",
+          "This is counselling that does not treat queerness, transness, or gender difference as pathology, novelty, or background trivia. It is part of what you bring here. Sometimes central. Sometimes ordinary. Sometimes complicated.",
+        ],
         cta: "LGBTQIA+ affirming counselling",
       },
     ],
@@ -149,13 +152,17 @@ const inclusionPageContent: InclusionPageContent = {
 export default function InclusivePractice() {
   useDocumentMetadata(inclusionPageContent.title, inclusionPageContent.meta);
   const { hero, hub, faq } = inclusionPageContent;
+  const hasDraftTopicLinks = hero.topics.length > 0;
+  const heroTopClassName = hasDraftTopicLinks
+    ? "hero-top inclusion-hero__top"
+    : "hero-top inclusion-hero__top inclusion-hero__top--single";
 
   return (
     <main className="site-page inclusion-page">
       <FaqSchema faqs={faq.items} />
       <section className="hero-section hero-bg--default">
         <Container>
-          <div className="hero-top inclusion-hero__top">
+          <div className={heroTopClassName}>
             <div className="inclusion-hero__heading">
               <h1 className="hero-badge">{hero.eyebrow}</h1>
               <h2 className="hero-display inclusion-hero__title">
@@ -170,13 +177,15 @@ export default function InclusivePractice() {
               </h2>
             </div>
 
-            <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
-              {hero.topics.map((item) => (
-                <Link className="inclusion-hero__detail-link" key={item.label} to={item.href}>
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            {hasDraftTopicLinks ? (
+              <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
+                {hero.topics.map((item) => (
+                  <Link className="inclusion-hero__detail-link" key={item.label} to={item.href}>
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            ) : null}
           </div>
         </Container>
       </section>
@@ -204,11 +213,13 @@ export default function InclusivePractice() {
                       <p key={paragraph}>{paragraph}</p>
                     ))}
                   </div>
-                  <div className="inclusion-hub__panel-action">
-                    <Button href={panel.href} variant="tertiary">
-                      {panel.cta} <ArrowRight size={16} />
-                    </Button>
-                  </div>
+                  {showDraftInclusionLinks ? (
+                    <div className="inclusion-hub__panel-action">
+                      <Button href={panel.href} variant="tertiary">
+                        {panel.cta} <ArrowRight size={16} />
+                      </Button>
+                    </div>
+                  ) : null}
                 </div>
               </article>
             ))}

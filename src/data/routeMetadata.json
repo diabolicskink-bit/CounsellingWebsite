@@ -22,15 +22,18 @@
     },
     "/inclusion/kink-bdsm": {
       "title": "Kink & BDSM-Aware Counselling | Vive Counselling",
-      "description": "Counselling for kinky clients where kink is not pathologised, over-scrutinised, or treated as the whole story. Support for anxiety, relationships, shame, grief, trauma, and more. Perth-based, online across Australia."
+      "description": "Counselling for kinky clients where kink is not pathologised, over-scrutinised, or treated as the whole story. Support for anxiety, relationships, shame, grief, trauma, and more. Perth-based, online across Australia.",
+      "robots": "noindex, nofollow"
     },
     "/inclusion/enm-polyamory": {
       "title": "Counselling for Polyamory, Open Relationships and ENM | Vive Counselling",
-      "description": "Counselling for polyamorous and consensually non-monogamous clients where monogamy is not assumed to be the answer and the relationship structure is not treated as the whole story. Perth-based, online across Australia."
+      "description": "Counselling for polyamorous and consensually non-monogamous clients where monogamy is not assumed to be the answer and the relationship structure is not treated as the whole story. Perth-based, online across Australia.",
+      "robots": "noindex, nofollow"
     },
     "/inclusion/lgbtqia": {
       "title": "LGBTQIA+ Affirming Counselling | Vive Counselling",
-      "description": "Affirming counselling for LGBTQIA+ clients, including support with identity, relationships, shame, family strain, and mental health. Perth-based, online across Australia."
+      "description": "Affirming counselling for LGBTQIA+ clients, including support with identity, relationships, shame, family strain, and mental health. Perth-based, online across Australia.",
+      "robots": "noindex, nofollow"
     },
     "/contact": {
       "title": "Contact and Fees | Vive Counselling",

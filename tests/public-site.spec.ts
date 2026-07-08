@@ -12,7 +12,7 @@ const routeMetadataData = JSON.parse(
     socialImage: string;
     socialImageAlt: string;
   };
-  routes: Record<string, { title: string; description: string }>;
+  routes: Record<string, { title: string; description: string; robots?: string }>;
 };
 const vercelConfigData = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url), "utf8")) as {
   headers?: Array<{
@@ -45,6 +45,8 @@ const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
 const temporaryRobotsDirective = "noindex, nofollow";
+const draftInclusionRoutes = ["/inclusion/kink-bdsm", "/inclusion/enm-polyamory", "/inclusion/lgbtqia"] as const;
+const productionLinkHiddenRoutes = ["/", "/inclusion"] as const;
 const analyticsRouteTrackingEnabled =
   process.env.VITE_ANALYTICS_ENABLED === "true" && Boolean(process.env.VITE_GA_MEASUREMENT_ID);
 
@@ -249,6 +251,7 @@ test.describe("first response metadata", () => {
       const response = await request.get(route);
       const html = await response.text();
       const canonicalUrl = absoluteRouteUrl(route);
+      const expectedRobotsDirective = metadata.robots ?? temporaryRobotsDirective;
 
       expect(response.ok()).toBeTruthy();
       expectNoGeneratedOriginLeak(html);
@@ -256,7 +259,7 @@ test.describe("first response metadata", () => {
       expect(html).toContain(
         `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
       );
-      expect(html).toContain(`<meta name="robots" content="${temporaryRobotsDirective}" />`);
+      expect(html).toContain(`<meta name="robots" content="${expectedRobotsDirective}" />`);
       expect(html).toContain(`<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`);
       expect(html).toContain(`<meta property="og:site_name" content="${escapeHtml(routeMetadataData.site.name)}" />`);
       expect(html).toContain('<meta property="og:type" content="website" />');
@@ -318,6 +321,28 @@ test.describe("crawl and app metadata assets", () => {
     expect(sitemap).not.toContain(`${siteOrigin}/404`);
     expect(sitemap).not.toContain(`${siteOrigin}/404.html`);
   });
+
+  test("draft inclusion child routes carry durable route-level noindex metadata", () => {
+    for (const route of draftInclusionRoutes) {
+      expect(routeMetadataData.routes[route].robots).toBe(temporaryRobotsDirective);
+    }
+
+    for (const [route, metadata] of publicRouteMetadataEntries) {
+      if (!draftInclusionRoutes.includes(route as (typeof draftInclusionRoutes)[number])) {
+        expect(metadata.robots).toBeUndefined();
+      }
+    }
+  });
+
+  for (const route of productionLinkHiddenRoutes) {
+    test(`${route} does not link to draft inclusion child pages in production`, async ({ page }) => {
+      await page.goto(route, { waitUntil: "networkidle" });
+
+      for (const childRoute of draftInclusionRoutes) {
+        await expect(page.locator(`a[href="${childRoute}"]`)).toHaveCount(0);
+      }
+    });
+  }
 
   test("Vercel config applies temporary noindex headers", () => {
     const siteWideHeader = vercelConfigData.headers?.find(({ source }) => source === "/(.*)");

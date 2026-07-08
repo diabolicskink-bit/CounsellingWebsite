@@ -3,6 +3,7 @@ import metadata from "./routeMetadata.json";
 export type RouteMetadata = {
   title: string;
   description: string;
+  robots?: string;
 };
 
 export type SiteMetadata = {

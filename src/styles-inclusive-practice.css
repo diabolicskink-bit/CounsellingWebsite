@@ -13,6 +13,10 @@
   gap: clamp(3rem, 5.6vw, 5.75rem);
 }
 
+.inclusion-hero__top--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .inclusion-page .hero-top.inclusion-hero__top {
   align-items: start;
 }

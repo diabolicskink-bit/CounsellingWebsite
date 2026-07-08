@@ -79,12 +79,21 @@
   align-items: start;
 }
 
+.home-page__inclusive-frame--single {
+  grid-template-columns: minmax(0, 760px);
+}
+
 .home-page__inclusive-main {
   display: grid;
   gap: 22px;
   align-content: start;
   padding-right: 30px;
   border-right: 1px solid var(--line);
+}
+
+.home-page__inclusive-frame--single .home-page__inclusive-main {
+  padding-right: 0;
+  border-right: 0;
 }
 
 .home-page__inclusive-main h2 {

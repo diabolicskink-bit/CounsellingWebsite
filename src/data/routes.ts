@@ -17,6 +17,14 @@ export const publicRedirectRoutes = [
   { path: "fees", to: routeHref(publicRoutePaths.contact) },
 ] as const;
 
+export const draftInclusionChildRoutePaths = [
+  publicRoutePaths.kinkBdsm,
+  publicRoutePaths.enmPolyamory,
+  publicRoutePaths.lgbtqia,
+] as const;
+
+export const showDraftInclusionLinks = import.meta.env.DEV;
+
 export const devRoutePaths = {
   codexTestBed: "codex-tb",
   designLanguage: "design-language",

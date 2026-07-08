@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-08 - Inclusion Child Pages Made Draft-Linked
+
+- Changed: Production UI no longer links to the Kink/BDSM, ENM/polyamory, or LGBTQIA+ Inclusion child pages from the header, Home page, or Inclusion hub; local development builds still show those links.
+- Preserved: The child pages remain direct routes for review and carry route-level `noindex, nofollow` metadata while the broader site-wide pre-launch noindex layer remains active.
+- Updated: `SITE-23` launch-indexing notes now preserve the draft child-page noindex policy until those pages are explicitly approved for public indexing.
+
 ## 2026-06-27 - SplitSection Legacy Layout Cleanup
 
 - Changed: Removed unused `SplitSection` and the old `.section`, `.section--surface`, and `.split` production CSS hooks after source review found no render call sites.

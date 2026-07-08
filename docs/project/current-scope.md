@@ -5,9 +5,9 @@ This is the factual current scope of the Vive Counselling website and supporting
 ## Included
 
 - Vite, React, and TypeScript power a public counselling website for Vive Counselling.
-- Public routes include Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, LGBTQIA+, Contact/Fees, and the Not Found page.
+- Public routes include Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, LGBTQIA+, Contact/Fees, and the Not Found page; the three Inclusion child routes currently remain direct routes but are treated as draft child pages.
 - `/about` redirects to Working with Joel, and `/fees` redirects to Contact/Fees.
-- Public navigation includes Home, Working with Joel, Inclusion child pages, and Fees.
+- Public navigation includes Home, Working with Joel, Inclusion, and Fees; Inclusion child-page links are shown only in local development builds.
 - Development-only routes include the rendered design-system pages, Documents, Codex test bed, and Opus test bed.
 - The dev Documents page imports markdown from `docs/checklists/`, `docs/reports/`, and `docs/plans/` and renders checklists, reports, and draft plans through the app in development; exact inline checklist status labels render as quiet coloured badges.
 - Root project guidance now lives under `docs/project/`; visual-system guidance lives under `docs/design-system/`.
@@ -16,7 +16,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Public-page content and product positioning are governed by `docs/project/product-direction.md`.
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
 - A prerender script updates route metadata artifacts, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.
-- Temporary pre-launch indexability controls are active: generated public route HTML includes `noindex, nofollow`, `vercel.json` adds a matching `X-Robots-Tag` header, `sitemap.xml` is intentionally empty, and `robots.txt` allows crawling without advertising the sitemap so crawlers can read the page-level noindex directive.
+- Temporary pre-launch indexability controls are active: generated public route HTML includes `noindex, nofollow`, `vercel.json` adds a matching `X-Robots-Tag` header, `sitemap.xml` is intentionally empty, and `robots.txt` allows crawling without advertising the sitemap so crawlers can read the page-level noindex directive. The three draft Inclusion child routes also carry route-level `noindex, nofollow` metadata so they can stay excluded from indexing when the broader pre-launch block is removed.
 - `vivecounselling.com.au` and `www.vivecounselling.com.au` are assigned to the Vercel project; `www` is configured as a permanent redirect to the apex domain, but registrar DNS propagation/configuration is still pending.
 - Production metadata defaults to the stable Vercel canonical origin `https://counselling-website-seven.vercel.app`; `SITE_URL` can override this when a custom canonical domain is ready.
 - Public assets include favicons, app icons, a web manifest, and portrait/media assets under `public/`.
