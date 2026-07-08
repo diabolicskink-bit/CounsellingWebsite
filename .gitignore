@@ -7,5 +7,6 @@ lighthouse-report*
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts
+codex-*.log
 .vite-dev.err.log
 .vite-dev.out.log

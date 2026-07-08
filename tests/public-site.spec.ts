@@ -48,8 +48,10 @@ const noindexDirective = "noindex, nofollow";
 const indexableRoutes = ["/", "/working-with-joel", "/inclusion", "/contact"] as const;
 const draftInclusionRoutes = ["/inclusion/kink-bdsm", "/inclusion/enm-polyamory", "/inclusion/lgbtqia"] as const;
 const productionLinkHiddenRoutes = ["/", "/inclusion"] as const;
-const analyticsRouteTrackingEnabled =
+const googleAnalyticsRouteTrackingEnabled =
   process.env.VITE_ANALYTICS_ENABLED === "true" && Boolean(process.env.VITE_GA_MEASUREMENT_ID);
+const microsoftClarityEnabled =
+  process.env.VITE_ANALYTICS_ENABLED === "true" && Boolean(process.env.VITE_CLARITY_PROJECT_ID);
 
 const expectedIconAssets = [
   { path: "/favicon-32x32.png", width: 32, height: 32 },
@@ -104,10 +106,16 @@ function isAnalyticsUrl(rawUrl: string) {
       url.hostname === "www.googletagmanager.com" ||
       url.hostname === "www.google-analytics.com" ||
       url.hostname === "analytics.google.com" ||
+      url.hostname === "clarity.ms" ||
+      url.hostname.endsWith(".clarity.ms") ||
       url.pathname.startsWith("/_vercel/insights")
     );
   } catch {
-    return rawUrl.includes("googletagmanager.com") || rawUrl.includes("google-analytics.com");
+    return (
+      rawUrl.includes("googletagmanager.com") ||
+      rawUrl.includes("google-analytics.com") ||
+      rawUrl.includes("clarity.ms")
+    );
   }
 }
 
@@ -487,16 +495,24 @@ test.describe("crawl and app metadata assets", () => {
         [
           'script[src*="googletagmanager.com"]',
           'script[src*="google-analytics.com"]',
+          'script[src*="clarity.ms"]',
           'script[src*="/_vercel/insights"]',
           "#vive-google-analytics",
           "#vive-google-analytics-config",
+          "#vive-microsoft-clarity",
         ].join(", "),
       ),
     ).toHaveCount(0);
   });
 
+  test("enquiry form is explicitly masked for Clarity", async ({ page }) => {
+    await page.goto("/contact", { waitUntil: "networkidle" });
+
+    await expect(page.locator("form.site-form")).toHaveAttribute("data-clarity-mask", "true");
+  });
+
   test("Google Analytics sends route-change page views when enabled", async ({ page }) => {
-    test.skip(!analyticsRouteTrackingEnabled, "Analytics route tracking is covered by npm run qa:analytics.");
+    test.skip(!googleAnalyticsRouteTrackingEnabled, "Analytics route tracking is covered by npm run qa:analytics.");
 
     await page.route("**/*", async (route) => {
       if (isAnalyticsUrl(route.request().url())) {
@@ -551,6 +567,32 @@ test.describe("crawl and app metadata assets", () => {
           },
         },
       ]);
+  });
+
+  test("Microsoft Clarity loads when configured", async ({ page }) => {
+    test.skip(!microsoftClarityEnabled, "Microsoft Clarity loading is covered by npm run qa:analytics.");
+
+    await page.route("**/*", async (route) => {
+      if (isAnalyticsUrl(route.request().url())) {
+        await route.fulfill({
+          body: "",
+          contentType: "application/javascript",
+          status: 200,
+        });
+        return;
+      }
+
+      await route.continue();
+    });
+
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const clarityScript = page.locator("#vive-microsoft-clarity");
+
+    await expect(clarityScript).toHaveAttribute(
+      "src",
+      `https://www.clarity.ms/tag/${process.env.VITE_CLARITY_PROJECT_ID}`,
+    );
   });
 
   for (const assetPath of [

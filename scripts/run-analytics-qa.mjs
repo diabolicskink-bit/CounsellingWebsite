@@ -4,6 +4,7 @@ import path from "node:path";
 const analyticsEnv = {
   ...process.env,
   VITE_ANALYTICS_ENABLED: "true",
+  VITE_CLARITY_PROJECT_ID: "testclarity1",
   VITE_GA_MEASUREMENT_ID: "G-TEST12345",
 };
 const startServerAndTestScript = path.join("node_modules", "start-server-and-test", "src", "bin", "start.js");
@@ -37,5 +38,5 @@ await run(process.execPath, [
   startServerAndTestScript,
   "preview:qa",
   "http://127.0.0.1:4287",
-  "playwright test --grep \"Google Analytics sends route-change page views when enabled\"",
+  "playwright test --grep \"Google Analytics sends route-change page views when enabled|Microsoft Clarity loads when configured\"",
 ]);

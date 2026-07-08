@@ -28,12 +28,13 @@ This is the factual current scope of the Vive Counselling website and supporting
 - The enquiry API rejects unsupported content types, multipart posts, oversized declared bodies above 25KB, and explicit cross-site fetch/origin/referer signals before validation or email delivery.
 - Enquiry API failures return generic visitor-safe public errors, while provider/configuration/runtime diagnostics stay in server logs.
 - Basic honeypot spam protection exists for enquiry submissions.
-- Vercel Analytics is rendered by the app when analytics are enabled, and `SiteAnalytics` injects Google Analytics `gtag.js` with manual public-route `page_view` events for React Router navigation.
+- Vercel Analytics is rendered by the app when analytics are enabled, `SiteAnalytics` injects Google Analytics `gtag.js` with manual public-route `page_view` events when `VITE_GA_MEASUREMENT_ID` is configured, and Microsoft Clarity loads when `VITE_CLARITY_PROJECT_ID` is configured.
+- The enquiry form is explicitly marked with `data-clarity-mask="true"` so Clarity does not capture form content even if recording features are enabled.
 - Playwright public-site tests exist under `tests/public-site.spec.ts`, including one-main-landmark contract coverage for public and not-found boundary routes plus generated metadata, sitemap, robots, and 404 fallback artifact coverage.
 - Direct Node API tests cover accepted and rejected enquiry submissions under `tests/api/`.
 - Direct Node script tests cover route metadata origin policy under `tests/scripts/`.
 - The public-site QA gate, `npm run qa:site`, builds the app, starts the QA preview server, and passes the Playwright public-site suite locally.
-- The opt-in analytics QA gate, `npm run qa:analytics`, builds with a fake Google Analytics measurement ID and verifies manual SPA route-change pageview calls without loading third-party analytics scripts.
+- The opt-in analytics QA gate, `npm run qa:analytics`, builds with fake Google Analytics and Microsoft Clarity IDs, verifies manual SPA route-change pageview calls, and verifies the Clarity script path without loading third-party analytics scripts.
 - The aggregate QA command, `npm run qa`, runs encoding checks, direct script tests, the build, direct API tests, and the public-site Playwright suite.
 - Static encoding checks run through `npm run check:encoding` and are included in `npm run qa` and `npm run qa:site`.
 - Test tooling includes axe checks through Playwright and Lighthouse audit scripts.
@@ -52,7 +53,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Accessibility support exists in components and tests, and `docs/checklists/accessibility-launch.md` provides the working route-by-route checklist for `LAUNCH-1`, but the launch accessibility review is not complete.
 - Responsive styling exists, but the `LAUNCH-2` responsive review is not complete.
 - Performance tooling exists, but Lighthouse budgets are not enforced.
-- The analytics launch environment policy is not signed off yet; `LAUNCH-5` still needs to confirm production, preview, local, test, and GA4 admin-setting behaviour before launch.
+- The analytics launch environment policy is not signed off yet; `LAUNCH-5` still needs to confirm production, preview, local, test, GA4 admin-setting, and Microsoft Clarity cookie/session-recording behaviour before launch.
 
 ## Not Included Yet
 
@@ -65,6 +66,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Dark mode.
 - Storybook or an external component explorer.
 - Visual regression testing.
+- A first-party cookie banner or local Microsoft Clarity Consent API flow.
 - Completed `LAUNCH-*` review passes for accessibility, responsive layout, public SEO/metadata, performance, analytics policy, enquiry flow, final public copy, and launch domain readiness.
 - Form-flow browser tests with mocked API outcomes.
 - Dedicated live Vercel production or preview smoke tests.

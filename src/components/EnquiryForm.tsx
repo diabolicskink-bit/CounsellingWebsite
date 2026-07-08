@@ -145,6 +145,7 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
     <form
       className={joinClasses("site-form", submitStatus === "success" ? "site-form--complete" : undefined, className)}
       action="/api/enquiry"
+      data-clarity-mask="true"
       method="post"
       onSubmit={handleSubmit}
     >

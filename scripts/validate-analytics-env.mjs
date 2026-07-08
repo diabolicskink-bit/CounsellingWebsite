@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const productionEnvFiles = [".env", ".env.local", ".env.production", ".env.production.local"];
 const gaMeasurementIdPattern = /^G-[A-Z0-9]{6,}$/;
+const clarityProjectIdPattern = /^[a-z0-9]{5,}$/i;
 
 function stripOptionalQuotes(value) {
   const trimmedValue = value.trim();
@@ -63,19 +64,20 @@ const fileEnv = productionEnvFiles.reduce(
 const env = { ...fileEnv, ...process.env };
 const analyticsEnabled = env.VITE_ANALYTICS_ENABLED === "true";
 const gaMeasurementId = env.VITE_GA_MEASUREMENT_ID?.trim() ?? "";
+const clarityProjectId = env.VITE_CLARITY_PROJECT_ID?.trim() ?? "";
 
 if (!analyticsEnabled) {
   console.log("Analytics preflight: disabled.");
   process.exit(0);
 }
 
-if (!gaMeasurementId) {
-  console.error("Analytics preflight failed: VITE_GA_MEASUREMENT_ID is required when VITE_ANALYTICS_ENABLED=true.");
+if (gaMeasurementId && !gaMeasurementIdPattern.test(gaMeasurementId)) {
+  console.error("Analytics preflight failed: VITE_GA_MEASUREMENT_ID must look like G-XXXXXXXXXX.");
   process.exit(1);
 }
 
-if (!gaMeasurementIdPattern.test(gaMeasurementId)) {
-  console.error("Analytics preflight failed: VITE_GA_MEASUREMENT_ID must look like G-XXXXXXXXXX.");
+if (clarityProjectId && !clarityProjectIdPattern.test(clarityProjectId)) {
+  console.error("Analytics preflight failed: VITE_CLARITY_PROJECT_ID must be the alphanumeric Clarity project ID.");
   process.exit(1);
 }
 

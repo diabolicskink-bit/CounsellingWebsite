@@ -60,20 +60,21 @@ Statuses:
   - The current placeholders are visible source text, not an abstract quality concern, so this is launch-completion work rather than general debt.
 - `Links`: `src/pages/EnmPolyamoryCounselling.tsx`, `docs/project/product-direction.md`
 
-### SITE-11 - Privacy, confidentiality, and online-session boundaries note
+### SITE-11 - Website privacy and counselling-boundaries note
 
 - `Priority`: `P1`
 - `Size`: `M`
 - `Status`: `Open`
 - `Classification`: `Content`
 - `Source`: `Fresh launch-readiness review, src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`
-- `Visitor-Facing Goal`: Give visitors enough practical trust information to understand what happens when they send personal information or attend online counselling.
-- `Current State`: The site explains fees, format, referral, cancellation, and crisis limits, but it does not yet give a concise public note on privacy, confidentiality limits, message handling, records, or the online-session platform/privacy setup.
-- `Why Deferred`: The wording needs owner confirmation so the site does not overpromise confidentiality, security, platform behaviour, or legal limits.
-- `First Useful Slice`: Add a compact Contact FAQ or practical-details note covering confidentiality in plain language, key limits, how enquiry messages are handled, and what online session setup visitors should expect.
-- `Implemented When`: A visitor can find a clear, accurate privacy/confidentiality and online-session boundary note before submitting the enquiry form.
+- `Visitor-Facing Goal`: Give visitors enough practical trust information to understand website tracking, enquiry-message handling, and the basic boundaries around online counselling.
+- `Current State`: The site explains fees, format, referral, cancellation, and crisis limits, but it does not yet give a concise public note on website privacy/analytics, enquiry message handling, records, or online-session platform/privacy setup. Microsoft Clarity can now load when configured, and the enquiry form is explicitly Clarity-masked, but there is no public analytics/cookie notice yet.
+- `Why Deferred`: The wording needs owner confirmation so the site does not overpromise privacy, confidentiality, security, platform behaviour, or legal limits.
+- `First Useful Slice`: Add a compact Contact FAQ, practical-details note, or footer-linked privacy note that separates website privacy/analytics from counselling confidentiality, explains how enquiry messages are handled, and states what online session setup visitors should expect.
+- `Implemented When`: A visitor can find a clear, accurate website privacy and counselling-boundaries note before submitting the enquiry form.
 - `Notes`:
-- `Links`: `src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`, `docs/project/product-direction.md`
+  - Keep "confidentiality" language tied to counselling sessions, records, and professional boundaries rather than using it as shorthand for website cookies or analytics.
+- `Links`: `src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`, `src/components/SiteAnalytics.tsx`, `docs/project/product-direction.md`
 
 ### SITE-12 - Crisis and immediate-support resource block
 
