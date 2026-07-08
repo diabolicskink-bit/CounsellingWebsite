@@ -28,6 +28,7 @@ type HomeInclusiveDetail = {
 
 type HomePortrait = {
   imageSrc: string;
+  alt: string;
   label: string;
 };
 
@@ -104,6 +105,7 @@ const homePageContent: HomePageContent = {
     ],
     portrait: {
       imageSrc: portraitSrc,
+      alt: "Joel Griffiths",
       label: "Joel Griffiths",
     },
   },
@@ -223,9 +225,11 @@ function HeroPortrait({ portrait }: { portrait: HomePortrait }) {
   return (
     <div className="hero-media-note hero-media-note--portrait">
       <div className="hero-media-note__image">
-        <img src={portrait.imageSrc} alt="" decoding="async" fetchPriority="high" />
+        <img src={portrait.imageSrc} alt={portrait.alt} decoding="async" fetchPriority="high" />
       </div>
-      <span className="hero-media-note__tag">{portrait.label}</span>
+      <span className="hero-media-note__tag" aria-hidden="true">
+        {portrait.label}
+      </span>
     </div>
   );
 }

@@ -98,7 +98,7 @@ Redirect aliases `/about` and `/fees` are covered by `docs/checklists/seo-metada
   - Note: Checked with a 640px CSS viewport as the 200 percent zoom proxy. Content reflowed into a single column where needed, CTAs stayed reachable, and document scroll width matched viewport width.
 
 - `Pass` Portrait/media treatment is intentionally accessible, either decorative or meaningfully named.
-  - Note: Checked hero portrait in browser and source. The image uses empty alt text, so it is treated as decorative; the visible "Joel Griffiths" label remains present as nearby text.
+  - Note: Checked hero portrait in browser and source. The image now uses concise identity alt text, while the repeated visible name tag is hidden from assistive technology to avoid duplicate announcement.
 
 ## `/working-with-joel` - Working with Joel
 

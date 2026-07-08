@@ -14,6 +14,7 @@ type EmphasisCopy = {
 
 type WorkingHeroPortrait = {
   imageSrc: string;
+  alt: string;
   ariaLabel: string;
   name: string;
 };
@@ -93,6 +94,7 @@ const pageContent: WorkingWithJoelPageContent = {
     ],
     portrait: {
       imageSrc: portraitSrc,
+      alt: "Joel Griffiths",
       ariaLabel: "About Joel Griffiths",
       name: "Joel Griffiths",
     },
@@ -268,9 +270,11 @@ function PortraitNote({ portrait }: { portrait: WorkingHeroPortrait }) {
       aria-label={portrait.ariaLabel}
     >
       <div className="hero-media-note__image">
-        <img src={portrait.imageSrc} alt="" loading="lazy" decoding="async" />
+        <img src={portrait.imageSrc} alt={portrait.alt} loading="lazy" decoding="async" />
       </div>
-      <span className="hero-media-note__tag">{portrait.name}</span>
+      <span className="hero-media-note__tag" aria-hidden="true">
+        {portrait.name}
+      </span>
     </aside>
   );
 }

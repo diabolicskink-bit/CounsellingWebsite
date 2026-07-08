@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-08 - SEO Discoverability Review
+
+- Added: Live SEO and discoverability review for the four currently allowed pages: Home, Working with Joel, Inclusion, and Contact.
+- Confirmed: Allowed pages are indexable, canonicalised, present in the sitemap, allowed by robots, and scoring strongly in Lighthouse. Draft inclusion child pages remain excluded from search.
+- Preserved: Remaining SEO and trust work is tracked through `DEBT-26`, `DEBT-27`, `SITE-11`, `SITE-12`, `SITE-14`, `SITE-15`, `SITE-16`, and `SITE-17`.
+
 ## 2026-07-08 - Launch Indexing Enabled For Approved Pages
 
 - Changed: Canonical metadata now defaults to `https://vivecounselling.com.au`, and the temporary site-wide `noindex, nofollow` metadata/header layer has been removed.
