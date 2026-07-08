@@ -103,7 +103,6 @@ const pageContent: WorkingWithJoelPageContent = {
       "I'm Joel Griffiths, an ACA-registered counsellor based in Perth. I offer online counselling for adults across Australia.",
       "As a counsellor, I'm interested in the whole person. Not only what you are struggling with, but what has shaped it. The anxiety, relationship strain, self-criticism, shame, trauma, sexuality, or intimacy concerns people bring to therapy usually have a history. They often sit alongside ways of coping that once helped, but now feel harder to live with.",
       "I work in a direct, thoughtful, and non-shaming way. I am comfortable with complexity, including the parts of life that do not fit neatly into a simple explanation.",
-      "You do not need to reduce yourself to a symptom, a diagnosis, or a polished version of the story. We can begin with what is actually there, and work toward a clearer, more honest understanding of yourself.",
     ],
   },
   approach: {
