@@ -67,13 +67,11 @@ const inclusionPageContent: InclusionPageContent = {
       emphasis: "diverse lives",
       lineTwoAfter: ".",
     },
-    topics: showDraftInclusionLinks
-      ? [
-          { label: "Kink & BDSM", href: routeHref(publicRoutePaths.kinkBdsm) },
-          { label: "ENM & Polyamory", href: routeHref(publicRoutePaths.enmPolyamory) },
-          { label: "LGBTQIA+", href: routeHref(publicRoutePaths.lgbtqia) },
-        ]
-      : [],
+    topics: [
+      { label: "Kink & BDSM", href: routeHref(publicRoutePaths.kinkBdsm) },
+      { label: "ENM & Polyamory", href: routeHref(publicRoutePaths.enmPolyamory) },
+      { label: "LGBTQIA+", href: routeHref(publicRoutePaths.lgbtqia) },
+    ],
   },
   hub: {
     intro: {
@@ -152,17 +150,13 @@ const inclusionPageContent: InclusionPageContent = {
 export default function InclusivePractice() {
   useDocumentMetadata(inclusionPageContent.title, inclusionPageContent.meta);
   const { hero, hub, faq } = inclusionPageContent;
-  const hasDraftTopicLinks = hero.topics.length > 0;
-  const heroTopClassName = hasDraftTopicLinks
-    ? "hero-top inclusion-hero__top"
-    : "hero-top inclusion-hero__top inclusion-hero__top--single";
 
   return (
     <main className="site-page inclusion-page">
       <FaqSchema faqs={faq.items} />
       <section className="hero-section hero-bg--default">
         <Container>
-          <div className={heroTopClassName}>
+          <div className="hero-top inclusion-hero__top">
             <div className="inclusion-hero__heading">
               <h1 className="hero-badge">{hero.eyebrow}</h1>
               <h2 className="hero-display inclusion-hero__title">
@@ -177,15 +171,11 @@ export default function InclusivePractice() {
               </h2>
             </div>
 
-            {hasDraftTopicLinks ? (
-              <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
-                {hero.topics.map((item) => (
-                  <Link className="inclusion-hero__detail-link" key={item.label} to={item.href}>
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-            ) : null}
+            <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">
+              {hero.topics.map((item) => (
+                <InclusionHeroDetailItem item={item} key={item.label} />
+              ))}
+            </nav>
           </div>
         </Container>
       </section>
@@ -230,4 +220,16 @@ export default function InclusivePractice() {
       <FaqSection className="site-highlight" items={faq.items} title={faq.heading} />
     </main>
   );
+}
+
+function InclusionHeroDetailItem({ item }: { item: { label: string; href: string } }) {
+  if (showDraftInclusionLinks) {
+    return (
+      <Link className="inclusion-hero__detail-link" to={item.href}>
+        {item.label}
+      </Link>
+    );
+  }
+
+  return <span className="inclusion-hero__detail-link inclusion-hero__detail-link--static">{item.label}</span>;
 }

@@ -13,10 +13,6 @@
   gap: clamp(3rem, 5.6vw, 5.75rem);
 }
 
-.inclusion-hero__top--single {
-  grid-template-columns: minmax(0, 1fr);
-}
-
 .inclusion-page .hero-top.inclusion-hero__top {
   align-items: start;
 }
@@ -81,7 +77,7 @@
   margin-left: clamp(2rem, 3.4vw, 3rem);
 }
 
-.inclusion-hero__detail-link:hover,
+.inclusion-hero__detail-link:not(.inclusion-hero__detail-link--static):hover,
 .inclusion-hero__detail-link:focus-visible {
   color: var(--cedar);
 }

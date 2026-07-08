@@ -348,6 +348,17 @@ test.describe("crawl and app metadata assets", () => {
         await expect(page.getByText("LGBTQIA+ inclusive")).toBeVisible();
         await expect(page.locator(".home-page__inclusive-details .site-detail-stack__action")).toHaveCount(0);
       }
+
+      if (route === "/inclusion") {
+        const inclusionHeroDetails = page.locator(".inclusion-hero__details");
+
+        await expect(inclusionHeroDetails).toBeVisible();
+        await expect(inclusionHeroDetails.locator(".inclusion-hero__detail-link--static")).toHaveText([
+          "Kink & BDSM",
+          "ENM & Polyamory",
+          "LGBTQIA+",
+        ]);
+      }
     });
   }
 
