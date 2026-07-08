@@ -15,6 +15,7 @@
     "test:e2e:headed": "playwright test --headed",
     "qa": "npm run check:encoding && npm run test:scripts && npm run build && npm run test:api && start-server-and-test preview:qa http://127.0.0.1:4287 test:e2e",
     "qa:site": "npm run check:encoding && npm run build && start-server-and-test preview:qa http://127.0.0.1:4287 test:e2e",
+    "qa:analytics": "node scripts/run-analytics-qa.mjs",
     "audit:lighthouse": "npm run build && start-server-and-test preview:qa http://127.0.0.1:4287 audit:lighthouse:run",
     "audit:lighthouse:run": "node scripts/run-lighthouse.mjs http://127.0.0.1:4287"
   },

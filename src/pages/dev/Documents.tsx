@@ -49,11 +49,22 @@ const markdownFiles = import.meta.glob(
 ) as Record<string, string>;
 
 const statusClassNames: Record<string, string> = {
+  "actioned": "actioned",
+  "bucket": "bucket",
+  "consolidate candidate": "consolidate-candidate",
+  "delete candidate": "delete-candidate",
+  "expanded": "expanded",
   "fail": "fail",
+  "keep": "keep",
+  "keep, document": "keep-document",
+  "move candidate": "move-candidate",
   "n/a": "na",
   "not checked": "not-checked",
+  "not reviewed": "not-reviewed",
   "partial": "partial",
   "pass": "pass",
+  "restructure candidate": "restructure-candidate",
+  "reviewing": "reviewing",
 };
 
 function normalizePath(modulePath: string) {

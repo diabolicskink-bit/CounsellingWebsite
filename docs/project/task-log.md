@@ -17,6 +17,29 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-06-27 - SplitSection Legacy Layout Cleanup
+
+- Changed: Removed unused `SplitSection` and the old `.section`, `.section--surface`, and `.split` production CSS hooks after source review found no render call sites.
+- Changed: Design-system docs now point split-section composition back to active `site-*` section and split patterns instead of advertising `SplitSection`.
+- Preserved: Active `.section-heading` and `.rich-text` shared classes remain for their separate review pass.
+
+## 2026-06-27 - DEBT-18 Legacy Panel And Strip CSS Resolved
+
+- Changed: Removed unused `.check-list` and `.fit-strip*` production CSS after the progressive CSS checklist usage pass found no live class references.
+- Preserved: Active `.check-item` and `.icon-box` shared classes remain in place for later declaration, naming, and structure review.
+- Closed: Archived `DEBT-18`; broader legacy CSS cleanup continues through `DEBT-13` and adjacent subgroup reviews.
+
+## 2026-06-27 - Branded Contact Email Applied
+
+- Changed: Public contact display and enquiry API fallback/failure messaging now use `joel@vivecounselling.com.au`.
+- Closed: Archived `SITE-10`; production delivery variable hardening remains tracked in `DEBT-11`.
+
+## 2026-06-27 - DEBT-28 Analytics Route Tracking Resolved
+
+- Changed: Google Analytics now uses manual public-route `page_view` events for initial load and React Router navigation instead of relying on the initial config call alone.
+- Added: `npm run qa:analytics` builds with a fake GA measurement ID and verifies route-change pageviews while intercepting third-party analytics URLs.
+- Closed: Archived `DEBT-28`; `LAUNCH-5` remains open for final analytics environment policy and GA4 admin-setting sign-off.
+
 ## 2026-06-26 - Temporary Public Noindex Enabled
 
 - Changed: Generated public route HTML now includes `noindex, nofollow`, and Vercel deployment config adds a matching `X-Robots-Tag` header.

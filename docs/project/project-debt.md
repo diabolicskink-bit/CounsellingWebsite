@@ -194,6 +194,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-10`: Archived direct API coverage already covers missing config and provider failure baselines that this item can extend.
 - `Dependencies`: `None`
 - `Notes`:
+  - 2026-06-27: Public display email and API fallback/failure messaging were aligned to `joel@vivecounselling.com.au`; this item remains open for production environment validation and documenting the intended `ENQUIRY_TO_EMAIL` / `ENQUIRY_FROM_EMAIL` relationship.
 - `Links`: `api/enquiry.ts`, `src/data/enquiry.ts`
 
 ### DEBT-13 - Legacy CSS layers need focused cleanup
@@ -205,7 +206,7 @@ Each active item should include enough direction that a future session can choos
 - `Detected`: 2026-06-17
 - `Source`: `docs/reports/2026-06-17-technical-code-review.md`
 - `Area`: Design System, CSS, Maintainability
-- `Problem`: Older shared CSS layers such as `.image-panel`, `.fit-strip`, `.section`, `.feature-panel`, `.topic-card`, and related overrides still live in production CSS while most pages now use `site-*` and `hero-*`.
+- `Problem`: Older shared CSS layers such as `.stack`, `.topic-card`, and related overrides still live in production CSS while most pages now use `site-*` and `hero-*`.
 - `Why It Matters`: Legacy layers increase cascade surface area and make it harder to know which patterns are active, deprecated, or safe to copy.
 - `Preferred Direction`: Use focused cleanup sweeps to audit actual usage, remove dead rules, quarantine legacy aliases, and preserve still-used pieces until replacements exist.
 - `Resolution Path`: Treat this as a parent card. Use targeted usage scans to create or work through smaller linked debt items, remove only confirmed-dead rules, and preserve or document compatibility paths that are still needed.
@@ -215,16 +216,16 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-14`: Archived `DEBT-14` resolved a side-stripe rule conflict in the same design-system CSS surface by removing the blanket prohibition rather than changing the UI.
   - `DEBT-15`: Global CSS bundling increases the impact of lingering legacy selectors.
   - `DEBT-17`: Archived card/component cleanup removed the generic legacy card source from this broader legacy CSS issue.
-  - `DEBT-18`: This is the smaller panel/strip selector audit split from the same legacy CSS cluster.
+  - `DEBT-18`: Archived panel/strip selector cleanup removed one smaller slice from the same legacy CSS cluster.
   - `DEBT-19`: This is the smaller issue/topic grid audit that overlaps with active card patterns.
   - `DEBT-21`: Shared typography cleanup is another focused design-system CSS cleanup lane, though it is about type roles rather than legacy selector removal.
 - `Dependencies`:
-  - `DEBT-18`: Complete, retain, or supersede the concrete panel/strip selector slice before closing the broad legacy CSS parent.
   - `DEBT-19`: Complete, retain, or supersede the concrete issue/topic grid slice before closing the broad legacy CSS parent.
 - `Notes`:
   - This is a broad cleanup parent. When a concrete slice is found, add a smaller linked `DEBT-*` item instead of expanding this card indefinitely.
   - Archived `DEBT-17` removed `src/components/Card.tsx`, generic `.card`, `.card-grid`, `.card-kicker`, and card-specific responsive hooks.
-  - `DEBT-18` covers old panel/strip selectors found in the same legacy CSS cluster.
+  - Archived `DEBT-18` removed the old panel/strip selector slice found in the same legacy CSS cluster.
+  - 2026-06-27: Removed unused `SplitSection` plus the old generic `.section`, `.section--surface`, and `.split` production selectors after the CSS checklist found no source call sites and current section guidance pointed to `site-*` patterns.
   - `DEBT-19` covers old issue/topic grid selectors that overlap with the active `site-topic-*` card system.
 - `Links`: `src/styles.css`, `docs/design-system/maintenance/cleanup-sweeps.md`, `docs/design-system/current-scope.md`
 
@@ -253,31 +254,6 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
 - `Links`: `src/App.tsx`, `src/pages/`, `src/styles-*.css`
 
-### DEBT-18 - Legacy panel and strip CSS need usage audit
-
-- `Priority`: `P2`
-- `Size`: `S`
-- `Priority Rationale`: This is `P2` because the selectors appear unused and sit in the production cascade, but the safe next move is only a usage audit.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `DEBT-13`, local usage scan on 2026-06-17
-- `Area`: Design System, CSS, Maintainability
-- `Problem`: `.image-panel`, `.fit-strip`, `.feature-panel`, and `.two-column-panel` still exist in `src/styles.css`, but the usage scan found no obvious current page or component references outside the CSS itself.
-- `Why It Matters`: Dead panel and strip selectors keep old layout language available for accidental reuse and add unnecessary cascade surface.
-- `Preferred Direction`: Confirm whether these selectors are truly unused, then remove dead rules or document any retained compatibility case.
-- `Resolution Path`: Search all source and docs for old panel/strip selectors, inspect related responsive rules, remove confirmed-dead CSS, and split any retained compatibility case into a narrower item.
-- `Next Action`: Run a focused source search for the old panel/strip selectors and inspect nearby responsive rules before deleting anything.
-- `Resolved When`: The old panel/strip selector cluster is removed, explicitly retained, or split into narrower cleanup items if hidden usage is found.
-- `Related Items`:
-  - `DEBT-13`: This is a concrete child slice of the broader legacy CSS cleanup parent.
-  - `DEBT-15`: Removing unused global selectors reduces the risk created by the globally bundled CSS cascade.
-  - `DEBT-17`: Archived card cleanup removed the adjacent generic card selectors; this item keeps the remaining panel/strip slice separate.
-  - `DEBT-19`: Old topic and panel selectors may be removed in adjacent dead-CSS sweeps if scans confirm they are unused.
-- `Dependencies`: `None`
-- `Notes`:
-  - Overlaps with `DEBT-13` as one concrete legacy CSS slice.
-- `Links`: `src/styles.css`, `docs/design-system/maintenance/cleanup-sweeps.md`, `docs/design-system/maintenance/migration-notes.md`
-
 ### DEBT-19 - Legacy issue and topic grid CSS needs usage audit
 
 - `Priority`: `P2`
@@ -296,7 +272,7 @@ Each active item should include enough direction that a future session can choos
 - `Related Items`:
   - `DEBT-13`: This is a concrete child slice of the broader legacy CSS cleanup parent.
   - `DEBT-17`: Archived card cleanup removed the generic `.card` path; this item keeps the remaining issue/topic selector audit separate.
-  - `DEBT-18`: Old issue/topic and panel/strip selectors appear in the same legacy CSS region and may be audited together.
+  - `DEBT-18`: Archived panel/strip cleanup removed adjacent selectors from the same legacy CSS region.
   - `SITE-8`: If media/hero patterns are promoted later, this cleanup helps keep active design-system naming clearer.
 - `Dependencies`: `None`
 - `Notes`:
@@ -429,29 +405,6 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - `NotFound` currently restores a pre-existing `robots` meta tag to its previous content; when the initial document is the app-powered `404.html`, that previous content can already be `noindex, nofollow`.
 - `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/public-site.spec.ts`
-
-### DEBT-28 - Google Analytics does not explicitly track SPA route changes
-
-- `Priority`: `P2`
-- `Size`: `S`
-- `Priority Rationale`: This is `P2` because analytics are part of operational trust and content decisions, but the issue does not affect core visitor rendering or enquiry delivery.
-- `Status`: `Open`
-- `Detected`: 2026-06-18
-- `Source`: Fresh site debt review
-- `Area`: Analytics, Routing, Operations
-- `Problem`: `SiteAnalytics` injects the Google Analytics script and initial `gtag('config', ...)`, but it does not listen to React Router location changes or explicitly send page views for client-side navigation.
-- `Why It Matters`: On a single-page app, internal navigation can be undercounted or attributed unclearly unless GA route-change behaviour is intentional and tested.
-- `Preferred Direction`: Decide the desired GA behaviour for SPA navigation, then add a small route-change pageview effect or document why the current provider behaviour is sufficient.
-- `Resolution Path`: Confirm whether GA should receive a page view on each public route change, implement a location-aware tracking helper if needed, and keep analytics disabled in default QA builds.
-- `Next Action`: Add an analytics route-change design note or test harness that can verify pageview calls without loading third-party scripts in QA.
-- `Resolved When`: Google Analytics route-change behaviour is explicit, tested or documented, and does not reintroduce third-party noise into default QA.
-- `Related Items`:
-  - `SITE-5`: Analytics environment policy should stay aligned with any route-change tracking behaviour.
-  - `DEBT-27`: Runtime metadata and analytics both depend on correct current-route awareness after client-side navigation.
-- `Dependencies`: `None`
-- `Notes`:
-  - Vercel Analytics may already handle SPA route changes separately; this item is specifically about the manually injected Google Analytics path.
-- `Links`: `src/components/SiteAnalytics.tsx`, `src/App.tsx`, `tests/public-site.spec.ts`, `scripts/validate-analytics-env.mjs`
 
 ### DEBT-29 - Route changes lack focus restoration and a skip-link baseline
 
@@ -591,13 +544,25 @@ The remaining source cleanup was split into `DEBT-17` and later resolved there b
 
 Resolved on 2026-06-17 by confirming that the legacy `Card` component and generic card selectors had no active source usage, then removing `src/components/Card.tsx`, `.card`, `.card-grid`, `.card-kicker`, `.card-title--small`, the `.issues-section .card*` overrides, and card-specific responsive hooks from production CSS.
 
-The active card API remains `.site-card`, `.site-card--link`, `.site-card__*`, `.site-card-grid`, `.site-topic-card`, `.site-fee-card`, and deliberate page-scoped compositions. Broader legacy CSS cleanup remains tracked under `DEBT-13`, with panel/strip selectors in `DEBT-18` and issue/topic selectors in `DEBT-19`.
+The active card API remains `.site-card`, `.site-card--link`, `.site-card__*`, `.site-card-grid`, `.site-topic-card`, `.site-fee-card`, and deliberate page-scoped compositions. Broader legacy CSS cleanup remains tracked under `DEBT-13`; panel/strip selectors were later resolved in `DEBT-18`, and issue/topic selectors remain tracked in `DEBT-19`.
+
+### DEBT-18 - Legacy panel and strip CSS need usage audit
+
+Resolved on 2026-06-27 through the progressive CSS checklist cleanup. The old panel/media shell selectors `.image-panel`, `.feature-panel*`, and `.two-column-panel` were removed first after source searches found no active usage; the remaining unused `.fit-strip*` band selectors and responsive hooks were then removed from `src/styles.css`.
+
+No compatibility case was found for the panel/strip cluster. Broader legacy CSS review remains tracked under `DEBT-13`, and adjacent old issue/topic selectors remain separated under `DEBT-19`.
 
 ### DEBT-25 - Shared public route manifest may be needed
 
 Closed on 2026-06-18 after assessment found that a shared route manifest would likely add more architecture than value for this small, mostly static counselling practice site. The public route set is not expected to grow much, and route registration, navigation, redirects, metadata, sitemap, prerendering, and tests overlap without all wanting the same data shape.
 
 Route drift prevention remains tracked under `DEBT-8`, which should add focused parity coverage. If future route churn makes the current duplication materially painful, a new debt item can revisit manifest consolidation with fresh evidence.
+
+### DEBT-28 - Google Analytics does not explicitly track SPA route changes
+
+Resolved on 2026-06-27 by making the manually injected Google Analytics path explicitly route-aware. `SiteAnalytics` disables GA's automatic initial page view, then sends manual `page_view` events for public route metadata entries on initial load and React Router navigation, using deterministic title, location, path, and measurement-ID payloads.
+
+Default QA builds still keep analytics disabled and assert that no analytics scripts are injected. An opt-in `npm run qa:analytics` harness builds with a fake GA measurement ID, intercepts third-party analytics URLs, and verifies initial plus client-side route-change pageviews without loading external scripts. `LAUNCH-5` remains open for final environment policy and GA4 admin-setting sign-off.
 
 ### DEBT-31 - Favicon, touch, and app icon assets need quality and usage audit
 

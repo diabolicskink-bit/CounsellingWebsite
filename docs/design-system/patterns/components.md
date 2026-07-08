@@ -7,11 +7,9 @@ This catalogue lists active React components and component-backed API. A file ex
 - `Container`
   Major page width containment.
 - `Button`
-  Shared action styles. Use existing variants: `primary`, `secondary`, `tertiary`, and `light`.
+  Shared action styles. Use existing variants: `primary`, `secondary`, and `tertiary`.
 - `SectionHeading`
   Repeated section heading structure.
-- `SplitSection`
-  Shared split layout structure when the page uses the established heading/content pairing.
 - `FaqSection`
   Shared FAQ accordion. Content remains data-driven at page level. The component is surface-neutral and should be paired with an explicit section surface or deliberate page-scoped section.
 - `FaqSchema`
@@ -29,6 +27,7 @@ This catalogue lists active React components and component-backed API. A file ex
 
 - The old `src/components/Card.tsx` component has been removed and is not active card API for new work.
 - Generic `.card`, `.card-grid`, and `.card-kicker` production selectors have been removed. Do not reintroduce them as compatibility aliases.
+- The old `src/components/SplitSection.tsx` component has been removed after review found no source call sites. Use explicit section composition with `.site-grid` or `.site-highlight`, `Container`, `.site-split`, `SectionHeading`, and `.rich-text` instead of reintroducing the generic `.section` / `.split` layer.
 - New card-like production UI should use active `site-*` card patterns or a page-scoped composition when the need is specific.
 
 ## Component Selection Rules

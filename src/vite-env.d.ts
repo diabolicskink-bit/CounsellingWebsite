@@ -8,3 +8,13 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+type GoogleTagArguments =
+  | [command: "js", date: Date]
+  | [command: "config", targetId: string, config?: Record<string, unknown>]
+  | [command: "event", eventName: string, params?: Record<string, unknown>];
+
+interface Window {
+  dataLayer?: GoogleTagArguments[];
+  gtag?: (...args: GoogleTagArguments) => void;
+}

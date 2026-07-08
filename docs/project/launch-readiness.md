@@ -103,11 +103,11 @@ Statuses:
 - `Status`: `Open`
 - `Source`: Supersedes `SITE-5`, `docs/reports/2026-06-17-technical-code-review.md`
 - `Launch Goal`: Make analytics behaviour intentional before launch while preventing local/test third-party noise from hiding real regressions.
-- `Current State`: Google Tag Manager and Vercel Analytics are present, and tests can be affected by generic third-party or failed-request noise.
-- `Review Method`: Decide whether analytics should run in local, preview, test, and production contexts; document the policy; link any code or test changes needed.
-- `Passes When`: Analytics behaviour is environment-aware or explicitly accepted, and test failures identify app problems rather than third-party noise.
-- `Linked Work`: `DEBT-28`
-- `Links`: `index.html`, `src/App.tsx`, `tests/public-site.spec.ts`
+- `Current State`: Vercel Analytics remains enabled through the shared analytics gate, and the Google Analytics path now sends explicit manual page views for public SPA route changes. Default QA stays analytics-quiet, while `npm run qa:analytics` verifies the enabled GA route-change path with third-party analytics URLs intercepted.
+- `Review Method`: Decide whether analytics should run in local, preview, test, and production contexts; confirm GA4 Enhanced Measurement/browser-history settings will not double-count the manual pageviews; document the policy; link any remaining code or test changes needed.
+- `Passes When`: Analytics behaviour is environment-aware or explicitly accepted, GA4 admin settings are aligned with the manual SPA pageview implementation, and test failures identify app problems rather than third-party noise.
+- `Linked Work`: `DEBT-28` archived
+- `Links`: `src/components/SiteAnalytics.tsx`, `tests/public-site.spec.ts`, `scripts/run-analytics-qa.mjs`
 
 ### LAUNCH-6 - Enquiry form public-flow launch QA
 

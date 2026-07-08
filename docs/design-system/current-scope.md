@@ -9,7 +9,7 @@ This is the live factual inventory of the design system. Keep it current when th
 - The active shared production class layer uses `site-*` classes for public-page sections, cards, panels, lists, tabs, forms, footer, FAQ, CTA, trust, detail, and contact patterns.
 - The active shared hero system uses `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-media-note--portrait`, `.hero-media-note__tag`, `.hero-principles-strip`, and `.hero-detail-stack`.
 - Existing non-prefixed shared component classes remain active where they back current promoted components or patterns: `.container`, `.button`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
-- Active shared React components include `Container`, `Button`, `SectionHeading`, `SplitSection`, `FaqSection`, `FaqSchema`, `BroadTabPanel`, `EnquiryForm`, `Layout`, `DevPageHero`, `DesignSystemSidebar`, and `DocumentsSidebar`.
+- Active shared React components include `Container`, `Button`, `SectionHeading`, `FaqSection`, `FaqSchema`, `BroadTabPanel`, `EnquiryForm`, `Layout`, `DevPageHero`, `DesignSystemSidebar`, and `DocumentsSidebar`.
 - The active general card pattern is `.site-card`, `.site-card--link`, `.site-card__list`, `.site-card__action`, and `.site-card-grid`.
 - The active topic-card pattern is `.site-topic-grid`, `.site-topic-card`, and topic-card modifiers.
 - The active detail-stack pattern is `.site-detail-stack` and `.site-detail-stack--linked`.
@@ -41,6 +41,7 @@ This is the live factual inventory of the design system. Keep it current when th
 
 - `ds-*` is docs/dev-page support styling, not a production system.
 - The old `src/components/Card.tsx` component and generic `.card`, `.card-grid`, `.card-kicker`, and card-specific responsive selectors have been removed from source. Do not reintroduce them for new production or design-system work.
+- The old `src/components/SplitSection.tsx` component and generic `.section`, `.section--surface`, and `.split` production selectors have been removed from source. Compose current split sections with `.site-grid` or `.site-highlight`, `Container`, `.site-split`, `.section-heading`, and `.rich-text`.
 - `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css` and should not be expanded for production work.
 - `legacy-*`, old `test-bed-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only.
 - No active `site-hero-*` source usage was found during the latest pass. Treat any future discovery as superseded by `hero-*` unless deliberately re-promoted.

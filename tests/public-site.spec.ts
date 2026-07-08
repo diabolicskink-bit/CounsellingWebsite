@@ -45,6 +45,8 @@ const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
 const temporaryRobotsDirective = "noindex, nofollow";
+const analyticsRouteTrackingEnabled =
+  process.env.VITE_ANALYTICS_ENABLED === "true" && Boolean(process.env.VITE_GA_MEASUREMENT_ID);
 
 const expectedIconAssets = [
   { path: "/favicon-32x32.png", width: 32, height: 32 },
@@ -103,6 +105,16 @@ type PageDiagnostics = {
   failedResponses: string[];
 };
 
+type AnalyticsPageViewEvent = {
+  eventName: string;
+  params: {
+    page_location?: string;
+    page_path?: string;
+    page_title?: string;
+    send_to?: string;
+  };
+};
+
 function collectPageDiagnostics(page: Page): PageDiagnostics {
   const diagnostics: PageDiagnostics = {
     consoleErrors: [],
@@ -152,6 +164,17 @@ async function expectNotFoundPage(page: Page, requestedPath: string) {
   await expect(page.locator("h1")).toHaveText("That page isn't here.");
   await expect(page.getByLabel("Requested address")).toContainText(requestedPath);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", temporaryRobotsDirective);
+}
+
+async function getAnalyticsPageViewEvents(page: Page): Promise<AnalyticsPageViewEvent[]> {
+  return page.evaluate(() => {
+    return (window.dataLayer ?? [])
+      .filter((entry) => entry[0] === "event" && entry[1] === "page_view")
+      .map((entry) => ({
+        eventName: entry[1],
+        params: entry[2] ?? {},
+      }));
+  });
 }
 
 const aliasRedirects = [
@@ -389,6 +412,64 @@ test.describe("crawl and app metadata assets", () => {
     ).toHaveCount(0);
   });
 
+  test("Google Analytics sends route-change page views when enabled", async ({ page }) => {
+    test.skip(!analyticsRouteTrackingEnabled, "Analytics route tracking is covered by npm run qa:analytics.");
+
+    await page.route("**/*", async (route) => {
+      if (isAnalyticsUrl(route.request().url())) {
+        await route.fulfill({
+          body: "",
+          contentType: "application/javascript",
+          status: 200,
+        });
+        return;
+      }
+
+      await route.continue();
+    });
+
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    await expect
+      .poll(() => getAnalyticsPageViewEvents(page))
+      .toEqual([
+        {
+          eventName: "page_view",
+          params: {
+            page_location: "http://127.0.0.1:4287/",
+            page_path: "/",
+            page_title: routeMetadataData.routes["/"].title,
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
+        },
+      ]);
+
+    await page.getByRole("banner").getByRole("link", { name: "Get in touch" }).click();
+
+    await expect
+      .poll(() => getAnalyticsPageViewEvents(page))
+      .toEqual([
+        {
+          eventName: "page_view",
+          params: {
+            page_location: "http://127.0.0.1:4287/",
+            page_path: "/",
+            page_title: routeMetadataData.routes["/"].title,
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
+        },
+        {
+          eventName: "page_view",
+          params: {
+            page_location: "http://127.0.0.1:4287/contact",
+            page_path: "/contact",
+            page_title: routeMetadataData.routes["/contact"].title,
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
+        },
+      ]);
+  });
+
   for (const assetPath of [
     "/favicon.svg",
     "/favicon-32x32.png",
@@ -479,7 +560,7 @@ test.describe("enquiry form", () => {
     const alert = form.getByRole("alert");
 
     await expect(alert).toContainText(
-      "Sorry, the enquiry could not be sent. Please email diabolicskink@gmail.com directly.",
+      "Sorry, the enquiry could not be sent. Please email joel@vivecounselling.com.au directly.",
     );
     await expect(alert).not.toContainText("Technical detail");
     await expect(alert).not.toContainText("RESEND_API_KEY");

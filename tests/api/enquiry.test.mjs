@@ -7,7 +7,7 @@ const originalEnv = Object.fromEntries(deliveryEnvKeys.map((key) => [key, proces
 const originalFetch = globalThis.fetch;
 const originalConsoleError = console.error;
 const originalConsoleWarn = console.warn;
-const publicFailureMessage = "Sorry, the enquiry could not be sent. Please email diabolicskink@gmail.com directly.";
+const publicFailureMessage = "Sorry, the enquiry could not be sent. Please email joel@vivecounselling.com.au directly.";
 
 afterEach(() => {
   for (const key of deliveryEnvKeys) {
@@ -342,7 +342,7 @@ test("rejects multipart form submissions with a safe HTML failure page", async (
   assert.equal(result.headers["content-type"], "text/html; charset=utf-8");
   assert.equal(typeof result.body, "string");
   assert.match(result.body, /The enquiry could not be sent\./);
-  assert.match(result.body, /diabolicskink@gmail\.com/);
+  assert.match(result.body, /joel@vivecounselling\.com\.au/);
   assert.doesNotMatch(result.body, /multipart|unsupported_content_type|secret body/);
   assert.equal(fetchCalled, false);
   assert.match(warningText, /unsupported_content_type/);
@@ -633,7 +633,7 @@ test("returns a safe HTML failure page for a URL-encoded native form submission 
   assert.equal(result.headers["content-type"], "text/html; charset=utf-8");
   assert.equal(typeof result.body, "string");
   assert.match(result.body, /The enquiry could not be sent\./);
-  assert.match(result.body, /diabolicskink@gmail\.com/);
+  assert.match(result.body, /joel@vivecounselling\.com\.au/);
   assert.doesNotMatch(result.body, /RESEND_API_KEY|ENQUIRY_FROM_EMAIL|Missing Vercel env vars/);
   assert.match(consoleErrors.join("\n"), /RESEND_API_KEY/);
 });

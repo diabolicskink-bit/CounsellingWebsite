@@ -60,22 +60,6 @@ Statuses:
   - The current placeholders are visible source text, not an abstract quality concern, so this is launch-completion work rather than general debt.
 - `Links`: `src/pages/EnmPolyamoryCounselling.tsx`, `docs/project/product-direction.md`
 
-### SITE-10 - Public contact identity and branded email decision
-
-- `Priority`: `P1`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Public UX`
-- `Source`: `Fresh launch-readiness review, src/data/enquiry.ts`, `src/pages/Contact.tsx`, `src/components/Layout.tsx`
-- `Visitor-Facing Goal`: Make public contact details look intentional, credible, and aligned with the Vive Counselling brand.
-- `Current State`: The public contact page, footer, and enquiry failure state display `diabolicskink@gmail.com`, while the site presents as Vive Counselling.
-- `Why Deferred`: The right fix depends on a practice-owner decision and may involve email/domain setup outside this repository.
-- `First Useful Slice`: Decide whether launch should use a branded Vive/domain email address, then update the public display address or document why the current address is intentional for launch.
-- `Implemented When`: Public contact email, delivery email, and failure-state fallback are intentionally aligned or explicitly documented as separate.
-- `Notes`:
-  - `DEBT-11` tracks production delivery configuration; this card is about the visitor-facing trust signal of the displayed contact identity.
-- `Links`: `src/data/enquiry.ts`, `src/pages/Contact.tsx`, `src/components/Layout.tsx`, `docs/project/project-debt.md`
-
 ### SITE-11 - Privacy, confidentiality, and online-session boundaries note
 
 - `Priority`: `P1`
@@ -261,6 +245,10 @@ Statuses:
 - `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system/patterns/page-patterns.md`, `docs/project/product-direction.md`
 
 ## Archive
+
+### SITE-10 - Public contact identity and branded email decision
+
+Implemented on 2026-06-27. Public contact display, footer/contact form source data, and enquiry API fallback/failure messaging now use `joel@vivecounselling.com.au` as the branded Vive address. Production delivery configuration hardening remains tracked separately under `DEBT-11`, including the need to keep `ENQUIRY_TO_EMAIL` and `ENQUIRY_FROM_EMAIL` intentional.
 
 ### SITE-1 - Launch accessibility checklist
 

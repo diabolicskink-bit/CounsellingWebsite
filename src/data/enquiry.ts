@@ -1,7 +1,7 @@
 import type { EnquiryFormContent } from "../components/EnquiryForm";
 import { getActiveAustralianTimeZoneOptions } from "../utils/timeZones";
 
-export const enquiryEmail = "diabolicskink@gmail.com";
+export const enquiryEmail = "joel@vivecounselling.com.au";
 
 export const enquiryFormContent: EnquiryFormContent = {
   eyebrow: "Enquiry",

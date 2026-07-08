@@ -81,7 +81,7 @@ type EmailTheme = {
   subtleText: string;
 };
 
-const fallbackRecipient = "diabolicskink@gmail.com";
+const fallbackRecipient = "joel@vivecounselling.com.au";
 const resendEndpoint = "https://api.resend.com/emails";
 const invalidSubmissionMessage = "Invalid enquiry submission.";
 const publicFailureMessage = `Sorry, the enquiry could not be sent. Please email ${fallbackRecipient} directly.`;

@@ -21,16 +21,18 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Production metadata defaults to the stable Vercel canonical origin `https://counselling-website-seven.vercel.app`; `SITE_URL` can override this when a custom canonical domain is ready.
 - Public assets include favicons, app icons, a web manifest, and portrait/media assets under `public/`.
 - The Contact/Fees page uses the shared `EnquiryForm` component and data from `src/data/enquiry.ts`.
+- Public contact display and enquiry fallback/failure messaging use `joel@vivecounselling.com.au`.
 - The enquiry form submits to the serverless `/api/enquiry` endpoint.
 - The TypeScript enquiry API validates structured form fields server-side, supports endpoint-level URL-encoded native form posts, builds the email subject/reply-to/plain text/HTML from the validated payload, and sends email through Resend when configured.
 - The enquiry API rejects unsupported content types, multipart posts, oversized declared bodies above 25KB, and explicit cross-site fetch/origin/referer signals before validation or email delivery.
 - Enquiry API failures return generic visitor-safe public errors, while provider/configuration/runtime diagnostics stay in server logs.
 - Basic honeypot spam protection exists for enquiry submissions.
-- Vercel Analytics is rendered by the app, and Google Tag Manager is loaded from `index.html`.
+- Vercel Analytics is rendered by the app when analytics are enabled, and `SiteAnalytics` injects Google Analytics `gtag.js` with manual public-route `page_view` events for React Router navigation.
 - Playwright public-site tests exist under `tests/public-site.spec.ts`, including one-main-landmark contract coverage for public and not-found boundary routes plus generated metadata, sitemap, robots, and 404 fallback artifact coverage.
 - Direct Node API tests cover accepted and rejected enquiry submissions under `tests/api/`.
 - Direct Node script tests cover route metadata origin policy under `tests/scripts/`.
 - The public-site QA gate, `npm run qa:site`, builds the app, starts the QA preview server, and passes the Playwright public-site suite locally.
+- The opt-in analytics QA gate, `npm run qa:analytics`, builds with a fake Google Analytics measurement ID and verifies manual SPA route-change pageview calls without loading third-party analytics scripts.
 - The aggregate QA command, `npm run qa`, runs encoding checks, direct script tests, the build, direct API tests, and the public-site Playwright suite.
 - Static encoding checks run through `npm run check:encoding` and are included in `npm run qa` and `npm run qa:site`.
 - Test tooling includes axe checks through Playwright and Lighthouse audit scripts.
@@ -50,7 +52,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Accessibility support exists in components and tests, and `docs/checklists/accessibility-launch.md` provides the working route-by-route checklist for `LAUNCH-1`, but the launch accessibility review is not complete.
 - Responsive styling exists, but the `LAUNCH-2` responsive review is not complete.
 - Performance tooling exists, but Lighthouse budgets are not enforced.
-- Analytics are active in local/test contexts unless separately blocked by the test environment.
+- The analytics launch environment policy is not signed off yet; `LAUNCH-5` still needs to confirm production, preview, local, test, and GA4 admin-setting behaviour before launch.
 
 ## Not Included Yet
 
