@@ -341,6 +341,13 @@ test.describe("crawl and app metadata assets", () => {
       for (const childRoute of draftInclusionRoutes) {
         await expect(page.locator(`a[href="${childRoute}"]`)).toHaveCount(0);
       }
+
+      if (route === "/") {
+        await expect(page.getByText("Kink & BDSM counselling")).toBeVisible();
+        await expect(page.getByText("Polyamory & ENM counselling")).toBeVisible();
+        await expect(page.getByText("LGBTQIA+ inclusive")).toBeVisible();
+        await expect(page.locator(".home-page__inclusive-details .site-detail-stack__action")).toHaveCount(0);
+      }
     });
   }
 

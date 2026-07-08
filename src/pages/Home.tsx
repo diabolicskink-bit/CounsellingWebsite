@@ -149,25 +149,23 @@ const homePageContent: HomePageContent = {
     cta: "Explore inclusive counselling",
     detailCtaLabel: "Learn more",
     detailsAriaLabel: "Inclusive practice topics",
-    details: showDraftInclusionLinks
-      ? [
-          {
-            title: "Kink & BDSM counselling",
-            copy: "Nothing needs to be left out, softened, or carefully introduced.",
-            href: routeHref(publicRoutePaths.kinkBdsm),
-          },
-          {
-            title: "Polyamory & ENM counselling",
-            copy: "You can speak about what is actually hard without justifying how you live first.",
-            href: routeHref(publicRoutePaths.enmPolyamory),
-          },
-          {
-            title: "LGBTQIA+ inclusive",
-            copy: "Gender, sexuality, and identity can be part of the conversation, or simply part of who you are.",
-            href: routeHref(publicRoutePaths.lgbtqia),
-          },
-        ]
-      : [],
+    details: [
+      {
+        title: "Kink & BDSM counselling",
+        copy: "Nothing needs to be left out, softened, or carefully introduced.",
+        href: routeHref(publicRoutePaths.kinkBdsm),
+      },
+      {
+        title: "Polyamory & ENM counselling",
+        copy: "You can speak about what is actually hard without justifying how you live first.",
+        href: routeHref(publicRoutePaths.enmPolyamory),
+      },
+      {
+        title: "LGBTQIA+ inclusive",
+        copy: "Gender, sexuality, and identity can be part of the conversation, or simply part of who you are.",
+        href: routeHref(publicRoutePaths.lgbtqia),
+      },
+    ],
   },
   workroom: {
     heading: "Wherever you are is the place to begin.",
@@ -285,15 +283,10 @@ function JoelCard({ workroom }: { workroom: HomeWorkroomContent }) {
 }
 
 function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
-  const hasDraftLinks = inclusive.details.length > 0;
-  const frameClassName = hasDraftLinks
-    ? "home-page__inclusive-frame"
-    : "home-page__inclusive-frame home-page__inclusive-frame--single";
-
   return (
     <section className="site-grid">
       <Container>
-        <div className={frameClassName}>
+        <div className="home-page__inclusive-frame">
           <div className="home-page__inclusive-main">
             <h2>
               {inclusive.heading.before}
@@ -306,19 +299,17 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
             </Button>
           </div>
 
-          {hasDraftLinks ? (
-            <nav className="home-page__inclusive-details" aria-label={inclusive.detailsAriaLabel}>
-              <ul className="site-detail-stack site-detail-stack--linked home-page__inclusive-list">
-                {inclusive.details.map((detail) => (
-                  <InclusiveDetailItem
-                    detail={detail}
-                    ctaLabel={inclusive.detailCtaLabel}
-                    key={detail.title}
-                  />
-                ))}
-              </ul>
-            </nav>
-          ) : null}
+          <nav className="home-page__inclusive-details" aria-label={inclusive.detailsAriaLabel}>
+            <ul className="site-detail-stack site-detail-stack--linked home-page__inclusive-list">
+              {inclusive.details.map((detail) => (
+                <InclusiveDetailItem
+                  detail={detail}
+                  ctaLabel={inclusive.detailCtaLabel}
+                  key={detail.title}
+                />
+              ))}
+            </ul>
+          </nav>
         </div>
       </Container>
     </section>
@@ -326,17 +317,27 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
 }
 
 function InclusiveDetailItem({ detail, ctaLabel }: { detail: HomeInclusiveDetail; ctaLabel: string }) {
+  const heading = (
+    <span className="site-detail-stack__heading">
+      <strong className="site-detail-stack__title">{detail.title}</strong>
+      {showDraftInclusionLinks ? (
+        <span className="site-detail-stack__action">
+          {ctaLabel}
+          <ArrowRight className="site-detail-stack__icon" size={16} aria-hidden="true" />
+        </span>
+      ) : null}
+    </span>
+  );
+
   return (
     <li className="site-detail-stack__item">
-      <Link className="site-detail-stack__link" to={detail.href}>
-        <span className="site-detail-stack__heading">
-          <strong className="site-detail-stack__title">{detail.title}</strong>
-          <span className="site-detail-stack__action">
-            {ctaLabel}
-            <ArrowRight className="site-detail-stack__icon" size={16} aria-hidden="true" />
-          </span>
-        </span>
-      </Link>
+      {showDraftInclusionLinks ? (
+        <Link className="site-detail-stack__link" to={detail.href}>
+          {heading}
+        </Link>
+      ) : (
+        heading
+      )}
       <p className="site-detail-stack__copy">{detail.copy}</p>
     </li>
   );
