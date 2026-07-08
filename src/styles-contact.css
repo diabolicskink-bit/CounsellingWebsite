@@ -135,11 +135,16 @@
   text-decoration-color: var(--cedar);
 }
 
-.contact-page__notes-list {
+.contact-page__practical-list {
   margin: 0;
-  max-width: none;
-  padding-left: 0;
-  list-style: none;
+}
+
+.contact-page__practical-list .contact-page__contact-item {
+  align-items: start;
+}
+
+.contact-page__practical-list .icon-box {
+  margin-top: 2px;
 }
 
 @media (max-width: 900px) {

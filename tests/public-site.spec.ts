@@ -48,10 +48,40 @@ const noindexDirective = "noindex, nofollow";
 const indexableRoutes = ["/", "/working-with-joel", "/inclusion", "/contact"] as const;
 const draftInclusionRoutes = ["/inclusion/kink-bdsm", "/inclusion/enm-polyamory", "/inclusion/lgbtqia"] as const;
 const productionLinkHiddenRoutes = ["/", "/inclusion"] as const;
+const analyticsConfigured = process.env.VITE_ANALYTICS_ENABLED === "true";
+const qaRuntimeHostname = "127.0.0.1";
+
+function normalizeAnalyticsHostname(value: string) {
+  const trimmedValue = value.trim();
+
+  if (!trimmedValue) {
+    return undefined;
+  }
+
+  try {
+    const withProtocol = trimmedValue.includes("://") ? trimmedValue : `https://${trimmedValue}`;
+
+    return new URL(withProtocol).hostname.toLowerCase();
+  } catch {
+    return trimmedValue.toLowerCase();
+  }
+}
+
+const analyticsAllowedHostnames = new Set(
+  (process.env.VITE_ANALYTICS_ALLOWED_HOSTS ?? "")
+    .split(",")
+    .map((hostname) => normalizeAnalyticsHostname(hostname))
+    .filter((hostname): hostname is string => Boolean(hostname)),
+);
+const qaRuntimeHostAllowed = analyticsAllowedHostnames.has(qaRuntimeHostname);
 const googleAnalyticsRouteTrackingEnabled =
-  process.env.VITE_ANALYTICS_ENABLED === "true" && Boolean(process.env.VITE_GA_MEASUREMENT_ID);
+  analyticsConfigured && qaRuntimeHostAllowed && Boolean(process.env.VITE_GA_MEASUREMENT_ID);
 const microsoftClarityEnabled =
-  process.env.VITE_ANALYTICS_ENABLED === "true" && Boolean(process.env.VITE_CLARITY_PROJECT_ID);
+  analyticsConfigured && qaRuntimeHostAllowed && Boolean(process.env.VITE_CLARITY_PROJECT_ID);
+const analyticsConfiguredOnBlockedHost =
+  analyticsConfigured &&
+  !qaRuntimeHostAllowed &&
+  (Boolean(process.env.VITE_GA_MEASUREMENT_ID) || Boolean(process.env.VITE_CLARITY_PROJECT_ID));
 
 const expectedIconAssets = [
   { path: "/favicon-32x32.png", width: 32, height: 32 },
@@ -479,6 +509,35 @@ test.describe("crawl and app metadata assets", () => {
   });
 
   test("analytics providers are disabled in default QA builds", async ({ page }) => {
+    const analyticsRequests: string[] = [];
+
+    page.on("request", (request) => {
+      if (isAnalyticsUrl(request.url())) {
+        analyticsRequests.push(request.url());
+      }
+    });
+
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    expect(analyticsRequests).toEqual([]);
+    await expect(
+      page.locator(
+        [
+          'script[src*="googletagmanager.com"]',
+          'script[src*="google-analytics.com"]',
+          'script[src*="clarity.ms"]',
+          'script[src*="/_vercel/insights"]',
+          "#vive-google-analytics",
+          "#vive-google-analytics-config",
+          "#vive-microsoft-clarity",
+        ].join(", "),
+      ),
+    ).toHaveCount(0);
+  });
+
+  test("analytics providers stay blocked on unallowed configured hosts", async ({ page }) => {
+    test.skip(!analyticsConfiguredOnBlockedHost, "Analytics host blocking is covered by npm run qa:analytics.");
+
     const analyticsRequests: string[] = [];
 
     page.on("request", (request) => {

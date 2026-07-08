@@ -1,15 +1,66 @@
 import { Analytics } from "@vercel/analytics/react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { routeMetadata, type RouteMetadata } from "../data/routeMetadata";
+import { routeMetadata, siteMetadata, type RouteMetadata } from "../data/routeMetadata";
 
 const analyticsEnabled = import.meta.env.VITE_ANALYTICS_ENABLED === "true";
+const analyticsAllowedHosts = import.meta.env.VITE_ANALYTICS_ALLOWED_HOSTS;
 const gaMeasurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 const clarityProjectId = import.meta.env.VITE_CLARITY_PROJECT_ID?.trim();
 const gaScriptId = "vive-google-analytics";
 const gaConfigScriptId = "vive-google-analytics-config";
 const clarityScriptId = "vive-microsoft-clarity";
 const publicRouteMetadata: Record<string, RouteMetadata | undefined> = routeMetadata;
+
+function normalizeHostname(value: string) {
+  const trimmedValue = value.trim();
+
+  if (!trimmedValue) {
+    return undefined;
+  }
+
+  try {
+    const withProtocol = trimmedValue.includes("://") ? trimmedValue : `https://${trimmedValue}`;
+
+    return new URL(withProtocol).hostname.toLowerCase();
+  } catch {
+    return trimmedValue.toLowerCase();
+  }
+}
+
+function getDefaultAllowedHostnames() {
+  const defaultHostname = normalizeHostname(siteMetadata.defaultOrigin);
+
+  if (!defaultHostname) {
+    return [];
+  }
+
+  const hostnames = [defaultHostname];
+
+  if (!defaultHostname.startsWith("www.")) {
+    hostnames.push(`www.${defaultHostname}`);
+  }
+
+  return hostnames;
+}
+
+const allowedAnalyticsHostnames = new Set(
+  [
+    ...getDefaultAllowedHostnames(),
+    ...(analyticsAllowedHosts ?? "")
+      .split(",")
+      .map((hostname) => normalizeHostname(hostname))
+      .filter((hostname): hostname is string => Boolean(hostname)),
+  ].map((hostname) => hostname.toLowerCase()),
+);
+
+function isAnalyticsHostAllowed() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return allowedAnalyticsHostnames.has(window.location.hostname.toLowerCase());
+}
 
 type GoogleAnalyticsProps = {
   measurementId?: string;
@@ -102,7 +153,7 @@ function MicrosoftClarity({ projectId }: MicrosoftClarityProps) {
 }
 
 export default function SiteAnalytics() {
-  if (!analyticsEnabled) {
+  if (!analyticsEnabled || !isAnalyticsHostAllowed()) {
     return null;
   }
 

@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Clock3, Mail } from "lucide-react";
+import { CalendarClock, CircleAlert, Clock3, Mail } from "lucide-react";
 import Container from "../components/Container";
 import EnquiryForm from "../components/EnquiryForm";
 import type { EnquiryFormContent } from "../components/EnquiryForm";
@@ -49,7 +49,7 @@ type ContactDetailsContent = {
 
 type PracticalDetailsContent = {
   eyebrow: string;
-  notes: string[];
+  items: ContactDetail[];
 };
 
 type ContactFaqItem = {
@@ -120,10 +120,19 @@ const contactPageContent: ContactPageContent = {
   },
   practical: {
     eyebrow: "Practical details",
-    notes: [
-      "Payment details are confirmed before the first appointment.",
-      "If you cancel or change an appointment with less than 48 hours' notice, the full fee is payable, except in cases of illness.",
-      "Vive Counselling is not a crisis service. If you are in immediate danger, call 000 or contact a crisis support service.",
+    items: [
+      {
+        icon: CalendarClock,
+        label: "Cancellations",
+        value:
+          "If you cancel or change an appointment with less than 48 hours' notice, the full fee is payable, except in cases of illness.",
+      },
+      {
+        icon: CircleAlert,
+        label: "Crisis support",
+        value:
+          "Vive Counselling is not a crisis service. If you are in immediate danger, call 000 or contact a crisis support service.",
+      },
     ],
   },
   faq: {
@@ -131,12 +140,12 @@ const contactPageContent: ContactPageContent = {
       {
         question: "Do I need a referral?",
         answer:
-          "No. You can make an enquiry directly. You do not need a GP referral, prepared paperwork, or a fully formed explanation before getting in touch.",
+          "You do not need a referral. You can make an enquiry directly, without a GP referral or any paperwork.",
       },
       {
         question: "Can I use this form in a crisis?",
         answer:
-          "No. Vive Counselling is not a crisis service and the enquiry form is not monitored for urgent support. If you are in immediate danger, call 000 or contact a crisis support service.",
+          "Vive Counselling is not an emergency service, and enquiries may not be seen straight away. If you are in immediate danger, call 000 now. If you need crisis support, contact Lifeline on 13 11 14 or Suicide Call Back Service on 1300 659 467.",
       },
     ],
   },
@@ -208,9 +217,9 @@ function ContactRail({
         <h2 className="site-eyebrow contact-page__rail-heading" id="contact-practical-title">
           {practical.eyebrow}
         </h2>
-        <ul className="site-detail-stack contact-page__notes-list">
-          {practical.notes.map((note) => (
-            <li key={note}>{note}</li>
+        <ul className="contact-page__contact-list contact-page__practical-list" aria-label={practical.eyebrow}>
+          {practical.items.map((detail) => (
+            <ContactDetailItem detail={detail} key={detail.label} />
           ))}
         </ul>
       </section>

@@ -28,7 +28,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - The enquiry API rejects unsupported content types, multipart posts, oversized declared bodies above 25KB, and explicit cross-site fetch/origin/referer signals before validation or email delivery.
 - Enquiry API failures return generic visitor-safe public errors, while provider/configuration/runtime diagnostics stay in server logs.
 - Basic honeypot spam protection exists for enquiry submissions.
-- Vercel Analytics is rendered by the app when analytics are enabled, `SiteAnalytics` injects Google Analytics `gtag.js` with manual public-route `page_view` events when `VITE_GA_MEASUREMENT_ID` is configured, and Microsoft Clarity loads when `VITE_CLARITY_PROJECT_ID` is configured.
+- Vercel Analytics is rendered by the app when analytics are enabled and the runtime hostname is allowed; `SiteAnalytics` injects Google Analytics `gtag.js` with manual public-route `page_view` events when `VITE_GA_MEASUREMENT_ID` is configured, and Microsoft Clarity loads when `VITE_CLARITY_PROJECT_ID` is configured. The default analytics host allowlist is the canonical apex domain plus `www`, with `VITE_ANALYTICS_ALLOWED_HOSTS` available for explicit alternate environments such as local analytics QA.
 - The enquiry form is explicitly marked with `data-clarity-mask="true"` so Clarity does not capture form content even if recording features are enabled.
 - Playwright public-site tests exist under `tests/public-site.spec.ts`, including one-main-landmark contract coverage for public and not-found boundary routes plus generated metadata, sitemap, robots, and 404 fallback artifact coverage.
 - Direct Node API tests cover accepted and rejected enquiry submissions under `tests/api/`.
@@ -53,7 +53,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Accessibility support exists in components and tests, and `docs/checklists/accessibility-launch.md` provides the working route-by-route checklist for `LAUNCH-1`, but the launch accessibility review is not complete.
 - Responsive styling exists, but the `LAUNCH-2` responsive review is not complete.
 - Performance tooling exists, but Lighthouse budgets are not enforced.
-- The analytics launch environment policy is not signed off yet; `LAUNCH-5` still needs to confirm production, preview, local, test, GA4 admin-setting, and Microsoft Clarity cookie/session-recording behaviour before launch.
+- The analytics launch environment policy is not fully signed off yet; `LAUNCH-5` still needs to confirm GA4 admin-setting and Microsoft Clarity cookie/session-recording behaviour before launch. Preview/local analytics collection now requires an explicit host allowlist override.
 
 ## Not Included Yet
 

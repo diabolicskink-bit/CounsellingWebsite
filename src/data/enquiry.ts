@@ -36,8 +36,8 @@ export const enquiryFormContent: EnquiryFormContent = {
       placeholder: "you@example.com",
     },
     message: {
-      label: "Your message",
-      placeholder: "Anything else you would like Joel to know?",
+      label: "Your enquiry",
+      placeholder: "",
       rows: 6,
     },
     availability: {

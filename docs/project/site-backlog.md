@@ -76,21 +76,6 @@ Statuses:
   - Keep "confidentiality" language tied to counselling sessions, records, and professional boundaries rather than using it as shorthand for website cookies or analytics.
 - `Links`: `src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`, `src/components/SiteAnalytics.tsx`, `docs/project/product-direction.md`
 
-### SITE-12 - Crisis and immediate-support resource block
-
-- `Priority`: `P1`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Content`
-- `Source`: `Fresh launch-readiness review, src/pages/Contact.tsx`
-- `Visitor-Facing Goal`: Make the site's crisis boundary useful, not merely protective, for someone who arrives needing urgent help.
-- `Current State`: The Contact page states that Vive Counselling is not a crisis service and says to call `000` or contact a crisis support service, but it does not list concrete Australian crisis options.
-- `Why Deferred`: This should be added deliberately near the contact/enquiry flow without turning the counselling site into a crisis-services directory.
-- `First Useful Slice`: Add a small crisis-support note with `000` plus a short set of Australian support options such as Lifeline, Suicide Call Back Service, and 13YARN if appropriate.
-- `Implemented When`: The crisis note gives immediate, concrete next steps while keeping the form clearly positioned as non-urgent contact.
-- `Notes`:
-- `Links`: `src/pages/Contact.tsx`, `docs/project/product-direction.md`
-
 ### SITE-20 - Contact enquiry form semantic heading
 
 - `Priority`: `P1`
@@ -230,6 +215,10 @@ Statuses:
 - `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system/patterns/page-patterns.md`, `docs/project/product-direction.md`
 
 ## Archive
+
+### SITE-12 - Crisis and immediate-support resource block
+
+Implemented on 2026-07-08. The Contact/Fees FAQ now states that Vive Counselling is not an emergency service, warns that enquiries may not be seen straight away, and gives concrete immediate-support steps: call `000` for immediate danger, or contact Lifeline on `13 11 14` or Suicide Call Back Service on `1300 659 467` for crisis support.
 
 ### SITE-23 - Enable launch indexing on the final domain
 

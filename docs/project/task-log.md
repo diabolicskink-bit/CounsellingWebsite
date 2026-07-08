@@ -17,6 +17,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-08 - Contact Crisis FAQ Added
+
+- Changed: The Contact/Fees FAQ now states that the form is not for emergency contact and gives concrete Australian crisis-support options: `000`, Lifeline, and Suicide Call Back Service.
+- Preserved: The enquiry form remains positioned for non-urgent contact, with the FAQ and structured FAQ schema sharing the same plain-text answer.
+- Closed: Archived `SITE-12`; remaining launch trust/practical-detail tracking now excludes the crisis-support resource item.
+
+## 2026-07-08 - Temporary Vercel Production Host Retired
+
+- Changed: Analytics now only runs on allowed hostnames, defaulting to the canonical Vive domain plus `www`; preview or local analytics collection requires an explicit `VITE_ANALYTICS_ALLOWED_HOSTS` override.
+- Removed: Project docs no longer carry the retired temporary Vercel production hostname as a current-looking canonical target.
+- Preserved: `npm run qa:analytics` still verifies Google Analytics route-change tracking and Microsoft Clarity script insertion by explicitly allowlisting the local QA host.
+
 ## 2026-07-08 - Microsoft Clarity Analytics Added
 
 - Added: `SiteAnalytics` now loads Microsoft Clarity when analytics are enabled and `VITE_CLARITY_PROJECT_ID` is configured.
@@ -39,7 +51,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Added: Live SEO and discoverability review for the four currently allowed pages: Home, Working with Joel, Inclusion, and Contact.
 - Confirmed: Allowed pages are indexable, canonicalised, present in the sitemap, allowed by robots, and scoring strongly in Lighthouse. Draft inclusion child pages remain excluded from search.
-- Preserved: Remaining SEO and trust work is tracked through `DEBT-27`, `SITE-11`, `SITE-12`, `SITE-14`, `SITE-15`, `SITE-16`, and `SITE-17`.
+- Preserved: Remaining SEO and trust work is tracked through `DEBT-27`, `SITE-11`, `SITE-14`, `SITE-15`, `SITE-16`, and `SITE-17`.
 
 ## 2026-07-08 - Launch Indexing Enabled For Approved Pages
 
@@ -85,7 +97,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-06-26 - Custom Domain Assigned In Vercel
 
 - Changed: Assigned `vivecounselling.com.au` to the `counselling-website` Vercel project and configured `www.vivecounselling.com.au` as a 301 redirect to the apex domain.
-- Preserved: `SITE_URL` still points metadata at the stable Vercel hostname, and the temporary noindex guard remains active until `SITE-23` is implemented.
+- Preserved: `SITE_URL` still points metadata at the then-stable Vercel hostname, and the temporary noindex guard remains active until `SITE-23` is implemented.
 - Pending: Registrar DNS propagation/configuration still needs to resolve before live custom-domain HTTPS and redirect checks can pass.
 
 ## 2026-06-23 - SITE-8 Shared Portrait Hero Treatment Resolved
@@ -115,7 +127,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 ## 2026-06-17 - DEBT-6 Production URL And 404 Fallback Resolved
 
-- Changed: Build-time route metadata now defaults to `https://counselling-website-seven.vercel.app`, keeps `SITE_URL` as the future custom-domain override, and prevents production builds from using localhost or unique deployment URLs as canonicals.
+- Changed: Build-time route metadata then defaulted to the stable Vercel production hostname, kept `SITE_URL` as the future custom-domain override, and prevented production builds from using localhost or unique deployment URLs as canonicals.
 - Changed: The prerender step now generates an app-powered noindex `404.html` fallback while preserving route-specific first-response metadata for known public routes.
 - Closed: Archived `DEBT-6`; live Vercel post-deploy smoke testing remains open as `DEBT-24`.
 

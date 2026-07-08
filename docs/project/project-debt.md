@@ -493,7 +493,7 @@ The endpoint now accepts URL-encoded native form posts and returns safe minimal 
 
 ### DEBT-6 - Production URL and Vercel routing behaviour are not locked down
 
-Resolved on 2026-06-17 at the repository level by locking the default canonical origin to `https://counselling-website-seven.vercel.app`, preserving `SITE_URL` as the future custom-domain override, and preventing production builds from falling back to unique Vercel deployment URLs or localhost origins.
+Resolved on 2026-06-17 at the repository level by locking the default canonical origin to the then-current stable Vercel production hostname, preserving `SITE_URL` as the future custom-domain override, and preventing production builds from falling back to unique Vercel deployment URLs or localhost origins. The live canonical origin has since moved to `https://vivecounselling.com.au`, and the old temporary production Vercel hostname was removed from the Vercel project on 2026-07-08.
 
 The build now generates an app-powered `404.html` fallback with noindex metadata while preserving route-specific first-response HTML for known public routes. Local script and public-site tests cover the canonical origin policy, generated metadata artifacts, sitemap, robots, and 404 fallback. Live Vercel post-deploy smoke testing was intentionally split into `DEBT-24`.
 
