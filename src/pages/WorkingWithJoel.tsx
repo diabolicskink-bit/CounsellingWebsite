@@ -79,13 +79,14 @@ const pageContent: WorkingWithJoelPageContent = {
     },
     supportLead: "Life is complicated.",
     supportBody:
-      "Relationships, work, how you feel about yourself, the thing that's been sitting with you. It's all connected.",
+      "Here, the complexity isn't something to get past. It's what we actually work with.",
+
     credentialsAriaLabel: "Joel Griffiths credentials and practice details",
-    credentials: [
+               credentials: [
       "GradDip. Counselling and Psychotherapy",
       "ACA Registered",
       "Kink & ENM informed",
-      "LGBTQIA+ affirming",
+              "LGBTQIA+ affirming",
     ],
     portrait: {
       imageSrc: portraitSrc,
@@ -98,36 +99,34 @@ const pageContent: WorkingWithJoelPageContent = {
     paragraphs: [
       "I'm Joel Griffiths, an ACA registered counsellor offering online counselling for adults across Australia from Perth.",
       "People often come here with anxiety, relationship strain, self-criticism, shame, sexuality, intimacy, trauma, or a sense that something keeps repeating even when they understand it on paper.",
+    
+    
       "My work is direct, thoughtful, and non-shaming. You do not need a polished story before making contact; a rough sense that something is not sitting right is enough to begin a conversation.",
     ],
   },
   approach: {
     title: "How I work",
-    overview: [
-      "My work is psychodynamic and attachment-informed, held within an integrative frame. In practice, that means paying attention to the pattern beneath the immediate problem: how it formed, how it protects you, and how it shows up in relationships, work, shame, desire, anger, and the room itself.",
-      "Sessions can include practical reflection, but the centre of the work is formulation: making sense of what is happening now in relation to older templates, current pressures, and the parts of experience that have had to stay less conscious.",
-    ],
+    overview: ["My work is psychodynamic and attachment-informed, held within an integrative frame. In practice, that means looking beneath the immediate problem to what shaped it, what purpose it has served, and how it now shows up in relationships, work, shame, desire, anger, and the session itself.",
+"The work balances what feels immediate and pressing with developing a clearer, more honest understanding of yourself. Some sessions may be about untangling something happening right now. Others may slow down around the way you respond, withdraw, overthink, accommodate, protect yourself, or lose contact with what you want."    ],
     items: [
       {
         title: "Psychodynamic",
         details: [
-          "Psychodynamic work pays attention to the parts of experience that are active but not always obvious: old conflicts, defences, shame, desire, anger, avoidance, and the ways a familiar pattern can repeat even when you are trying to do something different.",
-          "The work is not about forcing a neat explanation onto your life. It is a shared formulation of what might be happening underneath the visible problem, including how that pattern may appear between us in the room.",
-        ],
+"Psychodynamic work pays attention to the parts of experience that are active but not always obvious. These can include old conflicts, defences, shame, desire, anger, avoidance, and familiar forms of coping that keep recurring even when they no longer fit.",       
+
+"The work is not about forcing a tidy explanation onto your life. It is about understanding what sits beneath the visible problem, including the feelings, protections, and expectations that can operate unconsciously and shape how you relate to yourself, to other people, and to the work between us."        ],
       },
       {
         title: "Attachment",
         details: [
-          "Attachment work looks at how closeness, distance, dependence, trust, and self-protection were learned. Those early relational templates can keep shaping adult relationships, often through strategies that once made sense but now create strain.",
-          "This can include how you manage conflict, jealousy, rupture, repair, need, withdrawal, people-pleasing, or the fear of being too much. The point is to understand the strategy before trying to change the strategy.",
-        ],
+"Attachment work looks at how you learned to manage closeness, distance, dependence, trust, and self-protection. These early lessons can keep shaping adult relationships, often through strategies that once helped you stay safe or connected, but now create strain.",
+"This can include how you manage conflict, jealousy, rupture, repair, need, withdrawal, people-pleasing, or the fear of being too much. The point is to understand the strategy before trying to change the strategy."        ],
       },
       {
         title: "Integrative",
         details: [
-          "Integrative does not mean a loose mix of techniques. It means other frameworks can be brought in when they help make sense of what is happening, support the work, or give language to something that would otherwise stay vague.",
-          "Practical tools, nervous-system ideas, parts language, values work, or communication frameworks may have a place. They sit inside the broader psychodynamic and attachment frame rather than replacing it.",
-        ],
+"Integrative counselling recognises that people are complicated and no single theory explains everything. A problem may involve old relational learning, current stress, shame, grief, desire, avoidance, nervous system responses, identity, or the reality of the situation you are living inside.",
+"Working integratively means we can move between these levels without losing the thread. I may draw on psychodynamic, attachment, trauma-informed, relational, practical, or skills-based ideas, but the focus stays on what is useful for understanding you and supporting meaningful change."        ],
       },
     ],
   },
@@ -192,7 +191,7 @@ const pageContent: WorkingWithJoelPageContent = {
 function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
   return (
     <section className="hero-section hero-bg--default working-with-joel-page__hero">
-      <Container>
+                  <Container>
         <div className="working-with-joel-page__hero-layout">
           <div className="working-with-joel-page__hero-heading">
             <h1 className="hero-badge">{hero.badge}</h1>
@@ -208,15 +207,20 @@ function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
           <div className="working-with-joel-page__hero-note">
             <p className="working-with-joel-page__hero-note-lead">
               {hero.supportLead}
+
+
+
+
+
             </p>
             <p className="working-with-joel-page__hero-note-body site-body-copy">{hero.supportBody}</p>
           </div>
 
           <CredentialsList items={hero.credentials} ariaLabel={hero.credentialsAriaLabel} />
         </div>
-      </Container>
+              </Container>
     </section>
-  );
+ );
 }
 
 function CredentialsList({ items, ariaLabel }: { items: string[]; ariaLabel: string }) {
