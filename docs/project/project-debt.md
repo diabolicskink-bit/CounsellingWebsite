@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-32`
+- `Next ID`: `DEBT-34`
 
 ## How To Maintain This Tracker
 
@@ -429,6 +429,62 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
 - `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site.spec.ts`
+
+### DEBT-32 - Public routes need full static prerendering and hydration
+
+- `Priority`: `P2`
+- `Size`: `L`
+- `Priority Rationale`: This is `P2` because the current static H1 shell answers simple non-JavaScript SEO checks, but the first-response HTML still does not contain the real public page content. It is not `P1` while the hydrated site, route metadata, sitemap, robots, and H1 fallback are covered and passing.
+- `Status`: `Open`
+- `Detected`: 2026-07-08
+- `Source`: Research follow-up after external SEO checkers reported the Home page H1 as missing or empty.
+- `Area`: Rendering, SEO, Build, React, Vite
+- `Problem`: The build currently injects route metadata and a minimal static `main`/H1/description fallback into generated route HTML, but it does not prerender the actual React route content. The browser entry still uses `createRoot`, so React replaces the fallback instead of hydrating server/build-rendered markup.
+- `Why It Matters`: Google can render JavaScript, but Google Search Central still recommends server-side or pre-rendered HTML because not all bots can run JavaScript and first-response content is better for crawlers and users. React also recommends `hydrateRoot` rather than `createRoot` when initial HTML was generated on the server or during the build.
+- `Preferred Direction`: Replace the minimal fallback shell with true static generation for public routes: render the actual React route tree during `npm run build`, write route-specific HTML into each generated file, and hydrate it on the client with `hydrateRoot`.
+- `Resolution Path`: Create a small shared app/rendering boundary that supports both browser routing and static route rendering, add a React server-render entry using React Router's static routing, inject the rendered route HTML during prerendering, switch the client entry to `hydrateRoot` for generated route HTML, and keep generated head metadata, sitemap, robots, redirects, and `404.html` behaviour aligned.
+- `Next Action`: Prototype static rendering for one indexable route, likely Home, behind the existing prerender script and prove that the generated first response contains the real route content while hydrated browser tests still pass.
+- `Resolved When`: Generated public route HTML contains the actual route markup before JavaScript, the client hydrates that markup without clearing it, non-JavaScript route checks can see meaningful page content beyond a fallback H1, and `npm run qa:site` covers the static and hydrated paths.
+- `Related Items`:
+  - `DEBT-8`: Route parity checks should include any new static rendering route list or render manifest expectations.
+  - `DEBT-24`: Live smoke tests should eventually verify the deployed first-response HTML on the canonical domain.
+  - `DEBT-27`: Runtime head metadata ownership may be simplified or reshaped once static rendering and hydration have a single route metadata contract.
+  - `DEBT-33`: The temporary H1 fallback shell should be removed once full route prerendering replaces it.
+  - `LAUNCH-3`: Public SEO readiness should track this as the long-term fix behind the current H1 checker mitigation.
+- `Dependencies`: `None`
+- `Notes`:
+  - Treat the current static H1 shell as a tactical compatibility fix, not the final rendering model.
+  - Google Search Central's JavaScript SEO guidance says app-shell pages may need rendering before content is visible and that server-side or pre-rendering is still a good idea because not all bots can run JavaScript.
+  - React documentation says `createRoot` is not supported for server-rendered apps and that SSR/SSG apps should use `hydrateRoot` so React reuses existing DOM nodes instead of destroying and recreating them.
+  - Keep this behaviour-preserving for visitors: no copy, route, layout, visual, or public form-flow changes should be bundled into the rendering migration.
+- `Links`: `scripts/prerender-route-metadata.mjs`, `src/main.tsx`, `src/App.tsx`, `src/data/routeMetadata.json`, `tests/public-site.spec.ts`, `docs/project/launch-readiness.md`
+
+### DEBT-33 - Temporary static H1 fallback shell needs retirement path
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Priority Rationale`: This is `P2` because the fallback shell is now useful launch protection for simple SEO tools, but it duplicates public route H1/description content and should not become a quiet permanent rendering layer after full static generation exists.
+- `Status`: `Open`
+- `Detected`: 2026-07-08
+- `Source`: Follow-up from the tactical Home H1 SEO checker fix.
+- `Area`: SEO, Rendering, Build, Tests
+- `Problem`: `routeMetadata.json` now carries route H1 values so the prerender script can inject a minimal static fallback into `#root`. That prevents empty-H1 warnings in non-JavaScript checkers, but it is a duplicate content contract beside the React page components.
+- `Why It Matters`: Duplicate H1/description data can drift, encourages partial SEO fixes instead of real static rendering, and adds a build-time shell that future maintainers could mistake for the intended long-term page HTML strategy.
+- `Preferred Direction`: Keep the fallback while the site lacks full route prerendering, but explicitly remove or supersede it once `DEBT-32` gives every public route real static HTML.
+- `Resolution Path`: After full route prerendering lands, remove the fallback shell marker/injection path, remove any route metadata fields that exist only for that shell if no longer needed, and update tests to assert real static route content rather than the temporary fallback marker.
+- `Next Action`: Reassess this item after the first `DEBT-32` prototype route is working; decide whether route H1 remains useful route metadata or should move back to source-owned page components only.
+- `Resolved When`: The build no longer depends on a minimal static H1 shell, generated route HTML is produced from the actual route components, and tests fail if a route regresses to an empty app shell.
+- `Related Items`:
+  - `DEBT-8`: Route parity coverage can protect any remaining explicit H1 metadata if it stays after the fallback shell is removed.
+  - `DEBT-27`: Any route metadata consolidation should account for runtime head ownership and static route content ownership together.
+  - `DEBT-32`: Full static prerendering is the intended replacement for the fallback shell.
+  - `LAUNCH-3`: The current shell is a mitigation for launch SEO checks, while this item keeps the temporary nature visible.
+- `Dependencies`:
+  - `DEBT-32`: Full static prerendering must exist before the fallback shell can be safely removed.
+- `Notes`:
+  - Do not remove the fallback before there is another first-response H1/content path; it currently fixes real raw-HTML SEO checker warnings.
+  - The current public-site suite already asserts that the fallback H1 matches hydrated page H1, which reduces drift risk while this item remains open.
+- `Links`: `scripts/prerender-route-metadata.mjs`, `src/data/routeMetadata.json`, `src/data/routeMetadata.ts`, `tests/public-site.spec.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 

@@ -9,6 +9,14 @@ const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const noindexDirective = "noindex, nofollow";
 const indexableRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"];
+const staticShellStart = "<!-- Static route shell generated at build time -->";
+const staticShellEnd = "<!-- /Static route shell generated at build time -->";
+const staticShellRootPattern =
+  /<div id="root">\s*<!-- Static route shell generated at build time -->.*?<!-- \/Static route shell generated at build time -->\s*<\/div>/s;
+const notFoundFallback = {
+  h1: "That page isn't here.",
+  description: "This page could not be found on the Vive Counselling website.",
+};
 
 function escapeHtml(value) {
   return value
@@ -78,6 +86,34 @@ function applyMetadata(html, routePath, routeMetadata, siteMetadata, siteOrigin)
     .replace("</head>", `    ${seoTags}\n  </head>`);
 }
 
+function getStaticRouteShell(routePath, routeMetadata) {
+  if (!routeMetadata.h1?.trim()) {
+    throw new Error(`Route is missing static H1 content: ${routePath}`);
+  }
+
+  return [
+    `<main data-static-route-shell="${escapeHtml(routePath)}">`,
+    `  <h1>${escapeHtml(routeMetadata.h1)}</h1>`,
+    `  <p>${escapeHtml(routeMetadata.description)}</p>`,
+    "</main>",
+  ].join("\n      ");
+}
+
+function applyStaticRouteShell(html, routePath, routeMetadata) {
+  const staticShell = getStaticRouteShell(routePath, routeMetadata);
+  const renderedRoot = `<div id="root">\n      ${staticShellStart}\n      ${staticShell}\n      ${staticShellEnd}\n    </div>`;
+
+  if (staticShellRootPattern.test(html)) {
+    return html.replace(staticShellRootPattern, renderedRoot);
+  }
+
+  if (html.includes('<div id="root"></div>')) {
+    return html.replace('<div id="root"></div>', renderedRoot);
+  }
+
+  throw new Error(`Unable to find root element while adding static route shell: ${routePath}`);
+}
+
 function getNotFoundTags(siteMetadata) {
   return [
     "<!-- SEO metadata generated at build time -->",
@@ -140,7 +176,11 @@ const siteOrigin = getSiteOrigin(site);
 const sitemapEntries = getSitemapEntries(routes, siteOrigin);
 
 for (const [routePath, routeMetadata] of Object.entries(routes)) {
-  const routeHtml = applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin);
+  const routeHtml = applyStaticRouteShell(
+    applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin),
+    routePath,
+    routeMetadata,
+  );
 
   for (const outputPath of getRouteOutputPaths(routePath)) {
     await mkdir(path.dirname(outputPath), { recursive: true });
@@ -165,7 +205,10 @@ const robotsTxt = [
 ].join("\n");
 
 await Promise.all([
-  writeFile(path.join(distDir, "404.html"), applyNotFoundMetadata(templateHtml, site)),
+  writeFile(
+    path.join(distDir, "404.html"),
+    applyStaticRouteShell(applyNotFoundMetadata(templateHtml, site), "/404.html", notFoundFallback),
+  ),
   writeFile(path.join(distDir, "sitemap.xml"), sitemapXml),
   writeFile(path.join(distDir, "robots.txt"), robotsTxt),
 ]);

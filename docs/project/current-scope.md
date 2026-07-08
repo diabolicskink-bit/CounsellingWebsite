@@ -15,7 +15,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - The design system has rebuilt written docs, rendered dev pages, shared components, shared CSS class layers, and cleanup guidance.
 - Public-page content and product positioning are governed by `docs/project/product-direction.md`.
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
-- A prerender script updates route metadata artifacts, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.
+- A prerender script updates route metadata artifacts, static first-response H1/main fallback shells, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.
 - Launch indexability is enabled for Home, Working with Joel, Inclusion, and Contact/Fees. Generated route HTML for those pages omits `noindex`, `sitemap.xml` advertises only those four canonical URLs, and `robots.txt` allows crawling with a sitemap reference.
 - The three draft Inclusion child routes remain direct routes for review but are excluded from production links, sitemap output, and indexing through route-level `noindex, nofollow` metadata.
 - `vivecounselling.com.au` and `www.vivecounselling.com.au` are assigned to the Vercel project; `www` is configured as a permanent redirect to the apex domain, and DNS resolves to Vercel.

@@ -12,7 +12,7 @@ const routeMetadataData = JSON.parse(
     socialImage: string;
     socialImageAlt: string;
   };
-  routes: Record<string, { title: string; description: string; robots?: string }>;
+  routes: Record<string, { h1: string; title: string; description: string; robots?: string }>;
 };
 const vercelConfigData = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url), "utf8")) as {
   headers?: Array<{
@@ -30,16 +30,6 @@ const publicRoutes = [
   "/inclusion/lgbtqia",
   "/contact",
 ] as const;
-
-const expectedPublicH1Text: Record<(typeof publicRoutes)[number], string> = {
-  "/": "Online counselling across Australia",
-  "/working-with-joel": "Working with Joel",
-  "/inclusion": "Inclusive counselling",
-  "/inclusion/kink-bdsm": "Kink & BDSM-aware counselling",
-  "/inclusion/enm-polyamory": "ENM & polyamory counselling",
-  "/inclusion/lgbtqia": "Queer-affirming counselling",
-  "/contact": "Contact and fees",
-};
 
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
@@ -262,7 +252,7 @@ test.describe("public pages", () => {
       await expect(page.locator("main").first()).toBeVisible();
       await expect(page.locator("h1")).toHaveCount(1);
       await expect(page.locator("h1")).toBeVisible();
-      await expect(page.locator("h1")).toHaveText(expectedPublicH1Text[route]);
+      await expect(page.locator("h1")).toHaveText(routeMetadataData.routes[route].h1);
       await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(1);
       await expect(page).not.toHaveTitle(/^Vive Counselling$/);
 
@@ -308,6 +298,9 @@ test.describe("first response metadata", () => {
 
       expect(response.ok()).toBeTruthy();
       expectNoGeneratedOriginLeak(html);
+      expect(html).toContain(`<main data-static-route-shell="${escapeHtml(route)}">`);
+      expect(html).toContain(`<h1>${escapeHtml(metadata.h1)}</h1>`);
+      expect(html).toContain(`<p>${escapeHtml(metadata.description)}</p>`);
       expect(html).toContain(`<title>${escapeHtml(metadata.title)}</title>`);
       expect(html).toContain(
         `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
@@ -449,6 +442,9 @@ test.describe("crawl and app metadata assets", () => {
     expectNoGeneratedOriginLeak(html);
     expect(html).toContain("<title>Page not found | Vive Counselling</title>");
     expect(html).toContain(`<meta name="robots" content="${noindexDirective}" />`);
+    expect(html).toContain('<main data-static-route-shell="/404.html">');
+    expect(html).toContain("<h1>That page isn't here.</h1>");
+    expect(html).toContain("<p>This page could not be found on the Vive Counselling website.</p>");
     expect(html).toContain('script type="module"');
     expect(html).toContain("/assets/");
     expect(html).not.toContain('<link rel="canonical"');
@@ -737,7 +733,7 @@ test.describe("enquiry form", () => {
 
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
-    await form.getByLabel("Your message").fill("Hello");
+    await form.getByLabel("Your enquiry").fill("Hello");
     await form.getByLabel("General enquiry").check();
     await form.getByRole("button", { name: "Send enquiry" }).click();
 

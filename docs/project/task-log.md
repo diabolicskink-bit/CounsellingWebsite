@@ -17,6 +17,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-08 - Static First-Response H1 Shells Added
+
+- Changed: Generated public route HTML now includes a static `main` and route H1 fallback inside `#root` before React hydration, so non-JavaScript SEO checks can see a non-empty page heading.
+- Changed: Route metadata now carries each route's expected H1, and public-site tests verify both the hydrated page H1 and the first-response fallback H1.
+- Updated: The enquiry-form browser test now uses the current "Your enquiry" field label so the public-site QA gate matches the live accessible form label.
+
+## 2026-07-08 - Static Rendering Follow-Up Debt Added
+
+- Added: `DEBT-32` tracks replacing the tactical static H1 shell with full public-route static prerendering and React hydration.
+- Added: `DEBT-33` tracks retiring the temporary H1 fallback shell after full prerendering exists.
+- Linked: `LAUNCH-3` now points SEO readiness at both rendering follow-up items.
+
 ## 2026-07-08 - Contact Crisis FAQ Added
 
 - Changed: The Contact/Fees FAQ now states that the form is not for emergency contact and gives concrete Australian crisis-support options: `000`, Lifeline, and Suicide Call Back Service.
