@@ -5,12 +5,12 @@
     "themeColor": "#234b3d",
     "backgroundColor": "#f7f6f2",
     "socialImage": "/og-vive-counselling.png",
-    "socialImageAlt": "Vive Counselling brand card with the text online counselling across Australia."
+    "socialImageAlt": "Vive Counselling social preview card for online counselling across Australia with Joel Griffiths."
   },
   "routes": {
     "/": {
       "title": "Vive Counselling | Online counselling across Australia",
-      "description": "Online counselling for adults across Australia with Joel Griffiths. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality."
+      "description": "Online counselling for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality."
     },
     "/working-with-joel": {
       "title": "Working with Joel | Vive Counselling",

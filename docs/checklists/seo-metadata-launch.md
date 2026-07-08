@@ -49,11 +49,11 @@ Review generated files, served route responses, and hydrated browser state where
 - `Not checked` Favicons, app icons, and web manifest resolve from their configured public paths.
   - Note:
 
-- `Not checked` The shared social image asset exists at the configured path and is publicly served.
-  - Note:
+- `Pass` The shared social image asset exists at the configured path and is publicly served.
+  - Note: Checked `public/og-vive-counselling.png` and built preview `/og-vive-counselling.png`. The configured shared social image path now serves the generated Vive Counselling social preview PNG.
 
-- `Not checked` Shared social image dimensions and social image alt metadata match generated metadata expectations.
-  - Note:
+- `Pass` Shared social image dimensions and social image alt metadata match generated metadata expectations.
+  - Note: Checked PNG dimensions and generated head metadata. `/og-vive-counselling.png` is 1200x630, and `og:image:alt` / `twitter:image:alt` use the configured social preview alt text.
 
 - `Not checked` Structured data is intentionally absent, or valid and aligned with public claims if present.
   - Note:
@@ -151,8 +151,8 @@ Review generated files, served route responses, and hydrated browser state where
 - `Pass` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
   - Note: Checked `dist/inclusion.html` and direct preview head. OG/Twitter title, description, URL, card type, image URL, image dimensions, and social image alt metadata are present and match the Inclusion Hub route purpose.
 
-- `Partial` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
-  - Note: `/inclusion` uses the configured shared fallback image path and social image alt metadata, but `/og-vive-counselling.png` is absent from `public/` and `dist/`; preview serves an HTML fallback rather than an image. Tracked by `DEBT-26`.
+- `Pass` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
+  - Note: `/inclusion` uses the configured shared fallback social image. Built preview serves `/og-vive-counselling.png` as a 1200x630 PNG, and the generated social image alt metadata matches the configured asset.
 
 - `Pass` Generated initial HTML/head metadata matches expected route metadata.
   - Note: Checked `dist/inclusion.html` against `src/data/routeMetadata.json`. Generated title, description, canonical, OG, and Twitter metadata match the route metadata and configured site metadata.

@@ -20,7 +20,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - The three draft Inclusion child routes remain direct routes for review but are excluded from production links, sitemap output, and indexing through route-level `noindex, nofollow` metadata.
 - `vivecounselling.com.au` and `www.vivecounselling.com.au` are assigned to the Vercel project; `www` is configured as a permanent redirect to the apex domain, and DNS resolves to Vercel.
 - Production metadata defaults to the apex canonical origin `https://vivecounselling.com.au`; `SITE_URL` can still override this for an intentional alternate environment.
-- Public assets include favicons, app icons, a web manifest, and portrait/media assets under `public/`.
+- Public assets include favicons, app icons, a web manifest, the shared social preview image, and portrait/media assets under `public/`.
 - The Contact/Fees page uses the shared `EnquiryForm` component and data from `src/data/enquiry.ts`.
 - Public contact display and enquiry fallback/failure messaging use `joel@vivecounselling.com.au`.
 - The enquiry form submits to the serverless `/api/enquiry` endpoint.
@@ -46,7 +46,6 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Enquiry spam protection includes a honeypot and conservative request-shape checks, but does not include platform rate limiting or complete abuse protection.
 - Enquiry timezone comparison notes are not yet generated from canonical server-owned timezone logic.
 - Endpoint-level native form posts are supported, but full JavaScript-disabled public-page rendering is not; the current Vite app still renders the contact form through client-side React.
-- Route metadata references a social sharing image that is not currently present in `public/`.
 - Route definitions, route metadata, prerendering, and tests remain separate by design for this small route set; explicit route parity coverage is still tracked as debt.
 - Type checking does not currently cover tests, scripts, and most config files.
 - Vercel clean URL config and generated app 404 fallback are covered locally, but live Vercel smoke testing is not automated.

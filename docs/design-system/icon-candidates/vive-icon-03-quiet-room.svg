@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">Vive icon candidate 03, quiet room</title>
-  <desc id="desc">A small room-like square with a precise V and a muted inner line.</desc>
-  <rect width="512" height="512" rx="96" fill="#e3e9df"/>
-  <rect x="86" y="86" width="340" height="340" rx="72" fill="#f7f6f2" stroke="#234b3d" stroke-width="24"/>
-  <path d="M147 150h63l46 179 46-179h63l-73 226h-72l-73-226z" fill="#234b3d"/>
-  <path d="M172 402h168" fill="none" stroke="#d8a85f" stroke-width="18" stroke-linecap="round"/>
-</svg>

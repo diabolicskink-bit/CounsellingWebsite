@@ -45,7 +45,7 @@ This is the live factual inventory of the design system. Keep it current when th
 - `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css` and should not be expanded for production work.
 - `legacy-*`, old `test-bed-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only.
 - No active `site-hero-*` source usage was found during the latest pass. Treat any future discovery as superseded by `hero-*` unless deliberately re-promoted.
-- Raw design export files and the old type-scale plan are not active design-system docs in the rebuilt structure. Durable guidance has been folded into the canonical docs.
+- Raw design export files, historical icon candidate export folders, and the old type-scale plan are not active design-system docs in the rebuilt structure. Historical icon candidates have been removed; durable guidance has been folded into the canonical docs.
 
 ## Not Included Yet
 

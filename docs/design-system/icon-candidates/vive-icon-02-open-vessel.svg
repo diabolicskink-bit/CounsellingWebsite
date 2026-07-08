@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">Vive icon candidate 02, open vessel</title>
-  <desc id="desc">A cream V carved from a deep green open vessel shape.</desc>
-  <rect width="512" height="512" rx="124" fill="#234b3d"/>
-  <path d="M116 128c30-31 78-48 140-48s110 17 140 48c-5 122-55 216-140 282-85-66-135-160-140-282z" fill="#f7f6f2"/>
-  <path d="M171 138h55l30 134 30-134h55l-54 199h-62l-54-199z" fill="#234b3d"/>
-  <path d="M168 117c27-17 56-25 88-25s61 8 88 25" fill="none" stroke="#d8a85f" stroke-width="18" stroke-linecap="round"/>
-</svg>

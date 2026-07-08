@@ -44,11 +44,15 @@ The biggest gap is not basic SEO setup. It is discoverability depth and trust co
 
 This is the clearest technical fix. It affects social previews, link sharing, perceived polish, and trust. It is already tracked as `DEBT-26`.
 
+Update: later on 2026-07-08, the shared social preview image was generated at `public/og-vive-counselling.png`, and `DEBT-26` was resolved. The historical finding above records the state of the original live review.
+
 ## Priority Findings
 
 ### P1 - Add the Missing Social Image
 
 Current metadata points to `/og-vive-counselling.png`, but the live file is missing. Add a deliberate 1200 x 630 social image at `public/og-vive-counselling.png`, or update the metadata to reference a real production asset.
+
+Update: completed later on 2026-07-08 with a 1200 x 630 Vive Counselling social preview PNG.
 
 The image should feel specific to Vive Counselling rather than generic. A calm branded treatment with the practice name, Joel's name, "Online counselling across Australia", and a portrait or appropriate brand visual would be stronger than a decorative abstract card.
 

@@ -57,6 +57,7 @@ const expectedIconAssets = [
   { path: "/icon-192.png", width: 192, height: 192 },
   { path: "/icon-512.png", width: 512, height: 512 },
 ] as const;
+const expectedSocialImageAsset = { path: "/og-vive-counselling.png", width: 1200, height: 630 } as const;
 
 const readPngDimensions = (body: Uint8Array) => {
   const view = new DataView(body.buffer, body.byteOffset, body.byteLength);
@@ -456,6 +457,18 @@ test.describe("crawl and app metadata assets", () => {
       expect(dimensions).toEqual({ width, height });
     });
   }
+
+  test(`${expectedSocialImageAsset.path} has the expected social preview dimensions`, async ({ request }) => {
+    const response = await request.get(expectedSocialImageAsset.path);
+
+    expect(response.ok()).toBeTruthy();
+    const dimensions = readPngDimensions(await response.body());
+
+    expect(dimensions).toEqual({
+      width: expectedSocialImageAsset.width,
+      height: expectedSocialImageAsset.height,
+    });
+  });
 
   test("analytics providers are disabled in default QA builds", async ({ page }) => {
     const analyticsRequests: string[] = [];

@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">Vive icon candidate 01, threshold</title>
-  <desc id="desc">A centered V mark held inside an arched doorway shape.</desc>
-  <rect width="512" height="512" rx="112" fill="#f7f6f2"/>
-  <path d="M112 414V176c0-76 62-138 144-138s144 62 144 138v238H112z" fill="#234b3d"/>
-  <path d="M167 159h58l31 127 31-127h58l-58 196h-62l-58-196z" fill="#f7f6f2"/>
-  <path d="M146 414h220" fill="none" stroke="#d8a85f" stroke-width="22" stroke-linecap="round"/>
-</svg>

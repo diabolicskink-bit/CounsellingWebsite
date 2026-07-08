@@ -46,6 +46,6 @@ The unused `.site-highlight__box` question belongs to dead CSS or legacy cleanup
 
 Status: not active canonical docs.
 
-Raw design export files and the old type-scale plan were not carried into the new design-system folder as active docs. Durable token, type, and visual-rule guidance has been folded into `foundations/tokens.md`, `foundations/principles.md`, and the pattern docs.
+Raw design export files and the old type-scale plan were not carried into the new design-system folder as active docs. Historical icon candidate export folders have now been removed as inactive reference material. Durable token, type, icon-asset, and visual-rule guidance has been folded into `foundations/tokens.md`, `foundations/principles.md`, the pattern docs, and the active public assets.
 
 Historical reports remain under `docs/reports/` and may mention old paths or old findings.

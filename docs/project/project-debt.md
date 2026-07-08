@@ -99,29 +99,6 @@ Each active item should include enough direction that a future session can choos
   - If Bot Protection is enabled later, test it carefully against both React `fetch` submissions and endpoint-level native form posts.
 - `Links`: `api/enquiry.ts`, `vercel.json`, `src/components/EnquiryForm.tsx`
 
-### DEBT-26 - Social sharing image metadata points at a missing asset
-
-- `Priority`: `P1`
-- `Size`: `XS`
-- `Priority Rationale`: This is `P1` because the site advertises an OG/social image in generated metadata and tests, but the referenced asset is absent from `public/`, which can break social previews and release trust. It is not `P0` because core page rendering and enquiry flow are not blocked.
-- `Status`: `Open`
-- `Detected`: 2026-06-18
-- `Source`: Fresh site debt review
-- `Area`: Metadata, Assets, SEO, QA
-- `Problem`: `src/data/routeMetadata.json` references `/og-vive-counselling.png`, and public-site tests expect that asset to be served, but `public/og-vive-counselling.png` is not present.
-- `Why It Matters`: Social cards and generated Open Graph/Twitter metadata can point crawlers to a broken image, making shared links look unfinished and causing QA to fail when the asset check runs.
-- `Preferred Direction`: Restore or regenerate the intended 1200x630 OG image asset, or update metadata/tests to point at an existing intentional social image.
-- `Resolution Path`: Confirm the intended social card image, add the asset under `public/` or update the metadata path, then run the public-site asset and first-response metadata checks.
-- `Next Action`: Decide whether `/og-vive-counselling.png` should be restored as the canonical social image or replaced with a new generated/social-card asset.
-- `Resolved When`: The social image path in route metadata resolves successfully in the built site and generated OG/Twitter metadata points at the intended image.
-- `Related Items`:
-  - `SITE-3`: SEO and metadata QA should include social image expectations.
-  - `SITE-4`: Performance and image delivery review may later check social image dimensions, format, and weight.
-- `Dependencies`: `None`
-- `Notes`:
-  - `Test-Path public\og-vive-counselling.png` returned `False` during the review.
-- `Links`: `src/data/routeMetadata.json`, `public/`, `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`
-
 ### DEBT-8 - Route parity coverage needs explicit enforcement
 
 - `Priority`: `P2`
@@ -399,7 +376,7 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Hydrated route changes keep title, description, canonical, OG/Twitter tags, and robots policy aligned with the current route.
 - `Related Items`:
   - `DEBT-8`: Route parity coverage can help keep runtime metadata expectations aligned with route metadata data.
-  - `DEBT-26`: The runtime metadata helper should preserve the intended social image path once the missing asset is fixed.
+  - `DEBT-26`: Archived social image work means the runtime metadata helper should preserve the configured social image path.
   - `SITE-3`: Public SEO and metadata QA should include live DOM metadata where it matters.
 - `Dependencies`: `None`
 - `Notes`:
@@ -477,6 +454,12 @@ Each active item should include enough direction that a future session can choos
 - `Links`: `package.json`
 
 ## Archive
+
+### DEBT-26 - Social sharing image metadata points at a missing asset
+
+Resolved on 2026-07-08 by generating the shared 1200x630 social preview image at `public/og-vive-counselling.png` and updating the configured social image alt text to match the finished asset.
+
+The public-site suite now checks that the social image path is served and that the PNG dimensions match the Open Graph/Twitter metadata expectations. Future social-card content changes should preserve the configured route metadata path unless there is a deliberate metadata migration.
 
 ### DEBT-1 - QA suite is not a trustworthy release gate
 
@@ -566,6 +549,6 @@ Default QA builds still keep analytics disabled and assert that no analytics scr
 
 ### DEBT-31 - Favicon, touch, and app icon assets need quality and usage audit
 
-Resolved on 2026-06-18 by replacing the active public favicon, touch, and web-app icon assets with the approved folded-paper `v07` candidate. The PNG set now derives from `docs/design-system/icon-candidates-ai/vive-ai-folded-paper-v07-balanced-arms.png` at the referenced browser/device sizes, and `public/favicon.svg` has been replaced with a compact vector sibling so SVG-capable browsers do not keep showing the old mark.
+Resolved on 2026-06-18 by replacing the active public favicon, touch, and web-app icon assets with the approved folded-paper `v07` source. The active PNG set lives in `public/` at the referenced browser/device sizes, and `public/favicon.svg` has been replaced with a compact vector sibling so SVG-capable browsers do not keep showing the old mark. The historical icon candidate exports were removed on 2026-07-08 after the active public assets were confirmed.
 
 The icon references were confirmed in generated head metadata and `public/site.webmanifest`, and public-site tests now verify the served PNG icon dimensions in addition to existence.

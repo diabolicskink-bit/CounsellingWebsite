@@ -17,11 +17,23 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-08 - Design-System Icon Candidates Removed
+
+- Removed: Deleted the historical `docs/design-system/icon-candidates/` and `docs/design-system/icon-candidates-ai/` export folders.
+- Preserved: Active favicon, touch, and web-app icon assets remain in `public/`, with public-site tests still checking served icon dimensions.
+- Changed: Design-system scope and migration notes now record historical icon candidates as removed reference material.
+
+## 2026-07-08 - Social Preview Image Added
+
+- Added: Generated the shared 1200x630 social preview image at `public/og-vive-counselling.png`.
+- Changed: Social image alt metadata now describes the finished preview card, and public-site tests check the social image dimensions.
+- Closed: Archived `DEBT-26`; the configured Open Graph/Twitter image path now resolves in the built site.
+
 ## 2026-07-08 - SEO Discoverability Review
 
 - Added: Live SEO and discoverability review for the four currently allowed pages: Home, Working with Joel, Inclusion, and Contact.
 - Confirmed: Allowed pages are indexable, canonicalised, present in the sitemap, allowed by robots, and scoring strongly in Lighthouse. Draft inclusion child pages remain excluded from search.
-- Preserved: Remaining SEO and trust work is tracked through `DEBT-26`, `DEBT-27`, `SITE-11`, `SITE-12`, `SITE-14`, `SITE-15`, `SITE-16`, and `SITE-17`.
+- Preserved: Remaining SEO and trust work is tracked through `DEBT-27`, `SITE-11`, `SITE-12`, `SITE-14`, `SITE-15`, `SITE-16`, and `SITE-17`.
 
 ## 2026-07-08 - Launch Indexing Enabled For Approved Pages
 
