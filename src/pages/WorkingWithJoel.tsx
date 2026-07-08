@@ -75,9 +75,12 @@ const pageContent: WorkingWithJoelPageContent = {
     title: {
       before: "Working with ",
       emphasis: "the bigger",
-      after: " picture.",
+
+                  after: " picture.",
     },
     supportLead: "Life is complicated.",
+
+
     supportBody:
       "Here, the complexity isn't something to get past. It's what we actually work with.",
 
@@ -97,11 +100,10 @@ const pageContent: WorkingWithJoelPageContent = {
   introduction: {
     title: "Introducing Joel",
     paragraphs: [
-      "I'm Joel Griffiths, an ACA registered counsellor offering online counselling for adults across Australia from Perth.",
-      "People often come here with anxiety, relationship strain, self-criticism, shame, sexuality, intimacy, trauma, or a sense that something keeps repeating even when they understand it on paper.",
-    
-    
-      "My work is direct, thoughtful, and non-shaming. You do not need a polished story before making contact; a rough sense that something is not sitting right is enough to begin a conversation.",
+      "I'm Joel Griffiths, an ACA-registered counsellor based in Perth. I offer online counselling for adults across Australia.",
+      "As a counsellor, I'm interested in the whole person. Not only what you are struggling with, but what has shaped it. The anxiety, relationship strain, self-criticism, shame, trauma, sexuality, or intimacy concerns people bring to therapy usually have a history. They often sit alongside ways of coping that once helped, but now feel harder to live with.",
+      "I work in a direct, thoughtful, and non-shaming way. I am comfortable with complexity, including the parts of life that do not fit neatly into a simple explanation.",
+      "You do not need to reduce yourself to a symptom, a diagnosis, or a polished version of the story. We can begin with what is actually there, and work toward a clearer, more honest understanding of yourself.",
     ],
   },
   approach: {
