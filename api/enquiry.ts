@@ -684,6 +684,40 @@ function getEmailSubject(enquiry: ValidatedEnquiry) {
   return [baseSubject, subjectName].filter(Boolean).join(" - ");
 }
 
+function getSenderAddress(configuredSender: string) {
+  const sender = configuredSender.replace(/[\u0000-\u001f\u007f]/g, " ").trim();
+  const addressMatch = sender.match(/<([^<>]+)>$/);
+
+  return (addressMatch?.[1] ?? sender).trim();
+}
+
+function getSafeEmailDisplayName(name: string) {
+  return name
+    .replace(/[\u0000-\u001f\u007f<>]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 120);
+}
+
+function quoteEmailDisplayName(name: string) {
+  return `"${name.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+}
+
+function getEmailDisplayName(name: string) {
+  const displayName = getSafeEmailDisplayName(name) || "Website visitor";
+  const atomPattern = /^[A-Za-z0-9!#$%&'*+\-/=?^_`{|}~.]+$/;
+
+  if (displayName.split(" ").every((part) => atomPattern.test(part))) {
+    return displayName;
+  }
+
+  return quoteEmailDisplayName(displayName);
+}
+
+function getEmailSender(enquiry: ValidatedEnquiry, configuredSender: string) {
+  return `${getEmailDisplayName(enquiry.name)} <${getSenderAddress(configuredSender)}>`;
+}
+
 function getPresentRows(rows: Array<[string, string | undefined]>) {
   return rows.filter((row): row is [string, string] => Boolean(row[1]));
 }
@@ -911,7 +945,7 @@ export default async function handler(request: EnquiryRequest, response: Enquiry
   try {
     const resendResponse = await fetch(resendEndpoint, {
       body: JSON.stringify({
-        from,
+        from: getEmailSender(enquiry, from),
         html: getEnquiryHtml(enquiry),
         reply_to: enquiry.email,
         subject: getEmailSubject(enquiry),

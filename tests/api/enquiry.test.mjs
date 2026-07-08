@@ -25,7 +25,7 @@ afterEach(() => {
 
 function setDeliveryEnv() {
   process.env.RESEND_API_KEY = "test_resend_key";
-  process.env.ENQUIRY_FROM_EMAIL = "Joel <hello@example.com>";
+  process.env.ENQUIRY_FROM_EMAIL = "no-reply@vivecounselling.com.au";
   process.env.ENQUIRY_TO_EMAIL = "inbox@example.com";
 }
 
@@ -201,7 +201,7 @@ test("accepts a structured general enquiry and builds the Resend email server-si
 
   const email = fetchCalls[0].body;
 
-  assert.equal(email.from, "Joel <hello@example.com>");
+  assert.equal(email.from, "Alex Person <no-reply@vivecounselling.com.au>");
   assert.equal(email.to, "inbox@example.com");
   assert.equal(email.reply_to, "alex@example.com");
   assert.equal(email.subject, "General Enq - Alex P");
@@ -212,6 +212,25 @@ test("accepts a structured general enquiry and builds the Resend email server-si
   assert.match(email.html, /General Enquiry/);
   assert.match(email.html, /Alex Person/);
   assert.doesNotMatch(email.text, /Client supplied subject/);
+});
+
+test("uses the visitor name with the configured sender address", async () => {
+  setDeliveryEnv();
+  process.env.ENQUIRY_FROM_EMAIL = "Vive Counselling <no-reply@vivecounselling.com.au>";
+  const fetchCalls = mockResendSuccess();
+
+  const result = await invokeHandler(
+    validGeneralPayload({
+      name: 'Alex "The Great" Person <script>',
+    }),
+  );
+
+  assert.equal(result.statusCode, 200);
+
+  const email = fetchCalls[0].body;
+
+  assert.equal(email.from, '"Alex \\"The Great\\" Person script" <no-reply@vivecounselling.com.au>');
+  assert.equal(email.reply_to, "alex@example.com");
 });
 
 test("accepts a structured appointment booking payload", async () => {

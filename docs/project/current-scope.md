@@ -23,7 +23,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - The Contact/Fees page uses the shared `EnquiryForm` component and data from `src/data/enquiry.ts`.
 - Public contact display and enquiry fallback/failure messaging use `joel@vivecounselling.com.au`.
 - The enquiry form submits to the serverless `/api/enquiry` endpoint.
-- The TypeScript enquiry API validates structured form fields server-side, supports endpoint-level URL-encoded native form posts, builds the email subject/reply-to/plain text/HTML from the validated payload, and sends email through Resend when configured.
+- The TypeScript enquiry API validates structured form fields server-side, supports endpoint-level URL-encoded native form posts, builds the email subject/reply-to/plain text/HTML from the validated payload, formats the verified sender address with the visitor name as the email display name, and sends email through Resend when configured.
 - The enquiry API rejects unsupported content types, multipart posts, oversized declared bodies above 25KB, and explicit cross-site fetch/origin/referer signals before validation or email delivery.
 - Enquiry API failures return generic visitor-safe public errors, while provider/configuration/runtime diagnostics stay in server logs.
 - Basic honeypot spam protection exists for enquiry submissions.

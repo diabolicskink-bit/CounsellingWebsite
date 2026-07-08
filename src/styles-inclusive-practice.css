@@ -75,7 +75,6 @@
 
 .inclusion-hero__detail-link:nth-child(3) {
   margin-left: clamp(2rem, 3.4vw, 3rem);
-  color: var(--cedar);
 }
 
 .inclusion-hero__detail-link:hover,
