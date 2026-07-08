@@ -7,13 +7,14 @@ type FaqSectionItem = {
 };
 
 type FaqSectionProps = {
-  title?: string;
   intro?: string;
   items: FaqSectionItem[];
   defaultOpenIndex?: number | null;
   singleOpen?: boolean;
   className?: string;
 };
+
+const faqSectionTitle = "Frequently asked questions";
 
 function createInitialOpenIndexes(defaultOpenIndex: number | null | undefined, itemsLength: number) {
   if (defaultOpenIndex == null || defaultOpenIndex < 0 || defaultOpenIndex >= itemsLength) {
@@ -24,7 +25,6 @@ function createInitialOpenIndexes(defaultOpenIndex: number | null | undefined, i
 }
 
 export default function FaqSection({
-  title,
   intro,
   items,
   defaultOpenIndex = null,
@@ -77,12 +77,10 @@ export default function FaqSection({
     <section className={sectionClassName}>
       <Container>
         <div className="site-faq-shell">
-          {title || intro ? (
-            <div className="site-faq-shell__header">
-              {title ? <h2 className="site-faq-shell__title">{title}</h2> : null}
-              {intro ? <p className="site-faq-shell__intro site-body-copy">{intro}</p> : null}
-            </div>
-          ) : null}
+          <div className="site-faq-shell__header">
+            <h2 className="site-faq-shell__title">{faqSectionTitle}</h2>
+            {intro ? <p className="site-faq-shell__intro site-body-copy">{intro}</p> : null}
+          </div>
 
           <div className="site-faq-list">
             {items.map((item, index) => {

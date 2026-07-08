@@ -55,7 +55,6 @@ const pageContent = {
     ],
   },
   faqSection: {
-    title: "Common questions before starting",
     items: [
       {
         question: "Do I need to be out?",
@@ -165,7 +164,7 @@ export default function LgbtqiaCounselling() {
         </Container>
       </section>
 
-      <FaqSection className="site-highlight" items={faqSection.items} title={faqSection.title} />
+      <FaqSection className="site-highlight" items={faqSection.items} />
 
       <section className="site-cta-block">
         <Container className="site-cta-block__inner">

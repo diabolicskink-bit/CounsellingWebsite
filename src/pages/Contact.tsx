@@ -58,8 +58,6 @@ type ContactFaqItem = {
 };
 
 type ContactFaqContent = {
-  heading: string;
-  intro: string;
   items: ContactFaqItem[];
 };
 
@@ -129,8 +127,6 @@ const contactPageContent: ContactPageContent = {
     ],
   },
   faq: {
-    heading: "Common questions before making contact",
-    intro: "A few practical things people often want to know before sending a first enquiry.",
     items: [
       {
         question: "Do I need a referral?",
@@ -283,7 +279,7 @@ export default function Contact() {
         </Container>
       </section>
 
-      <FaqSection className="site-highlight" intro={faq.intro} items={faq.items} title={faq.heading} />
+      <FaqSection className="site-highlight" items={faq.items} />
     </main>
   );
 }

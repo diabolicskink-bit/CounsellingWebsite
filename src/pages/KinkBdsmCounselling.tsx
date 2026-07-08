@@ -45,7 +45,6 @@ type KinkPageContent = {
   };
   faqSection: {
     eyebrow: string;
-    heading: string;
     intro: string;
     items: FaqItem[];
   };
@@ -115,7 +114,6 @@ const kinkPageContent: KinkPageContent = {
   },
   faqSection: {
     eyebrow: "Questions",
-    heading: "Frequently asked questions",
     intro: "",
     items: [
       {
@@ -232,7 +230,6 @@ export default function KinkBdsmCounselling() {
         className="site-grid kink-page__faq-section"
         intro={faqSection.intro}
         items={faqSection.items}
-        title={faqSection.heading}
       />
     </main>
   );

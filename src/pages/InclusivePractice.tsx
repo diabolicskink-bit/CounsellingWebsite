@@ -49,7 +49,6 @@ type InclusionPageContent = {
     panels: InclusionPanel[];
   };
   faq: {
-    heading: string;
     items: InclusionFaq[];
   };
 };
@@ -116,7 +115,6 @@ const inclusionPageContent: InclusionPageContent = {
     ],
   },
   faq: {
-    heading: "Frequently asked questions",
     items: [
       {
         question: "Do I need to be kinky, polyamorous, or queer to work with you?",
@@ -217,7 +215,7 @@ export default function InclusivePractice() {
         </Container>
       </section>
 
-      <FaqSection className="site-highlight" items={faq.items} title={faq.heading} />
+      <FaqSection className="site-highlight" items={faq.items} />
     </main>
   );
 }

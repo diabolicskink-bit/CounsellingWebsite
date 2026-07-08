@@ -172,7 +172,6 @@ const pageContent = {
   },
 
   faqSection: {
-    heading: "Common questions before starting",
     intro: "Some of the things people often want to know before making first contact.",
     items: [
       {
@@ -387,7 +386,6 @@ export default function EnmPolyamoryCounselling() {
         className="site-grid"
         intro={faqSection.intro}
         items={faqSection.items}
-        title={faqSection.heading}
       />
 
       {/* ── CTA ──────────────────────────────────────────────────────────── */}

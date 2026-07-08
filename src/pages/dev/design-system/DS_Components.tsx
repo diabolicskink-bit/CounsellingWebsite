@@ -512,7 +512,6 @@ export default function DS_Components() {
               className="site-grid"
               intro="Use this shared section when answers need comfortable reading space and the interaction should feel calm, clear, and contained."
               items={faqItems}
-              title="Common questions before starting"
             />
           </section>
 

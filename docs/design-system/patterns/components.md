@@ -11,7 +11,7 @@ This catalogue lists active React components and component-backed API. A file ex
 - `SectionHeading`
   Repeated section heading structure.
 - `FaqSection`
-  Shared FAQ accordion. Content remains data-driven at page level. The component is surface-neutral and should be paired with an explicit section surface or deliberate page-scoped section.
+  Shared FAQ accordion. The component owns the standard "Frequently asked questions" heading; question, answer, and intro content remain data-driven at page level. The component is surface-neutral and should be paired with an explicit section surface or deliberate page-scoped section.
 - `FaqSchema`
   FAQ structured data helper.
 - `BroadTabPanel`
