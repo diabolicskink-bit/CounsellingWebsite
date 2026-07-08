@@ -44,7 +44,8 @@ const expectedPublicH1Text: Record<(typeof publicRoutes)[number], string> = {
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
-const temporaryRobotsDirective = "noindex, nofollow";
+const noindexDirective = "noindex, nofollow";
+const indexableRoutes = ["/", "/working-with-joel", "/inclusion", "/contact"] as const;
 const draftInclusionRoutes = ["/inclusion/kink-bdsm", "/inclusion/enm-polyamory", "/inclusion/lgbtqia"] as const;
 const productionLinkHiddenRoutes = ["/", "/inclusion"] as const;
 const analyticsRouteTrackingEnabled =
@@ -78,6 +79,14 @@ function escapeHtml(value: string) {
 
 function absoluteRouteUrl(route: string) {
   return route === "/" ? `${siteOrigin}/` : `${siteOrigin}${route}`;
+}
+
+function escapeXml(value: string) {
+  return escapeHtml(value).replaceAll("'", "&apos;");
+}
+
+function routeRobotsDirective(route: string) {
+  return routeMetadataData.routes[route]?.robots;
 }
 
 function expectNoGeneratedOriginLeak(content: string) {
@@ -165,7 +174,7 @@ async function expectNotFoundPage(page: Page, requestedPath: string) {
   await expect(page.locator(".not-found-page__label")).toHaveText("Page not found");
   await expect(page.locator("h1")).toHaveText("That page isn't here.");
   await expect(page.getByLabel("Requested address")).toContainText(requestedPath);
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", temporaryRobotsDirective);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", noindexDirective);
 }
 
 async function getAnalyticsPageViewEvents(page: Page): Promise<AnalyticsPageViewEvent[]> {
@@ -224,7 +233,13 @@ test.describe("public pages", () => {
       const description = await page.locator('meta[name="description"]').getAttribute("content");
       expect(description).toBeTruthy();
       expect(description?.length).toBeGreaterThan(50);
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", temporaryRobotsDirective);
+
+      const robotsDirective = routeRobotsDirective(route);
+      if (robotsDirective) {
+        await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", robotsDirective);
+      } else {
+        await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+      }
 
       await expectNoPageDiagnostics(diagnostics);
     });
@@ -251,7 +266,6 @@ test.describe("first response metadata", () => {
       const response = await request.get(route);
       const html = await response.text();
       const canonicalUrl = absoluteRouteUrl(route);
-      const expectedRobotsDirective = metadata.robots ?? temporaryRobotsDirective;
 
       expect(response.ok()).toBeTruthy();
       expectNoGeneratedOriginLeak(html);
@@ -259,7 +273,11 @@ test.describe("first response metadata", () => {
       expect(html).toContain(
         `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
       );
-      expect(html).toContain(`<meta name="robots" content="${expectedRobotsDirective}" />`);
+      if (metadata.robots) {
+        expect(html).toContain(`<meta name="robots" content="${metadata.robots}" />`);
+      } else {
+        expect(html).not.toContain('<meta name="robots"');
+      }
       expect(html).toContain(`<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`);
       expect(html).toContain(`<meta property="og:site_name" content="${escapeHtml(routeMetadataData.site.name)}" />`);
       expect(html).toContain('<meta property="og:type" content="website" />');
@@ -289,7 +307,7 @@ test.describe("first response metadata", () => {
 });
 
 test.describe("crawl and app metadata assets", () => {
-  test("robots.txt allows crawling without advertising a pre-launch sitemap", async ({ request }) => {
+  test("robots.txt allows crawling and advertises the launch sitemap", async ({ request }) => {
     const response = await request.get("/robots.txt");
     const robots = await response.text();
 
@@ -298,10 +316,10 @@ test.describe("crawl and app metadata assets", () => {
     expect(robots).toContain("User-agent: *");
     expect(robots).toContain("Allow: /");
     expect(robots).not.toContain("Disallow: /");
-    expect(robots).not.toContain("Sitemap:");
+    expect(robots).toContain(`Sitemap: ${siteOrigin}/sitemap.xml`);
   });
 
-  test("sitemap.xml is intentionally empty while launch indexing is deferred", async ({ request }) => {
+  test("sitemap.xml includes only approved indexable public routes", async ({ request }) => {
     const response = await request.get("/sitemap.xml");
     const sitemap = await response.text();
 
@@ -309,22 +327,27 @@ test.describe("crawl and app metadata assets", () => {
     expectNoGeneratedOriginLeak(sitemap);
     expect(sitemap).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
 
+    for (const route of indexableRoutes) {
+      expect(sitemap).toContain(`<loc>${escapeXml(absoluteRouteUrl(route))}</loc>`);
+    }
+
     for (const route of Object.keys(routeMetadataData.routes)) {
-      expect(sitemap).not.toContain(`<loc>${absoluteRouteUrl(route)}</loc>`);
+      if (!indexableRoutes.includes(route as (typeof indexableRoutes)[number])) {
+        expect(sitemap).not.toContain(`<loc>${escapeXml(absoluteRouteUrl(route))}</loc>`);
+      }
     }
 
     for (const route of [...aliasRedirects.map(({ from }) => from), ...retiredRoutes, ...devOnlyRoutes]) {
-      expect(sitemap).not.toContain(`<loc>${absoluteRouteUrl(route)}</loc>`);
+      expect(sitemap).not.toContain(`<loc>${escapeXml(absoluteRouteUrl(route))}</loc>`);
     }
 
-    expect(sitemap).not.toContain("<loc>");
     expect(sitemap).not.toContain(`${siteOrigin}/404`);
     expect(sitemap).not.toContain(`${siteOrigin}/404.html`);
   });
 
   test("draft inclusion child routes carry durable route-level noindex metadata", () => {
     for (const route of draftInclusionRoutes) {
-      expect(routeMetadataData.routes[route].robots).toBe(temporaryRobotsDirective);
+      expect(routeMetadataData.routes[route].robots).toBe(noindexDirective);
     }
 
     for (const [route, metadata] of publicRouteMetadataEntries) {
@@ -362,14 +385,18 @@ test.describe("crawl and app metadata assets", () => {
     });
   }
 
-  test("Vercel config applies temporary noindex headers", () => {
+  test("Vercel config does not apply global noindex headers", () => {
     const siteWideHeader = vercelConfigData.headers?.find(({ source }) => source === "/(.*)");
+    const configuredHeaders = vercelConfigData.headers?.flatMap(({ headers }) => headers) ?? [];
 
-    expect(siteWideHeader?.headers).toEqual(
+    expect(siteWideHeader?.headers ?? []).not.toEqual(
+      expect.arrayContaining([expect.objectContaining({ key: "X-Robots-Tag" })]),
+    );
+    expect(configuredHeaders).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           key: "X-Robots-Tag",
-          value: temporaryRobotsDirective,
+          value: expect.stringContaining("noindex"),
         }),
       ]),
     );
@@ -382,7 +409,7 @@ test.describe("crawl and app metadata assets", () => {
     expect(response.ok()).toBeTruthy();
     expectNoGeneratedOriginLeak(html);
     expect(html).toContain("<title>Page not found | Vive Counselling</title>");
-    expect(html).toContain(`<meta name="robots" content="${temporaryRobotsDirective}" />`);
+    expect(html).toContain(`<meta name="robots" content="${noindexDirective}" />`);
     expect(html).toContain('script type="module"');
     expect(html).toContain("/assets/");
     expect(html).not.toContain('<link rel="canonical"');
@@ -536,7 +563,7 @@ test.describe("alias URL redirects", () => {
 
       await expect(page).toHaveURL(new RegExp(`${to}$`));
       await expect(page.locator("h1")).toHaveCount(1);
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", temporaryRobotsDirective);
+      await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
     });
   }
 });

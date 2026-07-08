@@ -1,4 +1,4 @@
-export const defaultCanonicalOrigin = "https://counselling-website-seven.vercel.app";
+export const defaultCanonicalOrigin = "https://vivecounselling.com.au";
 
 export function normalizeSiteOrigin(rawOrigin) {
   const origin = String(rawOrigin ?? "").trim();

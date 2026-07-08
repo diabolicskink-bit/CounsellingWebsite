@@ -79,20 +79,8 @@
   grid-column: 2;
   grid-row: 1;
   align-self: center;
-  gap: 22px;
   align-content: start;
   max-width: 640px;
-}
-
-.working-with-joel-page__intro-copy .working-with-joel-page__section-title {
-  max-width: 15ch;
-  font-size: var(--type-section);
-  line-height: var(--leading-heading);
-}
-
-.working-with-joel-page__intro-body {
-  gap: 16px;
-  max-width: 56ch;
 }
 
 .working-with-joel-page__intro-media {

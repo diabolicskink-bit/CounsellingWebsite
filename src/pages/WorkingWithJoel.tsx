@@ -244,16 +244,14 @@ function IntroductionSection({
   return (
     <section className="site-grid working-with-joel-page__intro" aria-labelledby="working-with-joel-intro-title">
       <Container className="site-split">
-        <article className="working-with-joel-page__intro-copy">
-          <h2 className="working-with-joel-page__section-title" id="working-with-joel-intro-title">
-            {introduction.title}
-          </h2>
-          <div className="rich-text site-ruled-paragraph site-ruled-paragraph--wide working-with-joel-page__intro-body">
+        <div className="working-with-joel-page__intro-copy">
+          <article className="site-copy-panel rich-text working-with-joel-page__intro-panel">
+            <h2 id="working-with-joel-intro-title">{introduction.title}</h2>
             {introduction.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
-          </div>
-        </article>
+          </article>
+        </div>
 
         <div className="working-with-joel-page__intro-media">
           <PortraitNote portrait={portrait} />

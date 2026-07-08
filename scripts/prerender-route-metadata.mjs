@@ -7,7 +7,8 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const distDir = path.join(rootDir, "dist");
 const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
-const temporaryNoindexDirective = "noindex, nofollow";
+const noindexDirective = "noindex, nofollow";
+const indexableRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"];
 
 function escapeHtml(value) {
   return value
@@ -29,22 +30,20 @@ function getAssetUrl(siteOrigin, assetPath) {
   return `${siteOrigin}${assetPath.startsWith("/") ? assetPath : `/${assetPath}`}`;
 }
 
-function getRobotsDirective(routeMetadata) {
-  return routeMetadata.robots ?? temporaryNoindexDirective;
-}
-
 function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
   const imageUrl = getAssetUrl(siteOrigin, siteMetadata.socialImage);
   const title = `<title>${escapeHtml(routeMetadata.title)}</title>`;
   const description = `<meta name="description" content="${escapeHtml(routeMetadata.description)}" />`;
-  const robots = getRobotsDirective(routeMetadata);
+  const robots = routeMetadata.robots
+    ? [`<meta name="robots" content="${escapeHtml(routeMetadata.robots)}" />`]
+    : [];
 
   return [
     "<!-- SEO metadata generated at build time -->",
     title,
     description,
-    `<meta name="robots" content="${escapeHtml(robots)}" />`,
+    ...robots,
     `<link rel="canonical" href="${escapeHtml(pageUrl)}" />`,
     `<meta property="og:site_name" content="${escapeHtml(siteMetadata.name)}" />`,
     '<meta property="og:type" content="website" />',
@@ -84,7 +83,7 @@ function getNotFoundTags(siteMetadata) {
     "<!-- SEO metadata generated at build time -->",
     "<title>Page not found | Vive Counselling</title>",
     '<meta name="description" content="This page could not be found on the Vive Counselling website." />',
-    `<meta name="robots" content="${escapeHtml(temporaryNoindexDirective)}" />`,
+    `<meta name="robots" content="${escapeHtml(noindexDirective)}" />`,
     '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />',
     '<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />',
     '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
@@ -115,6 +114,22 @@ function getRouteOutputPaths(routePath) {
   return [routeFilePath, routeIndexPath];
 }
 
+function getSitemapEntries(routes, siteOrigin) {
+  return indexableRoutePaths.map((routePath) => {
+    const routeMetadata = routes[routePath];
+
+    if (!routeMetadata) {
+      throw new Error(`Indexable route is missing from route metadata: ${routePath}`);
+    }
+
+    if (routeMetadata.robots) {
+      throw new Error(`Indexable route has robots metadata: ${routePath}`);
+    }
+
+    return `  <url><loc>${escapeXml(getAbsoluteUrl(siteOrigin, routePath))}</loc></url>`;
+  });
+}
+
 const [templateHtml, metadataJson] = await Promise.all([
   readFile(indexPath, "utf8"),
   readFile(metadataPath, "utf8"),
@@ -122,6 +137,7 @@ const [templateHtml, metadataJson] = await Promise.all([
 
 const { routes, site } = JSON.parse(metadataJson);
 const siteOrigin = getSiteOrigin(site);
+const sitemapEntries = getSitemapEntries(routes, siteOrigin);
 
 for (const [routePath, routeMetadata] of Object.entries(routes)) {
   const routeHtml = applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin);
@@ -135,7 +151,7 @@ for (const [routePath, routeMetadata] of Object.entries(routes)) {
 const sitemapXml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-  "  <!-- Temporarily empty while SITE-23 keeps launch indexing deferred. -->",
+  ...sitemapEntries,
   "</urlset>",
   "",
 ].join("\n");
@@ -144,7 +160,7 @@ const robotsTxt = [
   "User-agent: *",
   "Allow: /",
   "",
-  "# Public pages currently carry noindex,nofollow metadata while launch indexing is deferred.",
+  `Sitemap: ${siteOrigin}/sitemap.xml`,
   "",
 ].join("\n");
 

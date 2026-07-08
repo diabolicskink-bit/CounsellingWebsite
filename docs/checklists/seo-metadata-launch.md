@@ -137,7 +137,7 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Checked route metadata, generated HTML, and direct preview head. Description matches the visible Inclusion Hub content around inclusive counselling, relationships, sexuality, identity, and non-shaming support.
 
 - `Pass` Canonical URL resolves to this route on the intended launch origin.
-  - Note: Checked generated HTML and direct preview head. Canonical is `https://counselling-website-seven.vercel.app/inclusion`, matching the current configured production origin and route; final custom-domain sign-off remains owned by `LAUNCH-8`.
+  - Note: Checked generated HTML and direct preview head. Canonical is `https://vivecounselling.com.au/inclusion`, matching the configured apex launch origin and route.
 
 - `Pass` Canonical public URL returns a `200` response.
   - Note: Checked built preview route `/inclusion`; it returned `200` with `text/html`. Live Vercel smoke testing remains tracked separately by `DEBT-24`.
@@ -146,7 +146,7 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Checked generated `robots.txt`, direct preview `/inclusion`, and generated head. Robots allows all, `/inclusion` has no route-level robots meta tag, and the preview response had no `X-Robots-Tag` header.
 
 - `Pass` Sitemap output includes this route exactly once.
-  - Note: Checked generated `dist/sitemap.xml`. It includes exact `<loc>https://counselling-website-seven.vercel.app/inclusion</loc>` once, with child inclusion routes listed separately.
+  - Note: Checked generated `dist/sitemap.xml`. It includes exact `<loc>https://vivecounselling.com.au/inclusion</loc>` once, while draft Inclusion child routes stay excluded.
 
 - `Pass` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
   - Note: Checked `dist/inclusion.html` and direct preview head. OG/Twitter title, description, URL, card type, image URL, image dimensions, and social image alt metadata are present and match the Inclusion Hub route purpose.

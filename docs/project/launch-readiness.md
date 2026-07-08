@@ -77,7 +77,7 @@ Statuses:
 - `Status`: `Partial`
 - `Source`: Supersedes `SITE-3`, `docs/checklists/seo-metadata-launch.md`, `docs/project/current-scope.md`, `docs/reports/2026-06-17-technical-code-review.md`
 - `Launch Goal`: Confirm public pages are discoverable, shareable, and semantically clear before launch.
-- `Current State`: Metadata exists and is prerendered, and `docs/checklists/seo-metadata-launch.md` is now the working checklist artifact. Temporary site-wide `noindex, nofollow` is active while launch indexing is deferred; `SITE-23` tracks restoring indexability when the custom domain is ready. Inclusion Hub has begun assessment; its route-specific social image and hydrated metadata gaps are linked to existing debt items.
+- `Current State`: Metadata exists and is prerendered, and `docs/checklists/seo-metadata-launch.md` is now the working checklist artifact. Home, Working with Joel, Inclusion, and Contact/Fees are configured as indexable on the apex custom domain, while the draft Inclusion child pages keep route-level `noindex, nofollow` metadata and stay out of sitemap output. Inclusion Hub has begun assessment; its route-specific social image and hydrated metadata gaps are linked to existing debt items.
 - `Review Method`: Work through the checklist for global metadata outputs, each public route, redirect routes, and the not-found route, with notes that link any concrete gap to `SITE-*` or `DEBT-*`.
 - `Passes When`: Every public route has reviewed metadata expectations, and missing or incorrect required values are resolved or linked to `SITE-*` / `DEBT-*`.
 - `Linked Work`: `DEBT-8`, `DEBT-26`, `DEBT-27`, `LAUNCH-8`, `SITE-23`
@@ -142,7 +142,7 @@ Statuses:
 - `Status`: `Partial`
 - `Source`: Supersedes `SITE-18`, `docs/project/current-scope.md`, `src/data/routeMetadata.json`
 - `Launch Goal`: Launch on a public identity that feels finished and keeps canonical, share, and search signals aligned with the real practice.
-- `Current State`: `vivecounselling.com.au` is registered and assigned to the Vercel project as the eventual apex canonical domain; `www.vivecounselling.com.au` is assigned as a 301 redirect to the apex. Registrar DNS propagation/configuration is still pending, `SITE_URL` remains unset for the custom domain, and temporary site-wide `noindex, nofollow` is active until `SITE-23` is implemented.
+- `Current State`: `vivecounselling.com.au` is registered, assigned to the Vercel project, and configured as the apex canonical domain. `www.vivecounselling.com.au` is assigned as a 301 redirect to the apex, DNS resolves to Vercel, and route metadata now defaults to the apex domain while preserving `SITE_URL` override support.
 - `Review Method`: Confirm the launch canonical domain, configure DNS/Vercel as needed, set `SITE_URL`, and verify canonical URLs, sitemap, robots, redirects, and social metadata against that domain.
 - `Passes When`: Public visitors, search crawlers, social previews, and generated metadata all use the intended launch domain rather than the temporary Vercel hostname.
 - `Linked Work`: `DEBT-24`, `SITE-23`

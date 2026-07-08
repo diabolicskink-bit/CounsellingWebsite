@@ -134,21 +134,6 @@ const contactPageContent: ContactPageContent = {
           "No. You can make an enquiry directly. You do not need a GP referral, prepared paperwork, or a fully formed explanation before getting in touch.",
       },
       {
-        question: "What should I put in the first message?",
-        answer:
-          "A short message is enough. You can include what is bringing you to counselling, whether online sessions suit you, and any days or times that are usually easier.",
-      },
-      {
-        question: "Are sessions online?",
-        answer:
-          "Yes. Sessions are online for adults across Australia. Standard sessions are 50 minutes.",
-      },
-      {
-        question: "How much does a session cost?",
-        answer:
-          "The standard fee is $120 for a 50-minute online session. A free 15-minute initial consult is available if you would like to ask a few questions before booking a full session.",
-      },
-      {
         question: "Can I use this form in a crisis?",
         answer:
           "No. Vive Counselling is not a crisis service and the enquiry form is not monitored for urgent support. If you are in immediate danger, call 000 or contact a crisis support service.",
