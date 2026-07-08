@@ -1164,6 +1164,10 @@ h3 {
   padding: 18px;
 }
 
+.site-check-panel--grid .check-item:first-child {
+  padding-top: 18px;
+}
+
 .site-check-panel--grid .check-item:nth-child(2n) {
   border-right: 0;
 }

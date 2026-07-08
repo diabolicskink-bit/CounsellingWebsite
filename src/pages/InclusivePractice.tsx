@@ -105,12 +105,11 @@ const inclusionPageContent: InclusionPageContent = {
       },
       {
         eyebrow: "LGBTQIA+ affirming counselling",
-        heading: "Affirming support without making identity the whole story",
+        heading: "No soft launch of who you are.",
         href: routeHref(publicRoutePaths.lgbtqia),
         paragraphs: [
-          "This is a straight practitioner. That is worth knowing, and it is not the whole picture. Kink, non-monogamy, chosen family, trans experience, the particular weight of religious backgrounds, the grief that comes with families who don't come through. This is not a world visited professionally. It is the world this practice comes from.",
-          "Being queer is part of what you bring here. It is not a lens imposed on everything else you bring. The anxiety, the relationship, the work situation, the thing that has been sitting with you. None of it gets routed back through identity unless that is where it actually leads.",
-        ],
+"Being LGBTQIA+ can shape safety, family, desire, belonging, shame, faith, work, relationships, and the way you have had to move through the world. It can also be completely beside the point of what you need to talk about that day. Both can be true.",         
+"This is counselling that does not treat queerness, transness, or gender difference as pathology, novelty, or background trivia. It is part of what you bring here. Sometimes central. Sometimes ordinary. Sometimes complicated."        ],
         cta: "LGBTQIA+ affirming counselling",
       },
     ],
