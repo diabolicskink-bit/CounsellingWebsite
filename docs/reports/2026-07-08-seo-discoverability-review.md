@@ -79,7 +79,7 @@ These are not just conversion details. For a health-adjacent service, they also 
 
 ### P2 - Add Modest Site Identity Structured Data
 
-The site currently emits `FAQPage` structured data on Inclusion and Contact, but does not appear to emit `Organization`, `Person`, or service identity structured data.
+The site now emits homepage `WebSite` structured data for the preferred Google site-name signal. It also emits `FAQPage` structured data on Inclusion and Contact, but does not yet emit `Organization`, `Person`, or service identity structured data.
 
 Recommended future structured data:
 
@@ -98,8 +98,8 @@ Current titles are technically good and pass audit checks. They could be made a 
 
 - Home: `Online Counselling Across Australia | Vive Counselling`.
 - Working with Joel: `Joel Griffiths, Online Counsellor | Vive Counselling`.
-- Inclusion: `Inclusive Counselling for Kink, ENM and LGBTQIA+ Clients | Vive Counselling`.
-- Contact: `Online Counselling Fees and Contact | Vive Counselling`.
+- Inclusion: `Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling`.
+- Contact: `Get in Touch | Vive Counselling`.
 
 The current Inclusion title is descriptive but long and abstract. Naming the specific communities represented on the page better matches likely high-intent searches.
 

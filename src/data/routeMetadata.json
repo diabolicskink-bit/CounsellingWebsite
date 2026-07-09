@@ -10,7 +10,7 @@
   "routes": {
     "/": {
       "h1": "Online counselling across Australia",
-      "title": "Vive Counselling | Online counselling across Australia",
+      "title": "Vive Counselling",
       "description": "Online counselling for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality."
     },
     "/working-with-joel": {
@@ -20,7 +20,7 @@
     },
     "/inclusion": {
       "h1": "Inclusive counselling",
-      "title": "Inclusive Counselling for Diverse Relationships, Sexualities and Identities | Vive Counselling",
+      "title": "Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling",
       "description": "Inclusive counselling for adults seeking thoughtful, non-shaming support around relationships, sexuality, identity, and emotional life. Perth-based, online across Australia."
     },
     "/inclusion/kink-bdsm": {
@@ -43,7 +43,7 @@
     },
     "/contact": {
       "h1": "Contact and fees",
-      "title": "Contact and Fees | Vive Counselling",
+      "title": "Get in Touch | Vive Counselling",
       "description": "Fees, practical details, and direct contact for online counselling with Vive Counselling. Standard sessions are $120 for 50 minutes online, with a free optional phone consult."
     }
   }

@@ -2,7 +2,7 @@
 
 This is the working checklist artifact for `LAUNCH-3`.
 
-For a route-by-route metadata inventory, use [seo-metadata-inventory.md](seo-metadata-inventory.md).
+For a route-by-route metadata inventory, use [seo-metadata-inventory.md](seo-metadata-inventory.md). For Google-style snippet examples, use [seo-google-search-previews.md](seo-google-search-previews.md).
 
 Each item starts with a status label. The item describes the launch condition that should be true for visitors, search crawlers, and social previews. The note is for what is known, what is unresolved, or which `SITE-*` / `DEBT-*` item owns a gap.
 
@@ -57,13 +57,13 @@ Review generated files, served route responses, and hydrated browser state where
 - `Pass` Shared social image dimensions and social image alt metadata match generated metadata expectations.
   - Note: Checked PNG dimensions and generated head metadata. `/og-vive-counselling.png` is 1200x630, and `og:image:alt` / `twitter:image:alt` use the configured social preview alt text.
 
-- `Not checked` Structured data is intentionally absent, or valid and aligned with public claims if present.
-  - Note:
+- `Partial` Structured data is intentionally absent, or valid and aligned with public claims if present.
+  - Note: Homepage generated HTML now includes `WebSite` JSON-LD with the site name `Vive Counselling` and canonical apex URL. Broader Organization, Person, or counselling-service structured data remains outside current scope until public identity and credential details are final.
 
 ## `/` - Home
 
 - `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
-  - Note: Checked `src/data/routeMetadata.json`, `dist/index.html`, and built preview `/`. Title is "Vive Counselling | Online counselling across Australia" and is unique among the seven public route titles.
+  - Note: Checked `src/data/routeMetadata.json`, `dist/index.html`, and built preview `/`. Title is "Vive Counselling" and is unique among the seven public route titles.
 
 - `Pass` Meta description is present, human-readable, and matches visible page content.
   - Note: Checked route metadata, generated HTML, direct preview head, and visible Home page hero/topic content. Description matches the page's online counselling across Australia positioning and visible themes around anxiety, relationships, shame, trauma, sexuality, and inclusive support.
@@ -133,7 +133,7 @@ Review generated files, served route responses, and hydrated browser state where
 ## `/inclusion` - Inclusion Hub
 
 - `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
-  - Note: Checked `src/data/routeMetadata.json`, `dist/inclusion.html`, and built preview `/inclusion`. Title is "Inclusive Counselling for Diverse Relationships, Sexualities and Identities | Vive Counselling" and is unique among the seven public route titles.
+  - Note: Checked `src/data/routeMetadata.json`, `dist/inclusion.html`, and built preview `/inclusion`. Title is "Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling" and is unique among the seven public route titles.
 
 - `Pass` Meta description is present, human-readable, and matches visible page content.
   - Note: Checked route metadata, generated HTML, and direct preview head. Description matches the visible Inclusion Hub content around inclusive counselling, relationships, sexuality, identity, and non-shaming support.

@@ -137,6 +137,15 @@ function escapeXml(value: string) {
   return escapeHtml(value).replaceAll("'", "&apos;");
 }
 
+function getWebsiteStructuredDataScript() {
+  return `<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: routeMetadataData.site.name,
+    url: absoluteRouteUrl("/"),
+  })}</script>`;
+}
+
 function routeRobotsDirective(route: string) {
   return routeMetadataData.routes[route]?.robots;
 }
@@ -283,7 +292,7 @@ test.describe("public pages", () => {
       await expect(page.locator("h1")).toBeVisible();
       await expect(page.locator("h1")).toHaveText(routeMetadataData.routes[route].h1);
       await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(1);
-      await expect(page).not.toHaveTitle(/^Vive Counselling$/);
+      await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
 
       const h1Text = (await page.locator("h1").innerText()).trim();
       expect(h1Text.length).toBeGreaterThan(8);
@@ -358,6 +367,11 @@ test.describe("first response metadata", () => {
       expect(html).toContain(
         `<meta name="twitter:image:alt" content="${escapeHtml(routeMetadataData.site.socialImageAlt)}" />`,
       );
+      if (route === "/") {
+        expect(html).toContain(getWebsiteStructuredDataScript());
+      } else {
+        expect(html).not.toContain('"@type":"WebSite"');
+      }
       for (const faviconTag of expectedFaviconTags) {
         expect(html).toContain(faviconTag);
       }

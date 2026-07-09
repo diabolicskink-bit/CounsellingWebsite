@@ -30,6 +30,10 @@ function escapeXml(value) {
   return escapeHtml(value).replaceAll("'", "&apos;");
 }
 
+function escapeJsonForHtml(value) {
+  return value.replaceAll("<", "\\u003c");
+}
+
 function getAbsoluteUrl(siteOrigin, routePath) {
   return routePath === "/" ? `${siteOrigin}/` : `${siteOrigin}${routePath}`;
 }
@@ -48,6 +52,17 @@ function getFaviconTags() {
   ];
 }
 
+function getWebsiteStructuredDataTag(siteMetadata, siteOrigin) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteMetadata.name,
+    url: getAbsoluteUrl(siteOrigin, "/"),
+  };
+
+  return `<script type="application/ld+json">${escapeJsonForHtml(JSON.stringify(structuredData))}</script>`;
+}
+
 function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
   const imageUrl = getAssetUrl(siteOrigin, siteMetadata.socialImage);
@@ -56,6 +71,7 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   const robots = routeMetadata.robots
     ? [`<meta name="robots" content="${escapeHtml(routeMetadata.robots)}" />`]
     : [];
+  const structuredData = routePath === "/" ? [getWebsiteStructuredDataTag(siteMetadata, siteOrigin)] : [];
 
   return [
     "<!-- SEO metadata generated at build time -->",
@@ -77,6 +93,7 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
     `<meta name="twitter:description" content="${escapeHtml(routeMetadata.description)}" />`,
     `<meta name="twitter:image" content="${escapeHtml(imageUrl)}" />`,
     `<meta name="twitter:image:alt" content="${escapeHtml(siteMetadata.socialImageAlt)}" />`,
+    ...structuredData,
     ...getFaviconTags(),
     `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
     "<!-- /SEO metadata generated at build time -->",

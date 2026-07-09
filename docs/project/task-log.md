@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-09 - Homepage WebSite Structured Data Added
+
+- Added: Generated homepage HTML now includes `WebSite` JSON-LD naming `Vive Counselling` at `https://vivecounselling.com.au/` so Google has a preferred site-name signal for search results.
+- Preserved: Per-page title, description, canonical, Open Graph, Twitter, favicon, and static H1 metadata generation still come from the existing route metadata build path.
+- Clarified: Organization, Person, and detailed counselling-service structured data remain deferred until public identity and credential details are final.
+
 ## 2026-07-08 - Static First-Response H1 Shells Added
 
 - Changed: Generated public route HTML now includes a static `main` and route H1 fallback inside `#root` before React hydration, so non-JavaScript SEO checks can see a non-empty page heading.
