@@ -38,6 +38,16 @@ function getAssetUrl(siteOrigin, assetPath) {
   return `${siteOrigin}${assetPath.startsWith("/") ? assetPath : `/${assetPath}`}`;
 }
 
+function getFaviconTags() {
+  return [
+    '<link rel="icon" href="/favicon.ico" sizes="any" />',
+    '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />',
+    '<link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />',
+    '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
+    '<link rel="manifest" href="/site.webmanifest" />',
+  ];
+}
+
 function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
   const imageUrl = getAssetUrl(siteOrigin, siteMetadata.socialImage);
@@ -67,10 +77,7 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
     `<meta name="twitter:description" content="${escapeHtml(routeMetadata.description)}" />`,
     `<meta name="twitter:image" content="${escapeHtml(imageUrl)}" />`,
     `<meta name="twitter:image:alt" content="${escapeHtml(siteMetadata.socialImageAlt)}" />`,
-    '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />',
-    '<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />',
-    '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
-    '<link rel="manifest" href="/site.webmanifest" />',
+    ...getFaviconTags(),
     `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
     "<!-- /SEO metadata generated at build time -->",
   ].join("\n    ");
@@ -120,10 +127,7 @@ function getNotFoundTags(siteMetadata) {
     "<title>Page not found | Vive Counselling</title>",
     '<meta name="description" content="This page could not be found on the Vive Counselling website." />',
     `<meta name="robots" content="${escapeHtml(noindexDirective)}" />`,
-    '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />',
-    '<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />',
-    '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
-    '<link rel="manifest" href="/site.webmanifest" />',
+    ...getFaviconTags(),
     `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
     "<!-- /SEO metadata generated at build time -->",
   ].join("\n    ");

@@ -79,6 +79,13 @@ const expectedIconAssets = [
   { path: "/icon-192.png", width: 192, height: 192 },
   { path: "/icon-512.png", width: 512, height: 512 },
 ] as const;
+const expectedFaviconTags = [
+  '<link rel="icon" href="/favicon.ico" sizes="any" />',
+  '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />',
+  '<link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />',
+  '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
+  '<link rel="manifest" href="/site.webmanifest" />',
+] as const;
 const expectedSocialImageAsset = { path: "/og-vive-counselling.png", width: 1200, height: 630 } as const;
 
 const readPngDimensions = (body: Uint8Array) => {
@@ -88,6 +95,28 @@ const readPngDimensions = (body: Uint8Array) => {
     width: view.getUint32(16),
     height: view.getUint32(20),
   };
+};
+const readIcoDirectory = (body: Uint8Array) => {
+  const view = new DataView(body.buffer, body.byteOffset, body.byteLength);
+  const count = view.getUint16(4, true);
+
+  return Array.from({ length: count }, (_, index) => {
+    const offset = 6 + index * 16;
+    const imageOffset = view.getUint32(offset + 12, true);
+    const pngSignature = Array.from(body.slice(imageOffset, imageOffset + 8));
+
+    return {
+      width: view.getUint8(offset) || 256,
+      height: view.getUint8(offset + 1) || 256,
+      colorCount: view.getUint8(offset + 2),
+      reserved: view.getUint8(offset + 3),
+      planes: view.getUint16(offset + 4, true),
+      bitCount: view.getUint16(offset + 6, true),
+      bytesInRes: view.getUint32(offset + 8, true),
+      imageOffset,
+      pngSignature,
+    };
+  });
 };
 const uniqueDeploymentOriginPattern =
   /counselling-website-[a-z0-9]{8,}-diabolicskink-7990s-projects\.vercel\.app/i;
@@ -329,10 +358,9 @@ test.describe("first response metadata", () => {
       expect(html).toContain(
         `<meta name="twitter:image:alt" content="${escapeHtml(routeMetadataData.site.socialImageAlt)}" />`,
       );
-      expect(html).toContain('<link rel="icon" href="/favicon.svg" type="image/svg+xml" />');
-      expect(html).toContain('<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />');
-      expect(html).toContain('<link rel="apple-touch-icon" href="/apple-touch-icon.png" />');
-      expect(html).toContain('<link rel="manifest" href="/site.webmanifest" />');
+      for (const faviconTag of expectedFaviconTags) {
+        expect(html).toContain(faviconTag);
+      }
       expect(html).toContain(`<meta name="theme-color" content="${escapeHtml(routeMetadataData.site.themeColor)}" />`);
     });
   }
@@ -448,6 +476,9 @@ test.describe("crawl and app metadata assets", () => {
     expect(html).toContain('script type="module"');
     expect(html).toContain("/assets/");
     expect(html).not.toContain('<link rel="canonical"');
+    for (const faviconTag of expectedFaviconTags) {
+      expect(html).toContain(faviconTag);
+    }
   });
 
   test("site.webmanifest exposes the app identity and icons", async ({ request }) => {
@@ -491,6 +522,42 @@ test.describe("crawl and app metadata assets", () => {
       expect(dimensions).toEqual({ width, height });
     });
   }
+
+  test("/favicon.ico is a PNG-backed ICO fallback with expected icon sizes", async ({ request }) => {
+    const response = await request.get("/favicon.ico");
+
+    expect(response.ok()).toBeTruthy();
+    const body = await response.body();
+    const view = new DataView(body.buffer, body.byteOffset, body.byteLength);
+
+    expect(view.getUint16(0, true)).toBe(0);
+    expect(view.getUint16(2, true)).toBe(1);
+
+    const entries = readIcoDirectory(body);
+
+    expect(entries).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          width: 32,
+          height: 32,
+          colorCount: 0,
+          reserved: 0,
+          planes: 1,
+          bitCount: 32,
+          pngSignature: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+        }),
+        expect.objectContaining({
+          width: 192,
+          height: 192,
+          colorCount: 0,
+          reserved: 0,
+          planes: 1,
+          bitCount: 32,
+          pngSignature: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+        }),
+      ]),
+    );
+  });
 
   test(`${expectedSocialImageAsset.path} has the expected social preview dimensions`, async ({ request }) => {
     const response = await request.get(expectedSocialImageAsset.path);
@@ -651,6 +718,7 @@ test.describe("crawl and app metadata assets", () => {
   });
 
   for (const assetPath of [
+    "/favicon.ico",
     "/favicon.svg",
     "/favicon-32x32.png",
     "/apple-touch-icon.png",

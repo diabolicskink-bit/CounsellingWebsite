@@ -2,6 +2,8 @@
 
 This is the working checklist artifact for `LAUNCH-3`.
 
+For a route-by-route metadata inventory, use [seo-metadata-inventory.md](seo-metadata-inventory.md).
+
 Each item starts with a status label. The item describes the launch condition that should be true for visitors, search crawlers, and social previews. The note is for what is known, what is unresolved, or which `SITE-*` / `DEBT-*` item owns a gap.
 
 Do not use `Pass` to mean "looked at it." Use `Pass` only when the condition is true enough for launch.
@@ -60,38 +62,38 @@ Review generated files, served route responses, and hydrated browser state where
 
 ## `/` - Home
 
-- `Not checked` Page title is non-empty, unique among public routes, and accurate to the route purpose.
-  - Note:
+- `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
+  - Note: Checked `src/data/routeMetadata.json`, `dist/index.html`, and built preview `/`. Title is "Vive Counselling | Online counselling across Australia" and is unique among the seven public route titles.
 
-- `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - Note:
+- `Pass` Meta description is present, human-readable, and matches visible page content.
+  - Note: Checked route metadata, generated HTML, direct preview head, and visible Home page hero/topic content. Description matches the page's online counselling across Australia positioning and visible themes around anxiety, relationships, shame, trauma, sexuality, and inclusive support.
 
-- `Not checked` Canonical URL resolves to this route on the intended launch origin.
-  - Note:
+- `Pass` Canonical URL resolves to this route on the intended launch origin.
+  - Note: Checked generated HTML and direct preview head. Canonical is `https://vivecounselling.com.au/`, matching the configured apex launch origin and Home route.
 
-- `Not checked` Canonical public URL returns a `200` response.
-  - Note:
+- `Pass` Canonical public URL returns a `200` response.
+  - Note: Checked built preview route `/`; it returned `200` with `text/html`. Live Vercel smoke testing remains tracked separately by `DEBT-24`.
 
-- `Not checked` Indexability policy is not blocked by `robots.txt`, meta robots, or `X-Robots-Tag` unless intentionally accepted for launch.
-  - Note:
+- `Pass` Indexability policy is not blocked by `robots.txt`, meta robots, or `X-Robots-Tag` unless intentionally accepted for launch.
+  - Note: Checked generated `robots.txt`, direct preview `/`, generated and hydrated head, and response headers. Robots allows all, Home has no route-level robots meta tag, and the preview response had no `X-Robots-Tag` header.
 
-- `Not checked` Sitemap output includes this route exactly once.
-  - Note:
+- `Pass` Sitemap output includes this route exactly once.
+  - Note: Checked generated `dist/sitemap.xml`. It includes exact `<loc>https://vivecounselling.com.au/</loc>` once.
 
-- `Not checked` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
-  - Note:
+- `Pass` Open Graph and Twitter metadata include `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, and image metadata that match this page purpose.
+  - Note: Checked `dist/index.html` and direct preview head. OG/Twitter title, description, URL, card type, image URL, image dimensions, and social image alt metadata are present and match the Home route purpose.
 
-- `Not checked` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
-  - Note:
+- `Pass` Page uses the intended route-specific social image or an accepted shared fallback with correct social image alt metadata.
+  - Note: Home uses the configured shared fallback social image. Built preview serves `/og-vive-counselling.png`, and generated social image alt metadata matches the configured asset.
 
-- `Not checked` Generated initial HTML/head metadata matches expected route metadata.
-  - Note:
+- `Pass` Generated initial HTML/head metadata matches expected route metadata.
+  - Note: Checked `dist/index.html` against `src/data/routeMetadata.json`. Generated title, description, canonical, OG, and Twitter metadata match the Home route metadata and configured site metadata.
 
-- `Not checked` Hydrated and client-side navigation metadata remains correct, or any known gap is linked to `DEBT-27`.
-  - Note:
+- `Partial` Hydrated and client-side navigation metadata remains correct, or any known gap is linked to `DEBT-27`.
+  - Note: Direct hydrated load of `/` preserved the expected title, description, canonical, OG, and Twitter metadata. Navigating client-side from `/inclusion` to `/` updated title and description but left canonical, OG, and Twitter title/description/URL on the Inclusion values. Tracked by `DEBT-27`.
 
-- `Not checked` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
-  - Note:
+- `Pass` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
+  - Note: Checked title and description against project direction and visible Home copy. Wording describes online counselling and areas people bring without promising outcomes, pathologising identities or experiences, or overstating clinical claims.
 
 ## `/working-with-joel` - Working with Joel
 

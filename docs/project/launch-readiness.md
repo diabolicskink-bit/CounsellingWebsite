@@ -81,7 +81,7 @@ Statuses:
 - `Review Method`: Work through the checklist for global metadata outputs, each public route, redirect routes, and the not-found route, with notes that link any concrete gap to `SITE-*` or `DEBT-*`.
 - `Passes When`: Every public route has reviewed metadata expectations, and missing or incorrect required values are resolved or linked to `SITE-*` / `DEBT-*`.
 - `Linked Work`: `DEBT-8`, `DEBT-27`, `DEBT-32`, `DEBT-33`, `LAUNCH-8`, `SITE-11`, `SITE-14`, `SITE-15`, `SITE-16`, `SITE-17`, `SITE-23`
-- `Links`: `docs/checklists/seo-metadata-launch.md`, `docs/reports/2026-07-08-seo-discoverability-review.md`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `docs/project/project-debt.md`
+- `Links`: `docs/checklists/seo-metadata-launch.md`, `docs/checklists/seo-metadata-inventory.md`, `docs/reports/2026-07-08-seo-discoverability-review.md`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `docs/project/project-debt.md`
 
 ### LAUNCH-4 - Performance and image delivery launch review
 
