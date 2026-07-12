@@ -42,6 +42,7 @@ This is the live factual inventory of the design system. Keep it current when th
 - `ds-*` is docs/dev-page support styling, not a production system.
 - The old `src/components/Card.tsx` component and generic `.card`, `.card-grid`, `.card-kicker`, and card-specific responsive selectors have been removed from source. Do not reintroduce them for new production or design-system work.
 - The old `src/components/SplitSection.tsx` component and generic `.section`, `.section--surface`, and `.split` production selectors have been removed from source. Compose current split sections with `.site-grid` or `.site-highlight`, `Container`, `.site-split`, `.section-heading`, and `.rich-text`.
+- The old `.issues-section`, `.issues-section__inner`, `.topic-grid`, and `.topic-card` production selectors have been removed. Use the active `.site-topic-grid` and `.site-topic-card` system or a deliberate page-scoped section composition.
 - `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css` and should not be expanded for production work.
 - `legacy-*`, old `test-bed-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only.
 - No active `site-hero-*` source usage was found during the latest pass. Treat any future discovery as superseded by `hero-*` unless deliberately re-promoted.

@@ -88,7 +88,7 @@ const homePageContent: HomePageContent = {
   title: homeMetadata.title,
   meta: homeMetadata.description,
   hero: {
-    eyebrow: "Online counselling across Australia",
+    eyebrow: "Counselling and Psychotherapy",
     title: {
       before: "Counselling for when life feels ",
       emphasis: "hard to untangle",
@@ -98,7 +98,7 @@ const homePageContent: HomePageContent = {
       "I offer online counselling for adults across Australia, based in Perth. I work with anxiety, relationship strain, self-criticism, trauma, sexuality, and experiences that feel exposing, confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.",
     trustAriaLabel: "Practice details",
     trustItems: [
-      "Perth-based, online across Australia",
+      "Perth-based, Austrlia wide",
       "Individual counselling",
       "Serious, thoughtful, and human",
       "Kink-, ENM-, and LGBTQIA+-aware",

@@ -594,55 +594,6 @@ h3 {
   gap: 50px;
 }
 
-.issues-section {
-  padding-block: 62px 72px;
-}
-
-.issues-section__inner {
-  gap: 34px;
-}
-
-.issues-section .section-heading {
-  gap: 12px;
-}
-
-.issues-section .section-heading h2 {
-  max-width: 680px;
-  font-size: clamp(2.05rem, 2.65rem, 3rem);
-  line-height: 1.08;
-}
-
-.issues-section .section-heading__copy {
-  max-width: 720px;
-}
-
-.topic-grid {
-  display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-}
-
-.topic-card {
-  display: grid;
-  gap: 16px;
-  height: 100%;
-  padding: 28px;
-  background: linear-gradient(180deg, var(--surface-strong) 0%, #f9faf7 100%);
-  border: 1px solid rgba(35, 75, 61, 0.08);
-  box-shadow: 0 24px 40px rgba(31, 35, 31, 0.06);
-  border-radius: 24px;
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-
-.topic-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 32px 52px rgba(31, 35, 31, 0.1);
-}
-
-.topic-card h3 {
-  color: var(--accent-deep);
-}
-
 .small-note,
 .form-note {
   color: var(--faint);
@@ -2187,10 +2138,6 @@ h3 {
     color: var(--cedar);
   }
 
-  .topic-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
 }
 
 @media (max-width: 700px) {
@@ -2220,7 +2167,6 @@ h3 {
     padding-block: 18px 20px;
   }
 
-  .topic-grid,
   .site-footer__primary {
     grid-template-columns: 1fr;
   }

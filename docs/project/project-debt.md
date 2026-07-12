@@ -183,7 +183,7 @@ Each active item should include enough direction that a future session can choos
 - `Detected`: 2026-06-17
 - `Source`: `docs/reports/2026-06-17-technical-code-review.md`
 - `Area`: Design System, CSS, Maintainability
-- `Problem`: Older shared CSS layers such as `.stack`, `.topic-card`, and related overrides still live in production CSS while most pages now use `site-*` and `hero-*`.
+- `Problem`: Older shared CSS layers such as `.stack` and related utilities still live in production CSS while most pages now use `site-*` and `hero-*`.
 - `Why It Matters`: Legacy layers increase cascade surface area and make it harder to know which patterns are active, deprecated, or safe to copy.
 - `Preferred Direction`: Use focused cleanup sweeps to audit actual usage, remove dead rules, quarantine legacy aliases, and preserve still-used pieces until replacements exist.
 - `Resolution Path`: Treat this as a parent card. Use targeted usage scans to create or work through smaller linked debt items, remove only confirmed-dead rules, and preserve or document compatibility paths that are still needed.
@@ -194,16 +194,15 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-15`: Global CSS bundling increases the impact of lingering legacy selectors.
   - `DEBT-17`: Archived card/component cleanup removed the generic legacy card source from this broader legacy CSS issue.
   - `DEBT-18`: Archived panel/strip selector cleanup removed one smaller slice from the same legacy CSS cluster.
-  - `DEBT-19`: This is the smaller issue/topic grid audit that overlaps with active card patterns.
+  - `DEBT-19`: Archived issue/topic grid audit removed a dead selector cluster that overlapped with active card patterns.
   - `DEBT-21`: Shared typography cleanup is another focused design-system CSS cleanup lane, though it is about type roles rather than legacy selector removal.
-- `Dependencies`:
-  - `DEBT-19`: Complete, retain, or supersede the concrete issue/topic grid slice before closing the broad legacy CSS parent.
+- `Dependencies`: `None`
 - `Notes`:
   - This is a broad cleanup parent. When a concrete slice is found, add a smaller linked `DEBT-*` item instead of expanding this card indefinitely.
   - Archived `DEBT-17` removed `src/components/Card.tsx`, generic `.card`, `.card-grid`, `.card-kicker`, and card-specific responsive hooks.
   - Archived `DEBT-18` removed the old panel/strip selector slice found in the same legacy CSS cluster.
   - 2026-06-27: Removed unused `SplitSection` plus the old generic `.section`, `.section--surface`, and `.split` production selectors after the CSS checklist found no source call sites and current section guidance pointed to `site-*` patterns.
-  - `DEBT-19` covers old issue/topic grid selectors that overlap with the active `site-topic-*` card system.
+  - 2026-07-10: Archived `DEBT-19` after removing the unused `.issues-section*`, `.topic-grid`, and `.topic-card` selector cluster while preserving the active `site-topic-*` system.
 - `Links`: `src/styles.css`, `docs/design-system/maintenance/cleanup-sweeps.md`, `docs/design-system/current-scope.md`
 
 ### DEBT-15 - Public page CSS is globally bundled and relies on naming discipline
@@ -230,31 +229,6 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
 - `Links`: `src/App.tsx`, `src/pages/`, `src/styles-*.css`
-
-### DEBT-19 - Legacy issue and topic grid CSS needs usage audit
-
-- `Priority`: `P2`
-- `Size`: `S`
-- `Priority Rationale`: This is `P2` because legacy and active topic-card names overlap semantically, but a focused usage audit should clarify whether deletion is safe.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `DEBT-13`, local usage scan on 2026-06-17
-- `Area`: Design System, CSS, Cards, Maintainability
-- `Problem`: `.issues-section`, `.topic-grid`, and `.topic-card` still exist in `src/styles.css` alongside the active `.site-topic-grid` and `.site-topic-card` system.
-- `Why It Matters`: Similar old and active topic-card names make it easy for future work to copy the wrong pattern.
-- `Preferred Direction`: Confirm current usage, then remove dead legacy issue/topic selectors or document any retained compatibility case.
-- `Resolution Path`: Search source and docs for the old issue/topic selectors, compare any real usage with the active `site-topic-*` system, then delete, retain, or split the cleanup based on what is found.
-- `Next Action`: Run a focused source search for `.issues-section`, `.topic-grid`, and `.topic-card`, then compare any remaining need with the active `site-topic-*` system.
-- `Resolved When`: Old issue/topic grid selectors are removed, explicitly retained, or split into narrower cleanup items if hidden usage is found.
-- `Related Items`:
-  - `DEBT-13`: This is a concrete child slice of the broader legacy CSS cleanup parent.
-  - `DEBT-17`: Archived card cleanup removed the generic `.card` path; this item keeps the remaining issue/topic selector audit separate.
-  - `DEBT-18`: Archived panel/strip cleanup removed adjacent selectors from the same legacy CSS region.
-  - `SITE-8`: If media/hero patterns are promoted later, this cleanup helps keep active design-system naming clearer.
-- `Dependencies`: `None`
-- `Notes`:
-  - Overlaps with `DEBT-13`; archived `DEBT-17` removed only the generic card path, not the remaining issue/topic selectors.
-- `Links`: `src/styles.css`, `docs/design-system/patterns/page-patterns.md`, `docs/design-system/current-scope.md`, `docs/design-system/maintenance/migration-notes.md`
 
 ### DEBT-20 - Page-specific typography overrides need role audit
 
@@ -511,6 +485,12 @@ Each active item should include enough direction that a future session can choos
 
 ## Archive
 
+### DEBT-19 - Legacy issue and topic grid CSS needs usage audit
+
+Resolved on 2026-07-10 after a focused usage audit found no source call sites for `.issues-section`, `.issues-section__inner`, `.topic-grid`, or `.topic-card`. The dead base, hover, heading, contextual, and responsive rules were removed from `src/styles.css`.
+
+The active `.site-topic-grid` and `.site-topic-card` pattern remains documented and demonstrated. Broader legacy CSS cleanup remains tracked under `DEBT-13`.
+
 ### DEBT-26 - Social sharing image metadata points at a missing asset
 
 Resolved on 2026-07-08 by generating the shared 1200x630 social preview image at `public/og-vive-counselling.png` and updating the configured social image alt text to match the finished asset.
@@ -583,13 +563,13 @@ The remaining source cleanup was split into `DEBT-17` and later resolved there b
 
 Resolved on 2026-06-17 by confirming that the legacy `Card` component and generic card selectors had no active source usage, then removing `src/components/Card.tsx`, `.card`, `.card-grid`, `.card-kicker`, `.card-title--small`, the `.issues-section .card*` overrides, and card-specific responsive hooks from production CSS.
 
-The active card API remains `.site-card`, `.site-card--link`, `.site-card__*`, `.site-card-grid`, `.site-topic-card`, `.site-fee-card`, and deliberate page-scoped compositions. Broader legacy CSS cleanup remains tracked under `DEBT-13`; panel/strip selectors were later resolved in `DEBT-18`, and issue/topic selectors remain tracked in `DEBT-19`.
+The active card API remains `.site-card`, `.site-card--link`, `.site-card__*`, `.site-card-grid`, `.site-topic-card`, `.site-fee-card`, and deliberate page-scoped compositions. Broader legacy CSS cleanup remains tracked under `DEBT-13`; panel/strip selectors were later resolved in `DEBT-18`, and issue/topic selectors were later resolved in `DEBT-19`.
 
 ### DEBT-18 - Legacy panel and strip CSS need usage audit
 
 Resolved on 2026-06-27 through the progressive CSS checklist cleanup. The old panel/media shell selectors `.image-panel`, `.feature-panel*`, and `.two-column-panel` were removed first after source searches found no active usage; the remaining unused `.fit-strip*` band selectors and responsive hooks were then removed from `src/styles.css`.
 
-No compatibility case was found for the panel/strip cluster. Broader legacy CSS review remains tracked under `DEBT-13`, and adjacent old issue/topic selectors remain separated under `DEBT-19`.
+No compatibility case was found for the panel/strip cluster. Broader legacy CSS review remains tracked under `DEBT-13`; the adjacent old issue/topic selector slice was later resolved in `DEBT-19`.
 
 ### DEBT-25 - Shared public route manifest may be needed
 

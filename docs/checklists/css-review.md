@@ -191,9 +191,9 @@ Use this structure when a region is expanded to class-token leaves:
 - `Follow-up`: Revisit naming and ownership during `CSS-1.3` expansion/review if desired; no remaining `CSS-1.4` action.
 
 - `CSS-1.5` `Expanded` Older shared and legacy pre-`site-*` patterns.
-  - Scope: `.check-item`, `.icon-box`, `.section`, `.split`, `.section-heading*`, `.rich-text*`, `.stack`, `.issues-section*`, `.topic-grid`, `.topic-card`, `.small-note`, `.form-note`, `.info-card`, and `.quiet-card`. Removed `CSS-1.5.1` panel/media shells, `.check-list`, and `.fit-strip*` are retained below as actioned history.
+  - Scope: `.check-item`, `.icon-box`, `.section-heading*`, `.rich-text*`, `.stack`, `.small-note`, `.form-note`, `.info-card`, and `.quiet-card`. Removed `CSS-1.5.1` panel/media shells, `.section`, `.split`, `.check-list`, `.fit-strip*`, `.issues-section*`, `.topic-grid`, and `.topic-card` are retained below as actioned history.
   - Next: Review one subgroup at a time, starting with remaining legacy/debt-linked groups before active non-prefixed exceptions.
-  - Related Work: `DEBT-13`, archived `DEBT-18`, `DEBT-19`, `DEBT-20`, `DEBT-21`.
+  - Related Work: `DEBT-13`, archived `DEBT-18`, archived `DEBT-19`, `DEBT-20`, `DEBT-21`.
 
 ### CSS-1.5 - Older shared and legacy pre-`site-*` patterns
 
@@ -499,63 +499,63 @@ Use this structure when a region is expanded to class-token leaves:
 
 #### CSS-1.5.6 - Legacy issue and topic-card cluster
 
-- `Status`: `Expanded`
-- `Layer`: Legacy shared production CSS
-- `Scope`: Older issues section and topic-card system that overlaps active `site-topic-*` patterns.
-- `Related Work`: `DEBT-13`, `DEBT-19`.
-- `Next`: Review individual class tokens.
+- `Status`: `Actioned`
+- `Layer`: Removed legacy shared production CSS
+- `Scope`: Removed the older issues section and topic-card system that overlapped active `site-topic-*` patterns.
+- `Related Work`: `DEBT-13`, archived `DEBT-19`.
+- `Next`: None for this subgroup.
 
 ##### CSS-1.5.6.1 - `.issues-section`
 
-- `Status`: `Not reviewed`
-- `Layer`: Legacy shared production CSS
+- `Status`: `Actioned`
+- `Layer`: Removed legacy shared production CSS
 - `Selectors Covered`: `.issues-section`, `.issues-section .section-heading`, `.issues-section .section-heading h2`, and `.issues-section .section-heading__copy`.
-- `Naming/Structure Check`:
-- `Declaration Review`:
-- `Architecture Check`:
-- `Used By`:
-- `Decision`:
-- `Evidence`:
-- `Follow-up`:
+- `Naming/Structure Check`: Superseded by the documented `site-*` section and topic-card APIs.
+- `Declaration Review`: Removed the base section spacing and contextual section-heading overrides as one dead compatibility slice.
+- `Architecture Check`: No production or rendered design-system call sites remained, so retaining contextual overrides only increased cascade ambiguity.
+- `Used By`: No source call sites found.
+- `Decision`: Remove.
+- `Evidence`: Focused source search on 2026-07-10 found references only in maintenance documentation; current public and design-system topic layouts use page-scoped classes or `.site-topic-*`.
+- `Follow-up`: None.
 
 ##### CSS-1.5.6.2 - `.issues-section__inner`
 
-- `Status`: `Not reviewed`
-- `Layer`: Legacy shared production CSS
+- `Status`: `Actioned`
+- `Layer`: Removed legacy shared production CSS
 - `Selectors Covered`: `.issues-section__inner`.
-- `Naming/Structure Check`:
-- `Declaration Review`:
-- `Architecture Check`:
-- `Used By`:
-- `Decision`:
-- `Evidence`:
-- `Follow-up`:
+- `Naming/Structure Check`: Belonged only to the removed `.issues-section` compatibility path.
+- `Declaration Review`: Removed its isolated gap override with the parent cluster.
+- `Architecture Check`: No source call sites remained.
+- `Used By`: No source call sites found.
+- `Decision`: Remove.
+- `Evidence`: Focused source search on 2026-07-10 found references only in maintenance documentation.
+- `Follow-up`: None.
 
 ##### CSS-1.5.6.3 - `.topic-grid`
 
-- `Status`: `Not reviewed`
-- `Layer`: Legacy shared production CSS
+- `Status`: `Actioned`
+- `Layer`: Removed legacy shared production CSS
 - `Selectors Covered`: `.topic-grid` and responsive `.topic-grid`.
-- `Naming/Structure Check`:
-- `Declaration Review`:
-- `Architecture Check`:
-- `Used By`:
-- `Decision`:
-- `Evidence`:
-- `Follow-up`:
+- `Naming/Structure Check`: Ambiguous beside the active `.site-topic-grid` API.
+- `Declaration Review`: Removed the base grid and both responsive overrides together.
+- `Architecture Check`: The active `.site-topic-grid` system covers the supported shared outcome; no compatibility call site remained.
+- `Used By`: No source call sites found.
+- `Decision`: Remove.
+- `Evidence`: Focused source search on 2026-07-10 found only `.site-topic-grid` runtime/demo use and maintenance references to the old class.
+- `Follow-up`: None.
 
 ##### CSS-1.5.6.4 - `.topic-card`
 
-- `Status`: `Not reviewed`
-- `Layer`: Legacy shared production CSS
+- `Status`: `Actioned`
+- `Layer`: Removed legacy shared production CSS
 - `Selectors Covered`: `.topic-card`, `.topic-card:hover`, `.topic-card h3`.
-- `Naming/Structure Check`:
-- `Declaration Review`:
-- `Architecture Check`:
-- `Used By`:
-- `Decision`:
-- `Evidence`:
-- `Follow-up`:
+- `Naming/Structure Check`: Ambiguous beside the active `.site-topic-card` API.
+- `Declaration Review`: Removed the base card, hover, and heading rules as a complete dead selector group.
+- `Architecture Check`: The active `.site-topic-card` pattern remains documented and demonstrated; no compatibility call site remained.
+- `Used By`: No source call sites found.
+- `Decision`: Remove.
+- `Evidence`: Focused source search on 2026-07-10 found only `.site-topic-card` runtime/demo use and maintenance references to the old class.
+- `Follow-up`: None.
 
 #### CSS-1.5.7 - Small note and card-like utilities
 

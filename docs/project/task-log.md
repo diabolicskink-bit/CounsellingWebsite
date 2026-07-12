@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-10 - DEBT-19 Legacy Topic CSS Resolved
+
+- Removed: Confirmed-dead `.issues-section*`, `.topic-grid`, and `.topic-card` base, contextual, hover, heading, and responsive rules from production CSS.
+- Preserved: Public markup, behaviour, visual intent, and the active `.site-topic-grid` and `.site-topic-card` system remain unchanged.
+- Closed: Archived `DEBT-19` and updated the CSS checklist, migration notes, and design-system scope to record the removal.
+
 ## 2026-07-09 - Homepage WebSite Structured Data Added
 
 - Added: Generated homepage HTML now includes `WebSite` JSON-LD naming `Vive Counselling` at `https://vivecounselling.com.au/` so Google has a preferred site-name signal for search results.

@@ -13,7 +13,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Root project guidance now lives under `docs/project/`; visual-system guidance lives under `docs/design-system/`.
 - Launch readiness gates, review passes, and acceptance checks are tracked separately in `docs/project/launch-readiness.md` with stable `LAUNCH-*` IDs.
 - The design system has rebuilt written docs, rendered dev pages, shared components, shared CSS class layers, and cleanup guidance.
-- Public-page content and product positioning are governed by `docs/project/product-direction.md`.
+- Public-page content and product positioning are governed by `docs/project/product-direction.md`; root `PRODUCT.md` mirrors that strategy for frontend design tooling.
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
 - A prerender script updates route metadata artifacts, static first-response H1/main fallback shells, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.
 - Launch indexability is enabled for Home, Working with Joel, Inclusion, and Contact/Fees. Generated route HTML for those pages omits `noindex`, `sitemap.xml` advertises only those four canonical URLs, and `robots.txt` allows crawling with a sitemap reference.

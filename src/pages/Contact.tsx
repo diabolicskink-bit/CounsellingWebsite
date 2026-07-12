@@ -85,7 +85,7 @@ const contactPageContent: ContactPageContent = {
       after: ".",
     },
     support:
-      "Online counselling for adults across Australia. If you are considering a first session, you can enquire here about availability, fees, or arranging a time to begin.",
+      "Counselling and Psychotherapy for adults across Australia. If you are considering a first session, you can enquire here about availability, fees, or arranging a time to begin.",
     detailsAriaLabel: "Contact page details",
     details: [
       "Available across Australia",
@@ -96,7 +96,7 @@ const contactPageContent: ContactPageContent = {
     ariaLabel: "Session fees",
     label: "Standard session",
     amount: "$120",
-    detail: "50 minutes / Online",
+    detail: "50 minutes",
     note: "Free 15-minute initial consult available",
   },
   form: enquiryFormContent,
