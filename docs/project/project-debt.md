@@ -419,7 +419,7 @@ Each active item should include enough direction that a future session can choos
 - `Why It Matters`: Google can render JavaScript, but Google Search Central still recommends server-side or pre-rendered HTML because not all bots can run JavaScript and first-response content is better for crawlers and users. React also recommends `hydrateRoot` rather than `createRoot` when initial HTML was generated on the server or during the build.
 - `Preferred Direction`: Replace the minimal fallback shell with true static generation for public routes: render the actual React route tree during `npm run build`, write route-specific HTML into each generated file, and hydrate it on the client with `hydrateRoot`.
 - `Resolution Path`: Create a small shared app/rendering boundary that supports both browser routing and static route rendering, add a React server-render entry using React Router's static routing, inject the rendered route HTML during prerendering, switch the client entry to `hydrateRoot` for generated route HTML, and keep generated head metadata, sitemap, robots, redirects, and `404.html` behaviour aligned.
-- `Next Action`: Complete the Home vertical slice by writing its validated component render into `dist/index.html`, marking the artifact with its prerendered route, and hydrating it only when the browser pathname matches while retaining `createRoot` fallbacks elsewhere.
+- `Next Action`: Expand the proven static-render and hydration contract through Working with Joel, Inclusion, and the three draft Inclusion child routes while preserving their navigation, sitemap, and noindex policies.
 - `Resolved When`: Generated public route HTML contains the actual route markup before JavaScript, the client hydrates that markup without clearing it, non-JavaScript route checks can see meaningful page content beyond a fallback H1, and `npm run qa:site` covers the static and hydrated paths.
 - `Related Items`:
   - `DEBT-8`: Route parity checks should include any new static rendering route list or render manifest expectations.
@@ -435,6 +435,7 @@ Each active item should include enough direction that a future session can choos
   - Keep this behaviour-preserving for visitors: no copy, route, layout, visual, or public form-flow changes should be bundled into the rendering migration.
   - Phase 3 completed the shared application boundary: browser and static wrappers supply different routers to the same route tree under the same Strict Mode boundary. Phase 4 now executes the static wrapper during its build smoke check.
   - Phase 4 added the production Vite SSR bundle and render entry. The prerender build now imports the disposable bundle and validates a real Home render in memory, while intentionally continuing to write the temporary shell until the Phase 5 Home hydration vertical slice.
+  - Phase 5 completed the Home vertical slice: its first response now contains the real component tree, matching route/timestamp markers select `hydrateRoot`, and explicit activation plus recoverable-error diagnostics cover the staged fallback contract. Other public routes remain on the temporary shell until Phase 6 and Phase 7.
 - `Links`: `scripts/prerender-route-metadata.mjs`, `src/main.tsx`, `src/App.tsx`, `src/data/routeMetadata.json`, `tests/public-site.spec.ts`, `docs/project/launch-readiness.md`
 
 ### DEBT-33 - Temporary static H1 fallback shell needs retirement path
@@ -463,6 +464,7 @@ Each active item should include enough direction that a future session can choos
   - Do not remove the fallback before there is another first-response H1/content path; it currently fixes real raw-HTML SEO checker warnings.
   - The public-site suite asserts that the fallback H1 matches the hydrated page H1. The initial 2026-07-13 prerender baseline exposed Home drift in both browser projects, confirming the duplicate-content risk this item tracks.
   - `master` commit `2a779c7` aligned the Home shell metadata with the component H1, and the aligned `work/prerendering` baseline now passes all enabled public-site tests. The duplicate ownership remains temporary and should still be removed through the component-rendered prerender path.
+  - Home no longer consumes the temporary H1 shell as of Phase 5. The metadata `h1` field and shell path remain required for the unconverted public routes until the staged rollout is complete.
 - `Links`: `scripts/prerender-route-metadata.mjs`, `src/data/routeMetadata.json`, `src/data/routeMetadata.ts`, `tests/public-site.spec.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned

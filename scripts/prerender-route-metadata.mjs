@@ -139,14 +139,16 @@ function applyStaticRouteShell(html, routePath, routeMetadata, prerenderedAt) {
   throw new Error(`Unable to find root element while adding static route shell: ${routePath}`);
 }
 
-function applyRenderedRouteRoot(html, renderedMarkup, prerenderedAt) {
+function applyRenderedRouteRoot(html, renderedMarkup, routePath, prerenderedAt) {
   const emptyRoot = '<div id="root"></div>';
 
   if (!html.includes(emptyRoot)) {
     throw new Error("Unable to find the empty root element while validating the static render entry.");
   }
 
-  const renderedRoot = `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">${renderedMarkup}</div>`;
+  const renderedRoot = `<div id="root" data-render-mode="prerendered" data-prerendered-path="${escapeHtml(
+    routePath,
+  )}" data-prerendered-at="${escapeHtml(prerenderedAt)}">${renderedMarkup}</div>`;
 
   return html.replace(emptyRoot, () => renderedRoot);
 }
@@ -236,21 +238,18 @@ if (typeof serverEntry.renderRoute !== "function") {
   throw new Error(`Server render bundle does not export renderRoute: ${serverEntryPath}`);
 }
 
-const renderedHomeCandidate = applyRenderedRouteRoot(
-  templateHtml,
-  serverEntry.renderRoute("/", { initialRenderAt: prerenderedAt }),
-  prerenderedAt,
-);
-
-assertHomeRenderSmoke(renderedHomeCandidate);
+const renderedHomeMarkup = serverEntry.renderRoute("/", { initialRenderAt: prerenderedAt });
 
 for (const [routePath, routeMetadata] of Object.entries(routes)) {
-  const routeHtml = applyStaticRouteShell(
-    applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin),
-    routePath,
-    routeMetadata,
-    prerenderedAt,
-  );
+  const routeTemplate = applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin);
+  const routeHtml =
+    routePath === "/"
+      ? applyRenderedRouteRoot(routeTemplate, renderedHomeMarkup, routePath, prerenderedAt)
+      : applyStaticRouteShell(routeTemplate, routePath, routeMetadata, prerenderedAt);
+
+  if (routePath === "/") {
+    assertHomeRenderSmoke(routeHtml);
+  }
 
   for (const outputPath of getRouteOutputPaths(routePath)) {
     await mkdir(path.dirname(outputPath), { recursive: true });

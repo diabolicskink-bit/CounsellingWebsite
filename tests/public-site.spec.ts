@@ -30,6 +30,7 @@ const publicRoutes = [
   "/inclusion/lgbtqia",
   "/contact",
 ] as const;
+const prerenderedRoutes = ["/"] as const;
 
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
@@ -293,6 +294,10 @@ test.describe("public pages", () => {
       await expect(page.locator("h1")).toHaveText(routeMetadataData.routes[route].h1);
       await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(1);
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
+      await expect(page.locator("#root")).toHaveAttribute(
+        "data-react-activation",
+        prerenderedRoutes.includes(route as (typeof prerenderedRoutes)[number]) ? "hydrate" : "client-render",
+      );
 
       const h1Text = (await page.locator("h1").innerText()).trim();
       expect(h1Text.length).toBeGreaterThan(8);
@@ -311,6 +316,51 @@ test.describe("public pages", () => {
       await expectNoPageDiagnostics(diagnostics);
     });
   }
+});
+
+test.describe("Home hydration rollout", () => {
+  test("keeps client navigation active after hydrating Home", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+
+    await page.goto("/", { waitUntil: "networkidle" });
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
+    await page.evaluate(() => {
+      document.body.dataset.spaNavigationSentinel = "preserved";
+    });
+
+    await page.locator(".site-footer__nav").getByRole("link", { name: "Working with Joel" }).click();
+
+    await expect(page).toHaveURL(/\/working-with-joel$/);
+    await expect(page.locator("h1")).toHaveText(routeMetadataData.routes["/working-with-joel"].h1);
+    expect(await page.evaluate(() => document.body.dataset.spaNavigationSentinel)).toBe("preserved");
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
+  test("client-renders an unknown browser path without hydrating Home markup", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+
+    await page.goto("/not-a-real-page", { waitUntil: "networkidle" });
+
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "client-render");
+    await expectNotFoundPage(page, "/not-a-real-page");
+    await expectNoPageDiagnostics(diagnostics);
+  });
+});
+
+test.describe("Home without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("exposes meaningful component-rendered content and links", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    await expect(page.locator("header.site-header")).toBeVisible();
+    await expect(page.locator("main.home-page")).toBeVisible();
+    await expect(page.locator("h1")).toHaveText("Counselling and Psychotherapy");
+    await expect(page.locator('a[href="/working-with-joel"]')).not.toHaveCount(0);
+    await expect(page.locator('img[src="/joel-griffiths-homepage-portrait.jpg"]')).toBeVisible();
+    await expect(page.locator("footer.site-footer")).toBeVisible();
+    await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
+  });
 });
 
 test.describe("landmark structure", () => {
@@ -336,9 +386,23 @@ test.describe("first response metadata", () => {
 
       expect(response.ok()).toBeTruthy();
       expectNoGeneratedOriginLeak(html);
-      expect(html).toContain(`<main data-static-route-shell="${escapeHtml(route)}">`);
-      expect(html).toContain(`<h1>${escapeHtml(metadata.h1)}</h1>`);
-      expect(html).toContain(`<p>${escapeHtml(metadata.description)}</p>`);
+      if (prerenderedRoutes.includes(route as (typeof prerenderedRoutes)[number])) {
+        expect(html).toContain('data-render-mode="prerendered"');
+        expect(html).toContain(`data-prerendered-path="${escapeHtml(route)}"`);
+        expect(html).toContain('<header class="site-header">');
+        expect(html).toContain('<main class="site-page home-page">');
+        expect(html).toContain(`<h1 class="hero-badge">${escapeHtml(metadata.h1)}</h1>`);
+        expect(html).toContain('href="/working-with-joel"');
+        expect(html).toContain('src="/joel-griffiths-homepage-portrait.jpg"');
+        expect(html).toContain('<footer class="site-footer">');
+        expect(html).not.toContain("data-static-route-shell");
+        expect(html).not.toContain("Static route shell generated at build time");
+      } else {
+        expect(html).toContain(`<main data-static-route-shell="${escapeHtml(route)}">`);
+        expect(html).toContain(`<h1>${escapeHtml(metadata.h1)}</h1>`);
+        expect(html).toContain(`<p>${escapeHtml(metadata.description)}</p>`);
+        expect(html).not.toContain('data-render-mode="prerendered"');
+      }
       expect(html).toContain(`<title>${escapeHtml(metadata.title)}</title>`);
       expect(html).toContain(
         `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
@@ -387,7 +451,7 @@ test.describe("crawl and app metadata assets", () => {
     for (const route of [...publicRoutes, "/404.html"]) {
       const response = await request.get(route);
       const html = await response.text();
-      const timestamp = html.match(/<div id="root" data-prerendered-at="([^"]+)">/)?.[1];
+      const timestamp = html.match(/<div id="root"[^>]*data-prerendered-at="([^"]+)"[^>]*>/)?.[1];
 
       expect(response.ok()).toBeTruthy();
       expect(timestamp).toBeTruthy();
@@ -504,6 +568,7 @@ test.describe("crawl and app metadata assets", () => {
     expect(html).toContain('<main data-static-route-shell="/404.html">');
     expect(html).toContain("<h1>That page isn't here.</h1>");
     expect(html).toContain("<p>This page could not be found on the Vive Counselling website.</p>");
+    expect(html).not.toContain('data-render-mode="prerendered"');
     expect(html).toContain('script type="module"');
     expect(html).toContain("/assets/");
     expect(html).not.toContain('<link rel="canonical"');

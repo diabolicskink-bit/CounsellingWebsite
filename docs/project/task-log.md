@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-13 - Home Static Rendering And Hydration Added
+
+- Changed: Generated Home HTML now contains the real React header, navigation, page sections, links, portrait, and footer before JavaScript rather than the temporary H1-only shell.
+- Added: Explicit route/timestamp markers select `hydrateRoot` only for matching Home artifacts; unconverted, development, unknown, stale, and 404 paths retain the guarded `createRoot` fallback.
+- Verified: Production-preview desktop/mobile tests cover raw and JavaScript-disabled content, warning-free hydration, SPA navigation, mismatch fallback, metadata, landmarks, and the controlled 404 contract.
+
 ## 2026-07-10 - DEBT-19 Legacy Topic CSS Resolved
 
 - Removed: Confirmed-dead `.issues-section*`, `.topic-grid`, and `.topic-card` base, contextual, hover, heading, and responsive rules from production CSS.

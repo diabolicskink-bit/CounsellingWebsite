@@ -316,8 +316,14 @@ Do not remove the fallback shell from unconverted public routes yet.
 
 #### Notes
 
-- Status: Not started.
+- Status: Complete.
 - Agent notes:
+  - Home is the first written component-rendered artifact. Its root carries `data-render-mode="prerendered"`, `data-prerendered-path="/"`, and the same `data-prerendered-at` value passed to the static render.
+  - The browser normalizes trailing slashes and hydrates only when the render marker, valid timestamp, and normalized browser/artifact paths all match. Every other case keeps the `createRoot` client-render fallback.
+  - The root records `data-react-activation="hydrate"` or `"client-render"` for production QA. Recoverable hydration failures log through the stable `[vive:hydration-recoverable]` console prefix.
+  - All other metadata-backed public routes still receive the temporary static shell, and `404.html` remains the generic noindex fallback. Phase 6 remains unstarted.
+  - Focused desktop/mobile coverage proves raw and JavaScript-disabled Home content, warning-free hydration, SPA navigation after hydration, unconverted-route fallback, unknown-path mismatch safety, shared timestamps, metadata, and the controlled 404 contract.
+  - Desktop and 412x915 mobile visual checks passed with the existing layout intact; the hydrated mobile navigation opened with the expected expanded and close-button semantics and no browser errors.
 
 ### Phase 6 - Expand Through Stable Public Routes
 
