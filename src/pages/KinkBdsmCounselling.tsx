@@ -107,7 +107,8 @@ const kinkPageContent: KinkPageContent = {
       {
         title: "More than kink.",
         body: [
-          "Kink being known here does not make it the subject. You might be coming for anxiety, grief, relationships, work, or something you have not named yet. Whatever brought you here, you will not have to manage this practice's relationship with kink while you deal with the real reason.",
+          "Kink may be an ordinary, valued part of your life. You might be looking for counselling because of anxiety, grief, work or a relationship, and kink may matter simply because it is part of the life in which those things are happening. It can be part of the context without becoming the explanation for everything.",
+          "Kink can also be the reason you are here. A dynamic may have changed, you and a partner may want different things, or you may be trying to understand something that happened. Those concerns can be taken seriously without deciding in advance that kink itself is the problem.",
         ],
       },
     ],
@@ -117,24 +118,24 @@ const kinkPageContent: KinkPageContent = {
     intro: "",
     items: [
       {
-        question: "Do I need to be coming for a kink-related issue?",
+        question: "Is this individual counselling, or can a partner join a session?",
         answer:
-          "No. You might be coming for anxiety, grief, shame, self-worth, relationships, trauma, burnout, or something harder to name. The point is that you should not have to hide kink in order to get help with the real issue.",
+          "Most counselling here is individual. A partner may sometimes join a session when there is something specific you need to talk through together. That might include a kink-related issue that makes more sense to discuss with both of you there. This is considered case by case and is not an ongoing couples counselling service. We would agree beforehand on the purpose of the session and how it fits with your individual counselling. If the relationship itself needs to become the focus of ongoing work, a dedicated couples or relationship counsellor may be more appropriate.",
       },
       {
-        question: "What if kink is relevant, but not the main focus?",
+        question: "What if I'm not sure whether something crossed a line?",
         answer:
-          "That is completely fine. Kink can be part of the context without becoming the whole conversation. If it matters, we can include it. If it is not the main issue, the work does not need to orbit around it.",
+          "You do not need to decide that before bringing it to counselling. You may know something did not feel okay without being sure whether an agreement was broken, consent changed, communication failed, or the experience affected you in a way you did not expect.",
       },
       {
-        question: "Do you assume kink comes from trauma, pathology, or something being wrong?",
+        question: "What if Joel and I know each other through Perth's kink community?",
         answer:
-          "No. I do not start from the assumption that kink is evidence of trauma, dysfunction, instability, or poor attachment. If something is causing distress, we can look at that carefully without making kink itself the diagnosis.",
+          "If we know each other through Perth's kink community, I won't be able to work with you as your counsellor. If we've only crossed paths briefly and you're not sure whether that counts, get in touch and we can work that out. If we can't work together, I can refer you to another counsellor.",
       },
       {
-        question: "Will I have to explain basic kink terms or context?",
+        question: "Can I ask questions before deciding whether to make an appointment?",
         answer:
-          "You may need to explain what particular words, practices, scenes, or dynamics mean in your life, but you should not have to teach basic kink concepts before the real work can begin.",
+          "Yes. There is only so much you can tell from a website, and it matters that you feel comfortable with the person you are talking to. The free 15-minute consult is a chance to have a quick chat and get a sense of me before you decide anything.",
       },
     ],
   },
