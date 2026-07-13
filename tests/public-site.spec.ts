@@ -25,26 +25,34 @@ const publicRoutes = [
   "/inclusion/lgbtqia",
   "/contact",
 ] as const;
-const prerenderedRoutes = [
-  "/",
-  "/working-with-joel",
-  "/inclusion",
-  "/inclusion/kink-bdsm",
-  "/inclusion/enm-polyamory",
-  "/inclusion/lgbtqia",
-  "/contact",
-] as const;
+const prerenderedRoutes = publicRoutes;
 const prerenderedRouteContracts = {
   "/": {
     mainClass: "site-page home-page",
-    rawFragments: ['href="/working-with-joel"', 'src="/joel-griffiths-homepage-portrait.jpg"'],
+    rawFragments: [
+      'src="/joel-griffiths-homepage-portrait.jpg"',
+      'fetchpriority="high"',
+      'aria-label="Practice details"',
+      'class="home-topics__grid"',
+      'class="site-card home-workroom__joel"',
+      'aria-label="Inclusive practice topics"',
+      'href="/working-with-joel"',
+      'href="/inclusion"',
+      'href="/contact"',
+    ],
     noJavaScriptSelector: 'img[src="/joel-griffiths-homepage-portrait.jpg"]',
   },
   "/working-with-joel": {
     mainClass: "site-page working-with-joel-page",
     rawFragments: [
       'src="/joel-griffiths-working-with-joel-portrait.jpg"',
+      'loading="lazy"',
+      'aria-label="Joel Griffiths credentials and practice details"',
+      'aria-label="About Joel Griffiths"',
+      'class="site-copy-panel rich-text working-with-joel-page__intro-panel"',
       'aria-label="Counselling approach"',
+      'aria-label="Examples of what people bring to counselling"',
+      'class="working-topics__item working-topics__item--closing"',
     ],
     noJavaScriptSelector: 'img[src="/joel-griffiths-working-with-joel-portrait.jpg"]',
   },
@@ -445,6 +453,46 @@ async function expectNoPageDiagnostics(diagnostics: PageDiagnostics) {
   });
 }
 
+async function expectHomePageStructure(page: Page) {
+  const home = page.locator("main.home-page");
+  const portrait = home.locator('img[src="/joel-griffiths-homepage-portrait.jpg"]');
+
+  await expect(home).toBeVisible();
+  await expect(portrait).toBeVisible();
+  await expect(portrait).toHaveAttribute("alt", "Joel Griffiths");
+  await expect(portrait).toHaveAttribute("fetchpriority", "high");
+  await expect(home.getByRole("list", { name: "Practice details" }).locator(":scope > li")).toHaveCount(4);
+  await expect(home.getByRole("list", { name: "Common themes" }).locator(":scope > li")).toHaveCount(6);
+  await expect(home.locator("article.site-card.home-workroom__joel")).toBeVisible();
+  await expect(
+    home.getByRole("navigation", { name: "Inclusive practice topics" }).locator(":scope li"),
+  ).toHaveCount(3);
+
+  for (const href of ["/working-with-joel", "/inclusion", "/contact"]) {
+    await expect(home.locator(`a[href="${href}"]`)).toHaveCount(1);
+  }
+}
+
+async function expectWorkingWithJoelPageStructure(page: Page) {
+  const main = page.locator("main.working-with-joel-page");
+  const portrait = main.locator('img[src="/joel-griffiths-working-with-joel-portrait.jpg"]');
+
+  await expect(main).toBeVisible();
+  await expect(
+    main.getByRole("list", { name: "Joel Griffiths credentials and practice details" }).locator(":scope > li"),
+  ).toHaveCount(4);
+  await expect(main.getByRole("region", { name: "Introducing Joel" })).toBeVisible();
+  await expect(main.getByRole("complementary", { name: "About Joel Griffiths" })).toBeVisible();
+  await expect(portrait).toBeVisible();
+  await expect(portrait).toHaveAttribute("alt", "Joel Griffiths");
+  await expect(portrait).toHaveAttribute("loading", "lazy");
+  await expect(main.getByRole("tablist", { name: "Counselling approach" }).getByRole("tab")).toHaveCount(3);
+  await expect(
+    main.getByRole("list", { name: "Examples of what people bring to counselling" }).locator(":scope > li"),
+  ).toHaveCount(10);
+  await expect(main.locator(".working-topics__item--closing")).toHaveCount(1);
+}
+
 function expectMeaningfulRawHeroH1(html: string) {
   const h1Matches = [...html.matchAll(/<h1 class="hero-badge">([^<]+)<\/h1>/g)];
 
@@ -480,6 +528,7 @@ const retiredRoutes = ["/about-joel", "/approach", "/enquire"] as const;
 
 const accessibilitySmokeRoutes = [
   "/",
+  "/working-with-joel",
   "/contact",
   "/inclusion",
   "/inclusion/kink-bdsm",
@@ -520,6 +569,14 @@ test.describe("public pages", () => {
       expect(description).toBeTruthy();
       expect(description?.length).toBeGreaterThan(50);
 
+      if (route === "/") {
+        await expectHomePageStructure(page);
+      }
+
+      if (route === "/working-with-joel") {
+        await expectWorkingWithJoelPageStructure(page);
+      }
+
       const robotsDirective = routeRobotsDirective(route);
       if (robotsDirective) {
         await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", robotsDirective);
@@ -532,8 +589,8 @@ test.describe("public pages", () => {
   }
 });
 
-test.describe("prerendered route hydration rollout", () => {
-  test("keeps client navigation active after hydrating Home", async ({ page }) => {
+test.describe("prerendered route activation boundaries", () => {
+  test("keeps Home's page-owned navigation active after hydration", async ({ page }) => {
     const diagnostics = collectPageDiagnostics(page);
 
     await page.goto("/", { waitUntil: "networkidle" });
@@ -542,7 +599,7 @@ test.describe("prerendered route hydration rollout", () => {
       document.body.dataset.spaNavigationSentinel = "preserved";
     });
 
-    await page.locator(".site-footer__nav").getByRole("link", { name: "Working with Joel" }).click();
+    await page.locator('.home-workroom__joel a[href="/working-with-joel"]').click();
 
     await expect(page).toHaveURL(/\/working-with-joel$/);
     await expect(page.locator("h1.hero-badge")).toBeVisible();
@@ -603,6 +660,14 @@ test.describe("prerendered routes without JavaScript", () => {
       await expect(page.locator("header.site-header a[href], footer.site-footer a[href]")).not.toHaveCount(0);
       await expect(page.locator("footer.site-footer")).toBeVisible();
       await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
+
+      if (route === "/") {
+        await expectHomePageStructure(page);
+      }
+
+      if (route === "/working-with-joel") {
+        await expectWorkingWithJoelPageStructure(page);
+      }
 
       if (route === "/contact") {
         const form = page.locator("form.site-form");
@@ -1128,39 +1193,71 @@ test.describe("alias URL redirects", () => {
   }
 });
 
-test.describe("working with Joel approach tabs", () => {
-  test("starts on the first tab and keeps one panel active", async ({ page }) => {
+test.describe("Working with Joel approach tabs", () => {
+  test("keeps one labelled panel active for pointer and keyboard input", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+
     await page.goto("/working-with-joel", { waitUntil: "networkidle" });
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
 
     const tablist = page.getByRole("tablist", { name: "Counselling approach" });
-    const psychodynamic = tablist.getByRole("tab", { name: /Psychodynamic/ });
-    const attachment = tablist.getByRole("tab", { name: /Attachment/ });
-    const integrative = tablist.getByRole("tab", { name: /Integrative/ });
+    const psychodynamic = tablist.getByRole("tab", { name: "Psychodynamic" });
+    const attachment = tablist.getByRole("tab", { name: "Attachment" });
+    const integrative = tablist.getByRole("tab", { name: "Integrative" });
+    const panel = page.getByRole("tabpanel");
 
-    await expect(page.locator(".working-approach__number")).toHaveCount(0);
+    await expect(tablist.getByRole("tab")).toHaveCount(3);
+    await expect(panel).toHaveCount(1);
     await expect(psychodynamic).toHaveAttribute("aria-selected", "true");
+    await expect(psychodynamic).toHaveAttribute("tabindex", "0");
     await expect(attachment).toHaveAttribute("aria-selected", "false");
+    await expect(attachment).toHaveAttribute("tabindex", "-1");
     await expect(integrative).toHaveAttribute("aria-selected", "false");
+    await expect(integrative).toHaveAttribute("tabindex", "-1");
 
     const psychodynamicPanelId = await psychodynamic.getAttribute("aria-controls");
+    const psychodynamicTabId = await psychodynamic.getAttribute("id");
 
     expect(psychodynamicPanelId).toBeTruthy();
-
-    if (psychodynamicPanelId) {
-      await expect(page.locator(`[id="${psychodynamicPanelId}"]`)).toHaveAttribute("role", "tabpanel");
-    }
+    expect(psychodynamicTabId).toBeTruthy();
+    await expect(attachment).toHaveAttribute("aria-controls", psychodynamicPanelId ?? "");
+    await expect(integrative).toHaveAttribute("aria-controls", psychodynamicPanelId ?? "");
+    await expect(panel).toHaveAttribute("id", psychodynamicPanelId ?? "");
+    await expect(panel).toHaveAttribute("aria-labelledby", psychodynamicTabId ?? "");
+    await expect(panel.locator(":scope > p")).toHaveCount(2);
 
     await attachment.click();
     await expect(psychodynamic).toHaveAttribute("aria-selected", "false");
     await expect(attachment).toHaveAttribute("aria-selected", "true");
     await expect(integrative).toHaveAttribute("aria-selected", "false");
-    await expect(page.getByRole("tabpanel", { name: "Attachment" })).toContainText("Attachment work");
+    await expect(panel).toHaveAccessibleName("Attachment");
+    await expect(panel.locator(":scope > p")).toHaveCount(2);
 
-    await integrative.click();
+    await attachment.press("End");
+    await expect(integrative).toBeFocused();
     await expect(psychodynamic).toHaveAttribute("aria-selected", "false");
     await expect(attachment).toHaveAttribute("aria-selected", "false");
     await expect(integrative).toHaveAttribute("aria-selected", "true");
-    await expect(page.getByRole("tabpanel", { name: "Integrative" })).toContainText("Integrative");
+    await expect(panel).toHaveAccessibleName("Integrative");
+
+    await integrative.press("ArrowRight");
+    await expect(psychodynamic).toBeFocused();
+    await expect(psychodynamic).toHaveAttribute("aria-selected", "true");
+    await expect(panel).toHaveAccessibleName("Psychodynamic");
+
+    await psychodynamic.press("ArrowLeft");
+    await expect(integrative).toBeFocused();
+    await expect(integrative).toHaveAttribute("aria-selected", "true");
+    await expect(panel).toHaveAccessibleName("Integrative");
+
+    await integrative.press("Home");
+    await expect(psychodynamic).toBeFocused();
+    await expect(psychodynamic).toHaveAttribute("aria-selected", "true");
+    await expect(psychodynamic).toHaveAttribute("tabindex", "0");
+    await expect(attachment).toHaveAttribute("tabindex", "-1");
+    await expect(integrative).toHaveAttribute("tabindex", "-1");
+    await expect(panel).toHaveAccessibleName("Psychodynamic");
+    await expectNoPageDiagnostics(diagnostics);
   });
 });
 

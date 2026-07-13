@@ -16,13 +16,14 @@ Status: instruction-level boundary and source cleanup resolved.
 
 Status: open cleanup pressure.
 
-Known or suspected legacy clusters include older shared utilities and experiment classes that remain in CSS or docs/dev support surfaces. Confirmed-dead card, panel, strip, issue-section, topic-card, generic `.stack`, and `.site-highlight__box` production slices have been removed. Remove only confirmed-dead slices, preserve still-used compatibility paths, and split concrete discoveries into smaller `DEBT-*` items.
+Known or suspected legacy clusters include older shared utilities and experiment classes that remain in CSS or docs/dev support surfaces. Confirmed-dead card, panel, strip, issue-section, topic-card, generic `.stack`, `.site-highlight__box`, and `.site-spotlight*` production slices have been removed. Remove only confirmed-dead slices, preserve still-used compatibility paths, and split concrete discoveries into smaller `DEBT-*` items.
 
 Related debt:
 
 - `DEBT-13`: broad legacy CSS cleanup parent.
 - Archived `DEBT-18`: removed old panel and strip selectors.
 - Archived `DEBT-19`: removed old issue-section and topic-card selectors.
+- Archived `DEBT-36`: removed the unused spotlight composition and responsive hook.
 - `DEBT-15`: global CSS bundling makes legacy selectors more expensive to keep.
 
 ## Docs And Dev Shell Layers

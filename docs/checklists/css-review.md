@@ -621,9 +621,24 @@ Use this structure when a region is expanded to class-token leaves:
   - Scope: `.site-footer*` and shared footer detail/link states.
   - Next: Expand to footer shell, primary footer, navigation, details, and copyright classes.
 
-- `CSS-1.7` `Not reviewed` Active shared `site-*` system.
-  - Scope: `.site-page`, `.site-actions`, `.site-spotlight*`, `.site-grid*`, `.site-eyebrow`, `.site-card*`, `.site-topic-*`, `.site-split`, `.site-highlight*`, `.site-pill-row`, `.site-text-link`, `.site-trust-list*`, `.site-ruled-paragraph*`, `.site-copy-panel`, `.site-check-panel*`, `.site-principles*`, `.site-contact-*`, `.site-fee-card`, `.site-detail-stack*`, and responsive overrides.
+- `CSS-1.7` `Expanded` Active shared `site-*` system.
+  - Scope: `.site-page`, `.site-actions`, `.site-grid*`, `.site-eyebrow`, `.site-card*`, `.site-topic-*`, `.site-split`, `.site-highlight*`, `.site-pill-row`, `.site-text-link`, `.site-trust-list*`, `.site-ruled-paragraph*`, `.site-copy-panel`, `.site-check-panel*`, `.site-principles*`, `.site-contact-*`, `.site-fee-card`, `.site-detail-stack*`, and responsive overrides. The removed `.site-spotlight*` family is retained below as actioned history.
   - Next: Expand by documented shared pattern family before moving to individual class tokens.
+
+### CSS-1.7 - Active shared `site-*` system
+
+#### CSS-1.7.1 - Retired spotlight composition
+
+- `Status`: `Actioned`
+- `Layer`: Removed shared production CSS
+- `Selectors Covered`: Removed `.site-spotlight`, `.site-spotlight__grid`, `.site-spotlight__eyebrow`, `.site-spotlight__stats` and its descendant rules, plus the responsive `.site-spotlight__grid` hook.
+- `Naming/Structure Check`: The `site-*` name made the composition appear to be active shared API, but it is absent from the page-pattern catalogue and has no source consumer.
+- `Declaration Review`: The rules formed one complete two-column spotlight and statistics composition, so the base and responsive rules were removed together rather than leaving partial compatibility CSS.
+- `Architecture Check`: No current shared pattern replaces this exact composition because no current page needs the outcome. Future spotlight content should be designed from an active page need rather than reviving an unused shell.
+- `Used By`: No runtime, dev-page, test, or HTML call sites were found.
+- `Decision`: Remove.
+- `Evidence`: A focused source scan on 2026-07-13 found `site-spotlight` only in `src/styles.css` and CSS maintenance documentation.
+- `Follow-up`: Continue `CSS-1.7` one documented pattern family at a time.
 
 - `CSS-1.8` `Not reviewed` Form, FAQ, CTA, and interactive shared patterns.
   - Scope: `.site-form*`, `.form-row` within shared form context, `.site-broad-tabs*`, `.site-faq-*`, `.site-cta-block*`, reduced-motion support, and hover/focus states for these patterns.

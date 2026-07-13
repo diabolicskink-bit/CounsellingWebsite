@@ -45,6 +45,7 @@ This is the live factual inventory of the design system. Keep it current when th
 - The old `.issues-section`, `.issues-section__inner`, `.topic-grid`, and `.topic-card` production selectors have been removed. Use the active `.site-topic-grid` and `.site-topic-card` system or a deliberate page-scoped section composition.
 - The old generic `.stack` production helper has been removed. Use the purpose-specific `.site-content-stack`, `.site-detail-stack`, or a deliberate page-scoped layout.
 - The unused `.site-highlight__box` selector has been removed. `.site-highlight` remains the active alternate section band; use a documented panel pattern or a deliberate page-scoped class for contained surfaces.
+- The unused `.site-spotlight*` composition has been removed after a source audit found no runtime or dev-page consumers. It is not active shared API.
 - `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css` and should not be expanded for production work.
 - `legacy-*`, old `test-bed-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only.
 - No active `site-hero-*` source usage was found during the latest pass. Treat any future discovery as superseded by `hero-*` unless deliberately re-promoted.

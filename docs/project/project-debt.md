@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-35`
+- `Next ID`: `DEBT-37`
 
 ## How To Maintain This Tracker
 
@@ -195,6 +195,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-17`: Archived card/component cleanup removed the generic legacy card source from this broader legacy CSS issue.
   - `DEBT-18`: Archived panel/strip selector cleanup removed one smaller slice from the same legacy CSS cluster.
   - `DEBT-19`: Archived issue/topic grid audit removed a dead selector cluster that overlapped with active card patterns.
+  - `DEBT-36`: Archived spotlight-selector cleanup removed a complete unused `site-*` composition from the same global CSS surface.
   - `DEBT-21`: Shared typography cleanup is another focused design-system CSS cleanup lane, though it is about type roles rather than legacy selector removal.
 - `Dependencies`: `None`
 - `Notes`:
@@ -429,8 +430,8 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - This is a memory aid, not authorization for a dedicated page-by-page audit or test-only campaign.
-  - Pending opportunistic review: Home (`/`).
-  - Reviewed 2026-07-13 during master alignment: Working with Joel (`/working-with-joel`) first-response metadata, component prerendering, hydration activation, and new `ProfilePage` structured-data assertions passed; no broader copy snapshot was added.
+  - Reviewed 2026-07-13 by explicit request: Home (`/`) now has focused hydrated and JavaScript-disabled checks for its semantic lists, portrait priority hint, workroom card, Inclusion detail navigation, and three page-owned route links. The raw first-response contract covers the same durable structure without snapshotting public prose, and the post-hydration SPA check now exercises a Home-owned CTA instead of the shared footer.
+  - Reviewed 2026-07-13 by explicit request: Working with Joel (`/working-with-joel`) now has focused hydrated and JavaScript-disabled checks for credentials, introduction and portrait semantics, lazy image loading, its three-tab approach control, and the complete issues list. The interaction check now covers pointer selection, tab/panel relationships, roving tab stops, Home/End and wrapping arrow-key behaviour, hydration, diagnostics, and desktop/mobile axe smoke coverage without snapshotting public prose. Review exposed the pre-JavaScript approach-copy gap now tracked as `DEBT-35`.
   - Pending opportunistic review: Inclusion hub (`/inclusion`).
   - Pending opportunistic review: Kink and BDSM (`/inclusion/kink-bdsm`).
   - Reviewed 2026-07-13 during master alignment: ENM and polyamory (`/inclusion/enm-polyamory`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
@@ -438,6 +439,29 @@ Each active item should include enough direction that a future session can choos
   - Pending opportunistic review: Contact and fees (`/contact`).
   - Pending opportunistic review: Not Found and controlled `404.html` boundary.
 - `Links`: `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`, `docs/plans/2026-07-13-static-prerendering-and-hydration.md`
+
+### DEBT-35 - Working with Joel approach copy depends on JavaScript
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Priority Rationale`: This is `P2` because Working with Joel is an indexable, trust-building page and two of its three approach explanations are absent from the first response and from JavaScript-disabled visits. Hydrated visitors can use the tabs normally, so this is not a complete page failure.
+- `Status`: `Open`
+- `Detected`: 2026-07-13
+- `Source`: Working with Joel `DEBT-34` test review.
+- `Area`: Rendering, Progressive Enhancement, Accessibility, SEO
+- `Problem`: `BroadTabPanel` renders only the active item's panel. Static rendering therefore includes all three tab buttons but only the initial Psychodynamic copy; the Attachment and Integrative explanations do not exist in raw HTML and cannot be reached without JavaScript.
+- `Why It Matters`: Core practitioner-approach content should remain available to crawlers, assistive workflows, and visitors when the client bundle is delayed or unavailable. A row of inert tabs also implies content that a JavaScript-disabled visitor cannot open.
+- `Preferred Direction`: Preserve the current hydrated tab experience while making every approach explanation available in the first response and without JavaScript. Keep one canonical copy source and retain deterministic server/browser markup, valid tab semantics, and the current visual design.
+- `Resolution Path`: Prototype progressive enhancement in `BroadTabPanel` or a page-scoped wrapper so all panels are represented in static markup, inactive panels become visually hidden only when the tab behaviour is active, and hydration does not add or remove initial nodes.
+- `Next Action`: Design the smallest deterministic all-panel render contract, then add a failing raw/no-JavaScript assertion for Attachment and Integrative copy before changing the component.
+- `Resolved When`: All three approach explanations exist in generated HTML and remain reachable without JavaScript, while hydrated pointer and keyboard tab behaviour passes without recoverable errors.
+- `Related Items`:
+  - `DEBT-34`: The page-level test review exposed this rendering gap and now protects the existing hydrated tab contract.
+- `Dependencies`: `None`
+- `Notes`:
+  - The current hydrated control has connected tab/tabpanel semantics and supports click, Home, End, and wrapping arrow-key selection. The gap is pre-JavaScript content availability, not the normal hydrated interaction.
+  - Avoid duplicating approach prose in a separate fallback block; duplicated content would create maintenance and accessibility ambiguity.
+- `Links`: `src/components/BroadTabPanel.tsx`, `src/pages/WorkingWithJoel.tsx`, `tests/public-site.spec.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
@@ -463,6 +487,12 @@ Each active item should include enough direction that a future session can choos
 - `Links`: `package.json`
 
 ## Archive
+
+### DEBT-36 - Legacy spotlight CSS needed usage audit
+
+Resolved on 2026-07-13 after a focused source audit found no runtime, dev-page, test, or HTML call sites for `.site-spotlight`, `.site-spotlight__grid`, `.site-spotlight__eyebrow`, or `.site-spotlight__stats`. The complete base, descendant, and responsive selector family was removed from `src/styles.css`.
+
+The removal changes no rendered page. Active shared `site-*` patterns remain unchanged, and the CSS checklist plus design-system scope now make clear that the retired spotlight composition is not reusable API. Broader legacy CSS cleanup remains tracked under `DEBT-13`.
 
 ### DEBT-32 - Public routes need full static prerendering and hydration
 

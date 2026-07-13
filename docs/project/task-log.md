@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-13 - DEBT-36 Legacy Spotlight CSS Resolved
+
+- Removed: The unused `.site-spotlight*` base, descendant, and responsive rules from production CSS after a focused source audit found no consumers.
+- Preserved: Public markup, rendered appearance, behavior, and the remaining active `site-*` system are unchanged.
+- Closed: Archived `DEBT-36` and updated the CSS checklist, migration notes, and design-system scope to record the removal.
+
 ## 2026-07-13 - Public Routes Gain Static Rendering And Hydration
 
 - Changed: Generated HTML for all seven metadata-backed public routes now contains the real React header, navigation, page sections, links, media or form content, and footer before JavaScript; the duplicate public H1 metadata and temporary public-shell generator have been retired.
