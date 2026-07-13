@@ -9,7 +9,7 @@
   },
   "routes": {
     "/": {
-      "h1": "Online counselling across Australia",
+      "h1": "Counselling and Psychotherapy",
       "title": "Vive Counselling",
       "description": "Online counselling for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality."
     },
@@ -43,8 +43,8 @@
     },
     "/contact": {
       "h1": "Contact and fees",
-      "title": "Get in Touch | Vive Counselling",
-      "description": "Fees, practical details, and direct contact for online counselling with Vive Counselling. Standard sessions are $120 for 50 minutes online, with a free optional phone consult."
+      "title": "Counselling Fees & Contact | Vive Counselling",
+      "description": "Request a free 15-minute initial consultation with Joel Griffiths at Vive Counselling. Counselling sessions are $120; view fees and contact details."
     }
   }
 }
