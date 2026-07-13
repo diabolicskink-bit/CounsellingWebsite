@@ -66,7 +66,7 @@ The `hero-*` system is a separate active shared subsystem alongside `site-*`.
 - `.hero-badge`
   Concise visible page-topic H1.
 - `.hero-display`
-  Expressive serif hero statement, usually on H2 after `h1.hero-badge`.
+  Expressive serif hero statement on `p` after `h1.hero-badge`, kept outside the semantic heading outline.
 - `.hero-intro`
   Longer opening intro paragraph.
 - `.hero-copy-panel`

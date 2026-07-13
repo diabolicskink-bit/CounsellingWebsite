@@ -221,7 +221,7 @@
   flex: 1;
 }
 
-.kink-page__closing-card-head h3 {
+.kink-page__closing-card-title {
   margin: 0;
   color: var(--cedar);
   font-size: 1.14rem;

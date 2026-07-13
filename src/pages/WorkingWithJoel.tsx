@@ -198,13 +198,13 @@ function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
         <div className="working-with-joel-page__hero-layout">
           <div className="working-with-joel-page__hero-heading">
             <h1 className="hero-badge">{hero.badge}</h1>
-            <h2 className="hero-display">
+            <p className="hero-display">
               {hero.title.before}
               <br />
               <em>{hero.title.emphasis}</em>
               <br />
               {hero.title.after}
-            </h2>
+            </p>
           </div>
 
           <div className="working-with-joel-page__hero-note">

@@ -164,11 +164,11 @@ function ContactHeroSection({ hero, fee }: { hero: ContactHeroContent; fee: FeeS
           <div className="contact-page__hero-content">
             <h1 className="hero-badge">{hero.eyebrow}</h1>
             <div className="contact-page__hero-body">
-              <h2 className="hero-display">
+              <p className="hero-display">
                 {hero.title.before}{" "}
                 <em>{hero.title.emphasis}</em>
                 {hero.title.after}
-              </h2>
+              </p>
               <div className="hero-copy-panel">
                 <p>{hero.support}</p>
                 <ul className="hero-support-tagline" aria-label={hero.detailsAriaLabel}>

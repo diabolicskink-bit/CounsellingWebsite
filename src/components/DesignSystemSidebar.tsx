@@ -39,7 +39,7 @@ const navGroups: NavGroup[] = [
     basePath: "/design-language/heroes",
     items: [
       { label: "Anatomy", href: "/design-language/heroes#anatomy" },
-      { label: "Display heading", href: "/design-language/heroes#display-heading" },
+      { label: "Display statement", href: "/design-language/heroes#display-heading" },
       { label: "Copy panel", href: "/design-language/heroes#copy-panel" },
       { label: "Principles strip", href: "/design-language/heroes#principles" },
       { label: "Background", href: "/design-language/heroes#backgrounds" },

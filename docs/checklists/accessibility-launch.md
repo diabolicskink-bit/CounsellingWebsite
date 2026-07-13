@@ -144,7 +144,7 @@ Redirect aliases `/about` and `/fees` are covered by `docs/checklists/seo-metada
   - Note: Checked on `/inclusion` in browser at 1280x900. The DOM exposes one visible `<main>` and Playwright finds one `main` landmark.
 
 - `Pass` Page has one clear page-level heading that matches the page purpose.
-  - Note: Checked on `/inclusion` in browser. The page has one visible `h1`, "Inclusive counselling", with the adjacent hero `h2` extending the purpose as "Inclusive counselling for diverse lives."
+  - Note: Checked on `/inclusion` in browser. The page has one visible `h1`, "Inclusive counselling". The adjacent "Inclusive counselling for diverse lives" line is an expressive paragraph rather than a second heading.
 
 - `Pass` Heading order supports scanning and screen-reader navigation.
   - Note: Checked on `/inclusion` in browser. Heading order is one `h1`, then section `h2`s, with inclusion-panel and FAQ question `h3`s nested under their sections.

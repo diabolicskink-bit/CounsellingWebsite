@@ -19,7 +19,7 @@ This catalogue lists active React components and component-backed API. A file ex
 - `EnquiryForm`
   The production contact/enquiry form. Use with `src/data/enquiry.ts` so form flow, subject lines, fields, and direct-submit behaviour stay aligned.
 - `Layout`
-  Production shell, navigation, shared chrome detection, and footer.
+  Production shell, navigation, shared chrome detection, and footer. Its mobile menu owns Escape handling, body scroll locking and restoration, and focus return to the toggle.
 - `DevPageHero`, `DesignSystemSidebar`, `DocumentsSidebar`
   Dev/documentation support components.
 

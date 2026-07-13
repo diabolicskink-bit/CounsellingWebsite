@@ -157,7 +157,7 @@ export default function InclusivePractice() {
           <div className="hero-top inclusion-hero__top">
             <div className="inclusion-hero__heading">
               <h1 className="hero-badge">{hero.eyebrow}</h1>
-              <h2 className="hero-display inclusion-hero__title">
+              <p className="hero-display inclusion-hero__title">
                 <span>{hero.title.lineOne}</span>{" "}
                 <span>
                   {hero.title.lineTwoBefore}
@@ -166,7 +166,7 @@ export default function InclusivePractice() {
                     {hero.title.lineTwoAfter}
                   </em>
                 </span>
-              </h2>
+              </p>
             </div>
 
             <nav className="inclusion-hero__details" aria-label="Inclusive counselling topics">

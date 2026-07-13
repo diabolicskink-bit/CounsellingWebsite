@@ -62,9 +62,9 @@ const anatomyRows = [
     desc: "Wider right column variant for when the second column holds a portrait note rather than a short copy panel. Used on the Home page.",
   },
   {
-    zone: "Display heading",
+    zone: "Display statement",
     className: ".hero-display",
-    desc: "Measured serif display type for the expressive hero statement. Use it on the production hero h2 after the page-topic h1.hero-badge, and set --hero-display-max-width on the page scope when a hero only needs a different title measure.",
+    desc: "Measured serif display type for the expressive hero statement. Use it on p.hero-display after the page-topic h1.hero-badge, and set --hero-display-max-width on the page scope when a hero only needs a different title measure.",
   },
   {
     zone: "Intro paragraph",
@@ -94,7 +94,7 @@ const anatomyRows = [
   {
     zone: "Badge",
     className: ".hero-badge",
-    desc: "Small uppercase cedar block label. In production page heroes, use h1.hero-badge as the visible page-topic heading above h2.hero-display.",
+    desc: "Small uppercase cedar block label. In production page heroes, use h1.hero-badge as the visible page-topic heading above p.hero-display.",
   },
   {
     zone: "Detail stack",
@@ -175,26 +175,26 @@ export default function DS_Heroes() {
 
           <section className="ds-section" id="display-heading">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Display Heading</span>
+              <span className="site-eyebrow">Display Statement</span>
               <h2>Large, light, and still readable across longer hero statements.</h2>
               <p>
-                `.hero-display` is the authoritative expressive display-heading pattern for public page heroes. In
-                production it sits on an <code>h2</code> after the visible <code>h1.hero-badge</code>. Keep the phrase
+                `.hero-display` is the authoritative expressive display-statement pattern for public page heroes. In
+                production it sits on a <code>p</code> after the visible <code>h1.hero-badge</code>. Keep the phrase
                 deliberate, use line breaks intentionally when you control them, and adjust width with
-                `--hero-display-max-width` on the page scope before reaching for a page-specific display-heading class.
+                `--hero-display-max-width` on the page scope before reaching for a page-specific display class.
               </p>
             </div>
 
             <div className="ds-hero-demo">
               <div className="ds-hero-demo__label">Live sample: .hero-display</div>
               <div className="ds-hero-demo__body hero-bg--default">
-                <h2 className="hero-display">
+                <p className="hero-display">
                   Working with
                   <br />
                   <em>the bigger</em>
                   <br />
                   picture.
-                </h2>
+                </p>
               </div>
             </div>
 
@@ -448,7 +448,7 @@ export default function DS_Heroes() {
               <h2>The shared hero composition.</h2>
               <p>
                 This sample uses the same shared classes as the live hero system. In production, use{" "}
-                <code>h1.hero-badge</code> for the visible page-topic label and <code>h2.hero-display</code> for the
+                <code>h1.hero-badge</code> for the visible page-topic label and <code>p.hero-display</code> for the
                 expressive hero statement. The demo keeps the badge as a non-heading label to avoid adding a duplicate
                 page H1 inside the documentation page.
               </p>
@@ -461,13 +461,13 @@ export default function DS_Heroes() {
                   <div className="hero-top">
                     <div>
                       <span className="hero-badge">Working with Joel Griffiths</span>
-                      <h2 className="hero-display">
+                      <p className="hero-display">
                         Working with
                         <br />
                         <em>the bigger</em>
                         <br />
                         picture.
-                      </h2>
+                      </p>
                     </div>
                     <p className="hero-copy-panel">
                       I seek to understand the problem you are dealing with in the context of your actual life. That

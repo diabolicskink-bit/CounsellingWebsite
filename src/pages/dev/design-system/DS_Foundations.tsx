@@ -64,7 +64,7 @@ const typeRoleRows = [
     role: "Display hero",
     token: "--type-display",
     source: ".hero-display",
-    use: "Expressive hero statement, usually on h2.hero-display after the page-topic h1.hero-badge. Keep this out of cards, forms, and compact panels.",
+    use: "Expressive hero statement on p.hero-display after the page-topic h1.hero-badge. Keep this out of cards, forms, and compact panels.",
   },
   {
     role: "Page title",
@@ -434,11 +434,11 @@ export default function DS_Foundations() {
               <article className="ds-foundation-type-hero hero-bg--default">
                 <ReferenceName>Hero display specimen</ReferenceName>
                 <span className="hero-badge">Hero display</span>
-                <h2 className="hero-display">
+                <p className="hero-display">
                   Calm enough
                   <br />
                   for complicated things.
-                </h2>
+                </p>
                 <p className="hero-intro">
                   Use <code>.hero-display</code> for the expressive production hero statement. The scale is measured,
                   the weight is deliberate, and the default title measure keeps longer headings under control.
@@ -487,7 +487,7 @@ export default function DS_Foundations() {
 
             <div className="ds-usage-note">
               <strong>Rule of thumb:</strong> one visible production <code>h1</code> per page, usually the hero topic
-              label, followed by a serif-led <code>h2.hero-display</code> when the page uses the shared hero system.
+              label, followed by a serif-led <code>p.hero-display</code> when the page uses the shared hero system.
               Do not use display scale inside compact cards, sidebars, form panels, or small support blocks.
             </div>
           </section>

@@ -16,7 +16,7 @@ export default function DevPageHero({ badge, title, description, children }: Pro
         <div className="hero-top">
           <div>
             <h1 className="hero-badge">{badge}</h1>
-            <h2 className="hero-display">{title}</h2>
+            <p className="hero-display">{title}</p>
           </div>
           <div className="hero-copy-panel">
             <p>{description}</p>

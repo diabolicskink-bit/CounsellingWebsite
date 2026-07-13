@@ -555,7 +555,18 @@ test.describe("public pages", () => {
       await expect(page.locator("main").first()).toBeVisible();
       await expect(page.locator("h1.hero-badge")).toHaveCount(1);
       await expect(page.locator("h1.hero-badge")).toBeVisible();
-      await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(1);
+      await expect(page.locator(".hero-section p.hero-display")).toHaveCount(1);
+      await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(0);
+
+      if (route === "/inclusion/kink-bdsm") {
+        await expect(
+          page.locator(
+            "h2.kink-page__panel-title, .kink-page__closing-intro > h2, h2.kink-page__closing-card-title",
+          ),
+        ).toHaveCount(3);
+        await expect(page.locator(".kink-page h3:not(.site-faq-item__heading)")).toHaveCount(0);
+        await expect(page.locator(".site-faq-item h3.site-faq-item__heading")).not.toHaveCount(0);
+      }
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
         "data-react-activation",
@@ -587,6 +598,42 @@ test.describe("public pages", () => {
       await expectNoPageDiagnostics(diagnostics);
     });
   }
+});
+
+test.describe("shared navigation", () => {
+  test("restores mobile menu focus and body scrolling when Escape closes it", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const toggle = page.locator("button.menu-toggle");
+    const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+
+    await page.evaluate(() => {
+      document.body.style.overflow = "clip";
+    });
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toHaveAccessibleName("Open navigation");
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+
+    await toggle.click();
+
+    await expect(toggle).toHaveAccessibleName("Close navigation");
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    await expect(mobileNavigation).toBeVisible();
+    await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+
+    const workingWithJoelLink = mobileNavigation.getByRole("link", { name: "Working with Joel" });
+    await workingWithJoelLink.focus();
+    await expect(workingWithJoelLink).toBeFocused();
+
+    await page.keyboard.press("Escape");
+
+    await expect(mobileNavigation).toHaveCount(0);
+    await expect(toggle).toHaveAccessibleName("Open navigation");
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect(toggle).toBeFocused();
+    await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("clip");
+  });
 });
 
 test.describe("prerendered route activation boundaries", () => {
@@ -659,6 +706,7 @@ test.describe("prerendered routes without JavaScript", () => {
       await expect(page.locator(contract.noJavaScriptSelector)).toBeVisible();
       await expect(page.locator("header.site-header a[href], footer.site-footer a[href]")).not.toHaveCount(0);
       await expect(page.locator("footer.site-footer")).toBeVisible();
+      await expect(page.locator("footer.site-footer").getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
       await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
 
       if (route === "/") {
@@ -675,7 +723,9 @@ test.describe("prerendered routes without JavaScript", () => {
         await expect(form).toHaveAttribute("action", "/api/enquiry");
         await expect(form).toHaveAttribute("method", "post");
         await expect(form).toHaveAttribute("data-clarity-mask", "true");
-        await expect(page.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
+        await expect(
+          page.getByLabel("Contact details").getByText("Mon to Fri, 9.30am to 5.00pm AWST"),
+        ).toBeVisible();
         await expect(page.getByLabel("Timezone")).toHaveCount(0);
       }
     });

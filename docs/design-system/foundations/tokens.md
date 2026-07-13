@@ -36,7 +36,7 @@ Use the `Container` component for major page width containment. Use shared secti
 - `--font-sans`: Inter/system sans stack, used for body, forms, labels, and navigation.
 - `--font-mono`: monospace stack, used for inline code and technical references.
 - `h1` should appear once per page. In shared heroes, use `h1.hero-badge` for the concise visible page-topic label.
-- `.hero-display` is the shared expressive hero statement style and sits on `h2` after `h1.hero-badge` in production heroes.
+- `.hero-display` is the shared expressive hero statement style and sits on `p` after `h1.hero-badge` in production heroes. It remains visually prominent without adding a non-structural section to the heading outline.
 - `h2` uses `--type-section` for major section statements.
 - `h3` uses `--type-card-title` for cards, grouped ideas, and nested content.
 - `.rich-text` is the shared editorial reading wrapper for paragraph groups, contextual links, lists, blockquotes, tables, dividers, and inline code.

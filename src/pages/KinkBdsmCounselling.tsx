@@ -155,7 +155,7 @@ export default function KinkBdsmCounselling() {
           <div className="kink-page__hero-main">
             <div className="kink-page__hero-copy">
               <h1 className="hero-badge">{hero.eyebrow}</h1>
-              <h2 className="hero-display">{hero.title}</h2>
+              <p className="hero-display">{hero.title}</p>
 
               <div className="hero-copy-panel kink-page__hero-support">
                 <p>{hero.intro}</p>
@@ -172,7 +172,7 @@ export default function KinkBdsmCounselling() {
         <Container>
           <div className="kink-page__knowledge-grid">
             <article className="kink-page__knowledge-copy">
-              <h3 className="kink-page__panel-title">{panelSection.knowledgeSection.prose.title}</h3>
+              <h2 className="kink-page__panel-title">{panelSection.knowledgeSection.prose.title}</h2>
               <div className="kink-page__panel-body">
                 {panelSection.knowledgeSection.prose.body?.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
@@ -214,7 +214,7 @@ export default function KinkBdsmCounselling() {
             {closingSupport ? (
               <article className="site-card kink-page__closing-card">
                 <div className="kink-page__closing-card-head">
-                  <h3>{closingSupport.title}</h3>
+                  <h2 className="kink-page__closing-card-title">{closingSupport.title}</h2>
                 </div>
                 <div className="kink-page__closing-card-body">
                   {closingSupport.body?.map((paragraph) => (

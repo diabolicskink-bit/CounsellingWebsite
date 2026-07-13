@@ -200,11 +200,11 @@ function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
         <div className="hero-top hero-top--supporting-media">
           <div>
             <h1 className="hero-badge">{hero.eyebrow}</h1>
-            <h2 className="hero-display">
+            <p className="hero-display">
               {hero.title.before}
               <em>{hero.title.emphasis}</em>
               {hero.title.after}
-            </h2>
+            </p>
             <div className="hero-copy-panel home-page__hero-support">
               <p>{hero.support}</p>
               <ul className="hero-support-tagline" aria-label={hero.trustAriaLabel}>

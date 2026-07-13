@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-13 - Public Hero Heading Contract Migrated
+
+- Changed: All seven metadata-backed public routes now use one concise `h1.hero-badge` followed by `p.hero-display`, reserving `h2` for actual page sections while preserving the existing visual hierarchy.
+- Aligned: Shared CSS now owns the serif display typography directly, and rendered design-system examples, written guidance, and public-page tests use the same semantic contract.
+- Verified: The production build prerendered all seven routes with the new hero markup, and generated heading outlines no longer include the expressive hero statements.
+
 ## 2026-07-13 - DEBT-36 Legacy Spotlight CSS Resolved
 
 - Removed: The unused `.site-spotlight*` base, descendant, and responsive rules from production CSS after a focused source audit found no consumers.

@@ -98,7 +98,7 @@ export default function LgbtqiaCounselling() {
                 <span>LGBTQIA+</span>
               </nav>
               <h1 className="hero-badge">{hero.badge}</h1>
-              <h2 className="hero-display">{hero.title}</h2>
+              <p className="hero-display">{hero.title}</p>
             </div>
 
             <div className="hero-copy-panel lgbtqia-page__hero-panel">

@@ -1107,9 +1107,6 @@ h3 {
 
 .site-contact-item .icon-box {
   border: 1px solid rgba(35, 75, 61, 0.14);
-  border-radius: var(--radius);
-  background: var(--cedar-soft);
-  color: var(--cedar);
 }
 
 .site-contact-item p {
@@ -1948,7 +1945,6 @@ h3 {
 
 .site-page .button {
   min-width: 210px;
-  border-radius: 8px;
 }
 
 .site-shell--shared .site-header {
@@ -2209,13 +2205,14 @@ h3 {
   padding-bottom: 0;
 }
 
-/* Display heading ---------------------------------------------------------- */
-/* .hero-display is the authoritative page-opening display heading for production heroes.
+/* Display statement -------------------------------------------------------- */
+/* .hero-display is the authoritative page-opening display statement for production heroes.
    If a page only needs a different title measure, set --hero-display-max-width on the
-   page scope instead of introducing another page-specific display-heading class. */
+   page scope instead of introducing another page-specific display class. */
 
 .hero-display {
   max-width: var(--hero-display-max-width, 18ch);
+  font-family: var(--font-serif);
   font-size: var(--type-display);
   font-weight: 500;
   line-height: var(--leading-display);

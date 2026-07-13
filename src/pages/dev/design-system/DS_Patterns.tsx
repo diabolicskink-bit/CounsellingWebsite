@@ -144,7 +144,7 @@ export default function DS_Patterns() {
                   <div className="hero-top" style={{ paddingBottom: 0 }}>
                     <div>
                       <span className="hero-badge">Design system</span>
-                      <h2 className="hero-display" style={{ marginBottom: 0 }}>Use the shared hero system here too.</h2>
+                      <p className="hero-display" style={{ marginBottom: 0 }}>Use the shared hero system here too.</p>
                     </div>
                     <div className="hero-copy-panel">
                       <p>

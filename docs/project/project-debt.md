@@ -384,7 +384,7 @@ Each active item should include enough direction that a future session can choos
   - Current public-site tests assert one main landmark, but they do not check focus movement or bypass navigation.
 - `Links`: `src/components/Layout.tsx`, `src/components/ScrollToTop.tsx`, `src/pages/`, `tests/public-site.spec.ts`
 
-### DEBT-30 - Shared navigation disclosure semantics are CSS-driven and untested
+### DEBT-30 - Shared navigation disclosure semantics need complete coverage
 
 - `Priority`: `P2`
 - `Size`: `M`
@@ -393,11 +393,11 @@ Each active item should include enough direction that a future session can choos
 - `Detected`: 2026-06-18
 - `Source`: Fresh site debt review
 - `Area`: Accessibility, Navigation, Tests
-- `Problem`: Desktop submenus open through hover/focus CSS without explicit disclosure state such as `aria-haspopup`/`aria-expanded`, while the mobile menu opens and locks body scroll without focused tests for focus movement, escape behaviour, tab order, or return focus.
+- `Problem`: Desktop submenus still open through hover/focus CSS without explicit disclosure state such as `aria-haspopup`/`aria-expanded` or focused keyboard coverage. The mobile menu now has an Escape and focus-return baseline, but its complete tab order and route-selection flow remain unreviewed.
 - `Why It Matters`: Navigation may be visually usable while remaining ambiguous to assistive technology, and regressions in keyboard access would be easy to miss because current tests do not exercise header navigation interactions.
 - `Preferred Direction`: Audit the header against a clear navigation pattern, add only the semantics/focus handling that match that pattern, and cover the expected desktop and mobile keyboard flows with focused tests.
 - `Resolution Path`: Decide whether desktop parent items are simple links with hover/focus submenus or true disclosure buttons, then align ARIA, focus lifecycle, Escape behaviour, and tests with that decision.
-- `Next Action`: Add a navigation accessibility audit note or failing browser test for keyboard access to the Inclusion submenu and mobile menu open/close flow.
+- `Next Action`: Audit keyboard access to the desktop Inclusion submenu, then cover that decision and the mobile menu's complete tab order and route-selection flow with focused browser tests.
 - `Resolved When`: Header navigation has documented semantics and tests for keyboard submenu access, mobile menu open/close, Escape handling, and focus return.
 - `Related Items`:
   - `DEBT-29`: Skip-link and route-focus work covers page navigation context; this item covers the header menu interaction itself.
@@ -406,6 +406,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
+  - 2026-07-13 partial improvement: labelled desktop submenu containers now expose `group` semantics. The mobile toggle's Escape path now closes the menu, restores its previous body overflow value, and returns focus to the toggle; focused desktop/mobile Playwright coverage protects that lifecycle. Desktop disclosure-state semantics and broader keyboard flows remain open.
 - `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site.spec.ts`
 
 ### DEBT-34 - Public-page tests need opportunistic maintenance

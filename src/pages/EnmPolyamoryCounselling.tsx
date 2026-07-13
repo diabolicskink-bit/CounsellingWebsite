@@ -228,11 +228,11 @@ export default function EnmPolyamoryCounselling() {
           <div className="hero-top enm-page__hero-top">
             <div className="enm-page__hero-heading">
               <h1 className="hero-badge">{hero.badge}</h1>
-              <h2 className="hero-display">
+              <p className="hero-display">
                 <span className="enm-page__hero-line">Your <em>relationships</em>.</span>
                 <span className="enm-page__hero-line">Your <em>people</em>.</span>
                 <span className="enm-page__hero-line">Taken <em>seriously</em>.</span>
-              </h2>
+              </p>
               <div className="hero-copy-panel enm-page__hero-copy">
                 <p>{hero.intro}</p>
               </div>
