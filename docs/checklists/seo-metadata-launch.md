@@ -58,7 +58,7 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Checked PNG dimensions and generated head metadata. `/og-vive-counselling.png` is 1200x630, and `og:image:alt` / `twitter:image:alt` use the configured social preview alt text.
 
 - `Partial` Structured data is intentionally absent, or valid and aligned with public claims if present.
-  - Note: Homepage generated HTML includes a linked `WebSite`, `Organization`, `Person`, and `Service` JSON-LD graph. The Organization uses the confirmed public business identity and identifies Joel Griffiths as `founder`; the credential-bearing Person links Joel to Vive; and the Service identifies counselling and psychotherapy for adults, provided by Vive across Australia. Delivery channel, pricing, address, and local-business schema remain outside current scope until their public details are final.
+  - Note: Homepage generated HTML includes a linked `WebSite`, `Organization`, `Person`, and `Service` JSON-LD graph. Working with Joel generated HTML adds a `ProfilePage` whose `mainEntity` is the same Joel Griffiths Person and carries the confirmed full ECU and ACA credential details behind the page's concise visible credential presentation. Delivery channel, pricing, address, and local-business schema remain outside current scope until their public details are final.
 
 ## `/` - Home
 

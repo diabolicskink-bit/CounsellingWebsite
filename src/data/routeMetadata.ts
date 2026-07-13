@@ -52,7 +52,29 @@ export type SiteMetadata = {
 
 export type PublicRoutePath = keyof typeof metadata.routes;
 
-export const siteMetadata = metadata.site satisfies SiteMetadata;
+type CredentialRecognizedByType = SiteMetadata["person"]["credentials"][number]["recognizedBy"]["type"];
+
+function getCredentialRecognizedByType(value: string): CredentialRecognizedByType {
+  if (value === "Organization" || value === "CollegeOrUniversity") {
+    return value;
+  }
+
+  throw new Error(`Unsupported credential recognizedBy type: ${value}`);
+}
+
+export const siteMetadata = {
+  ...metadata.site,
+  person: {
+    ...metadata.site.person,
+    credentials: metadata.site.person.credentials.map((credential) => ({
+      ...credential,
+      recognizedBy: {
+        ...credential.recognizedBy,
+        type: getCredentialRecognizedByType(credential.recognizedBy.type),
+      },
+    })),
+  },
+} satisfies SiteMetadata;
 export const routeMetadata = metadata.routes satisfies Record<string, RouteMetadata>;
 
 export function getRouteMetadata(path: PublicRoutePath): RouteMetadata {

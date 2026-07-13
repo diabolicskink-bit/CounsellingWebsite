@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-13 - Practitioner ProfilePage Structured Data Added
+
+- Added: Generated `/working-with-joel` HTML now includes a `ProfilePage` whose `mainEntity` is Joel Griffiths.
+- Unified: Homepage and practitioner-page graphs reuse the stable `https://vivecounselling.com.au/working-with-joel#joel-griffiths` Person identity; detailed credentials now live in the practitioner-page graph.
+- Aligned: Visible copy identifies Joel as Vive Counselling's founder and names Edith Cowan University alongside the graduate diploma.
+
 ## 2026-07-13 - Homepage Service Structured Data Added
 
 - Added: The generated homepage JSON-LD graph now includes a `Service` for counselling and psychotherapy for adults.

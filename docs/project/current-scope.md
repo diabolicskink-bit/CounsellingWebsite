@@ -20,7 +20,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - The three draft Inclusion child routes remain direct routes for review but are excluded from production links, sitemap output, and indexing through route-level `noindex, nofollow` metadata.
 - `vivecounselling.com.au` and `www.vivecounselling.com.au` are assigned to the Vercel project; `www` is configured as a permanent redirect to the apex domain, and DNS resolves to Vercel.
 - Production metadata defaults to the apex canonical origin `https://vivecounselling.com.au`; `SITE_URL` can still override this for an intentional alternate environment.
-- Generated homepage metadata includes a linked JSON-LD graph: `WebSite` names `Vive Counselling` at the canonical apex URL; a minimal `Organization` carries the confirmed public business identity, contact point, logo, description, Kink Aware Professionals directory identity, and Joel Griffiths as `founder`; a credential-bearing `Person` identifies Joel and links him to Vive; and a `Service` identifies counselling and psychotherapy for adults, provided by Vive across Australia. Delivery channel, pricing, address, and local-business schema remain deferred.
+- Generated homepage metadata includes a linked JSON-LD graph: `WebSite` names `Vive Counselling` at the canonical apex URL; a minimal `Organization` carries the confirmed public business identity, contact point, logo, description, Kink Aware Professionals directory identity, and Joel Griffiths as `founder`; a concise `Person` identifies Joel and links him to Vive; and a `Service` identifies counselling and psychotherapy for adults, provided by Vive across Australia. Generated Working with Joel metadata adds a `ProfilePage` whose `mainEntity` is the same Person and records the confirmed full ECU and ACA credential details behind the concise visible credential presentation. Delivery channel, pricing, address, and local-business schema remain deferred.
 - Public assets include favicons, app icons, a web manifest, the shared social preview image, and portrait/media assets under `public/`.
 - The Contact/Fees page uses the shared `EnquiryForm` component and data from `src/data/enquiry.ts`.
 - Public contact display and enquiry fallback/failure messaging use `joel@vivecounselling.com.au`.
@@ -68,7 +68,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Storybook or an external component explorer.
 - Visual regression testing.
 - A first-party cookie banner or local Microsoft Clarity Consent API flow.
-- Delivery-channel, pricing, address, or local-business structured data beyond the homepage `WebSite`, `Organization`, credential-bearing `Person`, and minimal `Service` graph.
+- Delivery-channel, pricing, address, or local-business structured data beyond the homepage identity/service graph and Working with Joel `ProfilePage` graph.
 - Completed `LAUNCH-*` review passes for accessibility, responsive layout, public SEO/metadata, performance, analytics policy, enquiry flow, final public copy, and launch domain readiness.
 - Form-flow browser tests with mocked API outcomes.
 - Dedicated live Vercel production or preview smoke tests.

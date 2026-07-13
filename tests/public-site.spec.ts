@@ -1,18 +1,13 @@
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "playwright/test";
+import type { RouteMetadata, SiteMetadata } from "../src/data/routeMetadata";
 
 const routeMetadataData = JSON.parse(
   readFileSync(new URL("../src/data/routeMetadata.json", import.meta.url), "utf8"),
 ) as {
-  site: {
-    name: string;
-    defaultOrigin: string;
-    themeColor: string;
-    socialImage: string;
-    socialImageAlt: string;
-  };
-  routes: Record<string, { h1: string; title: string; description: string; robots?: string }>;
+  site: SiteMetadata;
+  routes: Record<string, RouteMetadata>;
 };
 const vercelConfigData = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url), "utf8")) as {
   headers?: Array<{
@@ -137,35 +132,85 @@ function escapeXml(value: string) {
   return escapeHtml(value).replaceAll("'", "&apos;");
 }
 
-function getHomeStructuredDataScript() {
+function getExpectedStructuredDataIds() {
   const homepageUrl = absoluteRouteUrl("/");
-  const websiteId = `${homepageUrl}#website`;
-  const organizationId = `${homepageUrl}#organization`;
-  const personId = `${homepageUrl}#joel-griffiths`;
-  const serviceId = `${homepageUrl}#counselling-service`;
-  const organization = routeMetadataData.site.organization;
+  const profileUrl = absoluteRouteUrl("/working-with-joel");
+
+  return {
+    homepageUrl,
+    organizationId: `${homepageUrl}#organization`,
+    personId: `${profileUrl}#joel-griffiths`,
+    profilePageId: `${profileUrl}#profile-page`,
+    profileUrl,
+    serviceId: `${homepageUrl}#counselling-service`,
+    websiteId: `${homepageUrl}#website`,
+  };
+}
+
+function getExpectedPersonNode(
+  ids: ReturnType<typeof getExpectedStructuredDataIds>,
+  options: { includeCredentials?: boolean; mainEntityOfPage?: string } = {},
+) {
   const person = routeMetadataData.site.person;
+  const { includeCredentials = false, mainEntityOfPage } = options;
+
+  return {
+    "@type": "Person",
+    "@id": ids.personId,
+    name: person.name,
+    url: ids.profileUrl,
+    image: `${siteOrigin}${person.image}`,
+    description: person.description,
+    jobTitle: person.jobTitle,
+    worksFor: { "@id": ids.organizationId },
+    sameAs: person.sameAs,
+    ...(mainEntityOfPage ? { mainEntityOfPage: { "@id": mainEntityOfPage } } : {}),
+    ...(includeCredentials
+      ? {
+          hasCredential: person.credentials.map((credential) => ({
+            "@type": "EducationalOccupationalCredential",
+            name: credential.name,
+            credentialCategory: credential.credentialCategory,
+            ...(credential.url ? { url: credential.url } : {}),
+            recognizedBy: {
+              "@type": credential.recognizedBy.type,
+              name: credential.recognizedBy.name,
+              url: credential.recognizedBy.url,
+            },
+          })),
+        }
+      : {}),
+  };
+}
+
+function getExpectedStructuredDataScript(structuredData: object) {
+  return `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`;
+}
+
+function getHomeStructuredDataScript() {
+  const ids = getExpectedStructuredDataIds();
+  const organization = routeMetadataData.site.organization;
   const service = routeMetadataData.site.service;
 
-  return `<script type="application/ld+json">${JSON.stringify({
+  return getExpectedStructuredDataScript({
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": websiteId,
+        "@id": ids.websiteId,
         name: routeMetadataData.site.name,
-        url: homepageUrl,
-        publisher: { "@id": organizationId },
+        url: ids.homepageUrl,
+        publisher: { "@id": ids.organizationId },
       },
       {
         "@type": "Organization",
-        "@id": organizationId,
+        "@id": ids.organizationId,
         name: routeMetadataData.site.name,
-        url: homepageUrl,
+        url: ids.homepageUrl,
         email: organization.email,
         description: organization.description,
         sameAs: organization.sameAs,
-        founder: { "@id": personId },
+        founder: { "@id": ids.personId },
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "enquiries",
@@ -179,36 +224,15 @@ function getHomeStructuredDataScript() {
           height: organization.logoHeight,
         },
       },
-      {
-        "@type": "Person",
-        "@id": personId,
-        name: person.name,
-        url: `${siteOrigin}${person.url}`,
-        image: `${siteOrigin}${person.image}`,
-        description: person.description,
-        jobTitle: person.jobTitle,
-        worksFor: { "@id": organizationId },
-        sameAs: person.sameAs,
-        hasCredential: person.credentials.map((credential) => ({
-          "@type": "EducationalOccupationalCredential",
-          name: credential.name,
-          credentialCategory: credential.credentialCategory,
-          ...(credential.url ? { url: credential.url } : {}),
-          recognizedBy: {
-            "@type": credential.recognizedBy.type,
-            name: credential.recognizedBy.name,
-            url: credential.recognizedBy.url,
-          },
-        })),
-      },
+      getExpectedPersonNode(ids),
       {
         "@type": "Service",
-        "@id": serviceId,
+        "@id": ids.serviceId,
         name: service.name,
         serviceType: service.serviceType,
         url: `${siteOrigin}${service.url}`,
         description: service.description,
-        provider: { "@id": organizationId },
+        provider: { "@id": ids.organizationId },
         audience: {
           "@type": "PeopleAudience",
           audienceType: service.audience,
@@ -219,7 +243,29 @@ function getHomeStructuredDataScript() {
         },
       },
     ],
-  })}</script>`;
+  });
+}
+
+function getProfileStructuredDataScript() {
+  const ids = getExpectedStructuredDataIds();
+
+  return getExpectedStructuredDataScript({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": ids.profilePageId,
+        url: ids.profileUrl,
+        name: routeMetadataData.routes["/working-with-joel"].h1,
+        isPartOf: { "@id": ids.websiteId },
+        mainEntity: { "@id": ids.personId },
+      },
+      getExpectedPersonNode(ids, {
+        includeCredentials: true,
+        mainEntityOfPage: ids.profilePageId,
+      }),
+    ],
+  });
 }
 
 function routeRobotsDirective(route: string) {
@@ -445,10 +491,17 @@ test.describe("first response metadata", () => {
       );
       if (route === "/") {
         expect(html).toContain(getHomeStructuredDataScript());
+        expect(html).not.toContain('"@type":"ProfilePage"');
+        expect(html).not.toContain('"hasCredential"');
+      } else if (route === "/working-with-joel") {
+        expect(html).toContain(getProfileStructuredDataScript());
+        expect(html).not.toContain('"@type":"WebSite"');
+        expect(html).not.toContain('"@type":"Service"');
       } else {
         expect(html).not.toContain('"@type":"WebSite"');
         expect(html).not.toContain('"@type":"Organization"');
         expect(html).not.toContain('"@type":"Person"');
+        expect(html).not.toContain('"@type":"ProfilePage"');
         expect(html).not.toContain('"@type":"Service"');
       }
       for (const faviconTag of expectedFaviconTags) {
