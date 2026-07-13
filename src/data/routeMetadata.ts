@@ -1,7 +1,6 @@
 import metadata from "./routeMetadata.json";
 
 export type RouteMetadata = {
-  h1: string;
   title: string;
   description: string;
   robots?: string;

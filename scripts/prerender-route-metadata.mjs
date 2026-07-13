@@ -70,10 +70,6 @@ const prerenderedRouteSmokeForbiddenFragments = {
     'id="contact-timezone"',
   ],
 };
-const staticShellStart = "<!-- Static route shell generated at build time -->";
-const staticShellEnd = "<!-- /Static route shell generated at build time -->";
-const staticShellRootPattern =
-  /<div id="root"(?:\s+data-prerendered-at="[^"]*")?>\s*<!-- Static route shell generated at build time -->.*?<!-- \/Static route shell generated at build time -->\s*<\/div>/s;
 const notFoundFallback = {
   h1: "That page isn't here.",
   description: "This page could not be found on the Vive Counselling website.",
@@ -246,34 +242,6 @@ function applyMetadata(html, routePath, routeMetadata, siteMetadata, siteOrigin)
     .replace("</head>", `    ${seoTags}\n  </head>`);
 }
 
-function getStaticRouteShell(routePath, routeMetadata) {
-  if (!routeMetadata.h1?.trim()) {
-    throw new Error(`Route is missing static H1 content: ${routePath}`);
-  }
-
-  return [
-    `<main data-static-route-shell="${escapeHtml(routePath)}">`,
-    `  <h1>${escapeHtml(routeMetadata.h1)}</h1>`,
-    `  <p>${escapeHtml(routeMetadata.description)}</p>`,
-    "</main>",
-  ].join("\n      ");
-}
-
-function applyStaticRouteShell(html, routePath, routeMetadata, prerenderedAt) {
-  const staticShell = getStaticRouteShell(routePath, routeMetadata);
-  const renderedRoot = `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">\n      ${staticShellStart}\n      ${staticShell}\n      ${staticShellEnd}\n    </div>`;
-
-  if (staticShellRootPattern.test(html)) {
-    return html.replace(staticShellRootPattern, renderedRoot);
-  }
-
-  if (html.includes('<div id="root"></div>')) {
-    return html.replace('<div id="root"></div>', renderedRoot);
-  }
-
-  throw new Error(`Unable to find root element while adding static route shell: ${routePath}`);
-}
-
 function applyRenderedRouteRoot(html, renderedMarkup, routePath, prerenderedAt) {
   const emptyRoot = '<div id="root"></div>';
 
@@ -313,8 +281,8 @@ function assertRenderedRouteSmoke(html, routePath) {
     }
   }
 
-  if (html.includes(staticShellStart) || html.includes("data-static-route-shell")) {
-    throw new Error(`Static render smoke check for ${routePath} unexpectedly contains the temporary route shell.`);
+  if (html.includes("data-not-found-fallback") || html.includes("data-static-route-shell")) {
+    throw new Error(`Static render smoke check for ${routePath} unexpectedly contains fallback markup.`);
   }
 }
 
@@ -340,12 +308,30 @@ function applyNotFoundMetadata(html, siteMetadata) {
     .replace("</head>", `    ${seoTags}\n  </head>`);
 }
 
+function applyNotFoundFallbackRoot(html, prerenderedAt) {
+  const emptyRoot = '<div id="root"></div>';
+
+  if (!html.includes(emptyRoot)) {
+    throw new Error("Unable to find the empty root element while adding the generic 404 fallback.");
+  }
+
+  const fallbackMarkup = [
+    '<main data-not-found-fallback="true">',
+    `  <h1>${escapeHtml(notFoundFallback.h1)}</h1>`,
+    `  <p>${escapeHtml(notFoundFallback.description)}</p>`,
+    "</main>",
+  ].join("\n      ");
+  const fallbackRoot = `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">\n      ${fallbackMarkup}\n    </div>`;
+
+  return html.replace(emptyRoot, () => fallbackRoot);
+}
+
 function assertNotFoundFallback(html, prerenderedAt) {
   const expectedFragments = [
     "<title>Page not found | Vive Counselling</title>",
     `<meta name="robots" content="${noindexDirective}" />`,
     `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">`,
-    '<main data-static-route-shell="/404.html">',
+    '<main data-not-found-fallback="true">',
     "<h1>That page isn't here.</h1>",
     "<p>This page could not be found on the Vive Counselling website.</p>",
     'script type="module"',
@@ -361,9 +347,11 @@ function assertNotFoundFallback(html, prerenderedAt) {
   if (
     html.includes('data-render-mode="prerendered"') ||
     html.includes("data-prerendered-path=") ||
-    html.includes('<link rel="canonical"')
+    html.includes('<link rel="canonical"') ||
+    html.includes("data-static-route-shell") ||
+    html.includes("Static route shell generated at build time")
   ) {
-    throw new Error("404 fallback smoke check found metadata that would make the artifact hydratable or canonical.");
+    throw new Error("404 fallback smoke check found prerender metadata or retired public-shell markup.");
   }
 }
 
@@ -427,13 +415,14 @@ const renderedRouteMarkup = new Map(
 for (const [routePath, routeMetadata] of Object.entries(routes)) {
   const routeTemplate = applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin);
   const renderedMarkup = renderedRouteMarkup.get(routePath);
-  const routeHtml = renderedMarkup
-    ? applyRenderedRouteRoot(routeTemplate, renderedMarkup, routePath, prerenderedAt)
-    : applyStaticRouteShell(routeTemplate, routePath, routeMetadata, prerenderedAt);
 
-  if (renderedMarkup) {
-    assertRenderedRouteSmoke(routeHtml, routePath);
+  if (!renderedMarkup) {
+    throw new Error(`Metadata route is missing from the component prerender set: ${routePath}`);
   }
+
+  const routeHtml = applyRenderedRouteRoot(routeTemplate, renderedMarkup, routePath, prerenderedAt);
+
+  assertRenderedRouteSmoke(routeHtml, routePath);
 
   for (const outputPath of getRouteOutputPaths(routePath)) {
     await mkdir(path.dirname(outputPath), { recursive: true });
@@ -457,12 +446,7 @@ const robotsTxt = [
   "",
 ].join("\n");
 
-const notFoundHtml = applyStaticRouteShell(
-  applyNotFoundMetadata(templateHtml, site),
-  "/404.html",
-  notFoundFallback,
-  prerenderedAt,
-);
+const notFoundHtml = applyNotFoundFallbackRoot(applyNotFoundMetadata(templateHtml, site), prerenderedAt);
 
 assertNotFoundFallback(notFoundHtml, prerenderedAt);
 

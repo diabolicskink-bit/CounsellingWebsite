@@ -17,7 +17,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
 - The route/application tree is shared by separate browser and static wrappers. Both wrappers use the same Strict Mode boundary and pass the same serializable initial-render timestamp contract; the build now invokes the static wrapper for its in-memory render smoke check.
 - A prerender script updates route metadata artifacts, generated route HTML, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.
-- The production build creates a disposable Vite SSR bundle outside `dist` and imports it during prerendering. Every metadata-backed public route receives real component-rendered header, page, navigation, and footer markup in its first response; only the controlled `404.html` artifact retains the temporary static shell.
+- The production build creates a disposable Vite SSR bundle outside `dist` and imports it during prerendering. Every metadata-backed public route receives real component-rendered header, page, navigation, and footer markup in its first response. The controlled `404.html` artifact uses a dedicated generic not-found fallback instead of the retired public-route shell path.
 - The browser hydrates every metadata-backed public route only when the artifact's explicit prerendered route marker, valid build timestamp, and normalized browser pathname match. Development roots, stale or mismatched artifacts, unknown paths, and `404.html` continue through the client-render fallback.
 - Launch indexability is enabled for Home, Working with Joel, Inclusion, and Contact/Fees. Generated route HTML for those pages omits `noindex`, `sitemap.xml` advertises only those four canonical URLs, and `robots.txt` allows crawling with a sitemap reference.
 - The three draft Inclusion child routes remain direct routes for review but are excluded from production links, sitemap output, and indexing through route-level `noindex, nofollow` metadata.
@@ -37,6 +37,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Vercel Analytics is rendered by the app when analytics are enabled and the runtime hostname is allowed; `SiteAnalytics` injects Google Analytics `gtag.js` with manual public-route `page_view` events when `VITE_GA_MEASUREMENT_ID` is configured, and Microsoft Clarity loads when `VITE_CLARITY_PROJECT_ID` is configured. The default analytics host allowlist is the canonical apex domain plus `www`, with `VITE_ANALYTICS_ALLOWED_HOSTS` available for explicit alternate environments such as local analytics QA.
 - The enquiry form is explicitly marked with `data-clarity-mask="true"` so Clarity does not capture form content even if recording features are enabled.
 - Playwright public-site tests exist under `tests/public-site.spec.ts`, including one-main-landmark coverage, raw/no-JavaScript/hydration coverage for all seven metadata-backed public routes, fixed-season Contact timezone and form-state coverage, equivalent flat/nested artifact checks, SPA-navigation coverage, activation fallback checks, generated metadata, sitemap, robots, and 404 fallback artifact coverage.
+- The prerendering migration has no outstanding standalone broad-test phase. When a page or shared behaviour is changed for another reason, its relevant rendering and interaction tests should be reviewed and updated as part of that work rather than through a separate page-by-page testing campaign.
 - Direct Node API tests cover accepted and rejected enquiry submissions under `tests/api/`.
 - Direct Node script tests cover route metadata origin policy under `tests/scripts/`.
 - The public-site QA gate, `npm run qa:site`, builds the app, starts the QA preview server, and passes the Playwright public-site suite locally.
@@ -44,14 +45,14 @@ This is the factual current scope of the Vive Counselling website and supporting
 - The aggregate QA command, `npm run qa`, runs encoding checks, direct script tests, the build, direct API tests, and the public-site Playwright suite.
 - Static encoding checks run through `npm run check:encoding` and are included in `npm run qa` and `npm run qa:site`.
 - Test tooling includes axe checks through Playwright and Lighthouse audit scripts.
-- Build tooling includes TypeScript checking, separate Vite client and SSR builds, and staged component/static-shell prerendering. The ignored SSR artifact is recreated under `.prerender/server` on every production build.
+- Build tooling includes TypeScript checking, separate Vite client and SSR builds, and component prerendering for every metadata-backed public route. The build fails if a metadata route is missing from the component prerender set, and the ignored SSR artifact is recreated under `.prerender/server` on every production build.
 - The TypeScript build includes the `api/` serverless endpoint.
 - Vercel deployment configuration exists in `vercel.json` with clean URLs, trailing-slash redirects, and public alias redirects.
 
 ## Partially Included / Known Gaps
 
 - Enquiry spam protection includes a honeypot and conservative request-shape checks, but does not include platform rate limiting or complete abuse protection.
-- All seven metadata-backed public routes have full static component markup and matching-path hydration. The controlled 404 fallback deliberately retains its generic shell plus `createRoot`; its build and local-preview contract is verified, while exact post-deploy confirmation remains tracked separately from shell retirement.
+- All seven metadata-backed public routes have full static component markup and matching-path hydration. The controlled 404 fallback deliberately retains dedicated generic fallback markup plus `createRoot`; its build and local-preview contract is verified, while exact post-deploy confirmation remains tracked under `DEBT-24`.
 - Endpoint-level native form posts and a server-rendered Contact form are supported. JavaScript-disabled visits expose full component markup on every metadata-backed public route.
 - Route definitions, route metadata, prerendering, and tests remain separate by design for this small route set; explicit route parity coverage is still tracked as debt.
 - Type checking does not currently cover tests, scripts, and most config files.

@@ -4,9 +4,11 @@ Date: 2026-07-13
 
 Branch: `work/prerendering`
 
-Related tracker items: `DEBT-32`, `DEBT-33`, `DEBT-8`, `DEBT-27`, `LAUNCH-3`
+Related tracker items: `DEBT-32`, `DEBT-33`, `DEBT-34`, `DEBT-8`, `DEBT-27`, `LAUNCH-3`
 
 ## Status And Review Outcome
+
+Status: Complete. The rendering migration was accepted after Phase 9 based on the production build, generated-artifact inspection, focused desktop/mobile rendering tests, and browser verification. The previously proposed standalone broad test phases will not be run as a separate migration project; relevant tests will instead be reviewed and updated when a page or shared behaviour is already being changed for another reason.
 
 This plan has been technically reviewed against the current Vite, React, React Router, route-generation, analytics, form, timezone, test, and deployment code.
 
@@ -414,10 +416,17 @@ Resolve `DEBT-33` only after tests prove no public route can regress to an empty
 
 #### Notes
 
-- Status: Not started.
+- Status: Complete.
 - Agent notes:
+  - Removed the generic public static-shell generator, its root-replacement regex, and its build comments/marker. Every metadata-backed route must now exist in the component prerender set or the build fails.
+  - Removed the duplicate route `h1` values from `routeMetadata.json` and the TypeScript contract. Component-owned `h1.hero-badge` markup is now the only public-route H1 source.
+  - Public-route tests now require real header, main, one meaningful component H1, route-specific structure, and footer markup while rejecting both the dedicated not-found marker and the retired public-shell marker.
+  - Preserved `404.html` through a dedicated `applyNotFoundFallbackRoot` path with `data-not-found-fallback="true"`; it remains generic, noindex, non-prerendered, and client-activated without sharing public-route shell machinery.
+  - The production build and 48 focused desktop/mobile prerendered-route, first-response, and raw-404 checks pass. This evidence was accepted as the migration completion baseline; broader test refinement will happen opportunistically when pages are otherwise being worked on.
 
 ### Phase 10 - Strengthen Raw HTML, No-JavaScript, And Hydration Tests
+
+Historical proposed scope, retained for context rather than as an active task list:
 
 Add or update focused coverage for:
 
@@ -437,10 +446,15 @@ Keep assertions focused on rendering guarantees rather than broad copy snapshots
 
 #### Notes
 
-- Status: Not started.
+- Status: Closed without standalone execution.
 - Agent notes:
+  - The migration already has focused raw HTML, no-JavaScript, hydration, route-marker, metadata, Contact timezone/form, SPA navigation, and 404 coverage across the public route set.
+  - The proposed broader assertion pass is no longer a separate project phase. When a public page or shared interaction is worked on, its existing rendering assertions should be reviewed for relevance, updated where behaviour changed, and expanded only where the page-level work exposes a meaningful gap.
+  - This decision avoids freezing broad copy or markup snapshots merely to complete the migration plan; stable cross-route rendering contracts remain in the shared suite.
 
 ### Phase 11 - Run Verification Gates
+
+Historical proposed scope, retained for context rather than as an active release requirement:
 
 Run the smallest relevant checks after each phase, then the broader gates after all routes are converted.
 
@@ -458,8 +472,11 @@ Inspect generated source directly as part of verification. A successful build al
 
 #### Notes
 
-- Status: Not started.
+- Status: Closed without a final aggregate migration run.
 - Agent notes:
+  - Phase 9 completed the production build, generated-source inspection, focused desktop/mobile checks, and browser verification needed to accept the rendering architecture.
+  - `npm run qa:site`, `npm run qa`, and `npm run qa:analytics` remain available project gates, but they are not outstanding completion requirements for this plan. Run the relevant gate when later page, shared interaction, API, analytics, or release work warrants it.
+  - Canonical-domain unknown-route confirmation remains separately tracked under `DEBT-24` because it depends on deployed state rather than this local migration.
 
 ### Phase 12 - Update Project Memory
 
@@ -476,8 +493,11 @@ Do not update current-scope or close debt for a Home-only prototype that has not
 
 #### Notes
 
-- Status: Not started.
+- Status: Complete.
 - Agent notes:
+  - Current scope, launch readiness, the rendering milestone, and debt records now describe the completed component-prerendering and hydration contract.
+  - `DEBT-32` and `DEBT-33` are archived. The deliberate 404 exception and its post-deploy follow-up remain documented under `DEBT-24`.
+  - Future test refinement follows the opportunistic maintenance decision recorded above rather than remaining as an unfinished phase of this migration or becoming a separate page-by-page campaign.
 
 ## Non-Goals
 
@@ -493,6 +513,8 @@ Do not update current-scope or close debt for a Home-only prototype that has not
 - Do not make the NotFound page fully hydratable at arbitrary browser paths as part of the public-route SEO migration.
 
 ## Completion Definition
+
+Accepted completion note: the implementation outcomes below are complete. The broad standalone Phase 10 and Phase 11 batches were consciously closed without execution; existing focused evidence was accepted, and future test review will happen alongside page-level or shared-behaviour work.
 
 This work is complete when:
 

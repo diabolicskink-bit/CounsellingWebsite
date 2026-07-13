@@ -12,7 +12,7 @@ const routeMetadataData = JSON.parse(
     socialImage: string;
     socialImageAlt: string;
   };
-  routes: Record<string, { h1: string; title: string; description: string; robots?: string }>;
+  routes: Record<string, { title: string; description: string; robots?: string }>;
 };
 const vercelConfigData = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url), "utf8")) as {
   headers?: Array<{
@@ -398,6 +398,13 @@ async function expectNoPageDiagnostics(diagnostics: PageDiagnostics) {
   });
 }
 
+function expectMeaningfulRawHeroH1(html: string) {
+  const h1Matches = [...html.matchAll(/<h1 class="hero-badge">([^<]+)<\/h1>/g)];
+
+  expect(h1Matches).toHaveLength(1);
+  expect((h1Matches[0]?.[1] ?? "").trim().length).toBeGreaterThan(8);
+}
+
 async function expectNotFoundPage(page: Page, requestedPath: string) {
   await expect(page).toHaveTitle("Page not found | Vive Counselling");
   await expect(page.locator(".not-found-page__label")).toHaveText("Page not found");
@@ -450,9 +457,8 @@ test.describe("public pages", () => {
       await page.goto(route, { waitUntil: "networkidle" });
 
       await expect(page.locator("main").first()).toBeVisible();
-      await expect(page.locator("h1")).toHaveCount(1);
-      await expect(page.locator("h1")).toBeVisible();
-      await expect(page.locator("h1")).toHaveText(routeMetadataData.routes[route].h1);
+      await expect(page.locator("h1.hero-badge")).toHaveCount(1);
+      await expect(page.locator("h1.hero-badge")).toBeVisible();
       await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(1);
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
@@ -492,7 +498,8 @@ test.describe("prerendered route hydration rollout", () => {
     await page.locator(".site-footer__nav").getByRole("link", { name: "Working with Joel" }).click();
 
     await expect(page).toHaveURL(/\/working-with-joel$/);
-    await expect(page.locator("h1")).toHaveText(routeMetadataData.routes["/working-with-joel"].h1);
+    await expect(page.locator("h1.hero-badge")).toBeVisible();
+    expect((await page.locator("h1.hero-badge").innerText()).trim().length).toBeGreaterThan(8);
     expect(await page.evaluate(() => document.body.dataset.spaNavigationSentinel)).toBe("preserved");
     await expectNoPageDiagnostics(diagnostics);
   });
@@ -508,7 +515,7 @@ test.describe("prerendered route hydration rollout", () => {
     expect(response.ok()).toBeTruthy();
     expect(html).toContain('data-render-mode="prerendered"');
     expect(html).toContain('data-prerendered-path="/"');
-    expect(html).not.toContain('<main data-static-route-shell="/404.html">');
+    expect(html).not.toContain('data-not-found-fallback="true"');
 
     await page.goto("/not-a-real-page", { waitUntil: "networkidle" });
 
@@ -542,7 +549,9 @@ test.describe("prerendered routes without JavaScript", () => {
 
       await expect(page.locator("header.site-header")).toBeVisible();
       await expect(page.locator(`main.${contract.mainClass.split(" ").join(".")}`)).toBeVisible();
-      await expect(page.locator("h1")).toHaveText(routeMetadataData.routes[route].h1);
+      await expect(page.locator("h1.hero-badge")).toHaveCount(1);
+      await expect(page.locator("h1.hero-badge")).toBeVisible();
+      expect((await page.locator("h1.hero-badge").innerText()).trim().length).toBeGreaterThan(8);
       await expect(page.locator(contract.noJavaScriptSelector)).toBeVisible();
       await expect(page.locator("header.site-header a[href], footer.site-footer a[href]")).not.toHaveCount(0);
       await expect(page.locator("footer.site-footer")).toBeVisible();
@@ -584,27 +593,22 @@ test.describe("first response metadata", () => {
 
       expect(response.ok()).toBeTruthy();
       expectNoGeneratedOriginLeak(html);
-      if (prerenderedRoutes.includes(route as (typeof prerenderedRoutes)[number])) {
-        const prerenderedRoute = route as (typeof prerenderedRoutes)[number];
-        const contract = prerenderedRouteContracts[prerenderedRoute];
+      const prerenderedRoute = route as (typeof prerenderedRoutes)[number];
+      const contract = prerenderedRouteContracts[prerenderedRoute];
 
-        expect(html).toContain('data-render-mode="prerendered"');
-        expect(html).toContain(`data-prerendered-path="${escapeHtml(route)}"`);
-        expect(html).toContain('<header class="site-header">');
-        expect(html).toContain(`<main class="${contract.mainClass}">`);
-        expect(html).toContain(`<h1 class="hero-badge">${escapeHtml(metadata.h1)}</h1>`);
-        for (const fragment of contract.rawFragments) {
-          expect(html).toContain(fragment);
-        }
-        expect(html).toContain('<footer class="site-footer">');
-        expect(html).not.toContain("data-static-route-shell");
-        expect(html).not.toContain("Static route shell generated at build time");
-      } else {
-        expect(html).toContain(`<main data-static-route-shell="${escapeHtml(route)}">`);
-        expect(html).toContain(`<h1>${escapeHtml(metadata.h1)}</h1>`);
-        expect(html).toContain(`<p>${escapeHtml(metadata.description)}</p>`);
-        expect(html).not.toContain('data-render-mode="prerendered"');
+      expect(prerenderedRoutes).toContain(prerenderedRoute);
+      expect(html).toContain('data-render-mode="prerendered"');
+      expect(html).toContain(`data-prerendered-path="${escapeHtml(route)}"`);
+      expect(html).toContain('<header class="site-header">');
+      expect(html).toContain(`<main class="${contract.mainClass}">`);
+      expectMeaningfulRawHeroH1(html);
+      for (const fragment of contract.rawFragments) {
+        expect(html).toContain(fragment);
       }
+      expect(html).toContain('<footer class="site-footer">');
+      expect(html).not.toContain("data-not-found-fallback");
+      expect(html).not.toContain("data-static-route-shell");
+      expect(html).not.toContain("Static route shell generated at build time");
       expect(html).toContain(`<title>${escapeHtml(metadata.title)}</title>`);
       expect(html).toContain(
         `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
@@ -659,6 +663,7 @@ test.describe("prerendered route output forms", () => {
       expect(nestedHtml).toBe(flatHtml);
       expect(flatHtml).toContain('data-render-mode="prerendered"');
       expect(flatHtml).toContain(`data-prerendered-path="${route}"`);
+      expect(flatHtml).not.toContain("data-not-found-fallback");
       expect(flatHtml).not.toContain("data-static-route-shell");
     });
   }
@@ -777,7 +782,7 @@ test.describe("crawl and app metadata assets", () => {
     );
   });
 
-  test("404.html serves an app-powered noindex fallback shell", async ({ request }) => {
+  test("404.html serves an app-powered noindex fallback artifact", async ({ request }) => {
     const response = await request.get("/404.html");
     const html = await response.text();
 
@@ -785,12 +790,14 @@ test.describe("crawl and app metadata assets", () => {
     expectNoGeneratedOriginLeak(html);
     expect(html).toContain("<title>Page not found | Vive Counselling</title>");
     expect(html).toContain(`<meta name="robots" content="${noindexDirective}" />`);
-    expect(html).toContain('<main data-static-route-shell="/404.html">');
+    expect(html).toContain('<main data-not-found-fallback="true">');
     expect(html).toContain("<h1>That page isn't here.</h1>");
     expect(html).toContain("<p>This page could not be found on the Vive Counselling website.</p>");
     expect(html).not.toContain('data-render-mode="prerendered"');
     expect(html).not.toContain("data-prerendered-path=");
     expect(html).not.toContain("data-react-activation=");
+    expect(html).not.toContain("data-static-route-shell");
+    expect(html).not.toContain("Static route shell generated at build time");
     const timestamp = html.match(/<div id="root" data-prerendered-at="([^"]+)">/)?.[1];
     expect(timestamp).toBeTruthy();
     expect(Number.isNaN(Date.parse(timestamp ?? ""))).toBeFalsy();

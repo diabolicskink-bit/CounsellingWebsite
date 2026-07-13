@@ -19,10 +19,10 @@ Curated milestone history for durable project state. This is not a full changelo
 
 ## 2026-07-13 - Public Routes Gain Static Rendering And Hydration
 
-- Changed: Generated HTML for all seven metadata-backed public routes now contains the real React header, navigation, page sections, links, media or form content, and footer before JavaScript rather than the temporary H1-only shell.
+- Changed: Generated HTML for all seven metadata-backed public routes now contains the real React header, navigation, page sections, links, media or form content, and footer before JavaScript; the duplicate public H1 metadata and temporary public-shell generator have been retired.
 - Preserved: The three draft Inclusion child routes remain excluded from production navigation and sitemap output and retain `noindex, nofollow` while gaining static content and hydration.
 - Added: Explicit route/timestamp markers select `hydrateRoot` only for matching route artifacts; development, unknown, stale, mismatched, and 404 paths retain the guarded `createRoot` fallback.
-- Verified: Production-preview tests cover raw and JavaScript-disabled content, warning-free hydration, fixed-season Contact notes and form behavior, route interactions, SPA navigation, equivalent flat/nested artifacts, mismatch fallback, metadata, landmarks, and the controlled 404 contract.
+- Verified: The build fails if a metadata route lacks a component render. Focused production-preview coverage and artifact inspection were accepted as the migration completion baseline; no standalone broad final-test or page-by-page campaign remains. `DEBT-34` records that relevant tests should instead be reviewed when a page is already changing for other reasons.
 
 ## 2026-07-13 - Homepage Service Structured Data Added
 
