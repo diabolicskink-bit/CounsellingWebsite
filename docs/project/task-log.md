@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-13 - Homepage Service Structured Data Added
+
+- Added: The generated homepage JSON-LD graph now includes a `Service` for counselling and psychotherapy for adults.
+- Linked: The Service identifies Vive Counselling as its provider and Australia as its service area, with an adult `PeopleAudience`.
+- Deferred: Delivery channel, session pricing, duration, address, and local-business classification remain out until they are intentionally included and maintained.
+
 ## 2026-07-13 - Practitioner Credential Structured Data Added
 
 - Added: Joel Griffiths' `Person` schema now records the exact Graduate Diploma in Counselling and Psychotherapy from Edith Cowan University and ACA Registered Counsellor – Level 1 status through `hasCredential`.

@@ -142,8 +142,10 @@ function getHomeStructuredDataScript() {
   const websiteId = `${homepageUrl}#website`;
   const organizationId = `${homepageUrl}#organization`;
   const personId = `${homepageUrl}#joel-griffiths`;
+  const serviceId = `${homepageUrl}#counselling-service`;
   const organization = routeMetadataData.site.organization;
   const person = routeMetadataData.site.person;
+  const service = routeMetadataData.site.service;
 
   return `<script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
@@ -198,6 +200,23 @@ function getHomeStructuredDataScript() {
             url: credential.recognizedBy.url,
           },
         })),
+      },
+      {
+        "@type": "Service",
+        "@id": serviceId,
+        name: service.name,
+        serviceType: service.serviceType,
+        url: `${siteOrigin}${service.url}`,
+        description: service.description,
+        provider: { "@id": organizationId },
+        audience: {
+          "@type": "PeopleAudience",
+          audienceType: service.audience,
+        },
+        areaServed: {
+          "@type": "Country",
+          name: service.areaServed,
+        },
       },
     ],
   })}</script>`;
@@ -430,6 +449,7 @@ test.describe("first response metadata", () => {
         expect(html).not.toContain('"@type":"WebSite"');
         expect(html).not.toContain('"@type":"Organization"');
         expect(html).not.toContain('"@type":"Person"');
+        expect(html).not.toContain('"@type":"Service"');
       }
       for (const faviconTag of expectedFaviconTags) {
         expect(html).toContain(faviconTag);

@@ -57,8 +57,10 @@ function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
   const websiteId = `${homepageUrl}#website`;
   const organizationId = `${homepageUrl}#organization`;
   const personId = `${homepageUrl}#joel-griffiths`;
+  const serviceId = `${homepageUrl}#counselling-service`;
   const organization = siteMetadata.organization;
   const person = siteMetadata.person;
+  const service = siteMetadata.service;
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -112,6 +114,23 @@ function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
             url: credential.recognizedBy.url,
           },
         })),
+      },
+      {
+        "@type": "Service",
+        "@id": serviceId,
+        name: service.name,
+        serviceType: service.serviceType,
+        url: getAbsoluteUrl(siteOrigin, service.url),
+        description: service.description,
+        provider: { "@id": organizationId },
+        audience: {
+          "@type": "PeopleAudience",
+          audienceType: service.audience,
+        },
+        areaServed: {
+          "@type": "Country",
+          name: service.areaServed,
+        },
       },
     ],
   };

@@ -24,7 +24,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 | Web manifest | Installed app identity and icon references | `To populate` |
 | Robots policy | Site-wide crawl policy | `To populate` |
 | Sitemap | Search crawler URL discovery | `To populate` |
-| Structured data policy | JSON-LD or intentional absence across the site | Home emits a linked `WebSite`, `Organization`, and credential-bearing `Person` graph. Inclusion and Contact/Fees emit `FAQPage`; the three draft Inclusion child routes also emit `FAQPage` while remaining `noindex, nofollow`. `Service`, address, and local-business schema are intentionally absent. |
+| Structured data policy | JSON-LD or intentional absence across the site | Home emits a linked `WebSite`, `Organization`, credential-bearing `Person`, and minimal `Service` graph. Inclusion and Contact/Fees emit `FAQPage`; the three draft Inclusion child routes also emit `FAQPage` while remaining `noindex, nofollow`. Delivery-channel, pricing, address, and local-business schema are intentionally absent. |
 
 ## `/` - Home
 
@@ -45,7 +45,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 | Twitter description | Twitter/X preview description | `Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
 | Twitter image | Twitter/X preview image URL | `https://vivecounselling.com.au/og-vive-counselling.png` |
 | Twitter image alt | Twitter/X preview image accessibility text | `Vive Counselling social preview card for online counselling across Australia with Joel Griffiths.` |
-| Structured data | JSON-LD or intentional absence | A linked JSON-LD graph identifies the `WebSite`, a minimal `Organization` using the public business identity and Kink Aware Professionals directory listing with Joel Griffiths as `founder`, and Joel as a `Person` linked to Vive through `worksFor`, his ACA profile in `sameAs`, and `hasCredential` entries for the Edith Cowan University graduate diploma and ACA Level 1 registration. |
+| Structured data | JSON-LD or intentional absence | A linked JSON-LD graph identifies the `WebSite`, a minimal `Organization` with Joel Griffiths as `founder`, Joel as a credential-bearing `Person` linked to Vive, and a `Service` for counselling and psychotherapy for adults provided by Vive across Australia. |
 
 ## `/working-with-joel` - Working with Joel
 

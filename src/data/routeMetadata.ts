@@ -38,6 +38,14 @@ export type SiteMetadata = {
       };
     }>;
   };
+  service: {
+    name: string;
+    serviceType: string;
+    url: string;
+    description: string;
+    audience: string;
+    areaServed: string;
+  };
   socialImage: string;
   socialImageAlt: string;
 };

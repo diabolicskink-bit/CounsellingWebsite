@@ -45,6 +45,14 @@
         }
       ]
     },
+    "service": {
+      "name": "Counselling and psychotherapy for adults",
+      "serviceType": "Counselling and psychotherapy",
+      "url": "/",
+      "description": "Counselling and therapy for adults across Australia.",
+      "audience": "Adults",
+      "areaServed": "Australia"
+    },
     "socialImage": "/og-vive-counselling.png",
     "socialImageAlt": "Vive Counselling social preview card for online counselling across Australia with Joel Griffiths."
   },
