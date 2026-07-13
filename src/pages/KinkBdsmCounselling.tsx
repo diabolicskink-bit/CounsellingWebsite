@@ -98,10 +98,10 @@ const kinkPageContent: KinkPageContent = {
     },
     closingRow: [
       {
-        title: "What goes unspoken.",
+        title: "When therapy gets kink wrong.",
         body: [
-          "Drop. The kind that follows a scene, whichever side of it you were on. Shame, a dynamic that stopped feeling okay. Something that crossed a line, or that you're not sure crossed a line. A disclosure that didn't land well. A desire that has lived privately for years and never been put down anywhere.",
-          "None of it needs to be resolved before it comes here. It can arrive as it is, as complicated as it actually is, without the conversation becoming about managing someone else's reaction to it.",
+          "You may have tried to talk about kink in counselling before and found yourself dealing with the counsellor's reaction instead. They may have become uncomfortable or overly interested, treated kink as evidence of trauma, or made it the explanation for problems elsewhere in your life. At the other extreme, something that did not feel okay may have been minimised because it happened within kink.",
+          "An experience like that can make trying again feel risky. You do not have to trust that this will be different because a website says so. You can ask direct questions, tell me what went wrong before, and take your time deciding what you want to share.",
         ],
       },
       {
