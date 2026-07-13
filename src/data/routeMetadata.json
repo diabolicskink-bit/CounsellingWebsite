@@ -23,6 +23,12 @@
       "sameAs": [
         "https://theaca.net.au/profile?UserKey=f20cee37-672b-4d3a-8a80-019df18a0826"
       ],
+      "knowsAbout": [
+        "Kink-aware counselling and therapy, including BDSM",
+        "Ethical non-monogamy (ENM), polyamory and open relationships",
+        "LGBTQIA+ affirming counselling and therapy",
+        "Sexuality, intimacy and diverse relationships"
+      ],
       "credentials": [
         {
           "name": "Graduate Diploma in Counselling and Psychotherapy",
@@ -47,9 +53,14 @@
     },
     "service": {
       "name": "Counselling and psychotherapy for adults",
-      "serviceType": "Counselling and psychotherapy",
+      "serviceType": [
+        "Counselling and psychotherapy",
+        "Kink-aware counselling and therapy, including BDSM",
+        "Counselling and therapy for ethical non-monogamy (ENM), polyamory and open relationships",
+        "LGBTQIA+ affirming counselling and therapy"
+      ],
       "url": "/",
-      "description": "Counselling and therapy for adults across Australia.",
+      "description": "Counselling and therapy for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives.",
       "audience": "Adults",
       "areaServed": "Australia"
     },

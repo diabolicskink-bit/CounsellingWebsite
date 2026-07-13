@@ -27,6 +27,7 @@ export type SiteMetadata = {
     image: string;
     description: string;
     sameAs: string[];
+    knowsAbout: string[];
     credentials: Array<{
       name: string;
       credentialCategory: string;
@@ -40,7 +41,7 @@ export type SiteMetadata = {
   };
   service: {
     name: string;
-    serviceType: string;
+    serviceType: string[];
     url: string;
     description: string;
     audience: string;

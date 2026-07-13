@@ -85,6 +85,7 @@ function getPersonNode(
     jobTitle: person.jobTitle,
     worksFor: { "@id": ids.organizationId },
     sameAs: person.sameAs,
+    knowsAbout: person.knowsAbout,
     ...(mainEntityOfPage ? { mainEntityOfPage: { "@id": mainEntityOfPage } } : {}),
     ...(includeCredentials
       ? {
