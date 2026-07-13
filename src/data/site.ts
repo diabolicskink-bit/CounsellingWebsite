@@ -64,7 +64,7 @@ export const navItems: NavItem[] = [
 ];
 
 export const fitItems: Array<{ icon: LucideIcon; label: string }> = [
-  { icon: Laptop, label: "Online sessions across Australia" },
+  { icon: Laptop, label: "Sessions across Australia" },
   { icon: Users, label: "For adults" },
   { icon: ShieldCheck, label: "Grounded and non-shaming" },
   {
@@ -77,7 +77,7 @@ export const practicalItems: Array<{ icon: LucideIcon; title: string; copy: stri
   {
     icon: Laptop,
     title: "Session format",
-    copy: "Secure online sessions for adults across Australia.",
+    copy: "Counselling sessions for adults across Australia.",
   },
   {
     icon: Phone,
@@ -87,7 +87,7 @@ export const practicalItems: Array<{ icon: LucideIcon; title: string; copy: stri
   {
     icon: MapPin,
     title: "Practice base",
-    copy: "Based in Perth, Western Australia, working online nationally.",
+    copy: "Based in Perth, Western Australia, working with adults nationally.",
   },
 ];
 

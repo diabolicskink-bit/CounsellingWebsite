@@ -66,7 +66,7 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Route metadata now uses "Vive Counselling | Therapy for Adults Across Australia", which is unique among the public route titles. Generated HTML and preview verification should be refreshed with the next complete build.
 
 - `Pass` Meta description is present, human-readable, and matches visible page content.
-  - Note: Checked route metadata, generated HTML, direct preview head, and visible Home page hero/topic content. Description matches the page's online counselling across Australia positioning and visible themes around anxiety, relationships, shame, trauma, sexuality, and inclusive support.
+  - Note: Checked route metadata, generated HTML, direct preview head, and visible Home page hero/topic content. Description matches the page's counselling and therapy across Australia positioning and visible themes around anxiety, relationships, shame, trauma, sexuality, and inclusive support.
 
 - `Pass` Canonical URL resolves to this route on the intended launch origin.
   - Note: Checked generated HTML and direct preview head. Canonical is `https://vivecounselling.com.au/`, matching the configured apex launch origin and Home route.
@@ -93,7 +93,7 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Direct hydrated load of `/` preserved the expected title, description, canonical, OG, and Twitter metadata. Navigating client-side from `/inclusion` to `/` updated title and description but left canonical, OG, and Twitter title/description/URL on the Inclusion values. Tracked by `DEBT-27`.
 
 - `Pass` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
-  - Note: Checked title and description against project direction and visible Home copy. Wording describes online counselling and areas people bring without promising outcomes, pathologising identities or experiences, or overstating clinical claims.
+  - Note: Checked title and description against project direction and visible Home copy. Wording describes counselling and areas people bring without promising outcomes, pathologising identities or experiences, or overstating clinical claims.
 
 ## `/working-with-joel` - Working with Joel
 

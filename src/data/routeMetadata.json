@@ -54,7 +54,7 @@
       "areaServed": "Australia"
     },
     "socialImage": "/og-vive-counselling.png",
-    "socialImageAlt": "Vive Counselling social preview card for online counselling across Australia with Joel Griffiths."
+    "socialImageAlt": "Vive Counselling social preview card featuring Joel Griffiths."
   },
   "routes": {
     "/": {
@@ -65,29 +65,29 @@
     "/working-with-joel": {
       "h1": "Working with Joel",
       "title": "Working with Joel | Vive Counselling",
-      "description": "Working with Joel Griffiths at Vive Counselling. Direct, thoughtful, non-shaming online counselling for adults across Australia, with particular understanding of shame, relationships, sexuality, kink, and ethical non-monogamy."
+      "description": "Meet Joel Griffiths, an ACA-registered counsellor based in Perth. Direct, non-shaming counselling for adults across Australia, including relationships, sexuality, kink and ENM."
     },
     "/inclusion": {
       "h1": "Inclusive counselling",
       "title": "Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling",
-      "description": "Inclusive counselling for adults seeking thoughtful, non-shaming support around relationships, sexuality, identity, and emotional life. Perth-based, online across Australia."
+      "description": "Inclusive counselling for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives. Perth-based and non-shaming."
     },
     "/inclusion/kink-bdsm": {
       "h1": "Kink & BDSM-aware counselling",
       "title": "Kink & BDSM-Aware Counselling | Vive Counselling",
-      "description": "Counselling for kinky clients where kink is not pathologised, over-scrutinised, or treated as the whole story. Support for anxiety, relationships, shame, grief, trauma, and more. Perth-based, online across Australia.",
+      "description": "Kink-aware counselling and therapy for adults across Australia. Perth-based support where kink is understood without being pathologised or made the whole story.",
       "robots": "noindex, nofollow"
     },
     "/inclusion/enm-polyamory": {
       "h1": "ENM & polyamory counselling",
       "title": "Counselling for Polyamory, Open Relationships and ENM | Vive Counselling",
-      "description": "Counselling for polyamorous and consensually non-monogamous clients where monogamy is not assumed to be the answer and the relationship structure is not treated as the whole story. Perth-based, online across Australia.",
+      "description": "Counselling for polyamory, open relationships and ENM across Australia, without assuming monogamy is the answer or treating relationship structure as the problem.",
       "robots": "noindex, nofollow"
     },
     "/inclusion/lgbtqia": {
       "h1": "Queer-affirming counselling",
       "title": "LGBTQIA+ Affirming Counselling | Vive Counselling",
-      "description": "Affirming counselling for LGBTQIA+ clients, including support with identity, relationships, shame, family strain, and mental health. Perth-based, online across Australia.",
+      "description": "LGBTQIA+ affirming counselling for adults across Australia, including identity, relationships, shame, family strain and mental health. Perth-based.",
       "robots": "noindex, nofollow"
     },
     "/contact": {

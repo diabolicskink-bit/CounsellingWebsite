@@ -74,7 +74,7 @@ Redirect aliases `/about` and `/fees` are covered by `docs/checklists/seo-metada
   - Note: Checked on `/` in browser at 1280x900. The DOM exposes one visible `<main>` and Playwright finds one `main` landmark.
 
 - `Pass` Page has one clear page-level heading that matches the page purpose.
-  - Note: Checked on `/` in browser at 1280x900. The page has one visible `h1`, "Online counselling across Australia", matching the Home page purpose while the document title carries the brand name.
+  - Note: Checked on `/` in browser at 1280x900. The page has one visible `h1`, "Counselling and Psychotherapy", matching the Home page purpose while the document title carries the brand name.
 
 - `Pass` Heading order supports scanning and screen-reader navigation.
   - Note: Checked on `/` in browser at desktop and mobile widths. The visible heading sequence is one `h1`, then section `h2`s, with topic and Joel-card `h3`s nested under their sections.

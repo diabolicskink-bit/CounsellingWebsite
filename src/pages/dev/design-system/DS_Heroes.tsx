@@ -5,7 +5,7 @@ import DesignSystemSidebar from "../../../components/DesignSystemSidebar";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
 
 const demoTaglineItems = [
-  "Perth-based, online across Australia",
+  "Perth-based, working with adults across Australia",
   "Individual counselling",
   "Serious, thoughtful, and human",
   "Kink-, ENM-, and LGBTQIA+-aware",

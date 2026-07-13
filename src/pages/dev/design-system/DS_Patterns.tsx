@@ -31,7 +31,7 @@ const informationPatterns = [
     title: "Claim with supporting evidence",
     text: "For pairing a broad promise with concrete details that make the promise feel believable.",
     className: "info-pattern--split-proof",
-    items: ["Online sessions", "Adults across Australia", "Clear first enquiry", "Non-shaming tone"],
+    items: ["Counselling sessions", "Adults across Australia", "Clear first enquiry", "Non-shaming tone"],
   },
   {
     eyebrow: "03 / stepped path",
@@ -66,7 +66,7 @@ const informationPatterns = [
     title: "Practical detail ledger",
     text: "For fees, session length, payment notes, location, and policy details that need calm structure.",
     className: "info-pattern--ledger",
-    items: ["Session length: 50 minutes", "Fee: $170", "Format: online", "Location: Australia-wide"],
+    items: ["Session length: 50 minutes", "Fee: $170", "Individual counselling", "Location: Australia-wide"],
   },
   {
     eyebrow: "08 / reassurance rail",

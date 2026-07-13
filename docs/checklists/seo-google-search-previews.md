@@ -13,7 +13,7 @@ Use [seo-metadata-launch.md](seo-metadata-launch.md) for checklist status and [s
 ```text
 Vive Counselling
 https://vivecounselling.com.au/
-Online counselling for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.
+Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.
 ```
 
 ### `/working-with-joel` - Working with Joel
@@ -21,7 +21,7 @@ Online counselling for adults across Australia. Direct, thoughtful and inclusive
 ```text
 Working with Joel | Vive Counselling
 https://vivecounselling.com.au/working-with-joel
-Working with Joel Griffiths at Vive Counselling. Direct, thoughtful, non-shaming online counselling for adults across Australia, with particular understanding of shame, relationships, sexuality, kink, and ethical non-monogamy.
+Meet Joel Griffiths, an ACA-registered counsellor based in Perth. Direct, non-shaming counselling for adults across Australia, including relationships, sexuality, kink and ENM.
 ```
 
 ### `/inclusion` - Inclusion Hub
@@ -29,15 +29,15 @@ Working with Joel Griffiths at Vive Counselling. Direct, thoughtful, non-shaming
 ```text
 Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling
 https://vivecounselling.com.au/inclusion
-Inclusive counselling for adults seeking thoughtful, non-shaming support around relationships, sexuality, identity, and emotional life. Perth-based, online across Australia.
+Inclusive counselling for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives. Perth-based and non-shaming.
 ```
 
 ### `/contact` - Contact/Fees
 
 ```text
-Get in Touch | Vive Counselling
+Counselling Fees & Contact | Vive Counselling
 https://vivecounselling.com.au/contact
-Fees, practical details, and direct contact for online counselling with Vive Counselling. Standard sessions are $120 for 50 minutes online, with a free optional phone consult.
+Request a free 15-minute initial consultation with Joel Griffiths at Vive Counselling. Counselling sessions are $120; view fees and contact details.
 ```
 
 ## Draft Child Pages
@@ -57,7 +57,7 @@ Possible preview if the page is later approved for indexing:
 ```text
 Kink & BDSM-Aware Counselling | Vive Counselling
 https://vivecounselling.com.au/inclusion/kink-bdsm
-Counselling for kinky clients where kink is not pathologised, over-scrutinised, or treated as the whole story. Support for anxiety, relationships, shame, grief, trauma, and more. Perth-based, online across Australia.
+Kink-aware counselling and therapy for adults across Australia. Perth-based support where kink is understood without being pathologised or made the whole story.
 ```
 
 ### `/inclusion/enm-polyamory` - ENM and polyamory
@@ -73,7 +73,7 @@ Possible preview if the page is later approved for indexing:
 ```text
 Counselling for Polyamory, Open Relationships and ENM | Vive Counselling
 https://vivecounselling.com.au/inclusion/enm-polyamory
-Counselling for polyamorous and consensually non-monogamous clients where monogamy is not assumed to be the answer and the relationship structure is not treated as the whole story. Perth-based, online across Australia.
+Counselling for polyamory, open relationships and ENM across Australia, without assuming monogamy is the answer or treating relationship structure as the problem.
 ```
 
 ### `/inclusion/lgbtqia` - LGBTQIA+
@@ -89,5 +89,5 @@ Possible preview if the page is later approved for indexing:
 ```text
 LGBTQIA+ Affirming Counselling | Vive Counselling
 https://vivecounselling.com.au/inclusion/lgbtqia
-Affirming counselling for LGBTQIA+ clients, including support with identity, relationships, shame, family strain, and mental health. Perth-based, online across Australia.
+LGBTQIA+ affirming counselling for adults across Australia, including identity, relationships, shame, family strain and mental health. Perth-based.
 ```

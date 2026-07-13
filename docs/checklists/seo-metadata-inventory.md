@@ -39,12 +39,12 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 | Open Graph description | Social preview description | `Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
 | Open Graph URL | Social preview canonical URL | `https://vivecounselling.com.au/` |
 | Open Graph image | Social preview image URL | `https://vivecounselling.com.au/og-vive-counselling.png` |
-| Open Graph image alt | Social preview image accessibility text | `Vive Counselling social preview card for online counselling across Australia with Joel Griffiths.` |
+| Open Graph image alt | Social preview image accessibility text | `Vive Counselling social preview card featuring Joel Griffiths.` |
 | Twitter card | Twitter/X preview card type | `summary_large_image` |
 | Twitter title | Twitter/X preview title | `Vive Counselling | Therapy for Adults Across Australia` |
 | Twitter description | Twitter/X preview description | `Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
 | Twitter image | Twitter/X preview image URL | `https://vivecounselling.com.au/og-vive-counselling.png` |
-| Twitter image alt | Twitter/X preview image accessibility text | `Vive Counselling social preview card for online counselling across Australia with Joel Griffiths.` |
+| Twitter image alt | Twitter/X preview image accessibility text | `Vive Counselling social preview card featuring Joel Griffiths.` |
 | Structured data | JSON-LD or intentional absence | A linked JSON-LD graph identifies the `WebSite`, a minimal `Organization` with Joel Griffiths as `founder`, a concise `Person` that uses Joel's practitioner page as its stable identity URL, and a `Service` for counselling and psychotherapy for adults provided by Vive across Australia. |
 
 ## `/working-with-joel` - Working with Joel
