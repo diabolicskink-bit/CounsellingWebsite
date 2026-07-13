@@ -368,8 +368,13 @@ Run timezone tests with fixed dates on both sides of Australian daylight-saving 
 
 #### Notes
 
-- Status: Not started.
+- Status: Complete.
 - Agent notes:
+  - Contact was converted before the remaining draft Inclusion child routes at the user's direction; Phase 6 therefore remains in progress while Phase 7 is complete.
+  - `/contact.html` and `/contact/index.html` now contain equivalent component-rendered page, fee, seeded timezone-note, masked form, FAQ, navigation, and footer markup with the shared build timestamp and matching-path hydration markers.
+  - The initial server and browser trees omit appointment/consult conditional fields. Current timezone options are still calculated only when a consult request activates the timezone select.
+  - Fixed standard-time, daylight-saving, and stale-build artifacts are generated in tests through the production server render entry so their root timestamp and rendered notes cannot drift. Focused coverage also verifies pre-hydration form-value preservation, conditional fields, unchanged payload values, success focus, safe failure messaging, native form attributes, and Clarity masking.
+  - The three draft Inclusion child routes retain their temporary shells, production-link and sitemap exclusions, and `noindex, nofollow` metadata. `404.html` remains on the controlled client-render fallback.
 
 ### Phase 8 - Finalize The 404 And Hosting Fallback Contract
 

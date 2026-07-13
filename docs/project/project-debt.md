@@ -437,6 +437,7 @@ Each active item should include enough direction that a future session can choos
   - Phase 4 added the production Vite SSR bundle and render entry. The prerender build now imports the disposable bundle and validates a real Home render in memory, while intentionally continuing to write the temporary shell until the Phase 5 Home hydration vertical slice.
   - Phase 5 completed the Home vertical slice: its first response now contains the real component tree, matching route/timestamp markers select `hydrateRoot`, and explicit activation plus recoverable-error diagnostics cover the staged fallback contract. Other public routes remain on the temporary shell until Phase 6 and Phase 7.
   - Phase 6 is in progress: Working with Joel and Inclusion now use the same component-rendered first-response and matching-path hydration contract as Home. Their flat and nested generated artifacts are verified equivalent; the three draft Inclusion child routes remain on the temporary shell.
+  - Phase 7 converted Contact before the remaining draft child routes at the user's direction. Contact now ships its permanent hours, build-seeded timezone comparisons, masked enquiry form, FAQ, and full page structure in the first response; focused fixed-season coverage verifies warning-free hydration, client refresh, form-state preservation, and the unchanged enquiry payload contract.
 - `Links`: `scripts/prerender-route-metadata.mjs`, `src/main.tsx`, `src/App.tsx`, `src/data/routeMetadata.json`, `tests/public-site.spec.ts`, `docs/project/launch-readiness.md`
 
 ### DEBT-33 - Temporary static H1 fallback shell needs retirement path
@@ -465,7 +466,7 @@ Each active item should include enough direction that a future session can choos
   - Do not remove the fallback before there is another first-response H1/content path; it currently fixes real raw-HTML SEO checker warnings.
   - The public-site suite asserts that the fallback H1 matches the hydrated page H1. The initial 2026-07-13 prerender baseline exposed Home drift in both browser projects, confirming the duplicate-content risk this item tracks.
   - `master` commit `2a779c7` aligned the Home shell metadata with the component H1, and the aligned `work/prerendering` baseline now passes all enabled public-site tests. The duplicate ownership remains temporary and should still be removed through the component-rendered prerender path.
-  - Home, Working with Joel, and Inclusion no longer consume the temporary H1 shell. The metadata `h1` field and shell path remain required for the unconverted Inclusion child routes and Contact until the staged rollout is complete.
+  - Home, Working with Joel, Inclusion, and Contact no longer consume the temporary H1 shell. The metadata `h1` field and shell path remain required only for the three unconverted Inclusion child routes until the staged rollout is complete.
 - `Links`: `scripts/prerender-route-metadata.mjs`, `src/data/routeMetadata.json`, `src/data/routeMetadata.ts`, `tests/public-site.spec.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned

@@ -7,7 +7,6 @@ import { navItems, type NavItem } from "../data/site";
 import Button from "./Button";
 import Container from "./Container";
 
-const headerNavItems = navItems.filter((item) => !item.devOnly || import.meta.env.DEV);
 const copyrightPublicationYear = 2026;
 
 function itemIsActive(item: NavItem, pathname: string): boolean {
@@ -61,7 +60,7 @@ export default function Layout() {
 
           <div className="site-header__cluster">
             <nav className="desktop-nav" aria-label="Main navigation">
-              {headerNavItems.map((item) => {
+              {navItems.map((item) => {
                 const isCurrent = itemIsActive(item, location.pathname);
 
                 return (
@@ -137,7 +136,7 @@ export default function Layout() {
 
         {isOpen ? (
           <nav className="mobile-nav" id="mobile-navigation" aria-label="Mobile navigation">
-            {headerNavItems.map((item) => (
+            {navItems.map((item) => (
               <div key={item.href ?? item.label}>
                 <NavLink
                   className={({ isActive }) => `mobile-nav__link ${isActive ? "mobile-nav__link--active" : ""}`}

@@ -10,7 +10,7 @@ const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
 const indexableRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"];
-const prerenderedRoutePaths = ["/", "/working-with-joel", "/inclusion"];
+const prerenderedRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"];
 const prerenderedRouteSmokeFragments = {
   "/": ['<main class="site-page home-page">', "Counselling and Psychotherapy"],
   "/working-with-joel": [
@@ -22,6 +22,26 @@ const prerenderedRouteSmokeFragments = {
     '<main class="site-page inclusion-page">',
     "Inclusive counselling",
     'class="inclusion-hub__panels"',
+  ],
+  "/contact": [
+    '<main class="site-page contact-page">',
+    "Contact and fees",
+    'class="site-fee-card contact-page__fee-card"',
+    "Mon to Fri, 9.30am to 5.00pm AWST",
+    'data-timezone-notes-source="prerendered"',
+    'class="site-form"',
+    'action="/api/enquiry"',
+    'data-clarity-mask="true"',
+    'href="mailto:joel@vivecounselling.com.au"',
+    'class="site-faq-list"',
+  ],
+};
+const prerenderedRouteSmokeForbiddenFragments = {
+  "/contact": [
+    'id="contact-timing"',
+    'id="contact-state"',
+    'id="contact-availability"',
+    'id="contact-timezone"',
   ],
 };
 const staticShellStart = "<!-- Static route shell generated at build time -->";
@@ -258,6 +278,12 @@ function assertRenderedRouteSmoke(html, routePath) {
   for (const fragment of expectedFragments) {
     if (!html.includes(fragment)) {
       throw new Error(`Static render smoke check for ${routePath} is missing expected content: ${fragment}`);
+    }
+  }
+
+  for (const fragment of prerenderedRouteSmokeForbiddenFragments[routePath] ?? []) {
+    if (html.includes(fragment)) {
+      throw new Error(`Static render smoke check for ${routePath} contains deferred content: ${fragment}`);
     }
   }
 

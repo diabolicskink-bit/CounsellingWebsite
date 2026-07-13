@@ -17,11 +17,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
-## 2026-07-13 - Initial Public Routes Gain Static Rendering And Hydration
+## 2026-07-13 - Indexable Public Routes Gain Static Rendering And Hydration
 
-- Changed: Generated Home, Working with Joel, and Inclusion HTML now contains the real React header, navigation, page sections, links, media, and footer before JavaScript rather than the temporary H1-only shell.
+- Changed: Generated Home, Working with Joel, Inclusion, and Contact/Fees HTML now contains the real React header, navigation, page sections, links, media or form content, and footer before JavaScript rather than the temporary H1-only shell.
 - Added: Explicit route/timestamp markers select `hydrateRoot` only for matching converted-route artifacts; unconverted, development, unknown, stale, and 404 paths retain the guarded `createRoot` fallback.
-- Verified: Production-preview tests cover raw and JavaScript-disabled content, warning-free hydration, route interactions, SPA navigation, equivalent flat/nested artifacts, mismatch fallback, metadata, landmarks, and the controlled 404 contract.
+- Verified: Production-preview tests cover raw and JavaScript-disabled content, warning-free hydration, fixed-season Contact notes and form behavior, route interactions, SPA navigation, equivalent flat/nested artifacts, mismatch fallback, metadata, landmarks, and the controlled 404 contract.
 
 ## 2026-07-13 - Homepage Service Structured Data Added
 

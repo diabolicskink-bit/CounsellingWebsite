@@ -30,7 +30,7 @@ const publicRoutes = [
   "/inclusion/lgbtqia",
   "/contact",
 ] as const;
-const prerenderedRoutes = ["/", "/working-with-joel", "/inclusion"] as const;
+const prerenderedRoutes = ["/", "/working-with-joel", "/inclusion", "/contact"] as const;
 const prerenderedRouteContracts = {
   "/": {
     mainClass: "site-page home-page",
@@ -49,6 +49,20 @@ const prerenderedRouteContracts = {
     mainClass: "site-page inclusion-page",
     rawFragments: ['class="inclusion-hub__panels"', 'class="site-faq-list"'],
     noJavaScriptSelector: ".inclusion-hub__panels",
+  },
+  "/contact": {
+    mainClass: "site-page contact-page",
+    rawFragments: [
+      'class="site-fee-card contact-page__fee-card"',
+      "Mon to Fri, 9.30am to 5.00pm AWST",
+      'data-timezone-notes-source="prerendered"',
+      'class="site-form"',
+      'action="/api/enquiry"',
+      'data-clarity-mask="true"',
+      'href="mailto:joel@vivecounselling.com.au"',
+      'class="site-faq-list"',
+    ],
+    noJavaScriptSelector: "form.site-form",
   },
 } as const;
 
@@ -156,6 +170,34 @@ function absoluteRouteUrl(route: string) {
 
 function escapeXml(value: string) {
   return escapeHtml(value).replaceAll("'", "&apos;");
+}
+
+type ServerRenderEntry = {
+  renderRoute(pathname: string, options: { initialRenderAt: string }): string;
+};
+
+let serverRenderEntryPromise: Promise<ServerRenderEntry> | undefined;
+
+function getServerRenderEntry() {
+  serverRenderEntryPromise ??= import(
+    new URL("../.prerender/server/entry-server.js", import.meta.url).href
+  ) as Promise<ServerRenderEntry>;
+  return serverRenderEntryPromise;
+}
+
+async function createSeededContactArtifact(templateHtml: string, initialRenderAt: string) {
+  const { renderRoute } = await getServerRenderEntry();
+  const renderedMarkup = renderRoute("/contact", { initialRenderAt });
+  const renderedRoot = `<div id="root" data-render-mode="prerendered" data-prerendered-path="/contact" data-prerendered-at="${escapeHtml(
+    initialRenderAt,
+  )}">${renderedMarkup}</div>`;
+  const rootPattern = /<div id="root"[^>]*>.*<\/div>(?=\s*<\/body>)/s;
+
+  if (!rootPattern.test(templateHtml)) {
+    throw new Error("Unable to replace the generated Contact root for fixed-clock coverage.");
+  }
+
+  return templateHtml.replace(rootPattern, renderedRoot);
 }
 
 function getHomeStructuredDataScript() {
@@ -459,6 +501,16 @@ test.describe("prerendered routes without JavaScript", () => {
       await expect(page.locator("header.site-header a[href], footer.site-footer a[href]")).not.toHaveCount(0);
       await expect(page.locator("footer.site-footer")).toBeVisible();
       await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
+
+      if (route === "/contact") {
+        const form = page.locator("form.site-form");
+
+        await expect(form).toHaveAttribute("action", "/api/enquiry");
+        await expect(form).toHaveAttribute("method", "post");
+        await expect(form).toHaveAttribute("data-clarity-mask", "true");
+        await expect(page.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
+        await expect(page.getByLabel("Timezone")).toHaveCount(0);
+      }
     });
   }
 });
@@ -1001,6 +1053,15 @@ test.describe("working with Joel approach tabs", () => {
 });
 
 test.describe("enquiry form", () => {
+  async function routeSeededContact(page: Page, prerenderedAt: string) {
+    await page.route("**/contact", async (route) => {
+      const response = await route.fetch();
+      const html = await createSeededContactArtifact(await response.text(), prerenderedAt);
+
+      await route.fulfill({ body: html, response });
+    });
+  }
+
   async function openContactAt({
     currentTime,
     page,
@@ -1011,23 +1072,17 @@ test.describe("enquiry form", () => {
     prerenderedAt: string;
   }) {
     await page.clock.setFixedTime(currentTime);
-    await page.route("**/contact", async (route) => {
-      const response = await route.fetch();
-      const html = (await response.text()).replace(
-        /data-prerendered-at="[^"]+"/,
-        `data-prerendered-at="${prerenderedAt}"`,
-      );
-
-      await route.fulfill({ body: html, response });
-    });
+    await routeSeededContact(page, prerenderedAt);
     await page.goto("/contact", { waitUntil: "networkidle" });
   }
 
   test("keeps current standard-time notes from the prerender seed", async ({ page }) => {
     const standardTime = "2026-07-15T04:00:00.000Z";
+    const diagnostics = collectPageDiagnostics(page);
 
     await openContactAt({ currentTime: standardTime, page, prerenderedAt: standardTime });
 
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
     await expect(page.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
     const notes = page.locator(".contact-page__contact-notes");
     await expect(notes).toHaveAttribute("data-timezone-notes-source", "prerendered");
@@ -1035,15 +1090,37 @@ test.describe("enquiry form", () => {
       "ACST: 11.00am to 6.30pm",
       "AEST: 11.30am to 7.00pm",
     ]);
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
+  test("keeps current daylight-saving notes from the prerender seed", async ({ page }) => {
+    const daylightSavingTime = "2026-01-15T04:00:00.000Z";
+    const diagnostics = collectPageDiagnostics(page);
+
+    await openContactAt({ currentTime: daylightSavingTime, page, prerenderedAt: daylightSavingTime });
+
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
+    const notes = page.locator(".contact-page__contact-notes");
+    await expect(notes).toHaveAttribute("data-timezone-notes-source", "prerendered");
+    await expect(notes.locator("small")).toHaveText([
+      "ACST: 11.00am to 6.30pm",
+      "AEST: 11.30am to 7.00pm",
+      "ACDT: 12.00pm to 7.30pm",
+      "AEDT: 12.30pm to 8.00pm",
+    ]);
+    await expectNoPageDiagnostics(diagnostics);
   });
 
   test("refreshes stale notes and consult options for daylight-saving time", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+
     await openContactAt({
       currentTime: "2026-01-15T04:00:00.000Z",
       page,
       prerenderedAt: "2026-07-15T04:00:00.000Z",
     });
 
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
     const notes = page.locator(".contact-page__contact-notes");
     await expect(notes).toHaveAttribute("data-timezone-notes-source", "current");
     await expect(notes.locator("small")).toHaveText([
@@ -1064,6 +1141,111 @@ test.describe("enquiry form", () => {
       "ACDT (SA)",
       "AEDT (NSW / ACT / VIC / TAS)",
     ]);
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
+  test(
+    "preserves server-rendered form values through hydration and the timezone refresh",
+    async ({ page }) => {
+      const diagnostics = collectPageDiagnostics(page);
+      let releaseClientBundle = () => {};
+      const clientBundleGate = new Promise<void>((resolve) => {
+        releaseClientBundle = resolve;
+      });
+
+      await page.clock.setFixedTime("2026-01-15T04:00:00.000Z");
+      await routeSeededContact(page, "2026-07-15T04:00:00.000Z");
+      await page.route("**/assets/*.js", async (route) => {
+        await clientBundleGate;
+        await route.continue();
+      });
+
+      await page.goto("/contact", { waitUntil: "commit" });
+      const form = page.locator("form.site-form");
+
+      try {
+        await form.getByLabel("Name").fill("Alex Before Hydration");
+        await form.getByLabel("Email").fill("alex@example.com");
+        await form.getByLabel("Your enquiry").fill("Please preserve this message.");
+      } finally {
+        releaseClientBundle();
+      }
+
+      await page.waitForLoadState("networkidle");
+      await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
+      await expect(page.locator(".contact-page__contact-notes")).toHaveAttribute(
+        "data-timezone-notes-source",
+        "current",
+      );
+      await expect(form.getByLabel("Name")).toHaveValue("Alex Before Hydration");
+      await expect(form.getByLabel("Email")).toHaveValue("alex@example.com");
+      await expect(form.getByLabel("Your enquiry")).toHaveValue("Please preserve this message.");
+      await expectNoPageDiagnostics(diagnostics);
+    },
+  );
+
+  test("preserves conditional fields, payload values, and success focus", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+    let submittedMethod = "";
+    let submittedPayload: Record<string, string> | undefined;
+
+    await page.clock.setFixedTime("2026-01-15T04:00:00.000Z");
+    await page.route("**/api/enquiry", async (route) => {
+      submittedMethod = route.request().method();
+      submittedPayload = route.request().postDataJSON() as Record<string, string>;
+      await route.fulfill({
+        body: JSON.stringify({ ok: true }),
+        contentType: "application/json",
+        status: 200,
+      });
+    });
+    await page.goto("/contact", { waitUntil: "networkidle" });
+
+    const form = page.locator("form.site-form");
+    await form.getByLabel("Name").fill("Alex Person");
+    await form.getByLabel("Email").fill("alex@example.com");
+    await form.getByLabel("Your enquiry").fill("I would like an initial consult.");
+
+    await form.getByLabel("General enquiry").check();
+    await expect(form.getByLabel("Make an appointment")).toHaveCount(0);
+    await expect(form.getByLabel("Request a 15-minute consult")).toHaveCount(0);
+
+    await form.getByLabel("Booking enquiry").check();
+    await form.getByLabel("Make an appointment").check();
+    await expect(form.getByLabel("Preferred timing")).toBeVisible();
+    await expect(form.getByLabel("State or territory")).toBeVisible();
+    await expect(form.getByLabel("Availability")).toHaveCount(0);
+    await expect(form.getByLabel("Timezone")).toHaveCount(0);
+
+    await form.getByLabel("General enquiry").check();
+    await expect(form.getByLabel("Preferred timing")).toHaveCount(0);
+    await expect(form.getByLabel("State or territory")).toHaveCount(0);
+
+    await form.getByLabel("Booking enquiry").check();
+    await form.getByLabel("Request a 15-minute consult").check();
+    await expect(form.getByLabel("Preferred timing")).toHaveCount(0);
+    await expect(form.getByLabel("State or territory")).toHaveCount(0);
+    await form.getByLabel("Availability").fill("Weekday afternoons");
+    await form.getByLabel("Timezone").selectOption("AEDT");
+    await form.getByRole("button", { name: "Send enquiry" }).click();
+
+    const success = form.getByRole("status");
+    await expect(success).toContainText("Thanks, your enquiry has been sent.");
+    await expect(success).toBeFocused();
+    expect(submittedMethod).toBe("POST");
+    expect(submittedPayload).toEqual({
+      availability: "Weekday afternoons",
+      bookingType: "consult",
+      email: "alex@example.com",
+      enquiryType: "booking",
+      message: "I would like an initial consult.",
+      name: "Alex Person",
+      state: "",
+      timing: "",
+      timeZone: "AEDT",
+      website: "",
+    });
+    await expectNoPageDiagnostics(diagnostics);
   });
 
   test("shows a safe public error without technical details", async ({ page }) => {
