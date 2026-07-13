@@ -8,6 +8,7 @@ import Button from "./Button";
 import Container from "./Container";
 
 const headerNavItems = navItems.filter((item) => !item.devOnly || import.meta.env.DEV);
+const copyrightPublicationYear = 2026;
 
 function itemIsActive(item: NavItem, pathname: string): boolean {
   if (item.href === pathname) {
@@ -20,7 +21,6 @@ function itemIsActive(item: NavItem, pathname: string): boolean {
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const currentYear = new Date().getFullYear();
   const usesSiteChrome = usesSharedChromePath(location.pathname);
 
   const closeMenu = () => setIsOpen(false);
@@ -210,7 +210,7 @@ export default function Layout() {
               {/* <li>Online across Australia</li> */}
               <li>Mon to Fri, 9.30am to 5.00pm WST</li>
             </ul>
-            <p className="site-footer__copyright">&copy; {currentYear} Vive Counselling</p>
+            <p className="site-footer__copyright">&copy; {copyrightPublicationYear} Vive Counselling</p>
           </div>
         </Container>
       </footer>
