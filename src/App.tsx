@@ -40,7 +40,7 @@ const devRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof ty
   { path: devRoutePaths.designLanguagePatterns, page: "DS_Patterns" },
 ];
 
-type AppProps = {
+export type AppProps = {
   initialRenderAt: string;
 };
 

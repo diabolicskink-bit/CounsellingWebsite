@@ -15,6 +15,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - The design system has rebuilt written docs, rendered dev pages, shared components, shared CSS class layers, and cleanup guidance.
 - Public-page content and product positioning are governed by `docs/project/product-direction.md`; root `PRODUCT.md` mirrors that strategy for frontend design tooling.
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
+- The route/application tree is shared by separate browser and static wrappers. Both wrappers use the same Strict Mode boundary and pass the same serializable initial-render timestamp contract; the static wrapper is prepared for the future server-render entry but is not yet invoked by the build.
 - A prerender script updates route metadata artifacts, static first-response H1/main fallback shells, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.
 - Launch indexability is enabled for Home, Working with Joel, Inclusion, and Contact/Fees. Generated route HTML for those pages omits `noindex`, `sitemap.xml` advertises only those four canonical URLs, and `robots.txt` allows crawling with a sitemap reference.
 - The three draft Inclusion child routes remain direct routes for review but are excluded from production links, sitemap output, and indexing through route-level `noindex, nofollow` metadata.
@@ -48,7 +49,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 ## Partially Included / Known Gaps
 
 - Enquiry spam protection includes a honeypot and conservative request-shape checks, but does not include platform rate limiting or complete abuse protection.
-- The build timestamp now provides a shared initial timezone seed for the browser and future static renderer, but the server-render entry does not consume it until the static rendering phases are implemented.
+- The build timestamp and static-router wrapper now provide the shared initial contract needed by the future static renderer, but no server-render entry or component-rendered HTML generation exists yet.
 - Endpoint-level native form posts are supported, but full JavaScript-disabled public-page rendering is not; the current Vite app still renders the contact form through client-side React.
 - Route definitions, route metadata, prerendering, and tests remain separate by design for this small route set; explicit route parity coverage is still tracked as debt.
 - Type checking does not currently cover tests, scripts, and most config files.

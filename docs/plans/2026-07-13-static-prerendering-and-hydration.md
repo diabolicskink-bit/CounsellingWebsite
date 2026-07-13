@@ -256,8 +256,13 @@ Add a small route-render smoke test before changing generated HTML if that can b
 
 #### Notes
 
-- Status: Not started.
+- Status: Complete.
 - Agent notes:
+  - `App.tsx` remains the single route/application tree and continues to own layout, redirects, not-found routing, analytics, development-route gating, and the `initialRenderAt` flow.
+  - `BrowserApp` and `StaticApp` wrap that same tree with `BrowserRouter` and `StaticRouter` respectively. Both use the shared `AppRoot`, which keeps `React.StrictMode` in the same outer position around the router.
+  - `StaticApp` accepts only `location` and `initialRenderAt`; it owns no rendering, metadata, output-path, or generation policy.
+  - `main.tsx` now reads the generated timestamp and mounts `BrowserApp`. Generated HTML remains on the existing temporary static-shell path and the browser still uses `createRoot` until Phase 5.
+  - Direct component-render smoke coverage remains deferred to Phase 4 because the server bundle introduced there provides the first durable execution path without a throwaway TSX runner or new test dependency.
 
 ### Phase 4 - Add The Vite Server Bundle And Static Render Entry
 
