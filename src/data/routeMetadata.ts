@@ -12,6 +12,22 @@ export type SiteMetadata = {
   defaultOrigin: string;
   themeColor: string;
   backgroundColor: string;
+  organization: {
+    email: string;
+    logo: string;
+    logoWidth: number;
+    logoHeight: number;
+    description: string;
+    sameAs: string[];
+  };
+  person: {
+    name: string;
+    jobTitle: string;
+    url: string;
+    image: string;
+    description: string;
+    sameAs: string[];
+  };
   socialImage: string;
   socialImageAlt: string;
 };

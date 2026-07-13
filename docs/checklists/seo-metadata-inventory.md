@@ -24,28 +24,28 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 | Web manifest | Installed app identity and icon references | `To populate` |
 | Robots policy | Site-wide crawl policy | `To populate` |
 | Sitemap | Search crawler URL discovery | `To populate` |
-| Structured data policy | JSON-LD or intentional absence across the site | `To populate` |
+| Structured data policy | JSON-LD or intentional absence across the site | Home emits a linked `WebSite`, `Organization`, and `Person` graph. Inclusion and Contact/Fees emit `FAQPage`; the three draft Inclusion child routes also emit `FAQPage` while remaining `noindex, nofollow`. `Service`, credential, address, and local-business schema are intentionally absent. |
 
 ## `/` - Home
 
 | Metadata field | Where it is used | Metadata text / value |
 |---|---|---|
-| H1 / static shell heading | First-response shell and visible page heading reference | `Online counselling across Australia` |
-| HTML title | Browser tab, search title, generated `<title>` | `Vive Counselling` |
-| Meta description | Search snippet candidate and generated description tag | `Online counselling for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
+| H1 / static shell heading | First-response shell and visible page heading reference | `Counselling and Psychotherapy` |
+| HTML title | Browser tab, search title, generated `<title>` | `Vive Counselling | Therapy for Adults Across Australia` |
+| Meta description | Search snippet candidate and generated description tag | `Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
 | Canonical URL | Search canonical signal | `https://vivecounselling.com.au/` |
 | Robots directive | Indexability policy | No route-level robots directive. |
-| Open Graph title | Social preview title | `Vive Counselling` |
-| Open Graph description | Social preview description | `Online counselling for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
+| Open Graph title | Social preview title | `Vive Counselling | Therapy for Adults Across Australia` |
+| Open Graph description | Social preview description | `Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
 | Open Graph URL | Social preview canonical URL | `https://vivecounselling.com.au/` |
 | Open Graph image | Social preview image URL | `https://vivecounselling.com.au/og-vive-counselling.png` |
 | Open Graph image alt | Social preview image accessibility text | `Vive Counselling social preview card for online counselling across Australia with Joel Griffiths.` |
 | Twitter card | Twitter/X preview card type | `summary_large_image` |
-| Twitter title | Twitter/X preview title | `Vive Counselling` |
-| Twitter description | Twitter/X preview description | `Online counselling for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
+| Twitter title | Twitter/X preview title | `Vive Counselling | Therapy for Adults Across Australia` |
+| Twitter description | Twitter/X preview description | `Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
 | Twitter image | Twitter/X preview image URL | `https://vivecounselling.com.au/og-vive-counselling.png` |
 | Twitter image alt | Twitter/X preview image accessibility text | `Vive Counselling social preview card for online counselling across Australia with Joel Griffiths.` |
-| Structured data | JSON-LD or intentional absence | `WebSite` JSON-LD names `Vive Counselling` at `https://vivecounselling.com.au/`. |
+| Structured data | JSON-LD or intentional absence | A linked JSON-LD graph identifies the `WebSite`, a minimal `Organization` using the public business identity and Kink Aware Professionals directory listing, and Joel Griffiths as a `Person` linked to Vive through `worksFor` with his ACA profile in `sameAs`. |
 
 ## `/working-with-joel` - Working with Joel
 

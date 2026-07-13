@@ -17,6 +17,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-13 - Homepage Person Structured Data Added
+
+- Added: The generated homepage JSON-LD graph now identifies Joel Griffiths as a `Person` and links him to the Vive Counselling `Organization` through `worksFor`.
+- Included: The Person uses the confirmed public name, counsellor title, practitioner-page URL, portrait, short description, and ACA public profile in `sameAs`.
+- Deferred: Qualification and ACA credential detail remain out until their exact public wording, relationship type, level, and verification details are confirmed.
+
+## 2026-07-13 - Homepage Organization Structured Data Added
+
+- Added: The generated homepage JSON-LD now links the existing `WebSite` entity to a minimal `Organization` entity for Vive Counselling.
+- Included: The Organization uses only confirmed public identity details: business name, canonical URL, branded email, English enquiries contact point, 512px logo, short service description, and the Vive Counselling Kink Aware Professionals directory identity in `sameAs`.
+- Deferred: `Person`, `Service`, credentials, address, and `LocalBusiness` / `ProfessionalService` schema remain out until their exact public representation is confirmed.
+
 ## 2026-07-10 - DEBT-19 Legacy Topic CSS Resolved
 
 - Removed: Confirmed-dead `.issues-section*`, `.topic-grid`, and `.topic-card` base, contextual, hover, heading, and responsive rules from production CSS.

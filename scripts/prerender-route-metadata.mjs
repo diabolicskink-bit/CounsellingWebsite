@@ -52,12 +52,56 @@ function getFaviconTags() {
   ];
 }
 
-function getWebsiteStructuredDataTag(siteMetadata, siteOrigin) {
+function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
+  const homepageUrl = getAbsoluteUrl(siteOrigin, "/");
+  const websiteId = `${homepageUrl}#website`;
+  const organizationId = `${homepageUrl}#organization`;
+  const personId = `${homepageUrl}#joel-griffiths`;
+  const organization = siteMetadata.organization;
+  const person = siteMetadata.person;
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: siteMetadata.name,
-    url: getAbsoluteUrl(siteOrigin, "/"),
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": websiteId,
+        name: siteMetadata.name,
+        url: homepageUrl,
+        publisher: { "@id": organizationId },
+      },
+      {
+        "@type": "Organization",
+        "@id": organizationId,
+        name: siteMetadata.name,
+        url: homepageUrl,
+        email: organization.email,
+        description: organization.description,
+        sameAs: organization.sameAs,
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "enquiries",
+          email: organization.email,
+          availableLanguage: "English",
+        },
+        logo: {
+          "@type": "ImageObject",
+          url: getAssetUrl(siteOrigin, organization.logo),
+          width: organization.logoWidth,
+          height: organization.logoHeight,
+        },
+      },
+      {
+        "@type": "Person",
+        "@id": personId,
+        name: person.name,
+        url: getAbsoluteUrl(siteOrigin, person.url),
+        image: getAssetUrl(siteOrigin, person.image),
+        description: person.description,
+        jobTitle: person.jobTitle,
+        worksFor: { "@id": organizationId },
+        sameAs: person.sameAs,
+      },
+    ],
   };
 
   return `<script type="application/ld+json">${escapeJsonForHtml(JSON.stringify(structuredData))}</script>`;
@@ -71,7 +115,7 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   const robots = routeMetadata.robots
     ? [`<meta name="robots" content="${escapeHtml(routeMetadata.robots)}" />`]
     : [];
-  const structuredData = routePath === "/" ? [getWebsiteStructuredDataTag(siteMetadata, siteOrigin)] : [];
+  const structuredData = routePath === "/" ? [getHomeStructuredDataTag(siteMetadata, siteOrigin)] : [];
 
   return [
     "<!-- SEO metadata generated at build time -->",
