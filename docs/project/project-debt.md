@@ -203,6 +203,8 @@ Each active item should include enough direction that a future session can choos
   - Archived `DEBT-18` removed the old panel/strip selector slice found in the same legacy CSS cluster.
   - 2026-06-27: Removed unused `SplitSection` plus the old generic `.section`, `.section--surface`, and `.split` production selectors after the CSS checklist found no source call sites and current section guidance pointed to `site-*` patterns.
   - 2026-07-10: Archived `DEBT-19` after removing the unused `.issues-section*`, `.topic-grid`, and `.topic-card` selector cluster while preserving the active `site-topic-*` system.
+  - 2026-07-13: Removed the unused generic `.stack` helper after a focused source audit confirmed no runtime call sites; active stack outcomes remain covered by `.site-content-stack` and `.site-detail-stack`.
+  - 2026-07-13: Removed the unused `.site-highlight__box` selector after confirming it had no runtime or dev-page call sites; the active `.site-highlight` band and shared panel patterns were preserved.
 - `Links`: `src/styles.css`, `docs/design-system/maintenance/cleanup-sweeps.md`, `docs/design-system/current-scope.md`
 
 ### DEBT-15 - Public page CSS is globally bundled and relies on naming discipline
@@ -549,7 +551,7 @@ The remaining visitor-visible form-flow browser coverage stays tracked in `SITE-
 
 Resolved on 2026-06-17 after a visual audit confirmed the active striped panels are intentional and not a UI problem. The issue was the blanket AI/design-system rule against 4px side stripes, which conflicted with good existing shared panel/card patterns.
 
-The resolution removed the side-stripe prohibition from active design-system guidance and the design export, while leaving public UI, CSS, routes, and copy unchanged. Existing `.site-copy-panel`, `.site-check-panel`, and `.site-fee-card` side-stripe treatments remain valid shared patterns; the unused `.site-highlight__box` question belongs to broader legacy CSS cleanup if it matters later.
+The resolution removed the side-stripe prohibition from active design-system guidance and the design export, while leaving public UI, CSS, routes, and copy unchanged. Existing `.site-copy-panel`, `.site-check-panel`, and `.site-fee-card` side-stripe treatments remain valid shared patterns. The unrelated, unused `.site-highlight__box` selector was later removed in the 2026-07-13 dead CSS sweep.
 
 Visual audit report: `docs/reports/2026-06-17-debt-14-side-stripe-visual-audit.md`.
 

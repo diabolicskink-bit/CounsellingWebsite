@@ -16,7 +16,7 @@ Status: instruction-level boundary and source cleanup resolved.
 
 Status: open cleanup pressure.
 
-Known or suspected legacy clusters include older shared utilities and experiment classes that remain in CSS or docs/dev support surfaces. Confirmed-dead card, panel, strip, issue-section, and topic-card production slices have been removed. Remove only confirmed-dead slices, preserve still-used compatibility paths, and split concrete discoveries into smaller `DEBT-*` items.
+Known or suspected legacy clusters include older shared utilities and experiment classes that remain in CSS or docs/dev support surfaces. Confirmed-dead card, panel, strip, issue-section, topic-card, generic `.stack`, and `.site-highlight__box` production slices have been removed. Remove only confirmed-dead slices, preserve still-used compatibility paths, and split concrete discoveries into smaller `DEBT-*` items.
 
 Related debt:
 
@@ -40,7 +40,7 @@ Status: resolved as a documentation/rule issue.
 
 The active side-striped panels are intentional and acceptable. The old blanket rule against 4px side stripes was removed. Existing `.site-copy-panel`, `.site-check-panel`, and `.site-fee-card` treatments remain valid shared patterns.
 
-The unused `.site-highlight__box` question belongs to dead CSS or legacy cleanup if it matters later.
+The unused `.site-highlight__box` selector was removed in the 2026-07-13 dead CSS sweep. The active `.site-highlight` section band and intentional side-striped panel patterns were unchanged.
 
 ## Reference Exports And Historical Plans
 
