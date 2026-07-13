@@ -70,8 +70,8 @@ const kinkPageContent: KinkPageContent = {
       prose: {
         title: "No translation needed.",
         body: [
-          "This world is known here. Not read about. Lived in. The dynamics, the language, the things that do not survive translation to people outside it. It can be said without setup.",
-          "You won't be anyone's education. You won't spend the first session building context. However long you've been carrying this alone, it can come into the room as it is.",
+          "You can talk about kink, BDSM, D/s, power exchange, drop and anything else in the language you normally use. You will not need to translate it into clinical terms or stop to explain every reference before we can talk about what is going on. You can speak plainly about your experiences, relationships and desires without first having to work out how much I understand.",
+          "I will still ask what it means for you. People can use the same words for very different experiences, and I will not assume that your relationships, practices or dynamics look a certain way. I will want to understand what draws you to them, how you experience them, and the place they have in your life.",
         ],
       },
       language: {
