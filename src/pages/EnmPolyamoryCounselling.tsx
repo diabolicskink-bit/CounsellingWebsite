@@ -199,7 +199,7 @@ const pageContent = {
 
   ctaSection: {
     heading: "You don't need to have it worked out before reaching out.",
-    copy: "A first enquiry can be brief. Name what is bringing you to counselling, whether online sessions suit you, and anything important for first contact.",
+    copy: "A first enquiry can be brief. Name what is bringing you to counselling and anything important for first contact.",
     buttonLabel: "Make an enquiry",
     buttonHref: "/contact",
   },

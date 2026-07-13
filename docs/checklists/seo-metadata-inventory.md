@@ -24,7 +24,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 | Web manifest | Installed app identity and icon references | `To populate` |
 | Robots policy | Site-wide crawl policy | `To populate` |
 | Sitemap | Search crawler URL discovery | `To populate` |
-| Structured data policy | JSON-LD or intentional absence across the site | Home emits a linked `WebSite`, `Organization`, credential-bearing `Person`, and minimal `Service` graph. Inclusion and Contact/Fees emit `FAQPage`; the three draft Inclusion child routes also emit `FAQPage` while remaining `noindex, nofollow`. Delivery-channel, pricing, address, and local-business schema are intentionally absent. |
+| Structured data policy | JSON-LD or intentional absence across the site | Home emits a linked `WebSite`, `Organization`, `Person`, and minimal `Service` graph. Working with Joel emits a `ProfilePage` whose `mainEntity` is the same credential-bearing `Person`. Inclusion and Contact/Fees emit `FAQPage`; the three draft Inclusion child routes also emit `FAQPage` while remaining `noindex, nofollow`. Delivery-channel, pricing, address, and local-business schema are intentionally absent. |
 
 ## `/` - Home
 
@@ -39,13 +39,13 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 | Open Graph description | Social preview description | `Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
 | Open Graph URL | Social preview canonical URL | `https://vivecounselling.com.au/` |
 | Open Graph image | Social preview image URL | `https://vivecounselling.com.au/og-vive-counselling.png` |
-| Open Graph image alt | Social preview image accessibility text | `Vive Counselling social preview card for online counselling across Australia with Joel Griffiths.` |
+| Open Graph image alt | Social preview image accessibility text | `Vive Counselling social preview card featuring Joel Griffiths.` |
 | Twitter card | Twitter/X preview card type | `summary_large_image` |
 | Twitter title | Twitter/X preview title | `Vive Counselling | Therapy for Adults Across Australia` |
 | Twitter description | Twitter/X preview description | `Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
 | Twitter image | Twitter/X preview image URL | `https://vivecounselling.com.au/og-vive-counselling.png` |
-| Twitter image alt | Twitter/X preview image accessibility text | `Vive Counselling social preview card for online counselling across Australia with Joel Griffiths.` |
-| Structured data | JSON-LD or intentional absence | A linked JSON-LD graph identifies the `WebSite`, a minimal `Organization` with Joel Griffiths as `founder`, Joel as a credential-bearing `Person` linked to Vive, and a `Service` for counselling and psychotherapy for adults provided by Vive across Australia. |
+| Twitter image alt | Twitter/X preview image accessibility text | `Vive Counselling social preview card featuring Joel Griffiths.` |
+| Structured data | JSON-LD or intentional absence | A linked JSON-LD graph identifies the `WebSite`, a minimal `Organization` with Joel Griffiths as `founder`, a concise `Person` that uses Joel's practitioner page as its stable identity URL, and a `Service` for counselling and psychotherapy for adults provided by Vive across Australia. |
 
 ## `/working-with-joel` - Working with Joel
 
@@ -66,7 +66,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 | Twitter description | Twitter/X preview description | `To populate` |
 | Twitter image | Twitter/X preview image URL | `To populate` |
 | Twitter image alt | Twitter/X preview image accessibility text | `To populate` |
-| Structured data | JSON-LD or intentional absence | `To populate` |
+| Structured data | JSON-LD or intentional absence | A `ProfilePage` graph identifies Joel Griffiths as the page's `mainEntity`, reuses his site-wide Person ID, links him to Vive Counselling, and records his Edith Cowan University graduate diploma and ACA Level 1 registration through `hasCredential`. |
 
 ## `/inclusion` - Inclusion Hub
 

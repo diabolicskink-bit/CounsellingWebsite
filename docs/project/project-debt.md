@@ -430,11 +430,11 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - This is a memory aid, not authorization for a dedicated page-by-page audit or test-only campaign.
   - Pending opportunistic review: Home (`/`).
-  - Pending opportunistic review: Working with Joel (`/working-with-joel`).
+  - Reviewed 2026-07-13 during master alignment: Working with Joel (`/working-with-joel`) first-response metadata, component prerendering, hydration activation, and new `ProfilePage` structured-data assertions passed; no broader copy snapshot was added.
   - Pending opportunistic review: Inclusion hub (`/inclusion`).
   - Pending opportunistic review: Kink and BDSM (`/inclusion/kink-bdsm`).
-  - Pending opportunistic review: ENM and polyamory (`/inclusion/enm-polyamory`).
-  - Pending opportunistic review: LGBTQIA+ (`/inclusion/lgbtqia`).
+  - Reviewed 2026-07-13 during master alignment: ENM and polyamory (`/inclusion/enm-polyamory`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
+  - Reviewed 2026-07-13 during master alignment: LGBTQIA+ (`/inclusion/lgbtqia`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
   - Pending opportunistic review: Contact and fees (`/contact`).
   - Pending opportunistic review: Not Found and controlled `404.html` boundary.
 - `Links`: `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`, `docs/plans/2026-07-13-static-prerendering-and-hydration.md`

@@ -24,6 +24,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Added: Explicit route/timestamp markers select `hydrateRoot` only for matching route artifacts; development, unknown, stale, mismatched, and 404 paths retain the guarded `createRoot` fallback.
 - Verified: The build fails if a metadata route lacks a component render. Focused production-preview coverage and artifact inspection were accepted as the migration completion baseline; no standalone broad final-test or page-by-page campaign remains. `DEBT-34` records that relevant tests should instead be reviewed when a page is already changing for other reasons.
 
+## 2026-07-13 - Practitioner ProfilePage Structured Data Added
+
+- Added: Generated `/working-with-joel` HTML now includes a `ProfilePage` whose `mainEntity` is Joel Griffiths.
+- Unified: Homepage and practitioner-page graphs reuse the stable `https://vivecounselling.com.au/working-with-joel#joel-griffiths` Person identity; detailed credentials now live in the practitioner-page graph.
+- Aligned: Visible copy identifies Joel as Vive Counselling's founder and names Edith Cowan University alongside the graduate diploma.
+
 ## 2026-07-13 - Homepage Service Structured Data Added
 
 - Added: The generated homepage JSON-LD graph now includes a `Service` for counselling and psychotherapy for adults.

@@ -198,7 +198,7 @@ export default function DesignLanguage() {
                 </div>
 
                 <ul className="site-trust-list ds-overview-specimen__trust" aria-label="Example trust strip">
-                  <li>Online across Australia</li>
+                  <li>Adults across Australia</li>
                   <li>Adults</li>
                   <li>Grounded and non-shaming</li>
                 </ul>

@@ -24,14 +24,14 @@ import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
 const iconCards = [
   { icon: Sparkles, title: "Composed first impressions", description: "A restrained visual system with enough structure to feel confident, calm, and deliberate." },
   { icon: ShieldCheck, title: "Contained trust", description: "A quieter frame for sensitive material, using contrast and rhythm rather than visual noise." },
-  { icon: Laptop, title: "Online practice", description: "Service details can be presented clearly without making the page feel administrative." },
+  { icon: Laptop, title: "Practice details", description: "Service details can be presented clearly without making the page feel administrative." },
   { icon: Users, title: "Inclusive signals", description: "Short cues, careful hierarchy, and plain copy make specialist support easier to scan." },
   { icon: FileText, title: "Practical information", description: "Fees, session format, policies, and next steps can sit within the same design language." },
   { icon: Clock, title: "Steady rhythm", description: "Section spacing, cards, panels, and dividers create structure without heavy decoration." },
 ];
 
 const trustItems = [
-  "Online across Australia",
+  "Adults across Australia",
   "For adults",
   "Grounded and non-shaming",
   "Inclusive relationships, sexualities, and identities",
@@ -39,7 +39,7 @@ const trustItems = [
 
 const trustHighlightItems = [
   "For adults",
-  "Online across Australia",
+  "Perth-based",
   "Grounded and non-shaming",
   "Monogamy is not treated as the default answer",
 ];
@@ -127,7 +127,7 @@ const footerDemoLinks = [
 
 const footerDemoDetails = [
   { label: enquiryEmail, href: `mailto:${enquiryEmail}` },
-  { label: "Online across Australia" },
+  { label: "Adults across Australia" },
   { label: "Mon to Fri, 9.30am to 5.00pm WST" },
 ];
 
@@ -295,7 +295,7 @@ export default function DS_Components() {
               {[
                 { icon: Mail, label: "Email", value: "hello@example.com" },
                 { icon: Phone, label: "Phone", value: "Short call available" },
-                { icon: MapPin, label: "Location", value: "Online across Australia" },
+                { icon: MapPin, label: "Location", value: "Perth-based, across Australia" },
               ].map(({ icon: Icon, label, value }) => (
                 <div className="site-contact-item" key={label}>
                   <span className="icon-box">
@@ -320,7 +320,7 @@ export default function DS_Components() {
               <aside className="site-fee-card" style={{ maxWidth: "280px" }}>
                 <p className="site-highlight__eyebrow">Session fee</p>
                 <strong>$170</strong>
-                <span>50-minute online counselling session</span>
+                <span>50-minute counselling session</span>
                 <small>Short notes can sit here without overpowering the amount.</small>
               </aside>
             </div>

@@ -58,7 +58,7 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Checked PNG dimensions and generated head metadata. `/og-vive-counselling.png` is 1200x630, and `og:image:alt` / `twitter:image:alt` use the configured social preview alt text.
 
 - `Partial` Structured data is intentionally absent, or valid and aligned with public claims if present.
-  - Note: Homepage generated HTML includes a linked `WebSite`, `Organization`, `Person`, and `Service` JSON-LD graph. The Organization uses the confirmed public business identity and identifies Joel Griffiths as `founder`; the credential-bearing Person links Joel to Vive; and the Service identifies counselling and psychotherapy for adults, provided by Vive across Australia. Delivery channel, pricing, address, and local-business schema remain outside current scope until their public details are final.
+  - Note: Homepage generated HTML includes a linked `WebSite`, `Organization`, `Person`, and `Service` JSON-LD graph. Working with Joel generated HTML adds a `ProfilePage` whose `mainEntity` is the same Joel Griffiths Person and carries the confirmed full ECU and ACA credential details behind the page's concise visible credential presentation. Delivery channel, pricing, address, and local-business schema remain outside current scope until their public details are final.
 
 ## `/` - Home
 
@@ -66,7 +66,7 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Route metadata now uses "Vive Counselling | Therapy for Adults Across Australia", which is unique among the public route titles. Generated HTML and preview verification should be refreshed with the next complete build.
 
 - `Pass` Meta description is present, human-readable, and matches visible page content.
-  - Note: Checked route metadata, generated HTML, direct preview head, and visible Home page hero/topic content. Description matches the page's online counselling across Australia positioning and visible themes around anxiety, relationships, shame, trauma, sexuality, and inclusive support.
+  - Note: Checked route metadata, generated HTML, direct preview head, and visible Home page hero/topic content. Description matches the page's counselling and therapy across Australia positioning and visible themes around anxiety, relationships, shame, trauma, sexuality, and inclusive support.
 
 - `Pass` Canonical URL resolves to this route on the intended launch origin.
   - Note: Checked generated HTML and direct preview head. Canonical is `https://vivecounselling.com.au/`, matching the configured apex launch origin and Home route.
@@ -93,7 +93,7 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Direct hydrated load of `/` preserved the expected title, description, canonical, OG, and Twitter metadata. Navigating client-side from `/inclusion` to `/` updated title and description but left canonical, OG, and Twitter title/description/URL on the Inclusion values. Tracked by `DEBT-27`.
 
 - `Pass` Search and social snippet wording avoids misleading therapeutic claims, overpromising outcomes, or pathologising language.
-  - Note: Checked title and description against project direction and visible Home copy. Wording describes online counselling and areas people bring without promising outcomes, pathologising identities or experiences, or overstating clinical claims.
+  - Note: Checked title and description against project direction and visible Home copy. Wording describes counselling and areas people bring without promising outcomes, pathologising identities or experiences, or overstating clinical claims.
 
 ## `/working-with-joel` - Working with Joel
 

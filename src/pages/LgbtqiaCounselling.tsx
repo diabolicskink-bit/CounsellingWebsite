@@ -157,7 +157,7 @@ export default function LgbtqiaCounselling() {
             ))}
             <p>
               You can also <Link to="/working-with-joel">read more about working with Joel</Link>, check{" "}
-              <Link to="/contact">online counselling fees and session details</Link>, or{" "}
+              <Link to="/contact">counselling fees and session details</Link>, or{" "}
               <Link to="/contact">make an enquiry about counselling</Link>.
             </p>
           </div>
@@ -171,8 +171,8 @@ export default function LgbtqiaCounselling() {
           <div className="site-cta-block__copy">
             <h2>You do not need to explain everything perfectly.</h2>
             <p>
-              A first enquiry can be brief. Name what is bringing you to counselling, whether online sessions suit you,
-              and anything important for first contact.
+              A first enquiry can be brief. Name what is bringing you to counselling and anything important for first
+              contact.
             </p>
           </div>
           <Button href="/contact" variant="secondary">

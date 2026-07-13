@@ -109,34 +109,86 @@ function getFaviconTags() {
   ];
 }
 
-function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
+function getStructuredDataIds(siteMetadata, siteOrigin) {
   const homepageUrl = getAbsoluteUrl(siteOrigin, "/");
-  const websiteId = `${homepageUrl}#website`;
-  const organizationId = `${homepageUrl}#organization`;
-  const personId = `${homepageUrl}#joel-griffiths`;
-  const serviceId = `${homepageUrl}#counselling-service`;
-  const organization = siteMetadata.organization;
+  const profileUrl = getAbsoluteUrl(siteOrigin, siteMetadata.person.url);
+
+  return {
+    homepageUrl,
+    organizationId: `${homepageUrl}#organization`,
+    personId: `${profileUrl}#joel-griffiths`,
+    profilePageId: `${profileUrl}#profile-page`,
+    profileUrl,
+    serviceId: `${homepageUrl}#counselling-service`,
+    websiteId: `${homepageUrl}#website`,
+  };
+}
+
+function getPersonNode(
+  siteMetadata,
+  siteOrigin,
+  ids,
+  { includeCredentials = false, mainEntityOfPage } = {},
+) {
   const person = siteMetadata.person;
+
+  return {
+    "@type": "Person",
+    "@id": ids.personId,
+    name: person.name,
+    url: ids.profileUrl,
+    image: getAssetUrl(siteOrigin, person.image),
+    description: person.description,
+    jobTitle: person.jobTitle,
+    worksFor: { "@id": ids.organizationId },
+    sameAs: person.sameAs,
+    knowsAbout: person.knowsAbout,
+    ...(mainEntityOfPage ? { mainEntityOfPage: { "@id": mainEntityOfPage } } : {}),
+    ...(includeCredentials
+      ? {
+          hasCredential: person.credentials.map((credential) => ({
+            "@type": "EducationalOccupationalCredential",
+            name: credential.name,
+            credentialCategory: credential.credentialCategory,
+            ...(credential.url ? { url: credential.url } : {}),
+            recognizedBy: {
+              "@type": credential.recognizedBy.type,
+              name: credential.recognizedBy.name,
+              url: credential.recognizedBy.url,
+            },
+          })),
+        }
+      : {}),
+  };
+}
+
+function getStructuredDataTag(structuredData) {
+  return `<script type="application/ld+json">${escapeJsonForHtml(JSON.stringify(structuredData))}</script>`;
+}
+
+function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
+  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
+  const organization = siteMetadata.organization;
   const service = siteMetadata.service;
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": websiteId,
+        "@id": ids.websiteId,
         name: siteMetadata.name,
-        url: homepageUrl,
-        publisher: { "@id": organizationId },
+        url: ids.homepageUrl,
+        publisher: { "@id": ids.organizationId },
       },
       {
         "@type": "Organization",
-        "@id": organizationId,
+        "@id": ids.organizationId,
         name: siteMetadata.name,
-        url: homepageUrl,
+        url: ids.homepageUrl,
         email: organization.email,
         description: organization.description,
         sameAs: organization.sameAs,
-        founder: { "@id": personId },
+        founder: { "@id": ids.personId },
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "enquiries",
@@ -150,36 +202,15 @@ function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
           height: organization.logoHeight,
         },
       },
-      {
-        "@type": "Person",
-        "@id": personId,
-        name: person.name,
-        url: getAbsoluteUrl(siteOrigin, person.url),
-        image: getAssetUrl(siteOrigin, person.image),
-        description: person.description,
-        jobTitle: person.jobTitle,
-        worksFor: { "@id": organizationId },
-        sameAs: person.sameAs,
-        hasCredential: person.credentials.map((credential) => ({
-          "@type": "EducationalOccupationalCredential",
-          name: credential.name,
-          credentialCategory: credential.credentialCategory,
-          ...(credential.url ? { url: credential.url } : {}),
-          recognizedBy: {
-            "@type": credential.recognizedBy.type,
-            name: credential.recognizedBy.name,
-            url: credential.recognizedBy.url,
-          },
-        })),
-      },
+      getPersonNode(siteMetadata, siteOrigin, ids),
       {
         "@type": "Service",
-        "@id": serviceId,
+        "@id": ids.serviceId,
         name: service.name,
         serviceType: service.serviceType,
         url: getAbsoluteUrl(siteOrigin, service.url),
         description: service.description,
-        provider: { "@id": organizationId },
+        provider: { "@id": ids.organizationId },
         audience: {
           "@type": "PeopleAudience",
           audienceType: service.audience,
@@ -192,7 +223,42 @@ function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
     ],
   };
 
-  return `<script type="application/ld+json">${escapeJsonForHtml(JSON.stringify(structuredData))}</script>`;
+  return getStructuredDataTag(structuredData);
+}
+
+function getProfileStructuredDataTag(routeMetadata, siteMetadata, siteOrigin) {
+  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": ids.profilePageId,
+        url: ids.profileUrl,
+        name: routeMetadata.title,
+        isPartOf: { "@id": ids.websiteId },
+        mainEntity: { "@id": ids.personId },
+      },
+      getPersonNode(siteMetadata, siteOrigin, ids, {
+        includeCredentials: true,
+        mainEntityOfPage: ids.profilePageId,
+      }),
+    ],
+  };
+
+  return getStructuredDataTag(structuredData);
+}
+
+function getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
+  if (routePath === "/") {
+    return [getHomeStructuredDataTag(siteMetadata, siteOrigin)];
+  }
+
+  if (routePath === "/working-with-joel") {
+    return [getProfileStructuredDataTag(routeMetadata, siteMetadata, siteOrigin)];
+  }
+
+  return [];
 }
 
 function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
@@ -203,7 +269,7 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   const robots = routeMetadata.robots
     ? [`<meta name="robots" content="${escapeHtml(routeMetadata.robots)}" />`]
     : [];
-  const structuredData = routePath === "/" ? [getHomeStructuredDataTag(siteMetadata, siteOrigin)] : [];
+  const structuredData = getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, siteOrigin);
 
   return [
     "<!-- SEO metadata generated at build time -->",

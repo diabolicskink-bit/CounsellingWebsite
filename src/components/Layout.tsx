@@ -206,7 +206,6 @@ export default function Layout() {
               <li>
                 <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a>
               </li>
-              {/* <li>Online across Australia</li> */}
               <li>Mon to Fri, 9.30am to 5.00pm WST</li>
             </ul>
             <p className="site-footer__copyright">&copy; {copyrightPublicationYear} Vive Counselling</p>
