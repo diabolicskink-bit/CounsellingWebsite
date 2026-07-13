@@ -174,7 +174,7 @@ Statuses:
 - `Classification`: `Content`
 - `Source`: `Fresh launch-readiness review, src/pages/WorkingWithJoel.tsx`
 - `Visitor-Facing Goal`: Give visitors enough professional context to trust that the practice is real and accurately represented.
-- `Current State`: Working with Joel displays “GradDip. Counselling and Psychotherapy” and “ACA Registered Counsellor – Level 1”. The generated `ProfilePage` / `Person` graph carries the full qualification, Edith Cowan University, and ACA credential details, and uses Joel's public ACA profile in `sameAs` and as the registration credential URL. A registration number, visible external-profile link, and any supervision or insurance wording remain undecided.
+- `Current State`: Working with Joel displays “GradDip. Counselling and Psychotherapy” and “ACA Registered”. The generated `ProfilePage` / `Person` graph carries the full qualification, Edith Cowan University, and full ACA Level 1 credential details, and uses Joel's public ACA profile in `sameAs` and as the registration credential URL. A registration number, visible external-profile link, and any supervision or insurance wording remain undecided.
 - `Why Deferred`: Remaining professional-identity details must be fact-checked and intentionally approved before publication.
 - `First Useful Slice`: Decide whether the page should visibly link to the ACA profile or show a registration number, and whether supervision or insurance details belong in public copy.
 - `Implemented When`: The public credential presentation is accurate, intentional, and easy to verify where verification details are appropriate.
