@@ -10,7 +10,15 @@ const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
 const indexableRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"];
-const prerenderedRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"];
+const prerenderedRoutePaths = [
+  "/",
+  "/working-with-joel",
+  "/inclusion",
+  "/inclusion/kink-bdsm",
+  "/inclusion/enm-polyamory",
+  "/inclusion/lgbtqia",
+  "/contact",
+];
 const prerenderedRouteSmokeFragments = {
   "/": ['<main class="site-page home-page">', "Counselling and Psychotherapy"],
   "/working-with-joel": [
@@ -22,6 +30,24 @@ const prerenderedRouteSmokeFragments = {
     '<main class="site-page inclusion-page">',
     "Inclusive counselling",
     'class="inclusion-hub__panels"',
+  ],
+  "/inclusion/kink-bdsm": [
+    '<main class="site-page kink-page">',
+    "Kink &amp; BDSM-aware counselling",
+    'class="kink-page__knowledge-grid"',
+    'class="site-faq-list"',
+  ],
+  "/inclusion/enm-polyamory": [
+    '<main class="site-page enm-page">',
+    "ENM &amp; polyamory counselling",
+    'class="enm-page__position-list"',
+    'class="site-faq-list"',
+  ],
+  "/inclusion/lgbtqia": [
+    '<main class="site-page inclusion-page lgbtqia-page">',
+    "Queer-affirming counselling",
+    'class="site-check-panel site-check-panel--grid"',
+    'class="site-faq-list"',
   ],
   "/contact": [
     '<main class="site-page contact-page">',
@@ -314,6 +340,33 @@ function applyNotFoundMetadata(html, siteMetadata) {
     .replace("</head>", `    ${seoTags}\n  </head>`);
 }
 
+function assertNotFoundFallback(html, prerenderedAt) {
+  const expectedFragments = [
+    "<title>Page not found | Vive Counselling</title>",
+    `<meta name="robots" content="${noindexDirective}" />`,
+    `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">`,
+    '<main data-static-route-shell="/404.html">',
+    "<h1>That page isn't here.</h1>",
+    "<p>This page could not be found on the Vive Counselling website.</p>",
+    'script type="module"',
+    "/assets/",
+  ];
+
+  for (const fragment of expectedFragments) {
+    if (!html.includes(fragment)) {
+      throw new Error(`404 fallback smoke check is missing expected content: ${fragment}`);
+    }
+  }
+
+  if (
+    html.includes('data-render-mode="prerendered"') ||
+    html.includes("data-prerendered-path=") ||
+    html.includes('<link rel="canonical"')
+  ) {
+    throw new Error("404 fallback smoke check found metadata that would make the artifact hydratable or canonical.");
+  }
+}
+
 function getRouteOutputPaths(routePath) {
   if (routePath === "/") {
     return [indexPath];
@@ -404,11 +457,17 @@ const robotsTxt = [
   "",
 ].join("\n");
 
+const notFoundHtml = applyStaticRouteShell(
+  applyNotFoundMetadata(templateHtml, site),
+  "/404.html",
+  notFoundFallback,
+  prerenderedAt,
+);
+
+assertNotFoundFallback(notFoundHtml, prerenderedAt);
+
 await Promise.all([
-  writeFile(
-    path.join(distDir, "404.html"),
-    applyStaticRouteShell(applyNotFoundMetadata(templateHtml, site), "/404.html", notFoundFallback, prerenderedAt),
-  ),
+  writeFile(path.join(distDir, "404.html"), notFoundHtml),
   writeFile(path.join(distDir, "sitemap.xml"), sitemapXml),
   writeFile(path.join(distDir, "robots.txt"), robotsTxt),
 ]);

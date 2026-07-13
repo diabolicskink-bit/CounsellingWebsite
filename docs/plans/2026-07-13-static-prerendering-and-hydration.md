@@ -341,12 +341,12 @@ The draft inclusion child routes must remain directly reviewable, absent from pr
 
 #### Notes
 
-- Status: In progress.
+- Status: Complete.
 - Agent notes:
-  - Working with Joel and Inclusion now join Home in the explicit prerender set. Each route is rendered through the shared server entry with the same build timestamp, written with matching route markers, and hydrated only when the browser pathname matches.
-  - Focused raw-HTML, JavaScript-disabled, hydration, and route-interaction coverage verifies both routes without changing their markup, copy, navigation policy, or sitemap status.
-  - Both the flat and nested output forms for Working with Joel and Inclusion are asserted byte-equivalent and carry the same component markup and activation markers.
-  - The three draft Inclusion child routes remain on the temporary shell and Phase 6 is not complete until they are converted with their existing `noindex, nofollow`, production-navigation, and sitemap exclusions intact.
+  - Working with Joel, Inclusion, and all three draft Inclusion child routes join Home in the explicit prerender set. Each route is rendered through the shared server entry with the same build timestamp, written with matching route markers, and hydrated only when the browser pathname matches.
+  - Focused raw-HTML, JavaScript-disabled, hydration, and route-interaction coverage verifies the expanded set without changing page markup, copy, navigation policy, or sitemap status.
+  - Both flat and nested output forms for every non-root route are asserted byte-equivalent and carry the same component markup and activation markers.
+  - The draft Inclusion child routes remain directly reviewable and retain their `noindex, nofollow` metadata plus production-navigation and sitemap exclusions. Only the controlled `404.html` artifact retains the temporary client-render fallback.
 
 ### Phase 7 - Convert Contact With Deterministic Data
 
@@ -370,11 +370,11 @@ Run timezone tests with fixed dates on both sides of Australian daylight-saving 
 
 - Status: Complete.
 - Agent notes:
-  - Contact was converted before the remaining draft Inclusion child routes at the user's direction; Phase 6 therefore remains in progress while Phase 7 is complete.
+  - Contact was converted before the remaining draft Inclusion child routes at the user's direction; Phase 6 was subsequently completed without changing Contact's rendering contract.
   - `/contact.html` and `/contact/index.html` now contain equivalent component-rendered page, fee, seeded timezone-note, masked form, FAQ, navigation, and footer markup with the shared build timestamp and matching-path hydration markers.
   - The initial server and browser trees omit appointment/consult conditional fields. Current timezone options are still calculated only when a consult request activates the timezone select.
   - Fixed standard-time, daylight-saving, and stale-build artifacts are generated in tests through the production server render entry so their root timestamp and rendered notes cannot drift. Focused coverage also verifies pre-hydration form-value preservation, conditional fields, unchanged payload values, success focus, safe failure messaging, native form attributes, and Clarity masking.
-  - The three draft Inclusion child routes retain their temporary shells, production-link and sitemap exclusions, and `noindex, nofollow` metadata. `404.html` remains on the controlled client-render fallback.
+  - The three draft Inclusion child routes subsequently moved to component-rendered HTML and hydration while retaining their production-link and sitemap exclusions plus `noindex, nofollow` metadata. `404.html` remains on the controlled client-render fallback.
 
 ### Phase 8 - Finalize The 404 And Hosting Fallback Contract
 
@@ -392,8 +392,13 @@ Do not broaden this phase into a hosting or routing redesign unless live verific
 
 #### Notes
 
-- Status: Not started.
+- Status: Complete locally; post-deploy confirmation pending.
 - Agent notes:
+  - The build now fails unless `404.html` contains the generic noindex shell, valid shared build timestamp, client asset entry, fallback copy, and no canonical, prerender mode, or prerendered path marker.
+  - Focused desktop/mobile browser coverage treats the two hosting shapes separately. A direct local `/404.html` visit has no render/path marker and uses `client-render`; an arbitrary Vite-preview path receives Home markup marked for `/`, rejects hydration because the browser path differs, and also uses `client-render`.
+  - Both activated cases display the actual browser pathname through `NotFound`, retain `noindex, nofollow`, and produce no console, request, response, or recoverable-hydration diagnostics.
+  - A live canonical-host baseline confirmed that Vercel serves the generated generic fallback with HTTP 404 for an arbitrary path. With `cleanUrls`, `/404.html` redirects permanently to `/404`; both live browser paths activate the correct requested address without console or page errors.
+  - The currently deployed bundle predates this branch's observable `data-react-activation` marker, so the exact new artifact/activation contract must be rechecked after these changes are deployed. `DEBT-24` retains that external-state follow-up rather than making deployment part of this phase.
 
 ### Phase 9 - Retire The Temporary Public H1 Shell
 

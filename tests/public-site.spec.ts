@@ -30,7 +30,15 @@ const publicRoutes = [
   "/inclusion/lgbtqia",
   "/contact",
 ] as const;
-const prerenderedRoutes = ["/", "/working-with-joel", "/inclusion", "/contact"] as const;
+const prerenderedRoutes = [
+  "/",
+  "/working-with-joel",
+  "/inclusion",
+  "/inclusion/kink-bdsm",
+  "/inclusion/enm-polyamory",
+  "/inclusion/lgbtqia",
+  "/contact",
+] as const;
 const prerenderedRouteContracts = {
   "/": {
     mainClass: "site-page home-page",
@@ -49,6 +57,21 @@ const prerenderedRouteContracts = {
     mainClass: "site-page inclusion-page",
     rawFragments: ['class="inclusion-hub__panels"', 'class="site-faq-list"'],
     noJavaScriptSelector: ".inclusion-hub__panels",
+  },
+  "/inclusion/kink-bdsm": {
+    mainClass: "site-page kink-page",
+    rawFragments: ['class="kink-page__knowledge-grid"', 'class="site-faq-list"'],
+    noJavaScriptSelector: ".kink-page__knowledge-grid",
+  },
+  "/inclusion/enm-polyamory": {
+    mainClass: "site-page enm-page",
+    rawFragments: ['class="enm-page__position-list"', 'class="site-faq-list"'],
+    noJavaScriptSelector: ".enm-page__position-list",
+  },
+  "/inclusion/lgbtqia": {
+    mainClass: "site-page inclusion-page lgbtqia-page",
+    rawFragments: ['class="site-check-panel site-check-panel--grid"', 'class="site-faq-list"'],
+    noJavaScriptSelector: ".site-check-panel--grid",
   },
   "/contact": {
     mainClass: "site-page contact-page",
@@ -474,13 +497,36 @@ test.describe("prerendered route hydration rollout", () => {
     await expectNoPageDiagnostics(diagnostics);
   });
 
-  test("client-renders an unknown browser path without hydrating Home markup", async ({ page }) => {
+  test("client-renders an unknown preview path when Vite serves mismatched Home markup", async ({
+    page,
+    request,
+  }) => {
     const diagnostics = collectPageDiagnostics(page);
+    const response = await request.get("/not-a-real-page");
+    const html = await response.text();
+
+    expect(response.ok()).toBeTruthy();
+    expect(html).toContain('data-render-mode="prerendered"');
+    expect(html).toContain('data-prerendered-path="/"');
+    expect(html).not.toContain('<main data-static-route-shell="/404.html">');
 
     await page.goto("/not-a-real-page", { waitUntil: "networkidle" });
 
     await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "client-render");
+    await expect(page.locator("#root")).toHaveAttribute("data-prerendered-path", "/");
     await expectNotFoundPage(page, "/not-a-real-page");
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
+  test("client-renders the direct generic 404 artifact without attempting hydration", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+
+    await page.goto("/404.html", { waitUntil: "networkidle" });
+
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "client-render");
+    await expect(page.locator("#root")).not.toHaveAttribute("data-render-mode", /.+/);
+    await expect(page.locator("#root")).not.toHaveAttribute("data-prerendered-path", /.+/);
+    await expectNotFoundPage(page, "/404.html");
     await expectNoPageDiagnostics(diagnostics);
   });
 });
@@ -743,6 +789,11 @@ test.describe("crawl and app metadata assets", () => {
     expect(html).toContain("<h1>That page isn't here.</h1>");
     expect(html).toContain("<p>This page could not be found on the Vive Counselling website.</p>");
     expect(html).not.toContain('data-render-mode="prerendered"');
+    expect(html).not.toContain("data-prerendered-path=");
+    expect(html).not.toContain("data-react-activation=");
+    const timestamp = html.match(/<div id="root" data-prerendered-at="([^"]+)">/)?.[1];
+    expect(timestamp).toBeTruthy();
+    expect(Number.isNaN(Date.parse(timestamp ?? ""))).toBeFalsy();
     expect(html).toContain('script type="module"');
     expect(html).toContain("/assets/");
     expect(html).not.toContain('<link rel="canonical"');
