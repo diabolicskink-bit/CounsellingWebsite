@@ -1,12 +1,13 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { getSiteOrigin } from "./route-metadata-origin.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(rootDir, "dist");
 const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
+const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
 const indexableRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"];
 const staticShellStart = "<!-- Static route shell generated at build time -->";
@@ -138,6 +139,37 @@ function applyStaticRouteShell(html, routePath, routeMetadata, prerenderedAt) {
   throw new Error(`Unable to find root element while adding static route shell: ${routePath}`);
 }
 
+function applyRenderedRouteRoot(html, renderedMarkup, prerenderedAt) {
+  const emptyRoot = '<div id="root"></div>';
+
+  if (!html.includes(emptyRoot)) {
+    throw new Error("Unable to find the empty root element while validating the static render entry.");
+  }
+
+  const renderedRoot = `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">${renderedMarkup}</div>`;
+
+  return html.replace(emptyRoot, () => renderedRoot);
+}
+
+function assertHomeRenderSmoke(html) {
+  const expectedFragments = [
+    '<header class="site-header">',
+    '<main class="site-page home-page">',
+    "Counselling and Psychotherapy",
+    '<footer class="site-footer">',
+  ];
+
+  for (const fragment of expectedFragments) {
+    if (!html.includes(fragment)) {
+      throw new Error(`Static Home render smoke check is missing expected content: ${fragment}`);
+    }
+  }
+
+  if (html.includes(staticShellStart) || html.includes("data-static-route-shell")) {
+    throw new Error("Static Home render smoke check unexpectedly contains the temporary route shell.");
+  }
+}
+
 function getNotFoundTags(siteMetadata) {
   return [
     "<!-- SEO metadata generated at build time -->",
@@ -197,6 +229,21 @@ const siteOrigin = getSiteOrigin(site);
 const sitemapEntries = getSitemapEntries(routes, siteOrigin);
 const prerenderedAt = new Date().toISOString();
 
+process.env.NODE_ENV = "production";
+const serverEntry = await import(pathToFileURL(serverEntryPath).href);
+
+if (typeof serverEntry.renderRoute !== "function") {
+  throw new Error(`Server render bundle does not export renderRoute: ${serverEntryPath}`);
+}
+
+const renderedHomeCandidate = applyRenderedRouteRoot(
+  templateHtml,
+  serverEntry.renderRoute("/", { initialRenderAt: prerenderedAt }),
+  prerenderedAt,
+);
+
+assertHomeRenderSmoke(renderedHomeCandidate);
+
 for (const [routePath, routeMetadata] of Object.entries(routes)) {
   const routeHtml = applyStaticRouteShell(
     applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin),
@@ -236,4 +283,4 @@ await Promise.all([
   writeFile(path.join(distDir, "robots.txt"), robotsTxt),
 ]);
 
-console.log(`Prerendered metadata for ${Object.keys(routes).length} public routes.`);
+console.log(`Validated the static render entry and prerendered metadata for ${Object.keys(routes).length} public routes.`);

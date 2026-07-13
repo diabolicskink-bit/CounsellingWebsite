@@ -280,8 +280,13 @@ Update the prerender script to import the built render entry. Use an explicit HT
 
 #### Notes
 
-- Status: Not started.
+- Status: Complete.
 - Agent notes:
+  - `src/entry-server.tsx` exports `renderRoute(pathname, { initialRenderAt })` and delegates only to `renderToString` plus the Phase 3 `StaticApp`; metadata, route-generation policy, output paths, and file writes remain in the prerender script.
+  - The production build now runs client and Vite SSR stages separately. The SSR stage empties and recreates `.prerender/server`, skips public-asset copying, and emits the predictable `.prerender/server/entry-server.js` artifact without touching `dist`.
+  - The prerender script imports that bundle, renders Home with the exact generated build timestamp, performs an in-memory root replacement through a replacement callback, and fails the build unless the candidate contains the real header, Home main/H1, and footer without the temporary shell marker.
+  - Generated public artifacts intentionally remain unchanged in this phase: all routes still receive the temporary static shell and the browser still uses `createRoot`. Phase 5 owns the first written component-rendered artifact and hydration decision.
+  - The first server render exposed React 18's warning for the camel-cased image `fetchPriority` prop. Home now emits the standards-based lowercase `fetchpriority` attribute through a typed spread, preserving the browser priority hint while keeping server rendering warning-free.
 
 ### Phase 5 - Complete A Home Vertical Slice Including Hydration
 
