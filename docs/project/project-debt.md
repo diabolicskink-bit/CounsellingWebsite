@@ -459,8 +459,8 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-32`: Full static prerendering must exist before the fallback shell can be safely removed.
 - `Notes`:
   - Do not remove the fallback before there is another first-response H1/content path; it currently fixes real raw-HTML SEO checker warnings.
-  - The public-site suite asserts that the fallback H1 matches the hydrated page H1. As of the 2026-07-13 prerender baseline, that assertion fails for Home in both browser projects: the shell metadata says `Online counselling across Australia`, while the component H1 says `Counselling and Psychotherapy`.
-  - Treat the failing Home assertion as evidence of the duplicate-content risk this item tracks. Resolve it through the component-rendered prerender path rather than preserving the temporary metadata H1 solely to make the duplicate contracts agree.
+  - The public-site suite asserts that the fallback H1 matches the hydrated page H1. The initial 2026-07-13 prerender baseline exposed Home drift in both browser projects, confirming the duplicate-content risk this item tracks.
+  - `master` commit `2a779c7` aligned the Home shell metadata with the component H1, and the aligned `work/prerendering` baseline now passes all enabled public-site tests. The duplicate ownership remains temporary and should still be removed through the component-rendered prerender path.
 - `Links`: `scripts/prerender-route-metadata.mjs`, `src/data/routeMetadata.json`, `src/data/routeMetadata.ts`, `tests/public-site.spec.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned

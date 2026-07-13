@@ -12,7 +12,7 @@ const indexableRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"
 const staticShellStart = "<!-- Static route shell generated at build time -->";
 const staticShellEnd = "<!-- /Static route shell generated at build time -->";
 const staticShellRootPattern =
-  /<div id="root">\s*<!-- Static route shell generated at build time -->.*?<!-- \/Static route shell generated at build time -->\s*<\/div>/s;
+  /<div id="root"(?:\s+data-prerendered-at="[^"]*")?>\s*<!-- Static route shell generated at build time -->.*?<!-- \/Static route shell generated at build time -->\s*<\/div>/s;
 const notFoundFallback = {
   h1: "That page isn't here.",
   description: "This page could not be found on the Vive Counselling website.",
@@ -123,9 +123,9 @@ function getStaticRouteShell(routePath, routeMetadata) {
   ].join("\n      ");
 }
 
-function applyStaticRouteShell(html, routePath, routeMetadata) {
+function applyStaticRouteShell(html, routePath, routeMetadata, prerenderedAt) {
   const staticShell = getStaticRouteShell(routePath, routeMetadata);
-  const renderedRoot = `<div id="root">\n      ${staticShellStart}\n      ${staticShell}\n      ${staticShellEnd}\n    </div>`;
+  const renderedRoot = `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">\n      ${staticShellStart}\n      ${staticShell}\n      ${staticShellEnd}\n    </div>`;
 
   if (staticShellRootPattern.test(html)) {
     return html.replace(staticShellRootPattern, renderedRoot);
@@ -195,12 +195,14 @@ const [templateHtml, metadataJson] = await Promise.all([
 const { routes, site } = JSON.parse(metadataJson);
 const siteOrigin = getSiteOrigin(site);
 const sitemapEntries = getSitemapEntries(routes, siteOrigin);
+const prerenderedAt = new Date().toISOString();
 
 for (const [routePath, routeMetadata] of Object.entries(routes)) {
   const routeHtml = applyStaticRouteShell(
     applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin),
     routePath,
     routeMetadata,
+    prerenderedAt,
   );
 
   for (const outputPath of getRouteOutputPaths(routePath)) {
@@ -228,7 +230,7 @@ const robotsTxt = [
 await Promise.all([
   writeFile(
     path.join(distDir, "404.html"),
-    applyStaticRouteShell(applyNotFoundMetadata(templateHtml, site), "/404.html", notFoundFallback),
+    applyStaticRouteShell(applyNotFoundMetadata(templateHtml, site), "/404.html", notFoundFallback, prerenderedAt),
   ),
   writeFile(path.join(distDir, "sitemap.xml"), sitemapXml),
   writeFile(path.join(distDir, "robots.txt"), robotsTxt),

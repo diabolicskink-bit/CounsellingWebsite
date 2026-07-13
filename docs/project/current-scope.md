@@ -23,6 +23,8 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Generated homepage metadata includes `WebSite` JSON-LD that names `Vive Counselling` at the canonical apex URL, giving Google a preferred site-name signal separate from per-page titles.
 - Public assets include favicons, app icons, a web manifest, the shared social preview image, and portrait/media assets under `public/`.
 - The Contact/Fees page uses the shared `EnquiryForm` component and data from `src/data/enquiry.ts`.
+- Contact/Fees displays fixed Perth business hours in AWST. Interstate comparison notes derive initially from the build timestamp embedded on generated route roots, then refresh once in the browser only when daylight-saving differences have changed since deployment.
+- Consult-request timezone options are calculated when the conditional timezone field is opened rather than when the enquiry content module loads.
 - Public contact display and enquiry fallback/failure messaging use `joel@vivecounselling.com.au`.
 - The enquiry form submits to the serverless `/api/enquiry` endpoint.
 - The TypeScript enquiry API validates structured form fields server-side, supports endpoint-level URL-encoded native form posts, builds the email subject/reply-to/plain text/HTML from the validated payload, formats the verified sender address with the visitor name as the email display name, and sends email through Resend when configured.
@@ -46,7 +48,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 ## Partially Included / Known Gaps
 
 - Enquiry spam protection includes a honeypot and conservative request-shape checks, but does not include platform rate limiting or complete abuse protection.
-- Enquiry timezone comparison notes are not yet generated from canonical server-owned timezone logic.
+- The build timestamp now provides a shared initial timezone seed for the browser and future static renderer, but the server-render entry does not consume it until the static rendering phases are implemented.
 - Endpoint-level native form posts are supported, but full JavaScript-disabled public-page rendering is not; the current Vite app still renders the contact form through client-side React.
 - Route definitions, route metadata, prerendering, and tests remain separate by design for this small route set; explicit route parity coverage is still tracked as debt.
 - Type checking does not currently cover tests, scripts, and most config files.

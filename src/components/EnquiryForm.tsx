@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import { getActiveAustralianTimeZoneOptions } from "../utils/timeZones";
 import Button from "./Button";
 
 export type EnquiryFormTextField = {
@@ -36,7 +37,6 @@ export type EnquiryFormContent = {
     availability: EnquiryFormTextField;
     timeZone: {
       label: string;
-      options: EnquiryFormSelectOption[];
     };
     timing: EnquiryFormTextField;
     state: {
@@ -97,6 +97,10 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
   const isBookingEnquiry = enquiryType === bookingEnquiryValue;
   const isAppointmentRequest = isBookingEnquiry && bookingType === appointmentBookingValue;
   const isConsultRequest = isBookingEnquiry && bookingType === consultBookingValue;
+  const timeZoneOptions = useMemo(
+    () => (isConsultRequest ? getActiveAustralianTimeZoneOptions() : []),
+    [isConsultRequest],
+  );
 
   useEffect(() => {
     if (submitStatus === "success") {
@@ -293,7 +297,7 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
                 <div className="form-row">
                   <label htmlFor={`${idPrefix}-timezone`}>{fields.timeZone.label}</label>
                   <select id={`${idPrefix}-timezone`} name="timeZone" defaultValue="" required>
-                    {fields.timeZone.options.map((option) => (
+                    {timeZoneOptions.map((option) => (
                       <option key={option.value || "default"} value={option.value}>
                         {option.label}
                       </option>

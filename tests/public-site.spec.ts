@@ -381,6 +381,23 @@ test.describe("first response metadata", () => {
 });
 
 test.describe("crawl and app metadata assets", () => {
+  test("generated route roots share one valid prerender timestamp", async ({ request }) => {
+    const timestamps = new Set<string>();
+
+    for (const route of [...publicRoutes, "/404.html"]) {
+      const response = await request.get(route);
+      const html = await response.text();
+      const timestamp = html.match(/<div id="root" data-prerendered-at="([^"]+)">/)?.[1];
+
+      expect(response.ok()).toBeTruthy();
+      expect(timestamp).toBeTruthy();
+      expect(Number.isNaN(Date.parse(timestamp ?? ""))).toBeFalsy();
+      timestamps.add(timestamp ?? "");
+    }
+
+    expect(timestamps.size).toBe(1);
+  });
+
   test("robots.txt allows crawling and advertises the launch sitemap", async ({ request }) => {
     const response = await request.get("/robots.txt");
     const robots = await response.text();
@@ -797,6 +814,71 @@ test.describe("working with Joel approach tabs", () => {
 });
 
 test.describe("enquiry form", () => {
+  async function openContactAt({
+    currentTime,
+    page,
+    prerenderedAt,
+  }: {
+    currentTime: string;
+    page: Page;
+    prerenderedAt: string;
+  }) {
+    await page.clock.setFixedTime(currentTime);
+    await page.route("**/contact", async (route) => {
+      const response = await route.fetch();
+      const html = (await response.text()).replace(
+        /data-prerendered-at="[^"]+"/,
+        `data-prerendered-at="${prerenderedAt}"`,
+      );
+
+      await route.fulfill({ body: html, response });
+    });
+    await page.goto("/contact", { waitUntil: "networkidle" });
+  }
+
+  test("keeps current standard-time notes from the prerender seed", async ({ page }) => {
+    const standardTime = "2026-07-15T04:00:00.000Z";
+
+    await openContactAt({ currentTime: standardTime, page, prerenderedAt: standardTime });
+
+    await expect(page.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
+    const notes = page.locator(".contact-page__contact-notes");
+    await expect(notes).toHaveAttribute("data-timezone-notes-source", "prerendered");
+    await expect(notes.locator("small")).toHaveText([
+      "ACST: 11.00am to 6.30pm",
+      "AEST: 11.30am to 7.00pm",
+    ]);
+  });
+
+  test("refreshes stale notes and consult options for daylight-saving time", async ({ page }) => {
+    await openContactAt({
+      currentTime: "2026-01-15T04:00:00.000Z",
+      page,
+      prerenderedAt: "2026-07-15T04:00:00.000Z",
+    });
+
+    const notes = page.locator(".contact-page__contact-notes");
+    await expect(notes).toHaveAttribute("data-timezone-notes-source", "current");
+    await expect(notes.locator("small")).toHaveText([
+      "ACST: 11.00am to 6.30pm",
+      "AEST: 11.30am to 7.00pm",
+      "ACDT: 12.00pm to 7.30pm",
+      "AEDT: 12.30pm to 8.00pm",
+    ]);
+
+    await expect(page.getByLabel("Timezone")).toHaveCount(0);
+    await page.getByLabel("Booking enquiry").check();
+    await page.getByLabel("Request a 15-minute consult").check();
+    await expect(page.getByLabel("Timezone").locator("option")).toHaveText([
+      "Select your timezone",
+      "AWST (WA)",
+      "ACST (NT)",
+      "AEST (QLD)",
+      "ACDT (SA)",
+      "AEDT (NSW / ACT / VIC / TAS)",
+    ]);
+  });
+
   test("shows a safe public error without technical details", async ({ page }) => {
     await page.route("**/api/enquiry", async (route) => {
       await route.fulfill({

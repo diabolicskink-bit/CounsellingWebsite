@@ -67,20 +67,21 @@ Extract an environment-neutral application/route boundary from `App.tsx`.
 
 Do not create a duplicate prerender-only component route map. An explicit list of paths to generate may remain in the build tooling because generation policy, metadata policy, navigation, and route component definitions do not all share the same data shape.
 
-### Decision 3 - Keep Publication Facts Static And Client-Enhance DST Content
+### Decision 3 - Keep Publication Facts Static And Seed DST Content From The Build
 
-Do not introduce a site-wide serialized render snapshot unless the remaining render-safety audit finds another genuinely nondeterministic initial-render value.
+Use one narrow, serializable build timestamp rather than a site-wide render snapshot or serialized timezone-note payload. Store that ISO timestamp on the generated root, pass it through the shared app boundary, and use it for both the server and browser's initial timezone calculations.
 
 Use the narrower solution appropriate to the current UI:
 
 - Keep the footer copyright notice at the fixed website publication year, `2026`. It is a publication notice, not a live clock.
 - Treat `Mon to Fri, 9.30am to 5.00pm AWST` as stable business information rather than recalculating it from the current date.
-- Render the DST-sensitive interstate comparison notes through a small component whose server and initial browser render are identical, then calculate and display the current notes in an effect after hydration.
+- Render the DST-sensitive interstate comparison notes through a small component whose server and initial browser render are derived from the same build timestamp.
+- After hydration, calculate the current interstate notes once and replace the build-time values only if daylight-saving differences have changed since deployment. A redeploy refreshes the useful no-JavaScript/build-time values.
 - Move enquiry-form timezone-option calculation away from module evaluation. The timezone select is currently conditional and absent from the initial form tree, so current browser values can be calculated when that field is needed without affecting hydration.
 
 If a timezone select later becomes visible in the initial tree, render the same stable placeholder option on the server and the browser's first render, then populate current options after hydration.
 
-Do not create a separate nested React root for this small client-enhanced region. Keep it inside the normal application tree with identical server/initial state. Do not use broad `suppressHydrationWarning` attributes to hide differences.
+Do not create a separate nested React root for this small client-enhanced region. Keep it inside the normal application tree with identical server/initial state. Do not use broad `suppressHydrationWarning` attributes to hide differences. The future static render entry must receive the exact timestamp written to `data-prerendered-at`.
 
 ### Decision 4 - Mark The Generated Route And Select Hydration Explicitly
 
@@ -201,9 +202,9 @@ Do not update current-scope documentation during this baseline phase.
   - `npm run build` passed and generated metadata/shell HTML for seven public routes, plus `404.html`, `sitemap.xml`, and `robots.txt`.
   - Every metadata-backed route currently has a top-level `.html` artifact and, except Home, a corresponding nested `index.html` artifact. Each observed pair has the same byte size at this baseline.
   - Raw generated route roots contain only the temporary `main`/H1/description shell. They contain no component-rendered header, footer, navigation, or route body. Generated public HTML sizes are approximately 3.0-3.5 KB before the shared client assets load.
-  - `npm run qa:site` completed with 138 passing tests, 6 expected analytics skips, and 2 failures. Both failures are the Home public-page assertion, once in each browser project: generated metadata expects `Online counselling across Australia`, while the hydrated component H1 is `Counselling and Psychotherapy`.
-  - The Home H1 failure is a confirmed pre-existing duplicate-content drift, not a hydration or browser runtime error. The raw shell still contains the metadata H1 while `createRoot` replaces it with the component H1.
-  - Independent browser verification of the production preview passed: Home loaded meaningful content, exposed one main landmark, showed no Vite overlay, and produced no page errors or console messages. The annotated visual baseline showed the expected header, hero, portrait, content sections, navigation, and footer.
+  - The initial `ac45474` baseline exposed a pre-existing Home H1 drift in both browser projects: generated metadata expected `Online counselling across Australia`, while the hydrated component H1 was `Counselling and Psychotherapy`. This confirmed the duplicate-content risk without indicating a hydration or browser runtime error.
+  - After aligning `work/prerendering` with the metadata fix from `master` (`2a779c7`), `npm run qa:site` completed cleanly with 140 passing tests and 6 expected analytics skips. The raw shell and hydrated Home component now both use `Counselling and Psychotherapy`.
+  - Independent browser verification of the aligned production preview passed: Home loaded meaningful content, exposed one main landmark, showed no Vite overlay, and produced no page errors or console messages. The annotated visual baseline showed the expected header, hero, portrait, content sections, navigation, and footer.
   - Browser globals in `useDocumentMetadata`, `ScrollToTop`, Layout menu handling, NotFound robots handling, enquiry submission/focus behaviour, and analytics injection are confined to effects, handlers, or explicit `typeof window` guards.
   - `SiteAnalytics` is server-safe at the markup boundary: the server hostname guard returns `null`, and the enabled analytics components also return no DOM while installing scripts through effects.
   - `FaqSection` and `BroadTabPanel` use `useId`; their IDs are safe only while the static and browser trees retain identical order and structure. Their remaining browser access occurs in effects, ref commits, or keyboard handlers.
@@ -218,8 +219,8 @@ Do not update current-scope documentation during this baseline phase.
 Keep the already-static copyright publication year and refactor the remaining timezone behaviour:
 
 - make the primary Perth hours stable content rather than date-derived output
-- add a focused Contact comparison-notes component with an empty or stable initial state on both server and browser
-- populate current interstate comparison notes once in an effect after hydration
+- add a focused Contact comparison-notes component whose initial state is derived from the generated build timestamp on both server and browser
+- populate current interstate comparison notes once after hydration, retaining the prerendered values when they are still current
 - move enquiry timezone-option calculation away from the module-level content constant and calculate it only when the conditional field needs current browser values
 
 Add focused coverage proving:
@@ -229,12 +230,17 @@ Add focused coverage proving:
 - the post-hydration update introduces the current notes without console errors or repeated updates
 - the conditional timezone select still receives current options when opened
 
-Do not add a render provider or serialized document payload unless the Phase 1 audit identifies another initial-render value that cannot be made static or safely client-enhanced.
+Do not expand the single serialized build timestamp into a general render provider or larger document payload unless a later phase identifies another initial-render value that genuinely requires it.
 
 #### Notes
 
-- Status: Not started.
+- Status: Complete.
 - Agent notes:
+  - The generated root now carries one ISO `data-prerendered-at` value shared by every route artifact and `404.html` in a build.
+  - `main.tsx` validates that seed, falls back to the current browser time for development or legacy shells, and passes the serializable value through `App` to Contact. Phase 4 must pass the same value into the future server render.
+  - Contact's permanent hours are literal AWST business information. Its page-scoped comparison component initially derives notes from the build seed, then performs one current-time comparison and updates only when the note set differs.
+  - Enquiry timezone options no longer evaluate in the module-level content object. They are calculated only while the consult-request fields are active.
+  - Focused browser coverage fixes the clock on both sides of Australian daylight-saving behaviour, verifies retained and refreshed note states, verifies conditional current timezone options, and checks the shared generated timestamp contract.
 
 ### Phase 3 - Create The Shared App And Router Boundaries
 
