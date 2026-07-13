@@ -17,11 +17,17 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-13 - Practitioner Credential Structured Data Added
+
+- Added: Joel Griffiths' `Person` schema now records the exact Graduate Diploma in Counselling and Psychotherapy from Edith Cowan University and ACA Registered Counsellor – Level 1 status through `hasCredential`.
+- Linked: The ACA credential uses Joel's public ACA profile as its verification URL and identifies the Australian Counselling Association as the recognizing organization.
+- Aligned: The visible Working with Joel credential list now uses the same full qualification and registration wording as the structured data.
+
 ## 2026-07-13 - Homepage Person Structured Data Added
 
-- Added: The generated homepage JSON-LD graph now identifies Joel Griffiths as a `Person` and links him to the Vive Counselling `Organization` through `worksFor`.
+- Added: The generated homepage JSON-LD graph now identifies Joel Griffiths as a `Person`, links him to the Vive Counselling `Organization` through `worksFor`, and records Joel as the Organization's `founder`.
 - Included: The Person uses the confirmed public name, counsellor title, practitioner-page URL, portrait, short description, and ACA public profile in `sameAs`.
-- Deferred: Qualification and ACA credential detail remain out until their exact public wording, relationship type, level, and verification details are confirmed.
+- Deferred: Credential detail was initially held until its exact wording and verification were confirmed; it is now recorded in the later practitioner-credential milestone above.
 
 ## 2026-07-13 - Homepage Organization Structured Data Added
 

@@ -77,6 +77,7 @@ function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
         email: organization.email,
         description: organization.description,
         sameAs: organization.sameAs,
+        founder: { "@id": personId },
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "enquiries",
@@ -100,6 +101,17 @@ function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
         jobTitle: person.jobTitle,
         worksFor: { "@id": organizationId },
         sameAs: person.sameAs,
+        hasCredential: person.credentials.map((credential) => ({
+          "@type": "EducationalOccupationalCredential",
+          name: credential.name,
+          credentialCategory: credential.credentialCategory,
+          ...(credential.url ? { url: credential.url } : {}),
+          recognizedBy: {
+            "@type": credential.recognizedBy.type,
+            name: credential.recognizedBy.name,
+            url: credential.recognizedBy.url,
+          },
+        })),
       },
     ],
   };

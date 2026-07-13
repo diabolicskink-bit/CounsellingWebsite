@@ -58,7 +58,7 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Checked PNG dimensions and generated head metadata. `/og-vive-counselling.png` is 1200x630, and `og:image:alt` / `twitter:image:alt` use the configured social preview alt text.
 
 - `Partial` Structured data is intentionally absent, or valid and aligned with public claims if present.
-  - Note: Homepage generated HTML includes a linked `WebSite`, `Organization`, and `Person` JSON-LD graph. The Organization uses the confirmed public business identity, contact point, 512px logo, short description, and Kink Aware Professionals directory identity. The Person identifies Joel Griffiths as a counsellor, links him to Vive through `worksFor`, and uses his ACA profile in `sameAs`. `Service`, credentials, address, and local-business schema remain outside current scope until their public details are final.
+  - Note: Homepage generated HTML includes a linked `WebSite`, `Organization`, and `Person` JSON-LD graph. The Organization uses the confirmed public business identity, contact point, 512px logo, short description, Kink Aware Professionals directory identity, and Joel Griffiths as `founder`. The Person identifies Joel as a counsellor, links him to Vive through `worksFor`, uses his ACA profile in `sameAs`, and records the Edith Cowan University graduate diploma and ACA Level 1 registration through `hasCredential`. `Service`, address, and local-business schema remain outside current scope until their public details are final.
 
 ## `/` - Home
 

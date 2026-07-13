@@ -27,6 +27,16 @@ export type SiteMetadata = {
     image: string;
     description: string;
     sameAs: string[];
+    credentials: Array<{
+      name: string;
+      credentialCategory: string;
+      url?: string;
+      recognizedBy: {
+        type: "Organization" | "CollegeOrUniversity";
+        name: string;
+        url: string;
+      };
+    }>;
   };
   socialImage: string;
   socialImageAlt: string;

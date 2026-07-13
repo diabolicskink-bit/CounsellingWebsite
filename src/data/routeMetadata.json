@@ -22,6 +22,27 @@
       "description": "ACA-registered counsellor based in Perth.",
       "sameAs": [
         "https://theaca.net.au/profile?UserKey=f20cee37-672b-4d3a-8a80-019df18a0826"
+      ],
+      "credentials": [
+        {
+          "name": "Graduate Diploma in Counselling and Psychotherapy",
+          "credentialCategory": "Graduate diploma",
+          "recognizedBy": {
+            "type": "CollegeOrUniversity",
+            "name": "Edith Cowan University",
+            "url": "https://www.ecu.edu.au/"
+          }
+        },
+        {
+          "name": "ACA Registered Counsellor – Level 1",
+          "credentialCategory": "Professional registration",
+          "url": "https://theaca.net.au/profile?UserKey=f20cee37-672b-4d3a-8a80-019df18a0826",
+          "recognizedBy": {
+            "type": "Organization",
+            "name": "Australian Counselling Association",
+            "url": "https://theaca.net.au/"
+          }
+        }
       ]
     },
     "socialImage": "/og-vive-counselling.png",
