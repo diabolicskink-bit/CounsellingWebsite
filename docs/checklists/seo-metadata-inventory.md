@@ -30,7 +30,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 
 | Metadata field | Where it is used | Metadata text / value |
 |---|---|---|
-| H1 / static shell heading | First-response shell and visible page heading reference | `Counselling and Psychotherapy` |
+| H1 / first-response heading | Component-rendered first-response heading reference | `Counselling and Psychotherapy` |
 | HTML title | Browser tab, search title, generated `<title>` | `Vive Counselling | Therapy for Adults Across Australia` |
 | Meta description | Search snippet candidate and generated description tag | `Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.` |
 | Canonical URL | Search canonical signal | `https://vivecounselling.com.au/` |
@@ -51,7 +51,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 
 | Metadata field | Where it is used | Metadata text / value |
 |---|---|---|
-| H1 / static shell heading | First-response shell and visible page heading reference | `To populate` |
+| H1 / first-response heading | Component-rendered first-response heading reference | `To populate` |
 | HTML title | Browser tab, search title, generated `<title>` | `To populate` |
 | Meta description | Search snippet candidate and generated description tag | `To populate` |
 | Canonical URL | Search canonical signal | `To populate` |
@@ -72,7 +72,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 
 | Metadata field | Where it is used | Metadata text / value |
 |---|---|---|
-| H1 / static shell heading | First-response shell and visible page heading reference | `To populate` |
+| H1 / first-response heading | Component-rendered first-response heading reference | `To populate` |
 | HTML title | Browser tab, search title, generated `<title>` | `To populate` |
 | Meta description | Search snippet candidate and generated description tag | `To populate` |
 | Canonical URL | Search canonical signal | `To populate` |
@@ -93,7 +93,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 
 | Metadata field | Where it is used | Metadata text / value |
 |---|---|---|
-| H1 / static shell heading | First-response shell and visible page heading reference | `To populate` |
+| H1 / first-response heading | Component-rendered first-response heading reference | `To populate` |
 | HTML title | Browser tab, search title, generated `<title>` | `To populate` |
 | Meta description | Search snippet candidate and generated description tag | `To populate` |
 | Canonical URL | Search canonical signal | `To populate` |
@@ -114,7 +114,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 
 | Metadata field | Where it is used | Metadata text / value |
 |---|---|---|
-| H1 / static shell heading | First-response shell and visible page heading reference | `To populate` |
+| H1 / first-response heading | Component-rendered first-response heading reference | `To populate` |
 | HTML title | Browser tab, search title, generated `<title>` | `To populate` |
 | Meta description | Search snippet candidate and generated description tag | `To populate` |
 | Canonical URL | Search canonical signal | `To populate` |
@@ -135,7 +135,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 
 | Metadata field | Where it is used | Metadata text / value |
 |---|---|---|
-| H1 / static shell heading | First-response shell and visible page heading reference | `To populate` |
+| H1 / first-response heading | Component-rendered first-response heading reference | `To populate` |
 | HTML title | Browser tab, search title, generated `<title>` | `To populate` |
 | Meta description | Search snippet candidate and generated description tag | `To populate` |
 | Canonical URL | Search canonical signal | `To populate` |
@@ -156,7 +156,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 
 | Metadata field | Where it is used | Metadata text / value |
 |---|---|---|
-| H1 / static shell heading | First-response shell and visible page heading reference | `To populate` |
+| H1 / first-response heading | Component-rendered first-response heading reference | `To populate` |
 | HTML title | Browser tab, search title, generated `<title>` | `To populate` |
 | Meta description | Search snippet candidate and generated description tag | `To populate` |
 | Canonical URL | Search canonical signal | `To populate` |

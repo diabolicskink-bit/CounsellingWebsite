@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import { CalendarClock, CircleAlert, Clock3, Mail } from "lucide-react";
 import Container from "../components/Container";
@@ -8,7 +9,7 @@ import FaqSchema from "../components/FaqSchema";
 import { enquiryEmail, enquiryFormContent } from "../data/enquiry";
 import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import { getActiveAustralianPerthBusinessHoursNotes, getPerthBusinessHoursPrimaryLabel } from "../utils/timeZones";
+import { getActiveAustralianPerthBusinessHoursNotes } from "../utils/timeZones";
 import "../styles-contact.css";
 
 type ContactHeroTitle = {
@@ -30,7 +31,11 @@ type ContactDetail = {
   label: string;
   value: string;
   href?: string;
-  notes?: string[];
+  showTimeZoneNotes?: boolean;
+};
+
+type ContactProps = {
+  initialRenderAt: string;
 };
 
 type ContactHeroContent = {
@@ -113,8 +118,8 @@ const contactPageContent: ContactPageContent = {
       {
         icon: Clock3,
         label: "Hours",
-        value: getPerthBusinessHoursPrimaryLabel(),
-        notes: getActiveAustralianPerthBusinessHoursNotes(),
+        value: "Mon to Fri, 9.30am to 5.00pm AWST",
+        showTimeZoneNotes: true,
       },
     ],
   },
@@ -195,9 +200,11 @@ function FeeCard({ fee }: { fee: FeeSummary }) {
 
 function ContactRail({
   contact,
+  initialRenderAt,
   practical,
 }: {
   contact: ContactDetailsContent;
+  initialRenderAt: string;
   practical: PracticalDetailsContent;
 }) {
   return (
@@ -208,7 +215,7 @@ function ContactRail({
         </h2>
         <ul className="contact-page__contact-list" aria-label={contact.listAriaLabel}>
           {contact.items.map((detail) => (
-            <ContactDetailItem detail={detail} key={detail.label} />
+            <ContactDetailItem detail={detail} initialRenderAt={initialRenderAt} key={detail.label} />
           ))}
         </ul>
       </section>
@@ -227,8 +234,35 @@ function ContactRail({
   );
 }
 
-function ContactDetailItem({ detail }: { detail: ContactDetail }) {
-  const { icon: Icon, label, value, href, notes } = detail;
+function ContactTimeZoneNotes({ initialRenderAt }: { initialRenderAt: string }) {
+  const [comparison, setComparison] = useState(() => ({
+    notes: getActiveAustralianPerthBusinessHoursNotes(new Date(initialRenderAt)),
+    source: "prerendered" as "current" | "prerendered",
+  }));
+
+  useEffect(() => {
+    const currentNotes = getActiveAustralianPerthBusinessHoursNotes();
+
+    setComparison((existingComparison) => {
+      const notesAreCurrent =
+        existingComparison.notes.length === currentNotes.length &&
+        existingComparison.notes.every((note, index) => note === currentNotes[index]);
+
+      return notesAreCurrent ? existingComparison : { notes: currentNotes, source: "current" };
+    });
+  }, [initialRenderAt]);
+
+  return (
+    <div className="contact-page__contact-notes" data-timezone-notes-source={comparison.source}>
+      {comparison.notes.map((note) => (
+        <small key={note}>{note}</small>
+      ))}
+    </div>
+  );
+}
+
+function ContactDetailItem({ detail, initialRenderAt }: { detail: ContactDetail; initialRenderAt?: string }) {
+  const { icon: Icon, label, value, href, showTimeZoneNotes } = detail;
 
   return (
     <li className="contact-page__contact-item">
@@ -244,19 +278,13 @@ function ContactDetailItem({ detail }: { detail: ContactDetail }) {
         ) : (
           <span className="contact-page__contact-value">{value}</span>
         )}
-        {notes && notes.length > 0 ? (
-          <div className="contact-page__contact-notes">
-            {notes.map((note) => (
-              <small key={note}>{note}</small>
-            ))}
-          </div>
-        ) : null}
+        {showTimeZoneNotes && initialRenderAt ? <ContactTimeZoneNotes initialRenderAt={initialRenderAt} /> : null}
       </div>
     </li>
   );
 }
 
-export default function Contact() {
+export default function Contact({ initialRenderAt }: ContactProps) {
   const { hero, fee, form, contact, practical, faq } = contactPageContent;
 
   useDocumentMetadata(contactPageContent.title, contactPageContent.meta);
@@ -268,7 +296,7 @@ export default function Contact() {
 
       <section className="site-grid contact-page__desk-section">
         <Container className="contact-page__desk">
-          <ContactRail contact={contact} practical={practical} />
+          <ContactRail contact={contact} initialRenderAt={initialRenderAt} practical={practical} />
           <EnquiryForm content={form} idPrefix="contact" />
         </Container>
       </section>

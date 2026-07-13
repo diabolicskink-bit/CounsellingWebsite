@@ -1,19 +1,9 @@
-import type { LucideIcon } from "lucide-react";
-import {
-  HeartHandshake,
-  Laptop,
-  MapPin,
-  Phone,
-  ShieldCheck,
-  Users,
-} from "lucide-react";
 import { devRoutePaths, publicRoutePaths, routeHref, showDraftInclusionLinks } from "./routes";
 
 export type NavItem = {
   label: string;
   href: string;
   children?: NavItem[];
-  devOnly?: boolean;
 };
 
 export const navItems: NavItem[] = [
@@ -35,7 +25,6 @@ export const navItems: NavItem[] = [
         {
           label: "Dev",
           href: routeHref(devRoutePaths.designLanguage),
-          devOnly: true,
           children: [
             {
               label: "Design",
@@ -61,41 +50,4 @@ export const navItems: NavItem[] = [
       ]
     : []),
   { label: "Fees", href: routeHref(publicRoutePaths.contact) },
-];
-
-export const fitItems: Array<{ icon: LucideIcon; label: string }> = [
-  { icon: Laptop, label: "Sessions across Australia" },
-  { icon: Users, label: "For adults" },
-  { icon: ShieldCheck, label: "Grounded and non-shaming" },
-  {
-    icon: HeartHandshake,
-    label: "Inclusive of diverse relationships, sexualities, and identities",
-  },
-];
-
-export const practicalItems: Array<{ icon: LucideIcon; title: string; copy: string }> = [
-  {
-    icon: Laptop,
-    title: "Session format",
-    copy: "Counselling sessions for adults across Australia.",
-  },
-  {
-    icon: Phone,
-    title: "Initial contact",
-    copy: "A brief enquiry first, with a short phone conversation available where useful.",
-  },
-  {
-    icon: MapPin,
-    title: "Practice base",
-    copy: "Based in Perth, Western Australia, working with adults nationally.",
-  },
-];
-
-export const inclusiveTopics = [
-  "Kink and BDSM",
-  "Ethical non-monogamy",
-  "LGBTQIA+ lives",
-  "Sexuality and desire",
-  "Gender and self-understanding",
-  "Diverse relationship structures",
 ];

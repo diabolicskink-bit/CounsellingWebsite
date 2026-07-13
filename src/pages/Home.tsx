@@ -8,6 +8,7 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-home.css";
 
 const portraitSrc = "/joel-griffiths-homepage-portrait.jpg";
+const highPriorityImageAttributes = { fetchpriority: "high" } as const;
 
 type EmphasisCopy = {
   before: string;
@@ -225,7 +226,7 @@ function HeroPortrait({ portrait }: { portrait: HomePortrait }) {
   return (
     <div className="hero-media-note hero-media-note--portrait">
       <div className="hero-media-note__image">
-        <img src={portrait.imageSrc} alt={portrait.alt} decoding="async" fetchPriority="high" />
+        <img src={portrait.imageSrc} alt={portrait.alt} decoding="async" {...highPriorityImageAttributes} />
       </div>
       <span className="hero-media-note__tag" aria-hidden="true">
         {portrait.label}

@@ -40,6 +40,10 @@ const devRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof ty
   { path: devRoutePaths.designLanguagePatterns, page: "DS_Patterns" },
 ];
 
+export type AppProps = {
+  initialRenderAt: string;
+};
+
 function renderDevPage(Page: DevPages[DevPageKey]) {
   return (
     <Suspense fallback={null}>
@@ -48,7 +52,7 @@ function renderDevPage(Page: DevPages[DevPageKey]) {
   );
 }
 
-export default function App() {
+export default function App({ initialRenderAt }: AppProps) {
   return (
     <>
       <ScrollToTop />
@@ -68,7 +72,7 @@ export default function App() {
                 <Route key={route.path} path={route.path} element={renderDevPage(devPages[route.page])} />
               ))
             : null}
-          <Route path={publicRoutePaths.contact} element={<Contact />} />
+          <Route path={publicRoutePaths.contact} element={<Contact initialRenderAt={initialRenderAt} />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

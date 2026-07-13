@@ -1,18 +1,75 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { getSiteOrigin } from "./route-metadata-origin.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(rootDir, "dist");
 const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
+const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
 const indexableRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"];
-const staticShellStart = "<!-- Static route shell generated at build time -->";
-const staticShellEnd = "<!-- /Static route shell generated at build time -->";
-const staticShellRootPattern =
-  /<div id="root">\s*<!-- Static route shell generated at build time -->.*?<!-- \/Static route shell generated at build time -->\s*<\/div>/s;
+const prerenderedRoutePaths = [
+  "/",
+  "/working-with-joel",
+  "/inclusion",
+  "/inclusion/kink-bdsm",
+  "/inclusion/enm-polyamory",
+  "/inclusion/lgbtqia",
+  "/contact",
+];
+const prerenderedRouteSmokeFragments = {
+  "/": ['<main class="site-page home-page">', "Counselling and Psychotherapy"],
+  "/working-with-joel": [
+    '<main class="site-page working-with-joel-page">',
+    "Working with Joel",
+    'src="/joel-griffiths-working-with-joel-portrait.jpg"',
+  ],
+  "/inclusion": [
+    '<main class="site-page inclusion-page">',
+    "Inclusive counselling",
+    'class="inclusion-hub__panels"',
+  ],
+  "/inclusion/kink-bdsm": [
+    '<main class="site-page kink-page">',
+    "Kink &amp; BDSM-aware counselling",
+    'class="kink-page__knowledge-grid"',
+    'class="site-faq-list"',
+  ],
+  "/inclusion/enm-polyamory": [
+    '<main class="site-page enm-page">',
+    "ENM &amp; polyamory counselling",
+    'class="enm-page__position-list"',
+    'class="site-faq-list"',
+  ],
+  "/inclusion/lgbtqia": [
+    '<main class="site-page inclusion-page lgbtqia-page">',
+    "Queer-affirming counselling",
+    'class="site-check-panel site-check-panel--grid"',
+    'class="site-faq-list"',
+  ],
+  "/contact": [
+    '<main class="site-page contact-page">',
+    "Contact and fees",
+    'class="site-fee-card contact-page__fee-card"',
+    "Mon to Fri, 9.30am to 5.00pm AWST",
+    'data-timezone-notes-source="prerendered"',
+    'class="site-form"',
+    'action="/api/enquiry"',
+    'data-clarity-mask="true"',
+    'href="mailto:joel@vivecounselling.com.au"',
+    'class="site-faq-list"',
+  ],
+};
+const prerenderedRouteSmokeForbiddenFragments = {
+  "/contact": [
+    'id="contact-timing"',
+    'id="contact-state"',
+    'id="contact-availability"',
+    'id="contact-timezone"',
+  ],
+};
 const notFoundFallback = {
   h1: "That page isn't here.",
   description: "This page could not be found on the Vive Counselling website.",
@@ -178,7 +235,7 @@ function getProfileStructuredDataTag(routeMetadata, siteMetadata, siteOrigin) {
         "@type": "ProfilePage",
         "@id": ids.profilePageId,
         url: ids.profileUrl,
-        name: routeMetadata.h1,
+        name: routeMetadata.title,
         isPartOf: { "@id": ids.websiteId },
         mainEntity: { "@id": ids.personId },
       },
@@ -251,32 +308,48 @@ function applyMetadata(html, routePath, routeMetadata, siteMetadata, siteOrigin)
     .replace("</head>", `    ${seoTags}\n  </head>`);
 }
 
-function getStaticRouteShell(routePath, routeMetadata) {
-  if (!routeMetadata.h1?.trim()) {
-    throw new Error(`Route is missing static H1 content: ${routePath}`);
+function applyRenderedRouteRoot(html, renderedMarkup, routePath, prerenderedAt) {
+  const emptyRoot = '<div id="root"></div>';
+
+  if (!html.includes(emptyRoot)) {
+    throw new Error("Unable to find the empty root element while validating the static render entry.");
   }
 
-  return [
-    `<main data-static-route-shell="${escapeHtml(routePath)}">`,
-    `  <h1>${escapeHtml(routeMetadata.h1)}</h1>`,
-    `  <p>${escapeHtml(routeMetadata.description)}</p>`,
-    "</main>",
-  ].join("\n      ");
+  const renderedRoot = `<div id="root" data-render-mode="prerendered" data-prerendered-path="${escapeHtml(
+    routePath,
+  )}" data-prerendered-at="${escapeHtml(prerenderedAt)}">${renderedMarkup}</div>`;
+
+  return html.replace(emptyRoot, () => renderedRoot);
 }
 
-function applyStaticRouteShell(html, routePath, routeMetadata) {
-  const staticShell = getStaticRouteShell(routePath, routeMetadata);
-  const renderedRoot = `<div id="root">\n      ${staticShellStart}\n      ${staticShell}\n      ${staticShellEnd}\n    </div>`;
+function assertRenderedRouteSmoke(html, routePath) {
+  const routeFragments = prerenderedRouteSmokeFragments[routePath];
 
-  if (staticShellRootPattern.test(html)) {
-    return html.replace(staticShellRootPattern, renderedRoot);
+  if (!routeFragments) {
+    throw new Error(`Prerendered route is missing a smoke-test contract: ${routePath}`);
   }
 
-  if (html.includes('<div id="root"></div>')) {
-    return html.replace('<div id="root"></div>', renderedRoot);
+  const expectedFragments = [
+    '<header class="site-header">',
+    ...routeFragments,
+    '<footer class="site-footer">',
+  ];
+
+  for (const fragment of expectedFragments) {
+    if (!html.includes(fragment)) {
+      throw new Error(`Static render smoke check for ${routePath} is missing expected content: ${fragment}`);
+    }
   }
 
-  throw new Error(`Unable to find root element while adding static route shell: ${routePath}`);
+  for (const fragment of prerenderedRouteSmokeForbiddenFragments[routePath] ?? []) {
+    if (html.includes(fragment)) {
+      throw new Error(`Static render smoke check for ${routePath} contains deferred content: ${fragment}`);
+    }
+  }
+
+  if (html.includes("data-not-found-fallback") || html.includes("data-static-route-shell")) {
+    throw new Error(`Static render smoke check for ${routePath} unexpectedly contains fallback markup.`);
+  }
 }
 
 function getNotFoundTags(siteMetadata) {
@@ -299,6 +372,53 @@ function applyNotFoundMetadata(html, siteMetadata) {
     .replace(/\s*<title>.*?<\/title>/s, "")
     .replace(/\s*<meta\s+name="description"\s+content="[^"]*"\s*\/?>/s, "")
     .replace("</head>", `    ${seoTags}\n  </head>`);
+}
+
+function applyNotFoundFallbackRoot(html, prerenderedAt) {
+  const emptyRoot = '<div id="root"></div>';
+
+  if (!html.includes(emptyRoot)) {
+    throw new Error("Unable to find the empty root element while adding the generic 404 fallback.");
+  }
+
+  const fallbackMarkup = [
+    '<main data-not-found-fallback="true">',
+    `  <h1>${escapeHtml(notFoundFallback.h1)}</h1>`,
+    `  <p>${escapeHtml(notFoundFallback.description)}</p>`,
+    "</main>",
+  ].join("\n      ");
+  const fallbackRoot = `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">\n      ${fallbackMarkup}\n    </div>`;
+
+  return html.replace(emptyRoot, () => fallbackRoot);
+}
+
+function assertNotFoundFallback(html, prerenderedAt) {
+  const expectedFragments = [
+    "<title>Page not found | Vive Counselling</title>",
+    `<meta name="robots" content="${noindexDirective}" />`,
+    `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">`,
+    '<main data-not-found-fallback="true">',
+    "<h1>That page isn't here.</h1>",
+    "<p>This page could not be found on the Vive Counselling website.</p>",
+    'script type="module"',
+    "/assets/",
+  ];
+
+  for (const fragment of expectedFragments) {
+    if (!html.includes(fragment)) {
+      throw new Error(`404 fallback smoke check is missing expected content: ${fragment}`);
+    }
+  }
+
+  if (
+    html.includes('data-render-mode="prerendered"') ||
+    html.includes("data-prerendered-path=") ||
+    html.includes('<link rel="canonical"') ||
+    html.includes("data-static-route-shell") ||
+    html.includes("Static route shell generated at build time")
+  ) {
+    throw new Error("404 fallback smoke check found prerender metadata or retired public-shell markup.");
+  }
 }
 
 function getRouteOutputPaths(routePath) {
@@ -336,13 +456,39 @@ const [templateHtml, metadataJson] = await Promise.all([
 const { routes, site } = JSON.parse(metadataJson);
 const siteOrigin = getSiteOrigin(site);
 const sitemapEntries = getSitemapEntries(routes, siteOrigin);
+const prerenderedAt = new Date().toISOString();
+
+for (const routePath of prerenderedRoutePaths) {
+  if (!routes[routePath]) {
+    throw new Error(`Prerendered route is missing from route metadata: ${routePath}`);
+  }
+}
+
+process.env.NODE_ENV = "production";
+const serverEntry = await import(pathToFileURL(serverEntryPath).href);
+
+if (typeof serverEntry.renderRoute !== "function") {
+  throw new Error(`Server render bundle does not export renderRoute: ${serverEntryPath}`);
+}
+
+const renderedRouteMarkup = new Map(
+  prerenderedRoutePaths.map((routePath) => [
+    routePath,
+    serverEntry.renderRoute(routePath, { initialRenderAt: prerenderedAt }),
+  ]),
+);
 
 for (const [routePath, routeMetadata] of Object.entries(routes)) {
-  const routeHtml = applyStaticRouteShell(
-    applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin),
-    routePath,
-    routeMetadata,
-  );
+  const routeTemplate = applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin);
+  const renderedMarkup = renderedRouteMarkup.get(routePath);
+
+  if (!renderedMarkup) {
+    throw new Error(`Metadata route is missing from the component prerender set: ${routePath}`);
+  }
+
+  const routeHtml = applyRenderedRouteRoot(routeTemplate, renderedMarkup, routePath, prerenderedAt);
+
+  assertRenderedRouteSmoke(routeHtml, routePath);
 
   for (const outputPath of getRouteOutputPaths(routePath)) {
     await mkdir(path.dirname(outputPath), { recursive: true });
@@ -366,13 +512,16 @@ const robotsTxt = [
   "",
 ].join("\n");
 
+const notFoundHtml = applyNotFoundFallbackRoot(applyNotFoundMetadata(templateHtml, site), prerenderedAt);
+
+assertNotFoundFallback(notFoundHtml, prerenderedAt);
+
 await Promise.all([
-  writeFile(
-    path.join(distDir, "404.html"),
-    applyStaticRouteShell(applyNotFoundMetadata(templateHtml, site), "/404.html", notFoundFallback),
-  ),
+  writeFile(path.join(distDir, "404.html"), notFoundHtml),
   writeFile(path.join(distDir, "sitemap.xml"), sitemapXml),
   writeFile(path.join(distDir, "robots.txt"), robotsTxt),
 ]);
 
-console.log(`Prerendered metadata for ${Object.keys(routes).length} public routes.`);
+console.log(
+  `Prerendered ${prerenderedRoutePaths.length} routes and validated metadata for ${Object.keys(routes).length} public routes.`,
+);

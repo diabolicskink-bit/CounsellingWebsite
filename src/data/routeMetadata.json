@@ -69,40 +69,33 @@
   },
   "routes": {
     "/": {
-      "h1": "Counselling and Psychotherapy",
       "title": "Vive Counselling | Therapy for Adults Across Australia",
       "description": "Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality."
     },
     "/working-with-joel": {
-      "h1": "Working with Joel",
       "title": "Working with Joel | Vive Counselling",
       "description": "Meet Joel Griffiths, an ACA-registered counsellor based in Perth. Direct, non-shaming counselling for adults across Australia, including relationships, sexuality, kink and ENM."
     },
     "/inclusion": {
-      "h1": "Inclusive counselling",
       "title": "Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling",
       "description": "Inclusive counselling for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives. Perth-based and non-shaming."
     },
     "/inclusion/kink-bdsm": {
-      "h1": "Kink & BDSM-aware counselling",
       "title": "Kink & BDSM-Aware Counselling | Vive Counselling",
       "description": "Kink-aware counselling and therapy for adults across Australia. Perth-based support where kink is understood without being pathologised or made the whole story.",
       "robots": "noindex, nofollow"
     },
     "/inclusion/enm-polyamory": {
-      "h1": "ENM & polyamory counselling",
       "title": "Counselling for Polyamory, Open Relationships and ENM | Vive Counselling",
       "description": "Counselling for polyamory, open relationships and ENM across Australia, without assuming monogamy is the answer or treating relationship structure as the problem.",
       "robots": "noindex, nofollow"
     },
     "/inclusion/lgbtqia": {
-      "h1": "Queer-affirming counselling",
       "title": "LGBTQIA+ Affirming Counselling | Vive Counselling",
       "description": "LGBTQIA+ affirming counselling for adults across Australia, including identity, relationships, shame, family strain and mental health. Perth-based.",
       "robots": "noindex, nofollow"
     },
     "/contact": {
-      "h1": "Contact and fees",
       "title": "Counselling Fees & Contact | Vive Counselling",
       "description": "Request a free 15-minute initial consultation with Joel Griffiths at Vive Counselling. Counselling sessions are $120; view fees and contact details."
     }

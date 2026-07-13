@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "check:encoding": "node scripts/check-encoding.mjs",
-    "build": "node scripts/validate-analytics-env.mjs && tsc -b && vite build && node scripts/prerender-route-metadata.mjs",
+    "build": "node scripts/validate-analytics-env.mjs && tsc -b && npm run build:client && npm run build:server && node scripts/prerender-route-metadata.mjs",
+    "build:client": "vite build",
+    "build:server": "vite build --ssr src/entry-server.tsx",
     "preview": "vite preview --host 127.0.0.1",
     "preview:qa": "vite preview --host 127.0.0.1 --port 4287 --strictPort",
     "test:api": "node --test tests/api/*.test.mjs",

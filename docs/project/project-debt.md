@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-34`
+- `Next ID`: `DEBT-35`
 
 ## How To Maintain This Tracker
 
@@ -323,7 +323,7 @@ Each active item should include enough direction that a future session can choos
 - `Why It Matters`: Vercel can differ from local preview for alias protection, clean URL redirects, platform 404 serving, and generated artifact delivery.
 - `Preferred Direction`: Add a small live smoke script or documented checklist for a deployed Vercel URL that checks canonical metadata, `robots.txt`, `sitemap.xml`, `/about` and `/fees` redirects, clean URL behaviour, and an unknown path serving the app-powered 404 fallback.
 - `Resolution Path`: Start with a script that accepts `PLAYWRIGHT_BASE_URL` or `VERCEL_SMOKE_URL`, avoids deployment by itself, and can run against a preview or production URL after deployment.
-- `Next Action`: Decide whether the smoke check should be a local command, CI-only command, or Vercel post-deploy checklist.
+- `Next Action`: Re-run the canonical unknown-path and clean-URL smoke checks after the prerendering branch is deployed, then decide whether to preserve them as a local command, CI-only command, or post-deploy checklist.
 - `Resolved When`: A repeatable live Vercel smoke check verifies the selected deployed URL without relying on manual browser inspection.
 - `Related Items`:
   - `DEBT-6`: Archived repo-level canonical and 404 fallback lock-down created this live verification follow-up.
@@ -333,6 +333,7 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - Do not make this smoke script deploy or promote by itself. Deployment should remain an explicit operator action unless a future CI/CD item decides otherwise.
   - Account for Vercel Deployment Protection: protected preview URLs may require MCP access, a bypass token, or a trusted automation source.
+  - 2026-07-13 manual baseline: the canonical host returned the generated generic fallback with HTTP 404 for an arbitrary path; `/404.html` returned a permanent clean-URL redirect to `/404`; both activated pages displayed the resulting browser pathname without console or page errors. The deployed bundle predates the prerendering branch's activation marker, so that exact observable contract remains pending deployment.
 - `Links`: `vercel.json`, `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`
 
 ### DEBT-27 - Runtime head metadata can drift after client-side navigation
@@ -406,61 +407,37 @@ Each active item should include enough direction that a future session can choos
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
 - `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site.spec.ts`
 
-### DEBT-32 - Public routes need full static prerendering and hydration
+### DEBT-34 - Public-page tests need opportunistic maintenance
 
-- `Priority`: `P2`
-- `Size`: `L`
-- `Priority Rationale`: This is `P2` because the current static H1 shell answers simple non-JavaScript SEO checks, but the first-response HTML still does not contain the real public page content. It is not `P1` while the hydrated site, route metadata, sitemap, robots, and H1 fallback are covered and passing.
+- `Priority`: `P3`
+- `Size`: `S`
+- `Priority Rationale`: This is `P3` because the prerendering migration already has focused cross-route coverage and a passing production build. The remaining pressure is ordinary test relevance and maintainability as individual pages evolve, not a known production defect or a reason to delay other work.
 - `Status`: `Open`
-- `Detected`: 2026-07-08
-- `Source`: Research follow-up after external SEO checkers reported the Home page H1 as missing or empty.
-- `Area`: Rendering, SEO, Build, React, Vite
-- `Problem`: The build currently injects route metadata and a minimal static `main`/H1/description fallback into generated route HTML, but it does not prerender the actual React route content. The browser entry still uses `createRoot`, so React replaces the fallback instead of hydrating server/build-rendered markup.
-- `Why It Matters`: Google can render JavaScript, but Google Search Central still recommends server-side or pre-rendered HTML because not all bots can run JavaScript and first-response content is better for crawlers and users. React also recommends `hydrateRoot` rather than `createRoot` when initial HTML was generated on the server or during the build.
-- `Preferred Direction`: Replace the minimal fallback shell with true static generation for public routes: render the actual React route tree during `npm run build`, write route-specific HTML into each generated file, and hydrate it on the client with `hydrateRoot`.
-- `Resolution Path`: Create a small shared app/rendering boundary that supports both browser routing and static route rendering, add a React server-render entry using React Router's static routing, inject the rendered route HTML during prerendering, switch the client entry to `hydrateRoot` for generated route HTML, and keep generated head metadata, sitemap, robots, redirects, and `404.html` behaviour aligned.
-- `Next Action`: Prototype static rendering for one indexable route, likely Home, behind the existing prerender script and prove that the generated first response contains the real route content while hydrated browser tests still pass.
-- `Resolved When`: Generated public route HTML contains the actual route markup before JavaScript, the client hydrates that markup without clearing it, non-JavaScript route checks can see meaningful page content beyond a fallback H1, and `npm run qa:site` covers the static and hydrated paths.
+- `Detected`: 2026-07-13
+- `Source`: Prerendering close-out decision after Phase 9.
+- `Area`: Tests, Rendering, Public Pages, Maintainability
+- `Problem`: The broad standalone rendering-test phases were intentionally closed, but page-specific assertions can still become stale or miss new behaviour when public pages change over time.
+- `Why It Matters`: Reviewing the relevant tests while a page is already in context is cheaper and more accurate than preserving stale assertions or scheduling a separate whole-site testing campaign.
+- `Preferred Direction`: When a public page or shared page behaviour is being changed for another reason, inspect its raw HTML, no-JavaScript, hydration, interaction, accessibility, and metadata assertions as relevant to that change. Keep stable cross-route contracts shared and avoid broad copy snapshots.
+- `Resolution Path`: Work through the page checklist only as those pages are naturally touched by other approved work. Do not schedule implementation solely to clear this item.
+- `Next Action`: On the next otherwise-authorized public-page change, review that page's relevant Playwright coverage and update the matching checklist note below.
+- `Resolved When`: Every listed page/boundary has received at least one opportunistic post-migration test review during other work, or this checklist is superseded by a later explicit test-maintenance strategy.
 - `Related Items`:
-  - `DEBT-8`: Route parity checks should include any new static rendering route list or render manifest expectations.
-  - `DEBT-24`: Live smoke tests should eventually verify the deployed first-response HTML on the canonical domain.
-  - `DEBT-27`: Runtime head metadata ownership may be simplified or reshaped once static rendering and hydration have a single route metadata contract.
-  - `DEBT-33`: The temporary H1 fallback shell should be removed once full route prerendering replaces it.
-  - `LAUNCH-3`: Public SEO readiness should track this as the long-term fix behind the current H1 checker mitigation.
+  - `DEBT-8`: Route-parity coverage protects the shared route-generation surfaces while this item tracks page-specific assertion quality.
+  - `LAUNCH-1`: Accessibility review may expose page-level assertions worth preserving when a page is already being changed.
+  - `LAUNCH-2`: Responsive review may expose page-level interaction or layout checks worth preserving when a page is already being changed.
 - `Dependencies`: `None`
 - `Notes`:
-  - Treat the current static H1 shell as a tactical compatibility fix, not the final rendering model.
-  - Google Search Central's JavaScript SEO guidance says app-shell pages may need rendering before content is visible and that server-side or pre-rendering is still a good idea because not all bots can run JavaScript.
-  - React documentation says `createRoot` is not supported for server-rendered apps and that SSR/SSG apps should use `hydrateRoot` so React reuses existing DOM nodes instead of destroying and recreating them.
-  - Keep this behaviour-preserving for visitors: no copy, route, layout, visual, or public form-flow changes should be bundled into the rendering migration.
-- `Links`: `scripts/prerender-route-metadata.mjs`, `src/main.tsx`, `src/App.tsx`, `src/data/routeMetadata.json`, `tests/public-site.spec.ts`, `docs/project/launch-readiness.md`
-
-### DEBT-33 - Temporary static H1 fallback shell needs retirement path
-
-- `Priority`: `P2`
-- `Size`: `S`
-- `Priority Rationale`: This is `P2` because the fallback shell is now useful launch protection for simple SEO tools, but it duplicates public route H1/description content and should not become a quiet permanent rendering layer after full static generation exists.
-- `Status`: `Open`
-- `Detected`: 2026-07-08
-- `Source`: Follow-up from the tactical Home H1 SEO checker fix.
-- `Area`: SEO, Rendering, Build, Tests
-- `Problem`: `routeMetadata.json` now carries route H1 values so the prerender script can inject a minimal static fallback into `#root`. That prevents empty-H1 warnings in non-JavaScript checkers, but it is a duplicate content contract beside the React page components.
-- `Why It Matters`: Duplicate H1/description data can drift, encourages partial SEO fixes instead of real static rendering, and adds a build-time shell that future maintainers could mistake for the intended long-term page HTML strategy.
-- `Preferred Direction`: Keep the fallback while the site lacks full route prerendering, but explicitly remove or supersede it once `DEBT-32` gives every public route real static HTML.
-- `Resolution Path`: After full route prerendering lands, remove the fallback shell marker/injection path, remove any route metadata fields that exist only for that shell if no longer needed, and update tests to assert real static route content rather than the temporary fallback marker.
-- `Next Action`: Reassess this item after the first `DEBT-32` prototype route is working; decide whether route H1 remains useful route metadata or should move back to source-owned page components only.
-- `Resolved When`: The build no longer depends on a minimal static H1 shell, generated route HTML is produced from the actual route components, and tests fail if a route regresses to an empty app shell.
-- `Related Items`:
-  - `DEBT-8`: Route parity coverage can protect any remaining explicit H1 metadata if it stays after the fallback shell is removed.
-  - `DEBT-27`: Any route metadata consolidation should account for runtime head ownership and static route content ownership together.
-  - `DEBT-32`: Full static prerendering is the intended replacement for the fallback shell.
-  - `LAUNCH-3`: The current shell is a mitigation for launch SEO checks, while this item keeps the temporary nature visible.
-- `Dependencies`:
-  - `DEBT-32`: Full static prerendering must exist before the fallback shell can be safely removed.
-- `Notes`:
-  - Do not remove the fallback before there is another first-response H1/content path; it currently fixes real raw-HTML SEO checker warnings.
-  - The current public-site suite already asserts that the fallback H1 matches hydrated page H1, which reduces drift risk while this item remains open.
-- `Links`: `scripts/prerender-route-metadata.mjs`, `src/data/routeMetadata.json`, `src/data/routeMetadata.ts`, `tests/public-site.spec.ts`
+  - This is a memory aid, not authorization for a dedicated page-by-page audit or test-only campaign.
+  - Pending opportunistic review: Home (`/`).
+  - Reviewed 2026-07-13 during master alignment: Working with Joel (`/working-with-joel`) first-response metadata, component prerendering, hydration activation, and new `ProfilePage` structured-data assertions passed; no broader copy snapshot was added.
+  - Pending opportunistic review: Inclusion hub (`/inclusion`).
+  - Pending opportunistic review: Kink and BDSM (`/inclusion/kink-bdsm`).
+  - Reviewed 2026-07-13 during master alignment: ENM and polyamory (`/inclusion/enm-polyamory`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
+  - Reviewed 2026-07-13 during master alignment: LGBTQIA+ (`/inclusion/lgbtqia`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
+  - Pending opportunistic review: Contact and fees (`/contact`).
+  - Pending opportunistic review: Not Found and controlled `404.html` boundary.
+- `Links`: `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`, `docs/plans/2026-07-13-static-prerendering-and-hydration.md`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
@@ -486,6 +463,18 @@ Each active item should include enough direction that a future session can choos
 - `Links`: `package.json`
 
 ## Archive
+
+### DEBT-32 - Public routes need full static prerendering and hydration
+
+Resolved on 2026-07-13 after all seven metadata-backed public routes gained component-rendered first-response HTML and guarded matching-path hydration. The build now fails when a metadata route lacks a component render, Contact uses a shared build-time timestamp seed for hydration-safe timezone content, mismatched and unknown paths retain deliberate client rendering, and the controlled `404.html` fallback remains separate and non-hydratable.
+
+The production build, generated-artifact inspection, browser verification, and 48 focused desktop/mobile rendering checks were accepted as the migration completion baseline. The proposed standalone broad regression phases were consciously closed without execution; `DEBT-34` records the narrower rule that relevant tests are reviewed when pages are already being changed for other reasons. Canonical-host 404 confirmation remains under `DEBT-24`.
+
+### DEBT-33 - Temporary static H1 fallback shell needs retirement path
+
+Resolved on 2026-07-13 by removing the generic public static-shell generation path, its regex and markers, and route `h1` metadata after every metadata-backed route gained component prerendering. The build now fails if any metadata route is missing from the component prerender set, and tests assert one meaningful component-owned H1 plus real route structure.
+
+The generic `404.html` content is retained through a dedicated not-found fallback path and marker; it no longer shares the retired public-shell machinery. Post-deploy evidence remains tracked separately under `DEBT-24`.
 
 ### DEBT-19 - Legacy issue and topic grid CSS needs usage audit
 

@@ -1,5 +1,4 @@
 import type { EnquiryFormContent } from "../components/EnquiryForm";
-import { getActiveAustralianTimeZoneOptions } from "../utils/timeZones";
 
 export const enquiryEmail = "joel@vivecounselling.com.au";
 
@@ -46,7 +45,6 @@ export const enquiryFormContent: EnquiryFormContent = {
     },
     timeZone: {
       label: "Timezone",
-      options: getActiveAustralianTimeZoneOptions(),
     },
     timing: {
       label: "Preferred timing",

@@ -58,5 +58,6 @@ For public content, SEO, accessibility, form-flow, performance, or operations id
 - Add or update `DEBT-*` items when technical pressure should remain visible across future sessions.
 - Add or update `SITE-*` items when a meaningful visitor-facing idea is identified but intentionally not implemented now.
 - Add a `task-log.md` entry only for durable project state changes, not routine bug fixes or small implementation details.
+- When other approved work changes a public page or shared page behaviour, review the relevant rendering and interaction tests while that context is active and update any matching active debt note. Do not treat a page-test checklist as authorization for a separate test-only campaign.
 - Keep design-system scope and project scope separate. A visual-system change updates `docs/design-system/current-scope.md`; a public-site capability change updates this directory's `current-scope.md`.
 - Trackers are memory and triage. They do not authorize implementation by themselves.

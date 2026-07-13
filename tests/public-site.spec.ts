@@ -25,6 +25,64 @@ const publicRoutes = [
   "/inclusion/lgbtqia",
   "/contact",
 ] as const;
+const prerenderedRoutes = [
+  "/",
+  "/working-with-joel",
+  "/inclusion",
+  "/inclusion/kink-bdsm",
+  "/inclusion/enm-polyamory",
+  "/inclusion/lgbtqia",
+  "/contact",
+] as const;
+const prerenderedRouteContracts = {
+  "/": {
+    mainClass: "site-page home-page",
+    rawFragments: ['href="/working-with-joel"', 'src="/joel-griffiths-homepage-portrait.jpg"'],
+    noJavaScriptSelector: 'img[src="/joel-griffiths-homepage-portrait.jpg"]',
+  },
+  "/working-with-joel": {
+    mainClass: "site-page working-with-joel-page",
+    rawFragments: [
+      'src="/joel-griffiths-working-with-joel-portrait.jpg"',
+      'aria-label="Counselling approach"',
+    ],
+    noJavaScriptSelector: 'img[src="/joel-griffiths-working-with-joel-portrait.jpg"]',
+  },
+  "/inclusion": {
+    mainClass: "site-page inclusion-page",
+    rawFragments: ['class="inclusion-hub__panels"', 'class="site-faq-list"'],
+    noJavaScriptSelector: ".inclusion-hub__panels",
+  },
+  "/inclusion/kink-bdsm": {
+    mainClass: "site-page kink-page",
+    rawFragments: ['class="kink-page__knowledge-grid"', 'class="site-faq-list"'],
+    noJavaScriptSelector: ".kink-page__knowledge-grid",
+  },
+  "/inclusion/enm-polyamory": {
+    mainClass: "site-page enm-page",
+    rawFragments: ['class="enm-page__position-list"', 'class="site-faq-list"'],
+    noJavaScriptSelector: ".enm-page__position-list",
+  },
+  "/inclusion/lgbtqia": {
+    mainClass: "site-page inclusion-page lgbtqia-page",
+    rawFragments: ['class="site-check-panel site-check-panel--grid"', 'class="site-faq-list"'],
+    noJavaScriptSelector: ".site-check-panel--grid",
+  },
+  "/contact": {
+    mainClass: "site-page contact-page",
+    rawFragments: [
+      'class="site-fee-card contact-page__fee-card"',
+      "Mon to Fri, 9.30am to 5.00pm AWST",
+      'data-timezone-notes-source="prerendered"',
+      'class="site-form"',
+      'action="/api/enquiry"',
+      'data-clarity-mask="true"',
+      'href="mailto:joel@vivecounselling.com.au"',
+      'class="site-faq-list"',
+    ],
+    noJavaScriptSelector: "form.site-form",
+  },
+} as const;
 
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
@@ -130,6 +188,34 @@ function absoluteRouteUrl(route: string) {
 
 function escapeXml(value: string) {
   return escapeHtml(value).replaceAll("'", "&apos;");
+}
+
+type ServerRenderEntry = {
+  renderRoute(pathname: string, options: { initialRenderAt: string }): string;
+};
+
+let serverRenderEntryPromise: Promise<ServerRenderEntry> | undefined;
+
+function getServerRenderEntry() {
+  serverRenderEntryPromise ??= import(
+    new URL("../.prerender/server/entry-server.js", import.meta.url).href
+  ) as Promise<ServerRenderEntry>;
+  return serverRenderEntryPromise;
+}
+
+async function createSeededContactArtifact(templateHtml: string, initialRenderAt: string) {
+  const { renderRoute } = await getServerRenderEntry();
+  const renderedMarkup = renderRoute("/contact", { initialRenderAt });
+  const renderedRoot = `<div id="root" data-render-mode="prerendered" data-prerendered-path="/contact" data-prerendered-at="${escapeHtml(
+    initialRenderAt,
+  )}">${renderedMarkup}</div>`;
+  const rootPattern = /<div id="root"[^>]*>.*<\/div>(?=\s*<\/body>)/s;
+
+  if (!rootPattern.test(templateHtml)) {
+    throw new Error("Unable to replace the generated Contact root for fixed-clock coverage.");
+  }
+
+  return templateHtml.replace(rootPattern, renderedRoot);
 }
 
 function getExpectedStructuredDataIds() {
@@ -257,7 +343,7 @@ function getProfileStructuredDataScript() {
         "@type": "ProfilePage",
         "@id": ids.profilePageId,
         url: ids.profileUrl,
-        name: routeMetadataData.routes["/working-with-joel"].h1,
+        name: routeMetadataData.routes["/working-with-joel"].title,
         isPartOf: { "@id": ids.websiteId },
         mainEntity: { "@id": ids.personId },
       },
@@ -359,6 +445,13 @@ async function expectNoPageDiagnostics(diagnostics: PageDiagnostics) {
   });
 }
 
+function expectMeaningfulRawHeroH1(html: string) {
+  const h1Matches = [...html.matchAll(/<h1 class="hero-badge">([^<]+)<\/h1>/g)];
+
+  expect(h1Matches).toHaveLength(1);
+  expect((h1Matches[0]?.[1] ?? "").trim().length).toBeGreaterThan(8);
+}
+
 async function expectNotFoundPage(page: Page, requestedPath: string) {
   await expect(page).toHaveTitle("Page not found | Vive Counselling");
   await expect(page.locator(".not-found-page__label")).toHaveText("Page not found");
@@ -411,11 +504,14 @@ test.describe("public pages", () => {
       await page.goto(route, { waitUntil: "networkidle" });
 
       await expect(page.locator("main").first()).toBeVisible();
-      await expect(page.locator("h1")).toHaveCount(1);
-      await expect(page.locator("h1")).toBeVisible();
-      await expect(page.locator("h1")).toHaveText(routeMetadataData.routes[route].h1);
+      await expect(page.locator("h1.hero-badge")).toHaveCount(1);
+      await expect(page.locator("h1.hero-badge")).toBeVisible();
       await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(1);
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
+      await expect(page.locator("#root")).toHaveAttribute(
+        "data-react-activation",
+        prerenderedRoutes.includes(route as (typeof prerenderedRoutes)[number]) ? "hydrate" : "client-render",
+      );
 
       const h1Text = (await page.locator("h1").innerText()).trim();
       expect(h1Text.length).toBeGreaterThan(8);
@@ -432,6 +528,91 @@ test.describe("public pages", () => {
       }
 
       await expectNoPageDiagnostics(diagnostics);
+    });
+  }
+});
+
+test.describe("prerendered route hydration rollout", () => {
+  test("keeps client navigation active after hydrating Home", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+
+    await page.goto("/", { waitUntil: "networkidle" });
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
+    await page.evaluate(() => {
+      document.body.dataset.spaNavigationSentinel = "preserved";
+    });
+
+    await page.locator(".site-footer__nav").getByRole("link", { name: "Working with Joel" }).click();
+
+    await expect(page).toHaveURL(/\/working-with-joel$/);
+    await expect(page.locator("h1.hero-badge")).toBeVisible();
+    expect((await page.locator("h1.hero-badge").innerText()).trim().length).toBeGreaterThan(8);
+    expect(await page.evaluate(() => document.body.dataset.spaNavigationSentinel)).toBe("preserved");
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
+  test("client-renders an unknown preview path when Vite serves mismatched Home markup", async ({
+    page,
+    request,
+  }) => {
+    const diagnostics = collectPageDiagnostics(page);
+    const response = await request.get("/not-a-real-page");
+    const html = await response.text();
+
+    expect(response.ok()).toBeTruthy();
+    expect(html).toContain('data-render-mode="prerendered"');
+    expect(html).toContain('data-prerendered-path="/"');
+    expect(html).not.toContain('data-not-found-fallback="true"');
+
+    await page.goto("/not-a-real-page", { waitUntil: "networkidle" });
+
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "client-render");
+    await expect(page.locator("#root")).toHaveAttribute("data-prerendered-path", "/");
+    await expectNotFoundPage(page, "/not-a-real-page");
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
+  test("client-renders the direct generic 404 artifact without attempting hydration", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+
+    await page.goto("/404.html", { waitUntil: "networkidle" });
+
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "client-render");
+    await expect(page.locator("#root")).not.toHaveAttribute("data-render-mode", /.+/);
+    await expect(page.locator("#root")).not.toHaveAttribute("data-prerendered-path", /.+/);
+    await expectNotFoundPage(page, "/404.html");
+    await expectNoPageDiagnostics(diagnostics);
+  });
+});
+
+test.describe("prerendered routes without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+
+  for (const route of prerenderedRoutes) {
+    test(`${route} exposes meaningful component-rendered content and links`, async ({ page }) => {
+      const contract = prerenderedRouteContracts[route];
+
+      await page.goto(route, { waitUntil: "networkidle" });
+
+      await expect(page.locator("header.site-header")).toBeVisible();
+      await expect(page.locator(`main.${contract.mainClass.split(" ").join(".")}`)).toBeVisible();
+      await expect(page.locator("h1.hero-badge")).toHaveCount(1);
+      await expect(page.locator("h1.hero-badge")).toBeVisible();
+      expect((await page.locator("h1.hero-badge").innerText()).trim().length).toBeGreaterThan(8);
+      await expect(page.locator(contract.noJavaScriptSelector)).toBeVisible();
+      await expect(page.locator("header.site-header a[href], footer.site-footer a[href]")).not.toHaveCount(0);
+      await expect(page.locator("footer.site-footer")).toBeVisible();
+      await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
+
+      if (route === "/contact") {
+        const form = page.locator("form.site-form");
+
+        await expect(form).toHaveAttribute("action", "/api/enquiry");
+        await expect(form).toHaveAttribute("method", "post");
+        await expect(form).toHaveAttribute("data-clarity-mask", "true");
+        await expect(page.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
+        await expect(page.getByLabel("Timezone")).toHaveCount(0);
+      }
     });
   }
 });
@@ -459,9 +640,22 @@ test.describe("first response metadata", () => {
 
       expect(response.ok()).toBeTruthy();
       expectNoGeneratedOriginLeak(html);
-      expect(html).toContain(`<main data-static-route-shell="${escapeHtml(route)}">`);
-      expect(html).toContain(`<h1>${escapeHtml(metadata.h1)}</h1>`);
-      expect(html).toContain(`<p>${escapeHtml(metadata.description)}</p>`);
+      const prerenderedRoute = route as (typeof prerenderedRoutes)[number];
+      const contract = prerenderedRouteContracts[prerenderedRoute];
+
+      expect(prerenderedRoutes).toContain(prerenderedRoute);
+      expect(html).toContain('data-render-mode="prerendered"');
+      expect(html).toContain(`data-prerendered-path="${escapeHtml(route)}"`);
+      expect(html).toContain('<header class="site-header">');
+      expect(html).toContain(`<main class="${contract.mainClass}">`);
+      expectMeaningfulRawHeroH1(html);
+      for (const fragment of contract.rawFragments) {
+        expect(html).toContain(fragment);
+      }
+      expect(html).toContain('<footer class="site-footer">');
+      expect(html).not.toContain("data-not-found-fallback");
+      expect(html).not.toContain("data-static-route-shell");
+      expect(html).not.toContain("Static route shell generated at build time");
       expect(html).toContain(`<title>${escapeHtml(metadata.title)}</title>`);
       expect(html).toContain(
         `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
@@ -513,7 +707,40 @@ test.describe("first response metadata", () => {
   }
 });
 
+test.describe("prerendered route output forms", () => {
+  for (const route of prerenderedRoutes.filter((route) => route !== "/")) {
+    test(`${route} has equivalent flat and nested artifacts`, () => {
+      const artifactPath = route.slice(1);
+      const flatHtml = readFileSync(new URL(`../dist/${artifactPath}.html`, import.meta.url), "utf8");
+      const nestedHtml = readFileSync(new URL(`../dist/${artifactPath}/index.html`, import.meta.url), "utf8");
+
+      expect(nestedHtml).toBe(flatHtml);
+      expect(flatHtml).toContain('data-render-mode="prerendered"');
+      expect(flatHtml).toContain(`data-prerendered-path="${route}"`);
+      expect(flatHtml).not.toContain("data-not-found-fallback");
+      expect(flatHtml).not.toContain("data-static-route-shell");
+    });
+  }
+});
+
 test.describe("crawl and app metadata assets", () => {
+  test("generated route roots share one valid prerender timestamp", async ({ request }) => {
+    const timestamps = new Set<string>();
+
+    for (const route of [...publicRoutes, "/404.html"]) {
+      const response = await request.get(route);
+      const html = await response.text();
+      const timestamp = html.match(/<div id="root"[^>]*data-prerendered-at="([^"]+)"[^>]*>/)?.[1];
+
+      expect(response.ok()).toBeTruthy();
+      expect(timestamp).toBeTruthy();
+      expect(Number.isNaN(Date.parse(timestamp ?? ""))).toBeFalsy();
+      timestamps.add(timestamp ?? "");
+    }
+
+    expect(timestamps.size).toBe(1);
+  });
+
   test("robots.txt allows crawling and advertises the launch sitemap", async ({ request }) => {
     const response = await request.get("/robots.txt");
     const robots = await response.text();
@@ -609,7 +836,7 @@ test.describe("crawl and app metadata assets", () => {
     );
   });
 
-  test("404.html serves an app-powered noindex fallback shell", async ({ request }) => {
+  test("404.html serves an app-powered noindex fallback artifact", async ({ request }) => {
     const response = await request.get("/404.html");
     const html = await response.text();
 
@@ -617,9 +844,17 @@ test.describe("crawl and app metadata assets", () => {
     expectNoGeneratedOriginLeak(html);
     expect(html).toContain("<title>Page not found | Vive Counselling</title>");
     expect(html).toContain(`<meta name="robots" content="${noindexDirective}" />`);
-    expect(html).toContain('<main data-static-route-shell="/404.html">');
+    expect(html).toContain('<main data-not-found-fallback="true">');
     expect(html).toContain("<h1>That page isn't here.</h1>");
     expect(html).toContain("<p>This page could not be found on the Vive Counselling website.</p>");
+    expect(html).not.toContain('data-render-mode="prerendered"');
+    expect(html).not.toContain("data-prerendered-path=");
+    expect(html).not.toContain("data-react-activation=");
+    expect(html).not.toContain("data-static-route-shell");
+    expect(html).not.toContain("Static route shell generated at build time");
+    const timestamp = html.match(/<div id="root" data-prerendered-at="([^"]+)">/)?.[1];
+    expect(timestamp).toBeTruthy();
+    expect(Number.isNaN(Date.parse(timestamp ?? ""))).toBeFalsy();
     expect(html).toContain('script type="module"');
     expect(html).toContain("/assets/");
     expect(html).not.toContain('<link rel="canonical"');
@@ -930,6 +1165,201 @@ test.describe("working with Joel approach tabs", () => {
 });
 
 test.describe("enquiry form", () => {
+  async function routeSeededContact(page: Page, prerenderedAt: string) {
+    await page.route("**/contact", async (route) => {
+      const response = await route.fetch();
+      const html = await createSeededContactArtifact(await response.text(), prerenderedAt);
+
+      await route.fulfill({ body: html, response });
+    });
+  }
+
+  async function openContactAt({
+    currentTime,
+    page,
+    prerenderedAt,
+  }: {
+    currentTime: string;
+    page: Page;
+    prerenderedAt: string;
+  }) {
+    await page.clock.setFixedTime(currentTime);
+    await routeSeededContact(page, prerenderedAt);
+    await page.goto("/contact", { waitUntil: "networkidle" });
+  }
+
+  test("keeps current standard-time notes from the prerender seed", async ({ page }) => {
+    const standardTime = "2026-07-15T04:00:00.000Z";
+    const diagnostics = collectPageDiagnostics(page);
+
+    await openContactAt({ currentTime: standardTime, page, prerenderedAt: standardTime });
+
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
+    await expect(page.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
+    const notes = page.locator(".contact-page__contact-notes");
+    await expect(notes).toHaveAttribute("data-timezone-notes-source", "prerendered");
+    await expect(notes.locator("small")).toHaveText([
+      "ACST: 11.00am to 6.30pm",
+      "AEST: 11.30am to 7.00pm",
+    ]);
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
+  test("keeps current daylight-saving notes from the prerender seed", async ({ page }) => {
+    const daylightSavingTime = "2026-01-15T04:00:00.000Z";
+    const diagnostics = collectPageDiagnostics(page);
+
+    await openContactAt({ currentTime: daylightSavingTime, page, prerenderedAt: daylightSavingTime });
+
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
+    const notes = page.locator(".contact-page__contact-notes");
+    await expect(notes).toHaveAttribute("data-timezone-notes-source", "prerendered");
+    await expect(notes.locator("small")).toHaveText([
+      "ACST: 11.00am to 6.30pm",
+      "AEST: 11.30am to 7.00pm",
+      "ACDT: 12.00pm to 7.30pm",
+      "AEDT: 12.30pm to 8.00pm",
+    ]);
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
+  test("refreshes stale notes and consult options for daylight-saving time", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+
+    await openContactAt({
+      currentTime: "2026-01-15T04:00:00.000Z",
+      page,
+      prerenderedAt: "2026-07-15T04:00:00.000Z",
+    });
+
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
+    const notes = page.locator(".contact-page__contact-notes");
+    await expect(notes).toHaveAttribute("data-timezone-notes-source", "current");
+    await expect(notes.locator("small")).toHaveText([
+      "ACST: 11.00am to 6.30pm",
+      "AEST: 11.30am to 7.00pm",
+      "ACDT: 12.00pm to 7.30pm",
+      "AEDT: 12.30pm to 8.00pm",
+    ]);
+
+    await expect(page.getByLabel("Timezone")).toHaveCount(0);
+    await page.getByLabel("Booking enquiry").check();
+    await page.getByLabel("Request a 15-minute consult").check();
+    await expect(page.getByLabel("Timezone").locator("option")).toHaveText([
+      "Select your timezone",
+      "AWST (WA)",
+      "ACST (NT)",
+      "AEST (QLD)",
+      "ACDT (SA)",
+      "AEDT (NSW / ACT / VIC / TAS)",
+    ]);
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
+  test(
+    "preserves server-rendered form values through hydration and the timezone refresh",
+    async ({ page }) => {
+      const diagnostics = collectPageDiagnostics(page);
+      let releaseClientBundle = () => {};
+      const clientBundleGate = new Promise<void>((resolve) => {
+        releaseClientBundle = resolve;
+      });
+
+      await page.clock.setFixedTime("2026-01-15T04:00:00.000Z");
+      await routeSeededContact(page, "2026-07-15T04:00:00.000Z");
+      await page.route("**/assets/*.js", async (route) => {
+        await clientBundleGate;
+        await route.continue();
+      });
+
+      await page.goto("/contact", { waitUntil: "commit" });
+      const form = page.locator("form.site-form");
+
+      try {
+        await form.getByLabel("Name").fill("Alex Before Hydration");
+        await form.getByLabel("Email").fill("alex@example.com");
+        await form.getByLabel("Your enquiry").fill("Please preserve this message.");
+      } finally {
+        releaseClientBundle();
+      }
+
+      await page.waitForLoadState("networkidle");
+      await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
+      await expect(page.locator(".contact-page__contact-notes")).toHaveAttribute(
+        "data-timezone-notes-source",
+        "current",
+      );
+      await expect(form.getByLabel("Name")).toHaveValue("Alex Before Hydration");
+      await expect(form.getByLabel("Email")).toHaveValue("alex@example.com");
+      await expect(form.getByLabel("Your enquiry")).toHaveValue("Please preserve this message.");
+      await expectNoPageDiagnostics(diagnostics);
+    },
+  );
+
+  test("preserves conditional fields, payload values, and success focus", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+    let submittedMethod = "";
+    let submittedPayload: Record<string, string> | undefined;
+
+    await page.clock.setFixedTime("2026-01-15T04:00:00.000Z");
+    await page.route("**/api/enquiry", async (route) => {
+      submittedMethod = route.request().method();
+      submittedPayload = route.request().postDataJSON() as Record<string, string>;
+      await route.fulfill({
+        body: JSON.stringify({ ok: true }),
+        contentType: "application/json",
+        status: 200,
+      });
+    });
+    await page.goto("/contact", { waitUntil: "networkidle" });
+
+    const form = page.locator("form.site-form");
+    await form.getByLabel("Name").fill("Alex Person");
+    await form.getByLabel("Email").fill("alex@example.com");
+    await form.getByLabel("Your enquiry").fill("I would like an initial consult.");
+
+    await form.getByLabel("General enquiry").check();
+    await expect(form.getByLabel("Make an appointment")).toHaveCount(0);
+    await expect(form.getByLabel("Request a 15-minute consult")).toHaveCount(0);
+
+    await form.getByLabel("Booking enquiry").check();
+    await form.getByLabel("Make an appointment").check();
+    await expect(form.getByLabel("Preferred timing")).toBeVisible();
+    await expect(form.getByLabel("State or territory")).toBeVisible();
+    await expect(form.getByLabel("Availability")).toHaveCount(0);
+    await expect(form.getByLabel("Timezone")).toHaveCount(0);
+
+    await form.getByLabel("General enquiry").check();
+    await expect(form.getByLabel("Preferred timing")).toHaveCount(0);
+    await expect(form.getByLabel("State or territory")).toHaveCount(0);
+
+    await form.getByLabel("Booking enquiry").check();
+    await form.getByLabel("Request a 15-minute consult").check();
+    await expect(form.getByLabel("Preferred timing")).toHaveCount(0);
+    await expect(form.getByLabel("State or territory")).toHaveCount(0);
+    await form.getByLabel("Availability").fill("Weekday afternoons");
+    await form.getByLabel("Timezone").selectOption("AEDT");
+    await form.getByRole("button", { name: "Send enquiry" }).click();
+
+    const success = form.getByRole("status");
+    await expect(success).toContainText("Thanks, your enquiry has been sent.");
+    await expect(success).toBeFocused();
+    expect(submittedMethod).toBe("POST");
+    expect(submittedPayload).toEqual({
+      availability: "Weekday afternoons",
+      bookingType: "consult",
+      email: "alex@example.com",
+      enquiryType: "booking",
+      message: "I would like an initial consult.",
+      name: "Alex Person",
+      state: "",
+      timing: "",
+      timeZone: "AEDT",
+      website: "",
+    });
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
   test("shows a safe public error without technical details", async ({ page }) => {
     await page.route("**/api/enquiry", async (route) => {
       await route.fulfill({
