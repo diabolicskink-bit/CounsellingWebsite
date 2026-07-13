@@ -195,8 +195,23 @@ Do not update current-scope documentation during this baseline phase.
 
 #### Notes
 
-- Status: Not started.
+- Status: Completed 2026-07-13.
 - Agent notes:
+  - Baseline captured from commit `ac45474` using Node `v24.14.1`, npm `11.11.0`, and Vite `8.0.8`.
+  - `npm run build` passed and generated metadata/shell HTML for seven public routes, plus `404.html`, `sitemap.xml`, and `robots.txt`.
+  - Every metadata-backed route currently has a top-level `.html` artifact and, except Home, a corresponding nested `index.html` artifact. Each observed pair has the same byte size at this baseline.
+  - Raw generated route roots contain only the temporary `main`/H1/description shell. They contain no component-rendered header, footer, navigation, or route body. Generated public HTML sizes are approximately 3.0-3.5 KB before the shared client assets load.
+  - `npm run qa:site` completed with 138 passing tests, 6 expected analytics skips, and 2 failures. Both failures are the Home public-page assertion, once in each browser project: generated metadata expects `Online counselling across Australia`, while the hydrated component H1 is `Counselling and Psychotherapy`.
+  - The Home H1 failure is a confirmed pre-existing duplicate-content drift, not a hydration or browser runtime error. The raw shell still contains the metadata H1 while `createRoot` replaces it with the component H1.
+  - Independent browser verification of the production preview passed: Home loaded meaningful content, exposed one main landmark, showed no Vite overlay, and produced no page errors or console messages. The annotated visual baseline showed the expected header, hero, portrait, content sections, navigation, and footer.
+  - Browser globals in `useDocumentMetadata`, `ScrollToTop`, Layout menu handling, NotFound robots handling, enquiry submission/focus behaviour, and analytics injection are confined to effects, handlers, or explicit `typeof window` guards.
+  - `SiteAnalytics` is server-safe at the markup boundary: the server hostname guard returns `null`, and the enabled analytics components also return no DOM while installing scripts through effects.
+  - `FaqSection` and `BroadTabPanel` use `useId`; their IDs are safe only while the static and browser trees retain identical order and structure. Their remaining browser access occurs in effects, ref commits, or keyboard handlers.
+  - `FaqSchema` emits deterministic JSON-LD from static page data and does not require a browser API during render.
+  - The fixed `2026` copyright publication notice is deterministic. The permanent Perth hours can be made static. Visible Contact timezone comparison notes remain the only confirmed date-sensitive initial DOM. Conditional enquiry timezone options are calculated at module evaluation but are not present in the initial form tree.
+  - `NotFound` derives visible content from the active pathname, confirming that a `/404.html` build location cannot be hydrated safely when the artifact is served for a different missing browser path.
+  - Production `import.meta.env.DEV` branches exclude development routes consistently from the current client build; the future server bundle must use the same production mode.
+  - Phase 1 changed no shipped rendering behaviour. Current-scope and task-log documents therefore remain unchanged.
 
 ### Phase 2 - Isolate DST-Sensitive Client Enhancement
 
