@@ -439,16 +439,16 @@ Use this structure when a region is expanded to class-token leaves:
 
 ##### CSS-1.5.4.4 - `.stack`
 
-- `Status`: `Delete candidate`
-- `Layer`: Older shared production layout helper
-- `Selectors Covered`: `.stack`.
-- `Naming/Structure Check`: Not assessed in this usage-only pass.
-- `Declaration Review`: Not performed in this usage-only pass.
+- `Status`: `Actioned`
+- `Layer`: Removed legacy shared production layout helper
+- `Selectors Covered`: Removed `.stack` from `src/styles.css`.
+- `Naming/Structure Check`: The generic class was ambiguous beside the active, purpose-specific `.site-content-stack` and `.site-detail-stack` APIs.
+- `Declaration Review`: Removed the isolated `display: grid` and `gap: 50px` declarations as one dead rule.
 - `Architecture Check`: No source usage found; current stack language appears to be explicit `site-*` stacks such as `.site-content-stack` and `.site-detail-stack`.
 - `Used By`: No TSX/HTML/source usage found outside `src/styles.css`.
-- `Decision`: Delete candidate on usage evidence.
-- `Evidence`: 2026-06-27 usage pass found no exact `.stack` class usage across `src`, `docs`, or `public` excluding `src/styles.css` and this checklist.
-- `Follow-up`: Action deletion only when requested.
+- `Decision`: Remove.
+- `Evidence`: The 2026-06-27 usage pass found no exact `.stack` class usage across `src`, `docs`, or `public` excluding `src/styles.css` and this checklist. A focused 2026-07-13 sweep confirmed no runtime call sites before removal.
+- `Follow-up`: None.
 
 #### CSS-1.5.5 - Section heading and rich-text system
 

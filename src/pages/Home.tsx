@@ -95,7 +95,7 @@ const homePageContent: HomePageContent = {
       after: ".",
     },
     support:
-      "I offer online counselling for adults across Australia, based in Perth. I work with anxiety, relationship strain, self-criticism, trauma, sexuality, and experiences that feel exposing, confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.",
+      "I offer counselling for adults across Australia, based in Perth. I work with anxiety, relationship strain, self-criticism, trauma, sexuality, and experiences that feel exposing, confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.",
     trustAriaLabel: "Practice details",
     trustItems: [
       "Perth-based, Austrlia wide",
