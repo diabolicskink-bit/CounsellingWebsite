@@ -138,12 +138,88 @@ function escapeXml(value: string) {
   return escapeHtml(value).replaceAll("'", "&apos;");
 }
 
-function getWebsiteStructuredDataScript() {
+function getHomeStructuredDataScript() {
+  const homepageUrl = absoluteRouteUrl("/");
+  const websiteId = `${homepageUrl}#website`;
+  const organizationId = `${homepageUrl}#organization`;
+  const personId = `${homepageUrl}#joel-griffiths`;
+  const serviceId = `${homepageUrl}#counselling-service`;
+  const organization = routeMetadataData.site.organization;
+  const person = routeMetadataData.site.person;
+  const service = routeMetadataData.site.service;
+
   return `<script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: routeMetadataData.site.name,
-    url: absoluteRouteUrl("/"),
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": websiteId,
+        name: routeMetadataData.site.name,
+        url: homepageUrl,
+        publisher: { "@id": organizationId },
+      },
+      {
+        "@type": "Organization",
+        "@id": organizationId,
+        name: routeMetadataData.site.name,
+        url: homepageUrl,
+        email: organization.email,
+        description: organization.description,
+        sameAs: organization.sameAs,
+        founder: { "@id": personId },
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "enquiries",
+          email: organization.email,
+          availableLanguage: "English",
+        },
+        logo: {
+          "@type": "ImageObject",
+          url: `${siteOrigin}${organization.logo}`,
+          width: organization.logoWidth,
+          height: organization.logoHeight,
+        },
+      },
+      {
+        "@type": "Person",
+        "@id": personId,
+        name: person.name,
+        url: `${siteOrigin}${person.url}`,
+        image: `${siteOrigin}${person.image}`,
+        description: person.description,
+        jobTitle: person.jobTitle,
+        worksFor: { "@id": organizationId },
+        sameAs: person.sameAs,
+        hasCredential: person.credentials.map((credential) => ({
+          "@type": "EducationalOccupationalCredential",
+          name: credential.name,
+          credentialCategory: credential.credentialCategory,
+          ...(credential.url ? { url: credential.url } : {}),
+          recognizedBy: {
+            "@type": credential.recognizedBy.type,
+            name: credential.recognizedBy.name,
+            url: credential.recognizedBy.url,
+          },
+        })),
+      },
+      {
+        "@type": "Service",
+        "@id": serviceId,
+        name: service.name,
+        serviceType: service.serviceType,
+        url: `${siteOrigin}${service.url}`,
+        description: service.description,
+        provider: { "@id": organizationId },
+        audience: {
+          "@type": "PeopleAudience",
+          audienceType: service.audience,
+        },
+        areaServed: {
+          "@type": "Country",
+          name: service.areaServed,
+        },
+      },
+    ],
   })}</script>`;
 }
 
@@ -432,9 +508,12 @@ test.describe("first response metadata", () => {
         `<meta name="twitter:image:alt" content="${escapeHtml(routeMetadataData.site.socialImageAlt)}" />`,
       );
       if (route === "/") {
-        expect(html).toContain(getWebsiteStructuredDataScript());
+        expect(html).toContain(getHomeStructuredDataScript());
       } else {
         expect(html).not.toContain('"@type":"WebSite"');
+        expect(html).not.toContain('"@type":"Organization"');
+        expect(html).not.toContain('"@type":"Person"');
+        expect(html).not.toContain('"@type":"Service"');
       }
       for (const faviconTag of expectedFaviconTags) {
         expect(html).toContain(faviconTag);

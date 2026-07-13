@@ -58,12 +58,12 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Checked PNG dimensions and generated head metadata. `/og-vive-counselling.png` is 1200x630, and `og:image:alt` / `twitter:image:alt` use the configured social preview alt text.
 
 - `Partial` Structured data is intentionally absent, or valid and aligned with public claims if present.
-  - Note: Homepage generated HTML now includes `WebSite` JSON-LD with the site name `Vive Counselling` and canonical apex URL. Broader Organization, Person, or counselling-service structured data remains outside current scope until public identity and credential details are final.
+  - Note: Homepage generated HTML includes a linked `WebSite`, `Organization`, `Person`, and `Service` JSON-LD graph. The Organization uses the confirmed public business identity and identifies Joel Griffiths as `founder`; the credential-bearing Person links Joel to Vive; and the Service identifies counselling and psychotherapy for adults, provided by Vive across Australia. Delivery channel, pricing, address, and local-business schema remain outside current scope until their public details are final.
 
 ## `/` - Home
 
 - `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
-  - Note: Checked `src/data/routeMetadata.json`, `dist/index.html`, and built preview `/`. Title is "Vive Counselling" and is unique among the seven public route titles.
+  - Note: Route metadata now uses "Vive Counselling | Therapy for Adults Across Australia", which is unique among the public route titles. Generated HTML and preview verification should be refreshed with the next complete build.
 
 - `Pass` Meta description is present, human-readable, and matches visible page content.
   - Note: Checked route metadata, generated HTML, direct preview head, and visible Home page hero/topic content. Description matches the page's online counselling across Australia positioning and visible themes around anxiety, relationships, shame, trauma, sexuality, and inclusive support.

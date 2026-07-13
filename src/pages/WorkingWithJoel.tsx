@@ -87,8 +87,8 @@ const pageContent: WorkingWithJoelPageContent = {
 
     credentialsAriaLabel: "Joel Griffiths credentials and practice details",
                credentials: [
-      "GradDip. Counselling and Psychotherapy",
-      "ACA Registered",
+      "Graduate Diploma in Counselling and Psychotherapy",
+      "ACA Registered Counsellor – Level 1",
       "Kink & ENM informed",
               "LGBTQIA+ affirming",
     ],

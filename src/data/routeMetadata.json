@@ -4,14 +4,63 @@
     "defaultOrigin": "https://vivecounselling.com.au",
     "themeColor": "#234b3d",
     "backgroundColor": "#f7f6f2",
+    "organization": {
+      "email": "joel@vivecounselling.com.au",
+      "logo": "/icon-512.png",
+      "logoWidth": 512,
+      "logoHeight": 512,
+      "description": "Counselling and therapy for adults across Australia.",
+      "sameAs": [
+        "https://www.kapprofessionals.org/kap_directory/40049/vive-counselling/"
+      ]
+    },
+    "person": {
+      "name": "Joel Griffiths",
+      "jobTitle": "Counsellor",
+      "url": "/working-with-joel",
+      "image": "/joel-griffiths-working-with-joel-portrait.jpg",
+      "description": "ACA-registered counsellor based in Perth.",
+      "sameAs": [
+        "https://theaca.net.au/profile?UserKey=f20cee37-672b-4d3a-8a80-019df18a0826"
+      ],
+      "credentials": [
+        {
+          "name": "Graduate Diploma in Counselling and Psychotherapy",
+          "credentialCategory": "Graduate diploma",
+          "recognizedBy": {
+            "type": "CollegeOrUniversity",
+            "name": "Edith Cowan University",
+            "url": "https://www.ecu.edu.au/"
+          }
+        },
+        {
+          "name": "ACA Registered Counsellor – Level 1",
+          "credentialCategory": "Professional registration",
+          "url": "https://theaca.net.au/profile?UserKey=f20cee37-672b-4d3a-8a80-019df18a0826",
+          "recognizedBy": {
+            "type": "Organization",
+            "name": "Australian Counselling Association",
+            "url": "https://theaca.net.au/"
+          }
+        }
+      ]
+    },
+    "service": {
+      "name": "Counselling and psychotherapy for adults",
+      "serviceType": "Counselling and psychotherapy",
+      "url": "/",
+      "description": "Counselling and therapy for adults across Australia.",
+      "audience": "Adults",
+      "areaServed": "Australia"
+    },
     "socialImage": "/og-vive-counselling.png",
     "socialImageAlt": "Vive Counselling social preview card for online counselling across Australia with Joel Griffiths."
   },
   "routes": {
     "/": {
       "h1": "Counselling and Psychotherapy",
-      "title": "Vive Counselling",
-      "description": "Online counselling for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality."
+      "title": "Vive Counselling | Therapy for Adults Across Australia",
+      "description": "Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality."
     },
     "/working-with-joel": {
       "h1": "Working with Joel",

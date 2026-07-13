@@ -53,12 +53,87 @@ function getFaviconTags() {
   ];
 }
 
-function getWebsiteStructuredDataTag(siteMetadata, siteOrigin) {
+function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
+  const homepageUrl = getAbsoluteUrl(siteOrigin, "/");
+  const websiteId = `${homepageUrl}#website`;
+  const organizationId = `${homepageUrl}#organization`;
+  const personId = `${homepageUrl}#joel-griffiths`;
+  const serviceId = `${homepageUrl}#counselling-service`;
+  const organization = siteMetadata.organization;
+  const person = siteMetadata.person;
+  const service = siteMetadata.service;
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: siteMetadata.name,
-    url: getAbsoluteUrl(siteOrigin, "/"),
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": websiteId,
+        name: siteMetadata.name,
+        url: homepageUrl,
+        publisher: { "@id": organizationId },
+      },
+      {
+        "@type": "Organization",
+        "@id": organizationId,
+        name: siteMetadata.name,
+        url: homepageUrl,
+        email: organization.email,
+        description: organization.description,
+        sameAs: organization.sameAs,
+        founder: { "@id": personId },
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "enquiries",
+          email: organization.email,
+          availableLanguage: "English",
+        },
+        logo: {
+          "@type": "ImageObject",
+          url: getAssetUrl(siteOrigin, organization.logo),
+          width: organization.logoWidth,
+          height: organization.logoHeight,
+        },
+      },
+      {
+        "@type": "Person",
+        "@id": personId,
+        name: person.name,
+        url: getAbsoluteUrl(siteOrigin, person.url),
+        image: getAssetUrl(siteOrigin, person.image),
+        description: person.description,
+        jobTitle: person.jobTitle,
+        worksFor: { "@id": organizationId },
+        sameAs: person.sameAs,
+        hasCredential: person.credentials.map((credential) => ({
+          "@type": "EducationalOccupationalCredential",
+          name: credential.name,
+          credentialCategory: credential.credentialCategory,
+          ...(credential.url ? { url: credential.url } : {}),
+          recognizedBy: {
+            "@type": credential.recognizedBy.type,
+            name: credential.recognizedBy.name,
+            url: credential.recognizedBy.url,
+          },
+        })),
+      },
+      {
+        "@type": "Service",
+        "@id": serviceId,
+        name: service.name,
+        serviceType: service.serviceType,
+        url: getAbsoluteUrl(siteOrigin, service.url),
+        description: service.description,
+        provider: { "@id": organizationId },
+        audience: {
+          "@type": "PeopleAudience",
+          audienceType: service.audience,
+        },
+        areaServed: {
+          "@type": "Country",
+          name: service.areaServed,
+        },
+      },
+    ],
   };
 
   return `<script type="application/ld+json">${escapeJsonForHtml(JSON.stringify(structuredData))}</script>`;
@@ -72,7 +147,7 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   const robots = routeMetadata.robots
     ? [`<meta name="robots" content="${escapeHtml(routeMetadata.robots)}" />`]
     : [];
-  const structuredData = routePath === "/" ? [getWebsiteStructuredDataTag(siteMetadata, siteOrigin)] : [];
+  const structuredData = routePath === "/" ? [getHomeStructuredDataTag(siteMetadata, siteOrigin)] : [];
 
   return [
     "<!-- SEO metadata generated at build time -->",

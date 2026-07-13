@@ -23,6 +23,30 @@ Curated milestone history for durable project state. This is not a full changelo
 - Added: Explicit route/timestamp markers select `hydrateRoot` only for matching Home artifacts; unconverted, development, unknown, stale, and 404 paths retain the guarded `createRoot` fallback.
 - Verified: Production-preview desktop/mobile tests cover raw and JavaScript-disabled content, warning-free hydration, SPA navigation, mismatch fallback, metadata, landmarks, and the controlled 404 contract.
 
+## 2026-07-13 - Homepage Service Structured Data Added
+
+- Added: The generated homepage JSON-LD graph now includes a `Service` for counselling and psychotherapy for adults.
+- Linked: The Service identifies Vive Counselling as its provider and Australia as its service area, with an adult `PeopleAudience`.
+- Deferred: Delivery channel, session pricing, duration, address, and local-business classification remain out until they are intentionally included and maintained.
+
+## 2026-07-13 - Practitioner Credential Structured Data Added
+
+- Added: Joel Griffiths' `Person` schema now records the exact Graduate Diploma in Counselling and Psychotherapy from Edith Cowan University and ACA Registered Counsellor – Level 1 status through `hasCredential`.
+- Linked: The ACA credential uses Joel's public ACA profile as its verification URL and identifies the Australian Counselling Association as the recognizing organization.
+- Aligned: The visible Working with Joel credential list now uses the same full qualification and registration wording as the structured data.
+
+## 2026-07-13 - Homepage Person Structured Data Added
+
+- Added: The generated homepage JSON-LD graph now identifies Joel Griffiths as a `Person`, links him to the Vive Counselling `Organization` through `worksFor`, and records Joel as the Organization's `founder`.
+- Included: The Person uses the confirmed public name, counsellor title, practitioner-page URL, portrait, short description, and ACA public profile in `sameAs`.
+- Deferred: Credential detail was initially held until its exact wording and verification were confirmed; it is now recorded in the later practitioner-credential milestone above.
+
+## 2026-07-13 - Homepage Organization Structured Data Added
+
+- Added: The generated homepage JSON-LD now links the existing `WebSite` entity to a minimal `Organization` entity for Vive Counselling.
+- Included: The Organization uses only confirmed public identity details: business name, canonical URL, branded email, English enquiries contact point, 512px logo, short service description, and the Vive Counselling Kink Aware Professionals directory identity in `sameAs`.
+- Deferred: `Person`, `Service`, credentials, address, and `LocalBusiness` / `ProfessionalService` schema remain out until their exact public representation is confirmed.
+
 ## 2026-07-10 - DEBT-19 Legacy Topic CSS Resolved
 
 - Removed: Confirmed-dead `.issues-section*`, `.topic-grid`, and `.topic-card` base, contextual, hover, heading, and responsive rules from production CSS.
