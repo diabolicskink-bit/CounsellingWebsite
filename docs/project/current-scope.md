@@ -17,8 +17,8 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
 - The route/application tree is shared by separate browser and static wrappers. Both wrappers use the same Strict Mode boundary and pass the same serializable initial-render timestamp contract; the build now invokes the static wrapper for its in-memory render smoke check.
 - A prerender script updates route metadata artifacts, generated route HTML, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.
-- The production build creates a disposable Vite SSR bundle outside `dist` and imports it during prerendering. Home now receives real component-rendered header, page, navigation, and footer markup in its first response; the remaining metadata-backed routes still receive the temporary static H1/main shell.
-- The browser hydrates Home only when its explicit prerendered route marker, valid build timestamp, and normalized browser pathname match. Unconverted routes, development roots, stale or mismatched artifacts, unknown paths, and `404.html` continue through the client-render fallback.
+- The production build creates a disposable Vite SSR bundle outside `dist` and imports it during prerendering. Home, Working with Joel, and Inclusion now receive real component-rendered header, page, navigation, and footer markup in their first responses; the remaining metadata-backed routes still receive the temporary static H1/main shell.
+- The browser hydrates Home, Working with Joel, and Inclusion only when each artifact's explicit prerendered route marker, valid build timestamp, and normalized browser pathname match. Unconverted routes, development roots, stale or mismatched artifacts, unknown paths, and `404.html` continue through the client-render fallback.
 - Launch indexability is enabled for Home, Working with Joel, Inclusion, and Contact/Fees. Generated route HTML for those pages omits `noindex`, `sitemap.xml` advertises only those four canonical URLs, and `robots.txt` allows crawling with a sitemap reference.
 - The three draft Inclusion child routes remain direct routes for review but are excluded from production links, sitemap output, and indexing through route-level `noindex, nofollow` metadata.
 - `vivecounselling.com.au` and `www.vivecounselling.com.au` are assigned to the Vercel project; `www` is configured as a permanent redirect to the apex domain, and DNS resolves to Vercel.
@@ -36,7 +36,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Basic honeypot spam protection exists for enquiry submissions.
 - Vercel Analytics is rendered by the app when analytics are enabled and the runtime hostname is allowed; `SiteAnalytics` injects Google Analytics `gtag.js` with manual public-route `page_view` events when `VITE_GA_MEASUREMENT_ID` is configured, and Microsoft Clarity loads when `VITE_CLARITY_PROJECT_ID` is configured. The default analytics host allowlist is the canonical apex domain plus `www`, with `VITE_ANALYTICS_ALLOWED_HOSTS` available for explicit alternate environments such as local analytics QA.
 - The enquiry form is explicitly marked with `data-clarity-mask="true"` so Clarity does not capture form content even if recording features are enabled.
-- Playwright public-site tests exist under `tests/public-site.spec.ts`, including one-main-landmark coverage, Home raw/no-JavaScript/hydration and SPA-navigation coverage, activation fallback checks, generated metadata, sitemap, robots, and 404 fallback artifact coverage.
+- Playwright public-site tests exist under `tests/public-site.spec.ts`, including one-main-landmark coverage, raw/no-JavaScript/hydration coverage for Home, Working with Joel, and Inclusion, equivalent flat/nested artifact checks, SPA-navigation coverage, activation fallback checks, generated metadata, sitemap, robots, and 404 fallback artifact coverage.
 - Direct Node API tests cover accepted and rejected enquiry submissions under `tests/api/`.
 - Direct Node script tests cover route metadata origin policy under `tests/scripts/`.
 - The public-site QA gate, `npm run qa:site`, builds the app, starts the QA preview server, and passes the Playwright public-site suite locally.
@@ -51,7 +51,7 @@ This is the factual current scope of the Vive Counselling website and supporting
 ## Partially Included / Known Gaps
 
 - Enquiry spam protection includes a honeypot and conservative request-shape checks, but does not include platform rate limiting or complete abuse protection.
-- Home has full static component markup and hydration, but Working with Joel, Inclusion and its child routes, and Contact still use the temporary shell plus `createRoot` while the staged rollout continues.
+- Home, Working with Joel, and Inclusion have full static component markup and hydration, but the three Inclusion child routes and Contact still use the temporary shell plus `createRoot` while the staged rollout continues.
 - Endpoint-level native form posts are supported, but full JavaScript-disabled public-page rendering is not; the current Vite app still renders the contact form through client-side React.
 - Route definitions, route metadata, prerendering, and tests remain separate by design for this small route set; explicit route parity coverage is still tracked as debt.
 - Type checking does not currently cover tests, scripts, and most config files.

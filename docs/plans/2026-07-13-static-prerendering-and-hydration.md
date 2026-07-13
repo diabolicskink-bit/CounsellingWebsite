@@ -341,8 +341,12 @@ The draft inclusion child routes must remain directly reviewable, absent from pr
 
 #### Notes
 
-- Status: Not started.
+- Status: In progress.
 - Agent notes:
+  - Working with Joel and Inclusion now join Home in the explicit prerender set. Each route is rendered through the shared server entry with the same build timestamp, written with matching route markers, and hydrated only when the browser pathname matches.
+  - Focused raw-HTML, JavaScript-disabled, hydration, and route-interaction coverage verifies both routes without changing their markup, copy, navigation policy, or sitemap status.
+  - Both the flat and nested output forms for Working with Joel and Inclusion are asserted byte-equivalent and carry the same component markup and activation markers.
+  - The three draft Inclusion child routes remain on the temporary shell and Phase 6 is not complete until they are converted with their existing `noindex, nofollow`, production-navigation, and sitemap exclusions intact.
 
 ### Phase 7 - Convert Contact With Deterministic Data
 

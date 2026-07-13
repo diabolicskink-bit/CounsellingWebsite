@@ -10,6 +10,20 @@ const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
 const indexableRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"];
+const prerenderedRoutePaths = ["/", "/working-with-joel", "/inclusion"];
+const prerenderedRouteSmokeFragments = {
+  "/": ['<main class="site-page home-page">', "Counselling and Psychotherapy"],
+  "/working-with-joel": [
+    '<main class="site-page working-with-joel-page">',
+    "Working with Joel",
+    'src="/joel-griffiths-working-with-joel-portrait.jpg"',
+  ],
+  "/inclusion": [
+    '<main class="site-page inclusion-page">',
+    "Inclusive counselling",
+    'class="inclusion-hub__panels"',
+  ],
+};
 const staticShellStart = "<!-- Static route shell generated at build time -->";
 const staticShellEnd = "<!-- /Static route shell generated at build time -->";
 const staticShellRootPattern =
@@ -228,22 +242,27 @@ function applyRenderedRouteRoot(html, renderedMarkup, routePath, prerenderedAt) 
   return html.replace(emptyRoot, () => renderedRoot);
 }
 
-function assertHomeRenderSmoke(html) {
+function assertRenderedRouteSmoke(html, routePath) {
+  const routeFragments = prerenderedRouteSmokeFragments[routePath];
+
+  if (!routeFragments) {
+    throw new Error(`Prerendered route is missing a smoke-test contract: ${routePath}`);
+  }
+
   const expectedFragments = [
     '<header class="site-header">',
-    '<main class="site-page home-page">',
-    "Counselling and Psychotherapy",
+    ...routeFragments,
     '<footer class="site-footer">',
   ];
 
   for (const fragment of expectedFragments) {
     if (!html.includes(fragment)) {
-      throw new Error(`Static Home render smoke check is missing expected content: ${fragment}`);
+      throw new Error(`Static render smoke check for ${routePath} is missing expected content: ${fragment}`);
     }
   }
 
   if (html.includes(staticShellStart) || html.includes("data-static-route-shell")) {
-    throw new Error("Static Home render smoke check unexpectedly contains the temporary route shell.");
+    throw new Error(`Static render smoke check for ${routePath} unexpectedly contains the temporary route shell.`);
   }
 }
 
@@ -306,6 +325,12 @@ const siteOrigin = getSiteOrigin(site);
 const sitemapEntries = getSitemapEntries(routes, siteOrigin);
 const prerenderedAt = new Date().toISOString();
 
+for (const routePath of prerenderedRoutePaths) {
+  if (!routes[routePath]) {
+    throw new Error(`Prerendered route is missing from route metadata: ${routePath}`);
+  }
+}
+
 process.env.NODE_ENV = "production";
 const serverEntry = await import(pathToFileURL(serverEntryPath).href);
 
@@ -313,17 +338,22 @@ if (typeof serverEntry.renderRoute !== "function") {
   throw new Error(`Server render bundle does not export renderRoute: ${serverEntryPath}`);
 }
 
-const renderedHomeMarkup = serverEntry.renderRoute("/", { initialRenderAt: prerenderedAt });
+const renderedRouteMarkup = new Map(
+  prerenderedRoutePaths.map((routePath) => [
+    routePath,
+    serverEntry.renderRoute(routePath, { initialRenderAt: prerenderedAt }),
+  ]),
+);
 
 for (const [routePath, routeMetadata] of Object.entries(routes)) {
   const routeTemplate = applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin);
-  const routeHtml =
-    routePath === "/"
-      ? applyRenderedRouteRoot(routeTemplate, renderedHomeMarkup, routePath, prerenderedAt)
-      : applyStaticRouteShell(routeTemplate, routePath, routeMetadata, prerenderedAt);
+  const renderedMarkup = renderedRouteMarkup.get(routePath);
+  const routeHtml = renderedMarkup
+    ? applyRenderedRouteRoot(routeTemplate, renderedMarkup, routePath, prerenderedAt)
+    : applyStaticRouteShell(routeTemplate, routePath, routeMetadata, prerenderedAt);
 
-  if (routePath === "/") {
-    assertHomeRenderSmoke(routeHtml);
+  if (renderedMarkup) {
+    assertRenderedRouteSmoke(routeHtml, routePath);
   }
 
   for (const outputPath of getRouteOutputPaths(routePath)) {
@@ -357,4 +387,6 @@ await Promise.all([
   writeFile(path.join(distDir, "robots.txt"), robotsTxt),
 ]);
 
-console.log(`Validated the static render entry and prerendered metadata for ${Object.keys(routes).length} public routes.`);
+console.log(
+  `Prerendered ${prerenderedRoutePaths.length} routes and validated metadata for ${Object.keys(routes).length} public routes.`,
+);

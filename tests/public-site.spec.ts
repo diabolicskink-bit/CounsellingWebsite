@@ -30,7 +30,27 @@ const publicRoutes = [
   "/inclusion/lgbtqia",
   "/contact",
 ] as const;
-const prerenderedRoutes = ["/"] as const;
+const prerenderedRoutes = ["/", "/working-with-joel", "/inclusion"] as const;
+const prerenderedRouteContracts = {
+  "/": {
+    mainClass: "site-page home-page",
+    rawFragments: ['href="/working-with-joel"', 'src="/joel-griffiths-homepage-portrait.jpg"'],
+    noJavaScriptSelector: 'img[src="/joel-griffiths-homepage-portrait.jpg"]',
+  },
+  "/working-with-joel": {
+    mainClass: "site-page working-with-joel-page",
+    rawFragments: [
+      'src="/joel-griffiths-working-with-joel-portrait.jpg"',
+      'aria-label="Counselling approach"',
+    ],
+    noJavaScriptSelector: 'img[src="/joel-griffiths-working-with-joel-portrait.jpg"]',
+  },
+  "/inclusion": {
+    mainClass: "site-page inclusion-page",
+    rawFragments: ['class="inclusion-hub__panels"', 'class="site-faq-list"'],
+    noJavaScriptSelector: ".inclusion-hub__panels",
+  },
+} as const;
 
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
@@ -394,7 +414,7 @@ test.describe("public pages", () => {
   }
 });
 
-test.describe("Home hydration rollout", () => {
+test.describe("prerendered route hydration rollout", () => {
   test("keeps client navigation active after hydrating Home", async ({ page }) => {
     const diagnostics = collectPageDiagnostics(page);
 
@@ -423,20 +443,24 @@ test.describe("Home hydration rollout", () => {
   });
 });
 
-test.describe("Home without JavaScript", () => {
+test.describe("prerendered routes without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
-  test("exposes meaningful component-rendered content and links", async ({ page }) => {
-    await page.goto("/", { waitUntil: "networkidle" });
+  for (const route of prerenderedRoutes) {
+    test(`${route} exposes meaningful component-rendered content and links`, async ({ page }) => {
+      const contract = prerenderedRouteContracts[route];
 
-    await expect(page.locator("header.site-header")).toBeVisible();
-    await expect(page.locator("main.home-page")).toBeVisible();
-    await expect(page.locator("h1")).toHaveText("Counselling and Psychotherapy");
-    await expect(page.locator('a[href="/working-with-joel"]')).not.toHaveCount(0);
-    await expect(page.locator('img[src="/joel-griffiths-homepage-portrait.jpg"]')).toBeVisible();
-    await expect(page.locator("footer.site-footer")).toBeVisible();
-    await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
-  });
+      await page.goto(route, { waitUntil: "networkidle" });
+
+      await expect(page.locator("header.site-header")).toBeVisible();
+      await expect(page.locator(`main.${contract.mainClass.split(" ").join(".")}`)).toBeVisible();
+      await expect(page.locator("h1")).toHaveText(routeMetadataData.routes[route].h1);
+      await expect(page.locator(contract.noJavaScriptSelector)).toBeVisible();
+      await expect(page.locator("header.site-header a[href], footer.site-footer a[href]")).not.toHaveCount(0);
+      await expect(page.locator("footer.site-footer")).toBeVisible();
+      await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
+    });
+  }
 });
 
 test.describe("landmark structure", () => {
@@ -463,13 +487,17 @@ test.describe("first response metadata", () => {
       expect(response.ok()).toBeTruthy();
       expectNoGeneratedOriginLeak(html);
       if (prerenderedRoutes.includes(route as (typeof prerenderedRoutes)[number])) {
+        const prerenderedRoute = route as (typeof prerenderedRoutes)[number];
+        const contract = prerenderedRouteContracts[prerenderedRoute];
+
         expect(html).toContain('data-render-mode="prerendered"');
         expect(html).toContain(`data-prerendered-path="${escapeHtml(route)}"`);
         expect(html).toContain('<header class="site-header">');
-        expect(html).toContain('<main class="site-page home-page">');
+        expect(html).toContain(`<main class="${contract.mainClass}">`);
         expect(html).toContain(`<h1 class="hero-badge">${escapeHtml(metadata.h1)}</h1>`);
-        expect(html).toContain('href="/working-with-joel"');
-        expect(html).toContain('src="/joel-griffiths-homepage-portrait.jpg"');
+        for (const fragment of contract.rawFragments) {
+          expect(html).toContain(fragment);
+        }
         expect(html).toContain('<footer class="site-footer">');
         expect(html).not.toContain("data-static-route-shell");
         expect(html).not.toContain("Static route shell generated at build time");
@@ -519,6 +547,21 @@ test.describe("first response metadata", () => {
         expect(html).toContain(faviconTag);
       }
       expect(html).toContain(`<meta name="theme-color" content="${escapeHtml(routeMetadataData.site.themeColor)}" />`);
+    });
+  }
+});
+
+test.describe("prerendered route output forms", () => {
+  for (const route of prerenderedRoutes.filter((route) => route !== "/")) {
+    test(`${route} has equivalent flat and nested artifacts`, () => {
+      const artifactPath = route.slice(1);
+      const flatHtml = readFileSync(new URL(`../dist/${artifactPath}.html`, import.meta.url), "utf8");
+      const nestedHtml = readFileSync(new URL(`../dist/${artifactPath}/index.html`, import.meta.url), "utf8");
+
+      expect(nestedHtml).toBe(flatHtml);
+      expect(flatHtml).toContain('data-render-mode="prerendered"');
+      expect(flatHtml).toContain(`data-prerendered-path="${route}"`);
+      expect(flatHtml).not.toContain("data-static-route-shell");
     });
   }
 });
