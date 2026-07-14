@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-14 - Staging Integration Workflow Adopted
+
+- Added: A long-lived `staging` branch now sits between working branches and the production `master` branch.
+- Defined: New `work/*` branches normally start from `staging`, return to `staging` when complete, and reach production by merging the combined release candidate into `master` without squashing or rebasing the long-lived branch.
+- Preserved: Vercel can continue creating previews for all non-production branches; the `staging` preview is the integrated release check, while working-branch previews remain available for isolated review.
+
 ## 2026-07-13 - Public Routes Gain Static Rendering And Hydration
 
 - Changed: Generated HTML for all seven metadata-backed public routes now contains the real React header, navigation, page sections, links, media or form content, and footer before JavaScript; the duplicate public H1 metadata and temporary public-shell generator have been retired.
