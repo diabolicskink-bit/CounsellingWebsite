@@ -20,6 +20,15 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 - Do not treat a file in `src/components/` as active design-system API unless the design-system docs describe it that way.
 - Keep one-off visual explorations page-scoped until they prove useful beyond one context.
 
+## Git And Release Workflow
+
+- `master` is the production branch and the source for Vercel production deployments.
+- `staging` is the long-lived integration branch and primary release candidate. Use its Vercel preview deployment to review combined changes before production.
+- Create `work/*` branches from the current `staging` branch by default, then merge completed work back into `staging`.
+- Vercel may create preview deployments for any non-production branch. Working-branch previews are useful for isolated checks; the `staging` preview represents the combined release candidate.
+- Release by fast-forwarding or merging `staging` into `master`. Do not squash or rebase the long-lived `staging` branch into `master`, because their shared history should remain usable for later releases.
+- If a production fix lands directly on `master`, bring it back into `staging` before creating further work so the branches do not drift.
+
 ## Update Rules
 
 - Update [docs/project/current-scope.md](docs/project/current-scope.md) when public-site, API, test, deployment, or documentation scope changes.
