@@ -10,7 +10,6 @@ import "../styles-enm-polyamory.css";
 
 type LinkItem = { label: string; href: string };
 type PositionItem = { label: string; prose: string };
-type GapItem = { title: string; copy: string };
 type TopicItem = { title: string; copy: string };
 type PrincipleItem = { title: string; text: string };
 type FaqItem = { question: string; answer: string };
@@ -38,7 +37,7 @@ const pageContent = {
       {
         label: "When the ground shifts.",
         prose:
-          "The possibility of opening a relationship can change what had felt settled. You may not know what you want yet, especially when your answer could affect someone you love.",
+          "The possibility of opening a relationship can change what had felt settled, whether you raised it or your partner did. You may not know what you want yet, especially when speaking honestly could affect someone you love.",
       },
       {
         label: "Jealousy and insecurity.",
@@ -61,31 +60,6 @@ const pageContent = {
           "Something happened outside the agreement you thought you had. Non-monogamy does not make the hurt less real.",
       },
     ] satisfies PositionItem[],
-  },
-
-  gapSection: {
-    eyebrow: "The gap",
-    heading: "What usually happens when therapy hasn't been designed with you in mind.",
-    intro:
-      "Not a complaint about bad therapists. A description of the extra work that lands on the client when basic contextual knowledge isn't already there.",
-    items: [
-      {
-        title: "You become the educator",
-        copy: "Having to explain how non-monogamy works, what your agreements mean, or why the structure makes sense — before the session can reach the actual issue.",
-      },
-      {
-        title: "The structure gets diagnosed",
-        copy: "Jealousy, grief, or conflict get attributed to the relationship model rather than heard on their own terms.",
-      },
-      {
-        title: "Monogamy is the unspoken repair",
-        copy: "The shape of the conversation quietly assumes that closing or restructuring the relationship is the sensible direction, before that has been established.",
-      },
-      {
-        title: "The real concern gets crowded out",
-        copy: "Whatever brought you in gets less room than managing the therapist's relationship to your relationship.",
-      },
-    ] satisfies GapItem[],
   },
 
   topicsSection: {
@@ -123,24 +97,23 @@ const pageContent = {
   },
 
   approachSection: {
-    eyebrow: "The approach",
-    quote: "The aim isn't to steer you anywhere. It's to understand what's actually happening.",
+    heading: "What ENM-aware counselling means here.",
     paragraphs: [
-      "This isn't a pro-ENM practice in the sense that every agreement gets validated and every difficulty located somewhere else. It is a practice that does not import a structural preference into the work.",
-      "When the relationship is relevant — consent, pressure, capacity, disclosure, resentment, repair — we can look at it directly. When it isn't the main thing, the room doesn't keep dragging it back.",
+      "You should not have to spend a session explaining basic terms, defending the shape of your relationships, or managing a therapist's discomfort before you can get to the reason you came.",
+      "ENM-aware does not mean every agreement is endorsed or every difficulty is blamed on something else. It means neither monogamy nor non-monogamy is treated as the right answer in advance.",
     ],
     principles: [
       {
-        title: "No structural preference",
-        text: "Neither monogamy nor ENM is assumed healthier, more mature, or the right destination. What is actually happening for you takes priority.",
+        title: "Nothing is decided in advance",
+        text: "Consent, pressure, agreements, trust, capacity and repair can all be looked at directly, without assuming what the relationship should become.",
       },
       {
-        title: "Complexity can stay complex",
-        text: "Multiple attachments, divided loyalties, or layered pressures don't need to be simplified before they can be worked with.",
+        title: "Feelings are not verdicts",
+        text: "Jealousy, grief, shame or anger can be taken seriously without being treated as proof that non-monogamy is the problem.",
       },
       {
-        title: "Feelings before verdicts",
-        text: "Jealousy, grief, shame, or anger are heard before they are explained. A feeling is not treated as evidence of the structure failing.",
+        title: "Your concern stays central",
+        text: "When relationship structure matters, it is part of the work. When it doesn't, it can stay in the background rather than taking over the room.",
       },
     ] satisfies PrincipleItem[],
   },
@@ -210,7 +183,6 @@ export default function EnmPolyamoryCounselling() {
   const {
     hero,
     positionsSection,
-    gapSection,
     topicsSection,
     approachSection,
     individualSection,
@@ -263,23 +235,24 @@ export default function EnmPolyamoryCounselling() {
         </Container>
       </section>
 
-      {/* ── The gap ──────────────────────────────────────────────────────── */}
-      <section className="site-highlight enm-page__gap">
-        <Container className="enm-page__gap-inner">
-          <div className="enm-page__gap-header">
-            <span className="site-eyebrow">{gapSection.eyebrow}</span>
-            <h2>{gapSection.heading}</h2>
-            <p className="section-heading__copy">{gapSection.intro}</p>
+      {/* ── ENM-aware counselling ───────────────────────────────────────── */}
+      <section className="site-highlight enm-page__approach">
+        <Container className="enm-page__approach-inner">
+          <div className="enm-page__approach-lead">
+            <h2 className="enm-page__approach-quote">{approachSection.heading}</h2>
+            <div className="enm-page__approach-prose">
+              {approachSection.paragraphs.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+            </div>
           </div>
-          <div className="enm-page__gap-grid" aria-label="Common gaps in therapy not designed for ENM">
-            {gapSection.items.map((item, i) => (
-              <article className="enm-page__gap-card" key={item.title}>
-                <span className="enm-page__gap-card-num" aria-hidden="true">
-                  0{i + 1}
-                </span>
+
+          <div className="enm-page__approach-strip" aria-label="What ENM-aware counselling means here">
+            {approachSection.principles.map((item) => (
+              <div className="enm-page__approach-item" key={item.title}>
                 <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
+                <p>{item.text}</p>
+              </div>
             ))}
           </div>
         </Container>
@@ -304,32 +277,6 @@ export default function EnmPolyamoryCounselling() {
           </div>
 
           <p className="enm-page__topics-note">{topicsSection.note}</p>
-        </Container>
-      </section>
-
-      {/* ── The approach ─────────────────────────────────────────────────── */}
-      <section className="site-highlight enm-page__approach">
-        <Container className="enm-page__approach-inner">
-          <div className="enm-page__approach-lead">
-            <span className="site-eyebrow">{approachSection.eyebrow}</span>
-            <blockquote className="enm-page__approach-quote">
-              {approachSection.quote}
-            </blockquote>
-            <div className="enm-page__approach-prose">
-              {approachSection.paragraphs.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </div>
-          </div>
-
-          <div className="enm-page__approach-strip" aria-label="How ENM-aware counselling is held">
-            {approachSection.principles.map((item) => (
-              <div className="enm-page__approach-item" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-            ))}
-          </div>
         </Container>
       </section>
 
