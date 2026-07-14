@@ -63,7 +63,6 @@ This is the live factual inventory of the design system.
 - CMS content component model.
 - Complete component status labelling system.
 - Design decision log.
-- Formal migration tracker beyond `maintenance/migration-notes.md` and linked `DEBT-*` items.
 - Full public page pattern catalogue.
 - App-consumed machine-readable token source beyond `src/styles.css`.
 

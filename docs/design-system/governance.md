@@ -99,7 +99,7 @@ Cleanup should converge on active `site-*`, `hero-*`, and shared component patte
 
 Cleanup should not copy old demo styles into production pages. If an old demo idea is useful, promote the idea deliberately.
 
-Use `maintenance/cleanup-sweeps.md` for named sweep behaviour and `maintenance/migration-notes.md` for known legacy areas.
+Use `maintenance/cleanup-sweeps.md` for named sweep behaviour, `current-scope.md` for known legacy areas, and the project debt tracker for concrete unresolved cleanup work.
 
 ## Verification
 

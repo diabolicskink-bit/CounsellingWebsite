@@ -1,6 +1,6 @@
 # Design System Documentation
 
-This directory is the active design-system guidance for Vive Counselling. It covers visual foundations, shared components, page patterns, rendered design-system pages, cleanup rules, and legacy migration context.
+This directory is the active design-system guidance for Vive Counselling. It covers visual foundations, shared components, page patterns, rendered design-system pages, cleanup rules, and current legacy status.
 
 Start here before changing shared UI, layout, reusable CSS, rendered design-system pages, or design-system documentation.
 
@@ -22,7 +22,7 @@ For design-system architecture or promotion work:
 For cleanup work:
 
 1. Read `maintenance/cleanup-sweeps.md`.
-2. Check `maintenance/migration-notes.md` and `../project/project-debt.md` for related `DEBT-*` items.
+2. Check `current-scope.md` for legacy status and `../project/project-debt.md` for related `DEBT-*` items.
 3. Keep cleanup focused and behaviour-preserving unless the task explicitly asks for redesign.
 
 ## File Map
@@ -34,7 +34,6 @@ For cleanup work:
 - `patterns/components.md` owns active React components and component-backed API.
 - `patterns/page-patterns.md` owns shared `site-*`, `hero-*`, section, card, panel, rich-text, CTA, form, and page-pattern guidance.
 - `maintenance/cleanup-sweeps.md` owns cleanup sweep behaviour and named cleanup modes.
-- `maintenance/migration-notes.md` owns legacy and migration context that should stay visible across future design-system work.
 
 ## Implementation Sources
 

@@ -437,7 +437,7 @@ Each active item should include enough direction that a future session can choos
   - Reviewed 2026-07-13 during master alignment: LGBTQIA+ (`/inclusion/lgbtqia`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
   - Pending opportunistic review: Contact and fees (`/contact`).
   - Pending opportunistic review: Not Found and controlled `404.html` boundary.
-- `Links`: `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`, `docs/plans/2026-07-13-static-prerendering-and-hydration.md`
+- `Links`: `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`, `docs/project/task-log.md`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
