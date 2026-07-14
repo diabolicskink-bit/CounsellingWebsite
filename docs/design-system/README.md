@@ -9,15 +9,15 @@ Start here before changing shared UI, layout, reusable CSS, rendered design-syst
 For normal UI or layout work:
 
 1. Read `../project/product-direction.md` for audience, voice, and public-site intent.
-2. Read `ai-rules.md` for the compact working checklist.
+2. Read `../project/writing-direction.md` when public copy or content hierarchy may be affected.
 3. Check `current-scope.md` for what is active, partial, legacy, or out of scope.
-4. Use `patterns/components.md` and `patterns/page-patterns.md` before creating new UI.
+4. Use `patterns/components.md` and `patterns/page-patterns.md` before creating or extending UI.
+5. Read `governance.md` when changing shared classes, components, rendered design-system pages, reusable-API status, or design-system documentation.
 
 For design-system architecture or promotion work:
 
 1. Read `governance.md`.
-2. Check `current-scope.md`.
-3. Update the relevant foundation, pattern, or maintenance doc in the same change.
+2. Check `current-scope.md` and the relevant foundation or pattern catalogue.
 
 For cleanup work:
 
@@ -27,8 +27,7 @@ For cleanup work:
 
 ## File Map
 
-- `ai-rules.md` is the short AI checklist for visual work.
-- `governance.md` owns source-of-truth order, active and legacy layer policy, promotion rules, and update duties.
+- `governance.md` owns implementation-evidence rules, reusable-API authority, active and legacy layer policy, promotion rules, and update duties.
 - `current-scope.md` is the factual inventory of what the design system currently includes.
 - `foundations/principles.md` owns visual intent and tone.
 - `foundations/tokens.md` owns colour, spacing, type roles, and baseline typography guidance.
@@ -39,7 +38,7 @@ For cleanup work:
 
 ## Implementation Sources
 
-- `src/styles.css` is the production source of truth for tokens, base typography, shared classes, `site-*`, `hero-*`, and promoted reusable patterns.
+- `src/styles.css` is the production implementation source for tokens, base typography, shared classes, `site-*`, `hero-*`, and promoted reusable patterns. Governance and the active catalogues determine whether an implementation is approved reusable API.
 - `src/components/` contains shared React components, but a file existing there does not automatically make it active design-system API. Check `current-scope.md` and `patterns/components.md`.
 - `src/pages/dev/design-system/` contains the rendered design-system pages.
 - `src/styles-dev.css` contains docs/dev support styling such as `ds-*`.
@@ -56,9 +55,3 @@ The rendered design-system experience currently lives under historical `/design-
 - `/design-language/patterns`
 
 Treat those as design-system pages even though the route name is historical.
-
-## Update Rule
-
-If design-system work adds, removes, promotes, deprecates, or materially changes a token, component, pattern, rendered design-system page, legacy layer, or known missing area, update `current-scope.md` in the same change.
-
-Tiny implementation changes that do not change design-system scope do not need a scope update.

@@ -27,6 +27,7 @@ The site should feel authored and grounded, not like a therapy-directory templat
 - Inclusion work should read as ordinary practice knowledge, not badge language.
 - Serious subject matter does not require bland design.
 - Reuse should support the content, not flatten every page into the same grid.
+- Do not invent generic public sections or reshape approved copy merely to complete a familiar layout.
 - Page-specific compositions are allowed when they make the page clearer and remain grounded in the shared foundations.
 
 ## Accessibility And Trust

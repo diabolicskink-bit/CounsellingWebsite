@@ -1,53 +1,110 @@
 # Product Direction
 
-## Register
+This document records product-level decisions for the Vive Counselling website. It is an internal brief, not a sample of finished public copy.
 
-brand
+Use [writing-direction.md](writing-direction.md) for voice, wording, source order, SEO language, and copy-review workflow. Use [current-scope.md](current-scope.md) for exact current routes, behaviour, service presentation, and implementation facts.
 
-## Users
+## Practice Context
 
-Vive Counselling is for adults across Australia who are carrying something difficult, private, tangled, or hard to say plainly. They may be dealing with anxiety, low mood, shame, self-criticism, trauma, relationship strain, sexuality, kink, ENM, polyamory, LGBTQIA+ identity, grief, burnout, or a problem that does not yet have a clean name.
+The following facts shape the website's direction:
 
-Many visitors are checking whether this room will be competent enough, direct enough, and non-shaming enough before they risk making contact. They should not feel sold to, softened into generic wellness language, pathologised, or required to translate the basics of their life before the work can begin.
+- Vive Counselling is Joel Griffiths' counselling practice.
+- The practice works with adults and is based in Perth, with service available to adults across Australia.
+- Joel's approach is psychodynamic and attachment-informed.
+- The practice works with concerns including anxiety, low mood, shame, self-criticism, trauma, relationship difficulties, grief, and burnout.
+- Kink, BDSM, ENM, polyamory, sexuality, and LGBTQIA+ lives can be relevant subjects or context within ordinary counselling work.
 
-## Product Purpose
+Exact public wording, credentials, fees, availability, delivery details, and other operational claims must be checked against current project facts before publication.
 
-The site exists to help a person decide whether online counselling with Joel Griffiths is a serious, credible, human place to begin. It should make the practice clear: Perth-based, online across Australia, psychodynamic and attachment-informed, inclusive of kink, ENM, polyamory, LGBTQIA+ lives, and ordinary adult difficulty.
+## Site Job
 
-Success is not persuasion at any cost. Success is a visitor feeling that the site has named the work plainly, shown enough practical detail to trust the process, and made enquiry feel possible without turning therapy into a sales funnel.
+The website should help a prospective client decide whether contacting Joel is a sensible next step.
 
-## Brand Personality
+It needs to help visitors:
 
-Grounded, direct, literate, emotionally exact, quietly playful, and willing to be bold when the boldness clarifies something true.
+- identify the service and the practitioner;
+- understand the kinds of concerns and contexts Joel works with;
+- get a useful account of his approach;
+- find the practical information currently available;
+- understand what enquiry or an initial consultation involves;
+- reach the appropriate contact path without unnecessary friction.
 
-The voice should be serious without becoming cold, warm without becoming sentimental, and specific enough that it feels written by a person with judgement. It can have dry humour, odd specificity, and a little bite where that makes the site feel more human. Beyond Blue is a useful voice reference for plain-spoken public mental health communication: clear, credible, practical, and unshowy. Vive should not copy Beyond Blue, but it should share that commitment to clarity over flourish.
+The site does not need to persuade every visitor. It should provide enough accurate information for someone to make their own decision.
 
-## Anti-references
+## Audiences
 
-Avoid AI wellness copy, vague "safe space" language, waffly therapy generalities, pastel counselling cliches, inspirational fluff, clinical coldness, glossy startup therapy branding, over-explaining, euphemism, and copy that sounds generated.
+The primary audience is adults considering counselling with Joel. This includes:
 
-Avoid making inclusion feel like badge language. Kink, ENM, polyamory, and LGBTQIA+ competence should read as ordinary practice knowledge, not as a decorative claim.
+- people looking for help with a named concern;
+- people who know something is difficult but do not yet have a clear description for it;
+- people comparing practitioners, approaches, fees, or contact arrangements;
+- people for whom kink, BDSM, ENM, polyamory, sexuality, or LGBTQIA+ experience is relevant to the work;
+- people who need to know whether they can use familiar language without first explaining basic terminology.
 
-Avoid over-designed self-help aesthetics: floating blobs, soft-focus positivity, generic stock calm, twee affirmation language, and any visual or written move that makes hard things feel tidied up before they have been understood.
+These are overlapping circumstances, not fixed personas. The website should not invent private thoughts, motivations, or emotional responses for visitors.
 
-Avoid solemn blandness. The site should not flatten itself into beige seriousness, institutional caution, or therapy-directory sameness.
+## Visitor Decisions
 
-## Design Principles
+Public content should support five practical decisions:
 
-Make the room feel competent before it feels comforting. Trust comes from specificity, steadiness, and clear boundaries, not from therapeutic mood words.
+1. Does Joel work with the concern or context I want to discuss?
+2. Does his way of working sound relevant to what I am looking for?
+3. Does the site show enough knowledge and judgement for me to consider contact?
+4. Do the available practical arrangements work for me, or do I know what I still need to ask?
+5. What is the next useful step if I want to enquire?
 
-Write like someone serious is listening. Use plain language with emotional precision. Do not pad, soothe by default, or turn difficult material into wellness copy.
+Pages do not need to answer every decision equally. Each page should have a defined job within this larger decision path.
 
-Let the site be memorable on purpose. Controlled boldness, sharp line breaks, useful asymmetry, and unexpected but exact language are welcome when they make the work feel more real.
+## Positioning Decisions
 
-Treat inclusion as working knowledge. Diverse sexuality, identity, and relationship structures should be understood inside the frame of ordinary therapy, not isolated as novelty.
+- Present a specific practitioner and practice rather than an institutional service, directory listing, or generic therapy brand.
+- Show subject familiarity through accurate terms, useful distinctions, relevant questions, and clear boundaries. Do not rely on inclusion badges or unsupported claims of complete understanding.
+- Treat kink, BDSM, ENM, polyamory, sexuality, and LGBTQIA+ experience as ordinary possible context for counselling rather than novelty or pathology.
+- Explain the approach in terms that help a prospective client understand the work. Modality labels alone are not enough.
+- Use confirmed practical detail to reduce uncertainty. Do not fill missing information with reassurance or assumptions.
+- Do not imply guaranteed suitability, safety, outcomes, or freedom from judgement. The website can explain Joel's approach and commitments without predicting a visitor's experience.
+- Let individual pages differ when their subject and visitor questions differ. Consistency should come from shared facts, navigation, and product direction rather than identical page structures.
 
-Let practical detail lower the stakes. Fees, session format, availability, contact expectations, and limits should be easy to find and calmly stated.
+## Product Success Criteria
 
-Keep the surface quiet enough for the words to carry, but not so quiet that the site loses its pulse. The design should support reading, trust, and enquiry while still feeling authored.
+The website is doing its job when:
 
-## Accessibility & Inclusion
+- the service, practitioner, and purpose of each public page are identifiable;
+- specialist pages contain information that belongs to their subject rather than repeating a generic counselling page;
+- inclusion is evident in the knowledge, assumptions, examples, and boundaries used;
+- current practical information is findable and consistent across relevant pages;
+- important service or ethical limits are stated clearly;
+- enquiry instructions and alternatives are understandable;
+- public claims can be traced to confirmed practice facts or explicit owner decisions.
 
-No project-specific accessibility standard has been set beyond a solid production baseline. Use WCAG AA as the working floor: semantic HTML, readable contrast, visible focus states, keyboard-friendly navigation and forms, responsive layouts, clear labels, clear error states, and reduced-motion care where motion exists.
+These criteria concern clarity and decision support. They do not require a particular emotional response, conversion rate, page length, or writing formula.
 
-Inclusion is core to the product, not an add-on. The site should avoid assumptions about gender, sexuality, relationship structure, partners, bodies, family, religion, or what a healthy adult life is supposed to look like.
+## Non-Goals
+
+The website is not intended to become:
+
+- a general mental-health information library;
+- a comprehensive educational guide to every specialist subject;
+- a self-help product;
+- a therapy marketplace or practitioner directory;
+- a promise that counselling with Joel will suit everyone;
+- a showcase where every heading or section must be distinctive.
+
+Feature boundaries such as booking, payments, accounts, publishing, and administration are recorded in [current-scope.md](current-scope.md), not decided by this document.
+
+## Accessibility And Inclusion
+
+WCAG AA is the working accessibility baseline. Current implementation status and launch review belong in the project scope and `LAUNCH-*` tracker rather than being inferred from this statement.
+
+The product direction requires:
+
+- semantic structure and clear labels;
+- keyboard access and visible focus;
+- readable contrast and responsive layouts;
+- understandable form instructions and error states;
+- reduced-motion care where motion exists;
+- wording and interaction that do not assume a visitor's gender, sexuality, relationship structure, partners, body, family, religion, or preferred form of adult life.
+
+## Active Positioning Constraint
+
+Online delivery remains a service fact, but the decision about how prominently to present it is temporarily constrained while Google Business Profile verification and positioning are being settled. [writing-direction.md](writing-direction.md) owns the current wording rule until the owner explicitly changes it.

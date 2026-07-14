@@ -14,7 +14,7 @@ Use stable IDs when discussing or working on these items, such as `LAUNCH-1`. Do
 - Keep launch items focused on review outcomes and acceptance conditions, not the detailed implementation of every gap they discover.
 - Link found work to `SITE-*` for visitor-facing changes or `DEBT-*` for technical/project-health work.
 - Use `Status` to show review progress; use linked items to show what needs changing.
-- Move completed launch items to the archive only when the review is complete and unresolved gaps are either accepted, resolved, or tracked elsewhere.
+- Move completed launch items to [archive/launch-readiness-archive.md](archive/launch-readiness-archive.md) only when the review is complete and unresolved gaps are either accepted, resolved, or tracked elsewhere.
 - Keep active items ordered by priority first, then ID.
 - Do not treat this tracker as permission to implement a fix. It is memory, readiness tracking, and sign-off support.
 
@@ -148,6 +148,6 @@ Statuses:
 - `Linked Work`: `DEBT-24`, `SITE-23`
 - `Links`: `docs/project/current-scope.md`, `src/data/routeMetadata.json`, `vercel.json`, `docs/project/project-debt.md`
 
-## Archive
+## Resolved Item Archive
 
-No archived launch readiness items yet.
+Completed and superseded `LAUNCH-*` items live in [archive/launch-readiness-archive.md](archive/launch-readiness-archive.md). The archive is currently empty.
