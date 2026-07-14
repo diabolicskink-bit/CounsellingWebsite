@@ -1,23 +1,23 @@
 # Components
 
-This catalogue lists active React components and component-backed API. A file existing in `src/components/` is not automatically active design-system API.
+This catalogue inventories currently implemented React components and component-backed behaviour. During the temporary open-design period, it does not require fresh work to use their existing visual treatment or composition. A file existing in `src/components/` is not automatically shared API.
 
 ## Active Shared Components
 
 - `Container`
   Major page width containment.
 - `Button`
-  Shared action styles. Use existing variants: `primary`, `secondary`, and `tertiary`.
+  Current shared action component with `primary`, `secondary`, and `tertiary` variants.
 - `SectionHeading`
   Repeated section heading structure.
 - `FaqSection`
-  Shared FAQ accordion. The component owns the standard "Frequently asked questions" heading; question, answer, and intro content remain data-driven at page level. The component is surface-neutral and should be paired with an explicit section surface or deliberate page-scoped section.
+  Current shared FAQ accordion. The component owns the standard "Frequently asked questions" heading; question, answer, and intro content remain data-driven at page level. Fresh work may use another accessible disclosure or content structure when the selected direction or information does not suit this component.
 - `FaqSchema`
   FAQ structured data helper.
 - `BroadTabPanel`
   Compact sets of three to five related labels where each tab opens paragraph-length content in one broad panel. Owns ARIA tab semantics, roving focus, responsive stacking, reduced-motion handling, and `site-broad-tabs*` styling.
 - `EnquiryForm`
-  The production contact/enquiry form. Use with `src/data/enquiry.ts` so form flow, subject lines, fields, and direct-submit behaviour stay aligned.
+  The production contact/enquiry form. Its behaviour and `src/data/enquiry.ts` contract should stay aligned when retained; its current styling is not visual authority.
 - `Layout`
   Production shell, navigation, shared chrome detection, and footer. Its mobile menu owns Escape handling, body scroll locking and restoration, and focus return to the toggle.
 - `DevPageHero`, `DesignSystemSidebar`, `DocumentsSidebar`
@@ -27,13 +27,13 @@ This catalogue lists active React components and component-backed API. A file ex
 
 - The old `src/components/Card.tsx` component has been removed and is not active card API for new work.
 - Generic `.card`, `.card-grid`, and `.card-kicker` production selectors have been removed. Do not reintroduce them as compatibility aliases.
-- The old `src/components/SplitSection.tsx` component has been removed after review found no source call sites. Use explicit section composition with `.site-grid` or `.site-highlight`, `Container`, `.site-split`, `SectionHeading`, and `.rich-text` instead of reintroducing the generic `.section` / `.split` layer.
-- New card-like production UI should use active `site-*` card patterns or a page-scoped composition when the need is specific.
+- The old `src/components/SplitSection.tsx` component has been removed after review found no source call sites. Existing pages use explicit composition with `.site-grid` or `.site-highlight`, `Container`, `.site-split`, `SectionHeading`, and `.rich-text`; this is implementation history, not a required replacement recipe.
+- New card-like production UI may reuse current `site-*` patterns or use a different page-scoped treatment according to the selected direction.
 
-## Component Selection Rules
+## Component Selection After Direction
 
-- Reuse an active component when it fits the content, interaction, accessibility, and responsive needs.
-- Create or extend deliberately when reuse would make the page weaker, less clear, less accessible, or harder to maintain.
-- Do not create a new component just to avoid a documented pattern that already fits.
-- Do not force a page into a component when the match is only superficial.
-- Document any newly promoted reusable component here and show it in the rendered design-system pages when visual.
+- Establish the visual and content direction before selecting components.
+- Preserve existing functional components when their semantics, accessibility, data flow, or tested behaviour serve the task and can support the direction.
+- Restyle, compose around, replace, or create components when the existing visual or structural contract would weaken the selected direction.
+- Do not force a page into a component when the match is only superficial or primarily visual.
+- A new page-scoped component does not need promotion. Document it here only when the task deliberately makes it shared API.

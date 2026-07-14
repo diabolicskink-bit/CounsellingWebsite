@@ -2,7 +2,7 @@
 
 This directory is the whole-project memory for Vive Counselling. [../../AGENTS.md](../../AGENTS.md) owns agent task routing and repository-wide update triggers; this file maps document ownership and artifact authority.
 
-Project documentation sits beside, not inside, the design-system documentation. Use `docs/design-system/` for tokens, shared components, visual rules, rendered design-system pages, and design-system cleanup.
+Project documentation sits beside, not inside, the design-system documentation. `docs/design-system/` records existing tokens, shared components, implemented patterns, rendered design-system pages, and cleanup rules. During the temporary open-design period, it does not supply mandatory visual direction for fresh creation or redesign unless the current task explicitly adopts it.
 
 ## Authority And Artifact Types
 
@@ -15,7 +15,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 - [product-direction.md](product-direction.md) owns practice context, the site's job, audiences, visitor decisions, positioning, success criteria, non-goals, inclusion, and the accessibility baseline.
 - [writing-direction.md](writing-direction.md) owns public-copy status, source order, voice, SEO language, temporary wording constraints, collaboration, and implementation rules.
-- [../design-system/README.md](../design-system/README.md) is the entry point for visual foundations, reusable UI, and design-system work.
+- [../design-system/README.md](../design-system/README.md) is the entry point for current implementation reference, reusable UI assessment, and design-system maintenance. It is not a required source of visual direction for fresh design work during the temporary open-design period.
 
 ## Current State
 

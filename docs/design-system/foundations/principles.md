@@ -1,47 +1,37 @@
-# Design Principles
+# Visual Direction Status
 
-The visual system should make the practice feel competent before it feels comforting.
+## Temporary Open-Design Policy
 
-## Core Intent
+The previous design principles no longer constrain fresh creation or redesign. Establish visual direction from the current task, product purpose, audience, content, real assets, and the website-design workflow before consulting existing design-system material.
 
-- Calm without becoming generic.
-- Warm without becoming sentimental.
-- Direct without becoming harsh.
-- Editorial without becoming decorative.
-- Practical without becoming clinical.
+No fresh concept is required to preserve the current:
 
-The site should feel authored and grounded, not like a therapy-directory template or a wellness product.
+- paper, sage, and cedar palette;
+- Georgia and Inter/system type pairing;
+- shared hero composition;
+- section-band rhythm;
+- card, panel, split, FAQ, or CTA treatments;
+- restrained-shadow, modest-radius, or border-led material language;
+- controlled asymmetry, strong display line breaks, or editorial character;
+- expectation that a major page needs one memorable visual move.
 
-## Visual Character
+These choices remain facts about parts of the current implementation, not requirements or preferred future direction. They may be retained, transformed, or replaced when they genuinely serve a selected concept.
 
-- Use Warm Paper, Sage Wash, Clean Paper, Green Black, and Cedar Green as the dominant palette.
-- Let typography, spacing, borders, and section rhythm carry the design.
-- Use restrained shadows and clear boundaries rather than glossy effects.
-- Keep rounded corners modest.
-- Use controlled asymmetry and strong line breaks where they clarify the subject.
-- Let major public pages have one memorable editorial move when the content calls for it.
+## Direction Before Reuse
 
-## Content And Layout
+For fresh work:
 
-- Practical details should be easy to scan: fees, format, availability, contact expectations, and limits.
-- Inclusion work should read as ordinary practice knowledge, not badge language.
-- Serious subject matter does not require bland design.
-- Reuse should support the content, not flatten every page into the same grid.
-- Do not invent generic public sections or reshape approved copy merely to complete a familiar layout.
-- Page-specific compositions are allowed when they make the page clearer and remain grounded in the shared foundations.
+1. Define the page or interface job and the visitor decisions it supports.
+2. Develop structurally different concepts without using existing patterns as templates.
+3. Select a direction through content fit, distinctiveness, trust, accessibility, performance, and implementation realism.
+4. Inspect the current system only after selection and reuse elements that strengthen the direction without distorting it.
 
-## Accessibility And Trust
+Originality should come from relationships grounded in the subject, content, organisation, place, process, assets, or interaction—not from a mandatory flourish or an anti-template aesthetic.
 
-- Preserve semantic HTML, visible focus states, keyboard-friendly controls, readable contrast, and reduced-motion care.
-- Treat WCAG AA as the working accessibility floor.
-- Use clear structure and predictable navigation.
-- Do not rely on colour alone to communicate state.
-- Keep motion small, purposeful, and optional through reduced-motion handling.
+## Requirements Outside Visual Style
 
-## Avoid
+The open-design policy does not suspend higher-authority product, content, accessibility, security, routing, data, or interaction requirements. Semantic HTML, keyboard access, visible focus, readable contrast, reduced-motion care, understandable navigation, and honest public claims remain requirements because they belong to the product and task, not because of the previous visual system.
 
-- AI wellness copy or generic safe-space language.
-- Pastel counselling cliches, glossy startup therapy branding, floating blobs, glassmorphism, loud gradients, and soft-focus positivity.
-- Dense app/dashboard layouts on public pages.
-- Decorative UI that has no content purpose.
-- Copying legacy or docs-only styles into production pages.
+## Existing Implementation Reference
+
+The current public site still uses warm paper and green surfaces, serif display typography, sans-serif body typography, restrained shadows, modest radii, shared hero classes, and `site-*` page patterns. Use `current-scope.md`, `tokens.md`, the pattern catalogues, and production source when maintaining or deliberately reusing that implementation.

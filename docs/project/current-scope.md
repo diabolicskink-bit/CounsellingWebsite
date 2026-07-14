@@ -100,11 +100,10 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 The following remain outside the current project scope unless a task explicitly expands it:
 
-- Full redesign.
 - Wholesale public-copy rewrite.
-- New brand identity, palette, or typefaces.
 - Framework, Tailwind, or other CSS-framework migration.
 - CMS migration.
 - Booking, payment, account, or client-portal features.
-- Broad design-system rewrite.
 - Expanding development or test-bed routes into public pages.
+
+Fresh visual exploration and redesign are currently permitted when requested. Existing design-system palette, typography, heroes, page patterns, and components do not constrain concept development; `docs/design-system/current-scope.md` records their temporary implementation-reference status.

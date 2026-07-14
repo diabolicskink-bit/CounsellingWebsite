@@ -2,6 +2,12 @@
 
 This is the live factual inventory of the design system.
 
+## Temporary Authority Status
+
+- The items below describe what is implemented, shared, partial, legacy, or missing; they are not visual requirements for fresh creation or redesign.
+- Existing tokens, palette, typefaces, components, `site-*`, `hero-*`, and rendered examples are available for deliberate reuse only after a direction has been selected independently.
+- Fresh visual exploration may retain, restyle, replace, or bypass current design-system elements when authorised by the task. Functional, accessibility, routing, and data contracts remain governed separately.
+
 ## Included
 
 - Production colour, typography, spacing, radius, shadow, surface, and layout tokens are defined in `src/styles.css`.
@@ -26,7 +32,7 @@ This is the live factual inventory of the design system.
 - Rendered design-system pages still depend on `ds-*` documentation scaffolding and some older `design-language-*` support classes.
 - `ds-*` is still used for docs/dev scaffolding in `src/styles-dev.css`, design-system pages, the Documents page, and design-system support components.
 - The Patterns page is mixed: it includes active `site-*` and `hero-*` examples plus older `design-language-*` candidate/reference examples.
-- The hero system is active and canonical, but some public pages still layer page-scoped hero classes on top for composition-specific needs.
+- The hero system is implemented and shared by current pages, but is not canonical for fresh work. Existing pages still layer page-scoped hero classes on top for composition-specific needs.
 - Type roles exist and are documented, but page-specific type overrides and older experimental styles still need periodic audit.
 - Page pattern consolidation is partial; repeated public-page compositions are not all promoted or catalogued.
 - Inclusion-oriented layouts exist on public pages, but inclusion panels are mostly page-specific rather than a fully promoted reusable subsystem.
@@ -67,18 +73,13 @@ This is the live factual inventory of the design system.
 - Full public page pattern catalogue.
 - App-consumed machine-readable token source beyond `src/styles.css`.
 
-## Explicitly Out Of Scope Unless Requested
+## Still Outside Ordinary Scope Unless Requested
 
-- Full redesign.
-- Major palette change.
-- New typefaces.
 - Tailwind or CSS framework migration.
 - Dark mode.
 - Animation framework.
-- Full component-library rewrite.
 - CMS integration.
 - Storybook-style tooling.
 - New class prefix system.
-- Broad visual experimentation on production pages.
 - Expanding `ds-*` as active production or preferred future layer.
 - Generic template components not used by this site.

@@ -73,8 +73,8 @@ const prerenderedRouteContracts = {
   },
   "/inclusion/lgbtqia": {
     mainClass: "site-page inclusion-page lgbtqia-page",
-    rawFragments: ['class="site-check-panel site-check-panel--grid"', 'class="site-faq-list"'],
-    noJavaScriptSelector: ".site-check-panel--grid",
+    rawFragments: ['class="lgbtqia-page__assumptions"', 'class="lgbtqia-page__faq-list"'],
+    noJavaScriptSelector: ".lgbtqia-page__assumptions",
   },
   "/contact": {
     mainClass: "site-page contact-page",
@@ -495,11 +495,15 @@ async function expectWorkingWithJoelPageStructure(page: Page) {
   await expect(main.locator(".working-topics__item--closing")).toHaveCount(1);
 }
 
-function expectMeaningfulRawHeroH1(html: string) {
-  const h1Matches = [...html.matchAll(/<h1 class="hero-badge">([^<]+)<\/h1>/g)];
+function expectMeaningfulRawH1(html: string) {
+  const h1Matches = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
 
   expect(h1Matches).toHaveLength(1);
-  expect((h1Matches[0]?.[1] ?? "").trim().length).toBeGreaterThan(8);
+  const h1Text = (h1Matches[0]?.[1] ?? "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  expect(h1Text.length).toBeGreaterThan(8);
 }
 
 async function expectNotFoundPage(page: Page, requestedPath: string) {
@@ -534,6 +538,7 @@ const accessibilitySmokeRoutes = [
   "/contact",
   "/inclusion",
   "/inclusion/kink-bdsm",
+  "/inclusion/lgbtqia",
 ] as const;
 
 const devOnlyRoutes = [
@@ -568,6 +573,14 @@ test.describe("public pages", () => {
         ).toHaveCount(3);
         await expect(page.locator(".kink-page h3:not(.site-faq-item__heading)")).toHaveCount(0);
         await expect(page.locator(".site-faq-item h3.site-faq-item__heading")).not.toHaveCount(0);
+      }
+
+      if (route === "/inclusion/lgbtqia") {
+        const pageMain = page.locator("main.lgbtqia-page");
+
+        await expect(pageMain.locator(".lgbtqia-page__assumptions > div")).toHaveCount(4);
+        await expect(pageMain.locator(".lgbtqia-page__topic-list > article")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__faq-list details")).toHaveCount(5);
       }
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
@@ -702,9 +715,9 @@ test.describe("prerendered routes without JavaScript", () => {
 
       await expect(page.locator("header.site-header")).toBeVisible();
       await expect(page.locator(`main.${contract.mainClass.split(" ").join(".")}`)).toBeVisible();
-      await expect(page.locator("h1.hero-badge")).toHaveCount(1);
-      await expect(page.locator("h1.hero-badge")).toBeVisible();
-      expect((await page.locator("h1.hero-badge").innerText()).trim().length).toBeGreaterThan(8);
+      await expect(page.locator("main h1")).toHaveCount(1);
+      await expect(page.locator("main h1")).toBeVisible();
+      expect((await page.locator("main h1").innerText()).trim().length).toBeGreaterThan(8);
       await expect(page.locator(contract.noJavaScriptSelector)).toBeVisible();
       await expect(page.locator("header.site-header a[href], footer.site-footer a[href]")).not.toHaveCount(0);
       await expect(page.locator("footer.site-footer")).toBeVisible();
@@ -766,7 +779,7 @@ test.describe("first response metadata", () => {
       expect(html).toContain(`data-prerendered-path="${escapeHtml(route)}"`);
       expect(html).toContain('<header class="site-header">');
       expect(html).toContain(`<main class="${contract.mainClass}">`);
-      expectMeaningfulRawHeroH1(html);
+      expectMeaningfulRawH1(html);
       for (const fragment of contract.rawFragments) {
         expect(html).toContain(fragment);
       }
@@ -1345,7 +1358,9 @@ test.describe("enquiry form", () => {
     await openContactAt({ currentTime: standardTime, page, prerenderedAt: standardTime });
 
     await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
-    await expect(page.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
+    await expect(
+      page.getByLabel("Contact details").getByText("Mon to Fri, 9.30am to 5.00pm AWST"),
+    ).toBeVisible();
     const notes = page.locator(".contact-page__contact-notes");
     await expect(notes).toHaveAttribute("data-timezone-notes-source", "prerendered");
     await expect(notes.locator("small")).toHaveText([
@@ -1584,6 +1599,23 @@ test.describe("production route boundaries", () => {
       await expectNotFoundPage(page, route);
       await expect(page.getByRole("link", { name: "Dev" })).toHaveCount(0);
     });
+  }
+});
+
+test("rebuilt LGBTQIA+ page reflows without horizontal overflow", async ({ page }) => {
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 820, height: 1180 },
+    { width: 1440, height: 1000 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/inclusion/lgbtqia", { waitUntil: "networkidle" });
+
+    await expect(page.locator(".lgbtqia-page__assumptions")).toBeVisible();
+    await expect(page.locator(".lgbtqia-page__faq-list")).toBeVisible();
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
+    ).toBe(true);
   }
 });
 

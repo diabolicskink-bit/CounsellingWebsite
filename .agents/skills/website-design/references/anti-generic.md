@@ -24,6 +24,9 @@ Run the transferability test: replace the logo, accent colour, and nouns with a 
 - Trend galleries and training/reference distributions already contain sameness.
 - Component libraries make a few structures disproportionately cheap.
 - Generated first drafts appear complete and suppress exploration.
+- Anti-pattern awareness can converge on a second template made from fashionable counter-moves.
+- Aesthetic labels can substitute for formal consequences without anyone noticing.
+- Copy and layout can independently become modular, then reinforce the same repetitive section stack.
 - Reviewers select polish before examining content fit or hierarchy.
 - Broad regeneration loses good local decisions.
 - Speed is mistaken for resolution.
@@ -61,8 +64,13 @@ Treat these as questions, not bans:
 | Vague “unlock/elevate/reimagine” copy | Can the claim be concrete and bounded? |
 | Large unsupported metrics | Is scope, source, date, and relevance visible? |
 | Perfectly alternating split sections | Is the rhythm shaped by content or a template? |
+| Taste-signalling editorial bundle | If the display type, utility labels, rules, tonal bands, and staged asymmetry were removed, what subject-owned idea would remain? |
+| Repeated rhetorical module | Does each section need the same label, expressive heading, summary, and prose sequence? |
+| Decorative numbering or annotation | Does it encode a real sequence, reference, comparison, or voice, or merely imply editorial intent? |
+| Prestige whitespace | Does the space clarify grouping and pace, or mainly signal refinement? |
+| Standard component ending | Does the final FAQ, proof band, or call to action follow the visitor's decision, or expose the underlying template? |
 
-The strongest warnings are accumulation and transferability. Any single ingredient may be correct.
+The strongest warnings are accumulation and transferability. Any single ingredient may be correct. Counter-tropes are not automatically distinctive: a restrained editorial composition can be as transferable as card soup when its choices lack subject-specific causes.
 
 ## 4. Productive-friction workflow
 
@@ -76,15 +84,17 @@ Record common hero shapes, palettes, type categories, imagery, proof patterns, i
 
 ### Broaden the reference field
 
-Use references for explicit properties rather than wholesale imitation. Label what to borrow: crop, grid tension, palette proportion, material, rhythm, caption behaviour, or transition.
+Use references for explicit properties rather than wholesale imitation. Include the subject's real environments, tools, documents, language, processes, and cultural context where relevant, not only websites. Label what to borrow: crop, grid tension, palette proportion, material, rhythm, caption behaviour, or transition. A reference is useful only when the intended property and its connection to the brief can be named.
 
 ### Generate contrastive concepts
 
-Require concepts that differ in structure, density, type, image role, material, and motion. Do not accept palette swaps as alternatives.
+Require concepts that differ in content architecture, structure, density, type, image role, material, and motion. Give each concept a different answer to how the visitor understands, trusts, and acts—not merely a different surface. Do not accept palette swaps as alternatives.
 
 ### Select a thesis
 
-Choose one sentence that explains why the design looks this way. Preserve strong local decisions during iteration.
+Choose one sentence that explains why the design looks this way. Then trace the conspicuous decisions to at least one real cause: a visitor need, content relationship, verified asset, organisation or place, interaction, technical constraint, or deliberate category convention. "It feels editorial," "it creates interest," and similar aesthetic descriptions are effects, not sufficient causes.
+
+Reject or revise a concept when its identity depends mainly on interchangeable styling, when its signature device encodes nothing real, or when an adjacent organisation could use the same explanation unchanged. Preserve strong local decisions during iteration.
 
 ### Insert review gates
 
@@ -118,4 +128,3 @@ Discuss dimensions independently:
 Never rely on one automated aesthetic score. A complete-looking page can remain unresolved on most dimensions.
 
 Do not create an “anti-AI aesthetic.” Negative prompts and banned lists only move the default. Generate from subject, audience, content, strategy, and art direction; diagnose tropes afterward.
-

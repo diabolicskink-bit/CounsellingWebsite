@@ -45,9 +45,10 @@ const prerenderedRouteSmokeFragments = {
   ],
   "/inclusion/lgbtqia": [
     '<main class="site-page inclusion-page lgbtqia-page">',
-    "Queer-affirming counselling",
-    'class="site-check-panel site-check-panel--grid"',
-    'class="site-faq-list"',
+    "Counselling for LGBTQIA+ adults",
+    'class="hero-section hero-bg--default lgbtqia-page__hero"',
+    'class="lgbtqia-page__assumptions"',
+    'class="lgbtqia-page__faq-list"',
   ],
   "/contact": [
     '<main class="site-page contact-page">',

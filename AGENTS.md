@@ -16,7 +16,7 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 - For technical, routing, API, security, deployment, test, design-system maintenance, or general maintainability work, search [docs/project/project-debt.md](docs/project/project-debt.md) for related `DEBT-*` items rather than reading it as a general prerequisite.
 - For launch-readiness review, cross-site checks, sign-off, SEO/accessibility/performance/form-flow review passes, or launch gates, consult [docs/project/launch-readiness.md](docs/project/launch-readiness.md).
 - For requested or deferred concrete visitor-facing changes, or when deciding how to record one, consult [docs/project/site-backlog.md](docs/project/site-backlog.md).
-- For visual, layout, component, shared CSS, rendered design-system, or design-system documentation work, start at [docs/design-system/README.md](docs/design-system/README.md).
+- For design-system maintenance, shared-API reuse, cleanup, or documentation work, start at [docs/design-system/README.md](docs/design-system/README.md). For fresh visual creation or redesign, establish the direction from the current task, product direction, content, and the website-design skill before consulting existing design-system material; the current design system is implementation reference, not visual authority, unless the task explicitly adopts it.
 
 ## Working Rules
 
@@ -26,7 +26,7 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 - Treat SEO reports and sample outlines as research and coverage prompts, not as mandatory page templates or voice references.
 - Apply tracker items only when they are relevant to the current task; their presence is not permission to implement unrelated scope.
 - Keep project scope and design-system scope separate.
-- For UI work, use active design-system guidance before treating source files, rendered examples, or old classes as reusable API.
+- For fresh UI direction, do not treat existing tokens, typography, palette, heroes, section patterns, components, rendered examples, or page silhouettes as constraints or starting templates unless the current task explicitly asks to preserve them. After selecting a direction, inspect existing implementation only to decide what can be reused without weakening the concept, behaviour, accessibility, or maintainability.
 - Do not treat a file in `src/components/` as active design-system API unless the design-system docs describe it that way.
 - Keep one-off visual explorations page-scoped until they prove useful beyond one context.
 

@@ -23,12 +23,7 @@ const pageContent = {
   hero: {
     badge: "ENM & polyamory counselling",
     intro:
-      "Polyamory, open relationships and other forms of ethical non-monogamy are understood here. Jealousy, uncertainty and conflict are not taken as proof that non-monogamy is the problem. Your relationships don't have to look a certain way to be taken seriously.",
-    hubAside: {
-      label: "Wider context",
-      copy: "If ENM is only one part of why this page felt relevant, the inclusion hub keeps the wider context in view: kink, LGBTQIA+ lives, shame, family, community overlap, and the parts that do not sit neatly under one label.",
-      link: { label: "Back to inclusion hub", href: "/inclusion" } satisfies LinkItem,
-    },
+      "You can talk about polyamory, open relationships and other forms of ethical non-monogamy in your own language. I start with what is happening for you, not how your relationships should look. We can look at jealousy, agreements, pressure and uncertainty without assuming the structure explains everything.",
   },
 
   positionsSection: {
@@ -201,22 +196,13 @@ export default function EnmPolyamoryCounselling() {
             <div className="enm-page__hero-heading">
               <h1 className="hero-badge">{hero.badge}</h1>
               <p className="hero-display">
-                <span className="enm-page__hero-line">Your <em>relationships</em>.</span>
-                <span className="enm-page__hero-line">Your <em>people</em>.</span>
-                <span className="enm-page__hero-line">Taken <em>seriously</em>.</span>
+                <span className="enm-page__hero-line">Your <em>relationships</em>,</span>
+                <span className="enm-page__hero-line">taken <em>seriously</em>.</span>
               </p>
               <div className="hero-copy-panel enm-page__hero-copy">
                 <p>{hero.intro}</p>
               </div>
             </div>
-
-            <aside className="enm-page__hub-aside" aria-label="Inclusion hub">
-              <span className="site-eyebrow">{hero.hubAside.label}</span>
-              <p>{hero.hubAside.copy}</p>
-              <Link className="site-text-link enm-page__hub-link" to={hero.hubAside.link.href}>
-                {hero.hubAside.link.label}
-              </Link>
-            </aside>
           </div>
         </Container>
       </section>

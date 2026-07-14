@@ -15,8 +15,7 @@
 }
 
 .enm-page__hero-top {
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
-  gap: clamp(2.25rem, 5vw, 5.75rem);
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
 }
 
@@ -40,24 +39,6 @@
   align-content: start;
   max-width: 62rem;
   padding-top: 4px;
-}
-
-.enm-page__hub-aside {
-  display: grid;
-  gap: 14px;
-  align-self: end;
-  max-width: 370px;
-  padding-block: 18px 2px;
-  border-top: 1px solid rgba(35, 75, 61, 0.28);
-}
-
-.enm-page__hub-aside p {
-  margin: 0;
-}
-
-.enm-page__hub-link {
-  justify-self: start;
-  margin-top: 2px;
 }
 
 .enm-page__positions-inner {
@@ -273,12 +254,6 @@
   .enm-page__hero-top {
     grid-template-columns: 1fr;
     gap: 24px;
-  }
-
-  .enm-page__hub-aside {
-    align-self: start;
-    max-width: 56rem;
-    margin-top: 4px;
   }
 
   .enm-page__approach-strip {

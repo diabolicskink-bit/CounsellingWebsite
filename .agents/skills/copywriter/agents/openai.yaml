@@ -1,7 +1,7 @@
 interface:
-  display_name: "Copy Development"
-  short_description: "Plan, shape, draft, and review public copy"
-  default_prompt: "Use $copywriter to develop this counselling website copy from a clear brief and considered direction."
+  display_name: "Evidence-led Copywriting"
+  short_description: "Plan, draft, and review credible website copy"
+  default_prompt: "Use $copywriter to develop or review this website copy from confirmed evidence, a clear reader decision, and the documented voice."
 
 policy:
   allow_implicit_invocation: true

@@ -1,6 +1,8 @@
 # Page Patterns
 
-This file owns active shared CSS patterns and page-level composition guidance.
+This file inventories shared CSS and page-level compositions that currently exist. During the temporary open-design period, these patterns are optional implementation references rather than required or preferred structures for fresh work.
+
+Establish and select the page concept before consulting this catalogue. A pattern being available, visually similar, or already used elsewhere is not sufficient reason to use it.
 
 ## Shared Section Patterns
 
@@ -15,7 +17,7 @@ This file owns active shared CSS patterns and page-level composition guidance.
 - `.site-cta-block`, `.site-cta-block__inner`, `.site-cta-block__copy`
   Shared closing CTA section for one clear next step.
 
-Use page-scoped wrappers when a section needs a genuinely different composition.
+Fresh work may use page-scoped or replacement composition regardless of whether an existing section pattern is superficially similar. Use these shared sections only when they support the already-selected direction.
 
 ## Cards, Panels, And Lists
 
@@ -40,7 +42,7 @@ Use page-scoped wrappers when a section needs a genuinely different composition.
 - `.site-contact-strip`, `.site-contact-item`
   Small sets of practical contact details with icon, label, and value.
 
-Ruled accents and side-border panels are acceptable where they are part of active shared patterns. Avoid near-duplicate card or panel treatments.
+Ruled accents and side-border panels occur in the current implementation. They carry no preference for new work. Avoid accidental near-duplicates when deliberate reuse would genuinely serve the concept; otherwise create the treatment the selected direction requires.
 
 ## Rich Text And Copy
 
@@ -55,7 +57,7 @@ Ruled accents and side-border panels are acceptable where they are part of activ
 
 ## Hero System
 
-The `hero-*` system is a separate active shared subsystem alongside `site-*`.
+The `hero-*` system is a currently implemented shared subsystem alongside `site-*`. It is not canonical or mandatory for fresh pages and redesigns.
 
 - `.hero-section`
   Shared hero section shell and default spacing.
@@ -84,7 +86,7 @@ The `hero-*` system is a separate active shared subsystem alongside `site-*`.
 - `.hero-detail-stack`
   Open hero detail stack.
 
-Use page-scoped hero classes only for composition-specific needs layered on top of the shared hero system.
+Fresh work may retain, modify, replace, or omit the shared hero composition. Preserve one clear page topic and valid heading structure, but do not require `hero-*`, the badge/display pairing, or layering page styles on top of the current hero.
 
 ## Forms
 
@@ -99,7 +101,7 @@ Use page-scoped hero classes only for composition-specific needs layered on top 
 - `.site-form__choice-group`, `.site-form__choices`, `.site-form__choice`
   Radio-choice treatment for the progressive enquiry flow.
 
-Do not recreate the enquiry form with page-scoped classes. Use `EnquiryForm` and `src/data/enquiry.ts`.
+For the current enquiry flow, preserve the behaviour and data contract owned by `EnquiryForm` and `src/data/enquiry.ts` unless the task explicitly changes them. Their current visual treatment may be redesigned independently.
 
 ## Footer And Navigation
 
@@ -108,8 +110,13 @@ Do not recreate the enquiry form with page-scoped classes. Use `EnquiryForm` and
 
 The production header and navigation live in `Layout`. They are implemented but not yet represented as a dedicated design-system page section.
 
-## Reuse Rule
+## Selection Order
 
-If a new page needs a card, panel, hero, split section, principle block, trust treatment, form pattern, or CTA that is close to an existing pattern, extend the shared pattern instead of creating a page-specific lookalike.
+1. Establish the page purpose, content architecture, and visual direction without this catalogue as a template.
+2. Identify the semantic, interaction, accessibility, and data contracts the implementation must preserve.
+3. Compare the selected direction with existing implementation.
+4. Reuse an existing pattern only when it fits without changing the direction or creating unnecessary maintenance cost.
+5. Use page-scoped or replacement implementation when existing patterns are merely similar, visually constraining, or conceptually wrong.
+6. Promote a pattern only when the task includes shared-system work and the pattern has proved useful beyond one context.
 
-If the existing pattern is only a loose resemblance, use a page-scoped composition or promote a new shared pattern when the repeated need is clear.
+The current hero, split section, cards, panels, topic grids, trust treatments, FAQ surface, and closing CTA do not form a required page skeleton. Do not assemble them by default or treat their combined silhouette as the Vive visual identity.

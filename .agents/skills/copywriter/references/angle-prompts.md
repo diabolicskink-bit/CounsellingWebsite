@@ -1,7 +1,19 @@
 # Angle prompts
 
 Use these prompts to find a useful direction before drafting substantial copy.
-They are options, not a checklist or page template.
+They are options, not a checklist, page template, tone menu, or request to
+produce variants. An angle is meaningful only when it changes the central
+reader question, evidence selected, information order, or practical conclusion.
+
+Start from the evidence-led brief in `SKILL.md`. Keep confirmed facts, claim
+boundaries, search intent, and approved wording fixed while exploring direction.
+
+## Contents
+
+- [Start with the visitor's situation](#start-with-the-visitors-situation)
+- [Consider distinct frames](#consider-distinct-frames)
+- [Compare before choosing](#compare-before-choosing)
+- [Stress-test the chosen angle](#stress-test-the-chosen-angle)
 
 ## Start with the visitor's situation
 
@@ -49,6 +61,19 @@ Ask:
 - Which practical fact carries more trust than an adjective would?
 - Which detail needs owner confirmation before publication?
 
+### Fact and consequence
+
+Connect a confirmed feature, arrangement, or method to what it lets the visitor
+understand or do without predicting an outcome.
+
+Ask:
+
+- Which fact changes the visitor's decision but currently lacks explanation?
+- What practical consequence follows directly from the fact?
+- Where does a possible benefit need to remain possible rather than certain?
+- Would the copy become less credible if the fact were removed and only the
+  benefit remained?
+
 ### Misconception or misplaced assumption
 
 Address an assumption that may prevent the visitor from understanding the
@@ -69,6 +94,18 @@ Ask:
 - What does this service not assume, promise, provide, or decide for someone?
 - What alternative or next step is useful at the boundary?
 - Does stating the limitation improve understanding, or merely perform honesty?
+
+### Evidence and trust
+
+Build the section around the basis for a consequential claim.
+
+Ask:
+
+- What exact source supports the claim or overall impression?
+- Would process, qualification, conduct, a distinction, or a limitation show
+  more than an adjective can claim?
+- Is an important condition visible where the reader encounters the claim?
+- What should remain uncertain or for the visitor to judge?
 
 ### Specialist fluency
 
@@ -131,3 +168,21 @@ that would genuinely change what the copy says and how the page is organised.
 
 Once a direction is chosen, use only the supporting ideas it needs. Do not
 blend the entire exploration into the draft.
+
+## Stress-test the chosen angle
+
+Before drafting, check:
+
+- Can each likely section be mapped to a reader question, useful answer, and
+  supporting basis?
+- Does the angle produce material that belongs to this provider, or only a new
+  way to package category language?
+- Does it leave enough room for practical information, limits, and natural
+  search terms?
+- Does it preserve the visitor's decision instead of building toward a
+  predetermined emotional conclusion?
+- What would be lost if another angle were chosen, and is that loss acceptable?
+
+If the direction works only through unsupported emotion, imagined reader
+experience, decorative metaphor, or promised outcomes, reject it and return to
+the brief.
