@@ -1,17 +1,9 @@
-import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
-import FaqSchema from "../components/FaqSchema";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-lgbtqia.css";
-
-type FaqItem = {
-  question: string;
-  answer: string;
-};
 
 const pageMetadata = getRouteMetadata("/inclusion/lgbtqia");
 
@@ -38,59 +30,29 @@ const assumptions = [
   },
 ];
 
-const topics = [
+const startingPoints = [
   {
-    title: "Identity and change",
+    title: "Sexuality or gender is what you want to discuss",
     copy:
-      "Sexuality, gender, questioning, coming out or not coming out, visibility, your body, and changes in how you name or express yourself.",
+      "You might want to talk about questioning, coming out or not coming out, visibility, your body, or changes in how you name or express yourself. Counselling does not have to lead towards a particular label, disclosure or decision.",
   },
   {
-    title: "Relationships and belonging",
+    title: "It matters to something else that is happening",
     copy:
-      "Family, chosen family, faith, community, dating, intimacy, breakups, loneliness, rejection, and finding where you belong.",
+      "The difficulty might involve dating, intimacy, a breakup, family or chosen family, faith, community, work, loneliness or rejection. Sexuality or gender can matter to what is happening without explaining all of it.",
   },
   {
-    title: "The rest of life",
+    title: "The reason is something else",
     copy:
-      "Anxiety, low mood, grief, shame, self-criticism, trauma, work, burnout or relationship difficulties where LGBTQIA+ context matters without becoming the whole story.",
+      "You might be looking for help with anxiety, low mood, grief, shame, trauma, self-criticism, burnout or a relationship difficulty. Sexuality or gender does not have to become the focus simply because it is part of your life.",
   },
 ];
-
-const faqs = [
-  {
-    question: "Do I need to be out?",
-    answer:
-      "No. You do not need to be out to family, work, community or anyone else to come to counselling. We can talk about privacy, visibility, possible consequences and what feels manageable without treating disclosure as the goal.",
-  },
-  {
-    question: "Can I come if sexuality or gender is not the main reason?",
-    answer:
-      "Yes. You might be looking for help with grief, anxiety, work, burnout, a relationship or something else entirely. LGBTQIA+ context can be understood without being made irrelevant or turned into the explanation for everything.",
-  },
-  {
-    question: "What if I am still questioning or do not know which words fit?",
-    answer:
-      "You do not need a settled label before coming to counselling. Uncertainty can be explored without pressure to reach a particular answer, tell other people, or make a decision before you are ready.",
-  },
-  {
-    question: "Do you work with trans and non-binary clients?",
-    answer:
-      "Yes. I work with trans and non-binary adults, whether gender is central to what you want to discuss or simply part of your life. If you are seeking a letter, report or formal assessment, mention that in your enquiry so I can clarify whether it is within the service before you book.",
-  },
-  {
-    question: "Can a partner join a session?",
-    answer:
-      "Most counselling here is individual. A partner may sometimes join a session for a specific conversation when we have agreed beforehand on its purpose. This is considered case by case and is not an ongoing couples counselling service.",
-  },
-] satisfies FaqItem[];
 
 export default function LgbtqiaCounselling() {
   useDocumentMetadata(pageMetadata.title, pageMetadata.description);
 
   return (
     <main className="site-page inclusion-page lgbtqia-page">
-      <FaqSchema faqs={faqs} />
-
       <section className="hero-section hero-bg--default lgbtqia-page__hero">
         <Container>
           <div className="lgbtqia-page__hero-main">
@@ -151,60 +113,25 @@ export default function LgbtqiaCounselling() {
         </div>
       </section>
 
-      <section className="lgbtqia-page__topics" aria-labelledby="lgbtqia-topics-title">
-        <div className="lgbtqia-page__frame lgbtqia-page__topics-grid">
-          <header>
+      <section className="lgbtqia-page__reasons" aria-labelledby="lgbtqia-reasons-title">
+        <div className="lgbtqia-page__frame">
+          <header className="lgbtqia-page__reasons-header">
             <p className="lgbtqia-page__section-mark">What you might bring</p>
-            <h2 id="lgbtqia-topics-title">There is no correct category for the reason you came.</h2>
+            <h2 id="lgbtqia-reasons-title">What brings you here may or may not be about sexuality or gender.</h2>
           </header>
 
-          <div className="lgbtqia-page__topic-list">
-            {topics.map((topic) => (
-              <article key={topic.title}>
-                <h3>{topic.title}</h3>
-                <p>{topic.copy}</p>
+          <div className="lgbtqia-page__reason-list">
+            {startingPoints.map((startingPoint) => (
+              <article key={startingPoint.title}>
+                <h3>{startingPoint.title}</h3>
+                <p>{startingPoint.copy}</p>
               </article>
             ))}
-            <p className="lgbtqia-page__topic-note">
-              These are examples, not an intake checklist. You do not need to sort out which part belongs where
-              before making contact.
-            </p>
           </div>
-        </div>
-      </section>
 
-      <section className="lgbtqia-page__faq" aria-labelledby="lgbtqia-faq-title">
-        <div className="lgbtqia-page__frame lgbtqia-page__faq-grid">
-          <header>
-            <p className="lgbtqia-page__section-mark">Before you write</p>
-            <h2 id="lgbtqia-faq-title">A few practical questions.</h2>
-          </header>
-
-          <div className="lgbtqia-page__faq-list">
-            {faqs.map((item) => (
-              <details key={item.question}>
-                <summary>{item.question}</summary>
-                <div>
-                  <p>{item.answer}</p>
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="lgbtqia-page__contact" aria-labelledby="lgbtqia-contact-title">
-        <div className="lgbtqia-page__frame lgbtqia-page__contact-grid">
-          <h2 id="lgbtqia-contact-title">You can keep the first message short.</h2>
-          <div>
-            <p>
-              Say what you would like help with, ask about fit, or request the free 15-minute consult before deciding
-              whether to book.
-            </p>
-            <Link className="lgbtqia-page__action lgbtqia-page__action--dark" to={routeHref(publicRoutePaths.contact)}>
-              Make an enquiry <ArrowRight aria-hidden="true" size={18} strokeWidth={2.4} />
-            </Link>
-          </div>
+          <p className="lgbtqia-page__reason-note">
+            These starting points can overlap. You do not need to sort that out before making contact.
+          </p>
         </div>
       </section>
     </main>

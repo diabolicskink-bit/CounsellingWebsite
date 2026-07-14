@@ -15,8 +15,9 @@
 }
 
 .enm-page__hero-top {
-  grid-template-columns: minmax(0, 1fr);
-  align-items: start;
+  grid-template-columns: 1fr minmax(240px, 310px);
+  gap: 72px;
+  align-items: center;
 }
 
 .enm-page__hero-heading {
@@ -39,6 +40,24 @@
   align-content: start;
   max-width: 62rem;
   padding-top: 4px;
+}
+
+.enm-page__hero-actions {
+  display: grid;
+  align-content: end;
+  margin-bottom: 4px;
+  padding: 4px 0 4px 24px;
+  border-left: 1px solid rgba(35, 75, 61, 0.3);
+}
+
+.enm-page__hero-action-list {
+  display: grid;
+  gap: 10px;
+}
+
+.enm-page__hero-actions .button {
+  width: 100%;
+  min-width: 0;
 }
 
 .enm-page__positions-inner {
@@ -256,6 +275,22 @@
     gap: 24px;
   }
 
+  .enm-page__hero-actions {
+    margin-bottom: 0;
+    padding: 18px 0 0;
+    border-top: 1px solid rgba(35, 75, 61, 0.3);
+    border-left: 0;
+  }
+
+  .enm-page__hero-action-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .enm-page__hero-actions .button {
+    width: auto;
+  }
+
   .enm-page__approach-strip {
     grid-template-columns: 1fr;
   }
@@ -309,6 +344,14 @@
 }
 
 @media (max-width: 640px) {
+  .enm-page__hero-action-list {
+    display: grid;
+  }
+
+  .enm-page__hero-actions .button {
+    width: 100%;
+  }
+
   .enm-page__approach-lead {
     padding-bottom: 24px;
   }

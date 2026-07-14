@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -24,10 +24,16 @@ const pageContent = {
     badge: "ENM & polyamory counselling",
     intro:
       "You can talk about polyamory, open relationships and other forms of ethical non-monogamy in your own language. I start with what is happening for you, not how your relationships should look. We can look at jealousy, agreements, pressure and uncertainty without assuming the structure explains everything.",
+    actions: {
+      enquiryLabel: "Make an enquiry",
+      enquiryHref: "/contact",
+      inclusionLabel: "Back to Inclusion",
+      inclusionHref: "/inclusion",
+    },
   },
 
   positionsSection: {
-    heading: "When non-monogamy gets hard.",
+    heading: "Relationship difficulties in ENM and polyamory",
     items: [
       {
         label: "When the ground shifts.",
@@ -203,6 +209,16 @@ export default function EnmPolyamoryCounselling() {
                 <p>{hero.intro}</p>
               </div>
             </div>
+            <nav className="enm-page__hero-actions" aria-label="Page actions">
+              <div className="enm-page__hero-action-list">
+                <Button href={hero.actions.enquiryHref} variant="primary">
+                  {hero.actions.enquiryLabel} <ArrowRight size={16} aria-hidden="true" />
+                </Button>
+                <Button href={hero.actions.inclusionHref} variant="secondary">
+                  <ArrowLeft size={16} aria-hidden="true" /> {hero.actions.inclusionLabel}
+                </Button>
+              </div>
+            </nav>
           </div>
         </Container>
       </section>

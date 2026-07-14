@@ -73,7 +73,7 @@ const prerenderedRouteContracts = {
   },
   "/inclusion/lgbtqia": {
     mainClass: "site-page inclusion-page lgbtqia-page",
-    rawFragments: ['class="lgbtqia-page__assumptions"', 'class="lgbtqia-page__faq-list"'],
+    rawFragments: ['class="lgbtqia-page__assumptions"', 'class="lgbtqia-page__reason-list"'],
     noJavaScriptSelector: ".lgbtqia-page__assumptions",
   },
   "/contact": {
@@ -579,8 +579,7 @@ test.describe("public pages", () => {
         const pageMain = page.locator("main.lgbtqia-page");
 
         await expect(pageMain.locator(".lgbtqia-page__assumptions > div")).toHaveCount(4);
-        await expect(pageMain.locator(".lgbtqia-page__topic-list > article")).toHaveCount(3);
-        await expect(pageMain.locator(".lgbtqia-page__faq-list details")).toHaveCount(5);
+        await expect(pageMain.locator(".lgbtqia-page__reason-list > article")).toHaveCount(3);
       }
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
@@ -1612,7 +1611,7 @@ test("rebuilt LGBTQIA+ page reflows without horizontal overflow", async ({ page 
     await page.goto("/inclusion/lgbtqia", { waitUntil: "networkidle" });
 
     await expect(page.locator(".lgbtqia-page__assumptions")).toBeVisible();
-    await expect(page.locator(".lgbtqia-page__faq-list")).toBeVisible();
+    await expect(page.locator(".lgbtqia-page__reason-list")).toBeVisible();
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
     ).toBe(true);

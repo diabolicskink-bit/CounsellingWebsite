@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import FaqSection from "../components/FaqSection";
@@ -7,7 +8,7 @@ import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-kink-bdsm.css";
 
-type PrimaryAction = {
+type HeroAction = {
   label: string;
   href: string;
 };
@@ -34,7 +35,8 @@ type KinkPageContent = {
     eyebrow: string;
     title: string;
     intro: string;
-    primaryAction: PrimaryAction;
+    primaryAction: HeroAction;
+    secondaryAction: HeroAction;
   };
   panelSection: {
     knowledgeSection: {
@@ -63,6 +65,10 @@ const kinkPageContent: KinkPageContent = {
     primaryAction: {
       label: "Make an enquiry",
       href: routeHref(publicRoutePaths.contact),
+    },
+    secondaryAction: {
+      label: "Back to Inclusion",
+      href: routeHref(publicRoutePaths.inclusion),
     },
   },
   panelSection: {
@@ -159,11 +165,18 @@ export default function KinkBdsmCounselling() {
 
               <div className="hero-copy-panel kink-page__hero-support">
                 <p>{hero.intro}</p>
-                <div className="site-actions kink-page__hero-actions">
-                  <Button href={hero.primaryAction.href}>{hero.primaryAction.label}</Button>
-                </div>
               </div>
             </div>
+            <nav className="kink-page__hero-actions" aria-label="Page actions">
+              <div className="kink-page__hero-action-list">
+                <Button href={hero.primaryAction.href} variant="primary">
+                  {hero.primaryAction.label} <ArrowRight size={16} aria-hidden="true" />
+                </Button>
+                <Button href={hero.secondaryAction.href} variant="secondary">
+                  <ArrowLeft size={16} aria-hidden="true" /> {hero.secondaryAction.label}
+                </Button>
+              </div>
+            </nav>
           </div>
         </Container>
       </section>

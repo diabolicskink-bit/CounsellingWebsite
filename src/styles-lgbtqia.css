@@ -8,31 +8,20 @@
   --lgbtqia-yellow: #f4e45f;
   --lgbtqia-coral: #ff765f;
   --lgbtqia-line-dark: rgba(23, 19, 22, 0.3);
-  --lgbtqia-line-light: rgba(255, 250, 243, 0.3);
   background: var(--lgbtqia-paper);
   color: var(--lgbtqia-ink);
 }
 
-:is(
-    .lgbtqia-page__defaults,
-    .lgbtqia-page__topics,
-    .lgbtqia-page__faq,
-    .lgbtqia-page__contact
-  ) {
+:is(.lgbtqia-page__defaults, .lgbtqia-page__reasons) {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-:is(.lgbtqia-page__defaults, .lgbtqia-page__topics) {
+:is(.lgbtqia-page__defaults, .lgbtqia-page__reasons) {
   --color-heading: var(--lgbtqia-ink);
   --color-text: var(--lgbtqia-ink);
 }
 
-:is(
-    .lgbtqia-page__defaults,
-    .lgbtqia-page__topics,
-    .lgbtqia-page__faq,
-    .lgbtqia-page__contact
-  ) :is(h2, h3) {
+:is(.lgbtqia-page__defaults, .lgbtqia-page__reasons) :is(h2, h3) {
   color: inherit;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 750;
@@ -116,21 +105,6 @@
   text-transform: uppercase;
 }
 
-.lgbtqia-page__action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  min-width: 210px;
-  border: 2px solid currentColor;
-  padding: 14px 16px;
-  font-size: 0.94rem;
-  font-weight: 800;
-  line-height: 1;
-  text-decoration: none;
-  transition: background-color 120ms ease, color 120ms ease;
-}
-
 .lgbtqia-page__defaults {
   background: var(--lgbtqia-white);
   padding-block: clamp(80px, 10vw, 148px);
@@ -145,9 +119,7 @@
 }
 
 .lgbtqia-page__defaults-header h2,
-.lgbtqia-page__topics h2,
-.lgbtqia-page__faq h2,
-.lgbtqia-page__contact h2 {
+.lgbtqia-page__reasons h2 {
   max-width: none;
   font-size: clamp(2.7rem, 5.4vw, 5.6rem);
   letter-spacing: -0.065em;
@@ -211,174 +183,65 @@
   display: none;
 }
 
-.lgbtqia-page__topics {
+.lgbtqia-page__reasons {
   background: var(--lgbtqia-yellow);
   padding-block: clamp(80px, 10vw, 148px);
 }
 
-.lgbtqia-page__topics-grid {
+.lgbtqia-page__reasons-header {
   display: grid;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(64px, 11vw, 168px);
+  grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
+  gap: clamp(40px, 8vw, 128px);
   align-items: start;
+  margin-bottom: clamp(64px, 8vw, 104px);
 }
 
-.lgbtqia-page__topics .lgbtqia-page__section-mark {
-  margin-bottom: 28px;
+.lgbtqia-page__reasons .lgbtqia-page__section-mark {
+  margin-top: 0.8rem;
 }
 
-.lgbtqia-page__topic-list {
+.lgbtqia-page__reasons h2 {
+  max-width: 14ch;
+}
+
+.lgbtqia-page__reason-list {
   border-top: 3px solid var(--lgbtqia-ink);
 }
 
-.lgbtqia-page__topic-list article {
+.lgbtqia-page__reason-list article {
   display: grid;
-  grid-template-columns: minmax(180px, 0.62fr) minmax(0, 1fr);
-  gap: 36px;
-  padding-block: 30px;
+  grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1fr);
+  gap: clamp(40px, 8vw, 124px);
+  align-items: start;
+  padding-block: clamp(34px, 4.5vw, 58px);
   border-bottom: 1px solid var(--lgbtqia-line-dark);
 }
 
-.lgbtqia-page__topic-list h3 {
-  font-size: clamp(1.45rem, 2.2vw, 2rem);
-  letter-spacing: -0.04em;
-  line-height: 1;
+.lgbtqia-page__reason-list h3 {
+  max-width: 19ch;
+  font-size: clamp(1.75rem, 3vw, 3.25rem);
+  letter-spacing: -0.055em;
+  line-height: 0.98;
 }
 
-.lgbtqia-page__topic-list article p {
-  max-width: 52ch;
-  font-size: 1rem;
-  line-height: 1.55;
+.lgbtqia-page__reason-list article p {
+  max-width: 58ch;
+  font-size: clamp(1rem, 1.3vw, 1.16rem);
+  line-height: 1.6;
 }
 
-.lgbtqia-page__topic-note {
-  margin-top: 28px;
-  max-width: 53ch;
+.lgbtqia-page__reason-note {
+  width: min(100%, 58ch);
+  margin: 32px 0 0 auto;
   border-left: 5px solid var(--lgbtqia-aubergine);
   padding-left: 20px;
   font-weight: 700;
   line-height: 1.5;
 }
 
-.lgbtqia-page__faq {
-  --color-heading: var(--lgbtqia-white);
-  --color-text: var(--lgbtqia-white);
-  background: var(--lgbtqia-aubergine);
-  color: var(--lgbtqia-white);
-  padding-block: clamp(80px, 10vw, 148px);
-}
-
-.lgbtqia-page__faq-grid {
-  display: grid;
-  grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1.38fr);
-  gap: clamp(60px, 10vw, 150px);
-}
-
-.lgbtqia-page__faq .lgbtqia-page__section-mark {
-  margin-bottom: 24px;
-  color: var(--lgbtqia-coral);
-}
-
-.lgbtqia-page__faq-list {
-  border-top: 3px solid var(--lgbtqia-yellow);
-}
-
-.lgbtqia-page__faq details {
-  border-bottom: 1px solid var(--lgbtqia-line-light);
-}
-
-.lgbtqia-page__faq summary {
-  display: grid;
-  grid-template-columns: 1fr 34px;
-  gap: 24px;
-  align-items: center;
-  min-height: 78px;
-  padding-block: 18px;
-  cursor: pointer;
-  font-size: clamp(1.1rem, 1.8vw, 1.42rem);
-  font-weight: 750;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  list-style: none;
-}
-
-.lgbtqia-page__faq summary::-webkit-details-marker {
-  display: none;
-}
-
-.lgbtqia-page__faq summary::after {
-  display: grid;
-  width: 32px;
-  height: 32px;
-  place-items: center;
-  border: 1px solid var(--lgbtqia-line-light);
-  color: var(--lgbtqia-yellow);
-  content: "+";
-  font-size: 1.5rem;
-  font-weight: 400;
-  line-height: 1;
-}
-
-.lgbtqia-page__faq details[open] summary::after {
-  content: "−";
-}
-
-.lgbtqia-page__faq details > div {
-  padding: 0 58px 28px 0;
-}
-
-.lgbtqia-page__faq details p {
-  max-width: 64ch;
-  color: rgba(255, 250, 243, 0.82);
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-.lgbtqia-page__contact {
-  --color-heading: var(--lgbtqia-ink);
-  --color-text: var(--lgbtqia-ink);
-  background: var(--lgbtqia-coral);
-  padding-block: clamp(72px, 9vw, 126px);
-}
-
-.lgbtqia-page__contact-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.55fr);
-  gap: clamp(60px, 10vw, 150px);
-  align-items: end;
-}
-
-.lgbtqia-page__contact h2 {
-  max-width: 11ch;
-}
-
-.lgbtqia-page__contact-grid > div {
-  display: grid;
-  gap: 32px;
-}
-
-.lgbtqia-page__contact p {
-  max-width: 43ch;
-  font-size: 1.05rem;
-  line-height: 1.55;
-}
-
-.lgbtqia-page__action--dark {
-  justify-self: start;
-  border-color: var(--lgbtqia-ink);
-  background: var(--lgbtqia-ink);
-  color: var(--lgbtqia-white);
-}
-
-.lgbtqia-page__action--dark:hover {
-  background: var(--lgbtqia-aubergine);
-}
-
 @media (max-width: 1060px) {
   .lgbtqia-page__defaults-header,
-  .lgbtqia-page__topics-grid,
-  .lgbtqia-page__faq-grid,
-  .lgbtqia-page__contact-grid {
+  .lgbtqia-page__reasons-header {
     grid-template-columns: 1fr;
   }
 
@@ -386,23 +249,18 @@
     max-width: 62ch;
   }
 
-  .lgbtqia-page__topics header,
-  .lgbtqia-page__faq header {
+  .lgbtqia-page__reasons header {
     max-width: 780px;
   }
 
-  .lgbtqia-page__contact h2 {
-    max-width: 14ch;
+  .lgbtqia-page__reasons .lgbtqia-page__section-mark {
+    margin-top: 0;
   }
 }
 
 @media (max-width: 700px) {
   .lgbtqia-page__frame {
     width: min(100% - 32px, 1320px);
-  }
-
-  .lgbtqia-page__action {
-    width: 100%;
   }
 
   .lgbtqia-page__comparison-labels {
@@ -425,18 +283,13 @@
     text-transform: uppercase;
   }
 
-  .lgbtqia-page__topic-list article {
+  .lgbtqia-page__reason-list article {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 20px;
   }
 
-  .lgbtqia-page__faq-grid,
-  .lgbtqia-page__contact-grid {
-    gap: 50px;
-  }
-
-  .lgbtqia-page__faq details > div {
-    padding-right: 0;
+  .lgbtqia-page__reason-note {
+    margin-left: 0;
   }
 }
 
@@ -452,15 +305,7 @@
 
 @media (max-width: 430px) {
   .lgbtqia-page__defaults-header h2,
-  .lgbtqia-page__topics h2,
-  .lgbtqia-page__faq h2,
-  .lgbtqia-page__contact h2 {
+  .lgbtqia-page__reasons h2 {
     font-size: clamp(2.45rem, 13vw, 3.5rem);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lgbtqia-page__action {
-    transition: none;
   }
 }
