@@ -24,7 +24,7 @@ const pageContent = {
   hero: {
     badge: "ENM & polyamory counselling",
     intro:
-      "These relationships are known here. What it actually feels like to live inside them. There is no implicit goal of simplification. Jealousy is not treated as evidence that your relationships are the problem. Whatever you are carrying within these relationships, it can come here. The weight of it, taken seriously.",
+      "Polyamory, open relationships and other forms of ethical non-monogamy are understood here. Jealousy, uncertainty and conflict are not taken as proof that non-monogamy is the problem. Your relationships don't have to look a certain way to be taken seriously.",
     hubAside: {
       label: "Wider context",
       copy: "If ENM is only one part of why this page felt relevant, the inclusion hub keeps the wider context in view: kink, LGBTQIA+ lives, shame, family, community overlap, and the parts that do not sit neatly under one label.",
@@ -33,32 +33,32 @@ const pageContent = {
   },
 
   positionsSection: {
-    heading: "Wherever you are in this.",
+    heading: "When non-monogamy gets hard.",
     items: [
       {
         label: "When the ground shifts.",
         prose:
-          "The relationship you thought you were in has become uncertain. Whether you brought this question into the relationship or it arrived with your partner, the usual scripts don't fit. What you haven't been able to say yet belongs here too. This can be the place to find out what you actually think and feel, without the answer being decided before you arrive.",
+          "The possibility of opening a relationship can change what had felt settled. You may not know what you want yet, especially when your answer could affect someone you love.",
       },
       {
-        label: "Jealousy, insecurity, the gap.",
+        label: "Jealousy and insecurity.",
         prose:
-          "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Integer posuere erat a ante venenatis dapibus.",
+          "You can believe in non-monogamy and still feel jealous, left out or less secure than you expected. Those feelings do not have to become a test of whether you are “good at” ENM.",
       },
       {
-        label: "Running the middle.",
+        label: "Being the hinge.",
         prose:
-          "Donec ullamcorper nulla non metus auctor fringilla. Curabitur blandit tempus porttitor, mauris condimentum.",
+          "As the hinge, you can end up feeling responsible for everyone’s wellbeing. A difficult conversation in one relationship follows you into the next, with very little space left for your own reaction.",
       },
       {
-        label: "When the needs don't match.",
+        label: "When you want different things.",
         prose:
-          "Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper.",
+          "Agreeing to non-monogamy does not mean you and a partner will want the same things from it. Sometimes an agreement looks mutual on paper while one person feels they have little room to say no.",
       },
       {
-        label: "Not knowing yet.",
+        label: "When an agreement is broken.",
         prose:
-          "Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas faucibus mollis interdum.",
+          "Something happened outside the agreement you thought you had. Non-monogamy does not make the hurt less real.",
       },
     ] satisfies PositionItem[],
   },

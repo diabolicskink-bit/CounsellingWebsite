@@ -107,7 +107,7 @@ const kinkPageContent: KinkPageContent = {
       {
         title: "More than kink.",
         body: [
-          "Kink may be an ordinary, valued part of your life. You might be looking for counselling because of anxiety, grief, work or a relationship, and kink may matter simply because it is part of the life in which those things are happening. It can be part of the context without becoming the explanation for everything.",
+          "You might look specifically for a kink-aware therapist because kink is part of your life, even when it is not the reason you want counselling. What brings you here may be anxiety, grief, work or a relationship, with kink mattering simply because it is part of the life in which those things are happening. It can be part of the context without becoming the explanation for everything.",
           "Kink can also be the reason you are here. A dynamic may have changed, you and a partner may want different things, or you may be trying to understand something that happened. Those concerns can be taken seriously without deciding in advance that kink itself is the problem.",
         ],
       },
