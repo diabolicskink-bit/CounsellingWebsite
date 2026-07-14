@@ -1,4 +1,7 @@
 interface:
-  display_name: "Copywriter"
-  short_description: "Write and review counselling practice website copy."
-  default_prompt: "Write, review, edit, or structure counselling practice website copy with Australian private-practice ethical constraints."
+  display_name: "Copy Development"
+  short_description: "Plan, shape, draft, and review public copy"
+  default_prompt: "Use $copywriter to develop this counselling website copy from a clear brief and considered direction."
+
+policy:
+  allow_implicit_invocation: true

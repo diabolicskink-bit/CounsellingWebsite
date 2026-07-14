@@ -1,23 +1,30 @@
 # Repository Guidance For AI Agents
 
-Start with [docs/project/README.md](docs/project/README.md). It is the whole-project hub for reading order, product direction, current scope, debt, backlog, and task-log expectations.
+Start with [docs/project/README.md](docs/project/README.md). It is the whole-project map for document ownership, authority, current state, tracked work, and supporting history. This file owns task routing and repository-wide working rules.
+
+## Authority Model
+
+- For requirements and intent, the current task defines the requested outcome, followed by the repository-wide rules in this file and then the relevant domain guidance. A tracker item or plan applies only when the current task selects it.
+- For current implementation facts, executable behaviour, tests, configuration, and source are the strongest evidence. Current-scope documents summarize that state; reports and task history provide supporting context.
+- For reusable design-system API, follow [docs/design-system/governance.md](docs/design-system/governance.md), its active catalogues, and its current-scope document. Source code or a rendered example existing does not by itself make it approved reusable API.
+- Trackers, reports, plans, checklists, archives, and task history are supporting memory. They do not override active guidance or authorize work unless the current task explicitly adopts them.
 
 ## Required Reading
 
 - For public copy, content hierarchy, inclusion language, enquiry flow, metadata wording, or visitor-facing positioning, read [docs/project/product-direction.md](docs/project/product-direction.md) and [docs/project/writing-direction.md](docs/project/writing-direction.md).
 - For current routes, app behaviour, API/form behaviour, deployment assumptions, tests, or documentation structure, check [docs/project/current-scope.md](docs/project/current-scope.md).
-- For technical, routing, API, security, deployment, test, design-system maintenance, or general maintainability work, check [docs/project/project-debt.md](docs/project/project-debt.md).
-- For launch-readiness review, cross-site checks, sign-off, SEO/accessibility/performance/form-flow review passes, or launch gates, check [docs/project/launch-readiness.md](docs/project/launch-readiness.md).
-- For concrete deferred visitor-facing changes, check [docs/project/site-backlog.md](docs/project/site-backlog.md).
+- For technical, routing, API, security, deployment, test, design-system maintenance, or general maintainability work, search [docs/project/project-debt.md](docs/project/project-debt.md) for related `DEBT-*` items rather than reading it as a general prerequisite.
+- For launch-readiness review, cross-site checks, sign-off, SEO/accessibility/performance/form-flow review passes, or launch gates, consult [docs/project/launch-readiness.md](docs/project/launch-readiness.md).
+- For requested or deferred concrete visitor-facing changes, or when deciding how to record one, consult [docs/project/site-backlog.md](docs/project/site-backlog.md).
 - For visual, layout, component, shared CSS, rendered design-system, or design-system documentation work, start at [docs/design-system/README.md](docs/design-system/README.md).
 
 ## Working Rules
 
-- Default collaboration preference: ask as many clarifying questions as are genuinely useful before planning or implementing; do not artificially limit the count to one. Keep questions concise, grouped, and focused on details that would change the work.
+- In Planning Mode, ask as many clarifying questions as are genuinely useful; do not cap the total at three. If the interface limits each prompt to three questions, use additional concise, grouped rounds. Outside Planning Mode, ask before acting when missing information would materially change the requested outcome, scope, safety, or an irreversible decision; otherwise make a reasonable assumption, state it when useful, and proceed.
 - Public copy is under active owner-led revision. Treat existing page source as factual and layout context, not as an approved voice reference; use the source order in `docs/project/writing-direction.md`.
 - When the user asks for copy review or analysis, do not edit files unless implementation is also requested. When exact replacement wording is supplied, preserve it unless asked to edit it.
 - Treat SEO reports and sample outlines as research and coverage prompts, not as mandatory page templates or voice references.
-- Treat trackers as memory and triage, not permission to implement unrelated scope.
+- Apply tracker items only when they are relevant to the current task; their presence is not permission to implement unrelated scope.
 - Keep project scope and design-system scope separate.
 - For UI work, use active design-system guidance before treating source files, rendered examples, or old classes as reusable API.
 - Do not treat a file in `src/components/` as active design-system API unless the design-system docs describe it that way.
@@ -34,7 +41,7 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 
 ## Update Rules
 
-- Update [docs/project/current-scope.md](docs/project/current-scope.md) when public-site, API, test, deployment, or documentation scope changes.
+- Update [docs/project/current-scope.md](docs/project/current-scope.md) when public-site, development-route, API, analytics, test, or deployment scope changes.
 - Add or update `DEBT-*` items in [docs/project/project-debt.md](docs/project/project-debt.md) when technical or maintainability pressure should stay visible.
 - Add or update `LAUNCH-*` items in [docs/project/launch-readiness.md](docs/project/launch-readiness.md) when launch-readiness review, sign-off, matrices, or cross-site checks should stay visible.
 - Add or update `SITE-*` items in [docs/project/site-backlog.md](docs/project/site-backlog.md) when meaningful concrete visitor-facing change work is deferred.

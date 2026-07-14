@@ -2,15 +2,7 @@
 
 This file tracks design-system migration context that should stay visible without turning `current-scope.md` into a rulebook.
 
-Use `../project/project-debt.md` for stable `DEBT-*` tracking. This file gives design-system context and cross-links; it does not resolve implementation debt by itself.
-
-## Card Boundary
-
-Status: instruction-level boundary and source cleanup resolved.
-
-- Active card API: `.site-card`, `.site-card--link`, `.site-card__*`, `.site-topic-card`, `.site-fee-card`, and deliberate page-scoped classes.
-- Removed source: `src/components/Card.tsx`, generic `.card`, `.card-grid`, `.card-kicker`, and the card-specific responsive hooks were removed while preserving the active `site-*` card system.
-- Related debt: archived `DEBT-17`, with broader remaining legacy CSS context in `DEBT-13`.
+Use the [active project debt tracker](../../project/project-debt.md) for `DEBT-*` tracking. This file keeps unresolved design-system migration context and cross-links; it does not resolve implementation debt by itself.
 
 ## Legacy CSS Layers
 
@@ -21,9 +13,8 @@ Known or suspected legacy clusters include older shared utilities and experiment
 Related debt:
 
 - `DEBT-13`: broad legacy CSS cleanup parent.
-- Archived `DEBT-18`: removed old panel and strip selectors.
-- Archived `DEBT-19`: removed old issue-section and topic-card selectors.
 - `DEBT-15`: global CSS bundling makes legacy selectors more expensive to keep.
+- Archived `DEBT-17`, `DEBT-18`, and `DEBT-19` preserve completed card, panel/strip, and issue/topic cleanup history in the [project debt archive](../../project/archive/project-debt-archive.md).
 
 ## Docs And Dev Shell Layers
 
@@ -34,13 +25,9 @@ Status: partially included.
 - Docs/dev styles belong in `src/styles-dev.css` unless they are promoted into the shared production system.
 - Rendered design-system pages still live under `/design-language`; the route name is historical.
 
-## Side-Stripe Rule
+## Resolved Migration History
 
-Status: resolved as a documentation/rule issue.
-
-The active side-striped panels are intentional and acceptable. The old blanket rule against 4px side stripes was removed. Existing `.site-copy-panel`, `.site-check-panel`, and `.site-fee-card` treatments remain valid shared patterns.
-
-The unused `.site-highlight__box` selector was removed in the 2026-07-13 dead CSS sweep. The active `.site-highlight` section band and intentional side-striped panel patterns were unchanged.
+Completed card-boundary, legacy card-source, and side-stripe guidance decisions are preserved as `DEBT-12`, `DEBT-17`, and `DEBT-14` in the [project debt archive](../../project/archive/project-debt-archive.md). They are not active migration work; current card and panel API is owned by the [component catalogue](../patterns/components.md) and [page-pattern catalogue](../patterns/page-patterns.md).
 
 ## Reference Exports And Historical Plans
 

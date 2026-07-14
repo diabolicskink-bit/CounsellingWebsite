@@ -8,6 +8,10 @@ Public copy is under active owner-led revision. Existing page source records wha
 
 Reports, SEO guides, competitor pages, and sample page outlines are research inputs. They are not voice references or mandatory page templates.
 
+### Current Online-Positioning Constraint
+
+Online delivery remains a factual part of the service, but visible copy and metadata should not foreground `online` while Google Business Profile verification and positioning are being settled. Preserve this temporary constraint until the owner explicitly lifts it.
+
 ## Source Order
 
 When public wording conflicts or feels uncertain, use this order:
@@ -104,7 +108,7 @@ SEO should make the service and subject easy to identify without making the copy
 - Prefer one natural use of a precise phrase to a paragraph built from keyword variations.
 - Do not create generic explanatory sections merely to hold related search terms.
 - Keep visible wording, metadata, structured data, internal links, and public service facts aligned without forcing every structured fact into visible copy.
-- Check `current-scope.md` for temporary positioning constraints before foregrounding a delivery mode, location, credential, fee, or other operational detail.
+- Check current project facts before foregrounding a location, credential, fee, or other operational detail; the active online-delivery wording constraint is recorded above.
 
 SEO research and sample outlines provide coverage prompts, not required wording or page architecture.
 

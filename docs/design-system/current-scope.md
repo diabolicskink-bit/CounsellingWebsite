@@ -1,6 +1,6 @@
 # Current Design System Scope
 
-This is the live factual inventory of the design system. Keep it current when the system changes.
+This is the live factual inventory of the design system.
 
 ## Included
 
@@ -19,7 +19,7 @@ This is the live factual inventory of the design system. Keep it current when th
 - The active footer pattern exists in `Layout` and is demonstrated on the Components page.
 - The current enquiry/contact form uses `EnquiryForm`, `src/data/enquiry.ts`, and `.site-form*` classes.
 - Design-system routes exist at `/design-language`, `/design-language/foundations`, `/design-language/components`, `/design-language/heroes`, and `/design-language/patterns`.
-- Written design-system guidance exists in `docs/design-system/README.md`, `ai-rules.md`, `governance.md`, this file, `foundations/`, `patterns/`, and `maintenance/`.
+- Written design-system guidance exists in `docs/design-system/README.md`, `governance.md`, this file, `foundations/`, `patterns/`, and `maintenance/`.
 
 ## Partially Included / In Progress
 
@@ -40,14 +40,14 @@ This is the live factual inventory of the design system. Keep it current when th
 ## Legacy / Deprecated / Reference Only
 
 - `ds-*` is docs/dev-page support styling, not a production system.
-- The old `src/components/Card.tsx` component and generic `.card`, `.card-grid`, `.card-kicker`, and card-specific responsive selectors have been removed from source. Do not reintroduce them for new production or design-system work.
-- The old `src/components/SplitSection.tsx` component and generic `.section`, `.section--surface`, and `.split` production selectors have been removed from source. Compose current split sections with `.site-grid` or `.site-highlight`, `Container`, `.site-split`, `.section-heading`, and `.rich-text`.
-- The old `.issues-section`, `.issues-section__inner`, `.topic-grid`, and `.topic-card` production selectors have been removed. Use the active `.site-topic-grid` and `.site-topic-card` system or a deliberate page-scoped section composition.
-- The old generic `.stack` production helper has been removed. Use the purpose-specific `.site-content-stack`, `.site-detail-stack`, or a deliberate page-scoped layout.
-- The unused `.site-highlight__box` selector has been removed. `.site-highlight` remains the active alternate section band; use a documented panel pattern or a deliberate page-scoped class for contained surfaces.
-- `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css` and should not be expanded for production work.
+- The old `src/components/Card.tsx` component and generic `.card`, `.card-grid`, `.card-kicker`, and card-specific responsive selectors have been removed from source; active replacements are catalogued in `patterns/components.md` and `patterns/page-patterns.md`.
+- The old `src/components/SplitSection.tsx` component and generic `.section`, `.section--surface`, and `.split` production selectors have been removed from source; current split sections use `.site-grid` or `.site-highlight`, `Container`, `.site-split`, `.section-heading`, and `.rich-text`.
+- The old `.issues-section`, `.issues-section__inner`, `.topic-grid`, and `.topic-card` production selectors have been removed; the active topic system uses `.site-topic-grid` and `.site-topic-card`.
+- The old generic `.stack` production helper has been removed; current purpose-specific replacements include `.site-content-stack` and `.site-detail-stack`.
+- The unused `.site-highlight__box` selector has been removed. `.site-highlight` remains the active alternate section band.
+- `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css`; it is not part of the production or preferred future layer.
 - `legacy-*`, old `test-bed-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only.
-- No active `site-hero-*` source usage was found during the latest pass. Treat any future discovery as superseded by `hero-*` unless deliberately re-promoted.
+- No active `site-hero-*` source usage was found during the latest pass; the documented `hero-*` system supersedes it.
 - Raw design export files, historical icon candidate export folders, and the old type-scale plan are not active design-system docs in the rebuilt structure. Historical icon candidates have been removed; durable guidance has been folded into the canonical docs.
 
 ## Not Included Yet
@@ -82,9 +82,3 @@ This is the live factual inventory of the design system. Keep it current when th
 - Broad visual experimentation on production pages.
 - Expanding `ds-*` as active production or preferred future layer.
 - Generic template components not used by this site.
-
-## Update Rule
-
-Update this file when a reusable component or pattern is added, removed, promoted, deprecated, or materially changed; when tokens are added or removed; when a design-system page changes status; when a legacy layer is retired; or when a relevant missing area is discovered.
-
-Do not update this file for tiny implementation changes that do not change design-system scope.

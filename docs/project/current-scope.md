@@ -1,99 +1,109 @@
 # Current Project Scope
 
-This is the factual current scope of the Vive Counselling website and supporting app. Keep design-system inventory in `docs/design-system/current-scope.md`.
+This is the factual current-state summary of the Vive Counselling website and supporting app. Design-system inventory is maintained separately in `docs/design-system/current-scope.md`.
 
-## Included
+## Application And Routes
 
-- Vite, React, and TypeScript power a public counselling website for Vive Counselling.
-- Public routes include Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, LGBTQIA+, Contact/Fees, and the Not Found page; the three Inclusion child routes currently remain direct routes but are treated as draft child pages.
+- Vite, React, and TypeScript power the public counselling website.
+- Public routes include Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, LGBTQIA+, Contact/Fees, and Not Found.
+- The three Inclusion child routes remain directly accessible draft pages.
 - `/about` redirects to Working with Joel, and `/fees` redirects to Contact/Fees.
-- Public navigation includes Home, Working with Joel, Inclusion, and Fees; Inclusion child-page links are shown only in local development builds.
+- Public navigation includes Home, Working with Joel, Inclusion, and Fees. Inclusion child-page links appear only in local development builds.
 - Development-only routes include the rendered design-system pages, Documents, Codex test bed, and Opus test bed.
-- The dev Documents page imports markdown from `docs/checklists/`, `docs/reports/`, and `docs/plans/` and renders checklists, reports, and draft plans through the app in development; exact inline checklist status labels render as quiet coloured badges.
-- Root project guidance now lives under `docs/project/`; visual-system guidance lives under `docs/design-system/`.
-- Launch readiness gates, review passes, and acceptance checks are tracked separately in `docs/project/launch-readiness.md` with stable `LAUNCH-*` IDs.
-- The design system has rebuilt written docs, rendered dev pages, shared components, shared CSS class layers, and cleanup guidance.
-- Public-page audience and positioning are governed by `docs/project/product-direction.md`; operational public-copy guidance lives in `docs/project/writing-direction.md`, and root `PRODUCT.md` mirrors the strategic context for frontend design tooling.
-- Public copy is under active owner-led revision. Existing page source remains implementation state rather than an approved voice corpus unless wording is explicitly approved through the current task or `docs/project/writing-direction.md`.
-- Online delivery remains a factual part of the service, but current visible copy and metadata should not foreground `online` while Google Business Profile verification and positioning are being settled. Agents should preserve that temporary constraint until the owner explicitly lifts it.
-- Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
-- The route/application tree is shared by separate browser and static wrappers. Both wrappers use the same Strict Mode boundary and pass the same serializable initial-render timestamp contract; the build now invokes the static wrapper for its in-memory render smoke check.
-- A prerender script updates route metadata artifacts, generated route HTML, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.
-- The production build creates a disposable Vite SSR bundle outside `dist` and imports it during prerendering. Every metadata-backed public route receives real component-rendered header, page, navigation, and footer markup in its first response. The controlled `404.html` artifact uses a dedicated generic not-found fallback instead of the retired public-route shell path.
-- The browser hydrates every metadata-backed public route only when the artifact's explicit prerendered route marker, valid build timestamp, and normalized browser pathname match. Development roots, stale or mismatched artifacts, unknown paths, and `404.html` continue through the client-render fallback.
-- Launch indexability is enabled for Home, Working with Joel, Inclusion, and Contact/Fees. Generated route HTML for those pages omits `noindex`, `sitemap.xml` advertises only those four canonical URLs, and `robots.txt` allows crawling with a sitemap reference.
-- The three draft Inclusion child routes remain direct routes for review but are excluded from production links, sitemap output, and indexing through route-level `noindex, nofollow` metadata.
-- `vivecounselling.com.au` and `www.vivecounselling.com.au` are assigned to the Vercel project; `www` is configured as a permanent redirect to the apex domain, and DNS resolves to Vercel.
-- Production metadata defaults to the apex canonical origin `https://vivecounselling.com.au`; `SITE_URL` can still override this for an intentional alternate environment.
-- Generated homepage metadata includes a linked JSON-LD graph: `WebSite` names `Vive Counselling` at the canonical apex URL; a minimal `Organization` carries the confirmed public business identity, contact point, logo, description, Kink Aware Professionals directory identity, and Joel Griffiths as `founder`; a concise `Person` identifies Joel and links him to Vive; and a `Service` identifies counselling and psychotherapy for adults, provided by Vive across Australia. Generated Working with Joel metadata adds a `ProfilePage` whose `mainEntity` is the same Person and records the confirmed full ECU and ACA credential details behind the concise visible credential presentation. Delivery channel, pricing, address, and local-business schema remain deferred.
-- Public assets include favicons, app icons, a web manifest, the shared social preview image, and portrait/media assets under `public/`.
-- The Contact/Fees page uses the shared `EnquiryForm` component and data from `src/data/enquiry.ts`.
-- Contact/Fees displays fixed Perth business hours in AWST. Interstate comparison notes derive initially from the build timestamp embedded on generated route roots, then refresh once in the browser only when daylight-saving differences have changed since deployment.
-- Consult-request timezone options are calculated when the conditional timezone field is opened rather than when the enquiry content module loads.
+- The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, and `docs/plans/`; exact inline checklist status labels render as quiet coloured badges.
+
+## Public Content And Discoverability
+
+- Public copy is under active owner-led revision. Existing page source is implementation state rather than an approved voice corpus; current copy status and wording constraints are recorded in `docs/project/writing-direction.md`.
+- Online delivery remains a factual part of the service. The current constraint on foregrounding it in visible copy or metadata is owned by `docs/project/writing-direction.md`.
+- Route metadata is stored in `src/data/routeMetadata.json` and applied by `useDocumentMetadata`.
+- Home, Working with Joel, Inclusion, and Contact/Fees are indexable. Their generated HTML omits `noindex`, and `sitemap.xml` advertises those four canonical URLs.
+- The three draft Inclusion child routes are excluded from production links and sitemap output and use route-level `noindex, nofollow` metadata.
+- `robots.txt` allows crawling and references the sitemap.
+- Production metadata defaults to `https://vivecounselling.com.au`; `SITE_URL` can override the origin for an intentional alternate environment.
+- The apex and `www` domains are assigned to the Vercel project. `www` permanently redirects to the apex domain, and DNS resolves to Vercel.
+- Homepage JSON-LD includes linked `WebSite`, `Organization`, `Person`, and `Service` entities for the confirmed public business, practitioner, contact, directory identity, and counselling service facts.
+- Working with Joel metadata adds a `ProfilePage` whose `mainEntity` is the same `Person` and includes the confirmed ECU and ACA credential details.
+- Delivery channel, pricing, address, and local-business structured data are not currently included.
+- Public assets include favicons, app icons, a web manifest, a shared social preview image, and portrait/media assets under `public/`.
+
+## Rendering, Build, And Deployment
+
+- Browser and static entry points share the same route/application tree, Strict Mode boundary, and serializable initial-render timestamp contract.
+- `npm run build` creates a disposable Vite SSR bundle under `.prerender/server` and imports it while prerendering every metadata-backed public route.
+- Generated route HTML contains component-rendered header, page, navigation, and footer markup in the first response.
+- The controlled `404.html` artifact uses dedicated generic not-found fallback markup.
+- The browser hydrates only when the prerendered route marker, valid build timestamp, and normalized pathname match. Development roots, stale or mismatched artifacts, unknown paths, and `404.html` use the client-render fallback.
+- The prerender process updates generated route HTML, metadata artifacts, sitemap, robots, and the app-powered `404.html` fallback.
+- The build fails when a metadata-backed route is absent from the component prerender set.
+- TypeScript checking covers the application and the TypeScript serverless API.
+- `vercel.json` defines clean URLs, trailing-slash redirects, and public alias redirects.
+
+## Enquiry Flow And API
+
+- Contact/Fees uses the shared `EnquiryForm` component and `src/data/enquiry.ts`.
+- The page displays fixed Perth business hours in AWST. Interstate comparison notes start from the generated route timestamp and refresh in the browser when daylight-saving differences have changed since deployment.
+- Consult-request timezone options are calculated when the conditional timezone field opens.
 - Public contact display and enquiry fallback/failure messaging use `joel@vivecounselling.com.au`.
-- The enquiry form submits to the serverless `/api/enquiry` endpoint.
-- The TypeScript enquiry API validates structured form fields server-side, supports endpoint-level URL-encoded native form posts, builds the email subject/reply-to/plain text/HTML from the validated payload, formats the verified sender address with the visitor name as the email display name, and sends email through Resend when configured.
-- The enquiry API rejects unsupported content types, multipart posts, oversized declared bodies above 25KB, and explicit cross-site fetch/origin/referer signals before validation or email delivery.
-- Enquiry API failures return generic visitor-safe public errors, while provider/configuration/runtime diagnostics stay in server logs.
-- Basic honeypot spam protection exists for enquiry submissions.
-- Vercel Analytics is rendered by the app when analytics are enabled and the runtime hostname is allowed; `SiteAnalytics` injects Google Analytics `gtag.js` with manual public-route `page_view` events when `VITE_GA_MEASUREMENT_ID` is configured, and Microsoft Clarity loads when `VITE_CLARITY_PROJECT_ID` is configured. The default analytics host allowlist is the canonical apex domain plus `www`, with `VITE_ANALYTICS_ALLOWED_HOSTS` available for explicit alternate environments such as local analytics QA.
-- The enquiry form is explicitly marked with `data-clarity-mask="true"` so Clarity does not capture form content even if recording features are enabled.
-- Playwright public-site tests exist under `tests/public-site.spec.ts`, including one-main-landmark coverage, raw/no-JavaScript/hydration coverage for all seven metadata-backed public routes, fixed-season Contact timezone coverage, conditional enquiry fields and payloads, mocked success/error states, success focus and form semantics, equivalent flat/nested artifact checks, SPA-navigation coverage, activation fallback checks, generated metadata, sitemap, robots, and 404 fallback artifact coverage.
-- The prerendering migration has no outstanding standalone broad-test phase. When a page or shared behaviour is changed for another reason, its relevant rendering and interaction tests should be reviewed and updated as part of that work rather than through a separate page-by-page testing campaign.
-- Direct Node API tests cover accepted and rejected enquiry submissions under `tests/api/`.
-- Direct Node script tests cover route metadata origin policy under `tests/scripts/`.
-- The public-site QA gate, `npm run qa:site`, builds the app, starts the QA preview server, and passes the Playwright public-site suite locally.
-- The opt-in analytics QA gate, `npm run qa:analytics`, builds with fake Google Analytics and Microsoft Clarity IDs, verifies manual SPA route-change pageview calls, and verifies the Clarity script path without loading third-party analytics scripts.
-- The aggregate QA command, `npm run qa`, runs encoding checks, direct script tests, the build, direct API tests, and the public-site Playwright suite.
-- Static encoding checks run through `npm run check:encoding` and are included in `npm run qa` and `npm run qa:site`.
-- Test tooling includes axe checks through Playwright and Lighthouse audit scripts.
-- Build tooling includes TypeScript checking, separate Vite client and SSR builds, and component prerendering for every metadata-backed public route. The build fails if a metadata route is missing from the component prerender set, and the ignored SSR artifact is recreated under `.prerender/server` on every production build.
-- The TypeScript build includes the `api/` serverless endpoint.
-- Vercel deployment configuration exists in `vercel.json` with clean URLs, trailing-slash redirects, and public alias redirects.
+- The form submits to the serverless `/api/enquiry` endpoint and supports endpoint-level URL-encoded native form posts.
+- JavaScript-disabled visits expose the full server-rendered Contact form and component markup on every metadata-backed public route.
+- The TypeScript endpoint validates structured fields server-side, builds the subject, reply-to, plain text, and HTML from the validated payload, and sends through Resend when configured.
+- The endpoint rejects unsupported content types, multipart posts, declared bodies above 25 KB, and explicit cross-site fetch, origin, or referer signals before validation or delivery.
+- Public failure responses remain generic while provider, configuration, and runtime diagnostics stay in server logs.
+- Basic honeypot spam protection is active.
 
-## Partially Included / Known Gaps
+## Analytics
 
-- Enquiry spam protection includes a honeypot and conservative request-shape checks, but does not include platform rate limiting or complete abuse protection.
-- All seven metadata-backed public routes have full static component markup and matching-path hydration. The controlled 404 fallback deliberately retains dedicated generic fallback markup plus `createRoot`; its build and local-preview contract is verified, while exact post-deploy confirmation remains tracked under `DEBT-24`.
-- Endpoint-level native form posts and a server-rendered Contact form are supported. JavaScript-disabled visits expose full component markup on every metadata-backed public route.
-- Route definitions, route metadata, prerendering, and tests remain separate by design for this small route set; explicit route parity coverage is still tracked as debt.
-- Type checking does not currently cover tests, scripts, and most config files.
-- Vercel clean URL config and the generated app 404 fallback are covered locally. A manual canonical-host baseline confirms unknown paths receive the app fallback with HTTP 404 and `/404.html` redirects to `/404`, but repeatable post-deploy smoke testing is not automated.
-- Accessibility support exists in components and tests, and `docs/checklists/accessibility-launch.md` provides the working route-by-route checklist for `LAUNCH-1`, but the launch accessibility review is not complete.
-- Responsive styling exists, but the `LAUNCH-2` responsive review is not complete.
-- Performance tooling exists, but Lighthouse budgets are not enforced.
-- The analytics launch environment policy is not fully signed off yet; `LAUNCH-5` still needs to confirm GA4 admin-setting and Microsoft Clarity cookie/session-recording behaviour before launch. Preview/local analytics collection now requires an explicit host allowlist override.
+- Vercel Analytics renders when analytics are enabled and the runtime hostname is allowed.
+- `SiteAnalytics` loads Google Analytics when `VITE_GA_MEASUREMENT_ID` is configured and sends manual public-route `page_view` events.
+- Microsoft Clarity loads when `VITE_CLARITY_PROJECT_ID` is configured.
+- The default analytics host allowlist includes the canonical apex and `www`; `VITE_ANALYTICS_ALLOWED_HOSTS` supports intentional alternate QA environments.
+- The enquiry form uses `data-clarity-mask="true"` so Clarity does not capture form content.
 
-## Not Included Yet
+## Testing And QA
 
-- CMS integration.
-- Blog or article publishing system.
+- `tests/public-site.spec.ts` covers public landmarks, raw and JavaScript-disabled output, hydration, Contact timezone behaviour, conditional enquiry fields and payloads, success/error states, form semantics, flat and nested artifacts, SPA navigation, fallback activation, generated metadata, sitemap, robots, and the 404 artifact.
+- Direct Node tests under `tests/api/` cover accepted and rejected enquiry submissions.
+- Direct Node tests under `tests/scripts/` cover route-metadata origin policy.
+- `npm run qa:site` builds the app, starts the QA preview server, and runs the Playwright public-site suite.
+- `npm run qa:analytics` builds with fake analytics identifiers and verifies Google Analytics SPA pageviews and the Clarity script path without loading third-party scripts.
+- `npm run qa` runs encoding checks, direct script tests, the build, direct API tests, and the public-site Playwright suite.
+- `npm run check:encoding` is also included in `npm run qa` and `npm run qa:site`.
+- Test tooling includes Playwright axe checks and Lighthouse audit scripts.
+
+## Known Gaps
+
+- Enquiry protection does not include platform rate limiting or complete abuse protection.
+- The 404 build and local-preview contract is verified, but repeatable post-deploy confirmation remains manual under `DEBT-24`.
+- Route definitions, metadata, prerendering, and tests remain separate; explicit route-parity enforcement is tracked as debt.
+- Type checking does not cover tests, scripts, or most configuration files.
+- Accessibility support and route-level checklist coverage exist, but the `LAUNCH-1` accessibility review is incomplete.
+- Responsive styling exists, but the `LAUNCH-2` responsive review is incomplete.
+- Lighthouse tooling exists, but performance budgets are not enforced.
+- Analytics launch policy is not fully signed off; `LAUNCH-5` still covers GA4 administration and Microsoft Clarity cookie/session-recording behaviour.
+- Dedicated automated live Vercel production or preview smoke tests do not exist.
+- Cross-site launch review and sign-off remain open in `docs/project/launch-readiness.md`.
+
+## Not Included
+
+- CMS integration or a blog/article publishing system.
 - Online booking or scheduling integration.
 - Payments.
-- Authentication or admin editing.
-- Visitor accounts.
-- Dark mode.
-- Storybook or an external component explorer.
-- Visual regression testing.
+- Authentication, admin editing, or visitor accounts.
 - A first-party cookie banner or local Microsoft Clarity Consent API flow.
-- Delivery-channel, pricing, address, or local-business structured data beyond the homepage identity/service graph and Working with Joel `ProfilePage` graph.
-- Completed `LAUNCH-*` review passes for accessibility, responsive layout, public SEO/metadata, performance, analytics policy, enquiry flow, final public copy, and launch domain readiness.
-- Dedicated live Vercel production or preview smoke tests.
+- Dark mode.
+- Storybook or another external component explorer.
+- Visual regression testing.
 
-## Explicitly Out Of Scope Unless Requested
+## Outside Current Project Scope
+
+The following remain outside the current project scope unless a task explicitly expands it:
 
 - Full redesign.
-- Wholesale public copy rewrite.
+- Wholesale public-copy rewrite.
 - New brand identity, palette, or typefaces.
-- Framework migration.
-- Tailwind or CSS-framework migration.
+- Framework, Tailwind, or other CSS-framework migration.
 - CMS migration.
 - Booking, payment, account, or client-portal features.
 - Broad design-system rewrite.
-- Expanding dev/test-bed routes into public pages.
-
-## Update Rule
-
-Update this file when work changes current public routes, dev routes, form/API behaviour, metadata, deployment assumptions, testing coverage, documentation structure, or the list of known missing areas.
-
-Do not update this file for tiny code changes that do not change project scope.
+- Expanding development or test-bed routes into public pages.
