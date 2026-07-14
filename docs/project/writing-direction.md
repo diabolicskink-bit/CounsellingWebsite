@@ -134,4 +134,3 @@ Before proposing or implementing public copy, ask:
 - Is the section doing something specific to this page?
 - Are relevant search terms present naturally?
 - Is the wording warm because of what it says, rather than because it uses warm-sounding language?
-
