@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-14 - Staging Integration Workflow Adopted
+
+- Added: A long-lived `staging` branch now sits between working branches and the production `master` branch.
+- Defined: New `work/*` branches normally start from `staging`, return to `staging` when complete, and reach production by merging the combined release candidate into `master` without squashing or rebasing the long-lived branch.
+- Preserved: Vercel can continue creating previews for all non-production branches; the `staging` preview is the integrated release check, while working-branch previews remain available for isolated review.
+
 ## 2026-07-13 - Public Hero Heading Contract Migrated
 
 - Changed: All seven metadata-backed public routes now use one concise `h1.hero-badge` followed by `p.hero-display`, reserving `h2` for actual page sections while preserving the existing visual hierarchy.

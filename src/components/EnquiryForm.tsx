@@ -89,6 +89,7 @@ function joinClasses(...classes: Array<string | undefined>) {
 
 export default function EnquiryForm({ content, className, idPrefix = "enquiry" }: EnquiryFormProps) {
   const { fields } = content;
+  const formHeadingId = `${idPrefix}-form-heading`;
   const successRef = useRef<HTMLDivElement>(null);
   const [enquiryType, setEnquiryType] = useState("");
   const [bookingType, setBookingType] = useState("");
@@ -145,17 +146,9 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
     }
   };
 
-  return (
-    <form
-      className={joinClasses("site-form", submitStatus === "success" ? "site-form--complete" : undefined, className)}
-      action="/api/enquiry"
-      data-clarity-mask="true"
-      method="post"
-      onSubmit={handleSubmit}
-    >
-      <span className="site-eyebrow">{content.eyebrow}</span>
-
-      {submitStatus === "success" ? (
+  if (submitStatus === "success") {
+    return (
+      <section className={joinClasses("site-form", "site-form--complete", className)}>
         <div
           className="site-form__status site-form__status--success site-form__status--complete"
           ref={successRef}
@@ -166,8 +159,23 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
           <p>{content.success.message}</p>
           <p>{content.success.note}</p>
         </div>
-      ) : (
-        <>
+      </section>
+    );
+  }
+
+  return (
+    <form
+      aria-labelledby={formHeadingId}
+      className={joinClasses("site-form", className)}
+      action="/api/enquiry"
+      data-clarity-mask="true"
+      method="post"
+      onSubmit={handleSubmit}
+    >
+      <h2 className="site-eyebrow site-form__heading" id={formHeadingId}>
+        {content.eyebrow}
+      </h2>
+
           <div className="site-form__grid">
             <input
               className="site-form__honeypot"
@@ -316,8 +324,6 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
               <p>Sorry, the enquiry could not be sent. Please email {content.recipientEmail} directly.</p>
             </div>
           ) : null}
-        </>
-      )}
     </form>
   );
 }

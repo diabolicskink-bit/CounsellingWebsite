@@ -90,6 +90,8 @@ Use page-scoped hero classes only for composition-specific needs layered on top 
 
 - `.site-form`
   Shared form shell.
+- `.site-form__heading`
+  Semantic form heading that keeps the shared eyebrow treatment and names the control-bearing form through `aria-labelledby`.
 - `.site-form__grid`, `.site-form__row--full`, `.site-form__submit`
   Shared enquiry form layout helpers.
 - `.site-form__status`

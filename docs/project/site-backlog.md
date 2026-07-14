@@ -76,21 +76,6 @@ Statuses:
   - Keep "confidentiality" language tied to counselling sessions, records, and professional boundaries rather than using it as shorthand for website cookies or analytics.
 - `Links`: `src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`, `src/components/SiteAnalytics.tsx`, `docs/project/product-direction.md`
 
-### SITE-20 - Contact enquiry form semantic heading
-
-- `Priority`: `P1`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Accessibility`
-- `Source`: `docs/checklists/accessibility-launch.md`, Contact page accessibility assessment
-- `Visitor-Facing Goal`: Make the Contact enquiry form reachable through semantic page navigation, not only through visual scanning.
-- `Current State`: The Contact page has a visible "Enquiry" label above the form, but it is rendered as a styled span rather than a heading or named form landmark, so screen-reader heading navigation skips the form section.
-- `Why Deferred`: This was identified during checklist assessment; the assessment updated tracking only and did not change page code.
-- `First Useful Slice`: Make the form label semantic, for example by rendering it as an `h2` or by giving the form an accessible name with `aria-labelledby`, while preserving the current visual treatment.
-- `Implemented When`: The Contact enquiry form is discoverable through semantic navigation, heading order remains coherent, and the Contact checklist heading-order item can move from `Partial` to `Pass`.
-- `Notes`:
-- `Links`: `src/components/EnquiryForm.tsx`, `src/pages/Contact.tsx`, `docs/checklists/accessibility-launch.md`
-
 ### SITE-21 - Contact form required-field clarity
 
 - `Priority`: `P1`
@@ -215,6 +200,10 @@ Statuses:
 - `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system/patterns/page-patterns.md`, `docs/project/product-direction.md`
 
 ## Archive
+
+### SITE-20 - Contact enquiry form semantic heading
+
+Implemented on 2026-07-14. The visible "Enquiry" label is now a peer `h2` that names the control-bearing form through `aria-labelledby` across prerendered, no-JavaScript, hydrated, sending, and error states. Successful submission replaces the form with a non-form status section containing one relevant success `h2`, while preserving status focus, payload behaviour, native fallback, and Clarity masking. Desktop and mobile Playwright coverage and the serious-impact axe smoke check pass.
 
 ### SITE-12 - Crisis and immediate-support resource block
 
