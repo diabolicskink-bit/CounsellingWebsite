@@ -115,7 +115,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: Keep the base rule in `src/styles.css` with shared production primitives. Contextual selectors such as `.rich-text .button`, `.site-cta-block .button`, `.site-page .button`, and page/dev overrides remain legitimate placement or sizing refinements. This leaf is not a `Restructure candidate` by itself.
 - `Used By`: `Button` component; public page CTAs/actions on Home, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, and Not Found; `EnquiryForm` submit action; `Layout` contact action via `.header-button`; rendered design-system/dev examples.
 - `Decision`: Keep as the base shared action class. It is active, documented, component-backed, widely used, and not a delete, move, consolidate, or restructure candidate at this leaf level.
-- `Evidence`: `docs/design-system/current-scope.md`, `docs/design-system/ai-rules.md`, and `docs/design-system/governance.md` all name `.button` as an active non-prefixed shared class. `src/components/Button.tsx` composes every rendered `Button` with `button button--${variant}` and only exposes `primary`, `secondary`, and `tertiary`. Source search found `.button` usage through public pages, dev design-system pages, `EnquiryForm`, and `Layout`; no competing base button class was found. Disabled usage currently appears only on the native submit button path, so `.button:disabled` matches current behavior.
+- `Evidence`: `docs/design-system/current-scope.md` and `docs/design-system/governance.md` name `.button` as an active non-prefixed shared class, while `docs/design-system/patterns/components.md` documents the component-backed variants. `src/components/Button.tsx` composes every rendered `Button` with `button button--${variant}` and only exposes `primary`, `secondary`, and `tertiary`. Source search found `.button` usage through public pages, dev design-system pages, `EnquiryForm`, and `Layout`; no competing base button class was found. Disabled usage currently appears only on the native submit button path, so `.button:disabled` matches current behavior.
 - `Follow-up`: None.
 
 ##### CSS-1.4.1.2 - `.button--primary`
@@ -312,7 +312,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Naming/Structure Check`: Not assessed in this usage-only pass.
 - `Declaration Review`: Not performed in this usage-only pass.
 - `Architecture Check`: Active shared exception; it is documented as a current non-prefixed shared class and is used by current page and design-system examples.
-- `Used By`: `src/pages/LgbtqiaCounselling.tsx`, `src/pages/dev/design-system/DS_Components.tsx`, `docs/design-system/current-scope.md`, `docs/design-system/governance.md`, and `docs/design-system/ai-rules.md`.
+- `Used By`: `src/pages/LgbtqiaCounselling.tsx`, `src/pages/dev/design-system/DS_Components.tsx`, `docs/design-system/current-scope.md`, and `docs/design-system/governance.md`.
 - `Decision`: Used; not a delete candidate on usage evidence alone.
 - `Evidence`: 2026-06-27 usage pass found live references at `src/pages/LgbtqiaCounselling.tsx:140`, `src/pages/dev/design-system/DS_Components.tsx:386`, and `src/pages/dev/design-system/DS_Components.tsx:401`; docs list `.check-item` as an active non-prefixed shared class.
 - `Follow-up`: Run full declaration, naming, and structure review before deciding whether to keep, document, or consolidate.
@@ -325,7 +325,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Naming/Structure Check`: The short name is an intentional documented exception to the `site-*` layer. It represents one reusable icon surface rather than a page-specific composition.
 - `Declaration Review`: The base rule owns the shared inline-flex sizing, alignment, radius, background, and colour. `.site-contact-item .icon-box` now adds only its contextual border; duplicate radius, background, and colour declarations have been removed.
 - `Architecture Check`: Keep the base primitive and its one-value contact-item refinement. Public Contact uses `.icon-box` with a page-scoped alignment adjustment, while the rendered design-system contact pattern uses the shared contextual border.
-- `Used By`: `src/pages/Contact.tsx`, `src/pages/dev/design-system/DS_Components.tsx`, `docs/design-system/current-scope.md`, `docs/design-system/governance.md`, and `docs/design-system/ai-rules.md`.
+- `Used By`: `src/pages/Contact.tsx`, `src/pages/dev/design-system/DS_Components.tsx`, `docs/design-system/current-scope.md`, and `docs/design-system/governance.md`.
 - `Decision`: Keep the active shared primitive and the narrower contextual border rule.
 - `Evidence`: The 2026-07-13 declaration review confirmed that `--radius` resolves to `8px` globally and found no alternate token overrides. Source usage remains in `src/pages/Contact.tsx` and `src/pages/dev/design-system/DS_Components.tsx`; canonical design-system docs continue to list `.icon-box` as active shared API.
 - `Follow-up`: None.

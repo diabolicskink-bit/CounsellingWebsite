@@ -6,24 +6,31 @@ The design system keeps the counselling website visually coherent, maintainable,
 
 It should prevent old demos, docs shell styles, or unused components from becoming accidental production API.
 
-## Source Of Truth
+## Authority And Evidence
 
-Use this order when design-system sources disagree:
+Design-system sources answer two different questions. Do not use implementation existence as proof that something is approved reusable API.
 
-1. `src/styles.css`
-   Production visual tokens, base typography, shared classes, `site-*`, `hero-*`, and promoted reusable patterns.
-2. Active shared React components in `src/components/`
-   A component file is active design-system API only when `current-scope.md` and `patterns/components.md` say so.
-3. Rendered design-system pages in `src/pages/dev/design-system/`
-   Living visual references for foundations, components, heroes, and patterns.
-4. Written docs in `docs/design-system/`
-   Operating rules, current scope, component catalogues, pattern guidance, cleanup rules, and migration context.
-5. `src/styles-dev.css`
-   Docs/dev support styling, including `ds-*`.
-6. Page-scoped CSS
-   Production-safe for one page, but not automatically shared design-system API.
-7. Legacy, demo, reference, and archive layers
-   Reference only unless deliberately promoted.
+### Current Implementation Fact
+
+When determining what is actually implemented, use this evidence order:
+
+1. Production source and configuration, especially `src/styles.css` and the components used by active routes.
+2. Tested or rendered behaviour on affected public and development routes.
+3. `current-scope.md`, pattern catalogues, and rendered design-system pages as maintained summaries and visual references.
+
+If documentation disagrees with executable behaviour, treat the implementation as the current fact. Reconcile the stale documentation when the task changes or formally assesses that durable state.
+
+`src/styles-dev.css` and `ds-*` are dev support rather than production implementation. Page-scoped CSS can be production-safe for its page without becoming shared API. Legacy, demo, reference, and archive layers remain reference only unless deliberately promoted.
+
+### Approved Reusable API
+
+When deciding whether a token, class, component, or pattern is approved for reuse:
+
+1. Follow the boundaries and promotion rules in this governance document.
+2. Confirm active status in `current-scope.md` and the relevant catalogue: `foundations/tokens.md`, `patterns/components.md`, or `patterns/page-patterns.md`.
+3. Use source and rendered examples to verify how that documented API is implemented and behaves.
+
+A file in `src/components/`, a selector in a stylesheet, or a rendered example is not reusable design-system API merely because it exists. Experimental, page-scoped, dev-only, legacy, and undocumented implementation must remain local or be deliberately promoted before shared reuse.
 
 ## Active Layers
 
@@ -44,6 +51,8 @@ Use this order when design-system sources disagree:
 Useful legacy ideas can be promoted, but the idea must be rebuilt into the active `site-*`, `hero-*`, or component layer and documented before production use.
 
 ## Page-Scoped Vs Shared
+
+Reuse should serve the content and interaction. Do not flatten a distinctive page moment, invent generic sections, or rewrite approved copy merely to make an existing component or pattern fit.
 
 Page-scoped CSS is allowed when:
 
@@ -90,7 +99,13 @@ Cleanup should converge on active `site-*`, `hero-*`, and shared component patte
 
 Cleanup should not copy old demo styles into production pages. If an old demo idea is useful, promote the idea deliberately.
 
-Use `maintenance/cleanup-sweeps.md` for named sweep behaviour and `maintenance/migration-notes.md` for known legacy areas.
+Use `maintenance/cleanup-sweeps.md` for named sweep behaviour, `current-scope.md` for known legacy areas, and the project debt tracker for concrete unresolved cleanup work.
+
+## Verification
+
+- For documentation-only changes, run reference searches or link checks that confirm active guidance points to the intended canonical documents.
+- For CSS, component, or rendered-page changes, run `npm run build` unless the current task explicitly excludes it.
+- For visual changes, inspect the affected public route or rendered design-system page when practical.
 
 ## Scope Updates
 
