@@ -4,7 +4,7 @@ Use this as the quick checklist before changing visual code. It routes you to th
 
 ## Before Editing
 
-- Read `../project/product-direction.md` when public copy, content hierarchy, inclusion language, or visitor-facing positioning may be affected.
+- Read `../project/product-direction.md` and `../project/writing-direction.md` when public copy, content hierarchy, inclusion language, metadata wording, or visitor-facing positioning may be affected.
 - Read `governance.md` when changing shared classes, components, design-system pages, or design-system documentation.
 - Read `current-scope.md` before treating any class, component, or rendered example as active API.
 - Read `patterns/components.md` and `patterns/page-patterns.md` before creating a new component or shared style.
@@ -24,6 +24,7 @@ Use this as the quick checklist before changing visual code. It routes you to th
 - Do not use `src/components/Card.tsx`, `.card`, `.card-grid`, or old card-adjacent selectors for new production or design-system work.
 - Do not create a page-specific card, hero, panel, CTA, or form style when a documented shared pattern is a close fit.
 - Do not flatten distinctive page moments into generic card grids merely because reuse is easier.
+- Do not invent generic page sections or rewrite approved copy to make a shared component or familiar page pattern fit.
 - Do not introduce ad hoc colours, type sizes, shadows, radii, or spacing when an existing token or role fits.
 - Do not turn cleanup into redesign, public copy changes, route changes, or new visitor-facing scope unless explicitly requested.
 

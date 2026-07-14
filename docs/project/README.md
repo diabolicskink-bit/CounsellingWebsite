@@ -9,14 +9,15 @@ It deliberately sits beside, not inside, the design-system documentation. Use `d
 For most work:
 
 1. Read this file.
-2. Read [product-direction.md](product-direction.md) for audience, voice, purpose, and anti-references.
-3. Read [current-scope.md](current-scope.md) to understand what is currently true.
-4. Check [launch-readiness.md](launch-readiness.md), [project-debt.md](project-debt.md), and [site-backlog.md](site-backlog.md) for existing tracked work before creating new plans.
-5. Check [task-log.md](task-log.md) when durable project history matters.
+2. Read [product-direction.md](product-direction.md) for audience, purpose, positioning, and brand direction.
+3. Read [writing-direction.md](writing-direction.md) when public wording, content hierarchy, metadata wording, inclusion language, or enquiry language may be affected.
+4. Read [current-scope.md](current-scope.md) to understand what is currently true.
+5. Check [launch-readiness.md](launch-readiness.md), [project-debt.md](project-debt.md), and [site-backlog.md](site-backlog.md) for existing tracked work before creating new plans.
+6. Check [task-log.md](task-log.md) when durable project history matters.
 
 For UI, layout, component, visual, or design-system work:
 
-1. Read this file and [product-direction.md](product-direction.md).
+1. Read this file and [product-direction.md](product-direction.md); also read [writing-direction.md](writing-direction.md) when public copy or content hierarchy may be affected.
 2. Read [../design-system/README.md](../design-system/README.md).
 3. Follow [../design-system/ai-rules.md](../design-system/ai-rules.md).
 4. Check [../design-system/patterns/components.md](../design-system/patterns/components.md) and [../design-system/patterns/page-patterns.md](../design-system/patterns/page-patterns.md) before creating reusable UI.
@@ -30,13 +31,15 @@ For technical, API, routing, build, deployment, test, or security work:
 
 For public content, SEO, accessibility, form-flow, performance, or operations ideas:
 
-1. Read [product-direction.md](product-direction.md).
-2. Check [launch-readiness.md](launch-readiness.md) for `LAUNCH-*` review gates and [site-backlog.md](site-backlog.md) for concrete `SITE-*` change work.
-3. Use `LAUNCH-*` for cross-site launch checks, review passes, matrices, and sign-off work; use `SITE-*` for specific visitor-facing changes.
+1. Read [product-direction.md](product-direction.md) and [writing-direction.md](writing-direction.md).
+2. Check [current-scope.md](current-scope.md) for current public facts and temporary positioning constraints.
+3. Check [launch-readiness.md](launch-readiness.md) for `LAUNCH-*` review gates and [site-backlog.md](site-backlog.md) for concrete `SITE-*` change work.
+4. Use `LAUNCH-*` for cross-site launch checks, review passes, matrices, and sign-off work; use `SITE-*` for specific visitor-facing changes.
 
 ## Document Map
 
-- [product-direction.md](product-direction.md) is the project-level source for audience, positioning, voice, inclusion stance, anti-references, and accessibility baseline.
+- [product-direction.md](product-direction.md) is the project-level source for audience, positioning, brand direction, inclusion stance, anti-references, and accessibility baseline.
+- [writing-direction.md](writing-direction.md) is the operational source for public voice, copy source order, approved writing patterns, SEO language, collaboration workflow, and anti-AI review.
 - [current-scope.md](current-scope.md) is the factual inventory of public routes, dev routes, app behaviours, tests, deployment assumptions, and known missing areas.
 - [launch-readiness.md](launch-readiness.md) tracks launch gates, review passes, acceptance checks, and sign-off work with stable `LAUNCH-*` IDs.
 - [project-debt.md](project-debt.md) tracks technical, security, routing, API, testing, deployment, and maintainability pressure with stable `DEBT-*` IDs.

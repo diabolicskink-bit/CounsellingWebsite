@@ -4,7 +4,7 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 
 ## Required Reading
 
-- For public copy, content hierarchy, inclusion language, enquiry flow, or visitor-facing positioning, read [docs/project/product-direction.md](docs/project/product-direction.md).
+- For public copy, content hierarchy, inclusion language, enquiry flow, metadata wording, or visitor-facing positioning, read [docs/project/product-direction.md](docs/project/product-direction.md) and [docs/project/writing-direction.md](docs/project/writing-direction.md).
 - For current routes, app behaviour, API/form behaviour, deployment assumptions, tests, or documentation structure, check [docs/project/current-scope.md](docs/project/current-scope.md).
 - For technical, routing, API, security, deployment, test, design-system maintenance, or general maintainability work, check [docs/project/project-debt.md](docs/project/project-debt.md).
 - For launch-readiness review, cross-site checks, sign-off, SEO/accessibility/performance/form-flow review passes, or launch gates, check [docs/project/launch-readiness.md](docs/project/launch-readiness.md).
@@ -14,6 +14,9 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 ## Working Rules
 
 - Default collaboration preference: ask as many clarifying questions as are genuinely useful before planning or implementing; do not artificially limit the count to one. Keep questions concise, grouped, and focused on details that would change the work.
+- Public copy is under active owner-led revision. Treat existing page source as factual and layout context, not as an approved voice reference; use the source order in `docs/project/writing-direction.md`.
+- When the user asks for copy review or analysis, do not edit files unless implementation is also requested. When exact replacement wording is supplied, preserve it unless asked to edit it.
+- Treat SEO reports and sample outlines as research and coverage prompts, not as mandatory page templates or voice references.
 - Treat trackers as memory and triage, not permission to implement unrelated scope.
 - Keep project scope and design-system scope separate.
 - For UI work, use active design-system guidance before treating source files, rendered examples, or old classes as reusable API.

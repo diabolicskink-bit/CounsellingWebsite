@@ -1,5 +1,7 @@
 # Practical SEO Guide for Small Professional Service Websites
 
+> **Use note for Vive Counselling:** This is a research and coverage reference, not a voice guide or mandatory page template. Apply it through `docs/project/writing-direction.md`; its example headings and outlines should not be copied mechanically across public pages.
+
 ## Executive Summary
 
 For a small, single-practitioner counselling, coaching, or therapy-style website, SEO is less about “hacks” and more about making the site easy to crawl, easy to trust, easy to understand, and easy to choose. Google’s own documentation still comes back to the same fundamentals: make pages crawlable and indexable, publish genuinely helpful people-first content, use clear titles and descriptive URLs, maintain strong technical hygiene, and monitor performance in Search Console. For a website with fewer than about 50 pages, the highest-return work is usually: render meaningful HTML for each important route, create a clean service-page architecture, optimize title tags and internal linking, verify and maintain a Google Business Profile, implement baseline structured data, and measure leads rather than vanity traffic alone. citeturn7search14turn14search13turn11search1turn31search0turn13search5

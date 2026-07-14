@@ -13,7 +13,9 @@ This is the factual current scope of the Vive Counselling website and supporting
 - Root project guidance now lives under `docs/project/`; visual-system guidance lives under `docs/design-system/`.
 - Launch readiness gates, review passes, and acceptance checks are tracked separately in `docs/project/launch-readiness.md` with stable `LAUNCH-*` IDs.
 - The design system has rebuilt written docs, rendered dev pages, shared components, shared CSS class layers, and cleanup guidance.
-- Public-page content and product positioning are governed by `docs/project/product-direction.md`; root `PRODUCT.md` mirrors that strategy for frontend design tooling.
+- Public-page audience and positioning are governed by `docs/project/product-direction.md`; operational public-copy guidance lives in `docs/project/writing-direction.md`, and root `PRODUCT.md` mirrors the strategic context for frontend design tooling.
+- Public copy is under active owner-led revision. Existing page source remains implementation state rather than an approved voice corpus unless wording is explicitly approved through the current task or `docs/project/writing-direction.md`.
+- Online delivery remains a factual part of the service, but current visible copy and metadata should not foreground `online` while Google Business Profile verification and positioning are being settled. Agents should preserve that temporary constraint until the owner explicitly lifts it.
 - Route metadata exists in `src/data/routeMetadata.json` and is applied by `useDocumentMetadata`.
 - The route/application tree is shared by separate browser and static wrappers. Both wrappers use the same Strict Mode boundary and pass the same serializable initial-render timestamp contract; the build now invokes the static wrapper for its in-memory render smoke check.
 - A prerender script updates route metadata artifacts, generated route HTML, sitemap, robots, and the app-powered `404.html` fallback as part of `npm run build`.

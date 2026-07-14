@@ -17,6 +17,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-14 - Public Writing Guidance Added
+
+- Added: `docs/project/writing-direction.md` now owns operational public-copy guidance, including source order, approved voice patterns, specialist-language principles, SEO integration, collaboration workflow, and an anti-AI final review.
+- Clarified: Existing page source is implementation state rather than an approved voice corpus while public copy remains under active owner-led revision; SEO reports and sample outlines are research inputs rather than page templates.
+- Routed: Root agent guidance, project documentation, the frontend product mirror, and design-system AI rules now direct public wording work through both product direction and the writing guide.
+- Recorded: Online delivery remains factual but should not be foregrounded in visible copy or metadata while the current Google Business Profile verification and positioning constraint remains active.
+
 ## 2026-07-14 - Staging Integration Workflow Adopted
 
 - Added: A long-lived `staging` branch now sits between working branches and the production `master` branch.
