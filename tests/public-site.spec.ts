@@ -76,7 +76,9 @@ const prerenderedRouteContracts = {
       'data-timezone-notes-source="prerendered"',
       'class="site-form"',
       'action="/api/enquiry"',
+      'aria-labelledby="contact-form-heading"',
       'data-clarity-mask="true"',
+      'id="contact-form-heading">Enquiry</h2>',
       'href="mailto:joel@vivecounselling.com.au"',
       'class="site-faq-list"',
     ],
@@ -605,8 +607,9 @@ test.describe("prerendered routes without JavaScript", () => {
       await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
 
       if (route === "/contact") {
-        const form = page.locator("form.site-form");
+        const form = page.getByRole("form", { name: "Enquiry" });
 
+        await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
         await expect(form).toHaveAttribute("action", "/api/enquiry");
         await expect(form).toHaveAttribute("method", "post");
         await expect(form).toHaveAttribute("data-clarity-mask", "true");
@@ -1300,11 +1303,16 @@ test.describe("enquiry form", () => {
     const diagnostics = collectPageDiagnostics(page);
     let submittedMethod = "";
     let submittedPayload: Record<string, string> | undefined;
+    let releaseSubmission = () => {};
+    const submissionGate = new Promise<void>((resolve) => {
+      releaseSubmission = resolve;
+    });
 
     await page.clock.setFixedTime("2026-01-15T04:00:00.000Z");
     await page.route("**/api/enquiry", async (route) => {
       submittedMethod = route.request().method();
       submittedPayload = route.request().postDataJSON() as Record<string, string>;
+      await submissionGate;
       await route.fulfill({
         body: JSON.stringify({ ok: true }),
         contentType: "application/json",
@@ -1313,7 +1321,9 @@ test.describe("enquiry form", () => {
     });
     await page.goto("/contact", { waitUntil: "networkidle" });
 
-    const form = page.locator("form.site-form");
+    const form = page.getByRole("form", { name: "Enquiry" });
+    await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
+    await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your enquiry").fill("I would like an initial consult.");
@@ -1341,9 +1351,24 @@ test.describe("enquiry form", () => {
     await form.getByLabel("Timezone").selectOption("AEDT");
     await form.getByRole("button", { name: "Send enquiry" }).click();
 
-    const success = form.getByRole("status");
+    try {
+      await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
+      await expect(form.getByRole("button", { name: "Sending..." })).toBeDisabled();
+    } finally {
+      releaseSubmission();
+    }
+
+    const completedFormArea = page.locator("section.site-form.site-form--complete");
+    const success = completedFormArea.getByRole("status");
     await expect(success).toContainText("Thanks, your enquiry has been sent.");
     await expect(success).toBeFocused();
+    await expect(
+      completedFormArea.getByRole("heading", { level: 2, name: "Thanks, your enquiry has been sent." }),
+    ).toHaveCount(1);
+    await expect(completedFormArea.getByRole("heading", { level: 2 })).toHaveCount(1);
+    await expect(page.getByRole("form", { name: "Enquiry" })).toHaveCount(0);
+    await expect(page.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(0);
+    expect(await completedFormArea.getAttribute("aria-labelledby")).toBeNull();
     expect(submittedMethod).toBe("POST");
     expect(submittedPayload).toEqual({
       availability: "Weekday afternoons",
@@ -1374,7 +1399,7 @@ test.describe("enquiry form", () => {
 
     await page.goto("/contact", { waitUntil: "networkidle" });
 
-    const form = page.locator("form.site-form");
+    const form = page.getByRole("form", { name: "Enquiry" });
 
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
@@ -1384,6 +1409,7 @@ test.describe("enquiry form", () => {
 
     const alert = form.getByRole("alert");
 
+    await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
     await expect(alert).toContainText(
       "Sorry, the enquiry could not be sent. Please email joel@vivecounselling.com.au directly.",
     );

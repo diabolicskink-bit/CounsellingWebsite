@@ -295,8 +295,8 @@ Redirect aliases `/about` and `/fees` are covered by `docs/checklists/seo-metada
 - `Pass` Page has one clear page-level heading that matches the page purpose.
   - Note: Checked on `/contact` in browser. The page has one visible `h1`, "Contact and fees", matching the route purpose and document title.
 
-- `Partial` Heading order supports scanning and screen-reader navigation.
-  - Note: Checked on `/contact` at desktop and mobile widths. The heading order itself is coherent, `h1`, then section `h2`s and FAQ `h3`s, but the visible "Enquiry" form label is a styled span, not a heading, so heading navigation skips the form section. Tracked by `SITE-20`.
+- `Pass` Heading order supports scanning and screen-reader navigation.
+  - Note: Verified on `/contact` at desktop and mobile widths. The visible "Enquiry" label is a peer `h2` and names the control-bearing form through `aria-labelledby`; after successful submission, the form is replaced by a non-form status section with one relevant success `h2`. The wider sequence remains one `h1`, then section `h2`s and FAQ `h3`s. `SITE-20` is complete.
 
 - `Pass` Hero, fee card, contact rail, practical notes, enquiry form, and FAQ appear in a sensible reading order.
   - Note: Checked on `/contact` in browser. DOM and visual order are hero with fee card, contact rail, practical details, enquiry form, then FAQ.

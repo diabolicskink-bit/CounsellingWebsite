@@ -51,10 +51,10 @@ Statuses:
 - `Status`: `Partial`
 - `Source`: Supersedes `SITE-1`, `docs/checklists/accessibility-launch.md`
 - `Launch Goal`: Make accessibility coverage visible enough that launch does not ship with unreviewed semantic structure, keyboard access, focus states, contrast, reduced-motion, or form clarity gaps.
-- `Current State`: `docs/checklists/accessibility-launch.md` is the working route-by-route checklist artifact, and Home, Inclusion Hub, plus Contact/Fees have begun assessment. Contact gaps are now tracked as `SITE-20` and `SITE-21`.
+- `Current State`: `docs/checklists/accessibility-launch.md` is the working route-by-route checklist artifact, and Home, Inclusion Hub, plus Contact/Fees have begun assessment. The Contact semantic-heading gap is resolved through archived `SITE-20`; required-field clarity remains tracked as `SITE-21`.
 - `Review Method`: Work through the checklist for each public route in browser, with axe where useful, keyboard checks for interactive states, mobile/reflow checks, and notes that link any concrete gap to `SITE-*` or `DEBT-*`.
 - `Passes When`: Public routes have completed accessibility checklist entries, and every non-pass item is either resolved, accepted for launch, or linked to a concrete tracker item.
-- `Linked Work`: `SITE-20`, `SITE-21`, `DEBT-29`, `DEBT-30`
+- `Linked Work`: `SITE-21`, `DEBT-29`, `DEBT-30`
 - `Links`: `docs/checklists/accessibility-launch.md`, `docs/checklists/accessibility.md`, `tests/public-site.spec.ts`
 
 ### LAUNCH-2 - Responsive launch review
@@ -116,11 +116,11 @@ Statuses:
 - `Status`: `Partial`
 - `Source`: Supersedes `SITE-6`, `docs/project/current-scope.md`, `docs/reports/2026-06-17-technical-code-review.md`
 - `Launch Goal`: Make the enquiry path easy to trust by verifying success, error, validation, fallback, and contact-instruction states from a visitor's point of view.
-- `Current State`: The enquiry form has progressive choices, success and error UI, direct submit behaviour, and direct API tests, but there are no dedicated form-flow browser tests. Contact manual accessibility checks covered mocked success and failure states.
-- `Review Method`: Use mocked `/api/enquiry` browser checks for success and failure responses, validate visible public states, and decide whether browser tests are needed before launch.
+- `Current State`: The enquiry form has progressive choices, success and error UI, direct submit behaviour, and direct API tests. Desktop and mobile Playwright coverage now protects conditional fields, payload values, sending semantics, mocked success with focused status, the non-form completed state, safe mocked failure messaging, no-JavaScript form markup, and the named form landmark. Required-field clarity and remaining technical hardening stay tracked separately.
+- `Review Method`: Continue the visitor-flow review with native validation and fallback checks, using the existing mocked success and failure browser coverage as the automated baseline.
 - `Passes When`: Main enquiry success and failure paths are reviewed from the public UI, visible messages remain safe and useful, and any missing automated coverage is accepted or tracked.
-- `Linked Work`: `SITE-20`, `SITE-21`, `DEBT-10`
-- `Links`: `src/components/EnquiryForm.tsx`, `src/data/enquiry.ts`, `tests/api/`
+- `Linked Work`: `SITE-21`, `DEBT-10`
+- `Links`: `src/components/EnquiryForm.tsx`, `src/data/enquiry.ts`, `tests/api/`, `tests/public-site.spec.ts`
 
 ### LAUNCH-7 - Final public copy and ethical-claims proofread
 

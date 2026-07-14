@@ -1209,6 +1209,12 @@ h3 {
   box-shadow: var(--shadow);
 }
 
+.site-form .site-form__heading {
+  color: var(--cedar);
+  font-family: inherit;
+  line-height: inherit;
+}
+
 .site-form__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
