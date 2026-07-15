@@ -91,18 +91,17 @@ const homePageContent: HomePageContent = {
   hero: {
     eyebrow: "Counselling and Psychotherapy",
     title: {
-      before: "Counselling for when life feels ",
-      emphasis: "hard to untangle",
+      before: "Sometimes you just need to ",
+      emphasis: "talk",
       after: ".",
     },
     support:
-      "I offer counselling for adults across Australia, based in Perth. I work with anxiety, relationship strain, self-criticism, trauma, sexuality, and experiences that feel exposing, confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.",
+      "I’m Joel Griffiths, a counsellor based in Perth, offering online counselling to adults across Australia. I work with anxiety and depression, relationship difficulties, persistent self-criticism, trauma and other concerns. Vive is kink/BDSM-aware, ENM/poly-aware and LGBTQIA+ affirming.",
     trustAriaLabel: "Practice details",
     trustItems: [
-      "Perth-based, working with adults across Australia",
-      "Individual counselling",
-      "Serious, thoughtful, and human",
-      "Kink-, ENM-, and LGBTQIA+-aware",
+      "ACA-registered counsellor",
+      "Psychodynamic and attachment-informed",
+      "Free 15-minute initial consult",
     ],
     portrait: {
       imageSrc: portraitSrc,
