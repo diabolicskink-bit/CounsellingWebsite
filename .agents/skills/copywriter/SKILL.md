@@ -2,25 +2,21 @@
 name: copywriter
 description: >
   Plan, research, structure, draft, review, test, and revise visitor-facing
-  counselling and adjacent professional-service website copy. Use for content
-  strategy, page or section purpose, audience and search-intent analysis, new
-  or substantially rewritten copy, meaningful line editing, CTA and interface
+  counselling and adjacent professional-service copy. Use for content strategy,
+  page or section purpose, audience and search-intent analysis, new or
+  substantially rewritten copy, meaningful line editing, CTA and interface
   copy, voice or tone decisions, claim and inclusion review, and diagnosing
   generic or AI-sounding prose. Do not use for meta-review of the skill itself,
   typo-only fixes, exact owner-supplied replacements, or technical
   implementation that preserves approved wording.
 ---
 
-# Evidence-led copy development
+# Evidence-led editorial copywriting
 
-Use this skill to help a particular reader understand, decide, or act. Treat
-conversion as one possible result of good decision support, not the universal
-purpose of a page.
-
-Prefer accurate material, useful structure, and identifiable judgement over
-surface polish. Treat formulas, readability scores, style lists, and AI
-detectors as diagnostic prompts at most. Do not use them as substitutes for
-evidence or editorial judgement.
+Make editorial decisions before generating prose. Treat credible, distinctive
+copy as the result of accurate sources, an appropriate artifact register,
+useful selection and omission, identifiable judgement, and adversarial review.
+Do not treat "human" or "AI" as a tone.
 
 ## Establish authority
 
@@ -31,322 +27,269 @@ In the Vive Counselling repository:
    `docs/project/writing-direction.md` for public copy work.
 3. Read `docs/project/current-scope.md` for current facts and temporary
    positioning constraints.
-4. Read the relevant page, shared content data, metadata, and adjacent pages
-   for implementation context.
-5. Check relevant `LAUNCH-*` and `SITE-*` items when the task touches known
-   launch or visitor-facing work.
+4. Read the relevant page, shared data, metadata, adjacent pages, and current
+   tracker items when the task touches known work.
 
-Follow the source order in `writing-direction.md`. Treat existing page source
-as factual and layout context unless the owner or project guidance identifies
-its wording as approved. Treat reports, SEO material, competitor pages,
-formulas, and sample outlines as research rather than direction.
+Follow the source order in `writing-direction.md`. Treat existing public copy
+as factual and layout context unless the owner or current guidance approves it
+as wording.
 
-Do not invent a practice fact, quote, visitor claim, qualification, fee,
-availability promise, audience insight, service boundary, testimonial,
-statistic, legal requirement, or likely outcome. Keep an unknown visible until
-it is confirmed.
+Do not invent a practice fact, quote, credential, fee, availability promise,
+audience insight, process, testimonial, statistic, legal requirement, service
+boundary, or likely outcome. Keep an unknown visible until confirmed.
 
-## Classify the task
+## Choose the work mode
 
-Choose the lightest process that fits:
+Use the lightest mode that fits:
 
 - **Review**: diagnose existing copy without editing files.
-- **Strategy**: determine purpose, audience, coverage, angle, or structure.
-- **Draft or substantial rewrite**: establish a brief and direction before
-  writing.
+- **Strategy**: decide purpose, audience, coverage, angle, or structure.
+- **Draft or substantial rewrite**: create a new composition from an editorial
+  brief and confirmed evidence.
 - **Targeted revision**: solve the named problem and reread the surrounding
-  paragraph or section.
+  passage.
 - **Implementation**: preserve approved wording and change only what the task
-  authorizes.
-- **Research**: investigate an unresolved factual, audience, regulatory,
-  search, or language question without treating the result as public wording.
+  authorises.
+- **Research**: investigate an unresolved fact, claim, audience, regulatory,
+  search, or language question.
 
-Do not turn a sentence-level request into a page strategy exercise. Do not
-start a substantial page from an empty prompt when missing information would
-materially change it.
+Do not turn a sentence-level request into a page strategy exercise. Do not fill
+a generous word allowance merely because it exists.
 
-Preserve exact owner-supplied replacement wording unless asked to edit it. Flag
-a factual, accessibility, legal, ethical, or high-stakes concern rather than
-silently changing an approved line.
+## Run the editorial loop
 
-## Research and match evidence to claims
+Use all stages for substantial work. Compress them for a narrow revision, but
+do not skip source classification, the copywriting contrast brief, or
+adversarial review.
 
-Use current primary or authoritative sources for high-stakes, legal,
-regulatory, clinical, credential, accessibility, or search-platform claims.
-Use empirical research to test a general effect, then state limits on transfer
-from another domain. Use practitioner guides and competitor examples as
-operational or cultural evidence, not independent proof.
+### 1. Classify the input and artifact
 
-Require the basis appropriate to the claim:
+Assign each relevant input one or more source roles:
 
-- verify a fact against its source record;
-- support a process claim with the actual process;
-- support a credential or experience claim with exact current evidence;
-- scope an outcome, suitability, safety, or inclusion claim to what can be
-  demonstrated;
-- treat one testimonial as one reported experience, not a typical result;
-- demonstrate specialist knowledge through accurate language, distinctions,
-  questions, conduct, and boundaries rather than self-awarded adjectives.
+- exact approved wording;
+- confirmed fact or constraint;
+- rough direction;
+- disposable brainstorm;
+- voice evidence;
+- implementation or layout context;
+- unresolved idea.
 
-Consider the overall impression, not only literal sentence truth. Do not hide
-an important condition in distant copy or fine print.
+Do not assume that rough, fragmented, or typo-filled notes should be preserved
+as voice. Do not assume they are disposable either. Infer their role from the
+request and source order; ask only when the distinction would materially change
+the result.
 
-## Build a working brief
+Define:
 
-Establish enough of the following to make decisions:
+- the artifact and surface;
+- the speaker;
+- the artifact's relationship to its reader;
+- the reader decision or task;
+- the next useful action, including no action;
+- length, layout, search, accessibility, and implementation constraints;
+- facts and wording that must appear;
+- implications and claims that need care.
 
-- the page-job statement: `This page helps [reader in a known situation]
-  understand or decide [specific thing], so they can [appropriate next step or
-  informed non-action]`;
-- the page or section's job;
-- who is likely to reach it and what brought them there;
-- the question, uncertainty, or decision it should help with;
-- facts, distinctions, and practical details that must appear;
-- the evidence or authority behind consequential claims;
-- claims, assumptions, implications, diagnoses, or promises that need care;
-- relevant search intent and natural vocabulary;
-- the next useful action, including when no CTA is needed;
-- approved wording that must remain unchanged;
-- unresolved questions, their owner, and whether they block drafting;
-- the speaker and useful voice tensions for this situation;
-- how comprehension or task success could be checked.
+A defined reader is an editorial model, not necessarily a grammatical
+addressee. Decide whether the artifact calls for `you`, neutral description,
+first-person professional biography, instructional language, or another
+register. Do not simulate personal familiarity because a target reader exists.
 
-Do not turn overlapping audience circumstances into fictional personas or
-invent private thoughts. Use direct evidence where available. Mark a plausible
-reader concern as a hypothesis when evidence is absent.
+Read `references/editorial-model.md` for new work, substantial rewrites,
+ambiguous source roles, or uncertain artifact register.
 
-Ask concise questions when the answers would change the work. Group related
-questions. Separate blocking unknowns from details that can be handled with a
-stated assumption.
+### 2. Forecast the writing, not just the information
 
-For reviews, infer the likely brief from the artifact and state any important
-uncertainty rather than interrogating the user before offering useful analysis.
+Before writing prose, record a concise copywriting forecast:
 
-## Explore direction when needed
+- **GOOD COPYWRITING**: What is the strongest editorial move available here?
+  Describe the intended emphasis, register, movement, degree of explanation,
+  and use of the speaker's real judgement or language. State what would make
+  the writing feel particular to this artifact rather than merely competent.
+- **BAD COPYWRITING**: Predict the most plausible weak execution. It may be a
+  faithful but flat transcription, a pile of source categories, vague brochure
+  language, buried emphasis, strained cleverness, clumsy qualification,
+  repetition, tonal mismatch, or an opening or ending that does no work. Name
+  the writing decision that would cause the failure.
+- **MODEL-DEFAULT RISK**: What is a fluent model likely to overproduce here?
+  Predict the specific risk: simulated intimacy, stacked lists, balanced
+  explainers, generic empathy, keyword padding, over-completion, tidy endings,
+  excessive polish, or another task-local habit.
 
-Read `references/angle-prompts.md` only for a new page, a substantial rewrite,
-an unclear strategic direction, or a section with several genuinely plausible
-frames. Do not load it for typo fixes, exact replacements, or narrow line edits.
+Accuracy, evidence, accessibility, reader autonomy, and action clarity are
+requirements, not definitions of good prose. Handle them in the source,
+evidence, and quality-gate stages. The forecast above must name writing choices
+and their effects.
 
-Use angles to expose meaningful choices, not to manufacture variants. Compare
-the reader question answered, evidence available, structure suggested,
-material displaced, and risk introduced. Recommend one direction when the
-evidence is strong. Ask the owner to choose only when the options encode a real
-positioning decision.
+Keep the lenses distinct. Human-written copy can be weak without sounding
+automated; model-default copy can be polished and factually sound while still
+being generic, over-complete, and compositionally predictable.
 
-Do not assume that every page needs one emotional arc, one persuasive claim,
-or one kind of reader response. Reject variants that differ mainly in mood,
-metaphor, headline cleverness, or synonyms. Let the material determine the
-shape.
+Make each forecast specific enough to change the composition or language.
+"Write well" and "avoid AI-sounding copy" are not usable forecasts.
 
-## Shape the content
+### 3. Establish the evidence and claim boundaries
 
-Before polishing sentences:
+Map consequential statements to confirmed facts, authorised professional
+judgement, actual process, primary research, or explicit uncertainty.
 
-1. Map each proposed section as **question, answer, basis, next step**: what the
-   reader is trying to find out, the clearest useful response, the fact or
-   distinction that supports it, and what follows. Do not force all four parts
-   into every section.
-2. Put decision-changing information before background or atmosphere.
-3. Decide what the reader needs before the next section can make sense.
-4. Group material that answers the same question.
-5. Remove duplication and sections that exist only because a familiar website
-   template expects them.
-6. Put practical answers where the question naturally arises.
-7. Pair service facts with their practical consequence where useful, without
-   turning the consequence into a promised outcome.
-8. Use titles and headings that identify the subject or useful distinction.
-9. Support scanning with a meaningful outline, frontloaded paragraphs,
-   coherent short sections, descriptive links, and genuinely parallel lists.
-10. Let important or complex subjects take more space than simple ones; do not
-    force symmetrical sections.
-11. Let the close provide the last useful fact, limit, or proportionate action.
-    Do not add a summary merely to create emotional uplift.
+Use current primary or authoritative sources for legal, regulatory, clinical,
+credential, accessibility, search-platform, or other high-stakes claims. Read
+`references/research-and-claims.md` when research or claim discipline is
+material.
 
-Map at the level the task needs. A short section may need only a one-sentence
-purpose and a few content points. A full page may need a section sequence.
+Check the overall impression, not only literal truth. Narrow claims about
+expertise, inclusion, safety, suitability, results, flexibility, ease, and
+comparison to what the evidence supports.
 
-Treat titles, metadata, link text, buttons, labels, help text, validation, and
-error messages as part of the copy system, not finishing details.
+### 4. Design the composition before sentences
 
-## Draft from evidence
+Map the material by function:
 
-Write from the agreed brief, selected direction, confirmed facts, and project
-writing guidance.
+- question or reader task;
+- clearest answer;
+- basis: fact, example, process, distinction, or boundary;
+- consequence or next step, only when useful.
 
-### Write the factual pass
+Then choose the shape:
 
-Write the plainest accurate version first. Use actual nouns and verbs. Preserve
-approved phrases. Insert markers such as `[confirm fee]`, `[evidence needed]`,
-and `[owner decision]` instead of completing sparse material with plausible
-language.
+- Put decision-changing information before background.
+- Group material that answers the same question.
+- Decide what needs a sentence, explanation, example, list, interface label, or
+  omission.
+- Do not translate every source field into a paragraph.
+- Do not place successive lists of concerns, modalities, qualities, identities,
+  or benefits merely because each category is present in the brief.
+- Use lists when retrieval matters and prose when relationship or explanation
+  matters.
+- Let importance determine section length and form; do not force symmetry.
+- Stop when the artifact's job is complete.
 
-Keep the amount of copy proportionate to the information and decision. A clear
-sentence is better than three paraphrases. A complex decision may genuinely
-need explanation, an example, a limitation, and practical detail.
+Read `references/angle-prompts.md` only when a new page, substantial rewrite,
+or unresolved positioning question has genuinely different structural
+directions.
 
-### Add explanation and character locally
+### 5. Draft the factual pass
 
-- Explain what an arrangement, process, term, or distinction means for the
-  visitor's decision.
-- Prefer concrete actions, conditions, examples, relevant terms, and limits
-  over unsupported adjectives and abstract benefits.
-- Show subject familiarity through accurate selections, relevant questions,
-  useful distinctions, and boundaries.
-- Let voice come from judgement: what the speaker notices, explains, asks,
-  prioritises, qualifies, or refuses to promise.
-- Adjust tone to the situation. Keep the underlying voice recognisable without
-  making a hero, fee note, form error, and sensitive service page perform the
-  same emotional register.
-- Create warmth through candour, ordinary language, a useful answer, room for
-  questions, and a real invitation. Do not announce warmth as a quality.
-- Use recognisable experience conditionally and only when supported. Do not
-  assign the visitor a feeling, history, diagnosis, readiness, or desired
-  future.
-- Draft as one coherent piece. Do not stitch together every attractive angle
-  or phrase found during exploration.
+Write the plainest accurate version first. Use actual nouns and verbs. Mark
+unknowns such as `[confirm fee]` or `[owner decision]` rather than completing
+them with plausible language.
 
-Use plain language without flattening exact specialist or community language.
-Explain a term when the intended visitor needs the explanation. Do not replace
-a precise familiar term with a vague euphemism merely to lower a readability
-score.
+Require each sentence to perform at least one real function:
 
-Do not force wit, emotional intensity, confession, metaphor, or novelty. Do
-not reject a familiar word solely because other practices use it; judge whether
-it is accurate and useful in context.
+- fact;
+- explanation;
+- practitioner judgement;
+- example;
+- useful distinction;
+- boundary;
+- practical action.
 
-### Persuade without narrowing autonomy
+Transition, warmth, flow, professional polish, and a satisfying ending are not
+sufficient functions by themselves.
 
-Explain relevance, value, process, evidence, limits, and the next step. Do not
-manufacture urgency, agitate fear or shame, suppress alternatives, or imply
-that inaction is a personal failure.
+Use exact specialist and community language where it improves recognition or
+reduces unnecessary translation. Do not turn exact terms into a taxonomy
+paragraph merely to show coverage.
 
-Use AIDA, PAS, feature-benefit tables, or similar formulas only to diagnose a
-missing opening, explanation, basis, or action. Do not impose a linear emotional
-arc on every visitor or page.
+### 6. Add voice and explanation locally
 
-Make CTAs specific, accurate, and proportionate. Let the label predict the
-destination or consequence. Use direct imperative labels when they improve
-interface clarity; evaluate pressure in the surrounding message rather than
-prohibiting imperative grammar.
+Build voice from what the speaker notices, explains, asks, prioritises,
+qualifies, or refuses to promise. Use the documented voice and any input
+classified as voice evidence.
 
-### Write for access, inclusion, and search clarity
+- Explain a modality, process, or arrangement only when the explanation changes
+  understanding or choice.
+- Create warmth through candour, useful detail, room for questions, and real
+  invitations rather than announced warmth.
+- Use direct address only when the artifact relationship supports it.
+- Do not narrate a reader's private struggle, readiness, history, diagnosis, or
+  desired future.
+- Do not inject slang, fragments, anecdotes, confessions, quirks, or mistakes to
+  make generated prose seem human.
+- Do not polish unlike material into repeated triads, contrast pairs, or equal
+  paragraph shapes.
 
-- Use common words, manageable sentences, coherent paragraphs, simple tense,
-  literal instructions, descriptive headings, and meaningful link text.
-- Label fields persistently and explain errors in words. Do not rely on colour,
-  images, visual position, or placeholder text for essential meaning.
-- Review assumptions about gender, bodies, partners, relationship structures,
-  family, culture, faith, disability, neurodivergence, privacy, money, time,
-  literacy, and preferred forms of adult life.
-- Use community-relevant language accurately while leaving room for individual
-  meaning.
-- Identify the service and page subject naturally in useful titles, headings,
-  openings, metadata, and links.
-- Avoid keyword variants, location stacks, thin near-duplicate pages, and
-  generic explanatory sections created to hold search phrases.
-- Keep visible wording, metadata, structured facts, and linked pages consistent.
+Draft one selected direction. Do not splice every plausible angle into the
+copy.
 
-## Keep generative work source-bound
+### 7. Change stance and edit adversarially
 
-Treat fluency as unverified. Never use a polished completion to conceal missing
-facts or decisions.
+Stop acting as the writer. Review the artifact against the brief, sources,
+selected register, and predicted model-default risks.
 
-Use generative assistance safely to cluster verified questions, expose
-duplication, compare genuinely different structures, check headings out of
-context, locate unsupported implications, test edge-case interface copy, or
-compare a draft with documented constraints.
+Read `references/quality-review.md` for substantive review, substantial
+rewrite, acceptance work, generic-copy diagnosis, or any "AI-sounding"
+feedback.
 
-Do not use it to invent audience pain, provider beliefs, quotes, anecdotes,
-statistics, testimonials, credentials, process details, community language, or
-outcomes. Do not expand to an arbitrary word count, mass-produce topic or
-location pages, or apply one prompt and one shape across the site.
+Repair in this order:
 
-Work in bounded passes. Preserve source wording where required. Mark missing
-material. Verify every generated factual statement and implication against the
-brief and primary source before it reaches public copy.
+1. source and accuracy;
+2. purpose and coverage;
+3. artifact register and reader relationship;
+4. structure and information hierarchy;
+5. claims and implications;
+6. specificity and professional judgement;
+7. autonomy, inclusion, accessibility, and action accuracy;
+8. model-default composition habits;
+9. cadence, words, and punctuation.
 
-## Review in passes
+Attempt deletion. Restore a sentence only when information, distinction,
+boundary, or action is lost. Read the result aloud and fix rhythm locally.
 
-Read the whole piece before line editing. Review in this order:
+When the owner says the copy sounds AI-generated, generic, over-written, or
+unlike them:
 
-1. **Purpose**: Does the copy support the stated visitor decision or task?
-2. **Coverage**: Are the decision-changing facts and practical answers present?
-3. **Structure**: Can visitors find them in the order and place they need?
-4. **Accuracy and claims**: Can every fact and consequential implication be
-   supported? Are limits and conditions visible?
-5. **Specificity**: Can a label, adjective, or abstraction become evidence,
-   action, example, distinction, or boundary?
-6. **Voice and tone**: Does the copy express recognisable judgement and suit
-   this speaker, visitor, and situation?
-7. **Autonomy and inclusion**: Does it avoid mind-reading, stereotypes,
-   pressure, false intimacy, and unnecessary assumptions?
-8. **Accessibility and interface clarity**: Are language, headings, links,
-   labels, instructions, actions, and errors understandable and predictable?
-9. **Search and originality**: Is the subject naturally identifiable, and does
-   the page add specific value rather than category copy?
-10. **Cadence and ending**: Does it sound plausible aloud? Are structures
-    repeated without purpose? Does the last line add information or action?
+1. stop producing successive complete rewrites;
+2. identify the observable structural or editorial cause;
+3. recheck the source roles and artifact register;
+4. return to the last useful source or decision;
+5. revise the smallest span that solves the problem;
+6. create a new full direction only when the owner requests one or the existing
+   composition is the cause.
 
-Treat accuracy, non-misleading claims, and accessibility as gates. Do not
-offset a failure in one of them with a strong style score.
+Treat disagreement as evidence about the practice, artifact, or desired
+register. Do not defend a formula.
 
-Read `references/quality-review.md` for a substantive review, substantial
-rewrite, acceptance pass, generic-copy diagnosis, or request involving
-“AI-sounding” prose. Use its pattern library to find the underlying problem;
-do not mechanically ban words or punctuation.
+### 8. Test and implement proportionately
 
-Read proposed final wording aloud. Fix awkward rhythm, accidental repetition,
-and sentences whose meaning is clearer on the page than in speech.
+Test comprehension and retrieval rather than asking only whether people like
+the copy. When useful, ask a representative reader to identify the service,
+provider, practical facts, apparent promises, next action, and remaining
+decision-changing question.
 
-For high-stakes factual, legal, ethical, clinical, or credential claims, use
-current authoritative sources and state uncertainty. Do not convert a cautious
-house preference into a claim that the law universally prohibits something.
+Review interface copy in the real flow. Keep visible wording, metadata,
+structured data, links, and current service facts aligned.
 
-Do not use AI-detector output as proof of authorship. Do not equate plain,
-formal, neutral, non-native, autistic, or carefully edited prose with AI. Review
-the quality and basis of the writing directly.
+When implementation is requested, preserve approved wording and limit adjacent
+changes to what implementation requires. Update project records only when the
+repository rules require it.
 
-## Test and maintain the copy
+## Show the editorial working
 
-Match testing effort to risk and scope. When useful, ask representative readers
-to identify the service and provider, find a practical fact, paraphrase the
-approach, predict what happens after an action, identify apparent promises, and
-name the unanswered question affecting their decision.
+For substantial strategy, review, drafting, or rewriting, show a concise
+editorial record before or alongside the recommendation:
 
-Test comprehension and retrieval rather than asking only whether people like a
-draft. Review important interface copy inside the real flow. Use readability
-scores only to locate surface complexity; they do not measure comprehension,
-relevance, cohesion, or trust.
+- how the supplied material was classified;
+- the artifact, its job, and its reader relationship;
+- the task-specific GOOD COPYWRITING, BAD COPYWRITING, and MODEL-DEFAULT
+  forecast;
+- the chosen direction and composition;
+- the most important changes made during adversarial review;
+- unresolved facts or owner decisions.
 
-Check cross-page facts and implications before publication. Record ownership
-and review triggers for changing facts such as fees, availability, credentials,
-process, policy, service scope, metadata, and links.
+For a narrow revision, show only the decisions needed to evaluate that change.
+Do not burden the user with a ritual checklist.
+
+Show evidence, criteria, decisions, and revision outcomes. Do not expose private
+chain-of-thought or manufacture post-hoc reasoning.
 
 ## Deliver the work
 
-- Lead with the most consequential finding or recommended direction.
-- Distinguish confirmed facts, interpretation, recommendation, assumptions,
-  placeholders, and owner decisions.
-- Explain choices briefly enough that the owner can evaluate them.
-- Prefer one considered recommendation over a menu of near-duplicates.
-- Quote only enough existing copy to locate the issue.
-- In a review, do not edit files unless implementation is also requested.
-- When exact wording is supplied for implementation, preserve it unless the
-  owner asks for editorial changes. Flag factual or high-stakes concerns rather
-  than silently rewriting them.
+Lead with the most consequential finding or the recommended wording. Distinguish
+confirmed facts, interpretation, recommendation, assumptions, placeholders, and
+owner decisions.
 
-Treat the owner's disagreement or correction as information about the practice
-and voice. Update the brief and reassess the surrounding copy instead of
-defending a formula.
-
-## Route optional references
-
-- Read `references/angle-prompts.md` only when meaningful strategic directions
-  need exploration.
-- Read `references/quality-review.md` for deep critique, acceptance review,
-  weak-copy diagnosis, or anti-generic and AI-prose work.
-- Read
-  `../../../docs/reports/2026-07-14-good-website-copywriting-and-avoiding-ai-sounding-prose.md`
-  only when validating the method, checking its research basis, or updating
-  this skill. Do not load the full report for ordinary copy tasks.
+Prefer one considered recommendation over near-identical variants. Quote only
+enough source copy to locate an issue. Do not edit files during review unless
+implementation is also requested.

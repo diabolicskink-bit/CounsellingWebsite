@@ -7,6 +7,9 @@ reader question, evidence selected, information order, or practical conclusion.
 
 Start from the evidence-led brief in `SKILL.md`. Keep confirmed facts, claim
 boundaries, search intent, and approved wording fixed while exploring direction.
+Carry the task-specific GOOD COPYWRITING, BAD COPYWRITING, and MODEL-DEFAULT
+forecast into the comparison; an angle is not viable if it depends on the
+predicted failure.
 
 ## Contents
 
@@ -162,6 +165,8 @@ For each plausible angle, note:
 - what it would leave out or push into the background;
 - the main risk, such as overclaiming, generic reassurance, excess explanation,
   or search-language distortion.
+- whether it enables the GOOD COPYWRITING direction, drifts toward the BAD
+  COPYWRITING failure, or invites the predicted MODEL-DEFAULT behaviour.
 
 Reject options that differ only in tone or phrasing. Choose or present angles
 that would genuinely change what the copy says and how the page is organised.

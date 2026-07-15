@@ -1,7 +1,7 @@
 interface:
-  display_name: "Evidence-led Copywriting"
-  short_description: "Plan, draft, and review credible website copy"
-  default_prompt: "Use $copywriter to develop or review this website copy from confirmed evidence, a clear reader decision, and the documented voice."
+  display_name: "Evidence-led Editorial Copywriting"
+  short_description: "Plan, draft, and challenge credible copy"
+  default_prompt: "Use $copywriter to classify the source and artifact, forecast strong, weak, and model-default writing, then draft and adversarially review the copy."
 
 policy:
   allow_implicit_invocation: true

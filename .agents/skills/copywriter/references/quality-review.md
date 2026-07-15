@@ -1,266 +1,296 @@
-# Quality and anti-generic review
+# Adversarial quality review
 
-Use this reference after establishing the artifact's purpose, audience,
-authority, and factual sources in `SKILL.md`. Diagnose meaning before editing
-style.
+Use this reference for substantive review, substantial rewriting, acceptance
+work, generic-copy diagnosis, or feedback that copy sounds AI-generated,
+over-written, or unlike the intended speaker.
+
+Review the artifact as a sceptical editor, not as the writer defending a draft.
+Diagnose the decision or composition failure before changing words.
 
 ## Contents
 
-- [Quality gates](#quality-gates)
-- [Fast diagnostic tests](#fast-diagnostic-tests)
-- [Weak-copy patterns](#weak-copy-patterns)
-- [AI-sounding prose](#ai-sounding-prose)
-- [Current trope clusters](#current-trope-clusters)
-- [Repair order](#repair-order)
-- [Weighted review scorecard](#weighted-review-scorecard)
-- [Review output](#review-output)
+- [Review through three lenses](#review-through-three-lenses)
+- [Apply the quality gates](#apply-the-quality-gates)
+- [Run the adversarial tests](#run-the-adversarial-tests)
+- [Diagnose model-default composition](#diagnose-model-default-composition)
+- [Respond to AI-sounding feedback](#respond-to-ai-sounding-feedback)
+- [Repair in causal order](#repair-in-causal-order)
+- [Report the review](#report-the-review)
 
-## Quality gates
+## Review through three lenses
 
-Stop and resolve a gate failure before polishing or scoring the draft.
+### GOOD COPYWRITING
 
-| Gate | Stop when | Required response |
+Ask whether the artifact:
+
+- makes a discernible editorial choice rather than transcribing every source
+  category;
+- establishes emphasis early enough and moves in an order that develops the
+  idea rather than merely adding information;
+- fits the speaker, subject, artifact register, and relationship to the reader;
+- gets its character from exact nouns, active verbs, specific terms, real
+  distinctions, useful detail, and professional judgement;
+- expands what deserves attention, compresses what does not, and permits
+  asymmetry;
+- varies sentence and paragraph shape in response to meaning rather than for
+  decorative rhythm;
+- sounds controlled without sounding varnished;
+- stops when the last useful or resonant line has done its work.
+
+Good copy is not defined by maximum warmth, originality, persuasion, fluency,
+or length. A factual directory profile, a form error, and a sensitive service
+page should not share one emotional register or composition.
+
+### BAD COPYWRITING
+
+Look for plausible craft failures that do not require a model:
+
+- dutifully converting the brief into consecutive paragraphs or lists;
+- an opening that circles the subject or starts at the least interesting fact;
+- no hierarchy because every point receives equal weight and polish;
+- vague abstraction, stock adjectives, unnecessary formality, or nouns where a
+  clear verb would do;
+- over-explaining an obvious point and under-explaining the only useful
+  distinction;
+- qualifications that make the sentence hard to follow rather than more
+  precise;
+- repeated sentence shapes, semantic repetition, dead transitions, or cadence
+  that draws attention to itself;
+- a tonal performance—warm, clever, intimate, authoritative, edgy—that the
+  evidence and speaker cannot sustain;
+- a conclusion that repeats, moralises, sells, or tidies up after the copy has
+  already finished.
+
+Review accuracy, claims, autonomy, accessibility, and interface behaviour in
+the separate quality gates below. Do not mistake compliance with those gates
+for strong writing.
+
+### MODEL-DEFAULT RISK
+
+Compare the artifact with the forecast made before drafting. Look for the
+specific habits predicted for this task, not a universal style blacklist.
+
+A model-default problem is usually a composition problem: the prose is fluent,
+complete, balanced, and replaceable because no task-specific judgement
+determined what to select, emphasise, leave uneven, or omit.
+
+## Apply the quality gates
+
+Stop and repair a failed gate before scoring craft.
+
+| Gate | Failure | Required response |
 | --- | --- | --- |
-| Source integrity | A fee, credential, quote, statistic, service fact, availability statement, or practical promise is unverified. | Mark it, trace it to a primary source or owner confirmation, and keep it out of publishable wording until verified. |
-| Overall impression | Literal caveats do not prevent the page from overstating outcomes, suitability, safety, inclusion, experience, or professional status. | Rewrite the main claim and place material limits where the claim is encountered. |
-| Consent and testimony | A testimonial, story, quotation, or identifying detail is invented, altered beyond permission, or lacks relevant ethical review. | Remove it or obtain exact authorised material and review its permitted use. |
-| Reader autonomy | The copy assigns a distressed or vulnerable reader a feeling, history, diagnosis, readiness, or moral duty to act. | Describe supported circumstances conditionally, explain the service, and restore the reader's choice. |
-| Pressure | Urgency, fear, loss framing, shame, or repeated CTAs manufacture pressure without a legitimate safety reason. | State the real consequence and next action plainly; remove invented stakes. |
-| Action accuracy | A button, link, form instruction, or success message does not predict what the interface actually does. | Align the label, supporting copy, destination, and behaviour. |
-| Accessibility | Essential meaning depends on jargon, metaphor, colour, image, layout position, placeholder text, or unexplained error state. | Supply semantic, literal, persistent wording and test it in context. |
-| Search integrity | Pages repeat near-identical copy to target topics or places, or a paragraph consists mainly of query variants. | Give each page a distinct job and useful material; remove keyword padding. |
-| Automation integrity | Generated material has not been checked against confirmed sources and claim boundaries. | Return to the brief, verify every fact and implication, and discard unsupported completion. |
+| Source integrity | A fact, quote, credential, fee, availability statement, statistic, process, or promise is unverified. | Verify it, mark it, or remove it. |
+| Overall impression | Caveats do not prevent the main copy from overstating expertise, outcomes, safety, suitability, inclusion, ease, or comparison. | Narrow the main claim and move its conditions beside it. |
+| Reader autonomy | The copy assigns a vulnerable reader a feeling, history, diagnosis, readiness, desired future, or duty to act. | Describe supported circumstances conditionally and restore choice. |
+| Pressure | Urgency, fear, shame, loss framing, or repeated CTAs manufacture stakes. | State the real consequence and next action plainly. |
+| Consent and testimony | A story, quotation, testimonial, or identifying detail is invented, altered beyond permission, or unauthorised. | Remove it or obtain exact authorised material. |
+| Action accuracy | A label, link, form instruction, confirmation, or CTA does not predict the interface. | Align the wording with real behaviour. |
+| Accessibility | Essential meaning depends on jargon, metaphor, colour, position, placeholder text, or an unexplained state. | Supply literal, semantic, persistent language. |
+| Search integrity | Copy repeats places, services, or synonyms unnaturally, or duplicates pages to target queries. | Restore a distinct artifact job and natural terminology. |
+| Automation integrity | Generated facts or implications have not been traced to a source role and basis. | Return to the evidence map and discard unsupported completion. |
 
-Accuracy, accessibility, and a non-misleading overall impression are not points
-that stronger style can offset.
+Accuracy, accessibility, and a non-misleading overall impression cannot be
+offset by stronger style.
 
-## Fast diagnostic tests
+## Run the adversarial tests
 
-### The orientation test
+### Artifact and register test
+
+Name the artifact without looking at the prose. Then ask:
+
+- Does the draft behave like that artifact?
+- Is its relationship to the reader appropriate?
+- Is direct address doing a real job, or simulating familiarity?
+- Would a directory biography, landing page, FAQ, metadata description, and
+  form message still sound distinguishable if their formatting disappeared?
+
+Repair register before tone.
+
+### Orientation and retrieval test
 
 After a short look, ask:
 
-- What service or subject is this?
-- Who provides it?
-- Who is the page relevant to, without pretending it is for everyone?
-- What question or decision does the page help with?
-- What can the visitor do next?
+- What is this?
+- Who is responsible for it?
+- Who or what circumstances is it relevant to?
+- What practical fact or distinction changes the decision?
+- What can happen next?
 
-Treat a failed answer as an information or hierarchy problem before treating it
-as a headline problem.
+Treat a failed answer as an information or hierarchy problem.
 
-### The question-answer-basis-next-step test
+### Source-role test
 
-For each section, identify:
+For each material claim or stylistic instruction, identify whether the input was
+exact wording, fact, rough direction, brainstorm, voice evidence, context, or an
+unresolved idea.
 
-1. the reader question;
-2. the answer the section gives;
-3. the fact, example, distinction, process, or boundary supporting it;
-4. the next useful reading, decision, action, or informed stop.
+Check that the draft did not:
 
-Remove a section that has no useful question or answer. Supply a basis when a
-section makes a consequential claim. Do not add a CTA merely to complete the
-four-part shape.
+- polish a brainstorm as though it were approved;
+- preserve accidental roughness as though it were voice;
+- freely rewrite exact wording;
+- convert an unresolved idea into a confident claim;
+- treat current implementation copy as the approved voice.
 
-### The transferability test
+### Sentence-function test
 
-Remove the logo and replace the provider and service nouns. If the copy still
-fits a competitor, ask:
+Assign each sentence one or more functions:
 
-- Which sentence depends on this provider's knowledge, process, or decision?
-- Which claim has visible evidence?
-- Which real boundary or trade-off appears?
-- Does the content change shape when the reader question changes?
-- What has been intentionally left out?
+- fact;
+- explanation;
+- judgement;
+- example;
+- distinction;
+- boundary;
+- action.
 
-Do not fix replaceability by adding invented anecdotes, quirks, adjectives, or
-metaphors. Add verified material and actual judgement.
+Delete or rewrite sentences whose only function is transition, atmosphere,
+warmth, polish, reassurance, summary, or completion. Those effects may emerge
+from useful sentences but do not justify a sentence alone.
 
-### The claim-basis test
+### Composition-shape test
 
-Underline every statement or implication about expertise, experience,
-suitability, safety, inclusion, results, ease, affordability, flexibility,
-availability, response time, or comparison. For each one, name its source and
-scope.
+Ignore individual wording and inspect the shapes:
 
-Distinguish:
+- Are consecutive passages mainly lists of concerns, modalities, qualities,
+  identities, benefits, or credentials?
+- Did each source field become its own paragraph?
+- Are unlike subjects given equal length and the same internal sequence?
+- Do paragraphs repeatedly move from label to explanation to reassurance?
+- Are triads, contrast pairs, fragments, or concluding morals recurring because
+  the model prefers them?
+- Could one list, sentence, or omission do the work more clearly?
 
-- confirmed fact;
-- reasonable explanation of a fact;
-- professional judgement attributed to the speaker;
-- possibility expressed as a possibility;
-- hypothesis requiring research;
-- unsupported promise or comparison.
+A single list or balanced sentence is not a problem. Repeated structure without
+a content reason is.
 
-### The fact-consequence test
+### Transferability test
 
-Check that important service facts are interpreted where the meaning is not
-obvious. Name what is offered, what it lets the visitor understand or do, and
-what remains uncertain. Do not replace a factual feature with a benefit-only
-future state.
+Remove the organisation and service nouns. Ask:
 
-### The heading-outline test
+- Which sentence depends on this provider's verified knowledge, process,
+  judgement, or boundary?
+- Which real trade-off, limitation, or uncertainty remains visible?
+- Could a competitor publish the complete draft unchanged?
 
-Read only the title, opening, headings, link text, and CTA labels. Check whether
-they form an informative outline and allow retrieval. Replace mysterious,
-atmospheric, or duplicate headings with the subject or useful distinction.
+Do not repair replaceability with invented anecdotes, quirks, metaphors, or
+confession. Add real evidence or judgement, or remove generic completion.
 
-### The speaker test
+### Explanation test
 
-Read the draft aloud as the named speaker to this visitor in this situation.
-Mark false intimacy, corporate plural, sales cadence, inflated authority,
-forced jokes, and sentences that are polished but implausible in speech.
+For every explainer, ask:
 
-Public copy can be more composed than conversation. Require plausibility, not a
-transcript full of filler, slang, or mistakes.
+- Did the intended reader need this term explained here?
+- Does the explanation change understanding, choice, or action?
+- Is "in practice, this means" introducing a useful distinction or a standard
+  expansion generated because the label looked unfinished?
+- Has the same point already been made in less formal language?
 
-### The final-line test
+Keep a professional term without explanation when the artifact, audience, or
+space makes that the better decision.
 
-Delete the last sentence of each paragraph and the final paragraph of the page.
-Restore them only if they add a fact, distinction, limit, question, or useful
-action. Do not keep a line because it supplies a neat moral, reassurance, or
-uplifting landing.
+### Deletion and ending test
 
-## Weak-copy patterns
+Delete the last sentence of every paragraph and the final paragraph. Restore
+only what adds information, distinction, boundary, uncertainty, or action.
 
-Treat these as prompts to inspect the underlying decision, not banned forms.
+Attempt further deletion wherever two sentences perform the same function.
+Do not target an arbitrary percentage or brevity score; stop when further
+deletion would damage the artifact's job.
 
-| Pattern | Diagnostic signal | Better intervention |
-| --- | --- | --- |
-| Organisation-first opening | History, passion, values, or aspirations delay the visitor's subject. | Lead with the service, question, decision, or relevant distinction; use history where it proves something useful. |
-| Category-cloud hero | A mood such as compassionate support or a brighter future appears before the offer. | Identify who provides what, for whom, and in what relevant context. |
-| Self-awarded qualities | Expert, trusted, leading, safe, personalised, or inclusive carries the claim. | Show exact credentials, process, decisions, conduct, terms, examples, and limits. |
-| Abstract benefit fog | Growth, clarity, empowerment, resilience, authenticity, and transformation accumulate without a mechanism. | Name what happens and what the visitor may be able to explore, understand, compare, or ask. |
-| Performed empathy | The provider claims complete understanding or narrates the visitor's private struggle. | Use supported conditional language and demonstrate attention through accurate detail. |
-| Jargon as authority | Modality or professional labels replace an explanation of the work. | Keep the accurate term, then explain the observable difference it makes. |
-| Feature dump | Modalities, memberships, tools, or session types appear without interpretation. | Retain decision-relevant facts and explain their practical meaning. |
-| Benefit-only fantasy | A promised future appears without a process, basis, limitation, or uncertainty. | Pair possible value with concrete service information and careful scope. |
-| Forced agitation | The copy intensifies pain, fear, shame, or the cost of waiting. | Name the concern accurately and offer a proportionate choice. |
-| Universal reassurance | Nothing to worry about, completely safe, always welcome, or right for everyone. | Explain the relevant process, conduct, safeguard, limit, or alternative. |
-| Defensive over-explanation | Policy-like wording answers objections no visitor raised. | State the normal arrangement, useful exception, and practical alternative. |
-| Faux candour | “Let's be honest” introduces a standard claim. | Say the candid fact or judgement itself. |
-| Vague difference | “We do things differently” supplies no comparison or consequence. | Name the actual difference and why it may matter. |
-| Decorative metaphor | Journeys, chapters, storms, light, space, flourishing, or tapestries substitute for knowledge. | Keep metaphor only when it clarifies a real relationship and belongs to the speaker. |
-| Copywriter performance | Puns, mystery headings, reversals, or clever fragments obstruct retrieval. | Put character in an informative line and keep practical copy practical. |
-| Generic CTA | Learn more, discover, or begin your journey hides destination and commitment. | Name the action and, when needed, what follows. |
-| SEO paragraph | Services, locations, and synonyms repeat in unnatural combinations. | Use the most accurate term in useful titles, openings, headings, links, and explanations. |
-| FAQ landfill | Invented questions repeat the page or hold keywords. | Keep consequential questions not answered better in the main flow. |
-| Tidy final moral | The ending converts difficulty into growth or praises taking the first step. | End on the last useful fact, limit, invitation, or nothing. |
+### Speaker test
 
-## AI-sounding prose
+Read the copy aloud as the actual speaker in this artifact. Mark:
 
-Use “AI-sounding” to describe a cluster of generic, predictable writing
-decisions. Do not use it as an authorship verdict.
+- implausible polish or formality;
+- sales cadence;
+- false vulnerability;
+- corporate plural;
+- repeated rhetorical symmetry;
+- language that performs empathy or authority instead of demonstrating it;
+- direct address the speaker would not use on this surface.
 
-Current research has found overrepresented vocabulary, syntactic and semantic
-homogeneity, predictable sentence structures, excessive formality, generic
-introductions, weak originality, unnatural quotation, grammatical regularity,
-and upbeat summary conclusions in particular generated corpora. The evidence
-is domain-limited: academic abstracts, short non-fiction, customer-service
-messages, stories, or thesis excerpts do not establish a universal fingerprint
-for counselling copy.
+Require plausibility, not a transcript filled with slang, fragments, or errors.
 
-Do not treat any of the following as proof of generation:
+## Diagnose model-default composition
 
-- an em dash, semicolon, contraction, fragment, heading, or bullet list;
-- correct grammar, neutral tone, formality, or one unusually precise word;
-- a list of three or a single `not X, but Y` construction;
-- words such as `delve`, `important`, `nuance`, `support`, or `community`;
-- plain, non-native, autistic, restrained, or carefully edited prose.
+Use the patterns as causal prompts, not banned forms.
 
-Do not use an AI-detector score as proof. Detector performance changes by
-model, prompt, genre, length, editing, and test design, and published research
-has found false-positive risks for non-native English writers. Review quality,
-evidence, and appropriateness directly.
-
-Do not “humanise” prose by injecting slang, random fragments, contractions,
-typos, anecdotes, punctuation quirks, or false vulnerability. Restore real
-source material, choices, boundaries, and local sentence judgement.
-
-## Current trope clusters
-
-Treat this list as time-sensitive. Inspect patterns across a passage rather
-than deleting isolated words.
-
-| Cluster | Typical manifestation | Underlying problem | Repair |
+| Pattern | Observable signal | Likely cause | Repair |
 | --- | --- | --- | --- |
-| Universal throat-clearing | “In today's fast-paced and ever-changing world…” | Generic era claim delays the subject. | Begin with the service, question, fact, or concrete observation. |
-| Inflated verb stack | unlock, elevate, empower, navigate, embrace, transform, foster | Abstract movement substitutes for action. | Name what the person or service actually does. |
-| Importance inflation | crucial, pivotal, paramount, essential, profound | The adjective tells the visitor how much to care. | State the consequence or evidence. |
-| Abstract noun fog | wellbeing, growth, connection, clarity, transformation, resilience without context | Positive concepts accumulate without a scene, action, or boundary. | Tie the idea to a decision, example, or process. |
-| Contrast machine | “Not just X; Y.” “More than X, Y.” | Balanced rhetoric adds polish without substance. | State the stronger proposition directly unless the contrast resolves a real misconception. |
-| Triad compulsion | Three benefits, adjectives, clauses, or takeaways recur everywhere. | A template gives unlike material the same shape. | Use the number of items the evidence contains. |
-| Symmetrical sections | Every heading receives equal paragraphs, lists, and reassurance. | Layout determines content volume and hierarchy. | Let the question determine length and form. |
-| Bold-label packaging | Every bullet begins with `**Concept:**`. | Formatting hides weak or non-parallel relationships. | Choose plain bullets, prose, or subsections according to the material. |
-| Performed balance | Every claim receives an equal counterclaim and frictionless synthesis. | The draft avoids a useful judgement. | State what is known, uncertain, and decided. |
-| Relentless uplift | Every difficulty becomes growth, hope, opportunity, or a brighter future. | Tone overrides subject and uncertainty. | Allow limits, difficulty, and ordinary endings to remain. |
-| Synthetic empathy | “We understand how deeply difficult this journey can be.” | Emotional register substitutes for earned attention. | Give an accurate answer, relevant detail, choice, or boundary. |
-| Semantic echo | One idea is restated with near-synonyms across a paragraph. | Sparse source material has been expanded rather than developed. | Keep the clearest version and add evidence, or stop. |
-| Explainer reflex | Every familiar term is defined, contextualised, and summarised. | The draft assumes a generic novice and pads the page. | Explain only what the intended visitor needs. |
-| Fabricated specificity | Plausible quotes, data, credentials, scenes, or process details make prose vivid. | Specificity is cosmetic rather than sourced. | Remove it, verify it, or mark the missing fact. |
-| Universal reader | “Whether you are X, Y, or Z, we are here for you.” | Inclusiveness is claimed by erasing useful scope. | Name actual scope and let the visitor judge relevance. |
-| Summary conclusion | “Ultimately”, “in conclusion”, or a final lesson repeats the page. | The draft closes its shape rather than the visitor's task. | End with the last useful fact, limit, or action. |
-| Journey CTA | “Ready to take the first step on your journey?” | Metaphor, assumed readiness, and sales rhythm hide the action. | Label the real action and explain its consequence. |
+| Register mismatch | A directory bio sounds like a landing page or private conversation. | The target reader was mistaken for a grammatical addressee. | Re-establish the artifact relationship before revising tone. |
+| Simulated intimacy | The copy repeatedly says `you`, predicts private feelings, or offers unearned reassurance. | The model is manufacturing relationship instead of supplying information. | Describe the service, process, or boundary directly. |
+| Stacked taxonomy | Concerns, modalities, qualities, credentials, and identities appear as successive lists. | Source fields were translated into paragraphs without composition. | Keep terms needed for retrieval; explain, combine, or omit the rest. |
+| Over-completion | Every fact receives an explanation, consequence, reassurance, and conclusion. | Fluency is filling the shape after the information is complete. | Stop at the last sentence with a real function. |
+| Smoothness tax | Useful bluntness becomes transitions, balanced clauses, and polished summaries. | Surface finish has displaced local judgement. | Restore the clearest proposition and allow asymmetry. |
+| Explainer reflex | Every term is defined and interpreted. | The model assumes all labels require expansion. | Explain only what changes understanding or action. |
+| Symmetrical sections | Every heading has equal paragraphs, lists, and a reassuring close. | Layout or generation rhythm is controlling emphasis. | Let importance determine length and form. |
+| Triad compulsion | Three adjectives, clauses, examples, or benefits recur. | A familiar rhythm is replacing evidence-led quantity. | Use the number of items the material contains. |
+| Contrast machine | `Not X, but Y` or `more than X` repeatedly supplies polish. | Balanced rhetoric is substituting for a direct proposition. | State the proposition unless the contrast corrects a real misconception. |
+| Semantic echo | One idea is repeated through near-synonyms. | Sparse evidence has been expanded rather than developed. | Keep the clearest statement; add evidence or stop. |
+| Generic empathy | The provider narrates the reader's struggle or announces understanding. | Emotional register is substituting for attention. | Supply accurate detail, process, choice, or boundary. |
+| Self-awarded quality | Expert, safe, inclusive, personalised, or trusted carries the claim. | Adjectives are doing work that evidence should do. | Show credentials, conduct, terminology, process, limits, or alternatives. |
+| Abstract benefit fog | Growth, clarity, resilience, authenticity, or transformation accumulates without process. | A positive future has replaced service information. | Name what happens and keep possible value possible. |
+| Decorative metaphor | Journeys, chapters, storms, space, light, or flourishing replaces literal meaning. | Character is being manufactured without source evidence. | Keep metaphor only when it clarifies and belongs to the speaker. |
+| Tidy final moral | The ending praises action, promises hope, or summarises the lesson. | The model is finishing the emotional shape rather than the task. | End on the last useful fact, limit, action, or nothing. |
+| Repair-loop drift | Each response to feedback becomes another complete polished draft. | The model is regenerating instead of diagnosing. | Return to the last useful source and revise the smallest causal span. |
 
-The strongest combined signal is replaceability: a complete, polished page that
-contains little a category template could not infer.
+## Respond to AI-sounding feedback
 
-## Repair order
+Do not argue about whether the text was generated. Treat "AI-sounding" as
+feedback about observable quality.
 
-Repair high-level causes before word-level symptoms:
+Do not:
 
-1. **Sources**: Obtain or expose missing facts, audience evidence, terms,
-   boundaries, decisions, and claim support.
-2. **Purpose**: Define the reader question and page job.
-3. **Coverage**: Add the information that changes the decision; remove filler.
-4. **Structure**: Reorder, regroup, rename, and resize sections according to the
-   material.
-5. **Claims**: Narrow implications, make limits visible, and remove unsupported
-   certainty.
-6. **Specificity**: Replace labels with actions, examples, distinctions,
-   conditions, and evidence.
-7. **Voice and tone**: Restore the named speaker's genuine judgement and fit the
-   emotional register to the situation.
-8. **Cadence**: Combine clipped parts of one thought, split hidden qualifications,
-   remove unnecessary transitions, and vary paragraph form for meaning.
-9. **Words and punctuation**: Edit individual choices only after the content is
-   sound.
+- run an AI detector;
+- ban isolated punctuation or vocabulary;
+- inject slang, fragments, typos, personal disclosure, or random quirks;
+- replace the entire draft repeatedly without naming the cause.
 
-Do not run repeated whole-draft “make it more human” rewrites. Make local edits
-against a named problem and reread the surrounding passage after each change.
+Instead:
 
-## Weighted review scorecard
+1. quote only enough text to locate the issue;
+2. name the structural or editorial pattern and its effect;
+3. recheck source roles, artifact register, and the copywriting contrast
+   forecast;
+4. return to the last useful source or approved decision;
+5. revise the smallest span that repairs the cause;
+6. reread the surrounding composition;
+7. rebuild the whole direction only when the composition itself is wrong or the
+   owner asks for a fresh start.
 
-Use a score only to organise discussion. Report gate failures separately.
+An em dash, semicolon, list of three, formal sentence, neutral tone, or word
+such as `support` is not evidence of generation. Judge the artifact, evidence,
+and composition.
 
-| Area | Weight | Review question |
-| --- | ---: | --- |
-| Page purpose and visitor decision | 15 | Does the page answer the question that brought the intended visitor here? |
-| Coverage and practical usefulness | 15 | Are decision-changing facts present where they matter? |
-| Accuracy and claim discipline | 15 | Can facts and implications be verified, with limits visible? |
-| Structure and retrieval | 10 | Do title, opening, headings, order, paragraphs, and links support finding and understanding? |
-| Specificity and evidence | 10 | Does the page show concrete knowledge, process, examples, distinctions, and boundaries? |
-| Clarity and accessibility | 10 | Are language and interaction copy understandable without being patronising? |
-| Voice and authorship | 8 | Does the copy express recognisable judgement and sound plausible for the speaker? |
-| Tone, autonomy, and inclusion | 7 | Does it fit the context without pressure, mind-reading, or unnecessary assumptions? |
-| Action and interface copy | 5 | Are actions specific, proportionate, predictable, and supported by useful context? |
-| Search clarity and originality | 5 | Is the subject naturally identifiable, and does the page add value? |
+## Repair in causal order
 
-Do not present a precise numerical score as objective truth. Pair it with the
-evidence, highest-impact changes, and unresolved owner decisions.
+Repair:
 
-## Review output
+1. evidence and source roles;
+2. purpose and artifact register;
+3. coverage and omission;
+4. structure and hierarchy;
+5. claims and implications;
+6. specificity and professional judgement;
+7. reader autonomy, inclusion, accessibility, and action;
+8. model-default composition;
+9. cadence, words, and punctuation.
 
-Lead with the most consequential gate failure or mismatch with the page job.
-Then provide:
+Do not polish a composition that still has a source, purpose, register, or
+structure failure.
 
-1. confirmed strengths worth preserving;
-2. findings ordered by impact on understanding, decision, trust, or action;
+## Report the review
+
+Lead with the most consequential gate failure or mismatch. Then provide:
+
+1. strengths worth preserving;
+2. findings ordered by impact on understanding, trust, decision, or action;
 3. evidence from the artifact and applicable sources;
-4. one recommended intervention for each material issue;
-5. replacement wording only when requested or useful to prove the direction;
-6. open facts or owner choices that prevent a responsible final draft.
+4. one intervention for each material issue;
+5. replacement wording only when requested or needed to prove the direction;
+6. unresolved facts or owner decisions.
 
-Do not accuse an author of using AI. Describe the observable pattern and its
-effect: for example, “three sections repeat abstract benefits without a service
-fact” or “the closing reassurance adds no new information”.
+For substantial work, include the concise editorial record required by
+`SKILL.md`. Show criteria and decisions, not private chain-of-thought.
