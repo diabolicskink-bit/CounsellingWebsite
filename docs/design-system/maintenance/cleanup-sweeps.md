@@ -1,8 +1,8 @@
 # Cleanup Sweeps
 
-Use this file when the goal is to simplify the UI system, reduce maintenance cost, or remove ambiguity without redesigning the site.
+Use this file when the goal is to improve the codebase through a small, focused, behaviour-preserving maintainability change.
 
-Cleanup can include CSS, page structure, repeated page patterns, nested class complexity, shared component opportunities, route/layout decisions, and docs/dev shell separation.
+A cleanup sweep is source-led. It can inspect any authored implementation surface, including CSS, TypeScript/TSX, JavaScript/MJS, React components and hooks, scripts, tests, route and API code, build tooling, and configuration. It is not limited to the visual system.
 
 ## Default Command
 
@@ -10,11 +10,31 @@ Cleanup can include CSS, page structure, repeated page patterns, nested class co
 
 Meaning:
 
-1. Inspect the codebase for one high-value maintainability cleanup.
+1. Inspect authored code directly for one high-value maintainability cleanup.
 2. Choose one focused, low-risk improvement.
-3. Prefer shared-system simplification over page-specific restyling.
+3. Prefer a clear architectural or maintenance gain over cosmetic churn.
 4. Preserve public behaviour, copy, routes, and visual intent unless explicitly asked.
 5. Verify with `npm run build` when code changes are made.
+
+## Source-First Discovery Boundary
+
+- Begin with executable source, styles, scripts, tests, and configuration. Use code searches, import and call-site traces, dependency relationships, test coverage, and local implementation evidence to find the target.
+- Do not read `site-backlog.md`, `launch-readiness.md`, `project-debt.md`, current-scope documents, task logs, reports, plans, checklists, or archives to source or select cleanup work.
+- Existing tracker items and prior reviews are not cleanup-sweep queues. Do not choose a target because a document already describes it.
+- After a source-discovered target is selected, consult only the documentation needed to preserve a relevant contract or update factual scope affected by the completed change.
+- The sole discovery-stage tracker exception is the too-large finding workflow below. Consult `project-debt.md` only after source inspection has independently exposed a worthwhile issue that cannot safely fit in the sweep.
+
+## Findings Too Large For One Sweep
+
+If source inspection exposes a worthwhile maintainability issue that is too broad, risky, ambiguous, or difficult to verify as one focused sweep:
+
+1. Do not force the issue into the current cleanup.
+2. Search `project-debt.md` narrowly for the same problem.
+3. If an active `DEBT-*` item already tracks the same problem, add any materially new code evidence to that item rather than creating a duplicate.
+4. Otherwise, add a new `DEBT-*` item automatically, using the tracker's next stable ID and normal fields. Set its source to the source-first cleanup sweep, cite the concrete files or code paths that exposed it, and give it a small, actionable next investigation or implementation step.
+5. Continue looking in code for a smaller cleanup that can be completed safely in the current sweep.
+
+Record only concrete, durable maintenance pressure. Do not create debt for a speculative concern, a stylistic preference, or an idea without implementation evidence.
 
 ## Sweep Rules
 
@@ -24,13 +44,29 @@ Meaning:
 - Do not convert working CSS into an abstraction maze.
 - If a pattern is only used once, leave it alone unless it is clearly harmful.
 - If visual risk is high, choose a different sweep.
-- Update docs when cleanup changes design-system scope.
+- Update factual docs only when the completed cleanup changes the scope they own.
 
 ## Named Sweeps
 
 ### Cleanup Run Sweep
 
-Default broad sweep. Look for one repeated outcome, one overly nested structure, one brittle selector area, or one shared pattern that can be simplified.
+Default broad sweep. Inspect code for one repeated outcome, overly nested structure, unclear responsibility, brittle dependency, or shared pattern that can be simplified.
+
+### Module And Component Boundary Sweep
+
+Look for mixed responsibilities, avoidable coupling, repeated state or transformation logic, awkward prop threading, or module boundaries that make a small change unnecessarily difficult.
+
+### Script And Tooling Sweep
+
+Look for duplicated filesystem or route logic, inconsistent command behaviour, obsolete compatibility paths, fragile process assumptions, or scripts whose responsibilities can be made clearer without changing outputs.
+
+### Test Architecture Sweep
+
+Look for duplicated setup, brittle selectors, unclear fixtures, unnecessarily broad assertions, or missing shared helpers where repeated test intent is already evident.
+
+### Duplicate Logic Sweep
+
+Look for repeated validation, mapping, normalization, metadata, routing, or data-transformation logic that has one real shared contract.
 
 ### Token Alignment Sweep
 
@@ -91,6 +127,9 @@ Look for repeated route aliases, repeated layout decisions, or route-specific UI
 ## Good Targets
 
 - Shared patterns used in more than one place.
+- Repeated logic with one clear behavioural contract.
+- Modules or functions with avoidably mixed responsibilities.
+- Scripts, configuration, or test setup with concrete duplication or brittleness.
 - Repeated literals that already have tokens.
 - Legacy layers with clear replacements.
 - Duplicated mobile fixes.
@@ -105,11 +144,13 @@ Look for repeated route aliases, repeated layout decisions, or route-specific UI
 - Refactors touching many pages without a tight verification path.
 - Replacing simple CSS with complex abstractions.
 - Flattening markup needed for semantics, accessibility, or layout.
+- Work selected from a tracker, backlog, report, plan, or prior audit instead of discovered in code.
 
 ## Suggested Workflow
 
-1. Identify one cleanup opportunity.
+1. Inspect code and identify one cleanup opportunity.
 2. Explain the exact simplification.
 3. Make the smallest complete change.
 4. Verify appropriately.
-5. Summarize the maintainability improvement.
+5. Record any independently discovered too-large finding as project debt.
+6. Summarize the maintainability improvement and verification.

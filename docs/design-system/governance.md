@@ -99,7 +99,7 @@ Cleanup should converge on active `site-*`, `hero-*`, and shared component patte
 
 Cleanup should not copy old demo styles into production pages. If an old demo idea is useful, promote the idea deliberately.
 
-Use `maintenance/cleanup-sweeps.md` for named sweep behaviour, `current-scope.md` for known legacy areas, and the project debt tracker for concrete unresolved cleanup work.
+Use `maintenance/cleanup-sweeps.md` for source-first sweep behaviour and named cleanup modes. Do not use current-scope documents or trackers to select sweep work. Consult the project debt tracker only when the source-first sweep independently exposes a worthwhile issue that is too large to complete safely, then follow the sweep file's deduplication and automatic recording workflow.
 
 ## Verification
 
