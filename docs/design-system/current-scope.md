@@ -2,11 +2,11 @@
 
 This is the live factual inventory of the design system.
 
-## Temporary Authority Status
+## Creative-Within-Identity Authority Status
 
-- The items below describe what is implemented, shared, partial, legacy, or missing; they are not visual requirements for fresh creation or redesign.
-- Existing tokens, palette, typefaces, components, `site-*`, `hero-*`, and rendered examples are available for deliberate reuse only after a direction has been selected independently.
-- Fresh visual exploration may retain, restyle, replace, or bypass current design-system elements when authorised by the task. Functional, accessibility, routing, and data contracts remain governed separately.
+- The items below describe what is implemented, shared, partial, legacy, or missing; existing components and page patterns are not layout requirements for fresh creation or redesign.
+- Established font families, type roles and scale, the colour palette and semantic colour roles, shared shell behaviour, and the accessibility baseline are the basic identity anchors unless the current task explicitly changes them.
+- Fresh visual work should actively create content-shaped compositions beyond existing patterns. It may retain, restyle, replace, or bypass current layout and component treatments while preserving the basic identity anchors and functional contracts.
 
 ## Included
 

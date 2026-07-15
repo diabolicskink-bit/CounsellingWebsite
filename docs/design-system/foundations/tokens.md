@@ -1,6 +1,6 @@
 # Existing Tokens And Baseline Implementation
 
-Primary production tokens live in `src/styles.css`. This file inventories the current implementation. During the temporary open-design period, fresh concepts are not required to use these colour, type, layout, spacing, radius, shadow, or surface choices.
+Primary production tokens live in `src/styles.css`. This file inventories the current implementation. Fresh concepts should preserve the established font families, documented type roles and responsive scale, colour palette and semantic colour roles unless the current task explicitly changes the site's identity. Layout, spacing, radius, shadow, surface treatment, depth, and composition remain open creative variables.
 
 ## Colour Tokens
 
@@ -62,13 +62,13 @@ Existing pages commonly use `Container` for major width containment. Fresh work 
 | `--type-hero-detail` | Open hero detail stack items. |
 | `--type-fee-display` | Large numeric/fee display. |
 
-Type role variables currently adjust at breakpoints. New work may establish another responsive type system; additions to shared production rules should remain deliberate and documented when the task includes shared-system change.
+Type role variables currently adjust at breakpoints. New work should use this responsive type system while remaining free to combine and compose the roles in new ways. Changes to the shared type system should be explicit, deliberate, and documented when the task includes an identity or shared-system change.
 
 ## Body Copy Rule
 
 Ordinary paragraph-style copy should use a literal `p` by default. If body copy cannot be a paragraph, use `.site-body-copy`; if a container owns body-copy children such as mixed `p` and `li` content, use `.site-copy-flow`.
 
-Current page CSS generally handles layout concerns such as width, margin, and gaps. Fresh designs may define different type roles or styling locally without first mapping them to the current shared tokens.
+Current page CSS generally handles layout concerns such as width, margin, and gaps. Fresh designs may define new layout-specific styling locally, but should retain the established type roles and scale unless the task explicitly changes the site's identity.
 
 ## Existing Spacing And Surfaces
 

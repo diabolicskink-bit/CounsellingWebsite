@@ -15,7 +15,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 ## Public Content And Discoverability
 
 - Public copy is under active owner-led revision. Existing page source is implementation state rather than an approved voice corpus; current copy status and wording constraints are recorded in `docs/project/writing-direction.md`.
-- Online delivery remains a factual part of the service. The current constraint on foregrounding it in visible copy or metadata is owned by `docs/project/writing-direction.md`.
+- Google Business Profile verification is complete. Online delivery may be named selectively in public copy and metadata; the current wording rule is owned by `docs/project/writing-direction.md`.
 - Route metadata is stored in `src/data/routeMetadata.json` and applied by `useDocumentMetadata`.
 - Home, Working with Joel, Inclusion, and Contact/Fees are indexable. Their generated HTML omits `noindex`, and `sitemap.xml` advertises those four canonical URLs.
 - The three draft Inclusion child routes are excluded from production links and sitemap output and use route-level `noindex, nofollow` metadata.

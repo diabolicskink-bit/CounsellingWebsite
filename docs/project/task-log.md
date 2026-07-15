@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-15 - Homepage Service Description Updated
+
+- Changed: The homepage hero now identifies Joel Griffiths, his Perth base, online counselling for adults across Australia, common presenting concerns, and Vive's kink/BDSM-aware, ENM/poly-aware, and LGBTQIA+ affirming practice.
+- Resolved: Google Business Profile verification is complete, so the temporary restriction on foregrounding online delivery has been retired.
+- Clarified: Online counselling may be named where it helps visitors or search intent, but should not be repeated across the site merely for emphasis or SEO.
+
 ## 2026-07-14 - Design System Moved To Temporary Reference Status
 
 - Changed: Fresh creation and redesign now establish visual direction before consulting the existing design system; its palette, typography, heroes, components, patterns, spacing, surfaces, and rendered examples are implementation reference rather than visual authority unless a task explicitly opts in.

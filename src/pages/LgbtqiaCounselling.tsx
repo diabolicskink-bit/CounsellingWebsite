@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
@@ -7,44 +8,24 @@ import "../styles-lgbtqia.css";
 
 const pageMetadata = getRouteMetadata("/inclusion/lgbtqia");
 
-const assumptions = [
+const counsellingPlaces = [
   {
-    assumption: "Your partner is a man or a woman.",
-    practice:
-      "I will use your words for partners and relationships. If a word could mean several things, I will ask what it means for you.",
-  },
-  {
-    assumption: "Coming out is the goal.",
-    practice:
-      "Disclosure is not a required outcome. Privacy, visibility and possible consequences can be considered in their real context.",
-  },
-  {
-    assumption: "Family means biological family.",
-    practice:
-      "Chosen family, community, faith, estrangement and the people you rely on can all be part of the picture.",
-  },
-  {
-    assumption: "Identity explains the difficulty.",
-    practice:
-      "Sexuality or gender may be central, one thread among several, or simply context I need to understand.",
-  },
-];
-
-const startingPoints = [
-  {
-    title: "Sexuality or gender is what you want to discuss",
+    id: "subject",
+    title: "It may be what you want to talk about.",
     copy:
-      "You might want to talk about questioning, coming out or not coming out, visibility, your body, or changes in how you name or express yourself. Counselling does not have to lead towards a particular label, disclosure or decision.",
+      "You might want to explore sexuality or gender directly: how you understand or express yourself, something that has changed, or a choice you are considering.",
   },
   {
-    title: "It matters to something else that is happening",
+    id: "context",
+    title: "It may matter to something else.",
     copy:
-      "The difficulty might involve dating, intimacy, a breakup, family or chosen family, faith, community, work, loneliness or rejection. Sexuality or gender can matter to what is happening without explaining all of it.",
+      "It may shape what is happening in a relationship, family, faith, community, work or another part of your life without explaining the whole difficulty.",
   },
   {
-    title: "The reason is something else",
+    id: "background",
+    title: "It may not be why you came.",
     copy:
-      "You might be looking for help with anxiety, low mood, grief, shame, trauma, self-criticism, burnout or a relationship difficulty. Sexuality or gender does not have to become the focus simply because it is part of your life.",
+      "You may be looking for help with anxiety, low mood, grief, trauma, self-criticism, burnout or another concern. Being LGBTQIA+ does not have to become the subject of counselling.",
   },
 ];
 
@@ -68,71 +49,67 @@ export default function LgbtqiaCounselling() {
                   counselling. I will not assume which of them matters, or what any identity means for you. You can
                   start with the thing that is actually difficult.
                 </p>
-                <ul className="hero-support-tagline" aria-label="Practice details">
-                  <li>Joel Griffiths</li>
-                  <li>Adults</li>
-                  <li>Perth-based, available across Australia</li>
-                </ul>
-                <div className="site-actions lgbtqia-page__hero-actions">
-                  <Button href={routeHref(publicRoutePaths.contact)}>Make an enquiry</Button>
-                </div>
               </div>
             </div>
+            <nav className="lgbtqia-page__hero-actions" aria-label="Page actions">
+              <div className="lgbtqia-page__hero-action-list">
+                <Button href={routeHref(publicRoutePaths.contact)} variant="primary">
+                  Make an enquiry <ArrowRight size={16} aria-hidden="true" />
+                </Button>
+                <Button href={routeHref(publicRoutePaths.inclusion)} variant="secondary">
+                  <ArrowLeft size={16} aria-hidden="true" /> Back to Inclusion
+                </Button>
+              </div>
+            </nav>
           </div>
         </Container>
       </section>
 
-      <section className="lgbtqia-page__defaults" aria-labelledby="lgbtqia-defaults-title">
-        <div className="lgbtqia-page__frame">
-          <header className="lgbtqia-page__defaults-header">
-            <h2 id="lgbtqia-defaults-title">I will ask, rather than fill in the blanks.</h2>
-            <p>
-              Affirming practice is not a claim that I already know your experience. It changes the assumptions I
-              start with, the questions I ask, and what I leave for you to define.
-            </p>
+      <section className="lgbtqia-page__place" aria-labelledby="lgbtqia-place-title">
+        <Container>
+          <header className="lgbtqia-page__place-header">
+            <div className="lgbtqia-page__place-heading">
+              <h2 id="lgbtqia-place-title">What place does this have in counselling?</h2>
+            </div>
           </header>
 
-          <div className="lgbtqia-page__comparison-labels" aria-hidden="true">
-            <span>Not a starting point</span>
-            <span>Where I start instead</span>
-          </div>
-          <dl className="lgbtqia-page__assumptions">
-            {assumptions.map((item) => (
-              <div key={item.assumption}>
-                <dt>
-                  <span className="lgbtqia-page__mobile-label">Not a starting point: </span>
-                  <s>{item.assumption}</s>
-                </dt>
-                <dd>
-                  <span className="lgbtqia-page__mobile-label">Where I start instead: </span>
-                  {item.practice}
-                </dd>
-              </div>
+          <ul className="lgbtqia-page__place-map">
+            {counsellingPlaces.map((place) => (
+              <li
+                className={`lgbtqia-page__place-option lgbtqia-page__place-option--${place.id}`}
+                key={place.id}
+              >
+                <h3>{place.title}</h3>
+                <p className="lgbtqia-page__place-copy">{place.copy}</p>
+              </li>
             ))}
-          </dl>
-        </div>
+          </ul>
+
+        </Container>
       </section>
 
-      <section className="lgbtqia-page__reasons" aria-labelledby="lgbtqia-reasons-title">
-        <div className="lgbtqia-page__frame">
-          <header className="lgbtqia-page__reasons-header">
-            <p className="lgbtqia-page__section-mark">What you might bring</p>
-            <h2 id="lgbtqia-reasons-title">What brings you here may or may not be about sexuality or gender.</h2>
+      <section className="lgbtqia-page__relevance" aria-labelledby="lgbtqia-relevance-title">
+        <Container>
+          <header className="lgbtqia-page__relevance-header">
+            <h2 id="lgbtqia-relevance-title">Sexuality or gender can change the context.</h2>
           </header>
 
-          <div className="lgbtqia-page__reason-list">
-            {startingPoints.map((startingPoint) => (
-              <article key={startingPoint.title}>
-                <h3>{startingPoint.title}</h3>
-                <p>{startingPoint.copy}</p>
-              </article>
-            ))}
+          <div
+            className="lgbtqia-page__relevance-field"
+            role="group"
+            aria-label="How the difficulty and its context are considered in counselling"
+          >
+            <p className="lgbtqia-page__relevance-node lgbtqia-page__relevance-node--difficulty">
+              The difficulty itself.
+            </p>
+            <p className="lgbtqia-page__relevance-practice">
+              I will not use sexuality or gender as a shortcut for understanding what is happening.
+            </p>
+            <p className="lgbtqia-page__relevance-node lgbtqia-page__relevance-node--context">
+              The context around it.
+            </p>
           </div>
-
-          <p className="lgbtqia-page__reason-note">
-            These starting points can overlap. You do not need to sort that out before making contact.
-          </p>
-        </div>
+        </Container>
       </section>
     </main>
   );

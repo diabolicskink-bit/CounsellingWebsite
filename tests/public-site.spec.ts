@@ -73,8 +73,8 @@ const prerenderedRouteContracts = {
   },
   "/inclusion/lgbtqia": {
     mainClass: "site-page inclusion-page lgbtqia-page",
-    rawFragments: ['class="lgbtqia-page__assumptions"', 'class="lgbtqia-page__reason-list"'],
-    noJavaScriptSelector: ".lgbtqia-page__assumptions",
+    rawFragments: ['class="lgbtqia-page__place-map"', 'class="lgbtqia-page__relevance-field"'],
+    noJavaScriptSelector: ".lgbtqia-page__place-map",
   },
   "/contact": {
     mainClass: "site-page contact-page",
@@ -578,8 +578,9 @@ test.describe("public pages", () => {
       if (route === "/inclusion/lgbtqia") {
         const pageMain = page.locator("main.lgbtqia-page");
 
-        await expect(pageMain.locator(".lgbtqia-page__assumptions > div")).toHaveCount(4);
-        await expect(pageMain.locator(".lgbtqia-page__reason-list > article")).toHaveCount(3);
+        await expect(pageMain.locator("section").nth(1)).toHaveClass(/lgbtqia-page__place/);
+        await expect(pageMain.locator(".lgbtqia-page__place-map > li")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__relevance-node")).toHaveCount(2);
       }
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
@@ -1601,7 +1602,7 @@ test.describe("production route boundaries", () => {
   }
 });
 
-test("rebuilt LGBTQIA+ page reflows without horizontal overflow", async ({ page }) => {
+test("LGBTQIA+ page reflows without horizontal overflow", async ({ page }) => {
   for (const viewport of [
     { width: 390, height: 844 },
     { width: 820, height: 1180 },
@@ -1610,8 +1611,7 @@ test("rebuilt LGBTQIA+ page reflows without horizontal overflow", async ({ page 
     await page.setViewportSize(viewport);
     await page.goto("/inclusion/lgbtqia", { waitUntil: "networkidle" });
 
-    await expect(page.locator(".lgbtqia-page__assumptions")).toBeVisible();
-    await expect(page.locator(".lgbtqia-page__reason-list")).toBeVisible();
+    await expect(page.locator(".lgbtqia-page__place-map")).toBeVisible();
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
     ).toBe(true);

@@ -1,6 +1,6 @@
 # Components
 
-This catalogue inventories currently implemented React components and component-backed behaviour. During the temporary open-design period, it does not require fresh work to use their existing visual treatment or composition. A file existing in `src/components/` is not automatically shared API.
+This catalogue inventories currently implemented React components and component-backed behaviour. Under the creative-within-identity policy, fresh work should actively explore content-shaped composition and is not required to use these components' existing visual treatment or layout. The site's font families, type roles and scale, colour palette and semantic roles remain identity anchors. A file existing in `src/components/` is not automatically shared API.
 
 ## Active Shared Components
 

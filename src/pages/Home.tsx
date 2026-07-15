@@ -96,7 +96,7 @@ const homePageContent: HomePageContent = {
       after: ".",
     },
     support:
-      "I offer counselling for adults across Australia, based in Perth. I work with anxiety, relationship strain, self-criticism, trauma, sexuality, and experiences that feel exposing, confusing, or hard to talk about. My approach is direct, thoughtful, and non-shaming.",
+      "I’m Joel Griffiths, a counsellor based in Perth, offering online counselling to adults across Australia. I work with anxiety and depression, relationship difficulties, persistent self-criticism, trauma and other concerns. Vive is kink/BDSM-aware, ENM/poly-aware and LGBTQIA+ affirming.",
     trustAriaLabel: "Practice details",
     trustItems: [
       "Perth-based, working with adults across Australia",

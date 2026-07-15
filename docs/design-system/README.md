@@ -2,11 +2,11 @@
 
 This directory records the currently implemented Vive Counselling design system: visual foundations, shared components, page patterns, rendered examples, cleanup rules, and legacy status.
 
-## Temporary Open-Design Status
+## Creative-Within-Identity Status
 
-The current system is not visual authority for fresh creation or redesign. Do not use its palette, type pairing, hero system, section rhythm, cards, panels, CTA, spacing character, or rendered page silhouettes as required starting points unless the current task explicitly opts into them.
+Fresh creation and redesign should actively explore content-shaped, out-of-the-box compositions rather than begin from existing page patterns. The site's established font families, type roles and scale, colour palette and semantic colour roles remain the basic identity scheme unless the current task explicitly changes that identity.
 
-For fresh visual work, establish structurally different directions from the task, product purpose, content, real assets, and the website-design skill first. Consult this directory afterward to understand implementation and decide what can be reused without changing the selected direction. Existing patterns are optional implementation resources, not acceptance criteria.
+Composition, grids, component forms, surfaces, depth, layering, shape, spacing rhythm, imagery, motion and responsive behaviour are active creative variables. Establish structurally different directions from the task, product purpose, content, real assets, and the website-design skill first. Consult this directory afterward to understand implementation and decide what can be reused without weakening the selected direction. Existing components and page patterns are optional implementation resources, not acceptance criteria.
 
 Start here first only when maintaining, cleaning up, documenting, promoting, or deliberately reusing shared UI.
 
@@ -16,7 +16,7 @@ For fresh creation or redesign:
 
 1. Read `../project/product-direction.md` for audience, voice, and public-site intent.
 2. Read `../project/writing-direction.md` when public copy or content hierarchy may be affected.
-3. Establish and select the visual direction without using the existing design system as a concept generator.
+3. Establish at least two structurally different, content-shaped directions within the basic identity scheme when the user has not already selected one; ensure at least one materially departs from existing page patterns.
 4. Check source and `current-scope.md` after selection for implementation facts and behaviour worth preserving.
 5. Reuse or replace existing components and styles according to concept fit, accessibility, behaviour, and maintenance—not prior design-system status alone.
 
@@ -42,7 +42,7 @@ For cleanup work:
 
 - `governance.md` owns implementation-evidence rules, reusable-API authority, active and legacy layer policy, promotion rules, and update duties.
 - `current-scope.md` is the factual inventory of what the design system currently includes.
-- `foundations/principles.md` records the previous visual intent and the current open-design status; it does not constrain fresh direction.
+- `foundations/principles.md` records the creative-within-identity policy and distinguishes identity anchors from open composition variables.
 - `foundations/tokens.md` inventories existing colour, spacing, type roles, and baseline typography implementation.
 - `patterns/components.md` inventories current React components and component-backed behaviour.
 - `patterns/page-patterns.md` inventories existing `site-*`, `hero-*`, section, card, panel, rich-text, CTA, form, and page-pattern implementation.

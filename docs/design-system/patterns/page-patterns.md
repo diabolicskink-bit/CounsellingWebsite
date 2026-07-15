@@ -1,6 +1,6 @@
 # Page Patterns
 
-This file inventories shared CSS and page-level compositions that currently exist. During the temporary open-design period, these patterns are optional implementation references rather than required or preferred structures for fresh work.
+This file inventories shared CSS and page-level compositions that currently exist. Under the creative-within-identity policy, these patterns are optional implementation references rather than required or preferred structures for fresh work. Agents should actively explore content-shaped alternatives within the site's typography, type scale, and colour scheme.
 
 Establish and select the page concept before consulting this catalogue. A pattern being available, visually similar, or already used elsewhere is not sufficient reason to use it.
 

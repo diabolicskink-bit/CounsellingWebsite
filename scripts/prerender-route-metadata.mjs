@@ -47,8 +47,8 @@ const prerenderedRouteSmokeFragments = {
     '<main class="site-page inclusion-page lgbtqia-page">',
     "Counselling for LGBTQIA+ adults",
     'class="hero-section hero-bg--default lgbtqia-page__hero"',
-    'class="lgbtqia-page__assumptions"',
-    'class="lgbtqia-page__faq-list"',
+    'class="lgbtqia-page__place-map"',
+    'class="lgbtqia-page__relevance-field"',
   ],
   "/contact": [
     '<main class="site-page contact-page">',

@@ -6,12 +6,14 @@ The design system records and supports shared production UI, implementation cohe
 
 It should prevent old demos, docs shell styles, or unused components from becoming accidental production API.
 
-## Temporary Open-Design Policy
+## Creative-Within-Identity Policy
 
-- Establish fresh visual concepts before consulting existing design-system patterns.
-- Existing palette, typography, tokens, heroes, page patterns, components, and rendered examples are optional implementation resources rather than creative constraints.
+- Actively establish fresh, content-shaped visual concepts before consulting existing component or page-pattern material. When direction is open, explore at least two structurally different concepts and ensure at least one materially departs from current page patterns.
+- Preserve established font families, type roles and scale, the colour palette and semantic colour roles, shared shell behaviour, and the accessibility baseline unless the current task explicitly changes the site's identity.
+- Treat composition, grids, component forms, surfaces, depth, layering, shape, spacing rhythm, imagery, motion, and responsive recomposition as creative variables rather than inherited constraints.
+- Existing heroes, page patterns, components, rendered examples, flat surfaces, fine rules, and section silhouettes are optional implementation resources rather than creative defaults.
 - Preserve semantic behaviour, accessibility, data flow, routing, and other functional contracts required by the task; their existing visual treatment is not automatically protected.
-- Select reuse only after a direction exists. Reuse is successful when it serves that direction and the required behaviour, not merely when the new element resembles an existing pattern.
+- Select reuse only after a direction exists. Reuse is successful when it strengthens that direction and the required behaviour, not merely when the new element resembles an existing pattern.
 - Page-scoped or replacement implementation does not need promotion into shared API unless the current task also asks to change the reusable system.
 - A task may explicitly opt into the existing system, preserve named elements, or re-establish visual constraints. Until then, current visual conventions have reference status.
 

@@ -1,28 +1,34 @@
 # Visual Direction Status
 
-## Temporary Open-Design Policy
+## Creative-Within-Identity Policy
 
-The previous design principles no longer constrain fresh creation or redesign. Establish visual direction from the current task, product purpose, audience, content, real assets, and the website-design workflow before consulting existing design-system material.
+Fresh creation and redesign should actively pursue content-specific, out-of-the-box visual directions. Creative departure from existing layouts is the expected starting point, not merely an option available when familiar patterns fail. Establish direction from the current task, product purpose, audience, content, real assets, and the website-design workflow before consulting existing component or page-pattern material.
 
-No fresh concept is required to preserve the current:
+Unless the current task explicitly changes the site's identity, preserve these basic scheme anchors:
 
-- paper, sage, and cedar palette;
-- Georgia and Inter/system type pairing;
+- the paper, sage, and cedar palette and its semantic colour roles;
+- the Georgia and Inter/system type pairing, documented type roles, and responsive type scale;
+- shared navigation, footer, interaction behaviour, and accessibility baseline.
+
+Actively treat these as creative variables:
+
 - shared hero composition;
 - section-band rhythm;
 - card, panel, split, FAQ, or CTA treatments;
+- composition, grid, containment, depth, layering, shape, and spatial rhythm;
+- imagery, motion, and responsive recomposition;
 - restrained-shadow, modest-radius, or border-led material language;
 - controlled asymmetry, strong display line breaks, or editorial character;
-- expectation that a major page needs one memorable visual move.
+- the current rendered page silhouettes.
 
-These choices remain facts about parts of the current implementation, not requirements or preferred future direction. They may be retained, transformed, or replaced when they genuinely serve a selected concept.
+New page-scoped components and treatments are encouraged when they make the content's meaning, hierarchy, or relationships clearer and more memorable. Existing layout choices remain implementation facts rather than preferred future direction; retain them only when they strengthen the selected concept.
 
 ## Direction Before Reuse
 
 For fresh work:
 
 1. Define the page or interface job and the visitor decisions it supports.
-2. Develop structurally different concepts without using existing patterns as templates.
+2. Develop at least two structurally different concepts without using existing patterns as templates when the user has not already selected a concrete direction; at least one should materially depart from current page patterns.
 3. Select a direction through content fit, distinctiveness, trust, accessibility, performance, and implementation realism.
 4. Inspect the current system only after selection and reuse elements that strengthen the direction without distorting it.
 
@@ -30,7 +36,7 @@ Originality should come from relationships grounded in the subject, content, org
 
 ## Requirements Outside Visual Style
 
-The open-design policy does not suspend higher-authority product, content, accessibility, security, routing, data, or interaction requirements. Semantic HTML, keyboard access, visible focus, readable contrast, reduced-motion care, understandable navigation, and honest public claims remain requirements because they belong to the product and task, not because of the previous visual system.
+The creative-within-identity policy does not suspend higher-authority product, content, accessibility, security, routing, data, or interaction requirements. Semantic HTML, keyboard access, visible focus, readable contrast, reduced-motion care, understandable navigation, and honest public claims remain requirements because they belong to the product and task, not because of a visual pattern.
 
 ## Existing Implementation Reference
 
