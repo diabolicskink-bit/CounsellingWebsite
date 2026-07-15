@@ -36,9 +36,9 @@ const pageContent = {
     heading: "Relationship difficulties in ENM and polyamory",
     items: [
       {
-        label: "When the ground shifts.",
+        label: "Talking about opening a relationship",
         prose:
-          "The possibility of opening a relationship can change what had felt settled, whether you raised it or your partner did. You may not know what you want yet, especially when speaking honestly could affect someone you love.",
+          "You might be raising the idea while still working out what you want from it, or hearing it from a partner without knowing what you think yet.",
       },
       {
         label: "Jealousy and insecurity.",
