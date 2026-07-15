@@ -103,8 +103,9 @@ const pageContent: WorkingWithJoelPageContent = {
     title: "Introducing Joel",
     paragraphs: [
       "I'm Joel Griffiths, an ACA-registered counsellor based in Perth. I work with adults across Australia.",
+      "I changed careers because I'm passionate about providing counselling to people who have been judged or made to feel ashamed of their sexuality, relationships, work, diagnosis or identity.",
       "As a counsellor, I'm interested in the whole person. Not only what you are struggling with, but what has shaped it. The anxiety, relationship strain, self-criticism, shame, trauma, sexuality, or intimacy concerns people bring to therapy usually have a history. They often sit alongside ways of coping that once helped, but now feel harder to live with.",
-      "I work in a direct, thoughtful, and non-shaming way. I am comfortable with complexity, including the parts of life that do not fit neatly into a simple explanation.",
+      "I'll listen closely and take what you tell me seriously. I'm not there to judge how you live or how you have coped. You don't have to make things sound tidier than they are.",
     ],
   },
   approach: {
