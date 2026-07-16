@@ -24,7 +24,8 @@ facts, or owner decisions.
 
 | Audience | File | Coverage | Last reviewed |
 | --- | --- | --- | --- |
-| Kink clients | [kink-clients.md](audiences/kink-clients.md) | Initial formal evidence, public web discussion, and Australian search/market landscape | 2026-07-16 |
+| Kink clients | [kink-clients.md](audiences/kink-clients.md) | Rebuilt formal evidence, public-web discussion with a 15-source recurrence sample, and dated Australian/Perth search and provider observations | 2026-07-16 |
+| ENM and polyamory clients | [enm-polyamory-clients.md](audiences/enm-polyamory-clients.md) | Formal evidence, international public-web discussion, Australian/Perth search and service landscape, plus targeted therapist-attitude, ENM-incongruent advice and sexual-health competence research | 2026-07-16 |
 | LGBTQIA+ clients | [lgbtqia-clients.md](audiences/lgbtqia-clients.md) | Initial subgroup-specific formal evidence, international public web discussion, and Australian/Perth search and service landscape | 2026-07-16 |
 
 ## Structure

@@ -8,7 +8,7 @@ import DocumentsSidebar, {
 import DevPageHero from "../../components/DevPageHero";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
-type DocumentCategory = "checklists" | "reports" | "plans";
+type DocumentCategory = "checklists" | "reports" | "research" | "page-plans" | "plans";
 
 type DocumentItem = {
   category: DocumentCategory;
@@ -33,6 +33,16 @@ const categoryMeta: Array<{
     emptyLabel: "No reports yet.",
   },
   {
+    key: "research",
+    label: "Research",
+    emptyLabel: "No research yet.",
+  },
+  {
+    key: "page-plans",
+    label: "Page plans",
+    emptyLabel: "No page plans yet.",
+  },
+  {
     key: "plans",
     label: "Plans",
     emptyLabel: "No plans yet.",
@@ -40,7 +50,13 @@ const categoryMeta: Array<{
 ];
 
 const markdownFiles = import.meta.glob(
-  ["../../../docs/checklists/**/*.md", "../../../docs/reports/**/*.md", "../../../docs/plans/**/*.md"],
+  [
+    "../../../docs/checklists/**/*.md",
+    "../../../docs/reports/**/*.md",
+    "../../../docs/research/**/*.md",
+    "../../../docs/page-plan/**/*.md",
+    "../../../docs/plans/**/*.md",
+  ],
   {
     eager: true,
     import: "default",
@@ -104,6 +120,14 @@ function getCategory(path: string): DocumentCategory {
     return "reports";
   }
 
+  if (path.startsWith("docs/research/")) {
+    return "research";
+  }
+
+  if (path.startsWith("docs/page-plan/")) {
+    return "page-plans";
+  }
+
   return "plans";
 }
 
@@ -163,7 +187,7 @@ export default function Documents() {
 
   useDocumentMetadata(
     "Documents | Vive Counselling",
-    "Developer-only markdown reader for project checklists, generated reports, and draft plans."
+    "Developer-only markdown reader for project checklists, reports, research, page plans, and draft plans."
   );
 
   const groups = useMemo<DocumentsSidebarGroup[]>(
@@ -197,7 +221,7 @@ export default function Documents() {
       <DevPageHero
         badge="Dev documents"
         title="Documents"
-        description="A small reader for project checklists, generated reports, and draft plans. Drop markdown into the checklists, reports, or plans folders and it will appear here automatically in development."
+        description="A small reader for project checklists, reports, research, page plans, and draft plans. Drop markdown into any of these document folders and it will appear here automatically in development."
       />
 
       <div className="ds-layout">
@@ -268,7 +292,7 @@ export default function Documents() {
             ) : (
               <div className="documents-viewer__empty">
                 <h2>No markdown files found.</h2>
-                <p>Add `.md` files under `docs/checklists/`, `docs/reports/`, or `docs/plans/` to populate this page.</p>
+                <p>Add `.md` files under the supported `docs/` folders to populate this page.</p>
               </div>
             )}
           </section>

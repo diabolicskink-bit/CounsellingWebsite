@@ -18,9 +18,16 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-16 - Staged Page Copy Development Skill Added
+
+- Added: The project-local `develop-page-copy` skill formalises the visitor-first page-plan-then-section workflow for new and substantially rebuilt service pages.
+- Foregrounded: The workflow begins by identifying the visitor, writing an evidence-grounded account from their page position, and returning to that visitor's hat before planning, section development, cold review, and assembly.
+- Established: Page plans own the visitor journey, section jobs, boundaries, and handoffs; separate section workthroughs own conceptual choices, structurally different copy candidates, cold-reader testing, and a recommended working draft.
+- Added: Copy decisions explicitly route through the project-local `copywriter` skill, while reusable artifact structures and quality gates reinforce sentence function, deletion, model glue, inclusion, claim integrity, research grounding, and full-page handoffs.
+
 ## 2026-07-16 - Audience Research Library Established
 
-- Added: `docs/research/` now provides a mapped internal audience-research library, with parent dossiers for kink clients and LGBTQIA+ clients combining formal evidence, public web discussion, dated search or service observations, and source registers.
+- Added: `docs/research/` now provides a mapped internal audience-research library, with parent dossiers for kink, ENM/polyamory, and LGBTQIA+ clients combining formal evidence, public web discussion, dated search or service observations, and source registers.
 - Established: Audience dossiers can combine formal evidence, recurring public web discussion, dated search or market observations, and authorised owner or practice knowledge while keeping their source roles distinct.
 - Clarified: Dossiers record evidence rather than public copy, product direction, SEO actions, or site-specific recommendations; subsegments remain within a broad parent dossier unless a distinct evidence base, recurring research need, maintainability problem, or owner request warrants extraction.
 - Added: The project-local `audience-research` skill owns library setup, source-bound formal and public-web research, maintenance, and proportionate subsegment handling for later use by other skills.

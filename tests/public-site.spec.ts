@@ -68,8 +68,12 @@ const prerenderedRouteContracts = {
   },
   "/inclusion/enm-polyamory": {
     mainClass: "site-page enm-page",
-    rawFragments: ['class="enm-page__position-list"', 'class="site-faq-list"'],
-    noJavaScriptSelector: ".enm-page__position-list",
+    rawFragments: [
+      'class="hero-section hero-bg--default enm-page__hero"',
+      'class="enm-page__reasons"',
+      'class="enm-page__reasons-panel"',
+    ],
+    noJavaScriptSelector: ".enm-page__reasons-panel",
   },
   "/inclusion/lgbtqia": {
     mainClass: "site-page inclusion-page lgbtqia-page",

@@ -33,6 +33,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 ## Supporting Memory
 
 - [../research/README.md](../research/README.md) maps reusable audience research dossiers for copywriting, SEO, content strategy, service explanation, and website work.
+- `../page-plan/` contains visitor-first content plans for individual public pages. These are supporting plans and do not approve wording or authorise implementation by themselves.
 - [task-log.md](task-log.md) records selected durable milestones; Git remains the detailed implementation history.
 - [archive/README.md](archive/README.md) maps resolved tracker items and older task history kept outside the active reading path.
 - `../checklists/` contains launch and recurring manual-QA checklists.

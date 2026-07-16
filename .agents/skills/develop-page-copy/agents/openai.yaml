@@ -1,0 +1,4 @@
+interface:
+  display_name: "Page Copy Development"
+  short_description: "Start with the visitor, then develop page copy"
+  default_prompt: "Use $develop-page-copy to identify the visitor and their page moment, create a visitor-led page plan, then develop each section with $copywriter."

@@ -40,8 +40,9 @@ const prerenderedRouteSmokeFragments = {
   "/inclusion/enm-polyamory": [
     '<main class="site-page enm-page">',
     "ENM &amp; polyamory counselling",
-    'class="enm-page__position-list"',
-    'class="site-faq-list"',
+    'class="hero-section hero-bg--default enm-page__hero"',
+    'class="enm-page__reasons"',
+    'class="enm-page__reasons-panel"',
   ],
   "/inclusion/lgbtqia": [
     '<main class="site-page inclusion-page lgbtqia-page">',
@@ -64,6 +65,13 @@ const prerenderedRouteSmokeFragments = {
   ],
 };
 const prerenderedRouteSmokeForbiddenFragments = {
+  "/inclusion/enm-polyamory": [
+    'class="enm-page__position-map"',
+    'class="enm-page__relevance-spectrum"',
+    'class="enm-page__system-map"',
+    'class="enm-candidate-comparison"',
+    'class="enm-candidate"',
+  ],
   "/contact": [
     'id="contact-timing"',
     'id="contact-state"',

@@ -10,11 +10,12 @@ This is the factual current-state summary of the Vive Counselling website and su
 - `/about` redirects to Working with Joel, and `/fees` redirects to Contact/Fees.
 - Public navigation includes Home, Working with Joel, Inclusion, and Fees. Inclusion child-page links appear only in local development builds.
 - Development-only routes include the rendered design-system pages, Documents, Codex test bed, and Opus test bed.
-- The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, and `docs/plans/`; exact inline checklist status labels render as quiet coloured badges.
+- The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, `docs/research/`, `docs/page-plan/`, and `docs/plans/`; exact inline checklist status labels render as quiet coloured badges.
 
 ## Public Content And Discoverability
 
 - Public copy is under active owner-led revision. Existing page source is implementation state rather than an approved voice corpus; current copy status and wording constraints are recorded in `docs/project/writing-direction.md`.
+- The draft ENM and polyamory route retains its established hero and currently renders the first planned content section as a single heading-and-panel composition. Working visitor-first content plans remain under `docs/page-plan/`.
 - Google Business Profile verification is complete. Online delivery may be named selectively in public copy and metadata; the current wording rule is owned by `docs/project/writing-direction.md`.
 - Route metadata is stored in `src/data/routeMetadata.json` and applied by `useDocumentMetadata`.
 - Home, Working with Joel, Inclusion, and Contact/Fees are indexable. Their generated HTML omits `noindex`, and `sitemap.xml` advertises those four canonical URLs.

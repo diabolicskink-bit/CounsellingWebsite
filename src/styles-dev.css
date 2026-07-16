@@ -1095,6 +1095,16 @@
 
 /* Documents page */
 
+@media (min-width: 901px) {
+  .documents-sidebar {
+    max-height: calc(100vh - 112px);
+    max-height: calc(100dvh - 112px);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scrollbar-gutter: stable;
+  }
+}
+
 .documents-sidebar__empty {
   display: block;
   padding: 0 0 10px;
