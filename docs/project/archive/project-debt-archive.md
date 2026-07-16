@@ -2,6 +2,12 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-36 - Legacy spotlight CSS needed usage audit
+
+Resolved on 2026-07-13 after a focused source audit found no runtime, development-page, test, or HTML call sites for `.site-spotlight`, `.site-spotlight__grid`, `.site-spotlight__eyebrow`, or `.site-spotlight__stats`. The complete base, descendant, and responsive selector family was removed from `src/styles.css`.
+
+The removal changed no rendered page. Active shared `site-*` patterns remain unchanged, and the CSS checklist plus design-system scope record that the retired spotlight composition is not reusable API. Broader legacy CSS cleanup remains tracked under `DEBT-13`.
+
 ### DEBT-32 - Public routes need full static prerendering and hydration
 
 Resolved on 2026-07-13 after all seven metadata-backed public routes gained component-rendered first-response HTML and guarded matching-path hydration. The build now fails when a metadata route lacks a component render, Contact uses a shared build-time timestamp seed for hydration-safe timezone content, mismatched and unknown paths retain deliberate client rendering, and the controlled `404.html` fallback remains separate and non-hydratable.

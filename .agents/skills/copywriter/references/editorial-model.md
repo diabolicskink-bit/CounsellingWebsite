@@ -1,36 +1,50 @@
-# Editorial model
+# Copy brief and editorial model
 
 Use this reference before substantial drafting or rewriting, or whenever the
-source role, artifact register, or relationship to the reader is uncertain.
+reader, page moment, communication job, search intent, or artifact register is
+uncertain.
 
 ## Contents
 
-- [Classify source roles](#classify-source-roles)
+- [Understand the reader and page moment](#understand-the-reader-and-page-moment)
 - [Select the artifact register](#select-the-artifact-register)
+- [Write the communication brief](#write-the-communication-brief)
+- [Build search intent into the brief](#build-search-intent-into-the-brief)
 - [Build the copywriting contrast brief](#build-the-copywriting-contrast-brief)
+- [Test the forecast for craft](#test-the-forecast-for-craft)
 - [Design the composition](#design-the-composition)
+- [Handle supplied material without letting it lead](#handle-supplied-material-without-letting-it-lead)
 - [Record visible working](#record-visible-working)
 
-## Classify source roles
+## Understand the reader and page moment
 
-Classify material by the authority and use the owner has given it. Do not infer
-that polished text is approved or that rough text is a voice sample.
+Do not begin with a fictional persona, a service inventory, or the copy already
+on the page. Begin with the communication situation.
 
-| Source role | Meaning | Treatment |
-| --- | --- | --- |
-| Exact approved wording | The owner wants these words used as supplied. | Preserve them. Flag consequential problems rather than silently rewriting. |
-| Confirmed fact or constraint | The information is authoritative, but its wording is not. | Re-express it as the artifact requires without changing the fact. |
-| Rough direction | The owner is indicating meaning, emphasis, or a possible approach. | Develop new wording; do not preserve accidental syntax or incompleteness. |
-| Disposable brainstorm | The material exists to provoke exploration. | Use or reject it according to the brief; do not treat it as approved content. |
-| Voice evidence | The language demonstrates how the speaker plausibly sounds. | Learn from its judgement, vocabulary, directness, and rhythm without copying mechanically. |
-| Implementation context | The material shows layout, field limits, order, metadata, or interface behaviour. | Respect the constraint without treating the existing wording as voice authority. |
-| Unresolved idea | The owner has not decided whether the proposition is true, wanted, or publishable. | Keep it visible as a decision; do not resolve it through fluent completion. |
+Ask:
 
-One passage may have several roles. For example, a rough note can contain a
-confirmed fee, a tentative positioning idea, and no usable voice evidence.
+- Who is this primarily for? Who else may read it, and should the copy account
+  for them or stay deliberately focused?
+- What brought the reader here: discovery, recognition, comparison, practical
+  checking, reassurance about fit, or readiness to make contact?
+- How much are they likely to know about the subject, service, and provider?
+- What question, uncertainty, decision, or task is live for them now?
+- What do they need from this part of the page rather than from the page as a
+  whole?
+- What has already been established above, elsewhere on the site, or by the
+  search result or link that brought them here?
+- What should become clearer, more interesting, easier to judge, or easier to
+  do after reading?
+- What useful question should the next section or interaction answer?
 
-Infer the roles from explicit instructions, the authority order, and the task.
-Ask only when a different classification would materially change the outcome.
+Use audience research, real enquiries, search data, owner knowledge, and the
+current task where they exist. When they do not, make a proportionate working
+hypothesis instead of inventing a detailed inner life or refusing to write.
+
+Treat awareness as a continuum, not a rigid funnel. A reader may be new to the
+subject, familiar with the subject but not the service, comparing practitioners,
+or checking one last practical detail. The language and degree of explanation
+should match that state.
 
 ## Select the artifact register
 
@@ -52,11 +66,74 @@ Treat this table as a starting point, not a template. State the actual
 relationship for the task. A target reader is not automatically someone the
 copy should address as `you`.
 
+## Write the communication brief
+
+Capture the decisions that should govern the writing:
+
+```text
+Primary reader:
+Evidence-supported reader positions:
+Arrival context and awareness:
+Point in the page or site journey:
+Live question, uncertainty, or decision:
+Page or section job:
+Main message to land here:
+Supporting ideas or details:
+What has already been said:
+What belongs later or elsewhere:
+Desired next understanding, judgement, or action:
+Search intent and natural vocabulary:
+Speaker and relationship to the reader:
+Intended intellectual reading:
+Intended emotional or relational effect:
+Plausible adverse reading:
+Useful voice or point-of-view material:
+Practical constraints and genuine unknowns:
+```
+
+The main message is not a list of available facts. It is the one idea the copy
+needs to make clear or memorable at this point. Supporting material earns its
+place by developing that idea, answering a reader question, enabling a
+decision, creating recognition, or making the next action intelligible.
+
+Do not force every page or section to inform, reassure, differentiate, persuade,
+and convert at once. Choose the work this artifact actually needs to do. Copy
+formulas may prompt a missing question; they must not determine the emotional
+sequence or prose shape.
+
+Use the reader-position and reading fields when audience-specific recognition,
+trust, emotional tone, or direct address materially affects the artifact. An
+emotional effect is a relationship the language should earn, not a feeling to
+assign to an unknown reader or a phrase to insert literally.
+
+## Build search intent into the brief
+
+Treat search as part of audience understanding and page purpose.
+
+- Identify the likely query or need behind the visit: information, service
+  discovery, fit, comparison, location, cost, process, or action.
+- Use the ordinary terms a suitable reader would recognise. Preserve exact
+  specialist or community language when it is clearer than a generic synonym.
+- Make the page title, H1, opening, descriptive headings, metadata, and internal
+  links agree about the subject without repeating one phrase mechanically.
+- Give each page a distinct job and useful contribution. Do not create sections
+  or pages merely to hold variants, locations, or keywords.
+- For an individual section, support the page's primary intent. Do not make
+  every section restart the SEO proposition.
+
+SEO is successful when it helps the right reader identify and use the page.
+It should rarely be audible as a separate writing layer.
+
 ## Build the copywriting contrast brief
 
 Complete this forecast before prose. It is about the writing, not a substitute
 for the factual, ethical, accessibility, or interface checks elsewhere in the
 workflow.
+
+Do not use the three lenses to restate which topics or facts should appear. The
+communication brief decides what the copy must do; the forecast describes the
+editorial and linguistic handling that will make it unusually strong,
+ordinarily weak, or generically model-shaped.
 
 ### GOOD COPYWRITING
 
@@ -87,7 +164,57 @@ workflow.
 - Is the likely failure simulated empathy, a tidy emotional arc, stacked lists,
   equal paragraph shapes, explanatory padding, generic benefits, inflated
   authority, keyword repetition, or a summary ending?
+- Which local glue is likely to recur: announced significance, `this means`
+  interpretation, vague counselling nouns, modal padding, automatic benefit
+  clauses, or repeated demonstrative subjects?
 - Which structural decision will prevent that failure before sentence drafting?
+
+## Test the forecast for craft
+
+Each lens must name at least one choice involving hierarchy, emphasis,
+movement, register, point of view, paragraph proportion, sentence shape,
+cadence, explanation, compression, or the ending, and state the effect of that
+choice.
+
+Treat the forecast as failed when:
+
+- GOOD COPYWRITING can be paraphrased only as `include X, then explain Y`;
+- BAD COPYWRITING names missing information, an unsupported claim, or a policy
+  breach without describing how otherwise accurate prose could be badly
+  written;
+- MODEL-DEFAULT RISK is only a blacklist of words or sentiments rather than a
+  prediction about generated composition, rhetoric, cadence, or over-completion;
+- all three lenses would remain unchanged for a fact sheet, landing page,
+  biography, and service page containing the same information.
+
+For example, this is mainly a content plan rather than a copywriting forecast:
+
+```text
+GOOD COPYWRITING: State where the familiarity comes from, then explain its
+effect in counselling.
+BAD COPYWRITING: Turn the experience into a biography or a checklist.
+MODEL-DEFAULT RISK: Add generic claims about safety, authenticity, and being
+seen.
+```
+
+A craft-led forecast for that same material would be:
+
+```text
+GOOD COPYWRITING: Let one blunt practitioner judgement carry the emphasis.
+Keep the provenance compressed and factual, then loosen into plain-spoken
+explanation. Use unequal paragraph lengths so the section reads as an argument,
+not three completed modules.
+
+BAD COPYWRITING: Give every idea equal weight, overwork the heading into a
+slogan, and qualify the central judgement until its useful bluntness disappears.
+End by restating the section's warmth instead of stopping on the last practical
+distinction.
+
+MODEL-DEFAULT RISK: Regularise the material into a frictionless
+fact-principle-benefit arc, generate matching contrast pairs and three balanced
+reassurances, then add a tidy moral. Resist that by choosing one dominant line,
+permitting asymmetry, varying sentence shapes, and deleting the summary ending.
+```
 
 Use one or two concrete points per lens for a short artifact. Use more only when
 the task is complex.
@@ -96,44 +223,82 @@ Keep the distinctions clear:
 
 | Question | Where it belongs |
 | --- | --- |
-| Is the information true, sufficient, responsible, accessible, and operationally accurate? | Source classification, evidence boundaries, and quality gates. |
+| Who is reading, why are they here, and what should this copy do now? | Reader and communication brief. |
+| What belongs here, what should lead, and what can wait or disappear? | Message strategy and composition. |
 | What would make this an unusually strong piece of writing for its actual purpose? | GOOD COPYWRITING. |
 | How might a human copywriter handle this weakly or make the prose worse? | BAD COPYWRITING. |
 | What fluent, balanced, generic completion is a language model especially likely to produce? | MODEL-DEFAULT RISK. |
+| Are facts, implications, access, inclusion, search, and actions responsible? | Practical review checks. |
 
 ## Design the composition
 
-Create a function map before a sentence outline:
+Move from the communication brief to a shape. Do not outline by converting each
+input category into a paragraph.
 
-| Material | Function | Best form | Evidence | Omit if |
-| --- | --- | --- | --- | --- |
-| Confirmed service fact | Identification or practical clarity | Sentence, label, or metadata | Current source | Already supplied clearly by the interface |
-| Professional method | Explanation or distinction | Prose or example | Actual approach | The label alone is enough for this artifact |
-| Scope terms | Retrieval and recognition | Short prose or one list | Confirmed practice scope | Included only for apparent completeness |
-| Inclusion position | Boundary, conduct, or specialist fluency | Concrete statement or distinction | Confirmed position or process | It can only be expressed as an unsupported adjective |
-| Action | Predictable next step | Descriptive link or button | Real interface behaviour | No action is needed |
+For the page or section, decide:
 
-Avoid field-to-paragraph translation. If the source contains concerns,
-modalities, style adjectives, credentials, and inclusion labels, do not assume
-the draft needs five parallel passages. Decide which information needs naming,
-which needs explanation, and which the artifact already communicates.
+1. **Entry**: What can the reader immediately recognise, learn, or become
+   curious about?
+2. **Development**: Which idea needs expanding, qualifying, illustrating,
+   contrasting, or applying?
+3. **Movement**: How does each paragraph change the reader's understanding
+   rather than restate the proposition?
+4. **Emphasis**: Which line or idea deserves disproportionate weight?
+5. **Exit**: What is the last useful fact, implication, question, invitation,
+   or action? Does the copy need a concluding sentence at all?
+
+Then choose the most useful form for each part: declarative line, explanation,
+example, story fragment, list, comparison, question, quote, interface label,
+link, or omission. Let meaning control paragraph length and pattern. A strong
+composition can be compact, expansive, asymmetrical, interrupted, cumulative,
+or quiet; it does not need to look balanced in an outline.
+
+Use tension where the subject contains it: a misconception and correction, an
+apparent contradiction, a choice, a boundary, a surprising consequence, or a
+professional judgement that changes how the topic is understood. Do not invent
+conflict simply to make the copy dramatic.
+
+## Handle supplied material without letting it lead
+
+Inputs have different authority. Respect that authority after the reader and
+communication decisions are clear.
+
+| Input role | Treatment |
+| --- | --- |
+| Exact approved wording | Preserve it. Flag a consequential problem rather than silently rewriting. |
+| Confirmed fact or constraint | Re-express it as the artifact requires without changing its meaning. |
+| Rough direction | Develop the intended meaning; do not preserve accidental syntax. |
+| Disposable brainstorm | Use or reject it according to the selected direction. |
+| Voice material | Learn from its judgement, vocabulary, directness, and rhythm without copying mechanically. |
+| Layout or implementation context | Respect the constraint without treating existing copy as voice authority. |
+| Unresolved idea | Keep it visible as a decision rather than resolving it through fluent completion. |
+
+One passage may play several roles. Infer them from explicit instructions and
+the repository's source order. Ask only when a different interpretation would
+materially change the outcome.
 
 ## Record visible working
 
-For substantial work, expose a compact editorial record:
+For substantial work, maintain and show a compact editorial record:
 
 ```text
-Source roles:
-Artifact and job:
-Reader relationship:
+Reader and arrival context:
+Page or site moment:
+Communication job:
+Main message:
+Search intent and natural language:
+Artifact register:
 GOOD COPYWRITING:
 BAD COPYWRITING:
 MODEL-DEFAULT RISK:
 Chosen composition:
-Adversarial changes:
+Revision changes:
 Open decisions:
 ```
 
-Show the facts and decisions that let the owner evaluate the work. Do not
-reproduce hidden chain-of-thought, narrate token-by-token deliberation, or
-invent reasoning after the draft is complete.
+Explain the observations, alternatives, criteria, decisions, trade-offs, and
+revision changes that let the owner evaluate and steer the work. Select and
+organise the fields to suit the task rather than turning them into a mandatory
+response template. Provide an editorial rationale, not a claimed transcript of
+hidden token-by-token deliberation, and do not invent reasoning after the draft
+is complete.

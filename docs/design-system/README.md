@@ -1,18 +1,30 @@
 # Design System Documentation
 
-This directory is the active design-system guidance for Vive Counselling. It covers visual foundations, shared components, page patterns, rendered design-system pages, cleanup rules, and current legacy status.
+This directory records the currently implemented Vive Counselling design system: visual foundations, shared components, page patterns, rendered examples, cleanup rules, and legacy status.
 
-Start here before changing shared UI, layout, reusable CSS, rendered design-system pages, or design-system documentation.
+## Creative-Within-Identity Status
+
+Fresh creation and redesign should actively explore content-shaped, out-of-the-box compositions rather than begin from existing page patterns. The site's established font families, type roles and scale, colour palette and semantic colour roles remain the basic identity scheme unless the current task explicitly changes that identity.
+
+Composition, grids, component forms, surfaces, depth, layering, shape, spacing rhythm, imagery, motion and responsive behaviour are active creative variables. Establish structurally different directions from the task, product purpose, content, real assets, and the website-design skill first. Consult this directory afterward to understand implementation and decide what can be reused without weakening the selected direction. Existing components and page patterns are optional implementation resources, not acceptance criteria.
+
+Start here first only when maintaining, cleaning up, documenting, promoting, or deliberately reusing shared UI.
 
 ## Reading Order
 
-For normal UI or layout work:
+For fresh creation or redesign:
 
 1. Read `../project/product-direction.md` for audience, voice, and public-site intent.
 2. Read `../project/writing-direction.md` when public copy or content hierarchy may be affected.
-3. Check `current-scope.md` for what is active, partial, legacy, or out of scope.
-4. Use `patterns/components.md` and `patterns/page-patterns.md` before creating or extending UI.
-5. Read `governance.md` when changing shared classes, components, rendered design-system pages, reusable-API status, or design-system documentation.
+3. Establish at least two structurally different, content-shaped directions within the basic identity scheme when the user has not already selected one; ensure at least one materially departs from existing page patterns.
+4. Check source and `current-scope.md` after selection for implementation facts and behaviour worth preserving.
+5. Reuse or replace existing components and styles according to concept fit, accessibility, behaviour, and maintenance—not prior design-system status alone.
+
+For shared-UI maintenance or deliberate reuse:
+
+1. Check `current-scope.md` for what is implemented, partial, legacy, or out of scope.
+2. Use `patterns/components.md` and `patterns/page-patterns.md` as catalogues of existing implementation.
+3. Read `governance.md` when changing shared classes, components, rendered design-system pages, reusable-API status, or design-system documentation.
 
 For design-system architecture or promotion work:
 
@@ -30,15 +42,15 @@ For cleanup work:
 
 - `governance.md` owns implementation-evidence rules, reusable-API authority, active and legacy layer policy, promotion rules, and update duties.
 - `current-scope.md` is the factual inventory of what the design system currently includes.
-- `foundations/principles.md` owns visual intent and tone.
-- `foundations/tokens.md` owns colour, spacing, type roles, and baseline typography guidance.
-- `patterns/components.md` owns active React components and component-backed API.
-- `patterns/page-patterns.md` owns shared `site-*`, `hero-*`, section, card, panel, rich-text, CTA, form, and page-pattern guidance.
+- `foundations/principles.md` records the creative-within-identity policy and distinguishes identity anchors from open composition variables.
+- `foundations/tokens.md` inventories existing colour, spacing, type roles, and baseline typography implementation.
+- `patterns/components.md` inventories current React components and component-backed behaviour.
+- `patterns/page-patterns.md` inventories existing `site-*`, `hero-*`, section, card, panel, rich-text, CTA, form, and page-pattern implementation.
 - `maintenance/cleanup-sweeps.md` owns cleanup sweep behaviour and named cleanup modes.
 
 ## Implementation Sources
 
-- `src/styles.css` is the production implementation source for tokens, base typography, shared classes, `site-*`, `hero-*`, and promoted reusable patterns. Governance and the active catalogues determine whether an implementation is approved reusable API.
+- `src/styles.css` is the production implementation source for current tokens, base typography, shared classes, `site-*`, `hero-*`, and promoted reusable patterns. This describes what exists; it does not make those visual choices mandatory for new work.
 - `src/components/` contains shared React components, but a file existing there does not automatically make it active design-system API. Check `current-scope.md` and `patterns/components.md`.
 - `src/pages/dev/design-system/` contains the rendered design-system pages.
 - `src/styles-dev.css` contains docs/dev support styling such as `ds-*`.

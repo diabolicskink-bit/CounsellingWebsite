@@ -15,7 +15,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 ## Public Content And Discoverability
 
 - Public copy is under active owner-led revision. Existing page source is implementation state rather than an approved voice corpus; current copy status and wording constraints are recorded in `docs/project/writing-direction.md`.
-- Online delivery remains a factual part of the service. The current constraint on foregrounding it in visible copy or metadata is owned by `docs/project/writing-direction.md`.
+- Google Business Profile verification is complete. Online delivery may be named selectively in public copy and metadata; the current wording rule is owned by `docs/project/writing-direction.md`.
 - Route metadata is stored in `src/data/routeMetadata.json` and applied by `useDocumentMetadata`.
 - Home, Working with Joel, Inclusion, and Contact/Fees are indexable. Their generated HTML omits `noindex`, and `sitemap.xml` advertises those four canonical URLs.
 - The three draft Inclusion child routes are excluded from production links and sitemap output and use route-level `noindex, nofollow` metadata.
@@ -47,7 +47,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Public contact display and enquiry fallback/failure messaging use `joel@vivecounselling.com.au`.
 - The form submits to the serverless `/api/enquiry` endpoint and supports endpoint-level URL-encoded native form posts.
 - JavaScript-disabled visits expose the full server-rendered Contact form and component markup on every metadata-backed public route.
-- The TypeScript endpoint validates structured fields server-side, builds the subject, reply-to, plain text, and HTML from the validated payload, and sends through Resend when configured.
+- The TypeScript endpoint validates structured fields server-side, builds the subject, reply-to, plain text, and HTML from the validated payload, formats the verified sender address with the visitor name as its display name, and sends through Resend when configured.
 - The endpoint rejects unsupported content types, multipart posts, declared bodies above 25 KB, and explicit cross-site fetch, origin, or referer signals before validation or delivery.
 - Public failure responses remain generic while provider, configuration, and runtime diagnostics stay in server logs.
 - Basic honeypot spam protection is active.
@@ -62,7 +62,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 ## Testing And QA
 
-- `tests/public-site.spec.ts` covers public landmarks, raw and JavaScript-disabled output, hydration, Contact timezone behaviour, conditional enquiry fields and payloads, success/error states, form semantics, flat and nested artifacts, SPA navigation, fallback activation, generated metadata, sitemap, robots, and the 404 artifact.
+- `tests/public-site.spec.ts` covers public landmarks, raw and JavaScript-disabled output, hydration, shared mobile-navigation Escape/focus/scroll-lock behaviour, focused Home semantics and CTA ownership, Working with Joel tab interaction and axe checks, Contact timezone behaviour, conditional enquiry fields and payloads, success/error states, form semantics, flat and nested artifacts, SPA navigation, fallback activation, generated metadata, sitemap, robots, and the 404 artifact.
 - Direct Node tests under `tests/api/` cover accepted and rejected enquiry submissions.
 - Direct Node tests under `tests/scripts/` cover route-metadata origin policy.
 - `npm run qa:site` builds the app, starts the QA preview server, and runs the Playwright public-site suite.
@@ -76,6 +76,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Enquiry protection does not include platform rate limiting or complete abuse protection.
 - The 404 build and local-preview contract is verified, but repeatable post-deploy confirmation remains manual under `DEBT-24`.
 - Route definitions, metadata, prerendering, and tests remain separate; explicit route-parity enforcement is tracked as debt.
+- The Working with Joel approach tabs work after hydration, but only the initially active Psychodynamic explanation is present before JavaScript; progressive access to the Attachment and Integrative copy is tracked under `DEBT-35`.
 - Type checking does not cover tests, scripts, or most configuration files.
 - Accessibility support and route-level checklist coverage exist, but the `LAUNCH-1` accessibility review is incomplete.
 - Responsive styling exists, but the `LAUNCH-2` responsive review is incomplete.
@@ -99,11 +100,10 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 The following remain outside the current project scope unless a task explicitly expands it:
 
-- Full redesign.
 - Wholesale public-copy rewrite.
-- New brand identity, palette, or typefaces.
 - Framework, Tailwind, or other CSS-framework migration.
 - CMS migration.
 - Booking, payment, account, or client-portal features.
-- Broad design-system rewrite.
 - Expanding development or test-bed routes into public pages.
+
+Fresh visual exploration and redesign are currently permitted when requested. Existing design-system palette, typography, heroes, page patterns, and components do not constrain concept development; `docs/design-system/current-scope.md` records their temporary implementation-reference status.

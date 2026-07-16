@@ -105,6 +105,6 @@ The product direction requires:
 - reduced-motion care where motion exists;
 - wording and interaction that do not assume a visitor's gender, sexuality, relationship structure, partners, body, family, religion, or preferred form of adult life.
 
-## Active Positioning Constraint
+## Online Delivery Positioning
 
-Online delivery remains a service fact, but the decision about how prominently to present it is temporarily constrained while Google Business Profile verification and positioning are being settled. [writing-direction.md](writing-direction.md) owns the current wording rule until the owner explicitly changes it.
+Online counselling across Australia is a confirmed service fact. It may be named where it helps visitors understand access or supports relevant search intent, but it should not become a repeated positioning slogan. [writing-direction.md](writing-direction.md) owns the operational wording rule.

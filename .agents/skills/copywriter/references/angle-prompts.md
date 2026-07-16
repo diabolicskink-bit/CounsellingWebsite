@@ -3,13 +3,14 @@
 Use these prompts to find a useful direction before drafting substantial copy.
 They are options, not a checklist, page template, tone menu, or request to
 produce variants. An angle is meaningful only when it changes the central
-reader question, evidence selected, information order, or practical conclusion.
+reader question, main message, point of view, information order, or practical
+conclusion.
 
-Start from the evidence-led brief in `SKILL.md`. Keep confirmed facts, claim
-boundaries, search intent, and approved wording fixed while exploring direction.
-Carry the task-specific GOOD COPYWRITING, BAD COPYWRITING, and MODEL-DEFAULT
-forecast into the comparison; an angle is not viable if it depends on the
-predicted failure.
+Start from the reader, page-moment, and communication brief in `SKILL.md`. Keep
+the page's job, search intent, approved wording, and genuine constraints fixed
+while exploring direction. Carry the task-specific GOOD COPYWRITING, BAD
+COPYWRITING, and MODEL-DEFAULT forecast into the comparison; an angle is not
+viable if it depends on the predicted failure.
 
 ## Contents
 
@@ -21,16 +22,34 @@ predicted failure.
 ## Start with the visitor's situation
 
 - What may have happened recently that made this page relevant now?
-- What is the visitor trying to decide, not merely learn?
+- What is the visitor trying to understand, recognise, compare, decide, or do?
 - What might they need to confirm before continuing?
 - What language are they likely to use when searching or asking someone about
   this?
-- What would make the page feel irrelevant, generic, patronising, or unsafe?
+- What has the page already told them, and what should this section add now?
+- What should the visitor understand, and what relationship should the language
+  establish while doing it?
+- If the desired effect is trust, welcome, relief, recognition, or belonging,
+  what precise message, choice, conduct, or detail could earn it without naming
+  the feeling directly?
+- What would make the copy feel irrelevant, generic, patronising, repetitive,
+  or difficult to use?
 
-Do not invent an intimate inner monologue. Keep any hypothesis proportionate
-to available evidence and mark it as a hypothesis.
+Do not invent an intimate inner monologue. Use a proportionate working
+hypothesis where audience knowledge is incomplete.
 
 ## Consider distinct frames
+
+### Direct answer
+
+Lead with the clearest useful answer to the question that brought the reader
+here, then develop only what helps them understand or use it.
+
+Ask:
+
+- Which sentence would do the most work if it appeared first?
+- What deserves explanation after the answer, and what would only delay it?
+- Can directness become a distinctive strength rather than a flat fact sheet?
 
 ### Decision and fit
 
@@ -45,13 +64,27 @@ Ask:
 
 ### Recognition
 
-Name a situation, pattern, or tension the intended visitor may recognise.
+Name a concrete situation or tension the intended visitor may recognise. If
+repetition is central, name what repeats before calling it a pattern.
 
 Ask:
 
 - Which concrete experience is relevant to this page?
 - Is it supported by the known audience, or merely plausible-sounding?
 - Can it be described without diagnosing, dramatising, or claiming universality?
+
+### Reframe or sharper distinction
+
+Change how the reader understands the subject by separating ideas that are
+often collapsed or by naming the more useful question.
+
+Ask:
+
+- Which common framing makes the subject less clear or less useful?
+- What distinction would genuinely change understanding rather than merely
+  sound clever?
+- Can the reframe be stated cleanly before it is explained?
+- Does it belong to the practitioner's real point of view?
 
 ### Practical clarity
 
@@ -64,18 +97,18 @@ Ask:
 - Which practical fact carries more trust than an adjective would?
 - Which detail needs owner confirmation before publication?
 
-### Fact and consequence
+### Specific detail and relevance
 
-Connect a confirmed feature, arrangement, or method to what it lets the visitor
-understand or do without predicting an outcome.
+Use one concrete feature, arrangement, method, or observation to change what
+the reader understands or can judge.
 
 Ask:
 
-- Which fact changes the visitor's decision but currently lacks explanation?
-- What practical consequence follows directly from the fact?
-- Where does a possible benefit need to remain possible rather than certain?
-- Would the copy become less credible if the fact were removed and only the
-  benefit remained?
+- Which detail changes understanding or choice but currently lacks explanation?
+- What practical relevance follows from it?
+- Where can the writing move from the particular to the larger point without
+  over-explaining?
+- Would the passage collapse into a generic benefit if the detail disappeared?
 
 ### Misconception or misplaced assumption
 
@@ -98,15 +131,15 @@ Ask:
 - What alternative or next step is useful at the boundary?
 - Does stating the limitation improve understanding, or merely perform honesty?
 
-### Evidence and trust
+### Credibility
 
-Build the section around the basis for a consequential claim.
+Build the section around why a consequential proposition is worth taking
+seriously.
 
 Ask:
 
-- What exact source supports the claim or overall impression?
-- Would process, qualification, conduct, a distinction, or a limitation show
-  more than an adjective can claim?
+- Would experience, process, qualification, conduct, a useful distinction, or a
+  limitation communicate more than an adjective can?
 - Is an important condition visible where the reader encounters the claim?
 - What should remain uncertain or for the visitor to judge?
 
@@ -160,11 +193,13 @@ Ask:
 For each plausible angle, note:
 
 - the central question it answers;
-- the facts or evidence available to support it;
+- the main message and the useful material it brings forward;
 - the section or page structure it suggests;
 - what it would leave out or push into the background;
-- the main risk, such as overclaiming, generic reassurance, excess explanation,
-  or search-language distortion.
+- how well it fits the reader's awareness, the page moment, natural search
+  language, and the speaker's point of view;
+- the main craft risk, such as flatness, generic reassurance, excess
+  explanation, strained cleverness, or a predictable shape;
 - whether it enables the GOOD COPYWRITING direction, drifts toward the BAD
   COPYWRITING failure, or invites the predicted MODEL-DEFAULT behaviour.
 
@@ -178,16 +213,18 @@ blend the entire exploration into the draft.
 
 Before drafting, check:
 
-- Can each likely section be mapped to a reader question, useful answer, and
-  supporting basis?
-- Does the angle produce material that belongs to this provider, or only a new
-  way to package category language?
-- Does it leave enough room for practical information, limits, and natural
-  search terms?
+- Does each likely section answer, develop, complicate, illustrate, or move on
+  from a reader question?
+- Does the angle produce language and judgement that belong to this provider,
+  or only repackage category copy?
+- Does it leave enough room for practical information and natural search terms
+  without making them the structure?
 - Does it preserve the visitor's decision instead of building toward a
   predetermined emotional conclusion?
+- Does the direction require repeated `why this matters`, `what this means`, or
+  possible-benefit bridges to make a thin proposition feel developed?
 - What would be lost if another angle were chosen, and is that loss acceptable?
 
-If the direction works only through unsupported emotion, imagined reader
-experience, decorative metaphor, or promised outcomes, reject it and return to
-the brief.
+If the direction works only through imagined reader experience, decorative
+metaphor, empty reassurance, or promised outcomes, reject it and return to the
+brief.

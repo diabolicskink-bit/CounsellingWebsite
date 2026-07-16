@@ -1,0 +1,4 @@
+interface:
+  display_name: "Website Design"
+  short_description: "Design distinctive, usable websites"
+  default_prompt: "Use $website-design to create a distinctive, accessible website direction and implement it with rigorous visual craft."

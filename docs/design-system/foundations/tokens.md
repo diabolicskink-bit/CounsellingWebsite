@@ -1,6 +1,6 @@
-# Tokens And Baseline Rules
+# Existing Tokens And Baseline Implementation
 
-Primary production tokens live in `src/styles.css`.
+Primary production tokens live in `src/styles.css`. This file inventories the current implementation. Fresh concepts should preserve the established font families, documented type roles and responsive scale, colour palette and semantic colour roles unless the current task explicitly changes the site's identity. Layout, spacing, radius, shadow, surface treatment, depth, and composition remain open creative variables.
 
 ## Colour Tokens
 
@@ -20,7 +20,7 @@ Primary production tokens live in `src/styles.css`.
 - `--cedar-soft`: subtle cedar-related emphasis.
 - `--accent`, `--accent-deep`, `--accent-soft`: secondary green accent roles.
 
-`--surface` and `--cedar-soft` may share a value, but their roles are different. Keep `--surface` structural and `--cedar-soft` accent-related.
+`--surface` and `--cedar-soft` currently share a value but represent different roles in existing styles: structural surface and accent-related emphasis.
 
 ## Layout Tokens
 
@@ -28,15 +28,15 @@ Primary production tokens live in `src/styles.css`.
 - `--radius`: standard radius.
 - `--shadow`: restrained floating-surface shadow.
 
-Use the `Container` component for major page width containment. Use shared section classes when the page follows the standard rhythm, and page-scoped wrappers when the composition genuinely differs.
+Existing pages commonly use `Container` for major width containment. Fresh work may use a different containment and grid strategy. Reuse `Container` or shared section classes only after the selected direction shows that they fit.
 
 ## Typography Baseline
 
 - `--font-serif`: Georgia, used for headings and editorial display roles.
 - `--font-sans`: Inter/system sans stack, used for body, forms, labels, and navigation.
 - `--font-mono`: monospace stack, used for inline code and technical references.
-- `h1` should appear once per page. In shared heroes, use `h1.hero-badge` for the concise visible page-topic label.
-- `.hero-display` is the shared expressive hero statement style and sits on `h2` after `h1.hero-badge` in production heroes.
+- Public pages should retain one clear page-topic `h1`. Existing shared heroes use `h1.hero-badge`, but fresh work does not need the shared hero or badge/display pairing.
+- `.hero-display` is the shared expressive hero statement style and sits on `p` after `h1.hero-badge` in production heroes. It remains visually prominent without adding a non-structural section to the heading outline.
 - `h2` uses `--type-section` for major section statements.
 - `h3` uses `--type-card-title` for cards, grouped ideas, and nested content.
 - `.rich-text` is the shared editorial reading wrapper for paragraph groups, contextual links, lists, blockquotes, tables, dividers, and inline code.
@@ -62,18 +62,17 @@ Use the `Container` component for major page width containment. Use shared secti
 | `--type-hero-detail` | Open hero detail stack items. |
 | `--type-fee-display` | Large numeric/fee display. |
 
-Type role variables may adjust at breakpoints. Do not add viewport-scaled font sizes to new shared production rules.
+Type role variables currently adjust at breakpoints. New work should use this responsive type system while remaining free to combine and compose the roles in new ways. Changes to the shared type system should be explicit, deliberate, and documented when the task includes an identity or shared-system change.
 
 ## Body Copy Rule
 
 Ordinary paragraph-style copy should use a literal `p` by default. If body copy cannot be a paragraph, use `.site-body-copy`; if a container owns body-copy children such as mixed `p` and `li` content, use `.site-copy-flow`.
 
-Page CSS should usually handle layout concerns such as width, margin, and gaps. Do not restate `color: var(--body)`, `font-size: var(--type-body)`, and `line-height: var(--leading-body)` unless a deliberately different role is being defined.
+Current page CSS generally handles layout concerns such as width, margin, and gaps. Fresh designs may define new layout-specific styling locally, but should retain the established type roles and scale unless the task explicitly changes the site's identity.
 
-## Spacing And Surfaces
+## Existing Spacing And Surfaces
 
-- Use `.site-grid` for the neutral section surface.
-- Use `.site-highlight` for the darker paper-sage alternating band when the shared section rhythm fits.
-- Keep card and panel spacing consistent across pages.
-- Keep grid gaps in the restrained range already used across the site.
-- Use low shadows and soft boundaries before adding stronger separation.
+- `.site-grid` supplies the current neutral section surface.
+- `.site-highlight` supplies the current darker paper-sage alternate band.
+- Existing cards and panels generally share restrained spacing, grid gaps, shadows, and boundaries.
+- These surface and spacing conventions describe the present site and do not constrain fresh concepts.

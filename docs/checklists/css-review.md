@@ -111,12 +111,12 @@ Use this structure when a region is expanded to class-token leaves:
 - `Layer`: Shared production API
 - `Selectors Covered`: `.button`, `.button:hover`, `.button:disabled`, `.button:disabled:hover`, `.rich-text .button`, `.site-cta-block .button`, `.site-page .button`, `.button` inside small-screen responsive rules, and page/dev contextual selectors that refine `.button` placement or focus.
 - `Naming/Structure Check`: Base class name is short but explicitly documented as an active non-prefixed shared component class, so it is a valid exception to the newer `site-*` and `hero-*` naming pattern. `Button` consistently emits `button button--${variant}`, which keeps base and modifier structure clear. The previous family-level docs mismatch around a nonexistent `light` variant has been actioned.
-- `Declaration Review`: The base rule owns the right shared mechanics: inline-flex layout, alignment, gap, max-width, border shape, padding, pointer affordance, type weight, centered text, and shared transition properties. The lift hover and disabled rules are correctly base-level because every variant shares that behavior. Contextual width/placement refinements belong with their owning contexts, but `.site-page .button { border-radius: 8px; }` currently duplicates `--radius` and should be checked when `CSS-1.7` reviews the `site-page` system. No variant declaration needs to move up into `.button`.
-- `Architecture Check`: Keep the base rule in `src/styles.css` with shared production primitives. Contextual selectors such as `.rich-text .button`, `.site-cta-block .button`, `.site-page .button`, and page/dev overrides are legitimate placement or sizing refinements, but they should be reviewed with their owning regions if the button family later gets reorganized. This leaf is not a `Restructure candidate` by itself.
+- `Declaration Review`: The base rule owns the right shared mechanics: inline-flex layout, alignment, gap, max-width, border shape, padding, pointer affordance, type weight, centered text, and shared transition properties. The lift hover and disabled rules are correctly base-level because every variant shares that behavior. Contextual width and placement refinements remain with their owning contexts. The duplicate `border-radius: 8px` declaration has been removed from `.site-page .button`, which now inherits the same `--radius` value from the base class while retaining its page-level minimum width. No variant declaration needs to move up into `.button`.
+- `Architecture Check`: Keep the base rule in `src/styles.css` with shared production primitives. Contextual selectors such as `.rich-text .button`, `.site-cta-block .button`, `.site-page .button`, and page/dev overrides remain legitimate placement or sizing refinements. This leaf is not a `Restructure candidate` by itself.
 - `Used By`: `Button` component; public page CTAs/actions on Home, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, and Not Found; `EnquiryForm` submit action; `Layout` contact action via `.header-button`; rendered design-system/dev examples.
 - `Decision`: Keep as the base shared action class. It is active, documented, component-backed, widely used, and not a delete, move, consolidate, or restructure candidate at this leaf level.
 - `Evidence`: `docs/design-system/current-scope.md` and `docs/design-system/governance.md` name `.button` as an active non-prefixed shared class, while `docs/design-system/patterns/components.md` documents the component-backed variants. `src/components/Button.tsx` composes every rendered `Button` with `button button--${variant}` and only exposes `primary`, `secondary`, and `tertiary`. Source search found `.button` usage through public pages, dev design-system pages, `EnquiryForm`, and `Layout`; no competing base button class was found. Disabled usage currently appears only on the native submit button path, so `.button:disabled` matches current behavior.
-- `Follow-up`: Revisit the redundant-looking `.site-page .button` radius declaration during the `CSS-1.7` `site-page` review.
+- `Follow-up`: None.
 
 ##### CSS-1.4.1.2 - `.button--primary`
 
@@ -319,16 +319,16 @@ Use this structure when a region is expanded to class-token leaves:
 
 ##### CSS-1.5.2.3 - `.icon-box`
 
-- `Status`: `Reviewing`
+- `Status`: `Keep`
 - `Layer`: Active non-prefixed shared class with contextual shared-pattern overrides
 - `Selectors Covered`: `.icon-box`; contextual `.site-contact-item .icon-box` rule is cross-region with `CSS-1.7`.
-- `Naming/Structure Check`: Not assessed in this usage-only pass.
-- `Declaration Review`: Not performed in this usage-only pass.
-- `Architecture Check`: Active shared exception; it is documented as a current non-prefixed shared class and is used by public contact content plus design-system examples.
+- `Naming/Structure Check`: The short name is an intentional documented exception to the `site-*` layer. It represents one reusable icon surface rather than a page-specific composition.
+- `Declaration Review`: The base rule owns the shared inline-flex sizing, alignment, radius, background, and colour. `.site-contact-item .icon-box` now adds only its contextual border; duplicate radius, background, and colour declarations have been removed.
+- `Architecture Check`: Keep the base primitive and its one-value contact-item refinement. Public Contact uses `.icon-box` with a page-scoped alignment adjustment, while the rendered design-system contact pattern uses the shared contextual border.
 - `Used By`: `src/pages/Contact.tsx`, `src/pages/dev/design-system/DS_Components.tsx`, `docs/design-system/current-scope.md`, and `docs/design-system/governance.md`.
-- `Decision`: Used; not a delete candidate on usage evidence alone.
-- `Evidence`: 2026-06-27 usage pass found live references at `src/pages/Contact.tsx:245` and `src/pages/dev/design-system/DS_Components.tsx:301`; docs list `.icon-box` as an active non-prefixed shared class.
-- `Follow-up`: Run full declaration, naming, and structure review before deciding whether to keep, document, or consolidate.
+- `Decision`: Keep the active shared primitive and the narrower contextual border rule.
+- `Evidence`: The 2026-07-13 declaration review confirmed that `--radius` resolves to `8px` globally and found no alternate token overrides. Source usage remains in `src/pages/Contact.tsx` and `src/pages/dev/design-system/DS_Components.tsx`; canonical design-system docs continue to list `.icon-box` as active shared API.
+- `Follow-up`: None.
 
 #### CSS-1.5.3 - Legacy fit-strip band
 
@@ -621,9 +621,37 @@ Use this structure when a region is expanded to class-token leaves:
   - Scope: `.site-footer*` and shared footer detail/link states.
   - Next: Expand to footer shell, primary footer, navigation, details, and copyright classes.
 
-- `CSS-1.7` `Not reviewed` Active shared `site-*` system.
-  - Scope: `.site-page`, `.site-actions`, `.site-spotlight*`, `.site-grid*`, `.site-eyebrow`, `.site-card*`, `.site-topic-*`, `.site-split`, `.site-highlight*`, `.site-pill-row`, `.site-text-link`, `.site-trust-list*`, `.site-ruled-paragraph*`, `.site-copy-panel`, `.site-check-panel*`, `.site-principles*`, `.site-contact-*`, `.site-fee-card`, `.site-detail-stack*`, and responsive overrides.
+- `CSS-1.7` `Expanded` Active shared `site-*` system.
+  - Scope: `.site-page`, `.site-actions`, `.site-grid*`, `.site-eyebrow`, `.site-card*`, `.site-topic-*`, `.site-split`, `.site-highlight*`, `.site-pill-row`, `.site-text-link`, `.site-trust-list*`, `.site-ruled-paragraph*`, `.site-copy-panel`, `.site-check-panel*`, `.site-principles*`, `.site-contact-*`, `.site-fee-card`, `.site-detail-stack*`, and responsive overrides. The removed `.site-spotlight*` family is retained below as actioned history.
   - Next: Expand by documented shared pattern family before moving to individual class tokens.
+
+### CSS-1.7 - Active shared `site-*` system
+
+#### CSS-1.7.1 - Retired spotlight composition
+
+- `Status`: `Actioned`
+- `Layer`: Removed shared production CSS
+- `Selectors Covered`: Removed `.site-spotlight`, `.site-spotlight__grid`, `.site-spotlight__eyebrow`, `.site-spotlight__stats` and its descendant rules, plus the responsive `.site-spotlight__grid` hook.
+- `Naming/Structure Check`: The `site-*` name made the composition appear to be active shared API, but it is absent from the page-pattern catalogue and has no source consumer.
+- `Declaration Review`: The rules formed one complete two-column spotlight and statistics composition, so the base and responsive rules were removed together rather than leaving partial compatibility CSS.
+- `Architecture Check`: No current shared pattern replaces this exact composition because no current page needs the outcome. Future spotlight content should be designed from an active page need rather than reviving an unused shell.
+- `Used By`: No runtime, dev-page, test, or HTML call sites were found.
+- `Decision`: Remove.
+- `Evidence`: A focused source scan on 2026-07-13 found `site-spotlight` only in `src/styles.css` and CSS maintenance documentation.
+- `Follow-up`: Continue `CSS-1.7` one documented pattern family at a time.
+
+#### CSS-1.7.2 - Contextual primitive declaration deduplication
+
+- `Status`: `Actioned`
+- `Layer`: Shared production primitives within active `site-*` contexts
+- `Selectors Covered`: `.site-page .button` and `.site-contact-item .icon-box`.
+- `Naming/Structure Check`: Both contextual selectors remain appropriate because they add page-pattern-specific sizing or border treatment without creating new class API.
+- `Declaration Review`: Removed the hard-coded page button radius already supplied by `.button { border-radius: var(--radius); }`. Removed the contact-item icon radius, background, and colour already supplied by `.icon-box`; its contextual border remains.
+- `Architecture Check`: Shared visual ownership now sits with the base `.button` and `.icon-box` primitives, while the `site-*` contexts retain only declarations that differ from those bases.
+- `Used By`: Public page buttons, the public Contact icon primitive, and the rendered design-system contact-strip example.
+- `Decision`: Consolidate exact duplicate declarations into their existing base primitives without changing selectors, markup, or visual output.
+- `Evidence`: A 2026-07-13 token and source scan found `--radius` defined once at `8px`, no descendant overrides, and exact matching base values for all four removed declarations.
+- `Follow-up`: Continue `CSS-1.7` one documented pattern family at a time.
 
 - `CSS-1.8` `Not reviewed` Form, FAQ, CTA, and interactive shared patterns.
   - Scope: `.site-form*`, `.form-row` within shared form context, `.site-broad-tabs*`, `.site-faq-*`, `.site-cta-block*`, reduced-motion support, and hover/focus states for these patterns.

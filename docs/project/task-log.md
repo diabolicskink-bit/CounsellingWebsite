@@ -18,6 +18,40 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-16 - Audience Research Library Established
+
+- Added: `docs/research/` now provides a mapped internal audience-research library, with parent dossiers for kink clients and LGBTQIA+ clients combining formal evidence, public web discussion, dated search or service observations, and source registers.
+- Established: Audience dossiers can combine formal evidence, recurring public web discussion, dated search or market observations, and authorised owner or practice knowledge while keeping their source roles distinct.
+- Clarified: Dossiers record evidence rather than public copy, product direction, SEO actions, or site-specific recommendations; subsegments remain within a broad parent dossier unless a distinct evidence base, recurring research need, maintainability problem, or owner request warrants extraction.
+- Added: The project-local `audience-research` skill owns library setup, source-bound formal and public-web research, maintenance, and proportionate subsegment handling for later use by other skills.
+
+## 2026-07-15 - Homepage Service Description Updated
+
+- Changed: The homepage hero now identifies Joel Griffiths, his Perth base, online counselling for adults across Australia, common presenting concerns, and Vive's kink/BDSM-aware, ENM/poly-aware, and LGBTQIA+ affirming practice.
+- Resolved: Google Business Profile verification is complete, so the temporary restriction on foregrounding online delivery has been retired.
+- Clarified: Online counselling may be named where it helps visitors or search intent, but should not be repeated across the site merely for emphasis or SEO.
+
+## 2026-07-14 - Design System Moved To Temporary Reference Status
+
+- Changed: Fresh creation and redesign now establish visual direction before consulting the existing design system; its palette, typography, heroes, components, patterns, spacing, surfaces, and rendered examples are implementation reference rather than visual authority unless a task explicitly opts in.
+- Removed: The shared hero is no longer canonical for new work, superficial resemblance no longer triggers shared-pattern extension, and fresh concepts are not required to preserve the existing paper-and-sage editorial character or include one memorable editorial move.
+- Clarified: Pattern and component selection happens after concept selection. Existing semantic, accessibility, routing, data, and tested behaviour may remain required independently of current styling, while page-scoped or replacement visual implementation does not require system promotion.
+- Preserved: The design-system documents still inventory current production code, shared behaviour, legacy boundaries, maintenance workflows, and deliberately reusable implementation for tasks that choose to use it.
+
+## 2026-07-14 - Website Design Skill Strengthened Against Convergence
+
+- Strengthened: From-scratch, open redesign, and explicitly distinctive work now require proportionate, structurally opposed concepts before high-fidelity implementation rather than accepting the first plausible direction.
+- Added: The workflow now audits inherited defaults, whole-design transferability, content-form repetition, design-system templating, and whether conspicuous choices trace to real visitor, content, organisational, asset, interaction, or technical causes.
+- Expanded: Anti-generic and visual-craft references now address counter-template convergence, reference provenance, macro page silhouette, prestige spacing, archetype misuse, and typography used as a substitute for design authorship without imposing a new banned-style list.
+- Preserved: The existing visual and responsive review gate remains unchanged; the revised skill passes the official package validator.
+
+## 2026-07-14 - LGBTQIA+ Counselling Page Rebuilt
+
+- Rebuilt: `/inclusion/lgbtqia` now uses a subject-owned "default settings" comparison to contrast common assumptions with Joel's actual starting points, followed by concrete topics, native FAQs, and a direct enquiry close.
+- Changed: The page opening now uses the shared hero contract and a single-column composition aligned with the Kink/BDSM page, grouping the display, support copy, practice facts, and enquiry action. The sections below it retain the page-scoped flat composition, high-contrast aubergine, yellow, and coral palette, contemporary sans typography, sharp rules, and content-shaped comparison layout.
+- Preserved: The route remains a draft with route-level `noindex, nofollow` metadata and stays out of production navigation and the sitemap pending owner copy review and launch sign-off.
+- Verified: Production build and prerendering pass. Final responsive and browser review is deferred while the owner works through the page section by section.
+
 ## 2026-07-14 - Product Direction Rebuilt As A Decision Brief
 
 - Rebuilt: `product-direction.md` now separates practice context, site purpose, audiences, visitor decisions, positioning, success criteria, non-goals, accessibility, and the active positioning constraint.
@@ -72,6 +106,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Added: A long-lived `staging` branch now sits between working branches and the production `master` branch.
 - Defined: New `work/*` branches normally start from `staging`, return to `staging` when complete, and reach production by merging the combined release candidate into `master` without squashing or rebasing the long-lived branch.
 - Preserved: Vercel can continue creating previews for all non-production branches; the `staging` preview is the integrated release check, while working-branch previews remain available for isolated review.
+
+## 2026-07-13 - Public Hero Heading Contract Migrated
+
+- Changed: All seven metadata-backed public routes now use one concise `h1.hero-badge` followed by `p.hero-display`, reserving `h2` for actual page sections while preserving the existing visual hierarchy.
+- Aligned: Shared CSS now owns the serif display typography directly, and rendered design-system examples, written guidance, and public-page tests use the same semantic contract.
+- Verified: The production build prerendered all seven routes with the new hero markup, and generated heading outlines no longer include the expressive hero statements.
+
+## 2026-07-13 - DEBT-36 Legacy Spotlight CSS Resolved
+
+- Removed: The unused `.site-spotlight*` base, descendant, and responsive rules from production CSS after a focused source audit found no consumers.
+- Preserved: Public markup, rendered appearance, behavior, and the remaining active `site-*` system are unchanged.
+- Closed: Archived `DEBT-36` and updated the CSS checklist, migration notes, and design-system scope to record the removal.
 
 ## 2026-07-13 - Public Routes Gain Static Rendering And Hydration
 
