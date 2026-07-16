@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-16 - Audience Research Library Established
+
+- Added: `docs/research/` now provides a mapped internal audience-research library, with parent dossiers for kink clients and LGBTQIA+ clients combining formal evidence, public web discussion, dated search or service observations, and source registers.
+- Established: Audience dossiers can combine formal evidence, recurring public web discussion, dated search or market observations, and authorised owner or practice knowledge while keeping their source roles distinct.
+- Clarified: Dossiers record evidence rather than public copy, product direction, SEO actions, or site-specific recommendations; subsegments remain within a broad parent dossier unless a distinct evidence base, recurring research need, maintainability problem, or owner request warrants extraction.
+- Added: The project-local `audience-research` skill owns library setup, source-bound formal and public-web research, maintenance, and proportionate subsegment handling for later use by other skills.
+
 ## 2026-07-15 - Homepage Service Description Updated
 
 - Changed: The homepage hero now identifies Joel Griffiths, his Perth base, online counselling for adults across Australia, common presenting concerns, and Vive's kink/BDSM-aware, ENM/poly-aware, and LGBTQIA+ affirming practice.

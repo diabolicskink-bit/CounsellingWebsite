@@ -1,9 +1,14 @@
 # Research and claim discipline
 
-Use this reference when copy contains consequential facts, professional or
-inclusion claims, credentials, outcomes, comparisons, changing practical
-details, statistics, testimonials, legal or regulatory material, accessibility
-requirements, or search-platform claims.
+This is a specialist publication check, not the copywriting method. Decide the
+reader, page moment, message, angle, composition, and voice through `SKILL.md`
+before using it.
+
+Use this reference only when the task materially depends on consequential
+facts, professional or inclusion claims, credentials, outcomes, comparisons,
+changing practical details, statistics, testimonials, legal or regulatory
+material, accessibility requirements, or search-platform claims. For ordinary
+copy work, the brief accuracy check in `SKILL.md` is enough.
 
 ## Contents
 

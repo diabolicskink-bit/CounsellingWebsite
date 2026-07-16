@@ -8,6 +8,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 - Canonical direction documents own product, writing, and domain policy.
 - Current-scope documents summarize current state. When exact details disagree, verify executable behaviour, tests, configuration, and source, then reconcile stale documentation when the task changes durable state.
+- Audience research dossiers are supporting evidence and synthesis for downstream work. They do not override product or writing direction, make public claims approved, or authorize implementation.
 - `LAUNCH-*`, `DEBT-*`, and `SITE-*` trackers are scoped memory and triage. Consult only the tracker relevant to the task; an item does not authorize unrelated work.
 - Reports, plans, checklists, archives, and the task log are supporting evidence or history. They do not override active guidance or become requirements unless the current task explicitly adopts them.
 
@@ -31,6 +32,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 ## Supporting Memory
 
+- [../research/README.md](../research/README.md) maps reusable audience research dossiers for copywriting, SEO, content strategy, service explanation, and website work.
 - [task-log.md](task-log.md) records selected durable milestones; Git remains the detailed implementation history.
 - [archive/README.md](archive/README.md) maps resolved tracker items and older task history kept outside the active reading path.
 - `../checklists/` contains launch and recurring manual-QA checklists.
