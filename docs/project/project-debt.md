@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-35`
+- `Next ID`: `DEBT-37`
 
 ## How To Maintain This Tracker
 
@@ -383,7 +383,7 @@ Each active item should include enough direction that a future session can choos
   - Current public-site tests assert one main landmark, but they do not check focus movement or bypass navigation.
 - `Links`: `src/components/Layout.tsx`, `src/components/ScrollToTop.tsx`, `src/pages/`, `tests/public-site.spec.ts`
 
-### DEBT-30 - Shared navigation disclosure semantics are CSS-driven and untested
+### DEBT-30 - Shared navigation disclosure semantics remain incomplete
 
 - `Priority`: `P2`
 - `Size`: `M`
@@ -392,20 +392,44 @@ Each active item should include enough direction that a future session can choos
 - `Detected`: 2026-06-18
 - `Source`: Fresh site debt review
 - `Area`: Accessibility, Navigation, Tests
-- `Problem`: Desktop submenus open through hover/focus CSS without explicit disclosure state such as `aria-haspopup`/`aria-expanded`, while the mobile menu opens and locks body scroll without focused tests for focus movement, escape behaviour, tab order, or return focus.
-- `Why It Matters`: Navigation may be visually usable while remaining ambiguous to assistive technology, and regressions in keyboard access would be easy to miss because current tests do not exercise header navigation interactions.
-- `Preferred Direction`: Audit the header against a clear navigation pattern, add only the semantics/focus handling that match that pattern, and cover the expected desktop and mobile keyboard flows with focused tests.
+- `Problem`: Desktop submenus open through hover/focus CSS without explicit disclosure state such as `aria-haspopup`/`aria-expanded`. The mobile menu now has focused Escape, focus-return, and scroll-lock restoration coverage, but its initial focus and tab-order expectations have not received the same audit.
+- `Why It Matters`: Navigation may be visually usable while remaining ambiguous to assistive technology, and the remaining desktop and mobile keyboard expectations are not yet explicit enough to prevent regressions.
+- `Preferred Direction`: Audit the header against a clear navigation pattern, preserve the existing mobile close/focus baseline, add only the semantics and focus handling that match the chosen pattern, and cover the remaining desktop and mobile keyboard flows with focused tests.
 - `Resolution Path`: Decide whether desktop parent items are simple links with hover/focus submenus or true disclosure buttons, then align ARIA, focus lifecycle, Escape behaviour, and tests with that decision.
-- `Next Action`: Add a navigation accessibility audit note or failing browser test for keyboard access to the Inclusion submenu and mobile menu open/close flow.
+- `Next Action`: Add a navigation accessibility audit note or failing browser test for keyboard access to the desktop Inclusion submenu and the mobile menu's initial-focus/tab-order flow.
 - `Resolved When`: Header navigation has documented semantics and tests for keyboard submenu access, mobile menu open/close, Escape handling, and focus return.
 - `Related Items`:
   - `DEBT-29`: Skip-link and route-focus work covers page navigation context; this item covers the header menu interaction itself.
-  - `SITE-1`: The accessibility audit matrix should include primary navigation behaviour.
-  - `SITE-2`: Responsive QA should include the mobile menu layout and interaction path.
+  - `LAUNCH-1`: The accessibility review should include primary navigation behaviour.
+  - `LAUNCH-2`: Responsive QA should include the mobile menu layout and interaction path.
 - `Dependencies`: `None`
 - `Notes`:
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
+  - `tests/public-site.spec.ts` now verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
 - `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site.spec.ts`
+
+### DEBT-35 - Working with Joel approach copy depends on JavaScript
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Priority Rationale`: This is `P2` because Working with Joel is an indexable, trust-building page and two of its three approach explanations are absent from the first response and from JavaScript-disabled visits. Hydrated visitors can use the tabs normally, so this is not a complete page failure.
+- `Status`: `Open`
+- `Detected`: 2026-07-13
+- `Source`: Working with Joel `DEBT-34` test review.
+- `Area`: Rendering, Progressive Enhancement, Accessibility, SEO
+- `Problem`: `BroadTabPanel` renders only the active item's panel. Static rendering therefore includes all three tab buttons but only the initial Psychodynamic copy; the Attachment and Integrative explanations do not exist in raw HTML and cannot be reached without JavaScript.
+- `Why It Matters`: Core practitioner-approach content should remain available to crawlers, assistive workflows, and visitors when the client bundle is delayed or unavailable. A row of inert tabs also implies content that a JavaScript-disabled visitor cannot open.
+- `Preferred Direction`: Preserve the current hydrated tab experience while making every approach explanation available in the first response and without JavaScript. Keep one canonical copy source and retain deterministic server/browser markup, valid tab semantics, and the current visual design.
+- `Resolution Path`: Prototype progressive enhancement in `BroadTabPanel` or a page-scoped wrapper so all panels are represented in static markup, inactive panels become visually hidden only when the tab behaviour is active, and hydration does not add or remove initial nodes.
+- `Next Action`: Design the smallest deterministic all-panel render contract, then add a failing raw/no-JavaScript assertion for Attachment and Integrative copy before changing the component.
+- `Resolved When`: All three approach explanations exist in generated HTML and remain reachable without JavaScript, while hydrated pointer and keyboard tab behaviour passes without recoverable errors.
+- `Related Items`:
+  - `DEBT-34`: The page-level test review exposed this rendering gap and now protects the existing hydrated tab contract.
+- `Dependencies`: `None`
+- `Notes`:
+  - The current hydrated control has connected tab/tabpanel semantics and supports click, Home, End, and wrapping arrow-key selection. The gap is pre-JavaScript content availability, not the normal hydrated interaction.
+  - Avoid duplicating approach prose in a separate fallback block; duplicated content would create maintenance and accessibility ambiguity.
+- `Links`: `src/components/BroadTabPanel.tsx`, `src/pages/WorkingWithJoel.tsx`, `tests/public-site.spec.ts`
 
 ### DEBT-34 - Public-page tests need opportunistic maintenance
 
@@ -429,8 +453,8 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - This is a memory aid, not authorization for a dedicated page-by-page audit or test-only campaign.
-  - Pending opportunistic review: Home (`/`).
-  - Reviewed 2026-07-13 during master alignment: Working with Joel (`/working-with-joel`) first-response metadata, component prerendering, hydration activation, and new `ProfilePage` structured-data assertions passed; no broader copy snapshot was added.
+  - Reviewed 2026-07-13 by explicit request: Home (`/`) now has focused hydrated and JavaScript-disabled checks for its semantic lists, portrait priority hint, workroom card, Inclusion detail navigation, and three page-owned route links. The raw first-response contract covers the same durable structure without snapshotting public prose, and the post-hydration SPA check now exercises a Home-owned CTA instead of the shared footer.
+  - Reviewed 2026-07-13 by explicit request: Working with Joel (`/working-with-joel`) now has focused hydrated and JavaScript-disabled checks for credentials, introduction and portrait semantics, lazy image loading, its three-tab approach control, and the complete issues list. The interaction check covers pointer selection, tab/panel relationships, roving tab stops, Home/End and wrapping arrow-key behaviour, hydration, diagnostics, and desktop/mobile axe smoke coverage without snapshotting public prose. Review exposed the pre-JavaScript approach-copy gap tracked as `DEBT-35`.
   - Pending opportunistic review: Inclusion hub (`/inclusion`).
   - Pending opportunistic review: Kink and BDSM (`/inclusion/kink-bdsm`).
   - Reviewed 2026-07-13 during master alignment: ENM and polyamory (`/inclusion/enm-polyamory`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
