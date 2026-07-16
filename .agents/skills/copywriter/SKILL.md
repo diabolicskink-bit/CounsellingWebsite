@@ -3,12 +3,12 @@ name: copywriter
 description: >
   Plan, structure, write, review, test, and revise visitor-facing counselling
   and adjacent professional-service copy. Use for audience and page-purpose
-  analysis, message strategy, search intent, new or substantially rewritten
-  copy, meaningful line editing, CTA and interface copy, voice and tone,
-  inclusion and claim review, and diagnosing generic or AI-sounding prose. Do
-  not use for meta-review of the skill itself, typo-only fixes, exact
-  owner-supplied replacements, or technical implementation that preserves
-  approved wording.
+  analysis, message strategy, search intent, visitor-response testing, new or
+  substantially rewritten copy, meaningful line editing, CTA and interface
+  copy, voice and tone, inclusion and claim review, and diagnosing generic or
+  AI-sounding prose. Do not use for meta-review of the skill itself, typo-only
+  fixes, exact owner-supplied replacements, or technical implementation that
+  preserves approved wording.
 ---
 
 # Strategic website copywriting
@@ -77,6 +77,20 @@ Do not manufacture an intimate persona or narrate private feelings as fact.
 Use sensible audience hypotheses when perfect research is unavailable, label
 material uncertainty, and keep moving.
 
+For audience-specific or sensitive work, identify a small set of materially
+different reader positions supported by the brief or research. Describe each
+position through its situation, awareness, or relationship to the subject, not
+through a fictional personality. Do not claim the reader's identity or lived
+experience.
+
+Separate the intended intellectual reading from the emotional or relational
+effect the copy should earn. The intellectual reading is what a reader can
+reasonably understand, infer, question, or expect. The emotional or relational
+reading is the stance the language creates: for example, whether the reader is
+recognised, instructed, categorised, granted permission, accommodated,
+challenged, or pressured. Treat both as hypotheses to test, not feelings to
+assign.
+
 Define the artifact and its relationship to the reader. Decide whether it
 calls for direct address, neutral explanation, first-person professional voice,
 instructional language, or another register. A defined audience does not
@@ -109,6 +123,13 @@ is uncertain.
 For substantial new work, consider at least two genuinely different angles or
 orders before selecting one. A real alternative changes the central question,
 emphasis, point of view, or movement—not merely the headline or tone.
+
+Generate directions from a useful observation, question, tension, invitation,
+or judgement. Use constraints and anti-patterns to test and revise candidates;
+do not let a list of possible harms become the idea generator. A candidate has
+not earned publication merely because it avoids known mistakes. Negative or
+corrective framing can still lead when the correction itself is a live reader
+need.
 
 Forecast the craft before drafting:
 
@@ -190,6 +211,14 @@ language that only makes the draft sound complete.
 ### 6. Revise in distinct passes
 
 Change stance and edit the copy rather than defending the draft.
+
+First read the copy cold from each relevant reader position, without explaining
+the writer's intention. Record the first plausible interpretation, the
+emotional or relational posture, and the least charitable plausible misreading.
+Then return to editor mode and diagnose which idea or wording created the
+response. Use the grounded visitor-reading test in
+`references/quality-review.md` for sensitive, audience-specific, emotionally
+loaded, or high-prominence copy.
 
 1. **Reader and purpose**: Does it answer the right question at this point?
 2. **Message and coverage**: Is the main point clear, sufficiently developed,

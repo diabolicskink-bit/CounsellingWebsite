@@ -165,6 +165,48 @@ has already done. Then ask:
   whole site at once?
 - Is a secondary audience diluting the primary message?
 
+### Grounded visitor-reading test
+
+Use this test when recognition, trust, inclusion, emotional tone, or a
+visitor-specific decision materially affects the copy. It is especially useful
+for heroes, positioning lines, sensitive service pages, and owner feedback such
+as "I would be taken aback if I landed here."
+
+Choose a small number of reader positions supported by the brief, audience
+research, real enquiries, or the page journey. A position is a relevant
+situation—such as comparing providers, encountering the service for the first
+time, or relating to the page subject as central or background—not a demographic
+costume or invented personality. If evidence is limited, keep the position broad
+and mark the uncertainty.
+
+Do not claim to be the reader or to possess their lived experience. First-person
+phrasing may be used as transparent editorial shorthand—`I read this as...`—but
+not as evidence that a whole audience will feel the same way.
+
+Show the copy cold, without its rationale, and separate four readings:
+
+1. **Immediate reading**: What appears to be happening on first contact? What
+   receives the emphasis or "hits" first?
+2. **Intellectual reading**: What does the copy literally say? What does it
+   invite the reader to infer, expect, question, or misunderstand?
+3. **Emotional and relational reading**: What relationship does the language
+   create? Does it recognise, categorise, instruct, diagnose, reassure, grant
+   permission, accommodate, challenge, sell to, or argue with the reader? Name
+   the mechanism rather than assigning a universal feeling.
+4. **Sceptical reading**: What is the least charitable interpretation a
+   reasonable intended reader might plausibly make? Do not invent remote or
+   bad-faith objections merely to make the test severe.
+
+Do not repair an adverse reading by explaining what the writer meant. If the
+line needs its rationale in order to land, revise the line or the underlying
+idea. Then switch back to copywriter mode: diagnose the editorial or linguistic
+cause and decide whether the copy, the angle, or the brief needs to change.
+
+Use the visitor reading as a judge, not as the sole source of ideas. Generate
+from the strongest useful message or observation. A candidate whose strengths
+are only that it does not stereotype, offend, overclaim, or sound generic has
+not yet supplied a positive reason to publish it.
+
 ### Sentence-function test
 
 Assign each sentence one or more functions:
@@ -303,6 +345,8 @@ Use the patterns as causal prompts, not banned forms.
 | Abstract benefit fog | Growth, clarity, resilience, authenticity, or transformation accumulates without process. | A positive future has replaced service information. | Name what happens and keep possible value possible. |
 | Decorative metaphor | Journeys, chapters, storms, space, light, or flourishing replaces literal meaning. | Character is being manufactured instead of found in the subject and speaker. | Keep metaphor only when it clarifies and belongs to the piece. |
 | Tidy final moral | The ending praises action, promises hope, or summarises the lesson. | The model is finishing the emotional shape rather than the task. | End on the last useful fact, limit, action, or nothing. |
+| Guardrail inversion | Headlines and dominant statements are assembled from `I won't`, `not X`, or promises to avoid every anticipated harm. | Constraints and critique supplied the idea instead of judging it. | Return to the positive observation, decision, invitation, or judgement the reader actually needs. Keep a negative frame only when correction is itself the point. |
+| Literalised emotional aim | The brief says the reader should feel welcome, safe, understood, or that they belong, and the copy announces that feeling directly. | The desired effect was mistaken for publishable wording. | Identify the information, conduct, choice, or recognition that could earn the effect and write from that material. |
 | Repair-loop drift | Each response to feedback becomes another complete polished draft. | The model is regenerating instead of diagnosing. | Return to the last useful source and revise the smallest causal span. |
 
 ## Respond to AI-sounding feedback
