@@ -72,6 +72,7 @@ Capture the decisions that should govern the writing:
 
 ```text
 Primary reader:
+Evidence-supported reader positions:
 Arrival context and awareness:
 Point in the page or site journey:
 Live question, uncertainty, or decision:
@@ -83,6 +84,9 @@ What belongs later or elsewhere:
 Desired next understanding, judgement, or action:
 Search intent and natural vocabulary:
 Speaker and relationship to the reader:
+Intended intellectual reading:
+Intended emotional or relational effect:
+Plausible adverse reading:
 Useful voice or point-of-view material:
 Practical constraints and genuine unknowns:
 ```
@@ -96,6 +100,11 @@ Do not force every page or section to inform, reassure, differentiate, persuade,
 and convert at once. Choose the work this artifact actually needs to do. Copy
 formulas may prompt a missing question; they must not determine the emotional
 sequence or prose shape.
+
+Use the reader-position and reading fields when audience-specific recognition,
+trust, emotional tone, or direct address materially affects the artifact. An
+emotional effect is a relationship the language should earn, not a feeling to
+assign to an unknown reader or a phrase to insert literally.
 
 ## Build search intent into the brief
 

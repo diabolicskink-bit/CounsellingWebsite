@@ -1,7 +1,7 @@
 interface:
   display_name: "Strategic Website Copywriting"
   short_description: "Write useful, distinctive, well-crafted website copy"
-  default_prompt: "Use $copywriter to understand the reader and page moment, choose the message and writing direction, then draft and rigorously revise the copy."
+  default_prompt: "Use $copywriter to understand the reader and page moment, choose the message and writing direction, then draft and test both the intellectual and emotional reading before revising."
 
 policy:
   allow_implicit_invocation: true

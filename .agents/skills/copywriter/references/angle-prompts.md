@@ -27,6 +27,11 @@ viable if it depends on the predicted failure.
 - What language are they likely to use when searching or asking someone about
   this?
 - What has the page already told them, and what should this section add now?
+- What should the visitor understand, and what relationship should the language
+  establish while doing it?
+- If the desired effect is trust, welcome, relief, recognition, or belonging,
+  what precise message, choice, conduct, or detail could earn it without naming
+  the feeling directly?
 - What would make the copy feel irrelevant, generic, patronising, repetitive,
   or difficult to use?
 
