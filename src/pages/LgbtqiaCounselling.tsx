@@ -38,10 +38,8 @@ export default function LgbtqiaCounselling() {
         <Container>
           <div className="lgbtqia-page__hero-main">
             <div className="lgbtqia-page__hero-copy">
-              <h1 className="hero-badge">Counselling for LGBTQIA+ adults</h1>
-              <p className="hero-display">
-                Without the <em>default settings.</em>
-              </p>
+              <h1 className="hero-badge">LGBTQIA+ affirming counselling</h1>
+              <p className="hero-display">Counselling begins with what matters to you.</p>
 
               <div className="hero-copy-panel lgbtqia-page__hero-support">
                 <p>

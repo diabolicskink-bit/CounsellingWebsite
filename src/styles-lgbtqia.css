@@ -22,8 +22,13 @@
 
 .lgbtqia-page__hero-copy {
   display: grid;
+  gap: 20px;
   align-content: start;
   min-width: 0;
+}
+
+.lgbtqia-page__hero-copy .hero-display {
+  margin-bottom: 0;
 }
 
 .lgbtqia-page__hero-support {
