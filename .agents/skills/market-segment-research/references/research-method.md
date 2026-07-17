@@ -1,14 +1,17 @@
 # Market research method
 
 Use this reference when planning or conducting market-segment research and
-when integrating source material into a canonical dossier. The goal is a
-reproducible, decision-useful account of a visible market, not a formal market
-forecast, a provider-quality ranking, or an SEO strategy.
+when integrating source material into a canonical dossier. The goal of this
+phase is a reproducible account of a visible market that can support detailed
+decision synthesis. Keep it distinct from formal forecasting and
+provider-quality ranking; develop recommendations through
+`decision-synthesis.md` after the evidence is integrated.
 
 ## Contents
 
 - [Start with claims and evidence](#start-with-claims-and-evidence)
 - [Observe query and search landscapes](#observe-query-and-search-landscapes)
+- [Use geography according to the claim](#use-geography-according-to-the-claim)
 - [Measure demand without inventing it](#measure-demand-without-inventing-it)
 - [Define provider and competitor samples](#define-provider-and-competitor-samples)
 - [Use directories and taxonomies carefully](#use-directories-and-taxonomies-carefully)
@@ -77,6 +80,20 @@ Autocomplete, related-search, and question features may help discover visible
 language or new queries. They are not keyword-volume measures. Approximate
 result counts are unstable interface estimates and normally should not be used
 as demand or supply counts.
+
+## Use geography according to the claim
+
+For a location-specific decision, do not assume that all useful learning must
+come from that location. Use the target market to establish local reality, then
+use serviceable, comparable or learning markets when they can reveal additional
+language, intents, market models, content structures, offers or channels.
+
+Follow `geographic-scope-and-transfer.md`. Keep each geographic sample and
+metric separate. Record why a broader market was selected and assess whether a
+pattern is directly transferable, requires localisation, is only a hypothesis,
+is context only or is not transferable. Broader evidence may generate and
+strengthen local recommendations; it may not silently stand in for target-market
+demand, ranking, competition, price, regulation or audience preference.
 
 ## Measure demand without inventing it
 

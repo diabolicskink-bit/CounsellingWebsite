@@ -2,11 +2,13 @@
 
 This directory contains dated, source-backed internal research about defined
 market segments, query landscapes, demonstrable demand signals, competitors,
-provider supply, directories, offers, pricing, and market structure. It is
-evidence for later SEO, content, positioning, and product work. It is not
-strategy, approved public copy, audience research, or a provider-quality
-assessment, and it does not override current project direction or owner
-decisions.
+provider supply, directories, offers, pricing, and market structure. A dossier
+may also contain detailed owner-specific interpretation, stated assumptions,
+recommendations, priorities and validation plans when the research question
+calls for decisions rather than evidence collection alone. It remains decision
+support, not approved public copy, audience research, an implementation
+instruction or a provider-quality assessment, and it does not override current
+project direction or owner decisions.
 
 ## Using this research
 
@@ -19,14 +21,16 @@ decisions.
 - Ignore `working/` outside the same continuing parent research task unless the
   owner explicitly requests its inspection. Working files are retained raw
   material, not reusable evidence.
-- Derive SEO, content, positioning, pricing, or implementation decisions in the
-  appropriate downstream task.
+- Treat recommendations as researched decision support. Confirm consequential
+  assumptions and carry approved SEO, copy, pricing or implementation decisions
+  into the appropriate downstream task.
 
 ## Segment dossiers
 
 | Segment | File | Geography | Last observed | Evidence coverage |
 | --- | --- | --- | --- | --- |
 | Australian kink-aware counselling | [australian-kink-aware-counselling.md](segments/australian-kink-aware-counselling.md) | Australia, including Perth/WA and national online delivery | 2026-07-17 | Six-query fixed-depth landscape; 19 direct and 4 adjacent provider brands; directory, taxonomy and regulatory map; demand evidence gap |
+| Australian ENM and polyamory counselling | [australian-enm-polyamory-counselling.md](segments/australian-enm-polyamory-counselling.md) | Perth/WA local target, Australia-wide online serviceable market, and selected international learning markets | 2026-07-17 | Eight-query fixed-depth landscape; 16 direct and 2 adjacent Australian provider units; price, directory and offer comparison; geographic transfer analysis; detailed Vive recommendations and validation plan |
 
 ## Structure
 

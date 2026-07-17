@@ -36,6 +36,12 @@ competitor set or uses incompatible sampling rules for the same comparison.
 The parent defines shared terms, repeated fields, dates, and inclusion rules
 before delegation.
 
+When delegating by geography, also define each geography's decision role:
+target market, serviceable market, comparable market, or learning market. Give
+agents shared fields but do not require identical queries or sources when the
+geographies answer different questions. Require every packet to distinguish
+query geography, search-observation geography and result/provider geography.
+
 ## Give each subagent a bounded brief
 
 Include in every delegated task:
@@ -43,6 +49,9 @@ Include in every delegated task:
 - the segment inclusion and exclusion boundary;
 - the exact research question or evidence stream;
 - relevant geography, delivery mode, observation window, and date;
+- whether the geography supplies target-market facts, serviceable competition,
+  comparison evidence or broader learning, and which transfer question it is
+  meant to answer;
 - the sample rule, result depth, repeated fields, metric definitions, or tool
   scope required for comparability;
 - the exact assigned working-file path;
@@ -74,6 +83,8 @@ calculation inputs, or unusually consequential claims. Check that:
 - sample rules and denominators match the assigned brief;
 - counts reproduce the underlying rows;
 - dates, geographies, units, tools, and result types are comparable;
+- broader-market patterns have not been converted into target-market facts and
+  have enough context for the parent to assess transferability;
 - provider claims and directory classifications remain attributed;
 - demand measures have not been inferred from visibility or supply proxies;
   and

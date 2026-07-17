@@ -22,8 +22,6 @@ type WorkingHeroPortrait = {
 type WorkingHeroContent = {
   badge: string;
   title: EmphasisCopy;
-  supportLead: string;
-  supportBody: string;
   credentialsAriaLabel: string;
   credentials: string[];
   portrait: WorkingHeroPortrait;
@@ -74,17 +72,10 @@ const pageContent: WorkingWithJoelPageContent = {
   hero: {
     badge: "Working with Joel",
     title: {
-      before: "Working with ",
-      emphasis: "the bigger",
-
-                  after: " picture.",
+      before: "A little ",
+      emphasis: "about me",
+      after: " and my approach.",
     },
-    supportLead: "We can start with what feels pressing now..",
-
-
-    supportBody:
-      "I’ll also pay attention to the history around it and the ways you have found to cope.",
-
     credentialsAriaLabel: "Joel Griffiths credentials and practice details",
                credentials: [
       "GradDip. Counselling and Psychotherapy",
@@ -206,18 +197,6 @@ function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
               <br />
               {hero.title.after}
             </p>
-          </div>
-
-          <div className="working-with-joel-page__hero-note">
-            <p className="working-with-joel-page__hero-note-lead">
-              {hero.supportLead}
-
-
-
-
-
-            </p>
-            <p className="working-with-joel-page__hero-note-body site-body-copy">{hero.supportBody}</p>
           </div>
 
           <CredentialsList items={hero.credentials} ariaLabel={hero.credentialsAriaLabel} />

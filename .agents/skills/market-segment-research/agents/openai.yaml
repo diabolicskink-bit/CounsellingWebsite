@@ -1,4 +1,4 @@
 interface:
   display_name: "Market Segment Research"
-  short_description: "Research SEO, demand, competitors, and markets"
-  default_prompt: "Use $market-segment-research to build a dated, source-backed market dossier covering search demand, competitors, and market structure."
+  short_description: "Research markets and recommend what to do"
+  default_prompt: "Use $market-segment-research to build a dated market dossier that combines target-market reality with transferable broader-market learning, detailed owner-specific synthesis, stated assumptions, prioritised recommendations, and next steps."

@@ -12,7 +12,7 @@ const pageContent = {
   meta: pageMetadata.description,
 
   hero: {
-    badge: "ENM & polyamory counselling",
+    badge: "Polyamory and ethical non-monogamy counselling and therapy",
     intro:
       "You can talk about polyamory, open relationships and other forms of ethical non-monogamy in your own language. I start with what is happening in your life and what you want help with, not with my own view of how your relationships should work.",
     actions: {

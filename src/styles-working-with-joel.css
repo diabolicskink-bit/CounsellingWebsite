@@ -1,5 +1,5 @@
 .working-with-joel-page {
-  --hero-display-max-width: 11ch;
+  --hero-display-max-width: 18ch;
   background: var(--paper);
 }
 
@@ -9,12 +9,11 @@
 
 .working-with-joel-page__hero-layout {
   display: grid;
-  grid-template-columns: minmax(0, 0.72fr) minmax(320px, 0.48fr);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
-    "heading note"
-    "credentials credentials";
-  gap: clamp(2.5rem, 5vw, 4.5rem);
-  row-gap: 20px;
+    "heading"
+    "credentials";
+  gap: 20px;
   align-items: center;
   max-width: 1100px;
 }
@@ -26,7 +25,7 @@
 .working-with-joel-page__hero-heading {
   grid-area: heading;
   display: grid;
-  gap: 0;
+  gap: 20px;
   align-content: start;
 }
 
@@ -34,33 +33,8 @@
   margin: 0;
 }
 
-.working-with-joel-page__hero-note {
-  display: grid;
-  grid-area: note;
-  gap: 8px;
-  align-self: center;
-  justify-self: start;
-  max-width: 23rem;
-  margin: 0;
-}
-
-.working-with-joel-page__hero-note-lead,
-.working-with-joel-page__hero-note-body {
-  margin: 0;
-}
-
-.working-with-joel-page__hero-note-lead {
-  color: var(--cedar);
-  font-family: var(--font-serif);
-  font-size: clamp(1.12rem, 1rem + 0.36vw, 1.32rem);
-  font-style: italic;
-  line-height: 1.22;
-  text-wrap: balance;
-}
-
-.working-with-joel-page__hero-note-body {
-  max-width: 31ch;
-  text-wrap: pretty;
+.working-with-joel-page__hero-heading .hero-display > br:first-of-type {
+  display: none;
 }
 
 .working-with-joel-page__hero-credentials {
@@ -218,7 +192,6 @@
   .working-with-joel-page__hero-layout {
     grid-template-areas:
       "heading"
-      "note"
       "credentials";
   }
 
@@ -226,10 +199,6 @@
   .working-with-joel-page__intro-media {
     grid-column: auto;
     grid-row: auto;
-  }
-
-  .working-with-joel-page__hero-note {
-    max-width: none;
   }
 
   .working-with-joel-page__hero-credentials {

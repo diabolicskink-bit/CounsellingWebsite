@@ -77,8 +77,8 @@ const prerenderedRouteContracts = {
   },
   "/inclusion/lgbtqia": {
     mainClass: "site-page inclusion-page lgbtqia-page",
-    rawFragments: ['class="lgbtqia-page__place-map"', 'class="lgbtqia-page__relevance-field"'],
-    noJavaScriptSelector: ".lgbtqia-page__place-map",
+    rawFragments: ['class="lgbtqia-page__recognition-flow"', 'class="lgbtqia-page__disclosure-heading"'],
+    noJavaScriptSelector: ".lgbtqia-page__recognition-flow",
   },
   "/contact": {
     mainClass: "site-page contact-page",
@@ -582,9 +582,9 @@ test.describe("public pages", () => {
       if (route === "/inclusion/lgbtqia") {
         const pageMain = page.locator("main.lgbtqia-page");
 
-        await expect(pageMain.locator("section").nth(1)).toHaveClass(/lgbtqia-page__place/);
-        await expect(pageMain.locator(".lgbtqia-page__place-map > li")).toHaveCount(3);
-        await expect(pageMain.locator(".lgbtqia-page__relevance-node")).toHaveCount(2);
+        await expect(pageMain.locator("section").nth(1)).toHaveClass(/lgbtqia-page__recognition/);
+        await expect(pageMain.locator(".lgbtqia-page__recognition-flow > li")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__context-line > li")).toHaveCount(5);
       }
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
@@ -1615,7 +1615,7 @@ test("LGBTQIA+ page reflows without horizontal overflow", async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/inclusion/lgbtqia", { waitUntil: "networkidle" });
 
-    await expect(page.locator(".lgbtqia-page__place-map")).toBeVisible();
+    await expect(page.locator(".lgbtqia-page__recognition-flow")).toBeVisible();
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
     ).toBe(true);

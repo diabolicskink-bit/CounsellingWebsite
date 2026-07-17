@@ -2,11 +2,12 @@
 
 This directory contains dated, source-backed internal research about defined
 market segments, query landscapes, demonstrable demand signals, competitors,
-provider supply, directories, offers, pricing, and market structure. It is
-evidence for later SEO, content, positioning, and product work. It is not
-strategy, approved public copy, audience research, or a provider-quality
-assessment, and it does not override current project direction or owner
-decisions.
+provider supply, directories, offers, pricing, market structure, detailed
+interpretation and recommendations. It supports SEO, content, positioning,
+offer, channel, product and measurement decisions. It is not approved public
+copy, audience research, a provider-quality assessment, or authority to
+implement a recommendation, and it does not override current project direction
+or owner decisions.
 
 ## Using this research
 
@@ -16,11 +17,14 @@ decisions.
 - Refresh volatile or stale evidence when its age could change the decision.
 - Add durable new market findings to the appropriate dossier rather than
   leaving them in chat or a one-off working packet.
+- Revisit interpretation, assumptions and recommendations when relevant market
+  evidence, owner direction, service capability or constraints change.
 - Ignore `working/` outside the same continuing parent research task unless the
   user explicitly requests its inspection. Working files are retained raw
   material, not reusable evidence.
-- Derive SEO, content, positioning, pricing, or implementation decisions in the
-  appropriate downstream task.
+- Use the dossier's decision synthesis as the market-facing direction for
+  downstream SEO, copy, design, product or implementation tasks, then let the
+  relevant specialist develop and execute the artifact.
 
 ## Segment dossiers
 
@@ -52,6 +56,9 @@ Canonical dossiers use:
 These streams are not interchangeable. Search visibility does not establish
 demand; provider claims do not establish quality; and a directory's taxonomy
 does not define the whole market.
+
+Canonical dossiers label interpretation, assumptions and recommendations
+separately from these observed evidence streams.
 
 ## Maintenance
 

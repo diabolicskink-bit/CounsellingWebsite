@@ -218,32 +218,38 @@
 }
 
 .kink-page__closing-card-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.kink-page__closing-card-head::before,
-.kink-page__closing-card-head::after {
-  height: 1px;
-  background: var(--line);
-  content: "";
-}
-
-.kink-page__closing-card-head::before {
-  flex: 0 0 18px;
-}
-
-.kink-page__closing-card-head::after {
-  flex: 1;
+  display: block;
 }
 
 .kink-page__closing-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin: 0;
   color: var(--cedar);
-  font-size: 1.14rem;
-  line-height: 1.14;
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
   white-space: nowrap;
+}
+
+.kink-page__closing-card-title::before,
+.kink-page__closing-card-title::after {
+  height: 2px;
+  content: "";
+}
+
+.kink-page__closing-card-title::before {
+  flex: 0 0 22px;
+  background: linear-gradient(90deg, rgba(35, 75, 61, 0), rgba(35, 75, 61, 0.26));
+}
+
+.kink-page__closing-card-title::after {
+  flex: 1;
+  background: linear-gradient(90deg, rgba(35, 75, 61, 0.26), rgba(35, 75, 61, 0));
 }
 
 .kink-page__closing-card-body {
