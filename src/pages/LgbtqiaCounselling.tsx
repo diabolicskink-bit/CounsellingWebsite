@@ -60,12 +60,12 @@ const lgbtqiaPageContent: LgbtqiaPageContent = {
   hero: {
     badge: "LGBTQIA+ affirming counselling and therapy",
     statement: {
-      before: "There is no single ",
-      emphasis: "LGBTQIA+ story",
-      after: " to bring to therapy.",
+      before: "Respect lets the conversation ",
+      emphasis: "go further",
+      after: ".",
     },
     support:
-      "I’m Joel Griffiths, a Perth-based counsellor offering online individual counselling to adults across Australia.",
+      "Whether you want to talk about a relationship, a difficult decision or something from your past, the focus can stay on what matters to you. You can bring your whole self into counselling without every part of your life having to become the subject.",
     primaryAction: {
       label: "Make an enquiry",
       href: routeHref(publicRoutePaths.contact),
@@ -86,7 +86,8 @@ const lgbtqiaPageContent: LgbtqiaPageContent = {
       },
       {
         variant: "context",
-        title: "It may be the context.",body:
+        title: "It may be the context.",
+        body:
           "An important relationship has changed, or family, faith or community has become harder to remain part of. Counselling can focus on the conflict, loss or choices involved without treating sexuality or gender as the problem.",
       },
       {
@@ -100,21 +101,17 @@ const lgbtqiaPageContent: LgbtqiaPageContent = {
   fluency: {
     heading: "Therapy is not for debating your identity.",
     introduction:
-                   "Mistaken assumptions about sexuality, gender or sex characteristics can change what a counsellor sees as the problem. For me, LGBTQIA+ affirming therapy means working with you as an individual. Who you are is not up for debate.",
+      "Mistaken assumptions about sexuality, gender or sex characteristics can change what a counsellor sees as the problem. For me, LGBTQIA+ affirming therapy means working with you as an individual. Who you are is not up for debate.",
     examplesIntroduction: "For example, you should not have to manage your therapist by:",
-    examples:               [
+    examples: [
       "Arguing against assumptions about your sexuality based on your current partner.",
-      "Explaining why asexuality is not a symptom or a problem to solve."
-      ,
-
+      "Explaining why asexuality is not a symptom or a problem to solve.",
       "Keeping the conversation going when sexuality or gender makes them uncomfortable.",
     ],
   },
-         disclosure: {
-         heading: "Who to tell, and when",
-                 position:
-                  "More disclosure is not automatically the goal."
-                  ,
+  disclosure: {
+    heading: "Who to tell, and when",
+    position: "More disclosure is not automatically the goal.",
     summary: "Being open may make sense in one part of your life and carry real risk in another.",
     detail: "Who knows, what they know, and what it is safe or useful to say can differ across each part of your life.",
     body: [
@@ -162,11 +159,7 @@ export default function LgbtqiaCounselling() {
         </Container>
       </section>
 
-
-
-      <section 
-      
-      className="site-grid lgbtqia-page__recognition" aria-labelledby="lgbtqia-recognition-title">
+      <section className="site-grid lgbtqia-page__recognition" aria-labelledby="lgbtqia-recognition-title">
         <Container className="lgbtqia-page__recognition-layout">
           <header className="lgbtqia-page__section-heading">
             <h2 id="lgbtqia-recognition-title">{recognition.heading}</h2>
