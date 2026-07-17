@@ -1,4 +1,4 @@
 interface:
   display_name: "Audience Research"
-  short_description: "Maintain detailed evidence-led audience dossiers"
-  default_prompt: "Use $audience-research to create or update an evidence-led audience dossier without adding copy, strategy, or SEO recommendations."
+  short_description: "Build broad, experience-rich audience dossiers"
+  default_prompt: "Use $audience-research to build an extensive audience dossier from formal evidence and public first-person experiences."

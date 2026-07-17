@@ -172,40 +172,40 @@ visitor-specific decision materially affects the copy. It is especially useful
 for heroes, positioning lines, sensitive service pages, and owner feedback such
 as "I would be taken aback if I landed here."
 
-Choose a small number of reader positions supported by the brief, audience
-research, real enquiries, or the page journey. A position is a relevant
-situation—such as comparing providers, encountering the service for the first
-time, or relating to the page subject as central or background—not a demographic
-costume or invented personality. If evidence is limited, keep the position broad
-and mark the uncertainty.
+Use the research-grounded pseudoperson already constructed for the task. Do not
+replace it with a generic visitor, split it into several stock reader types, or
+rebuild it for each candidate. When no dossier matched, retain the disclosed
+best-effort perspective rather than implying a stronger evidence basis.
 
-Do not claim to be the reader or to possess their lived experience. First-person
-phrasing may be used as transparent editorial shorthand—`I read this as...`—but
-not as evidence that a whole audience will feel the same way.
+Put the research notes and editorial rationale out of view and encounter only
+the visible copy, in its actual order, from that position. Write freeform
+reader-response notes about whatever becomes salient. Confidence, concern,
+relevance, recognition, resistance, uncertainty, inference, expectation, or
+practical friction may emerge; none is a required category. A short passage may
+produce one important response rather than a complete battery of readings.
 
-Show the copy cold, without its rationale, and separate four readings:
-
-1. **Immediate reading**: What appears to be happening on first contact? What
-   receives the emphasis or "hits" first?
-2. **Intellectual reading**: What does the copy literally say? What does it
-   invite the reader to infer, expect, question, or misunderstand?
-3. **Emotional and relational reading**: What relationship does the language
-   create? Does it recognise, categorise, instruct, diagnose, reassure, grant
-   permission, accommodate, challenge, sell to, or argue with the reader? Name
-   the mechanism rather than assigning a universal feeling.
-4. **Sceptical reading**: What is the least charitable interpretation a
-   reasonable intended reader might plausibly make? Do not invent remote or
-   bad-faith objections merely to make the test severe.
+Anchor each material response in something observable: a word, claim, omission,
+sequence, heading, emphasis, interaction, or relationship created by the
+language. Distinguish what the copy supports from what the pseudoperson brings
+as an evidence-bounded expectation. Do not invent remote objections to make the
+test look rigorous, and do not claim to possess a real reader's lived
+experience.
 
 Do not repair an adverse reading by explaining what the writer meant. If the
 line needs its rationale in order to land, revise the line or the underlying
 idea. Then switch back to copywriter mode: diagnose the editorial or linguistic
 cause and decide whether the copy, the angle, or the brief needs to change.
 
-Use the visitor reading as a judge, not as the sole source of ideas. Generate
-from the strongest useful message or observation. A candidate whose strengths
-are only that it does not stereotype, offend, overclaim, or sound generic has
-not yet supplied a positive reason to publish it.
+The inhabited reading is a judge, not a content checklist or the sole source of
+ideas. It may recommend deletion, compression, or deferral when the copy is
+over-answering, duplicating another page, or treating every research finding as
+a publication requirement. A candidate whose strengths are only that it does
+not stereotype, offend, overclaim, or sound generic has not yet supplied a
+positive reason to publish it.
+
+Report the result as a transparent editorial simulation. Do not call it user
+testing, imply empirical observation, or generalise its reactions to the whole
+audience.
 
 ### Sentence-function test
 

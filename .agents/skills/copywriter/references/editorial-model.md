@@ -7,6 +7,7 @@ uncertain.
 ## Contents
 
 - [Understand the reader and page moment](#understand-the-reader-and-page-moment)
+- [Build a research-grounded pseudoperson](#build-a-research-grounded-pseudoperson)
 - [Select the artifact register](#select-the-artifact-register)
 - [Write the communication brief](#write-the-communication-brief)
 - [Build search intent into the brief](#build-search-intent-into-the-brief)
@@ -18,33 +19,62 @@ uncertain.
 
 ## Understand the reader and page moment
 
-Do not begin with a fictional persona, a service inventory, or the copy already
-on the page. Begin with the communication situation.
+Do not begin with a service inventory or the copy already on the page. Begin
+with the communication situation: who this is for, what may be live for them,
+what this page or passage can usefully do now, and what the rest of the site or
+journey already handles.
 
-Ask:
-
-- Who is this primarily for? Who else may read it, and should the copy account
-  for them or stay deliberately focused?
-- What brought the reader here: discovery, recognition, comparison, practical
-  checking, reassurance about fit, or readiness to make contact?
-- How much are they likely to know about the subject, service, and provider?
-- What question, uncertainty, decision, or task is live for them now?
-- What do they need from this part of the page rather than from the page as a
-  whole?
-- What has already been established above, elsewhere on the site, or by the
-  search result or link that brought them here?
-- What should become clearer, more interesting, easier to judge, or easier to
-  do after reading?
-- What useful question should the next section or interaction answer?
-
-Use audience research, real enquiries, search data, owner knowledge, and the
-current task where they exist. When they do not, make a proportionate working
-hypothesis instead of inventing a detailed inner life or refusing to write.
+Use research, real enquiries, search data, owner knowledge, and the current
+task where they exist. Treat likely prior site knowledge lightly. Record it
+only when it changes what the reader needs or how the copy is likely to land;
+do not create a separate cold-entry analysis.
 
 Treat awareness as a continuum, not a rigid funnel. A reader may be new to the
 subject, familiar with the subject but not the service, comparing practitioners,
 or checking one last practical detail. The language and degree of explanation
 should match that state.
+
+## Build a research-grounded pseudoperson
+
+For substantive audience-specific strategy, page planning, drafting,
+rewriting, or review, create one **research-grounded pseudoperson** as the
+primary editorial perspective.
+
+1. Use `docs/research/README.md` to select the single closest matching dossier.
+   Do not merge dossiers unless the task explicitly asks for multiple audience
+   segments.
+2. Within that dossier, choose one coherent situation that fits the task. Do
+   not collapse the dossier's full range into an omnibus or average person.
+3. Synthesize a short, coherent account of that person's position. First person
+   is usually useful because it makes the editor inhabit the perspective, but
+   it is not compulsory. Let the evidence determine what becomes important:
+   this might include likely experience, hopes, worries, prior provider
+   encounters, practical stakes, confidence signals, sensitivities, language,
+   or contradictions. These are examples, not fields to complete.
+4. Add a concise evidence-and-limits note naming the dossier and any material
+   uncertainty. Keep the basis traceable without turning the account into a
+   research summary or citation ledger.
+
+Do not invent a name, demographic biography, identity detail, backstory, or
+universal inner life unless the task and evidence make the detail genuinely
+relevant. The pseudoperson is an evidence-bounded editorial synthesis, not a
+real participant, manufactured testimony, or a claim that the audience shares
+one experience.
+
+If no dossier matches, build the best proportionate account from the task,
+project context, and model knowledge. State briefly that it is a best-effort
+simulation and not dossier-grounded, then continue. Do not block the copy task
+or initiate audience research automatically.
+
+Use the account as a reading position, not a content-requirements list. It may
+support adding material, but it may equally support omission, compression,
+deferral to another page, or recognition that the site has already answered a
+concern. Research should sharpen editorial judgement, not make the public copy
+reproduce every finding.
+
+Show the account once in substantial working and carry it silently through
+later drafting and revision. For a narrow task, reuse or compress an existing
+account rather than producing a new persona artifact.
 
 ## Select the artifact register
 
@@ -72,8 +102,9 @@ Capture the decisions that should govern the writing:
 
 ```text
 Primary reader:
-Evidence-supported reader positions:
-Arrival context and awareness:
+Research-grounded pseudoperson, when applicable:
+Evidence basis and material limits:
+Arrival context and awareness, when material:
 Point in the page or site journey:
 Live question, uncertainty, or decision:
 Page or section job:
@@ -84,9 +115,7 @@ What belongs later or elsewhere:
 Desired next understanding, judgement, or action:
 Search intent and natural vocabulary:
 Speaker and relationship to the reader:
-Intended intellectual reading:
-Intended emotional or relational effect:
-Plausible adverse reading:
+Salient reader considerations for this task:
 Useful voice or point-of-view material:
 Practical constraints and genuine unknowns:
 ```
@@ -101,10 +130,11 @@ and convert at once. Choose the work this artifact actually needs to do. Copy
 formulas may prompt a missing question; they must not determine the emotional
 sequence or prose shape.
 
-Use the reader-position and reading fields when audience-specific recognition,
-trust, emotional tone, or direct address materially affects the artifact. An
-emotional effect is a relationship the language should earn, not a feeling to
-assign to an unknown reader or a phrase to insert literally.
+Adapt the brief to the work. The pseudoperson account should hold together as a
+perspective, not be split into a standard set of concerns or reader questions.
+When recognition, trust, emotional tone, or direct address matters, describe
+the specific relationship the language needs to earn without assigning a
+universal feeling to the audience.
 
 ## Build search intent into the brief
 
@@ -282,7 +312,9 @@ materially change the outcome.
 For substantial work, maintain and show a compact editorial record:
 
 ```text
-Reader and arrival context:
+Research-grounded pseudoperson:
+Evidence basis and material limits:
+Reader and arrival context, when material:
 Page or site moment:
 Communication job:
 Main message:

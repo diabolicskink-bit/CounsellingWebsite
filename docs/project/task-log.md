@@ -18,6 +18,35 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-17 - Audience And Market Research Skills Split
+
+- Refocused: `audience-research` now builds broad, experience-rich audience
+  understanding from formal evidence and public first-person material for
+  downstream copywriting and page development rather than acting like an
+  auditable research paper.
+- Simplified: Future dossiers use evidence-shaped headings and one
+  `ID` / `Source` / `Description` register while retaining concrete populations,
+  sample sizes, percentages, comparisons, settings, and meaningful limitations
+  beside the findings they support. Existing dossiers remain unchanged.
+- Split: The freehand `market-segment-research` seed now preserves query,
+  competitor, provider, directory, taxonomy, and visible-market research that
+  no longer belongs in audience dossiers.
+
+## 2026-07-17 - Audience Research Delegation Workflow Added
+
+- Added: The `audience-research` skill may delegate independent evidence streams
+  to subagents while keeping canonical synthesis, source-ID assignment, dossier
+  changes, and index changes parent-owned.
+- Established: Each subagent writes unrestricted substantive notes to one file
+  in a dated per-task `docs/research/working/` folder; the parent reads and
+  proportionately verifies every packet before selecting evidence to integrate.
+- Clarified: Working packets remain non-canonical, Git-tracked, and retained for
+  owner review. Other tasks ignore them unless the owner explicitly requests
+  inspection or the same parent research task is continuing.
+- Simplified: Audience dossiers no longer carry document statuses, creation or
+  review metadata, or review logs. Research coverage and source-level dates
+  retain the evidence context without a separate document lifecycle.
+
 ## 2026-07-16 - Staged Page Copy Development Skill Added
 
 - Added: The project-local `develop-page-copy` skill formalises the visitor-first page-plan-then-section workflow for new and substantially rebuilt service pages.

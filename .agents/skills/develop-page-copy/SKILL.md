@@ -4,21 +4,22 @@ description: >
   Develop visitor-facing website copy through a staged documentation workflow:
   first create a research-grounded, visitor-first page plan, then develop
   individual sections in separate Markdown workthroughs with conceptual
-  choices, structurally different copy candidates, cold-reader testing, and a
-  recommended draft. Use when a user wants to plan a new or substantially
-  rebuilt service page before writing it, start from a hero-only or partial
-  page, work through a page section by section, create or continue artifacts in
-  docs/page-plan, or avoid jumping directly from research into public copy. Do
-  not use when the task is only a small line edit, typo fix, visual design, code
-  implementation, or insertion of already-approved wording.
+  choices, structurally different copy candidates, research-grounded reader
+  response, and a recommended draft. Use when a user wants to plan a new or
+  substantially rebuilt service page before writing it, start from a hero-only
+  or partial page, work through a page section by section, create or continue
+  artifacts in docs/page-plan, or avoid jumping directly from research into
+  public copy. Do not use when the task is only a small line edit, typo fix,
+  visual design, code implementation, or insertion of already-approved wording.
 ---
 
 # Develop page copy
 
-Start by putting on the visitor's hat. Identify who has arrived, what brought
-them here, what they already know, and what they need from the page next. Let
-their developing questions shape the page. Do not begin with the provider's
-knowledge, the research taxonomy, or an inventory of available content.
+Start by constructing and inhabiting one research-grounded pseudoperson whose
+situation fits the page task. Let that coherent perspective shape the page
+without turning the dossier into a requirements list. Do not begin with the
+provider's knowledge, the research taxonomy, or an inventory of available
+content.
 
 Treat page planning and section drafting as separate editorial stages. Use the
 page plan to decide the visitor journey and give each section a distinct job.
@@ -33,67 +34,96 @@ In the Vive Counselling repository:
 2. Read `docs/project/product-direction.md`,
    `docs/project/writing-direction.md`, and `docs/project/current-scope.md`.
 3. Read the relevant page source, adjacent page context, selected tracker or
-   plan, and applicable research dossier.
+   plan, and `docs/research/README.md`. Use the single closest matching dossier
+   it routes to as the primary audience anchor.
 4. Treat current source as factual and layout context, not approved voice,
    unless the owner or writing direction says otherwise.
 5. Treat research as evidence and a coverage constraint, not as a page outline
    or a source of ready-made marketing claims.
 
-Use `audience-research` only when the task requires new evidence, a dossier
-update, or formal research maintenance. Use `website-design` only when the user
-also requests visual design or implementation.
+Use existing research dossiers and other authorised research artifacts as
+inputs only. Never invoke `audience-research`, directly or through another
+skill, and do not create, update, or maintain research artifacts in this
+workflow. Do not choose the copywriter skill's Research mode here.
 
-## Put on the visitor's hat
+When existing evidence is incomplete, continue with general knowledge and
+reasonable visitor hypotheses as explicitly labelled working assumptions. Do
+not turn an assumption into a sourced prevalence, clinical, service, or other
+factual claim. Qualify it, omit it from public copy, or record consequential
+uncertainty for separate resolution.
 
-Do this before deciding the page argument or section structure. Work out:
+Use `website-design` only when the user also requests visual design or
+implementation.
 
-- who the primary visitor is and which materially different visitor positions
-  also matter;
-- what situation, question, change, or search brought them to this page now;
-- how much they are likely to know and which words they may use themselves;
-- what the hero or preceding content has already told them;
-- what they still need to understand, judge, compare, or feel able to do;
-- what might make them feel categorised, instructed, pressured, or overlooked;
-  and
-- what the page should not require them to learn, defend, or decide before it
-  becomes useful.
+## Build and inhabit the pseudoperson
 
-Write a short, evidence-grounded visitor-hat account before planning the page.
-First person can help expose provider-centred assumptions:
+Do this once before deciding the page argument or section structure. Follow the
+copywriter skill's research-grounded pseudoperson method:
 
-> I have arrived because ...
-> At this point I know ...
-> I still need to understand ...
-> I do not want this page to assume ...
-> By the end, I need to be able to ...
+- select one situation within the closest matching dossier that fits this page
+  task rather than combining the whole audience into an omnibus persona;
+- derive whichever experiences, hopes, worries, practical stakes, confidence
+  signals, sensitivities, language, or contradictions the evidence makes
+  important, without treating these examples as required fields;
+- write a short, coherent, preferably first-person account rather than a
+  questionnaire, demographic biography, or fixed persona template; and
+- add a concise note identifying the dossier basis and material limits.
 
-Treat this as a working hypothesis, not a fictional intimate persona. Ground it
-in the brief, research, search language, current page context, and sensible
-uncertainty. Do not claim private feelings or lived experience as fact.
+Do not invent a name, private history, identity detail, or universal inner life.
+Treat the account as a transparent editorial synthesis, not manufactured
+testimony or empirical research. If no dossier matches, use the task, project
+context, and model knowledge to make the best proportionate simulation, note
+briefly that it is not dossier-grounded, and continue without starting research.
 
-Return to the visitor's hat at the start of every section workthrough and again
-during full-page assembly. Ask `What does this visitor need next?` before asking
-`What should the page say next?`
+Show the account once in a substantial page plan or workthrough. Reuse the same
+pseudoperson during section development and assembly, updating only what the
+reader now knows or experiences because of the visible page. Do not rebuild the
+persona at each stage. Mention likely prior site knowledge only when it changes
+the reading; do not add a dedicated cold-entry exercise.
+
+The pseudoperson is an editorial perspective, not a list of content the page
+must cover. It may support omission, compression, or deferral when information
+is already available elsewhere or does not belong in this page moment.
 
 ## Apply the copywriter skill to copy decisions
 
-This skill does not replace the `copywriter` skill. It sequences the work and
-defines the artifacts. The copywriter skill governs page-purpose thinking,
-message strategy, angle selection, composition, drafting, revision, voice,
-search language, inclusion, claims, and copy-quality review.
+This skill does not replace the `copywriter` skill. Keep their responsibilities
+distinct while using both in the same staged workflow.
+
+This skill owns:
+
+- the authorised stage and stopping point;
+- the visitor journey across the page;
+- section ownership, boundaries, handoffs, and page-level non-duplication;
+- the requirement to explore and preserve structurally different candidates;
+- artifact structure, stable IDs, status, and cross-links;
+- selection or synthesis records; and
+- full-page assembly and page-flow review.
+
+The copywriter skill owns:
+
+- reader and page-moment analysis within each copy decision;
+- construction and inhabited use of the research-grounded pseudoperson;
+- page purpose, message strategy, search language, and editorial direction;
+- angle craft, composition, drafting, revision, and voice;
+- adaptive reader-response testing; and
+- sentence review, model glue, inclusion, claims, research discipline, and
+  read-aloud review.
 
 Before doing any of those things:
 
 1. Read the `copywriter` skill completely and choose its appropriate work mode.
+   Do not choose its Research mode from this workflow.
 2. Follow the references it routes to for the task. In particular, use its
    editorial-model guidance for new pages, substantial rewrites, unclear page
    purpose, or uncertain section roles; use its angle prompts when the writing
    direction is open; and use its model-glue and quality-review guidance before
    finalising substantial copy.
-3. Apply its reader, page-moment, communication-job, intellectual-reading, and
-   relational-reading distinctions to the visitor identified here.
-4. Treat the quality gates bundled with this skill as reinforcement, not a
-   substitute for the copywriter process.
+3. Apply its pseudoperson, page-moment, communication-job, and inhabited-reading
+   methods to the visitor identified here.
+4. Apply the copywriter's quality methods to the public copy. Then use this
+   skill's page-flow gates for ownership, sequence, duplication, synthesis,
+   assembly, and artifact authority.
 
 A page plan may remain a planning artifact, but any part of it that decides the
 page purpose, message, editorial direction, ordering, search language, or later
@@ -120,7 +150,7 @@ copy. If they ask for one section, do not implement or redesign the page.
 Before creating an artifact, read
 [`references/output-structures.md`](references/output-structures.md). For
 section drafting or final assembly, also read
-[`references/quality-gates.md`](references/quality-gates.md).
+[`references/page-flow-gates.md`](references/page-flow-gates.md).
 
 ## Stage 1 — Create the page plan
 
@@ -135,18 +165,12 @@ than restate it.
 
 ### 2. Re-enter the visitor's page moment
 
-Use the visitor-hat account as the starting point. Define:
-
-- the primary reader and a small set of evidence-supported secondary positions;
-- what likely brought them to this page now;
-- what they know after the hero;
-- the questions they still need answered;
-- the decision, judgement, or next action the page should make easier; and
-- materially different or adverse readings the page must avoid.
-
-Write the page journey in the visitor's words before naming sections. Do not
-invent an intimate persona. Describe positions through situation, awareness,
-or relationship to the subject.
+Use the pseudoperson account as the starting point and let the task-specific
+considerations within it determine what matters after the hero. Write the page
+journey from that position before naming sections: follow what becomes
+important, what the visible copy has already settled, and which judgement or
+next movement the page could usefully support. Do not translate the account
+into a fixed list of reader questions or researched concerns.
 
 ### 3. Decide the page argument before its sections
 
@@ -168,6 +192,11 @@ For the hero and each section, define:
 - the handoff to the next section; and
 - the evidence or current facts supporting it.
 
+Assign each planned section a stable, descriptive ID derived from its owned
+job, such as `recognition` or `role-in-counselling`. Use the ID for the section
+workthrough filename and keep it unchanged if the section moves. Change it only
+when the section's owned job materially changes.
+
 If two sections answer the same visitor question, combine them or change their
 jobs. If a section exists only to provide a new heading or layout beat, remove
 it.
@@ -180,7 +209,7 @@ Include:
 - material the page should leave out;
 - open decisions that would materially affect later wording;
 - an order for drafting the sections; and
-- cold-reader acceptance checks for the finished page.
+- adaptive reader-response acceptance checks for the finished page.
 
 Do not use an open decision as an excuse to stop if a bounded working
 assumption preserves the user's intent. Label the assumption and continue.
@@ -198,8 +227,8 @@ implementation.
 
 ### 1. Recover the section's place in the journey
 
-Put the visitor's hat back on. Read the page plan and the actual preceding and
-following content. State:
+Reuse the page-level pseudoperson. Read the page plan and the actual preceding
+and following content, then update only the reader's current state. State:
 
 - what the visitor already understands;
 - the live question at this point;
@@ -218,8 +247,7 @@ Apply the copywriter skill's strategy and editorial-model guidance. Decide:
 - the most useful organising principle;
 - essential, optional, and excluded content;
 - the natural vocabulary of the visitor;
-- the intended intellectual reading;
-- the intended relational effect; and
+- the reader response this particular section needs to make possible; and
 - the GOOD, BAD, and MODEL-default outcomes.
 
 Prefer lived situations, decisions, contrasts, or changes over abstract issue
@@ -245,54 +273,69 @@ drafting it.
 
 ### 4. Write actual copy candidates
 
-Draft the complete section for each viable angle using the copywriter skill's
-composition, voice, momentum, and line-level guidance. Do not stop at
-descriptions, wire-copy labels, or topic bullets.
+For substantial section work, carry the default three angles through to three
+complete section drafts using the copywriter skill's composition, voice,
+momentum, and line-level guidance. Do not stop at descriptions, wire-copy
+labels, or topic bullets.
+
+If an angle cannot be drafted because it contradicts an established fact,
+owner decision, service boundary, or the section's owned job, record why and
+replace it with a viable structurally different angle. Produce fewer than three
+complete candidates only when the user explicitly narrows the exploration.
 
 Let the drafts be uneven if the content calls for it. Do not force equal
 paragraphs, symmetrical modules, or a comprehensive issues grid merely because
 they are easy to compare.
 
-### 5. Test each candidate cold
+### 5. Test each candidate from the inhabited perspective
 
-Hide the working and put the relevant visitor's hat back on. Apply the
-copywriter skill's grounded visitor-reading process, then review each draft
-through:
+Hide the research notes, strategy, and rationale. Reuse the page-level
+pseudoperson and encounter only the complete visible candidate in context.
+Record freeform responses to whatever becomes salient, tying each material
+reaction to observable wording, order, emphasis, omission, or page position.
+Do not fill fixed immediate, intellectual, relational, or sceptical headings.
 
-- **immediate reading:** what the visitor notices first;
-- **intellectual reading:** what they can reasonably understand or infer;
-- **relational reading:** how the language positions them in relation to the
-  provider;
-- **sceptical or adverse reading:** how a wary or differently situated visitor
-  could read it; and
-- **revision pressure:** the most important weakness to solve.
-
-Use reader positions supported by the brief or research. Do not assign feelings
-to a fictional reader as fact.
+Return to editor mode and identify the most important revision pressure. The
+response may support adding material, but it must also be able to recommend
+deletion, compression, or deferral. Treat it as an editorial simulation, not
+empirical or representative user testing.
 
 ### 6. Compare, choose, and refine
 
-Compare candidates against criteria specific to the section. Recommend one
-direction and explain why it serves the page journey better, not merely why it
-sounds better.
+Compare candidates against criteria specific to the section. Recommend either
+one candidate or a synthesis and explain why the result serves the page journey
+better, not merely why its individual lines sound better.
 
-Then present a clean recommended working draft. Import useful material from
-other candidates only when it strengthens the chosen organising idea. Do not
-create a committee draft that preserves every good sentence.
+Develop and reader-test the distinct candidates before combining them. After
+that comparison, synthesis may freely combine compatible material or editorial
+moves from any candidates without treating one as the required base. Record
+what each candidate contributes and why the combination is stronger.
 
-### 7. Run the quality gates
+Present a clean recommended working draft. When it is synthesised, treat it as
+a new composition: repeat the inhabited reading from Step 5 and test its
+coherence, repetition, section ownership, and page fit. Do not assume that
+individually strong passages work together without revision.
 
-Run the sentence-function, deletion, model-glue, inclusion, claim, research,
-handoff, and read-aloud checks in `references/quality-gates.md`.
+### 7. Run copy-quality and page-flow review
+
+Apply the copywriter skill's sentence-function, deletion, model-glue,
+inclusion, claim, research-discipline, and read-aloud methods to the recommended
+copy. Then run the ownership, synthesis, duplication, handoff, assembly, and
+artifact-authority checks in `references/page-flow-gates.md`.
 
 Prefer deletion to replacing weak glue with more polished glue. Remove examples
 included only to demonstrate research coverage.
 
 ### 8. Save and cross-link the section workthrough
 
-Use `docs/page-plan/<page-slug>-section-<number>.md` unless the user specifies a
-different name. Link back to the page plan and add a link from the relevant
-section of the page plan to the workthrough.
+Use `docs/page-plan/<page-slug>-section-<section-id>.md` unless the user
+specifies a different name. Use the stable job-based ID assigned in the page
+plan rather than the section's current order. Link back to the page plan and
+add a link from the relevant section of the page plan to the workthrough.
+
+Treat existing numbered workthrough filenames as stable legacy paths. Do not
+rename them merely to adopt this convention; migrate them only when the user
+authorises that work and all inbound links can be updated together.
 
 Keep the working document distinct from approved public copy. State its status.
 
@@ -300,14 +343,15 @@ Keep the working document distinct from approved public copy. State its status.
 
 When the user asks to assemble the page:
 
-1. Put the primary visitor's hat back on and use the recommended section drafts
-   as inputs, not immutable wording.
+1. Reuse the page-level pseudoperson and use the recommended section drafts as
+   inputs, not immutable wording.
 2. Apply the copywriter skill and read the whole page from the hero down.
 3. Remove repeated claims, examples, stance statements, and calls to action.
 4. Recheck section ownership and handoffs in the actual sequence.
 5. Adjust headings and openings for page-level rhythm and search clarity.
-6. Re-run the quality gates across the full page.
-7. Keep implementation separate unless the user authorises it.
+6. Re-run the copywriter skill's quality methods across the full page.
+7. Re-run `references/page-flow-gates.md` across the assembled sequence.
+8. Keep implementation separate unless the user authorises it.
 
 A section that won in isolation may still need to lose a sentence when it sits
 beside the next section.
@@ -317,6 +361,8 @@ beside the next section.
 - Lead with visitor recognition and decision-making, not provider doctrine.
 - Use research to improve distinctions and prevent exclusion; do not dump its
   taxonomy into the page.
+- Treat general knowledge and visitor hypotheses as labelled working
+  assumptions, not publication evidence.
 - Do not make the page perform expertise for peer practitioners.
 - Do not turn every topic into an eyebrow, card, tile, or equal module.
 - Do not use generic reassurance as a substitute for accurate recognition.
@@ -331,7 +377,9 @@ beside the next section.
 Use the full workflow for a new page, a major rebuild, a sensitive audience, or
 an unclear page argument. Compress the documentation for a narrow or low-risk
 page, but preserve the stage boundary, section ownership, genuinely different
-angles, and cold-reader review.
+angles, and inhabited reader review. Reuse or compress the existing
+pseudoperson rather than generating a full new persona artifact for a narrow
+revision.
 
 Do not add headings to an artifact solely to satisfy a template. The structures
 are prompts for decisions, not a quota.

@@ -3,6 +3,7 @@
 **Status:** Working copy exploration, not approved public copy  
 **Page:** ENM and polyamory counselling  
 **Section:** `Recognisable reasons this page may be relevant`  
+**Stable section ID:** `recognition`  
 **Related plan:** [ENM and polyamory page plan](enm-polyamory-page.md)
 
 ## Scope of this document
@@ -675,4 +676,3 @@ be able to answer yes to the following:
 - I am not told what the relationship should become.
 - The section does not read like training material for therapists.
 - The next section still has a distinct and necessary job.
-

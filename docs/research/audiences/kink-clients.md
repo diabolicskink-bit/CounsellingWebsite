@@ -1,11 +1,7 @@
 # Kink clients research dossier
 
-- **Status:** Active
 - **Scope:** Adults considering counselling whose kink, BDSM interests, practices, roles, relationships, or community participation may be central, relevant, incidental, or unrelated to the reason for counselling
 - **Geography and service setting:** Perth-based counselling context with online service across Australia; Australian evidence prioritised and international evidence retained where local evidence is limited
-- **Created:** 2026-07-16
-- **Last reviewed:** 2026-07-16
-- **Review coverage:** Complete evidence-method rebuild covering 33 formal and authoritative sources, 21 public-web sources with a 15-source core recurrence sample, four dated public-search samples, two Australian directory observations, and 18 Australian provider pages
 
 This dossier records research evidence. It does not contain copywriting, SEO,
 content, service-design, or website recommendations.
@@ -598,9 +594,3 @@ observations, not service-quality findings.
 | S22 | Talklink, [Maxi Xie](https://talklink.com.au/counsellor/maxi-xie) | Melbourne and online; 2026-07-16 | Practitioner profile | Counselling and sex therapy with kink and fetish-friendly wording |
 | S23 | Psychology Today, [Asra Walford](https://www.psychologytoday.com/au/counselling/asra-walford-perth-wa/1277879) | Perth; 2026-07-16 | Practitioner profile | Sex-positive and kink-allied counselling and relationship therapy |
 | S24 | Kitchen Table Counselling, [home](https://kitchentablecounselling.com.au/) | Australia; 2026-07-16 | Provider page | D/s and kink relationships within individual, dyadic, and multi-person therapy |
-
-## Review log
-
-| Date | Review scope | Material changes |
-| --- | --- | --- |
-| 2026-07-16 | Complete evidence-method rebuild | Replaced the prior mixed research and strategy draft. Rechecked and corrected 15 inherited formal sources, added 18 formal sources, audited 13 inherited public sources, added 8 public sources, recorded a 15-source recurrence sample, added four exact-query samples, checked two directories, and coded 18 provider pages. Removed copy, service, website, search-strategy, and project-status material. Remaining gaps are recorded above. |

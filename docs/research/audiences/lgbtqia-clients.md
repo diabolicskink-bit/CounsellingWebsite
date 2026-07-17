@@ -1,8 +1,7 @@
 # LGBTQIA+ clients
 
-## Dossier metadata
+## Research scope
 
-- **Status:** Active; initial research pass complete
 - **Audience scope:** Adults considering counselling for whom sexual orientation,
   gender identity or expression, sex characteristics, asexual or aromantic
   identity, or related social and community experiences may be relevant. These
@@ -11,11 +10,6 @@
 - **Geographic and service scope:** Adult counselling and psychotherapy. Australian
   evidence anchors local access and service context; US, UK and other international
   research is included where it adds direct evidence about therapy experiences.
-- **Created:** 2026-07-16
-- **Last substantive review:** 2026-07-16
-- **Review coverage:** Formal evidence checked through 2026-07-16; public-web
-  discussion checked through 2026-07-16; Australian and Perth search/service
-  sample checked 2026-07-16
 - **Subsegment decision:** One parent dossier is currently workable. Findings are
   separated by population and situation below. A separate file is warranted only
   when a subgroup develops a substantial distinct evidence base or the parent
@@ -748,10 +742,3 @@ All search and service pages were checked on 2026-07-16.
 | S10 | [Everybody Sexology: intersex counselling](https://everybodysexology.com.au/intersex-counselling/) | Variation-specific counselling/sexology page with Geelong and Australian telehealth access | Individual service page; no independent experience evidence. |
 | S11 | [Psychology Today: transgender counselling in the City of Perth](https://www.psychologytoday.com/au/counselling/wa/city-of-perth?category=transgender) | Separate directory taxonomy and result page for trans clients | Same directory and ranking limitations as S01. |
 | S12 | Public search sample for `asexual affirming therapist Australia counselling` | No clearly dedicated Australian asexual provider appeared among the first visible results checked; overseas directories and broad queer providers did | Sampled absence on one date; no volume, exhaustive coverage or demand inference. |
-
-## Review log
-
-| Date | Change | Evidence refreshed |
-| --- | --- | --- |
-| 2026-07-16 | Added a concise key-findings overview above the detailed findings | No new sources; synthesis checked against F01-F19 and W01-W19 |
-| 2026-07-16 | Created parent dossier with subgroup-specific formal findings, international and Australian therapy-experience research, public-web discussion, and Australian/Perth search and service observations | F01-F19, W01-W19, S01-S12 |

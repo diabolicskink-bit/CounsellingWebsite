@@ -85,8 +85,9 @@ thinks the same thing.
    assume it must be protected from criticism?"
 4. **Usefulness and format:** "What can individual counselling do when other
    relationships and people are involved?"
-5. **Practical decision:** "Is this service a workable fit, and what can I do
-   next?"
+5. **Practical decision:** "Are the service and practical arrangements workable
+   for me?"
+6. **Action:** "If I want to enquire, what do I need to say?"
 
 The page should move through those questions. A visitor should not have to
 decode a therapist's conceptual framework before recognising why the section
@@ -196,6 +197,8 @@ closing sentence that only restates warmth.
 
 ### Hero — Existing orientation and primary action
 
+**Stable section ID:** `hero`
+
 **Visitor question:** "Am I in the right place?"
 
 **Job:** Identify the subject, establish the basic relationship to the reader,
@@ -209,8 +212,10 @@ shape, a few example concerns, and the primary enquiry action.
 
 ### Section 1 — Recognisable reasons this page may be relevant
 
+**Stable section ID:** `recognition`
+
 **Detailed copy development:** [Section 1 conceptual work and draft
-variations](enm-polyamory-section-1.md).
+variations](enm-polyamory-section-recognition.md).
 
 **Working heading direction:** Concrete and descriptive, such as `What may
 bring you here`. Final wording should be drafted later.
@@ -261,6 +266,11 @@ table in the dossier.
 
 ### Section 2 — Decide what role non-monogamy has in the work
 
+**Stable section ID:** `role-in-counselling`
+
+**Detailed copy development:** [Section 2 conceptual work and draft
+variations](enm-polyamory-section-role-in-counselling.md).
+
 **Working heading direction:** A visitor-facing question or direct statement,
 such as `How much of this is about non-monogamy?` Final wording should be
 drafted later.
@@ -275,8 +285,8 @@ the label.
 
 **Content to cover:**
 
-- when the relationship structure itself is central, including opening,
-  closing, fit, agreements, or different wants;
+- rely on Section 1 to show when non-monogamy is central rather than repeating
+  opening, closing, agreements, or different wants;
 - when ENM changes the context around grief, time, family, disclosure, stigma,
   or another relationship concern;
 - when a person genuinely does not know whether non-monogamy fits them;
@@ -287,17 +297,21 @@ the label.
   than verdicts on a relationship structure;
 - consent, pressure, power, safety, and harm as legitimate questions without
   inferring them from an ENM label;
-- a wish for monogamy, reluctance to open, or recognition of incompatibility as
-  conclusions that must remain available, just as continuing ENM must remain
-  available.
+- a separate position block stating that neither monogamy nor non-monogamy is
+  treated as the better outcome, and Joel will not steer the work towards
+  either one;
+- a wish for monogamy, reluctance to open, or recognition of incompatibility
+  remaining available, just as continuing ENM remains available.
 
-**Editorial rule:** State the distinction positively and develop it through
-one or two contrasts. Do not rebuild the deleted `What ENM-aware counselling
-means here` material as a list of therapist promises.
+**Editorial rule:** Continue from Section 1 rather than restarting recognition.
+Use one compact context/background movement, then give the neither-monogamy-nor-
+non-monogamy position its own copy block. Do not rebuild the deleted `What
+ENM-aware counselling means here` material as a list of therapist promises.
 
 **Must not do:**
 
 - make Joel's opposition to other therapists the section's subject;
+- repeat Section 1's opening, agreement, and relationship-fit examples;
 - use `affirming`, `safe`, or `non-judgemental` as self-proving adjectives;
 - promise neutrality as emotional distance or automatic approval;
 - create four equal modules merely because the research names four possible
@@ -310,6 +324,8 @@ question is what individual counselling can actually do with the situation.
 central/contextual concerns and mono/poly goals.
 
 ### Section 3 — Individual counselling when other relationships are involved
+
+**Stable section ID:** `individual-counselling`
 
 **Working heading direction:** Plain service language, such as `Coming on your
 own` or `Individual counselling with a wider relationship picture`. Final
@@ -360,23 +376,26 @@ relationship-system model.
 - diagnose absent partners or assign their intentions;
 - repeat the entire Working with Joel page.
 
-**Handoff to Section 4:** After understanding the format, the visitor needs a
-short practical decision path.
+**Handoff to Section 4:** After understanding the format, the visitor needs to
+check whether the practical arrangements are workable.
 
 **Research and fact basis:** Current Home source identifies `Individual
 counselling`; F03, F14, F25, F26, and W08 show that individual, dyadic, and
 multi-partner formats should not be collapsed; current public service facts
 must govern the final boundary.
 
-### Section 4 — Practical fit and next step
+### Section 4 — Practical fit
+
+**Stable section ID:** `practical-fit`
 
 **Working heading direction:** Practical rather than inspirational, such as
-`If you are considering counselling`. Final wording should be drafted later.
+`Practical details`. Final wording should be drafted later.
 
-**Visitor question:** "Is this workable for me, and where do I go next?"
+**Visitor question:** "Are the service and practical arrangements workable for
+me?"
 
-**Section job:** Give the page a useful ending by connecting subject fit to the
-site's existing practical and enquiry paths.
+**Section job:** Connect subject and service fit to the site's existing sources
+for Joel's approach, fees, session details, and availability.
 
 **Content to cover:**
 
@@ -384,29 +403,79 @@ site's existing practical and enquiry paths.
   in Perth;
 - a link to `Working with Joel` for the fuller account of his approach;
 - a link to `Contact and fees` for the current fee, session length, consult,
-  availability, and practical details;
-- the enquiry action;
-- a brief, accurate lowering of the contact threshold: the first message does
-  not need to contain a complete account of every relationship or decision.
+  availability, and practical details.
 
 The Contact page currently owns the live fee and session details. Prefer
 linking to that source over duplicating figures on this page unless the project
 chooses and maintains one shared data source.
 
-**Editorial rule:** End with choices, not a generic statement that reaching out
-is brave, hopeful, or enough. One bottom action area is sufficient because the
-hero already contains an enquiry action.
+**Editorial rule:** Keep this section factual and selective. Let the Contact
+page remain the source of current operational details instead of rebuilding it
+here.
 
 **Must not do:**
 
 - repeat Australia-wide delivery in several headings or adjacent lines;
 - invent availability or suitability;
-- add a reassurance paragraph after the useful links;
+- add a reassurance paragraph after the practical links;
 - default to an FAQ if the preceding sections already answer the real
   questions.
 
+**Handoff to the final CTA:** Once practical questions have a clear destination,
+the page can ask for one decision only: whether the visitor wants to make
+contact.
+
 **Fact basis:** Current Home and Contact source, current route behaviour, and
-the site's enquiry flow.
+confirmed service facts.
+
+### Final CTA — Make contact
+
+**Stable section ID:** `enquiry`
+
+**Working heading direction:** A direct invitation that does not require a
+resolved relationship decision, such as `You do not need to have decided what
+should happen next`. Final wording should be developed separately.
+
+**Visitor question:** "What do I need to know or say before I make an enquiry?"
+
+**Section job:** Give the page one clear final action and lower only the real
+threshold to taking it: a first enquiry does not need to contain a complete
+account of every relationship or a settled view of what the relationship should
+become.
+
+**Content to cover:**
+
+- one primary action linking to the Contact page, using the established `Make
+  an enquiry` label unless later CTA development finds a concrete reason to
+  change it;
+- a brief statement that the visitor does not need to decide between monogamy
+  and non-monogamy before making contact;
+- a practical indication that an initial message can be short and can name what
+  is happening or what the visitor wants help thinking about;
+- no secondary action unless full-page assembly shows that the practical-links
+  section is too easy to miss.
+
+**Editorial rule:** Keep the invitation brief, specific, and proportionate to a
+page that already offers an enquiry action in the hero. The useful movement is
+from `I have not decided` to `I can still make contact`, not from distress to a
+promised feeling or outcome.
+
+**Must not do:**
+
+- summarise the page's ENM stance again;
+- describe enquiry as brave, hopeful, safe, or pressure-free;
+- imply urgency, guaranteed availability, suitability, or a counselling
+  outcome;
+- ask the visitor to disclose every partner, agreement, or relationship detail
+  in the first message;
+- add several competing buttons at the end of the page.
+
+**Page ending:** Stop after the action. Do not add a final reassurance sentence
+or another summary below it.
+
+**Fact basis:** The existing Contact route and enquiry flow; the established
+hero action label; product direction that the site should help a visitor decide
+whether contacting Joel is a sensible next step.
 
 ## Coverage and non-duplication map
 
@@ -416,7 +485,8 @@ the site's enquiry flow.
 | Section 1 | Recognition through situations | General ENM education, therapist promises, practical details |
 | Section 2 | The role ENM should have in the work and freedom from a predetermined outcome | The full issue list, modality explanation, generic claims of inclusion |
 | Section 3 | Individual counselling process, page-specific approach, and service limits | A whole-system treatment model, the full Working with Joel page, couples-service claims |
-| Section 4 | Practical fit, links, and next action | Another stance statement, another issue list, an inspirational conclusion |
+| Section 4 | Practical fit and links to the current sources of service detail | Enquiry persuasion, another stance statement, duplicated fee or availability detail |
+| Final CTA | One enquiry action and the minimum needed for a first message | A page summary, several actions, generic reassurance, forced disclosure |
 
 ## Material the page should leave out
 
@@ -451,8 +521,8 @@ the site's enquiry flow.
    records real disagreement over these terms.
 6. Should Perth appear on this page itself, or remain in shared/home/practical
    content while `across Australia` appears once near the final service facts?
-7. Should the bottom practical section state the current fee and session length
-   directly, or keep Contact as the single visible source of those details?
+7. Should Section 4 state the current fee and session length directly, or keep
+   Contact as the single visible source of those details?
 
 ## Drafting sequence
 
@@ -464,13 +534,15 @@ the site's enquiry flow.
    difference, and a visitor whose presenting concern is unrelated to ENM.
 4. Draft Section 3 from the individual client's side. Check every sentence for
    an accurate service action, useful example, or limit.
-5. Draft the practical ending from current source facts and existing links.
-6. Reread the page from the hero downward. Remove repeated claims about
+5. Draft Section 4 from current source facts and existing links.
+6. Draft the final CTA as one short invitation and one primary action. Check it
+   against the hero CTA so the repetition is useful rather than automatic.
+7. Reread the page from the hero downward. Remove repeated claims about
    acceptance, familiarity, and predetermined outcomes.
-7. Align the final title, metadata, H1/hero, headings, links, and natural search
+8. Align the final title, metadata, H1/hero, headings, links, and natural search
    language. The route is currently a `noindex, nofollow` draft, but eventual
    indexing still requires coherent subject identification.
-8. Run the grounded visitor-reading, speaker, deletion, model-glue, inclusion,
+9. Run the grounded visitor-reading, speaker, deletion, model-glue, inclusion,
    claim, and read-aloud checks before implementation.
 
 ## Acceptance checks for the finished copy

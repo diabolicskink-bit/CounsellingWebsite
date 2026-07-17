@@ -1,32 +1,34 @@
 # Audience research
 
-This directory contains durable internal audience research for reuse across
-copywriting, SEO, content strategy, service explanation, and website work.
-Research dossiers are supporting evidence and synthesis. They are not approved
-public copy and do not override current product direction, confirmed service
-facts, or owner decisions.
+This directory contains extensive internal audience understanding for reuse
+across copywriting, page development, content strategy, service explanation,
+and website work. Dossiers combine formal findings with public first-person
+experiences. They are not approved public copy and do not override current
+product direction, confirmed service facts, or owner decisions.
 
 ## Using this research
 
 - Read the relevant dossier before starting new audience research.
-- Check its status and review coverage before relying on it. A scaffolded dossier
-  contains a research brief, not audience findings.
+- Check its research coverage before relying on it. Research questions or a
+  brief without findings do not constitute audience evidence.
 - Use only the material relevant to the current decision or writing task.
-- Recheck stale, volatile, consequential, or weakly supported points when they
-  materially affect the work.
+- Expand thin, dated, or narrow coverage when it materially affects the work.
 - Add durable new findings back to the dossier rather than leaving them in a
   one-off report.
+- Ignore `working/` outside the same continuing parent research task unless the
+  owner explicitly requests its inspection. Working files are retained raw
+  material, not reusable evidence.
 - Apply current [product direction](../project/product-direction.md), [writing
   direction](../project/writing-direction.md), confirmed project facts, and
   owner decisions before turning research into public wording.
 
 ## Dossiers
 
-| Audience | File | Coverage | Last reviewed |
-| --- | --- | --- | --- |
-| Kink clients | [kink-clients.md](audiences/kink-clients.md) | Rebuilt formal evidence, public-web discussion with a 15-source recurrence sample, and dated Australian/Perth search and provider observations | 2026-07-16 |
-| ENM and polyamory clients | [enm-polyamory-clients.md](audiences/enm-polyamory-clients.md) | Formal evidence, international public-web discussion, Australian/Perth search and service landscape, plus targeted therapist-attitude, ENM-incongruent advice and sexual-health competence research | 2026-07-16 |
-| LGBTQIA+ clients | [lgbtqia-clients.md](audiences/lgbtqia-clients.md) | Initial subgroup-specific formal evidence, international public web discussion, and Australian/Perth search and service landscape | 2026-07-16 |
+| Audience | File | Evidence coverage |
+| --- | --- | --- |
+| Kink clients | [kink-clients.md](audiences/kink-clients.md) | Rebuilt formal evidence, public-web discussion with a 15-source recurrence sample, and dated Australian/Perth search and provider observations |
+| ENM and polyamory clients | [enm-polyamory-clients.md](audiences/enm-polyamory-clients.md) | Formal evidence, international public-web discussion, Australian/Perth search and service landscape, plus targeted therapist-attitude, ENM-incongruent advice and sexual-health competence research |
+| LGBTQIA+ clients | [lgbtqia-clients.md](audiences/lgbtqia-clients.md) | Initial subgroup-specific formal evidence, international public web discussion, and Australian/Perth search and service landscape |
 
 ## Structure
 
@@ -35,14 +37,16 @@ facts, or owner decisions.
 - A primary dossier describes relevant subsegments and situations within the
   broader audience.
 - `audiences/subsegments/` is created only when a subsegment has a substantial
-  distinct evidence base, recurring downstream use, materially different search
-  or service decisions, or an explicit owner request.
+  distinct evidence base, recurring downstream use, a maintainability need, or
+  an explicit owner request.
 - Parent dossiers retain a concise description of and link to any extracted
   subsegment.
+- `working/` contains retained, non-canonical files from delegated research.
+  New runs use a dated per-task folder; downstream work ignores the directory.
 
 ## Evidence model
 
-Dossiers can combine four distinct evidence streams:
+Dossiers currently contain four evidence streams:
 
 - formal and authoritative evidence using `F##` source IDs;
 - recurring themes from public web discussion using `W##` source IDs;
@@ -50,15 +54,23 @@ Dossiers can combine four distinct evidence streams:
 - authorised owner or practice knowledge using `P##` source IDs.
 
 Public web discussion is qualitative audience signal, not a prevalence estimate.
-Source roles and material limitations belong in the source register so the main
-synthesis can remain direct and useful.
+Existing `S##` observations remain part of the current dossiers. New SEO,
+search-landscape, provider, directory, competitor, and market research belongs
+to `market-segment-research` rather than future audience dossiers.
+
+Future audience dossiers use `F##`, `W##`, and `P##` in one lightweight source
+table with `ID`, `Source`, and `Description`. Concrete populations, sample sizes,
+percentages, comparisons, settings, and meaningful limitations belong beside
+the relevant findings in the dossier body.
 
 ## Maintenance
 
 Update the dossier table whenever a file is created, renamed, split, merged, or
-substantively refreshed. Review dates describe the material actually checked;
-they do not imply that every section was refreshed.
+substantively refreshed. Keep each coverage description specific to the
+evidence actually present.
 
-Preserve sound synthesis and source IDs where practical, refresh volatile search
-observations more often than stable background research, remove superseded
-material, and rely on Git plus each dossier's compact review log for history.
+Preserve sound synthesis and source IDs where practical, expand useful gaps,
+remove superseded material, and rely on Git for document history.
+
+Do not delete or tidy working files at task completion. Keep them Git-tracked
+until the owner reviews and removes them.

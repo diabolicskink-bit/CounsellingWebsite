@@ -1,9 +1,7 @@
 # ENM and polyamory clients
 
-## Dossier metadata
+## Research scope
 
-- **Status:** Active; initial research pass and targeted clinical expansion
-  complete
 - **Audience scope:** Adults considering counselling for whom ethical or
   consensual non-monogamy (ENM/CNM), polyamory, an open relationship, or a
   related relationship structure may be central to the work, one part of the
@@ -12,13 +10,6 @@
   Australian evidence anchors local disclosure and service context; US,
   Canadian, UK and European evidence is included where it directly examines
   therapy experience, stigma, relationship functioning, or provider response.
-- **Created:** 2026-07-16
-- **Last substantive review:** 2026-07-16
-- **Review coverage:** Formal evidence, international public-web discussion,
-  and Australian and Perth search/service observations checked through
-  2026-07-16; therapist attitudes, clinical task framing, harms from
-  ENM-incongruent advice, and sexual-health competence received a targeted
-  formal-evidence expansion on that date
 - **Subsegment decision:** One parent dossier is currently workable. Distinct
   relationship structures and situations are separated below; no subsegment
   yet has enough independent evidence or maintenance need to require its own
@@ -1146,10 +1137,3 @@ stable shareable query URLs.
 | S32 | [Love Therapy Australia](https://www.lovetherapy.com.au/) | Multi-practitioner therapy, `navigate polyamory`, and Australia-wide online delivery | Provider self-description. |
 | S33 | [Obsidian Counselling](https://obsidian-counselling.com.au/) | Individual LGBTQA+ counselling, relationship-orientation list including poly/ENM, and national online scope | Provider self-description. |
 | S34 | [ENM Australia](https://www.enmaustralia.com.au/) and [services](https://www.enmaustralia.com.au/services) | ENM/poly coaching, configurations, national video/Sydney delivery, courses/workshops and non-psychotherapy disclaimer | Coaching and education service, not therapy by its own disclaimer; claims were not assessed. |
-
-## Review log
-
-| Date | Change | Evidence refreshed |
-| --- | --- | --- |
-| 2026-07-16 | Created the parent dossier with formal findings, public-web discussion, and Australian/Perth search and service observations | F01-F17, W01-W12, S01-S34 |
-| 2026-07-16 | Expanded therapist attitudes, therapeutic task, ENM-incongruent advice, sexual-health communication, agreement limits and breach planning; retained veto only as a bounded example | F18-F44 |

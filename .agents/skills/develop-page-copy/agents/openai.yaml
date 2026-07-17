@@ -1,4 +1,4 @@
 interface:
   display_name: "Page Copy Development"
   short_description: "Start with the visitor, then develop page copy"
-  default_prompt: "Use $develop-page-copy to identify the visitor and their page moment, create a visitor-led page plan, then develop each section with $copywriter."
+  default_prompt: "Use $develop-page-copy to complete only the authorised page artifact, build and reuse a research-grounded pseudoperson, and apply $copywriter to copy decisions."

@@ -7,8 +7,8 @@ description: >
   substantially rewritten copy, meaningful line editing, CTA and interface
   copy, voice and tone, inclusion and claim review, and diagnosing generic or
   AI-sounding prose. Do not use for meta-review of the skill itself, typo-only
-  fixes, exact owner-supplied replacements, or technical implementation that
-  preserves approved wording.
+  fixes, or technical implementation that only inserts exact owner-approved
+  wording without new copy decisions.
 ---
 
 # Strategic website copywriting
@@ -34,6 +34,13 @@ In the Vive Counselling repository:
 4. Read the relevant page, metadata, adjacent sections and pages, and any
    current tracker item selected by the task.
 
+For substantive audience-specific strategy, page planning, drafting,
+rewriting, or review, also read `docs/research/README.md` and use the single
+closest matching dossier it routes to. Treat one dossier as the primary anchor;
+do not merge dossiers unless the task explicitly requires multiple audience
+segments. Selecting the pseudoperson does not authorise starting or updating
+audience research.
+
 Follow the source order in `writing-direction.md`. Treat existing public copy
 as factual and layout context unless the owner or current guidance approves it
 as wording.
@@ -47,10 +54,16 @@ Use the lightest mode that fits:
 - **Draft or substantial rewrite**: develop a new composition and prose.
 - **Targeted revision**: solve the named problem and reread the surrounding
   passage.
-- **Implementation**: preserve approved wording and change only what the task
+- **Copy implementation**: implement wording developed, revised, or approved
+  within the active copy task; preserve it and change only what the task
   authorises.
 - **Research**: investigate an audience, search, language, factual, or claim
   question that would materially change the copy.
+
+Use copy implementation only when the current task also involves copy
+decisions. Pure insertion of exact owner-approved wording is technical
+implementation, not copywriting; follow the project implementation rules
+without expanding it into editorial work.
 
 Do not turn a sentence-level request into a page strategy exercise. Do not fill
 a generous word allowance merely because it exists.
@@ -62,34 +75,42 @@ a narrow revision while retaining the reader, page-moment, and craft checks.
 
 ### 1. Understand the reader and the moment
 
-Work out:
+For substantive audience-specific work, construct a **research-grounded
+pseudoperson** before making strategy or copy decisions. Use the detailed
+method in `references/editorial-model.md`: select one situation within the
+closest matching dossier, then synthesise a short, coherent account of the
+reader whose circumstances best fit this task. Prefer first person when it
+helps the editor inhabit the perspective. Derive the considerations that the
+evidence makes salient rather than filling a persona template or answering a
+fixed questionnaire.
 
-- who the primary reader is and whether secondary readers matter;
-- what brought them to this page and how much they are likely to know already;
-- the question, uncertainty, comparison, or decision they are dealing with;
-- what they need to understand at this exact point in the page or site journey;
-- what surrounding copy has already established and what later content can do;
-- the next useful action, including deciding, comparing, continuing to read, or
-  taking no action;
-- the ordinary words they may use to search for or recognise the subject.
+Keep the account traceable with a concise note on its evidence basis and
+material limits. Do not invent a name, biography, identity detail, or universal
+inner life. This is a transparent editorial synthesis, not testimony, an
+empirical participant, or a claim that everyone in the audience thinks alike.
 
-Do not manufacture an intimate persona or narrate private feelings as fact.
-Use sensible audience hypotheses when perfect research is unavailable, label
-material uncertainty, and keep moving.
+If no dossier matches, construct the best proportionate pseudoperson available
+from the task, project context, and model knowledge. Briefly note that the
+perspective is not dossier-grounded, then continue. Do not block the work or
+start research automatically.
 
-For audience-specific or sensitive work, identify a small set of materially
-different reader positions supported by the brief or research. Describe each
-position through its situation, awareness, or relationship to the subject, not
-through a fictional personality. Do not claim the reader's identity or lived
-experience.
+Use the pseudoperson to work out what matters at this page moment. Follow the
+particular situation rather than a standard set of concerns. The evidence may
+make likely experience, hopes, worries, prior encounters, practical stakes,
+confidence signals, sensitivities, language, contradictions, or something else
+salient. Account proportionately for what brought the reader here, what they
+may already know, what surrounding copy has established, what this passage can
+usefully do, and what later content can handle. Use the ordinary words through
+which this reader might search for or recognise the subject.
 
-Separate the intended intellectual reading from the emotional or relational
-effect the copy should earn. The intellectual reading is what a reader can
-reasonably understand, infer, question, or expect. The emotional or relational
-reading is the stance the language creates: for example, whether the reader is
-recognised, instructed, categorised, granted permission, accommodated,
-challenged, or pressured. Treat both as hypotheses to test, not feelings to
-assign.
+Do not turn the pseudoperson into a content-requirements list. It may reveal
+that a concern belongs elsewhere on the site, has already been answered, should
+remain implicit, or should be omitted. Include likely prior site knowledge only
+when it changes the reading; do not add a separate cold-entry analysis.
+
+For a narrow revision, reuse or compress an existing audience perspective. Do
+not create a full visible persona artifact when the immediate decision does not
+need one.
 
 Define the artifact and its relationship to the reader. Decide whether it
 calls for direct address, neutral explanation, first-person professional voice,
@@ -212,11 +233,13 @@ language that only makes the draft sound complete.
 
 Change stance and edit the copy rather than defending the draft.
 
-First read the copy cold from each relevant reader position, without explaining
-the writer's intention. Record the first plausible interpretation, the
-emotional or relational posture, and the least charitable plausible misreading.
-Then return to editor mode and diagnose which idea or wording created the
-response. Use the grounded visitor-reading test in
+First put the research notes, brief, and editorial rationale aside. Encounter
+only the visible copy from the pseudoperson's position and record the reactions
+and considerations that actually become salient. Confidence, concern,
+relevance, recognition, resistance, or uncertainty may matter, but they are
+prompts rather than required headings. Tie each material response to observable
+wording, order, omission, or emphasis. Then return to editor mode and diagnose
+which copy decision created it. Use the grounded visitor-reading test in
 `references/quality-review.md` for sensitive, audience-specific, emotionally
 loaded, or high-prominence copy.
 
@@ -269,17 +292,19 @@ register. Do not defend a formula.
 
 ### 7. Test and implement proportionately
 
-Test whether representative readers can identify the subject, understand the
-main point, find practical information, explain the distinction in their own
-words, predict the next action, and name what remains unclear. Observe tasks
-and comprehension rather than asking only whether they like the wording.
+Use the inhabited reader pass to test whether the visible copy lets this
+pseudoperson identify the subject, understand what matters, find relevant
+practical information, judge fit or distinction, and know what they could do
+next. Follow the reactions the copy produces rather than forcing a standard
+question set. Report this as an editorial simulation; never present it as
+empirical or representative user testing.
 
 Review interface copy in the real flow. Keep visible wording, metadata,
 structured data, links, and current service facts aligned.
 
-When implementation is requested, preserve approved wording and limit adjacent
-changes to what implementation requires. Update project records only when the
-repository rules require it.
+When copy implementation follows an active copy decision, preserve the approved
+wording and limit adjacent changes to what implementation requires. Update
+project records only when the repository rules require it.
 
 ## Show the editorial working
 
@@ -288,7 +313,9 @@ working before or alongside the recommendation unless the owner asks for copy
 only. Make the working specific enough to reveal how the result was reached,
 without turning it into the same labelled preamble on every task. Draw from:
 
-- intended reader, arrival context, and point in the page or site journey;
+- one short research-grounded pseudoperson account and its evidence or limits
+  note, for substantial audience-specific work;
+- arrival context and point in the page or site journey when material;
 - page or section job and the main message to land there;
 - search intent and natural subject language when relevant;
 - the selected direction and the task-specific GOOD COPYWRITING, BAD
