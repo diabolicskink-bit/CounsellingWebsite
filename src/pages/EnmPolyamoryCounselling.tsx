@@ -14,7 +14,7 @@ const pageContent = {
   hero: {
     badge: "ENM & polyamory counselling",
     intro:
-      "You can talk about polyamory, open relationships and other forms of ethical non-monogamy in your own language. I start with what is happening for you, not how your relationships should look. We can look at jealousy, agreements, pressure and uncertainty without assuming the structure explains everything.",
+      "You can talk about polyamory, open relationships and other forms of ethical non-monogamy in your own language. I start with what is happening in your life and what you want help with, not with my own view of how your relationships should work.",
     actions: {
       enquiryLabel: "Make an enquiry",
       enquiryHref: "/contact",
@@ -26,16 +26,30 @@ const pageContent = {
   sectionOne: {
     heading: "What might bring you here",
     paragraphs: [
-      "You may be considering opening a relationship, or hearing the idea from a partner before you know what you think — or how much room you have to say it.",
-      "You may already be non-monogamous and something has shifted. Jealousy feels sharper than you expected. An agreement means something different to each person, or something has happened outside it. A breakup or new relationship has changed the time, attention, or reassurance available elsewhere.",
-      "You may be carrying too much between relationships: managing messages, anticipating reactions, and trying to keep everyone steady while your own response gets postponed. Or you may care deeply about someone whose idea of a workable relationship does not match yours.",
+      "Sometimes you can point to what changed. Opening a relationship has become a real decision, and you are not sure what you want or what happens if you disagree. An agreement was broken, or turned out not to mean the same thing to everyone. A new relationship changed the time and attention available elsewhere.",
+      "There may not be one clear event. Jealousy has caught you off guard. Hinging is taking more time and emotional energy than you expected. You may be questioning an arrangement you once wanted.",
+      "You and a partner may want different relationship structures: monogamy for one of you and polyamory for the other. A difference that seemed manageable earlier can become harder to live with as the relationship deepens.",
     ],
+  },
+
+  sectionTwo: {
+    heading: "How much of this is about non-monogamy?",
+    main:
+      "Your relationships do not have to become the focus of counselling just because they are non-monogamous. Non-monogamy may matter when decisions about family or disclosure affect more than one relationship. Or you may be coming to talk about anxiety, burnout, shame or grief. Your relationships may still need to be part of the conversation so you can talk about what is happening without filtering out part of your life.",
+    position: {
+      lead:
+        "I do not think either monogamy or non-monogamy is inherently better. I will not try to convince you that one is better, and I will not steer the work in either direction.",
+      distinction:
+        "Monogamy will not be treated as something to outgrow. Non-monogamy will not be treated as a moral failing.",
+      detail:
+        "I have lived in both monogamous and non-monogamous relationships. That experience helps me approach the work without treating either one as the standard. My focus is the person in front of me: what you want, what you are unsure about and what is actually happening in your life.",
+    },
   },
 };
 
 export default function EnmPolyamoryCounselling() {
   useDocumentMetadata(pageContent.title, pageContent.meta);
-  const { hero, sectionOne } = pageContent;
+  const { hero, sectionOne, sectionTwo } = pageContent;
 
   return (
     <main className="site-page enm-page">
@@ -74,6 +88,29 @@ export default function EnmPolyamoryCounselling() {
             {sectionOne.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="site-highlight enm-page__focus" aria-labelledby="enm-focus-heading">
+        <Container>
+          <div className="site-split enm-page__focus-split">
+            <div className="section-heading enm-page__focus-intro">
+              <h2 id="enm-focus-heading">{sectionTwo.heading}</h2>
+              <p className="section-heading__copy site-ruled-paragraph">{sectionTwo.main}</p>
+            </div>
+
+            <aside
+              className="site-card enm-page__focus-position"
+              aria-labelledby="enm-position-heading"
+            >
+              <h3 id="enm-position-heading">Where I stand</h3>
+              <div className="enm-page__focus-position-body">
+                <p>{sectionTwo.position.lead}</p>
+                <p>{sectionTwo.position.distinction}</p>
+                <p>{sectionTwo.position.detail}</p>
+              </div>
+            </aside>
           </div>
         </Container>
       </section>

@@ -1,22 +1,25 @@
 ---
 name: copywriter
 description: >
-  Plan, structure, write, review, test, and revise visitor-facing counselling
-  and adjacent professional-service copy. Use for audience and page-purpose
-  analysis, message strategy, search intent, visitor-response testing, new or
-  substantially rewritten copy, meaningful line editing, CTA and interface
-  copy, voice and tone, inclusion and claim review, and diagnosing generic or
-  AI-sounding prose. Do not use for meta-review of the skill itself, typo-only
-  fixes, or technical implementation that only inserts exact owner-approved
-  wording without new copy decisions.
+  Act as a professional copywriter for visitor-facing counselling and adjacent
+  professional-service copy: plan, structure, draft, critique, rewrite, test,
+  and refine it. Use for audience and page-purpose analysis, message strategy,
+  search intent, research-grounded reader response, distinctive new copy or
+  substantial rewrites, meaningful line editing, CTA and interface copy,
+  semantics, phrasing, line craft, voice and tone, inclusion and claim review,
+  and diagnosing or repairing generic and AI-default prose. Do not use for
+  meta-review of the skill itself, typo-only fixes, or technical implementation
+  that only inserts exact owner-approved wording without new copy decisions.
 ---
 
-# Strategic website copywriting
+# Professional website copywriting
 
-Treat copywriting as the craft of deciding what a particular reader needs at a
-particular point, then making it clear, compelling, useful, and recognisable in
-language. Begin with the reader, the page moment, and the communication job—not
-with an inventory of facts or evidence.
+Act as the professional copywriter someone consults when they need help working
+out what to say and how to say it. Decide what a particular reader needs at a
+particular point, then make it clear, compelling, useful, credible, and
+recognisable in language. Supply editorial judgement, not just fluent prose or
+compliance checks. Begin with the reader, the page moment, and the
+communication job—not with an inventory of facts or evidence.
 
 Accuracy, accessibility, inclusion, search integrity, and honest claims are
 necessary checks. They constrain the work; they do not supply its angle,
@@ -43,7 +46,10 @@ audience research.
 
 Follow the source order in `writing-direction.md`. Treat existing public copy
 as factual and layout context unless the owner or current guidance approves it
-as wording.
+as wording. Do not infer or learn the desired voice from the current website.
+Use only explicitly approved passages or supplied voice material as voice
+evidence; otherwise choose the register from the speaker, reader, artifact, and
+task.
 
 ## Choose the work mode
 
@@ -72,6 +78,9 @@ a generous word allowance merely because it exists.
 
 Use the whole process for new or substantially rewritten copy. Compress it for
 a narrow revision while retaining the reader, page-moment, and craft checks.
+For substantial drafting or rewriting, complete at least one full
+draft–critique–revision loop. A first draft is working material, not the answer
+merely because it is fluent.
 
 ### 1. Understand the reader and the moment
 
@@ -152,6 +161,16 @@ not earned publication merely because it avoids known mistakes. Negative or
 corrective framing can still lead when the correction itself is a live reader
 need.
 
+Identify the task-specific material that can give the copy a reason to exist:
+perhaps a precise reader situation, consequential detail, practitioner
+judgement, useful distinction, real process, service boundary, or revealing
+omission. These are possible sources, not required fields. If no meaningful
+specificity is available, write direct provisional copy and expose the input
+gap; do not manufacture personality, insight, intimacy, or differentiation.
+Distinctive copy does not have to be conspicuous. It must be shaped by choices
+that would not survive unchanged if a competitor's name and service nouns were
+substituted.
+
 Forecast the craft before drafting:
 
 - **GOOD COPYWRITING**: Name the editorial move, register, emphasis, movement,
@@ -200,9 +219,36 @@ For a section within a page, compose from the previous section into the next.
 Do not restart the entire proposition or repeat orientation the reader already
 has.
 
-### 5. Draft for meaning, voice, and momentum
+### 5. Write a committed working draft
 
-Write the clearest live version of the selected direction.
+Write the clearest live version of the selected direction. Commit to its
+editorial choice instead of blending safer parts of every rejected direction.
+Do not pre-soften the draft to survive every possible critique; the next stage
+exists to find and repair what does not work. Make the working draft a sincere
+best attempt. Do not plant defects or withhold an improvement to manufacture a
+more impressive revision.
+
+Read and apply `references/line-craft.md` before substantial or high-prominence
+drafting, whenever exact wording or phrasing is the task, and when prior copy is
+semantically sound but verbally generic, awkward, or flat. Use its full method
+on a short artifact; concentrate it on pivotal and resistant lines in a long
+one.
+
+Before writing the complete draft:
+
+1. gather the small set of exact terms, actions, distinctions, judgements, and
+   credible details already earned by the task;
+2. establish the literal proposition, grammatical focus, claim status,
+   necessary qualification, and intended emphasis of each pivotal line;
+3. try a small number of materially different constructions privately by
+   changing subject, verb, clause relationship, information order, or sentence
+   shape—not merely synonyms; and
+4. select the construction whose meaning, implication, emphasis, information
+   scent, and spoken plausibility best fit the local job.
+
+Do not show private line variants by default or average them into a safer line.
+Once the pivotal language is working, draft the connecting prose at composition
+speed rather than polishing every sentence before the whole artifact exists.
 
 - Start close to the subject. Use exact nouns, active verbs, concrete detail,
   useful distinctions, and examples where they help.
@@ -229,41 +275,55 @@ relationship, anticipation, and resonance can be legitimate work when they are
 intentional and suited to the artifact. Delete generic connective or emotional
 language that only makes the draft sound complete.
 
-### 6. Revise in distinct passes
+### 6. Separate the writer from the critic, then rewrite
 
-Change stance and edit the copy rather than defending the draft.
+Change stance. Do not let the writer explain, defend, or lightly polish the
+draft. For substantial drafting or rewriting, run this closed loop:
 
-First put the research notes, brief, and editorial rationale aside. Encounter
-only the visible copy from the pseudoperson's position and record the reactions
-and considerations that actually become salient. Confidence, concern,
-relevance, recognition, resistance, or uncertainty may matter, but they are
-prompts rather than required headings. Tie each material response to observable
-wording, order, omission, or emphasis. Then return to editor mode and diagnose
-which copy decision created it. Use the grounded visitor-reading test in
-`references/quality-review.md` for sensitive, audience-specific, emotionally
-loaded, or high-prominence copy.
+1. **Freeze the working draft.** Put the research notes, brief, angle defence,
+   and predicted risks aside. Judge the visible artifact in its real context.
+   Do not seed the critique only with the problems anticipated before writing;
+   look for what the draft actually did.
+2. **Read as the pseudoperson.** Encounter the copy in order from the
+   evidence-bounded reader position. Record whatever becomes salient about
+   relevance, recognition, confidence, desire, concern, credibility,
+   resistance, uncertainty, practical stakes, or the next decision. These are
+   possibilities, not headings to fill. Tie each material response to wording,
+   order, emphasis, omission, or page context.
+3. **Review as a copy chief.** Ask whether the draft makes the right promise or
+   proposition, gives the reader a reason to care or continue, earns
+   credibility, selects and orders the right material, sounds plausible for
+   the speaker, and makes the intended judgement or action easier. A strong
+   sentence does not rescue a weak direction.
+4. **Review for model-default writing.** Find replaceable ideas, automatic
+   empathy, smooth over-completion, symmetrical composition, generic benefits,
+   familiar phrase families, and repeated rhetorical constructions. Diagnose
+   the generative habit and its effect, not merely the suspect words.
+5. **Prioritise the critique.** Select the few findings that most affect
+   understanding, interest, trust, fit, decision, or action. For each, identify
+   the observable evidence, reader effect, likely cause, and editorial
+   intervention. Preserve strengths only when their function is clear. The
+   critic may reject the angle or recommend deletion; it is not obliged to
+   rescue the draft.
+6. **Rewrite from the findings.** Change the underlying message, angle,
+   structure, emphasis, specificity, or register before polishing sentences.
+   Apply every finding the editor accepts. Rewrite all affected spans rather
+   than appending fixes or leaving the useful advice in commentary.
+7. **Pressure-test the revision.** Read the revised copy cold. Confirm that the
+   material findings were resolved, the reader experience improved, useful
+   strengths survived, and no new genericity, awkwardness, unsupported claim,
+   or page-flow problem was introduced. Repeat the critique–rewrite cycle only
+   while a material problem remains; stop when further changes are matters of
+   preference or surface churn.
 
-1. **Reader and purpose**: Does it answer the right question at this point?
-2. **Message and coverage**: Is the main point clear, sufficiently developed,
-   and free of repetition or irrelevant convention?
-3. **Structure**: Do the opening, order, headings, proportions, and ending
-   create useful movement and emphasis?
-4. **Voice and line**: Are word choice, syntax, cadence, directness, and tone
-   right for this speaker and artifact?
-5. **Search and retrieval**: Is the subject naturally identifiable, and can
-   readers find what they came for?
-6. **Publication checks**: Are accessibility, inclusion and autonomy, search
-   integrity, interaction behaviour, and any material fact or implication
-   sound? Mark a consequential unknown rather than quietly inventing it.
-7. **Model-glue and anti-generic review**: Which passages are replaceable,
-   over-complete, over-balanced, abstract, or held together by generic
-   significance, explanation, qualification, or benefit language?
-8. **Read aloud**: Fix stiffness, breathlessness, accidental sales cadence,
-   false intimacy, and repeated sentence music locally.
+Use the complete closed-loop method and adversarial tests in
+`references/quality-review.md`. Attempt deletion, but do not treat brevity as
+the only virtue. Restore or develop material when the reader loses meaning,
+recognition, useful nuance, voice, rhythm, or a reason to continue.
 
-Attempt deletion, but do not treat brevity as the only virtue. Restore or
-develop material when the reader loses meaning, recognition, useful nuance,
-voice, rhythm, or a reason to continue.
+When an accepted finding is about semantics, implication, wording, syntax,
+emphasis, idiom, rhythm, a heading, or an action label, repair it through
+`references/line-craft.md` rather than substituting a smoother synonym.
 
 Before finalising any new page, substantial section, or substantial rewrite,
 and whenever diagnosing generic or AI-sounding copy, read and apply
@@ -310,8 +370,21 @@ project records only when the repository rules require it.
 
 For substantial strategy, review, drafting, or rewriting, show the editorial
 working before or alongside the recommendation unless the owner asks for copy
-only. Make the working specific enough to reveal how the result was reached,
-without turning it into the same labelled preamble on every task. Draw from:
+only. For a substantial draft or rewrite, normally show one committed working
+draft, the prioritised critique, the revision decisions, the clean recommended
+draft, and a short pressure-test result in the same response. Do not present
+near-identical drafts as creative options. When another authorised workflow
+already exposes candidates, reader responses, critique, and a recommendation,
+perform this loop within that structure instead of duplicating it: critique
+candidates enough to make the selection rigorous, then apply the complete
+rewrite and pressure-test to the recommended composition.
+
+If the critique genuinely finds no material revision, do not invent one or
+repeat unchanged copy to perform the workflow. Report the pressure-test result
+briefly and present the recommendation once.
+
+Make the working specific enough to reveal how the result was reached, without
+turning it into the same labelled preamble on every task. Draw from:
 
 - one short research-grounded pseudoperson account and its evidence or limits
   note, for substantial audience-specific work;
@@ -321,14 +394,16 @@ without turning it into the same labelled preamble on every task. Draw from:
 - the selected direction and the task-specific GOOD COPYWRITING, BAD
   COPYWRITING, and MODEL-DEFAULT forecast;
 - the proposed composition or information movement;
-- the most important changes made during revision;
+- the material critique findings, accepted interventions, and changes made
+  during revision;
 - material assumptions, unknowns, or owner decisions.
 
 Include the alternatives seriously considered, the reason the selected
 direction won, and any meaningful trade-off. For a narrow revision, show a
-short diagnosis and rationale rather than supplying unexplained replacement
-wording. During collaborative work, share consequential shifts, uncertainties,
-and discoveries as they arise when that helps the owner steer the result.
+short diagnosis, revised passage, and spot check rather than manufacturing a
+full multi-draft artifact. During collaborative work, share consequential
+shifts, uncertainties, and discoveries as they arise when that helps the owner
+steer the result.
 
 Visible working should contain real observations, criteria, options, decisions,
 and revision outcomes—not a ritual checklist or an evidence ledger. Give a

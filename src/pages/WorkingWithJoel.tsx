@@ -79,11 +79,11 @@ const pageContent: WorkingWithJoelPageContent = {
 
                   after: " picture.",
     },
-    supportLead: "Life is complicated.",
+    supportLead: "We can start with what feels pressing now..",
 
 
     supportBody:
-      "Here, the complexity isn't something to get past. It's what we actually work with.",
+      "I’ll also pay attention to the history around it and the ways you have found to cope.",
 
     credentialsAriaLabel: "Joel Griffiths credentials and practice details",
                credentials: [

@@ -59,9 +59,9 @@ const kinkPageContent: KinkPageContent = {
   meta: kinkMetadata.description,
   hero: {
     eyebrow: "Kink & BDSM-aware counselling",
-    title: "Therapy where kink doesn't need a preamble.",
+    title: "Therapy where kink doesn’t need a preamble.",
     intro:
-      "Ordinary therapy where kink will not be mishandled. You will not have to explain it, hide it, or watch it take over the conversation. What you came for doesn't get lost.",
+      "Kink may be why you are seeking therapy, relevant without being the main concern, or unrelated to what you want help with. I won’t assume what it means for you or decide in advance how much it matters.",
     primaryAction: {
       label: "Make an enquiry",
       href: routeHref(publicRoutePaths.contact),

@@ -11,6 +11,7 @@ changing words.
 ## Contents
 
 - [Review through three lenses](#review-through-three-lenses)
+- [Close the critique-revision loop](#close-the-critique-revision-loop)
 - [Check the practical constraints](#check-the-practical-constraints)
 - [Run the adversarial tests](#run-the-adversarial-tests)
 - [Diagnose model-default composition](#diagnose-model-default-composition)
@@ -79,6 +80,103 @@ Do not accept a list of stock phrases as the diagnosis. Trace those phrases to
 the compositional or rhetorical habit that generated them, such as simulated
 intimacy, equal paragraph shapes, contrast-pair repetition, over-explanation,
 or a tidy emotional ending. Repair the habit rather than swapping vocabulary.
+
+## Close the critique-revision loop
+
+Use this method for substantial drafting and rewriting. It is designed to stop
+the same agent from admiring, explaining, or cosmetically editing its own first
+draft.
+
+### 1. Make the critique independent of the draft rationale
+
+Freeze the working draft. Review it as an artifact a copy chief has received,
+not as the execution of an idea that deserves to be defended. Keep only the
+task facts needed to judge accuracy and page context. Put the angle rationale,
+research notes, predicted risks, and intended emotional effects aside for the
+first read.
+
+Run three deliberately different readings:
+
+1. **Inhabited reader:** Use the existing research-grounded pseudoperson and
+   record what the visible copy makes salient in this situation. Attend to the
+   reader's practical and emotional stakes as they arise—not only whether the
+   proposition can be intellectually summarised.
+2. **Copy chief:** Judge the proposition, relevance, credibility, selection,
+   hierarchy, movement, register, specificity, persuasion, and next step. Ask
+   what would make a professional editor send the work back even if every
+   sentence were grammatical.
+3. **Model-default sceptic:** Look for the fluent completion a model supplied
+   because it was probable rather than earned: familiar phrase families,
+   symmetrical rhetoric, automatic reassurance, generic benefit conversion,
+   explanatory padding, and tidy closure.
+
+The second and third readings must be free to find problems that the forecast
+did not predict. The forecast is a hypothesis, not the critic's answer key.
+
+### 2. Turn observations into usable findings
+
+Prioritise the few findings that most affect understanding, interest, trust,
+fit, decision, or action. Use this causal form where it helps:
+
+```text
+Finding:
+Observable evidence:
+Likely reader effect:
+Editorial cause:
+Intervention:
+Strength or constraint to preserve:
+```
+
+Do not expose the labels mechanically when a paragraph would be clearer. Reject
+or strengthen a finding when it:
+
+- could be pasted unchanged under almost any draft;
+- cannot point to a wording, ordering, emphasis, omission, or interaction;
+- names personal taste without a consequence for this reader or artifact;
+- treats the desired fix as the diagnosis;
+- notices a stock phrase but cannot identify the surrounding generative habit;
+- adds coverage merely because the research mentioned it; or
+- praises fluency, warmth, clarity, or authenticity without identifying what
+  creates the effect.
+
+Name strengths only when they are decisions worth protecting during revision.
+Do not use praise to cushion a material finding, and do not manufacture faults
+to make the critique appear rigorous. One causal problem may explain several
+surface symptoms.
+
+### 3. Rewrite rather than annotate
+
+Accept, reject, or qualify each material finding on editorial grounds. Then
+apply every accepted finding to the copy. Change causes in order: proposition
+and angle before structure; structure before specificity and register; line
+craft after the larger decisions work.
+
+Do not respond to a structural problem with a new transition, to genericity
+with decorative language, or to a reader concern with an appended reassurance.
+Rewrite all spans affected by the underlying decision. A critique has not done
+its job if its best advice remains outside the recommended copy.
+
+### 4. Verify that the revision is actually better
+
+Read the revision cold, then compare it with the working draft. For every
+material finding, check:
+
+- resolved, partly resolved, deliberately rejected, or displaced elsewhere;
+- whether the intervention improved the intended reader effect;
+- whether a functional strength or necessary fact was lost;
+- whether the change introduced new repetition, explanation, awkwardness,
+  overclaiming, false intimacy, or model-default phrasing; and
+- whether the revised draft is more particular and useful, not merely
+  different or shorter.
+
+Run another full rewrite only when a material failure remains. Otherwise make
+local corrections and stop. Repeated regeneration can erase judgement, create
+repair-loop drift, and produce a smoother but less distinctive draft.
+
+For an existing-copy review with no drafting request, stop after prioritised
+findings and interventions. For a narrow revision, use a compact
+diagnosis–rewrite–spot-check loop. When the user asks for copy only, complete
+the critique and revision privately and deliver the clean recommendation.
 
 ## Check the practical constraints
 
@@ -301,12 +399,25 @@ Require plausibility, not a transcript filled with slang, fragments, or errors.
 
 ### Line-craft test
 
-Inspect the prose closely only after the idea and composition are working.
+Inspect the prose closely only after the idea and composition are working. Use
+`line-craft.md` to repair the language; this test identifies pressure, while
+that reference provides the positive construction method.
 
+- Can the pivotal line's literal proposition be stated, and does its wording
+  imply more causation, certainty, universality, expertise, or intimacy than
+  that proposition supports?
+- Does the grammatical subject make the right person or thing the focus, and
+  does the verb express the real action or relationship without hiding agency?
 - Are the nouns exact and the verbs doing enough work?
 - Does syntax make the intended emphasis easy to hear?
+- Do sentence beginnings establish useful topic or linkage, and do natural
+  points of closure land on the information that deserves stress?
 - Do sentence lengths and openings vary for meaning rather than random variety?
 - Are qualifications placed where they remain clear without draining force?
+- Are the same terms used for the same meanings, rather than varied through
+  near-synonyms that create semantic drift?
+- Are the word combinations idiomatic and plausible for the actual speaker,
+  or merely grammatical and polished?
 - Is any adjective claiming a quality the passage could communicate more
   directly?
 - Are transitions necessary and specific, or merely smoothing the joins?
@@ -398,8 +509,14 @@ failure.
 
 ## Report the review
 
-Lead with the most consequential craft failure, practical failure, or mismatch.
-Then provide:
+For a substantial drafting or rewriting task, integrate the review into the
+visible closed loop required by `SKILL.md`: working draft, prioritised critique,
+revision decisions, clean recommendation, and brief pressure-test. The
+critique should make the improvement inspectable; it should not become a long
+review document that overshadows the copy.
+
+For a review-only task, lead with the most consequential craft failure,
+practical failure, or mismatch. Then provide:
 
 1. strengths worth preserving;
 2. findings ordered by impact on understanding, trust, decision, or action;

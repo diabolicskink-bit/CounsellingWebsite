@@ -10,6 +10,7 @@ uncertain.
 - [Build a research-grounded pseudoperson](#build-a-research-grounded-pseudoperson)
 - [Select the artifact register](#select-the-artifact-register)
 - [Write the communication brief](#write-the-communication-brief)
+- [Find the source of distinction](#find-the-source-of-distinction)
 - [Build search intent into the brief](#build-search-intent-into-the-brief)
 - [Build the copywriting contrast brief](#build-the-copywriting-contrast-brief)
 - [Test the forecast for craft](#test-the-forecast-for-craft)
@@ -116,6 +117,7 @@ Desired next understanding, judgement, or action:
 Search intent and natural vocabulary:
 Speaker and relationship to the reader:
 Salient reader considerations for this task:
+Task-specific material or judgement:
 Useful voice or point-of-view material:
 Practical constraints and genuine unknowns:
 ```
@@ -135,6 +137,27 @@ perspective, not be split into a standard set of concerns or reader questions.
 When recognition, trust, emotional tone, or direct address matters, describe
 the specific relationship the language needs to earn without assigning a
 universal feeling to the audience.
+
+## Find the source of distinction
+
+Before exploring angles, identify the material that could make this copy
+particular rather than merely polished. It may come from the reader's precise
+situation, a provider's professional judgement, a concrete process or
+arrangement, a useful distinction, a consequential detail, a real boundary, an
+unexpected order, or a decision about what not to say. Follow what the task
+supports; do not fill these as fields.
+
+Test the prospective source by removing names and category nouns. Ask what
+would prevent a broadly competent competitor from publishing the same copy
+unchanged. The answer should be a meaningful observation, selection, detail,
+relationship, or treatment—not surface novelty.
+
+If nothing survives that test, expose the input gap. Write useful provisional
+copy with a clear job and credible next step, but do not manufacture a founder
+story, personality quirk, customer thought, practitioner belief, or claim of
+difference. Distinction can be quiet: unusually direct organisation, one exact
+detail, or disciplined omission may be enough when it is right for the
+artifact.
 
 ## Build search intent into the brief
 
@@ -307,6 +330,11 @@ One passage may play several roles. Infer them from explicit instructions and
 the repository's source order. Ask only when a different interpretation would
 materially change the outcome.
 
+Do not build a house-voice profile from existing public copy unless the owner
+explicitly designates passages as current voice authority. A page being live,
+prominent, or previously edited does not make its cadence or phrase choices a
+model for new work.
+
 ## Record visible working
 
 For substantial work, maintain and show a compact editorial record:
@@ -320,6 +348,7 @@ Communication job:
 Main message:
 Search intent and natural language:
 Artifact register:
+Task-specific material or judgement:
 GOOD COPYWRITING:
 BAD COPYWRITING:
 MODEL-DEFAULT RISK:

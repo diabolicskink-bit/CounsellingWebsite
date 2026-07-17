@@ -1,7 +1,7 @@
 interface:
-  display_name: "Website Copywriting and Review"
-  short_description: "Plan, write, review, and improve visitor-facing copy"
-  default_prompt: "Use $copywriter to plan, draft, review, or revise visitor-facing website copy from a research-grounded pseudoperson and the reader's page moment."
+  display_name: "Professional Website Copywriter"
+  short_description: "Write, line-craft, critique, and refine web copy"
+  default_prompt: "Use $copywriter to develop distinctive visitor-facing copy with precise line craft, then critique and rewrite it from a research-grounded reader perspective."
 
 policy:
   allow_implicit_invocation: true
