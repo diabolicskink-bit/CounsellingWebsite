@@ -116,11 +116,11 @@ const homePageContent: HomePageContent = {
     items: [
       {
         title: "Low mood and depression",
-        copy: "Heaviness, numbness, hopelessness, or a flatness that does not lift and is hard to explain. Feeling distant from yourself, from other people, or from things that used to matter.",
+        copy: "Heaviness, numbness, hopelessness, or a flatness that doesn’t lift and is hard to explain. Feeling distant from yourself, from other people, or from things that used to matter.",
       },
       {
         title: "Anxiety",
-        copy: "A mind that will not settle. Going over the same things, bracing for things that have not happened yet, or carrying a background worry that is hard to name or put down.",
+        copy: "A mind that won’t settle. Going over the same things, bracing for things that haven’t happened yet, or carrying a background worry that is hard to name or put down.",
       },
       {
         title: "Relationships and attachment",
@@ -147,7 +147,7 @@ const homePageContent: HomePageContent = {
       emphasis: "all",
       after: " of yourself.",
     },
-    copy: "If your relationships, sexuality, or identity sit outside what people usually assume, you may be used to doing extra work before you can talk about what is actually difficult. Explaining the basics. Adding caveats. Holding things back. Watching for judgement. Wondering whether something important about your life will be misunderstood, judged, or treated as though it is the problem. Here, you do not need to do that. You can speak plainly, without defending yourself first.",
+    copy: "If your relationships, sexuality, or identity sit outside what people usually assume, you may be used to doing extra work before you can talk about what is actually difficult. Explaining the basics. Adding caveats. Holding things back. Watching for judgement. Wondering whether something important about your life will be misunderstood, judged, or treated as though it is the problem. Here, you don’t need to do that. You can speak plainly, without defending yourself first.",
     href: routeHref(publicRoutePaths.inclusion),
     cta: "Explore inclusive counselling",
     detailCtaLabel: "Learn more",
@@ -173,10 +173,10 @@ const homePageContent: HomePageContent = {
   workroom: {
     heading: "Wherever you are is the place to begin.",
     intro:
-      "You do not need to have it sorted before you arrive. You do not need a clear explanation of what is wrong, the right words, or a sense that things are bad enough to justify coming. If something has been sitting with you, even vaguely, even without a name, that is enough to start. It begins with a conversation, and the conversation can start anywhere.",
+      "You don’t need to have it sorted before you arrive. You don’t need a clear explanation of what is wrong, the right words, or a sense that things are bad enough to justify coming. If something has been sitting with you, even vaguely, even without a name, that is enough to start. It begins with a conversation, and the conversation can start anywhere.",
     joelName: "Joel Griffiths",
     joelCopy: [
-      "I do not think people are meant to be tidy. The strange bits, the contradictions, the parts of yourself that do not quite fit anywhere. Those belong here too.",
+      "I don’t think people are meant to be tidy. The strange bits, the contradictions, the parts of yourself that don’t quite fit anywhere. Those belong here too.",
       "Sessions are a straightforward conversation. We can speak plainly, look beneath the immediate problem, and take what you bring seriously without making therapy feel stiff or clinical.",
     ],
     profileHref: routeHref(publicRoutePaths.workingWithJoel),
