@@ -14,6 +14,7 @@ vague use, or a repeated job that the direct proposition could perform better.
 | Interpretive bridge | `this means`, `in practice`, `what this looks like`, `in other words`, `at its core` | The model completes a statement with a second, smoother explanation. | Start with the meaning itself or merge the sentences. Keep the bridge when it marks a necessary change of register or corrects a real misunderstanding. |
 | Counselling abstraction | `pattern`, `dynamic`, `experience`, `process`, `space`, `support`, `context`, `part`, or `thing` without a clear referent | A broad noun creates psychological or professional texture while leaving the proposition thin. | Name what repeats, happens, changes, conflicts, or is chosen. Keep the abstract term when the reader and speaker use it precisely and its referent is already clear. |
 | Abstract cause | An abstract subject `shapes`, `affects`, `influences`, or `impacts` another abstraction | The sentence sounds consequential without showing the relationship. | Ask what acts on what, and how. State the observable relationship or remove the causal claim. |
+| Semantic inflation | An ordinary change in enjoyment, preference, uncertainty, or difficulty is rewritten as a loss of meaning, identity, safety, hope, or another deeper emotional state. | The model is manufacturing resonance by interpreting the experience instead of naming it. | Restore the nearest ordinary description of what happens. Keep the stronger interpretation only when it is supported and changes the reader's understanding usefully. |
 | Modal accumulation | Several uses of `may`, `might`, `can`, `could`, `often`, or `sometimes` in a short passage | Caution has become a general surface style rather than a precise expression of uncertainty. | Classify each statement as fact, possibility, hypothesis, invitation, or unknown. Keep only the qualification its status requires. |
 | Automatic benefit conversion | `which can help`, `allowing you to`, `so you can`, `making it easier to` after each fact or feature | Every detail is being translated into a positive client outcome. | Delete the benefit tail. Restore it only when it adds a decision-changing consequence that can be stated proportionately. |
 | Vague demonstrative chain | Consecutive sentences led by `this`, `that`, `it`, `these`, or `those` | Pronouns and smooth transitions conceal repetition or an unclear subject. | Name the referent, combine the sentences, or cut the second sentence. |
@@ -43,6 +44,10 @@ Use these transformations during the pass:
 8. Highlight repeated phrase families and rhetorical frames—contrasts, ranges,
    triads, reassurance, benefit tails—not to ban them, but to see whether one
    probable construction is controlling the piece.
+9. Compare each polished paraphrase with the literal proposition. If the new
+   wording makes the experience emotionally deeper or the claim stronger,
+   restore the nearest accurate everyday account unless that interpretation is
+   supported and necessary.
 
 For example, `That distinction matters because it changes the questions asked`
 usually becomes `That distinction changes the questions asked`. If `these

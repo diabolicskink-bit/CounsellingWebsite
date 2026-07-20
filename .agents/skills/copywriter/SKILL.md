@@ -252,6 +252,10 @@ speed rather than polishing every sentence before the whole artifact exists.
 
 - Start close to the subject. Use exact nouns, active verbs, concrete detail,
   useful distinctions, and examples where they help.
+- Keep wording at the warranted level of meaning. Prefer the nearest ordinary
+  description of what happens to a more emotionally loaded interpretation of
+  what it means. Treat a stronger interpretation as a new claim that needs a
+  basis and a local job, not as polish.
 - Build voice from what the speaker notices, values, explains, questions,
   qualifies, and refuses to flatten—not from decorative quirks or brand
   adjectives.

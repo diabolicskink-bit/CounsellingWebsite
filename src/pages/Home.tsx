@@ -110,20 +110,20 @@ const homePageContent: HomePageContent = {
     },
   },
   topics: {
-    heading: "What people bring.",
+    heading: "What people bring to counselling.",
     ariaLabel: "Common themes",
     items: [
       {
         title: "Low mood and depression",
-        copy: "Heaviness, numbness, hopelessness, or a flatness that doesn’t lift and is hard to explain. Feeling distant from yourself, from other people, or from things that used to matter.",
+        copy: "A flatness that doesn't lift. Days blurring together, feeling far away from yourself or the people around you, or losing interest in things you used to enjoy.",
       },
       {
         title: "Anxiety",
-        copy: "A mind that won’t settle. Going over the same things, bracing for things that haven’t happened yet, or carrying a background worry that is hard to name or put down.",
+        copy: "A mind that won't settle. Replaying the same conversation, running through everything that could go wrong, or checking things you've already checked twice.",
       },
       {
         title: "Relationships and attachment",
-        copy: "Feeling disconnected, stuck in the same arguments, or unable to get as close as you want to be. Ongoing conflict, or patterns in how you attach, trust, or pull away that keep repeating regardless of who you are with.",
+        copy: "Feeling disconnected, having the same arguments again and again, or wanting to be close to someone but pulling away when they get close.",
       },
       {
         title: "Shame and self-worth",

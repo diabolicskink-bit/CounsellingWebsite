@@ -69,6 +69,14 @@ term can be plainer than a loose everyday substitute. Do not use a thesaurus
 swap to avoid repetition: when one concept remains the same, repeating its
 name may be clearer than cycling through near-synonyms.
 
+Keep the language at the semantic level the material earns. Prefer the nearest
+ordinary account of what happens to a more emotionally loaded interpretation
+of what it means. `Losing interest in things you used to enjoy` names a change
+in interest or pleasure; `things that used to matter` changes the proposition
+to importance or meaning. A more resonant word is not a better synonym when it
+deepens or strengthens the claim. Move to that stronger level only when the
+source, evidence, or speaker supports it and the distinction has a local job.
+
 ## Construct pivotal lines deliberately
 
 Identify the lines that will carry disproportionate weight: usually a title or
@@ -108,6 +116,9 @@ Inspect important words and phrases on several levels:
 - **Register and connotation:** Is the word natural in this speaker-reader
   relationship? Does it sound clinical, bureaucratic, promotional, intimate,
   euphemistic, or dismissive in a way the dictionary definition does not show?
+- **Semantic level:** Does the wording stay with the observable experience,
+  action, or condition, or promote it into a stronger claim about meaning,
+  identity, motivation, fear, hope, or struggle?
 - **Reference:** Can every `this`, `that`, `it`, `they`, `pattern`, `process`,
   or `experience` be traced to one clear thing?
 - **Consistency:** Use the same term for the same meaning and different terms
