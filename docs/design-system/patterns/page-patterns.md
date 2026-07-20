@@ -60,7 +60,7 @@ Ruled accents and side-border panels occur in the current implementation. They c
 The `hero-*` system is a currently implemented shared subsystem alongside `site-*`. It is not canonical or mandatory for fresh pages and redesigns.
 
 - `.hero-section`
-  Shared hero section shell and default spacing.
+  Shared hero section shell and default spacing, including the `--hero-badge-display-gap` relationship.
 - `.hero-bg--default`
   Continuous paper-and-sage hero surface.
 - `.hero-top`
@@ -68,7 +68,7 @@ The `hero-*` system is a currently implemented shared subsystem alongside `site-
 - `.hero-badge`
   Concise visible page-topic H1.
 - `.hero-display`
-  Expressive serif hero statement on `p` after `h1.hero-badge`, kept outside the semantic heading outline.
+  Expressive serif hero statement on `p` after `h1.hero-badge`, kept outside the semantic heading outline. Adjacent badge/display pairs use the shared 12px gap while page compositions retain their own spacing below the display statement.
 - `.hero-intro`
   Longer opening intro paragraph.
 - `.hero-copy-panel`

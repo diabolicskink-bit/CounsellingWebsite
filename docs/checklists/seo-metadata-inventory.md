@@ -30,7 +30,7 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 
 | Metadata field | Where it is used | Metadata text / value |
 |---|---|---|
-| H1 / first-response heading | Component-rendered first-response heading reference | `Counselling and Psychotherapy` |
+| H1 / first-response heading | Component-rendered first-response heading reference | `Online Counselling and Therapy Across Australia` |
 | HTML title | Browser tab, search title, generated `<title>` | `Online Therapy Across Australia | Vive Counselling` |
 | Meta description | Search snippet candidate and generated description tag | `Online counselling and psychotherapy across Australia. Support for anxiety, depression, relationships and trauma. Kink, ENM and LGBTQIA+ aware.` |
 | Canonical URL | Search canonical signal | `https://vivecounselling.com.au/` |

@@ -22,7 +22,7 @@
 
 .enm-page__hero-heading {
   display: grid;
-  gap: 20px;
+  gap: 0;
   align-content: start;
 }
 
@@ -34,11 +34,12 @@
   display: block;
 }
 
-.enm-page__hero-copy {
+.enm-page__hero-heading .enm-page__hero-copy {
   display: grid;
   gap: 22px;
   align-content: start;
   max-width: 62rem;
+  margin-top: 20px;
   padding-top: 4px;
 }
 

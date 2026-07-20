@@ -20,7 +20,7 @@ const prerenderedRoutePaths = [
 ];
 const indexableRoutePaths = prerenderedRoutePaths;
 const prerenderedRouteSmokeFragments = {
-  "/": ['<main class="site-page home-page">', "Counselling and Psychotherapy"],
+  "/": ['<main class="site-page home-page">', "Online Counselling and Therapy Across Australia"],
   "/working-with-joel": [
     '<main class="site-page working-with-joel-page">',
     "Working with Joel",

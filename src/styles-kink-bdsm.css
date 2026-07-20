@@ -17,7 +17,7 @@
 
 .kink-page__hero-copy {
   display: grid;
-  gap: 20px;
+  gap: 0;
   align-content: start;
   min-width: 0;
 }
@@ -26,9 +26,10 @@
   margin-bottom: 0;
 }
 
-.kink-page__hero-support {
+.kink-page__hero-copy .kink-page__hero-support {
   gap: 20px;
   max-width: 54rem;
+  margin-top: 20px;
 }
 
 .kink-page__hero-support > p {

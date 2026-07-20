@@ -2190,6 +2190,8 @@ h3 {
 /* Wrapper ------------------------------------------------------------------ */
 
 .hero-section {
+  --hero-badge-display-gap: 12px;
+
   position: relative;
   isolation: isolate;
   width: 100%;
@@ -2227,6 +2229,10 @@ h3 {
   color: var(--color-heading, var(--ink));
   margin: 0 0 32px;
   text-wrap: balance;
+}
+
+.hero-badge + .hero-display {
+  margin-top: var(--hero-badge-display-gap, 12px);
 }
 
 .hero-intro {

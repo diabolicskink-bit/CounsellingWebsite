@@ -25,12 +25,12 @@
 .working-with-joel-page__hero-heading {
   grid-area: heading;
   display: grid;
-  gap: 20px;
+  gap: 0;
   align-content: start;
 }
 
 .working-with-joel-page__hero-heading .hero-display {
-  margin: 0;
+  margin-bottom: 0;
 }
 
 .working-with-joel-page__hero-heading .hero-display > br:first-of-type {

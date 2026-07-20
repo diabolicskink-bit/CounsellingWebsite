@@ -23,13 +23,9 @@
 
 .inclusion-hero__heading {
   display: grid;
-  align-self: stretch;
-  grid-template-areas: "hero-heading";
-}
-
-.inclusion-hero__heading .hero-badge,
-.inclusion-hero__title {
-  grid-area: hero-heading;
+  gap: 0;
+  align-self: start;
+  align-content: start;
 }
 
 .inclusion-hero__heading .hero-badge {
@@ -37,8 +33,8 @@
 }
 
 .inclusion-page .hero-display.inclusion-hero__title {
-  align-self: center;
-  margin: 0;
+  align-self: start;
+  margin-bottom: 0;
 }
 
 .inclusion-hero__title span {
@@ -189,17 +185,6 @@
   }
 
   .inclusion-hero__heading {
-    align-self: start;
-    gap: 0;
-    grid-template-areas: none;
-  }
-
-  .inclusion-hero__heading .hero-badge,
-  .inclusion-hero__title {
-    grid-area: auto;
-  }
-
-  .inclusion-page .hero-display.inclusion-hero__title {
     align-self: start;
   }
 

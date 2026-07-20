@@ -10,7 +10,7 @@
 .contact-page__hero-content {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  gap: 12px;
+  gap: var(--hero-badge-display-gap);
   min-width: 0;
 }
 
@@ -154,7 +154,7 @@
   }
 
   .contact-page__hero-content {
-    gap: 24px;
+    gap: var(--hero-badge-display-gap);
     grid-template-rows: auto;
   }
 
