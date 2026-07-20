@@ -22,9 +22,10 @@ This is the factual current-state summary of the Vive Counselling website and su
 - `robots.txt` allows crawling and references the sitemap.
 - Production metadata defaults to `https://vivecounselling.com.au`; `SITE_URL` can override the origin for an intentional alternate environment.
 - The apex and `www` domains are assigned to the Vercel project. `www` permanently redirects to the apex domain, and DNS resolves to Vercel.
-- Homepage JSON-LD includes linked `WebSite`, `Organization`, `Person`, and `Service` entities for the confirmed public business, practitioner, contact, directory identity, and counselling service facts.
+- Homepage JSON-LD includes linked `WebSite`, `Organization`, `Person`, and `Service` entities for the confirmed public business, practitioner, contact, directory identity, and counselling service facts. The Service records online enquiry as its delivery channel and the publicly stated AUD 120 offer for a standard 50-minute session.
 - Working with Joel metadata adds a `ProfilePage` whose `mainEntity` is the same `Person` and includes the confirmed ECU and ACA credential details.
-- Delivery channel, pricing, address, and local-business structured data are not currently included.
+- Each of the three live Inclusion topic pages adds a `WebPage` with a route-specific `Service` as its `mainEntity`; those services link back to the same Organization and umbrella counselling Service while retaining their own stable route identities. Kink/BDSM also retains its visible-question `FAQPage` data.
+- A private or inferred street address and address-dependent `LocalBusiness` structured data are not included. The approved Google Business Profile can be added to the Organization's `sameAs` links once its exact public profile URL is confirmed.
 - Public assets include favicons, app icons, a web manifest, a shared social preview image, and portrait/media assets under `public/`.
 
 ## Rendering, Build, And Deployment

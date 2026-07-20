@@ -168,6 +168,59 @@ function getStructuredDataTag(structuredData) {
   return `<script type="application/ld+json">${escapeJsonForHtml(JSON.stringify(structuredData))}</script>`;
 }
 
+function getServiceChannelNode(service, siteOrigin) {
+  return {
+    "@type": "ServiceChannel",
+    name: service.deliveryChannel.name,
+    serviceUrl: getAbsoluteUrl(siteOrigin, service.deliveryChannel.url),
+  };
+}
+
+function getServiceOfferNode(service, siteOrigin) {
+  return {
+    "@type": "Offer",
+    name: service.offer.name,
+    price: service.offer.price,
+    priceCurrency: service.offer.priceCurrency,
+    url: getAbsoluteUrl(siteOrigin, service.offer.url),
+  };
+}
+
+function getServiceNode({
+  description,
+  id,
+  isRelatedTo,
+  mainEntityOfPage,
+  name,
+  organizationId,
+  service,
+  serviceType,
+  siteOrigin,
+  url,
+}) {
+  return {
+    "@type": "Service",
+    "@id": id,
+    name,
+    serviceType,
+    url,
+    description,
+    provider: { "@id": organizationId },
+    audience: {
+      "@type": "PeopleAudience",
+      audienceType: service.audience,
+    },
+    areaServed: {
+      "@type": "Country",
+      name: service.areaServed,
+    },
+    availableChannel: getServiceChannelNode(service, siteOrigin),
+    offers: getServiceOfferNode(service, siteOrigin),
+    ...(mainEntityOfPage ? { mainEntityOfPage: { "@id": mainEntityOfPage } } : {}),
+    ...(isRelatedTo ? { isRelatedTo: { "@id": isRelatedTo } } : {}),
+  };
+}
+
 function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
   const ids = getStructuredDataIds(siteMetadata, siteOrigin);
   const organization = siteMetadata.organization;
@@ -205,23 +258,16 @@ function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
         },
       },
       getPersonNode(siteMetadata, siteOrigin, ids),
-      {
-        "@type": "Service",
-        "@id": ids.serviceId,
-        name: service.name,
-        serviceType: service.serviceType,
-        url: getAbsoluteUrl(siteOrigin, service.url),
+      getServiceNode({
         description: service.description,
-        provider: { "@id": ids.organizationId },
-        audience: {
-          "@type": "PeopleAudience",
-          audienceType: service.audience,
-        },
-        areaServed: {
-          "@type": "Country",
-          name: service.areaServed,
-        },
-      },
+        id: ids.serviceId,
+        name: service.name,
+        organizationId: ids.organizationId,
+        service,
+        serviceType: service.serviceType,
+        siteOrigin,
+        url: getAbsoluteUrl(siteOrigin, service.url),
+      }),
     ],
   };
 
@@ -251,6 +297,43 @@ function getProfileStructuredDataTag(routeMetadata, siteMetadata, siteOrigin) {
   return getStructuredDataTag(structuredData);
 }
 
+function getSpecialistServiceStructuredDataTag(routePath, routeMetadata, siteMetadata, siteOrigin) {
+  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
+  const service = siteMetadata.service;
+  const specialistService = siteMetadata.specialistServices[routePath];
+  const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
+  const pageId = `${pageUrl}#webpage`;
+  const specialistServiceId = `${pageUrl}#service`;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": pageId,
+        url: pageUrl,
+        name: routeMetadata.title,
+        description: routeMetadata.description,
+        isPartOf: { "@id": ids.websiteId },
+        mainEntity: { "@id": specialistServiceId },
+      },
+      getServiceNode({
+        description: routeMetadata.description,
+        id: specialistServiceId,
+        isRelatedTo: ids.serviceId,
+        mainEntityOfPage: pageId,
+        name: specialistService.name,
+        organizationId: ids.organizationId,
+        service,
+        serviceType: specialistService.serviceType,
+        siteOrigin,
+        url: pageUrl,
+      }),
+    ],
+  };
+
+  return getStructuredDataTag(structuredData);
+}
+
 function getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   if (routePath === "/") {
     return [getHomeStructuredDataTag(siteMetadata, siteOrigin)];
@@ -258,6 +341,10 @@ function getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, site
 
   if (routePath === "/working-with-joel") {
     return [getProfileStructuredDataTag(routeMetadata, siteMetadata, siteOrigin)];
+  }
+
+  if (siteMetadata.specialistServices[routePath]) {
+    return [getSpecialistServiceStructuredDataTag(routePath, routeMetadata, siteMetadata, siteOrigin)];
   }
 
   return [];

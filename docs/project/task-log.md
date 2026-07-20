@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-20 - Structured Data Extended For Live Services
+
+- Added: Each live Kink/BDSM, ENM/polyamory, and LGBTQIA+ route now emits a linked `WebPage` and route-specific `Service` graph using the stable site-wide Organization and umbrella counselling Service identities.
+- Added: The umbrella and specialist Service entities record online enquiry as the delivery channel and the confirmed AUD 120 offer for a standard 50-minute session.
+- Preserved: The Organization remains address-free rather than publishing or inferring a private location or emitting incomplete address-dependent `LocalBusiness` data; the approved Google Business Profile can join `sameAs` once its exact public profile URL is confirmed.
+- Verified: The build and public-route metadata assertions cover the expanded JSON-LD graph alongside the existing `WebSite`, `Organization`, `Person`, `ProfilePage`, and visible-question `FAQPage` data.
+
 ## 2026-07-20 - Inclusive Counselling URLs Renamed And Flattened
 
 - Changed: The Inclusion hub now uses `/inclusive-counselling`; its three topic pages use the flat `/kink-bdsm-counselling`, `/polyamory-enm-counselling`, and `/lgbtqia-affirming-counselling` routes.

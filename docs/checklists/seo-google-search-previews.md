@@ -11,17 +11,17 @@ Use [seo-metadata-launch.md](seo-metadata-launch.md) for checklist status and [s
 ### `/` - Home
 
 ```text
-Vive Counselling
+Online Therapy Across Australia | Vive Counselling
 https://vivecounselling.com.au/
-Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality.
+Online counselling and psychotherapy across Australia. Support for anxiety, depression, relationships and trauma. Kink, ENM and LGBTQIA+ aware.
 ```
 
 ### `/working-with-joel` - Working with Joel
 
 ```text
-Working with Joel | Vive Counselling
+Joel Griffiths, Psychodynamic Counsellor | Vive Counselling
 https://vivecounselling.com.au/working-with-joel
-Meet Joel Griffiths, an ACA-registered counsellor based in Perth. Direct, non-shaming counselling for adults across Australia, including relationships, sexuality, kink and ENM.
+Psychodynamic counselling with Joel Griffiths, an ACA-registered Perth counsellor working online across Australia. Attachment-informed and integrative.
 ```
 
 ### `/inclusion` - Inclusion Hub

@@ -25,5 +25,10 @@ test("Vercel config keeps public alias redirects", () => {
       destination: "/contact",
       permanent: true,
     },
+    {
+      source: "/inclusion",
+      destination: "/inclusive-counselling",
+      permanent: true,
+    },
   ]);
 });

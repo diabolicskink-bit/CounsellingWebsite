@@ -58,12 +58,12 @@ Review generated files, served route responses, and hydrated browser state where
   - Note: Checked PNG dimensions and generated head metadata. `/og-vive-counselling.png` is 1200x630, and `og:image:alt` / `twitter:image:alt` use the configured social preview alt text.
 
 - `Partial` Structured data is intentionally absent, or valid and aligned with public claims if present.
-  - Note: Homepage generated HTML includes a linked `WebSite`, `Organization`, `Person`, and `Service` JSON-LD graph. Working with Joel generated HTML adds a `ProfilePage` whose `mainEntity` is the same Joel Griffiths Person and carries the confirmed full ECU and ACA credential details behind the page's concise visible credential presentation. Delivery channel, pricing, address, and local-business schema remain outside current scope until their public details are final.
+  - Note: Homepage generated HTML includes a linked `WebSite`, `Organization`, `Person`, and `Service` JSON-LD graph. Working with Joel generated HTML adds a `ProfilePage` whose `mainEntity` is the same Joel Griffiths Person and carries the confirmed full ECU and ACA credential details behind the page's concise visible credential presentation. The umbrella Service now includes the confirmed online enquiry channel and AUD 120 offer for a standard 50-minute session, and each live specialist route adds a linked `WebPage` / route-specific `Service` graph. A private or inferred address and address-dependent `LocalBusiness` schema remain intentionally absent; add the approved Google Business Profile to `sameAs` when its exact public URL is confirmed.
 
 ## `/` - Home
 
 - `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
-  - Note: Route metadata now uses "Vive Counselling | Therapy for Adults Across Australia", which is unique among the public route titles. Generated HTML and preview verification should be refreshed with the next complete build.
+  - Note: Route metadata now uses "Online Therapy Across Australia | Vive Counselling", which is unique among the public route titles. Generated HTML and preview verification should be refreshed with the next complete build.
 
 - `Pass` Meta description is present, human-readable, and matches visible page content.
   - Note: Checked route metadata, generated HTML, direct preview head, and visible Home page hero/topic content. Description matches the page's counselling and therapy across Australia positioning and visible themes around anxiety, relationships, shame, trauma, sexuality, and inclusive support.

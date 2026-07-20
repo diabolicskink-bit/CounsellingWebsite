@@ -45,7 +45,24 @@ export type SiteMetadata = {
     description: string;
     audience: string;
     areaServed: string;
+    deliveryChannel: {
+      name: string;
+      url: string;
+    };
+    offer: {
+      name: string;
+      price: string;
+      priceCurrency: string;
+      url: string;
+    };
   };
+  specialistServices: Record<
+    string,
+    {
+      name: string;
+      serviceType: string[];
+    }
+  >;
   socialImage: string;
   socialImageAlt: string;
 };

@@ -70,7 +70,7 @@ const pageContent: WorkingWithJoelPageContent = {
   title: pageMetadata.title,
   meta: pageMetadata.description,
   hero: {
-    badge: "Working with Joel",
+    badge: "Joel Griffiths, Psychodynamic Counsellor",
     title: {
       before: "A little ",
       emphasis: "about me",

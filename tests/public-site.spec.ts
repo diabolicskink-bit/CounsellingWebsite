@@ -291,6 +291,28 @@ function getExpectedStructuredDataScript(structuredData: object) {
   return `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`;
 }
 
+function getExpectedServiceChannelNode() {
+  const service = routeMetadataData.site.service;
+
+  return {
+    "@type": "ServiceChannel",
+    name: service.deliveryChannel.name,
+    serviceUrl: absoluteRouteUrl(service.deliveryChannel.url),
+  };
+}
+
+function getExpectedServiceOfferNode() {
+  const service = routeMetadataData.site.service;
+
+  return {
+    "@type": "Offer",
+    name: service.offer.name,
+    price: service.offer.price,
+    priceCurrency: service.offer.priceCurrency,
+    url: absoluteRouteUrl(service.offer.url),
+  };
+}
+
 function getHomeStructuredDataScript() {
   const ids = getExpectedStructuredDataIds();
   const organization = routeMetadataData.site.organization;
@@ -345,6 +367,8 @@ function getHomeStructuredDataScript() {
           "@type": "Country",
           name: service.areaServed,
         },
+        availableChannel: getExpectedServiceChannelNode(),
+        offers: getExpectedServiceOfferNode(),
       },
     ],
   });
@@ -368,6 +392,52 @@ function getProfileStructuredDataScript() {
         includeCredentials: true,
         mainEntityOfPage: ids.profilePageId,
       }),
+    ],
+  });
+}
+
+function getSpecialistServiceStructuredDataScript(route: string) {
+  const ids = getExpectedStructuredDataIds();
+  const service = routeMetadataData.site.service;
+  const specialistService = routeMetadataData.site.specialistServices[route];
+  const routeMetadata = routeMetadataData.routes[route];
+  const pageUrl = absoluteRouteUrl(route);
+  const pageId = `${pageUrl}#webpage`;
+  const specialistServiceId = `${pageUrl}#service`;
+
+  return getExpectedStructuredDataScript({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": pageId,
+        url: pageUrl,
+        name: routeMetadata.title,
+        description: routeMetadata.description,
+        isPartOf: { "@id": ids.websiteId },
+        mainEntity: { "@id": specialistServiceId },
+      },
+      {
+        "@type": "Service",
+        "@id": specialistServiceId,
+        name: specialistService.name,
+        serviceType: specialistService.serviceType,
+        url: pageUrl,
+        description: routeMetadata.description,
+        provider: { "@id": ids.organizationId },
+        audience: {
+          "@type": "PeopleAudience",
+          audienceType: service.audience,
+        },
+        areaServed: {
+          "@type": "Country",
+          name: service.areaServed,
+        },
+        availableChannel: getExpectedServiceChannelNode(),
+        offers: getExpectedServiceOfferNode(),
+        mainEntityOfPage: { "@id": pageId },
+        isRelatedTo: { "@id": ids.serviceId },
+      },
     ],
   });
 }
@@ -864,11 +934,18 @@ test.describe("first response metadata", () => {
         expect(html).toContain(getProfileStructuredDataScript());
         expect(html).not.toContain('"@type":"WebSite"');
         expect(html).not.toContain('"@type":"Service"');
+      } else if (routeMetadataData.site.specialistServices[route]) {
+        expect(html).toContain(getSpecialistServiceStructuredDataScript(route));
+        expect(html).not.toContain('"@type":"WebSite"');
+        expect(html).not.toContain('"@type":"Organization"');
+        expect(html).not.toContain('"@type":"Person"');
+        expect(html).not.toContain('"@type":"ProfilePage"');
       } else {
         expect(html).not.toContain('"@type":"WebSite"');
         expect(html).not.toContain('"@type":"Organization"');
         expect(html).not.toContain('"@type":"Person"');
         expect(html).not.toContain('"@type":"ProfilePage"');
+        expect(html).not.toContain('"@type":"WebPage"');
         expect(html).not.toContain('"@type":"Service"');
       }
       for (const faviconTag of expectedFaviconTags) {

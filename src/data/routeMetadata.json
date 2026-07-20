@@ -62,19 +62,51 @@
       "url": "/",
       "description": "Counselling and therapy for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives.",
       "audience": "Adults",
-      "areaServed": "Australia"
+      "areaServed": "Australia",
+      "deliveryChannel": {
+        "name": "Online counselling",
+        "url": "/contact"
+      },
+      "offer": {
+        "name": "Standard 50-minute counselling session",
+        "price": "120",
+        "priceCurrency": "AUD",
+        "url": "/contact"
+      }
+    },
+    "specialistServices": {
+      "/kink-bdsm-counselling": {
+        "name": "Kink- and BDSM-aware counselling and therapy",
+        "serviceType": [
+          "Kink-aware counselling and therapy",
+          "BDSM-aware counselling and therapy"
+        ]
+      },
+      "/polyamory-enm-counselling": {
+        "name": "Counselling and therapy for polyamory, open relationships and ethical non-monogamy",
+        "serviceType": [
+          "Counselling and therapy for ethical non-monogamy (ENM)",
+          "Counselling and therapy for polyamory and open relationships"
+        ]
+      },
+      "/lgbtqia-affirming-counselling": {
+        "name": "LGBTQIA+ affirming counselling and therapy",
+        "serviceType": [
+          "LGBTQIA+ affirming counselling and therapy"
+        ]
+      }
     },
     "socialImage": "/og-vive-counselling.png",
     "socialImageAlt": "Vive Counselling social preview card featuring Joel Griffiths."
   },
   "routes": {
     "/": {
-      "title": "Vive Counselling | Therapy for Adults Across Australia",
-      "description": "Counselling and therapy for adults across Australia. Direct, thoughtful and inclusive support for anxiety, relationships, shame, trauma and sexuality."
+      "title": "Online Therapy Across Australia | Vive Counselling",
+      "description": "Online counselling and psychotherapy across Australia. Support for anxiety, depression, relationships and trauma. Kink, ENM and LGBTQIA+ aware."
     },
     "/working-with-joel": {
-      "title": "Working with Joel | Vive Counselling",
-      "description": "Meet Joel Griffiths, an ACA-registered counsellor based in Perth. Direct, non-shaming counselling for adults across Australia, including relationships, sexuality, kink and ENM."
+      "title": "Joel Griffiths, Psychodynamic Counsellor | Vive Counselling",
+      "description": "Psychodynamic counselling with Joel Griffiths, an ACA-registered Perth counsellor working online across Australia. Attachment-informed and integrative."
     },
     "/inclusive-counselling": {
       "title": "Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling",
