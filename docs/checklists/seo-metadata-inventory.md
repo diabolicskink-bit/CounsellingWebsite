@@ -53,17 +53,17 @@ Leave a value as `To populate` until it has been intentionally copied in. If a v
 |---|---|---|
 | H1 / first-response heading | Component-rendered first-response heading reference | `Joel Griffiths, Psychodynamic Counsellor` |
 | HTML title | Browser tab, search title, generated `<title>` | `Joel Griffiths, Psychodynamic Counsellor | Vive Counselling` |
-| Meta description | Search snippet candidate and generated description tag | `Psychodynamic counselling with Joel Griffiths, an ACA-registered Perth counsellor working online across Australia. Attachment-informed and integrative.` |
+| Meta description | Search snippet candidate and generated description tag | `Psychodynamic counselling with Joel Griffiths, an ACA-registered counsellor working online across Australia, based in Perth. Attachment-informed and integrative.` |
 | Canonical URL | Search canonical signal | `https://vivecounselling.com.au/working-with-joel` |
 | Robots directive | Indexability policy | No route-level robots directive. |
 | Open Graph title | Social preview title | `Joel Griffiths, Psychodynamic Counsellor | Vive Counselling` |
-| Open Graph description | Social preview description | `Psychodynamic counselling with Joel Griffiths, an ACA-registered Perth counsellor working online across Australia. Attachment-informed and integrative.` |
+| Open Graph description | Social preview description | `Psychodynamic counselling with Joel Griffiths, an ACA-registered counsellor working online across Australia, based in Perth. Attachment-informed and integrative.` |
 | Open Graph URL | Social preview canonical URL | `https://vivecounselling.com.au/working-with-joel` |
 | Open Graph image | Social preview image URL | `https://vivecounselling.com.au/og-vive-counselling.png` |
 | Open Graph image alt | Social preview image accessibility text | `Vive Counselling social preview card featuring Joel Griffiths.` |
 | Twitter card | Twitter/X preview card type | `summary_large_image` |
 | Twitter title | Twitter/X preview title | `Joel Griffiths, Psychodynamic Counsellor | Vive Counselling` |
-| Twitter description | Twitter/X preview description | `Psychodynamic counselling with Joel Griffiths, an ACA-registered Perth counsellor working online across Australia. Attachment-informed and integrative.` |
+| Twitter description | Twitter/X preview description | `Psychodynamic counselling with Joel Griffiths, an ACA-registered counsellor working online across Australia, based in Perth. Attachment-informed and integrative.` |
 | Twitter image | Twitter/X preview image URL | `https://vivecounselling.com.au/og-vive-counselling.png` |
 | Twitter image alt | Twitter/X preview image accessibility text | `Vive Counselling social preview card featuring Joel Griffiths.` |
 | Structured data | JSON-LD or intentional absence | A `ProfilePage` graph identifies Joel Griffiths as the page's `mainEntity`, reuses his site-wide Person ID, links him to Vive Counselling, and records his Edith Cowan University graduate diploma and ACA Level 1 registration through `hasCredential`. |

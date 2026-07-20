@@ -21,7 +21,7 @@ Online counselling and psychotherapy across Australia. Support for anxiety, depr
 ```text
 Joel Griffiths, Psychodynamic Counsellor | Vive Counselling
 https://vivecounselling.com.au/working-with-joel
-Psychodynamic counselling with Joel Griffiths, an ACA-registered Perth counsellor working online across Australia. Attachment-informed and integrative.
+Psychodynamic counselling with Joel Griffiths, an ACA-registered counsellor working online across Australia, based in Perth. Attachment-informed and integrative.
 ```
 
 ### `/inclusion` - Inclusion Hub
