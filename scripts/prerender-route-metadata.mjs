@@ -12,10 +12,10 @@ const noindexDirective = "noindex, nofollow";
 const prerenderedRoutePaths = [
   "/",
   "/working-with-joel",
-  "/inclusion",
-  "/inclusion/kink-bdsm",
-  "/inclusion/enm-polyamory",
-  "/inclusion/lgbtqia",
+  "/inclusive-counselling",
+  "/kink-bdsm-counselling",
+  "/polyamory-enm-counselling",
+  "/lgbtqia-affirming-counselling",
   "/contact",
 ];
 const indexableRoutePaths = prerenderedRoutePaths;
@@ -26,25 +26,25 @@ const prerenderedRouteSmokeFragments = {
     "Working with Joel",
     'src="/joel-griffiths-working-with-joel-portrait.jpg"',
   ],
-  "/inclusion": [
+  "/inclusive-counselling": [
     '<main class="site-page inclusion-page">',
     "Inclusive counselling",
     'class="inclusion-hub__panels"',
   ],
-  "/inclusion/kink-bdsm": [
+  "/kink-bdsm-counselling": [
     '<main class="site-page kink-page">',
     "Kink-aware counselling and therapy",
     'class="kink-page__knowledge-grid"',
     'class="site-faq-list"',
   ],
-  "/inclusion/enm-polyamory": [
+  "/polyamory-enm-counselling": [
     '<main class="site-page enm-page">',
     "Polyamory and ethical non-monogamy counselling and therapy",
     'class="hero-section hero-bg--default enm-page__hero"',
     'class="enm-page__reasons"',
     'class="enm-page__reasons-panel"',
   ],
-  "/inclusion/lgbtqia": [
+  "/lgbtqia-affirming-counselling": [
     '<main class="site-page inclusion-page lgbtqia-page">',
     "LGBTQIA+ affirming counselling",
     'class="hero-section hero-bg--default lgbtqia-page__hero"',

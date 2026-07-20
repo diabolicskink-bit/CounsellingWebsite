@@ -52,7 +52,7 @@ type KinkPageContent = {
   };
 };
 
-const kinkMetadata = getRouteMetadata("/inclusion/kink-bdsm");
+const kinkMetadata = getRouteMetadata("/kink-bdsm-counselling");
 
 const kinkPageContent: KinkPageContent = {
   title: kinkMetadata.title,

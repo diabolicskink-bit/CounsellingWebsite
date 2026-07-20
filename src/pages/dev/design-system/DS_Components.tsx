@@ -69,17 +69,17 @@ const linkedDetailStackItems = [
   {
     title: "Kink & BDSM-aware counselling",
     copy: "Nothing needs to be softened, translated, or defended before the real conversation begins.",
-    href: "/inclusion/kink-bdsm",
+    href: "/kink-bdsm-counselling",
   },
   {
     title: "Polyamory & ENM counselling",
     copy: "Relationship structure is not treated as the problem before we understand what is actually difficult.",
-    href: "/inclusion/enm-polyamory",
+    href: "/polyamory-enm-counselling",
   },
   {
     title: "LGBTQIA+ inclusive counselling",
     copy: "Gender, sexuality, identity, and belonging can be part of the conversation or simply part of who you are.",
-    href: "/inclusion/lgbtqia",
+    href: "/lgbtqia-affirming-counselling",
   },
 ];
 
@@ -120,7 +120,7 @@ const faqItems = [
 
 const footerDemoLinks = [
   { label: "Working with Joel", href: "/working-with-joel" },
-  { label: "Inclusive practice", href: "/inclusion" },
+  { label: "Inclusive practice", href: "/inclusive-counselling" },
   { label: "Fees", href: "/fees" },
   { label: "Contact", href: "/contact" },
 ];
@@ -162,7 +162,7 @@ export default function DS_Components() {
             <div className="ds-demo ds-demo--gap">
               <Button href="/contact">Primary button</Button>
               <Button href="/fees" variant="secondary">Secondary button</Button>
-              <Button href="/inclusion" variant="tertiary">Tertiary button</Button>
+              <Button href="/inclusive-counselling" variant="tertiary">Tertiary button</Button>
               <a href="/working-with-joel" className="site-text-link">
                 Text link <ArrowRight size={15} />
               </a>
@@ -201,7 +201,7 @@ export default function DS_Components() {
             {/* AI maintainers: linked cards use the same site-card primitive. Do not create a page-specific card class just to add bullets or a trailing action. */}
             <div className="ds-demo" style={{ marginTop: "24px" }}>
               <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Linked card example</p>
-              <a className="site-card site-card--link" href="/inclusion/kink-bdsm" style={{ maxWidth: "360px" }}>
+              <a className="site-card site-card--link" href="/kink-bdsm-counselling" style={{ maxWidth: "360px" }}>
                 <h3>Kink & BDSM-aware counselling</h3>
                 <p>For a destination card where short context and common topics need to sit together.</p>
                 <ul className="site-card__list">

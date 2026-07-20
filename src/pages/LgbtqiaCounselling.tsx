@@ -6,7 +6,7 @@ import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-lgbtqia.css";
 
-const pageMetadata = getRouteMetadata("/inclusion/lgbtqia");
+const pageMetadata = getRouteMetadata("/lgbtqia-affirming-counselling");
 
 type HeroAction = {
   label: string;

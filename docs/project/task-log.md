@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-20 - Inclusive Counselling URLs Renamed And Flattened
+
+- Changed: The Inclusion hub now uses `/inclusive-counselling`; its three topic pages use the flat `/kink-bdsm-counselling`, `/polyamory-enm-counselling`, and `/lgbtqia-affirming-counselling` routes.
+- Preserved: The former indexed `/inclusion` hub permanently redirects to `/inclusive-counselling`; the three former unindexed topic URLs do not redirect.
+- Updated: Navigation, page metadata, prerendering, sitemap coverage, route tests, and current project scope use the new URLs.
+
 ## 2026-07-18 - Inclusion Child Pages Published
 
 - Changed: Kink/BDSM, ENM/polyamory, and LGBTQIA+ are now first-class public routes linked from the shared navigation, Home, and the Inclusion hub.

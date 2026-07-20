@@ -19,10 +19,10 @@ const vercelConfigData = JSON.parse(readFileSync(new URL("../vercel.json", impor
 const publicRoutes = [
   "/",
   "/working-with-joel",
-  "/inclusion",
-  "/inclusion/kink-bdsm",
-  "/inclusion/enm-polyamory",
-  "/inclusion/lgbtqia",
+  "/inclusive-counselling",
+  "/kink-bdsm-counselling",
+  "/polyamory-enm-counselling",
+  "/lgbtqia-affirming-counselling",
   "/contact",
 ] as const;
 const prerenderedRoutes = publicRoutes;
@@ -37,7 +37,7 @@ const prerenderedRouteContracts = {
       'class="site-card home-workroom__joel"',
       'aria-label="Inclusive practice topics"',
       'href="/working-with-joel"',
-      'href="/inclusion"',
+      'href="/inclusive-counselling"',
       'href="/contact"',
     ],
     noJavaScriptSelector: 'img[src="/joel-griffiths-homepage-portrait.jpg"]',
@@ -56,17 +56,17 @@ const prerenderedRouteContracts = {
     ],
     noJavaScriptSelector: 'img[src="/joel-griffiths-working-with-joel-portrait.jpg"]',
   },
-  "/inclusion": {
+  "/inclusive-counselling": {
     mainClass: "site-page inclusion-page",
     rawFragments: ['class="inclusion-hub__panels"', 'class="site-faq-list"'],
     noJavaScriptSelector: ".inclusion-hub__panels",
   },
-  "/inclusion/kink-bdsm": {
+  "/kink-bdsm-counselling": {
     mainClass: "site-page kink-page",
     rawFragments: ['class="kink-page__knowledge-grid"', 'class="site-faq-list"'],
     noJavaScriptSelector: ".kink-page__knowledge-grid",
   },
-  "/inclusion/enm-polyamory": {
+  "/polyamory-enm-counselling": {
     mainClass: "site-page enm-page",
     rawFragments: [
       'class="hero-section hero-bg--default enm-page__hero"',
@@ -75,7 +75,7 @@ const prerenderedRouteContracts = {
     ],
     noJavaScriptSelector: ".enm-page__reasons-panel",
   },
-  "/inclusion/lgbtqia": {
+  "/lgbtqia-affirming-counselling": {
     mainClass: "site-page inclusion-page lgbtqia-page",
     rawFragments: ['class="lgbtqia-page__recognition-flow"', 'class="lgbtqia-page__disclosure-heading"'],
     noJavaScriptSelector: ".lgbtqia-page__recognition-flow",
@@ -104,9 +104,9 @@ const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
 const noindexDirective = "noindex, nofollow";
 const indexableRoutes = publicRoutes;
 const inclusionChildRoutes = [
-  { path: "/inclusion/kink-bdsm", navLabel: "Kink & BDSM" },
-  { path: "/inclusion/enm-polyamory", navLabel: "ENM & polyamory" },
-  { path: "/inclusion/lgbtqia", navLabel: "LGBTQIA+" },
+  { path: "/kink-bdsm-counselling", navLabel: "Kink & BDSM" },
+  { path: "/polyamory-enm-counselling", navLabel: "ENM & polyamory" },
+  { path: "/lgbtqia-affirming-counselling", navLabel: "LGBTQIA+" },
 ] as const;
 const analyticsConfigured = process.env.VITE_ANALYTICS_ENABLED === "true";
 const qaRuntimeHostname = "127.0.0.1";
@@ -477,7 +477,7 @@ async function expectHomePageStructure(page: Page) {
     home.getByRole("navigation", { name: "Inclusive practice topics" }).locator(":scope li"),
   ).toHaveCount(3);
 
-  for (const href of ["/working-with-joel", "/inclusion", "/contact"]) {
+  for (const href of ["/working-with-joel", "/inclusive-counselling", "/contact"]) {
     await expect(home.locator(`a[href="${href}"]`)).toHaveCount(1);
   }
 }
@@ -535,9 +535,17 @@ async function getAnalyticsPageViewEvents(page: Page): Promise<AnalyticsPageView
 const aliasRedirects = [
   { from: "/about", to: "/working-with-joel" },
   { from: "/fees", to: "/contact" },
+  { from: "/inclusion", to: "/inclusive-counselling" },
 ] as const;
 
-const retiredRoutes = ["/about-joel", "/approach", "/enquire"] as const;
+const retiredRoutes = [
+  "/about-joel",
+  "/approach",
+  "/enquire",
+  "/inclusion/kink-bdsm",
+  "/inclusion/enm-polyamory",
+  "/inclusion/lgbtqia",
+] as const;
 
 const accessibilitySmokeRoutes = publicRoutes;
 
@@ -565,7 +573,7 @@ test.describe("public pages", () => {
       await expect(page.locator(".hero-section p.hero-display")).toHaveCount(1);
       await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(0);
 
-      if (route === "/inclusion/kink-bdsm") {
+      if (route === "/kink-bdsm-counselling") {
         await expect(
           page.locator(
             "h2.kink-page__panel-title, .kink-page__closing-intro > h2, h2.kink-page__closing-card-title",
@@ -575,7 +583,7 @@ test.describe("public pages", () => {
         await expect(page.locator(".site-faq-item h3.site-faq-item__heading")).not.toHaveCount(0);
       }
 
-      if (route === "/inclusion/lgbtqia") {
+      if (route === "/lgbtqia-affirming-counselling") {
         const pageMain = page.locator("main.lgbtqia-page");
 
         await expect(pageMain.locator("section").nth(1)).toHaveClass(/lgbtqia-page__recognition/);
@@ -645,7 +653,7 @@ test.describe("shared navigation", () => {
     }
 
     await mobileNavigation.getByRole("link", { name: "ENM & polyamory", exact: true }).click();
-    await expect(page).toHaveURL(/\/inclusion\/enm-polyamory$/);
+    await expect(page).toHaveURL(/\/polyamory-enm-counselling$/);
     await expect(mobileNavigation).toHaveCount(0);
   });
 
@@ -958,7 +966,7 @@ test.describe("crawl and app metadata assets", () => {
     }
     await expect(homeMain.locator(".home-page__inclusive-details .site-detail-stack__action")).toHaveCount(3);
 
-    await page.goto("/inclusion", { waitUntil: "networkidle" });
+    await page.goto("/inclusive-counselling", { waitUntil: "networkidle" });
     const inclusionMain = page.locator("main.inclusion-page");
 
     for (const route of inclusionChildRoutes) {

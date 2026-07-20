@@ -12,6 +12,11 @@
       "source": "/fees",
       "destination": "/contact",
       "permanent": true
+    },
+    {
+      "source": "/inclusion",
+      "destination": "/inclusive-counselling",
+      "permanent": true
     }
   ]
 }

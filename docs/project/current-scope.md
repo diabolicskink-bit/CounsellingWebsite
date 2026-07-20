@@ -6,8 +6,8 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 - Vite, React, and TypeScript power the public counselling website.
 - Public routes include Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, LGBTQIA+, Contact/Fees, and Not Found.
-- The three Inclusion child routes are first-class public pages linked from the shared navigation, Home, and the Inclusion hub.
-- `/about` redirects to Working with Joel, and `/fees` redirects to Contact/Fees.
+- The Inclusion hub is served at `/inclusive-counselling`; its three first-class topic pages use the flat routes `/kink-bdsm-counselling`, `/polyamory-enm-counselling`, and `/lgbtqia-affirming-counselling`, linked from the shared navigation, Home, and the hub.
+- `/about` redirects to Working with Joel, `/fees` redirects to Contact/Fees, and the former indexed `/inclusion` hub permanently redirects to `/inclusive-counselling`; the former unindexed topic URLs do not redirect.
 - Public navigation includes Home, Working with Joel, Inclusion with its three child pages, and Fees.
 - Development-only routes include the rendered design-system pages, Documents, Codex test bed, and Opus test bed.
 - The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, `docs/research/`, `docs/page-plan/`, and `docs/plans/`; exact inline checklist status labels render as quiet coloured badges.

@@ -5,7 +5,7 @@ import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-enm-polyamory.css";
 
-const pageMetadata = getRouteMetadata("/inclusion/enm-polyamory");
+const pageMetadata = getRouteMetadata("/polyamory-enm-counselling");
 
 const pageContent = {
   title: pageMetadata.title,
@@ -19,7 +19,7 @@ const pageContent = {
       enquiryLabel: "Make an enquiry",
       enquiryHref: "/contact",
       inclusionLabel: "Back to Inclusion",
-      inclusionHref: "/inclusion",
+      inclusionHref: "/inclusive-counselling",
     },
   },
 

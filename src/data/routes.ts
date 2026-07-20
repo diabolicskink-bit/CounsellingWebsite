@@ -1,10 +1,10 @@
 export const publicRoutePaths = {
   contact: "contact",
-  enmPolyamory: "inclusion/enm-polyamory",
+  enmPolyamory: "polyamory-enm-counselling",
   home: "",
-  inclusion: "inclusion",
-  kinkBdsm: "inclusion/kink-bdsm",
-  lgbtqia: "inclusion/lgbtqia",
+  inclusion: "inclusive-counselling",
+  kinkBdsm: "kink-bdsm-counselling",
+  lgbtqia: "lgbtqia-affirming-counselling",
   workingWithJoel: "working-with-joel",
 } as const;
 
@@ -15,6 +15,7 @@ export function routeHref(path: string) {
 export const publicRedirectRoutes = [
   { path: "about", to: routeHref(publicRoutePaths.workingWithJoel) },
   { path: "fees", to: routeHref(publicRoutePaths.contact) },
+  { path: "inclusion", to: routeHref(publicRoutePaths.inclusion) },
 ] as const;
 
 export const devRoutePaths = {
@@ -30,14 +31,16 @@ export const devRoutePaths = {
 
 const sharedChromePaths = new Set([
   routeHref(publicRoutePaths.contact),
+  routeHref(publicRoutePaths.enmPolyamory),
   routeHref(publicRoutePaths.inclusion),
+  routeHref(publicRoutePaths.kinkBdsm),
+  routeHref(publicRoutePaths.lgbtqia),
   routeHref(publicRoutePaths.workingWithJoel),
   ...publicRedirectRoutes.map((route) => routeHref(route.path)),
   ...(import.meta.env.DEV ? Object.values(devRoutePaths).map((path) => routeHref(path)) : []),
 ]);
 
 const sharedChromePrefixes = [
-  `${routeHref(publicRoutePaths.inclusion)}/`,
   ...(import.meta.env.DEV ? [`${routeHref(devRoutePaths.designLanguage)}/`] : []),
 ];
 

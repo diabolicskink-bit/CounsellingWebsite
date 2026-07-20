@@ -455,10 +455,10 @@ Each active item should include enough direction that a future session can choos
   - This is a memory aid, not authorization for a dedicated page-by-page audit or test-only campaign.
   - Reviewed 2026-07-13 by explicit request: Home (`/`) now has focused hydrated and JavaScript-disabled checks for its semantic lists, portrait priority hint, workroom card, Inclusion detail navigation, and three page-owned route links. The raw first-response contract covers the same durable structure without snapshotting public prose, and the post-hydration SPA check now exercises a Home-owned CTA instead of the shared footer.
   - Reviewed 2026-07-13 by explicit request: Working with Joel (`/working-with-joel`) now has focused hydrated and JavaScript-disabled checks for credentials, introduction and portrait semantics, lazy image loading, its three-tab approach control, and the complete issues list. The interaction check covers pointer selection, tab/panel relationships, roving tab stops, Home/End and wrapping arrow-key behaviour, hydration, diagnostics, and desktop/mobile axe smoke coverage without snapshotting public prose. Review exposed the pre-JavaScript approach-copy gap tracked as `DEBT-35`.
-  - Pending opportunistic review: Inclusion hub (`/inclusion`).
-  - Pending opportunistic review: Kink and BDSM (`/inclusion/kink-bdsm`).
-  - Reviewed 2026-07-13 during master alignment: ENM and polyamory (`/inclusion/enm-polyamory`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
-  - Reviewed 2026-07-13 during master alignment: LGBTQIA+ (`/inclusion/lgbtqia`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
+  - Pending opportunistic review: Inclusion hub (`/inclusive-counselling`).
+  - Pending opportunistic review: Kink and BDSM (`/kink-bdsm-counselling`).
+  - Reviewed 2026-07-13 during master alignment: ENM and polyamory (`/polyamory-enm-counselling`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
+  - Reviewed 2026-07-13 during master alignment: LGBTQIA+ (`/lgbtqia-affirming-counselling`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
   - Pending opportunistic review: Contact and fees (`/contact`).
   - Pending opportunistic review: Not Found and controlled `404.html` boundary.
 - `Links`: `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`, `docs/project/task-log.md`

@@ -53,7 +53,7 @@ type InclusionPageContent = {
   };
 };
 
-const inclusionMetadata = getRouteMetadata("/inclusion");
+const inclusionMetadata = getRouteMetadata("/inclusive-counselling");
 
 const inclusionPageContent: InclusionPageContent = {
   title: inclusionMetadata.title,
