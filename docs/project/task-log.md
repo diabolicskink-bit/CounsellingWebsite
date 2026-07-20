@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-20 - Contact Intent And Conversion Analytics Added
+
+- Added: Anonymous Vercel Analytics events now record the first meaningful enquiry-form input and email-link clicks without event properties, topic context, or visitor-entered data; these intent events are not sent to GA4.
+- Added: Successful contact-form sends now emit GA4 `generate_lead` and Vercel Analytics `Enquiry submitted` events only after `/api/enquiry` returns success.
+- Protected: Conversion payloads contain no visitor-entered form data, failed sends emit no conversion, and analytics errors cannot change the visitor's successful form outcome.
+- Verified: The opt-in analytics QA path covers property-free contact-intent events, success-event payloads, failed-submission suppression, existing route tracking, and Clarity loading.
+
 ## 2026-07-20 - Structured Data Extended For Live Services
 
 - Added: Each live Kink/BDSM, ENM/polyamory, and LGBTQIA+ route now emits a linked `WebPage` and route-specific `Service` graph using the stable site-wide Organization and umbrella counselling Service identities.

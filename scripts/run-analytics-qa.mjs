@@ -58,5 +58,5 @@ await run(process.execPath, [
   startServerAndTestScript,
   "preview:qa",
   "http://127.0.0.1:4287",
-  "playwright test --grep \"Google Analytics sends route-change page views when enabled|Microsoft Clarity loads when configured\"",
+  "playwright test --grep \"Google Analytics sends route-change page views when enabled|confirmed enquiry submissions emit conversion analytics|anonymous contact-intent events contain no visitor data|Microsoft Clarity loads when configured\"",
 ], allowedHostAnalyticsEnv);

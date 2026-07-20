@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import { trackEnquiryStarted, trackSuccessfulEnquirySubmission } from "../utils/analytics";
 import { getActiveAustralianTimeZoneOptions } from "../utils/timeZones";
 import Button from "./Button";
 
@@ -90,6 +91,7 @@ function joinClasses(...classes: Array<string | undefined>) {
 export default function EnquiryForm({ content, className, idPrefix = "enquiry" }: EnquiryFormProps) {
   const { fields } = content;
   const formHeadingId = `${idPrefix}-form-heading`;
+  const enquiryStartTrackedRef = useRef(false);
   const successRef = useRef<HTMLDivElement>(null);
   const [enquiryType, setEnquiryType] = useState("");
   const [bookingType, setBookingType] = useState("");
@@ -128,6 +130,7 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
         throw new Error("Enquiry submission failed.");
       }
 
+      trackSuccessfulEnquirySubmission(idPrefix);
       formElement.reset();
       setEnquiryType("");
       setBookingType("");
@@ -135,6 +138,20 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
     } catch {
       setSubmitStatus("error");
     }
+  };
+
+  const handleFormInput = (event: FormEvent<HTMLFormElement>) => {
+    const target = event.target;
+
+    if (
+      enquiryStartTrackedRef.current ||
+      (target instanceof HTMLInputElement && target.name === "website")
+    ) {
+      return;
+    }
+
+    enquiryStartTrackedRef.current = true;
+    trackEnquiryStarted();
   };
 
   const handleEnquiryTypeChange = (value: string) => {
@@ -170,6 +187,7 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
       action="/api/enquiry"
       data-clarity-mask="true"
       method="post"
+      onInputCapture={handleFormInput}
       onSubmit={handleSubmit}
     >
       <h2 className="site-eyebrow site-form__heading" id={formHeadingId}>
