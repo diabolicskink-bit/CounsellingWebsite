@@ -126,18 +126,26 @@ const homePageContent: HomePageContent = {
         copy: "Feeling disconnected, having the same arguments again and again, or wanting to be close to someone but pulling away when they get close.",
       },
       {
-        title: "Shame and self-worth",
-        copy: "Harsh self-judgement, a persistent sense of not being enough, or something about yourself that feels too difficult or too exposing to say.",
-      },
+        title: "Shame and self-worth"       ,
+
+
+        copy:        "Harsh self-judgement, a persistent sense of not being enough, or something about yourself that feels too difficult or too exposing to say.",},
       {
-        title: "Trauma, abuse, and neglect",
-        copy: "Experiences of harm, control, or neglect that left a mark on how safe the world feels, how much you trust people, how close you let yourself get, or how you move through ordinary life.",
-      },
-      {
+        title: "Trauma, abuse, and neglect"
+        
+        ,
+        copy: "Experiences of harm, control, or neglect that left a mark on how safe the world feels, how much you trust people, how close you let yourself get, or how you move through ordinary life."
+        ,
+      }
+       {
         title: "Intense emotions",
         copy:
+
+        
           "Emotions that hit hard and are slow to come down, often with a sense of being too much. Closeness that can shift to distance without much warning.",
-      },
+     
+     
+                 },
     ],
   },
   inclusive: {

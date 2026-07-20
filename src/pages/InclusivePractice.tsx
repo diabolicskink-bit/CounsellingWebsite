@@ -13,6 +13,9 @@ type InclusionPanel = {
   eyebrow: string;
   heading: string;
   href: string;
+
+
+
   paragraphs: string[];
   cta: string;
 };
@@ -22,7 +25,7 @@ type InclusionFaq = {
   answer: string;
 };
 
-type InclusionPageContent = {
+type            InclusionPageContent = {
   title: string;
   meta: string;
   hero: {
