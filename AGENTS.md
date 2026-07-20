@@ -35,6 +35,7 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 
 ## Git And Release Workflow
 
+- Do not check for or use GitHub CLI (`gh`) unless the current task explicitly involves pull requests, GitHub issues, Actions, or another GitHub-specific feature. Use standard Git commands for repository operations.
 - `master` is the production branch and the source for Vercel production deployments.
 - `staging` is the long-lived integration branch and primary release candidate. Use its Vercel preview deployment to review combined changes before production.
 - Create `work/*` branches from the current `staging` branch by default, then merge completed work back into `staging`.
