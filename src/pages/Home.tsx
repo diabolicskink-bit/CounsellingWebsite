@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref, showDraftInclusionLinks } from "../data/routes";
+import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-home.css";
 
@@ -322,27 +322,17 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
 }
 
 function InclusiveDetailItem({ detail, ctaLabel }: { detail: HomeInclusiveDetail; ctaLabel: string }) {
-  const heading = (
-    <span className="site-detail-stack__heading">
-      <strong className="site-detail-stack__title">{detail.title}</strong>
-      {showDraftInclusionLinks ? (
-        <span className="site-detail-stack__action">
-          {ctaLabel}
-          <ArrowRight className="site-detail-stack__icon" size={16} aria-hidden="true" />
-        </span>
-      ) : null}
-    </span>
-  );
-
   return (
     <li className="site-detail-stack__item">
-      {showDraftInclusionLinks ? (
-        <Link className="site-detail-stack__link" to={detail.href}>
-          {heading}
-        </Link>
-      ) : (
-        heading
-      )}
+      <Link className="site-detail-stack__link" to={detail.href}>
+        <span className="site-detail-stack__heading">
+          <strong className="site-detail-stack__title">{detail.title}</strong>
+          <span className="site-detail-stack__action">
+            {ctaLabel}
+            <ArrowRight className="site-detail-stack__icon" size={16} aria-hidden="true" />
+          </span>
+        </span>
+      </Link>
       <p className="site-detail-stack__copy">{detail.copy}</p>
     </li>
   );

@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import FaqSection from "../components/FaqSection";
 import FaqSchema from "../components/FaqSchema";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref, showDraftInclusionLinks } from "../data/routes";
+import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 
 type InclusionPanel = {
@@ -201,13 +201,11 @@ export default function InclusivePractice() {
                       <p key={paragraph}>{paragraph}</p>
                     ))}
                   </div>
-                  {showDraftInclusionLinks ? (
-                    <div className="inclusion-hub__panel-action">
-                      <Button href={panel.href} variant="tertiary">
-                        {panel.cta} <ArrowRight size={16} />
-                      </Button>
-                    </div>
-                  ) : null}
+                  <div className="inclusion-hub__panel-action">
+                    <Button href={panel.href} variant="tertiary">
+                      {panel.cta} <ArrowRight size={16} />
+                    </Button>
+                  </div>
                 </div>
               </article>
             ))}
@@ -221,13 +219,9 @@ export default function InclusivePractice() {
 }
 
 function InclusionHeroDetailItem({ item }: { item: { label: string; href: string } }) {
-  if (showDraftInclusionLinks) {
-    return (
-      <Link className="inclusion-hero__detail-link" to={item.href}>
-        {item.label}
-      </Link>
-    );
-  }
-
-  return <span className="inclusion-hero__detail-link inclusion-hero__detail-link--static">{item.label}</span>;
+  return (
+    <Link className="inclusion-hero__detail-link" to={item.href}>
+      {item.label}
+    </Link>
+  );
 }

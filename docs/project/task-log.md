@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-18 - Inclusion Child Pages Published
+
+- Changed: Kink/BDSM, ENM/polyamory, and LGBTQIA+ are now first-class public routes linked from the shared navigation, Home, and the Inclusion hub.
+- Changed: All seven public content routes are indexable and included in the canonical sitemap; route-level child-page `noindex, nofollow` directives and draft-only link gates are retired while the controlled 404 remains noindexed.
+- Verified: Production prerendering, public discovery assertions, route metadata, sitemap output, responsive overflow checks, and serious-impact accessibility smoke coverage now include all three child pages.
+- Cleaned: Obsolete child-page review screenshots, the one-off browser script, stale draft-policy documentation, and resolved `SITE-9` tracking were removed or archived.
+
 ## 2026-07-17 - Audience And Market Research Skills Split
 
 - Refocused: `audience-research` now builds broad, experience-rich audience

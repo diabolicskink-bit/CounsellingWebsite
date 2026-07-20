@@ -44,22 +44,6 @@ Statuses:
 
 ## Active Items
 
-### SITE-9 - ENM and polyamory page copy completion
-
-- `Priority`: `P1`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Content`
-- `Source`: `Fresh launch-readiness review, src/pages/EnmPolyamoryCounselling.tsx`
-- `Visitor-Facing Goal`: Make the ENM and polyamory page feel finished, specific, and trustworthy before launch.
-- `Current State`: The public ENM/polyamory page still contains Latin placeholder paragraphs in the "Wherever you are in this" section, and the page needs a final proofread for visible placeholder or encoding artifacts.
-- `Why Deferred`: This review is tracking launch work only; replacing the copy needs a focused content pass rather than a quick mechanical edit.
-- `First Useful Slice`: Replace the four placeholder position paragraphs with final page-voice copy for jealousy/insecurity, hinge pressure, mismatched needs, and uncertainty/not-knowing.
-- `Implemented When`: The ENM/polyamory page contains no placeholder or garbled public text, and the section reads as deliberately written rather than scaffolded.
-- `Notes`:
-  - The current placeholders are visible source text, not an abstract quality concern, so this is launch-completion work rather than general debt.
-- `Links`: `src/pages/EnmPolyamoryCounselling.tsx`, `docs/project/product-direction.md`
-
 ### SITE-11 - Website privacy and counselling-boundaries note
 
 - `Priority`: `P1`

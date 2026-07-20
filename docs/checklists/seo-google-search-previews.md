@@ -40,35 +40,19 @@ https://vivecounselling.com.au/contact
 Request a free 15-minute initial consultation with Joel Griffiths at Vive Counselling. Counselling sessions are $120; view fees and contact details.
 ```
 
-## Draft Child Pages
+## Indexable Inclusion Child Pages
 
-These routes are direct review routes, but they are currently excluded from production links, omitted from the sitemap, and marked `noindex, nofollow`. No Google result is expected while that policy remains active.
+These routes are linked in production, included in the sitemap, and use the same indexable metadata policy as the other public content routes.
 
 ### `/inclusion/kink-bdsm` - Kink and BDSM
-
-Expected current search result:
-
-```text
-No Google result expected while this route remains noindexed.
-```
-
-Possible preview if the page is later approved for indexing:
 
 ```text
 Kink & BDSM-Aware Counselling | Vive Counselling
 https://vivecounselling.com.au/inclusion/kink-bdsm
-Kink-aware counselling and therapy for adults across Australia. Perth-based support where kink is understood without being pathologised or made the whole story.
+Kink-aware counselling and therapy with Joel Griffiths, an ACA-registered counsellor based in Perth and working with adults across Australia.
 ```
 
 ### `/inclusion/enm-polyamory` - ENM and polyamory
-
-Expected current search result:
-
-```text
-No Google result expected while this route remains noindexed.
-```
-
-Possible preview if the page is later approved for indexing:
 
 ```text
 Counselling for Polyamory, Open Relationships and ENM | Vive Counselling
@@ -78,16 +62,8 @@ Counselling for polyamory, open relationships and ENM across Australia, without 
 
 ### `/inclusion/lgbtqia` - LGBTQIA+
 
-Expected current search result:
-
-```text
-No Google result expected while this route remains noindexed.
-```
-
-Possible preview if the page is later approved for indexing:
-
 ```text
 LGBTQIA+ Affirming Counselling | Vive Counselling
 https://vivecounselling.com.au/inclusion/lgbtqia
-LGBTQIA+ affirming counselling for adults across Australia, including identity, relationships, shame, family strain and mental health. Perth-based.
+LGBTQIA+ affirming counselling with Joel Griffiths for adults across Australia. Perth-based online counselling for sexuality, gender, relationships and other concerns.
 ```

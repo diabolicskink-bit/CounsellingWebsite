@@ -102,9 +102,12 @@ const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
 const noindexDirective = "noindex, nofollow";
-const indexableRoutes = ["/", "/working-with-joel", "/inclusion", "/contact"] as const;
-const draftInclusionRoutes = ["/inclusion/kink-bdsm", "/inclusion/enm-polyamory", "/inclusion/lgbtqia"] as const;
-const productionLinkHiddenRoutes = ["/", "/inclusion"] as const;
+const indexableRoutes = publicRoutes;
+const inclusionChildRoutes = [
+  { path: "/inclusion/kink-bdsm", navLabel: "Kink & BDSM" },
+  { path: "/inclusion/enm-polyamory", navLabel: "ENM & polyamory" },
+  { path: "/inclusion/lgbtqia", navLabel: "LGBTQIA+" },
+] as const;
 const analyticsConfigured = process.env.VITE_ANALYTICS_ENABLED === "true";
 const qaRuntimeHostname = "127.0.0.1";
 
@@ -536,14 +539,7 @@ const aliasRedirects = [
 
 const retiredRoutes = ["/about-joel", "/approach", "/enquire"] as const;
 
-const accessibilitySmokeRoutes = [
-  "/",
-  "/working-with-joel",
-  "/contact",
-  "/inclusion",
-  "/inclusion/kink-bdsm",
-  "/inclusion/lgbtqia",
-] as const;
+const accessibilitySmokeRoutes = publicRoutes;
 
 const devOnlyRoutes = [
   "/codex-tb",
@@ -620,6 +616,39 @@ test.describe("public pages", () => {
 });
 
 test.describe("shared navigation", () => {
+  test("exposes inclusion child pages in desktop and mobile navigation", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const desktopNavigation = page.getByRole("navigation", { name: "Main navigation" });
+    await desktopNavigation.getByRole("link", { name: "Inclusion", exact: true }).focus();
+    const desktopSubmenu = desktopNavigation.getByRole("group", { name: "Inclusion submenu" });
+
+    await expect(desktopSubmenu).toBeVisible();
+
+    for (const route of inclusionChildRoutes) {
+      await expect(desktopSubmenu.getByRole("link", { name: route.navLabel, exact: true })).toHaveAttribute(
+        "href",
+        route.path,
+      );
+    }
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator("button.menu-toggle").click();
+    const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+
+    for (const route of inclusionChildRoutes) {
+      await expect(mobileNavigation.getByRole("link", { name: route.navLabel, exact: true })).toHaveAttribute(
+        "href",
+        route.path,
+      );
+    }
+
+    await mobileNavigation.getByRole("link", { name: "ENM & polyamory", exact: true }).click();
+    await expect(page).toHaveURL(/\/inclusion\/enm-polyamory$/);
+    await expect(mobileNavigation).toHaveCount(0);
+  });
+
   test("restores mobile menu focus and body scrolling when Escape closes it", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/", { waitUntil: "networkidle" });
@@ -914,45 +943,34 @@ test.describe("crawl and app metadata assets", () => {
     expect(sitemap).not.toContain(`${siteOrigin}/404.html`);
   });
 
-  test("draft inclusion child routes carry durable route-level noindex metadata", () => {
-    for (const route of draftInclusionRoutes) {
-      expect(routeMetadataData.routes[route].robots).toBe(noindexDirective);
-    }
-
-    for (const [route, metadata] of publicRouteMetadataEntries) {
-      if (!draftInclusionRoutes.includes(route as (typeof draftInclusionRoutes)[number])) {
-        expect(metadata.robots).toBeUndefined();
-      }
+  test("public routes do not carry route-level noindex metadata", () => {
+    for (const [, metadata] of publicRouteMetadataEntries) {
+      expect(metadata.robots).toBeUndefined();
     }
   });
 
-  for (const route of productionLinkHiddenRoutes) {
-    test(`${route} does not link to draft inclusion child pages in production`, async ({ page }) => {
-      await page.goto(route, { waitUntil: "networkidle" });
+  test("Home and Inclusion expose every child page through production links", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+    const homeMain = page.locator("main.home-page");
 
-      for (const childRoute of draftInclusionRoutes) {
-        await expect(page.locator(`a[href="${childRoute}"]`)).toHaveCount(0);
-      }
+    for (const route of inclusionChildRoutes) {
+      await expect(homeMain.locator(`a[href="${route.path}"]`)).toHaveCount(1);
+    }
+    await expect(homeMain.locator(".home-page__inclusive-details .site-detail-stack__action")).toHaveCount(3);
 
-      if (route === "/") {
-        await expect(page.getByText("Kink & BDSM counselling")).toBeVisible();
-        await expect(page.getByText("Polyamory & ENM counselling")).toBeVisible();
-        await expect(page.getByText("LGBTQIA+ inclusive")).toBeVisible();
-        await expect(page.locator(".home-page__inclusive-details .site-detail-stack__action")).toHaveCount(0);
-      }
+    await page.goto("/inclusion", { waitUntil: "networkidle" });
+    const inclusionMain = page.locator("main.inclusion-page");
 
-      if (route === "/inclusion") {
-        const inclusionHeroDetails = page.locator(".inclusion-hero__details");
-
-        await expect(inclusionHeroDetails).toBeVisible();
-        await expect(inclusionHeroDetails.locator(".inclusion-hero__detail-link--static")).toHaveText([
-          "Kink & BDSM",
-          "ENM & Polyamory",
-          "LGBTQIA+",
-        ]);
-      }
-    });
-  }
+    for (const route of inclusionChildRoutes) {
+      await expect(inclusionMain.locator(`a[href="${route.path}"]`)).toHaveCount(2);
+    }
+    await expect(inclusionMain.locator(".inclusion-hero__detail-link")).toHaveText([
+      "Kink & BDSM",
+      "ENM & Polyamory",
+      "LGBTQIA+",
+    ]);
+    await expect(inclusionMain.locator(".inclusion-hub__panel-action")).toHaveCount(3);
+  });
 
   test("Vercel config does not apply global noindex headers", () => {
     const siteWideHeader = vercelConfigData.headers?.find(({ source }) => source === "/(.*)");
@@ -1606,19 +1624,23 @@ test.describe("production route boundaries", () => {
   }
 });
 
-test("LGBTQIA+ page reflows without horizontal overflow", async ({ page }) => {
-  for (const viewport of [
-    { width: 390, height: 844 },
-    { width: 820, height: 1180 },
-    { width: 1440, height: 1000 },
-  ]) {
-    await page.setViewportSize(viewport);
-    await page.goto("/inclusion/lgbtqia", { waitUntil: "networkidle" });
+test.describe("inclusion child page responsive boundaries", () => {
+  for (const route of inclusionChildRoutes) {
+    test(`${route.path} reflows without horizontal overflow`, async ({ page }) => {
+      for (const viewport of [
+        { width: 390, height: 844 },
+        { width: 820, height: 1180 },
+        { width: 1440, height: 1000 },
+      ]) {
+        await page.setViewportSize(viewport);
+        await page.goto(route.path, { waitUntil: "networkidle" });
 
-    await expect(page.locator(".lgbtqia-page__recognition-flow")).toBeVisible();
-    expect(
-      await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
-    ).toBe(true);
+        await expect(page.locator("main.site-page")).toBeVisible();
+        expect(
+          await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
+        ).toBe(true);
+      }
+    });
   }
 });
 

@@ -1,4 +1,4 @@
-import { devRoutePaths, publicRoutePaths, routeHref, showDraftInclusionLinks } from "./routes";
+import { devRoutePaths, publicRoutePaths, routeHref } from "./routes";
 
 export type NavItem = {
   label: string;
@@ -12,13 +12,11 @@ export const navItems: NavItem[] = [
   {
     label: "Inclusion",
     href: routeHref(publicRoutePaths.inclusion),
-    children: showDraftInclusionLinks
-      ? [
-          { label: "Kink & BDSM", href: routeHref(publicRoutePaths.kinkBdsm) },
-          { label: "ENM & polyamory", href: routeHref(publicRoutePaths.enmPolyamory) },
-          { label: "LGBTQIA+", href: routeHref(publicRoutePaths.lgbtqia) },
-        ]
-      : undefined,
+    children: [
+      { label: "Kink & BDSM", href: routeHref(publicRoutePaths.kinkBdsm) },
+      { label: "ENM & polyamory", href: routeHref(publicRoutePaths.enmPolyamory) },
+      { label: "LGBTQIA+", href: routeHref(publicRoutePaths.lgbtqia) },
+    ],
   },
   ...(import.meta.env.DEV
     ? [

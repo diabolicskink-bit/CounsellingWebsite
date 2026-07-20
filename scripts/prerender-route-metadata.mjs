@@ -9,7 +9,6 @@ const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
-const indexableRoutePaths = ["/", "/working-with-joel", "/inclusion", "/contact"];
 const prerenderedRoutePaths = [
   "/",
   "/working-with-joel",
@@ -19,6 +18,7 @@ const prerenderedRoutePaths = [
   "/inclusion/lgbtqia",
   "/contact",
 ];
+const indexableRoutePaths = prerenderedRoutePaths;
 const prerenderedRouteSmokeFragments = {
   "/": ['<main class="site-page home-page">', "Counselling and Psychotherapy"],
   "/working-with-joel": [
@@ -33,13 +33,13 @@ const prerenderedRouteSmokeFragments = {
   ],
   "/inclusion/kink-bdsm": [
     '<main class="site-page kink-page">',
-    "Kink &amp; BDSM-aware counselling",
+    "Kink-aware counselling and therapy",
     'class="kink-page__knowledge-grid"',
     'class="site-faq-list"',
   ],
   "/inclusion/enm-polyamory": [
     '<main class="site-page enm-page">',
-    "ENM &amp; polyamory counselling",
+    "Polyamory and ethical non-monogamy counselling and therapy",
     'class="hero-section hero-bg--default enm-page__hero"',
     'class="enm-page__reasons"',
     'class="enm-page__reasons-panel"',
@@ -65,13 +65,6 @@ const prerenderedRouteSmokeFragments = {
   ],
 };
 const prerenderedRouteSmokeForbiddenFragments = {
-  "/inclusion/enm-polyamory": [
-    'class="enm-page__position-map"',
-    'class="enm-page__relevance-spectrum"',
-    'class="enm-page__system-map"',
-    'class="enm-candidate-comparison"',
-    'class="enm-candidate"',
-  ],
   "/contact": [
     'id="contact-timing"',
     'id="contact-state"',
