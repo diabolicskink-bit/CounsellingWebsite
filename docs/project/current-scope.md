@@ -56,6 +56,8 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 - Vercel Analytics renders when analytics are enabled and the runtime hostname is allowed.
 - `SiteAnalytics` loads Google Analytics when `VITE_GA_MEASUREMENT_ID` is configured and sends manual public-route `page_view` events.
+- The first non-honeypot enquiry-form input emits one Vercel Analytics `enquiry_started` event per rendered form, and clicks on site email links emit `email_link_clicked`. These intent events are not sent to GA4 and contain no event properties or visitor-entered data.
+- After `/api/enquiry` confirms a successful send, the enquiry form emits a GA4 `generate_lead` event and a Vercel Analytics `Enquiry submitted` custom event without including visitor-entered form data. Failed submissions emit neither event.
 - Microsoft Clarity loads when `VITE_CLARITY_PROJECT_ID` is configured.
 - The default analytics host allowlist includes the canonical apex and `www`; `VITE_ANALYTICS_ALLOWED_HOSTS` supports intentional alternate QA environments.
 - The enquiry form uses `data-clarity-mask="true"` so Clarity does not capture form content.
@@ -66,7 +68,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Direct Node tests under `tests/api/` cover accepted and rejected enquiry submissions.
 - Direct Node tests under `tests/scripts/` cover route-metadata origin policy.
 - `npm run qa:site` builds the app, starts the QA preview server, and runs the Playwright public-site suite.
-- `npm run qa:analytics` builds with fake analytics identifiers and verifies Google Analytics SPA pageviews and the Clarity script path without loading third-party scripts.
+- `npm run qa:analytics` builds with fake analytics identifiers and verifies Google Analytics SPA pageviews, anonymous contact-intent events, confirmed enquiry conversion events, failure suppression, and the Clarity script path without loading third-party scripts.
 - `npm run qa` runs encoding checks, direct script tests, the build, direct API tests, and the public-site Playwright suite.
 - `npm run check:encoding` is also included in `npm run qa` and `npm run qa:site`.
 - Test tooling includes Playwright axe checks and Lighthouse audit scripts.

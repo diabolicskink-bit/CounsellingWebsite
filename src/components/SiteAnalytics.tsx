@@ -1,66 +1,19 @@
 import { Analytics } from "@vercel/analytics/react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { routeMetadata, siteMetadata, type RouteMetadata } from "../data/routeMetadata";
+import { routeMetadata, type RouteMetadata } from "../data/routeMetadata";
+import {
+  analyticsEnabled,
+  clarityProjectId,
+  gaMeasurementId,
+  isAnalyticsHostAllowed,
+  trackEmailLinkClicked,
+} from "../utils/analytics";
 
-const analyticsEnabled = import.meta.env.VITE_ANALYTICS_ENABLED === "true";
-const analyticsAllowedHosts = import.meta.env.VITE_ANALYTICS_ALLOWED_HOSTS;
-const gaMeasurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
-const clarityProjectId = import.meta.env.VITE_CLARITY_PROJECT_ID?.trim();
 const gaScriptId = "vive-google-analytics";
 const gaConfigScriptId = "vive-google-analytics-config";
 const clarityScriptId = "vive-microsoft-clarity";
 const publicRouteMetadata: Record<string, RouteMetadata | undefined> = routeMetadata;
-
-function normalizeHostname(value: string) {
-  const trimmedValue = value.trim();
-
-  if (!trimmedValue) {
-    return undefined;
-  }
-
-  try {
-    const withProtocol = trimmedValue.includes("://") ? trimmedValue : `https://${trimmedValue}`;
-
-    return new URL(withProtocol).hostname.toLowerCase();
-  } catch {
-    return trimmedValue.toLowerCase();
-  }
-}
-
-function getDefaultAllowedHostnames() {
-  const defaultHostname = normalizeHostname(siteMetadata.defaultOrigin);
-
-  if (!defaultHostname) {
-    return [];
-  }
-
-  const hostnames = [defaultHostname];
-
-  if (!defaultHostname.startsWith("www.")) {
-    hostnames.push(`www.${defaultHostname}`);
-  }
-
-  return hostnames;
-}
-
-const allowedAnalyticsHostnames = new Set(
-  [
-    ...getDefaultAllowedHostnames(),
-    ...(analyticsAllowedHosts ?? "")
-      .split(",")
-      .map((hostname) => normalizeHostname(hostname))
-      .filter((hostname): hostname is string => Boolean(hostname)),
-  ].map((hostname) => hostname.toLowerCase()),
-);
-
-function isAnalyticsHostAllowed() {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  return allowedAnalyticsHostnames.has(window.location.hostname.toLowerCase());
-}
 
 type GoogleAnalyticsProps = {
   measurementId?: string;
@@ -152,6 +105,28 @@ function MicrosoftClarity({ projectId }: MicrosoftClarityProps) {
   return null;
 }
 
+function EmailLinkAnalytics() {
+  useEffect(() => {
+    const handleEmailLinkClick = (event: MouseEvent) => {
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      const emailLink = event.target.closest<HTMLAnchorElement>('a[href^="mailto:"]');
+
+      if (emailLink) {
+        trackEmailLinkClicked();
+      }
+    };
+
+    document.addEventListener("click", handleEmailLinkClick);
+
+    return () => document.removeEventListener("click", handleEmailLinkClick);
+  }, []);
+
+  return null;
+}
+
 export default function SiteAnalytics() {
   if (!analyticsEnabled || !isAnalyticsHostAllowed()) {
     return null;
@@ -161,6 +136,7 @@ export default function SiteAnalytics() {
     <>
       <GoogleAnalytics measurementId={gaMeasurementId} />
       <MicrosoftClarity projectId={clarityProjectId} />
+      <EmailLinkAnalytics />
       <Analytics mode="production" />
     </>
   );

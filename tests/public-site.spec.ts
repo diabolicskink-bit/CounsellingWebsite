@@ -409,14 +409,20 @@ type PageDiagnostics = {
   failedResponses: string[];
 };
 
-type AnalyticsPageViewEvent = {
+type GoogleAnalyticsEvent = {
   eventName: string;
   params: {
+    lead_source?: string;
     page_location?: string;
     page_path?: string;
     page_title?: string;
     send_to?: string;
   };
+};
+
+type VercelCustomEvent = {
+  name?: string;
+  properties: Record<string, unknown>;
 };
 
 function collectPageDiagnostics(page: Page): PageDiagnostics {
@@ -521,14 +527,29 @@ async function expectNotFoundPage(page: Page, requestedPath: string) {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", noindexDirective);
 }
 
-async function getAnalyticsPageViewEvents(page: Page): Promise<AnalyticsPageViewEvent[]> {
-  return page.evaluate(() => {
+async function getGoogleAnalyticsEvents(page: Page, eventName: string): Promise<GoogleAnalyticsEvent[]> {
+  return page.evaluate((targetEventName) => {
     return (window.dataLayer ?? [])
-      .filter((entry) => entry[0] === "event" && entry[1] === "page_view")
+      .filter((entry) => entry[0] === "event" && entry[1] === targetEventName)
       .map((entry) => ({
         eventName: entry[1],
         params: entry[2] ?? {},
       }));
+  }, eventName);
+}
+
+async function getVercelCustomEvents(page: Page): Promise<VercelCustomEvent[]> {
+  return page.evaluate(() => {
+    return (window.vaq ?? [])
+      .filter((entry) => entry[0] === "event")
+      .map((entry) => {
+        const event = entry[1] as { data?: Record<string, unknown>; name?: string };
+
+        return {
+          name: event.name,
+          properties: event.data ?? {},
+        };
+      });
   });
 }
 
@@ -1195,7 +1216,7 @@ test.describe("crawl and app metadata assets", () => {
     await page.goto("/", { waitUntil: "networkidle" });
 
     await expect
-      .poll(() => getAnalyticsPageViewEvents(page))
+      .poll(() => getGoogleAnalyticsEvents(page, "page_view"))
       .toEqual([
         {
           eventName: "page_view",
@@ -1211,7 +1232,7 @@ test.describe("crawl and app metadata assets", () => {
     await page.getByRole("banner").getByRole("link", { name: "Get in touch" }).click();
 
     await expect
-      .poll(() => getAnalyticsPageViewEvents(page))
+      .poll(() => getGoogleAnalyticsEvents(page, "page_view"))
       .toEqual([
         {
           eventName: "page_view",
@@ -1232,6 +1253,142 @@ test.describe("crawl and app metadata assets", () => {
           },
         },
       ]);
+  });
+
+  test("confirmed enquiry submissions emit conversion analytics", async ({ page }) => {
+    test.skip(!googleAnalyticsRouteTrackingEnabled, "Analytics conversion tracking is covered by npm run qa:analytics.");
+
+    let submissionSucceeds = false;
+
+    await page.route("**/*", async (route) => {
+      const requestUrl = new URL(route.request().url());
+
+      if (requestUrl.pathname === "/api/enquiry") {
+        await route.fulfill({
+          body: JSON.stringify(submissionSucceeds ? { ok: true } : { error: "Submission failed." }),
+          contentType: "application/json",
+          status: submissionSucceeds ? 200 : 502,
+        });
+        return;
+      }
+
+      if (isAnalyticsUrl(route.request().url())) {
+        await route.fulfill({
+          body: "",
+          contentType: "application/javascript",
+          status: 200,
+        });
+        return;
+      }
+
+      await route.continue();
+    });
+
+    await page.goto("/contact", { waitUntil: "networkidle" });
+
+    const form = page.getByRole("form", { name: "Enquiry" });
+
+    await form.getByLabel("Name").fill("Alex Person");
+    await form.getByLabel("Email").fill("alex@example.com");
+    await form.getByLabel("Your enquiry").fill("Hello");
+    await form.getByLabel("General enquiry").check();
+    await form.getByRole("button", { name: "Send enquiry" }).click();
+
+    await expect(form.getByRole("alert")).toBeVisible();
+    expect(await getGoogleAnalyticsEvents(page, "generate_lead")).toEqual([]);
+    expect(await getVercelCustomEvents(page)).toEqual([
+      {
+        name: "enquiry_started",
+        properties: {},
+      },
+    ]);
+
+    submissionSucceeds = true;
+    await form.getByRole("button", { name: "Send enquiry" }).click();
+
+    await expect(page.getByRole("status")).toContainText("Thanks, your enquiry has been sent.");
+    await expect
+      .poll(() => getGoogleAnalyticsEvents(page, "generate_lead"))
+      .toEqual([
+        {
+          eventName: "generate_lead",
+          params: {
+            lead_source: "website_enquiry_form",
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
+        },
+      ]);
+    await expect
+      .poll(() => getVercelCustomEvents(page))
+      .toEqual([
+        {
+          name: "enquiry_started",
+          properties: {},
+        },
+        {
+          name: "Enquiry submitted",
+          properties: {
+            form: "contact",
+          },
+        },
+      ]);
+  });
+
+  test("anonymous contact-intent events contain no visitor data", async ({ page }) => {
+    test.skip(!googleAnalyticsRouteTrackingEnabled, "Analytics contact-intent tracking is covered by npm run qa:analytics.");
+
+    await page.route("**/*", async (route) => {
+      if (isAnalyticsUrl(route.request().url())) {
+        await route.fulfill({
+          body: "",
+          contentType: "application/javascript",
+          status: 200,
+        });
+        return;
+      }
+
+      await route.continue();
+    });
+
+    await page.goto("/contact", { waitUntil: "networkidle" });
+
+    const form = page.getByRole("form", { name: "Enquiry" });
+
+    await form.getByLabel("Name").fill("Alex Person");
+    await form.getByLabel("Email").fill("alex@example.com");
+
+    await expect
+      .poll(() => getVercelCustomEvents(page))
+      .toEqual([
+        {
+          name: "enquiry_started",
+          properties: {},
+        },
+      ]);
+
+    expect(await getGoogleAnalyticsEvents(page, "enquiry_started")).toEqual([]);
+
+    const emailLink = page.getByRole("link", { name: "joel@vivecounselling.com.au" }).first();
+
+    await emailLink.evaluate((link) => {
+      link.addEventListener("click", (event) => event.preventDefault(), { once: true });
+    });
+    await emailLink.click();
+
+    await expect
+      .poll(() => getVercelCustomEvents(page))
+      .toEqual([
+        {
+          name: "enquiry_started",
+          properties: {},
+        },
+        {
+          name: "email_link_clicked",
+          properties: {},
+        },
+      ]);
+
+    expect(await getGoogleAnalyticsEvents(page, "email_link_clicked")).toEqual([]);
   });
 
   test("Microsoft Clarity loads when configured", async ({ page }) => {
