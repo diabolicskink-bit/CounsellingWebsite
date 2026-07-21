@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-21 - Live-Site Launch Gates Closed
+
+- Closed: `LAUNCH-4` and `LAUNCH-5` after accepting the current performance and analytics implementations as the live operating baselines; future refinements remain ordinary operational, `SITE-*`, or `DEBT-*` work.
+- Closed: `LAUNCH-6` after accepting the current browser and API coverage as the live enquiry-flow QA baseline; concrete form improvements remain ordinary `SITE-*` work.
+- Closed: `LAUNCH-7` as a dedicated final-copy gate now that the site is live; owner-led copy refinement continues under the writing direction and relevant `SITE-*` items.
+- Completed: `LAUNCH-8` after live apex-domain, redirect, canonical/social metadata, crawl-artifact, shared-image, and controlled-404 checks passed; repeatable live smoke-test automation remains separately tracked under `DEBT-24`.
+
 ## 2026-07-20 - Contact Intent And Conversion Analytics Added
 
 - Added: Anonymous Vercel Analytics events now record the first meaningful enquiry-form input and email-link clicks without event properties, topic context, or visitor-entered data; these intent events are not sent to GA4.
@@ -258,7 +265,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-07-08 - Microsoft Clarity Analytics Added
 
 - Added: `SiteAnalytics` now loads Microsoft Clarity when analytics are enabled and `VITE_CLARITY_PROJECT_ID` is configured.
-- Preserved: No cookie banner or local Clarity Consent API flow was added; normal Clarity cookies are allowed where Microsoft/project settings allow them, and the remaining analytics policy sign-off stays in `LAUNCH-5`.
+- Preserved: No cookie banner or local Clarity Consent API flow was added; normal Clarity cookies are allowed where Microsoft/project settings allow them. `LAUNCH-5` was later closed after the site went live and this implementation was accepted as the operating baseline.
 - Added: The enquiry form is explicitly Clarity-masked, and `npm run qa:analytics` now verifies both GA route-change tracking and the Clarity script path with third-party analytics requests intercepted.
 
 ## 2026-07-08 - Design-System Icon Candidates Removed

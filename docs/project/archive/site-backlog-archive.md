@@ -4,7 +4,7 @@ This file preserves implemented and superseded `SITE-*` items moved out of the [
 
 ### SITE-9 - ENM and polyamory page copy completion
 
-Implemented on 2026-07-18. The ENM/polyamory page now contains deliberately written public copy with no Latin placeholder paragraphs or visible encoding artifacts. The route passed the repository encoding check and was published with the other Inclusion child pages; broader cross-site copy review remains under `LAUNCH-7`.
+Implemented on 2026-07-18. The ENM/polyamory page now contains deliberately written public copy with no Latin placeholder paragraphs or visible encoding artifacts. The route passed the repository encoding check and was published with the other Inclusion child pages. `LAUNCH-7` was later closed after the site went live; copy refinement continues through the owner-led writing process and concrete `SITE-*` work.
 
 ### SITE-20 - Contact enquiry form semantic heading
 
@@ -36,15 +36,15 @@ Superseded by `LAUNCH-3`. Metadata review is now tracked as a launch-readiness g
 
 ### SITE-4 - Performance and image delivery review
 
-Superseded by `LAUNCH-4`. Performance and media delivery review is now tracked as a launch-readiness gate; concrete follow-up work should be linked from that review.
+Superseded by `LAUNCH-4`, which was later closed after the site went live and the current performance posture was accepted as the operating baseline. Future performance and media-delivery improvements remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-5 - Analytics and local/test policy
 
-Superseded by `LAUNCH-5`. Analytics environment policy is now tracked as launch-readiness work, with technical follow-up linked separately.
+Superseded by `LAUNCH-5`, which was later closed after the site went live and the implemented analytics posture was accepted as the operating baseline. Future analytics, policy, privacy-notice, and testing changes remain ordinary operational, `SITE-*`, or `DEBT-*` work.
 
 ### SITE-6 - Enquiry form public-flow QA
 
-Superseded by `LAUNCH-6`. Public enquiry-flow review is now tracked as launch-readiness work; concrete form changes remain in active SITE cards where needed.
+Superseded by `LAUNCH-6`, which was later closed after the site went live and its current QA coverage was accepted as the baseline. Concrete form changes remain in active SITE cards where needed.
 
 ### SITE-8 - Shared portrait/media hero treatment
 
@@ -52,8 +52,8 @@ Implemented on 2026-06-23. Home and Working with Joel now use the shared `.hero-
 
 ### SITE-13 - Final public copy and ethical-claims proofread
 
-Superseded by `LAUNCH-7`. Final cross-route copy proofing is now launch-readiness work; concrete copy changes remain as active `SITE-*` items.
+Superseded by `LAUNCH-7`, which was later closed after the site went live. Ongoing owner-led copy refinement and concrete copy changes remain ordinary writing and `SITE-*` work rather than a dedicated launch gate.
 
 ### SITE-18 - Custom launch domain and canonical public identity
 
-Superseded by `LAUNCH-8`. Domain and canonical identity sign-off is now tracked as launch-readiness work rather than a SITE change card.
+Superseded by `LAUNCH-8`, which was completed after the live apex domain, redirects, crawl artifacts, social metadata, and controlled 404 behaviour were verified.

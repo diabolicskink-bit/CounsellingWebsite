@@ -30,6 +30,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 ## Rendering, Build, And Deployment
 
+- The public site is live at `https://vivecounselling.com.au`.
 - Browser and static entry points share the same route/application tree, Strict Mode boundary, and serializable initial-render timestamp contract.
 - `npm run build` creates a disposable Vite SSR bundle under `.prerender/server` and imports it while prerendering every metadata-backed public route.
 - Generated route HTML contains component-rendered header, page, navigation, and footer markup in the first response.
@@ -83,10 +84,10 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Type checking does not cover tests, scripts, or most configuration files.
 - Accessibility support and route-level checklist coverage exist, but the `LAUNCH-1` accessibility review is incomplete.
 - Responsive styling exists, but the `LAUNCH-2` responsive review is incomplete.
-- Lighthouse tooling exists, but performance budgets are not enforced.
-- Analytics launch policy is not fully signed off; `LAUNCH-5` still covers GA4 administration and Microsoft Clarity cookie/session-recording behaviour.
+- Lighthouse tooling exists, but performance budgets are not enforced; the dedicated performance launch gate is closed, and future refinements are ordinary maintenance work.
+- The implemented analytics posture is the live operating baseline. Future GA4/Clarity administration, policy, public privacy-notice, or testing refinements are ordinary operational and tracked work rather than a dedicated launch gate.
 - Dedicated automated live Vercel production or preview smoke tests do not exist.
-- Cross-site launch review and sign-off remain open in `docs/project/launch-readiness.md`.
+- The site is live. Remaining items in `docs/project/launch-readiness.md` are continuing review/sign-off work rather than gates preventing publication; performance, analytics, enquiry-flow, and final-copy launch gates have been closed, while future improvements continue through normal operational, writing, `SITE-*`, and `DEBT-*` workflows.
 
 ## Not Included
 
