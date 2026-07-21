@@ -255,8 +255,8 @@ const foundationReferenceNames = [
   },
   {
     name: "Editorial HTML panel",
-    pointsTo: "The final rich-text demo with headings, links, lists, quote, table, code, and divider.",
-    status: "Active .rich-text baseline example.",
+    pointsTo: "The final rich-text demo with headings, links, lists, quote, table, code, divider, and button.",
+    status: "Active .rich-text baseline and contextual-button example.",
   },
 ];
 
@@ -648,7 +648,8 @@ export default function DS_Foundations() {
               <h2>Rich text should still look designed.</h2>
               <p>
                 The shared <code>.rich-text</code> baseline now covers headings, paragraphs, links, lists, quotes,
-                tables, dividers, and inline code. Use it for editorial content instead of styling each page by hand.
+                tables, dividers, inline code, and an optional contextual button. Use it for editorial content instead
+                of styling each page by hand.
               </p>
             </div>
 
@@ -693,6 +694,9 @@ export default function DS_Foundations() {
               </table>
               <hr />
               <p>Dividers should close a thought quietly, not split a page into heavy chunks.</p>
+              <Button href="/contact" variant="secondary">
+                View contact and session details
+              </Button>
             </article>
           </section>
         </div>

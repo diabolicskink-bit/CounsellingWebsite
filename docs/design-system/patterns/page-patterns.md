@@ -47,7 +47,7 @@ Ruled accents and side-border panels occur in the current implementation. They c
 ## Rich Text And Copy
 
 - `.rich-text`
-  Shared editorial reading wrapper for paragraph groups, contextual links, lists, blockquotes, tables, dividers, and inline code.
+  Shared editorial reading wrapper for semantic headings, paragraph groups, contextual links, lists, blockquotes, simple tables, dividers, inline code, and an optional contextual button. It owns a measured reading width and vertical rhythm; `.site-copy-panel.rich-text` lets the containing panel own the width. Use it for editorial HTML rather than as a generic spacing helper. A lone `.button` is start-aligned as the content's next step; keep action groups outside the wrapper. Add a page-scoped overflow wrapper if wider table content is introduced.
 - `.site-ruled-paragraph`, `.site-ruled-paragraph--wide`
   Short reflective or orienting copy that needs quiet emphasis without becoming a full panel.
 - `.site-text-link`
