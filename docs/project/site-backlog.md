@@ -58,7 +58,7 @@ Statuses:
 - `Implemented When`: A visitor can find a clear, accurate website privacy and counselling-boundaries note before submitting the enquiry form.
 - `Notes`:
   - Keep "confidentiality" language tied to counselling sessions, records, and professional boundaries rather than using it as shorthand for website cookies or analytics.
-- `Links`: `src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`, `src/components/SiteAnalytics.tsx`, `docs/project/product-direction.md`
+- `Links`: `src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`, `src/components/SiteAnalytics.tsx`
 
 ### SITE-21 - Contact form required-field clarity
 
@@ -66,14 +66,14 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Accessibility`
-- `Source`: `docs/checklists/accessibility-launch.md`, Contact page accessibility assessment
+- `Source`: Former launch accessibility assessment, now preserved in `docs/checklists/accessibility-monitor.md`
 - `Visitor-Facing Goal`: Let visitors know which enquiry form fields and choices are required before they try to submit.
 - `Current State`: The Contact form uses native `required` attributes and browser validation, but the visible labels do not mark required fields or explain required choices before submission.
 - `Why Deferred`: This was identified during checklist assessment; the right fix should be small but deliberate so the form stays calm and readable.
 - `First Useful Slice`: Add a concise required-field cue near the form and/or required labels, covering the always-required fields and the required radio choice groups without making the form feel noisy.
 - `Implemented When`: Visitors can see what is required before submitting, native validation still works, and the Contact checklist required-field clarity item can move from `Partial` to `Pass`.
 - `Notes`:
-- `Links`: `src/components/EnquiryForm.tsx`, `src/data/enquiry.ts`, `docs/checklists/accessibility-launch.md`
+- `Links`: `src/components/EnquiryForm.tsx`, `src/data/enquiry.ts`, `docs/checklists/accessibility-monitor.md`
 
 ### SITE-7 - Global reduced-motion baseline
 
@@ -148,7 +148,7 @@ Statuses:
 - `First Useful Slice`: Decide whether the page should visibly link to the ACA profile or show a registration number, and whether supervision or insurance details belong in public copy.
 - `Implemented When`: The public credential presentation is accurate, intentional, and easy to verify where verification details are appropriate.
 - `Notes`:
-- `Links`: `src/pages/WorkingWithJoel.tsx`, `docs/project/product-direction.md`
+- `Links`: `src/pages/WorkingWithJoel.tsx`
 
 ### SITE-19 - Kink language table cell colour distinction
 
@@ -181,7 +181,7 @@ Statuses:
 - `Implemented When`: The support copy has a deliberate, on-brand treatment across desktop and mobile, does not read like filler or a generic card, and the practice owner is happy with how it looks.
 - `Notes`:
   - Keep the work page-scoped unless the treatment clearly belongs in the shared hero system.
-- `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system/patterns/page-patterns.md`, `docs/project/product-direction.md`
+- `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system/patterns/page-patterns.md`
 
 ## Resolved Item Archive
 

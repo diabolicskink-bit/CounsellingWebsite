@@ -376,7 +376,7 @@ Each active item should include enough direction that a future session can choos
 - `Next Action`: Prototype the smallest route-focus helper that cooperates with existing page-owned `<main>` elements.
 - `Resolved When`: Keyboard users can bypass navigation and client-side route changes place focus on an appropriate page content target.
 - `Related Items`:
-  - `SITE-1`: The accessibility audit matrix should record route focus and bypass-navigation behaviour.
+  - `docs/checklists/accessibility-monitor.md`: Owner-directed accessibility review records route focus and bypass-navigation behaviour.
   - `SITE-7`: Reduced-motion and route-focus behaviour should both respect user accessibility preferences.
 - `Dependencies`: `None`
 - `Notes`:
@@ -400,8 +400,8 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Header navigation has documented semantics and tests for keyboard submenu access, mobile menu open/close, Escape handling, and focus return.
 - `Related Items`:
   - `DEBT-29`: Skip-link and route-focus work covers page navigation context; this item covers the header menu interaction itself.
-  - `LAUNCH-1`: The accessibility review should include primary navigation behaviour.
-  - `LAUNCH-2`: Responsive QA should include the mobile menu layout and interaction path.
+  - `docs/checklists/accessibility-monitor.md`: Owner-directed accessibility review includes primary navigation behaviour.
+  - `docs/checklists/responsive-monitor.md`: Owner-directed responsive review includes the mobile menu layout and interaction path.
 - `Dependencies`: `None`
 - `Notes`:
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
@@ -448,8 +448,8 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Every listed page/boundary has received at least one opportunistic post-migration test review during other work, or this checklist is superseded by a later explicit test-maintenance strategy.
 - `Related Items`:
   - `DEBT-8`: Route-parity coverage protects the shared route-generation surfaces while this item tracks page-specific assertion quality.
-  - `LAUNCH-1`: Accessibility review may expose page-level assertions worth preserving when a page is already being changed.
-  - `LAUNCH-2`: Responsive review may expose page-level interaction or layout checks worth preserving when a page is already being changed.
+  - `docs/checklists/accessibility-monitor.md`: Owner-directed accessibility review may expose page-level assertions worth preserving when a page is already being changed.
+  - `docs/checklists/responsive-monitor.md`: Owner-directed responsive review may expose page-level interaction or layout checks worth preserving when a page is already being changed.
 - `Dependencies`: `None`
 - `Notes`:
   - This is a memory aid, not authorization for a dedicated page-by-page audit or test-only campaign.

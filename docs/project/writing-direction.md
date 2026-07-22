@@ -1,6 +1,6 @@
 # Public Writing Direction
 
-This is the operational writing guide for Vive Counselling. Use it with `product-direction.md`: the product document owns audience and positioning; this document owns how public copy should be written, reviewed, and implemented.
+This is the operational writing guide for Vive Counselling. It owns how public copy should be written, reviewed, and implemented. Consult `product-direction.md` only when a task needs one of its stable practice facts; use `current-scope.md` and source for current service and implementation facts.
 
 ## Current Copy Status
 
@@ -17,15 +17,13 @@ Google Business Profile verification is complete. Public copy may identify the s
 When public wording conflicts or feels uncertain, use this order:
 
 1. The owner's current explicit wording, corrections, and approvals.
-2. Audience, positioning, and inclusion principles in `product-direction.md`.
-3. Current page source for facts and layout context only.
+2. Relevant confirmed facts: use `product-direction.md` only when one of its stable practice facts is needed, and use `current-scope.md` and source for current facts.
+3. Current page source for layout and surrounding context only.
 4. Reports and SEO material as research only.
 
 Do not silently polish text the owner has supplied for implementation. If an exact replacement is provided, use it exactly unless asked to edit it.
 
 ## Core Voice
-
-The preferred voice is specific, calm, candid, knowledgeable, and warm without being performative.
 
 - Write in plain Australian English.
 - Use `I` for Joel's actions, questions, judgement, and boundaries. Use `the practice` only when the business itself is genuinely the subject.

@@ -45,20 +45,7 @@ Require the basis appropriate to the claim:
 - keep an unknown or owner decision visible instead of resolving it with
   plausible wording.
 
-## Review the overall impression
 
-Literal truth is not enough when the composition implies more. Review whether
-the whole artifact overstates:
-
-- expertise or specialisation;
-- likely outcomes;
-- safety, suitability, ease, affordability, or flexibility;
-- inclusion or complete understanding;
-- comparison with other practitioners or services;
-- availability, urgency, or response time.
-
-Place important conditions where the reader encounters the claim. Do not rely
-on distant caveats or fine print to repair a stronger headline impression.
 
 ## Handle common claim types
 

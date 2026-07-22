@@ -24,11 +24,11 @@ Implemented on 2026-06-27. Public contact display, footer/contact form source da
 
 ### SITE-1 - Launch accessibility checklist
 
-Superseded by `LAUNCH-1`. The working checklist remains at `docs/checklists/accessibility-launch.md`; concrete visitor-facing gaps found during that review should be tracked as `SITE-*` or `DEBT-*` items.
+Superseded by `LAUNCH-1`, which was later closed without treating its incomplete checklist as passed after the site went live. Owner-directed accessibility review now lives in `docs/checklists/accessibility-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-2 - Responsive QA matrix
 
-Superseded by `LAUNCH-2`. Responsive route review is now launch-readiness work rather than a concrete SITE change card.
+Superseded by `LAUNCH-2`, which was later closed without treating its incomplete checklist as passed after the site went live. Owner-directed responsive review now lives in `docs/checklists/responsive-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-3 - Public SEO and metadata QA matrix
 

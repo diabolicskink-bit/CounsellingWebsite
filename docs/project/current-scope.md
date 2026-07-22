@@ -83,12 +83,12 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Route definitions, metadata, prerendering, and tests remain separate; explicit route-parity enforcement is tracked as debt.
 - The Working with Joel approach tabs work after hydration, but only the initially active Psychodynamic explanation is present before JavaScript; progressive access to the Attachment and Integrative copy is tracked under `DEBT-35`.
 - Type checking does not cover tests, scripts, or most configuration files.
-- Accessibility support and route-level checklist coverage exist, but the `LAUNCH-1` accessibility review is incomplete.
-- Responsive styling exists, but the `LAUNCH-2` responsive review is incomplete.
+- Accessibility support and automated route coverage exist. `docs/checklists/accessibility-monitor.md` is the owner-directed WCAG 2.2 AA-oriented manual record for shared-shell, public-route, and not-found accessibility review, with no automatic cadence or claim of formal conformance.
+- Responsive styling exists across shared and page-scoped styles. `docs/checklists/responsive-monitor.md` is the owner-directed manual record for shared-shell, public-route, and not-found responsive review, with no automatic or calendar-based cadence.
 - Lighthouse tooling exists, but performance budgets are not enforced; the dedicated performance launch gate is closed, and future refinements are ordinary maintenance work.
 - The implemented analytics posture is the live operating baseline. Future GA4/Clarity administration, policy, public privacy-notice, or testing refinements are ordinary operational and tracked work rather than a dedicated launch gate.
 - Dedicated automated live Vercel production or preview smoke tests do not exist.
-- The site is live. Remaining items in `docs/project/launch-readiness.md` are continuing accessibility and responsive review work rather than gates preventing publication; SEO/metadata, performance, analytics, enquiry-flow, and final-copy launch gates have been closed, while future improvements continue through normal monitor, operational, writing, `SITE-*`, and `DEBT-*` workflows.
+- The site is live, and `docs/project/launch-readiness.md` has no active items. Future improvements continue through normal monitor, operational, writing, `SITE-*`, and `DEBT-*` workflows rather than launch gates.
 
 ## Not Included
 

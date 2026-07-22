@@ -18,6 +18,24 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-22 - Accessibility Launch Gate Replaced By Manual Monitor
+
+- Closed: Archived `LAUNCH-1` as a superseded launch gate without treating its incomplete checklist as passed; the launch-readiness tracker now has no active items.
+- Replaced: The launch checklist is now an owner-directed `accessibility-monitor.md` covering the shared shell, all seven current public routes, and not-found behaviour through a practical WCAG 2.2 AA lens without claiming formal conformance.
+- Preserved: Defensible Home and Contact item statuses remain undated, the renamed Inclusion route starts fresh, and current accessibility gaps retain independent `SITE-*` / `DEBT-*` ownership.
+
+## 2026-07-22 - Product Direction Reduced To Practice Facts
+
+- Replaced: The facts-only brief supersedes the 2026-07-14 decision brief; `docs/project/product-direction.md` retains its compatibility path but now records only five stable facts about the practice, adult scope, approach, concern areas, and specialist contexts.
+- Removed: Site purpose, audience categories, visitor decisions, positioning, success criteria, non-goals, accessibility policy, and delivery guidance no longer act as product or copy requirements and were not archived or relocated.
+- Routed: Copy, design, research, and page-development guidance now consults the facts brief only when a task needs one of its stable facts; writing direction and current scope retain their separate responsibilities.
+
+## 2026-07-22 - Responsive Launch Gate Replaced By Manual Monitor
+
+- Closed: Archived `LAUNCH-2` as a superseded launch gate without treating its incomplete checklist as passed; independently owned `SITE-*` and `DEBT-*` work remains unchanged.
+- Replaced: The obsolete launch checklist is now an owner-directed `responsive-monitor.md` covering the shared shell, all seven current public routes, and not-found behaviour.
+- Clarified: Each section starts unreviewed, uses a three-viewport standard plus a continuous width sweep, and records exceptional notes and last-checked dates only when explicitly reviewed; automated tests remain regression context rather than manual pass evidence.
+
 ## 2026-07-22 - Planning Dialogue Preference Clarified
 
 - Changed: Planning Mode now actively encourages clarifying and preference questions, including non-blocking choices, without a total question cap; question rounds should build on available context and adapt to earlier answers.

@@ -6,16 +6,16 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 ## Authority And Artifact Types
 
-- Canonical direction documents own product, writing, and domain policy.
+- `writing-direction.md` owns public-writing policy. `product-direction.md` retains its compatibility path but records stable practice facts only.
 - Current-scope documents summarize current state. When exact details disagree, verify executable behaviour, tests, configuration, and source, then reconcile stale documentation when the task changes durable state.
-- Audience research dossiers are supporting evidence and synthesis for downstream work. They do not override product or writing direction, make public claims approved, or authorize implementation.
+- Audience research dossiers are supporting evidence and synthesis for downstream work. They do not override stable practice facts or writing direction, make public claims approved, or authorize implementation.
 - Market-research dossiers are dated supporting evidence about search visibility, demand signals, provider supply, offers, directories and market structure. They do not set SEO, pricing, positioning or content strategy or assess provider quality.
 - `LAUNCH-*`, `DEBT-*`, and `SITE-*` trackers are scoped memory and triage. Consult only the tracker relevant to the task; an item does not authorize unrelated work.
 - Reports, plans, checklists, archives, and the task log are supporting evidence or history. They do not override active guidance or become requirements unless the current task explicitly adopts them.
 
-## Direction
+## Practice Facts And Writing Direction
 
-- [product-direction.md](product-direction.md) owns practice context, the site's job, audiences, visitor decisions, positioning, success criteria, non-goals, inclusion, and the accessibility baseline.
+- [product-direction.md](product-direction.md) records stable practice facts. Consult it only when those facts are relevant to the current task.
 - [writing-direction.md](writing-direction.md) owns public-copy status, source order, voice, SEO language, temporary wording constraints, collaboration, and implementation rules.
 - [../design-system/README.md](../design-system/README.md) is the entry point for current implementation reference, reusable UI assessment, and design-system maintenance. It is not a required source of visual direction for fresh design work during the temporary open-design period.
 

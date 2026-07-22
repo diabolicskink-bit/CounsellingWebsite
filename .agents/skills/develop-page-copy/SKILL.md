@@ -31,14 +31,16 @@ recommendation.
 In the Vive Counselling repository:
 
 1. Read `AGENTS.md` and `docs/project/README.md`.
-2. Read `docs/project/product-direction.md`,
-   `docs/project/writing-direction.md`, and `docs/project/current-scope.md`.
-3. Read the relevant page source, adjacent page context, selected tracker or
+2. Read `docs/project/writing-direction.md` and
+   `docs/project/current-scope.md`.
+3. Read `docs/project/product-direction.md` only when the task needs a stable
+   practice fact recorded there.
+4. Read the relevant page source, adjacent page context, selected tracker or
    plan, and `docs/research/README.md`. Use the single closest matching dossier
    it routes to as the primary audience anchor.
-4. Treat current source as factual and layout context, not approved voice,
+5. Treat current source as factual and layout context, not approved voice,
    unless the owner or writing direction says otherwise.
-5. Treat research as evidence and a coverage constraint, not as a page outline
+6. Treat research as evidence and a coverage constraint, not as a page outline
    or a source of ready-made marketing claims.
 
 Use existing research dossiers and other authorised research artifacts as

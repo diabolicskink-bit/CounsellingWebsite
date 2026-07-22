@@ -2,6 +2,18 @@
 
 This file preserves completed and superseded `LAUNCH-*` items moved out of the [active launch-readiness tracker](../launch-readiness.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### LAUNCH-1 - Accessibility launch review
+
+Closed on 2026-07-22 as a superseded launch gate after the site went live. The incomplete accessibility checklist was not declared passed. Its useful structure was refreshed into `docs/checklists/accessibility-monitor.md`, an owner-directed WCAG 2.2 AA-oriented manual monitor with section-level review dates and no automatic schedule or claim of formal conformance.
+
+The former Home, `/inclusion`, and Contact assessments remain incomplete launch-era evidence. Defensible Home and Contact item statuses were retained without assigning either current section a review date. The `/inclusion` passes were not transferred because the route and page subsequently changed. Existing `SITE-7`, `SITE-19`, `SITE-21`, `DEBT-29`, `DEBT-30`, and `DEBT-35` items retain independent ownership; closing this gate does not resolve them.
+
+### LAUNCH-2 - Responsive launch review
+
+Closed on 2026-07-22 as a superseded launch gate after the site went live. The incomplete responsive checklist was not declared passed. Its useful review structure was refreshed for the current public routes in `docs/checklists/responsive-monitor.md`, an owner-directed manual monitor with section-level review dates and no automatic schedule.
+
+The June review of the former `/inclusion` route is preserved here only as historical context. Its passes were not transferred because the route and page subsequently changed. Existing automated overflow and navigation coverage remains regression context rather than a substitute for manual monitor statuses. Existing `SITE-*` and `DEBT-*` items retain independent ownership; closing this gate does not resolve them.
+
 ### LAUNCH-3 - Public SEO and metadata launch review
 
 Closed on 2026-07-22 as a superseded launch gate after the site went live. The incomplete launch checklist was not declared passed. Its useful statuses and route data were consolidated with the former metadata inventory and Google-style preview document into `docs/checklists/seo-metadata-monitor.md`, an owner-directed site monitor with section-level review dates and no automatic schedule.

@@ -6,7 +6,7 @@ This directory records the currently implemented Vive Counselling design system:
 
 Fresh creation and redesign should actively explore content-shaped, out-of-the-box compositions rather than begin from existing page patterns. The site's established font families, type roles and scale, colour palette and semantic colour roles remain the basic identity scheme unless the current task explicitly changes that identity.
 
-Composition, grids, component forms, surfaces, depth, layering, shape, spacing rhythm, imagery, motion and responsive behaviour are active creative variables. Establish structurally different directions from the task, product purpose, content, real assets, and the website-design skill first. Consult this directory afterward to understand implementation and decide what can be reused without weakening the selected direction. Existing components and page patterns are optional implementation resources, not acceptance criteria.
+Composition, grids, component forms, surfaces, depth, layering, shape, spacing rhythm, imagery, motion and responsive behaviour are active creative variables. Establish structurally different directions from the task, content, real assets, and the website-design skill first. Consult this directory afterward to understand implementation and decide what can be reused without weakening the selected direction. Existing components and page patterns are optional implementation resources, not acceptance criteria.
 
 Start here first only when maintaining, cleaning up, documenting, promoting, or deliberately reusing shared UI.
 
@@ -14,7 +14,7 @@ Start here first only when maintaining, cleaning up, documenting, promoting, or 
 
 For fresh creation or redesign:
 
-1. Read `../project/product-direction.md` for audience, voice, and public-site intent.
+1. Start from the current task, actual page content, and real assets.
 2. Read `../project/writing-direction.md` when public copy or content hierarchy may be affected.
 3. Establish at least two structurally different, content-shaped directions within the basic identity scheme when the user has not already selected one; ensure at least one materially departs from existing page patterns.
 4. Check source and `current-scope.md` after selection for implementation facts and behaviour worth preserving.

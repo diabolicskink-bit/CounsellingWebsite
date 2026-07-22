@@ -30,11 +30,12 @@ structure, voice, or prose. Do not treat "human" or "AI" as a tone.
 In the Vive Counselling repository:
 
 1. Read `AGENTS.md` and `docs/project/README.md`.
-2. Read `docs/project/product-direction.md` and
-   `docs/project/writing-direction.md` for public copy work.
-3. Read `docs/project/current-scope.md` for current facts and temporary
-   positioning constraints.
-4. Read the relevant page, metadata, adjacent sections and pages, and any
+2. Read `docs/project/writing-direction.md` for public copy work.
+3. Read `docs/project/product-direction.md` only when the task needs a stable
+   practice fact recorded there.
+4. Read `docs/project/current-scope.md` for current service and implementation
+   facts.
+5. Read the relevant page, metadata, adjacent sections and pages, and any
    current tracker item selected by the task.
 
 For substantive audience-specific strategy, page planning, drafting,
