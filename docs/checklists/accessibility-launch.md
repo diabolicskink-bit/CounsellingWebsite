@@ -66,7 +66,7 @@ Use browser checks plus source inspection where useful. Notes should name the ro
 
 ## Redirect Aliases
 
-Redirect aliases `/about` and `/fees` are covered by `docs/checklists/seo-metadata-launch.md`; accessibility review begins at their destination pages unless a redirect-specific visitor-facing issue appears.
+Redirect aliases `/about`, `/fees`, and `/inclusion` are covered by `docs/checklists/seo-metadata-monitor.md`; accessibility review begins at their destination pages unless a redirect-specific visitor-facing issue appears.
 
 ## `/` - Home
 

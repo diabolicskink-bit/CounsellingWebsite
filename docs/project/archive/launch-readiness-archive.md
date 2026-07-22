@@ -2,6 +2,12 @@
 
 This file preserves completed and superseded `LAUNCH-*` items moved out of the [active launch-readiness tracker](../launch-readiness.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### LAUNCH-3 - Public SEO and metadata launch review
+
+Closed on 2026-07-22 as a superseded launch gate after the site went live. The incomplete launch checklist was not declared passed. Its useful statuses and route data were consolidated with the former metadata inventory and Google-style preview document into `docs/checklists/seo-metadata-monitor.md`, an owner-directed site monitor with section-level review dates and no automatic schedule.
+
+Existing `SITE-*` and `DEBT-*` items retain independent ownership; closing this gate does not resolve them. Google Search Console submission remained unconfirmed at close-out and is preserved here as historical operational context rather than becoming part of the site-only monitor or a new tracker item. The exact public Google Business Profile identity URL remains recorded separately in current project scope.
+
 ### LAUNCH-4 - Performance and image delivery launch review
 
 Closed on 2026-07-21 after the site went live. The current production site, direct public-asset delivery, and available Lighthouse tooling were accepted as the operating performance baseline without creating a continuing launch gate. Performance budgets, image-delivery refinements, and regressions discovered later remain ordinary `SITE-*` or `DEBT-*` work.

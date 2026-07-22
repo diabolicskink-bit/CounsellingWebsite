@@ -32,7 +32,7 @@ Superseded by `LAUNCH-2`. Responsive route review is now launch-readiness work r
 
 ### SITE-3 - Public SEO and metadata QA matrix
 
-Superseded by `LAUNCH-3`. Metadata review is now tracked as a launch-readiness gate; concrete metadata fixes should be tracked separately.
+Superseded by `LAUNCH-3`, which was later closed without treating its incomplete checklist as passed after the site went live. Recurring site metadata review now lives in `docs/checklists/seo-metadata-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-4 - Performance and image delivery review
 

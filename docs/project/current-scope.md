@@ -18,6 +18,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - The ENM and polyamory route retains its established hero and focused three-section public composition. Working visitor-first content plans remain under `docs/page-plan/`.
 - Google Business Profile verification is complete. Online delivery may be named selectively in public copy and metadata; the current wording rule is owned by `docs/project/writing-direction.md`.
 - Route metadata is stored in `src/data/routeMetadata.json` and applied by `useDocumentMetadata`.
+- `docs/checklists/seo-metadata-monitor.md` is the owner-directed manual record for site metadata, generated output, live responses, redirects, and not-found behaviour. It has no automatic or calendar-based review cadence.
 - All seven public content routes are indexable. Their generated HTML omits `noindex`, and `sitemap.xml` advertises all seven canonical URLs.
 - `robots.txt` allows crawling and references the sitemap.
 - Production metadata defaults to `https://vivecounselling.com.au`; `SITE_URL` can override the origin for an intentional alternate environment.
@@ -87,7 +88,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Lighthouse tooling exists, but performance budgets are not enforced; the dedicated performance launch gate is closed, and future refinements are ordinary maintenance work.
 - The implemented analytics posture is the live operating baseline. Future GA4/Clarity administration, policy, public privacy-notice, or testing refinements are ordinary operational and tracked work rather than a dedicated launch gate.
 - Dedicated automated live Vercel production or preview smoke tests do not exist.
-- The site is live. Remaining items in `docs/project/launch-readiness.md` are continuing review/sign-off work rather than gates preventing publication; performance, analytics, enquiry-flow, and final-copy launch gates have been closed, while future improvements continue through normal operational, writing, `SITE-*`, and `DEBT-*` workflows.
+- The site is live. Remaining items in `docs/project/launch-readiness.md` are continuing accessibility and responsive review work rather than gates preventing publication; SEO/metadata, performance, analytics, enquiry-flow, and final-copy launch gates have been closed, while future improvements continue through normal monitor, operational, writing, `SITE-*`, and `DEBT-*` workflows.
 
 ## Not Included
 

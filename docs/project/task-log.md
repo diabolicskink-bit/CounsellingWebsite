@@ -18,6 +18,22 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-22 - Planning Dialogue Preference Clarified
+
+- Changed: Planning Mode now actively encourages clarifying and preference questions, including non-blocking choices, without a total question cap; question rounds should build on available context and adapt to earlier answers.
+- Aligned: Website-design discovery now follows the same exploratory planning preference, while implementation-time questions retain the material-impact threshold.
+
+## 2026-07-22 - Public Writing Direction Simplified
+
+- Simplified: Removed reusable copy examples and formula-like sentence, specialist-knowledge, warmth, keyword-placement, and final-review instructions that could make different pages repeat the same content or rhetorical shape.
+- Preserved: The canonical guide still owns source authority, core voice, page-specific structure, natural search language, collaboration boundaries, and causal review of generic or AI-default writing.
+
+## 2026-07-22 - SEO Launch Gate Replaced By Manual Monitor
+
+- Closed: Archived `LAUNCH-3` as a superseded launch gate without treating its incomplete checklist as passed; existing linked `SITE-*` and `DEBT-*` work remains independently open.
+- Consolidated: Replaced the launch checklist, metadata inventory, and Google-style preview document with one owner-directed `seo-metadata-monitor.md` covering current public routes, redirects, and not-found behaviour.
+- Clarified: The monitor records optional metadata values, exceptional notes, and section-level last-checked dates only when explicitly reviewed; it has no automatic schedule and excludes external-service state.
+
 ## 2026-07-21 - Live-Site Launch Gates Closed
 
 - Closed: `LAUNCH-4` and `LAUNCH-5` after accepting the current performance and analytics implementations as the live operating baselines; future refinements remain ordinary operational, `SITE-*`, or `DEBT-*` work.

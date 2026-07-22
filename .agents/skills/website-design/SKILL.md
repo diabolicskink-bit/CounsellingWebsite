@@ -83,7 +83,7 @@ Write a compact decision brief before choosing visuals:
 
 Use real or representative content early. Never invent testimonials, clients, awards, statistics, clinical claims, or product capabilities. Mark illustrative material clearly.
 
-Ask for clarification only when the missing answer would materially change scope, safety, identity, or an irreversible decision. Otherwise state a reasonable assumption and proceed.
+In Planning Mode, including during design discovery, actively ask about both clarifications and preferences. The user welcomes exploratory dialogue, so ask freely whenever an answer could improve the brief or direction, including non-blocking choices for which a reasonable assumption is available. Build questions on available project context, group them concisely, and continue across rounds when useful. Outside Planning Mode, ask before acting when the missing answer would materially change scope, safety, identity, or an irreversible decision; otherwise state a reasonable assumption and proceed.
 
 ### 2. Establish art direction
 
