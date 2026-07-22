@@ -49,12 +49,14 @@ Require the basis appropriate to the claim:
 
 ## Handle common claim types
 
-### Inclusion and specialist knowledge
+### Inclusion and familiarity claims
 
-Demonstrate familiarity through accurate terms, relevant distinctions,
-questions, process, and boundaries. Do not use `inclusive`, `affirming`,
-`aware`, or `safe` as substitutes for evidence. Do not imply that familiarity
-with community language eliminates individual variation.
+Use professional or community terms accurately when the subject requires them.
+Add terminology, distinctions, questions, process descriptions, or boundaries
+only when they perform a necessary local job. Do not use `inclusive`,
+`affirming`, `aware`, or `safe` as substitutes for supported information, and
+do not imply that knowledge of community language eliminates individual
+variation.
 
 ### Outcomes and suitability
 

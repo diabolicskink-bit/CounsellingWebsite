@@ -23,7 +23,7 @@ Suggested path: `docs/page-plan/<page-slug>-page.md`
 ### Authority and inputs
 
 - Owner-approved or supplied wording
-- Product and writing direction
+- Writing direction and any relevant stable practice facts
 - Current source facts
 - Existing audience or topic research artifacts
 - Labelled general-knowledge assumptions where existing evidence is incomplete
@@ -37,31 +37,27 @@ assumptions, and owner decisions.
 
 - What the hero or approved opening already communicates
 - What it should not be asked to prove again
-- The first unresolved visitor question
+- The first unresolved editorial or informational need
 
-### Research-grounded pseudoperson
+### Reader range
 
-Show one short, coherent account of the situation selected from the closest
-matching dossier. Prefer first person when it helps the editor inhabit the
-perspective, but use freeform prose rather than a fixed persona template or
-questionnaire. Let the evidence determine which experiences, hopes, worries,
-stakes, confidence signals, sensitivities, language, or contradictions matter
-for this task.
+State whether the page is specialist or general, then record the materially
+different reader situations that can change the page. For specialist pages,
+include central and contextual relevance when both belong. For general pages,
+record only specialist or inclusion contexts that can materially affect this
+page rather than loading every dossier.
 
-Follow the account with a concise evidence-and-limits note. Identify the
-dossier basis without summarising it, and distinguish synthesis from direct
-evidence. If no dossier matched, say briefly that the account is a best-effort
-simulation based on task and project context.
+Follow the range with a concise evidence-and-limits note. Distinguish owner
+knowledge, research evidence, current facts, and editorial inference. Record
+the implications for the page rather than imagined biographies, testimony,
+emotional reactions, or a list of content every reader situation must receive.
 
-Do not add a name, biography, identity detail, or universal inner life. Treat
-the account as a planning perspective, not manufactured testimony, empirical
-testing, or a list of content the page must include.
+### Page architecture
 
-### Visitor-first page journey
-
-- How the pseudoperson's attention and considerations develop after the hero
+- The page's argument or organising principle
+- Whether the material needs sequence, scan-friendly retrieval, or both
 - What the page can leave to another section or page
-- The decision or next action the page should make easier
+- The likely reading paths that materially affect order or emphasis
 
 ### Evidence and assumption implications
 
@@ -84,7 +80,7 @@ For each meaningfully different page route:
 
 - Page job
 - Main message
-- Reader response or judgement this page should make possible
+- Reader-range implications that materially affect the page
 - Primary natural search language
 - GOOD outcome
 - BAD outcome
@@ -101,17 +97,17 @@ For the hero and each section:
 
 **Working heading direction:**
 
-**Visitor question:**
-
-**Section job:**
+**Distinct contribution:**
 
 **Content to cover:**
+
+**Relevant reader considerations:**
 
 **Editorial rule:**
 
 **Must not do:**
 
-**Handoff to the next section:**
+**Relationship to surrounding sections, when material:**
 
 **Evidence, fact, or assumption basis:**
 ```
@@ -124,14 +120,14 @@ The planning label may be more explicit than the eventual public heading.
 - Material the page should leave out
 - Open decisions before public drafting
 - Drafting sequence
-- Finished-page inhabited-reader and adversarial acceptance checks
+- Finished-page reader-range and adversarial acceptance checks
 
 ## Section-development artifact
 
 Suggested path: `docs/page-plan/<page-slug>-section-<section-id>.md`
 
 Use a short, lowercase, hyphenated section ID derived from the section's owned
-job, such as `recognition` or `role-in-counselling`. Keep the ID and filename
+job, such as `session-process` or `approach-in-practice`. Keep the ID and filename
 stable when the section moves. Existing numbered workthroughs may retain their
 current paths; do not rename them without an authorised migration that updates
 all inbound links.
@@ -152,12 +148,10 @@ preceding content does not already do.
 ### Section context
 
 - What the hero or preceding section already establishes
-- The page-level pseudoperson's current state; update only what the visible page
-  has changed
-- Live visitor question
+- What surrounding content already establishes
 - Primary communication job
-- Reader response or judgement this section should make possible
-- What the section must make possible next
+- Reader-range implications that materially affect this section
+- Relationship to nearby sections when sequence matters
 
 ### Editorial choices
 
@@ -183,25 +177,29 @@ decisions that materially shape the section. Examples:
 - MODEL-default outcome to resist
 - Likely model-glue phrases or structures
 
-### Angle exploration
+### Direction exploration
 
-Use the copywriter skill's direction and angle process. Develop the default
-three structurally different angles. For each:
+Use the copywriter skill's direction process. Consider at least two materially
+different directions without drafting each one in full. For each:
 
 - organising idea;
+- likely shape;
 - strength; and
 - main risk.
 
-### Candidate sections
+Record the selected direction and the consequential trade-off. If the user is
+actively choosing between directions, pause for their selection; otherwise
+recommend one and proceed.
 
-For substantial section work, use the copywriter skill to compose, draft, and
-revise three complete candidates. Replace an angle that conflicts with an
-established fact, owner decision, service boundary, or section job. Produce
-fewer complete candidates only when the user explicitly narrows the
-exploration.
+### Committed draft
+
+Use the copywriter skill to compose, draft, and revise one complete section in
+the selected direction. Do not combine safer parts of the rejected directions.
+Produce multiple complete alternatives only when the user explicitly requests
+them, and keep those alternatives separate.
 
 ```markdown
-## Candidate A — Descriptive name
+## Recommended working draft
 
 ### Draft
 
@@ -211,60 +209,26 @@ exploration.
 
 [Sentence or movement-level editorial explanation]
 
-### Inhabited reader response
+### Reader-range review
 
-[Freeform notes on what becomes salient from the page-level pseudoperson's
-position, tied to observable wording, order, emphasis, omission, or context.]
+[Findings that arise when the visible copy is considered from each materially
+relevant situation, tied to observable wording, order, emphasis, omission, or
+context. Do not invent reactions to complete the exercise.]
 
 ### Main revision pressure
 ```
 
 ### Decision
 
-- Comparison using section-specific criteria
-- Recommended outcome: one selected candidate or a synthesis
-- Explanation of why the selected or combined direction serves the page
+- Selected direction and section-specific criteria
+- Explanation of why the direction serves the section and page
 - Clean recommended working draft
 - Explanation of why other useful material was omitted
 
-When synthesis is selected, add:
-
-```markdown
-### Synthesis record
-
-**Recommendation type:** Synthesised working draft
-
-**Candidate contributions:**
-
-- Candidate A contributes ...
-- Candidate C contributes ...
-
-[List only the candidates that contribute to the synthesis.]
-
-**Why synthesis is stronger:**
-
-[Explain why the combined editorial movement serves the section better than
-selecting one candidate intact. A candidate need not remain the base.]
-
-### Clean recommended working draft
-
-[Complete synthesised visitor-facing section copy]
-
-### Inhabited reader response to the synthesised draft
-
-[A fresh freeform response from the same page-level pseudoperson, tied to the
-visible copy.]
-
-**Coherence and repetition:**
-
-**Page fit and handoff:**
-
-### Main revision pressure after synthesis
-```
-
-Develop and reader-test the candidates separately before completing this record.
-Treat the synthesised draft as a new composition, not as an assembly that
-inherits the strengths of its sources automatically.
+When the user explicitly requests multiple complete alternatives, give each a
+separate reader-range review, compare them against the section-specific
+criteria, and recommend one. Do not create a composite unless the user asks for
+one after reviewing the alternatives.
 
 ### Copywriter quality and grounding
 
@@ -280,9 +244,9 @@ copywriting method inside this artifact.
 ### Page-flow and artifact integrity
 
 - Section ownership and actual page position
-- Candidate or synthesis traceability
+- Direction and draft traceability
 - Cross-section coverage and non-duplication
-- Handoff into the next section
+- Relationship to surrounding sections
 - Status, stable ID, authority, and assumption labels
 - Open questions for full-page assembly
 - Acceptance checks

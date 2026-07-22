@@ -23,7 +23,7 @@ This file preserves June 2026 durable milestones moved out of the [active task l
 
 - Changed: Google Analytics now uses manual public-route `page_view` events for initial load and React Router navigation instead of relying on the initial config call alone.
 - Added: `npm run qa:analytics` builds with a fake GA measurement ID and verifies route-change pageviews while intercepting third-party analytics URLs.
-- Closed: Archived `DEBT-28`; `LAUNCH-5` remains open for final analytics environment policy and GA4 admin-setting sign-off.
+- Closed: Archived `DEBT-28`; final analytics environment policy and GA4 admin-setting sign-off remained separate review work.
 
 ## 2026-06-26 - Temporary Public Noindex Enabled
 
@@ -43,11 +43,10 @@ This file preserves June 2026 durable milestones moved out of the [active task l
 - Changed: Home, Working with Joel, and the rendered hero design-system page now use the shared portrait media treatment instead of page-specific tag/frame styling.
 - Closed: Archived `SITE-8` after documenting the shared hero modifier in the design-system scope and page-pattern guidance.
 
-## 2026-06-18 - Launch Readiness Tracker Added
+## 2026-06-18 - Cross-Site Review Ownership Separated
 
-- Added: Created `docs/project/launch-readiness.md` with stable `LAUNCH-*` IDs for launch gates, review passes, acceptance checks, and sign-off work.
-- Changed: Moved broad review items out of active `SITE-*` tracking and archived the superseded SITE IDs with pointers to `LAUNCH-1` through `LAUNCH-8`.
-- Clarified: `SITE-*` now owns concrete visitor-facing change work, while `LAUNCH-*` owns cross-site review and readiness tracking.
+- Changed: Moved broad cross-site review items out of active `SITE-*` tracking so SITE cards remained focused on concrete visitor-facing work.
+- Clarified: Cross-site observations should produce concrete `SITE-*` or `DEBT-*` work when action is needed rather than becoming mixed backlog cards.
 
 ## 2026-06-18 - DEBT-31 Public Icon Set Replaced
 
@@ -58,9 +57,9 @@ This file preserves June 2026 durable milestones moved out of the [active task l
 ## 2026-06-18 - Checklists Added To Documents Reader
 
 - Changed: Added `docs/checklists/` as a rendered markdown source for the dev Documents page alongside reports and plans.
-- Added: Created `docs/checklists/accessibility-launch.md` as the human-readable launch accessibility checklist shell, now owned by `LAUNCH-1`, while keeping `docs/checklists/accessibility.md` as the earlier sample.
+- Added: Created the human-readable route-by-route accessibility checklist shell that was later replaced by `docs/checklists/accessibility-monitor.md`.
 - Changed: Checklist status labels render as quiet coloured badges in the dev Documents reader while staying plain inline-code labels in markdown.
-- Updated: Clarified the accessibility matrix idea as a launch checklist rather than a wide spreadsheet.
+- Updated: Clarified the accessibility matrix idea as a route-by-route checklist rather than a wide spreadsheet.
 
 ## 2026-06-17 - DEBT-6 Production URL And 404 Fallback Resolved
 

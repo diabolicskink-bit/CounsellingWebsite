@@ -6,26 +6,29 @@ produce variants. An angle is meaningful only when it changes the central
 reader question, main message, point of view, information order, or practical
 conclusion.
 
-Start from the reader, page-moment, and communication brief in `SKILL.md`. Keep
-the page's job, search intent, approved wording, and genuine constraints fixed
-while exploring direction. Carry the task-specific GOOD COPYWRITING, BAD
+Start from the relevant reader range, page context, and communication brief in
+`SKILL.md`. Keep the page's job, search intent, approved wording, and genuine
+constraints fixed while exploring direction. Carry the task-specific GOOD COPYWRITING, BAD
 COPYWRITING, and MODEL-DEFAULT forecast into the comparison; an angle is not
 viable if it depends on the predicted failure.
 
 ## Contents
 
-- [Start with the visitor's situation](#start-with-the-visitors-situation)
+- [Start with the relevant reader situations](#start-with-the-relevant-reader-situations)
 - [Consider distinct frames](#consider-distinct-frames)
 - [Compare before choosing](#compare-before-choosing)
 - [Stress-test the chosen angle](#stress-test-the-chosen-angle)
 
-## Start with the visitor's situation
+## Start with the relevant reader situations
 
-- What may have happened recently that made this page relevant now?
-- What is the visitor trying to understand, recognise, compare, decide, or do?
-- What might they need to confirm before continuing?
-- What language are they likely to use when searching or asking someone about
-  this?
+- Which materially different situations make this page relevant, and which are
+  supported by the task or research?
+- Across those situations, what are readers trying to understand, recognise,
+  compare, decide, or do?
+- What might different readers need to confirm, and which differences do not
+  need to appear in the copy?
+- What language are relevant readers likely to use when searching or asking
+  someone about this?
 - What has the page already told them, and what should this section add now?
 - What should the visitor understand, and what relationship should the language
   establish while doing it?
@@ -35,8 +38,9 @@ viable if it depends on the predicted failure.
 - What would make the copy feel irrelevant, generic, patronising, repetitive,
   or difficult to use?
 
-Do not invent an intimate inner monologue. Use a proportionate working
-hypothesis where audience knowledge is incomplete.
+Do not invent an intimate inner monologue or average the range into one reader.
+Use proportionate, labelled working hypotheses where audience knowledge is
+incomplete.
 
 ## Consider distinct frames
 
@@ -131,41 +135,6 @@ Ask:
 - What alternative or next step is useful at the boundary?
 - Does stating the limitation improve understanding, or merely perform honesty?
 
-### Credibility
-
-Build the section around why a consequential proposition is worth taking
-seriously.
-
-Ask:
-
-- Would experience, process, qualification, conduct, a useful distinction, or a
-  limitation communicate more than an adjective can?
-- Is an important condition visible where the reader encounters the claim?
-- What should remain uncertain or for the visitor to judge?
-
-### Specialist fluency
-
-Demonstrate knowledge through the distinctions and language used.
-
-Ask:
-
-- Which terms can be used without translating the visitor's life into generic
-  language?
-- Which same-looking situations need to be distinguished?
-- Where should familiarity be paired with curiosity about individual meaning?
-
-### Practitioner point of view
-
-Use a genuine professional judgement or observation when it helps explain the
-work.
-
-Ask:
-
-- What does the practitioner actually notice, ask, or take seriously?
-- What common simplification do they avoid?
-- Can the point be supported without turning disagreement into a provocative
-  brand position?
-
 ### Experience of the process
 
 Explain the service from the prospective client's side rather than listing a
@@ -196,7 +165,7 @@ For each plausible angle, note:
 - the main message and the useful material it brings forward;
 - the section or page structure it suggests;
 - what it would leave out or push into the background;
-- how well it fits the reader's awareness, the page moment, natural search
+- how well it fits the relevant reader situations, page context, natural search
   language, and the speaker's point of view;
 - the main craft risk, such as flatness, generic reassurance, excess
   explanation, strained cleverness, or a predictable shape;
@@ -213,8 +182,8 @@ blend the entire exploration into the draft.
 
 Before drafting, check:
 
-- Does each likely section answer, develop, complicate, illustrate, or move on
-  from a reader question?
+- Does each likely section make a distinct contribution to the page rather than
+  exist only to advance a prescribed reader journey?
 - Does the angle produce language and judgement that belong to this provider,
   or only repackage category copy?
 - Does it leave enough room for practical information and natural search terms

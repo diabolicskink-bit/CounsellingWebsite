@@ -30,8 +30,8 @@ Ask whether the artifact:
 - establishes emphasis early enough and moves in an order that develops the
   idea rather than merely adding information;
 - fits the speaker, subject, artifact register, and relationship to the reader;
-- gets its character from exact nouns, active verbs, specific terms, real
-  distinctions, useful detail, and professional judgement;
+- gets its character from choices supported by the actual subject, speaker,
+  material, and artifact rather than a reusable proof of expertise;
 - expands what deserves attention, compresses what does not, and permits
   asymmetry;
 - varies sentence and paragraph shape in response to meaning rather than for
@@ -97,10 +97,10 @@ first read.
 
 Run three deliberately different readings:
 
-1. **Inhabited reader:** Use the existing research-grounded pseudoperson and
-   record what the visible copy makes salient in this situation. Attend to the
-   reader's practical and emotional stakes as they arise—not only whether the
-   proposition can be intellectually summarised.
+1. **Reader range:** Use the materially different reader situations already
+   established for the task. Encounter the visible copy from each relevant
+   position and record only differences that expose a real assumption,
+   ambiguity, omission, loss of relevance, or practical problem.
 2. **Copy chief:** Judge the proposition, relevance, credibility, selection,
    hierarchy, movement, register, specificity, persuasion, and next step. Ask
    what would make a professional editor send the work back even if every
@@ -251,51 +251,53 @@ Read only the first and last sentence of each paragraph. Ask:
 - Does the final line land, open the next question, invite action, or simply
   perform closure?
 
-### Reader and page-moment test
+### Reader and page-context test
 
-Name the intended reader, what brought them here, and what the surrounding page
-has already done. Then ask:
+Name the reader scope, any materially relevant situations, and what the
+surrounding page has already done. Then ask:
 
-- Is the copy answering a live question or merely covering a topic?
+- Does the copy make a useful contribution or merely cover a topic?
 - Is the level of explanation right for the reader's likely awareness?
 - Does this section add something here, or restart and repeat the page?
-- Does it anticipate the next useful question without trying to answer the
-  whole site at once?
-- Is a secondary audience diluting the primary message?
+- Does it stop at its own job rather than manufacture a step in a reader
+  journey?
+- Has one reader situation silently become the default, or has accommodating
+  the range made the message vague?
 
-### Grounded visitor-reading test
+### Grounded reader-range test
 
 Use this test when recognition, trust, inclusion, emotional tone, or a
 visitor-specific decision materially affects the copy. It is especially useful
 for heroes, positioning lines, sensitive service pages, and owner feedback such
 as "I would be taken aback if I landed here."
 
-Use the research-grounded pseudoperson already constructed for the task. Do not
-replace it with a generic visitor, split it into several stock reader types, or
-rebuild it for each candidate. When no dossier matched, retain the disclosed
-best-effort perspective rather than implying a stronger evidence basis.
+Use the reader range already established for the task. On a specialist page,
+review the visible copy separately from each materially different situation the
+page needs to serve, including central and contextual relevance when both
+belong. On a general page, check none, one, and multiple specialist contexts
+only where those differences could affect the wording; do not turn them into
+stock reader types or load irrelevant dossiers.
 
 Put the research notes and editorial rationale out of view and encounter only
-the visible copy, in its actual order, from that position. Write freeform
-reader-response notes about whatever becomes salient. Confidence, concern,
-relevance, recognition, resistance, uncertainty, inference, expectation, or
-practical friction may emerge; none is a required category. A short passage may
-produce one important response rather than a complete battery of readings.
+the visible copy in context. Look for differences in relevance,
+comprehensibility, terminology, assumptions, inference, practical usefulness,
+or what the page leaves unclear. A short passage may reveal one important issue
+rather than require a complete battery of readings.
 
-Anchor each material response in something observable: a word, claim, omission,
+Anchor each material finding in something observable: a word, claim, omission,
 sequence, heading, emphasis, interaction, or relationship created by the
-language. Distinguish what the copy supports from what the pseudoperson brings
-as an evidence-bounded expectation. Do not invent remote objections to make the
-test look rigorous, and do not claim to possess a real reader's lived
-experience.
+language. Distinguish what the copy supports from what the reader situation
+contributes as an evidence-bounded expectation. Do not invent feelings or
+remote objections to make the test look rigorous, and do not claim to possess
+another person's lived experience.
 
 Do not repair an adverse reading by explaining what the writer meant. If the
 line needs its rationale in order to land, revise the line or the underlying
 idea. Then switch back to copywriter mode: diagnose the editorial or linguistic
 cause and decide whether the copy, the angle, or the brief needs to change.
 
-The inhabited reading is a judge, not a content checklist or the sole source of
-ideas. It may recommend deletion, compression, or deferral when the copy is
+The reader-range review is a judge, not a content checklist or the sole source
+of ideas. It may recommend deletion, compression, or deferral when the copy is
 over-answering, duplicating another page, or treating every research finding as
 a publication requirement. A candidate whose strengths are only that it does
 not stereotype, offend, overclaim, or sound generic has not yet supplied a
@@ -349,17 +351,14 @@ a content reason is.
 
 ### Transferability test
 
-Remove the organisation and service nouns. Ask:
+Remove the organisation and service nouns. Ask whether a competitor could
+publish the complete draft unchanged and, if so, whether the available source
+material actually supports a more particular treatment.
 
-- Which sentence depends on this provider's language, knowledge, observation,
-  process, judgement, or point of view?
-- Which specific detail, distinction, tension, trade-off, or limitation remains
-  visible?
-- Could a competitor publish the complete draft unchanged?
-
-Do not repair replaceability with random anecdotes, quirks, slang, metaphors,
-or confession. Sharpen the idea, add meaningful specificity or judgement,
-recompose the passage, or remove generic completion.
+Use this as an input and composition test, not an instruction to insert terms,
+distinctions, process claims, boundaries, anecdotes, quirks, or practitioner
+judgements. When the material does not support genuine particularity, prefer
+clear useful copy and expose the input gap.
 
 ### Explanation test
 
@@ -496,7 +495,7 @@ Repair:
 2. central idea, message, coverage, and omission;
 3. angle, artifact register, and relationship to the reader;
 4. structure, movement, hierarchy, and proportion;
-5. specificity, voice, and professional judgement;
+5. specificity and speaker fit;
 6. line craft: syntax, cadence, words, punctuation, and endings;
 7. practical constraints: accuracy, claims, autonomy, inclusion,
    accessibility, search, and action;

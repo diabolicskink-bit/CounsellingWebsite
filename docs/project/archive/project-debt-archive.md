@@ -116,7 +116,7 @@ Route drift prevention remains tracked under `DEBT-8`, which should add focused 
 
 Resolved on 2026-06-27 by making the manually injected Google Analytics path explicitly route-aware. `SiteAnalytics` disables GA's automatic initial page view, then sends manual `page_view` events for public route metadata entries on initial load and React Router navigation, using deterministic title, location, path, and measurement-ID payloads.
 
-Default QA builds still keep analytics disabled and assert that no analytics scripts are injected. An opt-in `npm run qa:analytics` harness builds with a fake GA measurement ID, intercepts third-party analytics URLs, and verifies initial plus client-side route-change pageviews without loading external scripts. `LAUNCH-5` was later closed after the site went live and this implemented analytics posture was accepted as the operating baseline.
+Default QA builds still keep analytics disabled and assert that no analytics scripts are injected. An opt-in `npm run qa:analytics` harness builds with a fake GA measurement ID, intercepts third-party analytics URLs, and verifies initial plus client-side route-change pageviews without loading external scripts. This implemented analytics posture was later accepted as the live operating baseline.
 
 ### DEBT-31 - Favicon, touch, and app icon assets need quality and usage audit
 

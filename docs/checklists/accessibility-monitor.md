@@ -1,6 +1,6 @@
 # Accessibility Monitor
 
-This is the owner-directed manual monitor for the site's accessibility state. It replaces the former incomplete checklist without acting as a launch gate, a scheduled review, or a claim of formal WCAG conformance.
+This is the owner-directed manual monitor for the site's accessibility state. It replaces the former incomplete checklist without creating a scheduled review or a claim of formal WCAG conformance.
 
 Update this document only when the owner explicitly directs a review. Existing automated accessibility and browser tests provide regression context, but they do not create manual `Pass` statuses here.
 

@@ -19,7 +19,7 @@ Meaning:
 ## Source-First Discovery Boundary
 
 - Begin with executable source, styles, scripts, tests, and configuration. Use code searches, import and call-site traces, dependency relationships, test coverage, and local implementation evidence to find the target.
-- Do not read `site-backlog.md`, `launch-readiness.md`, `project-debt.md`, current-scope documents, task logs, reports, plans, checklists, or archives to source or select cleanup work.
+- Do not read `site-backlog.md`, `project-debt.md`, current-scope documents, task logs, reports, plans, checklists, or archives to source or select cleanup work.
 - Existing tracker items and prior reviews are not cleanup-sweep queues. Do not choose a target because a document already describes it.
 - After a source-discovered target is selected, consult only the documentation needed to preserve a relevant contract or update factual scope affected by the completed change.
 - The sole discovery-stage tracker exception is the too-large finding workflow below. Consult `project-debt.md` only after source inspection has independently exposed a worthwhile issue that cannot safely fit in the sweep.

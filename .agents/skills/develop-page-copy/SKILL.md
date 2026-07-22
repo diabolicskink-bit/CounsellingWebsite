@@ -2,10 +2,10 @@
 name: develop-page-copy
 description: >
   Develop visitor-facing website copy through a staged documentation workflow:
-  first create a research-grounded, visitor-first page plan, then develop
+  first create a research-grounded page plan, then develop
   individual sections in separate Markdown workthroughs with conceptual
-  choices, structurally different copy candidates, research-grounded reader
-  response, and a recommended draft. Use when a user wants to plan a new or
+  choices, structurally different directions, reader-range review, and a
+  recommended draft. Use when a user wants to plan a new or
   substantially rebuilt service page before writing it, start from a hero-only
   or partial page, work through a page section by section, create or continue
   artifacts in docs/page-plan, or avoid jumping directly from research into
@@ -15,16 +15,16 @@ description: >
 
 # Develop page copy
 
-Start by constructing and inhabiting one research-grounded pseudoperson whose
-situation fits the page task. Let that coherent perspective shape the page
-without turning the dossier into a requirements list. Do not begin with the
-provider's knowledge, the research taxonomy, or an inventory of available
-content.
+Start by establishing the range of reader situations the page needs to serve.
+For a specialist page, consider the meaningful range within its subject. For a
+general page, consider specialist and inclusion contexts only where they can
+materially affect the writing. Do not average the range into one representative
+reader or turn research into a requirements list.
 
 Treat page planning and section drafting as separate editorial stages. Use the
-page plan to decide the visitor journey and give each section a distinct job.
-Then develop one section at a time with real copy alternatives and a reasoned
-recommendation.
+page plan to decide the page argument, information structure, and each
+section's distinct contribution. Then develop one section at a time by
+selecting a direction and carrying it through to a committed draft.
 
 ## Establish authority
 
@@ -36,8 +36,8 @@ In the Vive Counselling repository:
 3. Read `docs/project/product-direction.md` only when the task needs a stable
    practice fact recorded there.
 4. Read the relevant page source, adjacent page context, selected tracker or
-   plan, and `docs/research/README.md`. Use the single closest matching dossier
-   it routes to as the primary audience anchor.
+   plan, and `docs/research/README.md`. Use the relevant dossier or dossiers as
+   directed by the reader-range method below.
 5. Treat current source as factual and layout context, not approved voice,
    unless the owner or writing direction says otherwise.
 6. Treat research as evidence and a coverage constraint, not as a page outline
@@ -57,35 +57,38 @@ uncertainty for separate resolution.
 Use `website-design` only when the user also requests visual design or
 implementation.
 
-## Build and inhabit the pseudoperson
+## Establish the reader range
 
-Do this once before deciding the page argument or section structure. Follow the
-copywriter skill's research-grounded pseudoperson method:
+Do this before deciding the page argument or section structure. Follow the
+copywriter skill's reader-range method.
 
-- select one situation within the closest matching dossier that fits this page
-  task rather than combining the whole audience into an omnibus persona;
-- derive whichever experiences, hopes, worries, practical stakes, confidence
-  signals, sensitivities, language, or contradictions the evidence makes
-  important, without treating these examples as required fields;
-- write a short, coherent, preferably first-person account rather than a
-  questionnaire, demographic biography, or fixed persona template; and
-- add a concise note identifying the dossier basis and material limits.
+For a specialist page:
 
-Do not invent a name, private history, identity detail, or universal inner life.
-Treat the account as a transparent editorial synthesis, not manufactured
-testimony or empirical research. If no dossier matches, use the task, project
-context, and model knowledge to make the best proportionate simulation, note
-briefly that it is not dossier-grounded, and continue without starting research.
+- use every dossier materially relevant to the subject and any consequential
+  intersections;
+- identify the meaningful range of situations within the subject rather than
+  one representative client;
+- include people for whom the specialist subject is central and people for whom
+  it is relevant context when the page needs to serve both; and
+- do not let the most painful, stigmatised, or emotionally prominent finding
+  become the automatic page premise.
 
-Show the account once in a substantial page plan or workthrough. Reuse the same
-pseudoperson during section development and assembly, updating only what the
-reader now knows or experiences because of the visible page. Do not rebuild the
-persona at each stage. Mention likely prior site knowledge only when it changes
-the reading; do not add a dedicated cold-entry exercise.
+For a general page:
 
-The pseudoperson is an editorial perspective, not a list of content the page
-must cover. It may support omission, compression, or deferral when information
-is already available elsewhere or does not belong in this page moment.
+- assume a reader may have none, one, or several specialist or inclusion
+  contexts relevant to the practice;
+- check for unstated defaults in examples, relationship language, questions,
+  practical information, and descriptions of counselling;
+- load a specialist dossier only when it can materially change the page; and
+- mention a context only when it belongs to the subject or adds useful
+  information.
+
+Consider each materially different situation separately. Record the evidence
+basis, material limits, and only the implications that change selection,
+terminology, explanation, examples, emphasis, omission, or an inclusion check.
+Distinguish owner knowledge, research evidence, current facts, and editorial
+inference. Do not create personas, imagined testimony, one section per reader
+situation, or a public catalogue of the range.
 
 ## Apply the copywriter skill to copy decisions
 
@@ -95,20 +98,20 @@ distinct while using both in the same staged workflow.
 This skill owns:
 
 - the authorised stage and stopping point;
-- the visitor journey across the page;
-- section ownership, boundaries, handoffs, and page-level non-duplication;
-- the requirement to explore and preserve structurally different candidates;
+- the page argument, information structure, and likely reading paths;
+- section ownership, boundaries, relationships, and page-level non-duplication;
+- the requirement to consider structurally different directions before
+  committing to one draft;
 - artifact structure, stable IDs, status, and cross-links;
-- selection or synthesis records; and
+- direction-selection records; and
 - full-page assembly and page-flow review.
 
 The copywriter skill owns:
 
-- reader and page-moment analysis within each copy decision;
-- construction and inhabited use of the research-grounded pseudoperson;
+- reader-range and page-context analysis within each copy decision;
 - page purpose, message strategy, search language, and editorial direction;
 - angle craft, composition, drafting, revision, and voice;
-- adaptive reader-response testing; and
+- proportionate reader-range review; and
 - sentence review, model glue, inclusion, claims, research discipline, and
   read-aloud review.
 
@@ -121,11 +124,11 @@ Before doing any of those things:
    purpose, or uncertain section roles; use its angle prompts when the writing
    direction is open; and use its model-glue and quality-review guidance before
    finalising substantial copy.
-3. Apply its pseudoperson, page-moment, communication-job, and inhabited-reading
-   methods to the visitor identified here.
+3. Apply its reader-range, page-context, communication-job, and reader-review
+   methods to the page scope established here.
 4. Apply the copywriter's quality methods to the public copy. Then use this
-   skill's page-flow gates for ownership, sequence, duplication, synthesis,
-   assembly, and artifact authority.
+   skill's page-flow gates for ownership, sequence, duplication, direction
+   traceability, assembly, and artifact authority.
 
 A page plan may remain a planning artifact, but any part of it that decides the
 page purpose, message, editorial direction, ordering, search language, or later
@@ -135,10 +138,11 @@ copy treatment is copy strategy and should use the copywriter skill.
 
 Identify the artifact the user has authorised:
 
-- **Page plan:** Decide the page argument, visitor journey, section jobs,
-  boundaries, and handoffs. Do not draft the finished sections.
+- **Page plan:** Decide the page argument, information structure, section jobs,
+  boundaries, relationships, and likely reading paths. Do not draft the
+  finished sections.
 - **Section development:** Take one section from an existing plan and work from
-  concept to actual copy candidates and a recommendation.
+  alternative directions to one committed draft and recommendation.
 - **Full staged workflow:** Create the page plan first, then use it as the basis
   for section development. Preserve the two artifacts even when both happen in
   one task.
@@ -165,43 +169,41 @@ starting point even if old sections remain in source.
 Record what the hero already communicates. Later sections must add to it rather
 than restate it.
 
-### 2. Re-enter the visitor's page moment
+### 2. Establish the reader range and page context
 
-Use the pseudoperson account as the starting point and let the task-specific
-considerations within it determine what matters after the hero. Write the page
-journey from that position before naming sections: follow what becomes
-important, what the visible copy has already settled, and which judgement or
-next movement the page could usefully support. Do not translate the account
-into a fixed list of reader questions or researched concerns.
+Record the materially different reader situations and only the implications
+that could change this page. Note what the existing opening has already
+established and whether the page needs a sequential argument, scan-friendly
+retrieval, or a combination. Do not turn the reader range into a list of
+sections, anxieties, or researched concerns.
 
 ### 3. Decide the page argument before its sections
 
 Use the copywriter skill to test at least two meaningfully different editorial
 routes when the argument is unclear, then recommend one.
 
-The route must explain why this sequence helps the visitor. It must not merely
-rename the sections already in source.
+The route must explain why its content, order, and emphasis suit the subject,
+page purpose, and relevant readers. It must not merely rename the sections
+already in source.
 
 ### 4. Give every page part one owned job
 
 For the hero and each section, define:
 
-- the visitor question;
-- the section's communication job;
+- the section's distinct contribution;
 - the content it should cover;
 - the editorial rule governing selection and treatment;
 - what it must not do or repeat;
-- the handoff to the next section; and
+- its relationship to surrounding sections when sequence matters; and
 - the evidence or current facts supporting it.
 
 Assign each planned section a stable, descriptive ID derived from its owned
-job, such as `recognition` or `role-in-counselling`. Use the ID for the section
+job, such as `session-process` or `approach-in-practice`. Use the ID for the section
 workthrough filename and keep it unchanged if the section moves. Change it only
 when the section's owned job materially changes.
 
-If two sections answer the same visitor question, combine them or change their
-jobs. If a section exists only to provide a new heading or layout beat, remove
-it.
+If two sections make the same contribution, combine them or change their jobs.
+If a section exists only to provide a new heading or layout beat, remove it.
 
 ### 5. Make omissions and uncertainty explicit
 
@@ -211,7 +213,7 @@ Include:
 - material the page should leave out;
 - open decisions that would materially affect later wording;
 - an order for drafting the sections; and
-- adaptive reader-response acceptance checks for the finished page.
+- proportionate reader-range acceptance checks for the finished page.
 
 Do not use an open decision as an excuse to stop if a bounded working
 assumption preserves the user's intent. Label the assumption and continue.
@@ -219,7 +221,7 @@ assumption preserves the user's intent. Label the assumption and continue.
 ### 6. Save the page plan
 
 Use `docs/page-plan/<page-slug>-page.md` unless the repository or user specifies
-another location. Keep it visitor-first and proportionate to the page's risk
+another location. Keep it reader-informed and proportionate to the page's risk
 and complexity.
 
 Do not edit public page code unless the user separately authorises
@@ -227,15 +229,15 @@ implementation.
 
 ## Stage 2 — Develop one section
 
-### 1. Recover the section's place in the journey
+### 1. Recover the section's place on the page
 
-Reuse the page-level pseudoperson. Read the page plan and the actual preceding
-and following content, then update only the reader's current state. State:
+Reuse the page-level reader range. Read the page plan and the actual preceding
+and following content. State:
 
-- what the visitor already understands;
-- the live question at this point;
-- the one job this section owns;
-- what the next section needs it to make possible; and
+- what surrounding content already establishes;
+- the one contribution this section owns;
+- which reader differences materially affect this section;
+- its relationship to nearby sections when sequence matters; and
 - which nearby material it must not duplicate.
 
 This is the main defence against a locally polished section that weakens the
@@ -248,81 +250,85 @@ Apply the copywriter skill's strategy and editorial-model guidance. Decide:
 - the main message;
 - the most useful organising principle;
 - essential, optional, and excluded content;
-- the natural vocabulary of the visitor;
-- the reader response this particular section needs to make possible; and
+- the natural vocabulary relevant to the subject and reader range;
+- any reader-range implication that should change the section; and
 - the GOOD, BAD, and MODEL-default outcomes.
 
-Prefer lived situations, decisions, contrasts, or changes over abstract issue
-labels when they provide stronger recognition. Select examples for range and
-meaning, not completeness.
+Choose concrete situations, explanations, examples, or abstract terms according
+to the section's actual material. Do not treat reader recognition as a required
+effect or include examples merely to display research coverage.
 
-### 3. Explore structurally different angles
+### 3. Explore structurally different directions
 
-Use the copywriter skill's angle process. Default to three angles for
-substantial section work. Each must change the editorial composition, not
-merely the heading or tone.
+Use the copywriter skill's angle process. For substantial section work,
+consider at least two materially different directions before selecting one.
+Keep this exploration concise: an organising idea, likely shape, strength, and
+main risk are usually enough. Do not draft every direction in full merely to
+demonstrate exploration.
 
 Possible differences include:
 
-- narrative movement versus direct recognition statements;
-- a moment of change versus a recurring pattern;
+- direct explanation versus one developed example;
+- explanation versus observable process;
 - contrast versus sequence;
-- one developed example versus several short situations; or
-- uncertainty-led versus decision-led framing.
+- one narrow proposition versus several related situations; or
+- sequential argument versus scan-friendly retrieval.
 
-For each angle, state its organising idea, strength, and main risk before
-drafting it.
+Recommend one direction and explain the consequential trade-off. When the user
+is actively choosing between directions, show the concise direction notes and
+ask for their selection before drafting. Otherwise select the strongest
+direction on the available evidence and proceed.
 
-### 4. Write actual copy candidates
+### 4. Write one committed draft
 
-For substantial section work, carry the default three angles through to three
-complete section drafts using the copywriter skill's composition, voice,
-momentum, and line-level guidance. Do not stop at descriptions, wire-copy
-labels, or topic bullets.
+Carry the selected direction through to one complete section draft using the
+copywriter skill's composition, voice, momentum, and line-level guidance. Do
+not blend safer parts of the rejected directions into it. Do not stop at a
+description, wire-copy labels, or topic bullets.
 
-If an angle cannot be drafted because it contradicts an established fact,
-owner decision, service boundary, or the section's owned job, record why and
-replace it with a viable structurally different angle. Produce fewer than three
-complete candidates only when the user explicitly narrows the exploration.
+If the selected direction cannot be drafted because it contradicts an
+established fact, owner decision, service boundary, or the section's owned job,
+record why, select another viable direction, and draft that one. Produce
+multiple complete drafts only when the user explicitly asks to compare finished
+alternatives.
 
-Let the drafts be uneven if the content calls for it. Do not force equal
-paragraphs, symmetrical modules, or a comprehensive issues grid merely because
-they are easy to compare.
+Let the draft be uneven if the content calls for it. Do not force equal
+paragraphs, symmetrical modules, or a comprehensive issues grid merely for
+visual or rhetorical regularity.
 
-### 5. Test each candidate from the inhabited perspective
+### 5. Test the draft across the reader range
 
-Hide the research notes, strategy, and rationale. Reuse the page-level
-pseudoperson and encounter only the complete visible candidate in context.
-Record freeform responses to whatever becomes salient, tying each material
-reaction to observable wording, order, emphasis, omission, or page position.
-Do not fill fixed immediate, intellectual, relational, or sceptical headings.
+Hide the research notes, strategy, and rationale. Encounter only the complete
+visible draft in context from each materially relevant situation. Record
+only differences that expose a real assumption, ambiguity, omission,
+terminology problem, loss of relevance, or practical weakness, tying each
+finding to observable wording, order, emphasis, omission, or page position.
+Do not invent reactions or fill fixed response headings.
 
 Return to editor mode and identify the most important revision pressure. The
-response may support adding material, but it must also be able to recommend
+review may support adding material, but it must also be able to recommend
 deletion, compression, or deferral. Treat it as an editorial simulation, not
 empirical or representative user testing.
 
-### 6. Compare, choose, and refine
+### 6. Critique and refine the selected direction
 
-Compare candidates against criteria specific to the section. Recommend either
-one candidate or a synthesis and explain why the result serves the page journey
-better, not merely why its individual lines sound better.
+Use the reader-range and copywriter reviews to revise the committed draft while
+preserving its organising principle. Do not mine rejected directions for safe
+phrases or combine their strongest-looking parts. If critique shows that the
+selected direction itself is wrong, explicitly change direction and write a
+new coherent draft rather than synthesising the alternatives.
 
-Develop and reader-test the distinct candidates before combining them. After
-that comparison, synthesis may freely combine compatible material or editorial
-moves from any candidates without treating one as the required base. Record
-what each candidate contributes and why the combination is stronger.
-
-Present a clean recommended working draft. When it is synthesised, treat it as
-a new composition: repeat the inhabited reading from Step 5 and test its
-coherence, repetition, section ownership, and page fit. Do not assume that
-individually strong passages work together without revision.
+Present one clean recommended working draft. If the user explicitly requested
+multiple finished alternatives, keep them separate, compare them against
+section-specific criteria, and recommend one. Do not create a composite unless
+the user specifically asks for one after seeing the alternatives.
 
 ### 7. Run copy-quality and page-flow review
 
 Apply the copywriter skill's sentence-function, deletion, model-glue,
 inclusion, claim, research-discipline, and read-aloud methods to the recommended
-copy. Then run the ownership, synthesis, duplication, handoff, assembly, and
+copy. Then run the ownership, direction-traceability, duplication, page
+relationship, assembly, and
 artifact-authority checks in `references/page-flow-gates.md`.
 
 Prefer deletion to replacing weak glue with more polished glue. Remove examples
@@ -345,11 +351,11 @@ Keep the working document distinct from approved public copy. State its status.
 
 When the user asks to assemble the page:
 
-1. Reuse the page-level pseudoperson and use the recommended section drafts as
+1. Reuse the page-level reader range and use the recommended section drafts as
    inputs, not immutable wording.
 2. Apply the copywriter skill and read the whole page from the hero down.
 3. Remove repeated claims, examples, stance statements, and calls to action.
-4. Recheck section ownership and handoffs in the actual sequence.
+4. Recheck section ownership and relationships in the actual sequence.
 5. Adjust headings and openings for page-level rhythm and search clarity.
 6. Re-run the copywriter skill's quality methods across the full page.
 7. Re-run `references/page-flow-gates.md` across the assembled sequence.
@@ -360,14 +366,13 @@ beside the next section.
 
 ## Working rules
 
-- Lead with visitor recognition and decision-making, not provider doctrine.
-- Use research to improve distinctions and prevent exclusion; do not dump its
-  taxonomy into the page.
+- Let the page lead with whatever material best serves its actual purpose; do
+  not impose recognition, decision-making, or another reusable opening move.
+- Use research to test assumptions and relevance; do not translate its taxonomy
+  or findings into required public content.
 - Treat general knowledge and visitor hypotheses as labelled working
   assumptions, not publication evidence.
-- Do not make the page perform expertise for peer practitioners.
 - Do not turn every topic into an eyebrow, card, tile, or equal module.
-- Do not use generic reassurance as a substitute for accurate recognition.
 - Do not infer a predetermined outcome from a feeling, conflict, identity, or
   relationship structure.
 - Do not write design instructions unless design is in scope.
@@ -379,9 +384,9 @@ beside the next section.
 Use the full workflow for a new page, a major rebuild, a sensitive audience, or
 an unclear page argument. Compress the documentation for a narrow or low-risk
 page, but preserve the stage boundary, section ownership, genuinely different
-angles, and inhabited reader review. Reuse or compress the existing
-pseudoperson rather than generating a full new persona artifact for a narrow
-revision.
+directions, and proportionate reader-range review. Reuse or compress the existing
+reader considerations rather than generating a full audience artifact for a
+narrow revision.
 
 Do not add headings to an artifact solely to satisfy a template. The structures
 are prompts for decisions, not a quota.

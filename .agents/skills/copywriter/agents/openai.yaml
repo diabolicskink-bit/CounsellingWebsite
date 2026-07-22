@@ -1,7 +1,7 @@
 interface:
   display_name: "Professional Website Copywriter"
   short_description: "Write, line-craft, critique, and refine web copy"
-  default_prompt: "Use $copywriter to develop distinctive visitor-facing copy with precise line craft, then critique and rewrite it from a research-grounded reader perspective."
+  default_prompt: "Use $copywriter to develop distinctive visitor-facing copy with precise line craft, grounded in the materially relevant range of readers and situations."
 
 policy:
   allow_implicit_invocation: true

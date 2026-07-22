@@ -85,10 +85,10 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Type checking does not cover tests, scripts, or most configuration files.
 - Accessibility support and automated route coverage exist. `docs/checklists/accessibility-monitor.md` is the owner-directed WCAG 2.2 AA-oriented manual record for shared-shell, public-route, and not-found accessibility review, with no automatic cadence or claim of formal conformance.
 - Responsive styling exists across shared and page-scoped styles. `docs/checklists/responsive-monitor.md` is the owner-directed manual record for shared-shell, public-route, and not-found responsive review, with no automatic or calendar-based cadence.
-- Lighthouse tooling exists, but performance budgets are not enforced; the dedicated performance launch gate is closed, and future refinements are ordinary maintenance work.
-- The implemented analytics posture is the live operating baseline. Future GA4/Clarity administration, policy, public privacy-notice, or testing refinements are ordinary operational and tracked work rather than a dedicated launch gate.
+- Lighthouse tooling exists, but performance budgets are not enforced; future refinements are ordinary maintenance work.
+- The implemented analytics posture is the live operating baseline. Future GA4/Clarity administration, policy, public privacy-notice, or testing refinements are ordinary operational and tracked work.
 - Dedicated automated live Vercel production or preview smoke tests do not exist.
-- The site is live, and `docs/project/launch-readiness.md` has no active items. Future improvements continue through normal monitor, operational, writing, `SITE-*`, and `DEBT-*` workflows rather than launch gates.
+- The site is live. Future improvements continue through normal monitor, operational, writing, `SITE-*`, and `DEBT-*` workflows.
 
 ## Not Included
 

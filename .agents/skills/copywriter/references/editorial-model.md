@@ -7,7 +7,7 @@ uncertain.
 ## Contents
 
 - [Understand the reader and page moment](#understand-the-reader-and-page-moment)
-- [Build a research-grounded pseudoperson](#build-a-research-grounded-pseudoperson)
+- [Consider the relevant reader range](#consider-the-relevant-reader-range)
 - [Select the artifact register](#select-the-artifact-register)
 - [Write the communication brief](#write-the-communication-brief)
 - [Find the source of distinction](#find-the-source-of-distinction)
@@ -22,8 +22,8 @@ uncertain.
 
 Do not begin with a service inventory or the copy already on the page. Begin
 with the communication situation: who this is for, what may be live for them,
-what this page or passage can usefully do now, and what the rest of the site or
-journey already handles.
+what this page or passage can usefully do now, and what the rest of the site
+already handles.
 
 Use research, real enquiries, search data, owner knowledge, and the current
 task where they exist. Treat likely prior site knowledge lightly. Record it
@@ -35,47 +35,69 @@ subject, familiar with the subject but not the service, comparing practitioners,
 or checking one last practical detail. The language and degree of explanation
 should match that state.
 
-## Build a research-grounded pseudoperson
+## Consider the relevant reader range
 
-For substantive audience-specific strategy, page planning, drafting,
-rewriting, or review, create one **research-grounded pseudoperson** as the
-primary editorial perspective.
+For substantive reader-specific strategy, page planning, drafting, rewriting,
+or review, identify the materially different situations the artifact needs to
+serve. Consider each separately rather than constructing one representative,
+average, or omnibus reader.
 
-1. Use `docs/research/README.md` to select the single closest matching dossier.
-   Do not merge dossiers unless the task explicitly asks for multiple audience
-   segments.
-2. Within that dossier, choose one coherent situation that fits the task. Do
-   not collapse the dossier's full range into an omnibus or average person.
-3. Synthesize a short, coherent account of that person's position. First person
-   is usually useful because it makes the editor inhabit the perspective, but
-   it is not compulsory. Let the evidence determine what becomes important:
-   this might include likely experience, hopes, worries, prior provider
-   encounters, practical stakes, confidence signals, sensitivities, language,
-   or contradictions. These are examples, not fields to complete.
-4. Add a concise evidence-and-limits note naming the dossier and any material
-   uncertainty. Keep the basis traceable without turning the account into a
-   research summary or citation ledger.
+### Specialist pages
 
-Do not invent a name, demographic biography, identity detail, backstory, or
-universal inner life unless the task and evidence make the detail genuinely
-relevant. The pseudoperson is an evidence-bounded editorial synthesis, not a
-real participant, manufactured testimony, or a claim that the audience shares
-one experience.
+For a page devoted to kink, BDSM, ENM, polyamory, sexuality, LGBTQIA+ lives, or
+another specialist subject:
 
-If no dossier matches, build the best proportionate account from the task,
-project context, and model knowledge. State briefly that it is a best-effort
-simulation and not dossier-grounded, then continue. Do not block the copy task
-or initiate audience research automatically.
+1. Use `docs/research/README.md` to select every dossier materially relevant to
+   the page rather than forcing one dossier to represent intersections.
+2. Identify the meaningful range within the subject. Include situations in
+   which the subject is central and situations in which it is relevant context
+   when the page needs to serve both.
+3. Consider differences in familiarity, purpose, circumstances, language, and
+   what the person is trying to understand or decide only where the evidence or
+   task makes them material.
+4. Do not make the most painful, stigmatised, or emotionally prominent research
+   finding the default reader situation.
 
-Use the account as a reading position, not a content-requirements list. It may
-support adding material, but it may equally support omission, compression,
-deferral to another page, or recognition that the site has already answered a
-concern. Research should sharpen editorial judgement, not make the public copy
-reproduce every finding.
+### General pages
 
-Show the account once in substantial working and carry it silently through
-later drafting and revision. For a narrow task, reuse or compress an existing
-account rather than producing a new persona artifact.
+For a page not devoted to a specialist subject:
+
+1. Assume a reader may have none, one, or several of the specialist or
+   inclusion contexts relevant to the practice.
+2. Check whether examples, relationship language, questions, practical
+   information, or the description of counselling silently assumes one
+   identity, sexuality, relationship structure, gender, family form, or way of
+   living.
+3. Load a specialist dossier only when that context can materially change the
+   writing decision. Do not flood every general page task with all dossiers.
+4. Mention a specific context only when it belongs to the page's subject or
+   adds useful information. Do not enumerate groups to perform inclusion.
+
+### Use the range
+
+For each relevant situation, ask what would make the artifact useful, what
+knowledge can reasonably be assumed, what could be inaccurate or beside the
+point, and what information or language would materially change understanding
+or choice. Think from within the situation when that helps, but do not write an
+imagined biography, testimony, or inner monologue.
+
+Record the evidence basis and material limits. Distinguish direct evidence,
+owner knowledge, current facts, and editorial inference. When research is
+missing, use a proportionate labelled hypothesis or omit the implication from
+public copy; do not initiate audience research automatically.
+
+Owner-confirmed practice knowledge governs what the service is like and what
+the practitioner can honestly say. Research broadens the possible reader
+situations and tests assumptions; it does not rewrite the practice. When those
+sources point in different directions, keep the difference visible for an
+editorial or owner decision rather than silently blending them.
+
+Synthesize shared needs and consequential differences into task-specific
+implications. These may affect selection, terminology, explanation, examples,
+emphasis, omission, or a check against an unstated default. They do not require
+one section per situation, direct address, recognition copy, reassurance, or a
+particular emotional sequence. For narrow work, record only the reader
+differences that could change the local decision.
 
 ## Select the artifact register
 
@@ -102,12 +124,12 @@ copy should address as `you`.
 Capture the decisions that should govern the writing:
 
 ```text
-Primary reader:
-Research-grounded pseudoperson, when applicable:
+Page type and reader scope:
+Relevant reader situations, when material:
 Evidence basis and material limits:
 Arrival context and awareness, when material:
-Point in the page or site journey:
-Live question, uncertainty, or decision:
+Position in the page or site, when material:
+Live question, proposition, uncertainty, or decision, when material:
 Page or section job:
 Main message to land here:
 Supporting ideas or details:
@@ -116,7 +138,7 @@ What belongs later or elsewhere:
 Desired next understanding, judgement, or action:
 Search intent and natural vocabulary:
 Speaker and relationship to the reader:
-Salient reader considerations for this task:
+Reader-range implications for this task:
 Task-specific material or judgement:
 Useful voice or point-of-view material:
 Practical constraints and genuine unknowns:
@@ -132,32 +154,29 @@ and convert at once. Choose the work this artifact actually needs to do. Copy
 formulas may prompt a missing question; they must not determine the emotional
 sequence or prose shape.
 
-Adapt the brief to the work. The pseudoperson account should hold together as a
-perspective, not be split into a standard set of concerns or reader questions.
-When recognition, trust, emotional tone, or direct address matters, describe
-the specific relationship the language needs to earn without assigning a
-universal feeling to the audience.
+Adapt the brief to the work. Include only reader situations that change a real
+decision. When recognition, trust, emotional tone, or direct address matters,
+describe the specific relationship the language needs to earn without
+assigning a universal feeling to a group or making that effect the page's
+automatic organising principle.
 
 ## Find the source of distinction
 
-Before exploring angles, identify the material that could make this copy
-particular rather than merely polished. It may come from the reader's precise
-situation, a provider's professional judgement, a concrete process or
-arrangement, a useful distinction, a consequential detail, a real boundary, an
-unexpected order, or a decision about what not to say. Follow what the task
-supports; do not fill these as fields.
+Before exploring angles, identify what in the actual task, subject, speaker, or
+material should shape the copy. Do not search for a standard proof of expertise
+or difference. Terms, distinctions, process details, boundaries, and
+practitioner judgements belong only when the page already has a reason to use
+them, not because the writing needs to perform specificity.
 
 Test the prospective source by removing names and category nouns. Ask what
 would prevent a broadly competent competitor from publishing the same copy
-unchanged. The answer should be a meaningful observation, selection, detail,
-relationship, or treatment—not surface novelty.
+unchanged. Treat the result as a test of the available material, not permission
+to add a familiar proof move or surface novelty.
 
 If nothing survives that test, expose the input gap. Write useful provisional
 copy with a clear job and credible next step, but do not manufacture a founder
 story, personality quirk, customer thought, practitioner belief, or claim of
-difference. Distinction can be quiet: unusually direct organisation, one exact
-detail, or disciplined omission may be enough when it is right for the
-artifact.
+difference. Clear, useful copy is preferable to manufactured distinction.
 
 ## Build search intent into the brief
 
@@ -194,8 +213,8 @@ ordinarily weak, or generically model-shaped.
   point of view that gives the piece a reason to exist?
 - How should the prose move? Decide where it should be compressed, expanded,
   blunt, explanatory, technical, conversational, or left alone.
-- Which real detail, distinction, term, or professional judgement can carry the
-  voice instead of an adjective or claim about the voice?
+- Which choices already supported by the task should determine the language and
+  shape, rather than an adjective or claim about the voice?
 - What would make the composition and sentences distinctly right for this
   speaker, artifact, and subject?
 
@@ -240,35 +259,6 @@ Treat the forecast as failed when:
 - all three lenses would remain unchanged for a fact sheet, landing page,
   biography, and service page containing the same information.
 
-For example, this is mainly a content plan rather than a copywriting forecast:
-
-```text
-GOOD COPYWRITING: State where the familiarity comes from, then explain its
-effect in counselling.
-BAD COPYWRITING: Turn the experience into a biography or a checklist.
-MODEL-DEFAULT RISK: Add generic claims about safety, authenticity, and being
-seen.
-```
-
-A craft-led forecast for that same material would be:
-
-```text
-GOOD COPYWRITING: Let one blunt practitioner judgement carry the emphasis.
-Keep the provenance compressed and factual, then loosen into plain-spoken
-explanation. Use unequal paragraph lengths so the section reads as an argument,
-not three completed modules.
-
-BAD COPYWRITING: Give every idea equal weight, overwork the heading into a
-slogan, and qualify the central judgement until its useful bluntness disappears.
-End by restating the section's warmth instead of stopping on the last practical
-distinction.
-
-MODEL-DEFAULT RISK: Regularise the material into a frictionless
-fact-principle-benefit arc, generate matching contrast pairs and three balanced
-reassurances, then add a tidy moral. Resist that by choosing one dominant line,
-permitting asymmetry, varying sentence shapes, and deleting the summary ending.
-```
-
 Use one or two concrete points per lens for a short artifact. Use more only when
 the task is complex.
 
@@ -306,10 +296,9 @@ link, or omission. Let meaning control paragraph length and pattern. A strong
 composition can be compact, expansive, asymmetrical, interrupted, cumulative,
 or quiet; it does not need to look balanced in an outline.
 
-Use tension where the subject contains it: a misconception and correction, an
-apparent contradiction, a choice, a boundary, a surprising consequence, or a
-professional judgement that changes how the topic is understood. Do not invent
-conflict simply to make the copy dramatic.
+Use tension only where the subject actually contains it. Do not insert a
+misconception, contrast, boundary, or practitioner judgement merely to make the
+copy seem insightful or dramatic.
 
 ## Handle supplied material without letting it lead
 
@@ -340,10 +329,10 @@ model for new work.
 For substantial work, maintain and show a compact editorial record:
 
 ```text
-Research-grounded pseudoperson:
+Reader scope and relevant situations:
 Evidence basis and material limits:
 Reader and arrival context, when material:
-Page or site moment:
+Page or site position, when material:
 Communication job:
 Main message:
 Search intent and natural language:

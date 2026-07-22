@@ -4,7 +4,7 @@ This file preserves implemented and superseded `SITE-*` items moved out of the [
 
 ### SITE-9 - ENM and polyamory page copy completion
 
-Implemented on 2026-07-18. The ENM/polyamory page now contains deliberately written public copy with no Latin placeholder paragraphs or visible encoding artifacts. The route passed the repository encoding check and was published with the other Inclusion child pages. `LAUNCH-7` was later closed after the site went live; copy refinement continues through the owner-led writing process and concrete `SITE-*` work.
+Implemented on 2026-07-18. The ENM/polyamory page now contains deliberately written public copy with no Latin placeholder paragraphs or visible encoding artifacts. The route passed the repository encoding check and was published with the other Inclusion child pages. Copy refinement continues through the owner-led writing process and concrete `SITE-*` work.
 
 ### SITE-20 - Contact enquiry form semantic heading
 
@@ -14,7 +14,7 @@ Implemented on 2026-07-14. The visible "Enquiry" label is now a peer `h2` that n
 
 Implemented on 2026-07-08. The Contact/Fees FAQ now states that Vive Counselling is not an emergency service, warns that enquiries may not be seen straight away, and gives concrete immediate-support steps: call `000` for immediate danger, or contact Lifeline on `13 11 14` or Suicide Call Back Service on `1300 659 467` for crisis support.
 
-### SITE-23 - Enable launch indexing on the final domain
+### SITE-23 - Enable indexing on the final domain
 
 Implemented on 2026-07-08. Home, Working with Joel, Inclusion, and Contact/Fees are configured as indexable on `https://vivecounselling.com.au`; the temporary site-wide `noindex, nofollow` meta/header layer was removed; `sitemap.xml` now advertises only those approved URLs; and `robots.txt` points crawlers to the sitemap. Draft Inclusion child pages remain excluded from production links, sitemap output, and indexing through route-level `noindex, nofollow`.
 
@@ -22,29 +22,29 @@ Implemented on 2026-07-08. Home, Working with Joel, Inclusion, and Contact/Fees 
 
 Implemented on 2026-06-27. Public contact display, footer/contact form source data, and enquiry API fallback/failure messaging now use `joel@vivecounselling.com.au` as the branded Vive address. Production delivery configuration hardening remains tracked separately under `DEBT-11`, including the need to keep `ENQUIRY_TO_EMAIL` and `ENQUIRY_FROM_EMAIL` intentional.
 
-### SITE-1 - Launch accessibility checklist
+### SITE-1 - Accessibility checklist
 
-Superseded by `LAUNCH-1`, which was later closed without treating its incomplete checklist as passed after the site went live. Owner-directed accessibility review now lives in `docs/checklists/accessibility-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
+The incomplete checklist was retired after the site went live without being described as passed. Owner-directed accessibility review now lives in `docs/checklists/accessibility-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-2 - Responsive QA matrix
 
-Superseded by `LAUNCH-2`, which was later closed without treating its incomplete checklist as passed after the site went live. Owner-directed responsive review now lives in `docs/checklists/responsive-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
+The incomplete matrix was retired after the site went live without being described as passed. Owner-directed responsive review now lives in `docs/checklists/responsive-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-3 - Public SEO and metadata QA matrix
 
-Superseded by `LAUNCH-3`, which was later closed without treating its incomplete checklist as passed after the site went live. Recurring site metadata review now lives in `docs/checklists/seo-metadata-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
+The incomplete matrix was retired after the site went live without being described as passed. Owner-directed site metadata review now lives in `docs/checklists/seo-metadata-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-4 - Performance and image delivery review
 
-Superseded by `LAUNCH-4`, which was later closed after the site went live and the current performance posture was accepted as the operating baseline. Future performance and media-delivery improvements remain ordinary `SITE-*` or `DEBT-*` work.
+Closed after the site went live and the current performance posture was accepted as the operating baseline. Future performance and media-delivery improvements remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-5 - Analytics and local/test policy
 
-Superseded by `LAUNCH-5`, which was later closed after the site went live and the implemented analytics posture was accepted as the operating baseline. Future analytics, policy, privacy-notice, and testing changes remain ordinary operational, `SITE-*`, or `DEBT-*` work.
+Closed after the site went live and the implemented analytics posture was accepted as the operating baseline. Future analytics, policy, privacy-notice, and testing changes remain ordinary operational, `SITE-*`, or `DEBT-*` work.
 
 ### SITE-6 - Enquiry form public-flow QA
 
-Superseded by `LAUNCH-6`, which was later closed after the site went live and its current QA coverage was accepted as the baseline. Concrete form changes remain in active SITE cards where needed.
+Closed after the site went live and its current QA coverage was accepted as the baseline. Concrete form changes remain in active SITE cards where needed.
 
 ### SITE-8 - Shared portrait/media hero treatment
 
@@ -52,8 +52,8 @@ Implemented on 2026-06-23. Home and Working with Joel now use the shared `.hero-
 
 ### SITE-13 - Final public copy and ethical-claims proofread
 
-Superseded by `LAUNCH-7`, which was later closed after the site went live. Ongoing owner-led copy refinement and concrete copy changes remain ordinary writing and `SITE-*` work rather than a dedicated launch gate.
+Closed after the site went live. Ongoing owner-led copy refinement and concrete copy changes remain ordinary writing and `SITE-*` work.
 
-### SITE-18 - Custom launch domain and canonical public identity
+### SITE-18 - Custom domain and canonical public identity
 
-Superseded by `LAUNCH-8`, which was completed after the live apex domain, redirects, crawl artifacts, social metadata, and controlled 404 behaviour were verified.
+Completed after the live apex domain, redirects, crawl artifacts, social metadata, and controlled 404 behaviour were verified.

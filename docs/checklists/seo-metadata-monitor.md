@@ -1,6 +1,6 @@
 # SEO And Metadata Monitor
 
-This is the single manual monitor for the site's technical SEO and metadata state. It combines the former route inventory, launch checklist, and search-preview data without acting as a launch gate or a scheduled review.
+This is the single manual monitor for the site's technical SEO and metadata state. It combines the former route inventory, checklist, and search-preview data without creating a scheduled review.
 
 Update this document only when the owner explicitly directs a review. Current values can be populated from source without implying that the related behaviour has been checked.
 

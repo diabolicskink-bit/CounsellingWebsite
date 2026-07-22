@@ -8,7 +8,6 @@ Archive files are supporting history, not active requirements or permission to i
 
 - [project-debt-archive.md](project-debt-archive.md) preserves resolved and superseded `DEBT-*` items.
 - [site-backlog-archive.md](site-backlog-archive.md) preserves implemented and superseded `SITE-*` items.
-- [launch-readiness-archive.md](launch-readiness-archive.md) preserves completed and superseded `LAUNCH-*` items when they leave the active tracker.
 
 ## Task History
 

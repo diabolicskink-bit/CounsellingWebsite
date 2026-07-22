@@ -1,6 +1,6 @@
 # Site Backlog
 
-This is the living tracker for concrete deferred visitor-facing change work: public UX, content, accessibility fixes, form-flow improvements, visual polish, and public operations changes. It is separate from `launch-readiness.md`, which tracks launch gates and review passes, and `project-debt.md`, which tracks technical pressure.
+This is the living tracker for concrete deferred visitor-facing change work: public UX, content, accessibility fixes, form-flow improvements, visual polish, and public operations changes. It is separate from `project-debt.md`, which tracks technical pressure.
 
 Use stable IDs when discussing or working on these items, such as `SITE-1`. Do not renumber existing items. The `Classification` field is required so the backlog can be split later if one category becomes large enough to deserve its own tracker.
 
@@ -12,7 +12,7 @@ Use stable IDs when discussing or working on these items, such as `SITE-1`. Do n
 
 - Add an item when a meaningful visitor-facing change is identified but intentionally left out of current scope.
 - Keep items focused on one useful slice, not whole site-wide ambitions.
-- Do not add broad launch gates, review passes, sign-off tasks, or "ensure X across the site" matrices here; use `launch-readiness.md` for `LAUNCH-*` items.
+- Keep broad cross-site review records in the relevant owner-directed monitor or checklist rather than turning them into mixed SITE cards.
 - Use `Classification` for future splitting. Suggested labels include `Accessibility`, `Responsive QA`, `SEO/Metadata`, `Performance`, `Analytics/Operations`, `Content`, `Form Flow`, and `Public UX`.
 - Update an item when new work changes priority, status, first slice, dependencies, or completion signal.
 - Move implemented or superseded items to [archive/site-backlog-archive.md](archive/site-backlog-archive.md) with a short functional summary.
@@ -50,7 +50,7 @@ Statuses:
 - `Size`: `M`
 - `Status`: `Open`
 - `Classification`: `Content`
-- `Source`: `Fresh launch-readiness review, src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`
+- `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`
 - `Visitor-Facing Goal`: Give visitors enough practical trust information to understand website tracking, enquiry-message handling, and the basic boundaries around online counselling.
 - `Current State`: The site explains fees, format, referral, cancellation, and crisis limits, but it does not yet give a concise public note on website privacy/analytics, enquiry message handling, records, or online-session platform/privacy setup. Microsoft Clarity can now load when configured, and the enquiry form is explicitly Clarity-masked, but there is no public analytics/cookie notice yet.
 - `Why Deferred`: The wording needs owner confirmation so the site does not overpromise privacy, confidentiality, security, platform behaviour, or legal limits.
@@ -66,7 +66,7 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Accessibility`
-- `Source`: Former launch accessibility assessment, now preserved in `docs/checklists/accessibility-monitor.md`
+- `Source`: Former accessibility assessment, now preserved in `docs/checklists/accessibility-monitor.md`
 - `Visitor-Facing Goal`: Let visitors know which enquiry form fields and choices are required before they try to submit.
 - `Current State`: The Contact form uses native `required` attributes and browser validation, but the visible labels do not mark required fields or explain required choices before submission.
 - `Why Deferred`: This was identified during checklist assessment; the right fix should be small but deliberate so the form stays calm and readable.
@@ -96,7 +96,7 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Form Flow`
-- `Source`: `Fresh launch-readiness review, src/pages/Contact.tsx`, `src/data/enquiry.ts`
+- `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/data/enquiry.ts`
 - `Visitor-Facing Goal`: Reduce uncertainty around what happens after a visitor sends a first enquiry.
 - `Current State`: The Contact page invites enquiries and the success state says Joel will respond as soon as possible, but there is no specific reply-time expectation or current availability/new-client note.
 - `Why Deferred`: The exact wording depends on the practice owner's real capacity and preferred promise.
@@ -111,7 +111,7 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Content`
-- `Source`: `Fresh launch-readiness review, src/pages/Contact.tsx`, `src/data/routeMetadata.json`
+- `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/data/routeMetadata.json`
 - `Visitor-Facing Goal`: Let visitors understand the real cost and payment setup before enquiring.
 - `Current State`: The Contact page states the session fee, length, free initial consult, no referral requirement, and cancellation policy, but it does not explicitly state Medicare/private-health rebate availability, payment method, or when payment is due.
 - `Why Deferred`: Rebate and payment wording needs owner confirmation before becoming public.
@@ -126,10 +126,10 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Form Flow`
-- `Source`: `Fresh launch-readiness review, src/pages/Contact.tsx`, `src/data/enquiry.ts`
+- `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/data/enquiry.ts`
 - `Visitor-Facing Goal`: Help visitors understand the lower-commitment 15-minute consult option before choosing it in the enquiry form.
 - `Current State`: The fee card and FAQ mention a free 15-minute initial consult, and the form lets visitors request one, but the site does not explain whether it is phone or video, what it is for, what it is not, or what happens afterward.
-- `Why Deferred`: The practice owner should confirm the actual consult format and boundaries before launch copy is added.
+- `Why Deferred`: The practice owner should confirm the actual consult format and boundaries before public copy is added.
 - `First Useful Slice`: Add a brief FAQ answer or form-adjacent note explaining the consult format, purpose, and next step.
 - `Implemented When`: A visitor can choose between a full-session enquiry and a consult request without guessing what the consult involves.
 - `Notes`:
@@ -141,7 +141,7 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Content`
-- `Source`: `Fresh launch-readiness review, src/pages/WorkingWithJoel.tsx`
+- `Source`: `Fresh site review, src/pages/WorkingWithJoel.tsx`
 - `Visitor-Facing Goal`: Give visitors enough professional context to trust that the practice is real and accurately represented.
 - `Current State`: Working with Joel displays “GradDip. Counselling and Psychotherapy” and “ACA Registered”. The generated `ProfilePage` / `Person` graph carries the full qualification, Edith Cowan University, and full ACA Level 1 credential details, and uses Joel's public ACA profile in `sameAs` and as the registration credential URL. A registration number, visible external-profile link, and any supervision or insurance wording remain undecided.
 - `Why Deferred`: Remaining professional-identity details must be fact-checked and intentionally approved before publication.

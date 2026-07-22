@@ -10,7 +10,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 - Current-scope documents summarize current state. When exact details disagree, verify executable behaviour, tests, configuration, and source, then reconcile stale documentation when the task changes durable state.
 - Audience research dossiers are supporting evidence and synthesis for downstream work. They do not override stable practice facts or writing direction, make public claims approved, or authorize implementation.
 - Market-research dossiers are dated supporting evidence about search visibility, demand signals, provider supply, offers, directories and market structure. They do not set SEO, pricing, positioning or content strategy or assess provider quality.
-- `LAUNCH-*`, `DEBT-*`, and `SITE-*` trackers are scoped memory and triage. Consult only the tracker relevant to the task; an item does not authorize unrelated work.
+- `DEBT-*` and `SITE-*` trackers are scoped memory and triage. Consult only the tracker relevant to the task; an item does not authorize unrelated work.
 - Reports, plans, checklists, archives, and the task log are supporting evidence or history. They do not override active guidance or become requirements unless the current task explicitly adopts them.
 
 ## Practice Facts And Writing Direction
@@ -27,7 +27,6 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 ## Tracked Work
 
-- [launch-readiness.md](launch-readiness.md) tracks cross-site launch gates, review passes, acceptance checks, and sign-off work with stable `LAUNCH-*` IDs.
 - [project-debt.md](project-debt.md) tracks technical, security, routing, API, testing, deployment, and maintainability pressure with stable `DEBT-*` IDs.
 - [site-backlog.md](site-backlog.md) tracks concrete deferred visitor-facing change work with stable `SITE-*` IDs.
 
@@ -38,6 +37,6 @@ Project documentation sits beside, not inside, the design-system documentation. 
 - `../page-plan/` contains visitor-first content plans for individual public pages. These are supporting plans and do not approve wording or authorise implementation by themselves.
 - [task-log.md](task-log.md) records selected durable milestones; Git remains the detailed implementation history.
 - [archive/README.md](archive/README.md) maps resolved tracker items and older task history kept outside the active reading path.
-- `../checklists/` contains launch and recurring manual-QA checklists.
+- `../checklists/` contains owner-directed monitors and manual-QA checklists.
 - `../reports/` contains generated audits and assessments.
 - `../plans/` contains draft plans and working documents.

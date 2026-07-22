@@ -7,7 +7,6 @@ Curated milestone history for durable project state. This is not a full changelo
 - Read this for important project milestones and durable context.
 - Use `current-scope.md` for exact current scope.
 - Use `project-debt.md` for technical pressure.
-- Use `launch-readiness.md` for launch gates and review passes.
 - Use `site-backlog.md` for concrete deferred visitor-facing change work.
 - Use `docs/design-system/current-scope.md` for design-system scope.
 - Use [archive/task-log-2026-06.md](archive/task-log-2026-06.md) only when June 2026 milestone history matters.
@@ -18,10 +17,21 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
-## 2026-07-22 - Accessibility Launch Gate Replaced By Manual Monitor
+## 2026-07-22 - Copy Skills Rebuilt Around Reader Ranges
 
-- Closed: Archived `LAUNCH-1` as a superseded launch gate without treating its incomplete checklist as passed; the launch-readiness tracker now has no active items.
-- Replaced: The launch checklist is now an owner-directed `accessibility-monitor.md` covering the shared shell, all seven current public routes, and not-found behaviour through a practical WCAG 2.2 AA lens without claiming formal conformance.
+- Replaced: The copywriter and staged page-development workflows no longer construct one research-grounded pseudoperson as the representative reader or reuse an imagined internal state throughout drafting and review.
+- Added: Specialist pages consider the meaningful range within their subject, including central and contextual relevance, while general pages use a proportionate cross-context check for readers with none, one, or several specialist or inclusion contexts.
+- Simplified: Section work now explores directions briefly, commits to one complete draft, and prohibits automatic synthesis; reader research informs real writing decisions without becoming a page outline, mandatory recognition copy, prescribed visitor journey, or performance of specialist knowledge.
+
+## 2026-07-22 - Readiness Tracker Retired
+
+- Removed: Deleted the no-longer-needed readiness tracker and its archive now that the site is live and cross-site review state has permanent owners.
+- Preserved: Accessibility, responsive, and SEO review state remains in owner-directed monitors; concrete work remains under `SITE-*`, `DEBT-*`, writing, or ordinary operational ownership.
+- Cleaned: Removed the retired tracker identifiers, routing rules, links, and historical pointer language from current documentation and curated archives.
+
+## 2026-07-22 - Accessibility Manual Monitor Added
+
+- Replaced: The former incomplete checklist is now an owner-directed `accessibility-monitor.md` covering the shared shell, all seven current public routes, and not-found behaviour through a practical WCAG 2.2 AA lens without claiming formal conformance.
 - Preserved: Defensible Home and Contact item statuses remain undated, the renamed Inclusion route starts fresh, and current accessibility gaps retain independent `SITE-*` / `DEBT-*` ownership.
 
 ## 2026-07-22 - Product Direction Reduced To Practice Facts
@@ -30,10 +40,9 @@ Curated milestone history for durable project state. This is not a full changelo
 - Removed: Site purpose, audience categories, visitor decisions, positioning, success criteria, non-goals, accessibility policy, and delivery guidance no longer act as product or copy requirements and were not archived or relocated.
 - Routed: Copy, design, research, and page-development guidance now consults the facts brief only when a task needs one of its stable facts; writing direction and current scope retain their separate responsibilities.
 
-## 2026-07-22 - Responsive Launch Gate Replaced By Manual Monitor
+## 2026-07-22 - Responsive Manual Monitor Added
 
-- Closed: Archived `LAUNCH-2` as a superseded launch gate without treating its incomplete checklist as passed; independently owned `SITE-*` and `DEBT-*` work remains unchanged.
-- Replaced: The obsolete launch checklist is now an owner-directed `responsive-monitor.md` covering the shared shell, all seven current public routes, and not-found behaviour.
+- Replaced: The former incomplete checklist is now an owner-directed `responsive-monitor.md` covering the shared shell, all seven current public routes, and not-found behaviour.
 - Clarified: Each section starts unreviewed, uses a three-viewport standard plus a continuous width sweep, and records exceptional notes and last-checked dates only when explicitly reviewed; automated tests remain regression context rather than manual pass evidence.
 
 ## 2026-07-22 - Planning Dialogue Preference Clarified
@@ -46,18 +55,17 @@ Curated milestone history for durable project state. This is not a full changelo
 - Simplified: Removed reusable copy examples and formula-like sentence, specialist-knowledge, warmth, keyword-placement, and final-review instructions that could make different pages repeat the same content or rhetorical shape.
 - Preserved: The canonical guide still owns source authority, core voice, page-specific structure, natural search language, collaboration boundaries, and causal review of generic or AI-default writing.
 
-## 2026-07-22 - SEO Launch Gate Replaced By Manual Monitor
+## 2026-07-22 - SEO Metadata Monitor Consolidated
 
-- Closed: Archived `LAUNCH-3` as a superseded launch gate without treating its incomplete checklist as passed; existing linked `SITE-*` and `DEBT-*` work remains independently open.
-- Consolidated: Replaced the launch checklist, metadata inventory, and Google-style preview document with one owner-directed `seo-metadata-monitor.md` covering current public routes, redirects, and not-found behaviour.
+- Consolidated: Replaced the former checklist, metadata inventory, and Google-style preview document with one owner-directed `seo-metadata-monitor.md` covering current public routes, redirects, and not-found behaviour.
 - Clarified: The monitor records optional metadata values, exceptional notes, and section-level last-checked dates only when explicitly reviewed; it has no automatic schedule and excludes external-service state.
 
-## 2026-07-21 - Live-Site Launch Gates Closed
+## 2026-07-21 - Live-Site Baselines Accepted
 
-- Closed: `LAUNCH-4` and `LAUNCH-5` after accepting the current performance and analytics implementations as the live operating baselines; future refinements remain ordinary operational, `SITE-*`, or `DEBT-*` work.
-- Closed: `LAUNCH-6` after accepting the current browser and API coverage as the live enquiry-flow QA baseline; concrete form improvements remain ordinary `SITE-*` work.
-- Closed: `LAUNCH-7` as a dedicated final-copy gate now that the site is live; owner-led copy refinement continues under the writing direction and relevant `SITE-*` items.
-- Completed: `LAUNCH-8` after live apex-domain, redirect, canonical/social metadata, crawl-artifact, shared-image, and controlled-404 checks passed; repeatable live smoke-test automation remains separately tracked under `DEBT-24`.
+- Accepted: Current performance and analytics implementations are the live operating baselines; future refinements remain ordinary operational, `SITE-*`, or `DEBT-*` work.
+- Accepted: Current browser and API coverage is the live enquiry-flow QA baseline; concrete form improvements remain ordinary `SITE-*` work.
+- Continued: Owner-led copy refinement remains under the writing direction and relevant `SITE-*` items rather than a separate final-copy review.
+- Verified: Live apex-domain, redirect, canonical/social metadata, crawl-artifact, shared-image, and controlled-404 checks passed; repeatable live smoke-test automation remains separately tracked under `DEBT-24`.
 
 ## 2026-07-20 - Contact Intent And Conversion Analytics Added
 
@@ -153,7 +161,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Rebuilt: `/inclusion/lgbtqia` now uses a subject-owned "default settings" comparison to contrast common assumptions with Joel's actual starting points, followed by concrete topics, native FAQs, and a direct enquiry close.
 - Changed: The page opening now uses the shared hero contract and a single-column composition aligned with the Kink/BDSM page, grouping the display, support copy, practice facts, and enquiry action. The sections below it retain the page-scoped flat composition, high-contrast aubergine, yellow, and coral palette, contemporary sans typography, sharp rules, and content-shaped comparison layout.
-- Preserved: The route remains a draft with route-level `noindex, nofollow` metadata and stays out of production navigation and the sitemap pending owner copy review and launch sign-off.
+- Preserved: The route remains a draft with route-level `noindex, nofollow` metadata and stays out of production navigation and the sitemap pending owner copy review and publication sign-off.
 - Verified: Production build and prerendering pass. Final responsive and browser review is deferred while the owner works through the page section by section.
 
 ## 2026-07-14 - Product Direction Rebuilt As A Decision Brief
@@ -165,7 +173,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 ## 2026-07-14 - Active Project History Partitioned
 
-- Moved: Resolved and superseded `DEBT-*` and `SITE-*` summaries now live in dedicated archive files outside their active trackers; an empty `LAUNCH-*` archive establishes the same convention for completed launch gates.
+- Moved: Resolved and superseded `DEBT-*` and `SITE-*` summaries now live in dedicated archive files outside their active trackers.
 - Partitioned: June 2026 milestones now live in a dated task-log archive, leaving the active task log focused on current-month durable history.
 - Preserved: Stable tracker IDs and milestone text remain searchable through `docs/project/archive/`; archives are supporting history rather than active requirements.
 - Trimmed: Resolved card-boundary and side-stripe migration detail now points to archived debt history instead of repeating completed decisions in active design migration notes.
@@ -282,13 +290,13 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Added: `DEBT-32` tracks replacing the tactical static H1 shell with full public-route static prerendering and React hydration.
 - Added: `DEBT-33` tracks retiring the temporary H1 fallback shell after full prerendering exists.
-- Linked: `LAUNCH-3` now points SEO readiness at both rendering follow-up items.
+- Linked: SEO readiness work connected both rendering follow-up items.
 
 ## 2026-07-08 - Contact Crisis FAQ Added
 
 - Changed: The Contact/Fees FAQ now states that the form is not for emergency contact and gives concrete Australian crisis-support options: `000`, Lifeline, and Suicide Call Back Service.
 - Preserved: The enquiry form remains positioned for non-urgent contact, with the FAQ and structured FAQ schema sharing the same plain-text answer.
-- Closed: Archived `SITE-12`; remaining launch trust/practical-detail tracking now excludes the crisis-support resource item.
+- Closed: Archived `SITE-12`; remaining Contact trust and practical-detail tracking now excludes the crisis-support resource item.
 
 ## 2026-07-08 - Temporary Vercel Production Host Retired
 
@@ -299,7 +307,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-07-08 - Microsoft Clarity Analytics Added
 
 - Added: `SiteAnalytics` now loads Microsoft Clarity when analytics are enabled and `VITE_CLARITY_PROJECT_ID` is configured.
-- Preserved: No cookie banner or local Clarity Consent API flow was added; normal Clarity cookies are allowed where Microsoft/project settings allow them. `LAUNCH-5` was later closed after the site went live and this implementation was accepted as the operating baseline.
+- Preserved: No cookie banner or local Clarity Consent API flow was added; normal Clarity cookies are allowed where Microsoft/project settings allow them. This implementation was later accepted as the live operating baseline.
 - Added: The enquiry form is explicitly Clarity-masked, and `npm run qa:analytics` now verifies both GA route-change tracking and the Clarity script path with third-party analytics requests intercepted.
 
 ## 2026-07-08 - Design-System Icon Candidates Removed
@@ -320,7 +328,7 @@ Curated milestone history for durable project state. This is not a full changelo
 - Confirmed: Allowed pages are indexable, canonicalised, present in the sitemap, allowed by robots, and scoring strongly in Lighthouse. Draft inclusion child pages remain excluded from search.
 - Preserved: Remaining SEO and trust work is tracked through `DEBT-27`, `SITE-11`, `SITE-14`, `SITE-15`, `SITE-16`, and `SITE-17`.
 
-## 2026-07-08 - Launch Indexing Enabled For Approved Pages
+## 2026-07-08 - Indexing Enabled For Approved Pages
 
 - Changed: Canonical metadata now defaults to `https://vivecounselling.com.au`, and the temporary site-wide `noindex, nofollow` metadata/header layer has been removed.
 - Changed: `sitemap.xml` now advertises only Home, Working with Joel, Inclusion, and Contact/Fees; `robots.txt` allows crawling and points to that sitemap.
@@ -330,4 +338,4 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Changed: Production UI no longer links to the Kink/BDSM, ENM/polyamory, or LGBTQIA+ Inclusion child pages from the header, Home page, or Inclusion hub; local development builds still show those links.
 - Preserved: The child pages remain direct routes for review and carry route-level `noindex, nofollow` metadata while the broader site-wide pre-launch noindex layer remains active.
-- Updated: `SITE-23` launch-indexing notes now preserve the draft child-page noindex policy until those pages are explicitly approved for public indexing.
+- Updated: `SITE-23` indexing notes now preserve the draft child-page noindex policy until those pages are explicitly approved for public indexing.

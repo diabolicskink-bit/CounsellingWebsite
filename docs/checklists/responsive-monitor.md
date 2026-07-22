@@ -1,6 +1,6 @@
 # Responsive Monitor
 
-This is the owner-directed manual monitor for the site's responsive layout state. It replaces the incomplete launch checklist without acting as a launch gate or a scheduled review.
+This is the owner-directed manual monitor for the site's responsive layout state. It replaces the former incomplete checklist without creating a scheduled review.
 
 Update this document only when the owner explicitly directs a review. Existing automated overflow and navigation tests provide regression context, but they do not create manual `Pass` statuses here.
 
