@@ -32,8 +32,7 @@ const prerenderedRouteContracts = {
     rawFragments: [
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
-      'aria-label="Practice details"',
-      'class="home-topics__route"',
+      'class="home-welcome__online"',
       'href="/working-with-joel#issues-i-work-with"',
       'class="site-card home-workroom__joel"',
       'aria-label="Inclusive practice topics"',
@@ -542,25 +541,37 @@ async function expectNoPageDiagnostics(diagnostics: PageDiagnostics) {
 
 async function expectHomePageStructure(page: Page) {
   const home = page.locator("main.home-page");
+  const hero = home.locator(".hero-section");
   const portrait = home.locator('img[src="/joel-griffiths-homepage-portrait.jpg"]');
 
   await expect(home).toBeVisible();
   await expect(portrait).toBeVisible();
   await expect(portrait).toHaveAttribute("alt", "Joel Griffiths");
   await expect(portrait).toHaveAttribute("fetchpriority", "high");
-  await expect(home.getByRole("list", { name: "Practice details" }).locator(":scope > li")).toHaveCount(3);
-  await expect(home.getByRole("region", { name: "Reasons people come to counselling." })).toBeVisible();
-  await expect(home.getByRole("link", { name: "See the issues I work with" })).toHaveAttribute(
+  await expect(hero.locator(".home-page__hero-support")).toHaveCount(0);
+  await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveAttribute("href", "/contact");
+  await expect(hero.getByRole("link", { name: "Explore inclusive counselling" })).toHaveAttribute(
     "href",
-    "/working-with-joel#issues-i-work-with",
+    "/inclusive-counselling",
   );
+  await expect(hero.getByRole("link", { name: "Explore inclusive counselling" })).toHaveClass(
+    /button--secondary/,
+  );
+  await expect(home.getByRole("region", { name: "Whatever’s going on, you can bring it here." })).toHaveCount(1);
+  const issuesLinks = home.getByRole("link", { name: "See the issues I work with" });
+  await expect(issuesLinks).toHaveCount(1);
+  await expect(issuesLinks).toHaveAttribute("href", "/working-with-joel#issues-i-work-with");
   await expect(home.locator("article.site-card.home-workroom__joel")).toBeVisible();
   await expect(
     home.getByRole("navigation", { name: "Inclusive practice topics" }).locator(":scope li"),
   ).toHaveCount(3);
 
-  for (const href of ["/working-with-joel", "/inclusive-counselling", "/contact"]) {
-    await expect(home.locator(`a[href="${href}"]`)).toHaveCount(1);
+  for (const [href, count] of [
+    ["/working-with-joel", 1],
+    ["/inclusive-counselling", 2],
+    ["/contact", 2],
+  ] as const) {
+    await expect(home.locator(`a[href="${href}"]`)).toHaveCount(count);
   }
 }
 
@@ -813,7 +824,7 @@ test.describe("prerendered route activation boundaries", () => {
     const diagnostics = collectPageDiagnostics(page);
 
     await page.goto("/", { waitUntil: "networkidle" });
-    await page.getByRole("link", { name: "See the issues I work with" }).click();
+    await page.getByRole("link", { name: "See the issues I work with" }).first().click();
 
     const issuesHeading = page.locator("#issues-i-work-with");
 
@@ -1891,6 +1902,39 @@ test.describe("production route boundaries", () => {
       await expect(page.getByRole("link", { name: "Dev" })).toHaveCount(0);
     });
   }
+});
+
+test("Home hero places page actions beside the copy before stacking them responsively", async ({ page }) => {
+  const hero = page.locator(".home-page__hero");
+  const heroCopy = page.locator(".home-page__hero-copy");
+  const heroActions = page.getByRole("navigation", { name: "Page actions" });
+
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/", { waitUntil: "networkidle" });
+
+  const wideCopyBox = await heroCopy.boundingBox();
+  const wideActionsBox = await heroActions.boundingBox();
+
+  expect(wideCopyBox).not.toBeNull();
+  expect(wideActionsBox).not.toBeNull();
+  expect(wideActionsBox!.x).toBeGreaterThan(wideCopyBox!.x + wideCopyBox!.width);
+  await expect(hero).toHaveCSS("padding-bottom", "24px");
+  await expect(heroActions).toHaveCSS("border-left-width", "1px");
+
+  await page.setViewportSize({ width: 820, height: 1180 });
+
+  const stackedCopyBox = await heroCopy.boundingBox();
+  const stackedActionsBox = await heroActions.boundingBox();
+
+  expect(stackedCopyBox).not.toBeNull();
+  expect(stackedActionsBox).not.toBeNull();
+  expect(stackedActionsBox!.y).toBeGreaterThan(stackedCopyBox!.y + stackedCopyBox!.height);
+  await expect(hero).toHaveCSS("padding-bottom", "20px");
+  await expect(heroActions).toHaveCSS("border-top-width", "1px");
+  await expect(heroActions).toHaveCSS("border-left-width", "0px");
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
+  ).toBe(true);
 });
 
 test.describe("inclusion child page responsive boundaries", () => {

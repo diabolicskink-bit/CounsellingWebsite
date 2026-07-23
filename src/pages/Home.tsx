@@ -31,15 +31,16 @@ type HomePortrait = {
 type HomeHeroContent = {
   eyebrow: string;
   title: EmphasisCopy;
-  support: string;
-  trustAriaLabel: string;
-  trustItems: string[];
-  portrait: HomePortrait;
+  contactHref: string;
+  contactCta: string;
+  inclusionHref: string;
+  inclusionCta: string;
 };
 
-type HomeTopicsContent = {
-  heading: string;
-  copy: string;
+type HomeWelcomeContent = {
+  heading: EmphasisCopy;
+  opening: string;
+  practice: string;
   href: string;
   cta: string;
 };
@@ -55,8 +56,6 @@ type HomeInclusiveContent = {
 };
 
 type HomeWorkroomContent = {
-  heading: string;
-  intro: string;
   joelName: string;
   joelCopy: string[];
   profileHref: string;
@@ -73,7 +72,8 @@ type HomePageContent = {
   title: string;
   meta: string;
   hero: HomeHeroContent;
-  topics: HomeTopicsContent;
+  portrait: HomePortrait;
+  welcome: HomeWelcomeContent;
   inclusive: HomeInclusiveContent;
   workroom: HomeWorkroomContent;
   closingCta: HomeClosingCtaContent;
@@ -91,24 +91,26 @@ const homePageContent: HomePageContent = {
       emphasis: "hard to untangle",
       after: ".",
     },
-    support:
-      "Anxiety, depression, relationship difficulties, trauma or something else entirely. If your relationships, sexuality or identity sit outside what people usually assume, you won’t be asked to justify them here. I’m Joel Griffiths, an ACA-registered counsellor in Perth, working online with adults across Australia.",
-    trustAriaLabel: "Practice details",
-    trustItems: [
-      "Individual counselling",
-      "Free 15-minute initial consult",
-      "Kink, ENM & LGBTQIA+ aware",
-    ],
-    portrait: {
-      imageSrc: portraitSrc,
-      alt: "Joel Griffiths",
-      label: "Joel Griffiths",
-    },
+    contactHref: routeHref(publicRoutePaths.contact),
+    contactCta: "Get in touch",
+    inclusionHref: routeHref(publicRoutePaths.inclusion),
+    inclusionCta: "Explore inclusive counselling",
   },
-  topics: {
-    heading: "Reasons people come to counselling.",
-    copy:
-      "I work with anxiety, low mood, shame, trauma, relationship difficulties, intimacy and burnout. Often, more than one thing is going on.",
+  portrait: {
+    imageSrc: portraitSrc,
+    alt: "Joel Griffiths",
+    label: "Joel Griffiths",
+  },
+  welcome: {
+    heading: {
+      before: "Whatever’s going on, ",
+      emphasis: "you can bring it here",
+      after: ".",
+    },
+    opening:
+      "Maybe it’s anxiety or depression, burnout or shame. Maybe it’s a difficult relationship, something from the past, or something you can’t quite put your finger on. It doesn’t need a label before we talk about it.",
+    practice:
+      "Sessions happen online by video, so you can talk from the comfort of home or wherever works for you, without the travel or waiting room.",
     href: `${routeHref(publicRoutePaths.workingWithJoel)}#issues-i-work-with`,
     cta: "See the issues I work with",
   },
@@ -142,13 +144,13 @@ const homePageContent: HomePageContent = {
     ],
   },
   workroom: {
-    heading: "Wherever you are is the place to begin.",
-    intro:
-      "You don’t need to have it sorted before you arrive. You don’t need a clear explanation of what is wrong, the right words, or a sense that things are bad enough to justify coming. If something has been sitting with you, even vaguely, even without a name, that is enough to start. It begins with a conversation, and the conversation can start anywhere.",
     joelName: "Joel Griffiths",
     joelCopy: [
+      "Vive is my online counselling practice.",
       "I don’t think people are meant to be tidy. The strange bits, the contradictions, the parts of yourself that don’t quite fit anywhere. Those belong here too.",
+      "All kinds of people are welcome. I especially want Vive to be somewhere you can talk freely if you’ve been judged or misunderstood because of your sexuality, gender, relationships, identity, diagnosis or work.",
       "Sessions are a straightforward conversation. We can speak plainly, look beneath the immediate problem, and take what you bring seriously without making therapy feel stiff or clinical.",
+      "You can start with a free 15-minute consultation to get a feel for whether I’m the right counsellor for you.",
     ],
     profileHref: routeHref(publicRoutePaths.workingWithJoel),
     profileCta: "More about how I work",
@@ -166,36 +168,36 @@ const homePageContent: HomePageContent = {
 
 function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
   return (
-    <section className="hero-section hero-bg--default">
+    <section className="hero-section hero-bg--default home-page__hero">
       <Container>
-        <div className="hero-top hero-top--supporting-media">
-          <div>
+        <div className="home-page__hero-intro">
+          <div className="home-page__hero-copy">
             <h1 className="hero-badge">{hero.eyebrow}</h1>
             <p className="hero-display">
               {hero.title.before}
               <em>{hero.title.emphasis}</em>
               {hero.title.after}
             </p>
-            <div className="hero-copy-panel home-page__hero-support">
-              <p>{hero.support}</p>
-              <ul className="hero-support-tagline" aria-label={hero.trustAriaLabel}>
-                {hero.trustItems.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
           </div>
-
-          <HeroPortrait portrait={hero.portrait} />
+          <nav className="home-page__hero-actions" aria-label="Page actions">
+            <div className="home-page__hero-action-list">
+              <Button href={hero.contactHref} className="home-page__hero-action">
+                {hero.contactCta} <ArrowRight aria-hidden="true" size={16} />
+              </Button>
+              <Button href={hero.inclusionHref} className="home-page__hero-action" variant="secondary">
+                {hero.inclusionCta} <ArrowRight aria-hidden="true" size={16} />
+              </Button>
+            </div>
+          </nav>
         </div>
       </Container>
     </section>
   );
 }
 
-function HeroPortrait({ portrait }: { portrait: HomePortrait }) {
+function HeroPortrait({ portrait, className = "" }: { portrait: HomePortrait; className?: string }) {
   return (
-    <div className="hero-media-note hero-media-note--portrait">
+    <div className={`hero-media-note hero-media-note--portrait ${className}`.trim()}>
       <div className="hero-media-note__image">
         <img src={portrait.imageSrc} alt={portrait.alt} decoding="async" {...highPriorityImageAttributes} />
       </div>
@@ -206,39 +208,41 @@ function HeroPortrait({ portrait }: { portrait: HomePortrait }) {
   );
 }
 
-function TopicsSection({ topics }: { topics: HomeTopicsContent }) {
+function WelcomeSection({ welcome }: { welcome: HomeWelcomeContent }) {
   return (
-    <section className="site-grid home-topics" aria-labelledby="home-topics-title">
+    <section className="site-grid home-welcome" aria-labelledby="home-welcome-title">
       <Container>
-        <div className="home-topics__layout">
-          <h2 className="home-topics__heading" id="home-topics-title">
-            {topics.heading}
-          </h2>
-
-          <div className="home-topics__route">
-            <p className="home-topics__copy">{topics.copy}</p>
-            <Link className="home-topics__link" to={topics.href}>
-              <span>{topics.cta}</span>
-              <ArrowRight aria-hidden="true" size={18} />
-            </Link>
+        <div className="home-welcome__layout">
+          <div className="home-welcome__main">
+            <h2 className="home-welcome__heading" id="home-welcome-title">
+              <span>{welcome.heading.before}</span>
+              <em>{`${welcome.heading.emphasis}${welcome.heading.after}`}</em>
+            </h2>
+            <div className="home-welcome__opening-group">
+              <p className="home-welcome__opening">{welcome.opening}</p>
+              <Link className="home-welcome__link" to={welcome.href}>
+                <span>{welcome.cta}</span>
+                <ArrowRight aria-hidden="true" size={18} />
+              </Link>
+            </div>
           </div>
+
+          <aside className="home-welcome__online">
+            <p>{welcome.practice}</p>
+          </aside>
         </div>
       </Container>
     </section>
   );
 }
 
-function WorkroomSection({ workroom }: { workroom: HomeWorkroomContent }) {
+function WorkroomSection({ workroom, portrait }: { workroom: HomeWorkroomContent; portrait: HomePortrait }) {
   return (
     <section className="site-highlight">
       <Container>
-        <div className="site-split home-workroom__split">
-          <div className="section-heading home-workroom__intro">
-            <h2>{workroom.heading}</h2>
-            <p className="section-heading__copy site-ruled-paragraph">{workroom.intro}</p>
-          </div>
-
+        <div className="home-workroom__frame">
           <JoelCard workroom={workroom} />
+          <HeroPortrait className="home-workroom__portrait" portrait={portrait} />
         </div>
       </Container>
     </section>
@@ -333,13 +337,13 @@ function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }
 
 export default function Home() {
   useDocumentMetadata(homePageContent.title, homePageContent.meta);
-  const { hero, topics, inclusive, workroom, closingCta } = homePageContent;
+  const { hero, portrait, welcome, inclusive, workroom, closingCta } = homePageContent;
 
   return (
     <main className="site-page home-page">
       <HomeHeroSection hero={hero} />
-      <TopicsSection topics={topics} />
-      <WorkroomSection workroom={workroom} />
+      <WelcomeSection welcome={welcome} />
+      <WorkroomSection portrait={portrait} workroom={workroom} />
       <InclusiveSection inclusive={inclusive} />
       <ClosingCtaSection closingCta={closingCta} />
     </main>
