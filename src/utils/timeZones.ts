@@ -19,6 +19,14 @@ const australianTimeZoneRegions: AustralianTimeZoneRegion[] = [
   { label: "NSW / ACT / VIC / TAS", stateValues: ["nsw", "act", "vic", "tas"], timeZone: "Australia/Sydney" },
 ];
 
+const fallbackAustralianTimeZoneLabels: Record<string, string> = {
+  ACDT: "ACDT (SA)",
+  ACST: "ACST (SA / NT)",
+  AEDT: "AEDT (NSW / ACT / VIC / TAS)",
+  AEST: "AEST (QLD / NSW / ACT / VIC / TAS)",
+  AWST: "AWST (WA)",
+};
+
 export function getTimeZoneAbbreviation(date: Date, timeZone: string) {
   const parts = new Intl.DateTimeFormat("en-AU", {
     timeZone,
@@ -89,6 +97,14 @@ export function getActiveAustralianTimeZoneOptions(date = new Date()) {
       label: `${timeZone.abbreviation} (${timeZone.labels.join(" / ")})`,
     })),
   ];
+}
+
+export function getAustralianTimeZoneLabel(value: string, date = new Date()) {
+  const activeTimeZone = getActiveAustralianTimeZones(date).find((timeZone) => timeZone.abbreviation === value);
+
+  return activeTimeZone
+    ? `${activeTimeZone.abbreviation} (${activeTimeZone.labels.join(" / ")})`
+    : fallbackAustralianTimeZoneLabels[value] ?? "";
 }
 
 export function getActiveAustralianTimeZoneByAbbreviation(abbreviation: string, date = new Date()) {

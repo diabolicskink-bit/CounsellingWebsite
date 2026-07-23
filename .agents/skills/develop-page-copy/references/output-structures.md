@@ -3,6 +3,11 @@
 Use these as adaptable structures. Keep only the parts that materially improve
 the work. Do not turn them into compulsory boilerplate.
 
+The skill creates one substantive artifact per invocation. A page plan contains
+no exact visitor-facing section copy. A section-development artifact contains
+one exact-copy recommendation and its semantic content composition; it may use
+a page plan or a bounded local section brief recovered from available context.
+
 ## Contents
 
 1. [Page-plan artifact](#page-plan-artifact)
@@ -69,7 +74,7 @@ it only when it affects the recommendation.
 
 ### Directions considered
 
-For each meaningfully different page route:
+Record at least two concise, meaningfully different page routes. For each:
 
 - organising idea;
 - benefit;
@@ -101,6 +106,8 @@ For the hero and each section:
 
 **Content to cover:**
 
+**Likely content ingredients or semantic forms:**
+
 **Relevant reader considerations:**
 
 **Editorial rule:**
@@ -111,6 +118,8 @@ For the hero and each section:
 ```
 
 The planning label may be more explicit than the eventual public heading.
+Do not draft exact visitor-facing section copy or prescribe visual layout in
+the page plan.
 
 ### Whole-page controls
 
@@ -128,20 +137,25 @@ Use a short, lowercase, hyphenated section ID derived from the section's owned
 job, such as `session-process` or `approach-in-practice`. Keep the ID and filename
 stable when the section moves. Existing numbered workthroughs may retain their
 current paths; do not rename them without an authorised migration that updates
-all inbound links.
+all inbound links. When no page plan exists, derive the ID from the bounded
+local section job and record the inputs that establish that job.
 
 ### Header and scope
 
 - Page and section name
 - Stable section ID
-- Working-copy status
-- Backlink to the page plan
-- Statement that the artifact is copy development, not a design specification
+- Recommended-working-copy status
+- Backlink to the page plan when one exists, otherwise `Page plan: not
+  available`
+- Inputs used to establish the section job when no page plan exists
+- Statement that the artifact contains exact working copy and semantic content
+  composition, not a visual design specification
 
 ### Decision in brief
 
 State the strongest current organising principle and why it adds something the
-preceding content does not already do.
+preceding or known page content does not already do. Mark this relationship as
+provisional when the wider page structure is not yet planned.
 
 ### Section context
 
@@ -150,6 +164,8 @@ preceding content does not already do.
 - Primary communication job
 - Reader-range implications that materially affect this section
 - Relationship to nearby sections when sequence matters
+- Whether page architecture, coverage, or adjacent-section relationships remain
+  provisional because no page plan exists
 
 ### Editorial choices
 
@@ -177,7 +193,7 @@ decisions that materially shape the section. Examples:
 
 ### Direction exploration
 
-Use the copywriter skill's direction process. Consider at least two materially
+Use the copywriter skill's direction process. Record at least two materially
 different directions without drafting each one in full. For each:
 
 - organising idea;
@@ -192,14 +208,14 @@ recommend one and proceed.
 ### Committed draft
 
 Use the copywriter skill to compose, draft, and revise one complete section in
-the selected direction. Do not combine safer parts of the rejected directions.
-Produce multiple complete alternatives only when the user explicitly requests
-them, and keep those alternatives separate.
+the selected direction. Draft the exact visitor-facing wording for every
+visible content unit. Do not combine safer parts of the rejected directions or
+expand them into multiple complete drafts.
 
 ```markdown
-## Recommended working draft
+## Recommended working copy
 
-### Draft
+### Exact copy
 
 [Complete visitor-facing section copy]
 
@@ -220,13 +236,30 @@ context. Do not invent reactions to complete the exercise.]
 
 - Selected direction and section-specific criteria
 - Explanation of why the direction serves the section and page
-- Clean recommended working draft
+- Clean recommended exact copy
 - Explanation of why other useful material was omitted
 
-When the user explicitly requests multiple complete alternatives, give each a
-separate reader-range review, compare them against the section-specific
-criteria, and recommend one. Do not create a composite unless the user asks for
-one after reviewing the alternatives.
+Keep the rejected directions concise. The artifact owns one complete
+recommendation rather than a set of finished alternatives.
+
+### Semantic content composition
+
+Map the exact copy into the units the section needs. Use semantic forms such as
+a heading, paragraph, link, supporting note, or list only when they suit the
+content.
+
+For each unit, record:
+
+- a short working unit label;
+- semantic form;
+- exact visitor-facing copy;
+- communication role and priority;
+- order and relationship to other units;
+- link destination or interaction purpose when known; and
+- meaning, claim, or relationship the later design must preserve.
+
+Do not prescribe cards, grids, columns, art direction, styling, responsive
+behaviour, or component implementation.
 
 ### Copywriter quality and grounding
 
@@ -239,14 +272,19 @@ one after reviewing the alternatives.
 Apply the copywriter skill's methods for these checks. Do not recreate a second
 copywriting method inside this artifact.
 
-### Page-flow and artifact integrity
+### Page-flow, design handoff, and artifact integrity
 
 - Section ownership and actual page position
 - Direction and draft traceability
-- Cross-section coverage and non-duplication
+- Cross-section coverage and non-duplication, marked provisional when the wider
+  page is not planned
 - Relationship to surrounding sections
+- Complete mapping between exact copy and semantic content units
+- Meaning and claims that later design must preserve
+- Visual and compositional decisions deliberately left open
+- Copy changes the later design should identify if it makes them
 - Status, stable ID, authority, and assumption labels
-- Open questions for full-page assembly
+- Open questions for the later design pass
 - Acceptance checks
 
 Apply [`page-flow-gates.md`](page-flow-gates.md) for these checks after the
@@ -254,20 +292,23 @@ copywriter review.
 
 ## Cross-linking and status
 
-Add a link from the page-plan section to its detailed workthrough:
+When a page plan exists, add a link from its section to the detailed
+workthrough:
 
 ```markdown
-**Detailed copy development:** [Section N conceptual work and draft
-variations](<page-slug>-section-<section-id>.md).
+**Detailed section development:** [Section N directions, exact copy, and
+content composition](<page-slug>-section-<section-id>.md).
 ```
 
-Add a backlink from the section workthrough to the page plan.
+Add a backlink from the section workthrough to the page plan. When no page plan
+exists, do not create one or modify another artifact merely to add a link;
+record the absence and the local brief inputs in the section artifact.
 
 Use status labels that distinguish:
 
 - planning direction;
 - working copy;
-- recommended working draft;
+- recommended working copy;
 - owner-approved copy; and
 - implemented copy.
 

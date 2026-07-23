@@ -1,6 +1,6 @@
 # Design System Documentation
 
-This directory records the currently implemented Vive Counselling design system: visual foundations, shared components, page patterns, rendered examples, cleanup rules, and legacy status.
+This directory records the currently implemented Vive Counselling design system: visual foundations, shared components, page patterns, rendered examples, and legacy status.
 
 ## Creative-Within-Identity Status
 
@@ -8,7 +8,7 @@ Fresh creation and redesign should actively explore content-shaped, out-of-the-b
 
 Composition, grids, component forms, surfaces, depth, layering, shape, spacing rhythm, imagery, motion and responsive behaviour are active creative variables. Establish structurally different directions from the task, content, real assets, and the website-design skill first. Consult this directory afterward to understand implementation and decide what can be reused without weakening the selected direction. Existing components and page patterns are optional implementation resources, not acceptance criteria.
 
-Start here first only when maintaining, cleaning up, documenting, promoting, or deliberately reusing shared UI.
+Start here first only when maintaining, documenting, promoting, or deliberately reusing shared UI.
 
 ## Reading Order
 
@@ -31,13 +31,6 @@ For design-system architecture or promotion work:
 1. Read `governance.md`.
 2. Check `current-scope.md` and the relevant foundation or pattern catalogue.
 
-For cleanup work:
-
-1. Read `maintenance/cleanup-sweeps.md`.
-2. Inspect authored code, styles, scripts, tests, and configuration directly; do not use trackers, backlogs, reports, plans, or current-scope documents to select the work.
-3. Keep cleanup focused and behaviour-preserving unless the task explicitly asks for broader change.
-4. If a code-discovered finding is too large for the sweep, follow the automatic `DEBT-*` recording workflow in `maintenance/cleanup-sweeps.md`.
-
 ## File Map
 
 - `governance.md` owns implementation-evidence rules, reusable-API authority, active and legacy layer policy, promotion rules, and update duties.
@@ -46,7 +39,6 @@ For cleanup work:
 - `foundations/tokens.md` inventories existing colour, spacing, type roles, and baseline typography implementation.
 - `patterns/components.md` inventories current React components and component-backed behaviour.
 - `patterns/page-patterns.md` inventories existing `site-*`, `hero-*`, section, card, panel, rich-text, CTA, form, and page-pattern implementation.
-- `maintenance/cleanup-sweeps.md` owns cleanup sweep behaviour and named cleanup modes.
 
 ## Implementation Sources
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Improve Codebase"
+  short_description: "Find and complete high-value maintainability work"
+  default_prompt: "Use $improve-codebase to find and complete the strongest source-supported maintainability improvement in this repository."

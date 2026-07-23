@@ -1,14 +1,14 @@
 # Page-flow gates
 
 Use these gates after the copywriter skill has reviewed the public copy. They
-govern the staged artifact and the copy's place in the page; they do not repeat
+govern the section artifact and the copy's place in the page; they do not repeat
 the copywriter's methods for craft, reader-range review, sentence function,
 model glue, voice, inclusion, or read-aloud review.
 
-Run the relevant gates after developing a section and run all of them again
-after assembling the page. Revise when a gate reveals a real problem. Record
-the decision or change that follows rather than adding commentary merely to
-show that the gate was visited.
+Run the gates after developing one section and before treating its artifact as
+ready for later website design. Revise when a gate reveals a real problem.
+Record the decision or change that follows rather than adding commentary
+merely to show that the gate was visited.
 
 ## Contents
 
@@ -16,19 +16,27 @@ show that the gate was visited.
 2. [Direction and draft traceability](#direction-and-draft-traceability)
 3. [Coverage and non-duplication](#coverage-and-non-duplication)
 4. [Section relationships and page movement](#section-relationships-and-page-movement)
-5. [Assembly consistency](#assembly-consistency)
+5. [Semantic composition and design handoff](#semantic-composition-and-design-handoff)
 6. [Artifact authority and assumptions](#artifact-authority-and-assumptions)
 
 ## Section ownership and page position
 
-Recover the section's place in the actual page before judging it.
-Check that the workthrough states:
+Use the page plan when one exists. Otherwise recover the strongest bounded
+local context available from the user's request, current page or hero,
+surrounding copy, adjacent-page context, and authorised sources. Check that the
+workthrough states:
 
-- what the hero and preceding sections have already established;
+- whether a page plan exists and, if not, which inputs establish the local
+  section brief;
+- what the hero and available preceding content have already established;
 - the one communication job this section owns;
 - which reader differences materially affect this section;
 - what later sections should handle instead; and
-- its relationship to surrounding sections when sequence matters.
+- its relationship to surrounding sections when known.
+
+When no page plan exists, mark page architecture, cross-section coverage, and
+unknown relationships as provisional. Do not invent adjacent sections to make
+the artifact appear complete.
 
 Then ask:
 
@@ -39,14 +47,15 @@ Then ask:
 - If the section were deleted, what necessary page-level understanding would
   disappear?
 
-If the last answer is unclear, strengthen or change the job, combine the
-section with another, or remove it. Do not preserve a section merely because a
-draft contains good lines.
+If the last answer is unclear, strengthen or narrow the bounded local job. When
+the available context cannot support one job without materially different
+interpretations, ask for the missing direction. Do not preserve a section
+merely because a draft contains good lines.
 
 ## Direction and draft traceability
 
-For substantial section work, confirm that at least two materially different
-directions were considered concisely before one was selected. The recommended
+Confirm that at least two materially different directions were considered
+concisely before one was selected. The recommended
 draft should carry one organising principle rather than combine the safest
 parts of every option.
 
@@ -56,13 +65,13 @@ that direction.
 
 If critique caused a change of direction, ensure the artifact names that change
 and presents a new coherent draft rather than a composite. When the user asked
-for multiple complete alternatives, keep them separate, review each, and
-recommend one; allow synthesis only after an explicit user request.
+for alternatives, keep them as concise direction notes and still produce one
+complete recommended exact-copy direction.
 
 ## Coverage and non-duplication
 
-Use the page plan's coverage map and the actual surrounding copy. Check for
-repetition of:
+Use the page plan's coverage map when one exists and always use the actual
+surrounding copy that is available. Check for repetition of:
 
 - the hero's service identification or main judgement;
 - examples, situations, terms, or explanations already used above;
@@ -76,13 +85,15 @@ reappear for retrieval or clarity, but each occurrence should perform a new
 local job. Remove or relocate material that exists only because it appeared in
 a rejected direction or earlier draft.
 
-During assembly, make a page-level pass for repeated claims and examples even
-when the wording differs. Semantic repetition is still repetition.
+The later design or implementation pass should make a page-level check for
+repeated claims and examples even when the wording differs. Semantic repetition
+is still repetition. When no page plan exists, label this section-level check
+as provisional rather than implying that the whole-page coverage is verified.
 
 ## Section relationships and page movement
 
-Read the ending of the preceding section, the complete current section, and the
-opening of the next section in sequence. Ask:
+Read the ending of the preceding section and the opening of the next section
+when they exist, together with the complete current section. Ask:
 
 - Does the section repeat orientation or information already available nearby?
 - When the page develops an argument, does each movement change, deepen, or
@@ -95,23 +106,33 @@ opening of the next section in sequence. Ask:
 
 Not every adjacency needs an explicit transition sentence. Prefer a meaningful
 change in subject or emphasis to connective prose added solely for smoothness.
+When an adjacency is unavailable, record it as unresolved instead of inventing
+a transition or presumed page movement.
 
-## Assembly consistency
+## Semantic composition and design handoff
 
-When assembling the full page:
+Confirm that the artifact maps the recommended exact copy into every visible
+content unit the section needs. Check that:
 
-- use the recommended section drafts as editable inputs, not immutable blocks;
-- confirm that each included draft still corresponds to the current page plan
-  and stable section ID;
-- reread the complete page through its materially relevant reading paths;
-- recheck section proportions, heading rhythm, and changes in register;
-- remove repeated stance statements, practical facts, and calls to action;
-- resolve open relationship or ordering questions in the actual sequence; and
-- rerun the copywriter skill's full-page quality review after page-flow edits.
+- each unit has a semantic form, communication role, priority, and position in
+  the section;
+- all exact copy appears in the composition and no unit is only a placeholder;
+- links record their destination or interaction purpose when known;
+- the unit sequence and relationships express the selected direction;
+- content forms such as heading, paragraph, link, note, or list suit their
+  material rather than imposing equal modules; and
+- the artifact distinguishes meaning the design must preserve from visual and
+  responsive decisions deliberately left open.
 
-If assembly changes a section materially, update its workthrough or record the
-assembly decision so the recommended artifact and assembled copy do not imply
-different current directions.
+Treat the artifact as a strong but revisable source for `website-design`. The
+later design may regroup, reorder, or proportionately adjust the copy when
+presentation or whole-page flow benefits. It must preserve the section's
+argument, supported claims, voice, and meaning and identify material copy
+changes instead of silently replacing the recommendation.
+
+Reject cards, grids, columns, art direction, styling, responsive behaviour, or
+component implementation presented as settled by this artifact. Those choices
+belong to the separately authorised design work.
 
 ## Artifact authority and assumptions
 
@@ -119,11 +140,15 @@ Check that every artifact clearly records its status and relationship to the
 other artifacts:
 
 - the page plan owns page architecture and section jobs;
-- the section workthrough owns direction exploration and its recommended
-  working draft;
-- the assembled page records the selected sequence and assembly changes;
+- the section workthrough owns direction exploration, its recommended exact
+  copy, and its semantic content composition;
+- without a page plan, the section workthrough owns only its bounded local job
+  and records page architecture and cross-section relationships as provisional;
+- a later designed or implemented page records material departures from those
+  source artifacts;
 - recommended copy is not described as owner-approved or implemented; and
-- cross-links, stable IDs, and filenames resolve to the current artifacts.
+- cross-links resolve when a page plan exists, and stable IDs and filenames
+  remain valid in either mode.
 
 Keep consequential working assumptions and owner decisions visible. Existing
 research dossiers may inform the work, but this workflow must not create,

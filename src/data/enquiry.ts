@@ -1,4 +1,9 @@
 import type { EnquiryFormContent } from "../components/EnquiryForm";
+import {
+  australianStateOptions,
+  bookingTypeOptions,
+  enquiryTypeOptions,
+} from "./enquiryContract";
 
 export const enquiryEmail = "joel@vivecounselling.com.au";
 
@@ -14,17 +19,11 @@ export const enquiryFormContent: EnquiryFormContent = {
   fields: {
     enquiryType: {
       legend: "What would you like to enquire about?",
-      options: [
-        { value: "booking", label: "Booking enquiry" },
-        { value: "general", label: "General enquiry" },
-      ],
+      options: enquiryTypeOptions,
     },
     bookingType: {
       legend: "What would you like to do?",
-      options: [
-        { value: "appointment", label: "Make an appointment" },
-        { value: "consult", label: "Request a 15-minute consult" },
-      ],
+      options: bookingTypeOptions,
     },
     name: {
       label: "Name",
@@ -54,15 +53,7 @@ export const enquiryFormContent: EnquiryFormContent = {
       label: "State or territory",
       options: [
         { value: "", label: "Select your state or territory" },
-        { value: "wa", label: "Western Australia" },
-        { value: "nsw", label: "New South Wales" },
-        { value: "vic", label: "Victoria" },
-        { value: "qld", label: "Queensland" },
-        { value: "sa", label: "South Australia" },
-        { value: "tas", label: "Tasmania" },
-        { value: "act", label: "Australian Capital Territory" },
-        { value: "nt", label: "Northern Territory" },
-        { value: "other", label: "Outside Australia or unsure" },
+        ...australianStateOptions,
       ],
     },
   },
