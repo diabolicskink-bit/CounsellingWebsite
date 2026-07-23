@@ -18,7 +18,6 @@ type EmphasisCopy = {
 
 type HomeInclusiveDetail = {
   title: string;
-  copy: string;
   href: string;
 };
 
@@ -50,7 +49,6 @@ type HomeInclusiveContent = {
   copy: string;
   href: string;
   cta: string;
-  detailCtaLabel: string;
   detailsAriaLabel: string;
   details: HomeInclusiveDetail[];
 };
@@ -58,6 +56,8 @@ type HomeInclusiveContent = {
 type HomeWorkroomContent = {
   joelName: string;
   joelCopy: string[];
+  consultHref: string;
+  consultCta: string;
   profileHref: string;
   profileCta: string;
 };
@@ -108,7 +108,7 @@ const homePageContent: HomePageContent = {
       after: ".",
     },
     opening:
-      "Maybe it’s anxiety or depression, burnout or shame. Maybe it’s a difficult relationship, something from the past, or something you can’t quite put your finger on. It doesn’t need a label before we talk about it.",
+      "Anxiety, depression, trauma and relationship difficulties are some of the reasons people come to counselling. You may be struggling to cope, or know that something doesn’t feel right but not be sure why.",
     practice:
       "Sessions happen online by video, so you can talk from the comfort of home or wherever works for you, without the travel or waiting room.",
     href: `${routeHref(publicRoutePaths.workingWithJoel)}#issues-i-work-with`,
@@ -120,25 +120,21 @@ const homePageContent: HomePageContent = {
       emphasis: "all",
       after: " of yourself.",
     },
-    copy: "If your relationships, sexuality, or identity sit outside what people usually assume, you may be used to doing extra work before you can talk about what is actually difficult. Explaining the basics. Adding caveats. Holding things back. Watching for judgement. Wondering whether something important about your life will be misunderstood, judged, or treated as though it is the problem. Here, you don’t need to do that. You can speak plainly, without defending yourself first.",
+    copy: "If your relationships, sexuality or identity sit outside what people usually assume, you may be used to watching how you talk about them. You explain things that shouldn’t need explaining, or leave something out because you don’t know whether it’ll be misunderstood, judged or treated as the problem. Here, you can talk about what’s actually going on without first defending who you are or how you live.",
     href: routeHref(publicRoutePaths.inclusion),
     cta: "Explore inclusive counselling",
-    detailCtaLabel: "Learn more",
     detailsAriaLabel: "Inclusive practice topics",
     details: [
       {
         title: "Kink & BDSM counselling",
-        copy: "Nothing needs to be left out, softened, or carefully introduced.",
         href: routeHref(publicRoutePaths.kinkBdsm),
       },
       {
         title: "Polyamory & ENM counselling",
-        copy: "You can speak about what is actually hard without justifying how you live first.",
         href: routeHref(publicRoutePaths.enmPolyamory),
       },
       {
-        title: "LGBTQIA+ inclusive",
-        copy: "Gender, sexuality, and identity can be part of the conversation, or simply part of who you are.",
+        title: "LGBTQIA+ affirming counselling",
         href: routeHref(publicRoutePaths.lgbtqia),
       },
     ],
@@ -146,23 +142,23 @@ const homePageContent: HomePageContent = {
   workroom: {
     joelName: "Joel Griffiths",
     joelCopy: [
-      "Vive is my online counselling practice.",
-      "I don’t think people are meant to be tidy. The strange bits, the contradictions, the parts of yourself that don’t quite fit anywhere. Those belong here too.",
-      "All kinds of people are welcome. I especially want Vive to be somewhere you can talk freely if you’ve been judged or misunderstood because of your sexuality, gender, relationships, identity, diagnosis or work.",
-      "Sessions are a straightforward conversation. We can speak plainly, look beneath the immediate problem, and take what you bring seriously without making therapy feel stiff or clinical.",
-      "You can start with a free 15-minute consultation to get a feel for whether I’m the right counsellor for you.",
+      "Vive is my counselling practice. I work with a broad range of people and concerns, using a psychodynamic, attachment-informed and integrative approach.",
+      "I’m particularly committed to working with people who have been judged or misunderstood because of their sexuality, gender, relationships, identity, diagnosis or work. You don’t need to edit yourself into a simpler person before we talk, and I won’t decide in advance how much any of that has to do with why you came.",
+      "If you’d like to get a sense of what I’m like to talk to before deciding whether to book, you can start with a free 15-minute consultation.",
     ],
+    consultHref: routeHref(publicRoutePaths.contact),
+    consultCta: "Request a 15-minute consult",
     profileHref: routeHref(publicRoutePaths.workingWithJoel),
     profileCta: "More about how I work",
   },
   closingCta: {
     heading: {
-      before: "For when ",
-      emphasis: '"I just need to talk to someone."',
-      after: "",
+      before: "Want to talk ",
+      emphasis: "before you decide",
+      after: "?",
     },
     href: routeHref(publicRoutePaths.contact),
-    cta: "Get in touch",
+    cta: "Request a 15-minute consult",
   },
 };
 
@@ -258,9 +254,15 @@ function JoelCard({ workroom }: { workroom: HomeWorkroomContent }) {
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
-      <Button href={workroom.profileHref} variant="tertiary">
-        {workroom.profileCta} <ArrowRight size={16} />
-      </Button>
+      <div className="home-workroom__actions">
+        <Button href={workroom.profileHref} variant="tertiary">
+          {workroom.profileCta} <ArrowRight aria-hidden="true" size={16} />
+        </Button>
+        <Link className="home-welcome__link" to={workroom.consultHref}>
+          <span>{workroom.consultCta}</span>
+          <ArrowRight aria-hidden="true" size={18} />
+        </Link>
+      </div>
     </article>
   );
 }
@@ -277,42 +279,27 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
               {inclusive.heading.after}
             </h2>
             <p className="site-ruled-paragraph site-ruled-paragraph--wide">{inclusive.copy}</p>
-            <Button href={inclusive.href} variant="tertiary">
-              {inclusive.cta} <ArrowRight size={16} />
-            </Button>
+            <Link className="home-welcome__link" to={inclusive.href}>
+              <span>{inclusive.cta}</span>
+              <ArrowRight aria-hidden="true" size={18} />
+            </Link>
           </div>
 
           <nav className="home-page__inclusive-details" aria-label={inclusive.detailsAriaLabel}>
-            <ul className="site-detail-stack site-detail-stack--linked home-page__inclusive-list">
+            <ul className="home-page__inclusive-topics">
               {inclusive.details.map((detail) => (
-                <InclusiveDetailItem
-                  detail={detail}
-                  ctaLabel={inclusive.detailCtaLabel}
-                  key={detail.title}
-                />
+                <li key={detail.title}>
+                  <Link className="home-page__inclusive-topic-link" to={detail.href}>
+                    <h3>{detail.title}</h3>
+                    <ArrowRight aria-hidden="true" size={24} strokeWidth={1.5} />
+                  </Link>
+                </li>
               ))}
             </ul>
           </nav>
         </div>
       </Container>
     </section>
-  );
-}
-
-function InclusiveDetailItem({ detail, ctaLabel }: { detail: HomeInclusiveDetail; ctaLabel: string }) {
-  return (
-    <li className="site-detail-stack__item">
-      <Link className="site-detail-stack__link" to={detail.href}>
-        <span className="site-detail-stack__heading">
-          <strong className="site-detail-stack__title">{detail.title}</strong>
-          <span className="site-detail-stack__action">
-            {ctaLabel}
-            <ArrowRight className="site-detail-stack__icon" size={16} aria-hidden="true" />
-          </span>
-        </span>
-      </Link>
-      <p className="site-detail-stack__copy">{detail.copy}</p>
-    </li>
   );
 }
 

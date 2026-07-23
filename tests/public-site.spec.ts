@@ -561,7 +561,16 @@ async function expectHomePageStructure(page: Page) {
   const issuesLinks = home.getByRole("link", { name: "See the issues I work with" });
   await expect(issuesLinks).toHaveCount(1);
   await expect(issuesLinks).toHaveAttribute("href", "/working-with-joel#issues-i-work-with");
-  await expect(home.locator("article.site-card.home-workroom__joel")).toBeVisible();
+  const joelCard = home.locator("article.site-card.home-workroom__joel");
+  await expect(joelCard).toBeVisible();
+  await expect(joelCard.getByRole("link", { name: "Request a 15-minute consult" })).toHaveAttribute(
+    "href",
+    "/contact",
+  );
+  await expect(joelCard.getByRole("link", { name: "More about how I work" })).toHaveAttribute(
+    "href",
+    "/working-with-joel",
+  );
   await expect(
     home.getByRole("navigation", { name: "Inclusive practice topics" }).locator(":scope li"),
   ).toHaveCount(3);
@@ -569,7 +578,7 @@ async function expectHomePageStructure(page: Page) {
   for (const [href, count] of [
     ["/working-with-joel", 1],
     ["/inclusive-counselling", 2],
-    ["/contact", 2],
+    ["/contact", 3],
   ] as const) {
     await expect(home.locator(`a[href="${href}"]`)).toHaveCount(count);
   }
@@ -1100,7 +1109,7 @@ test.describe("crawl and app metadata assets", () => {
     for (const route of inclusionChildRoutes) {
       await expect(homeMain.locator(`a[href="${route.path}"]`)).toHaveCount(1);
     }
-    await expect(homeMain.locator(".home-page__inclusive-details .site-detail-stack__action")).toHaveCount(3);
+    await expect(homeMain.locator(".home-page__inclusive-topic-link")).toHaveCount(3);
 
     await page.goto("/inclusive-counselling", { waitUntil: "networkidle" });
     const inclusionMain = page.locator("main.inclusion-page");
