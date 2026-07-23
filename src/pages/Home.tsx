@@ -7,7 +7,6 @@ import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-home.css";
 
-const portraitSrc = "/joel-griffiths-homepage-portrait.jpg";
 const highPriorityImageAttributes = { fetchpriority: "high" } as const;
 
 type EmphasisCopy = {
@@ -16,7 +15,12 @@ type EmphasisCopy = {
   after: string;
 };
 
-type HomeInclusiveDetail = {
+type HomeLink = {
+  href: string;
+  label: string;
+};
+
+type HomeInclusiveTopic = {
   title: string;
   href: string;
 };
@@ -30,47 +34,38 @@ type HomePortrait = {
 type HomeHeroContent = {
   eyebrow: string;
   title: EmphasisCopy;
-  contactHref: string;
-  contactCta: string;
-  inclusionHref: string;
-  inclusionCta: string;
+  contactLink: HomeLink;
+  inclusionLink: HomeLink;
 };
 
 type HomeWelcomeContent = {
   heading: EmphasisCopy;
   opening: string;
   practice: string;
-  href: string;
-  cta: string;
+  link: HomeLink;
 };
 
 type HomeInclusiveContent = {
   heading: EmphasisCopy;
   copy: string;
-  href: string;
-  cta: string;
-  detailsAriaLabel: string;
-  details: HomeInclusiveDetail[];
+  topicsAriaLabel: string;
+  hub: HomeInclusiveTopic;
+  topics: HomeInclusiveTopic[];
 };
 
 type HomeWorkroomContent = {
-  joelName: string;
-  joelCopy: string[];
-  consultHref: string;
-  consultCta: string;
-  profileHref: string;
-  profileCta: string;
+  name: string;
+  copy: string[];
+  consultLink: HomeLink;
+  profileLink: HomeLink;
 };
 
 type HomeClosingCtaContent = {
   heading: EmphasisCopy;
-  href: string;
-  cta: string;
+  link: HomeLink;
 };
 
 type HomePageContent = {
-  title: string;
-  meta: string;
   hero: HomeHeroContent;
   portrait: HomePortrait;
   welcome: HomeWelcomeContent;
@@ -82,8 +77,6 @@ type HomePageContent = {
 const homeMetadata = getRouteMetadata("/");
 
 const homePageContent: HomePageContent = {
-  title: homeMetadata.title,
-  meta: homeMetadata.description,
   hero: {
     eyebrow: "Online Counselling and Therapy Across Australia",
     title: {
@@ -91,13 +84,17 @@ const homePageContent: HomePageContent = {
       emphasis: "hard to untangle",
       after: ".",
     },
-    contactHref: routeHref(publicRoutePaths.contact),
-    contactCta: "Get in touch",
-    inclusionHref: routeHref(publicRoutePaths.inclusion),
-    inclusionCta: "Explore inclusive counselling",
+    contactLink: {
+      href: routeHref(publicRoutePaths.contact),
+      label: "Get in touch",
+    },
+    inclusionLink: {
+      href: routeHref(publicRoutePaths.inclusion),
+      label: "Explore inclusive counselling",
+    },
   },
   portrait: {
-    imageSrc: portraitSrc,
+    imageSrc: "/joel-griffiths-homepage-portrait.jpg",
     alt: "Joel Griffiths",
     label: "Joel Griffiths",
   },
@@ -111,8 +108,10 @@ const homePageContent: HomePageContent = {
       "Anxiety, depression, trauma and relationship difficulties are some of the reasons people come to counselling. You may be struggling to cope, or know that something doesn’t feel right but not be sure why.",
     practice:
       "Sessions happen online by video, so you can talk from the comfort of home or wherever works for you, without the travel or waiting room.",
-    href: `${routeHref(publicRoutePaths.workingWithJoel)}#issues-i-work-with`,
-    cta: "See the issues I work with",
+    link: {
+      href: `${routeHref(publicRoutePaths.workingWithJoel)}#issues-i-work-with`,
+      label: "See the issues I work with",
+    },
   },
   inclusive: {
     heading: {
@@ -121,16 +120,18 @@ const homePageContent: HomePageContent = {
       after: " of yourself.",
     },
     copy: "If your relationships, sexuality or identity sit outside what people usually assume, you may be used to watching how you talk about them. You explain things that shouldn’t need explaining, or leave something out because you don’t know whether it’ll be misunderstood, judged or treated as the problem. Here, you can talk about what’s actually going on without first defending who you are or how you live.",
-    href: routeHref(publicRoutePaths.inclusion),
-    cta: "Explore inclusive counselling",
-    detailsAriaLabel: "Inclusive practice topics",
-    details: [
+    topicsAriaLabel: "Inclusive practice topics",
+    hub: {
+      title: "Inclusive counselling hub",
+      href: routeHref(publicRoutePaths.inclusion),
+    },
+    topics: [
       {
-        title: "Kink & BDSM counselling",
+        title: "Kink & BDSM-aware counselling",
         href: routeHref(publicRoutePaths.kinkBdsm),
       },
       {
-        title: "Polyamory & ENM counselling",
+        title: "Polyamory & ENM-aware counselling",
         href: routeHref(publicRoutePaths.enmPolyamory),
       },
       {
@@ -140,16 +141,20 @@ const homePageContent: HomePageContent = {
     ],
   },
   workroom: {
-    joelName: "Joel Griffiths",
-    joelCopy: [
+    name: "Joel Griffiths",
+    copy: [
       "Vive is my counselling practice. I work with a broad range of people and concerns, using a psychodynamic, attachment-informed and integrative approach.",
       "I’m particularly committed to working with people who have been judged or misunderstood because of their sexuality, gender, relationships, identity, diagnosis or work. You don’t need to edit yourself into a simpler person before we talk, and I won’t decide in advance how much any of that has to do with why you came.",
       "If you’d like to get a sense of what I’m like to talk to before deciding whether to book, you can start with a free 15-minute consultation.",
     ],
-    consultHref: routeHref(publicRoutePaths.contact),
-    consultCta: "Request a 15-minute consult",
-    profileHref: routeHref(publicRoutePaths.workingWithJoel),
-    profileCta: "More about how I work",
+    consultLink: {
+      href: routeHref(publicRoutePaths.contact),
+      label: "Request a 15-minute consult",
+    },
+    profileLink: {
+      href: routeHref(publicRoutePaths.workingWithJoel),
+      label: "More about how I work",
+    },
   },
   closingCta: {
     heading: {
@@ -157,8 +162,10 @@ const homePageContent: HomePageContent = {
       emphasis: "before you decide",
       after: "?",
     },
-    href: routeHref(publicRoutePaths.contact),
-    cta: "Request a 15-minute consult",
+    link: {
+      href: routeHref(publicRoutePaths.contact),
+      label: "Request a 15-minute consult",
+    },
   },
 };
 
@@ -176,14 +183,12 @@ function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
             </p>
           </div>
           <nav className="home-page__hero-actions" aria-label="Page actions">
-            <div className="home-page__hero-action-list">
-              <Button href={hero.contactHref} className="home-page__hero-action">
-                {hero.contactCta} <ArrowRight aria-hidden="true" size={16} />
-              </Button>
-              <Button href={hero.inclusionHref} className="home-page__hero-action" variant="secondary">
-                {hero.inclusionCta} <ArrowRight aria-hidden="true" size={16} />
-              </Button>
-            </div>
+            <Button href={hero.contactLink.href} className="home-page__hero-action">
+              {hero.contactLink.label} <ArrowRight aria-hidden="true" size={16} />
+            </Button>
+            <Button href={hero.inclusionLink.href} className="home-page__hero-action" variant="secondary">
+              {hero.inclusionLink.label} <ArrowRight aria-hidden="true" size={16} />
+            </Button>
           </nav>
         </div>
       </Container>
@@ -191,7 +196,7 @@ function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
   );
 }
 
-function HeroPortrait({ portrait, className = "" }: { portrait: HomePortrait; className?: string }) {
+function JoelPortrait({ portrait, className = "" }: { portrait: HomePortrait; className?: string }) {
   return (
     <div className={`hero-media-note hero-media-note--portrait ${className}`.trim()}>
       <div className="hero-media-note__image">
@@ -204,9 +209,18 @@ function HeroPortrait({ portrait, className = "" }: { portrait: HomePortrait; cl
   );
 }
 
+function HomeTextLink({ link }: { link: HomeLink }) {
+  return (
+    <Link className="home-page__text-link" to={link.href}>
+      <span>{link.label}</span>
+      <ArrowRight aria-hidden="true" size={18} />
+    </Link>
+  );
+}
+
 function WelcomeSection({ welcome }: { welcome: HomeWelcomeContent }) {
   return (
-    <section className="site-grid home-welcome" aria-labelledby="home-welcome-title">
+    <section className="site-grid" aria-labelledby="home-welcome-title">
       <Container>
         <div className="home-welcome__layout">
           <div className="home-welcome__main">
@@ -214,16 +228,11 @@ function WelcomeSection({ welcome }: { welcome: HomeWelcomeContent }) {
               <span>{welcome.heading.before}</span>
               <em className="site-emphasis">{`${welcome.heading.emphasis}${welcome.heading.after}`}</em>
             </h2>
-            <div className="home-welcome__opening-group">
-              <p className="home-welcome__opening">{welcome.opening}</p>
-              <Link className="home-welcome__link" to={welcome.href}>
-                <span>{welcome.cta}</span>
-                <ArrowRight aria-hidden="true" size={18} />
-              </Link>
-            </div>
+            <p className="home-welcome__copy">{welcome.opening}</p>
+            <HomeTextLink link={welcome.link} />
           </div>
 
-          <aside className="home-welcome__online">
+          <aside className="site-card site-copy-flow home-welcome__online">
             <p>{welcome.practice}</p>
           </aside>
         </div>
@@ -234,11 +243,11 @@ function WelcomeSection({ welcome }: { welcome: HomeWelcomeContent }) {
 
 function WorkroomSection({ workroom, portrait }: { workroom: HomeWorkroomContent; portrait: HomePortrait }) {
   return (
-    <section className="site-highlight">
+    <section className="site-highlight" aria-labelledby="home-workroom-title">
       <Container>
         <div className="home-workroom__frame">
           <JoelCard workroom={workroom} />
-          <HeroPortrait className="home-workroom__portrait" portrait={portrait} />
+          <JoelPortrait className="home-workroom__portrait" portrait={portrait} />
         </div>
       </Container>
     </section>
@@ -248,20 +257,17 @@ function WorkroomSection({ workroom, portrait }: { workroom: HomeWorkroomContent
 function JoelCard({ workroom }: { workroom: HomeWorkroomContent }) {
   return (
     <article className="site-card home-workroom__joel">
-      <h3 className="home-workroom__joel-name">{workroom.joelName}</h3>
+      <h2 className="home-workroom__joel-name" id="home-workroom-title">
+        {workroom.name}
+      </h2>
       <div className="home-workroom__joel-body">
-        {workroom.joelCopy.map((paragraph) => (
+        {workroom.copy.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
       <div className="home-workroom__actions">
-        <Button href={workroom.profileHref} variant="tertiary">
-          {workroom.profileCta} <ArrowRight aria-hidden="true" size={16} />
-        </Button>
-        <Link className="home-welcome__link" to={workroom.consultHref}>
-          <span>{workroom.consultCta}</span>
-          <ArrowRight aria-hidden="true" size={18} />
-        </Link>
+        <HomeTextLink link={workroom.profileLink} />
+        <HomeTextLink link={workroom.consultLink} />
       </div>
     </article>
   );
@@ -279,22 +285,33 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
               {inclusive.heading.after}
             </h2>
             <p className="site-ruled-paragraph site-ruled-paragraph--wide">{inclusive.copy}</p>
-            <Link className="home-welcome__link" to={inclusive.href}>
-              <span>{inclusive.cta}</span>
-              <ArrowRight aria-hidden="true" size={18} />
-            </Link>
           </div>
 
-          <nav className="home-page__inclusive-details" aria-label={inclusive.detailsAriaLabel}>
+          <nav className="home-page__inclusive-topics-nav" aria-label={inclusive.topicsAriaLabel}>
             <ul className="home-page__inclusive-topics">
-              {inclusive.details.map((detail) => (
-                <li key={detail.title}>
-                  <Link className="home-page__inclusive-topic-link" to={detail.href}>
-                    <h3>{detail.title}</h3>
-                    <ArrowRight aria-hidden="true" size={24} strokeWidth={1.5} />
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  className="home-page__inclusive-topic-link home-page__inclusive-topic-link--parent"
+                  to={inclusive.hub.href}
+                >
+                  <h3>{inclusive.hub.title}</h3>
+                  <ArrowRight aria-hidden="true" size={24} strokeWidth={1.5} />
+                </Link>
+
+                <ul className="home-page__inclusive-topic-children">
+                  {inclusive.topics.map((topic) => (
+                    <li key={topic.title}>
+                      <Link
+                        className="home-page__inclusive-topic-link home-page__inclusive-topic-link--child"
+                        to={topic.href}
+                      >
+                        <h3>{topic.title}</h3>
+                        <ArrowRight aria-hidden="true" size={24} strokeWidth={1.5} />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
             </ul>
           </nav>
         </div>
@@ -307,15 +324,13 @@ function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }
   return (
     <section className="site-highlight site-cta-block">
       <Container className="site-cta-block__inner">
-        <div className="site-cta-block__copy">
-          <h2>
-            {closingCta.heading.before}
-            <span className="site-emphasis">{closingCta.heading.emphasis}</span>
-            {closingCta.heading.after}
-          </h2>
-        </div>
-        <Button href={closingCta.href}>
-          {closingCta.cta} <ArrowRight size={16} />
+        <h2>
+          {closingCta.heading.before}
+          <span className="site-emphasis">{closingCta.heading.emphasis}</span>
+          {closingCta.heading.after}
+        </h2>
+        <Button href={closingCta.link.href}>
+          {closingCta.link.label} <ArrowRight aria-hidden="true" size={16} />
         </Button>
       </Container>
     </section>
@@ -323,7 +338,7 @@ function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }
 }
 
 export default function Home() {
-  useDocumentMetadata(homePageContent.title, homePageContent.meta);
+  useDocumentMetadata(homeMetadata.title, homeMetadata.description);
   const { hero, portrait, welcome, inclusive, workroom, closingCta } = homePageContent;
 
   return (

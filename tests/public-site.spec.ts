@@ -32,10 +32,12 @@ const prerenderedRouteContracts = {
     rawFragments: [
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
-      'class="home-welcome__online"',
+      'class="site-card site-copy-flow home-welcome__online"',
       'href="/working-with-joel#issues-i-work-with"',
       'class="site-card home-workroom__joel"',
       'aria-label="Inclusive practice topics"',
+      'class="home-page__inclusive-topic-link home-page__inclusive-topic-link--parent"',
+      'class="home-page__inclusive-topic-children"',
       'href="/working-with-joel"',
       'href="/inclusive-counselling"',
       'href="/contact"',
@@ -561,6 +563,7 @@ async function expectHomePageStructure(page: Page) {
   const issuesLinks = home.getByRole("link", { name: "See the issues I work with" });
   await expect(issuesLinks).toHaveCount(1);
   await expect(issuesLinks).toHaveAttribute("href", "/working-with-joel#issues-i-work-with");
+  await expect(home.locator(".home-welcome__online")).toHaveClass(/site-card/);
   const joelCard = home.locator("article.site-card.home-workroom__joel");
   await expect(joelCard).toBeVisible();
   await expect(joelCard.getByRole("link", { name: "Request a 15-minute consult" })).toHaveAttribute(
@@ -571,9 +574,10 @@ async function expectHomePageStructure(page: Page) {
     "href",
     "/working-with-joel",
   );
-  await expect(
-    home.getByRole("navigation", { name: "Inclusive practice topics" }).locator(":scope li"),
-  ).toHaveCount(3);
+  const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
+  await expect(inclusiveTopics.locator(":scope li")).toHaveCount(4);
+  await expect(inclusiveTopics.locator(".home-page__inclusive-topic-link--parent")).toHaveCount(1);
+  await expect(inclusiveTopics.locator(".home-page__inclusive-topic-children > li")).toHaveCount(3);
 
   for (const [href, count] of [
     ["/working-with-joel", 1],
@@ -1109,7 +1113,7 @@ test.describe("crawl and app metadata assets", () => {
     for (const route of inclusionChildRoutes) {
       await expect(homeMain.locator(`a[href="${route.path}"]`)).toHaveCount(1);
     }
-    await expect(homeMain.locator(".home-page__inclusive-topic-link")).toHaveCount(3);
+    await expect(homeMain.locator(".home-page__inclusive-topic-link")).toHaveCount(4);
 
     await page.goto("/inclusive-counselling", { waitUntil: "networkidle" });
     const inclusionMain = page.locator("main.inclusion-page");
