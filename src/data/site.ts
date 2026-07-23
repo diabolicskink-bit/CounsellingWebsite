@@ -1,12 +1,12 @@
 import { devRoutePaths, publicRoutePaths, routeHref } from "./routes";
 
-export type NavItem = {
+export type NavItem = Readonly<{
   label: string;
   href: string;
-  children?: NavItem[];
-};
+  children?: readonly NavItem[];
+}>;
 
-export const navItems: NavItem[] = [
+export const navItems: readonly NavItem[] = [
   { label: "Home", href: routeHref(publicRoutePaths.home) },
   { label: "Working with Joel", href: routeHref(publicRoutePaths.workingWithJoel) },
   {
