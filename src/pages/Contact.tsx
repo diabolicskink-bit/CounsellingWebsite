@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
-import { CalendarClock, CircleAlert, Clock3, Mail } from "lucide-react";
+import { Clock3, Mail } from "lucide-react";
 import Container from "../components/Container";
 import EnquiryForm from "../components/EnquiryForm";
 import type { EnquiryFormContent } from "../components/EnquiryForm";
@@ -41,7 +41,6 @@ type ContactProps = {
 type ContactHeroContent = {
   eyebrow: string;
   title: ContactHeroTitle;
-  support: string;
   detailsAriaLabel: string;
   details: string[];
 };
@@ -49,11 +48,6 @@ type ContactHeroContent = {
 type ContactDetailsContent = {
   eyebrow: string;
   listAriaLabel: string;
-  items: ContactDetail[];
-};
-
-type PracticalDetailsContent = {
-  eyebrow: string;
   items: ContactDetail[];
 };
 
@@ -73,7 +67,6 @@ type ContactPageContent = {
   fee: FeeSummary;
   form: EnquiryFormContent;
   contact: ContactDetailsContent;
-  practical: PracticalDetailsContent;
   faq: ContactFaqContent;
 };
 
@@ -89,8 +82,6 @@ const contactPageContent: ContactPageContent = {
       emphasis: "in touch",
       after: ".",
     },
-    support:
-      "Counselling and Psychotherapy for adults across Australia. If you are considering a first session, you can enquire here about availability, fees, or arranging a time to begin.",
     detailsAriaLabel: "Contact page details",
     details: [
       "Available across Australia",
@@ -120,23 +111,6 @@ const contactPageContent: ContactPageContent = {
         label: "Hours",
         value: "Mon to Fri, 9.30am to 5.00pm AWST",
         showTimeZoneNotes: true,
-      },
-    ],
-  },
-  practical: {
-    eyebrow: "Practical details",
-    items: [
-      {
-        icon: CalendarClock,
-        label: "Cancellations",
-        value:
-          "If you cancel or change an appointment with less than 48 hours' notice, the full fee is payable, except in cases of illness.",
-      },
-      {
-        icon: CircleAlert,
-        label: "Crisis support",
-        value:
-          "Vive Counselling is not a crisis service. If you are in immediate danger, call 000 or contact a crisis support service.",
       },
     ],
   },
@@ -170,7 +144,6 @@ function ContactHeroSection({ hero, fee }: { hero: ContactHeroContent; fee: FeeS
                 {hero.title.after}
               </p>
               <div className="hero-copy-panel">
-                <p>{hero.support}</p>
                 <ul className="hero-support-tagline" aria-label={hero.detailsAriaLabel}>
                   {hero.details.map((detail) => (
                     <li key={detail}>{detail}</li>
@@ -201,14 +174,12 @@ function FeeCard({ fee }: { fee: FeeSummary }) {
 function ContactRail({
   contact,
   initialRenderAt,
-  practical,
 }: {
   contact: ContactDetailsContent;
   initialRenderAt: string;
-  practical: PracticalDetailsContent;
 }) {
   return (
-    <aside className="contact-page__rail" aria-label="Contact and practical details">
+    <aside className="contact-page__rail" aria-label="Contact details">
       <section className="contact-page__rail-block" aria-labelledby="contact-details-title">
         <h2 className="site-eyebrow contact-page__rail-heading" id="contact-details-title">
           {contact.eyebrow}
@@ -216,17 +187,6 @@ function ContactRail({
         <ul className="contact-page__contact-list" aria-label={contact.listAriaLabel}>
           {contact.items.map((detail) => (
             <ContactDetailItem detail={detail} initialRenderAt={initialRenderAt} key={detail.label} />
-          ))}
-        </ul>
-      </section>
-
-      <section className="contact-page__rail-block" aria-labelledby="contact-practical-title">
-        <h2 className="site-eyebrow contact-page__rail-heading" id="contact-practical-title">
-          {practical.eyebrow}
-        </h2>
-        <ul className="contact-page__contact-list contact-page__practical-list" aria-label={practical.eyebrow}>
-          {practical.items.map((detail) => (
-            <ContactDetailItem detail={detail} key={detail.label} />
           ))}
         </ul>
       </section>
@@ -285,7 +245,7 @@ function ContactDetailItem({ detail, initialRenderAt }: { detail: ContactDetail;
 }
 
 export default function Contact({ initialRenderAt }: ContactProps) {
-  const { hero, fee, form, contact, practical, faq } = contactPageContent;
+  const { hero, fee, form, contact, faq } = contactPageContent;
 
   useDocumentMetadata(contactPageContent.title, contactPageContent.meta);
 
@@ -296,7 +256,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
 
       <section className="site-grid contact-page__desk-section">
         <Container className="contact-page__desk">
-          <ContactRail contact={contact} initialRenderAt={initialRenderAt} practical={practical} />
+          <ContactRail contact={contact} initialRenderAt={initialRenderAt} />
           <EnquiryForm content={form} idPrefix="contact" />
         </Container>
       </section>
