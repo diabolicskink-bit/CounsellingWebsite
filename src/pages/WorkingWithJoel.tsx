@@ -291,10 +291,10 @@ function FocusSection({ focus }: { focus: FocusContent }) {
   const focusItems = [...focus.items, focus.closingItem];
 
   return (
-    <section className="site-grid working-topics" aria-labelledby="working-with-joel-focus-title">
+    <section className="site-grid working-topics" aria-labelledby="issues-i-work-with">
       <Container>
         <div className="site-grid__heading working-topics__header">
-          <h2 className="working-with-joel-page__section-title" id="working-with-joel-focus-title">
+          <h2 className="working-with-joel-page__section-title" id="issues-i-work-with" tabIndex={-1}>
             {focus.title}
           </h2>
         </div>

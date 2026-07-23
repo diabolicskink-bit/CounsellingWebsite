@@ -15,6 +15,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 ## Public Content And Discoverability
 
 - Public copy is under active owner-led revision. Existing page source is implementation state rather than an approved voice corpus; current copy status and wording constraints are recorded in `docs/project/writing-direction.md`.
+- Home presents common reasons for counselling as a concise overview and links directly to the fuller issues section on Working with Joel; fragment navigation scrolls and moves focus to the destination heading after client-side route changes.
 - The ENM and polyamory route retains its established hero and focused three-section public composition. Working reader-informed content plans remain under `docs/page-plan/`.
 - Google Business Profile verification is complete. Online delivery may be named selectively in public copy and metadata; the current wording rule is owned by `docs/project/writing-direction.md`.
 - Route metadata is stored in `src/data/routeMetadata.json` and applied by `useDocumentMetadata`.
@@ -67,7 +68,8 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 ## Testing And QA
 
-- `tests/public-site.spec.ts` covers public landmarks, raw and JavaScript-disabled output, hydration, shared mobile-navigation Escape/focus/scroll-lock behaviour, focused Home semantics and CTA ownership, Working with Joel tab interaction and axe checks, Contact timezone behaviour, conditional enquiry fields and payloads, success/error states, form semantics, flat and nested artifacts, SPA navigation, fallback activation, generated metadata, sitemap, robots, and the 404 artifact.
+- `tests/public-site.spec.ts` covers public landmarks, raw and JavaScript-disabled output, hydration, shared mobile-navigation Escape/focus/scroll-lock behaviour, focused Home semantics and CTA ownership, the Home-to-issues fragment route and focus transfer, Working with Joel tab interaction and axe checks, Contact timezone behaviour, conditional enquiry fields and payloads, success/error states, form semantics, flat and nested artifacts, SPA navigation, fallback activation, generated metadata, sitemap, robots, and the 404 artifact.
+- `tests/tsconfig.json` provides strict TypeScript coverage for the Playwright public-site spec. `npm run typecheck:tests` runs that check directly, and the site, analytics, and full QA commands enforce it before browser testing.
 - Direct Node tests under `tests/api/` cover accepted and rejected enquiry submissions.
 - Direct Node tests under `tests/scripts/` cover route-metadata origin policy.
 - `npm run qa:site` builds the app, starts the QA preview server, and runs the Playwright public-site suite.
@@ -82,7 +84,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - The 404 build and local-preview contract is verified, but repeatable post-deploy confirmation remains manual under `DEBT-24`.
 - Route definitions, metadata, prerendering, and tests remain separate; explicit route-parity enforcement is tracked as debt.
 - The Working with Joel approach tabs work after hydration, but only the initially active Psychodynamic explanation is present before JavaScript; progressive access to the Attachment and Integrative copy is tracked under `DEBT-35`.
-- Type checking does not cover tests, scripts, or most configuration files.
+- Dedicated type checking covers the Playwright public-site spec, but the direct JavaScript tests, scripts, and most configuration files remain outside TypeScript checking.
 - Accessibility support and automated route coverage exist. `docs/checklists/accessibility-monitor.md` is the owner-directed WCAG 2.2 AA-oriented manual record for shared-shell, public-route, and not-found accessibility review, with no automatic cadence or claim of formal conformance.
 - Responsive styling exists across shared and page-scoped styles. `docs/checklists/responsive-monitor.md` is the owner-directed manual record for shared-shell, public-route, and not-found responsive review, with no automatic or calendar-based cadence.
 - Lighthouse tooling exists, but performance budgets are not enforced; future refinements are ordinary maintenance work.

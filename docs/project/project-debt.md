@@ -134,11 +134,11 @@ Each active item should include enough direction that a future session can choos
 - `Detected`: 2026-06-17
 - `Source`: `docs/reports/2026-06-17-technical-code-review.md`
 - `Area`: TypeScript, Tooling, API
-- `Problem`: The main TypeScript config covers `src` and the enquiry API, while tests, scripts, and most config files remain outside normal type checking.
+- `Problem`: The main TypeScript config covers `src` and the enquiry API, and a dedicated config now covers the Playwright public-site spec. Direct JavaScript tests, scripts, and most config files remain outside normal type checking.
 - `Why It Matters`: Important build, deploy, test, and serverless code can drift without type feedback.
 - `Preferred Direction`: Add dedicated typecheck coverage for tests, config, and scripts.
 - `Resolution Path`: Add a separate typecheck path for tests and scripts first, then decide how much config code should join it without slowing ordinary builds.
-- `Next Action`: Add a separate typecheck target for Playwright tests and project scripts.
+- `Next Action`: Extend explicit type verification to the project scripts and key configuration files without weakening the dedicated Playwright check.
 - `Resolved When`: Tests, scripts, and key config files have an explicit type verification path in local checks or CI.
 - `Related Items`:
   - `DEBT-1`: A broader typecheck path can strengthen the restored public-site release gate.
@@ -147,6 +147,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-16`: Runtime/package-manager pinning helps keep expanded tooling checks stable across environments.
 - `Dependencies`: `None`
 - `Notes`:
+  - 2026-07-23: Added `tests/tsconfig.json` and `npm run typecheck:tests`; `qa`, `qa:site`, and `qa:analytics` now typecheck `tests/public-site.spec.ts` before browser testing.
 - `Links`: `tsconfig.json`, `tsconfig.node.json`, `tests/`, `scripts/`, `api/enquiry.ts`
 
 ### DEBT-11 - Email delivery configuration is implicit

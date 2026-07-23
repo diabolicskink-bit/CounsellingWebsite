@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "check:encoding": "node scripts/check-encoding.mjs",
+    "typecheck:tests": "tsc -p tests/tsconfig.json",
     "build": "node scripts/validate-analytics-env.mjs && tsc -b && npm run build:client && npm run build:server && node scripts/prerender-route-metadata.mjs",
     "build:client": "vite build",
     "build:server": "vite build --ssr src/entry-server.tsx",
@@ -15,9 +16,9 @@
     "test:scripts": "node --test tests/scripts/*.test.mjs",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "qa": "npm run check:encoding && npm run test:scripts && npm run build && npm run test:api && start-server-and-test preview:qa http://127.0.0.1:4287 test:e2e",
-    "qa:site": "npm run check:encoding && npm run build && start-server-and-test preview:qa http://127.0.0.1:4287 test:e2e",
-    "qa:analytics": "node scripts/run-analytics-qa.mjs",
+    "qa": "npm run check:encoding && npm run typecheck:tests && npm run test:scripts && npm run build && npm run test:api && start-server-and-test preview:qa http://127.0.0.1:4287 test:e2e",
+    "qa:site": "npm run check:encoding && npm run typecheck:tests && npm run build && start-server-and-test preview:qa http://127.0.0.1:4287 test:e2e",
+    "qa:analytics": "npm run typecheck:tests && node scripts/run-analytics-qa.mjs",
     "audit:lighthouse": "npm run build && start-server-and-test preview:qa http://127.0.0.1:4287 audit:lighthouse:run",
     "audit:lighthouse:run": "node scripts/run-lighthouse.mjs http://127.0.0.1:4287"
   },
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.2",
+    "@types/node": "^25.6.0",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^6.0.1",

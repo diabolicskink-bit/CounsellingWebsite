@@ -33,7 +33,8 @@ const prerenderedRouteContracts = {
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
       'aria-label="Practice details"',
-      'class="home-topics__grid"',
+      'class="home-topics__route"',
+      'href="/working-with-joel#issues-i-work-with"',
       'class="site-card home-workroom__joel"',
       'aria-label="Inclusive practice topics"',
       'href="/working-with-joel"',
@@ -52,6 +53,7 @@ const prerenderedRouteContracts = {
       'class="site-copy-panel rich-text working-with-joel-page__intro-panel"',
       'aria-label="Counselling approach"',
       'aria-label="Examples of what people bring to counselling"',
+      'id="issues-i-work-with"',
       'class="working-topics__item working-topics__item--closing"',
     ],
     noJavaScriptSelector: 'img[src="/joel-griffiths-working-with-joel-portrait.jpg"]',
@@ -481,19 +483,19 @@ type PageDiagnostics = {
 
 type GoogleAnalyticsEvent = {
   eventName: string;
-  params: {
-    lead_source?: string;
-    page_location?: string;
-    page_path?: string;
-    page_title?: string;
-    send_to?: string;
-  };
+  params: Record<string, unknown>;
 };
 
 type VercelCustomEvent = {
   name?: string;
   properties: Record<string, unknown>;
 };
+
+type GoogleAnalyticsEventArguments = [
+  command: "event",
+  eventName: string,
+  params?: Record<string, unknown>,
+];
 
 function collectPageDiagnostics(page: Page): PageDiagnostics {
   const diagnostics: PageDiagnostics = {
@@ -546,8 +548,12 @@ async function expectHomePageStructure(page: Page) {
   await expect(portrait).toBeVisible();
   await expect(portrait).toHaveAttribute("alt", "Joel Griffiths");
   await expect(portrait).toHaveAttribute("fetchpriority", "high");
-  await expect(home.getByRole("list", { name: "Practice details" }).locator(":scope > li")).toHaveCount(4);
-  await expect(home.getByRole("list", { name: "Common themes" }).locator(":scope > li")).toHaveCount(6);
+  await expect(home.getByRole("list", { name: "Practice details" }).locator(":scope > li")).toHaveCount(3);
+  await expect(home.getByRole("region", { name: "Reasons people come to counselling." })).toBeVisible();
+  await expect(home.getByRole("link", { name: "See the issues I work with" })).toHaveAttribute(
+    "href",
+    "/working-with-joel#issues-i-work-with",
+  );
   await expect(home.locator("article.site-card.home-workroom__joel")).toBeVisible();
   await expect(
     home.getByRole("navigation", { name: "Inclusive practice topics" }).locator(":scope li"),
@@ -600,7 +606,8 @@ async function expectNotFoundPage(page: Page, requestedPath: string) {
 async function getGoogleAnalyticsEvents(page: Page, eventName: string): Promise<GoogleAnalyticsEvent[]> {
   return page.evaluate((targetEventName) => {
     return (window.dataLayer ?? [])
-      .filter((entry) => entry[0] === "event" && entry[1] === targetEventName)
+      .filter((entry): entry is GoogleAnalyticsEventArguments => entry[0] === "event")
+      .filter((entry) => entry[1] === targetEventName)
       .map((entry) => ({
         eventName: entry[1],
         params: entry[2] ?? {},
@@ -799,6 +806,26 @@ test.describe("prerendered route activation boundaries", () => {
     await expect(page.locator("h1.hero-badge")).toBeVisible();
     expect((await page.locator("h1.hero-badge").innerText()).trim().length).toBeGreaterThan(8);
     expect(await page.evaluate(() => document.body.dataset.spaNavigationSentinel)).toBe("preserved");
+    await expectNoPageDiagnostics(diagnostics);
+  });
+
+  test("deep-links from Home to the issues section and moves focus to its heading", async ({ page }) => {
+    const diagnostics = collectPageDiagnostics(page);
+
+    await page.goto("/", { waitUntil: "networkidle" });
+    await page.getByRole("link", { name: "See the issues I work with" }).click();
+
+    const issuesHeading = page.locator("#issues-i-work-with");
+
+    await expect(page).toHaveURL(/\/working-with-joel#issues-i-work-with$/);
+    await expect(issuesHeading).toBeVisible();
+    await expect(issuesHeading).toBeFocused();
+    await expect
+      .poll(() => issuesHeading.evaluate((element) => element.getBoundingClientRect().top))
+      .toBeGreaterThanOrEqual(0);
+    await expect
+      .poll(() => issuesHeading.evaluate((element) => element.getBoundingClientRect().top))
+      .toBeLessThan(180);
     await expectNoPageDiagnostics(diagnostics);
   });
 

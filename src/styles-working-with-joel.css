@@ -97,6 +97,16 @@
   margin-bottom: 32px;
 }
 
+#issues-i-work-with {
+  scroll-margin-top: clamp(5.5rem, 10vw, 8rem);
+}
+
+#issues-i-work-with:focus-visible {
+  border-radius: 2px;
+  outline: 3px solid rgba(35, 75, 61, 0.32);
+  outline-offset: 8px;
+}
+
 .working-topics__panel {
   display: grid;
   overflow: hidden;

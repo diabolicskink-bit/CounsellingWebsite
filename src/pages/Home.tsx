@@ -16,11 +16,6 @@ type EmphasisCopy = {
   after: string;
 };
 
-type HomeTopic = {
-  title: string;
-  copy: string;
-};
-
 type HomeInclusiveDetail = {
   title: string;
   copy: string;
@@ -44,8 +39,9 @@ type HomeHeroContent = {
 
 type HomeTopicsContent = {
   heading: string;
-  ariaLabel: string;
-  items: HomeTopic[];
+  copy: string;
+  href: string;
+  cta: string;
 };
 
 type HomeInclusiveContent = {
@@ -110,35 +106,11 @@ const homePageContent: HomePageContent = {
     },
   },
   topics: {
-    heading: "What people bring to counselling.",
-    ariaLabel: "Common themes",
-    items: [
-      {
-        title: "Low mood and depression",
-        copy: "A flatness that doesn't lift. Days blurring together, feeling far away from yourself or the people around you, or losing interest in things you used to enjoy.",
-      },
-      {
-        title: "Anxiety",
-        copy: "A mind that won't settle. Replaying the same conversation, running through everything that could go wrong, or checking things you've already checked twice.",
-      },
-      {
-        title: "Relationships and attachment",
-        copy: "Feeling disconnected, having the same arguments again and again, or wanting to be close to someone but pulling away when they get close.",
-      },
-      {
-        title: "Low self-esteem and shame",
-        copy: "Being hard on yourself, never feeling quite good enough, or keeping something about yourself hidden because you're worried about what people would think.",
-      },
-      {
-        title: "Trauma, abuse, and neglect",
-        copy: "Being harmed, controlled, or left without the care you needed. Memories that come back when you don't expect them, feeling on edge, or finding it hard to trust people.",
-      },
-      {
-        title: "Intense emotions",
-        copy:
-          "Emotions that hit hard and are slow to come down, often with a sense of being too much. Closeness that can shift to distance without much warning.",
-      },
-    ],
+    heading: "Reasons people come to counselling.",
+    copy:
+      "I work with anxiety, low mood, shame, trauma, relationship difficulties, intimacy and burnout. Often, more than one thing is going on.",
+    href: `${routeHref(publicRoutePaths.workingWithJoel)}#issues-i-work-with`,
+    cta: "See the issues I work with",
   },
   inclusive: {
     heading: {
@@ -236,18 +208,21 @@ function HeroPortrait({ portrait }: { portrait: HomePortrait }) {
 
 function TopicsSection({ topics }: { topics: HomeTopicsContent }) {
   return (
-    <section className="site-grid">
+    <section className="site-grid home-topics" aria-labelledby="home-topics-title">
       <Container>
-        <h2 className="home-topics__heading">{topics.heading}</h2>
+        <div className="home-topics__layout">
+          <h2 className="home-topics__heading" id="home-topics-title">
+            {topics.heading}
+          </h2>
 
-        <ul className="home-topics__grid" aria-label={topics.ariaLabel}>
-          {topics.items.map((topic) => (
-            <li className="home-topics__cell" key={topic.title}>
-              <h3>{topic.title}</h3>
-              <p>{topic.copy}</p>
-            </li>
-          ))}
-        </ul>
+          <div className="home-topics__route">
+            <p className="home-topics__copy">{topics.copy}</p>
+            <Link className="home-topics__link" to={topics.href}>
+              <span>{topics.cta}</span>
+              <ArrowRight aria-hidden="true" size={18} />
+            </Link>
+          </div>
+        </div>
       </Container>
     </section>
   );
