@@ -32,7 +32,6 @@ pivotal or stubborn line, establish its semantic spine privately:
 Literal proposition:
 Whose or what story this sentence tells:
 Action, state, or relationship:
-Status: fact, observation, judgement, possibility, invitation, or unknown:
 Necessary condition, limit, or contrast:
 Information that deserves emphasis:
 ```
@@ -42,26 +41,19 @@ nuance, rhythm, and more than one clause, but it should have one dominant
 semantic load. If the literal proposition cannot be stated, more polished
 language will usually conceal rather than solve the problem.
 
-Keep the status exact. `Is`, `can`, `may`, `often`, `I find`, `I think`, and
-`you might` make different claims. Choose the one the evidence and speaker
-authorise; do not add modal verbs as a general tone of caution or remove them
-merely to sound confident.
+Keep force and certainty exact. `Is`, `can`, `may`, `often`, `I find`, `I
+think`, and `you might` do different work. Choose what the available material
+and speaker support; do not add modal verbs as a general tone of caution or
+remove them merely to sound confident.
 
 ## Gather verbal material
 
-Before drafting prose, collect a small working set of language already earned
-by the task:
-
-- the exact subject nouns and community, professional, or search terms;
-- concrete actions, arrangements, questions, choices, and observable process;
-- distinctions and relationships the copy must preserve;
-- the speaker's authorised judgements and ordinary ways of naming the work;
-- reader vocabulary supported by research, enquiries, or the task; and
-- details, limits, or proof that can carry credibility.
-
-This is material, not a word bank. Do not force every term into the copy, mine
-the existing website for voice, or imitate first-person research language as
-though it were the reader's private speech.
+Before drafting prose, notice the task-specific language already available: the
+subject's natural vocabulary, supplied wording worth preserving, and any words
+needed for accuracy or retrieval. Do not turn this into a checklist or search
+for material that can perform expertise. Do not mine the existing website for
+voice or imitate first-person research language as though it were the reader's
+private speech.
 
 Prefer the most familiar word that preserves the intended meaning and
 register—not automatically the shortest word. An exact technical or community
@@ -69,13 +61,13 @@ term can be plainer than a loose everyday substitute. Do not use a thesaurus
 swap to avoid repetition: when one concept remains the same, repeating its
 name may be clearer than cycling through near-synonyms.
 
-Keep the language at the semantic level the material earns. Prefer the nearest
+Keep the language at the semantic level the material supports. Prefer the nearest
 ordinary account of what happens to a more emotionally loaded interpretation
 of what it means. `Losing interest in things you used to enjoy` names a change
 in interest or pleasure; `things that used to matter` changes the proposition
 to importance or meaning. A more resonant word is not a better synonym when it
 deepens or strengthens the claim. Move to that stronger level only when the
-source, evidence, or speaker supports it and the distinction has a local job.
+task or speaker supports it and the change has a local job.
 
 ## Construct pivotal lines deliberately
 
@@ -128,16 +120,15 @@ Inspect important words and phrases on several levels:
   intended variety of English and professional context? A phrase can be
   grammatical yet still sound assembled rather than said.
 
-Prefer concreteness when it supplies evidence of attention or lets the reader
-picture an action, distinction, arrangement, or consequence. Do not turn
+Prefer concreteness when it helps the reader picture the subject or understand
+what happens. Do not turn
 concreteness into invented props, demographic colour, fake anecdotes, or a
 catalogue of researched situations. Abstract language remains useful when the
 concept itself is abstract and precisely understood.
 
-Test adjectives and adverbs as claims. If `experienced`, `supportive`,
-`thoughtful`, `specialist`, `carefully`, or `genuinely` carries the credibility,
-replace it with the relevant conduct, detail, judgement, evidence, or limit—or
-remove the claim.
+Test adjectives and adverbs that carry the sentence's credibility. Replace one
+with a more literal statement already supported by the available material, or
+remove it.
 
 ## Use syntax to control focus and emphasis
 
@@ -278,9 +269,8 @@ treating one style system as universal:
 - Packard and Berger's [consumer-language
   research](https://academic.oup.com/jcr/article/47/5/787/5873524) found that
   concrete language in service interactions increased perceived listening and
-  customer satisfaction. Treat this as evidence for attentive specificity,
-  not proof that concrete website copy causes the same outcome or permission
-  to invent detail.
+  customer satisfaction. Treat this as one reason to test concrete wording, not
+  a promised website outcome or permission to invent detail.
 - Oppenheimer's [processing-fluency
   experiments](https://onlinelibrary.wiley.com/doi/10.1002/acp.1178) found
   that needless lexical complexity reduced judgements of author intelligence.

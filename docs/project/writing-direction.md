@@ -1,6 +1,6 @@
 # Public Writing Direction
 
-This is the operational writing guide for Vive Counselling. It owns how public copy should be written, reviewed, and implemented. Consult `product-direction.md` only when a task needs one of its stable practice facts; use `current-scope.md` and source for current service and implementation facts.
+This is the operational writing guide for Vive Counselling. It owns how public copy should be written, reviewed, and implemented. Consult `current-scope.md` or source only when the wording needs a current service or implementation detail.
 
 ## Current Copy Status
 
@@ -17,7 +17,7 @@ Google Business Profile verification is complete. Public copy may identify the s
 When public wording conflicts or feels uncertain, use this order:
 
 1. The owner's current explicit wording, corrections, and approvals.
-2. Relevant confirmed facts: use `product-direction.md` only when one of its stable practice facts is needed, and use `current-scope.md` and source for current facts.
+2. Relevant practice or service information supplied by the owner or recorded in `current-scope.md` or source when the wording needs it.
 3. Current page source for layout and surrounding context only.
 4. Reports and SEO material as research only.
 
@@ -59,14 +59,14 @@ SEO should make the service and subject easy to identify without making the copy
 - Prefer one natural use of a precise phrase to a paragraph built from keyword variations.
 - Do not create generic explanatory sections merely to hold related search terms.
 - Keep visible wording, metadata, structured data, internal links, and public service facts aligned without forcing every structured fact into visible copy.
-- Check current project facts before foregrounding a location, credential, fee, delivery format, or other operational detail; use online-counselling language selectively as described above.
+- When copy needs a current operational detail, use the value recorded by its repository owner. If the detail is missing or conflicting, flag or omit it rather than independently auditing it as part of the writing task. Use online-counselling language selectively as described above.
 
 SEO research and sample outlines provide coverage prompts, not required wording or page architecture.
 
 ## Collaboration And Implementation
 
 - When asked to review, analyse, or suggest copy, do not change files unless implementation is also requested.
-- For a substantial rewrite, establish the section's job, factual boundaries, visitor concern, and useful search vocabulary before drafting.
+- For a substantial rewrite, establish the section's job, known constraints, visitor concern, and useful search vocabulary before drafting.
 - Work section by section when tone or practice boundaries are still being developed.
 - Prefer one considered recommendation with a short rationale over a large menu of near-identical variants.
 - When feedback targets one sentence, revise that sentence and reread the paragraph rather than rewriting unrelated approved copy.
@@ -74,4 +74,4 @@ SEO research and sample outlines provide coverage prompts, not required wording 
 
 ## Final Review
 
-Before proposing or implementing public copy, review it in its page context for factual accuracy, speaker and artifact fit, unnecessary repetition, and natural search language. Diagnose specific causes rather than treating `AI` as a tone or relying on a list of suspect words.
+Before proposing or implementing public copy, review it in its page context for alignment with supplied material, speaker and artifact fit, unnecessary repetition, and natural search language. Diagnose specific causes rather than treating `AI` as a tone or relying on a list of suspect words.

@@ -2,9 +2,8 @@
 
 Use these gates after the copywriter skill has reviewed the public copy. They
 govern the staged artifact and the copy's place in the page; they do not repeat
-the copywriter's methods for craft, reader-range review, sentence
-function, model glue, voice, inclusion, claims, research discipline, or
-read-aloud review.
+the copywriter's methods for craft, reader-range review, sentence function,
+model glue, voice, inclusion, or read-aloud review.
 
 Run the relevant gates after developing a section and run all of them again
 after assembling the page. Revise when a gate reveals a real problem. Record
@@ -102,7 +101,7 @@ change in subject or emphasis to connective prose added solely for smoothness.
 When assembling the full page:
 
 - use the recommended section drafts as editable inputs, not immutable blocks;
-- verify that each included draft still corresponds to the current page plan
+- confirm that each included draft still corresponds to the current page plan
   and stable section ID;
 - reread the complete page through its materially relevant reading paths;
 - recheck section proportions, heading rhythm, and changes in register;
@@ -126,12 +125,10 @@ other artifacts:
 - recommended copy is not described as owner-approved or implemented; and
 - cross-links, stable IDs, and filenames resolve to the current artifacts.
 
-Keep evidence, working assumptions, and owner decisions distinct. Existing
-research dossiers may be cited as supporting evidence, but this workflow must
-not create, update, or maintain them. General knowledge and reasonable visitor
-hypotheses may fill an evidence gap only as labelled planning assumptions.
+Keep consequential working assumptions and owner decisions visible. Existing
+research dossiers may inform the work, but this workflow must not create,
+update, or maintain them.
 
-Before public copy is treated as ready, confirm that no assumption has become a
-sourced prevalence, clinical, service, or other factual claim. Qualify or omit
-unsupported wording, or leave the consequential uncertainty open for separate
-resolution.
+Do not turn a working hypothesis into a practice detail or consequential public
+claim. Omit or flag wording the available material does not support; use the
+copywriter's exceptional claim check only when its trigger applies.

@@ -6,16 +6,15 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 ## Authority And Artifact Types
 
-- `writing-direction.md` owns public-writing policy. `product-direction.md` retains its compatibility path but records stable practice facts only.
+- `writing-direction.md` owns public-writing policy.
 - Current-scope documents summarize current state. When exact details disagree, verify executable behaviour, tests, configuration, and source, then reconcile stale documentation when the task changes durable state.
-- Audience research dossiers are supporting evidence and synthesis for downstream work. They do not override stable practice facts or writing direction, make public claims approved, or authorize implementation.
+- Audience research dossiers are supporting evidence and synthesis for downstream work. They do not override owner decisions, current service information, or writing direction, make public claims approved, or authorize implementation.
 - Market-research dossiers are dated supporting evidence about search visibility, demand signals, provider supply, offers, directories and market structure. They do not set SEO, pricing, positioning or content strategy or assess provider quality.
 - `DEBT-*` and `SITE-*` trackers are scoped memory and triage. Consult only the tracker relevant to the task; an item does not authorize unrelated work.
 - Reports, plans, checklists, archives, and the task log are supporting evidence or history. They do not override active guidance or become requirements unless the current task explicitly adopts them.
 
-## Practice Facts And Writing Direction
+## Writing Direction
 
-- [product-direction.md](product-direction.md) records stable practice facts. Consult it only when those facts are relevant to the current task.
 - [writing-direction.md](writing-direction.md) owns public-copy status, source order, voice, SEO language, temporary wording constraints, collaboration, and implementation rules.
 - [../design-system/README.md](../design-system/README.md) is the entry point for current implementation reference, reusable UI assessment, and design-system maintenance. It is not a required source of visual direction for fresh design work during the temporary open-design period.
 
@@ -34,7 +33,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 - [../research/README.md](../research/README.md) maps reusable audience research dossiers for copywriting, SEO, content strategy, service explanation, and website work.
 - [../market-research/README.md](../market-research/README.md) maps dated, source-backed market-segment dossiers for later SEO, positioning, pricing, content and product work.
-- `../page-plan/` contains visitor-first content plans for individual public pages. These are supporting plans and do not approve wording or authorise implementation by themselves.
+- `../page-plan/` contains reader-informed content plans for individual public pages. These are supporting plans and do not approve wording or authorise implementation by themselves.
 - [task-log.md](task-log.md) records selected durable milestones; Git remains the detailed implementation history.
 - [archive/README.md](archive/README.md) maps resolved tracker items and older task history kept outside the active reading path.
 - `../checklists/` contains owner-directed monitors and manual-QA checklists.

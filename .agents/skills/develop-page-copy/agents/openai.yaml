@@ -1,4 +1,4 @@
 interface:
   display_name: "Page Copy Development"
-  short_description: "Plan and develop research-grounded page copy"
+  short_description: "Plan and develop reader-informed page copy"
   default_prompt: "Use $develop-page-copy to complete only the authorised page artifact, establish its relevant reader range, and apply $copywriter to copy decisions."

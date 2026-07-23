@@ -10,7 +10,7 @@ uncertain.
 - [Consider the relevant reader range](#consider-the-relevant-reader-range)
 - [Select the artifact register](#select-the-artifact-register)
 - [Write the communication brief](#write-the-communication-brief)
-- [Find the source of distinction](#find-the-source-of-distinction)
+- [Work from the available material](#work-from-the-available-material)
 - [Build search intent into the brief](#build-search-intent-into-the-brief)
 - [Build the copywriting contrast brief](#build-the-copywriting-contrast-brief)
 - [Test the forecast for craft](#test-the-forecast-for-craft)
@@ -53,7 +53,7 @@ another specialist subject:
    which the subject is central and situations in which it is relevant context
    when the page needs to serve both.
 3. Consider differences in familiarity, purpose, circumstances, language, and
-   what the person is trying to understand or decide only where the evidence or
+   what the person is trying to understand or decide only where the research or
    task makes them material.
 4. Do not make the most painful, stigmatised, or emotionally prominent research
    finding the default reader situation.
@@ -81,18 +81,17 @@ point, and what information or language would materially change understanding
 or choice. Think from within the situation when that helps, but do not write an
 imagined biography, testimony, or inner monologue.
 
-Record the evidence basis and material limits. Distinguish direct evidence,
-owner knowledge, current facts, and editorial inference. When research is
-missing, use a proportionate labelled hypothesis or omit the implication from
-public copy; do not initiate audience research automatically.
+Use the task and relevant research to test assumptions. Label an editorial
+inference only when it materially affects the recommendation; do not create an
+evidence ledger or initiate audience research automatically.
 
-Owner-confirmed practice knowledge governs what the service is like and what
-the practitioner can honestly say. Research broadens the possible reader
-situations and tests assumptions; it does not rewrite the practice. When those
-sources point in different directions, keep the difference visible for an
-editorial or owner decision rather than silently blending them.
+Treat practice information supplied by the owner or its repository owner as
+available material, not an invitation to audit the practice. Research broadens
+the possible reader situations; it does not rewrite the practice. When inputs
+conflict, keep the difference visible for an editorial or owner decision rather
+than silently resolving it.
 
-Synthesize shared needs and consequential differences into task-specific
+Turn shared needs and consequential differences into task-specific
 implications. These may affect selection, terminology, explanation, examples,
 emphasis, omission, or a check against an unstated default. They do not require
 one section per situation, direct address, recognition copy, reassurance, or a
@@ -108,8 +107,8 @@ compressed the copy should be.
 | --- | --- | --- |
 | Directory profile or professional biography | First-person or neutral description that supports independent judgement. | Simulated intimacy, credential lists, or landing-page persuasion. |
 | Home or landing page | Direct orientation and decision support; selective `you` may be useful. | Universal claims, emotional funnel formulas, or repeated reassurance. |
-| Service or specialist page | Explanation, distinctions, boundaries, and practical relevance. | Generic category copy with topic nouns substituted. |
-| About or practitioner page | Professional point of view, process, facts, and selected personal context. | Autobiography without decision value or self-awarded qualities. |
+| Service or specialist page | Subject-specific explanation and decision support. | Generic category copy with topic nouns substituted. |
+| About or practitioner page | Professional perspective and selected practice information. | Autobiography without decision value or self-awarded qualities. |
 | Metadata or search preview | Compressed identification and relevance. | Keyword stacks, claims that exceed visible copy, or missing practical qualifiers. |
 | FAQ | Direct answer to a consequential question. | Repetition, invented objections, or SEO landfill. |
 | Form, label, error, or confirmation | Operational language that predicts behaviour. | Warm-sounding ambiguity, hidden instructions, or inaccurate outcomes. |
@@ -126,7 +125,6 @@ Capture the decisions that should govern the writing:
 ```text
 Page type and reader scope:
 Relevant reader situations, when material:
-Evidence basis and material limits:
 Arrival context and awareness, when material:
 Position in the page or site, when material:
 Live question, proposition, uncertainty, or decision, when material:
@@ -160,23 +158,16 @@ describe the specific relationship the language needs to earn without
 assigning a universal feeling to a group or making that effect the page's
 automatic organising principle.
 
-## Find the source of distinction
+## Work from the available material
 
 Before exploring angles, identify what in the actual task, subject, speaker, or
-material should shape the copy. Do not search for a standard proof of expertise
-or difference. Terms, distinctions, process details, boundaries, and
-practitioner judgements belong only when the page already has a reason to use
-them, not because the writing needs to perform specificity.
+material should shape the copy. Distinctiveness may emerge from those choices,
+but it is not a requirement to prove through added content.
 
-Test the prospective source by removing names and category nouns. Ask what
-would prevent a broadly competent competitor from publishing the same copy
-unchanged. Treat the result as a test of the available material, not permission
-to add a familiar proof move or surface novelty.
-
-If nothing survives that test, expose the input gap. Write useful provisional
-copy with a clear job and credible next step, but do not manufacture a founder
-story, personality quirk, customer thought, practitioner belief, or claim of
-difference. Clear, useful copy is preferable to manufactured distinction.
+If the available material does not support a more particular treatment, write
+useful direct copy and expose the input gap. Do not manufacture personality,
+intimacy, expertise, or difference. Clear copy is preferable to a performance
+of specificity.
 
 ## Build search intent into the brief
 
@@ -296,9 +287,9 @@ link, or omission. Let meaning control paragraph length and pattern. A strong
 composition can be compact, expansive, asymmetrical, interrupted, cumulative,
 or quiet; it does not need to look balanced in an outline.
 
-Use tension only where the subject actually contains it. Do not insert a
-misconception, contrast, boundary, or practitioner judgement merely to make the
-copy seem insightful or dramatic.
+Use tension only where the subject actually contains it. Do not insert a stock
+corrective or authoritative move merely to make the copy seem insightful or
+dramatic.
 
 ## Handle supplied material without letting it lead
 
@@ -308,7 +299,7 @@ communication decisions are clear.
 | Input role | Treatment |
 | --- | --- |
 | Exact approved wording | Preserve it. Flag a consequential problem rather than silently rewriting. |
-| Confirmed fact or constraint | Re-express it as the artifact requires without changing its meaning. |
+| Supplied practice information or constraint | Re-express it as the artifact requires without changing its meaning. |
 | Rough direction | Develop the intended meaning; do not preserve accidental syntax. |
 | Disposable brainstorm | Use or reject it according to the selected direction. |
 | Voice material | Learn from its judgement, vocabulary, directness, and rhythm without copying mechanically. |
@@ -330,7 +321,6 @@ For substantial work, maintain and show a compact editorial record:
 
 ```text
 Reader scope and relevant situations:
-Evidence basis and material limits:
 Reader and arrival context, when material:
 Page or site position, when material:
 Communication job:

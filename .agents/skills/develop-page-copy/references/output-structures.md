@@ -23,15 +23,16 @@ Suggested path: `docs/page-plan/<page-slug>-page.md`
 ### Authority and inputs
 
 - Owner-approved or supplied wording
-- Writing direction and any relevant stable practice facts
-- Current source facts
+- Writing direction
+- Current service details only when the page needs them
 - Existing audience or topic research artifacts
-- Labelled general-knowledge assumptions where existing evidence is incomplete
+- Material working assumptions where research is incomplete
 - Adjacent pages and current service facts
 - Relevant open decisions
 
-Separate wording authority, factual evidence, supporting research, working
-assumptions, and owner decisions.
+Keep approved wording, research inputs, material working assumptions, and owner
+decisions distinct where the difference affects the copy. Do not create an
+evidence ledger.
 
 ### Existing opening
 
@@ -47,10 +48,10 @@ include central and contextual relevance when both belong. For general pages,
 record only specialist or inclusion contexts that can materially affect this
 page rather than loading every dossier.
 
-Follow the range with a concise evidence-and-limits note. Distinguish owner
-knowledge, research evidence, current facts, and editorial inference. Record
-the implications for the page rather than imagined biographies, testimony,
-emotional reactions, or a list of content every reader situation must receive.
+Record only the implications for the page and any consequential inference or
+unknown. Do not add an evidence-and-limits section, imagined biographies,
+testimony, emotional reactions, or a list of content every reader situation
+must receive.
 
 ### Page architecture
 
@@ -59,13 +60,12 @@ emotional reactions, or a list of content every reader situation must receive.
 - What the page can leave to another section or page
 - The likely reading paths that materially affect order or emphasis
 
-### Evidence and assumption implications
+### Relevant research implications
 
-Record only findings that change the page's argument, coverage, language,
-inclusion, or claim boundaries. Do not summarise the full dossier. When an
-existing artifact does not answer a necessary question, record the general
-knowledge or visitor hypothesis being used as a working assumption and keep it
-distinct from publication evidence.
+Record only findings that change the page's argument, coverage, language, or
+inclusion. Do not summarise the full dossier. When research does not answer a
+necessary editorial question, use a proportionate working assumption and note
+it only when it affects the recommendation.
 
 ### Directions considered
 
@@ -108,8 +108,6 @@ For the hero and each section:
 **Must not do:**
 
 **Relationship to surrounding sections, when material:**
-
-**Evidence, fact, or assumption basis:**
 ```
 
 The planning label may be more explicit than the eventual public heading.
@@ -235,7 +233,7 @@ one after reviewing the alternatives.
 - Sentence-function check
 - Model-glue and deletion pass
 - Inclusion and adverse-reading check
-- Research grounding and claim limits
+- No invented practice details; exceptional claim check only when triggered
 - Read-aloud pass
 
 Apply the copywriter skill's methods for these checks. Do not recreate a second

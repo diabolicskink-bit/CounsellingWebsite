@@ -1,110 +1,52 @@
-# Research and claim discipline
+# Claim checks for exceptional cases
 
-This is a specialist publication check, not the copywriting method. Decide the
-reader, page moment, message, angle, composition, and voice through `SKILL.md`
-before using it.
+This is an optional publication check, not the copywriting method. Use it only
+when the user requests a fact or claim audit, or when proposed copy depends on a
+new consequential external claim that the task and repository do not already
+supply.
 
-Use this reference only when the task materially depends on consequential
-facts, professional or inclusion claims, credentials, outcomes, comparisons,
-changing practical details, statistics, testimonials, legal or regulatory
-material, accessibility requirements, or search-platform claims. For ordinary
-copy work, the brief accuracy check in `SKILL.md` is enough.
+Do not load this reference merely because a page mentions counselling,
+inclusion, a credential, a fee, a delivery format, or another ordinary practice
+detail.
 
-## Contents
+## Start from the available material
 
-- [Match evidence to the claim](#match-evidence-to-the-claim)
-- [Review the overall impression](#review-the-overall-impression)
-- [Handle common claim types](#handle-common-claim-types)
-- [Research proportionately](#research-proportionately)
-- [Keep generative work source-bound](#keep-generative-work-source-bound)
+Treat owner-supplied wording and information recorded by the repository's
+current factual owner as working inputs. Do not independently audit credentials,
+memberships, experience, fees, availability, response times, or delivery
+arrangements unless the user explicitly asks or the available sources conflict.
 
-## Match evidence to the claim
+When a needed detail is absent or conflicting, flag it, omit it, or use an
+obvious placeholder. Do not interrupt the whole drafting process or fill the
+gap with plausible wording.
 
-Classify each consequential proposition as one of:
+Never invent practice details, credentials, quotations, testimonials,
+statistics, reported experiences, or outcomes.
 
-- confirmed fact;
-- documented process;
-- authorised professional judgement;
-- supported explanation of a fact;
-- possibility expressed as a possibility;
-- owner decision;
-- hypothesis requiring research;
-- unsupported implication.
+## Check only the material claim
 
-Require the basis appropriate to the claim:
+Identify the exact sentence or implication that needs checking. If the task or
+repository already supplies it, align the wording with that material. If it is
+a new externally verifiable claim, use a current primary or authoritative
+source appropriate to that claim and preserve its scope and uncertainty.
 
-- verify operational facts against their current source record;
-- verify credentials, memberships, experience, fees, availability, response
-  times, and delivery arrangements exactly;
-- support process claims with the actual process;
-- attribute professional judgement to the speaker and keep its scope visible;
-- support general effects with suitable empirical research while stating limits
-  on transfer to this service or audience;
-- treat practitioner guides and competitor copy as operational or cultural
-  evidence, not independent proof;
-- keep an unknown or owner decision visible instead of resolving it with
-  plausible wording.
+Use this deeper check for material such as:
 
+- statistics or attributed external findings;
+- legal, regulatory, or clinical assertions;
+- comparisons with another service or category;
+- testimonials, quotations, or reported experiences; and
+- promised outcomes, guarantees, or strong suitability claims.
 
+If suitable support is unavailable, remove or narrow the claim. Do not use the
+research process to generate additional content.
 
-## Handle common claim types
+## Keep the result proportionate
 
-### Inclusion and familiarity claims
+Return only the wording that changed, the material unresolved question, or the
+small number of sources needed to evaluate the claim. Do not classify every
+sentence, create an evidence ledger, or turn the check into a new page strategy.
 
-Use professional or community terms accurately when the subject requires them.
-Add terminology, distinctions, questions, process descriptions, or boundaries
-only when they perform a necessary local job. Do not use `inclusive`,
-`affirming`, `aware`, or `safe` as substitutes for supported information, and
-do not imply that knowledge of community language eliminates individual
-variation.
-
-### Outcomes and suitability
-
-Explain process and possible relevance without predicting a result or declaring
-the service right for an unknown person. Distinguish a possible benefit from a
-promised future state.
-
-### Testimonials and stories
-
-Do not invent, composite, paraphrase beyond permission, or generalise from one
-reported experience. Confirm consent, exact wording, identifying detail, and
-permitted use before publication.
-
-### Statistics and external authority
-
-Use current primary sources where possible. Preserve scope, population, date,
-and uncertainty. Do not turn a correlational or domain-specific finding into a
-universal service claim.
-
-### Practical and interface claims
-
-Align labels, buttons, form instructions, confirmations, visible copy,
-metadata, structured data, and actual behaviour. A CTA must predict its
-destination or consequence.
-
-### Search claims
-
-Treat search-platform rules and recommendations as current, externally
-verifiable information. Do not use SEO research to force word counts, duplicate
-locations, unnatural variants, or sections that exist only to hold keywords.
-
-## Research proportionately
-
-Use current primary or authoritative sources for legal, regulatory, clinical,
-credential, accessibility, search-platform, or other high-stakes questions.
-State uncertainty and the limits of the source.
-
-Do not research merely to decorate a short artifact. Research when a missing
-answer changes accuracy, scope, risk, reader autonomy, or a consequential
-decision.
-
-## Keep generative work source-bound
-
-Treat fluency as unverified. For each generated factual statement or
-implication, identify its source role and basis before publication.
-
-Use generation to organise verified material, compare structures, expose
-duplication, test headings, or locate unsupported implications. Do not use it
-to invent audience pain, provider beliefs, private thoughts, quotes,
-credentials, process details, anecdotes, statistics, community experience, or
-outcomes.
+Keep interface wording aligned with actual behaviour. Treat metadata and
+structured data as part of the same public claim when they repeat or extend the
+visible wording.

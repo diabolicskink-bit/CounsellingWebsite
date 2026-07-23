@@ -2,7 +2,7 @@
 name: develop-page-copy
 description: >
   Develop visitor-facing website copy through a staged documentation workflow:
-  first create a research-grounded page plan, then develop
+  first create a reader-informed page plan, then develop
   individual sections in separate Markdown workthroughs with conceptual
   choices, structurally different directions, reader-range review, and a
   recommended draft. Use when a user wants to plan a new or
@@ -31,28 +31,26 @@ selecting a direction and carrying it through to a committed draft.
 In the Vive Counselling repository:
 
 1. Read `AGENTS.md` and `docs/project/README.md`.
-2. Read `docs/project/writing-direction.md` and
-   `docs/project/current-scope.md`.
-3. Read `docs/project/product-direction.md` only when the task needs a stable
-   practice fact recorded there.
-4. Read the relevant page source, adjacent page context, selected tracker or
+2. Read `docs/project/writing-direction.md`. Read
+   `docs/project/current-scope.md` or source only when the page needs a current
+   service or implementation detail.
+3. Read the relevant page source, adjacent page context, selected tracker or
    plan, and `docs/research/README.md`. Use the relevant dossier or dossiers as
    directed by the reader-range method below.
-5. Treat current source as factual and layout context, not approved voice,
+4. Treat current source as factual and layout context, not approved voice,
    unless the owner or writing direction says otherwise.
-6. Treat research as evidence and a coverage constraint, not as a page outline
-   or a source of ready-made marketing claims.
+5. Use research to test assumptions and relevance, not as a page outline or a
+   source of ready-made marketing claims.
 
 Use existing research dossiers and other authorised research artifacts as
 inputs only. Never invoke `audience-research`, directly or through another
 skill, and do not create, update, or maintain research artifacts in this
 workflow. Do not choose the copywriter skill's Research mode here.
 
-When existing evidence is incomplete, continue with general knowledge and
-reasonable visitor hypotheses as explicitly labelled working assumptions. Do
-not turn an assumption into a sourced prevalence, clinical, service, or other
-factual claim. Qualify it, omit it from public copy, or record consequential
-uncertainty for separate resolution.
+When research does not answer an editorial question, continue with a
+proportionate working hypothesis and label it only when it materially affects
+the plan. Do not invent a practice detail or external claim; omit or flag one
+that the available material does not supply.
 
 Use `website-design` only when the user also requests visual design or
 implementation.
@@ -83,12 +81,11 @@ For a general page:
 - mention a context only when it belongs to the subject or adds useful
   information.
 
-Consider each materially different situation separately. Record the evidence
-basis, material limits, and only the implications that change selection,
-terminology, explanation, examples, emphasis, omission, or an inclusion check.
-Distinguish owner knowledge, research evidence, current facts, and editorial
-inference. Do not create personas, imagined testimony, one section per reader
-situation, or a public catalogue of the range.
+Consider each materially different situation separately and retain only the
+implications that change selection, language, explanation, examples, emphasis,
+omission, or an inclusion check. Mark a consequential inference without
+building an evidence ledger. Do not create personas, imagined testimony, one
+section per reader situation, or a public catalogue of the range.
 
 ## Apply the copywriter skill to copy decisions
 
@@ -112,8 +109,7 @@ The copywriter skill owns:
 - page purpose, message strategy, search language, and editorial direction;
 - angle craft, composition, drafting, revision, and voice;
 - proportionate reader-range review; and
-- sentence review, model glue, inclusion, claims, research discipline, and
-  read-aloud review.
+- sentence review, model glue, inclusion, and read-aloud review.
 
 Before doing any of those things:
 
@@ -194,8 +190,7 @@ For the hero and each section, define:
 - the content it should cover;
 - the editorial rule governing selection and treatment;
 - what it must not do or repeat;
-- its relationship to surrounding sections when sequence matters; and
-- the evidence or current facts supporting it.
+- its relationship to surrounding sections when sequence matters.
 
 Assign each planned section a stable, descriptive ID derived from its owned
 job, such as `session-process` or `approach-in-practice`. Use the ID for the section
@@ -277,7 +272,7 @@ Possible differences include:
 Recommend one direction and explain the consequential trade-off. When the user
 is actively choosing between directions, show the concise direction notes and
 ask for their selection before drafting. Otherwise select the strongest
-direction on the available evidence and proceed.
+direction for the task and proceed.
 
 ### 4. Write one committed draft
 
@@ -286,8 +281,9 @@ copywriter skill's composition, voice, momentum, and line-level guidance. Do
 not blend safer parts of the rejected directions into it. Do not stop at a
 description, wire-copy labels, or topic bullets.
 
-If the selected direction cannot be drafted because it contradicts an
-established fact, owner decision, service boundary, or the section's owned job,
+If the selected direction cannot be drafted because it contradicts supplied
+practice information, an owner decision, a service boundary, or the section's
+owned job,
 record why, select another viable direction, and draft that one. Produce
 multiple complete drafts only when the user explicitly asks to compare finished
 alternatives.
@@ -326,8 +322,8 @@ the user specifically asks for one after seeing the alternatives.
 ### 7. Run copy-quality and page-flow review
 
 Apply the copywriter skill's sentence-function, deletion, model-glue,
-inclusion, claim, research-discipline, and read-aloud methods to the recommended
-copy. Then run the ownership, direction-traceability, duplication, page
+inclusion, and read-aloud methods to the recommended copy. Then run the
+ownership, direction-traceability, duplication, page
 relationship, assembly, and
 artifact-authority checks in `references/page-flow-gates.md`.
 
@@ -361,7 +357,7 @@ When the user asks to assemble the page:
 7. Re-run `references/page-flow-gates.md` across the assembled sequence.
 8. Keep implementation separate unless the user authorises it.
 
-A section that won in isolation may still need to lose a sentence when it sits
+A section that works in isolation may still need to lose a sentence when it sits
 beside the next section.
 
 ## Working rules
@@ -370,8 +366,8 @@ beside the next section.
   not impose recognition, decision-making, or another reusable opening move.
 - Use research to test assumptions and relevance; do not translate its taxonomy
   or findings into required public content.
-- Treat general knowledge and visitor hypotheses as labelled working
-  assumptions, not publication evidence.
+- Treat general knowledge and visitor hypotheses as working assumptions, not
+  facts about the practice.
 - Do not turn every topic into an eyebrow, card, tile, or equal module.
 - Do not infer a predetermined outcome from a feeling, conflict, identity, or
   relationship structure.

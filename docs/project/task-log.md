@@ -17,11 +17,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-23 - Practice Facts Brief Removed
+
+- Removed: Deleted `docs/project/product-direction.md`; its five facts were not relocated into another brief or archived.
+- Routed: Public-copy and research workflows now use owner decisions and relevant source or current-scope information without a separate product or practice-facts authority.
+- Preserved: Earlier task-log entries remain as historical records of the former document and its changing role.
+
 ## 2026-07-22 - Copy Skills Rebuilt Around Reader Ranges
 
 - Replaced: The copywriter and staged page-development workflows no longer construct one research-grounded pseudoperson as the representative reader or reuse an imagined internal state throughout drafting and review.
 - Added: Specialist pages consider the meaningful range within their subject, including central and contextual relevance, while general pages use a proportionate cross-context check for readers with none, one, or several specialist or inclusion contexts.
 - Simplified: Section work now explores directions briefly, commits to one complete draft, and prohibits automatic synthesis; reader research informs real writing decisions without becoming a page outline, mandatory recognition copy, prescribed visitor journey, or performance of specialist knowledge.
+- Refocused: Practice and service facts now act as supplied constraints rather than a routine verification exercise; evidence ledgers and credential audits were removed from ordinary copy development, while explicit or consequential external-claim checks remain available as a narrow exception.
 
 ## 2026-07-22 - Readiness Tracker Retired
 

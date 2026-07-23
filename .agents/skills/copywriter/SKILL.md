@@ -6,7 +6,8 @@ description: >
   and refine it. Use for audience and page-purpose analysis, message strategy,
   search intent, research-grounded reader-range analysis, distinctive new copy or
   substantial rewrites, meaningful line editing, CTA and interface copy,
-  semantics, phrasing, line craft, voice and tone, inclusion and claim review,
+  semantics, phrasing, line craft, voice and tone, inclusion, explicit claim
+  audits,
   and diagnosing or repairing generic and AI-default prose. Do not use for
   meta-review of the skill itself, typo-only fixes, or technical implementation
   that only inserts exact owner-approved wording without new copy decisions.
@@ -30,11 +31,10 @@ In the Vive Counselling repository:
 
 1. Read `AGENTS.md` and `docs/project/README.md`.
 2. Read `docs/project/writing-direction.md` for public copy work.
-3. Read `docs/project/product-direction.md` only when the task needs a stable
-   practice fact recorded there.
-4. Read `docs/project/current-scope.md` for current service and implementation
-   facts.
-5. Read the relevant page, metadata, adjacent sections and pages, and any
+3. Read `docs/project/current-scope.md` or source only when the wording needs a
+   current service or implementation detail. Use the recorded detail as an
+   input; do not independently audit it unless sources conflict or the user asks.
+4. Read the relevant page, metadata, adjacent sections and pages, and any
    current tracker item selected by the task.
 
 For substantive reader-specific strategy, page planning, drafting, rewriting,
@@ -105,11 +105,12 @@ account of counselling silently makes one identity, sexuality, relationship
 structure, gender, family form, or way of living the default. Mention a context
 only when it belongs to the subject or adds useful information.
 
-Distinguish evidence from editorial inference. Extract only implications that
-materially affect selection, terminology, explanation, examples, emphasis, or
-omission. Do not turn the reader range into public personas, an audience
-taxonomy, one section per situation, recognition copy, reassurance, or a
-predetermined emotional sequence.
+Use research to test possible assumptions and extract only implications that
+materially affect selection, language, explanation, examples, emphasis, or
+omission. Mark a material inference when it changes the recommendation; do not
+build an evidence ledger. Do not turn the reader range into public personas, an
+audience taxonomy, one section per situation, recognition copy, reassurance,
+or a predetermined emotional sequence.
 
 For a narrow revision, apply only the reader considerations that could change
 the local decision. Do not manufacture a visible audience artifact when the
@@ -159,11 +160,10 @@ corrective framing can still lead when the correction itself is a live reader
 need.
 
 Identify what in the actual task, subject, speaker, or material should shape the
-copy. Do not reach for a standing menu of terms, distinctions, process details,
-boundaries, or practitioner judgements to make the writing appear specific or
-knowledgeable. If no meaningful specificity is available, write direct
-provisional copy and expose the input gap; do not manufacture personality,
-insight, intimacy, expertise, or differentiation.
+copy. Do not add material merely to make the writing appear knowledgeable or
+distinctive. If the available material does not support a more particular
+treatment, write direct provisional copy and expose the input gap; do not
+manufacture personality, insight, intimacy, expertise, or differentiation.
 Distinctive copy does not have to be conspicuous. It must be shaped by choices
 that would not survive unchanged if a competitor's name and service nouns were
 substituted.
@@ -234,10 +234,9 @@ one.
 
 Before writing the complete draft:
 
-1. gather the small set of exact terms, actions, distinctions, judgements, and
-   credible details already earned by the task;
-2. establish the literal proposition, grammatical focus, claim status,
-   necessary qualification, and intended emphasis of each pivotal line;
+1. gather the small set of task-specific material already available;
+2. establish the literal proposition, grammatical focus, supported meaning,
+   necessary limits, and intended emphasis of each pivotal line;
 3. try a small number of materially different constructions privately by
    changing subject, verb, clause relationship, information order, or sentence
    shape—not merely synonyms; and
@@ -252,13 +251,13 @@ speed rather than polishing every sentence before the whole artifact exists.
   useful distinctions, and examples where they help.
 - Keep wording at the warranted level of meaning. Prefer the nearest ordinary
   description of what happens to a more emotionally loaded interpretation of
-  what it means. Treat a stronger interpretation as a new claim that needs a
-  basis and a local job, not as polish.
+  what it means. Treat a stronger interpretation as new meaning that needs
+  support and a local job, not as polish.
 - Build voice from what the speaker notices, values, explains, questions,
   qualifies, and refuses to flatten—not from decorative quirks or brand
   adjectives.
-- Use practitioner judgement when it is confirmed and needed for the local
-  meaning, not as a routine credibility device.
+- Use only positions and observations the speaker has actually supplied. Do not
+  invent them to create credibility or character.
 - Explain enough for this reader at this moment; do not automatically unpack
   every term or complete every thought into a mini-essay.
 - Use cadence deliberately. Vary sentence length, paragraph weight, pace, and
@@ -334,8 +333,9 @@ and whenever diagnosing generic or AI-sounding copy, read and apply
 `references/model-glue.md`. Read `references/quality-review.md` for substantive
 review, acceptance work, generic-copy diagnosis, or feedback that the copy
 sounds AI-generated. Read
-`references/research-and-claims.md` only when the task materially depends on
-consequential or externally verifiable claims.
+`references/research-and-claims.md` only when the user requests a claim audit or
+the draft depends on a new consequential external claim that is not already
+owned by the repository.
 
 The model-glue pass must inspect mechanisms rather than ban words. Keep a
 flagged instance only when it performs a clear local job better than the direct
@@ -389,8 +389,8 @@ briefly and present the recommendation once.
 Make the working specific enough to reveal how the result was reached, without
 turning it into the same labelled preamble on every task. Draw from:
 
-- the relevant reader range, evidence basis, and material limits for
-  substantial reader-specific work;
+- the relevant reader range and any consequential limits for substantial
+  reader-specific work;
 - arrival context and position in the page or site when material;
 - page or section job and the main message to land there;
 - search intent and natural subject language when relevant;

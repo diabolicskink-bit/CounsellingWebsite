@@ -3,8 +3,8 @@
 This directory contains extensive internal audience understanding for reuse
 across copywriting, page development, content strategy, service explanation,
 and website work. Dossiers combine formal findings with public first-person
-experiences. They are not approved public copy and do not override stable
-practice facts, confirmed service facts, or owner decisions.
+experiences. They are not approved public copy and do not override owner
+decisions or current service information.
 
 ## Using this research
 
@@ -18,9 +18,8 @@ practice facts, confirmed service facts, or owner decisions.
 - Ignore `working/` outside the same continuing parent research task unless the
   owner explicitly requests its inspection. Working files are retained raw
   material, not reusable evidence.
-- Apply [writing direction](../project/writing-direction.md), any relevant
-  stable [practice facts](../project/product-direction.md), confirmed current
-  project facts, and owner decisions before turning research into public
+- Apply [writing direction](../project/writing-direction.md), relevant current
+  project information, and owner decisions before turning research into public
   wording.
 
 ## Dossiers

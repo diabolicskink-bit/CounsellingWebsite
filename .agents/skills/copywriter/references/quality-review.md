@@ -180,12 +180,12 @@ the critique and revision privately and deliver the clean recommendation.
 
 ## Check the practical constraints
 
-Run these checks alongside the craft review. They are essential to publication,
-but none is the organising method for writing the piece.
+Run these checks alongside the craft review. They constrain publication but do
+not generate the idea, structure, or prose.
 
 | Check | Failure | Required response |
 | --- | --- | --- |
-| Accuracy and claims | A material fact, implication, quote, credential, arrangement, statistic, or outcome is wrong, invented, or misleading. | Correct, verify, qualify, mark, or remove it. |
+| Supplied information and claims | A material detail conflicts with supplied material, or a consequential claim has been invented or overstated. | Align it with the supplied material; omit or flag an unknown. Use the specialist claim check only when its trigger applies. |
 | Accessibility | Essential meaning depends on jargon, metaphor, colour, position, placeholder text, or an unexplained state. | Supply understandable, semantic, persistent language. |
 | Inclusion and autonomy | The copy stereotypes, assumes a private experience, narrows identity unnecessarily, pressures action, or makes the provider's acceptance the story. | Restore precision, agency, and relevance. |
 | Action accuracy | A label, link, form instruction, confirmation, or CTA does not predict the real interaction. | Align the wording with actual behaviour. |
@@ -299,7 +299,7 @@ cause and decide whether the copy, the angle, or the brief needs to change.
 The reader-range review is a judge, not a content checklist or the sole source
 of ideas. It may recommend deletion, compression, or deferral when the copy is
 over-answering, duplicating another page, or treating every research finding as
-a publication requirement. A candidate whose strengths are only that it does
+a publication requirement. A draft whose strengths are only that it does
 not stereotype, offend, overclaim, or sound generic has not yet supplied a
 positive reason to publish it.
 
@@ -355,10 +355,10 @@ Remove the organisation and service nouns. Ask whether a competitor could
 publish the complete draft unchanged and, if so, whether the available source
 material actually supports a more particular treatment.
 
-Use this as an input and composition test, not an instruction to insert terms,
-distinctions, process claims, boundaries, anecdotes, quirks, or practitioner
-judgements. When the material does not support genuine particularity, prefer
-clear useful copy and expose the input gap.
+Use this as an input and composition test, never as a prompt to insert details
+that make the writer seem expert or distinctive. When the material does not
+support a more particular treatment, prefer clear useful copy and expose the
+input gap.
 
 ### Explanation test
 
@@ -376,7 +376,7 @@ space makes that the better decision.
 ### Deletion and ending test
 
 Delete the last sentence of every paragraph and the final paragraph. Restore
-only what adds information, distinction, boundary, uncertainty, or action.
+only what the page needs to retain its intended contribution.
 
 Attempt further deletion wherever two sentences perform the same function.
 Do not target an arbitrary percentage or brevity score; stop when further
@@ -391,7 +391,7 @@ Read the copy aloud as the actual speaker in this artifact. Mark:
 - false vulnerability;
 - corporate plural;
 - repeated rhetorical symmetry;
-- language that performs empathy or authority instead of demonstrating it;
+- language that uses empathy or authority as a surface style;
 - direct address the speaker would not use on this surface.
 
 Require plausibility, not a transcript filled with slang, fragments, or errors.
@@ -441,7 +441,7 @@ Use the patterns as causal prompts, not banned forms.
 | Pattern | Observable signal | Likely cause | Repair |
 | --- | --- | --- | --- |
 | Register mismatch | A directory bio sounds like a landing page or private conversation. | The target reader was mistaken for a grammatical addressee. | Re-establish the artifact relationship before revising tone. |
-| Simulated intimacy | The copy repeatedly says `you`, predicts private feelings, or offers unearned reassurance. | The model is manufacturing relationship instead of supplying information. | Describe the service, process, or boundary directly. |
+| Simulated intimacy | The copy repeatedly says `you`, predicts private feelings, or offers unearned reassurance. | The model is manufacturing relationship instead of supplying information. | Return to the actual subject and page job. |
 | Stacked taxonomy | Concerns, modalities, qualities, credentials, and identities appear as successive lists. | Source fields were translated into paragraphs without composition. | Keep terms needed for retrieval; explain, combine, or omit the rest. |
 | Over-completion | Every fact receives an explanation, consequence, reassurance, and conclusion. | Fluency is filling the shape after the information is complete. | Stop at the last sentence with a real function. |
 | Smoothness tax | Useful bluntness becomes transitions, balanced clauses, and polished summaries. | Surface finish has displaced local judgement. | Restore the clearest proposition and allow asymmetry. |
@@ -450,8 +450,8 @@ Use the patterns as causal prompts, not banned forms.
 | Triad compulsion | Three adjectives, clauses, examples, or benefits recur. | A familiar rhythm is dictating the amount of material. | Use the number and shape the thought actually needs. |
 | Contrast machine | `Not X, but Y` or `more than X` repeatedly supplies polish. | Balanced rhetoric is substituting for a direct proposition. | State the proposition unless the contrast corrects a real misconception. |
 | Semantic echo | One idea is repeated through near-synonyms. | A thin idea has been expanded rather than developed. | Keep the clearest statement, develop the thought, or stop. |
-| Generic empathy | The provider narrates the reader's struggle or announces understanding. | Emotional register is substituting for attention. | Supply accurate detail, process, choice, or boundary. |
-| Self-awarded quality | Expert, safe, inclusive, personalised, or trusted carries the claim. | Adjectives are substituting for precise communication. | Use relevant detail, conduct, language, process, limits, or alternatives. |
+| Generic empathy | The provider narrates the reader's struggle or announces understanding. | Emotional register is substituting for attention. | Return to the actual subject and page job. |
+| Self-awarded quality | Expert, safe, inclusive, personalised, or trusted carries the claim. | Adjectives are substituting for precise communication. | State only what the reader needs to understand or judge, using material already available. |
 | Abstract benefit fog | Growth, clarity, resilience, authenticity, or transformation accumulates without process. | A positive future has replaced service information. | Name what happens and keep possible value possible. |
 | Decorative metaphor | Journeys, chapters, storms, space, light, or flourishing replaces literal meaning. | Character is being manufactured instead of found in the subject and speaker. | Keep metaphor only when it clarifies and belongs to the piece. |
 | Tidy final moral | The ending praises action, promises hope, or summarises the lesson. | The model is finishing the emotional shape rather than the task. | End on the last useful fact, limit, action, or nothing. |

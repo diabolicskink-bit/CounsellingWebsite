@@ -15,7 +15,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 ## Public Content And Discoverability
 
 - Public copy is under active owner-led revision. Existing page source is implementation state rather than an approved voice corpus; current copy status and wording constraints are recorded in `docs/project/writing-direction.md`.
-- The ENM and polyamory route retains its established hero and focused three-section public composition. Working visitor-first content plans remain under `docs/page-plan/`.
+- The ENM and polyamory route retains its established hero and focused three-section public composition. Working reader-informed content plans remain under `docs/page-plan/`.
 - Google Business Profile verification is complete. Online delivery may be named selectively in public copy and metadata; the current wording rule is owned by `docs/project/writing-direction.md`.
 - Route metadata is stored in `src/data/routeMetadata.json` and applied by `useDocumentMetadata`.
 - `docs/checklists/seo-metadata-monitor.md` is the owner-directed manual record for site metadata, generated output, live responses, redirects, and not-found behaviour. It has no automatic or calendar-based review cadence.
