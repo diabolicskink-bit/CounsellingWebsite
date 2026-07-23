@@ -212,7 +212,7 @@ function WelcomeSection({ welcome }: { welcome: HomeWelcomeContent }) {
           <div className="home-welcome__main">
             <h2 className="home-welcome__heading" id="home-welcome-title">
               <span>{welcome.heading.before}</span>
-              <em>{`${welcome.heading.emphasis}${welcome.heading.after}`}</em>
+              <em className="site-emphasis">{`${welcome.heading.emphasis}${welcome.heading.after}`}</em>
             </h2>
             <div className="home-welcome__opening-group">
               <p className="home-welcome__opening">{welcome.opening}</p>
