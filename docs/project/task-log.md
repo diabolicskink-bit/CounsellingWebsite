@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-23 - Codebase Improvement Workflow Moved To Skill
+
+- Added: The repository-local `improve-codebase` skill is now the sole procedural authority for source-first cleanup runs, including a broad CSS and visual-system focus that may change coupled implementation surfaces.
+- Changed: Cleanup now selects the strongest code-discovered maintainability opportunity and implements its best complete behaviour-preserving resolution without treating diff size, file count, or the easiest fix as selection criteria.
+- Required: When that resolution cannot be completed and verified safely in one pass, creating or updating the relevant `DEBT-*` card is the terminal outcome rather than a smaller consolation cleanup.
+
 ## 2026-07-23 - Practice Facts Brief Removed
 
 - Removed: Deleted `docs/project/product-direction.md`; its five facts were not relocated into another brief or archived.

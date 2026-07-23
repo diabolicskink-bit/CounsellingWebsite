@@ -546,7 +546,7 @@ async function expectHomePageStructure(page: Page) {
   await expect(portrait).toBeVisible();
   await expect(portrait).toHaveAttribute("alt", "Joel Griffiths");
   await expect(portrait).toHaveAttribute("fetchpriority", "high");
-  await expect(home.getByRole("list", { name: "Practice details" }).locator(":scope > li")).toHaveCount(4);
+  await expect(home.getByRole("list", { name: "Practice details" }).locator(":scope > li")).toHaveCount(3);
   await expect(home.getByRole("list", { name: "Common themes" }).locator(":scope > li")).toHaveCount(6);
   await expect(home.locator("article.site-card.home-workroom__joel")).toBeVisible();
   await expect(

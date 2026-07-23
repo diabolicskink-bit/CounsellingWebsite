@@ -104,14 +104,6 @@ If a rendered example is experimental, legacy, or reference-only, label it clear
 7. `current-scope.md` is updated.
 8. Old duplicate or legacy usage is removed or tracked for cleanup.
 
-## Cleanup Workflow
-
-Cleanup should converge on active `site-*`, `hero-*`, and shared component patterns where sensible. It should be small, verifiable, and behaviour-preserving unless the task explicitly asks for broader change.
-
-Cleanup should not copy old demo styles into production pages. If an old demo idea is useful, promote the idea deliberately.
-
-Use `maintenance/cleanup-sweeps.md` for source-first sweep behaviour and named cleanup modes. Do not use current-scope documents or trackers to select sweep work. Consult the project debt tracker only when the source-first sweep independently exposes a worthwhile issue that is too large to complete safely, then follow the sweep file's deduplication and automatic recording workflow.
-
 ## Verification
 
 - For documentation-only changes, run reference searches or link checks that confirm active guidance points to the intended canonical documents.
