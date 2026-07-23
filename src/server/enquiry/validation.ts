@@ -1,3 +1,12 @@
+import {
+  bookingTypes,
+  enquiryTypes,
+  findAustralianState,
+  findBookingType,
+  findEnquiryType,
+  type AustralianStateOption,
+  type BookingTypeOption,
+} from "../../data/enquiryContract.ts";
 import { getAustralianTimeZoneLabel } from "../../utils/timeZones.ts";
 
 type ValidationIssue = {
@@ -6,48 +15,46 @@ type ValidationIssue = {
   message: string;
 };
 
-export type ValidatedEnquiry = {
-  availability?: string;
-  bookingType?: string;
-  bookingTypeLabel?: string;
+type ValidatedEnquiryBase = {
   email: string;
-  enquiryType: string;
-  enquiryTypeLabel: string;
   message: string;
   name: string;
-  state?: string;
-  stateLabel?: string;
-  timing?: string;
-  timeZone?: string;
-  timeZoneLabel?: string;
 };
+
+type ValidatedGeneralEnquiry = ValidatedEnquiryBase & {
+  enquiryType: typeof enquiryTypes.general.value;
+  enquiryTypeLabel: typeof enquiryTypes.general.label;
+};
+
+type ValidatedAppointmentEnquiry = ValidatedEnquiryBase & {
+  bookingType: typeof bookingTypes.appointment.value;
+  bookingTypeLabel: typeof bookingTypes.appointment.label;
+  enquiryType: typeof enquiryTypes.booking.value;
+  enquiryTypeLabel: typeof enquiryTypes.booking.label;
+  state: AustralianStateOption["value"];
+  stateLabel: AustralianStateOption["label"];
+  timing: string;
+};
+
+type ValidatedConsultEnquiry = ValidatedEnquiryBase & {
+  availability: string;
+  bookingType: typeof bookingTypes.consult.value;
+  bookingTypeLabel: typeof bookingTypes.consult.label;
+  enquiryType: typeof enquiryTypes.booking.value;
+  enquiryTypeLabel: typeof enquiryTypes.booking.label;
+  timeZone: string;
+  timeZoneLabel: string;
+};
+
+export type ValidatedEnquiry =
+  | ValidatedGeneralEnquiry
+  | ValidatedAppointmentEnquiry
+  | ValidatedConsultEnquiry;
 
 type ValidationResult =
   | { type: "honeypot" }
   | { issues: ValidationIssue[]; type: "invalid" }
   | { enquiry: ValidatedEnquiry; type: "valid" };
-
-const enquiryTypeLabels: Record<string, string> = {
-  booking: "Booking enquiry",
-  general: "General enquiry",
-};
-
-const bookingTypeLabels: Record<string, string> = {
-  appointment: "Make an appointment",
-  consult: "Request a 15-minute consult",
-};
-
-const stateLabels: Record<string, string> = {
-  act: "Australian Capital Territory",
-  nsw: "New South Wales",
-  nt: "Northern Territory",
-  other: "Outside Australia or unsure",
-  qld: "Queensland",
-  sa: "South Australia",
-  tas: "Tasmania",
-  vic: "Victoria",
-  wa: "Western Australia",
-};
 
 function getText(value: unknown, maxLength = 5000) {
   if (typeof value === "string") {
@@ -91,57 +98,50 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
   }
 
   const issues: ValidationIssue[] = [];
-  const enquiryType = getRequiredTextField(payload, "enquiryType", 60, issues, "Enquiry type");
+  const enquiryTypeValue = getRequiredTextField(payload, "enquiryType", 60, issues, "Enquiry type");
+  const enquiryType = findEnquiryType(enquiryTypeValue);
   const name = getRequiredTextField(payload, "name", 160, issues, "Name");
   const email = getRequiredTextField(payload, "email", 320, issues, "Email");
   const message = getRequiredTextField(payload, "message", 5000, issues, "Message");
-  const enquiry: ValidatedEnquiry = {
-    email,
-    enquiryType,
-    enquiryTypeLabel: enquiryTypeLabels[enquiryType] ?? "",
-    message,
-    name,
-  };
+  let bookingType: BookingTypeOption | undefined;
+  let timing = "";
+  let state: AustralianStateOption | undefined;
+  let availability = "";
+  let timeZone = "";
+  let timeZoneLabel = "";
 
   if (email && !isValidEmailAddress(email)) {
     addIssue(issues, "email", "invalid_format", "Enter a valid email address.");
   }
 
-  if (enquiryType && !enquiryTypeLabels[enquiryType]) {
+  if (enquiryTypeValue && !enquiryType) {
     addIssue(issues, "enquiryType", "invalid_value", "Choose a valid enquiry type.");
   }
 
-  if (enquiryType === "booking") {
-    const bookingType = getRequiredTextField(payload, "bookingType", 60, issues, "Booking request");
+  if (enquiryType?.value === enquiryTypes.booking.value) {
+    const bookingTypeValue = getRequiredTextField(payload, "bookingType", 60, issues, "Booking request");
 
-    enquiry.bookingType = bookingType;
-    enquiry.bookingTypeLabel = bookingTypeLabels[bookingType] ?? "";
+    bookingType = findBookingType(bookingTypeValue);
 
-    if (bookingType && !bookingTypeLabels[bookingType]) {
+    if (bookingTypeValue && !bookingType) {
       addIssue(issues, "bookingType", "invalid_value", "Choose a valid booking request.");
     }
 
-    if (bookingType === "appointment") {
-      const timing = getRequiredTextField(payload, "timing", 500, issues, "Preferred timing");
-      const state = getRequiredTextField(payload, "state", 60, issues, "State or territory");
+    if (bookingType?.value === bookingTypes.appointment.value) {
+      timing = getRequiredTextField(payload, "timing", 500, issues, "Preferred timing");
+      const stateValue = getRequiredTextField(payload, "state", 60, issues, "State or territory");
 
-      enquiry.timing = timing;
-      enquiry.state = state;
-      enquiry.stateLabel = stateLabels[state] ?? "";
+      state = findAustralianState(stateValue);
 
-      if (state && !stateLabels[state]) {
+      if (stateValue && !state) {
         addIssue(issues, "state", "invalid_value", "Choose a valid state or territory.");
       }
     }
 
-    if (bookingType === "consult") {
-      const availability = getRequiredTextField(payload, "availability", 500, issues, "Availability");
-      const timeZone = getRequiredTextField(payload, "timeZone", 60, issues, "Timezone");
-      const timeZoneLabel = getAustralianTimeZoneLabel(timeZone);
-
-      enquiry.availability = availability;
-      enquiry.timeZone = timeZone;
-      enquiry.timeZoneLabel = timeZoneLabel;
+    if (bookingType?.value === bookingTypes.consult.value) {
+      availability = getRequiredTextField(payload, "availability", 500, issues, "Availability");
+      timeZone = getRequiredTextField(payload, "timeZone", 60, issues, "Timezone");
+      timeZoneLabel = getAustralianTimeZoneLabel(timeZone);
 
       if (timeZone && !timeZoneLabel) {
         addIssue(issues, "timeZone", "invalid_value", "Choose a valid timezone.");
@@ -149,9 +149,64 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
     }
   }
 
-  if (issues.length) {
+  if (issues.length || !enquiryType) {
     return { issues, type: "invalid" };
   }
 
-  return { enquiry, type: "valid" };
+  const baseEnquiry = {
+    email,
+    message,
+    name,
+  };
+
+  if (enquiryType.value === enquiryTypes.general.value) {
+    return {
+      enquiry: {
+        ...baseEnquiry,
+        enquiryType: enquiryType.value,
+        enquiryTypeLabel: enquiryType.label,
+      },
+      type: "valid",
+    };
+  }
+
+  if (!bookingType) {
+    addIssue(issues, "bookingType", "required", "Booking request is required.");
+    return { issues, type: "invalid" };
+  }
+
+  if (bookingType.value === bookingTypes.appointment.value) {
+    if (!state) {
+      addIssue(issues, "state", "required", "State or territory is required.");
+      return { issues, type: "invalid" };
+    }
+
+    return {
+      enquiry: {
+        ...baseEnquiry,
+        bookingType: bookingType.value,
+        bookingTypeLabel: bookingType.label,
+        enquiryType: enquiryType.value,
+        enquiryTypeLabel: enquiryType.label,
+        state: state.value,
+        stateLabel: state.label,
+        timing,
+      },
+      type: "valid",
+    };
+  }
+
+  return {
+    enquiry: {
+      ...baseEnquiry,
+      availability,
+      bookingType: bookingType.value,
+      bookingTypeLabel: bookingType.label,
+      enquiryType: enquiryType.value,
+      enquiryTypeLabel: enquiryType.label,
+      timeZone,
+      timeZoneLabel,
+    },
+    type: "valid",
+  };
 }

@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-23 - Page-Copy Development Reduced To Two Artifact Passes
+
+- Changed: `develop-page-copy` now produces either one high-level page plan without exact public copy or one bounded section's reviewed exact copy and semantic content-composition brief; section development can use a page plan or recover a provisional local brief from available page context.
+- Removed: Automatic stage chaining and copy-only page assembly no longer belong to the skill; each invocation stops after its authorised page-plan or single-section artifact.
+- Added: Section artifacts now hand exact working copy to `website-design` as strong but revisable source material while leaving visual composition, art direction, responsive behaviour, and implementation open.
+
 ## 2026-07-23 - Codebase Improvement Workflow Moved To Skill
 
 - Added: The repository-local `improve-codebase` skill is now the sole procedural authority for source-first cleanup runs, including a broad CSS and visual-system focus that may change coupled implementation surfaces.

@@ -1,3 +1,8 @@
+import {
+  bookingTypes,
+  enquiryTypes,
+  type BookingType,
+} from "../../data/enquiryContract.ts";
 import { escapeHtml } from "./html.ts";
 import type { ValidatedEnquiry } from "./validation.ts";
 
@@ -20,11 +25,10 @@ type EnquiryEmailAddresses = {
   to: string;
 };
 
-const subjectLabels: Record<string, string> = {
-  appointment: "App Request",
-  booking: "Book Enq",
-  consult: "Consult Request",
-  general: "General Enq",
+const subjectLabels: Record<BookingType | typeof enquiryTypes.general.value, string> = {
+  [bookingTypes.appointment.value]: "App Request",
+  [bookingTypes.consult.value]: "Consult Request",
+  [enquiryTypes.general.value]: "General Enq",
 };
 
 function getSubjectName(name: string) {
@@ -37,9 +41,9 @@ function getSubjectName(name: string) {
 
 function getEmailSubject(enquiry: ValidatedEnquiry) {
   const baseSubject =
-    enquiry.enquiryType === "booking"
-      ? subjectLabels[enquiry.bookingType ?? "booking"] ?? subjectLabels.booking
-      : subjectLabels.general;
+    enquiry.enquiryType === enquiryTypes.booking.value
+      ? subjectLabels[enquiry.bookingType]
+      : subjectLabels[enquiry.enquiryType];
   const subjectName = getSubjectName(enquiry.name);
 
   return [baseSubject, subjectName].filter(Boolean).join(" - ");
@@ -79,21 +83,26 @@ function getEmailSender(enquiry: ValidatedEnquiry, configuredSender: string) {
   return `${getEmailDisplayName(enquiry.name)} <${getSenderAddress(configuredSender)}>`;
 }
 
-function getPresentRows(rows: Array<[string, string | undefined]>) {
-  return rows.filter((row): row is [string, string] => Boolean(row[1]));
-}
-
 function getEnquiryDetails(enquiry: ValidatedEnquiry) {
-  return getPresentRows([
+  const rows: Array<[string, string]> = [
     ["Enquiry type", enquiry.enquiryTypeLabel],
-    ["Booking request", enquiry.bookingTypeLabel],
-    ["Name", enquiry.name],
-    ["Email", enquiry.email],
-    ["Preferred timing", enquiry.timing],
-    ["State or territory", enquiry.stateLabel],
-    ["Availability", enquiry.availability],
-    ["Timezone", enquiry.timeZoneLabel],
-  ]);
+  ];
+
+  if (enquiry.enquiryType === enquiryTypes.booking.value) {
+    rows.push(["Booking request", enquiry.bookingTypeLabel]);
+  }
+
+  rows.push(["Name", enquiry.name], ["Email", enquiry.email]);
+
+  if (enquiry.enquiryType === enquiryTypes.booking.value) {
+    if (enquiry.bookingType === bookingTypes.appointment.value) {
+      rows.push(["Preferred timing", enquiry.timing], ["State or territory", enquiry.stateLabel]);
+    } else {
+      rows.push(["Availability", enquiry.availability], ["Timezone", enquiry.timeZoneLabel]);
+    }
+  }
+
+  return rows;
 }
 
 function getEnquiryText(enquiry: ValidatedEnquiry) {
@@ -105,11 +114,17 @@ function getEnquiryText(enquiry: ValidatedEnquiry) {
 }
 
 function getEmailHeading(enquiry: ValidatedEnquiry) {
-  if (enquiry.bookingType === "appointment") {
+  if (
+    enquiry.enquiryType === enquiryTypes.booking.value &&
+    enquiry.bookingType === bookingTypes.appointment.value
+  ) {
     return "Appointment Enquiry";
   }
 
-  if (enquiry.bookingType === "consult") {
+  if (
+    enquiry.enquiryType === enquiryTypes.booking.value &&
+    enquiry.bookingType === bookingTypes.consult.value
+  ) {
     return "Consult Enquiry";
   }
 
@@ -165,18 +180,24 @@ function getEmailTheme(emailHeading: string): EmailTheme {
 }
 
 function getSummaryRows(enquiry: ValidatedEnquiry) {
-  if (enquiry.bookingType === "appointment") {
-    return getPresentRows([
+  if (
+    enquiry.enquiryType === enquiryTypes.booking.value &&
+    enquiry.bookingType === bookingTypes.appointment.value
+  ) {
+    return [
       ["Timing", enquiry.timing],
       ["State", enquiry.stateLabel],
-    ]);
+    ] satisfies Array<[string, string]>;
   }
 
-  if (enquiry.bookingType === "consult") {
-    return getPresentRows([
+  if (
+    enquiry.enquiryType === enquiryTypes.booking.value &&
+    enquiry.bookingType === bookingTypes.consult.value
+  ) {
+    return [
       ["Timing", enquiry.availability],
       ["Timezone", enquiry.timeZoneLabel],
-    ]);
+    ] satisfies Array<[string, string]>;
   }
 
   return [];

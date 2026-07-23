@@ -1,5 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import {
+  bookingTypes,
+  enquiryTypes,
+  type AustralianState,
+  type BookingType,
+  type EnquiryType,
+} from "../data/enquiryContract";
 import { trackEnquiryStarted, trackSuccessfulEnquirySubmission } from "../utils/analytics";
 import { getActiveAustralianTimeZoneOptions } from "../utils/timeZones";
 import Button from "./Button";
@@ -9,8 +16,8 @@ export type EnquiryFormTextField = {
   placeholder: string;
 };
 
-export type EnquiryFormSelectOption = {
-  value: string;
+export type EnquiryFormSelectOption<TValue extends string = string> = {
+  value: TValue;
   label: string;
 };
 
@@ -26,11 +33,11 @@ export type EnquiryFormContent = {
   fields: {
     enquiryType: {
       legend: string;
-      options: EnquiryFormSelectOption[];
+      options: readonly EnquiryFormSelectOption<EnquiryType>[];
     };
     bookingType: {
       legend: string;
-      options: EnquiryFormSelectOption[];
+      options: readonly EnquiryFormSelectOption<BookingType>[];
     };
     name: EnquiryFormTextField;
     email: EnquiryFormTextField;
@@ -42,7 +49,7 @@ export type EnquiryFormContent = {
     timing: EnquiryFormTextField;
     state: {
       label: string;
-      options: EnquiryFormSelectOption[];
+      options: readonly EnquiryFormSelectOption<AustralianState | "">[];
     };
   };
 };
@@ -54,11 +61,6 @@ type EnquiryFormProps = {
 };
 
 type SubmitStatus = "idle" | "sending" | "success" | "error";
-
-const bookingEnquiryValue = "booking";
-const generalEnquiryValue = "general";
-const appointmentBookingValue = "appointment";
-const consultBookingValue = "consult";
 
 function getFormText(formData: FormData, fieldName: string) {
   const value = formData.get(fieldName);
@@ -93,13 +95,13 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
   const formHeadingId = `${idPrefix}-form-heading`;
   const enquiryStartTrackedRef = useRef(false);
   const successRef = useRef<HTMLDivElement>(null);
-  const [enquiryType, setEnquiryType] = useState("");
-  const [bookingType, setBookingType] = useState("");
+  const [enquiryType, setEnquiryType] = useState<EnquiryType | "">("");
+  const [bookingType, setBookingType] = useState<BookingType | "">("");
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
 
-  const isBookingEnquiry = enquiryType === bookingEnquiryValue;
-  const isAppointmentRequest = isBookingEnquiry && bookingType === appointmentBookingValue;
-  const isConsultRequest = isBookingEnquiry && bookingType === consultBookingValue;
+  const isBookingEnquiry = enquiryType === enquiryTypes.booking.value;
+  const isAppointmentRequest = isBookingEnquiry && bookingType === bookingTypes.appointment.value;
+  const isConsultRequest = isBookingEnquiry && bookingType === bookingTypes.consult.value;
   const timeZoneOptions = useMemo(
     () => (isConsultRequest ? getActiveAustralianTimeZoneOptions() : []),
     [isConsultRequest],
@@ -154,11 +156,11 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
     trackEnquiryStarted();
   };
 
-  const handleEnquiryTypeChange = (value: string) => {
+  const handleEnquiryTypeChange = (value: EnquiryType) => {
     setEnquiryType(value);
     setSubmitStatus("idle");
 
-    if (value !== bookingEnquiryValue) {
+    if (value !== enquiryTypes.booking.value) {
       setBookingType("");
     }
   };
