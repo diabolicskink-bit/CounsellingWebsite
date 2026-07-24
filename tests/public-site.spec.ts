@@ -1968,6 +1968,111 @@ test.describe("inclusion child page responsive boundaries", () => {
       }
     });
   }
+
+  test("LGBTQIA+ content remains visible and recomposes at compact widths", async ({ page }) => {
+    const runtimeErrors: string[] = [];
+    page.on("console", (message) => {
+      if (message.type() === "error") {
+        runtimeErrors.push(message.text());
+      }
+    });
+    page.on("pageerror", (error) => {
+      runtimeErrors.push(error.message);
+    });
+
+    const selectorsThatMustStayContained = [
+      ".lgbtqia-page__recognition-layout",
+      ".lgbtqia-page__section-heading",
+      ".lgbtqia-page__recognition-flow",
+      ".lgbtqia-page__recognition-item",
+      ".lgbtqia-page__recognition-item h3",
+      ".lgbtqia-page__recognition-item p",
+      ".lgbtqia-page__fluency-layout",
+      ".lgbtqia-page__fluency-introduction",
+      ".lgbtqia-page__fluency-field",
+      ".lgbtqia-page__fluency-examples li",
+      ".lgbtqia-page__disclosure-layout",
+      ".lgbtqia-page__context-line",
+    ];
+
+    for (const width of [320, 360, 390, 430, 560, 640, 700, 820, 900, 980, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto("/lgbtqia-affirming-counselling", { waitUntil: "networkidle" });
+
+      const escapedContent = await page.locator("main.lgbtqia-page").evaluate(
+        (root, selectors) => {
+          const viewportWidth = document.documentElement.clientWidth;
+
+          return selectors.flatMap((selector) =>
+            Array.from(root.querySelectorAll<HTMLElement>(selector)).flatMap((element) => {
+              const bounds = element.getBoundingClientRect();
+              const escapesViewport = bounds.left < -0.5 || bounds.right > viewportWidth + 0.5;
+
+              return escapesViewport
+                ? [
+                    {
+                      selector,
+                      text: element.textContent?.trim().slice(0, 80),
+                      left: Math.round(bounds.left),
+                      right: Math.round(bounds.right),
+                      viewportWidth,
+                    },
+                  ]
+                : [];
+            }),
+          );
+        },
+        selectorsThatMustStayContained,
+      );
+
+      expect(escapedContent, `clipped content at ${width}px`).toEqual([]);
+    }
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/lgbtqia-affirming-counselling", { waitUntil: "networkidle" });
+
+    const recognitionHeading = page.locator(".lgbtqia-page__section-heading");
+    const recognitionFlow = page.locator(".lgbtqia-page__recognition-flow");
+    const fluencyIntroduction = page.locator(".lgbtqia-page__fluency-introduction");
+    const fluencyField = page.locator(".lgbtqia-page__fluency-field");
+
+    const [recognitionHeadingBox, recognitionFlowBox, fluencyIntroductionBox, fluencyFieldBox] =
+      await Promise.all([
+        recognitionHeading.boundingBox(),
+        recognitionFlow.boundingBox(),
+        fluencyIntroduction.boundingBox(),
+        fluencyField.boundingBox(),
+      ]);
+
+    expect(recognitionHeadingBox).not.toBeNull();
+    expect(recognitionFlowBox).not.toBeNull();
+    expect(fluencyIntroductionBox).not.toBeNull();
+    expect(fluencyFieldBox).not.toBeNull();
+    expect(recognitionFlowBox!.y).toBeGreaterThan(
+      recognitionHeadingBox!.y + recognitionHeadingBox!.height,
+    );
+    expect(fluencyFieldBox!.y).toBeGreaterThan(
+      fluencyIntroductionBox!.y + fluencyIntroductionBox!.height,
+    );
+
+    const recognitionItems = page.locator(".lgbtqia-page__recognition-item");
+    await expect(recognitionItems).toHaveCount(3);
+
+    for (let index = 0; index < (await recognitionItems.count()); index += 1) {
+      const item = recognitionItems.nth(index);
+      const [titleBox, bodyBox] = await Promise.all([
+        item.locator("h3").boundingBox(),
+        item.locator("p").boundingBox(),
+      ]);
+
+      expect(titleBox).not.toBeNull();
+      expect(bodyBox).not.toBeNull();
+      expect(bodyBox!.y).toBeGreaterThan(titleBox!.y + titleBox!.height);
+      await expect(item.locator("p")).toBeVisible();
+    }
+
+    expect(runtimeErrors).toEqual([]);
+  });
 });
 
 test.describe("accessibility smoke", () => {

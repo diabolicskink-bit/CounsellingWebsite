@@ -306,6 +306,50 @@
     width: auto;
   }
 
+  .lgbtqia-page__recognition-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .lgbtqia-page__section-heading,
+  .lgbtqia-page__recognition-flow {
+    grid-column: 1;
+  }
+
+  .lgbtqia-page__section-heading {
+    max-width: 30rem;
+    padding-top: 0;
+  }
+
+  .lgbtqia-page__recognition-flow {
+    padding-left: 38px;
+  }
+
+  .lgbtqia-page__recognition-item {
+    grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr);
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+  }
+
+  .lgbtqia-page__recognition-item::before {
+    left: -44px;
+  }
+
+  .lgbtqia-page__fluency-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .lgbtqia-page__fluency-introduction,
+  .lgbtqia-page__fluency-field {
+    grid-column: 1;
+  }
+
+  .lgbtqia-page__fluency-field {
+    width: 100%;
+  }
+
   .lgbtqia-page__disclosure-layout {
     grid-template-columns: 1fr;
     gap: 0;
@@ -350,6 +394,43 @@
     width: 100%;
   }
 
+  .lgbtqia-page__recognition-layout {
+    gap: 24px;
+  }
+
+  .lgbtqia-page__recognition-flow {
+    gap: 28px;
+    padding-left: 28px;
+  }
+
+  .lgbtqia-page__recognition-flow::before {
+    top: 12px;
+    bottom: 12px;
+  }
+
+  .lgbtqia-page__recognition-item {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding-top: 18px;
+  }
+
+  .lgbtqia-page__recognition-item::before {
+    top: 12px;
+    left: -34px;
+  }
+
+  .lgbtqia-page__fluency {
+    padding-block: 48px;
+  }
+
+  .lgbtqia-page__fluency-layout {
+    gap: 28px;
+  }
+
+  .lgbtqia-page__fluency-field {
+    padding: 22px 20px;
+  }
+
   .lgbtqia-page__context-line {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -364,5 +445,4 @@
   .lgbtqia-page__disclosure-details {
     padding-block: 24px;
   }
-
 }

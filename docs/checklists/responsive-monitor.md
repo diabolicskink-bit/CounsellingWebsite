@@ -154,23 +154,23 @@ Use a real browser for interaction-dependent states such as navigation, tabs, FA
 
 ## `/lgbtqia-affirming-counselling` - LGBTQIA+ Affirming Counselling
 
-- **Last checked:** `Not recorded`
+- **Last checked:** `2026-07-24`
 
-- `Not checked` Hero copy remains readable without overlap, clipping, excessive line length, or awkward heading wraps.
+- `Pass` Hero copy remains readable without overlap, clipping, excessive line length, or awkward heading wraps.
 
-- `Not checked` Hero actions remain visible, reachable, and neatly wrapped or stacked.
+- `Pass` Hero actions remain visible, reachable, and neatly wrapped or stacked.
 
-- `Not checked` Recognition steps maintain their intended sequence and remain readable as the composition collapses.
+- `Pass` Recognition steps maintain their intended sequence and remain readable as the composition collapses.
 
-- `Not checked` Fluency introduction and example field stack cleanly without clipped or scattered list content.
+- `Pass` Fluency introduction and example field stack cleanly without clipped or scattered list content.
 
-- `Not checked` Disclosure heading, position statement, and detail content retain a clear reading order.
+- `Pass` Disclosure heading, position statement, and detail content retain a clear reading order.
 
-- `Not checked` Cards and content containers keep stable widths and do not force horizontal scrolling.
+- `Pass` Cards and content containers keep stable widths and do not force horizontal scrolling.
 
-- `Not checked` Long LGBTQIA+ wording wraps without breaking lists, links, buttons, cards, or headings.
+- `Pass` Long LGBTQIA+ wording wraps without breaking lists, links, buttons, cards, or headings.
 
-- `Not checked` Section spacing avoids orphaned headings, excessive gaps, cramped controls, or content detached from its heading.
+- `Pass` Section spacing avoids orphaned headings, excessive gaps, cramped controls, or content detached from its heading.
 
 ## `/contact` - Contact and Fees
 
