@@ -1,4 +1,7 @@
 interface:
   display_name: "Page Copy Development"
-  short_description: "Plan pages and exact-copy section briefs"
-  default_prompt: "Use $develop-page-copy to create one authorised artifact: a high-level page plan or one section exact-copy and content-composition brief for later website design."
+  short_description: "Plan pages and develop one reviewed section"
+  default_prompt: "Use $develop-page-copy to create one bounded page-plan or section-copy artifact, routing editorial strategy, drafting, and review through $copywriter."
+
+policy:
+  allow_implicit_invocation: true

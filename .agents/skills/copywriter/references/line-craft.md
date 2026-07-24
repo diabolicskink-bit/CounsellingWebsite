@@ -1,278 +1,162 @@
-# Line craft and semantic control
+# Line craft
 
 Use this reference before substantial or high-prominence drafting, when exact
-wording is the task, or when otherwise sound copy remains flat, awkward,
-generic, imprecise, or unlike a plausible speaker. Apply it proportionately:
-work every line this closely in a headline or short passage; concentrate on
-pivotal and difficult lines in a long page.
+wording is the task, or when otherwise sound copy remains generic, awkward,
+imprecise, or unlike a plausible speaker. Apply it closely to a short artifact
+and to pivotal or resistant lines in a longer one.
 
-This is a positive method for making language. It does not replace the
-communication brief, composition, critique loop, or model-glue review. Keep
-private construction experiments private unless showing them would help the
-owner make a real choice.
+Keep private construction experiments private unless they expose a real owner
+decision.
 
 ## Contents
 
-- [Begin with the semantic spine](#begin-with-the-semantic-spine)
-- [Gather verbal material](#gather-verbal-material)
-- [Construct pivotal lines deliberately](#construct-pivotal-lines-deliberately)
-- [Control word meaning and implication](#control-word-meaning-and-implication)
-- [Use syntax to control focus and emphasis](#use-syntax-to-control-focus-and-emphasis)
-- [Make the prose sound spoken and alive](#make-the-prose-sound-spoken-and-alive)
-- [Craft headings, openings, links and actions](#craft-headings-openings-links-and-actions)
+- [Establish the semantic spine](#establish-the-semantic-spine)
+- [Construct pivotal lines](#construct-pivotal-lines)
+- [Control meaning and implication](#control-meaning-and-implication)
+- [Use syntax to express hierarchy](#use-syntax-to-express-hierarchy)
+- [Make the prose plausible aloud](#make-the-prose-plausible-aloud)
+- [Craft compressed lines](#craft-compressed-lines)
 - [Draft without stalling](#draft-without-stalling)
-- [Research basis](#research-basis)
 
-## Begin with the semantic spine
+## Establish the semantic spine
 
-Do not search for an impressive phrase before the thought is stable. For each
-pivotal or stubborn line, establish its semantic spine privately:
+Before searching for a memorable phrase, stabilise the thought:
 
 ```text
 Literal proposition:
-Whose or what story this sentence tells:
+Whose or what story the sentence tells:
 Action, state, or relationship:
 Necessary condition, limit, or contrast:
 Information that deserves emphasis:
 ```
 
-Adapt this notation rather than filling it mechanically. A sentence can carry
-nuance, rhythm, and more than one clause, but it should have one dominant
-semantic load. If the literal proposition cannot be stated, more polished
-language will usually conceal rather than solve the problem.
+Adapt the notation rather than filling it mechanically. A sentence may carry
+nuance and several clauses, but it needs one dominant semantic load. If the
+literal proposition cannot be stated, polish will usually conceal rather than
+solve the problem.
 
 Keep force and certainty exact. `Is`, `can`, `may`, `often`, `I find`, `I
-think`, and `you might` do different work. Choose what the available material
-and speaker support; do not add modal verbs as a general tone of caution or
-remove them merely to sound confident.
+think`, and `you might` do different work. Choose what the supplied material
+and speaker support. Do not hedge as a surface style or remove necessary
+qualification merely to sound confident.
 
-## Gather verbal material
+## Construct pivotal lines
 
-Before drafting prose, notice the task-specific language already available: the
-subject's natural vocabulary, supplied wording worth preserving, and any words
-needed for accuracy or retrieval. Do not turn this into a checklist or search
-for material that can perform expertise. Do not mine the existing website for
-voice or imitate first-person research language as though it were the reader's
-private speech.
+Identify the lines carrying disproportionate weight: usually the title or
+heading, opening, central proposition, important turn, action, and exit.
 
-Prefer the most familiar word that preserves the intended meaning and
-register—not automatically the shortest word. An exact technical or community
-term can be plainer than a loose everyday substitute. Do not use a thesaurus
-swap to avoid repetition: when one concept remains the same, repeating its
-name may be clearer than cycling through near-synonyms.
-
-Keep the language at the semantic level the material supports. Prefer the nearest
-ordinary account of what happens to a more emotionally loaded interpretation
-of what it means. `Losing interest in things you used to enjoy` names a change
-in interest or pleasure; `things that used to matter` changes the proposition
-to importance or meaning. A more resonant word is not a better synonym when it
-deepens or strengthens the claim. Move to that stronger level only when the
-task or speaker supports it and the change has a local job.
-
-## Construct pivotal lines deliberately
-
-Identify the lines that will carry disproportionate weight: usually a title or
-heading, opening, central proposition or judgement, important turn, action, and
-exit. The exact set depends on the artifact.
-
-For each pivotal line:
+For each:
 
 1. Establish the semantic spine.
-2. Draft a small number of materially different constructions privately.
-   Change the grammatical subject, main verb, clause relationship, information
-   order, or sentence shape—not merely adjectives and synonyms.
-3. Compare what each construction makes literal, prominent, implied, easy to
-   scan, and natural for the speaker.
-4. Choose the line that does the local job with the least semantic distortion.
-   Do not average the candidates into a safer composite.
-5. Read it with the preceding and following lines. A sentence that shines in
-   isolation may interrupt the argument, repeat a stress, or make the next
-   sentence unnecessary.
+2. Try a small number of materially different constructions.
+3. Change the grammatical subject, main verb, clause relationship, information
+   order, or sentence shape rather than swapping adjectives and synonyms.
+4. Compare what each version makes literal, prominent, implied, scannable, and
+   plausible for the speaker.
+5. Choose the construction that performs the local job with the least semantic
+   distortion.
+6. Read it with the surrounding lines; a sentence that shines alone may break
+   the argument or make the next line unnecessary.
 
-Originality is an outcome of exact observation and controlled construction,
-not a separate requirement to sound unusual. Prefer a line that feels
-inevitable once read over one that advertises the writer's cleverness.
+Do not average candidates into a safer composite. Originality should arise
+from exact observation and construction, not an instruction to sound unusual.
 
-## Control word meaning and implication
+## Control meaning and implication
 
-Inspect important words and phrases on several levels:
+Inspect important wording for:
 
 - **Denotation:** What does the line literally assert?
-- **Implication:** What additional conclusion is a reasonable reader likely to
-  draw? Does a phrase imply causation, expertise, universality, blame,
-  endorsement, ease, or an outcome that the literal wording avoids stating?
-- **Agency:** Who acts, chooses, knows, assumes, experiences, or decides? Has a
-  noun or passive construction hidden the responsible actor?
+- **Implication:** Does it imply causation, expertise, universality, blame,
+  endorsement, ease, safety, or an outcome it does not state?
+- **Agency:** Who acts, chooses, knows, assumes, experiences, or decides?
 - **Scope:** Does the claim apply to one situation, some people, this service,
-  or everyone? Keep qualifiers beside the words they limit.
-- **Register and connotation:** Is the word natural in this speaker-reader
-  relationship? Does it sound clinical, bureaucratic, promotional, intimate,
-  euphemistic, or dismissive in a way the dictionary definition does not show?
-- **Semantic level:** Does the wording stay with the observable experience,
-  action, or condition, or promote it into a stronger claim about meaning,
-  identity, motivation, fear, hope, or struggle?
-- **Reference:** Can every `this`, `that`, `it`, `they`, `pattern`, `process`,
-  or `experience` be traced to one clear thing?
-- **Consistency:** Use the same term for the same meaning and different terms
-  for genuinely different meanings. Do not vary terminology for cosmetic
-  freshness.
-- **Idiom and collocation:** Do the words normally belong together in the
-  intended variety of English and professional context? A phrase can be
-  grammatical yet still sound assembled rather than said.
+  or everyone?
+- **Register:** Is the language natural in this speaker-reader relationship, or
+  accidentally clinical, promotional, bureaucratic, or intimate?
+- **Semantic level:** Has an ordinary action, preference, uncertainty, or
+  difficulty been promoted into a claim about identity, meaning, fear, hope,
+  or struggle?
+- **Reference:** Can every `this`, `that`, `it`, `pattern`, `process`,
+  `experience`, or other broad noun be traced to one clear thing?
+- **Consistency:** Use the same term for the same meaning. Do not cycle through
+  near-synonyms for cosmetic freshness.
+- **Idiom:** Do the words belong together in natural Australian English and
+  the relevant professional context, or do they sound assembled?
 
 Prefer concreteness when it helps the reader picture the subject or understand
-what happens. Do not turn
-concreteness into invented props, demographic colour, fake anecdotes, or a
-catalogue of researched situations. Abstract language remains useful when the
-concept itself is abstract and precisely understood.
+what happens. Do not invent props, demographic colour, anecdotes, situations,
+conduct, or process. Keep abstract language when the concept is genuinely
+abstract and its referent is clear.
 
-Test adjectives and adverbs that carry the sentence's credibility. Replace one
-with a more literal statement already supported by the available material, or
-remove it.
+Test adjectives and adverbs that carry credibility. Replace them with a
+supported statement of conduct, arrangement, choice, boundary, observation, or
+detail, or remove the claim.
 
-## Use syntax to control focus and emphasis
-
-Make syntax express the hierarchy of thought.
+## Use syntax to express hierarchy
 
 - Choose the grammatical subject according to whose or what story the sentence
-  should tell. Active voice is often clearer because it exposes agency, but a
-  passive construction can be right when the actor is unknown, irrelevant, or
-  less important than maintaining the current topic.
-- Keep the subject and its main verb close enough that the reader does not have
-  to retain several qualifications before discovering the action.
-- Put actions in verbs when noun forms have drained the movement or hidden the
-  actor. Keep a nominalisation when the concept, result, or established term is
-  genuinely the subject.
-- Use the beginning of a sentence to establish topic, linkage, or context. Use
-  a natural point of syntactic closure to stress the new or important payload.
-  Do not bury an essential qualifier simply to create a stronger ending.
-- Give separate stress positions to ideas that each deserve emphasis. A
-  sentence is overloaded when several claims compete for one grammatical
-  landing point, not merely when it crosses an arbitrary word count.
-- Use coordination for genuinely equal ideas and subordination when one idea
-  explains, limits, causes, contrasts with, or depends on another. A chain of
-  `and` clauses often signals that the writer has not chosen a hierarchy.
-- Place modifiers and qualifications beside what they modify. Check that a
-  clause cannot attach to two different subjects or change the scope of a
-  claim.
-- Let punctuation show the relationship already present in the thought. Do not
-  use dashes, colons, fragments, or parentheses to manufacture energy or hide
-  a sentence whose logic is unfinished.
+  should tell.
+- Keep the subject and main verb close enough that qualifications do not hide
+  the action.
+- Put actions in verbs when noun forms have drained movement or hidden agency.
+- Use the beginning to establish topic or context and a natural point of
+  closure to stress the important payload.
+- Give separate stress positions to ideas that each deserve emphasis.
+- Coordinate genuinely equal ideas; subordinate what explains, limits,
+  contrasts with, or depends on something else.
+- Place qualifications beside what they limit.
+- Use punctuation to show an existing relationship, not to manufacture energy
+  or hide unfinished logic.
 
-Web readers often scan beginnings, while complete sentences often place useful
-emphasis at the end. Reconcile these needs: front-load information-bearing
-subjects and terms in headings, links, openings, and task copy; within a
-sentence, establish the topic early and let the syntax land on the intended
-payload. Do not apply either principle mechanically.
+Front-load information-bearing words in headings, links, openings, and task
+copy. Within sentences, let syntax land on the intended emphasis without
+burying an essential qualifier.
 
-## Make the prose sound spoken and alive
+## Make the prose plausible aloud
 
-Build voice from repeated choices about meaning and syntax: what the speaker
-notices, which distinctions they make, how directly they judge, where they
-qualify, what they leave implicit, and how much room they give the reader.
-Voice is not a layer of slang, quirks, contractions, fragments, or colourful
-synonyms.
+Build voice from repeated choices about what the speaker notices, distinguishes,
+states directly, qualifies, questions, and leaves implicit. Do not apply slang,
+quirks, contractions, fragments, or colourful synonyms as a voice layer.
 
-Read the copy aloud as the actual speaker, not as a generic narrator. Listen
-for:
+Read the copy aloud as the actual speaker and artifact. Mark:
 
-- a phrase the speaker could understand but would not naturally assemble;
-- accidental formality, sales cadence, sing-song symmetry, or counselling
-  boilerplate;
-- clauses that run past a natural breath without earning their accumulation;
-- consecutive sentences with the same launch, weight, or grammatical fall;
-- a short sentence performing importance the thought has not earned;
-- repetition that sounds accidental rather than cumulative; and
-- a word chosen for polish that weakens precision, candour, or ease.
+- grammatical wording the speaker would not naturally assemble;
+- accidental formality, sales cadence, counselling boilerplate, or corporate
+  plural;
+- simulated familiarity or unsupported vulnerability;
+- clauses that run past a natural breath without earning the accumulation;
+- consecutive sentences with the same launch, weight, or fall;
+- short sentences performing importance the thought has not earned;
+- sing-song symmetry or repeated rhetorical frames; and
+- a polished word that weakens precision, candour, or ease.
 
-Vary length and shape because the thought changes. Use a short sentence for a
-clean landing, interruption, answer, or turn; use a longer sentence when ideas
-belong in one accumulating or qualified movement. Preserve a controlled
-irregularity when it makes the speaker or thinking more plausible.
+Vary length and shape because the thought changes. Preserve controlled
+irregularity when it makes the thinking and speaker more plausible.
 
-## Craft headings, openings, links and actions
+## Craft compressed lines
 
-Treat compressed lines according to their actual job.
-
-- **Titles and headings:** Make the subject, question, distinction, or useful
-  promise identifiable. Put information-bearing words early enough to survive
-  scanning. Cleverness may add interest, but it must not replace information
-  scent or make the subheading repair an opaque headline.
-- **Headline and supporting line:** Divide the work. Do not make both lines
-  restate the same proposition in different words. Let one identify or frame
+- **Titles and headings:** Identify the subject, question, distinction, or
+  useful promise. Put information-bearing words early enough to survive
+  scanning. Do not make supporting copy repair an opaque headline.
+- **Headline and supporting line:** Divide the work. Let one identify or frame
   and the other specify, qualify, substantiate, or move the reader forward.
-- **Openings:** Begin close to the subject, situation, answer, or live tension.
-  Do not manufacture a hook from an imagined feeling, a broad rhetorical
-  question, or atmospheric throat-clearing.
-- **Links and calls to action:** Use wording that predicts the destination or
-  consequence. Front-load a verb when the reader is performing an action. Put
-  reassurance, conditions, or persuasion in nearby copy rather than making the
-  label vague.
+- **Openings:** Begin close to the subject, answer, situation, or live tension.
+  Do not create a hook from imagined feelings or atmospheric framing.
+- **Links and actions:** Predict the destination or consequence. Put
+  reassurance and conditions nearby rather than making the label vague.
 - **Endings:** Stop on the last useful fact, judgement, boundary, question, or
-  action. Do not add a moral or emotional resolution because the page shape
-  appears unfinished.
+  action. Do not add a moral or emotional resolution.
 
 ## Draft without stalling
 
-Use line craft to improve the first draft without turning every sentence into
-a workshop:
-
-1. Gather the small set of earned verbal material.
+1. Gather the small set of source-backed verbal material.
 2. Establish and construct the pivotal lines.
-3. Draft the connecting body at composition speed, keeping agency, status,
-   terminology, and information order in view.
-4. Use private construction alternatives only for pivotal or resistant lines.
-5. Finish the complete working draft before polishing every join.
-6. Run a line pass for semantic drift, implication, syntax, emphasis, idiom,
+3. Draft the connecting body at composition speed.
+4. Finish the complete working draft before polishing every join.
+5. Run a line pass for semantic drift, implication, syntax, emphasis, idiom,
    rhythm, and compressed interface language.
-7. Hand the resulting sincere best attempt to the independent critique loop.
+6. Freeze the sincere best attempt before loading the cold-review reference.
 
-Do not target uniform sentence lengths, a universal reading age, a percentage
-of active verbs, or a mandated vocabulary level. Treat readability tools and
-surface counts as prompts to inspect a passage, never as the definition of good
-copy.
-
-## Research basis
-
-This method adapts several complementary bodies of guidance rather than
-treating one style system as universal:
-
-- [ProCopywriters' professional competency
-  framework](https://www.procopywriters.co.uk/standards/competency/copywriting/)
-  treats semantics, contextual word choice, rhythm, sentence variety,
-  momentum, hierarchy, and behavioural guidance as professional competencies.
-- [ProCopywriters' writing and editing
-  guidance](https://www.procopywriters.co.uk/guidance/writing-editing/)
-  separates drafting and editing and uses distinct structure, clarity,
-  concision, polish, read-aloud, and proofing passes.
-- [Editors Canada's Professional Editorial Standards
-  2024](https://editors.ca/publications/professional-editorial-standards/stylistic-editing/)
-  emphasise reader vocabulary, concrete terms, consistent terminology,
-  ambiguity control, coherence, flow, and matching sentence mechanics to the
-  content.
-- Copyhackers' professional methods put clarity before surface voice, question
-  whether coordinated claims dilute the main point, and test copy for reader
-  relevance, proof, and specificity: [clarity
-  method](https://copyhackers.com/how-to-improve-clarity/) and [body-copy
-  method](https://copyhackers.com/2013/03/copywriting-body-copy/).
-- Gopen and Swan's [reader-expectation approach to sentence
-  structure](https://www.cs.tufts.edu/comp/150FP/archive/george-gopen/sci.html)
-  supports subject-verb proximity, actions in verbs, topic and stress
-  positions, and deliberate old-to-new flow. These are rhetorical principles,
-  not universal sentence templates.
-- Nielsen Norman Group's [web-scanning
-  research](https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/)
-  and the UK Office for National Statistics' [plain-language
-  guidance](https://service-manual.ons.gov.uk/content/writing-for-users/plain-language)
-  support information-bearing beginnings, meaningful headings, consistent
-  terms, clear actions, and concise web structure.
-- Packard and Berger's [consumer-language
-  research](https://academic.oup.com/jcr/article/47/5/787/5873524) found that
-  concrete language in service interactions increased perceived listening and
-  customer satisfaction. Treat this as one reason to test concrete wording, not
-  a promised website outcome or permission to invent detail.
-- Oppenheimer's [processing-fluency
-  experiments](https://onlinelibrary.wiley.com/doi/10.1002/acp.1178) found
-  that needless lexical complexity reduced judgements of author intelligence.
-  Prefer accessible precision; do not infer that every long or specialist word
-  is a problem.
+Do not target uniform sentence lengths, active-verb percentages, reading ages,
+or mandated vocabulary levels. Use surface counts only as prompts to inspect a
+passage, never as the definition of good copy.

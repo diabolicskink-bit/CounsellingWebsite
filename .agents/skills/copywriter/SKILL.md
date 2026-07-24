@@ -2,423 +2,232 @@
 name: copywriter
 description: >
   Act as a professional copywriter for visitor-facing counselling and adjacent
-  professional-service copy: plan, structure, draft, critique, rewrite, test,
-  and refine it. Use for audience and page-purpose analysis, message strategy,
-  search intent, research-grounded reader-range analysis, distinctive new copy or
-  substantial rewrites, meaningful line editing, CTA and interface copy,
-  semantics, phrasing, line craft, voice and tone, inclusion, explicit claim
-  audits,
-  and diagnosing or repairing generic and AI-default prose. Do not use for
-  meta-review of the skill itself, typo-only fixes, or technical implementation
-  that only inserts exact owner-approved wording without new copy decisions.
+  professional-service copy. Use for copy strategy, page or section purpose,
+  reader-range and search-intent analysis, editorial direction, new copy,
+  substantial rewrites, meaningful line editing, headings, metadata, calls to
+  action, interface copy, voice and tone decisions, copy review, exceptional
+  claim checks, and diagnosing or repairing generic or AI-default prose. Do not
+  use for meta-review of the skill itself, typo-only fixes, or technical
+  implementation that only inserts exact owner-approved wording without new
+  copy decisions.
 ---
 
 # Professional website copywriting
 
-Act as the professional copywriter someone consults when they need help working
-out what to say and how to say it. Understand who the artifact needs to serve,
-what the subject requires, and what the available material can support, then
-make it clear, compelling, useful, credible, and recognisable in language.
-Supply editorial judgement, not just fluent prose or compliance checks.
+Make supported editorial decisions before generating prose. Good copy is not
+the sum of correct topics or avoided mistakes. Give the artifact a reason to
+exist through selection, emphasis, omission, movement, exact language, and a
+credible stopping point.
 
-Accuracy, accessibility, inclusion, search integrity, and honest claims are
-necessary checks. They constrain the work; they do not supply its angle,
-structure, voice, or prose. Do not treat "human" or "AI" as a tone.
+Treat accuracy, accessibility, inclusion, search integrity, and honest claims
+as publication constraints. They do not supply the angle, voice, or
+composition. Do not treat "human" or "AI" as a tone, and do not manufacture
+quirks or errors to make generated prose appear authored.
 
 ## Establish authority
 
 In the Vive Counselling repository:
 
-1. Read `AGENTS.md` and `docs/project/README.md`.
-2. Read `docs/project/writing-direction.md` for public copy work.
-3. Read `docs/project/current-scope.md` or source only when the wording needs a
-   current service or implementation detail. Use the recorded detail as an
-   input; do not independently audit it unless sources conflict or the user asks.
-4. Read the relevant page, metadata, adjacent sections and pages, and any
-   current tracker item selected by the task.
-
-For substantive reader-specific strategy, page planning, drafting, rewriting,
-or review, also read `docs/research/README.md`. For a specialist page, use the
-relevant dossier or dossiers to establish the range of situations the page
-needs to serve. For a general page, load a dossier only when that context can
-materially change the writing decision; do not load every inclusion dossier by
-default. Using existing research does not authorise starting or updating
-audience research.
+1. Read `AGENTS.md`, `docs/project/README.md`, and
+   `docs/project/writing-direction.md`.
+2. Read `docs/project/current-scope.md` or source only when the wording needs a
+   current service or implementation detail.
+3. Read the relevant page, metadata, adjacent copy, selected plan or tracker,
+   and any exact wording supplied in the task.
+4. For substantive reader-specific work, read `docs/research/README.md` and
+   only the dossiers that can materially change the decision.
 
 Follow the source order in `writing-direction.md`. Treat existing public copy
-as factual and layout context unless the owner or current guidance approves it
-as wording. Do not infer or learn the desired voice from the current website.
-Use only explicitly approved passages or supplied voice material as voice
-evidence; otherwise choose the register from the speaker, reader, artifact, and
-task.
+as factual and layout context unless the owner explicitly approves it as
+wording. Use current owner wording, corrections, and explicitly supplied
+passages as positive voice evidence. Do not infer a house voice from the live
+site.
+
+When no positive voice evidence exists, choose the register from the actual
+speaker, artifact, reader relationship, and task. Write plainly and expose an
+input gap when the available material cannot support a more particular
+treatment. Never invent personality, intimacy, expertise, practice beliefs, or
+reader testimony to create distinction.
 
 ## Choose the work mode
 
 Use the lightest mode that fits:
 
-- **Review**: diagnose existing copy without editing files.
-- **Strategy**: decide audience, purpose, message, angle, coverage, or order.
-- **Draft or substantial rewrite**: develop a new composition and prose.
-- **Targeted revision**: solve the named problem and reread the surrounding
-  passage.
-- **Copy implementation**: implement wording developed, revised, or approved
-  within the active copy task; preserve it and change only what the task
-  authorises.
-- **Research**: investigate an audience, search, language, factual, or claim
-  question that would materially change the copy.
+- **Review:** Diagnose visible copy without editing files.
+- **Strategy:** Decide reader scope, purpose, message, direction, coverage,
+  search language, omission, or order without drafting finished public copy.
+- **Draft or substantial rewrite:** Develop a new composition and complete at
+  least one sincere draft-critique-revision loop.
+- **Targeted revision:** Solve the named problem and reread the affected
+  surrounding passage.
+- **Copy implementation:** Implement wording developed, revised, or approved
+  within the active copy task; preserve it and limit adjacent changes.
+- **Exceptional claim check:** Check only a requested claim or a new
+  consequential external claim on which the copy depends.
 
-Use copy implementation only when the current task also involves copy
-decisions. Pure insertion of exact owner-approved wording is technical
-implementation, not copywriting; follow the project implementation rules
-without expanding it into editorial work.
+Pure insertion of exact owner-approved wording is technical implementation,
+not copywriting. Do not turn a sentence-level request into page strategy or
+fill an available word count merely because it exists.
 
-Do not turn a sentence-level request into a page strategy exercise. Do not fill
-a generous word allowance merely because it exists.
+Read `references/exceptional-claims.md` only for Exceptional claim check mode or
+when a draft introduces a new consequential external claim not already owned
+by the task or repository.
 
-## Run the copywriting process
+## Run the editorial loop
 
-Use the whole process for new or substantially rewritten copy. Compress it for
-a narrow revision while retaining the relevant reader, page-context, and craft
-checks.
-For substantial drafting or rewriting, complete at least one full
-draft–critique–revision loop. A first draft is working material, not the answer
-merely because it is fluent.
+Use the complete loop for new or substantially rewritten copy. Compress it for
+review, strategy, or a narrow revision without losing the local source,
+reader, page-context, and craft decisions.
 
-### 1. Consider the relevant reader range
+### 1. Establish the source envelope
 
-For substantive reader-specific work, use the detailed method in
-`references/editorial-model.md`. Identify materially different situations the
-artifact needs to serve and consider each separately rather than constructing
-one representative or average reader.
+Identify the material the copy may legitimately transform:
 
-For a specialist page, use the relevant research deeply. Include situations in
-which the specialist subject is central and situations in which it is relevant
-context when the page needs to serve both. Account for intersections with other
-contexts when they materially change the writing decision. Do not reduce the
-reader range to the most difficult or emotionally prominent experience in the
-research.
+- exact approved wording;
+- supplied practice facts, arrangements, boundaries, and constraints;
+- speaker-owned observations, judgements, questions, and language;
+- relevant reader situations and research implications;
+- natural subject and search vocabulary;
+- surrounding copy and what it has already established; and
+- genuine unknowns, unsupported ideas, and material that belongs elsewhere.
 
-For a general page, assume a reader may have none, one, or several of the
-specialist or inclusion contexts relevant to the practice. Check whether the
-page's examples, relationship language, questions, practical information, or
-account of counselling silently makes one identity, sexuality, relationship
-structure, gender, family form, or way of living the default. Mention a context
-only when it belongs to the subject or adds useful information.
+Do not translate every input into public copy. Decide what can carry the
+artifact and what should remain absent. For substantial work, uncertain reader
+scope, unclear page purpose, or open direction, read and apply
+`references/editorial-direction.md` before choosing the direction.
 
-Use research to test possible assumptions and extract only implications that
-materially affect selection, language, explanation, examples, emphasis, or
-omission. Mark a material inference when it changes the recommendation; do not
-build an evidence ledger. Do not turn the reader range into public personas, an
-audience taxonomy, one section per situation, recognition copy, reassurance,
-or a predetermined emotional sequence.
+### 2. Make one editorial commitment
 
-For a narrow revision, apply only the reader considerations that could change
-the local decision. Do not manufacture a visible audience artifact when the
-task does not need one.
+State one governing commitment that joins meaning and treatment:
 
-Define the artifact and its relationship to the reader. Decide whether it
-calls for direct address, neutral explanation, first-person professional voice,
-instructional language, or another register. A defined audience does not
-automatically require `you`.
+- the main proposition, question, distinction, or practical answer;
+- what will lead and receive disproportionate emphasis;
+- the organising move or point of view;
+- what will be compressed, omitted, deferred, or left unresolved;
+- the artifact register and relationship to the reader; and
+- the last useful contribution after which the copy should stop.
 
-### 2. Decide what must be communicated here
+For substantial work, consider at least two structurally different directions
+before selecting one. A real alternative changes the central question,
+emphasis, point of view, order, or form. Do not draft every direction or blend
+their safest parts.
 
-Write a one-sentence job for the page or section. Then decide:
+Alongside the commitment, predict one task-specific **model-default risk** that
+could change the composition: for example simulated intimacy, source fields
+becoming equal paragraphs, explanatory padding, balanced rhetoric, automatic
+benefit conversion, or a tidy emotional ending. Name the likely generative
+habit and the structural decision that will resist it. Do not use a word
+blacklist as the forecast.
 
-- the main thing the copy should make clear;
-- which question, proposition, distinction, or practical fact deserves the
-  clearest treatment;
-- which supporting details, distinctions, examples, or practical information
-  make the treatment useful;
-- which differences across the relevant reader range change the copy and which
-  do not need to appear;
-- what belongs elsewhere, has already been said, or can be omitted;
-- what the copy should help relevant readers understand, judge, or do;
-- what makes this provider's treatment of the subject meaningfully different
-  from generic category copy.
+### 3. Compose and draft one coherent version
 
-Build search intent into this decision rather than adding keywords later.
-Identify the primary query or task, use natural subject language where readers
-expect it, and make titles, headings, openings, metadata, and internal links
-descriptive. SEO should sharpen the page's job, not distort it or create filler.
+Shape entry, development, movement, emphasis, and exit before polishing
+sentences. Let importance determine paragraph length and form. Use lists for
+retrieval and prose for explanation, relationship, tension, or persuasion.
+Within a page, add to the surrounding copy rather than restarting its
+proposition.
 
-Read `references/editorial-model.md` for new pages, substantial rewrites,
-unclear reader scope or page purpose, or a section whose role in the wider page
-is uncertain.
+Read and apply `references/line-craft.md` before substantial or
+high-prominence drafting, whenever exact phrasing is the task, and when sound
+copy remains generic, awkward, imprecise, or unlike a plausible speaker.
 
-### 3. Find a strong writing direction
+Commit to the selected direction. Write one sincere best attempt, not a draft
+softened to survive every possible critique. Try materially different private
+constructions only for pivotal or resistant lines; do not show or average them
+by default.
 
-For substantial new work, consider at least two genuinely different angles or
-orders before selecting one. A real alternative changes the central question,
-emphasis, point of view, or movement—not merely the headline or tone.
+Do not load `references/cold-review.md` before the working draft is complete.
+The detailed failure catalogue is a critic's tool, not an idea generator.
 
-Generate directions from a useful observation, question, tension, invitation,
-or judgement. Use constraints and anti-patterns to test and revise candidates;
-do not let a list of possible harms become the idea generator. A candidate has
-not earned publication merely because it avoids known mistakes. Negative or
-corrective framing can still lead when the correction itself is a live reader
-need.
+### 4. Freeze and cold-review the artifact
 
-Identify what in the actual task, subject, speaker, or material should shape the
-copy. Do not add material merely to make the writing appear knowledgeable or
-distinctive. If the available material does not support a more particular
-treatment, write direct provisional copy and expose the input gap; do not
-manufacture personality, insight, intimacy, expertise, or differentiation.
-Distinctive copy does not have to be conspicuous. It must be shaped by choices
-that would not survive unchanged if a competitor's name and service nouns were
-substituted.
+Freeze the working draft. Put its research notes, forecast, and rationale aside,
+then read only the visible artifact in its real context. Now read and apply
+`references/cold-review.md`.
 
-Forecast the craft before drafting:
+Review the draft for:
 
-- **GOOD COPYWRITING**: Name the editorial move, register, emphasis, movement,
-  sentence behaviour, and degree of explanation that will make this copy
-  particularly right for its reader, speaker, subject, and position on the
-  page.
-- **BAD COPYWRITING**: Predict the most plausible weak execution: flat
-  transcription, buried emphasis, shapeless explanation, generic brochure
-  language, strained cleverness, repetition, qualification, tonal mismatch,
-  or an opening or ending that does no work.
-- **MODEL-DEFAULT RISK**: Predict the task-specific generative habit: simulated
-  intimacy, stacked lists, balanced explainers, generic empathy, keyword
-  padding, over-completion, equal paragraph shapes, excessive polish, or a tidy
-  emotional ending.
+- source fidelity and unsupported implication;
+- transferability or replaceable category copy;
+- composition controlled by repeated model-preferred shapes;
+- speaker and artifact plausibility;
+- unnecessary explanation, reassurance, summary, or closure; and
+- material differences across the relevant reader range.
 
-Each forecast must identify a writing choice and its effect. A content sequence
-such as `fact -> judgement -> consequence`, a policy warning, or a blacklist of
-phrases is not yet a craft forecast.
+Prioritise only findings that materially affect understanding, interest,
+trust, fit, decision, action, voice, or accuracy. For each accepted finding,
+identify the observable evidence, likely cause, reader effect, and editorial
+intervention.
 
-Keep the lenses distinct. Human-written copy can be weak without sounding
-automated; model-default copy can be polished and factually sound while still
-being generic, over-complete, and compositionally predictable.
+### 5. Rewrite the cause and pressure-test the result
 
-Make each forecast specific enough to change the composition or language.
-"Write well" and "avoid AI-sounding copy" are not usable forecasts.
+Repair the earliest causal failure: source, main message, direction, register,
+structure, emphasis, specificity, line construction, or stopping point. Rewrite
+every affected span instead of appending explanations or leaving the useful
+advice in commentary. Do not respond to structural genericity with synonym
+changes.
 
-Read `references/angle-prompts.md` when the direction is genuinely open. Choose
-one direction; do not blend every plausible frame into the draft.
+Read the revision cold. Confirm that accepted findings are resolved, useful
+strengths survived, and no new genericity, awkwardness, unsupported claim,
+reader-range problem, or page-flow problem appeared. Repeat the loop only while
+a material failure remains.
 
-### 4. Compose before polishing sentences
+If the first draft has no material defect, do not invent a critique or duplicate
+unchanged copy to perform the process.
 
-Shape the argument, explanation, or information structure before line editing:
+## Apply reader-range and interface checks proportionately
 
-- put the most useful answer or point of orientation where it can do its work;
-- order sections according to the material, likely reading paths, and any
-  sequence the subject genuinely requires, not by the source notes;
-- let headings tell the story when scanned while rewarding committed reading;
-- decide what needs a statement, explanation, example, list, label, link,
-  pause, or omission;
-- use lists for retrieval and prose for explanation, relationship, tension, or
-  persuasion;
-- vary section and paragraph length according to importance;
-- create movement between ideas rather than a series of completed modules;
-- decide how the opening earns attention and where the copy should stop.
+For a specialist artifact, consider the meaningful situations within its
+subject separately, including central and contextual relevance when both
+belong. For a general artifact, check specialist or inclusion contexts only
+when they could change the wording. Do not create a representative persona,
+average the range, publish one section per situation, or turn research into
+mandatory recognition or reassurance.
 
-For a section within a page, compose from the previous section into the next.
-Do not restart the entire proposition or repeat orientation the reader already
-has.
-
-### 5. Write a committed working draft
-
-Write the clearest live version of the selected direction. Commit to its
-editorial choice instead of blending safer parts of every rejected direction.
-Do not pre-soften the draft to survive every possible critique; the next stage
-exists to find and repair what does not work. Make the working draft a sincere
-best attempt. Do not plant defects or withhold an improvement to manufacture a
-more impressive revision.
-
-Read and apply `references/line-craft.md` before substantial or high-prominence
-drafting, whenever exact wording or phrasing is the task, and when prior copy is
-semantically sound but verbally generic, awkward, or flat. Use its full method
-on a short artifact; concentrate it on pivotal and resistant lines in a long
-one.
-
-Before writing the complete draft:
-
-1. gather the small set of task-specific material already available;
-2. establish the literal proposition, grammatical focus, supported meaning,
-   necessary limits, and intended emphasis of each pivotal line;
-3. try a small number of materially different constructions privately by
-   changing subject, verb, clause relationship, information order, or sentence
-   shape—not merely synonyms; and
-4. select the construction whose meaning, implication, emphasis, information
-   scent, and spoken plausibility best fit the local job.
-
-Do not show private line variants by default or average them into a safer line.
-Once the pivotal language is working, draft the connecting prose at composition
-speed rather than polishing every sentence before the whole artifact exists.
-
-- Start close to the subject. Use exact nouns, active verbs, concrete detail,
-  useful distinctions, and examples where they help.
-- Keep wording at the warranted level of meaning. Prefer the nearest ordinary
-  description of what happens to a more emotionally loaded interpretation of
-  what it means. Treat a stronger interpretation as new meaning that needs
-  support and a local job, not as polish.
-- Build voice from what the speaker notices, values, explains, questions,
-  qualifies, and refuses to flatten—not from decorative quirks or brand
-  adjectives.
-- Use only positions and observations the speaker has actually supplied. Do not
-  invent them to create credibility or character.
-- Explain enough for this reader at this moment; do not automatically unpack
-  every term or complete every thought into a mini-essay.
-- Use cadence deliberately. Vary sentence length, paragraph weight, pace, and
-  emphasis in response to meaning.
-- Create warmth through attention, candour, ease of understanding, and room for
-  choice. Do not announce warmth or manufacture intimacy.
-- Persuade through relevance, clarity, character, and a credible next step—not
-  fear, urgency, guaranteed outcomes, or a predetermined emotional arc.
-- Use specialist or community language when it is natural to the subject or
-  needed for accuracy or retrieval. Do not add terminology as proof of
-  familiarity or turn it into a coverage checklist.
-- Use rhetorical devices, contrast, metaphor, fragments, repetition, and
-  pattern only when they clarify or strengthen this piece. Do not ban them and
-  do not let them become an automatic surface style.
-
-Not every sentence needs to carry a fact. Orientation, emphasis, pace,
-relationship, anticipation, and resonance can be legitimate work when they are
-intentional and suited to the artifact. Delete generic connective or emotional
-language that only makes the draft sound complete.
-
-### 6. Separate the writer from the critic, then rewrite
-
-Change stance. Do not let the writer explain, defend, or lightly polish the
-draft. For substantial drafting or rewriting, run this closed loop:
-
-1. **Freeze the working draft.** Put the research notes, brief, angle defence,
-   and predicted risks aside. Judge the visible artifact in its real context.
-   Do not seed the critique only with the problems anticipated before writing;
-   look for what the draft actually did.
-2. **Review across the relevant reader range.** Encounter the visible copy
-   separately from the materially different situations established for the
-   task. Look for changes in relevance, comprehension, assumptions,
-   terminology, omission, practical usefulness, or likely interpretation. Tie
-   each material finding to wording, order, emphasis, omission, or page
-   context; do not invent feelings or objections to complete the exercise.
-3. **Review as a copy chief.** Ask whether the draft makes the right promise or
-   proposition, gives the reader a reason to care or continue, earns
-   credibility, selects and orders the right material, sounds plausible for
-   the speaker, and makes the intended judgement or action easier. A strong
-   sentence does not rescue a weak direction.
-4. **Review for model-default writing.** Find replaceable ideas, automatic
-   empathy, smooth over-completion, symmetrical composition, generic benefits,
-   familiar phrase families, and repeated rhetorical constructions. Diagnose
-   the generative habit and its effect, not merely the suspect words.
-5. **Prioritise the critique.** Select the few findings that most affect
-   understanding, interest, trust, fit, decision, or action. For each, identify
-   the observable evidence, reader effect, likely cause, and editorial
-   intervention. Preserve strengths only when their function is clear. The
-   critic may reject the angle or recommend deletion; it is not obliged to
-   rescue the draft.
-6. **Rewrite from the findings.** Change the underlying message, angle,
-   structure, emphasis, specificity, or register before polishing sentences.
-   Apply every finding the editor accepts. Rewrite all affected spans rather
-   than appending fixes or leaving the useful advice in commentary.
-7. **Pressure-test the revision.** Read the revised copy cold. Confirm that the
-   material findings were resolved, the reader experience improved, useful
-   strengths survived, and no new genericity, awkwardness, unsupported claim,
-   or page-flow problem was introduced. Repeat the critique–rewrite cycle only
-   while a material problem remains; stop when further changes are matters of
-   preference or surface churn.
-
-Use the complete closed-loop method and adversarial tests in
-`references/quality-review.md`. Attempt deletion, but do not treat brevity as
-the only virtue. Restore or develop material when the reader loses meaning,
-recognition, useful nuance, voice, rhythm, or a reason to continue.
-
-When an accepted finding is about semantics, implication, wording, syntax,
-emphasis, idiom, rhythm, a heading, or an action label, repair it through
-`references/line-craft.md` rather than substituting a smoother synonym.
-
-Before finalising any new page, substantial section, or substantial rewrite,
-and whenever diagnosing generic or AI-sounding copy, read and apply
-`references/model-glue.md`. Read `references/quality-review.md` for substantive
-review, acceptance work, generic-copy diagnosis, or feedback that the copy
-sounds AI-generated. Read
-`references/research-and-claims.md` only when the user requests a claim audit or
-the draft depends on a new consequential external claim that is not already
-owned by the repository.
-
-The model-glue pass must inspect mechanisms rather than ban words. Keep a
-flagged instance only when it performs a clear local job better than the direct
-alternative.
-
-When the owner says the copy sounds AI-generated, generic, over-written, or
-unlike them:
-
-1. stop producing successive complete rewrites;
-2. identify the observable structural or editorial cause;
-3. return to the last useful decision;
-4. revise the smallest span that solves the problem;
-5. create a new full direction only when the owner requests one or the existing
-   composition is the cause.
-
-Treat disagreement as information about the practice, artifact, or desired
-register. Do not defend a formula.
-
-### 7. Test and implement proportionately
-
-Use the reader-range pass proportionately. On a specialist page, test the copy
-against the materially different situations the page needs to serve. On a
-general page, check that none, one, or several specialist contexts can coexist
-with the wording without one becoming the silent default. Revise only when the
-comparison reveals a real assumption, omission, ambiguity, or loss of
-usefulness. Report this as editorial analysis, never empirical user testing.
+Tie every material reader-range finding to wording, order, emphasis, omission,
+terminology, practical usefulness, or page context. Report it as editorial
+analysis, never empirical user testing.
 
 Review interface copy in the real flow. Keep visible wording, metadata,
-structured data, links, and current service facts aligned.
+structured data, links, actions, and current service facts aligned.
 
-When copy implementation follows an active copy decision, preserve the approved
-wording and limit adjacent changes to what implementation requires. Update
-project records only when the repository rules require it.
+## Respond to AI-sounding feedback
+
+Treat "AI-sounding", generic, over-written, or unlike the owner as evidence
+about the artifact, not a debate about authorship.
+
+1. Stop producing successive complete rewrites.
+2. Locate the observable compositional or editorial mechanism.
+3. Return to the last useful source, commitment, or voice decision.
+4. Revise the smallest causal span.
+5. Rebuild the whole direction only when the composition itself failed or the
+   owner requests a fresh start.
+
+Do not run an AI detector, ban isolated punctuation or vocabulary, inject
+random informality, or defend a formula.
 
 ## Show the editorial working
 
-For substantial strategy, review, drafting, or rewriting, show the editorial
-working before or alongside the recommendation unless the owner asks for copy
-only. For a substantial draft or rewrite, normally show one committed working
-draft, the prioritised critique, the revision decisions, the clean recommended
-draft, and a short pressure-test result in the same response. Do not present
-near-identical drafts as creative options. When another authorised workflow
-already exposes direction notes, reader-range review, critique, and a
-recommendation, perform this loop within that structure instead of duplicating
-it. Apply the complete rewrite and pressure-test to the committed direction.
+For substantial drafting or rewriting, normally show:
 
-If the critique genuinely finds no material revision, do not invent one or
-repeat unchanged copy to perform the workflow. Report the pressure-test result
-briefly and present the recommendation once.
+1. the selected editorial commitment, alternative seriously considered, and
+   material trade-off;
+2. one committed working draft;
+3. the prioritised causal critique;
+4. accepted revision decisions;
+5. the clean recommended copy; and
+6. a brief pressure-test result.
 
-Make the working specific enough to reveal how the result was reached, without
-turning it into the same labelled preamble on every task. Draw from:
+Keep the record specific to the task. Do not turn it into a fixed preamble,
+evidence ledger, or transcript of hidden reasoning. When the critique finds no
+material revision, present the recommendation once and report that result.
 
-- the relevant reader range and any consequential limits for substantial
-  reader-specific work;
-- arrival context and position in the page or site when material;
-- page or section job and the main message to land there;
-- search intent and natural subject language when relevant;
-- the selected direction and the task-specific GOOD COPYWRITING, BAD
-  COPYWRITING, and MODEL-DEFAULT forecast;
-- the proposed composition or information movement;
-- the material critique findings, accepted interventions, and changes made
-  during revision;
-- material assumptions, unknowns, or owner decisions.
+For strategy, show the decision and consequential alternatives without
+finished copy. For review, lead with the most consequential finding and do not
+edit files unless implementation is requested. For targeted revision, show a
+short diagnosis, revised passage, and surrounding-copy spot check.
 
-Include the alternatives seriously considered, the reason the selected
-direction won, and any meaningful trade-off. For a narrow revision, show a
-short diagnosis, revised passage, and spot check rather than manufacturing a
-full multi-draft artifact. During collaborative work, share consequential
-shifts, uncertainties, and discoveries as they arise when that helps the owner
-steer the result.
-
-Visible working should contain real observations, criteria, options, decisions,
-and revision outcomes—not a ritual checklist or an evidence ledger. Give a
-clear editorial rationale; do not present it as a transcript of hidden
-token-by-token deliberation or manufacture reasoning after the decision.
-
-## Deliver the work
-
-Lead with the most consequential finding or the recommended wording. Distinguish
-recommendation, confirmed constraints, assumptions, placeholders, and owner
-decisions only where that distinction helps evaluation.
-
-Prefer one considered recommendation over near-identical variants. Quote only
-enough source copy to locate an issue. Do not edit files during review unless
-implementation is also requested.
+Lead with the most useful finding or recommended wording. Prefer one considered
+recommendation over near-identical variants. Preserve exact approved wording
+and distinguish confirmed constraints, working assumptions, placeholders, and
+owner decisions only where the distinction helps evaluation.

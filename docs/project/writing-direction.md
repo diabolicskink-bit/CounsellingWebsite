@@ -28,6 +28,7 @@ Do not silently polish text the owner has supplied for implementation. If an exa
 - Write in plain Australian English.
 - Use `I` for Joel's actions, questions, judgement, and boundaries. Use `the practice` only when the business itself is genuinely the subject.
 - Prefer ordinary phrasing to clinical, corporate, intake, or marketing language.
+- Use the owner's current wording, corrections, and explicitly supplied passages as positive voice evidence for the active task. When none is available, keep the register plain and appropriate to the artifact rather than inventing character, intimacy, or professional judgement.
 
 ## Cadence And Restraint
 
@@ -74,4 +75,4 @@ SEO research and sample outlines provide coverage prompts, not required wording 
 
 ## Final Review
 
-Before proposing or implementing public copy, review it in its page context for alignment with supplied material, speaker and artifact fit, unnecessary repetition, and natural search language. Diagnose specific causes rather than treating `AI` as a tone or relying on a list of suspect words.
+Before proposing or implementing public copy, review it in its page context for alignment with supplied material, speaker and artifact fit, unnecessary repetition, and natural search language. Use the copywriter skill's post-draft cold review for new or materially revised wording. Diagnose specific causes rather than treating `AI` as a tone or relying on a list of suspect words.
