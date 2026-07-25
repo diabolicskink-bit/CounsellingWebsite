@@ -140,7 +140,7 @@ const pageContent: WorkingWithJoelPageContent = {
           "Flatness, numbness, hopelessness, exhaustion, loss of interest, or not feeling much like yourself.",
       },
       {
-        title: "Trauma & feeling unsafe",
+        title: "Trauma & CPTSD",
         body:
           "Past experiences, abuse, dissociation, hypervigilance, numbness, or memories that still feel active.",
       },
@@ -150,7 +150,7 @@ const pageContent: WorkingWithJoelPageContent = {
           "Feeling wrong, too much, not enough, exposed, constantly at fault, or unable to be at ease with yourself.",
       },
       {
-        title: "Perfectionism & control",
+        title: "Perfectionism",
         body:
           "High standards, fear of mistakes, procrastination, over-responsibility, or never being able to rest.",
       },
