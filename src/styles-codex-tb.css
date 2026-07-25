@@ -1,33 +1,9 @@
-/* Codex TB: mobile-first Contact page candidate. */
+/* Development-only contact-page exploration. */
 
 .codex-tb-page {
   --codex-contact-rule: rgba(35, 75, 61, 0.2);
   --codex-contact-quiet-rule: rgba(35, 75, 61, 0.12);
   background: var(--paper);
-}
-
-.codex-contact__prototype-bar {
-  border-bottom: 1px solid var(--codex-contact-rule);
-  background: var(--cedar-soft);
-  color: var(--body);
-  font-size: var(--type-caption);
-  line-height: 1.4;
-}
-
-.codex-contact__prototype-bar .container {
-  display: flex;
-  gap: 10px 18px;
-  align-items: center;
-  justify-content: space-between;
-  padding-block: 8px;
-}
-
-.codex-contact__prototype-bar strong {
-  color: var(--cedar);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
 .codex-contact__opening {
@@ -232,7 +208,7 @@
 }
 
 .codex-contact__form,
-.codex-contact__prototype-success {
+.codex-contact__submission-success {
   overflow: hidden;
   border: 1px solid rgba(204, 212, 202, 0.92);
   border-radius: 3px;
@@ -441,14 +417,23 @@
   min-width: min(100%, 260px);
 }
 
-.codex-contact__submit-row p {
-  color: var(--faint);
-  font-size: var(--type-caption);
-  line-height: 1.45;
-  text-align: right;
+.codex-contact__submission-error {
+  padding: 18px 20px;
+  border-left: 3px solid #a84332;
+  background: #f8eae6;
+  color: #7b2f25;
+  font-size: var(--type-small);
+  line-height: 1.55;
 }
 
-.codex-contact__prototype-success {
+.codex-contact__submission-error a {
+  color: inherit;
+  font-weight: 760;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.codex-contact__submission-success {
   display: grid;
   gap: 20px;
   align-content: center;
@@ -456,11 +441,11 @@
   padding: 54px;
 }
 
-.codex-contact__prototype-success:focus {
+.codex-contact__submission-success:focus {
   outline: 0;
 }
 
-.codex-contact__prototype-success h2 {
+.codex-contact__submission-success h2 {
   max-width: 10ch;
   color: var(--ink);
   font-size: clamp(2.8rem, 5.2vw, 4.5rem);
@@ -468,13 +453,9 @@
   line-height: 0.96;
 }
 
-.codex-contact__prototype-success p {
+.codex-contact__submission-success p {
   color: var(--muted);
   font-size: var(--type-body);
-}
-
-.codex-contact__prototype-success .button {
-  justify-self: start;
 }
 
 .codex-contact__practical {
@@ -595,11 +576,6 @@
 }
 
 @media (max-width: 700px) {
-  .codex-contact__prototype-bar .container {
-    display: grid;
-    justify-content: stretch;
-  }
-
   .codex-contact__opening {
     background:
       radial-gradient(circle at 92% 10%, rgba(204, 216, 201, 0.5), transparent 35%),
@@ -660,7 +636,7 @@
   }
 
   .codex-contact__form,
-  .codex-contact__prototype-success {
+  .codex-contact__submission-success {
     border-right: 0;
     border-left: 0;
     border-radius: 0;
@@ -724,17 +700,9 @@
     width: 100%;
   }
 
-  .codex-contact__submit-row p {
-    text-align: left;
-  }
-
-  .codex-contact__prototype-success {
+  .codex-contact__submission-success {
     min-height: 480px;
     padding: 42px 20px;
-  }
-
-  .codex-contact__prototype-success .button {
-    justify-self: stretch;
   }
 
   .codex-contact__sequence {

@@ -3,11 +3,13 @@ import { NavLink } from "react-router-dom";
 import { navItems, type NavItem } from "../data/site";
 
 type DesktopNavigationProps = {
+  items?: readonly NavItem[];
   onLinkPointerUp: (event: ReactPointerEvent<HTMLAnchorElement>) => void;
   pathname: string;
 };
 
 type MobileNavigationProps = {
+  items?: readonly NavItem[];
   onNavigate: () => void;
   pathname: string;
 };
@@ -120,10 +122,14 @@ function MobileNavigationItem({
   );
 }
 
-export function DesktopNavigation({ onLinkPointerUp, pathname }: DesktopNavigationProps) {
+export function DesktopNavigation({
+  items = navItems,
+  onLinkPointerUp,
+  pathname,
+}: DesktopNavigationProps) {
   return (
     <nav className="desktop-nav" aria-label="Main navigation">
-      {navItems.map((item) => (
+      {items.map((item) => (
         <DesktopNavigationItem
           depth={0}
           item={item}
@@ -136,10 +142,14 @@ export function DesktopNavigation({ onLinkPointerUp, pathname }: DesktopNavigati
   );
 }
 
-export function MobileNavigation({ onNavigate, pathname }: MobileNavigationProps) {
+export function MobileNavigation({
+  items = navItems,
+  onNavigate,
+  pathname,
+}: MobileNavigationProps) {
   return (
     <nav className="mobile-nav" id="mobile-navigation" aria-label="Mobile navigation">
-      {navItems.map((item) => (
+      {items.map((item) => (
         <MobileNavigationItem
           depth={0}
           item={item}

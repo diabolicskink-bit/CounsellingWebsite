@@ -1,18 +1,23 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Button from "../../../components/Button";
 import Container from "../../../components/Container";
-import { enquiryEmail } from "../../../data/enquiry";
+import { enquiryEmail, enquiryFormContent } from "../../../data/enquiry";
 import {
   australianStateOptions,
   bookingTypes,
   enquiryTypes,
 } from "../../../data/enquiryContract";
+import { getRouteMetadata } from "../../../data/routeMetadata";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
+import {
+  trackEnquiryStarted,
+  trackSuccessfulEnquirySubmission,
+} from "../../../utils/analytics";
 import { getActiveAustralianTimeZoneOptions } from "../../../utils/timeZones";
 import "../../../styles-codex-tb.css";
 
 type ContactPath = "appointment" | "consult" | "question";
-type PrototypeStatus = "editing" | "complete";
+type SubmitStatus = "idle" | "sending" | "success" | "error";
 
 type ContactPathOption = {
   id: ContactPath;
@@ -42,6 +47,28 @@ const contactPathOptions: readonly ContactPathOption[] = [
   },
 ] as const;
 
+const contactMetadata = getRouteMetadata("/contact");
+
+function getFormText(formData: FormData, fieldName: string) {
+  const value = formData.get(fieldName);
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function buildEnquiryPayload(formData: FormData) {
+  return {
+    availability: getFormText(formData, "availability"),
+    bookingType: getFormText(formData, "bookingType"),
+    email: getFormText(formData, "email"),
+    enquiryType: getFormText(formData, "enquiryType"),
+    message: getFormText(formData, "message"),
+    name: getFormText(formData, "name"),
+    state: getFormText(formData, "state"),
+    timing: getFormText(formData, "timing"),
+    timeZone: getFormText(formData, "timeZone"),
+    website: getFormText(formData, "website"),
+  };
+}
+
 function RequiredMark() {
   return (
     <>
@@ -51,7 +78,7 @@ function RequiredMark() {
   );
 }
 
-function PrototypeSuccess({ onReset }: { onReset: () => void }) {
+function SubmissionSuccess() {
   const statusRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -60,45 +87,74 @@ function PrototypeSuccess({ onReset }: { onReset: () => void }) {
 
   return (
     <div
-      className="codex-contact__prototype-success"
+      className="codex-contact__submission-success"
       ref={statusRef}
       role="status"
       tabIndex={-1}
     >
-      <span className="codex-contact__step-label">Prototype complete</span>
-      <h2>That is the full enquiry path.</h2>
-      <p>No enquiry was sent from this test-bed page.</p>
-      <Button onClick={onReset} variant="secondary">
-        Try another option
-      </Button>
+      <span className="codex-contact__step-label">Enquiry sent</span>
+      <h2>{enquiryFormContent.success.title}</h2>
+      <p>{enquiryFormContent.success.message}</p>
+      <p>{enquiryFormContent.success.note}</p>
     </div>
   );
 }
 
-function ContactCandidateForm() {
+function ContactEnquiryForm() {
   const [contactPath, setContactPath] = useState<ContactPath | "">("");
-  const [prototypeStatus, setPrototypeStatus] = useState<PrototypeStatus>("editing");
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
+  const enquiryStartTrackedRef = useRef(false);
   const timeZoneOptions = getActiveAustralianTimeZoneOptions();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setPrototypeStatus("complete");
+    const formElement = event.currentTarget;
+
+    setSubmitStatus("sending");
+
+    try {
+      const response = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(buildEnquiryPayload(new FormData(formElement))),
+      });
+
+      if (!response.ok) {
+        throw new Error("Enquiry submission failed.");
+      }
+
+      trackSuccessfulEnquirySubmission("contact");
+      formElement.reset();
+      setContactPath("");
+      setSubmitStatus("success");
+    } catch {
+      setSubmitStatus("error");
+    }
+  };
+
+  const handleFormInput = (event: FormEvent<HTMLFormElement>) => {
+    const target = event.target;
+
+    if (
+      enquiryStartTrackedRef.current ||
+      (target instanceof HTMLInputElement && target.name === "website")
+    ) {
+      return;
+    }
+
+    enquiryStartTrackedRef.current = true;
+    trackEnquiryStarted();
   };
 
   const handlePathChange = (value: ContactPath) => {
     setContactPath(value);
-    setPrototypeStatus("editing");
+    setSubmitStatus("idle");
   };
 
-  if (prototypeStatus === "complete") {
-    return (
-      <PrototypeSuccess
-        onReset={() => {
-          setContactPath("");
-          setPrototypeStatus("editing");
-        }}
-      />
-    );
+  if (submitStatus === "success") {
+    return <SubmissionSuccess />;
   }
 
   const isAppointment = contactPath === "appointment";
@@ -119,11 +175,22 @@ function ContactCandidateForm() {
 
   return (
     <form
+      action="/api/enquiry"
       aria-labelledby="codex-contact-form-heading"
       className="codex-contact__form"
-      data-prototype-form="true"
+      data-clarity-mask="true"
+      method="post"
+      onInputCapture={handleFormInput}
       onSubmit={handleSubmit}
     >
+      <input
+        aria-hidden="true"
+        autoComplete="off"
+        className="site-form__honeypot"
+        name="website"
+        tabIndex={-1}
+      />
+
       <header className="codex-contact__form-heading">
         <span className="codex-contact__step-label">Start here</span>
         <h2 id="codex-contact-form-heading">What would you like to do?</h2>
@@ -291,9 +358,19 @@ function ContactCandidateForm() {
           </div>
 
           <div className="codex-contact__submit-row">
-            <Button type="submit">{submitLabel}</Button>
-            <p>This prototype will not send an enquiry.</p>
+            <Button disabled={submitStatus === "sending"} type="submit">
+              {submitStatus === "sending" ? "Sending..." : submitLabel}
+            </Button>
           </div>
+
+          {submitStatus === "error" ? (
+            <div className="codex-contact__submission-error" role="alert">
+              <p>
+                Sorry, the enquiry could not be sent. Please email{" "}
+                <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a> directly.
+              </p>
+            </div>
+          ) : null}
         </div>
       ) : null}
     </form>
@@ -301,20 +378,10 @@ function ContactCandidateForm() {
 }
 
 export default function CodexTB() {
-  useDocumentMetadata(
-    "Contact candidate | Codex TB | Vive Counselling",
-    "Mobile-first Contact and fees page candidate for Vive Counselling.",
-  );
+  useDocumentMetadata(contactMetadata.title, contactMetadata.description);
 
   return (
     <main className="site-page codex-tb-page codex-contact">
-      <div className="codex-contact__prototype-bar">
-        <Container>
-          <strong>Codex TB</strong>
-          <span>Contact page candidate · form submissions stay in the browser</span>
-        </Container>
-      </div>
-
       <section className="codex-contact__opening" aria-labelledby="codex-contact-title">
         <Container className="codex-contact__opening-grid">
           <header className="codex-contact__intro">
@@ -378,7 +445,7 @@ export default function CodexTB() {
             </p>
           </aside>
 
-          <ContactCandidateForm />
+          <ContactEnquiryForm />
         </Container>
       </section>
 

@@ -2,7 +2,13 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
-import { publicRoutePaths, routeHref, usesSharedChromePath } from "../data/routes";
+import {
+  devRoutePaths,
+  publicRoutePaths,
+  routeHref,
+  usesSharedChromePath,
+} from "../data/routes";
+import { navItems } from "../data/site";
 import Button from "./Button";
 import Container from "./Container";
 import { DesktopNavigation, MobileNavigation } from "./SiteNavigation";
@@ -12,12 +18,24 @@ const homeHref = routeHref(publicRoutePaths.home);
 const workingWithJoelHref = routeHref(publicRoutePaths.workingWithJoel);
 const inclusionHref = routeHref(publicRoutePaths.inclusion);
 const contactHref = routeHref(publicRoutePaths.contact);
+const codexTestBedHref = routeHref(devRoutePaths.codexTestBed);
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
   const usesSiteChrome = usesSharedChromePath(location.pathname);
+  const isContactCandidate = import.meta.env.DEV && location.pathname === codexTestBedHref;
+  const contextualContactHref = isContactCandidate
+    ? `${codexTestBedHref}#codex-contact-start`
+    : contactHref;
+  const contextualNavItems = isContactCandidate
+    ? navItems
+        .filter((item) => item.label !== "Dev")
+        .map((item) =>
+          item.href === contactHref ? { ...item, href: contextualContactHref } : item,
+        )
+    : navItems;
 
   const closeMenu = () => setIsOpen(false);
   const blurDesktopNavLinkAfterPointerClick = (event: ReactPointerEvent<HTMLAnchorElement>) => {
@@ -61,13 +79,14 @@ export default function Layout() {
 
           <div className="site-header__cluster">
             <DesktopNavigation
+              items={contextualNavItems}
               onLinkPointerUp={blurDesktopNavLinkAfterPointerClick}
               pathname={location.pathname}
             />
           </div>
 
           <div className="site-header__actions">
-            <Button href={contactHref} className="header-button" onClick={closeMenu}>
+            <Button href={contextualContactHref} className="header-button" onClick={closeMenu}>
               Get in touch
             </Button>
             <button
@@ -85,7 +104,11 @@ export default function Layout() {
         </div>
 
         {isOpen ? (
-          <MobileNavigation onNavigate={closeMenu} pathname={location.pathname} />
+          <MobileNavigation
+            items={contextualNavItems}
+            onNavigate={closeMenu}
+            pathname={location.pathname}
+          />
         ) : null}
       </header>
 
@@ -103,7 +126,7 @@ export default function Layout() {
             <nav className="site-footer__nav" aria-label="Footer navigation">
               <Link to={workingWithJoelHref}>Working with Joel</Link>
               <Link to={inclusionHref}>Inclusive practice</Link>
-              <Link to={contactHref}>Fees</Link>
+              <Link to={contextualContactHref}>Fees</Link>
             </nav>
           </div>
 

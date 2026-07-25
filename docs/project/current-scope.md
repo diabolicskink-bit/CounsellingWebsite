@@ -10,6 +10,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - `/about` redirects to Working with Joel, `/fees` redirects to Contact/Fees, and the former indexed `/inclusion` hub permanently redirects to `/inclusive-counselling`; the former unindexed topic URLs do not redirect.
 - Public navigation includes Home, Working with Joel, Inclusion with its three child pages, and Fees.
 - Development-only routes include the rendered design-system pages, Documents, Codex test bed, and Opus test bed.
+- The Codex test bed currently presents its contact-page candidate inside the shared site chrome. On that development route, shared Contact/Fees links target the candidate form, the Dev navigation entry is suppressed, and the form uses the normal enquiry endpoint, analytics, and privacy behaviour.
 - The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, `docs/research/`, `docs/page-plan/`, and `docs/plans/`; exact inline checklist status labels render as quiet coloured badges.
 
 ## Public Content And Discoverability
