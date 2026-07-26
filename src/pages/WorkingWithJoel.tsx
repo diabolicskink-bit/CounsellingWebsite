@@ -4,8 +4,6 @@ import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-working-with-joel.css";
 
-const portraitSrc = "/joel-griffiths-working-with-joel-portrait.jpg";
-
 type EmphasisCopy = {
   before: string;
   emphasis: string;
@@ -77,14 +75,14 @@ const pageContent: WorkingWithJoelPageContent = {
       after: " and my approach.",
     },
     credentialsAriaLabel: "Joel Griffiths credentials and practice details",
-               credentials: [
+    credentials: [
       "GradDip. Counselling and Psychotherapy",
       "ACA Registered",
       "Kink & ENM informed",
-              "LGBTQIA+ affirming",
+      "LGBTQIA+ affirming",
     ],
     portrait: {
-      imageSrc: portraitSrc,
+      imageSrc: "/joel-griffiths-working-with-joel-portrait.jpg",
       alt: "Joel Griffiths",
       ariaLabel: "About Joel Griffiths",
       name: "Joel Griffiths",
@@ -101,27 +99,31 @@ const pageContent: WorkingWithJoelPageContent = {
   },
   approach: {
     title: "How I work",
-    overview: ["My work is psychodynamic and attachment-informed, held within an integrative frame. In practice, that means looking beneath the immediate problem to what shaped it, what purpose it has served, and how it now shows up in relationships, work, shame, desire, anger, and the session itself.",
-"The work balances what feels immediate and pressing with developing a clearer, more honest understanding of yourself. Some sessions may be about untangling something happening right now. Others may slow down around the way you respond, withdraw, overthink, accommodate, protect yourself, or lose contact with what you want."    ],
+    overview: [
+      "My work is psychodynamic and attachment-informed, held within an integrative frame. In practice, that means looking beneath the immediate problem to what shaped it, what purpose it has served, and how it now shows up in relationships, work, shame, desire, anger, and the session itself.",
+      "The work balances what feels immediate and pressing with developing a clearer, more honest understanding of yourself. Some sessions may be about untangling something happening right now. Others may slow down around the way you respond, withdraw, overthink, accommodate, protect yourself, or lose contact with what you want.",
+    ],
     items: [
       {
         title: "Psychodynamic",
         details: [
-"Psychodynamic work pays attention to the parts of experience that are active but not always obvious. These can include old conflicts, defences, shame, desire, anger, avoidance, and familiar forms of coping that keep recurring even when they no longer fit.",       
-
-"The work is not about forcing a tidy explanation onto your life. It is about understanding what sits beneath the visible problem, including the feelings, protections, and expectations that can operate unconsciously and shape how you relate to yourself, to other people, and to the work between us."        ],
+          "Psychodynamic work pays attention to the parts of experience that are active but not always obvious. These can include old conflicts, defences, shame, desire, anger, avoidance, and familiar forms of coping that keep recurring even when they no longer fit.",
+          "The work is not about forcing a tidy explanation onto your life. It is about understanding what sits beneath the visible problem, including the feelings, protections, and expectations that can operate unconsciously and shape how you relate to yourself, to other people, and to the work between us.",
+        ],
       },
       {
         title: "Attachment",
         details: [
-"Attachment work looks at how you learned to manage closeness, distance, dependence, trust, and self-protection. These early lessons can keep shaping adult relationships, often through strategies that once helped you stay safe or connected, but now create strain.",
-"This can include how you manage conflict, jealousy, rupture, repair, need, withdrawal, people-pleasing, or the fear of being too much. The point is to understand the strategy before trying to change the strategy."        ],
+          "Attachment work looks at how you learned to manage closeness, distance, dependence, trust, and self-protection. These early lessons can keep shaping adult relationships, often through strategies that once helped you stay safe or connected, but now create strain.",
+          "This can include how you manage conflict, jealousy, rupture, repair, need, withdrawal, people-pleasing, or the fear of being too much. The point is to understand the strategy before trying to change the strategy.",
+        ],
       },
       {
         title: "Integrative",
         details: [
-"Integrative counselling recognises that people are complicated and no single theory explains everything. A problem may involve old relational learning, current stress, shame, grief, desire, avoidance, nervous system responses, identity, or the reality of the situation you are living inside.",
-"Working integratively means we can move between these levels without losing the thread. I may draw on psychodynamic, attachment, trauma-informed, relational, practical, or skills-based ideas, but the focus stays on what is useful for understanding you and supporting meaningful change."        ],
+          "Integrative counselling recognises that people are complicated and no single theory explains everything. A problem may involve old relational learning, current stress, shame, grief, desire, avoidance, nervous system responses, identity, or the reality of the situation you are living inside.",
+          "Working integratively means we can move between these levels without losing the thread. I may draw on psychodynamic, attachment, trauma-informed, relational, practical, or skills-based ideas, but the focus stays on what is useful for understanding you and supporting meaningful change.",
+        ],
       },
     ],
   },
@@ -186,7 +188,7 @@ const pageContent: WorkingWithJoelPageContent = {
 function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
   return (
     <section className="hero-section hero-bg--default working-with-joel-page__hero">
-                  <Container>
+      <Container>
         <div className="working-with-joel-page__hero-layout">
           <div className="working-with-joel-page__hero-heading">
             <h1 className="hero-badge">{hero.badge}</h1>
@@ -201,14 +203,17 @@ function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
 
           <CredentialsList items={hero.credentials} ariaLabel={hero.credentialsAriaLabel} />
         </div>
-              </Container>
+      </Container>
     </section>
- );
+  );
 }
 
 function CredentialsList({ items, ariaLabel }: { items: string[]; ariaLabel: string }) {
   return (
-    <ul className="hero-support-tagline working-with-joel-page__hero-credentials" aria-label={ariaLabel}>
+    <ul
+      className="hero-support-tagline working-with-joel-page__hero-credentials"
+      aria-label={ariaLabel}
+    >
       {items.map((credential) => (
         <li key={credential}>{credential}</li>
       ))}
@@ -224,10 +229,10 @@ function IntroductionSection({
   portrait: WorkingHeroPortrait;
 }) {
   return (
-    <section className="site-grid working-with-joel-page__intro" aria-labelledby="working-with-joel-intro-title">
+    <section className="site-grid" aria-labelledby="working-with-joel-intro-title">
       <Container className="site-split">
         <div className="working-with-joel-page__intro-copy">
-          <article className="site-copy-panel rich-text working-with-joel-page__intro-panel">
+          <article className="site-copy-panel rich-text">
             <h2 id="working-with-joel-intro-title">{introduction.title}</h2>
             {introduction.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
@@ -266,9 +271,9 @@ function ApproachSection({ approach }: { approach: ApproachContent }) {
   }));
 
   return (
-    <section className="site-highlight working-with-joel-page__approach" aria-labelledby="working-approach-title">
-      <Container className="working-approach">
-        <div className="section-heading working-approach__intro">
+    <section className="site-highlight" aria-labelledby="working-approach-title">
+      <Container className="site-split working-approach">
+        <div className="section-heading">
           <h2 className="working-with-joel-page__section-title" id="working-approach-title">
             {approach.title}
           </h2>
@@ -288,10 +293,8 @@ function ApproachSection({ approach }: { approach: ApproachContent }) {
 }
 
 function FocusSection({ focus }: { focus: FocusContent }) {
-  const focusItems = [...focus.items, focus.closingItem];
-
   return (
-    <section className="site-grid working-topics" aria-labelledby="issues-i-work-with">
+    <section className="site-grid" aria-labelledby="issues-i-work-with">
       <Container>
         <div className="site-grid__heading working-topics__header">
           <h2 className="working-with-joel-page__section-title" id="issues-i-work-with" tabIndex={-1}>
@@ -301,11 +304,10 @@ function FocusSection({ focus }: { focus: FocusContent }) {
 
         <div className="working-topics__panel">
           <ul className="working-topics__list" aria-label={focus.itemsAriaLabel}>
-            {focusItems.map((item, index) => {
-              const isClosingItem = index === focusItems.length - 1;
-
-              return <FocusTopicItem item={item} isClosingItem={isClosingItem} key={item.title} />;
-            })}
+            {focus.items.map((item) => (
+              <FocusTopicItem item={item} key={item.title} />
+            ))}
+            <FocusTopicItem item={focus.closingItem} isClosingItem />
           </ul>
         </div>
       </Container>
@@ -315,10 +317,10 @@ function FocusSection({ focus }: { focus: FocusContent }) {
 
 function FocusTopicItem({
   item,
-  isClosingItem,
+  isClosingItem = false,
 }: {
   item: FocusItem;
-  isClosingItem: boolean;
+  isClosingItem?: boolean;
 }) {
   const itemClassName = isClosingItem
     ? "working-topics__item working-topics__item--closing"
