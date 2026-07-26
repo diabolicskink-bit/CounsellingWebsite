@@ -18,16 +18,17 @@ description: >
 Start by establishing the range of reader situations the page needs to serve.
 For a specialist page, consider the meaningful range within its subject. For a
 general page, consider specialist and inclusion contexts only where they can
-materially affect the writing. Do not average the range into one representative
-reader or turn research into a requirements list.
+materially affect the writing. Do not simplify the reader range into a single
+representative profile; treat each relevant reader situation on its own terms
+rather than turning research into a requirements list.
 
-Treat page planning and section development as separate passes. Use the page
-plan to decide the page argument, information structure, and each section's
-distinct contribution without drafting exact public copy. In a separate
-section pass, use the page plan when it exists; otherwise recover a bounded
-local section brief from the user's request, current page context, and
-authorised sources. Develop that section into exact working copy and a semantic
-content composition that a separately invoked `website-design` task can
+Treat page planning and section development as separate passes. First, use the
+page plan to outline the page argument, information structure, and each
+section's distinct contribution without drafting exact public copy. Second, in a
+separate section pass, use the page plan when it exists; otherwise recover a
+bounded local section brief from the user's request, current page context, and
+authorised sources. Third, develop that section into exact working copy and a
+semantic content composition that a separately invoked `website-design` task can
 interpret. Produce one substantive artifact per invocation and stop at its
 boundary.
 
