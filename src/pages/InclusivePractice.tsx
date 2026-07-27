@@ -34,7 +34,7 @@ const inclusionPageContent: InclusionPageContent = {
   title: inclusionMetadata.title,
   meta: inclusionMetadata.description,
   hero: {
-    heading: "Inclusive counselling",
+    heading: "Kink, ENM and LGBTQIA+ inclusive counselling.",
     statement: {
       lineOne: "Known before you arrive.",
       lineTwo: "Not learned as you go.",
