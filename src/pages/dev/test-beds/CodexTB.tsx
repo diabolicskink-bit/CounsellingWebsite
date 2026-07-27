@@ -14,36 +14,28 @@ import {
   trackSuccessfulEnquirySubmission,
 } from "../../../utils/analytics";
 import { getActiveAustralianTimeZoneOptions } from "../../../utils/timeZones";
-import "../../../styles-codex-tb.css";
+import "../../../styles-contact.css";
 
 type ContactPath = "appointment" | "consult" | "question";
 type SubmitStatus = "idle" | "sending" | "success" | "error";
 
 type ContactPathOption = {
   id: ContactPath;
-  marker: string;
   title: string;
-  detail: string;
 };
 
 const contactPathOptions: readonly ContactPathOption[] = [
   {
     id: "appointment",
-    marker: "01",
-    title: "Arrange a counselling session",
-    detail: "$120 · 50 minutes",
+    title: "Make an appointment",
   },
   {
     id: "consult",
-    marker: "02",
-    title: "Request the free 15-minute consult",
-    detail: "Free · 15 minutes",
+    title: "Request a consult",
   },
   {
     id: "question",
-    marker: "03",
-    title: "Ask a question",
-    detail: "Fees, availability or something else you need to check",
+    title: "General enquiry",
   },
 ] as const;
 
@@ -171,7 +163,7 @@ function ContactEnquiryForm() {
     ? "Send session enquiry"
     : isConsult
       ? "Request the 15-minute consult"
-      : "Send question";
+      : "Send enquiry";
 
   return (
     <form
@@ -192,12 +184,8 @@ function ContactEnquiryForm() {
       />
 
       <header className="codex-contact__form-heading">
-        <span className="codex-contact__step-label">Start here</span>
-        <h2 id="codex-contact-form-heading">What would you like to do?</h2>
-        <p>
-          Choose one option. The form will change to match it, and you can keep
-          the first message brief.
-        </p>
+        <span className="codex-contact__step-label">Your enquiry</span>
+        <h2 id="codex-contact-form-heading">Get in touch</h2>
       </header>
 
       <fieldset className="codex-contact__path-fieldset">
@@ -205,12 +193,8 @@ function ContactEnquiryForm() {
         <div className="codex-contact__path-list">
           {contactPathOptions.map((option) => (
             <label className="codex-contact__path-choice" key={option.id}>
-              <span aria-hidden="true" className="codex-contact__path-marker">
-                {option.marker}
-              </span>
               <span className="codex-contact__path-copy">
                 <strong>{option.title}</strong>
-                <small>{option.detail}</small>
               </span>
               <input
                 checked={contactPath === option.id}
@@ -228,16 +212,8 @@ function ContactEnquiryForm() {
       {contactPath ? (
         <div className="codex-contact__details">
           <div className="codex-contact__details-heading">
-            <span aria-hidden="true" className="codex-contact__details-marker">
-              04
-            </span>
-            <div>
-              <h3>Your details</h3>
-              <p>
-                Fields marked * are required. Share only what is useful for this
-                enquiry.
-              </p>
-            </div>
+            <h3>A few details</h3>
+            <p>Fields marked * are required.</p>
           </div>
 
           <input name="enquiryType" type="hidden" value={enquiryType} />
@@ -341,19 +317,15 @@ function ContactEnquiryForm() {
 
             <div className="codex-contact__field codex-contact__field--message" key="message">
               <label htmlFor="codex-contact-message">
-                {isQuestion ? "Your question" : "Your message"}
+                {isQuestion ? "Your enquiry" : "Your message"}
                 <RequiredMark />
               </label>
               <textarea
-                aria-describedby="codex-contact-message-help"
                 id="codex-contact-message"
                 name="message"
                 required
                 rows={4}
               />
-              <small id="codex-contact-message-help">
-                A sentence or two is enough. You do not need to explain everything here.
-              </small>
             </div>
           </div>
 
@@ -373,6 +345,12 @@ function ContactEnquiryForm() {
           ) : null}
         </div>
       ) : null}
+
+      <p className="codex-contact__form-boundary">
+        This form is not monitored for urgent support.{" "}
+        <a href="#codex-contact-urgent-support">Urgent support information</a>
+        {" "}is below.
+      </p>
     </form>
   );
 }
@@ -387,61 +365,24 @@ export default function CodexTB() {
           <header className="codex-contact__intro">
             <span className="codex-contact__eyebrow">Contact and fees</span>
             <h1 id="codex-contact-title">Make an enquiry.</h1>
-            <p className="codex-contact__lede">
-              Start with the practical part: choose a counselling session, the
-              15-minute consult, or a question.
-            </p>
-            <p className="codex-contact__email-route">
-              Prefer email?{" "}
-              <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a>
-            </p>
           </header>
-
-          <aside className="codex-contact__fee-ledger" aria-label="Fees and service details">
-            <div className="codex-contact__fee">
-              <span>Standard session</span>
-              <strong>$120</strong>
-              <small>50 minutes</small>
-            </div>
-            <dl className="codex-contact__facts">
-              <div>
-                <dt>Initial consult</dt>
-                <dd>Free · 15 minutes</dd>
-              </div>
-              <div>
-                <dt>Format</dt>
-                <dd>Online across Australia</dd>
-              </div>
-              <div>
-                <dt>Referral</dt>
-                <dd>Not required</dd>
-              </div>
-            </dl>
-          </aside>
         </Container>
       </section>
 
       <section className="codex-contact__task-section" id="codex-contact-start">
         <Container className="codex-contact__task-grid">
-          <aside className="codex-contact__sequence" aria-label="Enquiry steps">
-            <span className="codex-contact__step-label">One short form</span>
-            <ol>
-              <li>
-                <span>01–03</span>
-                Choose a session, consult or question
-              </li>
-              <li>
-                <span>04</span>
-                Add the details for that option
-              </li>
-              <li>
-                <span>05</span>
-                Send the enquiry
-              </li>
-            </ol>
+          <aside
+            aria-labelledby="codex-contact-first-message-title"
+            className="codex-contact__first-message"
+          >
+            <h2 id="codex-contact-first-message-title">
+              Choosing a counsellor can be hard.
+            </h2>
             <p>
-              I will respond as soon as I can. There may be a delay while I am
-              in client sessions.
+              I offer a free 15-minute consult so you can speak with me before
+              deciding whether to book. If you would rather start with a
+              question, you can send one through the form or{" "}
+              <a href={`mailto:${enquiryEmail}`}>by email</a>.
             </p>
           </aside>
 
@@ -449,22 +390,71 @@ export default function CodexTB() {
         </Container>
       </section>
 
-      <section className="codex-contact__practical" aria-labelledby="codex-contact-practical-title">
+      <section
+        className="codex-contact__essentials"
+        id="codex-contact-fees"
+        aria-labelledby="codex-contact-essentials-title"
+      >
+        <Container>
+          <h2 className="codex-contact__sr-only" id="codex-contact-essentials-title">
+            Fees and session details
+          </h2>
+          <dl className="codex-contact__essentials-list">
+            <div>
+              <dt>Initial consult</dt>
+              <dd>
+                <strong>Free</strong>
+                <span>15 minutes</span>
+              </dd>
+            </div>
+            <div>
+              <dt>Individual</dt>
+              <dd>
+                <strong>$120</strong>
+                <span>50 minutes</span>
+              </dd>
+            </div>
+            <div>
+              <dt>Couples</dt>
+              <dd>
+                <strong>$150</strong>
+                <span>50 minutes</span>
+              </dd>
+            </div>
+            <div>
+              <dt>More than two?</dt>
+              <dd>
+                <a
+                  className="codex-contact__essential-action"
+                  href="#codex-contact-start"
+                >
+                  Get in touch
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </Container>
+      </section>
+
+      <section className="codex-contact__practical" aria-label="Practical details">
         <Container>
           <header className="codex-contact__practical-heading">
             <span className="codex-contact__eyebrow">Practical details</span>
-            <h2 id="codex-contact-practical-title">Cancellations and urgent support.</h2>
           </header>
 
           <dl className="codex-contact__practical-list">
             <div>
-              <dt>Cancellations</dt>
-              <dd>
-                Less than 48 hours’ notice: the full fee is payable, except in
-                cases of illness.
-              </dd>
+              <dt>Practice hours</dt>
+              <dd>Mon to Fri, 9.30am to 5.00pm AWST.</dd>
             </div>
             <div>
+              <dt>Cancellations</dt>
+              <dd>
+                If you cancel or change an appointment with less than 48 hours’
+                notice, the full fee is payable, except in cases of illness.
+              </dd>
+            </div>
+            <div id="codex-contact-urgent-support">
               <dt>Urgent support</dt>
               <dd>
                 Vive Counselling is not an emergency service. If you are in

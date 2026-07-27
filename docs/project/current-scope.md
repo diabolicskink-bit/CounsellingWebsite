@@ -8,9 +8,9 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Public routes include Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, LGBTQIA+, Contact/Fees, and Not Found.
 - The Inclusion hub is served at `/inclusive-counselling`; its three first-class topic pages use the flat routes `/kink-bdsm-counselling`, `/polyamory-enm-counselling`, and `/lgbtqia-affirming-counselling`, linked from the shared navigation, Home, and the hub.
 - `/about` redirects to Working with Joel, `/fees` redirects to Contact/Fees, and the former indexed `/inclusion` hub permanently redirects to `/inclusive-counselling`; the former unindexed topic URLs do not redirect.
-- Public navigation includes Home, Working with Joel, Inclusion with its three child pages, and Fees.
+- Public navigation includes Home, Working with Joel, Inclusion with its three child pages, and Fees. Shared Get in touch actions target the Contact enquiry section, while Fees links target the fee strip on the same route.
 - Development-only routes include the rendered design-system pages, Documents, Codex test bed, and Opus test bed.
-- The Codex test bed currently presents its contact-page candidate inside the shared site chrome. On that development route, shared Contact/Fees links target the candidate form, the Dev navigation entry is suppressed, and the form uses the normal enquiry endpoint, analytics, and privacy behaviour.
+- The Codex test bed retains the contact-page direction selected for the public route, while the Opus test bed remains a separate candidate. On Codex, shared Fees links target the candidate's fee strip while Get in touch targets its form; on Opus, both routes target its integrated enquiry section. The Dev navigation entry is suppressed on both test beds, and each form uses the normal enquiry endpoint, analytics, and privacy behaviour.
 - The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, `docs/research/`, `docs/page-plan/`, and `docs/plans/`; exact inline checklist status labels render as quiet coloured badges.
 
 ## Public Content And Discoverability
@@ -46,9 +46,10 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 ## Enquiry Flow And API
 
-- Contact/Fees uses the shared `EnquiryForm` component and `src/data/enquiry.ts`.
-- The page displays fixed Perth business hours in AWST. Interstate comparison notes start from the generated route timestamp and refresh in the browser when daylight-saving differences have changed since deployment.
-- Consult-request timezone options are calculated when the conditional timezone field opens.
+- Contact/Fees uses a page-owned progressive form with three direct paths: make an appointment, request a consult, or make a general enquiry. It retains the shared success and recipient content in `src/data/enquiry.ts`.
+- The form reveals only the fields relevant to the selected path after hydration. Its server-rendered version exposes the complete field set so the native form remains available without JavaScript; the endpoint derives the structured enquiry and booking types from the selected Contact path for those native submissions.
+- The page displays fixed Perth business hours in AWST within Practical details. Interstate comparison notes start from the generated route timestamp and refresh in the browser when daylight-saving differences have changed since deployment.
+- Consult-request timezone options are calculated from the current Australian timezone set when the conditional timezone field opens.
 - Public contact display and enquiry fallback/failure messaging use `joel@vivecounselling.com.au`.
 - The form submits to the serverless `/api/enquiry` endpoint and supports endpoint-level URL-encoded native form posts.
 - JavaScript-disabled visits expose the full server-rendered Contact form and component markup on every metadata-backed public route.
@@ -69,7 +70,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 ## Testing And QA
 
-- `tests/public-site.spec.ts` covers public landmarks, raw and JavaScript-disabled output, hydration, shared mobile-navigation Escape/focus/scroll-lock behaviour, focused Home semantics and CTA ownership, the Home-to-issues fragment route and focus transfer, Working with Joel tab interaction and axe checks, Contact timezone behaviour, conditional enquiry fields and payloads, success/error states, form semantics, flat and nested artifacts, SPA navigation, fallback activation, generated metadata, sitemap, robots, and the 404 artifact.
+- `tests/public-site.spec.ts` covers public landmarks, raw and JavaScript-disabled output, hydration, shared mobile-navigation Escape/focus/scroll-lock behaviour, focused Home semantics and CTA ownership, the Home-to-issues fragment route and focus transfer, Working with Joel tab interaction and axe checks, Contact section anchors, timezone behaviour, three-path conditional enquiry fields and payloads, success/error states, form semantics, flat and nested artifacts, SPA navigation, fallback activation, generated metadata, sitemap, robots, and the 404 artifact.
 - `tests/tsconfig.json` provides strict TypeScript coverage for the Playwright public-site spec. `npm run typecheck:tests` runs that check directly, and the site, analytics, and full QA commands enforce it before browser testing.
 - Direct Node tests under `tests/api/` cover accepted and rejected enquiry submissions.
 - Direct Node tests under `tests/scripts/` cover route-metadata origin policy.

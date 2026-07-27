@@ -52,26 +52,21 @@ const prerenderedRouteSmokeFragments = {
     'class="lgbtqia-page__disclosure-heading"',
   ],
   "/contact": [
-    '<main class="site-page contact-page">',
+    '<main class="site-page contact-page codex-contact">',
     "Contact and fees",
-    'class="site-fee-card contact-page__fee-card"',
+    "Choosing a counsellor can be hard.",
+    'id="contact-start"',
+    'id="contact-fees"',
+    "More than two?",
     "Mon to Fri, 9.30am to 5.00pm AWST",
     'data-timezone-notes-source="prerendered"',
-    'class="site-form"',
+    'class="site-form codex-contact__form"',
     'action="/api/enquiry"',
     'data-clarity-mask="true"',
     'href="mailto:joel@vivecounselling.com.au"',
-    'class="site-faq-list"',
   ],
 };
-const prerenderedRouteSmokeForbiddenFragments = {
-  "/contact": [
-    'id="contact-timing"',
-    'id="contact-state"',
-    'id="contact-availability"',
-    'id="contact-timezone"',
-  ],
-};
+const prerenderedRouteSmokeForbiddenFragments = {};
 const notFoundFallback = {
   h1: "That page isn't here.",
   description: "This page could not be found on the Vive Counselling website.",

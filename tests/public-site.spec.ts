@@ -84,18 +84,21 @@ const prerenderedRouteContracts = {
     noJavaScriptSelector: ".lgbtqia-page__recognition-flow",
   },
   "/contact": {
-    mainClass: "site-page contact-page",
+    mainClass: "site-page contact-page codex-contact",
     rawFragments: [
-      'class="site-fee-card contact-page__fee-card"',
+      'class="codex-contact__opening"',
+      'id="contact-start"',
+      'id="contact-fees"',
+      "Choosing a counsellor can be hard.",
+      "More than two?",
       "Mon to Fri, 9.30am to 5.00pm AWST",
       'data-timezone-notes-source="prerendered"',
-      'class="site-form"',
+      'class="site-form codex-contact__form"',
       'action="/api/enquiry"',
-      'aria-labelledby="contact-form-heading"',
+      'aria-label="Enquiry"',
       'data-clarity-mask="true"',
-      'id="contact-form-heading">Enquiry</h2>',
+      "Get in touch</h2>",
       'href="mailto:joel@vivecounselling.com.au"',
-      'class="site-faq-list"',
     ],
     noJavaScriptSelector: "form.site-form",
   },
@@ -746,6 +749,36 @@ test.describe("public pages", () => {
 });
 
 test.describe("shared navigation", () => {
+  test("routes enquiry and fee actions to their live Contact sections", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const header = page.getByRole("banner");
+    const mainNavigation = header.getByRole("navigation", { name: "Main navigation" });
+    const footer = page.getByRole("contentinfo");
+
+    await expect(header.getByRole("link", { name: "Get in touch" })).toHaveAttribute(
+      "href",
+      "/contact#contact-start",
+    );
+    await expect(mainNavigation.getByRole("link", { name: "Fees" })).toHaveAttribute(
+      "href",
+      "/contact#contact-fees",
+    );
+    await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute(
+      "href",
+      "/contact#contact-fees",
+    );
+
+    await header.getByRole("link", { name: "Get in touch" }).click();
+    await expect(page).toHaveURL(/\/contact#contact-start$/);
+    await expect(page.locator("#contact-start")).toBeFocused();
+
+    await mainNavigation.getByRole("link", { name: "Fees" }).click();
+    await expect(page).toHaveURL(/\/contact#contact-fees$/);
+    await expect(page.locator("#contact-fees")).toBeFocused();
+  });
+
   test("exposes inclusion child pages in desktop and mobile navigation", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto("/", { waitUntil: "networkidle" });
@@ -918,14 +951,20 @@ test.describe("prerendered routes without JavaScript", () => {
       if (route === "/contact") {
         const form = page.getByRole("form", { name: "Enquiry" });
 
-        await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
+        await expect(
+          form.getByRole("heading", {
+            level: 2,
+            name: "Get in touch",
+            exact: true,
+          }),
+        ).toHaveCount(1);
         await expect(form).toHaveAttribute("action", "/api/enquiry");
         await expect(form).toHaveAttribute("method", "post");
         await expect(form).toHaveAttribute("data-clarity-mask", "true");
         await expect(
           page.getByLabel("Contact details").getByText("Mon to Fri, 9.30am to 5.00pm AWST"),
         ).toBeVisible();
-        await expect(page.getByLabel("Timezone")).toHaveCount(0);
+        await expect(page.getByLabel("Timezone")).toBeVisible();
       }
     });
   }
@@ -1416,10 +1455,10 @@ test.describe("crawl and app metadata assets", () => {
 
     const form = page.getByRole("form", { name: "Enquiry" });
 
+    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your enquiry").fill("Hello");
-    await form.getByLabel("General enquiry").check();
     await form.getByRole("button", { name: "Send enquiry" }).click();
 
     await expect(form.getByRole("alert")).toBeVisible();
@@ -1482,6 +1521,7 @@ test.describe("crawl and app metadata assets", () => {
 
     const form = page.getByRole("form", { name: "Enquiry" });
 
+    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
 
@@ -1723,8 +1763,7 @@ test.describe("enquiry form", () => {
     ]);
 
     await expect(page.getByLabel("Timezone")).toHaveCount(0);
-    await page.getByLabel("Booking enquiry").check();
-    await page.getByLabel("Request a 15-minute consult").check();
+    await page.getByLabel("Request a consult").check();
     await expect(page.getByLabel("Timezone").locator("option")).toHaveText([
       "Select your timezone",
       "AWST (WA)",
@@ -1758,7 +1797,7 @@ test.describe("enquiry form", () => {
       try {
         await form.getByLabel("Name").fill("Alex Before Hydration");
         await form.getByLabel("Email").fill("alex@example.com");
-        await form.getByLabel("Your enquiry").fill("Please preserve this message.");
+        await form.getByLabel("Your message").fill("Please preserve this message.");
       } finally {
         releaseClientBundle();
       }
@@ -1771,7 +1810,7 @@ test.describe("enquiry form", () => {
       );
       await expect(form.getByLabel("Name")).toHaveValue("Alex Before Hydration");
       await expect(form.getByLabel("Email")).toHaveValue("alex@example.com");
-      await expect(form.getByLabel("Your enquiry")).toHaveValue("Please preserve this message.");
+      await expect(form.getByLabel("Your message")).toHaveValue("Please preserve this message.");
       await expectNoPageDiagnostics(diagnostics);
     },
   );
@@ -1800,16 +1839,19 @@ test.describe("enquiry form", () => {
 
     const form = page.getByRole("form", { name: "Enquiry" });
     await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
-    await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
+    await expect(
+      form.getByRole("heading", {
+        level: 2,
+        name: "Get in touch",
+        exact: true,
+      }),
+    ).toHaveCount(1);
+    await expect(form.getByLabel("Name")).toHaveCount(0);
+
+    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your enquiry").fill("I would like an initial consult.");
-
-    await form.getByLabel("General enquiry").check();
-    await expect(form.getByLabel("Make an appointment")).toHaveCount(0);
-    await expect(form.getByLabel("Request a 15-minute consult")).toHaveCount(0);
-
-    await form.getByLabel("Booking enquiry").check();
     await form.getByLabel("Make an appointment").check();
     await expect(form.getByLabel("Preferred timing")).toBeVisible();
     await expect(form.getByLabel("State or territory")).toBeVisible();
@@ -1820,16 +1862,21 @@ test.describe("enquiry form", () => {
     await expect(form.getByLabel("Preferred timing")).toHaveCount(0);
     await expect(form.getByLabel("State or territory")).toHaveCount(0);
 
-    await form.getByLabel("Booking enquiry").check();
-    await form.getByLabel("Request a 15-minute consult").check();
+    await form.getByLabel("Request a consult").check();
     await expect(form.getByLabel("Preferred timing")).toHaveCount(0);
     await expect(form.getByLabel("State or territory")).toHaveCount(0);
     await form.getByLabel("Availability").fill("Weekday afternoons");
     await form.getByLabel("Timezone").selectOption("AEDT");
-    await form.getByRole("button", { name: "Send enquiry" }).click();
+    await form.getByRole("button", { name: "Request the 15-minute consult" }).click();
 
     try {
-      await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
+      await expect(
+        form.getByRole("heading", {
+          level: 2,
+          name: "Get in touch",
+          exact: true,
+        }),
+      ).toHaveCount(1);
       await expect(form.getByRole("button", { name: "Sending..." })).toBeDisabled();
     } finally {
       releaseSubmission();
@@ -1844,7 +1891,13 @@ test.describe("enquiry form", () => {
     ).toHaveCount(1);
     await expect(completedFormArea.getByRole("heading", { level: 2 })).toHaveCount(1);
     await expect(page.getByRole("form", { name: "Enquiry" })).toHaveCount(0);
-    await expect(page.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(0);
+    await expect(
+      page.getByRole("heading", {
+        level: 2,
+        name: "Get in touch",
+        exact: true,
+      }),
+    ).toHaveCount(0);
     expect(await completedFormArea.getAttribute("aria-labelledby")).toBeNull();
     expect(submittedMethod).toBe("POST");
     expect(submittedPayload).toEqual({
@@ -1878,15 +1931,21 @@ test.describe("enquiry form", () => {
 
     const form = page.getByRole("form", { name: "Enquiry" });
 
+    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your enquiry").fill("Hello");
-    await form.getByLabel("General enquiry").check();
     await form.getByRole("button", { name: "Send enquiry" }).click();
 
     const alert = form.getByRole("alert");
 
-    await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
+    await expect(
+      form.getByRole("heading", {
+        level: 2,
+        name: "Get in touch",
+        exact: true,
+      }),
+    ).toHaveCount(1);
     await expect(alert).toContainText(
       "Sorry, the enquiry could not be sent. Please email joel@vivecounselling.com.au directly.",
     );

@@ -92,17 +92,52 @@ function isValidEmailAddress(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function applyContactPathFallback(payload: Record<string, unknown>) {
+  if (getText(payload.enquiryType, 60)) {
+    return payload;
+  }
+
+  switch (getText(payload.contactPath, 60)) {
+    case "appointment":
+      return {
+        ...payload,
+        bookingType: bookingTypes.appointment.value,
+        enquiryType: enquiryTypes.booking.value,
+      };
+    case "consult":
+      return {
+        ...payload,
+        bookingType: bookingTypes.consult.value,
+        enquiryType: enquiryTypes.booking.value,
+      };
+    case "question":
+      return {
+        ...payload,
+        enquiryType: enquiryTypes.general.value,
+      };
+    default:
+      return payload;
+  }
+}
+
 export function validateEnquiryPayload(payload: Record<string, unknown>): ValidationResult {
   if (getText(payload.website, 320)) {
     return { type: "honeypot" };
   }
 
+  const enquiryPayload = applyContactPathFallback(payload);
   const issues: ValidationIssue[] = [];
-  const enquiryTypeValue = getRequiredTextField(payload, "enquiryType", 60, issues, "Enquiry type");
+  const enquiryTypeValue = getRequiredTextField(
+    enquiryPayload,
+    "enquiryType",
+    60,
+    issues,
+    "Enquiry type",
+  );
   const enquiryType = findEnquiryType(enquiryTypeValue);
-  const name = getRequiredTextField(payload, "name", 160, issues, "Name");
-  const email = getRequiredTextField(payload, "email", 320, issues, "Email");
-  const message = getRequiredTextField(payload, "message", 5000, issues, "Message");
+  const name = getRequiredTextField(enquiryPayload, "name", 160, issues, "Name");
+  const email = getRequiredTextField(enquiryPayload, "email", 320, issues, "Email");
+  const message = getRequiredTextField(enquiryPayload, "message", 5000, issues, "Message");
   let bookingType: BookingTypeOption | undefined;
   let timing = "";
   let state: AustralianStateOption | undefined;
@@ -119,7 +154,13 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
   }
 
   if (enquiryType?.value === enquiryTypes.booking.value) {
-    const bookingTypeValue = getRequiredTextField(payload, "bookingType", 60, issues, "Booking request");
+    const bookingTypeValue = getRequiredTextField(
+      enquiryPayload,
+      "bookingType",
+      60,
+      issues,
+      "Booking request",
+    );
 
     bookingType = findBookingType(bookingTypeValue);
 
@@ -128,8 +169,20 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
     }
 
     if (bookingType?.value === bookingTypes.appointment.value) {
-      timing = getRequiredTextField(payload, "timing", 500, issues, "Preferred timing");
-      const stateValue = getRequiredTextField(payload, "state", 60, issues, "State or territory");
+      timing = getRequiredTextField(
+        enquiryPayload,
+        "timing",
+        500,
+        issues,
+        "Preferred timing",
+      );
+      const stateValue = getRequiredTextField(
+        enquiryPayload,
+        "state",
+        60,
+        issues,
+        "State or territory",
+      );
 
       state = findAustralianState(stateValue);
 
@@ -139,8 +192,20 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
     }
 
     if (bookingType?.value === bookingTypes.consult.value) {
-      availability = getRequiredTextField(payload, "availability", 500, issues, "Availability");
-      timeZone = getRequiredTextField(payload, "timeZone", 60, issues, "Timezone");
+      availability = getRequiredTextField(
+        enquiryPayload,
+        "availability",
+        500,
+        issues,
+        "Availability",
+      );
+      timeZone = getRequiredTextField(
+        enquiryPayload,
+        "timeZone",
+        60,
+        issues,
+        "Timezone",
+      );
       timeZoneLabel = getAustralianTimeZoneLabel(timeZone);
 
       if (timeZone && !timeZoneLabel) {
