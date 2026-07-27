@@ -12,7 +12,6 @@ type KinkPageContent = {
   hero: {
     eyebrow: string;
     title: string;
-    intro: string;
     primaryAction: {
       label: string;
       href: string;
@@ -44,8 +43,6 @@ const kinkPageContent: KinkPageContent = {
   hero: {
     eyebrow: "Kink-aware counselling and therapy",
     title: "Kink doesn’t need a preamble.",
-    intro:
-      "You can speak directly about D/s, power exchange, fetish, roles, desires and experiences without starting with a lesson on kink. Kink may be the reason you came, one part of what is going on, or simply part of your life.",
     primaryAction: {
       label: "Make an enquiry",
       href: routeHref(publicRoutePaths.contact),
@@ -89,7 +86,6 @@ export default function KinkBdsmCounselling() {
           <div className="kink-page__hero-copy">
             <h1 className="hero-badge">{hero.eyebrow}</h1>
             <p className="hero-display">{hero.title}</p>
-            <p className="kink-page__hero-intro">{hero.intro}</p>
 
             <nav className="kink-page__hero-actions" aria-label="Page actions">
               <Link className="kink-page__hero-action" to={hero.primaryAction.href}>

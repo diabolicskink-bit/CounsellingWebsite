@@ -40,15 +40,6 @@
   line-height: 0.96;
 }
 
-.kink-page .kink-page__hero .kink-page__hero-intro {
-  max-width: 72ch;
-  margin: 28px 0 0;
-  color: rgba(239, 244, 240, 0.86);
-  font-size: clamp(1rem, 1.08vw, 1.08rem);
-  line-height: 1.68;
-  text-wrap: pretty;
-}
-
 .kink-page__hero-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -281,12 +272,6 @@
     max-width: 12ch;
     font-size: clamp(2.65rem, 12.4vw, 3.35rem);
     line-height: 0.96;
-  }
-
-  .kink-page .kink-page__hero .kink-page__hero-intro {
-    margin-top: 24px;
-    font-size: 1rem;
-    line-height: 1.64;
   }
 
   .kink-page__hero-actions {

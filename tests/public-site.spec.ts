@@ -577,13 +577,13 @@ async function expectHomePageStructure(page: Page) {
   await expect(home.getByText("Sessions happen online by video")).toHaveCount(0);
   const joelCard = home.locator("article.site-card.home-workroom__joel");
   await expect(joelCard).toBeVisible();
-  await expect(joelCard.getByRole("link", { name: "Request a 15-minute consult" })).toHaveCount(0);
+  await expect(joelCard.getByRole("link", { name: "Get in touch" })).toHaveCount(0);
   await expect(joelCard.getByRole("link", { name: "More about how I work" })).toHaveAttribute(
     "href",
     "/working-with-joel",
   );
   await expect(
-    home.locator(".home-closing").getByRole("link", { name: "Request a 15-minute consult" }),
+    home.locator(".home-closing").getByRole("link", { name: "Get in touch" }),
   ).toHaveAttribute("href", "/contact");
   const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
   await expect(inclusiveTopics.locator(":scope li")).toHaveCount(4);

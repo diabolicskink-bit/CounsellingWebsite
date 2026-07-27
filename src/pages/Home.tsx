@@ -151,13 +151,13 @@ const homePageContent: HomePageContent = {
   },
   closingCta: {
     heading: {
-      before: "Want to talk ",
-      emphasis: "before you decide",
-      after: "?",
+      before: "Make an appointment, request a consult or just ",
+      emphasis: "ask a question",
+      after: ".",
     },
     link: {
       href: contactHref,
-      label: "Request a 15-minute consult",
+      label: "Get in touch",
     },
   },
 };
@@ -322,14 +322,20 @@ function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }
   return (
     <section className="home-closing" aria-labelledby="home-closing-title">
       <Container className="home-closing__inner">
-        <h2 id="home-closing-title">
-          {closingCta.heading.before}
-          <span className="site-emphasis">{closingCta.heading.emphasis}</span>
-          {closingCta.heading.after}
-        </h2>
-        <Button href={closingCta.link.href}>
-          {closingCta.link.label} <ArrowRight aria-hidden="true" size={16} />
-        </Button>
+        <div className="home-closing__contact">
+          <h2 id="home-closing-title">
+            {closingCta.heading.before}
+            <em>{closingCta.heading.emphasis}</em>
+            {closingCta.heading.after}
+          </h2>
+        </div>
+
+        <div className="home-closing__invitation">
+          <Link className="home-closing__action" to={closingCta.link.href}>
+            <span>{closingCta.link.label}</span>
+            <ArrowRight aria-hidden="true" size={18} />
+          </Link>
+        </div>
       </Container>
     </section>
   );
