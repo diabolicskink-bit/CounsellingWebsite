@@ -32,7 +32,6 @@ const prerenderedRouteContracts = {
     rawFragments: [
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
-      'class="site-card site-copy-flow home-welcome__online"',
       'href="/working-with-joel#issues-i-work-with"',
       'class="site-card home-workroom__joel"',
       'aria-label="Inclusive practice topics"',
@@ -60,28 +59,34 @@ const prerenderedRouteContracts = {
     noJavaScriptSelector: 'img[src="/joel-griffiths-working-with-joel-portrait.jpg"]',
   },
   "/inclusive-counselling": {
-    mainClass: "site-page inclusion-page",
-    rawFragments: ['class="inclusion-hub__panels"', 'class="site-faq-list"'],
-    noJavaScriptSelector: ".inclusion-hub__panels",
+    mainClass: "site-page inclusion-hub-page",
+    rawFragments: [
+      'class="inclusion-hub-page__chapters"',
+      'id="inclusion-kink-bdsm-heading"',
+      'id="inclusion-enm-polyamory-heading"',
+      'id="inclusion-lgbtqia-heading"',
+    ],
+    noJavaScriptSelector: ".inclusion-hub-page__chapters",
   },
   "/kink-bdsm-counselling": {
     mainClass: "site-page kink-page",
-    rawFragments: ['class="kink-page__knowledge-grid"', 'class="site-faq-list"'],
-    noJavaScriptSelector: ".kink-page__knowledge-grid",
+    rawFragments: ['class="kink-page__misread"', 'class="kink-page__more"'],
+    noJavaScriptSelector: ".kink-page__misread",
   },
   "/polyamory-enm-counselling": {
     mainClass: "site-page enm-page",
     rawFragments: [
-      'class="hero-section hero-bg--default enm-page__hero"',
+      'class="hero-section enm-page__hero"',
       'class="enm-page__reasons"',
-      'class="enm-page__reasons-panel"',
+      'class="enm-page__reasons-list"',
+      'class="enm-page__position"',
     ],
-    noJavaScriptSelector: ".enm-page__reasons-panel",
+    noJavaScriptSelector: ".enm-page__reasons-list",
   },
   "/lgbtqia-affirming-counselling": {
     mainClass: "site-page inclusion-page lgbtqia-page",
-    rawFragments: ['class="lgbtqia-page__recognition-flow"', 'class="lgbtqia-page__disclosure-heading"'],
-    noJavaScriptSelector: ".lgbtqia-page__recognition-flow",
+    rawFragments: ['class="lgbtqia-page__recognition-list"', 'class="lgbtqia-page__disclosure"'],
+    noJavaScriptSelector: ".lgbtqia-page__recognition-list",
   },
   "/contact": {
     mainClass: "site-page contact-page codex-contact",
@@ -554,7 +559,10 @@ async function expectHomePageStructure(page: Page) {
   await expect(portrait).toHaveAttribute("alt", "Joel Griffiths");
   await expect(portrait).toHaveAttribute("fetchpriority", "high");
   await expect(hero.locator(".home-page__hero-support")).toHaveCount(0);
-  await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveAttribute("href", "/contact");
+  await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveAttribute(
+    "href",
+    "/contact",
+  );
   await expect(hero.getByRole("link", { name: "Explore inclusive counselling" })).toHaveAttribute(
     "href",
     "/inclusive-counselling",
@@ -566,17 +574,17 @@ async function expectHomePageStructure(page: Page) {
   const issuesLinks = home.getByRole("link", { name: "See the issues I work with" });
   await expect(issuesLinks).toHaveCount(1);
   await expect(issuesLinks).toHaveAttribute("href", "/working-with-joel#issues-i-work-with");
-  await expect(home.locator(".home-welcome__online")).toHaveClass(/site-card/);
+  await expect(home.getByText("Sessions happen online by video")).toHaveCount(0);
   const joelCard = home.locator("article.site-card.home-workroom__joel");
   await expect(joelCard).toBeVisible();
-  await expect(joelCard.getByRole("link", { name: "Request a 15-minute consult" })).toHaveAttribute(
-    "href",
-    "/contact",
-  );
+  await expect(joelCard.getByRole("link", { name: "Request a 15-minute consult" })).toHaveCount(0);
   await expect(joelCard.getByRole("link", { name: "More about how I work" })).toHaveAttribute(
     "href",
     "/working-with-joel",
   );
+  await expect(
+    home.locator(".home-closing").getByRole("link", { name: "Request a 15-minute consult" }),
+  ).toHaveAttribute("href", "/contact");
   const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
   await expect(inclusiveTopics.locator(":scope li")).toHaveCount(4);
   await expect(inclusiveTopics.locator(".home-page__inclusive-topic-link--parent")).toHaveCount(1);
@@ -585,7 +593,7 @@ async function expectHomePageStructure(page: Page) {
   for (const [href, count] of [
     ["/working-with-joel", 1],
     ["/inclusive-counselling", 2],
-    ["/contact", 3],
+    ["/contact", 2],
   ] as const) {
     await expect(home.locator(`a[href="${href}"]`)).toHaveCount(count);
   }
@@ -701,19 +709,20 @@ test.describe("public pages", () => {
       if (route === "/kink-bdsm-counselling") {
         await expect(
           page.locator(
-            "h2.kink-page__panel-title, .kink-page__closing-intro > h2, h2.kink-page__closing-card-title",
+            "h2.kink-page__fluency-title, h2.kink-page__misread-title, h2.kink-page__more-title",
           ),
         ).toHaveCount(3);
         await expect(page.locator(".kink-page h3:not(.site-faq-item__heading)")).toHaveCount(0);
-        await expect(page.locator(".site-faq-item h3.site-faq-item__heading")).not.toHaveCount(0);
+        await expect(page.locator(".kink-page .site-faq-list")).toHaveCount(0);
       }
 
       if (route === "/lgbtqia-affirming-counselling") {
         const pageMain = page.locator("main.lgbtqia-page");
 
         await expect(pageMain.locator("section").nth(1)).toHaveClass(/lgbtqia-page__recognition/);
-        await expect(pageMain.locator(".lgbtqia-page__recognition-flow > li")).toHaveCount(3);
-        await expect(pageMain.locator(".lgbtqia-page__context-line > li")).toHaveCount(5);
+        await expect(pageMain.locator(".lgbtqia-page__recognition-list > li")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__assumptions-list > li")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__disclosure-copy > p")).toHaveCount(3);
       }
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
@@ -749,7 +758,7 @@ test.describe("public pages", () => {
 });
 
 test.describe("shared navigation", () => {
-  test("routes enquiry and fee actions to their live Contact sections", async ({ page }) => {
+  test("routes enquiry and fee actions to the top of Contact", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto("/", { waitUntil: "networkidle" });
 
@@ -759,24 +768,25 @@ test.describe("shared navigation", () => {
 
     await expect(header.getByRole("link", { name: "Get in touch" })).toHaveAttribute(
       "href",
-      "/contact#contact-start",
+      "/contact",
     );
     await expect(mainNavigation.getByRole("link", { name: "Fees" })).toHaveAttribute(
       "href",
-      "/contact#contact-fees",
+      "/contact",
     );
     await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute(
       "href",
-      "/contact#contact-fees",
+      "/contact",
     );
 
     await header.getByRole("link", { name: "Get in touch" }).click();
-    await expect(page).toHaveURL(/\/contact#contact-start$/);
-    await expect(page.locator("#contact-start")).toBeFocused();
+    await expect(page).toHaveURL(/\/contact$/);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 
+    await page.goto("/", { waitUntil: "networkidle" });
     await mainNavigation.getByRole("link", { name: "Fees" }).click();
-    await expect(page).toHaveURL(/\/contact#contact-fees$/);
-    await expect(page.locator("#contact-fees")).toBeFocused();
+    await expect(page).toHaveURL(/\/contact$/);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   });
 
   test("exposes inclusion child pages in desktop and mobile navigation", async ({ page }) => {
@@ -1155,17 +1165,17 @@ test.describe("crawl and app metadata assets", () => {
     await expect(homeMain.locator(".home-page__inclusive-topic-link")).toHaveCount(4);
 
     await page.goto("/inclusive-counselling", { waitUntil: "networkidle" });
-    const inclusionMain = page.locator("main.inclusion-page");
+    const inclusionMain = page.locator("main.inclusion-hub-page");
 
     for (const route of inclusionChildRoutes) {
-      await expect(inclusionMain.locator(`a[href="${route.path}"]`)).toHaveCount(2);
+      await expect(inclusionMain.locator(`a[href="${route.path}"]`)).toHaveCount(1);
     }
-    await expect(inclusionMain.locator(".inclusion-hero__detail-link")).toHaveText([
-      "Kink & BDSM",
-      "ENM & Polyamory",
-      "LGBTQIA+",
+    await expect(inclusionMain.locator(".inclusion-hub-page__chapter-heading h2")).toHaveText([
+      "Kink & BDSM-aware counselling",
+      "ENM & polyamory counselling",
+      "LGBTQIA+ affirming counselling",
     ]);
-    await expect(inclusionMain.locator(".inclusion-hub__panel-action")).toHaveCount(3);
+    await expect(inclusionMain.locator(".inclusion-hub-page__chapter-link")).toHaveCount(3);
   });
 
   test("Vercel config does not apply global noindex headers", () => {
@@ -1976,39 +1986,46 @@ test.describe("production route boundaries", () => {
   }
 });
 
-test("Home hero places page actions beside the copy before stacking them responsively", async ({ page }) => {
+test("Home hero leads with its actions and keeps Joel's portrait after his copy on mobile", async ({ page }) => {
   const hero = page.locator(".home-page__hero");
   const heroCopy = page.locator(".home-page__hero-copy");
   const heroDisplay = page.locator(".home-page__hero .hero-display");
   const heroActions = page.getByRole("navigation", { name: "Page actions" });
+  const joelCard = page.locator(".home-workroom__joel");
+  const portrait = page.locator(".home-workroom__portrait");
 
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/", { waitUntil: "networkidle" });
 
   const wideCopyBox = await heroCopy.boundingBox();
   const wideActionsBox = await heroActions.boundingBox();
+  const wideDisplayBox = await heroDisplay.boundingBox();
 
   expect(wideCopyBox).not.toBeNull();
   expect(wideActionsBox).not.toBeNull();
-  expect(wideActionsBox!.x).toBeGreaterThanOrEqual(wideCopyBox!.x + wideCopyBox!.width);
-  await expect(heroDisplay).toHaveCSS("font-size", "61.6px");
-  await expect(hero).toHaveCSS("padding-top", "40px");
-  await expect(hero).toHaveCSS("padding-bottom", "40px");
-  await expect(heroActions).toHaveCSS("border-left-width", "1px");
+  expect(wideDisplayBox).not.toBeNull();
+  expect(wideActionsBox!.y).toBeGreaterThanOrEqual(wideDisplayBox!.y + wideDisplayBox!.height);
+  await expect(heroDisplay).toHaveCSS("color", "rgb(252, 252, 250)");
+  await expect(hero).toHaveCSS("padding-top", "0px");
+  await expect(hero.locator(".home-workroom__portrait")).toHaveCount(0);
 
-  await page.setViewportSize({ width: 820, height: 1180 });
+  await page.setViewportSize({ width: 390, height: 844 });
 
-  const stackedCopyBox = await heroCopy.boundingBox();
-  const stackedActionsBox = await heroActions.boundingBox();
+  const mobileCardBox = await joelCard.boundingBox();
+  const mobilePortraitBox = await portrait.boundingBox();
+  const primaryActionBox = await heroActions.getByRole("link", { name: "Get in touch" }).boundingBox();
+  const secondaryActionBox = await heroActions
+    .getByRole("link", { name: "Explore inclusive counselling" })
+    .boundingBox();
 
-  expect(stackedCopyBox).not.toBeNull();
-  expect(stackedActionsBox).not.toBeNull();
-  expect(stackedActionsBox!.y).toBeGreaterThan(stackedCopyBox!.y + stackedCopyBox!.height);
-  await expect(heroDisplay).toHaveCSS("font-size", "40px");
-  await expect(hero).toHaveCSS("padding-top", "40px");
-  await expect(hero).toHaveCSS("padding-bottom", "40px");
-  await expect(heroActions).toHaveCSS("border-top-width", "1px");
-  await expect(heroActions).toHaveCSS("border-left-width", "0px");
+  expect(mobileCardBox).not.toBeNull();
+  expect(mobilePortraitBox).not.toBeNull();
+  expect(primaryActionBox).not.toBeNull();
+  expect(secondaryActionBox).not.toBeNull();
+  expect(mobilePortraitBox!.y).toBeGreaterThanOrEqual(mobileCardBox!.y + mobileCardBox!.height);
+  expect(secondaryActionBox!.y).toBeGreaterThanOrEqual(
+    primaryActionBox!.y + primaryActionBox!.height,
+  );
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
   ).toBe(true);

@@ -41,7 +41,6 @@ type HomeHeroContent = {
 type HomeWelcomeContent = {
   heading: EmphasisCopy;
   opening: string;
-  practice: string;
   link: HomeLink;
 };
 
@@ -56,7 +55,6 @@ type HomeInclusiveContent = {
 type HomeWorkroomContent = {
   name: string;
   copy: string[];
-  consultLink: HomeLink;
   profileLink: HomeLink;
 };
 
@@ -75,6 +73,7 @@ type HomePageContent = {
 };
 
 const homeMetadata = getRouteMetadata("/");
+const contactHref = routeHref(publicRoutePaths.contact);
 
 const homePageContent: HomePageContent = {
   hero: {
@@ -85,7 +84,7 @@ const homePageContent: HomePageContent = {
       after: ".",
     },
     contactLink: {
-      href: routeHref(publicRoutePaths.contact),
+      href: contactHref,
       label: "Get in touch",
     },
     inclusionLink: {
@@ -106,8 +105,6 @@ const homePageContent: HomePageContent = {
     },
     opening:
       "Anxiety, depression, trauma and relationship difficulties are some of the reasons people come to counselling. You may be struggling to cope, or know that something doesn’t feel right but not be sure why.",
-    practice:
-      "Sessions happen online by video, so you can talk from the comfort of home or wherever works for you, without the travel or waiting room.",
     link: {
       href: `${routeHref(publicRoutePaths.workingWithJoel)}#issues-i-work-with`,
       label: "See the issues I work with",
@@ -147,10 +144,6 @@ const homePageContent: HomePageContent = {
       "I’m particularly committed to working with people who have been judged or misunderstood because of their sexuality, gender, relationships, identity, diagnosis or work. You don’t need to edit yourself into a simpler person before we talk, and I won’t decide in advance how much any of that has to do with why you came.",
       "If you’d like to get a sense of what I’m like to talk to before deciding whether to book, you can start with a free 15-minute consultation.",
     ],
-    consultLink: {
-      href: routeHref(publicRoutePaths.contact),
-      label: "Request a 15-minute consult",
-    },
     profileLink: {
       href: routeHref(publicRoutePaths.workingWithJoel),
       label: "More about how I work",
@@ -163,7 +156,7 @@ const homePageContent: HomePageContent = {
       after: "?",
     },
     link: {
-      href: routeHref(publicRoutePaths.contact),
+      href: contactHref,
       label: "Request a 15-minute consult",
     },
   },
@@ -172,21 +165,24 @@ const homePageContent: HomePageContent = {
 function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
   return (
     <section className="hero-section hero-bg--default home-page__hero">
-      <Container>
-        <div className="home-page__hero-intro">
-          <div className="home-page__hero-copy">
-            <h1 className="hero-badge">{hero.eyebrow}</h1>
-            <p className="hero-display">
-              {hero.title.before}
-              <em>{hero.title.emphasis}</em>
-              {hero.title.after}
-            </p>
-          </div>
+      <Container className="home-page__hero-shell">
+        <div className="home-page__hero-copy">
+          <h1 className="hero-badge">{hero.eyebrow}</h1>
+          <p className="hero-display">
+            {hero.title.before}
+            <em>{hero.title.emphasis}</em>
+            {hero.title.after}
+          </p>
+
           <nav className="home-page__hero-actions" aria-label="Page actions">
             <Button href={hero.contactLink.href} className="home-page__hero-action">
               {hero.contactLink.label} <ArrowRight aria-hidden="true" size={16} />
             </Button>
-            <Button href={hero.inclusionLink.href} className="home-page__hero-action" variant="secondary">
+            <Button
+              href={hero.inclusionLink.href}
+              className="home-page__hero-action"
+              variant="secondary"
+            >
               {hero.inclusionLink.label} <ArrowRight aria-hidden="true" size={16} />
             </Button>
           </nav>
@@ -220,30 +216,33 @@ function HomeTextLink({ link }: { link: HomeLink }) {
 
 function WelcomeSection({ welcome }: { welcome: HomeWelcomeContent }) {
   return (
-    <section className="site-grid" aria-labelledby="home-welcome-title">
+    <section className="home-welcome" aria-labelledby="home-welcome-title">
       <Container>
         <div className="home-welcome__layout">
+          <h2 className="home-welcome__heading" id="home-welcome-title">
+            <span>{welcome.heading.before}</span>
+            <em className="site-emphasis">{`${welcome.heading.emphasis}${welcome.heading.after}`}</em>
+          </h2>
+
           <div className="home-welcome__main">
-            <h2 className="home-welcome__heading" id="home-welcome-title">
-              <span>{welcome.heading.before}</span>
-              <em className="site-emphasis">{`${welcome.heading.emphasis}${welcome.heading.after}`}</em>
-            </h2>
             <p className="home-welcome__copy">{welcome.opening}</p>
             <HomeTextLink link={welcome.link} />
           </div>
-
-          <aside className="site-card site-copy-flow home-welcome__online">
-            <p>{welcome.practice}</p>
-          </aside>
         </div>
       </Container>
     </section>
   );
 }
 
-function WorkroomSection({ workroom, portrait }: { workroom: HomeWorkroomContent; portrait: HomePortrait }) {
+function WorkroomSection({
+  workroom,
+  portrait,
+}: {
+  workroom: HomeWorkroomContent;
+  portrait: HomePortrait;
+}) {
   return (
-    <section className="site-highlight" aria-labelledby="home-workroom-title">
+    <section className="home-workroom" aria-labelledby="home-workroom-title">
       <Container>
         <div className="home-workroom__frame">
           <JoelCard workroom={workroom} />
@@ -267,7 +266,6 @@ function JoelCard({ workroom }: { workroom: HomeWorkroomContent }) {
       </div>
       <div className="home-workroom__actions">
         <HomeTextLink link={workroom.profileLink} />
-        <HomeTextLink link={workroom.consultLink} />
       </div>
     </article>
   );
@@ -275,16 +273,16 @@ function JoelCard({ workroom }: { workroom: HomeWorkroomContent }) {
 
 function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
   return (
-    <section className="site-grid">
+    <section className="home-inclusive" aria-labelledby="home-inclusive-title">
       <Container>
         <div className="home-page__inclusive-frame">
           <div className="home-page__inclusive-main">
-            <h2>
+            <h2 id="home-inclusive-title">
               {inclusive.heading.before}
               <em className="site-emphasis">{inclusive.heading.emphasis}</em>
               {inclusive.heading.after}
             </h2>
-            <p className="site-ruled-paragraph site-ruled-paragraph--wide">{inclusive.copy}</p>
+            <p className="home-page__inclusive-copy">{inclusive.copy}</p>
           </div>
 
           <nav className="home-page__inclusive-topics-nav" aria-label={inclusive.topicsAriaLabel}>
@@ -322,9 +320,9 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
 
 function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }) {
   return (
-    <section className="site-highlight site-cta-block">
-      <Container className="site-cta-block__inner">
-        <h2>
+    <section className="home-closing" aria-labelledby="home-closing-title">
+      <Container className="home-closing__inner">
+        <h2 id="home-closing-title">
           {closingCta.heading.before}
           <span className="site-emphasis">{closingCta.heading.emphasis}</span>
           {closingCta.heading.after}

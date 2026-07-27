@@ -18,8 +18,6 @@ const homeHref = routeHref(publicRoutePaths.home);
 const workingWithJoelHref = routeHref(publicRoutePaths.workingWithJoel);
 const inclusionHref = routeHref(publicRoutePaths.inclusion);
 const contactHref = routeHref(publicRoutePaths.contact);
-const contactEnquiryHref = `${contactHref}#contact-start`;
-const contactFeesHref = `${contactHref}#contact-fees`;
 const codexTestBedHref = routeHref(devRoutePaths.codexTestBed);
 const opusTestBedHref = routeHref(devRoutePaths.opusTestBed);
 
@@ -28,25 +26,12 @@ export default function Layout() {
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
   const usesSiteChrome = usesSharedChromePath(location.pathname);
-  const candidateEnquiryHref =
-    import.meta.env.DEV && location.pathname === codexTestBedHref
-      ? `${codexTestBedHref}#codex-contact-start`
-      : import.meta.env.DEV && location.pathname === opusTestBedHref
-        ? `${opusTestBedHref}#opus-contact-start`
-        : null;
-  const isContactCandidate = candidateEnquiryHref !== null;
-  const contextualContactHref = candidateEnquiryHref ?? contactEnquiryHref;
-  const contextualFeesHref =
-    import.meta.env.DEV && location.pathname === codexTestBedHref
-      ? `${codexTestBedHref}#codex-contact-fees`
-      : import.meta.env.DEV && location.pathname === opusTestBedHref
-        ? `${opusTestBedHref}#opus-contact-start`
-        : contactFeesHref;
-  const contextualNavItems = navItems
-    .filter((item) => !isContactCandidate || item.label !== "Dev")
-    .map((item) =>
-      item.href === contactHref ? { ...item, href: contextualFeesHref } : item,
-    );
+  const isContactCandidate =
+    import.meta.env.DEV &&
+    (location.pathname === codexTestBedHref || location.pathname === opusTestBedHref);
+  const contextualNavItems = isContactCandidate
+    ? navItems.filter((item) => item.label !== "Dev")
+    : navItems;
 
   const closeMenu = () => setIsOpen(false);
   const blurDesktopNavLinkAfterPointerClick = (event: ReactPointerEvent<HTMLAnchorElement>) => {
@@ -97,7 +82,7 @@ export default function Layout() {
           </div>
 
           <div className="site-header__actions">
-            <Button href={contextualContactHref} className="header-button" onClick={closeMenu}>
+            <Button href={contactHref} className="header-button" onClick={closeMenu}>
               Get in touch
             </Button>
             <button
@@ -137,7 +122,7 @@ export default function Layout() {
             <nav className="site-footer__nav" aria-label="Footer navigation">
               <Link to={workingWithJoelHref}>Working with Joel</Link>
               <Link to={inclusionHref}>Inclusive practice</Link>
-              <Link to={contextualFeesHref}>Fees</Link>
+              <Link to={contactHref}>Fees</Link>
             </nav>
           </div>
 
