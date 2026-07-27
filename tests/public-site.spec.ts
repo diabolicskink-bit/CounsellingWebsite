@@ -1920,6 +1920,7 @@ test.describe("production route boundaries", () => {
 test("Home hero places page actions beside the copy before stacking them responsively", async ({ page }) => {
   const hero = page.locator(".home-page__hero");
   const heroCopy = page.locator(".home-page__hero-copy");
+  const heroDisplay = page.locator(".home-page__hero .hero-display");
   const heroActions = page.getByRole("navigation", { name: "Page actions" });
 
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -1930,8 +1931,10 @@ test("Home hero places page actions beside the copy before stacking them respons
 
   expect(wideCopyBox).not.toBeNull();
   expect(wideActionsBox).not.toBeNull();
-  expect(wideActionsBox!.x).toBeGreaterThan(wideCopyBox!.x + wideCopyBox!.width);
-  await expect(hero).toHaveCSS("padding-bottom", "24px");
+  expect(wideActionsBox!.x).toBeGreaterThanOrEqual(wideCopyBox!.x + wideCopyBox!.width);
+  await expect(heroDisplay).toHaveCSS("font-size", "61.6px");
+  await expect(hero).toHaveCSS("padding-top", "40px");
+  await expect(hero).toHaveCSS("padding-bottom", "40px");
   await expect(heroActions).toHaveCSS("border-left-width", "1px");
 
   await page.setViewportSize({ width: 820, height: 1180 });
@@ -1942,7 +1945,9 @@ test("Home hero places page actions beside the copy before stacking them respons
   expect(stackedCopyBox).not.toBeNull();
   expect(stackedActionsBox).not.toBeNull();
   expect(stackedActionsBox!.y).toBeGreaterThan(stackedCopyBox!.y + stackedCopyBox!.height);
-  await expect(hero).toHaveCSS("padding-bottom", "20px");
+  await expect(heroDisplay).toHaveCSS("font-size", "40px");
+  await expect(hero).toHaveCSS("padding-top", "40px");
+  await expect(hero).toHaveCSS("padding-bottom", "40px");
   await expect(heroActions).toHaveCSS("border-top-width", "1px");
   await expect(heroActions).toHaveCSS("border-left-width", "0px");
   expect(
