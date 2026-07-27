@@ -41,6 +41,7 @@ type HomeHeroContent = {
 type HomeWelcomeContent = {
   heading: EmphasisCopy;
   opening: string;
+  delivery: string;
   link: HomeLink;
 };
 
@@ -100,11 +101,13 @@ const homePageContent: HomePageContent = {
   welcome: {
     heading: {
       before: "Whatever’s going on, ",
-      emphasis: "you can bring it here",
+      emphasis: "you can talk about it here",
       after: ".",
     },
     opening:
-      "Anxiety, depression, trauma and relationship difficulties are some of the reasons people come to counselling. You may be struggling to cope, or know that something doesn’t feel right but not be sure why.",
+      "People come to counselling for many different reasons. You might be dealing with anxiety, depression, trauma or relationship difficulties, or know that something doesn’t feel right without being sure why.",
+    delivery:
+      "Sessions are online by video, so you can join from home or wherever works for you. There’s no need to travel or sit in a waiting room.",
     link: {
       href: `${routeHref(publicRoutePaths.workingWithJoel)}#issues-i-work-with`,
       label: "See the issues I work with",
@@ -226,6 +229,7 @@ function WelcomeSection({ welcome }: { welcome: HomeWelcomeContent }) {
 
           <div className="home-welcome__main">
             <p className="home-welcome__copy">{welcome.opening}</p>
+            <p className="home-welcome__copy">{welcome.delivery}</p>
             <HomeTextLink link={welcome.link} />
           </div>
         </div>

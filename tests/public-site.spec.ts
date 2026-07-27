@@ -570,11 +570,17 @@ async function expectHomePageStructure(page: Page) {
   await expect(hero.getByRole("link", { name: "Explore inclusive counselling" })).toHaveClass(
     /button--secondary/,
   );
-  await expect(home.getByRole("region", { name: "Whatever’s going on, you can bring it here." })).toHaveCount(1);
+  await expect(
+    home.getByRole("region", { name: "Whatever’s going on, you can talk about it here." }),
+  ).toHaveCount(1);
   const issuesLinks = home.getByRole("link", { name: "See the issues I work with" });
   await expect(issuesLinks).toHaveCount(1);
   await expect(issuesLinks).toHaveAttribute("href", "/working-with-joel#issues-i-work-with");
-  await expect(home.getByText("Sessions happen online by video")).toHaveCount(0);
+  await expect(
+    home.getByText(
+      "Sessions are online by video, so you can join from home or wherever works for you. There’s no need to travel or sit in a waiting room.",
+    ),
+  ).toHaveCount(1);
   const joelCard = home.locator("article.site-card.home-workroom__joel");
   await expect(joelCard).toBeVisible();
   await expect(joelCard.getByRole("link", { name: "Get in touch" })).toHaveCount(0);
