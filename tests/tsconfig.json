@@ -3,7 +3,7 @@
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2021"],
     "target": "ES2021",
-    "types": ["node", "@vercel/analytics"]
+    "types": ["node"]
   },
   "include": ["public-site.spec.ts", "../src/vite-env.d.ts"]
 }

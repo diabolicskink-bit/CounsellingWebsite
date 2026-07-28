@@ -17,6 +17,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-28 - Contact Analytics Consolidated In GA4
+
+- Changed: GA4 now receives page views, first enquiry interaction, email-link clicks, all three controlled Contact-path selections, and confirmed enquiry conversions.
+- Added: Contact selections report `appointment`, `consult`, or `question` through the controlled `contact_option` parameter; confirmed conversions retain controlled form and lead-source context without visitor-entered data.
+- Removed: Vercel Web Analytics, its runtime component, dependency, and custom events are no longer part of the site analytics implementation.
+- Verified: Dedicated analytics QA covers disabled and disallowed-host behaviour, all GA4 contact-intent values, failed-conversion suppression, successful conversions, route page views, and Clarity loading.
+
 ## 2026-07-23 - Page-Copy Development Reduced To Two Artifact Passes
 
 - Changed: `develop-page-copy` now produces either one high-level page plan without exact public copy or one bounded section's reviewed exact copy and semantic content-composition brief; section development can use a page plan or recover a provisional local brief from available page context.
