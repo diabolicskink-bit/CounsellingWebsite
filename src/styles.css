@@ -168,7 +168,7 @@ h3 {
   top: 0;
   z-index: 20;
   border-bottom: 1px solid rgba(35, 75, 61, 0.2);
-  background: rgba(247, 246, 242, 0.98);
+  background: #f2efe8;
 }
 
 .site-header__inner {
@@ -1954,7 +1954,6 @@ h3 {
 }
 
 .site-shell--shared .site-header {
-  background: rgba(247, 246, 242, 0.98);
   border-bottom-color: rgba(35, 75, 61, 0.2);
 }
 
@@ -2040,7 +2039,7 @@ h3 {
     margin-inline: auto;
     padding: 8px 0 20px;
     border-top: 1px solid var(--line);
-    background: var(--paper);
+    background: transparent;
   }
 
   .mobile-nav__link {
@@ -2071,10 +2070,6 @@ h3 {
 }
 
 @media (max-width: 700px) {
-  .site-shell--shared .site-header {
-    background: #f7f6f2;
-  }
-
   .container,
   .site-header__inner,
   .mobile-nav {

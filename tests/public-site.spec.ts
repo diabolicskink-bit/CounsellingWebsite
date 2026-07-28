@@ -32,8 +32,7 @@ const prerenderedRouteContracts = {
     rawFragments: [
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
-      'href="/working-with-joel#issues-i-work-with"',
-      'class="site-card home-workroom__joel"',
+      'class="home-about"',
       'aria-label="Inclusive practice topics"',
       'class="home-page__inclusive-topic-link home-page__inclusive-topic-link--parent"',
       'class="home-page__inclusive-topic-children"',
@@ -550,6 +549,7 @@ async function expectNoPageDiagnostics(diagnostics: PageDiagnostics) {
 async function expectHomePageStructure(page: Page) {
   const home = page.locator("main.home-page");
   const hero = home.locator(".hero-section");
+  const about = home.locator(".home-about");
   const portrait = home.locator('img[src="/joel-griffiths-homepage-portrait.jpg"]');
 
   await expect(home).toBeVisible();
@@ -570,23 +570,28 @@ async function expectHomePageStructure(page: Page) {
     /button--secondary/,
   );
   await expect(
-    home.getByRole("region", { name: "Whatever’s going on, you can talk about it here." }),
+    home.getByRole("region", {
+      name: "About Vive",
+    }),
   ).toHaveCount(1);
-  const issuesLinks = home.getByRole("link", { name: "See the issues I work with" });
-  await expect(issuesLinks).toHaveCount(1);
-  await expect(issuesLinks).toHaveAttribute("href", "/working-with-joel#issues-i-work-with");
   await expect(
-    home.getByText(
+    about.getByText(/I offer online counselling to individuals and couples across Australia/),
+  ).toBeVisible();
+  await expect(
+    about.getByText(
       "Sessions are online by video, so you can join from home or wherever works for you. There’s no need to travel or sit in a waiting room.",
     ),
-  ).toHaveCount(1);
-  const joelCard = home.locator("article.site-card.home-workroom__joel");
-  await expect(joelCard).toBeVisible();
-  await expect(joelCard.getByRole("link", { name: "Get in touch" })).toHaveCount(0);
-  await expect(joelCard.getByRole("link", { name: "More about how I work" })).toHaveAttribute(
+  ).toBeVisible();
+  await expect(about.locator(".home-about__story > p")).toHaveCount(5);
+  await expect(about.locator("h3")).toHaveCount(0);
+  await expect(about.getByRole("link", { name: "Working with Joel" })).toHaveAttribute(
     "href",
     "/working-with-joel",
   );
+  await expect(
+    about.getByRole("link", { name: "More reasons people come to counselling" }),
+  ).toHaveCount(0);
+  await expect(about.getByText(/15-minute consultation/)).toHaveCount(0);
   await expect(
     home.locator(".home-closing").getByRole("link", { name: "See contact options" }),
   ).toHaveAttribute("href", "/contact");
@@ -864,32 +869,12 @@ test.describe("prerendered route activation boundaries", () => {
       document.body.dataset.spaNavigationSentinel = "preserved";
     });
 
-    await page.locator('.home-workroom__joel a[href="/working-with-joel"]').click();
+    await page.locator(".home-page__inclusive-topic-link--parent").click();
 
-    await expect(page).toHaveURL(/\/working-with-joel$/);
+    await expect(page).toHaveURL(/\/inclusive-counselling$/);
     await expect(page.locator("h1.hero-badge")).toBeVisible();
     expect((await page.locator("h1.hero-badge").innerText()).trim().length).toBeGreaterThan(8);
     expect(await page.evaluate(() => document.body.dataset.spaNavigationSentinel)).toBe("preserved");
-    await expectNoPageDiagnostics(diagnostics);
-  });
-
-  test("deep-links from Home to the issues section and moves focus to its heading", async ({ page }) => {
-    const diagnostics = collectPageDiagnostics(page);
-
-    await page.goto("/", { waitUntil: "networkidle" });
-    await page.getByRole("link", { name: "See the issues I work with" }).first().click();
-
-    const issuesHeading = page.locator("#issues-i-work-with");
-
-    await expect(page).toHaveURL(/\/working-with-joel#issues-i-work-with$/);
-    await expect(issuesHeading).toBeVisible();
-    await expect(issuesHeading).toBeFocused();
-    await expect
-      .poll(() => issuesHeading.evaluate((element) => element.getBoundingClientRect().top))
-      .toBeGreaterThanOrEqual(0);
-    await expect
-      .poll(() => issuesHeading.evaluate((element) => element.getBoundingClientRect().top))
-      .toBeLessThan(180);
     await expectNoPageDiagnostics(diagnostics);
   });
 
@@ -2053,13 +2038,13 @@ test.describe("production route boundaries", () => {
   }
 });
 
-test("Home hero leads with its actions and keeps Joel's portrait after his copy on mobile", async ({ page }) => {
+test("Home hero leads with its actions and keeps the About narrative intact on mobile", async ({ page }) => {
   const hero = page.locator(".home-page__hero");
   const heroCopy = page.locator(".home-page__hero-copy");
   const heroDisplay = page.locator(".home-page__hero .hero-display");
   const heroActions = page.getByRole("navigation", { name: "Page actions" });
-  const joelCard = page.locator(".home-workroom__joel");
-  const portrait = page.locator(".home-workroom__portrait");
+  const portrait = page.locator(".home-about__portrait");
+  const aboutNarrative = page.locator(".home-about__narrative");
 
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/", { waitUntil: "networkidle" });
@@ -2074,22 +2059,24 @@ test("Home hero leads with its actions and keeps Joel's portrait after his copy 
   expect(wideActionsBox!.y).toBeGreaterThanOrEqual(wideDisplayBox!.y + wideDisplayBox!.height);
   await expect(heroDisplay).toHaveCSS("color", "rgb(252, 252, 250)");
   await expect(hero).toHaveCSS("padding-top", "0px");
-  await expect(hero.locator(".home-workroom__portrait")).toHaveCount(0);
+  await expect(hero.locator(".home-about__portrait")).toHaveCount(0);
 
   await page.setViewportSize({ width: 390, height: 844 });
 
-  const mobileCardBox = await joelCard.boundingBox();
   const mobilePortraitBox = await portrait.boundingBox();
+  const mobileNarrativeBox = await aboutNarrative.boundingBox();
   const primaryActionBox = await heroActions.getByRole("link", { name: "Get in touch" }).boundingBox();
   const secondaryActionBox = await heroActions
     .getByRole("link", { name: "Explore inclusive counselling" })
     .boundingBox();
 
-  expect(mobileCardBox).not.toBeNull();
   expect(mobilePortraitBox).not.toBeNull();
+  expect(mobileNarrativeBox).not.toBeNull();
   expect(primaryActionBox).not.toBeNull();
   expect(secondaryActionBox).not.toBeNull();
-  expect(mobilePortraitBox!.y).toBeGreaterThanOrEqual(mobileCardBox!.y + mobileCardBox!.height);
+  expect(mobilePortraitBox!.y).toBeGreaterThanOrEqual(
+    mobileNarrativeBox!.y + mobileNarrativeBox!.height,
+  );
   expect(secondaryActionBox!.y).toBeGreaterThanOrEqual(
     primaryActionBox!.y + primaryActionBox!.height,
   );
