@@ -545,13 +545,6 @@ export default function Contact({ initialRenderAt }: ContactProps) {
                 <ContactTimeZoneNotes initialRenderAt={initialRenderAt} />
               </dd>
             </div>
-            <div>
-              <dt>Cancellations</dt>
-              <dd>
-                If you cancel or change an appointment with less than 48 hours'
-                notice, the full fee is payable, except in cases of illness.
-              </dd>
-            </div>
             <div id="contact-urgent-support">
               <dt>Urgent support</dt>
               <dd>

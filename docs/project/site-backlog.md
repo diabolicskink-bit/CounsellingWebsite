@@ -52,7 +52,7 @@ Statuses:
 - `Classification`: `Content`
 - `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`
 - `Visitor-Facing Goal`: Give visitors enough practical trust information to understand website tracking, enquiry-message handling, and the basic boundaries around online counselling.
-- `Current State`: The site explains fees, format, referral, cancellation, and crisis limits, but it does not yet give a concise public note on website privacy/analytics, enquiry message handling, records, or online-session platform/privacy setup. Microsoft Clarity can now load when configured, and the enquiry form is explicitly Clarity-masked, but there is no public analytics/cookie notice yet.
+- `Current State`: The site explains fees, format, referral, and crisis limits, but it does not yet give a concise public note on website privacy/analytics, enquiry message handling, records, or online-session platform/privacy setup. Microsoft Clarity can now load when configured, and the enquiry form is explicitly Clarity-masked, but there is no public analytics/cookie notice yet.
 - `Why Deferred`: The wording needs owner confirmation so the site does not overpromise privacy, confidentiality, security, platform behaviour, or legal limits.
 - `First Useful Slice`: Add a compact Contact FAQ, practical-details note, or footer-linked privacy note that separates website privacy/analytics from counselling confidentiality, explains how enquiry messages are handled, and states what online session setup visitors should expect.
 - `Implemented When`: A visitor can find a clear, accurate website privacy and counselling-boundaries note before submitting the enquiry form.
@@ -113,10 +113,10 @@ Statuses:
 - `Classification`: `Content`
 - `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/data/routeMetadata.json`
 - `Visitor-Facing Goal`: Let visitors understand the real cost and payment setup before enquiring.
-- `Current State`: The Contact page states the session fee, length, free initial consult, no referral requirement, and cancellation policy, but it does not explicitly state Medicare/private-health rebate availability, payment method, or when payment is due.
+- `Current State`: The Contact page states the session fee, length, free initial consult, and no referral requirement, but it does not explicitly state Medicare/private-health rebate availability, payment method, or when payment is due.
 - `Why Deferred`: Rebate and payment wording needs owner confirmation before becoming public.
 - `First Useful Slice`: Confirm Medicare/private-health rebate policy and preferred payment wording, then add a concise Contact page note or FAQ item.
-- `Implemented When`: Fee information answers session price, length, referral, rebate, payment timing/method, cancellation, and initial consult basics in one clear place.
+- `Implemented When`: Fee information answers session price, length, referral, rebate, payment timing/method, and initial consult basics in one clear place.
 - `Notes`:
 - `Links`: `src/pages/Contact.tsx`, `src/data/routeMetadata.json`
 
