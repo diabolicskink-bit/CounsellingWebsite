@@ -186,24 +186,22 @@ const pageContent: WorkingWithJoelPageContent = {
 function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
   return (
     <section className="hero-section working-with-joel-page__hero">
-                  <Container>
+      <Container>
         <div className="working-with-joel-page__hero-layout">
-          <div className="working-with-joel-page__hero-heading">
-            <h1 className="hero-badge">{hero.badge}</h1>
-            <p className="hero-display">
-              {hero.title.before}
-              <br />
-              <em>{hero.title.emphasis}</em>
-              <br />
-              {hero.title.after}
-            </p>
-          </div>
+          <h1 className="hero-badge">{hero.badge}</h1>
+          <p className="hero-display">
+            {hero.title.before}
+            <br />
+            <em>{hero.title.emphasis}</em>
+            <br />
+            {hero.title.after}
+          </p>
 
           <CredentialsList items={hero.credentials} ariaLabel={hero.credentialsAriaLabel} />
         </div>
-              </Container>
+      </Container>
     </section>
- );
+  );
 }
 
 function CredentialsList({ items, ariaLabel }: { items: string[]; ariaLabel: string }) {

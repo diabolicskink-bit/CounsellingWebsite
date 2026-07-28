@@ -40,7 +40,7 @@ const prerenderedRouteSmokeFragments = {
   "/polyamory-enm-counselling": [
     '<main class="site-page enm-page">',
     "Polyamory and ethical non-monogamy counselling and therapy",
-    'class="hero-section enm-page__hero"',
+    'class="hero-section specialist-counselling-hero enm-page__hero"',
     'class="enm-page__reasons"',
     'class="enm-page__reasons-list"',
     'class="enm-page__position"',
@@ -48,7 +48,7 @@ const prerenderedRouteSmokeFragments = {
   "/lgbtqia-affirming-counselling": [
     '<main class="site-page inclusion-page lgbtqia-page">',
     "LGBTQIA+ affirming counselling",
-    'class="hero-section lgbtqia-page__hero"',
+    'class="hero-section specialist-counselling-hero lgbtqia-page__hero"',
     'class="lgbtqia-page__recognition-list"',
     'class="lgbtqia-page__disclosure"',
   ],

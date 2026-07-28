@@ -1,10 +1,9 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-enm-polyamory.css";
+import SpecialistCounsellingHero from "./SpecialistCounsellingHero";
 
 type ReasonItem = {
   heading: string;
@@ -75,30 +74,26 @@ export default function EnmPolyamoryCounselling() {
 
   return (
     <main className="site-page enm-page">
-      <section className="hero-section enm-page__hero">
-        <Container>
-          <div className="enm-page__hero-copy">
-            <h1 className="hero-badge">{hero.badge}</h1>
-            <p className="hero-display">
-              <span>{hero.title.lineOne}</span>
-              <span>
-                taken <em>seriously.</em>
-              </span>
-            </p>
-
-            <nav className="enm-page__hero-actions" aria-label="Page actions">
-              <Link className="enm-page__hero-action" to={hero.actions.enquiryHref}>
-                <span>{hero.actions.enquiryLabel}</span>
-                <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-              <Link className="enm-page__hero-action" to={hero.actions.inclusionHref}>
-                <ArrowLeft size={18} aria-hidden="true" />
-                <span>{hero.actions.inclusionLabel}</span>
-              </Link>
-            </nav>
-          </div>
-        </Container>
-      </section>
+      <SpecialistCounsellingHero
+        className="enm-page__hero"
+        eyebrow={hero.badge}
+        primaryAction={{
+          href: hero.actions.enquiryHref,
+          label: hero.actions.enquiryLabel,
+        }}
+        secondaryAction={{
+          href: hero.actions.inclusionHref,
+          label: hero.actions.inclusionLabel,
+        }}
+        title={
+          <>
+            <span>{hero.title.lineOne}</span>
+            <span>
+              taken <em>seriously.</em>
+            </span>
+          </>
+        }
+      />
 
       <section className="enm-page__reasons" aria-labelledby="enm-reasons-heading">
         <Container className="enm-page__reasons-layout">

@@ -75,7 +75,7 @@ const prerenderedRouteContracts = {
   "/polyamory-enm-counselling": {
     mainClass: "site-page enm-page",
     rawFragments: [
-      'class="hero-section enm-page__hero"',
+      'class="hero-section specialist-counselling-hero enm-page__hero"',
       'class="enm-page__reasons"',
       'class="enm-page__reasons-list"',
       'class="enm-page__position"',
@@ -119,7 +119,11 @@ const inclusionChildRoutes = [
   { path: "/lgbtqia-affirming-counselling", navLabel: "LGBTQIA+" },
 ] as const;
 const analyticsConfigured = process.env.VITE_ANALYTICS_ENABLED === "true";
-const qaRuntimeHostname = "127.0.0.1";
+const qaRuntimeUrl = new URL(
+  process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:4287",
+);
+const qaRuntimeHostname = qaRuntimeUrl.hostname;
+const qaRuntimeOrigin = qaRuntimeUrl.origin;
 
 function normalizeAnalyticsHostname(value: string) {
   const trimmedValue = value.trim();
@@ -471,8 +475,7 @@ function isAnalyticsUrl(rawUrl: string) {
       url.hostname === "www.google-analytics.com" ||
       url.hostname === "analytics.google.com" ||
       url.hostname === "clarity.ms" ||
-      url.hostname.endsWith(".clarity.ms") ||
-      url.pathname.startsWith("/_vercel/insights")
+      url.hostname.endsWith(".clarity.ms")
     );
   } catch {
     return (
@@ -492,11 +495,6 @@ type PageDiagnostics = {
 type GoogleAnalyticsEvent = {
   eventName: string;
   params: Record<string, unknown>;
-};
-
-type VercelCustomEvent = {
-  name?: string;
-  properties: Record<string, unknown>;
 };
 
 type GoogleAnalyticsEventArguments = [
@@ -594,8 +592,15 @@ async function expectHomePageStructure(page: Page) {
   ).toHaveCount(0);
   await expect(about.getByText(/15-minute consultation/)).toHaveCount(0);
   await expect(
-    home.locator(".home-closing").getByRole("link", { name: "Get in touch" }),
+    home.locator(".home-closing").getByRole("link", { name: "See contact options" }),
   ).toHaveAttribute("href", "/contact");
+  await expect(home.locator(".home-closing").getByRole("heading", { level: 2 })).toHaveText(
+    "Get in touch.",
+  );
+  await expect(home.locator(".home-closing h2 em")).toHaveText("touch");
+  await expect(home.locator(".home-closing__copy")).toHaveText(
+    "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
+  );
   const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
   await expect(inclusiveTopics.locator(":scope li")).toHaveCount(4);
   await expect(inclusiveTopics.locator(".home-page__inclusive-topic-link--parent")).toHaveCount(1);
@@ -659,21 +664,6 @@ async function getGoogleAnalyticsEvents(page: Page, eventName: string): Promise<
         params: entry[2] ?? {},
       }));
   }, eventName);
-}
-
-async function getVercelCustomEvents(page: Page): Promise<VercelCustomEvent[]> {
-  return page.evaluate(() => {
-    return (window.vaq ?? [])
-      .filter((entry) => entry[0] === "event")
-      .map((entry) => {
-        const event = entry[1] as { data?: Record<string, unknown>; name?: string };
-
-        return {
-          name: event.name,
-          properties: event.data ?? {},
-        };
-      });
-  });
 }
 
 const aliasRedirects = [
@@ -1321,7 +1311,6 @@ test.describe("crawl and app metadata assets", () => {
           'script[src*="googletagmanager.com"]',
           'script[src*="google-analytics.com"]',
           'script[src*="clarity.ms"]',
-          'script[src*="/_vercel/insights"]',
           "#vive-google-analytics",
           "#vive-google-analytics-config",
           "#vive-microsoft-clarity",
@@ -1350,7 +1339,6 @@ test.describe("crawl and app metadata assets", () => {
           'script[src*="googletagmanager.com"]',
           'script[src*="google-analytics.com"]',
           'script[src*="clarity.ms"]',
-          'script[src*="/_vercel/insights"]',
           "#vive-google-analytics",
           "#vive-google-analytics-config",
           "#vive-microsoft-clarity",
@@ -1389,7 +1377,7 @@ test.describe("crawl and app metadata assets", () => {
         {
           eventName: "page_view",
           params: {
-            page_location: "http://127.0.0.1:4287/",
+            page_location: `${qaRuntimeOrigin}/`,
             page_path: "/",
             page_title: routeMetadataData.routes["/"].title,
             send_to: process.env.VITE_GA_MEASUREMENT_ID,
@@ -1405,7 +1393,7 @@ test.describe("crawl and app metadata assets", () => {
         {
           eventName: "page_view",
           params: {
-            page_location: "http://127.0.0.1:4287/",
+            page_location: `${qaRuntimeOrigin}/`,
             page_path: "/",
             page_title: routeMetadataData.routes["/"].title,
             send_to: process.env.VITE_GA_MEASUREMENT_ID,
@@ -1414,7 +1402,7 @@ test.describe("crawl and app metadata assets", () => {
         {
           eventName: "page_view",
           params: {
-            page_location: "http://127.0.0.1:4287/contact",
+            page_location: `${qaRuntimeOrigin}/contact`,
             page_path: "/contact",
             page_title: routeMetadataData.routes["/contact"].title,
             send_to: process.env.VITE_GA_MEASUREMENT_ID,
@@ -1464,10 +1452,21 @@ test.describe("crawl and app metadata assets", () => {
 
     await expect(form.getByRole("alert")).toBeVisible();
     expect(await getGoogleAnalyticsEvents(page, "generate_lead")).toEqual([]);
-    expect(await getVercelCustomEvents(page)).toEqual([
+    expect(await getGoogleAnalyticsEvents(page, "enquiry_started")).toEqual([
       {
-        name: "enquiry_started",
-        properties: {},
+        eventName: "enquiry_started",
+        params: {
+          send_to: process.env.VITE_GA_MEASUREMENT_ID,
+        },
+      },
+    ]);
+    expect(await getGoogleAnalyticsEvents(page, "contact_option_selected")).toEqual([
+      {
+        eventName: "contact_option_selected",
+        params: {
+          contact_option: "question",
+          send_to: process.env.VITE_GA_MEASUREMENT_ID,
+        },
       },
     ]);
 
@@ -1481,28 +1480,15 @@ test.describe("crawl and app metadata assets", () => {
         {
           eventName: "generate_lead",
           params: {
+            form_name: "contact",
             lead_source: "website_enquiry_form",
             send_to: process.env.VITE_GA_MEASUREMENT_ID,
           },
         },
       ]);
-    await expect
-      .poll(() => getVercelCustomEvents(page))
-      .toEqual([
-        {
-          name: "enquiry_started",
-          properties: {},
-        },
-        {
-          name: "Enquiry submitted",
-          properties: {
-            form: "contact",
-          },
-        },
-      ]);
   });
 
-  test("anonymous contact-intent events contain no visitor data", async ({ page }) => {
+  test("Google Analytics contact-intent events contain no visitor data", async ({ page }) => {
     test.skip(!googleAnalyticsRouteTrackingEnabled, "Analytics contact-intent tracking is covered by npm run qa:analytics.");
 
     await page.route("**/*", async (route) => {
@@ -1527,15 +1513,44 @@ test.describe("crawl and app metadata assets", () => {
     await form.getByLabel("Email").fill("alex@example.com");
 
     await expect
-      .poll(() => getVercelCustomEvents(page))
+      .poll(() => getGoogleAnalyticsEvents(page, "enquiry_started"))
       .toEqual([
         {
-          name: "enquiry_started",
-          properties: {},
+          eventName: "enquiry_started",
+          params: {
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
         },
       ]);
 
-    expect(await getGoogleAnalyticsEvents(page, "enquiry_started")).toEqual([]);
+    await form.getByLabel("Request a consult").check();
+    await form.getByLabel("Make an appointment").check();
+
+    await expect
+      .poll(() => getGoogleAnalyticsEvents(page, "contact_option_selected"))
+      .toEqual([
+        {
+          eventName: "contact_option_selected",
+          params: {
+            contact_option: "question",
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
+        },
+        {
+          eventName: "contact_option_selected",
+          params: {
+            contact_option: "consult",
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
+        },
+        {
+          eventName: "contact_option_selected",
+          params: {
+            contact_option: "appointment",
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
+        },
+      ]);
 
     const emailLink = page.getByRole("link", { name: "joel@vivecounselling.com.au" }).first();
 
@@ -1545,19 +1560,15 @@ test.describe("crawl and app metadata assets", () => {
     await emailLink.click();
 
     await expect
-      .poll(() => getVercelCustomEvents(page))
+      .poll(() => getGoogleAnalyticsEvents(page, "email_link_clicked"))
       .toEqual([
         {
-          name: "enquiry_started",
-          properties: {},
-        },
-        {
-          name: "email_link_clicked",
-          properties: {},
+          eventName: "email_link_clicked",
+          params: {
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
         },
       ]);
-
-    expect(await getGoogleAnalyticsEvents(page, "email_link_clicked")).toEqual([]);
   });
 
   test("Microsoft Clarity loads when configured", async ({ page }) => {
@@ -1616,6 +1627,55 @@ test.describe("alias URL redirects", () => {
 });
 
 test.describe("Working with Joel approach tabs", () => {
+  test("aligns the desktop credentials with the hero eyebrow", async ({ page }) => {
+    await page.goto("/working-with-joel", { waitUntil: "networkidle" });
+
+    if ((page.viewportSize()?.width ?? 0) > 1040) {
+      const eyebrowBox = await page.locator(".working-with-joel-page__hero .hero-badge").boundingBox();
+      const credentialsBox = await page.locator(".working-with-joel-page__hero-credentials").boundingBox();
+
+      expect(eyebrowBox).not.toBeNull();
+      expect(credentialsBox).not.toBeNull();
+      expect(Math.abs((eyebrowBox?.y ?? 0) - (credentialsBox?.y ?? 0))).toBeLessThanOrEqual(1);
+    }
+  });
+
+  test("keeps section and subordinate heading typography consistent", async ({ page }) => {
+    await page.goto("/working-with-joel", { waitUntil: "networkidle" });
+
+    const typographyProperties = [
+      "fontFamily",
+      "fontSize",
+      "fontWeight",
+      "letterSpacing",
+      "lineHeight",
+    ] as const;
+    const readTypography = (selector: string) =>
+      page.locator(selector).evaluateAll(
+        (elements, properties) =>
+          elements.map((element) => {
+            const style = window.getComputedStyle(element);
+
+            return Object.fromEntries(
+              properties.map((property) => [property, style[property]]),
+            );
+          }),
+        typographyProperties,
+      );
+
+    const sectionHeadings = await readTypography(
+      ".working-with-joel-page__intro-panel h2, .working-with-joel-page__section-title",
+    );
+    const subordinateHeadings = await readTypography(
+      '.site-broad-tabs__tab[data-active="false"]:nth-of-type(2), .working-topics__item-title:first-of-type',
+    );
+
+    expect(sectionHeadings).toHaveLength(3);
+    expect(new Set(sectionHeadings.map((style) => JSON.stringify(style))).size).toBe(1);
+    expect(subordinateHeadings).toHaveLength(2);
+    expect(new Set(subordinateHeadings.map((style) => JSON.stringify(style))).size).toBe(1);
+  });
+
   test("keeps one labelled panel active for pointer and keyboard input", async ({ page }) => {
     const diagnostics = collectPageDiagnostics(page);
 

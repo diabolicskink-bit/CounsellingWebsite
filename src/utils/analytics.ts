@@ -1,4 +1,3 @@
-import { track } from "@vercel/analytics/react";
 import { siteMetadata } from "../data/routeMetadata";
 
 export const analyticsEnabled = import.meta.env.VITE_ANALYTICS_ENABLED === "true";
@@ -57,41 +56,48 @@ export function isAnalyticsHostAllowed() {
   return allowedAnalyticsHostnames.has(window.location.hostname.toLowerCase());
 }
 
-function trackAnonymousVercelEvent(eventName: string) {
-  if (!analyticsEnabled || !isAnalyticsHostAllowed()) {
+function trackGoogleAnalyticsEvent(
+  eventName: string,
+  parameters: Record<string, string> = {},
+) {
+  if (
+    !analyticsEnabled ||
+    !isAnalyticsHostAllowed() ||
+    !gaMeasurementId ||
+    !window.gtag
+  ) {
     return;
   }
 
   try {
-    track(eventName);
+    window.gtag("event", eventName, {
+      ...parameters,
+      send_to: gaMeasurementId,
+    });
   } catch {
     // Analytics is best-effort and must never affect visitor interactions.
   }
 }
 
 export function trackEnquiryStarted() {
-  trackAnonymousVercelEvent("enquiry_started");
+  trackGoogleAnalyticsEvent("enquiry_started");
 }
 
 export function trackEmailLinkClicked() {
-  trackAnonymousVercelEvent("email_link_clicked");
+  trackGoogleAnalyticsEvent("email_link_clicked");
+}
+
+export function trackContactOptionSelected(
+  option: "appointment" | "consult" | "question",
+) {
+  trackGoogleAnalyticsEvent("contact_option_selected", {
+    contact_option: option,
+  });
 }
 
 export function trackSuccessfulEnquirySubmission(formName: string) {
-  if (!analyticsEnabled || !isAnalyticsHostAllowed()) {
-    return;
-  }
-
-  try {
-    if (gaMeasurementId && window.gtag) {
-      window.gtag("event", "generate_lead", {
-        lead_source: "website_enquiry_form",
-        send_to: gaMeasurementId,
-      });
-    }
-
-    track("Enquiry submitted", { form: formName });
-  } catch {
-    // Analytics is best-effort and must never change a successful form outcome.
-  }
+  trackGoogleAnalyticsEvent("generate_lead", {
+    form_name: formName,
+    lead_source: "website_enquiry_form",
+  });
 }
