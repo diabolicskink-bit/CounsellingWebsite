@@ -37,7 +37,6 @@ const prerenderedRouteContracts = {
       'class="home-page__inclusive-topic-link home-page__inclusive-topic-link--parent"',
       'class="home-page__inclusive-topic-children"',
       'href="/working-with-joel"',
-      'href="/working-with-joel#issues-i-work-with"',
       'href="/inclusive-counselling"',
       'href="/contact"',
     ],
@@ -579,7 +578,12 @@ async function expectHomePageStructure(page: Page) {
   await expect(
     about.getByText(/I offer online counselling to individuals and couples across Australia/),
   ).toBeVisible();
-  await expect(about.locator(".home-about__story > p")).toHaveCount(4);
+  await expect(
+    about.getByText(
+      "Sessions are online by video, so you can join from home or wherever works for you. There’s no need to travel or sit in a waiting room.",
+    ),
+  ).toBeVisible();
+  await expect(about.locator(".home-about__story > p")).toHaveCount(5);
   await expect(about.locator("h3")).toHaveCount(0);
   await expect(about.getByRole("link", { name: "Working with Joel" })).toHaveAttribute(
     "href",
@@ -587,7 +591,7 @@ async function expectHomePageStructure(page: Page) {
   );
   await expect(
     about.getByRole("link", { name: "More reasons people come to counselling" }),
-  ).toHaveAttribute("href", "/working-with-joel#issues-i-work-with");
+  ).toHaveCount(0);
   await expect(about.getByText(/15-minute consultation/)).toHaveCount(0);
   await expect(
     home.locator(".home-closing").getByRole("link", { name: "Get in touch" }),
@@ -599,7 +603,6 @@ async function expectHomePageStructure(page: Page) {
 
   for (const [href, count] of [
     ["/working-with-joel", 1],
-    ["/working-with-joel#issues-i-work-with", 1],
     ["/inclusive-counselling", 2],
     ["/contact", 2],
   ] as const) {
@@ -2010,8 +2013,8 @@ test("Home hero leads with its actions and keeps the About narrative intact on m
   expect(mobileNarrativeBox).not.toBeNull();
   expect(primaryActionBox).not.toBeNull();
   expect(secondaryActionBox).not.toBeNull();
-  expect(mobileNarrativeBox!.y).toBeGreaterThanOrEqual(
-    mobilePortraitBox!.y + mobilePortraitBox!.height,
+  expect(mobilePortraitBox!.y).toBeGreaterThanOrEqual(
+    mobileNarrativeBox!.y + mobileNarrativeBox!.height,
   );
   expect(secondaryActionBox!.y).toBeGreaterThanOrEqual(
     primaryActionBox!.y + primaryActionBox!.height,

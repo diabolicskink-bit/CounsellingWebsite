@@ -7,6 +7,7 @@
   --home-dark-rule: rgba(232, 239, 233, 0.2);
   --home-paper: #f2efe8;
   --home-sage: #dfe8dc;
+  --home-photo-panel: #6b5146;
   --home-rule: rgba(35, 75, 61, 0.2);
   --home-type-section-title: clamp(3.3rem, 4.5vw, 4.2rem);
   --home-type-reading: clamp(1.01rem, 1.15vw, 1.08rem);
@@ -139,62 +140,67 @@
 .home-about {
   position: relative;
   overflow: hidden;
-  padding: clamp(76px, 7vw, 104px) 0 clamp(88px, 9vw, 128px);
+  padding: 60px 0;
   border-bottom: 1px solid var(--home-rule);
   background: var(--home-paper);
 }
 
 .home-about__masthead {
-  padding-bottom: clamp(24px, 2.8vw, 36px);
-  border-bottom: 1px solid var(--home-rule);
+  grid-column: 1 / 4;
+  grid-row: 1;
+  min-width: 0;
+  padding: 0 clamp(10px, 1.8vw, 26px) 0 0;
 }
 
 .home-page .home-about__heading {
-  max-width: none;
+  max-width: 4.3ch;
   margin: 0;
   color: var(--ink);
-  font-size: clamp(4.2rem, 6.4vw, 6.25rem);
+  font-size: clamp(4.25rem, 5.3vw, 5.55rem);
   font-style: normal;
   font-weight: 500;
   letter-spacing: -0.05em;
-  line-height: 0.9;
+  line-height: 0.92;
   text-wrap: balance;
 }
 
 .home-about__profile {
-  position: relative;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: clamp(20px, 2.4vw, 36px);
   align-items: start;
-  margin-top: clamp(48px, 5vw, 72px);
-}
-
-.home-about__profile::before {
-  position: absolute;
-  z-index: 0;
-  inset: 36px 0 0 17%;
-  border: 1px solid rgba(35, 75, 61, 0.14);
-  background: #dfe8dc;
-  content: "";
+  margin: 0;
 }
 
 .home-about__portrait {
+  --home-portrait-pad: clamp(14px, 1.5vw, 20px);
+
+  grid-column: 9 / 13;
+  grid-row: 1;
   position: relative;
-  z-index: 1;
-  grid-column: 1 / 6;
-  grid-row: 1 / span 2;
-  width: min(100%, 470px);
-  justify-self: start;
+  isolation: isolate;
+  width: 100%;
+  justify-self: stretch;
   margin: 0;
-  padding: 0;
+  padding: var(--home-portrait-pad);
+  border: 1px solid rgba(55, 34, 27, 0.34);
+  background: var(--home-photo-panel);
+  box-shadow:
+    0 24px 54px rgba(55, 34, 27, 0.16),
+    0 5px 12px rgba(55, 34, 27, 0.1);
 }
 
 .home-about__portrait-frame {
+  position: relative;
+  z-index: 1;
   overflow: hidden;
   aspect-ratio: 4 / 5.35;
-  border: 1px solid rgba(35, 75, 61, 0.22);
-  background: #d8d8d1;
+  padding: 1px;
+  border: 1px solid rgba(252, 248, 241, 0.74);
+  background: #e4d9cc;
+  box-shadow:
+    0 0 0 1px rgba(47, 29, 23, 0.42),
+    0 16px 30px rgba(32, 21, 17, 0.26);
 }
 
 .home-about__portrait-frame img {
@@ -205,32 +211,52 @@
   object-position: center 18%;
 }
 
-.home-about__portrait figcaption {
+.home-about__portrait-link {
   display: grid;
-  gap: 4px;
-  padding: 14px 2px 0;
-  color: var(--body);
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  min-height: 58px;
+  margin: 12px calc(-1 * var(--home-portrait-pad)) calc(-1 * var(--home-portrait-pad));
+  padding: 14px var(--home-portrait-pad);
+  border-top: 1px solid rgba(252, 252, 250, 0.24);
+  background: rgba(32, 21, 17, 0.12);
+  color: #fcfcfa;
   font-family: var(--font-sans);
-  font-size: 0.84rem;
-  line-height: 1.4;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: none;
+  transition: background-color 180ms ease;
 }
 
-.home-about__portrait figcaption strong {
-  color: var(--ink);
-  font-weight: 700;
+.home-about__portrait-link svg {
+  color: rgba(252, 252, 250, 0.76);
+  transition: transform 180ms ease;
+}
+
+.home-about__portrait-link:hover,
+.home-about__portrait-link:focus-visible {
+  background: rgba(32, 21, 17, 0.28);
+}
+
+.home-about__portrait-link:hover svg,
+.home-about__portrait-link:focus-visible svg {
+  transform: translateX(5px);
+}
+
+.home-about__portrait-link:focus-visible {
+  outline: 3px solid rgba(252, 252, 250, 0.72);
+  outline-offset: -4px;
 }
 
 .home-about__narrative {
-  position: relative;
-  z-index: 1;
   display: grid;
-  grid-column: 6 / 13;
+  grid-column: 4 / 9;
   grid-row: 1;
-  gap: clamp(30px, 3.4vw, 42px);
   min-width: 0;
   margin: 0;
-  padding: clamp(66px, 6vw, 82px) clamp(40px, 4.2vw, 58px)
-    clamp(44px, 4.8vw, 62px) clamp(28px, 3.8vw, 50px);
+  padding: 0 clamp(8px, 1.5vw, 22px) 0 0;
 }
 
 .home-about__story {
@@ -255,58 +281,6 @@
   font-weight: 650;
   letter-spacing: -0.006em;
   line-height: 1.5;
-}
-
-.home-about__links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-bottom: 1px solid var(--home-rule);
-}
-
-.home-about__link {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 18px;
-  align-items: center;
-  min-height: 58px;
-  padding: 13px 2px;
-  border-top: 1px solid rgba(35, 75, 61, 0.22);
-  color: var(--cedar-dark);
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.3;
-  text-decoration: none;
-  transition:
-    color 180ms ease,
-    padding-inline 180ms ease;
-}
-
-.home-about__link + .home-about__link {
-  padding-left: clamp(16px, 2vw, 24px);
-  border-left: 1px solid rgba(35, 75, 61, 0.22);
-}
-
-.home-about__link svg {
-  flex: 0 0 auto;
-  transition: transform 180ms ease;
-}
-
-.home-about__link:hover,
-.home-about__link:focus-visible {
-  padding-right: 0;
-  padding-left: 8px;
-  color: var(--ink);
-}
-
-.home-about__link:hover svg,
-.home-about__link:focus-visible svg {
-  transform: translateX(5px);
-}
-
-.home-about__link:focus-visible {
-  outline: 3px solid rgba(35, 75, 61, 0.42);
-  outline-offset: 4px;
 }
 
 .home-inclusive {
@@ -541,6 +515,12 @@
 }
 
 @media (max-width: 900px) {
+  .home-about,
+  .home-inclusive,
+  .home-closing {
+    padding: 56px 0;
+  }
+
   .home-page__hero-shell {
     min-height: 0;
   }
@@ -573,40 +553,39 @@
   }
 
   .home-about__profile {
-    grid-template-columns: minmax(0, 1fr);
-    padding: clamp(30px, 5vw, 46px);
-    border: 1px solid rgba(35, 75, 61, 0.14);
-    background: #dfe8dc;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(30px, 5vw, 48px);
   }
 
-  .home-about__profile::before {
-    display: none;
+  .home-about__masthead {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    padding-right: 0;
   }
 
   .home-page .home-about__heading {
     max-width: none;
-    font-size: clamp(4.2rem, 10vw, 5.6rem);
+    font-size: clamp(4rem, 10vw, 5.4rem);
   }
 
   .home-about__portrait {
-    grid-column: 1;
-    grid-row: 1;
-    width: min(100%, 560px);
-    justify-self: start;
-    margin-top: 0;
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+    margin-top: 40px;
   }
 
   .home-about__portrait-frame {
-    aspect-ratio: 16 / 10.5;
+    aspect-ratio: 4 / 5.15;
   }
 
   .home-about__narrative {
     grid-column: 1;
     grid-row: 2;
-    gap: 40px;
     width: 100%;
-    margin-top: 42px;
+    margin-top: 40px;
     padding: 0;
+    border-top: 0;
   }
 
   .home-page__inclusive-frame {
@@ -652,6 +631,12 @@
     --home-type-action: 1.13rem;
   }
 
+  .home-about,
+  .home-inclusive,
+  .home-closing {
+    padding: 48px 0;
+  }
+
   .home-page__hero-copy {
     gap: 13px;
     padding: 28px 0 22px;
@@ -678,12 +663,9 @@
     border-right: 0;
   }
 
-  .home-about {
-    padding: 64px 0 76px;
-  }
-
   .home-about__masthead {
-    padding-bottom: 20px;
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .home-page .home-about__heading {
@@ -693,44 +675,31 @@
   }
 
   .home-about__profile {
-    margin-top: 30px;
-    padding: 24px;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
   }
 
   .home-about__portrait {
+    --home-portrait-pad: 14px;
+
+    grid-column: 1;
+    grid-row: 3;
     width: 100%;
-    margin-top: 0;
+    margin-top: 36px;
   }
 
   .home-about__portrait-frame {
     aspect-ratio: 4 / 4.9;
   }
 
-  .home-about__portrait figcaption {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
-
   .home-about__narrative {
-    gap: 32px;
+    grid-column: 1;
+    grid-row: 2;
     margin-top: 34px;
   }
 
   .home-page .home-about__story p:first-child {
     font-size: 1.1rem;
-  }
-
-  .home-about__links {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .home-about__link + .home-about__link {
-    padding-left: 2px;
-    border-left: 0;
-  }
-
-  .home-inclusive {
-    padding: 60px 0;
   }
 
   .home-page .home-page__inclusive-main h2 {
@@ -773,10 +742,6 @@
     padding-inline: 24px 16px;
   }
 
-  .home-closing {
-    padding: 60px 0;
-  }
-
   .home-closing__inner {
     gap: 28px;
   }
@@ -802,8 +767,8 @@
 @media (prefers-reduced-motion: reduce) {
   .home-page .home-page__hero-action.button,
   .home-page__hero-action svg,
-  .home-about__link,
-  .home-about__link svg,
+  .home-about__portrait-link,
+  .home-about__portrait-link svg,
   .home-page__inclusive-topic-link,
   .home-page__inclusive-topic-link svg,
   .home-closing__action,

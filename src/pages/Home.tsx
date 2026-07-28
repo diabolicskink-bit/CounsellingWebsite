@@ -28,7 +28,6 @@ type HomeInclusiveTopic = {
 type HomePortrait = {
   imageSrc: string;
   alt: string;
-  label: string;
 };
 
 type HomeHeroContent = {
@@ -39,7 +38,7 @@ type HomeHeroContent = {
 };
 
 type HomeAboutContent = {
-  heading: string;
+  heading: EmphasisCopy;
   narrative: string[];
   links: HomeLink[];
 };
@@ -88,24 +87,24 @@ const homePageContent: HomePageContent = {
   portrait: {
     imageSrc: "/joel-griffiths-homepage-portrait.jpg",
     alt: "Joel Griffiths",
-    label: "Joel Griffiths",
   },
   about: {
-    heading: "About Vive",
+    heading: {
+      before: "About ",
+      emphasis: "Vive",
+      after: "",
+    },
     narrative: [
-      "I’m Joel Griffiths. I offer online counselling to individuals and couples across Australia. Sessions are by video, so you can meet from the comfort of home without travelling to an appointment.",
+      "I’m Joel Griffiths. I offer online counselling to individuals and couples across Australia.",
       "You might be feeling anxious or low, dealing with the effects of trauma, or struggling in a relationship that has become painful or stuck. Counselling can help you make sense of what is happening and look at what might need to change.",
-      "I’m especially committed to working with people who may have struggled to find a therapist who understands their sexuality, gender, relationships, identity, diagnosis or work.",
       "I work psychodynamically, with an attachment-informed and integrative approach. That means paying attention to what is happening now, what earlier relationships and experiences still carry into the present, and what you want to understand or change. I also draw on practical or skills-based work when it is useful.",
+      "I’m especially committed to working with people who may have struggled to find a therapist who understands their sexuality, gender, relationships, identity, diagnosis or work.",
+      "Sessions are online by video, so you can join from home or wherever works for you. There’s no need to travel or sit in a waiting room.",
     ],
     links: [
       {
         href: routeHref(publicRoutePaths.workingWithJoel),
         label: "Working with Joel",
-      },
-      {
-        href: `${routeHref(publicRoutePaths.workingWithJoel)}#issues-i-work-with`,
-        label: "More reasons people come to counselling",
       },
     ],
   },
@@ -189,13 +188,23 @@ function AboutViveSection({
   return (
     <section className="home-about" aria-labelledby="home-about-title">
       <Container>
-        <header className="home-about__masthead">
-          <h2 className="home-about__heading" id="home-about-title">
-            {about.heading}
-          </h2>
-        </header>
-
         <div className="home-about__profile">
+          <header className="home-about__masthead">
+            <h2 className="home-about__heading" id="home-about-title">
+              {about.heading.before}
+              <em className="site-emphasis">{about.heading.emphasis}</em>
+              {about.heading.after}
+            </h2>
+          </header>
+
+          <div className="home-about__narrative">
+            <div className="home-about__story">
+              {about.narrative.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+
           <figure className="home-about__portrait">
             <div className="home-about__portrait-frame">
               <img
@@ -207,28 +216,13 @@ function AboutViveSection({
                 {...highPriorityImageAttributes}
               />
             </div>
-            <figcaption>
-              <strong>{portrait.label}</strong>
-              <span>Counsellor, Vive Counselling</span>
-            </figcaption>
+            {about.links.map((link) => (
+              <Link className="home-about__portrait-link" to={link.href} key={link.href}>
+                <span>{link.label}</span>
+                <ArrowRight aria-hidden="true" size={18} />
+              </Link>
+            ))}
           </figure>
-
-          <div className="home-about__narrative">
-            <div className="home-about__story">
-              {about.narrative.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-
-            <nav className="home-about__links" aria-label="Explore working with Joel">
-              {about.links.map((link) => (
-                <Link className="home-about__link" to={link.href} key={link.href}>
-                  <span>{link.label}</span>
-                  <ArrowRight aria-hidden="true" size={18} />
-                </Link>
-              ))}
-            </nav>
-          </div>
         </div>
       </Container>
     </section>
