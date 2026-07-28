@@ -64,7 +64,7 @@ const anatomyRows = [
   {
     zone: "Display statement",
     className: ".hero-display",
-    desc: "Measured serif display type for the expressive hero statement. Use it on p.hero-display after the page-topic h1.hero-badge; adjacent pairs use the shared 12px gap. Set --hero-display-max-width on the page scope when a hero only needs a different title measure.",
+    desc: "Measured serif display type for the expressive hero statement. Use it on p.hero-display after the page-topic h1.hero-badge; adjacent pairs use the shared 16px gap. Set --hero-display-max-width on the page scope when a hero only needs a different title measure.",
   },
   {
     zone: "Intro paragraph",
@@ -220,7 +220,7 @@ export default function DS_Heroes() {
                 <tr>
                   <td>badge-to-display gap</td>
                   <td>
-                    <code>var(--hero-badge-display-gap, 12px)</code>
+                    <code>var(--hero-badge-display-gap, 16px)</code>
                   </td>
                   <td>Keeps the visible page-topic H1 close to the expressive statement without changing each hero's support-copy rhythm.</td>
                 </tr>

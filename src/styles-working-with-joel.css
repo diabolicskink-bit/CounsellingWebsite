@@ -13,7 +13,6 @@
 }
 
 .hero-section.working-with-joel-page__hero {
-  padding: 60px 0;
   border-bottom: 1px solid rgba(252, 252, 250, 0.12);
   background:
     radial-gradient(ellipse at 80% 0%, rgba(135, 172, 145, 0.32), transparent 40%),
@@ -23,7 +22,11 @@
 .working-with-joel-page__hero-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.18fr) minmax(330px, 0.82fr);
-  gap: clamp(58px, 8vw, 118px);
+  grid-template-areas:
+    "badge empty"
+    "display credentials";
+  column-gap: clamp(58px, 8vw, 118px);
+  row-gap: var(--hero-badge-display-gap);
   align-items: start;
 }
 
@@ -31,14 +34,9 @@
   min-width: 0;
 }
 
-.working-with-joel-page__hero-heading {
-  display: grid;
-  gap: 16px;
-  align-content: start;
-}
-
 .working-with-joel-page .working-with-joel-page__hero .hero-badge {
-  max-width: 48ch;
+  grid-area: badge;
+  max-width: none;
   color: #c8d9cc;
   font-size: var(--type-label);
   font-weight: 760;
@@ -47,6 +45,7 @@
 }
 
 .working-with-joel-page .working-with-joel-page__hero .hero-display {
+  grid-area: display;
   max-width: 15ch;
   margin: 0;
   color: #fcfcfa;
@@ -61,11 +60,12 @@
   font-weight: 600;
 }
 
-.working-with-joel-page__hero-heading .hero-display > br:first-of-type {
+.working-with-joel-page__hero .hero-display > br:first-of-type {
   display: none;
 }
 
 .working-with-joel-page .working-with-joel-page__hero-credentials {
+  grid-area: credentials;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-content: start;
@@ -399,7 +399,16 @@
 }
 
 @media (max-width: 1040px) {
-  .working-with-joel-page__hero-layout,
+  .working-with-joel-page__hero-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "badge"
+      "display"
+      "credentials";
+    column-gap: 0;
+    row-gap: var(--hero-badge-display-gap);
+  }
+
   .working-approach,
   .working-topics > .container {
     grid-template-columns: minmax(0, 1fr);
@@ -407,7 +416,9 @@
   }
 
   .working-with-joel-page__hero-credentials {
+    justify-self: start;
     max-width: 720px;
+    margin-top: 26px;
   }
 
   .working-with-joel-page .site-broad-tabs {
@@ -487,7 +498,7 @@
     font-size: clamp(2.6rem, 11.5vw, 3.2rem);
   }
 
-  .working-with-joel-page__hero-heading .hero-display > br:first-of-type {
+  .working-with-joel-page__hero .hero-display > br:first-of-type {
     display: none;
   }
 

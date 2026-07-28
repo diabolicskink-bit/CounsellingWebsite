@@ -76,7 +76,7 @@ const prerenderedRouteContracts = {
   "/polyamory-enm-counselling": {
     mainClass: "site-page enm-page",
     rawFragments: [
-      'class="hero-section enm-page__hero"',
+      'class="hero-section specialist-counselling-hero enm-page__hero"',
       'class="enm-page__reasons"',
       'class="enm-page__reasons-list"',
       'class="enm-page__position"',
@@ -587,8 +587,14 @@ async function expectHomePageStructure(page: Page) {
     "/working-with-joel",
   );
   await expect(
-    home.locator(".home-closing").getByRole("link", { name: "Get in touch" }),
+    home.locator(".home-closing").getByRole("link", { name: "See contact options" }),
   ).toHaveAttribute("href", "/contact");
+  await expect(home.locator(".home-closing").getByRole("heading", { level: 2 })).toHaveText(
+    "You can get in touch before deciding to book.",
+  );
+  await expect(home.locator(".home-closing__copy")).toHaveText(
+    "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
+  );
   const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
   await expect(inclusiveTopics.locator(":scope li")).toHaveCount(4);
   await expect(inclusiveTopics.locator(".home-page__inclusive-topic-link--parent")).toHaveCount(1);

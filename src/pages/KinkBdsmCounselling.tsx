@@ -1,10 +1,9 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-kink-bdsm.css";
+import SpecialistCounsellingHero from "./SpecialistCounsellingHero";
 
 type KinkPageContent = {
   title: string;
@@ -81,25 +80,13 @@ export default function KinkBdsmCounselling() {
 
   return (
     <main className="site-page kink-page">
-      <section className="hero-section kink-page__hero">
-        <Container>
-          <div className="kink-page__hero-copy">
-            <h1 className="hero-badge">{hero.eyebrow}</h1>
-            <p className="hero-display">{hero.title}</p>
-
-            <nav className="kink-page__hero-actions" aria-label="Page actions">
-              <Link className="kink-page__hero-action" to={hero.primaryAction.href}>
-                <span>{hero.primaryAction.label}</span>
-                <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-              <Link className="kink-page__hero-action" to={hero.secondaryAction.href}>
-                <ArrowLeft size={18} aria-hidden="true" />
-                <span>{hero.secondaryAction.label}</span>
-              </Link>
-            </nav>
-          </div>
-        </Container>
-      </section>
+      <SpecialistCounsellingHero
+        className="kink-page__hero"
+        eyebrow={hero.eyebrow}
+        primaryAction={hero.primaryAction}
+        secondaryAction={hero.secondaryAction}
+        title={hero.title}
+      />
 
       <section
         className="kink-page__fluency"

@@ -2194,7 +2194,7 @@ h3 {
 /* Wrapper ------------------------------------------------------------------ */
 
 .hero-section {
-  --hero-badge-display-gap: 12px;
+  --hero-badge-display-gap: 16px;
 
   position: relative;
   isolation: isolate;
@@ -2236,7 +2236,7 @@ h3 {
 }
 
 .hero-badge + .hero-display {
-  margin-top: var(--hero-badge-display-gap, 12px);
+  margin-top: var(--hero-badge-display-gap, 16px);
 }
 
 .hero-intro {

@@ -1,10 +1,9 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-lgbtqia.css";
+import SpecialistCounsellingHero from "./SpecialistCounsellingHero";
 
 type RecognitionItem = {
   title: string;
@@ -81,30 +80,26 @@ export default function LgbtqiaCounselling() {
 
   return (
     <main className="site-page inclusion-page lgbtqia-page">
-      <section className="hero-section lgbtqia-page__hero">
-        <Container>
-          <div className="lgbtqia-page__hero-copy">
-            <h1 className="hero-badge">{hero.eyebrow}</h1>
-            <p className="hero-display">
-              <span>{hero.title.lineOne}</span>
-              <span>
-                is <em>{hero.title.lineTwo}</em>
-              </span>
-            </p>
-
-            <nav className="lgbtqia-page__hero-actions" aria-label="Page actions">
-              <Link className="lgbtqia-page__hero-action" to={hero.actions.enquiryHref}>
-                <span>{hero.actions.enquiryLabel}</span>
-                <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-              <Link className="lgbtqia-page__hero-action" to={hero.actions.inclusionHref}>
-                <ArrowLeft size={18} aria-hidden="true" />
-                <span>{hero.actions.inclusionLabel}</span>
-              </Link>
-            </nav>
-          </div>
-        </Container>
-      </section>
+      <SpecialistCounsellingHero
+        className="lgbtqia-page__hero"
+        eyebrow={hero.eyebrow}
+        primaryAction={{
+          href: hero.actions.enquiryHref,
+          label: hero.actions.enquiryLabel,
+        }}
+        secondaryAction={{
+          href: hero.actions.inclusionHref,
+          label: hero.actions.inclusionLabel,
+        }}
+        title={
+          <>
+            <span>{hero.title.lineOne}</span>
+            <span>
+              is <em>{hero.title.lineTwo}</em>
+            </span>
+          </>
+        }
+      />
 
       <section
         className="lgbtqia-page__recognition"

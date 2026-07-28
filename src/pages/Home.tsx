@@ -60,7 +60,8 @@ type HomeWorkroomContent = {
 };
 
 type HomeClosingCtaContent = {
-  heading: EmphasisCopy;
+  heading: string;
+  body: string;
   link: HomeLink;
 };
 
@@ -153,14 +154,12 @@ const homePageContent: HomePageContent = {
     },
   },
   closingCta: {
-    heading: {
-      before: "Make an appointment, request a consult or just ",
-      emphasis: "ask a question",
-      after: ".",
-    },
+    heading: "You can get in touch before deciding to book.",
+    body:
+      "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
     link: {
       href: contactHref,
-      label: "Get in touch",
+      label: "See contact options",
     },
   },
 };
@@ -326,15 +325,12 @@ function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }
   return (
     <section className="home-closing" aria-labelledby="home-closing-title">
       <Container className="home-closing__inner">
-        <div className="home-closing__contact">
-          <h2 id="home-closing-title">
-            {closingCta.heading.before}
-            <em>{closingCta.heading.emphasis}</em>
-            {closingCta.heading.after}
-          </h2>
+        <div className="home-closing__heading">
+          <h2 id="home-closing-title">{closingCta.heading}</h2>
         </div>
 
         <div className="home-closing__invitation">
+          <p className="home-closing__copy">{closingCta.body}</p>
           <Link className="home-closing__action" to={closingCta.link.href}>
             <span>{closingCta.link.label}</span>
             <ArrowRight aria-hidden="true" size={18} />
