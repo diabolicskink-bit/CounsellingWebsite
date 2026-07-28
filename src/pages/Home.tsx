@@ -38,10 +38,10 @@ type HomeHeroContent = {
   inclusionLink: HomeLink;
 };
 
-type HomeWelcomeContent = {
-  heading: EmphasisCopy;
-  opening: string;
-  link: HomeLink;
+type HomeAboutContent = {
+  heading: string;
+  narrative: string[];
+  links: HomeLink[];
 };
 
 type HomeInclusiveContent = {
@@ -52,12 +52,6 @@ type HomeInclusiveContent = {
   topics: HomeInclusiveTopic[];
 };
 
-type HomeWorkroomContent = {
-  name: string;
-  copy: string[];
-  profileLink: HomeLink;
-};
-
 type HomeClosingCtaContent = {
   heading: EmphasisCopy;
   link: HomeLink;
@@ -66,9 +60,8 @@ type HomeClosingCtaContent = {
 type HomePageContent = {
   hero: HomeHeroContent;
   portrait: HomePortrait;
-  welcome: HomeWelcomeContent;
+  about: HomeAboutContent;
   inclusive: HomeInclusiveContent;
-  workroom: HomeWorkroomContent;
   closingCta: HomeClosingCtaContent;
 };
 
@@ -97,18 +90,24 @@ const homePageContent: HomePageContent = {
     alt: "Joel Griffiths",
     label: "Joel Griffiths",
   },
-  welcome: {
-    heading: {
-      before: "Whatever’s going on, ",
-      emphasis: "you can bring it here",
-      after: ".",
-    },
-    opening:
-      "Anxiety, depression, trauma and relationship difficulties are some of the reasons people come to counselling. You may be struggling to cope, or know that something doesn’t feel right but not be sure why.",
-    link: {
-      href: `${routeHref(publicRoutePaths.workingWithJoel)}#issues-i-work-with`,
-      label: "See the issues I work with",
-    },
+  about: {
+    heading: "About Vive",
+    narrative: [
+      "I’m Joel Griffiths. I offer online counselling to individuals and couples across Australia. Sessions are by video, so you can meet from the comfort of home without travelling to an appointment.",
+      "You might be feeling anxious or low, dealing with the effects of trauma, or struggling in a relationship that has become painful or stuck. Counselling can help you make sense of what is happening and look at what might need to change.",
+      "I’m especially committed to working with people who may have struggled to find a therapist who understands their sexuality, gender, relationships, identity, diagnosis or work.",
+      "I work psychodynamically, with an attachment-informed and integrative approach. That means paying attention to what is happening now, what earlier relationships and experiences still carry into the present, and what you want to understand or change. I also draw on practical or skills-based work when it is useful.",
+    ],
+    links: [
+      {
+        href: routeHref(publicRoutePaths.workingWithJoel),
+        label: "Working with Joel",
+      },
+      {
+        href: `${routeHref(publicRoutePaths.workingWithJoel)}#issues-i-work-with`,
+        label: "More reasons people come to counselling",
+      },
+    ],
   },
   inclusive: {
     heading: {
@@ -136,18 +135,6 @@ const homePageContent: HomePageContent = {
         href: routeHref(publicRoutePaths.lgbtqia),
       },
     ],
-  },
-  workroom: {
-    name: "Joel Griffiths",
-    copy: [
-      "Vive is my counselling practice. I work with a broad range of people and concerns, using a psychodynamic, attachment-informed and integrative approach.",
-      "I’m particularly committed to working with people who have been judged or misunderstood because of their sexuality, gender, relationships, identity, diagnosis or work. You don’t need to edit yourself into a simpler person before we talk, and I won’t decide in advance how much any of that has to do with why you came.",
-      "If you’d like to get a sense of what I’m like to talk to before deciding whether to book, you can start with a free 15-minute consultation.",
-    ],
-    profileLink: {
-      href: routeHref(publicRoutePaths.workingWithJoel),
-      label: "More about how I work",
-    },
   },
   closingCta: {
     heading: {
@@ -192,82 +179,59 @@ function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
   );
 }
 
-function JoelPortrait({ portrait, className = "" }: { portrait: HomePortrait; className?: string }) {
+function AboutViveSection({
+  about,
+  portrait,
+}: {
+  about: HomeAboutContent;
+  portrait: HomePortrait;
+}) {
   return (
-    <div className={`hero-media-note hero-media-note--portrait ${className}`.trim()}>
-      <div className="hero-media-note__image">
-        <img src={portrait.imageSrc} alt={portrait.alt} decoding="async" {...highPriorityImageAttributes} />
-      </div>
-      <span className="hero-media-note__tag" aria-hidden="true">
-        {portrait.label}
-      </span>
-    </div>
-  );
-}
-
-function HomeTextLink({ link }: { link: HomeLink }) {
-  return (
-    <Link className="home-page__text-link" to={link.href}>
-      <span>{link.label}</span>
-      <ArrowRight aria-hidden="true" size={18} />
-    </Link>
-  );
-}
-
-function WelcomeSection({ welcome }: { welcome: HomeWelcomeContent }) {
-  return (
-    <section className="home-welcome" aria-labelledby="home-welcome-title">
+    <section className="home-about" aria-labelledby="home-about-title">
       <Container>
-        <div className="home-welcome__layout">
-          <h2 className="home-welcome__heading" id="home-welcome-title">
-            <span>{welcome.heading.before}</span>
-            <em className="site-emphasis">{`${welcome.heading.emphasis}${welcome.heading.after}`}</em>
+        <header className="home-about__masthead">
+          <h2 className="home-about__heading" id="home-about-title">
+            {about.heading}
           </h2>
+        </header>
 
-          <div className="home-welcome__main">
-            <p className="home-welcome__copy">{welcome.opening}</p>
-            <HomeTextLink link={welcome.link} />
+        <div className="home-about__profile">
+          <figure className="home-about__portrait">
+            <div className="home-about__portrait-frame">
+              <img
+                src={portrait.imageSrc}
+                alt={portrait.alt}
+                width="744"
+                height="1122"
+                decoding="async"
+                {...highPriorityImageAttributes}
+              />
+            </div>
+            <figcaption>
+              <strong>{portrait.label}</strong>
+              <span>Counsellor, Vive Counselling</span>
+            </figcaption>
+          </figure>
+
+          <div className="home-about__narrative">
+            <div className="home-about__story">
+              {about.narrative.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+
+            <nav className="home-about__links" aria-label="Explore working with Joel">
+              {about.links.map((link) => (
+                <Link className="home-about__link" to={link.href} key={link.href}>
+                  <span>{link.label}</span>
+                  <ArrowRight aria-hidden="true" size={18} />
+                </Link>
+              ))}
+            </nav>
           </div>
         </div>
       </Container>
     </section>
-  );
-}
-
-function WorkroomSection({
-  workroom,
-  portrait,
-}: {
-  workroom: HomeWorkroomContent;
-  portrait: HomePortrait;
-}) {
-  return (
-    <section className="home-workroom" aria-labelledby="home-workroom-title">
-      <Container>
-        <div className="home-workroom__frame">
-          <JoelCard workroom={workroom} />
-          <JoelPortrait className="home-workroom__portrait" portrait={portrait} />
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-function JoelCard({ workroom }: { workroom: HomeWorkroomContent }) {
-  return (
-    <article className="site-card home-workroom__joel">
-      <h2 className="home-workroom__joel-name" id="home-workroom-title">
-        {workroom.name}
-      </h2>
-      <div className="home-workroom__joel-body">
-        {workroom.copy.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
-      </div>
-      <div className="home-workroom__actions">
-        <HomeTextLink link={workroom.profileLink} />
-      </div>
-    </article>
   );
 }
 
@@ -343,13 +307,12 @@ function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }
 
 export default function Home() {
   useDocumentMetadata(homeMetadata.title, homeMetadata.description);
-  const { hero, portrait, welcome, inclusive, workroom, closingCta } = homePageContent;
+  const { hero, portrait, about, inclusive, closingCta } = homePageContent;
 
   return (
     <main className="site-page home-page">
       <HomeHeroSection hero={hero} />
-      <WelcomeSection welcome={welcome} />
-      <WorkroomSection portrait={portrait} workroom={workroom} />
+      <AboutViveSection about={about} portrait={portrait} />
       <InclusiveSection inclusive={inclusive} />
       <ClosingCtaSection closingCta={closingCta} />
     </main>
