@@ -1641,6 +1641,55 @@ test.describe("alias URL redirects", () => {
 });
 
 test.describe("Working with Joel approach tabs", () => {
+  test("aligns the desktop credentials with the hero eyebrow", async ({ page }) => {
+    await page.goto("/working-with-joel", { waitUntil: "networkidle" });
+
+    if ((page.viewportSize()?.width ?? 0) > 1040) {
+      const eyebrowBox = await page.locator(".working-with-joel-page__hero .hero-badge").boundingBox();
+      const credentialsBox = await page.locator(".working-with-joel-page__hero-credentials").boundingBox();
+
+      expect(eyebrowBox).not.toBeNull();
+      expect(credentialsBox).not.toBeNull();
+      expect(Math.abs((eyebrowBox?.y ?? 0) - (credentialsBox?.y ?? 0))).toBeLessThanOrEqual(1);
+    }
+  });
+
+  test("keeps section and subordinate heading typography consistent", async ({ page }) => {
+    await page.goto("/working-with-joel", { waitUntil: "networkidle" });
+
+    const typographyProperties = [
+      "fontFamily",
+      "fontSize",
+      "fontWeight",
+      "letterSpacing",
+      "lineHeight",
+    ] as const;
+    const readTypography = (selector: string) =>
+      page.locator(selector).evaluateAll(
+        (elements, properties) =>
+          elements.map((element) => {
+            const style = window.getComputedStyle(element);
+
+            return Object.fromEntries(
+              properties.map((property) => [property, style[property]]),
+            );
+          }),
+        typographyProperties,
+      );
+
+    const sectionHeadings = await readTypography(
+      ".working-with-joel-page__intro-panel h2, .working-with-joel-page__section-title",
+    );
+    const subordinateHeadings = await readTypography(
+      '.site-broad-tabs__tab[data-active="false"]:nth-of-type(2), .working-topics__item-title:first-of-type',
+    );
+
+    expect(sectionHeadings).toHaveLength(3);
+    expect(new Set(sectionHeadings.map((style) => JSON.stringify(style))).size).toBe(1);
+    expect(subordinateHeadings).toHaveLength(2);
+    expect(new Set(subordinateHeadings.map((style) => JSON.stringify(style))).size).toBe(1);
+  });
+
   test("keeps one labelled panel active for pointer and keyboard input", async ({ page }) => {
     const diagnostics = collectPageDiagnostics(page);
 
