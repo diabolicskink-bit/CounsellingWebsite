@@ -10,6 +10,7 @@ import {
 import { getRouteMetadata } from "../data/routeMetadata";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
+  trackContactOptionSelected,
   trackEnquiryStarted,
   trackSuccessfulEnquirySubmission,
 } from "../utils/analytics";
@@ -213,6 +214,7 @@ function ContactEnquiryForm() {
   };
 
   const handlePathChange = (value: ContactPath) => {
+    trackContactOptionSelected(value);
     setContactPath(value);
     setPreserveInitialDetails(false);
     setSubmitStatus("idle");

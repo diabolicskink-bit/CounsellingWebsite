@@ -1,4 +1,3 @@
-import { Analytics } from "@vercel/analytics/react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { routeMetadata, type RouteMetadata } from "../data/routeMetadata";
@@ -137,7 +136,6 @@ export default function SiteAnalytics() {
       <GoogleAnalytics measurementId={gaMeasurementId} />
       <MicrosoftClarity projectId={clarityProjectId} />
       <EmailLinkAnalytics />
-      <Analytics mode="production" />
     </>
   );
 }
