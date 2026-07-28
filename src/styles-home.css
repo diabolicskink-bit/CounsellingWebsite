@@ -97,8 +97,7 @@
   text-align: left;
   transition:
     background-color 180ms ease,
-    color 180ms ease,
-    padding-inline 180ms ease;
+    color 180ms ease;
 }
 
 .home-page .home-page__hero-action.button:last-child {
@@ -112,8 +111,6 @@
 
 .home-page .home-page__hero-action.button:hover,
 .home-page .home-page__hero-action.button:focus-visible {
-  padding-right: 14px;
-  padding-left: 14px;
   background: rgba(252, 252, 250, 0.07);
   color: #fff;
   transform: none;
@@ -132,7 +129,7 @@
 
 .home-page__hero-action:hover svg,
 .home-page__hero-action:focus-visible svg {
-  transform: translateX(5px);
+  transform: translateX(4px);
 }
 
 .home-welcome {
@@ -199,8 +196,7 @@
   text-decoration: none;
   transition:
     background-color 180ms ease,
-    color 180ms ease,
-    padding-inline 180ms ease;
+    color 180ms ease;
 }
 
 .home-page__text-link svg {
@@ -211,14 +207,13 @@
 
 .home-page__text-link:hover,
 .home-page__text-link:focus-visible {
-  padding-inline: 14px;
   background: rgba(252, 252, 250, 0.5);
   color: var(--cedar-dark);
 }
 
 .home-page__text-link:hover svg,
 .home-page__text-link:focus-visible svg {
-  transform: translateX(5px);
+  transform: translateX(4px);
 }
 
 .home-page__text-link:focus-visible {
@@ -407,8 +402,7 @@
   text-decoration: none;
   transition:
     background-color 180ms ease,
-    color 180ms ease,
-    padding-inline 180ms ease;
+    color 180ms ease;
 }
 
 .home-page__inclusive-topic-children > li:last-child .home-page__inclusive-topic-link {
@@ -425,14 +419,12 @@
 
 .home-page__inclusive-topic-link:hover,
 .home-page__inclusive-topic-link:focus-visible {
-  padding-inline: 18px;
   background: rgba(252, 252, 250, 0.07);
   color: #fff;
 }
 
 .home-page__inclusive-topic-link--parent:hover,
 .home-page__inclusive-topic-link--parent:focus-visible {
-  padding-inline: 34px 22px;
   background: #edf3ea;
   color: var(--home-dark);
 }
@@ -467,7 +459,7 @@
 
 .home-page__inclusive-topic-link:hover svg,
 .home-page__inclusive-topic-link:focus-visible svg {
-  transform: translateX(5px);
+  transform: translateX(4px);
 }
 
 .home-closing {
@@ -529,10 +521,9 @@
   font-family: var(--font-serif);
   font-size: var(--home-type-action);
   font-weight: 500;
+  line-height: 1.25;
   text-decoration: none;
-  transition:
-    background-color 180ms ease,
-    padding-inline 180ms ease;
+  transition: background-color 180ms ease;
 }
 
 .home-closing__action svg {
@@ -542,15 +533,13 @@
 
 .home-closing__action:hover,
 .home-closing__action:focus-visible {
-  padding-right: 14px;
-  padding-left: 26px;
   background: var(--home-dark-soft);
   color: #fcfcfa;
 }
 
 .home-closing__action:hover svg,
 .home-closing__action:focus-visible svg {
-  transform: translateX(5px);
+  transform: translateX(4px);
 }
 
 .home-closing__action:focus-visible {
@@ -784,16 +773,6 @@
     padding: 18px 20px;
   }
 
-  .home-page__inclusive-topic-link:hover,
-  .home-page__inclusive-topic-link:focus-visible {
-    padding-inline: 14px;
-  }
-
-  .home-page__inclusive-topic-link--parent:hover,
-  .home-page__inclusive-topic-link--parent:focus-visible {
-    padding-inline: 24px 16px;
-  }
-
   .home-closing {
     padding: 60px 0;
   }
@@ -816,11 +795,48 @@
     min-height: 66px;
     padding: 15px 18px;
   }
+}
 
-  .home-closing__action:hover,
-  .home-closing__action:focus-visible {
-    padding-right: 12px;
-    padding-left: 24px;
+@media (hover: none), (pointer: coarse) {
+  .home-page .home-page__hero-action.button > span,
+  .home-page__text-link > span,
+  .home-page__inclusive-topic-link h3 {
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.22em;
+    text-decoration-skip-ink: auto;
+  }
+
+  .home-page .home-page__hero-action.button:active {
+    background: rgba(252, 252, 250, 0.1);
+    color: #fff;
+  }
+
+  .home-page__text-link:active {
+    background: rgba(252, 252, 250, 0.68);
+    color: var(--cedar-dark);
+  }
+
+  .home-page__inclusive-topic-link:active {
+    background: rgba(252, 252, 250, 0.1);
+    color: #fff;
+  }
+
+  .home-page__inclusive-topic-link--parent:active {
+    background: #edf3ea;
+    color: var(--home-dark);
+  }
+
+  .home-closing__action:active {
+    background: var(--home-dark-soft);
+    color: #fcfcfa;
+  }
+
+  .home-page .home-page__hero-action.button:active svg,
+  .home-page__text-link:active svg,
+  .home-page__inclusive-topic-link:active svg,
+  .home-closing__action:active svg {
+    transform: translateX(4px);
   }
 }
 

@@ -182,14 +182,16 @@ function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
 
           <nav className="home-page__hero-actions" aria-label="Page actions">
             <Button href={hero.contactLink.href} className="home-page__hero-action">
-              {hero.contactLink.label} <ArrowRight aria-hidden="true" size={16} />
+              <span>{hero.contactLink.label}</span>
+              <ArrowRight aria-hidden="true" size={18} />
             </Button>
             <Button
               href={hero.inclusionLink.href}
               className="home-page__hero-action"
               variant="secondary"
             >
-              {hero.inclusionLink.label} <ArrowRight aria-hidden="true" size={16} />
+              <span>{hero.inclusionLink.label}</span>
+              <ArrowRight aria-hidden="true" size={18} />
             </Button>
           </nav>
         </div>
