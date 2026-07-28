@@ -60,7 +60,7 @@ type HomeWorkroomContent = {
 };
 
 type HomeClosingCtaContent = {
-  heading: string;
+  heading: EmphasisCopy;
   body: string;
   link: HomeLink;
 };
@@ -154,7 +154,11 @@ const homePageContent: HomePageContent = {
     },
   },
   closingCta: {
-    heading: "You can get in touch before deciding to book.",
+    heading: {
+      before: "Get in ",
+      emphasis: "touch",
+      after: ".",
+    },
     body:
       "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
     link: {
@@ -326,7 +330,11 @@ function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }
     <section className="home-closing" aria-labelledby="home-closing-title">
       <Container className="home-closing__inner">
         <div className="home-closing__heading">
-          <h2 id="home-closing-title">{closingCta.heading}</h2>
+          <h2 id="home-closing-title">
+            {closingCta.heading.before}
+            <em className="site-emphasis">{closingCta.heading.emphasis}</em>
+            {closingCta.heading.after}
+          </h2>
         </div>
 
         <div className="home-closing__invitation">

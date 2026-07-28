@@ -590,8 +590,9 @@ async function expectHomePageStructure(page: Page) {
     home.locator(".home-closing").getByRole("link", { name: "See contact options" }),
   ).toHaveAttribute("href", "/contact");
   await expect(home.locator(".home-closing").getByRole("heading", { level: 2 })).toHaveText(
-    "You can get in touch before deciding to book.",
+    "Get in touch.",
   );
+  await expect(home.locator(".home-closing h2 em")).toHaveText("touch");
   await expect(home.locator(".home-closing__copy")).toHaveText(
     "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
   );

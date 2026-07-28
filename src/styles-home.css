@@ -490,9 +490,9 @@
 .home-page .home-closing h2 {
   max-width: 17ch;
   color: var(--ink);
-  font-size: clamp(2.55rem, 3vw, 3rem);
+  font-size: var(--home-type-section-title);
   letter-spacing: -0.04em;
-  line-height: 1.02;
+  line-height: var(--home-leading-section-title);
   text-wrap: balance;
 }
 
@@ -804,7 +804,6 @@
 
   .home-page .home-closing h2 {
     max-width: 16ch;
-    font-size: clamp(2.5rem, 10.7vw, 3rem);
   }
 
   .home-closing__invitation {
