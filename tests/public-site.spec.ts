@@ -777,7 +777,7 @@ test.describe("shared navigation", () => {
     );
     await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute(
       "href",
-      "/contact",
+      "/contact#contact-fees",
     );
 
     await header.getByRole("link", { name: "Get in touch" }).click();
@@ -810,6 +810,13 @@ test.describe("shared navigation", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.locator("button.menu-toggle").click();
     const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+
+    await expect(
+      mobileNavigation.getByRole("link", { name: "Fees", exact: true }),
+    ).toHaveAttribute("href", "/contact#contact-fees");
+    await expect(
+      mobileNavigation.getByRole("link", { name: "Contact", exact: true }),
+    ).toHaveAttribute("href", "/contact");
 
     for (const route of inclusionChildRoutes) {
       await expect(mobileNavigation.getByRole("link", { name: route.navLabel, exact: true })).toHaveAttribute(
@@ -855,6 +862,55 @@ test.describe("shared navigation", () => {
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
     await expect(toggle).toBeFocused();
     await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("clip");
+  });
+
+  test("releases the mobile scroll lock when responsive testing crosses into desktop", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 667 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const toggle = page.locator("button.menu-toggle");
+    const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+
+    await toggle.click();
+    await expect(mobileNavigation).toBeVisible();
+    await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+
+    await page.setViewportSize({ width: 1200, height: 667 });
+
+    await expect(mobileNavigation).toHaveCount(0);
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("");
+
+    await page.mouse.move(600, 500);
+    await page.mouse.wheel(0, 1200);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+
+    await page.setViewportSize({ width: 390, height: 667 });
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toHaveAccessibleName("Open navigation");
+  });
+
+  test("keeps the complete footer inside the mobile document scroll range", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 667 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    await page.evaluate(() => {
+      window.scrollTo(0, document.documentElement.scrollHeight);
+    });
+
+    const footer = page.locator("footer.site-footer");
+    await expect(footer.getByRole("link", { name: "joel@vivecounselling.com.au" })).toBeInViewport();
+    await expect(footer.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeInViewport();
+    await expect(footer.getByText("© 2026 Vive Counselling")).toBeInViewport();
+    await expect
+      .poll(() =>
+        footer.evaluate(
+          (element) => element.getBoundingClientRect().bottom <= window.innerHeight + 1,
+        ),
+      )
+      .toBe(true);
   });
 });
 
@@ -927,8 +983,16 @@ test.describe("prerendered routes without JavaScript", () => {
       expect((await page.locator("main h1").innerText()).trim().length).toBeGreaterThan(8);
       await expect(page.locator(contract.noJavaScriptSelector)).toBeVisible();
       await expect(page.locator("header.site-header a[href], footer.site-footer a[href]")).not.toHaveCount(0);
-      await expect(page.locator("footer.site-footer")).toBeVisible();
-      await expect(page.locator("footer.site-footer").getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
+      const footer = page.locator("footer.site-footer");
+
+      await expect(footer).toBeVisible();
+      await expect(
+        footer.getByRole("link", { name: "Fees", exact: true }),
+      ).toHaveAttribute("href", "/contact#contact-fees");
+      await expect(
+        footer.getByRole("link", { name: "joel@vivecounselling.com.au", exact: true }),
+      ).toHaveAttribute("href", "mailto:joel@vivecounselling.com.au");
+      await expect(footer.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
       await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
 
       if (route === "/") {
@@ -997,6 +1061,8 @@ test.describe("first response metadata", () => {
         expect(html).toContain(fragment);
       }
       expect(html).toContain('<footer class="site-footer">');
+      expect(html).toContain('href="/contact#contact-fees"');
+      expect(html).toContain('href="mailto:joel@vivecounselling.com.au"');
       expect(html).not.toContain("data-not-found-fallback");
       expect(html).not.toContain("data-static-route-shell");
       expect(html).not.toContain("Static route shell generated at build time");
