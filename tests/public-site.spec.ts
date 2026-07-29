@@ -811,6 +811,13 @@ test.describe("shared navigation", () => {
     await page.locator("button.menu-toggle").click();
     const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
 
+    await expect(
+      mobileNavigation.getByRole("link", { name: "Fees", exact: true }),
+    ).toHaveAttribute("href", "/contact#contact-fees");
+    await expect(
+      mobileNavigation.getByRole("link", { name: "Contact", exact: true }),
+    ).toHaveAttribute("href", "/contact");
+
     for (const route of inclusionChildRoutes) {
       await expect(mobileNavigation.getByRole("link", { name: route.navLabel, exact: true })).toHaveAttribute(
         "href",
@@ -927,8 +934,16 @@ test.describe("prerendered routes without JavaScript", () => {
       expect((await page.locator("main h1").innerText()).trim().length).toBeGreaterThan(8);
       await expect(page.locator(contract.noJavaScriptSelector)).toBeVisible();
       await expect(page.locator("header.site-header a[href], footer.site-footer a[href]")).not.toHaveCount(0);
-      await expect(page.locator("footer.site-footer")).toBeVisible();
-      await expect(page.locator("footer.site-footer").getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
+      const footer = page.locator("footer.site-footer");
+
+      await expect(footer).toBeVisible();
+      await expect(
+        footer.getByRole("link", { name: "Fees", exact: true }),
+      ).toHaveAttribute("href", "/contact#contact-fees");
+      await expect(
+        footer.getByRole("link", { name: "joel@vivecounselling.com.au", exact: true }),
+      ).toHaveAttribute("href", "mailto:joel@vivecounselling.com.au");
+      await expect(footer.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
       await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
 
       if (route === "/") {
@@ -997,6 +1012,8 @@ test.describe("first response metadata", () => {
         expect(html).toContain(fragment);
       }
       expect(html).toContain('<footer class="site-footer">');
+      expect(html).toContain('href="/contact#contact-fees"');
+      expect(html).toContain('href="mailto:joel@vivecounselling.com.au"');
       expect(html).not.toContain("data-not-found-fallback");
       expect(html).not.toContain("data-static-route-shell");
       expect(html).not.toContain("Static route shell generated at build time");

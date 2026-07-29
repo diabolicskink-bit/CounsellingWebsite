@@ -1,4 +1,4 @@
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
@@ -18,6 +18,7 @@ const homeHref = routeHref(publicRoutePaths.home);
 const workingWithJoelHref = routeHref(publicRoutePaths.workingWithJoel);
 const inclusionHref = routeHref(publicRoutePaths.inclusion);
 const contactHref = routeHref(publicRoutePaths.contact);
+const feesHref = `${contactHref}#contact-fees`;
 const codexTestBedHref = routeHref(devRoutePaths.codexTestBed);
 const opusTestBedHref = routeHref(devRoutePaths.opusTestBed);
 
@@ -69,8 +70,8 @@ export default function Layout() {
     <div className={`site-shell ${usesSiteChrome ? "site-shell--shared" : ""}`}>
       <header className="site-header">
         <div className="site-header__inner">
-          <Link className="brand" to={homeHref} onClick={closeMenu}>
-            <span className="brand__name">Vive Counselling</span>
+          <Link className="brand brand--header" to={homeHref} onClick={closeMenu}>
+            <span className="brand__name brand__name--header">Vive Counselling</span>
           </Link>
 
           <div className="site-header__cluster">
@@ -84,6 +85,7 @@ export default function Layout() {
           <div className="site-header__actions">
             <Button href={contactHref} className="header-button" onClick={closeMenu}>
               Get in touch
+              <ArrowRight aria-hidden="true" className="header-button__icon" size={16} />
             </Button>
             <button
               ref={menuToggleRef}
@@ -94,6 +96,7 @@ export default function Layout() {
               type="button"
               onClick={() => setIsOpen((value) => !value)}
             >
+              <span className="menu-toggle__label">{isOpen ? "Close" : "Menu"}</span>
               {isOpen ? <X size={21} /> : <Menu size={21} />}
             </button>
           </div>
@@ -112,28 +115,34 @@ export default function Layout() {
 
       <footer className="site-footer">
         <Container className="site-footer__inner">
-          <div className="site-footer__primary">
-            <div className="site-footer__brand-block">
-              <Link className="brand" to={homeHref}>
-                <span className="brand__name">Vive Counselling</span>
-              </Link>
-            </div>
-
+          <div className="site-footer__main">
+            <Link className="site-footer__brand" to={homeHref}>
+              Vive Counselling
+            </Link>
             <nav className="site-footer__nav" aria-label="Footer navigation">
-              <Link to={workingWithJoelHref}>Working with Joel</Link>
-              <Link to={inclusionHref}>Inclusive practice</Link>
-              <Link to={contactHref}>Fees</Link>
+              <ul>
+                <li>
+                  <Link to={workingWithJoelHref}>Working with Joel</Link>
+                </li>
+                <li>
+                  <Link to={inclusionHref}>Inclusive practice</Link>
+                </li>
+                <li>
+                  <Link to={feesHref}>Fees</Link>
+                </li>
+              </ul>
             </nav>
+
+            <a className="site-footer__email" href={`mailto:${enquiryEmail}`}>
+              {enquiryEmail}
+            </a>
           </div>
 
-          <div className="site-footer__secondary">
-            <ul className="site-trust-list site-footer__details" aria-label="Footer details">
-              <li>
-                <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a>
-              </li>
-              <li>Mon to Fri, 9.30am to 5.00pm AWST</li>
-            </ul>
-            <p className="site-footer__copyright">&copy; {copyrightPublicationYear} Vive Counselling</p>
+          <div className="site-footer__utility">
+            <p>Mon to Fri, 9.30am to 5.00pm AWST</p>
+            <p className="site-footer__copyright">
+              &copy; {copyrightPublicationYear} Vive Counselling
+            </p>
           </div>
         </Container>
       </footer>

@@ -89,6 +89,7 @@ function MobileNavigationItem({
 }: NavigationItemProps & Pick<MobileNavigationProps, "onNavigate">) {
   const hasChildren = Boolean(item.children?.length);
   const isSubmenuItem = depth > 0;
+  const mobileHref = item.mobileHref ?? item.href;
 
   return (
     <div>
@@ -98,11 +99,13 @@ function MobileNavigationItem({
             "mobile-nav__link",
             isSubmenuItem && "mobile-nav__sub-link",
             depth > 1 && "mobile-nav__sub-link--nested",
-            (isActive || (isSubmenuItem && itemIsActive(item, pathname))) && "mobile-nav__link--active",
+            !item.mobileHref &&
+              (isActive || itemIsActive(item, pathname)) &&
+              "mobile-nav__link--active",
           )
         }
         onClick={onNavigate}
-        to={item.href}
+        to={mobileHref}
       >
         {item.label}
       </NavLink>
@@ -129,7 +132,7 @@ export function DesktopNavigation({
 }: DesktopNavigationProps) {
   return (
     <nav className="desktop-nav" aria-label="Main navigation">
-      {items.map((item) => (
+      {items.filter((item) => !item.mobileOnly).map((item) => (
         <DesktopNavigationItem
           depth={0}
           item={item}
@@ -153,7 +156,7 @@ export function MobileNavigation({
         <MobileNavigationItem
           depth={0}
           item={item}
-          key={item.href}
+          key={`${item.mobileHref ?? item.href}:${item.label}`}
           onNavigate={onNavigate}
           pathname={pathname}
         />
