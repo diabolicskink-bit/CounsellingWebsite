@@ -404,33 +404,69 @@
 
 .codex-contact__submission-success {
   display: grid;
-  gap: 20px;
-  align-content: center;
-  min-height: 520px;
-  padding: 54px;
+  padding: clamp(32px, 4vw, 44px);
 }
 
 .codex-contact__submission-status {
   display: grid;
-  gap: 20px;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(18px, 2.4vw, 26px);
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  padding: 8px;
+  scroll-margin-top: 84px;
+  border-radius: 3px;
 }
 
-.codex-contact__submission-status:focus {
+.codex-contact__submission-status:focus-visible {
   outline: 3px solid rgba(35, 75, 61, 0.34);
-  outline-offset: -7px;
+  outline-offset: 4px;
+}
+
+.codex-contact__submission-mark {
+  display: grid;
+  width: clamp(48px, 5vw, 58px);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(35, 75, 61, 0.28);
+  border-radius: 50%;
+  background: #dfe8dc;
+  color: var(--cedar-dark);
+}
+
+.codex-contact__submission-mark svg {
+  width: 48%;
+  height: 48%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.codex-contact__submission-copy {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
 }
 
 .codex-contact__submission-success h2 {
-  max-width: 10ch;
+  max-width: 15ch;
   color: var(--ink);
-  font-size: clamp(2.8rem, 5.2vw, 4.5rem);
-  letter-spacing: -0.035em;
-  line-height: 0.96;
+  font-size: clamp(2.45rem, 4.2vw, 3.5rem);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
 }
 
 .codex-contact__submission-success p {
-  color: var(--muted);
+  max-width: 42ch;
+  margin: 0;
+  color: var(--body);
   font-size: var(--type-body);
+  line-height: 1.58;
+  text-wrap: balance;
 }
 
 .codex-contact__practical {
@@ -668,8 +704,26 @@
   }
 
   .codex-contact__submission-success {
-    min-height: 480px;
-    padding: 42px 20px;
+    min-height: 0;
+    padding: 34px 20px 38px;
+    place-items: start;
+  }
+
+  .codex-contact__submission-status {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+    padding: 6px;
+  }
+
+  .codex-contact__submission-mark {
+    width: 46px;
+  }
+
+  .codex-contact__submission-success h2 {
+    max-width: 15ch;
+    font-size: clamp(2.2rem, 9.4vw, 2.85rem);
+    line-height: 1.03;
   }
 
   .codex-contact__practical {

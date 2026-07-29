@@ -91,7 +91,12 @@ function sendNativeHtml(response: EnquiryResponse, status: number, title: string
 
 export function sendSuccess(response: EnquiryResponse, mode: ResponseMode) {
   if (mode === "html") {
-    return sendNativeHtml(response, 200, "Thanks, your enquiry has been sent.", "I will respond as soon as I can.");
+    return sendNativeHtml(
+      response,
+      200,
+      "Your enquiry has been sent.",
+      "I’ll reply as soon as I can, usually within 24 hours.",
+    );
   }
 
   return response.status(200).json({ ok: true });

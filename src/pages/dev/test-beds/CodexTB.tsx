@@ -74,21 +74,35 @@ function SubmissionSuccess() {
   const statusRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    statusRef.current?.focus();
+    const statusElement = statusRef.current;
+
+    statusElement?.focus({ preventScroll: true });
+    statusElement?.scrollIntoView({
+      behavior: "instant",
+      block: "center",
+      inline: "nearest",
+    });
   }, []);
 
   return (
-    <div
-      className="codex-contact__submission-success"
-      ref={statusRef}
-      role="status"
-      tabIndex={-1}
-    >
-      <span className="codex-contact__step-label">Enquiry sent</span>
-      <h2>{enquiryFormContent.success.title}</h2>
-      <p>{enquiryFormContent.success.message}</p>
-      <p>{enquiryFormContent.success.note}</p>
-    </div>
+    <section className="site-form site-form--complete codex-contact__submission-success">
+      <div
+        className="codex-contact__submission-status"
+        ref={statusRef}
+        role="status"
+        tabIndex={-1}
+      >
+        <span className="codex-contact__submission-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="m6.5 12.5 3.3 3.3 7.7-8" />
+          </svg>
+        </span>
+        <div className="codex-contact__submission-copy">
+          <h2>{enquiryFormContent.success.title}</h2>
+          <p>{enquiryFormContent.success.note}</p>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -347,9 +361,9 @@ function ContactEnquiryForm() {
       ) : null}
 
       <p className="codex-contact__form-boundary">
-        This form is not monitored for urgent support.{" "}
-        <a href="#codex-contact-urgent-support">Urgent support information</a>
-        {" "}is below.
+        If you’re in crisis, please use the{" "}
+        <a href="#codex-contact-crisis-support">support options below</a> rather than
+        this form.
       </p>
     </form>
   );
@@ -454,8 +468,8 @@ export default function CodexTB() {
                 notice, the full fee is payable, except in cases of illness.
               </dd>
             </div>
-            <div id="codex-contact-urgent-support">
-              <dt>Urgent support</dt>
+            <div id="codex-contact-crisis-support">
+              <dt>Crisis support</dt>
               <dd>
                 Vive Counselling is not an emergency service. If you are in
                 immediate danger, call 000. For crisis support, call Lifeline on

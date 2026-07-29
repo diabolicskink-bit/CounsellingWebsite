@@ -400,8 +400,9 @@ function ContactEnquiryForm() {
       </fieldset>
 
       <p className="opus-contact__form-boundary">
-        This form is not monitored for urgent support.{" "}
-        <a href="#opus-contact-urgent-support">Urgent support information</a> is below.
+        If you’re in crisis, please use the{" "}
+        <a href="#opus-contact-crisis-support">support options below</a> rather than
+        this form.
       </p>
     </form>
   );
@@ -449,8 +450,8 @@ export default function OpusTB() {
                 notice, the full fee is payable, except in cases of illness.
               </dd>
             </div>
-            <div id="opus-contact-urgent-support">
-              <dt>Urgent support</dt>
+            <div id="opus-contact-crisis-support">
+              <dt>Crisis support</dt>
               <dd>
                 Vive Counselling is not an emergency service. If you are in
                 immediate danger, call 000. For crisis support, call Lifeline on
