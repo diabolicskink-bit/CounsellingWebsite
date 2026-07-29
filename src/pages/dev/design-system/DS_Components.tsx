@@ -121,14 +121,7 @@ const faqItems = [
 const footerDemoLinks = [
   { label: "Working with Joel", href: "/working-with-joel" },
   { label: "Inclusive practice", href: "/inclusive-counselling" },
-  { label: "Fees", href: "/fees" },
-  { label: "Contact", href: "/contact" },
-];
-
-const footerDemoDetails = [
-  { label: enquiryEmail, href: `mailto:${enquiryEmail}` },
-  { label: "Adults across Australia" },
-  { label: "Mon to Fri, 9.30am to 5.00pm WST" },
+  { label: "Fees", href: "/contact#contact-fees" },
 ];
 
 // AI maintainers: this page documents reusable UI components. When a production
@@ -329,37 +322,32 @@ export default function DS_Components() {
           <section className="ds-section" id="footer">
             <div className="ds-section-heading">
               <span className="site-eyebrow">Footer</span>
-              <h2>The shared footer should close the page with a deeper green surface.</h2>
-              <p>Keep it thin: brand, utility links, and one restrained detail line. It should feel finished, not promotional.</p>
+              <h2>The shared footer is a quiet counterpart to the header.</h2>
+              <p>A warm utility bar keeps navigation and practice details available without repeating a page-level contact invitation.</p>
             </div>
 
             <div className="ds-demo">
               <div className="site-footer">
                 <Container className="site-footer__inner">
-                  <div className="site-footer__primary">
-                    <div className="site-footer__brand-block">
-                      <a className="brand" href="/">
-                        <span className="brand__name">Vive Counselling</span>
-                      </a>
-                    </div>
-
+                  <div className="site-footer__main">
+                    <a className="site-footer__brand" href="/">Vive Counselling</a>
                     <nav className="site-footer__nav" aria-label="Footer example navigation">
-                      {footerDemoLinks.map((item) => (
-                        <a href={item.href} key={item.href}>
-                          {item.label}
-                        </a>
-                      ))}
+                      <ul>
+                        {footerDemoLinks.map((item) => (
+                          <li key={item.href}>
+                            <a href={item.href}>{item.label}</a>
+                          </li>
+                        ))}
+                      </ul>
                     </nav>
+
+                    <a className="site-footer__email" href={`mailto:${enquiryEmail}`}>
+                      {enquiryEmail}
+                    </a>
                   </div>
 
-                  <div className="site-footer__secondary">
-                    <ul className="site-trust-list site-footer__details" aria-label="Footer example details">
-                      {footerDemoDetails.map((item) => (
-                        <li key={item.label}>
-                          {item.href ? <a href={item.href}>{item.label}</a> : item.label}
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="site-footer__utility">
+                    <p>Mon to Fri, 9.30am to 5.00pm AWST</p>
                     <p className="site-footer__copyright">&copy; 2026 Vive Counselling</p>
                   </div>
                 </Container>
@@ -367,7 +355,7 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
-              <strong>Use for:</strong> shared site chrome only. Keep the footer informational and low-height. Do not add large CTA panels, stacked cards, or repeated page sections here.
+              <strong>Use for:</strong> shared site chrome only. Keep it informational and compact; page-level contact invitations should sit above it as separate content.
             </div>
           </section>
 
