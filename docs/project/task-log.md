@@ -17,6 +17,25 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-29 - Contact Confirmation Simplified
+
+- Changed: Successful Contact submissions now show one compact confirmation with the owner-confirmed expectation that Joel usually replies within 24 hours.
+- Simplified: The duplicate success label, oversized display treatment, and separate “What happens next” row were removed while preserving the checkmark, focused status semantics, and native fallback response.
+- Verified: The refreshed confirmation remains focused and fully visible at wide, intermediate, and narrow viewports without horizontal overflow.
+
+## 2026-07-29 - IDE Visual Verification Stabilised
+
+- Added: Codex IDE visual inspection now has a repository-local optional managed-session helper that launches Playwright against system Chrome and starts Vite on an isolated port; direct Playwright use remains supported.
+- Routed: `docs/project/visual-verification.md` owns the IDE access instructions; the unsupported in-app Browser plugin is disabled for this repository, and the guide excludes both it and the unavailable `agent-browser` CLI.
+- Preserved: Automated Playwright QA browser selection and the project's visual-review scope are unchanged.
+
+## 2026-07-28 - Contact Analytics Consolidated In GA4
+
+- Changed: GA4 now receives page views, first enquiry interaction, email-link clicks, all three controlled Contact-path selections, and confirmed enquiry conversions.
+- Added: Contact selections report `appointment`, `consult`, or `question` through the controlled `contact_option` parameter; confirmed conversions retain controlled form and lead-source context without visitor-entered data.
+- Removed: Vercel Web Analytics, its runtime component, dependency, and custom events are no longer part of the site analytics implementation.
+- Verified: Dedicated analytics QA covers disabled and disallowed-host behaviour, all GA4 contact-intent values, failed-conversion suppression, successful conversions, route page views, and Clarity loading.
+
 ## 2026-07-24 - Copy Skills Rebuilt Around Editorial Commitment And Cold Review
 
 - Rebuilt: `copywriter` now establishes a source envelope, commits to one supported editorial direction, drafts one coherent version, and loads its causal anti-default review only after the working draft is frozen.

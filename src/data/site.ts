@@ -3,6 +3,8 @@ import { devRoutePaths, publicRoutePaths, routeHref } from "./routes";
 export type NavItem = Readonly<{
   label: string;
   href: string;
+  mobileHref?: string;
+  mobileOnly?: boolean;
   children?: readonly NavItem[];
 }>;
 
@@ -17,6 +19,16 @@ export const navItems: readonly NavItem[] = [
       { label: "ENM & polyamory", href: routeHref(publicRoutePaths.enmPolyamory) },
       { label: "LGBTQIA+", href: routeHref(publicRoutePaths.lgbtqia) },
     ],
+  },
+  {
+    label: "Fees",
+    href: routeHref(publicRoutePaths.contact),
+    mobileHref: `${routeHref(publicRoutePaths.contact)}#contact-fees`,
+  },
+  {
+    label: "Contact",
+    href: routeHref(publicRoutePaths.contact),
+    mobileOnly: true,
   },
   ...(import.meta.env.DEV
     ? [
@@ -47,5 +59,4 @@ export const navItems: readonly NavItem[] = [
         },
       ]
     : []),
-  { label: "Fees", href: routeHref(publicRoutePaths.contact) },
 ];

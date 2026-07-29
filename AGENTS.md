@@ -33,6 +33,10 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 - Do not treat a file in `src/components/` as active design-system API unless the design-system docs describe it that way.
 - Keep one-off visual explorations page-scoped until they prove useful beyond one context.
 
+## IDE Visual Verification
+
+- For visual verification from Codex in the VS Code extension, follow [docs/project/visual-verification.md](docs/project/visual-verification.md). It owns the supported browser route, managed server lifecycle, invocation, and capture techniques without defining task-specific visual review criteria.
+
 ## Git And Release Workflow
 
 - Do not check for or use GitHub CLI (`gh`) unless the current task explicitly involves pull requests, GitHub issues, Actions, or another GitHub-specific feature. Use standard Git commands for repository operations.

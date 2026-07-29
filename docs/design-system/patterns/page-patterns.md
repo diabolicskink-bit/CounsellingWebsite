@@ -68,7 +68,7 @@ The `hero-*` system is a currently implemented shared subsystem alongside `site-
 - `.hero-badge`
   Concise visible page-topic H1.
 - `.hero-display`
-  Expressive serif hero statement on `p` after `h1.hero-badge`, kept outside the semantic heading outline. Adjacent badge/display pairs use the shared 12px gap while page compositions retain their own spacing below the display statement.
+  Expressive serif hero statement on `p` after `h1.hero-badge`, kept outside the semantic heading outline. Adjacent badge/display pairs use the shared 16px gap while page compositions retain their own spacing below the display statement.
 - `.hero-intro`
   Longer opening intro paragraph.
 - `.hero-copy-panel`

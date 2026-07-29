@@ -32,9 +32,7 @@ const prerenderedRouteContracts = {
     rawFragments: [
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
-      'class="site-card site-copy-flow home-welcome__online"',
-      'href="/working-with-joel#issues-i-work-with"',
-      'class="site-card home-workroom__joel"',
+      'class="home-about"',
       'aria-label="Inclusive practice topics"',
       'class="home-page__inclusive-topic-link home-page__inclusive-topic-link--parent"',
       'class="home-page__inclusive-topic-children"',
@@ -60,42 +58,51 @@ const prerenderedRouteContracts = {
     noJavaScriptSelector: 'img[src="/joel-griffiths-working-with-joel-portrait.jpg"]',
   },
   "/inclusive-counselling": {
-    mainClass: "site-page inclusion-page",
-    rawFragments: ['class="inclusion-hub__panels"', 'class="site-faq-list"'],
-    noJavaScriptSelector: ".inclusion-hub__panels",
+    mainClass: "site-page inclusion-hub-page",
+    rawFragments: [
+      'class="inclusion-hub-page__chapters"',
+      'id="inclusion-kink-bdsm-heading"',
+      'id="inclusion-enm-polyamory-heading"',
+      'id="inclusion-lgbtqia-heading"',
+    ],
+    noJavaScriptSelector: ".inclusion-hub-page__chapters",
   },
   "/kink-bdsm-counselling": {
     mainClass: "site-page kink-page",
-    rawFragments: ['class="kink-page__knowledge-grid"', 'class="site-faq-list"'],
-    noJavaScriptSelector: ".kink-page__knowledge-grid",
+    rawFragments: ['class="kink-page__misread"', 'class="kink-page__more"'],
+    noJavaScriptSelector: ".kink-page__misread",
   },
   "/polyamory-enm-counselling": {
     mainClass: "site-page enm-page",
     rawFragments: [
-      'class="hero-section hero-bg--default enm-page__hero"',
+      'class="hero-section specialist-counselling-hero enm-page__hero"',
       'class="enm-page__reasons"',
-      'class="enm-page__reasons-panel"',
+      'class="enm-page__reasons-list"',
+      'class="enm-page__position"',
     ],
-    noJavaScriptSelector: ".enm-page__reasons-panel",
+    noJavaScriptSelector: ".enm-page__reasons-list",
   },
   "/lgbtqia-affirming-counselling": {
     mainClass: "site-page inclusion-page lgbtqia-page",
-    rawFragments: ['class="lgbtqia-page__recognition-flow"', 'class="lgbtqia-page__disclosure-heading"'],
-    noJavaScriptSelector: ".lgbtqia-page__recognition-flow",
+    rawFragments: ['class="lgbtqia-page__recognition-list"', 'class="lgbtqia-page__disclosure"'],
+    noJavaScriptSelector: ".lgbtqia-page__recognition-list",
   },
   "/contact": {
-    mainClass: "site-page contact-page",
+    mainClass: "site-page contact-page codex-contact",
     rawFragments: [
-      'class="site-fee-card contact-page__fee-card"',
+      'class="codex-contact__opening"',
+      'id="contact-start"',
+      'id="contact-fees"',
+      "Choosing a counsellor can be hard.",
+      "More than two?",
       "Mon to Fri, 9.30am to 5.00pm AWST",
       'data-timezone-notes-source="prerendered"',
-      'class="site-form"',
+      'class="site-form codex-contact__form"',
       'action="/api/enquiry"',
-      'aria-labelledby="contact-form-heading"',
+      'aria-label="Enquiry"',
       'data-clarity-mask="true"',
-      'id="contact-form-heading">Enquiry</h2>',
+      "Get in touch</h2>",
       'href="mailto:joel@vivecounselling.com.au"',
-      'class="site-faq-list"',
     ],
     noJavaScriptSelector: "form.site-form",
   },
@@ -112,7 +119,11 @@ const inclusionChildRoutes = [
   { path: "/lgbtqia-affirming-counselling", navLabel: "LGBTQIA+" },
 ] as const;
 const analyticsConfigured = process.env.VITE_ANALYTICS_ENABLED === "true";
-const qaRuntimeHostname = "127.0.0.1";
+const qaRuntimeUrl = new URL(
+  process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:4287",
+);
+const qaRuntimeHostname = qaRuntimeUrl.hostname;
+const qaRuntimeOrigin = qaRuntimeUrl.origin;
 
 function normalizeAnalyticsHostname(value: string) {
   const trimmedValue = value.trim();
@@ -464,8 +475,7 @@ function isAnalyticsUrl(rawUrl: string) {
       url.hostname === "www.google-analytics.com" ||
       url.hostname === "analytics.google.com" ||
       url.hostname === "clarity.ms" ||
-      url.hostname.endsWith(".clarity.ms") ||
-      url.pathname.startsWith("/_vercel/insights")
+      url.hostname.endsWith(".clarity.ms")
     );
   } catch {
     return (
@@ -485,11 +495,6 @@ type PageDiagnostics = {
 type GoogleAnalyticsEvent = {
   eventName: string;
   params: Record<string, unknown>;
-};
-
-type VercelCustomEvent = {
-  name?: string;
-  properties: Record<string, unknown>;
 };
 
 type GoogleAnalyticsEventArguments = [
@@ -544,6 +549,7 @@ async function expectNoPageDiagnostics(diagnostics: PageDiagnostics) {
 async function expectHomePageStructure(page: Page) {
   const home = page.locator("main.home-page");
   const hero = home.locator(".hero-section");
+  const about = home.locator(".home-about");
   const portrait = home.locator('img[src="/joel-griffiths-homepage-portrait.jpg"]');
 
   await expect(home).toBeVisible();
@@ -551,7 +557,11 @@ async function expectHomePageStructure(page: Page) {
   await expect(portrait).toHaveAttribute("alt", "Joel Griffiths");
   await expect(portrait).toHaveAttribute("fetchpriority", "high");
   await expect(hero.locator(".home-page__hero-support")).toHaveCount(0);
-  await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveAttribute("href", "/contact");
+  await expect(hero.locator(".home-page__hero-action > span")).toHaveCount(2);
+  await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveAttribute(
+    "href",
+    "/contact",
+  );
   await expect(hero.getByRole("link", { name: "Explore inclusive counselling" })).toHaveAttribute(
     "href",
     "/inclusive-counselling",
@@ -559,20 +569,38 @@ async function expectHomePageStructure(page: Page) {
   await expect(hero.getByRole("link", { name: "Explore inclusive counselling" })).toHaveClass(
     /button--secondary/,
   );
-  await expect(home.getByRole("region", { name: "Whatever’s going on, you can bring it here." })).toHaveCount(1);
-  const issuesLinks = home.getByRole("link", { name: "See the issues I work with" });
-  await expect(issuesLinks).toHaveCount(1);
-  await expect(issuesLinks).toHaveAttribute("href", "/working-with-joel#issues-i-work-with");
-  await expect(home.locator(".home-welcome__online")).toHaveClass(/site-card/);
-  const joelCard = home.locator("article.site-card.home-workroom__joel");
-  await expect(joelCard).toBeVisible();
-  await expect(joelCard.getByRole("link", { name: "Request a 15-minute consult" })).toHaveAttribute(
-    "href",
-    "/contact",
-  );
-  await expect(joelCard.getByRole("link", { name: "More about how I work" })).toHaveAttribute(
+  await expect(
+    home.getByRole("region", {
+      name: "About Vive",
+    }),
+  ).toHaveCount(1);
+  await expect(
+    about.getByText(/I offer online counselling to individuals and couples across Australia/),
+  ).toBeVisible();
+  await expect(
+    about.getByText(
+      "Sessions are online by video, so you can join from home or wherever works for you. There’s no need to travel or sit in a waiting room.",
+    ),
+  ).toBeVisible();
+  await expect(about.locator(".home-about__story > p")).toHaveCount(5);
+  await expect(about.locator("h3")).toHaveCount(0);
+  await expect(about.getByRole("link", { name: "Working with Joel" })).toHaveAttribute(
     "href",
     "/working-with-joel",
+  );
+  await expect(
+    about.getByRole("link", { name: "More reasons people come to counselling" }),
+  ).toHaveCount(0);
+  await expect(about.getByText(/15-minute consultation/)).toHaveCount(0);
+  await expect(
+    home.locator(".home-closing").getByRole("link", { name: "See contact options" }),
+  ).toHaveAttribute("href", "/contact");
+  await expect(home.locator(".home-closing").getByRole("heading", { level: 2 })).toHaveText(
+    "Get in touch.",
+  );
+  await expect(home.locator(".home-closing h2 em")).toHaveText("touch");
+  await expect(home.locator(".home-closing__copy")).toHaveText(
+    "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
   );
   const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
   await expect(inclusiveTopics.locator(":scope li")).toHaveCount(4);
@@ -582,7 +610,7 @@ async function expectHomePageStructure(page: Page) {
   for (const [href, count] of [
     ["/working-with-joel", 1],
     ["/inclusive-counselling", 2],
-    ["/contact", 3],
+    ["/contact", 2],
   ] as const) {
     await expect(home.locator(`a[href="${href}"]`)).toHaveCount(count);
   }
@@ -639,21 +667,6 @@ async function getGoogleAnalyticsEvents(page: Page, eventName: string): Promise<
   }, eventName);
 }
 
-async function getVercelCustomEvents(page: Page): Promise<VercelCustomEvent[]> {
-  return page.evaluate(() => {
-    return (window.vaq ?? [])
-      .filter((entry) => entry[0] === "event")
-      .map((entry) => {
-        const event = entry[1] as { data?: Record<string, unknown>; name?: string };
-
-        return {
-          name: event.name,
-          properties: event.data ?? {},
-        };
-      });
-  });
-}
-
 const aliasRedirects = [
   { from: "/about", to: "/working-with-joel" },
   { from: "/fees", to: "/contact" },
@@ -698,19 +711,20 @@ test.describe("public pages", () => {
       if (route === "/kink-bdsm-counselling") {
         await expect(
           page.locator(
-            "h2.kink-page__panel-title, .kink-page__closing-intro > h2, h2.kink-page__closing-card-title",
+            "h2.kink-page__fluency-title, h2.kink-page__misread-title, h2.kink-page__more-title",
           ),
         ).toHaveCount(3);
         await expect(page.locator(".kink-page h3:not(.site-faq-item__heading)")).toHaveCount(0);
-        await expect(page.locator(".site-faq-item h3.site-faq-item__heading")).not.toHaveCount(0);
+        await expect(page.locator(".kink-page .site-faq-list")).toHaveCount(0);
       }
 
       if (route === "/lgbtqia-affirming-counselling") {
         const pageMain = page.locator("main.lgbtqia-page");
 
         await expect(pageMain.locator("section").nth(1)).toHaveClass(/lgbtqia-page__recognition/);
-        await expect(pageMain.locator(".lgbtqia-page__recognition-flow > li")).toHaveCount(3);
-        await expect(pageMain.locator(".lgbtqia-page__context-line > li")).toHaveCount(5);
+        await expect(pageMain.locator(".lgbtqia-page__recognition-list > li")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__assumptions-list > li")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__disclosure-copy > p")).toHaveCount(3);
       }
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
@@ -746,6 +760,37 @@ test.describe("public pages", () => {
 });
 
 test.describe("shared navigation", () => {
+  test("routes enquiry and fee actions to the top of Contact", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const header = page.getByRole("banner");
+    const mainNavigation = header.getByRole("navigation", { name: "Main navigation" });
+    const footer = page.getByRole("contentinfo");
+
+    await expect(header.getByRole("link", { name: "Get in touch" })).toHaveAttribute(
+      "href",
+      "/contact",
+    );
+    await expect(mainNavigation.getByRole("link", { name: "Fees" })).toHaveAttribute(
+      "href",
+      "/contact",
+    );
+    await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute(
+      "href",
+      "/contact#contact-fees",
+    );
+
+    await header.getByRole("link", { name: "Get in touch" }).click();
+    await expect(page).toHaveURL(/\/contact$/);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+
+    await page.goto("/", { waitUntil: "networkidle" });
+    await mainNavigation.getByRole("link", { name: "Fees" }).click();
+    await expect(page).toHaveURL(/\/contact$/);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  });
+
   test("exposes inclusion child pages in desktop and mobile navigation", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto("/", { waitUntil: "networkidle" });
@@ -766,6 +811,13 @@ test.describe("shared navigation", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.locator("button.menu-toggle").click();
     const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+
+    await expect(
+      mobileNavigation.getByRole("link", { name: "Fees", exact: true }),
+    ).toHaveAttribute("href", "/contact#contact-fees");
+    await expect(
+      mobileNavigation.getByRole("link", { name: "Contact", exact: true }),
+    ).toHaveAttribute("href", "/contact");
 
     for (const route of inclusionChildRoutes) {
       await expect(mobileNavigation.getByRole("link", { name: route.navLabel, exact: true })).toHaveAttribute(
@@ -812,6 +864,55 @@ test.describe("shared navigation", () => {
     await expect(toggle).toBeFocused();
     await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("clip");
   });
+
+  test("releases the mobile scroll lock when responsive testing crosses into desktop", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 667 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const toggle = page.locator("button.menu-toggle");
+    const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+
+    await toggle.click();
+    await expect(mobileNavigation).toBeVisible();
+    await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+
+    await page.setViewportSize({ width: 1200, height: 667 });
+
+    await expect(mobileNavigation).toHaveCount(0);
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("");
+
+    await page.mouse.move(600, 500);
+    await page.mouse.wheel(0, 1200);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+
+    await page.setViewportSize({ width: 390, height: 667 });
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toHaveAccessibleName("Open navigation");
+  });
+
+  test("keeps the complete footer inside the mobile document scroll range", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 667 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    await page.evaluate(() => {
+      window.scrollTo(0, document.documentElement.scrollHeight);
+    });
+
+    const footer = page.locator("footer.site-footer");
+    await expect(footer.getByRole("link", { name: "joel@vivecounselling.com.au" })).toBeInViewport();
+    await expect(footer.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeInViewport();
+    await expect(footer.getByText("© 2026 Vive Counselling")).toBeInViewport();
+    await expect
+      .poll(() =>
+        footer.evaluate(
+          (element) => element.getBoundingClientRect().bottom <= window.innerHeight + 1,
+        ),
+      )
+      .toBe(true);
+  });
 });
 
 test.describe("prerendered route activation boundaries", () => {
@@ -824,32 +925,12 @@ test.describe("prerendered route activation boundaries", () => {
       document.body.dataset.spaNavigationSentinel = "preserved";
     });
 
-    await page.locator('.home-workroom__joel a[href="/working-with-joel"]').click();
+    await page.locator(".home-page__inclusive-topic-link--parent").click();
 
-    await expect(page).toHaveURL(/\/working-with-joel$/);
+    await expect(page).toHaveURL(/\/inclusive-counselling$/);
     await expect(page.locator("h1.hero-badge")).toBeVisible();
     expect((await page.locator("h1.hero-badge").innerText()).trim().length).toBeGreaterThan(8);
     expect(await page.evaluate(() => document.body.dataset.spaNavigationSentinel)).toBe("preserved");
-    await expectNoPageDiagnostics(diagnostics);
-  });
-
-  test("deep-links from Home to the issues section and moves focus to its heading", async ({ page }) => {
-    const diagnostics = collectPageDiagnostics(page);
-
-    await page.goto("/", { waitUntil: "networkidle" });
-    await page.getByRole("link", { name: "See the issues I work with" }).first().click();
-
-    const issuesHeading = page.locator("#issues-i-work-with");
-
-    await expect(page).toHaveURL(/\/working-with-joel#issues-i-work-with$/);
-    await expect(issuesHeading).toBeVisible();
-    await expect(issuesHeading).toBeFocused();
-    await expect
-      .poll(() => issuesHeading.evaluate((element) => element.getBoundingClientRect().top))
-      .toBeGreaterThanOrEqual(0);
-    await expect
-      .poll(() => issuesHeading.evaluate((element) => element.getBoundingClientRect().top))
-      .toBeLessThan(180);
     await expectNoPageDiagnostics(diagnostics);
   });
 
@@ -903,8 +984,16 @@ test.describe("prerendered routes without JavaScript", () => {
       expect((await page.locator("main h1").innerText()).trim().length).toBeGreaterThan(8);
       await expect(page.locator(contract.noJavaScriptSelector)).toBeVisible();
       await expect(page.locator("header.site-header a[href], footer.site-footer a[href]")).not.toHaveCount(0);
-      await expect(page.locator("footer.site-footer")).toBeVisible();
-      await expect(page.locator("footer.site-footer").getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
+      const footer = page.locator("footer.site-footer");
+
+      await expect(footer).toBeVisible();
+      await expect(
+        footer.getByRole("link", { name: "Fees", exact: true }),
+      ).toHaveAttribute("href", "/contact#contact-fees");
+      await expect(
+        footer.getByRole("link", { name: "joel@vivecounselling.com.au", exact: true }),
+      ).toHaveAttribute("href", "mailto:joel@vivecounselling.com.au");
+      await expect(footer.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
       await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
 
       if (route === "/") {
@@ -918,14 +1007,20 @@ test.describe("prerendered routes without JavaScript", () => {
       if (route === "/contact") {
         const form = page.getByRole("form", { name: "Enquiry" });
 
-        await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
+        await expect(
+          form.getByRole("heading", {
+            level: 2,
+            name: "Get in touch",
+            exact: true,
+          }),
+        ).toHaveCount(1);
         await expect(form).toHaveAttribute("action", "/api/enquiry");
         await expect(form).toHaveAttribute("method", "post");
         await expect(form).toHaveAttribute("data-clarity-mask", "true");
         await expect(
           page.getByLabel("Contact details").getByText("Mon to Fri, 9.30am to 5.00pm AWST"),
         ).toBeVisible();
-        await expect(page.getByLabel("Timezone")).toHaveCount(0);
+        await expect(page.getByLabel("Timezone")).toBeVisible();
       }
     });
   }
@@ -967,6 +1062,8 @@ test.describe("first response metadata", () => {
         expect(html).toContain(fragment);
       }
       expect(html).toContain('<footer class="site-footer">');
+      expect(html).toContain('href="/contact#contact-fees"');
+      expect(html).toContain('href="mailto:joel@vivecounselling.com.au"');
       expect(html).not.toContain("data-not-found-fallback");
       expect(html).not.toContain("data-static-route-shell");
       expect(html).not.toContain("Static route shell generated at build time");
@@ -1116,17 +1213,17 @@ test.describe("crawl and app metadata assets", () => {
     await expect(homeMain.locator(".home-page__inclusive-topic-link")).toHaveCount(4);
 
     await page.goto("/inclusive-counselling", { waitUntil: "networkidle" });
-    const inclusionMain = page.locator("main.inclusion-page");
+    const inclusionMain = page.locator("main.inclusion-hub-page");
 
     for (const route of inclusionChildRoutes) {
-      await expect(inclusionMain.locator(`a[href="${route.path}"]`)).toHaveCount(2);
+      await expect(inclusionMain.locator(`a[href="${route.path}"]`)).toHaveCount(1);
     }
-    await expect(inclusionMain.locator(".inclusion-hero__detail-link")).toHaveText([
-      "Kink & BDSM",
-      "ENM & Polyamory",
-      "LGBTQIA+",
+    await expect(inclusionMain.locator(".inclusion-hub-page__chapter-heading h2")).toHaveText([
+      "Kink & BDSM-aware counselling",
+      "ENM & polyamory counselling",
+      "LGBTQIA+ affirming counselling",
     ]);
-    await expect(inclusionMain.locator(".inclusion-hub__panel-action")).toHaveCount(3);
+    await expect(inclusionMain.locator(".inclusion-hub-page__chapter-link")).toHaveCount(3);
   });
 
   test("Vercel config does not apply global noindex headers", () => {
@@ -1281,7 +1378,6 @@ test.describe("crawl and app metadata assets", () => {
           'script[src*="googletagmanager.com"]',
           'script[src*="google-analytics.com"]',
           'script[src*="clarity.ms"]',
-          'script[src*="/_vercel/insights"]',
           "#vive-google-analytics",
           "#vive-google-analytics-config",
           "#vive-microsoft-clarity",
@@ -1310,7 +1406,6 @@ test.describe("crawl and app metadata assets", () => {
           'script[src*="googletagmanager.com"]',
           'script[src*="google-analytics.com"]',
           'script[src*="clarity.ms"]',
-          'script[src*="/_vercel/insights"]',
           "#vive-google-analytics",
           "#vive-google-analytics-config",
           "#vive-microsoft-clarity",
@@ -1349,7 +1444,7 @@ test.describe("crawl and app metadata assets", () => {
         {
           eventName: "page_view",
           params: {
-            page_location: "http://127.0.0.1:4287/",
+            page_location: `${qaRuntimeOrigin}/`,
             page_path: "/",
             page_title: routeMetadataData.routes["/"].title,
             send_to: process.env.VITE_GA_MEASUREMENT_ID,
@@ -1365,7 +1460,7 @@ test.describe("crawl and app metadata assets", () => {
         {
           eventName: "page_view",
           params: {
-            page_location: "http://127.0.0.1:4287/",
+            page_location: `${qaRuntimeOrigin}/`,
             page_path: "/",
             page_title: routeMetadataData.routes["/"].title,
             send_to: process.env.VITE_GA_MEASUREMENT_ID,
@@ -1374,7 +1469,7 @@ test.describe("crawl and app metadata assets", () => {
         {
           eventName: "page_view",
           params: {
-            page_location: "http://127.0.0.1:4287/contact",
+            page_location: `${qaRuntimeOrigin}/contact`,
             page_path: "/contact",
             page_title: routeMetadataData.routes["/contact"].title,
             send_to: process.env.VITE_GA_MEASUREMENT_ID,
@@ -1416,53 +1511,51 @@ test.describe("crawl and app metadata assets", () => {
 
     const form = page.getByRole("form", { name: "Enquiry" });
 
+    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your enquiry").fill("Hello");
-    await form.getByLabel("General enquiry").check();
     await form.getByRole("button", { name: "Send enquiry" }).click();
 
     await expect(form.getByRole("alert")).toBeVisible();
     expect(await getGoogleAnalyticsEvents(page, "generate_lead")).toEqual([]);
-    expect(await getVercelCustomEvents(page)).toEqual([
+    expect(await getGoogleAnalyticsEvents(page, "enquiry_started")).toEqual([
       {
-        name: "enquiry_started",
-        properties: {},
+        eventName: "enquiry_started",
+        params: {
+          send_to: process.env.VITE_GA_MEASUREMENT_ID,
+        },
+      },
+    ]);
+    expect(await getGoogleAnalyticsEvents(page, "contact_option_selected")).toEqual([
+      {
+        eventName: "contact_option_selected",
+        params: {
+          contact_option: "question",
+          send_to: process.env.VITE_GA_MEASUREMENT_ID,
+        },
       },
     ]);
 
     submissionSucceeds = true;
     await form.getByRole("button", { name: "Send enquiry" }).click();
 
-    await expect(page.getByRole("status")).toContainText("Thanks, your enquiry has been sent.");
+    await expect(page.getByRole("status")).toContainText("Your enquiry has been sent.");
     await expect
       .poll(() => getGoogleAnalyticsEvents(page, "generate_lead"))
       .toEqual([
         {
           eventName: "generate_lead",
           params: {
+            form_name: "contact",
             lead_source: "website_enquiry_form",
             send_to: process.env.VITE_GA_MEASUREMENT_ID,
           },
         },
       ]);
-    await expect
-      .poll(() => getVercelCustomEvents(page))
-      .toEqual([
-        {
-          name: "enquiry_started",
-          properties: {},
-        },
-        {
-          name: "Enquiry submitted",
-          properties: {
-            form: "contact",
-          },
-        },
-      ]);
   });
 
-  test("anonymous contact-intent events contain no visitor data", async ({ page }) => {
+  test("Google Analytics contact-intent events contain no visitor data", async ({ page }) => {
     test.skip(!googleAnalyticsRouteTrackingEnabled, "Analytics contact-intent tracking is covered by npm run qa:analytics.");
 
     await page.route("**/*", async (route) => {
@@ -1482,19 +1575,49 @@ test.describe("crawl and app metadata assets", () => {
 
     const form = page.getByRole("form", { name: "Enquiry" });
 
+    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
 
     await expect
-      .poll(() => getVercelCustomEvents(page))
+      .poll(() => getGoogleAnalyticsEvents(page, "enquiry_started"))
       .toEqual([
         {
-          name: "enquiry_started",
-          properties: {},
+          eventName: "enquiry_started",
+          params: {
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
         },
       ]);
 
-    expect(await getGoogleAnalyticsEvents(page, "enquiry_started")).toEqual([]);
+    await form.getByLabel("Request a consult").check();
+    await form.getByLabel("Make an appointment").check();
+
+    await expect
+      .poll(() => getGoogleAnalyticsEvents(page, "contact_option_selected"))
+      .toEqual([
+        {
+          eventName: "contact_option_selected",
+          params: {
+            contact_option: "question",
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
+        },
+        {
+          eventName: "contact_option_selected",
+          params: {
+            contact_option: "consult",
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
+        },
+        {
+          eventName: "contact_option_selected",
+          params: {
+            contact_option: "appointment",
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
+        },
+      ]);
 
     const emailLink = page.getByRole("link", { name: "joel@vivecounselling.com.au" }).first();
 
@@ -1504,19 +1627,15 @@ test.describe("crawl and app metadata assets", () => {
     await emailLink.click();
 
     await expect
-      .poll(() => getVercelCustomEvents(page))
+      .poll(() => getGoogleAnalyticsEvents(page, "email_link_clicked"))
       .toEqual([
         {
-          name: "enquiry_started",
-          properties: {},
-        },
-        {
-          name: "email_link_clicked",
-          properties: {},
+          eventName: "email_link_clicked",
+          params: {
+            send_to: process.env.VITE_GA_MEASUREMENT_ID,
+          },
         },
       ]);
-
-    expect(await getGoogleAnalyticsEvents(page, "email_link_clicked")).toEqual([]);
   });
 
   test("Microsoft Clarity loads when configured", async ({ page }) => {
@@ -1575,6 +1694,55 @@ test.describe("alias URL redirects", () => {
 });
 
 test.describe("Working with Joel approach tabs", () => {
+  test("aligns the desktop credentials with the hero eyebrow", async ({ page }) => {
+    await page.goto("/working-with-joel", { waitUntil: "networkidle" });
+
+    if ((page.viewportSize()?.width ?? 0) > 1040) {
+      const eyebrowBox = await page.locator(".working-with-joel-page__hero .hero-badge").boundingBox();
+      const credentialsBox = await page.locator(".working-with-joel-page__hero-credentials").boundingBox();
+
+      expect(eyebrowBox).not.toBeNull();
+      expect(credentialsBox).not.toBeNull();
+      expect(Math.abs((eyebrowBox?.y ?? 0) - (credentialsBox?.y ?? 0))).toBeLessThanOrEqual(1);
+    }
+  });
+
+  test("keeps section and subordinate heading typography consistent", async ({ page }) => {
+    await page.goto("/working-with-joel", { waitUntil: "networkidle" });
+
+    const typographyProperties = [
+      "fontFamily",
+      "fontSize",
+      "fontWeight",
+      "letterSpacing",
+      "lineHeight",
+    ] as const;
+    const readTypography = (selector: string) =>
+      page.locator(selector).evaluateAll(
+        (elements, properties) =>
+          elements.map((element) => {
+            const style = window.getComputedStyle(element);
+
+            return Object.fromEntries(
+              properties.map((property) => [property, style[property]]),
+            );
+          }),
+        typographyProperties,
+      );
+
+    const sectionHeadings = await readTypography(
+      ".working-with-joel-page__intro-panel h2, .working-with-joel-page__section-title",
+    );
+    const subordinateHeadings = await readTypography(
+      '.site-broad-tabs__tab[data-active="false"]:nth-of-type(2), .working-topics__item-title:first-of-type',
+    );
+
+    expect(sectionHeadings).toHaveLength(3);
+    expect(new Set(sectionHeadings.map((style) => JSON.stringify(style))).size).toBe(1);
+    expect(subordinateHeadings).toHaveLength(2);
+    expect(new Set(subordinateHeadings.map((style) => JSON.stringify(style))).size).toBe(1);
+  });
+
   test("keeps one labelled panel active for pointer and keyboard input", async ({ page }) => {
     const diagnostics = collectPageDiagnostics(page);
 
@@ -1723,8 +1891,7 @@ test.describe("enquiry form", () => {
     ]);
 
     await expect(page.getByLabel("Timezone")).toHaveCount(0);
-    await page.getByLabel("Booking enquiry").check();
-    await page.getByLabel("Request a 15-minute consult").check();
+    await page.getByLabel("Request a consult").check();
     await expect(page.getByLabel("Timezone").locator("option")).toHaveText([
       "Select your timezone",
       "AWST (WA)",
@@ -1758,7 +1925,7 @@ test.describe("enquiry form", () => {
       try {
         await form.getByLabel("Name").fill("Alex Before Hydration");
         await form.getByLabel("Email").fill("alex@example.com");
-        await form.getByLabel("Your enquiry").fill("Please preserve this message.");
+        await form.getByLabel("Your message").fill("Please preserve this message.");
       } finally {
         releaseClientBundle();
       }
@@ -1771,7 +1938,7 @@ test.describe("enquiry form", () => {
       );
       await expect(form.getByLabel("Name")).toHaveValue("Alex Before Hydration");
       await expect(form.getByLabel("Email")).toHaveValue("alex@example.com");
-      await expect(form.getByLabel("Your enquiry")).toHaveValue("Please preserve this message.");
+      await expect(form.getByLabel("Your message")).toHaveValue("Please preserve this message.");
       await expectNoPageDiagnostics(diagnostics);
     },
   );
@@ -1800,16 +1967,19 @@ test.describe("enquiry form", () => {
 
     const form = page.getByRole("form", { name: "Enquiry" });
     await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "hydrate");
-    await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
+    await expect(
+      form.getByRole("heading", {
+        level: 2,
+        name: "Get in touch",
+        exact: true,
+      }),
+    ).toHaveCount(1);
+    await expect(form.getByLabel("Name")).toHaveCount(0);
+
+    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your enquiry").fill("I would like an initial consult.");
-
-    await form.getByLabel("General enquiry").check();
-    await expect(form.getByLabel("Make an appointment")).toHaveCount(0);
-    await expect(form.getByLabel("Request a 15-minute consult")).toHaveCount(0);
-
-    await form.getByLabel("Booking enquiry").check();
     await form.getByLabel("Make an appointment").check();
     await expect(form.getByLabel("Preferred timing")).toBeVisible();
     await expect(form.getByLabel("State or territory")).toBeVisible();
@@ -1820,16 +1990,21 @@ test.describe("enquiry form", () => {
     await expect(form.getByLabel("Preferred timing")).toHaveCount(0);
     await expect(form.getByLabel("State or territory")).toHaveCount(0);
 
-    await form.getByLabel("Booking enquiry").check();
-    await form.getByLabel("Request a 15-minute consult").check();
+    await form.getByLabel("Request a consult").check();
     await expect(form.getByLabel("Preferred timing")).toHaveCount(0);
     await expect(form.getByLabel("State or territory")).toHaveCount(0);
     await form.getByLabel("Availability").fill("Weekday afternoons");
     await form.getByLabel("Timezone").selectOption("AEDT");
-    await form.getByRole("button", { name: "Send enquiry" }).click();
+    await form.getByRole("button", { name: "Request the 15-minute consult" }).click();
 
     try {
-      await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
+      await expect(
+        form.getByRole("heading", {
+          level: 2,
+          name: "Get in touch",
+          exact: true,
+        }),
+      ).toHaveCount(1);
       await expect(form.getByRole("button", { name: "Sending..." })).toBeDisabled();
     } finally {
       releaseSubmission();
@@ -1837,14 +2012,26 @@ test.describe("enquiry form", () => {
 
     const completedFormArea = page.locator("section.site-form.site-form--complete");
     const success = completedFormArea.getByRole("status");
-    await expect(success).toContainText("Thanks, your enquiry has been sent.");
+    await expect(success).toContainText("Your enquiry has been sent.");
+    await expect(success).toContainText(
+      "I’ll reply as soon as I can, usually within 24 hours.",
+    );
+    await expect(success).not.toContainText("What happens next");
     await expect(success).toBeFocused();
+    await expect(success.locator(".codex-contact__submission-mark")).toBeVisible();
+    await expect(success).toHaveCSS("outline-offset", "4px");
     await expect(
-      completedFormArea.getByRole("heading", { level: 2, name: "Thanks, your enquiry has been sent." }),
+      completedFormArea.getByRole("heading", { level: 2, name: "Your enquiry has been sent." }),
     ).toHaveCount(1);
     await expect(completedFormArea.getByRole("heading", { level: 2 })).toHaveCount(1);
     await expect(page.getByRole("form", { name: "Enquiry" })).toHaveCount(0);
-    await expect(page.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(0);
+    await expect(
+      page.getByRole("heading", {
+        level: 2,
+        name: "Get in touch",
+        exact: true,
+      }),
+    ).toHaveCount(0);
     expect(await completedFormArea.getAttribute("aria-labelledby")).toBeNull();
     expect(submittedMethod).toBe("POST");
     expect(submittedPayload).toEqual({
@@ -1878,15 +2065,21 @@ test.describe("enquiry form", () => {
 
     const form = page.getByRole("form", { name: "Enquiry" });
 
+    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your enquiry").fill("Hello");
-    await form.getByLabel("General enquiry").check();
     await form.getByRole("button", { name: "Send enquiry" }).click();
 
     const alert = form.getByRole("alert");
 
-    await expect(form.getByRole("heading", { level: 2, name: "Enquiry", exact: true })).toHaveCount(1);
+    await expect(
+      form.getByRole("heading", {
+        level: 2,
+        name: "Get in touch",
+        exact: true,
+      }),
+    ).toHaveCount(1);
     await expect(alert).toContainText(
       "Sorry, the enquiry could not be sent. Please email joel@vivecounselling.com.au directly.",
     );
@@ -1917,34 +2110,48 @@ test.describe("production route boundaries", () => {
   }
 });
 
-test("Home hero places page actions beside the copy before stacking them responsively", async ({ page }) => {
+test("Home hero leads with its actions and keeps the About narrative intact on mobile", async ({ page }) => {
   const hero = page.locator(".home-page__hero");
   const heroCopy = page.locator(".home-page__hero-copy");
+  const heroDisplay = page.locator(".home-page__hero .hero-display");
   const heroActions = page.getByRole("navigation", { name: "Page actions" });
+  const portrait = page.locator(".home-about__portrait");
+  const aboutNarrative = page.locator(".home-about__narrative");
 
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/", { waitUntil: "networkidle" });
 
   const wideCopyBox = await heroCopy.boundingBox();
   const wideActionsBox = await heroActions.boundingBox();
+  const wideDisplayBox = await heroDisplay.boundingBox();
 
   expect(wideCopyBox).not.toBeNull();
   expect(wideActionsBox).not.toBeNull();
-  expect(wideActionsBox!.x).toBeGreaterThan(wideCopyBox!.x + wideCopyBox!.width);
-  await expect(hero).toHaveCSS("padding-bottom", "24px");
-  await expect(heroActions).toHaveCSS("border-left-width", "1px");
+  expect(wideDisplayBox).not.toBeNull();
+  expect(wideActionsBox!.y).toBeGreaterThanOrEqual(wideDisplayBox!.y + wideDisplayBox!.height);
+  await expect(heroDisplay).toHaveCSS("color", "rgb(252, 252, 250)");
+  await expect(hero).toHaveCSS("padding-top", "0px");
+  await expect(hero.locator(".home-about__portrait")).toHaveCount(0);
 
-  await page.setViewportSize({ width: 820, height: 1180 });
+  await page.setViewportSize({ width: 390, height: 844 });
 
-  const stackedCopyBox = await heroCopy.boundingBox();
-  const stackedActionsBox = await heroActions.boundingBox();
+  const mobilePortraitBox = await portrait.boundingBox();
+  const mobileNarrativeBox = await aboutNarrative.boundingBox();
+  const primaryActionBox = await heroActions.getByRole("link", { name: "Get in touch" }).boundingBox();
+  const secondaryActionBox = await heroActions
+    .getByRole("link", { name: "Explore inclusive counselling" })
+    .boundingBox();
 
-  expect(stackedCopyBox).not.toBeNull();
-  expect(stackedActionsBox).not.toBeNull();
-  expect(stackedActionsBox!.y).toBeGreaterThan(stackedCopyBox!.y + stackedCopyBox!.height);
-  await expect(hero).toHaveCSS("padding-bottom", "20px");
-  await expect(heroActions).toHaveCSS("border-top-width", "1px");
-  await expect(heroActions).toHaveCSS("border-left-width", "0px");
+  expect(mobilePortraitBox).not.toBeNull();
+  expect(mobileNarrativeBox).not.toBeNull();
+  expect(primaryActionBox).not.toBeNull();
+  expect(secondaryActionBox).not.toBeNull();
+  expect(mobilePortraitBox!.y).toBeGreaterThanOrEqual(
+    mobileNarrativeBox!.y + mobileNarrativeBox!.height,
+  );
+  expect(secondaryActionBox!.y).toBeGreaterThanOrEqual(
+    primaryActionBox!.y + primaryActionBox!.height,
+  );
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
   ).toBe(true);

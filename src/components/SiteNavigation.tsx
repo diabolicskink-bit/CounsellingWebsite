@@ -3,11 +3,13 @@ import { NavLink } from "react-router-dom";
 import { navItems, type NavItem } from "../data/site";
 
 type DesktopNavigationProps = {
+  items?: readonly NavItem[];
   onLinkPointerUp: (event: ReactPointerEvent<HTMLAnchorElement>) => void;
   pathname: string;
 };
 
 type MobileNavigationProps = {
+  items?: readonly NavItem[];
   onNavigate: () => void;
   pathname: string;
 };
@@ -87,6 +89,7 @@ function MobileNavigationItem({
 }: NavigationItemProps & Pick<MobileNavigationProps, "onNavigate">) {
   const hasChildren = Boolean(item.children?.length);
   const isSubmenuItem = depth > 0;
+  const mobileHref = item.mobileHref ?? item.href;
 
   return (
     <div>
@@ -96,11 +99,13 @@ function MobileNavigationItem({
             "mobile-nav__link",
             isSubmenuItem && "mobile-nav__sub-link",
             depth > 1 && "mobile-nav__sub-link--nested",
-            (isActive || (isSubmenuItem && itemIsActive(item, pathname))) && "mobile-nav__link--active",
+            !item.mobileHref &&
+              (isActive || itemIsActive(item, pathname)) &&
+              "mobile-nav__link--active",
           )
         }
         onClick={onNavigate}
-        to={item.href}
+        to={mobileHref}
       >
         {item.label}
       </NavLink>
@@ -120,10 +125,14 @@ function MobileNavigationItem({
   );
 }
 
-export function DesktopNavigation({ onLinkPointerUp, pathname }: DesktopNavigationProps) {
+export function DesktopNavigation({
+  items = navItems,
+  onLinkPointerUp,
+  pathname,
+}: DesktopNavigationProps) {
   return (
     <nav className="desktop-nav" aria-label="Main navigation">
-      {navItems.map((item) => (
+      {items.filter((item) => !item.mobileOnly).map((item) => (
         <DesktopNavigationItem
           depth={0}
           item={item}
@@ -136,14 +145,18 @@ export function DesktopNavigation({ onLinkPointerUp, pathname }: DesktopNavigati
   );
 }
 
-export function MobileNavigation({ onNavigate, pathname }: MobileNavigationProps) {
+export function MobileNavigation({
+  items = navItems,
+  onNavigate,
+  pathname,
+}: MobileNavigationProps) {
   return (
     <nav className="mobile-nav" id="mobile-navigation" aria-label="Mobile navigation">
-      {navItems.map((item) => (
+      {items.map((item) => (
         <MobileNavigationItem
           depth={0}
           item={item}
-          key={item.href}
+          key={`${item.mobileHref ?? item.href}:${item.label}`}
           onNavigate={onNavigate}
           pathname={pathname}
         />
