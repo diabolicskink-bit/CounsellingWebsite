@@ -17,6 +17,7 @@ type WorkingHeroPortrait = {
   alt: string;
   ariaLabel: string;
   name: string;
+  qualification: string;
 };
 
 type WorkingHeroContent = {
@@ -88,15 +89,15 @@ const pageContent: WorkingWithJoelPageContent = {
       alt: "Joel Griffiths",
       ariaLabel: "About Joel Griffiths",
       name: "Joel Griffiths",
+      qualification: "GradDip. Counselling and Psychotherapy",
     },
   },
   introduction: {
     title: "Introducing Joel",
     paragraphs: [
-      "I'm Joel Griffiths, an ACA-registered counsellor based in Perth. I work with adults across Australia.",
-      "I changed careers because I'm passionate about providing counselling to people who have been judged or made to feel ashamed of their sexuality, relationships, work, diagnosis or identity.",
-      "As a counsellor, I'm interested in the whole person. Not only what you are struggling with, but what has shaped it. The anxiety, relationship strain, self-criticism, shame, trauma, sexuality, or intimacy concerns people bring to therapy usually have a history. They often sit alongside ways of coping that once helped, but now feel harder to live with.",
-      "I'll listen closely and take what you tell me seriously. I'm not there to judge how you live or how you have coped. You don't have to make things sound tidier than they are.",
+      "I’m Joel Griffiths, an ACA-registered counsellor based in Perth. I work online with adults across Australia.",
+      "Counselling is my second career. I changed direction because I’m passionate about mental health and wanted to work with adults dealing with anxiety, low mood, trauma, shame, self-criticism, relationship difficulties, or concerns around sex and intimacy. General counselling remains a central part of my practice.",
+      "My specialist interests grew from seeing that people in kink, LGBTQIA+, non-monogamous and sex-work communities did not always have the same access to counselling. I heard from people living with relational or sexual trauma who had trouble finding a therapist they felt they could talk to. Some had avoided therapy. Others had tried and come away feeling misunderstood, judged or pathologised. I wanted to provide a place where people could be taken seriously without the rest of their lives being treated as the problem.",
     ],
   },
   approach: {
@@ -250,9 +251,10 @@ function PortraitNote({ portrait }: { portrait: WorkingHeroPortrait }) {
       <div className="hero-media-note__image">
         <img src={portrait.imageSrc} alt={portrait.alt} loading="lazy" decoding="async" />
       </div>
-      <span className="hero-media-note__tag" aria-hidden="true">
-        {portrait.name}
-      </span>
+      <div className="working-with-joel-page__intro-note-details">
+        <strong>{portrait.name}</strong>
+        <span>{portrait.qualification}</span>
+      </div>
     </aside>
   );
 }
