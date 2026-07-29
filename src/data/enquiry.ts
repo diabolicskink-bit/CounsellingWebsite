@@ -13,7 +13,6 @@ export const enquiryFormContent: EnquiryFormContent = {
   submitLabel: "Send enquiry",
   success: {
     title: "Your enquiry has been sent.",
-    message: "Thanks for getting in touch.",
     note: "I’ll reply by email as soon as I can. If I’m in a client session, it may not be straight away.",
   },
   fields: {

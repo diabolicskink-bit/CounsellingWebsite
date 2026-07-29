@@ -471,10 +471,6 @@
   line-height: 1.58;
 }
 
-.codex-contact__submission-copy p {
-  color: var(--body);
-}
-
 .codex-contact__submission-next {
   display: grid;
   grid-template-columns: minmax(130px, 0.36fr) minmax(0, 1fr);

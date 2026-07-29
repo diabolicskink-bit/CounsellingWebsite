@@ -141,7 +141,6 @@ function SubmissionSuccess() {
           <div className="codex-contact__submission-copy">
             <span className="codex-contact__step-label">Enquiry sent</span>
             <h2>{enquiryFormContent.success.title}</h2>
-            <p>{enquiryFormContent.success.message}</p>
           </div>
         </header>
         <div className="codex-contact__submission-next">
