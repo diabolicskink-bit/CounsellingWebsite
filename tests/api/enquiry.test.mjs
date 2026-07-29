@@ -623,8 +623,9 @@ test("accepts a URL-encoded native form submission and returns a safe HTML succe
   assert.equal(result.headers["content-type"], "text/html; charset=utf-8");
   assert.equal(fetchCalls.length, 1);
   assert.equal(typeof result.body, "string");
-  assert.match(result.body, /Thanks, your enquiry has been sent\./);
-  assert.match(result.body, /I will respond as soon as I can\./);
+  assert.match(result.body, /Your enquiry has been sent\./);
+  assert.match(result.body, /Thanks for getting in touch\./);
+  assert.match(result.body, /I’ll reply by email as soon as I can\./);
   assert.doesNotMatch(result.body, /RESEND_API_KEY|ENQUIRY_FROM_EMAIL|quota exceeded|network socket reset/);
 });
 

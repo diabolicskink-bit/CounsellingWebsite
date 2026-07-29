@@ -1473,7 +1473,7 @@ test.describe("crawl and app metadata assets", () => {
     submissionSucceeds = true;
     await form.getByRole("button", { name: "Send enquiry" }).click();
 
-    await expect(page.getByRole("status")).toContainText("Thanks, your enquiry has been sent.");
+    await expect(page.getByRole("status")).toContainText("Your enquiry has been sent.");
     await expect
       .poll(() => getGoogleAnalyticsEvents(page, "generate_lead"))
       .toEqual([
@@ -1945,10 +1945,14 @@ test.describe("enquiry form", () => {
 
     const completedFormArea = page.locator("section.site-form.site-form--complete");
     const success = completedFormArea.getByRole("status");
-    await expect(success).toContainText("Thanks, your enquiry has been sent.");
+    await expect(success).toContainText("Your enquiry has been sent.");
+    await expect(success).toContainText("What happens next");
+    await expect(success).toContainText("I’ll reply by email as soon as I can.");
     await expect(success).toBeFocused();
+    await expect(success.locator(".codex-contact__submission-mark")).toBeVisible();
+    await expect(success).toHaveCSS("outline-offset", "4px");
     await expect(
-      completedFormArea.getByRole("heading", { level: 2, name: "Thanks, your enquiry has been sent." }),
+      completedFormArea.getByRole("heading", { level: 2, name: "Your enquiry has been sent." }),
     ).toHaveCount(1);
     await expect(completedFormArea.getByRole("heading", { level: 2 })).toHaveCount(1);
     await expect(page.getByRole("form", { name: "Enquiry" })).toHaveCount(0);

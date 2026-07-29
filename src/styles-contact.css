@@ -404,33 +404,93 @@
 
 .codex-contact__submission-success {
   display: grid;
-  gap: 20px;
-  align-content: center;
-  min-height: 520px;
-  padding: 54px;
+  min-height: 500px;
+  padding: 10px;
 }
 
 .codex-contact__submission-status {
   display: grid;
-  gap: 20px;
+  gap: clamp(34px, 5vw, 52px);
+  align-content: center;
+  min-width: 0;
+  padding: clamp(42px, 6vw, 68px);
 }
 
 .codex-contact__submission-status:focus {
   outline: 3px solid rgba(35, 75, 61, 0.34);
-  outline-offset: -7px;
+  outline-offset: 4px;
+}
+
+.codex-contact__submission-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(18px, 3vw, 30px);
+  align-items: start;
+}
+
+.codex-contact__submission-mark {
+  display: grid;
+  width: clamp(50px, 6vw, 64px);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(35, 75, 61, 0.28);
+  border-radius: 50%;
+  background: #dfe8dc;
+  color: var(--cedar-dark);
+}
+
+.codex-contact__submission-mark svg {
+  width: 48%;
+  height: 48%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.codex-contact__submission-copy {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
 }
 
 .codex-contact__submission-success h2 {
-  max-width: 10ch;
+  max-width: 13ch;
   color: var(--ink);
-  font-size: clamp(2.8rem, 5.2vw, 4.5rem);
+  font-size: clamp(2.7rem, 5vw, 4.15rem);
   letter-spacing: -0.035em;
-  line-height: 0.96;
+  line-height: 0.98;
 }
 
 .codex-contact__submission-success p {
+  max-width: 58ch;
+  margin: 0;
   color: var(--muted);
   font-size: var(--type-body);
+  line-height: 1.58;
+}
+
+.codex-contact__submission-copy p {
+  color: var(--body);
+}
+
+.codex-contact__submission-next {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.36fr) minmax(0, 1fr);
+  gap: clamp(22px, 4vw, 42px);
+  margin-left: clamp(68px, 9vw, 94px);
+  padding-top: 24px;
+  border-top: 1px solid var(--codex-contact-rule);
+}
+
+.codex-contact__submission-next-label {
+  color: var(--cedar);
+  font-size: var(--type-caption);
+  font-weight: 760;
+  letter-spacing: 0.055em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .codex-contact__practical {
@@ -668,8 +728,33 @@
   }
 
   .codex-contact__submission-success {
-    min-height: 480px;
-    padding: 42px 20px;
+    min-height: 0;
+    padding: 8px;
+  }
+
+  .codex-contact__submission-status {
+    gap: 34px;
+    padding: 38px 12px;
+  }
+
+  .codex-contact__submission-heading {
+    gap: 15px;
+  }
+
+  .codex-contact__submission-mark {
+    width: 46px;
+  }
+
+  .codex-contact__submission-success h2 {
+    max-width: 12ch;
+    font-size: clamp(2.35rem, 10.5vw, 3.15rem);
+  }
+
+  .codex-contact__submission-next {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-left: 0;
+    padding-top: 22px;
   }
 
   .codex-contact__practical {
