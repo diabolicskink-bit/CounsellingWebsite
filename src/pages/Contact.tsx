@@ -123,6 +123,7 @@ function SubmissionSuccess() {
   useEffect(() => {
     const statusElement = statusRef.current;
 
+    // Position the focused confirmation clear of the sticky site header.
     statusElement?.focus({ preventScroll: true });
     statusElement?.scrollIntoView({
       behavior: "instant",
