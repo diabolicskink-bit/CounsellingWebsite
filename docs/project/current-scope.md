@@ -83,6 +83,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - `npm run qa` runs encoding checks, direct script tests, the build, direct API tests, and the public-site Playwright suite.
 - `npm run check:encoding` is also included in `npm run qa` and `npm run qa:site`.
 - Test tooling includes Playwright axe checks and Lighthouse audit scripts.
+- Codex IDE visual inspection follows [visual-verification.md](visual-verification.md) and uses the repository's Playwright installation against system Chrome. `scripts/visual-session.mjs` is an optional convenience helper that manages an isolated Vite server and browser within one callback lifecycle; direct Playwright use remains supported.
 
 ## Known Gaps
 
