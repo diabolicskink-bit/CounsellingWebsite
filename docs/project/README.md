@@ -21,6 +21,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 ## Current State
 
 - [current-scope.md](current-scope.md) is the factual inventory of public and development routes, content status, rendering, metadata, enquiry behaviour, analytics, deployment, tests, known gaps, and excluded project scope.
+- [visual-verification.md](visual-verification.md) owns the supported access mechanism for ad-hoc visual inspection by Codex in the VS Code extension without defining task-specific review criteria.
 - [../design-system/current-scope.md](../design-system/current-scope.md) is the separate factual inventory of active, partial, legacy, missing, and excluded design-system state.
 - [../design-system/governance.md](../design-system/governance.md) owns design-system implementation evidence, reusable-API authority, promotion, verification, and update duties.
 
