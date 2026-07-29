@@ -27,7 +27,6 @@ export type EnquiryFormContent = {
   submitLabel: string;
   success: {
     title: string;
-    message: string;
     note: string;
   };
   fields: {
@@ -175,7 +174,6 @@ export default function EnquiryForm({ content, className, idPrefix = "enquiry" }
           tabIndex={-1}
         >
           <h2>{content.success.title}</h2>
-          <p>{content.success.message}</p>
           <p>{content.success.note}</p>
         </div>
       </section>

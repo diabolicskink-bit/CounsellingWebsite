@@ -12,9 +12,8 @@ export const enquiryFormContent: EnquiryFormContent = {
   recipientEmail: enquiryEmail,
   submitLabel: "Send enquiry",
   success: {
-    title: "Thanks, your enquiry has been sent.",
-    message: "I will respond as soon as I can.",
-    note: "If I am in client sessions or between appointments, there may be a delay before I can reply.",
+    title: "Your enquiry has been sent.",
+    note: "I’ll reply by email as soon as I can. If I’m in client sessions, it may not be straight away.",
   },
   fields: {
     enquiryType: {

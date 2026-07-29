@@ -78,17 +78,30 @@ function SubmissionSuccess() {
   }, []);
 
   return (
-    <div
-      className="codex-contact__submission-success"
-      ref={statusRef}
-      role="status"
-      tabIndex={-1}
-    >
-      <span className="codex-contact__step-label">Enquiry sent</span>
-      <h2>{enquiryFormContent.success.title}</h2>
-      <p>{enquiryFormContent.success.message}</p>
-      <p>{enquiryFormContent.success.note}</p>
-    </div>
+    <section className="site-form site-form--complete codex-contact__submission-success">
+      <div
+        className="codex-contact__submission-status"
+        ref={statusRef}
+        role="status"
+        tabIndex={-1}
+      >
+        <header className="codex-contact__submission-heading">
+          <span className="codex-contact__submission-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="m6.5 12.5 3.3 3.3 7.7-8" />
+            </svg>
+          </span>
+          <div className="codex-contact__submission-copy">
+            <span className="codex-contact__step-label">Enquiry sent</span>
+            <h2>{enquiryFormContent.success.title}</h2>
+          </div>
+        </header>
+        <div className="codex-contact__submission-next">
+          <span className="codex-contact__submission-next-label">What happens next</span>
+          <p>{enquiryFormContent.success.note}</p>
+        </div>
+      </div>
+    </section>
   );
 }
 
