@@ -420,7 +420,7 @@
   border-radius: 3px;
 }
 
-.codex-contact__submission-status:focus {
+.codex-contact__submission-status:focus-visible {
   outline: 3px solid rgba(35, 75, 61, 0.34);
   outline-offset: 4px;
 }
