@@ -1,431 +1,219 @@
 ---
 name: develop-page-copy
 description: >
-  Develop visitor-facing page content through two separate artifact passes:
+  Develop visitor-facing page content through one of two bounded artifacts:
   create a reader-informed whole-page plan without exact public copy, or develop
-  one bounded section into reviewed exact copy and a semantic
-  content-composition brief using an existing page plan, supplied section
-  brief, or available page context. Use when a user wants to plan a new or
-  substantially rebuilt page, start from a hero-only or partial page, develop
-  one section in detail with or without a page plan, create or continue
-  artifacts in docs/page-plan, or prepare content for a later website-design
-  pass. Do not use for a small line edit, typo fix, visual design, code
-  implementation, or insertion of already-approved wording.
+  one section into reviewed exact copy and a semantic content-composition brief
+  using an existing plan, supplied brief, or available page context. Use for
+  new or substantially rebuilt pages, hero-only or partial pages, one detailed
+  section, docs/page-plan artifacts, or copy preparation for a later
+  website-design pass. Do not use for small line edits, typo fixes, visual
+  design, code implementation, or insertion of already-approved wording.
 ---
 
 # Develop page copy
 
-Start by establishing the range of reader situations the page needs to serve.
-For a specialist page, consider the meaningful range within its subject. For a
-general page, consider specialist and inclusion contexts only where they can
-materially affect the writing. Do not simplify the reader range into a single
-representative profile; treat each relevant reader situation on its own terms
-rather than turning research into a requirements list.
+Create one authorised artifact per invocation and stop at its boundary. Keep
+page planning separate from exact-copy section development:
 
-Treat page planning and section development as separate passes. First, use the
-page plan to outline the page argument, information structure, and each
-section's distinct contribution without drafting exact public copy. Second, in a
-separate section pass, use the page plan when it exists; otherwise recover a
-bounded local section brief from the user's request, current page context, and
-authorised sources. Third, develop that section into exact working copy and a
-semantic content composition that a separately invoked `website-design` task can
-interpret. Produce one substantive artifact per invocation and stop at its
-boundary.
+- A **page plan** owns the page argument, information structure, section jobs,
+  boundaries, non-duplication, and likely reading paths. It contains no exact
+  visitor-facing section copy.
+- A **section artifact** develops one bounded section into a complete reviewed
+  copy recommendation and semantic content composition for later design.
+
+Use the `copywriter` skill for every editorial decision. This skill owns the
+artifact contract, stopping point, section ownership, stable IDs, cross-links,
+page-flow checks, and design handoff; it does not reproduce the copywriting
+method.
 
 ## Establish authority
 
 In the Vive Counselling repository:
 
-1. Read `AGENTS.md` and `docs/project/README.md`.
-2. Read `docs/project/writing-direction.md`. Read
-   `docs/project/current-scope.md` or source only when the page needs a current
-   service or implementation detail.
-3. Read the relevant page source, adjacent page context, selected tracker or
-   plan, and `docs/research/README.md`. Use the relevant dossier or dossiers as
-   directed by the reader-range method below.
-4. Treat current source as factual and layout context, not approved voice,
-   unless the owner or writing direction says otherwise.
-5. Use research to test assumptions and relevance, not as a page outline or a
-   source of ready-made marketing claims.
+1. Read `AGENTS.md`, `docs/project/README.md`, and
+   `docs/project/writing-direction.md`.
+2. Read `docs/project/current-scope.md` or source only when the artifact needs a
+   current service or implementation detail.
+3. Read the relevant page, adjacent copy, selected tracker or plan, and
+   `docs/research/README.md`.
+4. Read the complete `copywriter` skill and apply the mode required below.
+5. Before creating an artifact, read
+   `references/artifact-contracts.md`.
 
-Use existing research dossiers and other authorised research artifacts as
-inputs only. Never invoke `audience-research`, directly or through another
-skill, and do not create, update, or maintain research artifacts in this
-workflow. Do not choose the copywriter skill's Research mode here.
+Treat current public copy as factual and layout context, not approved voice,
+unless the owner explicitly approves it. Use existing audience research as an
+input only. Do not invoke `audience-research`, create or update research
+artifacts, or turn research into a page outline or ready-made claims.
 
-When research does not answer an editorial question, continue with a
-proportionate working hypothesis and label it only when it materially affects
-the plan. Do not invent a practice detail or external claim; omit or flag one
-that the available material does not supply.
+When material is missing, use a bounded working assumption only when it
+preserves the intended artifact. Mark consequential uncertainty. Omit or flag
+unsupported practice details and claims.
 
-Do not invoke `website-design` automatically. If the user explicitly requests
-copy development and design in the same task, finish the authorised page-plan
-or section artifact first, then pass it to the separately authorised design
-work.
-
-## Establish the reader range
-
-Do this before deciding the page argument or section structure. Follow the
-copywriter skill's reader-range method.
-
-For a specialist page:
-
-- use every dossier materially relevant to the subject and any consequential
-  intersections;
-- identify the meaningful range of situations within the subject rather than
-  one representative client;
-- include people for whom the specialist subject is central and people for whom
-  it is relevant context when the page needs to serve both; and
-- do not let the most painful, stigmatised, or emotionally prominent finding
-  become the automatic page premise.
-
-For a general page:
-
-- assume a reader may have none, one, or several specialist or inclusion
-  contexts relevant to the practice;
-- check for unstated defaults in examples, relationship language, questions,
-  practical information, and descriptions of counselling;
-- load a specialist dossier only when it can materially change the page; and
-- mention a context only when it belongs to the subject or adds useful
-  information.
-
-Consider each materially different situation separately and retain only the
-implications that change selection, language, explanation, examples, emphasis,
-omission, or an inclusion check. Mark a consequential inference without
-building an evidence ledger. Do not create personas, imagined testimony, one
-section per reader situation, or a public catalogue of the range.
-
-## Apply the copywriter skill to copy decisions
-
-This skill does not replace the `copywriter` skill. Keep their responsibilities
-distinct while using both in the same two-artifact workflow.
-
-This skill owns:
-
-- the authorised artifact and stopping point;
-- the page argument, information structure, and likely reading paths;
-- section ownership, boundaries, relationships, and page-level non-duplication;
-- the requirement to consider structurally different directions before
-  committing to one draft;
-- artifact structure, stable IDs, status, and cross-links;
-- direction-selection records; and
-- the section's semantic content composition and design-handoff record.
-
-The copywriter skill owns:
-
-- reader-range and page-context analysis within each copy decision;
-- page purpose, message strategy, search language, and editorial direction;
-- angle craft, composition, drafting, revision, and voice;
-- proportionate reader-range review; and
-- sentence review, model glue, inclusion, and read-aloud review.
-
-Before doing any of those things:
-
-1. Read the `copywriter` skill completely. Do not choose its Research mode from
-   this workflow.
-2. For a page plan, use Strategy mode and only the references it routes to for
-   page purpose, message, search language, editorial direction, and information
-   structure. Do not enter drafting, line-craft, model-glue, or finished-copy
-   review.
-3. For section development, use Draft or substantial rewrite mode and follow
-   the references it routes to for angle craft, exact wording, critique,
-   revision, model glue, and quality review.
-4. Apply its reader-range, page-context, communication-job, and reader-review
-   methods to the scope established here.
-5. After the copywriter review of a section, use this skill's page-flow gates
-   for ownership, sequence, duplication, direction traceability, semantic
-   composition, design handoff, and artifact authority.
-
-A page plan may remain a planning artifact, but any part of it that decides the
-page purpose, message, editorial direction, ordering, search language, or later
-copy treatment is copy strategy and should use the copywriter skill.
+Do not invoke `website-design` automatically. When copy development and design
+are both authorised, finish and save this artifact first, then pass it to the
+separately invoked design work.
 
 ## Choose one artifact mode
 
-Identify the one substantive artifact the user has authorised:
+### Page plan
 
-- **Page plan:** Decide the page argument, information structure, section jobs,
-  boundaries, relationships, and likely reading paths without drafting exact
-  visitor-facing copy.
-- **Section development:** Take one bounded section from an existing page plan,
-  supplied section brief, or available page context; consider concise
-  alternative directions; and produce one reviewed exact-copy and semantic
-  content-composition brief.
+Use this mode for a whole new or substantially rebuilt page when no usable plan
+exists. Also use it when the request spans page planning and detailed section
+copy; produce the plan and stop before drafting a section.
 
-Use these routing rules:
+Apply the copywriter's **Strategy** mode. Use its source-envelope,
+reader-range, artifact-register, search-language, direction, commitment, and
+composition methods. Do not enter line drafting or cold review.
 
-- A whole-page request without a usable current plan produces or updates the
-  page plan and stops.
-- A request that spans planning and detailed section work produces the page
-  plan first and stops. Report the next section pass rather than starting it.
-- A section request does not require a page plan. When one exists, use its
-  section job, boundaries, reader range, and coverage map. When none exists,
-  recover a local section brief from the user's request, current page or hero,
-  surrounding copy, adjacent-page context, and authorised sources.
-- Without a page plan, proceed when the available context supports a bounded
-  section job and accurate copy. Record that page architecture, cross-section
-  coverage, and relationships remain provisional. Ask only when missing context
-  would materially change the section's job or make the copy unsupported.
-- A request for several sections requires the user to choose the first section.
-  Do not batch section artifacts.
-- A section pass may make the mechanical cross-link update when a page plan
-  exists, but it must not revise unrelated page-plan decisions.
+### Section development
 
-Do not silently jump modes. A page plan is a decision artifact, not a longer
-way to write a first draft. A section artifact does not authorise visual design,
-implementation, another section, or a different page artifact.
+Use this mode for one bounded section from:
 
-Before creating either artifact, read
-[`references/output-structures.md`](references/output-structures.md). For
-section development, also read
-[`references/page-flow-gates.md`](references/page-flow-gates.md).
+- an existing page plan;
+- a supplied section brief; or
+- a local brief recoverable from the request, current hero or page, surrounding
+  copy, adjacent-page context, and authorised sources.
 
-## Page-plan mode
+A page plan is helpful but not mandatory. Without one, proceed when the
+available context supports one accurate section job. Mark page architecture,
+cross-section coverage, and unknown relationships as provisional.
 
-### 1. Reset to the authorised starting state
+Apply the copywriter's **Draft or substantial rewrite** mode, including one
+editorial commitment, one model-default risk, one committed working draft, a
+frozen cold review, accepted revision decisions, clean recommended copy, and a
+brief pressure test.
 
-State what exists and what is being treated as absent. If the user says to
-assume the page contains only a hero, use the hero as the sole public-copy
-starting point even if old sections remain in source.
+When several sections are requested, ask the owner to select the first one
+unless an existing plan or explicit order makes the intended first artifact
+unambiguous. Do not batch section artifacts.
 
-Record what the hero already communicates. Later sections must add to it rather
-than restate it.
+## Build a page plan
 
-### 2. Establish the reader range and page context
+### 1. Establish the starting state
 
-Record the materially different reader situations and only the implications
-that could change this page. Note what the existing opening has already
-established and whether the page needs a sequential argument, scan-friendly
-retrieval, or a combination. Do not turn the reader range into a list of
-sections, anxieties, or researched concerns.
+Record what exists and what the task treats as absent. If the owner says to
+assume hero-only, use the hero as the sole public-copy starting point even when
+old sections remain in source.
 
-### 3. Decide the page argument before its sections
+State what the opening already communicates and what later sections must not
+repeat.
 
-Use the copywriter skill's Strategy mode to consider at least two meaningfully
-different editorial routes, then recommend one. Keep the alternatives concise.
+### 2. Select the page direction
 
-The route must explain why its content, order, and emphasis suit the subject,
-page purpose, and relevant readers. It must not merely rename the sections
-already in source.
+Use the copywriter Strategy mode to:
 
-### 4. Give every page part one owned job
+- establish the relevant reader range and page context;
+- define the page's communication job and natural search language;
+- consider at least two structurally different routes;
+- select one editorial commitment and record its material trade-off; and
+- decide whether the material needs sequence, scan-friendly retrieval, or both.
 
-For the hero and each section, define:
+Do not write exact headings, body copy, calls to action, or other public
+section wording. Planning labels may be explicit descriptions of section jobs.
 
-- the section's distinct contribution;
-- the content it should cover;
-- the likely content ingredients or semantic forms, without exact copy;
-- the editorial rule governing selection and treatment;
-- what it must not do or repeat;
-- its relationship to surrounding sections when sequence matters.
+### 3. Assign page ownership
 
-Assign each planned section a stable, descriptive ID derived from its owned
-job, such as `session-process` or `approach-in-practice`. Use the ID for the section
-workthrough filename and keep it unchanged if the section moves. Change it only
-when the section's owned job materially changes.
+Give the hero and every proposed section one distinct contribution. For each
+section, record:
 
-If two sections make the same contribution, combine them or change their jobs.
-If a section exists only to provide a new heading or layout beat, remove it.
+- a stable descriptive ID derived from its job;
+- its owned contribution and essential content;
+- likely semantic forms without exact copy;
+- what it must not repeat or absorb;
+- its relationship to surrounding sections when sequence matters; and
+- relevant reader considerations that change the section.
 
-### 5. Make omissions and uncertainty explicit
+Combine, remove, or redefine sections with duplicate jobs. Remove sections
+that exist only to create a heading or visual beat.
 
-Include:
+### 4. Record page controls
 
-- a coverage and non-duplication map;
-- material the page should leave out;
-- open decisions that would materially affect later wording;
-- an order for drafting the sections; and
-- proportionate reader-range acceptance checks for the finished page.
+Include a coverage and non-duplication map, material the page should leave out,
+consequential open decisions, the section drafting order, and finished-page
+acceptance checks.
 
-Do not use an open decision as an excuse to stop if a bounded working
-assumption preserves the user's intent. Label the assumption and continue.
+### 5. Save and stop
 
-### 6. Save the page plan
+Save to `docs/page-plan/<page-slug>-page.md` unless the owner or repository
+specifies another path. Create `docs/page-plan/` when needed. Do not draft
+section copy, prescribe visual layout, or edit public page code.
 
-Use `docs/page-plan/<page-slug>-page.md` unless the repository or user specifies
-another location. Keep it reader-informed and proportionate to the page's risk
-and complexity. Create `docs/page-plan/` if it does not exist.
+## Develop one section
 
-Do not include exact visitor-facing section copy or prescribe visual layout.
-Stop after saving the page plan. Do not edit public page code unless the user
-separately authorises implementation.
+### 1. Establish the bounded local job
 
-## Section-development mode
+Use the page plan's section job, reader range, boundaries, and coverage map
+when available. Otherwise derive one local job from the strongest authorised
+context.
 
-### 1. Establish the section's local brief and page context
+Record:
 
-When a page plan exists, reuse its reader range, section job, boundaries, and
-coverage map. Otherwise establish a proportionate section-level reader range
-and derive one bounded communication job from the user's request, current page
-or hero, surrounding copy, adjacent-page context, and authorised sources.
-
-Read the available preceding and following copy. When adjacent copy or planned
-section jobs are unavailable, mark the page relationship and cross-section
-coverage as provisional and leave them for the later page-plan or design pass.
-State:
-
-- what surrounding content already establishes;
+- what the hero and available surrounding content already establish;
 - the one contribution this section owns;
-- which reader differences materially affect this section;
-- its relationship to nearby sections when sequence matters; and
-- which nearby material it must not duplicate.
+- reader differences that materially affect it;
+- what nearby or later content should handle; and
+- which page relationships remain provisional.
 
-This is the main defence against a locally polished section that weakens the
-whole page. The absence of a page plan is a limitation to record, not by itself
-a reason to stop.
+Read available preceding and following copy. Do not invent adjacent sections
+or transitions when that context is absent.
 
-### 2. Make the editorial decisions before writing prose
+### 2. Run the copywriter workflow
 
-Apply the copywriter skill's strategy and editorial-model guidance. Decide:
+Use the copywriter to:
 
-- the main message;
-- the most useful organising principle;
-- essential, optional, and excluded content;
-- the natural vocabulary relevant to the subject and reader range;
-- any reader-range implication that should change the section; and
-- the GOOD, BAD, and MODEL-default outcomes.
+- establish the section's source envelope;
+- consider two structurally different directions;
+- choose one editorial commitment and one likely model-default risk;
+- draft one complete exact-copy direction;
+- freeze and cold-review the visible artifact;
+- rewrite accepted causal findings; and
+- pressure-test the clean recommendation.
 
-Choose concrete situations, explanations, examples, or abstract terms according
-to the section's actual material. Do not treat reader recognition as a required
-effect or include examples merely to display research coverage.
+Do not combine rejected directions or produce several full drafts. Preserve the
+selected organising principle unless the critique shows that it failed; when
+it fails, name the direction change and write one new coherent draft.
 
-### 3. Explore structurally different directions
+### 3. Check page flow and map semantic content
 
-Use the copywriter skill's angle process. Consider at least two materially
-different directions before selecting one. Keep this exploration concise: an
-organising idea, likely shape, strength, and main risk are usually enough. Do
-not draft every direction in full merely to demonstrate exploration.
+Confirm that the clean copy:
 
-Possible differences include:
+- performs its owned contribution without restarting the page;
+- does not duplicate surrounding facts, examples, stance, or action;
+- fits the known sequence or remains intelligible for likely scan entry;
+- stops without manufacturing a transition or conclusion; and
+- maps completely into semantic units such as heading, paragraph, list, note,
+  link, or action.
 
-- direct explanation versus one developed example;
-- explanation versus observable process;
-- contrast versus sequence;
-- one narrow proposition versus several related situations; or
-- sequential argument versus scan-friendly retrieval.
+For each unit, record exact copy, communication role and priority, order and
+relationship, interaction destination when known, and meaning or claims later
+design must preserve.
 
-Recommend one direction and explain the consequential trade-off. When the user
-is actively choosing between directions, show the concise direction notes and
-ask for their selection before drafting. Otherwise select the strongest
-direction for the task and proceed.
+Do not choose cards, grids, columns, visual hierarchy, art direction, styling,
+motion, responsive behaviour, or components.
 
-### 4. Write one committed exact-copy draft
+### 4. Save, cross-link, and stop
 
-Carry the selected direction through to one complete section draft using the
-copywriter skill's composition, voice, momentum, and line-level guidance. Do
-not blend safer parts of the rejected directions into it. Draft the exact
-visitor-facing wording for every visible content unit; do not stop at
-descriptions, wire-copy labels, or topic bullets.
+Save to `docs/page-plan/<page-slug>-section-<section-id>.md`. Use the stable
+job-based ID from the plan; without a plan, derive one from the bounded local
+job and record `Page plan: not available`.
 
-If the selected direction cannot be drafted because it contradicts supplied
-practice information, an owner decision, a service boundary, or the section's
-owned job,
-record why, select another viable direction, and draft that one. Produce one
-complete recommendation; do not turn the concise direction exploration into
-multiple full drafts.
+When a plan exists, add its mechanical link to the section artifact and link
+back from the section. Do not revise unrelated plan decisions. Keep existing
+numbered legacy paths stable unless the owner authorises a complete link
+migration.
 
-Let the draft be uneven if the content calls for it. Do not force equal
-paragraphs, symmetrical modules, or a comprehensive issues grid merely for
-visual or rhetorical regularity.
-
-### 5. Test the draft across the reader range
-
-Hide the research notes, strategy, and rationale. Encounter only the complete
-visible draft in context from each materially relevant situation. Record
-only differences that expose a real assumption, ambiguity, omission,
-terminology problem, loss of relevance, or practical weakness, tying each
-finding to observable wording, order, emphasis, omission, or page position.
-Do not invent reactions or fill fixed response headings.
-
-Return to editor mode and identify the most important revision pressure. The
-review may support adding material, but it must also be able to recommend
-deletion, compression, or deferral. Treat it as an editorial simulation, not
-empirical or representative user testing.
-
-### 6. Critique and refine the selected direction
-
-Use the reader-range and copywriter reviews to revise the committed draft while
-preserving its organising principle. Do not mine rejected directions for safe
-phrases or combine their strongest-looking parts. If critique shows that the
-selected direction itself is wrong, explicitly change direction and write a
-new coherent draft rather than synthesising the alternatives.
-
-Present one clean recommended working draft. Keep the rejected directions
-concise and separate rather than expanding or blending them.
-
-### 7. Map the copy into a semantic content composition
-
-After the exact copy is coherent, map it into the content units the section
-needs. Use forms such as a heading, paragraph, link, supporting note, or list
-only when they suit the content. For each unit, record:
-
-- its exact visitor-facing copy;
-- its communication role and priority;
-- its order and relationship to the other units;
-- its link destination or interaction purpose when known; and
-- any meaning, claim, or relationship the later design must preserve.
-
-This is a content-composition brief, not a wireframe. Do not choose cards,
-grids, columns, art direction, responsive behaviour, component styling, or
-other visual solutions. The later design pass may regroup, reorder, or
-proportionately adjust the copy when presentation or whole-page flow benefits,
-provided it preserves the section's argument, supported claims, voice, and
-meaning and identifies material copy changes.
-
-### 8. Run copy-quality and page-flow review
-
-Apply the copywriter skill's sentence-function, deletion, model-glue,
-inclusion, and read-aloud methods to the recommended copy. Then run the
-ownership, direction-traceability, duplication, page-relationship,
-semantic-composition, design-handoff, and artifact-authority checks in
-`references/page-flow-gates.md`.
-
-Prefer deletion to replacing weak glue with more polished glue. Remove examples
-included only to demonstrate research coverage.
-
-### 9. Save and cross-link the section workthrough
-
-Use `docs/page-plan/<page-slug>-section-<section-id>.md` unless the user
-specifies a different name. Use the stable job-based ID assigned in the page
-plan rather than the section's current order. When no page plan exists, derive
-a short stable job-based ID from the bounded section job. Link back to the page
-plan and add its mechanical cross-link only when that plan exists. Otherwise
-record `Page plan: not available` and the inputs used for the local section
-brief. Create `docs/page-plan/` if it does not exist.
-
-Treat existing numbered workthrough filenames as stable legacy paths. Do not
-rename them merely to adopt this convention; migrate them only when the user
-authorises that work and all inbound links can be updated together.
-
-Keep the working document distinct from approved public copy. State that its
-exact copy is a recommended working source for later design, not automatically
-owner-approved or implemented wording. Stop after saving and cross-linking this
-one section artifact.
+Mark the exact copy as recommended working copy, not owner-approved or
+implemented wording. Stop after this one artifact.
 
 ## Working rules
 
-- Let the page lead with whatever material best serves its actual purpose; do
-  not impose recognition, decision-making, or another reusable opening move.
-- Use research to test assumptions and relevance; do not translate its taxonomy
-  or findings into required public content.
-- Treat general knowledge and visitor hypotheses as working assumptions, not
-  facts about the practice.
-- Do not turn every topic into an eyebrow, card, tile, or equal module.
-- Do not infer a predetermined outcome from a feeling, conflict, identity, or
+- Preserve exact owner-approved wording and distinguish it from working copy.
+- Use research to test assumptions, not to generate required public coverage.
+- Do not infer a predetermined outcome from a feeling, identity, conflict, or
   relationship structure.
-- Describe semantic content composition without prescribing visual design.
-- Preserve exact owner-approved wording; distinguish it from working copy.
-- Report the selected direction and the remaining open decisions clearly.
-
-## Proportionality
-
-Use the complete relevant artifact mode for a new page, a major rebuild, a
-sensitive audience, or an unclear page argument. Compress the documentation for
-a narrow or low-risk artifact, but preserve the mode boundary, section
-ownership, genuinely different directions, and proportionate reader-range
-review. Reuse or compress the existing reader considerations rather than
-generating a full audience artifact for a narrow revision.
-
-Do not add headings to an artifact solely to satisfy a template. The structures
-are prompts for decisions, not a quota.
-
+- Let content determine section count, order, length, and semantic form.
+- Keep page-plan and section documentation proportionate, but preserve the mode
+  boundary, section ownership, real direction choice, and required copywriter
+  review.
+- Do not add artifact headings solely to satisfy a template.

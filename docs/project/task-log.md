@@ -36,6 +36,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Removed: Vercel Web Analytics, its runtime component, dependency, and custom events are no longer part of the site analytics implementation.
 - Verified: Dedicated analytics QA covers disabled and disallowed-host behaviour, all GA4 contact-intent values, failed-conversion suppression, successful conversions, route page views, and Clarity loading.
 
+## 2026-07-24 - Copy Skills Rebuilt Around Editorial Commitment And Cold Review
+
+- Rebuilt: `copywriter` now establishes a source envelope, commits to one supported editorial direction, drafts one coherent version, and loads its causal anti-default review only after the working draft is frozen.
+- Consolidated: Six overlapping copywriter references are now four focused stages, while `develop-page-copy` delegates all editorial work to `copywriter` and keeps one concise contract for page-plan and section artifacts.
+- Preserved: Reader-range discipline, task-supplied voice authority, exceptional claim checks, the full visible substantial-copy review loop, stable page-plan paths, and semantic design handoff remain active without creating a repository voice corpus.
+
 ## 2026-07-23 - Page-Copy Development Reduced To Two Artifact Passes
 
 - Changed: `develop-page-copy` now produces either one high-level page plan without exact public copy or one bounded section's reviewed exact copy and semantic content-composition brief; section development can use a page plan or recover a provisional local brief from available page context.
