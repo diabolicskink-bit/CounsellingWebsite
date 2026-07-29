@@ -777,7 +777,7 @@ test.describe("shared navigation", () => {
     );
     await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute(
       "href",
-      "/contact",
+      "/contact#contact-fees",
     );
 
     await header.getByRole("link", { name: "Get in touch" }).click();
@@ -862,6 +862,55 @@ test.describe("shared navigation", () => {
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
     await expect(toggle).toBeFocused();
     await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("clip");
+  });
+
+  test("releases the mobile scroll lock when responsive testing crosses into desktop", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 667 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    const toggle = page.locator("button.menu-toggle");
+    const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+
+    await toggle.click();
+    await expect(mobileNavigation).toBeVisible();
+    await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+
+    await page.setViewportSize({ width: 1200, height: 667 });
+
+    await expect(mobileNavigation).toHaveCount(0);
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("");
+
+    await page.mouse.move(600, 500);
+    await page.mouse.wheel(0, 1200);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+
+    await page.setViewportSize({ width: 390, height: 667 });
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toHaveAccessibleName("Open navigation");
+  });
+
+  test("keeps the complete footer inside the mobile document scroll range", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 667 });
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    await page.evaluate(() => {
+      window.scrollTo(0, document.documentElement.scrollHeight);
+    });
+
+    const footer = page.locator("footer.site-footer");
+    await expect(footer.getByRole("link", { name: "joel@vivecounselling.com.au" })).toBeInViewport();
+    await expect(footer.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeInViewport();
+    await expect(footer.getByText("© 2026 Vive Counselling")).toBeInViewport();
+    await expect
+      .poll(() =>
+        footer.evaluate(
+          (element) => element.getBoundingClientRect().bottom <= window.innerHeight + 1,
+        ),
+      )
+      .toBe(true);
   });
 });
 

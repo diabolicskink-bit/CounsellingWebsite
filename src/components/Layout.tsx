@@ -14,6 +14,7 @@ import Container from "./Container";
 import { DesktopNavigation, MobileNavigation } from "./SiteNavigation";
 
 const copyrightPublicationYear = 2026;
+const desktopNavigationMediaQuery = "(min-width: 1081px)";
 const homeHref = routeHref(publicRoutePaths.home);
 const workingWithJoelHref = routeHref(publicRoutePaths.workingWithJoel);
 const inclusionHref = routeHref(publicRoutePaths.inclusion);
@@ -43,6 +44,21 @@ export default function Layout() {
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const desktopNavigation = window.matchMedia(desktopNavigationMediaQuery);
+    const closeMenuAtDesktopBreakpoint = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setIsOpen(false);
+      }
+    };
+
+    desktopNavigation.addEventListener("change", closeMenuAtDesktopBreakpoint);
+
+    return () => {
+      desktopNavigation.removeEventListener("change", closeMenuAtDesktopBreakpoint);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isOpen) {
