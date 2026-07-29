@@ -404,16 +404,20 @@
 
 .codex-contact__submission-success {
   display: grid;
-  min-height: 500px;
-  padding: 10px;
+  padding: clamp(32px, 4vw, 44px);
 }
 
 .codex-contact__submission-status {
   display: grid;
-  gap: clamp(34px, 5vw, 52px);
-  align-content: center;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(18px, 2.4vw, 26px);
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
   min-width: 0;
-  padding: clamp(42px, 6vw, 68px);
+  padding: 8px;
+  scroll-margin-top: 84px;
+  border-radius: 3px;
 }
 
 .codex-contact__submission-status:focus {
@@ -421,16 +425,9 @@
   outline-offset: 4px;
 }
 
-.codex-contact__submission-heading {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: clamp(18px, 3vw, 30px);
-  align-items: start;
-}
-
 .codex-contact__submission-mark {
   display: grid;
-  width: clamp(50px, 6vw, 64px);
+  width: clamp(48px, 5vw, 58px);
   aspect-ratio: 1;
   place-items: center;
   border: 1px solid rgba(35, 75, 61, 0.28);
@@ -451,42 +448,25 @@
 
 .codex-contact__submission-copy {
   display: grid;
-  gap: 14px;
+  gap: 12px;
   min-width: 0;
 }
 
 .codex-contact__submission-success h2 {
-  max-width: 13ch;
+  max-width: 15ch;
   color: var(--ink);
-  font-size: clamp(2.7rem, 5vw, 4.15rem);
-  letter-spacing: -0.035em;
-  line-height: 0.98;
+  font-size: clamp(2.45rem, 4.2vw, 3.5rem);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
 }
 
 .codex-contact__submission-success p {
-  max-width: 58ch;
+  max-width: 42ch;
   margin: 0;
-  color: var(--muted);
+  color: var(--body);
   font-size: var(--type-body);
   line-height: 1.58;
-}
-
-.codex-contact__submission-next {
-  display: grid;
-  grid-template-columns: minmax(130px, 0.36fr) minmax(0, 1fr);
-  gap: clamp(22px, 4vw, 42px);
-  margin-left: clamp(68px, 9vw, 94px);
-  padding-top: 24px;
-  border-top: 1px solid var(--codex-contact-rule);
-}
-
-.codex-contact__submission-next-label {
-  color: var(--cedar);
-  font-size: var(--type-caption);
-  font-weight: 760;
-  letter-spacing: 0.055em;
-  line-height: 1.4;
-  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .codex-contact__practical {
@@ -725,16 +705,15 @@
 
   .codex-contact__submission-success {
     min-height: 0;
-    padding: 8px;
+    padding: 34px 20px 38px;
+    place-items: start;
   }
 
   .codex-contact__submission-status {
-    gap: 34px;
-    padding: 38px 12px;
-  }
-
-  .codex-contact__submission-heading {
-    gap: 15px;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+    padding: 6px;
   }
 
   .codex-contact__submission-mark {
@@ -742,15 +721,9 @@
   }
 
   .codex-contact__submission-success h2 {
-    max-width: 12ch;
-    font-size: clamp(2.35rem, 10.5vw, 3.15rem);
-  }
-
-  .codex-contact__submission-next {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    margin-left: 0;
-    padding-top: 22px;
+    max-width: 15ch;
+    font-size: clamp(2.2rem, 9.4vw, 2.85rem);
+    line-height: 1.03;
   }
 
   .codex-contact__practical {

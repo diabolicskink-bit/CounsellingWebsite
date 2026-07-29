@@ -95,7 +95,7 @@ export function sendSuccess(response: EnquiryResponse, mode: ResponseMode) {
       response,
       200,
       "Your enquiry has been sent.",
-      "I’ll reply by email as soon as I can. If I’m in client sessions, it may not be straight away.",
+      "I’ll reply as soon as I can, usually within 24 hours.",
     );
   }
 

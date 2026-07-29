@@ -54,6 +54,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - The form reveals only the fields relevant to the selected path after hydration. Its server-rendered version exposes the complete field set so the native form remains available without JavaScript; the endpoint derives the structured enquiry and booking types from the selected Contact path for those native submissions.
 - The page displays fixed Perth business hours in AWST within Practical details. Interstate comparison notes start from the generated route timestamp and refresh in the browser when daylight-saving differences have changed since deployment.
 - Consult-request timezone options are calculated from the current Australian timezone set when the conditional timezone field opens.
+- Successful submissions replace the form with a compact focused confirmation that says Joel usually replies within 24 hours; the native HTML response uses the same wording.
 - Public contact display and enquiry fallback/failure messaging use `joel@vivecounselling.com.au`.
 - The form submits to the serverless `/api/enquiry` endpoint and supports endpoint-level URL-encoded native form posts.
 - JavaScript-disabled visits expose the full server-rendered Contact form and component markup on every metadata-backed public route.

@@ -1946,8 +1946,10 @@ test.describe("enquiry form", () => {
     const completedFormArea = page.locator("section.site-form.site-form--complete");
     const success = completedFormArea.getByRole("status");
     await expect(success).toContainText("Your enquiry has been sent.");
-    await expect(success).toContainText("What happens next");
-    await expect(success).toContainText("I’ll reply by email as soon as I can.");
+    await expect(success).toContainText(
+      "I’ll reply as soon as I can, usually within 24 hours.",
+    );
+    await expect(success).not.toContainText("What happens next");
     await expect(success).toBeFocused();
     await expect(success.locator(".codex-contact__submission-mark")).toBeVisible();
     await expect(success).toHaveCSS("outline-offset", "4px");

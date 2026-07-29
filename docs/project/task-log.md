@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-29 - Contact Confirmation Simplified
+
+- Changed: Successful Contact submissions now show one compact confirmation with the owner-confirmed expectation that Joel usually replies within 24 hours.
+- Simplified: The duplicate success label, oversized display treatment, and separate “What happens next” row were removed while preserving the checkmark, focused status semantics, and native fallback response.
+- Verified: The refreshed confirmation remains focused and fully visible at wide, intermediate, and narrow viewports without horizontal overflow.
+
 ## 2026-07-29 - IDE Visual Verification Stabilised
 
 - Added: Codex IDE visual inspection now has a repository-local optional managed-session helper that launches Playwright against system Chrome and starts Vite on an isolated port; direct Playwright use remains supported.

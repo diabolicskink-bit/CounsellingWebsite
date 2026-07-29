@@ -13,7 +13,7 @@ export const enquiryFormContent: EnquiryFormContent = {
   submitLabel: "Send enquiry",
   success: {
     title: "Your enquiry has been sent.",
-    note: "I’ll reply by email as soon as I can. If I’m in client sessions, it may not be straight away.",
+    note: "I’ll reply as soon as I can, usually within 24 hours.",
   },
   fields: {
     enquiryType: {

@@ -98,11 +98,11 @@ Statuses:
 - `Classification`: `Form Flow`
 - `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/data/enquiry.ts`
 - `Visitor-Facing Goal`: Reduce uncertainty around what happens after a visitor sends a first enquiry.
-- `Current State`: The Contact page invites enquiries and the success state says Joel will respond as soon as possible, but there is no specific reply-time expectation or current availability/new-client note.
-- `Why Deferred`: The exact wording depends on the practice owner's real capacity and preferred promise.
-- `First Useful Slice`: Add one practical line near the form, success state, or Contact FAQ that states the usual reply window and whether new enquiries are currently being considered.
+- `Current State`: The compact success state says Joel usually replies within 24 hours. The page does not publish a current availability or new-client note.
+- `Why Deferred`: The remaining availability wording depends on whether the practice owner wants to publish a changing operational status.
+- `First Useful Slice`: If a public availability note would be useful and maintainable, add one concise current-status line near the enquiry path.
 - `Implemented When`: The enquiry flow sets a clear, accurate expectation for response timing and availability without creating pressure or overpromising.
-- `Notes`:
+- `Notes`: `2026-07-29`: Owner confirmed the usual 24-hour reply expectation; the success state and native response now publish it.
 - `Links`: `src/pages/Contact.tsx`, `src/data/enquiry.ts`
 
 ### SITE-15 - Rebate, payment, and fee-policy clarity
