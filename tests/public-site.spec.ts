@@ -557,6 +557,7 @@ async function expectHomePageStructure(page: Page) {
   await expect(portrait).toHaveAttribute("alt", "Joel Griffiths");
   await expect(portrait).toHaveAttribute("fetchpriority", "high");
   await expect(hero.locator(".home-page__hero-support")).toHaveCount(0);
+  await expect(hero.locator(".home-page__hero-action > span")).toHaveCount(2);
   await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveAttribute(
     "href",
     "/contact",
