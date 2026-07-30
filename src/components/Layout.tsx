@@ -8,7 +8,7 @@ import {
   routeHref,
   usesSharedChromePath,
 } from "../data/routes";
-import { navItems } from "../data/site";
+import { navItems, socialProfileLinks } from "../data/site";
 import Button from "./Button";
 import Container from "./Container";
 import { DesktopNavigation, MobileNavigation } from "./SiteNavigation";
@@ -156,6 +156,17 @@ export default function Layout() {
 
           <div className="site-footer__utility">
             <p>Mon to Fri, 9.30am to 5.00pm AWST</p>
+            <nav className="site-footer__social" aria-label="Social profiles">
+              <ul>
+                {socialProfileLinks.map((profile) => (
+                  <li key={profile.href}>
+                    <a href={profile.href} rel="me">
+                      {profile.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
             <p className="site-footer__copyright">
               &copy; {copyrightPublicationYear} Vive Counselling
             </p>
