@@ -789,6 +789,32 @@ h3 {
   color: inherit;
 }
 
+.site-footer__social ul {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__social a {
+  display: block;
+  padding-block: 4px;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 75, 61, 0.24);
+  text-underline-offset: 0.22em;
+  transition:
+    color 160ms ease,
+    text-decoration-color 160ms ease;
+}
+
+.site-footer__social a:hover {
+  color: var(--cedar-dark);
+  text-decoration-color: currentColor;
+}
+
 /* ------------------------------------------------------------------
    Shared Site System
    Authoritative reusable primitives for public pages and design docs.
@@ -2383,7 +2409,8 @@ h3 {
   .nav-submenu,
   .site-footer__brand,
   .site-footer__email,
-  .site-footer__nav a {
+  .site-footer__nav a,
+  .site-footer__social a {
     animation: none;
     transition: none;
   }

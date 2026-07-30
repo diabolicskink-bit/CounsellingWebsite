@@ -19,6 +19,7 @@ import DesignSystemSidebar from "../../../components/DesignSystemSidebar";
 import EnquiryForm from "../../../components/EnquiryForm";
 import FaqSection from "../../../components/FaqSection";
 import { enquiryEmail, enquiryFormContent } from "../../../data/enquiry";
+import { socialProfileLinks } from "../../../data/site";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
 
 const iconCards = [
@@ -348,6 +349,17 @@ export default function DS_Components() {
 
                   <div className="site-footer__utility">
                     <p>Mon to Fri, 9.30am to 5.00pm AWST</p>
+                    <nav className="site-footer__social" aria-label="Social profiles example">
+                      <ul>
+                        {socialProfileLinks.map((profile) => (
+                          <li key={profile.href}>
+                            <a href={profile.href} rel="me">
+                              {profile.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </nav>
                     <p className="site-footer__copyright">&copy; 2026 Vive Counselling</p>
                   </div>
                 </Container>
