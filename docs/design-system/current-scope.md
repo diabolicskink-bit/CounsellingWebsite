@@ -23,7 +23,7 @@ This is the live factual inventory of the design system.
 - The active broad-tab pattern is the `BroadTabPanel` component with `site-broad-tabs*` classes.
 - Active panel and practical-info patterns include `.site-copy-panel`, `.site-check-panel`, `.site-check-panel--grid`, `.site-contact-strip`, `.site-contact-item`, `.site-fee-card`, `.site-principles`, and `.site-principle`.
 - The active CTA pattern is `.site-cta-block` and related child classes.
-- The active `Layout` footer is a compact warm utility bar that mirrors the header's material and height discipline. It contains the wordmark, short navigation, email, practice hours, and copyright without owning a page-level CTA. It is demonstrated on the Components page.
+- The active `Layout` footer is a compact warm utility bar that mirrors the header's material and height discipline. It contains the wordmark, short navigation, email, practice hours, understated Instagram and LinkedIn profile links, and copyright without owning a page-level CTA. It is demonstrated on the Components page.
 - The current enquiry/contact form uses `EnquiryForm`, `src/data/enquiry.ts`, and `.site-form*` classes.
 - Design-system routes exist at `/design-language`, `/design-language/foundations`, `/design-language/components`, `/design-language/heroes`, and `/design-language/patterns`.
 - Written design-system guidance exists in `docs/design-system/README.md`, `governance.md`, this file, `foundations/`, `patterns/`, and `maintenance/`.

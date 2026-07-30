@@ -105,8 +105,8 @@ For the current enquiry flow, preserve the behaviour and data contract owned by 
 
 ## Footer And Navigation
 
-- `.site-footer`, `.site-footer__primary`, `.site-footer__secondary`
-  Compact footer treatment for brand, utility links, one quiet detail line, and the deeper green closing surface.
+- `.site-footer`, `.site-footer__main`, `.site-footer__nav`, `.site-footer__email`, `.site-footer__utility`, `.site-footer__social`
+  Compact warm footer treatment for the brand, short navigation, contact details, understated social-profile links, and copyright.
 
 The production header and navigation live in `Layout`. They are implemented but not yet represented as a dedicated design-system page section.
 

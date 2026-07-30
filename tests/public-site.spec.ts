@@ -171,6 +171,13 @@ const expectedFaviconTags = [
   '<link rel="manifest" href="/site.webmanifest" />',
 ] as const;
 const expectedSocialImageAsset = { path: "/og-vive-counselling.png", width: 1200, height: 630 } as const;
+const expectedSocialProfileLinks = [
+  { name: "Instagram", href: "https://www.instagram.com/joel.opes/" },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/company/vivecounselling/",
+  },
+] as const;
 
 const readPngDimensions = (body: Uint8Array) => {
   const view = new DataView(body.buffer, body.byteOffset, body.byteLength);
@@ -779,6 +786,12 @@ test.describe("shared navigation", () => {
       "href",
       "/contact#contact-fees",
     );
+    for (const profile of expectedSocialProfileLinks) {
+      const profileLink = footer.getByRole("link", { name: profile.name, exact: true });
+
+      await expect(profileLink).toHaveAttribute("href", profile.href);
+      await expect(profileLink).toHaveAttribute("rel", "me");
+    }
 
     await header.getByRole("link", { name: "Get in touch" }).click();
     await expect(page).toHaveURL(/\/contact$/);
@@ -992,6 +1005,11 @@ test.describe("prerendered routes without JavaScript", () => {
       await expect(
         footer.getByRole("link", { name: "joel@vivecounselling.com.au", exact: true }),
       ).toHaveAttribute("href", "mailto:joel@vivecounselling.com.au");
+      for (const profile of expectedSocialProfileLinks) {
+        await expect(
+          footer.getByRole("link", { name: profile.name, exact: true }),
+        ).toHaveAttribute("href", profile.href);
+      }
       await expect(footer.getByText("Mon to Fri, 9.30am to 5.00pm AWST")).toBeVisible();
       await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
 
@@ -1063,6 +1081,9 @@ test.describe("first response metadata", () => {
       expect(html).toContain('<footer class="site-footer">');
       expect(html).toContain('href="/contact#contact-fees"');
       expect(html).toContain('href="mailto:joel@vivecounselling.com.au"');
+      for (const profile of expectedSocialProfileLinks) {
+        expect(html).toContain(`href="${profile.href}" rel="me"`);
+      }
       expect(html).not.toContain("data-not-found-fallback");
       expect(html).not.toContain("data-static-route-shell");
       expect(html).not.toContain("Static route shell generated at build time");

@@ -8,6 +8,17 @@ export type NavItem = Readonly<{
   children?: readonly NavItem[];
 }>;
 
+export const socialProfileLinks = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/joel.opes/",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/vivecounselling/",
+  },
+] as const;
+
 export const navItems: readonly NavItem[] = [
   { label: "Home", href: routeHref(publicRoutePaths.home) },
   { label: "Working with Joel", href: routeHref(publicRoutePaths.workingWithJoel) },
