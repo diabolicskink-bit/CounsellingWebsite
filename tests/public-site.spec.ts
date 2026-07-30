@@ -172,7 +172,7 @@ const expectedFaviconTags = [
 ] as const;
 const expectedSocialImageAsset = { path: "/og-vive-counselling.png", width: 1200, height: 630 } as const;
 const expectedSocialProfileLinks = [
-  { name: "Instagram", href: "https://www.instagram.com/joel.opes/" },
+  { name: "Instagram", href: "https://www.instagram.com/joel.ropes/" },
   {
     name: "LinkedIn",
     href: "https://www.linkedin.com/company/vivecounselling/",

@@ -11,7 +11,7 @@ export type NavItem = Readonly<{
 export const socialProfileLinks = [
   {
     label: "Instagram",
-    href: "https://www.instagram.com/joel.opes/",
+    href: "https://www.instagram.com/joel.ropes/",
   },
   {
     label: "LinkedIn",
