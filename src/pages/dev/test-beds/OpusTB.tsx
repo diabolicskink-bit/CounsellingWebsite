@@ -1,6 +1,6 @@
 import DevPageHero from "../../../components/DevPageHero";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
-import "../../../styles-opus-tb.css";
+import "../../../styles-test-beds.css";
 
 export default function OpusTB() {
   useDocumentMetadata(
@@ -9,7 +9,7 @@ export default function OpusTB() {
   );
 
   return (
-    <main className="site-page opus-tb-page">
+    <main className="site-page test-bed-page opus-tb-page">
       <DevPageHero
         badge="Opus TB"
         title="Opus test bed."
