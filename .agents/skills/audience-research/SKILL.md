@@ -233,18 +233,11 @@ Do not claim a full refresh when only one section was checked.
 
 ## Hand evidence to downstream skills
 
-A downstream copywriting, page-development, content, design, or strategy skill
-may interpret the dossier for its own task. The audience-research skill should
-only extract relevant research and identify material gaps. The downstream skill
-owns:
-
-- communication priorities and recommendations;
-- page structure, positioning, and wording;
-- visitor-decision interpretation;
-- application of project direction and service facts.
-
-Return newly discovered durable evidence to the dossier. Do not return the
-downstream task's implications as if they were audience findings.
+Extract the smallest useful synthesis and any material gap. The downstream
+skill decides communication priorities, positioning, structure, and wording;
+it does not need the dossier's citations, methods, or reporting structure.
+Return durable new evidence to the dossier rather than turning later
+recommendations into audience findings.
 
 ## Quality check
 

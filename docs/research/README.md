@@ -1,17 +1,17 @@
 # Audience research
 
-This directory contains extensive internal audience understanding for reuse
-across copywriting, page development, content strategy, service explanation,
-and website work. Dossiers combine formal findings with public first-person
-experiences. They are not approved public copy and do not override owner
-decisions or current service information.
+This directory contains internal audience research combining formal findings
+with public first-person experiences. It provides optional background for
+later work, not approved public copy or a writing model.
 
 ## Using this research
 
 - Read the relevant dossier before starting new audience research.
 - Check its research coverage before relying on it. Research questions or a
   brief without findings do not constitute audience evidence.
-- Use only the material relevant to the current decision or writing task.
+- For downstream work, extract only the understanding relevant to the active
+  decision. Leave dossier structure, citations, source IDs, and methods in the
+  research library.
 - Expand thin, dated, or narrow coverage when it materially affects the work.
 - Add durable new findings back to the dossier rather than leaving them in a
   one-off report.

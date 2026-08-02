@@ -1,42 +1,46 @@
 # Project Documentation
 
-This directory is the whole-project memory for Vive Counselling. [../../AGENTS.md](../../AGENTS.md) owns agent task routing and repository-wide update triggers; this file maps document ownership and artifact authority.
+This directory is the project map for Vive Counselling.
+[../../AGENTS.md](../../AGENTS.md) owns repository-wide task routing and
+working rules.
 
-Project documentation sits beside, not inside, the design-system documentation. `docs/design-system/` records existing tokens, shared components, implemented patterns, and rendered design-system pages. During the temporary open-design period, it does not supply mandatory visual direction for fresh creation or redesign unless the current task explicitly adopts it.
+## Direction
 
-## Authority And Artifact Types
+- [practice-direction.md](practice-direction.md) owns stable practice facts,
+  service scope, expertise, positioning, and the public site's commercial
+  purpose.
+- [writing-direction.md](writing-direction.md) owns the standard for public
+  writing.
+- [current-scope.md](current-scope.md) summarises current routes, services,
+  application behaviour, metadata, analytics, deployment, and tests. Source
+  and tests remain authoritative for exact behaviour.
 
-- `writing-direction.md` owns public-writing policy.
-- Current-scope documents summarize current state. When exact details disagree, verify executable behaviour, tests, configuration, and source, then reconcile stale documentation when the task changes durable state.
-- Audience research dossiers are supporting evidence and synthesis for downstream work. They do not override owner decisions, current service information, or writing direction, make public claims approved, or authorize implementation.
-- Market-research dossiers are dated supporting evidence about search visibility, demand signals, provider supply, offers, directories and market structure. They do not set SEO, pricing, positioning or content strategy or assess provider quality.
-- `DEBT-*` and `SITE-*` trackers are scoped memory and triage. Consult only the tracker relevant to the task; an item does not authorize unrelated work.
-- Reports, plans, checklists, archives, and the task log are supporting evidence or history. They do not override active guidance or become requirements unless the current task explicitly adopts them.
+## Task And System Records
 
-## Writing Direction
+- [project-debt.md](project-debt.md) tracks durable technical and
+  maintainability pressure.
+- [site-backlog.md](site-backlog.md) tracks deferred visitor-facing work.
+- [task-log.md](task-log.md) records selected durable milestones.
+- [visual-verification.md](visual-verification.md) owns the supported local
+  visual-inspection route.
+- [archive/README.md](archive/README.md) maps resolved and older records.
 
-- [writing-direction.md](writing-direction.md) owns public-copy status, source order, voice, SEO language, temporary wording constraints, collaboration, and implementation rules.
-- [../design-system/README.md](../design-system/README.md) is the entry point for current implementation reference, reusable UI assessment, and design-system maintenance. It is not a required source of visual direction for fresh design work during the temporary open-design period.
+## Supporting Material
 
-## Current State
+- [../research/README.md](../research/README.md) maps internal audience
+  research.
+- [../market-research/README.md](../market-research/README.md) maps dated
+  market and SEO research.
+- `../page-plan/` contains optional page-planning and copy-development
+  artifacts. They do not approve wording or authorise implementation.
+- `../reports/`, `../plans/`, and `../checklists/` contain supporting work.
 
-- [current-scope.md](current-scope.md) is the factual inventory of public and development routes, content status, rendering, metadata, enquiry behaviour, analytics, deployment, tests, known gaps, and excluded project scope.
-- [visual-verification.md](visual-verification.md) owns the supported access mechanism for ad-hoc visual inspection by Codex in the VS Code extension without defining task-specific review criteria.
-- [../design-system/current-scope.md](../design-system/current-scope.md) is the separate factual inventory of active, partial, legacy, missing, and excluded design-system state.
-- [../design-system/governance.md](../design-system/governance.md) owns design-system implementation evidence, reusable-API authority, promotion, verification, and update duties.
+Research and historical artifacts inform decisions when relevant. They do not
+set practice direction, public voice, page structure, or implementation scope.
 
-## Tracked Work
+## Design-System Boundary
 
-- [project-debt.md](project-debt.md) tracks technical, security, routing, API, testing, deployment, and maintainability pressure with stable `DEBT-*` IDs.
-- [site-backlog.md](site-backlog.md) tracks concrete deferred visitor-facing change work with stable `SITE-*` IDs.
-
-## Supporting Memory
-
-- [../research/README.md](../research/README.md) maps reusable audience research dossiers for copywriting, SEO, content strategy, service explanation, and website work.
-- [../market-research/README.md](../market-research/README.md) maps dated, source-backed market-segment dossiers for later SEO, positioning, pricing, content and product work.
-- `../page-plan/` contains reader-informed content plans for individual public pages. These are supporting plans and do not approve wording or authorise implementation by themselves.
-- [task-log.md](task-log.md) records selected durable milestones; Git remains the detailed implementation history.
-- [archive/README.md](archive/README.md) maps resolved tracker items and older task history kept outside the active reading path.
-- `../checklists/` contains owner-directed monitors and manual-QA checklists.
-- `../reports/` contains generated audits and assessments.
-- `../plans/` contains draft plans and working documents.
+[../design-system/README.md](../design-system/README.md) is the entry point for
+design-system state, governance, and approved reusable API. Existing pages and
+components provide implementation context but are not automatically approved
+patterns for new work.

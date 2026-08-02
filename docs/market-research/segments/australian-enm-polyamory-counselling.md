@@ -1,5 +1,15 @@
 # Australian ENM and polyamory counselling market-research dossier
 
+> **Owner-direction update, 31 July 2026:** The market observations remain
+> dated supporting evidence, but parts of the owner context and decision layer
+> are superseded. Current practice direction confirms work with individuals,
+> couples, and configurations involving more than two people; online delivery
+> across Australia; and specialist knowledge of ENM and polyamory in
+> counselling. The service page is now public and indexable. Do not apply
+> recommendations that depend on individual-only scope, in-person Perth
+> delivery, draft/noindex status, or avoiding `specialist` language. Use
+> `docs/project/practice-direction.md` for current owner direction.
+
 - **Owner context:** Vive Counselling, operated by Joel in Perth, offering
   individual counselling in person in Perth and online across Australia.
 - **Segment boundary:** Australian adult counselling, psychology,

@@ -10,6 +10,8 @@ support, not approved public copy, audience research, an implementation
 instruction or a provider-quality assessment, and it does not override current
 project direction or owner decisions.
 
+Market dossiers support decisions; they are not a public-writing model.
+
 ## Using this research
 
 - Read the relevant dossier and its observation dates before relying on it.
@@ -24,6 +26,8 @@ project direction or owner decisions.
 - Treat recommendations as researched decision support. Confirm consequential
   assumptions and carry approved SEO, copy, pricing or implementation decisions
   into the appropriate downstream task.
+- Pass downstream only the decision and insight the next task needs, not the
+  dossier's reporting structure.
 
 ## Segment dossiers
 

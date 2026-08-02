@@ -1,7 +1,7 @@
 interface:
   display_name: "Professional Website Copywriter"
-  short_description: "Develop and challenge distinctive website copy"
-  default_prompt: "Use $copywriter to make one source-grounded editorial commitment, draft one coherent version, then cold-review and rewrite it for speaker fit, replaceability, over-completion, and model-default rhetoric."
+  short_description: "Write natural, persuasive website copy"
+  default_prompt: "Use $copywriter to write clear, natural website copy that makes a specific case for the service without sounding generic or over-written."
 
 policy:
   allow_implicit_invocation: true

@@ -51,6 +51,10 @@ This is the factual current-state summary of the Vive Counselling website and su
 ## Enquiry Flow And API
 
 - Contact/Fees uses a page-owned progressive form with three direct paths: make an appointment, request a consult, or make a general enquiry. It retains the shared success and recipient content in `src/data/enquiry.ts`.
+- The current public offer includes individual counselling at AUD 120 for 50
+  minutes, couples counselling at AUD 150 for 50 minutes, and work involving
+  more than two people by discussion. A free 15-minute initial consult is also
+  available.
 - The form reveals only the fields relevant to the selected path after hydration. Its server-rendered version exposes the complete field set so the native form remains available without JavaScript; the endpoint derives the structured enquiry and booking types from the selected Contact path for those native submissions.
 - The page displays fixed Perth business hours in AWST within Practical details. Interstate comparison notes start from the generated route timestamp and refresh in the browser when daylight-saving differences have changed since deployment.
 - Consult-request timezone options are calculated from the current Australian timezone set when the conditional timezone field opens.

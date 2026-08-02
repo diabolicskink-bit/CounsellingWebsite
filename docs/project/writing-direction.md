@@ -1,78 +1,103 @@
 # Public Writing Direction
 
-This is the operational writing guide for Vive Counselling. It owns how public copy should be written, reviewed, and implemented. Consult `current-scope.md` or source only when the wording needs a current service or implementation detail.
+This guide owns the standard for Vive Counselling's public writing.
+[practice-direction.md](practice-direction.md) owns practice facts and
+positioning. Current source and [current-scope.md](current-scope.md) own
+operational details.
 
-## Current Copy Status
+## Writing Standard
 
-Public copy is under active owner-led revision. Existing page source records what is currently implemented, not an approved voice corpus. Use current pages to confirm facts, layout constraints, and surrounding context, but do not imitate their wording unless the owner has explicitly approved it.
+Write natural, polished Australian English. The copy should feel written by a
+good professional writer: clear, assured, precise, and easy to read.
 
-Reports, SEO guides, competitor pages, and sample page outlines are research inputs. They are not voice references or mandatory page templates.
+The owner's messages provide decisions, corrections, facts, and preferences.
+They are not a voice sample. Do not imitate the owner's conversational
+spelling, syntax, or personal writing manner unless exact wording is supplied
+for publication.
 
-### Online-Delivery Wording
+Use first-person singular when Joel is the speaker. This gives the practice a
+clear human source without requiring the copy to mimic Joel's private
+communication style.
 
-Google Business Profile verification is complete. Public copy may identify the service as online counselling where that answers a practical question or supports relevant search intent. Do not repeat online delivery across headings, trust strips, calls to action, metadata, or adjacent sections merely for emphasis or SEO.
+The writing may be warm, intelligent, direct, persuasive, or memorable when
+the subject supports it. It does not need to sound casual, homespun, clinical,
+academic, or like a conventional therapy brand.
 
 ## Source Order
 
-When public wording conflicts or feels uncertain, use this order:
+Use:
 
-1. The owner's current explicit wording, corrections, and approvals.
-2. Relevant practice or service information supplied by the owner or recorded in `current-scope.md` or source when the wording needs it.
-3. Current page source for layout and surrounding context only.
-4. Reports and SEO material as research only.
+1. the current task and owner decisions;
+2. `practice-direction.md`;
+3. current operational facts when relevant; and
+4. the existing page for factual and layout context.
 
-Do not silently polish text the owner has supplied for implementation. If an exact replacement is provided, use it exactly unless asked to edit it.
+Research is optional. Use it when the task asks for it or when a specific
+knowledge gap would materially improve the copy. Research informs judgement;
+its methods, citations, categories, and report structure stay out of ordinary
+website copy.
 
-## Core Voice
+Existing public copy is not an approved voice model while the site remains
+under revision. Preserve exact wording only when the owner identifies it as
+approved or asks for it to be implemented unchanged.
 
-- Write in plain Australian English.
-- Use `I` for Joel's actions, questions, judgement, and boundaries. Use `the practice` only when the business itself is genuinely the subject.
-- Prefer ordinary phrasing to clinical, corporate, intake, or marketing language.
-- Use the owner's current wording, corrections, and explicitly supplied passages as positive voice evidence for the active task. When none is available, keep the register plain and appropriate to the artifact rather than inventing character, intimacy, or professional judgement.
+## What Good Vive Copy Does
 
-## Cadence And Restraint
+- Leads with the strongest useful point for that page or section.
+- Makes a specific, positive case for Joel or the service.
+- Uses concrete, ordinary language where it improves understanding.
+- Gives important ideas enough development without explaining every
+  implication.
+- Makes service scope, specialist knowledge, and practical facts easy to find.
+- Uses psychodynamic or attachment language only when it adds something useful
+  and explains it plainly.
+- Lets sentence length, rhythm, structure, and tone vary with the material.
+- Stops when the point has been made.
 
-Distinctive language is permitted when it is the clearest and most natural way to say something. It is not a quota.
+Service copy should describe Joel's offer rather than becoming a general
+psychoeducation article. When the available practice material establishes only
+that Joel works with a concern, a concise accurate account is better than
+filling the page with typical symptoms, effects, or therapeutic explanations.
 
-- A memorable hero or section title can carry more editorial character.
-- Prefer complete, naturally varied sentences. Use fragments sparingly and only when they fit the speaker and artifact.
-- Avoid stacked dramatic fragments, therapeutic metaphors, anthropomorphism, and copy that performs emotional depth.
-- Do not habitually rely on polished oppositions, symmetrical clauses, or three-part formulations.
-- Do not add a final sentence merely to summarise the implication, reassure the reader, or create a neat emotional landing.
-- Prefer understated headings that reveal the section's actual job over mysterious or atmospheric headings.
+On Home and service pages, let the opening belong to the counselling offer,
+the concern, or a useful reason to choose Joel. Introduce the practitioner,
+delivery, geography, and therapeutic approach after that proposition unless
+one of them is the page's main subject.
 
-## Page Structure
+Make an opening do one main job rather than inventorying the whole practice.
+Use headings that name a real service, concern, decision, or idea—not a broad
+emotional promise that could introduce any counsellor.
 
-Do not start from a generic therapy-page skeleton and replace broad nouns with a specialist topic.
+General pages should keep broad counselling visible. Specialist pages should
+state Joel's relevant knowledge directly and explain why it matters without
+treating a person's identity, sexuality, kink, or relationship structure as a
+problem.
 
-- Establish the specific visitor uncertainty, concern, search intent, or decision each section needs to address.
-- Give each section a job that belongs on that page.
-- Do not duplicate Home or the Inclusion hub merely to create a familiar sequence of introduction, approach, issues, reassurance, FAQ, and CTA.
-- Use FAQs for real practical or emotionally consequential questions that are not answered better in the main page.
-- Structure and length should follow the material. Google does not require an arbitrary word count or identical service-page outline.
+Approach information should normally support the offer rather than supply the
+page's main message. Give psychodynamic and attachment ideas only the space
+their practical usefulness earns.
 
-## SEO And Search Language
+## Final Copy Check
 
-SEO should make the service and subject easy to identify without making the copy sound written for a crawler.
+Before recommending or implementing copy, ask:
 
-- Identify the principal search intent before drafting.
-- Use the principal search phrase and only those natural variants that improve recognition. Put identifying language where it most helps orientation and retrieval; it does not need to appear in every possible location.
-- Prefer one natural use of a precise phrase to a paragraph built from keyword variations.
-- Do not create generic explanatory sections merely to hold related search terms.
-- Keep visible wording, metadata, structured data, internal links, and public service facts aligned without forcing every structured fact into visible copy.
-- When copy needs a current operational detail, use the value recorded by its repository owner. If the detail is missing or conflicting, flag or omit it rather than independently auditing it as part of the writing task. Use online-counselling language selectively as described above.
+1. Does it say something useful and particular to Vive?
+2. Could another counsellor publish it unchanged?
+3. Is the opening about the visitor's subject, or merely about the practice?
+4. Does it sound natural when read aloud?
+5. Has it invented the reader's feelings, made the subject unnecessarily
+   profound, or relied on generic reassurance?
+6. Can any sentence be removed without losing meaning, interest, or necessary
+   information?
 
-SEO research and sample outlines provide coverage prompts, not required wording or page architecture.
+Revise the copy rather than explaining away a weak passage.
 
 ## Collaboration And Implementation
 
-- When asked to review, analyse, or suggest copy, do not change files unless implementation is also requested.
-- For a substantial rewrite, establish the section's job, known constraints, visitor concern, and useful search vocabulary before drafting.
-- Work section by section when tone or practice boundaries are still being developed.
-- Prefer one considered recommendation with a short rationale over a large menu of near-identical variants.
-- When feedback targets one sentence, revise that sentence and reread the paragraph rather than rewriting unrelated approved copy.
-- When implementation is requested, preserve approved wording and limit adjacent changes to what the implementation genuinely requires.
+Match the requested scope. A review produces findings, a writing request
+produces copy, and implementation changes files. Do not edit public files for
+a review-only request.
 
-## Final Review
-
-Before proposing or implementing public copy, review it in its page context for alignment with supplied material, speaker and artifact fit, unnecessary repetition, and natural search language. Use the copywriter skill's post-draft cold review for new or materially revised wording. Diagnose specific causes rather than treating `AI` as a tone or relying on a list of suspect words.
+Prefer one strong recommendation. Give alternatives only when they represent a
+meaningful decision for the owner. Keep rationale brief and place clean public
+copy where it is easy to evaluate or use.

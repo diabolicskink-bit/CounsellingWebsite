@@ -17,6 +17,20 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-07-31 - Practice Direction And Copy System Simplified
+
+- Added: `practice-direction.md` now owns stable practice scope, work with
+  individuals, couples, and more-than-two configurations, established areas of
+  work, specialist kink/ENM knowledge, and the public site's commercial job.
+- Rebuilt: Public writing now targets natural, polished professional copy
+  rather than imitating the owner's personal writing style or managing a long
+  catalogue of AI failure modes.
+- Removed: The former editorial-commitment, frozen-draft, cold-review, and
+  one-section artifact machinery was replaced by one concise copy workflow and
+  one optional craft review.
+- Routed: Audience and market research remain rigorous internal resources but
+  are optional inputs to ordinary copy work.
+
 ## 2026-07-29 - Contact Confirmation Simplified
 
 - Changed: Successful Contact submissions now show one compact confirmation with the owner-confirmed expectation that Joel usually replies within 24 hours.

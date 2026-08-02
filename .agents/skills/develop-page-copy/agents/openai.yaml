@@ -1,7 +1,7 @@
 interface:
   display_name: "Page Copy Development"
-  short_description: "Plan pages and develop one reviewed section"
-  default_prompt: "Use $develop-page-copy to create one bounded page-plan or section-copy artifact, routing editorial strategy, drafting, and review through $copywriter."
+  short_description: "Plan or write coherent website pages"
+  default_prompt: "Use $develop-page-copy to plan or write the requested page scope with natural, persuasive copy and only the documentation the task needs."
 
 policy:
   allow_implicit_invocation: true

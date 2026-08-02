@@ -99,10 +99,11 @@ an observed market fact.
 1. Read repository instructions and the documentation map for file conventions,
    authority, and update rules.
 2. Read the market-research index, relevant dossier, and linked market files.
-3. Read the current product or business direction and the project material
-   needed to understand the owner's service, capabilities, constraints,
-   geography, commercial aims, known competitors, and authorised first-party
-   data. Recommendations must be specific to this context.
+3. In the Vive Counselling repository, read
+   `docs/project/practice-direction.md`, then only the additional project
+   material needed to understand current capabilities, constraints, geography,
+   commercial aims, known competitors, and authorised first-party data.
+   Recommendations must be specific to this context.
 4. Treat existing site copy, plans, reports, and owner hypotheses as research
    prompts unless they contain separately identifiable evidence. Use approved
    direction and current service facts as decision constraints, not external
@@ -411,10 +412,10 @@ suited to produce the artifact or change, for example:
 - analytics or engineering work for measurement implementation; and
 - `audience-research` for formal and public first-person audience understanding.
 
-Give the downstream task the relevant evidence, owner-specific interpretation,
-recommended direction, assumptions, constraints and open tests. The downstream
-task may refine implementation choices, but should not have to reconstruct what
-the market research means from raw observations.
+Give the downstream task the approved or recommended decision, the smallest
+useful supporting insight, and any material assumption or open test. The
+downstream skill owns the public artifact and does not need to reproduce the
+dossier's evidence chain or report structure.
 
 Return durable new market evidence discovered during execution to the dossier.
 Keep implementation results and later recommendations visibly separate from

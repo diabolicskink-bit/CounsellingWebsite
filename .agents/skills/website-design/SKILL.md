@@ -61,6 +61,11 @@ Do not repeat the brief, audit, concept selection, or evidence collection merely
 
 Inspect the actual content, assets, code, framework, runtime, and constraints relevant to the task. Follow higher-authority task and repository instructions. Treat existing styling as context, not proof that it is correct or reusable. Separate conventions that preserve recognition or operability from conventions that merely make new work resemble the old work. Reports, examples, galleries, and previous concepts are evidence or prompts unless the user explicitly selects them; do not silently turn their suggestions into the design brief.
 
+For visitor-facing Vive Counselling work, read
+`docs/project/practice-direction.md` and
+`docs/project/writing-direction.md`. Use the `copywriter` skill for new or
+revised public wording. Consult research only when the task needs it.
+
 If visual direction is open, read [references/visual-craft.md](references/visual-craft.md). If generic or AI-like output is a concern, also read [references/anti-generic.md](references/anti-generic.md). Before delivering implemented or reviewed work, read [references/quality-review.md](references/quality-review.md).
 
 ## Use the shared workflow stages
@@ -74,7 +79,7 @@ Write a compact decision brief before choosing visuals:
 - audience and likely state on arrival;
 - page job and primary next step;
 - questions the page must answer;
-- content and evidence that must be findable;
+- service strengths, content, and trust material that must be findable;
 - reasons to trust the organisation or product;
 - tone as productive tensions, such as “warm but rigorous”;
 - real assets and missing assets;
