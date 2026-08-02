@@ -10,7 +10,10 @@ type KinkPageContent = {
   meta: string;
   hero: {
     eyebrow: string;
-    title: string;
+    title: {
+      before: string;
+      emphasis: string;
+    };
     primaryAction: {
       label: string;
       href: string;
@@ -41,7 +44,10 @@ const kinkPageContent: KinkPageContent = {
   meta: kinkMetadata.description,
   hero: {
     eyebrow: "Kink-aware counselling and therapy",
-    title: "Kink doesn’t need a preamble.",
+    title: {
+      before: "Regular therapy for ",
+      emphasis: "kinky people.",
+    },
     primaryAction: {
       label: "Make an enquiry",
       href: routeHref(publicRoutePaths.contact),
@@ -85,7 +91,12 @@ export default function KinkBdsmCounselling() {
         eyebrow={hero.eyebrow}
         primaryAction={hero.primaryAction}
         secondaryAction={hero.secondaryAction}
-        title={hero.title}
+        title={
+          <>
+            {hero.title.before}
+            <em>{hero.title.emphasis}</em>
+          </>
+        }
       />
 
       <section
