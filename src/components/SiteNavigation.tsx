@@ -89,7 +89,6 @@ function MobileNavigationItem({
 }: NavigationItemProps & Pick<MobileNavigationProps, "onNavigate">) {
   const hasChildren = Boolean(item.children?.length);
   const isSubmenuItem = depth > 0;
-  const mobileHref = item.mobileHref ?? item.href;
 
   return (
     <div>
@@ -99,13 +98,11 @@ function MobileNavigationItem({
             "mobile-nav__link",
             isSubmenuItem && "mobile-nav__sub-link",
             depth > 1 && "mobile-nav__sub-link--nested",
-            !item.mobileHref &&
-              (isActive || itemIsActive(item, pathname)) &&
-              "mobile-nav__link--active",
+            (isActive || itemIsActive(item, pathname)) && "mobile-nav__link--active",
           )
         }
         onClick={onNavigate}
-        to={mobileHref}
+        to={item.href}
       >
         {item.label}
       </NavLink>
@@ -156,7 +153,7 @@ export function MobileNavigation({
         <MobileNavigationItem
           depth={0}
           item={item}
-          key={`${item.mobileHref ?? item.href}:${item.label}`}
+          key={`${item.href}:${item.label}`}
           onNavigate={onNavigate}
           pathname={pathname}
         />

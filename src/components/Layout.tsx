@@ -3,7 +3,6 @@ import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } f
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
 import {
-  devRoutePaths,
   publicRoutePaths,
   routeHref,
   usesSharedChromePath,
@@ -19,21 +18,12 @@ const homeHref = routeHref(publicRoutePaths.home);
 const workingWithJoelHref = routeHref(publicRoutePaths.workingWithJoel);
 const inclusionHref = routeHref(publicRoutePaths.inclusion);
 const contactHref = routeHref(publicRoutePaths.contact);
-const feesHref = `${contactHref}#contact-fees`;
-const codexTestBedHref = routeHref(devRoutePaths.codexTestBed);
-const opusTestBedHref = routeHref(devRoutePaths.opusTestBed);
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
   const usesSiteChrome = usesSharedChromePath(location.pathname);
-  const isContactCandidate =
-    import.meta.env.DEV &&
-    (location.pathname === codexTestBedHref || location.pathname === opusTestBedHref);
-  const contextualNavItems = isContactCandidate
-    ? navItems.filter((item) => item.label !== "Dev")
-    : navItems;
 
   const closeMenu = () => setIsOpen(false);
   const blurDesktopNavLinkAfterPointerClick = (event: ReactPointerEvent<HTMLAnchorElement>) => {
@@ -92,7 +82,7 @@ export default function Layout() {
 
           <div className="site-header__cluster">
             <DesktopNavigation
-              items={contextualNavItems}
+              items={navItems}
               onLinkPointerUp={blurDesktopNavLinkAfterPointerClick}
               pathname={location.pathname}
             />
@@ -120,7 +110,7 @@ export default function Layout() {
 
         {isOpen ? (
           <MobileNavigation
-            items={contextualNavItems}
+            items={navItems}
             onNavigate={closeMenu}
             pathname={location.pathname}
           />
@@ -144,7 +134,7 @@ export default function Layout() {
                   <Link to={inclusionHref}>Inclusive practice</Link>
                 </li>
                 <li>
-                  <Link to={feesHref}>Fees</Link>
+                  <Link to={contactHref}>Fees</Link>
                 </li>
               </ul>
             </nav>
