@@ -1,10 +1,16 @@
 # Page Patterns
 
-This file inventories shared CSS and page-level compositions that currently exist. Under the creative-within-identity policy, these patterns are optional implementation references rather than required or preferred structures for fresh work. Agents should actively explore content-shaped alternatives within the site's typography, type scale, and colour scheme.
+This file inventories CSS and page-level compositions recorded before the lifecycle framework. Under the creative-within-identity policy, these patterns are implementation references rather than required or preferred structures for fresh work. Agents should actively explore content-shaped alternatives within the site's typography, type scale, and colour scheme.
 
-Establish and select the page concept before consulting this catalogue. A pattern being available, visually similar, or already used elsewhere is not sufficient reason to use it.
+Establish and select the page concept before consulting this catalogue. A pattern being available, visually similar, or already used elsewhere is not sufficient reason to reuse it.
 
-## Shared Section Patterns
+## Incremental Status Rule
+
+This inventory has not been item-by-item reconciled. Every entry without an adjacent source-backed lifecycle record is `Unreviewed`, regardless of its section heading, shared-looking name, source location, or earlier description. Unreviewed entries authorize neither new reuse nor removal; only an explicit `Shared-supported` record authorizes deliberate reuse.
+
+When related work verifies or changes an item, add the record required by [governance](../governance.md): identifier, status, semantic role and boundary, source evidence and current public consumers, replacement or migration note, and review date/task. Do not classify unrelated entries during that work.
+
+## Recorded Section Patterns
 
 - `.site-grid`
   Neutral public-page section surface with a pale paper gradient.
@@ -13,16 +19,16 @@ Establish and select the page concept before consulting this catalogue. A patter
 - `.site-split`
   Split layout pairing a heading block with contained reading content.
 - `.site-content-stack`
-  Shared vertical stack for pairing card grids, copy panels, principle lists, or ruled notes inside a content side.
+  Recorded vertical stack for pairing card grids, copy panels, principle lists, or ruled notes inside a content side.
 - `.site-cta-block`, `.site-cta-block__inner`, `.site-cta-block__copy`
-  Shared closing CTA section for one clear next step.
+  Recorded closing CTA section for one clear next step.
 
-Fresh work may use page-scoped or replacement composition regardless of whether an existing section pattern is superficially similar. Use these shared sections only when they support the already-selected direction.
+Fresh work should use page-scoped composition regardless of whether an existing section pattern is superficially similar. Reuse an entry only when it is explicitly `Shared-supported` and supports the already-selected direction.
 
 ## Cards, Panels, And Lists
 
 - `.site-card`, `.site-card--link`, `.site-card__list`, `.site-card__action`
-  General shared card system.
+  Recorded general card implementation.
 - `.site-topic-grid`, `.site-topic-card`, `.site-topic-card--soft`, `.site-topic-card--narrow`
   Topic and issue card layouts.
 - `.site-copy-panel`
@@ -47,7 +53,7 @@ Ruled accents and side-border panels occur in the current implementation. They c
 ## Rich Text And Copy
 
 - `.rich-text`
-  Shared editorial reading wrapper for semantic headings, paragraph groups, contextual links, lists, blockquotes, simple tables, dividers, inline code, and an optional contextual button. It owns a measured reading width and vertical rhythm; `.site-copy-panel.rich-text` lets the containing panel own the width. Use it for editorial HTML rather than as a generic spacing helper. A lone `.button` is start-aligned as the content's next step; keep action groups outside the wrapper. Add a page-scoped overflow wrapper if wider table content is introduced.
+  Recorded editorial reading wrapper for semantic headings, paragraph groups, contextual links, lists, blockquotes, simple tables, dividers, inline code, and an optional contextual button.
 - `.site-ruled-paragraph`, `.site-ruled-paragraph--wide`
   Short reflective or orienting copy that needs quiet emphasis without becoming a full panel.
 - `.site-text-link`
@@ -57,10 +63,10 @@ Ruled accents and side-border panels occur in the current implementation. They c
 
 ## Hero System
 
-The `hero-*` system is a currently implemented shared subsystem alongside `site-*`. It is not canonical or mandatory for fresh pages and redesigns.
+The `hero-*` and `site-*` families exist in current production source. That implementation fact does not assign lifecycle status; their entries remain `Unreviewed` until adjacent source-backed records say otherwise.
 
 - `.hero-section`
-  Shared hero section shell and default spacing, including the `--hero-badge-display-gap` relationship.
+  Recorded hero section shell and default spacing, including the `--hero-badge-display-gap` relationship.
 - `.hero-bg--default`
   Continuous paper-and-sage hero surface.
 - `.hero-top`
@@ -68,7 +74,7 @@ The `hero-*` system is a currently implemented shared subsystem alongside `site-
 - `.hero-badge`
   Concise visible page-topic H1.
 - `.hero-display`
-  Expressive serif hero statement on `p` after `h1.hero-badge`, kept outside the semantic heading outline. Adjacent badge/display pairs use the shared 16px gap while page compositions retain their own spacing below the display statement.
+  Expressive serif hero statement on `p` after `h1.hero-badge`, kept outside the semantic heading outline. Recorded adjacent badge/display pairs use a 16px gap.
 - `.hero-intro`
   Longer opening intro paragraph.
 - `.hero-copy-panel`
@@ -80,22 +86,22 @@ The `hero-*` system is a currently implemented shared subsystem alongside `site-
 - `.hero-media-note`
   Quiet media note/caption.
 - `.hero-media-note--portrait`, `.hero-media-note__tag`
-  Portrait media variant with the shared framed image treatment and overlaid practitioner name tag.
+  Recorded portrait media variant with a framed image treatment and overlaid practitioner name tag.
 - `.hero-principles-strip`
   Hero-adjacent principle strip.
 - `.hero-detail-stack`
   Open hero detail stack.
 
-Fresh work may retain, modify, replace, or omit the shared hero composition. Preserve one clear page topic and valid heading structure, but do not require `hero-*`, the badge/display pairing, or layering page styles on top of the current hero.
+Fresh work should preserve one clear page topic and valid heading structure without assuming `hero-*`, the badge/display pairing, or the recorded hero composition is reusable. Use a recorded hero item only when its adjacent status is `Shared-supported`; otherwise keep new work `Page-local`.
 
 ## Forms
 
 - `.site-form`
-  Shared form shell.
+  Recorded form shell.
 - `.site-form__heading`
   Semantic form heading that keeps the shared eyebrow treatment and names the control-bearing form through `aria-labelledby`.
 - `.site-form__grid`, `.site-form__row--full`, `.site-form__submit`
-  Shared enquiry form layout helpers.
+  Recorded enquiry form layout helpers.
 - `.site-form__status`
   Direct form submission feedback.
 - `.site-form__choice-group`, `.site-form__choices`, `.site-form__choice`
@@ -115,8 +121,8 @@ The production header and navigation live in `Layout`. They are implemented but 
 1. Establish the page purpose, content architecture, and visual direction without this catalogue as a template.
 2. Identify the semantic, interaction, accessibility, and data contracts the implementation must preserve.
 3. Compare the selected direction with existing implementation.
-4. Reuse an existing pattern only when it fits without changing the direction or creating unnecessary maintenance cost.
+4. Reuse an existing pattern only when its item record is `Shared-supported` and it fits without changing the direction or creating unnecessary maintenance cost.
 5. Use page-scoped or replacement implementation when existing patterns are merely similar, visually constraining, or conceptually wrong.
 6. Promote a pattern only when the task includes shared-system work and the pattern has proved useful beyond one context.
 
-The current hero, split section, cards, panels, topic grids, trust treatments, FAQ surface, and closing CTA do not form a required page skeleton. Do not assemble them by default or treat their combined silhouette as the Vive visual identity.
+The recorded hero, split section, cards, panels, topic grids, trust treatments, FAQ surface, and closing CTA do not form a required page skeleton. Do not assemble them by default or treat their combined silhouette as the Vive visual identity.

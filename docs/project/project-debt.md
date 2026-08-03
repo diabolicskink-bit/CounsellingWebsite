@@ -110,10 +110,10 @@ Each active item should include enough direction that a future session can choos
 - `Area`: Design System, Documentation, Maintainability
 - `Problem`: The rendered `/design-language/*` catalogue preserves examples and former status claims that have not been reconciled against route-reachable public source after recent visual overhauls. The written catalogues and current-scope classifications may also retain claims derived from that earlier snapshot.
 - `Why It Matters`: Historical demonstrations can look plausible while describing obsolete composition, superseded components, or unsupported reuse paths. Without source-backed classification, maintainers may copy stale patterns or treat implementation existence as approval.
-- `Preferred Direction`: Rebuild the catalogue inventory from current public-route source and governance. Classify each token, component, class family, and pattern as public-active, shared-supported, candidate, dev-only, dormant, or deprecated, then reconcile written and rendered documentation without using the historical pages as evidence.
-- `Resolution Path`: Inventory route-reachable public usage and shared component consumers; compare findings with foundations and pattern catalogues; decide reusable-API status through governance; update current-scope and written catalogues; rebuild or remove rendered examples to match verified state; remove the quarantine only after the reconciled routes can state their authority accurately.
-- `Next Action`: Produce a source-backed usage inventory for production tokens, shared React components, `site-*`, `hero-*`, and other documented class families, keeping route reachability and reusable-API approval as separate fields.
-- `Resolved When`: Every catalogue status and reuse claim is traceable to current source and governance, dormant or deprecated material is clearly classified, the rendered pages accurately represent the reconciled system, and the historical quarantine can be removed without ambiguity.
+- `Preferred Direction`: Reconcile the system incrementally as authorized work touches it. Use the lifecycle in `docs/design-system/governance.md`; keep new styling page-local, record credible candidates, promote only in explicit shared-system scope, and classify old implementation without using the historical pages as evidence.
+- `Resolution Path`: For each selected token, component, selector family, or pattern, verify source and current public consumers; add its required catalogue record; preserve it as page-local, record it as a candidate, promote it to shared-supported, or give deprecated/dormant implementation an explicit migration direction. Summarize verified changes in current-scope. Rebuild or remove rendered examples only after enough item-level reconciliation exists to state their authority accurately.
+- `Next Action`: On the next authorized CSS, component, or design-system task, classify only the items that task touches and leave unrelated catalogue entries unreviewed.
+- `Resolved When`: Every retained catalogue entry has a source-backed lifecycle record, supported reuse claims are explicit, deprecated or dormant material has a migration or retirement outcome, the written summaries reflect those records, and the rendered catalogue can be reconciled or retired without ambiguity.
 - `Related Items`:
   - `DEBT-13`: Legacy CSS cleanup depends on knowing whether a selector is genuinely dormant, retained for compatibility, or still route-reachable.
   - `DEBT-20`: Page-scoped typography classification is one source-backed slice of the wider catalogue reconciliation.
@@ -121,6 +121,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - The quarantine preserves all five rendered routes and their demonstrations for comparison; it does not validate any displayed pattern.
+  - 2026-08-03: Added the incremental lifecycle and item-record framework. Existing catalogue entries default to `Unreviewed`; no initial whole-system audit or classification is required.
   - Keep public pages and their current visual treatment unchanged during reconciliation unless a separate task explicitly authorizes visitor-facing work.
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
 - `Links`: `src/pages/dev/DesignLanguage.tsx`, `src/pages/dev/design-system/`, `src/components/DesignSystemArchiveLayout.tsx`, `docs/design-system/`

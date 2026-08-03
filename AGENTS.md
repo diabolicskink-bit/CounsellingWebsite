@@ -6,7 +6,7 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 
 - For requirements and intent, the current task defines the requested outcome, followed by the repository-wide rules in this file and then the relevant domain guidance. A tracker item or plan applies only when the current task selects it.
 - For current implementation facts, executable behaviour, tests, configuration, and source are the strongest evidence. Current-scope documents summarize that state; reports and task history provide supporting context.
-- For reusable design-system API, follow [docs/design-system/governance.md](docs/design-system/governance.md), its active catalogues, and its current-scope document. Source code or a rendered example existing does not by itself make it approved reusable API.
+- For reusable design-system API, follow [docs/design-system/governance.md](docs/design-system/governance.md), the item-level catalogues, and explicit lifecycle records. Source code, a public consumer, an old catalogue description, or a rendered example does not by itself make something approved reusable API.
 - Trackers, reports, plans, checklists, archives, and task history are supporting memory. They do not override active guidance or authorize work unless the current task explicitly adopts them.
 
 ## Required Reading
@@ -30,8 +30,18 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 - Unless the current task explicitly changes the visual identity, keep the site's basic scheme: established font families, type roles and type scale; the existing colour palette and semantic colour roles; shared navigation, footer and interaction behaviour; and the accessibility baseline. These are identity anchors, not layout templates.
 - Treat composition, grids, component forms, surfaces, depth, layering, shape, spacing rhythm, imagery, motion and responsive recomposition as active creative variables. New page-scoped components and treatments are encouraged when they give the content a clearer or more memorable form.
 - Do not default to existing cards, fine rules, flat surfaces, split sections, spacing patterns, rendered examples or page silhouettes simply because they already exist. Reuse them only when they strengthen the selected concept. Every creative departure should clarify hierarchy, meaning, relationship or interaction rather than add novelty for its own sake.
-- Do not treat a file in `src/components/` as active design-system API unless the design-system docs describe it that way.
+- Do not treat a file in `src/components/` as reusable design-system API unless its catalogue record explicitly marks it `Shared-supported`.
 - Keep one-off visual explorations page-scoped until they prove useful beyond one context.
+
+## Incremental Design-System Migration
+
+- Production source proves what is implemented; it does not by itself make a token, selector, component, or pattern approved reusable API. Only an explicit `Shared-supported` lifecycle record under [docs/design-system/](docs/design-system/) authorizes deliberate shared reuse.
+- Treat every catalogue item without an explicit source-backed lifecycle record as `Unreviewed`. Do not reuse or remove an unreviewed item merely because it exists, looks current, has a shared-looking name, or appears on a public route.
+- Keep new visual implementation `Page-local` by default. Record a credible repeated need as a `Candidate`, but do not promote it during ordinary page work.
+- Promote CSS, tokens, components, or patterns only when the current task explicitly includes shared-system work and the promotion rules in [docs/design-system/governance.md](docs/design-system/governance.md) are satisfied.
+- Do not add new consumers of `Deprecated`, `Dormant`, `Historical/dev-only`, or `Unreviewed` items. Existing consumers may receive scoped correctness, accessibility, or compatibility fixes until an explicitly authorized migration replaces them.
+- Remove or migrate old implementation only within explicit cleanup or shared-system scope, after verifying source consumers and running checks proportionate to the affected behaviour. Preserve existing consumers otherwise.
+- Similar declarations or literal values are not enough to justify elevation. Shared implementation must represent the same semantic role across current consumers without flattening content-shaped page composition.
 
 ## IDE Visual Verification
 

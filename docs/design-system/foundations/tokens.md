@@ -2,6 +2,12 @@
 
 Primary production tokens live in `src/styles.css`. This file inventories the current implementation. Fresh concepts should preserve the established font families, documented type roles and responsive scale, colour palette and semantic colour roles unless the current task explicitly changes the site's identity. Layout, spacing, radius, shadow, surface treatment, depth, and composition remain open creative variables.
 
+## Incremental Status Rule
+
+This inventory predates the lifecycle framework and has not been item-by-item reconciled. Every entry without an adjacent source-backed lifecycle record is `Unreviewed`, regardless of earlier wording. Unreviewed entries authorize neither new reuse nor removal; only an explicit `Shared-supported` record authorizes deliberate reuse.
+
+When related work verifies or changes an item, add the record required by [governance](../governance.md): identifier, status, semantic role and boundary, source evidence and current public consumers, replacement or migration note, and review date/task. Do not classify unrelated entries during that work.
+
 ## Colour Tokens
 
 - `--paper`: main page background.

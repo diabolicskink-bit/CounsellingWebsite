@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The design system records and supports shared production UI, implementation coherence, maintenance, and reuse. It does not currently own visual direction for fresh creation or redesign.
+The design system records and supports shared production UI, implementation coherence, maintenance, and reuse. It also governs the gradual movement from old or uncertain styling toward a deliberately supported shared layer. It does not currently own visual direction for fresh creation or redesign.
 
 It should prevent old demos, docs shell styles, or unused components from becoming accidental production API.
 
@@ -35,51 +35,90 @@ If documentation disagrees with executable behaviour, treat the implementation a
 
 The rendered `/design-language/*` catalogue is quarantined as an outdated historical snapshot. It is not implementation evidence or reusable-API authority until `DEBT-37` completes source-backed reconciliation.
 
+## Lifecycle
+
+Every reviewed token, selector or selector family, component, and pattern uses one of these statuses:
+
+- `Unreviewed`: source-backed status has not been decided. It may remain in current source, but it must not gain new consumers or be removed on assumption.
+- `Page-local`: intentionally supported only within its current page or bounded feature. It is not shared API.
+- `Candidate`: a repeated semantic need worth evaluating for elevation. It remains local and is not approved reusable API.
+- `Shared-supported`: deliberately elevated, documented, and available for reuse within its stated role.
+- `Deprecated`: retained for existing-consumer compatibility while replacement or retirement proceeds. It must not gain new consumers.
+- `Dormant`: no current production consumer has been verified. It is a removal candidate, not proof that removal is safe.
+- `Historical/dev-only`: retained for archive, test-bed, documentation, or development support and has no production authority.
+- `Removed`: no longer present in active source. Keep only the concise historical record needed to prevent accidental reintroduction.
+
+Anything in the written catalogues without an explicit lifecycle record is `Unreviewed`, regardless of its heading, name, source location, or earlier description. Existing catalogue content is reconciled incrementally as related work touches it; the lifecycle does not require an initial whole-system audit.
+
+### Item Record
+
+Add or update an item record in the relevant existing catalogue when a task verifies, promotes, deprecates, or removes it. Each record must include:
+
+- identifier: token, selector or selector family, component, or named pattern
+- lifecycle status
+- intended semantic role and supported boundary
+- source evidence and current public consumers
+- replacement, migration, or retirement note, using `None` when not applicable
+- review date and the task or debt item that supplied authority
+
+Use this compact shape beside the relevant catalogue entry:
+
+```md
+### `identifier`
+
+- `Status`: `Unreviewed | Page-local | Candidate | Shared-supported | Deprecated | Dormant | Historical/dev-only | Removed`
+- `Role and boundary`: ...
+- `Source evidence and public consumers`: ...
+- `Replacement or migration`: `None` or ...
+- `Reviewed`: YYYY-MM-DD — task or DEBT-ID
+```
+
+`current-scope.md` summarizes verified state; it does not replace item records. The existing token, component, and page-pattern catalogues are the item-level register, so do not create a parallel migration tracker.
+
 ### Available Reusable API
 
 When a selected direction would benefit from existing implementation and deciding whether a token, class, component, or pattern is available for deliberate reuse:
 
 1. Follow the boundaries and promotion rules in this governance document.
-2. Confirm active status in `current-scope.md` and the relevant catalogue: `foundations/tokens.md`, `patterns/components.md`, or `patterns/page-patterns.md`.
-3. Use source and rendered examples to verify how that documented API is implemented and behaves.
+2. Confirm an explicit `Shared-supported` item record in `foundations/tokens.md`, `patterns/components.md`, or `patterns/page-patterns.md`.
+3. Verify its current implementation and consumers in production source, then check `current-scope.md` for the corresponding summary.
 
-A file in `src/components/`, a selector in a stylesheet, or a rendered example is not shared API merely because it exists. Experimental, page-scoped, dev-only, legacy, and undocumented implementation can inform local work, but must be deliberately promoted before new shared reuse.
+A file in `src/components/`, a selector in a stylesheet, a public-route consumer, or a rendered example is not shared API merely because it exists. Experimental, page-scoped, dev-only, legacy, undocumented, and unreviewed implementation can inform a bounded assessment, but must be deliberately promoted before new shared reuse.
 
-## Currently Implemented Shared Layers
+## Existing Implementation Under Reconciliation
 
-- Production tokens in `src/styles.css`.
-- `site-*` shared production classes.
-- `hero-*` shared production hero classes.
-- Shared React components documented as active.
-- Existing non-prefixed shared classes where they back current components or patterns: `.container`, `.button`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
-- Deliberate page-scoped classes for page-specific composition.
+Production source currently contains tokens in `src/styles.css`, `site-*` and `hero-*` class families, non-prefixed classes, shared React components, and deliberate page-scoped CSS. These are implementation facts under incremental reconciliation, not blanket lifecycle classifications. Only item records marked `Shared-supported` define the reusable layer.
 
 ## Legacy And Support Layers
 
-- `ds-*` is docs/dev support styling and should stay out of production pages.
-- `design-language-*` is older rendered-doc/demo styling and is not production-safe by default.
-- `legacy-*`, `test-bed-*`, `opus-*`, `inc-lab-*`, and superseded `site-hero-*` are reference or retired layers.
-- The old `src/components/Card.tsx`, `.card`, `.card-grid`, and `.card-kicker` path has been removed. Do not reintroduce it as card API.
+- `ds-*` and `design-language-*` are `Historical/dev-only` documentation support and must stay out of production pages.
+- `test-bed-*` and `opus-*` are `Historical/dev-only`; `legacy-*`, `inc-lab-*`, and superseded `site-hero-*` require their existing catalogue or source-backed record before any maintenance decision.
+- The old `src/components/Card.tsx`, `.card`, `.card-grid`, and `.card-kicker` path is `Removed`. Do not reintroduce it as card API.
 
-Useful legacy ideas can be rebuilt locally when a selected concept calls for them. They need promotion and documentation only when they are being added to shared API.
+Useful legacy ideas can be rebuilt as new `Page-local` implementation when a selected concept calls for them. They need promotion and documentation only when an explicitly authorized task elevates them to `Shared-supported`.
 
 ## Page-Scoped Vs Shared
 
 Choose page structure and visual direction before reuse. Reuse should serve the content and interaction. Do not flatten a distinctive page moment, invent generic sections, or rewrite approved copy merely to make an existing component or pattern fit.
 
-Page-scoped CSS is allowed when:
+New visual CSS is `Page-local` by default. Page-scoped CSS is appropriate when:
 
 - the composition is specific to one page
 - a shared pattern would weaken the content or accessibility
 - the pattern has not proved reusable
 
-Promote a page-scoped pattern only when the current task includes shared-system work and:
+Record a pattern as a `Candidate` when it appears to solve the same semantic need beyond one context. Candidate status records the opportunity but does not authorize reuse.
 
-- it solves a repeated need
-- it has a clear name and role
-- it uses existing tokens and type roles
+Promote a page-scoped pattern to `Shared-supported` only when the current task explicitly includes shared-system work and:
+
+- current production consumers verify a repeated semantic need rather than superficial visual similarity
+- it has a stable name, role, and supported boundary
+- responsive behaviour, accessibility, interaction states, and affected consumers are covered proportionately
+- existing consumers are migrated to the elevated implementation without retaining accidental duplicates
 - it is represented in markdown guidance; while the rendered-catalogue quarantine is active, do not add it to the historical routes as proof of promotion
 - `current-scope.md` is updated
+
+Repeated literal values or declarations do not establish a semantic role and are not sufficient reason to create a token or shared selector.
 
 ## Historical Rendered Catalogue
 
@@ -97,18 +136,26 @@ The preserved demonstrations, classifications, status labels, and usage descript
 
 ## Promotion Workflow
 
-1. A pattern appears in one page or experiment.
-2. It proves useful beyond one isolated case.
-3. It receives a clear name and role.
-4. It is implemented with production-safe tokens, classes, or components.
-5. It is documented in the relevant markdown doc.
-6. Once the rendered catalogue has been reconciled, it is shown there when visual. During quarantine, record promotion in written guidance without presenting the historical routes as validation.
-7. `current-scope.md` is updated.
-8. Old duplicate or legacy usage is removed or tracked for cleanup.
+1. Keep new implementation `Page-local`.
+2. When source shows the same semantic need beyond one context, add a `Candidate` item record without broadening reuse.
+3. In an explicitly authorized shared-system task, verify consumers, role, boundaries, responsive behaviour, accessibility, and interaction states.
+4. Elevate the implementation, migrate the intended consumers, and remove or separately track accidental duplicates.
+5. Mark the item `Shared-supported`, complete its catalogue record, and update `current-scope.md`.
+6. Once the rendered catalogue has been reconciled, show the supported item there when visual. During quarantine, do not present historical routes as validation.
+
+## Deprecation And Removal
+
+- Mark an item `Deprecated` only when an explicitly authorized task identifies its existing consumers and replacement or retirement direction.
+- Deprecated implementation may receive narrow correctness, accessibility, or compatibility fixes for existing consumers. Do not expand its role or add consumers.
+- Migrate consumers only within the authorized task boundary. Do not perform opportunistic whole-site replacement during unrelated page work.
+- Mark an item `Dormant` only after a source search finds no current production consumer. Dormant status is a removal candidate and still requires an explicit cleanup task.
+- Remove implementation only after the cleanup task verifies exact source consumers, dependent states and responsive rules, and runs checks proportionate to the affected behaviour.
+- When removal is complete, delete the active item record or move only a concise `Removed` note into durable history. Update `current-scope.md` and related debt when their factual state changes.
+- Never rebuild a `Historical/dev-only` example directly into production. If its idea becomes relevant, implement it as a new `Page-local` item and assess it through the normal lifecycle.
 
 ## Verification
 
-- For documentation-only changes, run reference searches or link checks that confirm active guidance points to the intended canonical documents.
+- For documentation-only changes, run reference searches or link checks that confirm AI guidance points to this lifecycle and that unreviewed or historical material is not described as approved reusable API.
 - For CSS, component, or rendered-page changes, run `npm run build` unless the current task explicitly excludes it.
 - For visual changes, inspect the affected public route. Inspect a rendered catalogue route only when the task is maintaining that historical archive.
 

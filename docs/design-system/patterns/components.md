@@ -1,17 +1,23 @@
 # Components
 
-This catalogue inventories currently implemented React components and component-backed behaviour. Under the creative-within-identity policy, fresh work should actively explore content-shaped composition and is not required to use these components' existing visual treatment or layout. The site's font families, type roles and scale, colour palette and semantic roles remain identity anchors. A file existing in `src/components/` is not automatically shared API.
+This catalogue inventories React components and component-backed behaviour recorded before the lifecycle framework. Under the creative-within-identity policy, fresh work should actively explore content-shaped composition and is not required to use these components' existing visual treatment or layout. The site's font families, type roles and scale, colour palette and semantic roles remain identity anchors. A file existing in `src/components/` is not automatically shared API.
 
-## Active Shared Components
+## Incremental Status Rule
+
+This inventory has not been item-by-item reconciled. Every entry without an adjacent source-backed lifecycle record is `Unreviewed`, regardless of its section heading or earlier description. Unreviewed entries authorize neither new reuse nor removal; only an explicit `Shared-supported` record authorizes deliberate reuse.
+
+When related work verifies or changes an item, add the record required by [governance](../governance.md): identifier, status, semantic role and boundary, source evidence and current public consumers, replacement or migration note, and review date/task. Do not classify unrelated entries during that work.
+
+## Recorded Components
 
 - `Container`
   Major page width containment.
 - `Button`
-  Current shared action component with `primary`, `secondary`, and `tertiary` variants.
+  Recorded action component with `primary`, `secondary`, and `tertiary` variants.
 - `SectionHeading`
   Repeated section heading structure.
 - `FaqSection`
-  Current shared FAQ accordion. The component owns the standard "Frequently asked questions" heading; question, answer, and intro content remain data-driven at page level. Fresh work may use another accessible disclosure or content structure when the selected direction or information does not suit this component.
+  Recorded FAQ accordion. The component owns the standard "Frequently asked questions" heading; question, answer, and intro content remain data-driven at page level.
 - `FaqSchema`
   FAQ structured data helper.
 - `BroadTabPanel`
@@ -25,10 +31,10 @@ This catalogue inventories currently implemented React components and component-
 
 ## Legacy Component Boundary
 
-- The old `src/components/Card.tsx` component has been removed and is not active card API for new work.
+- The old `src/components/Card.tsx` component is `Removed` and is not API for new work.
 - Generic `.card`, `.card-grid`, and `.card-kicker` production selectors have been removed. Do not reintroduce them as compatibility aliases.
 - The old `src/components/SplitSection.tsx` component has been removed after review found no source call sites. Existing pages use explicit composition with `.site-grid` or `.site-highlight`, `Container`, `.site-split`, `SectionHeading`, and `.rich-text`; this is implementation history, not a required replacement recipe.
-- New card-like production UI may reuse current `site-*` patterns or use a different page-scoped treatment according to the selected direction.
+- New card-like production UI stays `Page-local` according to the selected direction unless an explicitly authorized shared-system task promotes it. Existing `site-*` implementation may be reused only when its adjacent record explicitly marks it `Shared-supported`.
 
 ## Component Selection After Direction
 
@@ -36,4 +42,4 @@ This catalogue inventories currently implemented React components and component-
 - Preserve existing functional components when their semantics, accessibility, data flow, or tested behaviour serve the task and can support the direction.
 - Restyle, compose around, replace, or create components when the existing visual or structural contract would weaken the selected direction.
 - Do not force a page into a component when the match is only superficial or primarily visual.
-- A new page-scoped component does not need promotion. Document it here only when the task deliberately makes it shared API.
+- A new page-scoped component does not need promotion. Document it here only when an explicitly authorized task changes its lifecycle or deliberately makes it `Shared-supported`.

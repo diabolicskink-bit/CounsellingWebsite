@@ -17,6 +17,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-03 - Incremental Design-System Migration Governance Added
+
+- Established: Design-system items now use the `Unreviewed`, `Page-local`, `Candidate`, `Shared-supported`, `Deprecated`, `Dormant`, `Historical/dev-only`, and `Removed` lifecycle, with source evidence and consumer records required as items are touched.
+- Directed: New styling remains page-local by default; shared promotion requires explicit shared-system scope, while deprecated, dormant, historical, and unreviewed implementation cannot gain new consumers or be removed opportunistically.
+- Routed: Existing written catalogues serve as the incremental item registers, current-scope summarizes verified changes, and `DEBT-37` remains open as the touch-as-you-go reconciliation umbrella. No production CSS, components, pages, or rendered catalogue routes changed.
+
 ## 2026-08-03 - Rendered Design Catalogue Quarantined
 
 - Quarantined: All five development-only `/design-language/*` routes remain browsable as a historical archive, inherit one prominent outdated-catalogue notice, and use historical navigation, metadata, and sample framing.

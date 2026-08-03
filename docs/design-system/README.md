@@ -1,6 +1,6 @@
 # Design System Documentation
 
-This directory records the Vive Counselling design-system implementation, governance, written catalogues, and legacy status. Its rendered catalogue is currently quarantined as a historical snapshot pending source-backed reconciliation.
+This directory governs the gradual movement from page-local, old, or uncertain implementation toward a deliberately supported shared layer. Its written catalogues are being reconciled incrementally, and its rendered catalogue is quarantined as a historical snapshot.
 
 ## Creative-Within-Identity Status
 
@@ -22,28 +22,38 @@ For fresh creation or redesign:
 
 For shared-UI maintenance or deliberate reuse:
 
-1. Check `current-scope.md` for what is implemented, partial, legacy, or out of scope.
-2. Use `patterns/components.md` and `patterns/page-patterns.md` as catalogues of existing implementation.
-3. Read `governance.md` when changing shared classes, components, rendered design-system pages, reusable-API status, or design-system documentation.
+1. Read `governance.md` for lifecycle status, reusable-API authority, promotion, deprecation, and removal rules.
+2. Check `current-scope.md` for the summary of verified state.
+3. Use `foundations/tokens.md`, `patterns/components.md`, and `patterns/page-patterns.md` as the item-level registers. Anything without an explicit lifecycle record is `Unreviewed`.
 
 For design-system architecture or promotion work:
 
 1. Read `governance.md`.
-2. Check `current-scope.md` and the relevant foundation or pattern catalogue.
+2. Check production source, `current-scope.md`, and the relevant foundation or pattern catalogue.
+
+## Incremental Lifecycle
+
+The lifecycle is `Unreviewed`, `Page-local`, `Candidate`, `Shared-supported`, `Deprecated`, `Dormant`, `Historical/dev-only`, and `Removed`. Definitions and transition rules live only in `governance.md`.
+
+- Production source proves implementation, not reusable status.
+- New visual implementation stays `Page-local` unless an explicitly authorized shared-system task promotes it.
+- Only an explicit `Shared-supported` item record authorizes deliberate reuse.
+- Existing catalogue entries without a record remain `Unreviewed`; reconciliation happens when related work touches them.
+- Deprecated or dormant implementation is not expanded or removed opportunistically.
 
 ## File Map
 
-- `governance.md` owns implementation-evidence rules, reusable-API authority, active and legacy layer policy, promotion rules, and update duties.
-- `current-scope.md` is the factual inventory of what the design system currently includes.
+- `governance.md` owns lifecycle definitions, implementation-evidence rules, reusable-API authority, promotion, deprecation, removal, and update duties.
+- `current-scope.md` summarizes verified design-system state without replacing item records.
 - `foundations/principles.md` records the creative-within-identity policy and distinguishes identity anchors from open composition variables.
-- `foundations/tokens.md` inventories existing colour, spacing, type roles, and baseline typography implementation.
-- `patterns/components.md` inventories current React components and component-backed behaviour.
-- `patterns/page-patterns.md` inventories existing `site-*`, `hero-*`, section, card, panel, rich-text, CTA, form, and page-pattern implementation.
+- `foundations/tokens.md` is the item-level register for colour, spacing, type roles, and baseline typography implementation.
+- `patterns/components.md` is the item-level register for React components and component-backed behaviour.
+- `patterns/page-patterns.md` is the item-level register for `site-*`, `hero-*`, section, card, panel, rich-text, CTA, form, and page-pattern implementation.
 
 ## Implementation Sources
 
-- `src/styles.css` is the production implementation source for current tokens, base typography, shared classes, `site-*`, `hero-*`, and promoted reusable patterns. This describes what exists; it does not make those visual choices mandatory for new work.
-- `src/components/` contains shared React components, but a file existing there does not automatically make it active design-system API. Check `current-scope.md` and `patterns/components.md`.
+- `src/styles.css` is production implementation evidence for tokens, base typography, `site-*`, `hero-*`, and other classes. Presence there does not establish `Shared-supported` status.
+- `src/components/` contains React components, but a file existing there does not automatically make it reusable design-system API. Require an explicit `Shared-supported` record.
 - `src/pages/dev/design-system/` contains historical rendered catalogue pages. Their examples and classifications are not current guidance or approved reusable API.
 - `src/styles-dev.css` contains docs/dev support styling such as `ds-*`.
 - Page-scoped CSS can be production-safe without being design-system API.
@@ -60,4 +70,4 @@ The development-only `/design-language/*` routes preserve an outdated rendered s
 
 Every route inherits a visible “Historical catalogue” notice through `DesignSystemArchiveLayout`. Keep new rendered-catalogue routes nested beneath that layout while the quarantine remains in force.
 
-Do not use these pages to infer current production guidance, implementation status, or approved reusable API. Verify current public-route source and this directory's governance and written catalogues first. Full reconciliation of both the rendered and written catalogue claims is tracked as `DEBT-37`.
+Do not use these pages to infer current production guidance, implementation status, or approved reusable API. Verify current public-route source and require explicit lifecycle records in the written catalogues. Incremental reconciliation is tracked as `DEBT-37`.
