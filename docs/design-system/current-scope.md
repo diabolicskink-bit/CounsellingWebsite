@@ -17,6 +17,7 @@ This is the live factual inventory of the design system.
 - Existing non-prefixed shared component classes remain active where they back current promoted components or patterns: `.container`, `.button`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
 - Active shared React components include `Container`, `Button`, `SectionHeading`, `FaqSection` with its standard FAQ heading, `FaqSchema`, `BroadTabPanel`, `Layout`, `DevPageHero`, `DesignSystemSidebar`, and `DocumentsSidebar`.
 - The development Documents route composes `Container`, the shared hero wrapper and identity tokens with page-scoped `documents-*` styles; its flat, production-aligned presentation is not promoted reusable page API.
+- The Codex and Opus test beds use `DevPageHero` with the page-scoped `.test-bed-page` shell in `src/styles-test-beds.css`; these clean development routes are not promoted reusable page API.
 - The active `Layout` header uses a short warm editorial surface, single-line wordmark, desktop flyout navigation, dark cedar contact action, bottom-anchored active-route treatment, and a fixed dark full-viewport navigation index below the desktop breakpoint. The mobile index exposes separate Fees and Contact links, with Fees targeting the fee section and Contact opening the page at the top. Mobile behaviour retains Escape dismissal, body scroll locking and restoration, focus return to the toggle, and automatic dismissal when responsive resizing crosses into the desktop layout so the page cannot remain scroll-locked behind a hidden menu. The outer shell stays in the document's root overflow flow so the complete footer remains part of the reachable scroll range.
 - The active general card pattern is `.site-card`, `.site-card--link`, `.site-card__list`, `.site-card__action`, and `.site-card-grid`.
 - The active topic-card pattern is `.site-topic-grid`, `.site-topic-card`, and topic-card modifiers.
@@ -54,10 +55,10 @@ This is the live factual inventory of the design system.
 - The old generic `.stack` production helper has been removed; current purpose-specific replacements include `.site-content-stack` and `.site-detail-stack`.
 - The unused `.site-highlight__box` selector has been removed. `.site-highlight` remains the active alternate section band.
 - The unused `.site-spotlight*` composition and its responsive hook have been removed after a source audit found no runtime or development-page consumers.
-- The former shared `EnquiryForm` component and rendered design-system form specimen have been removed. Production behaviour is owned by `Contact.tsx`; the temporary test-bed forms are inert visual interaction references.
+- The former shared `EnquiryForm` component, rendered design-system form specimen, and test-bed form candidates have been removed. Production enquiry behaviour is owned solely by `Contact.tsx`.
 - The former `.site-form*` production CSS API has been removed. Contact owns its form styling, and the remaining foundations-page field sample is docs-scoped.
 - `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css`; it is not part of the production or preferred future layer.
-- `legacy-*`, old `test-bed-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only.
+- `legacy-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only. The current `.test-bed-page` shell is page-scoped development support rather than legacy or shared API.
 - No active `site-hero-*` source usage was found during the latest pass; the documented `hero-*` system supersedes it.
 - Raw design export files, historical icon candidate export folders, and the old type-scale plan are not active design-system docs in the rebuilt structure. Historical icon candidates have been removed; durable guidance has been folded into the canonical docs.
 

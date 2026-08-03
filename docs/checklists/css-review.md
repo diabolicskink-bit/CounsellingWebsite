@@ -74,8 +74,8 @@ Use this structure when a region is expanded to class-token leaves:
   - Next: Expand by route/page file, then by class token.
 
 - `CSS-4` `Bucket` Dev/test-bed experiment CSS files.
-  - Scope: `styles-codex-tb.css` and `styles-opus-tb.css`.
-  - Next: Confirm whether these are still useful, then keep, move, or delete through a focused review.
+  - Scope: `styles-test-beds.css`, the page-scoped shell shared by the clean Codex and Opus development routes. The former candidate-specific test-bed stylesheets have been removed.
+  - Next: Review the clean-shell stylesheet when either test bed receives a new design exploration; keep exploration-specific styling page-scoped until it proves reusable.
 
 ## CSS-1 - `src/styles.css`
 

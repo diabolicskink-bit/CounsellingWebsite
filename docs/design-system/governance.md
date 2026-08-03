@@ -56,7 +56,8 @@ A file in `src/components/`, a selector in a stylesheet, or a rendered example i
 
 - `ds-*` is docs/dev support styling and should stay out of production pages.
 - `design-language-*` is older rendered-doc/demo styling and is not production-safe by default.
-- `legacy-*`, `test-bed-*`, `opus-*`, `inc-lab-*`, and superseded `site-hero-*` are reference or retired layers.
+- `.test-bed-page` and `src/styles-test-beds.css` are current page-scoped development support for the clean test-bed shells; they are not reusable design-system API.
+- `legacy-*`, old `opus-*`, `inc-lab-*`, and superseded `site-hero-*` are reference or retired layers.
 - The old `src/components/Card.tsx`, `.card`, `.card-grid`, and `.card-kicker` path has been removed. Do not reintroduce it as card API.
 
 Useful legacy ideas can be rebuilt locally when a selected concept calls for them. They need promotion and documentation only when they are being added to shared API.
