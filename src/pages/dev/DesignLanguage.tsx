@@ -11,7 +11,7 @@ const systemRoutes = [
     icon: Palette,
     eyebrow: "01 / foundations",
     title: "Foundations",
-    description: "Colour tokens, type roles, spacing, surfaces, HTML defaults, and the baseline rules every page inherits.",
+    description: "A snapshot of the colour tokens, type roles, spacing, surfaces, and HTML defaults recorded by the earlier system.",
     href: "/design-language/foundations",
     detail: "Tokens, type, rhythm, states",
   },
@@ -19,7 +19,7 @@ const systemRoutes = [
     icon: Boxes,
     eyebrow: "02 / components",
     title: "Components",
-    description: "Buttons, cards, trust strips, forms, fee cards, FAQ, footer, and reusable content treatments.",
+    description: "Earlier examples of buttons, cards, trust strips, forms, fee cards, FAQ, footer, and content treatments.",
     href: "/design-language/components",
     detail: "Actions, panels, forms, lists",
   },
@@ -27,7 +27,7 @@ const systemRoutes = [
     icon: Layers3,
     eyebrow: "03 / heroes",
     title: "Heroes",
-    description: "The canonical page-opening system: display type, copy rails, support rows, hero media, and background fields.",
+    description: "The former page-opening catalogue: display type, copy rails, support rows, hero media, and background fields.",
     href: "/design-language/heroes",
     detail: "Page openings and first impressions",
   },
@@ -35,50 +35,42 @@ const systemRoutes = [
     icon: Compass,
     eyebrow: "04 / patterns",
     title: "Patterns",
-    description: "Section compositions and information layouts that help public pages stay calm, useful, and consistent.",
+    description: "Archived section compositions and information layouts retained for later reconciliation.",
     href: "/design-language/patterns",
     detail: "Sections, ledgers, prompts",
   },
 ];
 
-const principles = [
+const historicalPrinciples = [
   {
     title: "Quiet confidence",
-    text: "The system should feel composed before it feels expressive. Let spacing, type, and rules carry the authority.",
+    text: "This snapshot prioritised a composed tone, using spacing, type, and rules to carry authority.",
   },
   {
     title: "Practical warmth",
-    text: "Sensitive content needs enough softness to feel human, but enough structure to keep decisions clear.",
+    text: "It paired softness around sensitive content with enough structure to keep decisions clear.",
   },
   {
     title: "Inclusive by default",
-    text: "Kink, ENM, polyamory, LGBTQIA+ identity, and complex relationships should read as ordinary parts of the room.",
+    text: "It treated kink, ENM, polyamory, LGBTQIA+ identity, and complex relationships as ordinary parts of the room.",
   },
   {
     title: "No decorative drift",
-    text: "Use paper, soft green surfaces, cedar accents, borders, and restrained cards before adding anything new.",
+    text: "It favoured paper, soft green surfaces, cedar accents, borders, and restrained cards.",
   },
-];
-
-const implementationPath = [
-  "Start with shared React components.",
-  "Compose with active site-* and hero-* classes.",
-  "Extend shared styles only when a repeated need appears.",
-  "Use page-scoped CSS only for genuine one-page composition.",
-  "Document anything promoted into the design system.",
 ];
 
 const statusGroups = [
   {
-    label: "Active",
+    label: "Previously catalogued as active",
     items: ["site-* page system", "hero-* hero system", "shared form, FAQ, CTA, footer, card, and trust patterns"],
   },
   {
-    label: "Partial",
+    label: "Previously catalogued as partial",
     items: ["responsive QA matrix", "accessibility audit matrix", "page-pattern consolidation", "component status labelling"],
   },
   {
-    label: "Legacy",
+    label: "Previously catalogued as legacy",
     items: ["design-language-* demos", "test-bed routes", "opus-* and inc-lab-* experiments", "old hero candidates"],
   },
 ];
@@ -92,8 +84,8 @@ const tokenSwatches = [
 
 export default function DesignLanguage() {
   useDocumentMetadata(
-    "Design System | Vive Counselling",
-    "The Vive Counselling design system: foundations, components, hero language, patterns, and implementation rules."
+    "Historical Design Catalogue | Vive Counselling",
+    "An archived Vive Counselling design-system snapshot retained for reconciliation, not current production guidance."
   );
 
   return (
@@ -102,29 +94,29 @@ export default function DesignLanguage() {
         <Container>
           <div className="hero-top ds-overview-hero__grid">
             <div className="ds-overview-hero__copy">
-              <h1 className="hero-badge">Design system</h1>
-              <p className="hero-display">A calm, practical design language for sensitive work.</p>
+              <h1 className="hero-badge">Historical design catalogue</h1>
+              <p className="hero-display">An outdated snapshot retained for reconciliation.</p>
               <p className="hero-intro">
-                Vive's design system keeps counselling content clear, grounded, and human: paper-first layouts, serif-led
-                hierarchy, cedar accents, quiet components, and patterns that make inclusive practice easier to understand.
+                These pages record an earlier design-system direction: paper-first layouts, serif-led hierarchy, cedar
+                accents, quiet components, and a set of patterns that no longer represent the current public site.
               </p>
-              <ul className="hero-support-tagline" aria-label="Design system summary">
-                <li>Paper and soft green rhythm</li>
-                <li>Georgia-led editorial tone</li>
-                <li>Production site-* and hero-* APIs</li>
+              <ul className="hero-support-tagline" aria-label="Historical catalogue summary">
+                <li>Earlier paper and soft green rhythm</li>
+                <li>Earlier Georgia-led editorial tone</li>
+                <li>Unverified site-* and hero-* inventory</li>
               </ul>
             </div>
 
             <aside className="hero-copy-panel ds-overview-hero__panel" aria-label="Design system status">
-              <span className="hero-badge">System status</span>
+              <span className="hero-badge">Archive status</span>
               <p>
-                The active production language is already in use across public pages. Use this overview as the front
-                door, then move into the focused sections for examples, class names, and usage rules.
+                The catalogue is browsable for historical reference while its claims are checked against current source.
+                Nothing shown here should be assumed to be current production guidance or approved reusable API.
               </p>
               <div className="ds-overview-hero__actions">
-                <Button href="/design-language/foundations">Start with foundations</Button>
+                <Button href="/design-language/foundations">Browse historical foundations</Button>
                 <Button href="/design-language/components" variant="secondary">
-                  Browse components
+                  Browse historical components
                 </Button>
               </div>
             </aside>
@@ -140,11 +132,11 @@ export default function DesignLanguage() {
         <div className="ds-layout__content">
           <section className="ds-section" id="map">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">System map</span>
-              <h2>Four reference rooms, one production language.</h2>
+              <span className="site-eyebrow">Archive map</span>
+              <h2>Four rooms from an earlier design-system snapshot.</h2>
               <p>
-                Each section answers a different maintenance question: what is the visual foundation, what can be reused,
-                how should pages open, and which larger compositions are approved.
+                Each section preserves a different part of the former catalogue. The classifications and reuse guidance
+                remain unverified until the reconciliation pass is complete.
               </p>
             </div>
 
@@ -172,19 +164,19 @@ export default function DesignLanguage() {
           <section className="ds-section" id="language">
             <div className="ds-overview-language">
               <div className="ds-section-heading">
-                <span className="site-eyebrow">Design language</span>
-                <h2>Calm is built from repeated decisions.</h2>
+                <span className="site-eyebrow">Recorded design language</span>
+                <h2>The visual language captured by this snapshot.</h2>
                 <p>
-                  The system is intentionally narrow. Colour stays close to paper and green surfaces, cedar does the
-                  emphasis work, and type creates the human register without adding decorative noise.
+                  The earlier system kept colour close to paper and green surfaces, used cedar for emphasis, and relied on
+                  typography for a human register. This description is historical rather than current direction.
                 </p>
               </div>
 
               <div className="ds-overview-specimen" aria-label="Design language specimen">
                 <div className="ds-overview-specimen__type">
                   <span className="hero-badge">Type specimen</span>
-                  <strong>Serif headings carry feeling.</strong>
-                  <p>Sans-serif body copy stays plain, legible, and useful when the content becomes practical.</p>
+                  <strong>This snapshot used serif headings to carry feeling.</strong>
+                  <p>Its sans-serif body copy stayed plain and practical.</p>
                 </div>
 
                 <div className="ds-overview-swatch-grid" aria-label="Core colour tokens">
@@ -208,15 +200,15 @@ export default function DesignLanguage() {
 
           <section className="ds-section" id="principles">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Principles</span>
-              <h2>What the design system should protect.</h2>
+              <span className="site-eyebrow">Recorded principles</span>
+              <h2>What this snapshot set out to protect.</h2>
               <p>
-                These are the judgement calls to return to when a page could be solved several ways.
+                These principles are retained as history. They are not current instructions for new or maintained pages.
               </p>
             </div>
 
             <div className="ds-overview-principle-grid">
-              {principles.map((principle) => (
+              {historicalPrinciples.map((principle) => (
                 <article className="ds-overview-principle" key={principle.title}>
                   <CheckCircle2 size={20} aria-hidden="true" />
                   <h3>{principle.title}</h3>
@@ -226,31 +218,13 @@ export default function DesignLanguage() {
             </div>
           </section>
 
-          <section className="ds-section" id="implementation">
-            <div className="ds-overview-implementation">
-              <div>
-                <span className="site-eyebrow">Implementation order</span>
-                <h2>Reuse before inventing.</h2>
-                <p>
-                  The fastest way to keep the site coherent is to move through the same order every time a visual problem
-                  appears.
-                </p>
-              </div>
-
-              <ol className="ds-overview-steps">
-                {implementationPath.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ol>
-            </div>
-          </section>
-
           <section className="ds-section" id="status">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Inventory</span>
-              <h2>Use active layers, handle partial work carefully, leave experiments as reference.</h2>
+              <span className="site-eyebrow">Historical inventory</span>
+              <h2>Statuses recorded before the catalogue was quarantined.</h2>
               <p>
-                The system has mature production layers and some older reference material. The boundary matters.
+                These labels show what the catalogue previously claimed. They have not yet been reconciled with current
+                public-route source.
               </p>
             </div>
 
@@ -258,7 +232,7 @@ export default function DesignLanguage() {
               {statusGroups.map((group) => (
                 <article className="ds-overview-status" key={group.label}>
                   <div className="ds-overview-status__heading">
-                    {group.label === "Active" ? <ShieldCheck size={20} /> : <BookOpen size={20} />}
+                    {group.label === "Previously catalogued as active" ? <ShieldCheck size={20} /> : <BookOpen size={20} />}
                     <h3>{group.label}</h3>
                   </div>
                   <ul>
@@ -274,14 +248,14 @@ export default function DesignLanguage() {
           <section className="site-cta-block ds-overview-cta">
             <div className="site-cta-block__inner ds-overview-cta__inner">
               <div className="site-cta-block__copy">
-                <h2>Need a starting point?</h2>
+                <h2>Continue through the archived snapshot.</h2>
                 <p>
-                  Foundations explain the tokens and core rules. Components and Patterns show the reusable pieces in
-                  context.
+                  Foundations preserves the earlier token record. Components and Patterns retain the former examples in
+                  context for the reconciliation pass.
                 </p>
               </div>
               <Button href="/design-language/foundations" variant="secondary">
-                Open foundations <ArrowRight size={16} />
+                Browse historical foundations <ArrowRight size={16} />
               </Button>
             </div>
           </section>

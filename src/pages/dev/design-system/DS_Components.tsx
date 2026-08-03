@@ -46,10 +46,10 @@ const trustHighlightItems = [
 ];
 
 const checkItems = [
-  "Use paper and soft green surfaces for section rhythm.",
-  "Use cedar for primary actions and small emphasis only.",
-  "Keep cards quiet, crisp, and lightly elevated.",
-  "Let spacing and borders do more work than decoration.",
+  "The snapshot used paper and soft green surfaces for section rhythm.",
+  "It reserved cedar for primary actions and small emphasis.",
+  "It kept cards quiet, crisp, and lightly elevated.",
+  "It gave spacing and borders more work than decoration.",
 ];
 
 const gridCheckItems = [
@@ -88,7 +88,7 @@ const broadTabPanelItems = [
   {
     title: "Psychodynamic",
     details: [
-      "Use this shape when a short set of labels needs one shared reading surface with enough room for substantial paragraphs.",
+      "The earlier catalogue assigned this shape to short label sets with one shared reading surface.",
       "The tab column stays compact while the content side is allowed to be longer, so the panel does not create a stray blank block under the final tab.",
     ],
   },
@@ -96,14 +96,14 @@ const broadTabPanelItems = [
     title: "Attachment",
     details: [
       "The treatment suits related lenses, modes, or service frames where each item deserves more than a card but less than a full section.",
-      "Keep tab labels short. If the labels wrap heavily or the set grows beyond five, use a different pattern.",
+      "Earlier guidance kept tab labels short and limited the set to five.",
     ],
   },
   {
     title: "Integrative",
     details: [
-      "Use the shared component rather than rebuilding ARIA tabs, roving focus, keyboard handling, borders, and responsive stacking page by page.",
-      "The active state uses a quiet cedar rule, clean paper, and the same serif title voice as the rest of the site.",
+      "The earlier catalogue directed maintainers to this component for ARIA tabs, roving focus, keyboard handling, borders, and responsive stacking.",
+      "The recorded active state used a quiet cedar rule, clean paper, and a serif title.",
     ],
   },
 ];
@@ -111,11 +111,11 @@ const broadTabPanelItems = [
 const faqItems = [
   {
     question: "Can this pattern hold several short questions?",
-    answer: "Yes. Use it for FAQs where each answer needs space, not for tiny metadata or navigation.",
+    answer: "The earlier catalogue assigned it to FAQs with substantial answers rather than metadata or navigation.",
   },
   {
     question: "Should FAQ items be cards?",
-    answer: "No. The shared accordion keeps question pages quieter and easier to scan than repeated cards.",
+    answer: "The snapshot described the accordion as quieter and easier to scan than repeated cards.",
   },
 ];
 
@@ -125,18 +125,18 @@ const footerDemoLinks = [
   { label: "Fees", href: "/contact#contact-fees" },
 ];
 
-// AI maintainers: this page documents reusable UI components. When a production
-// page needs a repeated card/list/panel treatment, add it here using the real
-// shared class names instead of creating a page-specific lookalike.
 export default function DS_Components() {
-  useDocumentMetadata("Components | Design System | Vive Counselling");
+  useDocumentMetadata(
+    "Historical Components | Design Catalogue | Vive Counselling",
+    "An archived component snapshot retained for reconciliation, not current production guidance.",
+  );
 
   return (
     <main className="site-page">
       <DevPageHero
-        badge="Design system"
-        title="Components"
-        description="Buttons, cards, trust strips, forms, and list treatments — the reusable UI pieces and their usage rules."
+        badge="Historical catalogue"
+        title="Historical components"
+        description="Archived buttons, cards, trust strips, forms, and list treatments from an earlier system. Their status and usage claims remain unverified."
       />
 
       <div className="ds-layout">
@@ -148,9 +148,9 @@ export default function DS_Components() {
 
           <section className="ds-section" id="buttons">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Buttons</span>
-              <h2>Actions should feel stable, not salesy.</h2>
-              <p>Primary actions use cedar. Secondary stays quieter. Text links are visible without looking like a separate brand language.</p>
+              <span className="site-eyebrow">Historical buttons</span>
+              <h2>The action hierarchy recorded by this snapshot.</h2>
+              <p>The earlier treatment used cedar for primary actions, quieter secondary actions, and visibly distinct text links.</p>
             </div>
 
             <div className="ds-demo ds-demo--gap">
@@ -163,18 +163,18 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note">
-              <strong>Primary</strong> — One per view. Contact, enquiry, key next step. Never use for navigation.<br />
-              <strong>Secondary</strong> — Supporting action alongside primary (e.g. "View fees" next to "Get in touch").<br />
-              <strong>Tertiary</strong> — Low-emphasis action on a coloured or busy surface.<br />
-              <strong>Text link</strong> — Inline contextual navigation within copy. Not a standalone CTA.
+              <strong>Earlier primary role</strong> — One key contact, enquiry, or next-step action per view.<br />
+              <strong>Earlier secondary role</strong> — A supporting action alongside the primary.<br />
+              <strong>Earlier tertiary role</strong> — A low-emphasis action on a coloured or busy surface.<br />
+              <strong>Earlier text-link role</strong> — Inline contextual navigation within copy.
             </div>
           </section>
 
           <section className="ds-section" id="cards">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Cards</span>
-              <h2>Reusable cards for service themes, practical details, and reassurance points.</h2>
-              <p>Cards should feel quiet and crisp. Avoid adding decoration — the icon, title, and copy carry the weight.</p>
+              <span className="site-eyebrow">Historical cards</span>
+              <h2>Card treatments retained from the earlier catalogue.</h2>
+              <p>The snapshot described these cards as quiet and crisp, with icon, title, and copy carrying the visual weight.</p>
             </div>
 
             <div className="site-card-grid">
@@ -192,9 +192,8 @@ export default function DS_Components() {
               })}
             </div>
 
-            {/* AI maintainers: linked cards use the same site-card primitive. Do not create a page-specific card class just to add bullets or a trailing action. */}
             <div className="ds-demo" style={{ marginTop: "24px" }}>
-              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Linked card example</p>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Historical linked-card sample</p>
               <a className="site-card site-card--link" href="/kink-bdsm-counselling" style={{ maxWidth: "360px" }}>
                 <h3>Kink & BDSM-aware counselling</h3>
                 <p>For a destination card where short context and common topics need to sit together.</p>
@@ -219,7 +218,7 @@ export default function DS_Components() {
                   </article>
                   <article className="site-topic-card">
                     <h3>Relationship strain</h3>
-                    <p>Use the shared grid instead of recreating the same local two-column card layout.</p>
+                    <p>The earlier catalogue treated this as a shared two-column topic grid.</p>
                   </article>
                 </div>
                 <p className="site-ruled-paragraph site-ruled-paragraph--wide">
@@ -229,12 +228,12 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
-              <strong>Icon cards</strong> (site-card) — Static cards for service features, practice signals, and grouped reassurances. Add <code>site-card--link</code> only when the whole card is a destination.<br />
-              <strong>Chips / pills</strong> — Use <code>.site-pill-row</code> for short categorical tags inside a panel. Not for standalone navigation.
+              <strong>Earlier icon-card role</strong> — Static cards for service features, practice signals, and grouped reassurances.<br />
+              <strong>Earlier chip / pill role</strong> — Short categorical tags inside a panel rather than standalone navigation.
             </div>
 
             <div className="ds-demo" style={{ marginTop: "24px" }}>
-              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Pill row example</p>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Historical sample: pill row</p>
               <div className="site-pill-row">
                 <span>Guided intake path</span>
                 <span>Trust badges</span>
@@ -246,9 +245,9 @@ export default function DS_Components() {
 
           <section className="ds-section" id="trust-strip">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Trust strip</span>
-              <h2>Compact reassurance before heavier content begins.</h2>
-              <p>Short factual signals: format, audience, location, registration, or practice stance. Text-led, understated, dot-divided.</p>
+              <span className="site-eyebrow">Historical trust strip</span>
+              <h2>A compact reassurance treatment from this snapshot.</h2>
+              <p>The earlier catalogue used short, text-led factual signals divided by quiet dots.</p>
             </div>
 
             <div className="ds-demo">
@@ -268,17 +267,17 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note">
-              <strong>Use directly under</strong> hero copy, page introductions, or compact service summaries.<br />
-              <strong>Optional modifier</strong> add <code>.site-trust-list--highlight-last</code> when the final item is a positioning statement that should stand apart from the factual cues above it.<br />
-              <strong>Avoid</strong> using it as a replacement for detailed cards when the information needs explanation. Never more than 4–5 items.
+              <strong>Earlier placement</strong> — Under hero copy, page introductions, or compact service summaries.<br />
+              <strong>Earlier modifier role</strong> — <code>.site-trust-list--highlight-last</code> separated a final positioning statement.<br />
+              <strong>Earlier limit</strong> — Four or five short facts rather than detailed explanatory content.
             </div>
           </section>
 
           <section className="ds-section" id="forms">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Forms & contact</span>
-              <h2>Contact surfaces should feel clear, calm, and low-friction.</h2>
-              <p>Form fields, side notes, and contact details use the same card, border, and icon language as the rest of the site.</p>
+              <span className="site-eyebrow">Historical forms & contact</span>
+              <h2>The superseded contact treatment recorded here.</h2>
+              <p>This form and contact strip are retained as historical examples and no longer match the production Contact page.</p>
             </div>
 
             <div className="ds-demo" style={{ maxWidth: "760px" }}>
@@ -304,13 +303,13 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
-              <strong>Enquiry form</strong> - Use the shared <code>EnquiryForm</code> component and <code>src/data/enquiry.ts</code> content so the production contact form and this example stay identical.<br />
-              <strong>All form elements</strong> share the same border, radius, and focus-ring treatment. Do not invent custom input styles.<br />
-              <strong>Contact strip</strong> — Icon + label + value. Use for email, phone, and location. Sits below the form or in a page aside.
+              <strong>Historical enquiry form</strong> — A superseded <code>EnquiryForm</code> example; it is not the production Contact form.<br />
+              <strong>Earlier form treatment</strong> — Shared border, radius, and focus-ring styling.<br />
+              <strong>Earlier contact-strip role</strong> — Icon, label, and value shown below a form or in an aside.
             </div>
 
             <div className="ds-demo" style={{ marginTop: "24px" }}>
-              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Fee card example</p>
+              <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Historical sample: fee card</p>
               <aside className="site-fee-card" style={{ maxWidth: "280px" }}>
                 <p className="site-highlight__eyebrow">Session fee</p>
                 <strong>$170</strong>
@@ -322,9 +321,9 @@ export default function DS_Components() {
 
           <section className="ds-section" id="footer">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Footer</span>
-              <h2>The shared footer is a quiet counterpart to the header.</h2>
-              <p>A warm utility bar keeps navigation and practice details available without repeating a page-level contact invitation.</p>
+              <span className="site-eyebrow">Historical footer specimen</span>
+              <h2>The footer treatment captured by this snapshot.</h2>
+              <p>This example recorded a warm utility bar for navigation and practice details.</p>
             </div>
 
             <div className="ds-demo">
@@ -367,15 +366,15 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
-              <strong>Use for:</strong> shared site chrome only. Keep it informational and compact; page-level contact invitations should sit above it as separate content.
+              <strong>Earlier intended role:</strong> compact shared site chrome, separate from page-level contact invitations.
             </div>
           </section>
 
           <section className="ds-section" id="lists">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Lists & stacks</span>
-              <h2>Use structure to make content feel manageable.</h2>
-              <p>Four distinct text-structure treatments, each suited to a different content register.</p>
+              <span className="site-eyebrow">Historical lists & stacks</span>
+              <h2>Four structure treatments retained from the snapshot.</h2>
+              <p>The earlier catalogue assigned each treatment to a different content register.</p>
             </div>
 
             <div className="site-split">
@@ -390,7 +389,7 @@ export default function DS_Components() {
                   ))}
                 </div>
                 <div className="ds-usage-note">
-                  <strong>Use for:</strong> Practical guidance, design rules, feature confirmation. Use <code>.site-check-panel</code>; the icon is an accent, not the feature.
+                  <strong>Earlier intended role:</strong> practical guidance, design rules, and feature confirmation, with the icon as an accent.
                 </div>
               </div>
 
@@ -405,7 +404,7 @@ export default function DS_Components() {
                   ))}
                 </div>
                 <div className="ds-usage-note">
-                  <strong>Use for:</strong> Larger issue lists in a split section. Do not create page-specific item-list classes for this shape.
+                  <strong>Earlier intended role:</strong> larger issue lists inside a split section.
                 </div>
               </div>
             </div>
@@ -419,7 +418,7 @@ export default function DS_Components() {
                   ))}
                 </div>
                 <div className="ds-usage-note">
-                  <strong>Use for:</strong> Short, high-confidence statements that need quiet emphasis — especially inclusive practice signals. Ruled lines, no icons.
+                  <strong>Earlier intended role:</strong> short statements needing quiet emphasis, with ruled lines and no icons.
                 </div>
               </div>
 
@@ -427,14 +426,12 @@ export default function DS_Components() {
                 <p className="site-eyebrow" style={{ marginBottom: "14px" }}>FAQ accordion</p>
                 <div className="site-copy-panel">
                   <p style={{ maxWidth: "42ch", margin: 0 }}>
-                    FAQ sections now use the shared <code>FaqSection</code> component for motion, semantics, and
-                    open-state behaviour. Pair it with a section surface such as <code>site-grid</code> or{" "}
-                    <code>site-highlight</code>.
+                    The earlier catalogue paired <code>FaqSection</code> with <code>site-grid</code> or{" "}
+                    <code>site-highlight</code> and attributed motion, semantics, and open-state behaviour to the component.
                   </p>
                 </div>
                 <div className="ds-usage-note">
-                  <strong>Use for:</strong> Question-and-answer sections. Use the shared <code>FaqSection</code>{" "}
-                  component rather than page-level accordion markup, and pass the section surface explicitly.
+                  <strong>Earlier intended role:</strong> question-and-answer sections with an explicit section surface.
                 </div>
               </div>
             </div>
@@ -457,29 +454,27 @@ export default function DS_Components() {
                 ))}
               </div>
               <div className="ds-usage-note" style={{ marginTop: "16px" }}>
-                <strong>Use for:</strong> Small destination lists where each item needs a clear next-step cue plus one short line of context. Keep it to a handful of links, not a full navigation menu.
+                <strong>Earlier intended role:</strong> small destination lists with a next-step cue and one short line of context.
               </div>
             </div>
 
             <div className="ds-demo" style={{ marginTop: "28px" }}>
               <p className="site-highlight__eyebrow" style={{ marginBottom: "12px" }}>Ruled paragraph</p>
               <p className="site-ruled-paragraph" style={{ maxWidth: "52ch" }}>
-                Use this for a single paragraph that needs a little more visual weight than plain body copy, but not the
-                full containment of a panel. It works well for orienting copy, quiet reassurance, or a paragraph that
-                should feel slightly set apart from the surrounding text.
+                The earlier catalogue used this ruled treatment for a single paragraph needing more visual weight than
+                plain body copy without full panel containment.
               </p>
               <div className="ds-usage-note" style={{ marginTop: "16px" }}>
-                <strong>Use for:</strong> One paragraph at a time. A subtle left-rule cue for reflective, orienting, or
-                trust-building copy. Do not use it for long rich-text blocks or stacked multi-paragraph content.
+                <strong>Earlier intended role:</strong> one reflective, orienting, or trust-building paragraph at a time.
               </div>
             </div>
           </section>
 
           <section className="ds-section" id="broad-tab-panel">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Broad tab panel</span>
-              <h2>Tabs for a small set of substantial explanations.</h2>
-              <p>Use this when the layout needs one compact label column and one generous reading panel.</p>
+              <span className="site-eyebrow">Historical broad tab panel</span>
+              <h2>A tab treatment retained from this snapshot.</h2>
+              <p>The earlier catalogue paired a compact label column with a generous reading panel.</p>
             </div>
 
             <div className="ds-demo" style={{ maxWidth: "920px" }}>
@@ -493,24 +488,24 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "16px" }}>
-              <strong>Use for:</strong> Three to five related lenses, modes, or explanations with paragraph-length content.<br />
-              <strong>Avoid:</strong> primary navigation, filters, tiny metadata, or large topic sets that should be a list or accordion.
+              <strong>Earlier intended role:</strong> three to five related lenses, modes, or explanations with paragraph-length content.<br />
+              <strong>Earlier exclusions:</strong> primary navigation, filters, tiny metadata, and large topic sets.
             </div>
           </section>
 
           <section className="ds-section" id="faq-accordion">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">FAQ accordion</span>
-              <h2>Use the shared component at full section width.</h2>
+              <span className="site-eyebrow">Historical FAQ accordion</span>
+              <h2>The recorded full-width FAQ treatment.</h2>
               <p>
-                The live example below shows the reusable FAQ treatment with its intended spacing, contained reveal,
-                and one-open-at-a-time behaviour.
+                This historical example preserves the FAQ treatment's earlier spacing, contained reveal, and
+                one-open-at-a-time behaviour.
               </p>
             </div>
 
             <FaqSection
               className="site-grid"
-              intro="Use this shared section when answers need comfortable reading space and the interaction should feel calm, clear, and contained."
+              intro="The earlier catalogue positioned this section as a calm, contained treatment for answers needing comfortable reading space."
               items={faqItems}
             />
           </section>

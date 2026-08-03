@@ -7,19 +7,19 @@ import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
 const foundationRules = [
   {
     title: "Paper first",
-    text: "Most pages should read as paper with soft green rhythm, not as a themed green interface.",
+    text: "Earlier guidance described most pages as paper with a soft green rhythm rather than a themed green interface.",
   },
   {
     title: "Type carries tone",
-    text: "Serif headings set the emotional register. Sans-serif body copy stays plain, practical, and readable.",
+    text: "The snapshot used serif headings for emotional register and sans-serif body copy for practical reading.",
   },
   {
     title: "Borders before effects",
-    text: "Structure comes from spacing, rules, and restrained borders. Shadows are reserved for true floating surfaces.",
+    text: "The snapshot built structure from spacing, rules, and restrained borders, reserving shadows for floating surfaces.",
   },
   {
     title: "Cedar is an accent",
-    text: "Use cedar for actions, labels, icons, links, and small emphasis. Do not turn it into a general background color.",
+    text: "Earlier guidance reserved cedar for actions, labels, icons, links, and small emphasis rather than general backgrounds.",
   },
 ];
 
@@ -64,61 +64,61 @@ const typeRoleRows = [
     role: "Display hero",
     token: "--type-display",
     source: ".hero-display",
-    use: "Expressive hero statement on p.hero-display after the page-topic h1.hero-badge. Keep this out of cards, forms, and compact panels.",
+    use: "Earlier intended use: an expressive hero statement after the page-topic h1.hero-badge, outside compact surfaces.",
   },
   {
     role: "Page title",
     token: "--type-page-title",
     source: "h1, h1.hero-badge",
-    use: "The page's single visible H1: either a plain title or the concise hero topic label.",
+    use: "Earlier intended use: the page's single visible H1, either a plain title or concise hero topic label.",
   },
   {
     role: "Section heading",
     token: "--type-section",
     source: "h2, .section-heading",
-    use: "Major section statements. Large enough to carry tone without becoming hero scale.",
+    use: "Earlier intended use: major section statements below hero scale.",
   },
   {
     role: "Compact section heading",
     token: "--type-section-compact",
     source: ".rich-text h2, .site-cta-block h2",
-    use: "Contained panels, rich text, form success states, and compact section moments.",
+    use: "Earlier intended use: contained panels, rich text, form success states, and compact sections.",
   },
   {
     role: "Card title",
     token: "--type-card-title",
     source: "h3, .site-card h3",
-    use: "Cards, grouped ideas, FAQ links, principles, and repeated content items.",
+    use: "Earlier intended use: cards, grouped ideas, FAQ links, principles, and repeated items.",
   },
   {
     role: "Body",
     token: "--type-body",
     source: "p, .site-body-copy, .site-copy-flow",
-    use: "Default paragraphs, compact stack copy, forms, FAQ answers, and practical information.",
+    use: "Earlier intended use: paragraphs, compact stack copy, forms, FAQ answers, and practical information.",
   },
   {
     role: "Rich body",
     token: "--type-body-rich",
     source: ".rich-text p",
-    use: "Longer editorial reading copy; currently aliases the standard body rhythm.",
+    use: "Earlier intended use: longer editorial copy; this snapshot aliased the standard body rhythm.",
   },
   {
     role: "Support copy",
     token: "--type-support",
     source: ".hero-intro, .hero-copy-panel",
-    use: "Hero support, section introductions, and explanatory rails; currently aliases the standard body rhythm.",
+    use: "Earlier intended use: hero support, section introductions, and explanatory rails.",
   },
   {
     role: "Label and small",
     token: "--type-label / --type-small",
     source: ".site-eyebrow, helper text",
-    use: "Eyebrows, metadata, helper text, captions, notes, and practical labels.",
+    use: "Earlier intended use: eyebrows, metadata, helper text, captions, notes, and practical labels.",
   },
   {
     role: "Numeric display",
     token: "--type-fee-display",
     source: ".site-fee-card strong",
-    use: "Large figures such as session fees. Keep it rare and purposeful.",
+    use: "Earlier intended use: occasional large figures such as session fees.",
   },
 ];
 
@@ -127,58 +127,58 @@ const layoutRules = [
     label: "Content width",
     token: "--max",
     value: "1180px",
-    guidance: "Use the Container component for major page content and demos that need the real site gutter.",
+    guidance: "Earlier guidance placed major page content and demos inside Container.",
   },
   {
     label: "Shared section",
     token: ".site-grid",
     value: "40px block padding",
-    guidance: "Pale paper-gradient section surface. Use as the neutral step in the alternating rhythm.",
+    guidance: "Earlier guidance treated this pale paper gradient as the neutral section step.",
   },
   {
     label: "Highlighted section",
     token: ".site-highlight",
     value: "40px block padding",
-    guidance: "Muted paper-sage alternate band. Use between site-grid sections instead of local wrapper classes.",
+    guidance: "Earlier guidance treated this muted paper-sage band as the alternate section step.",
   },
   {
     label: "Split layout",
     token: ".site-split",
     value: "0.72fr / 1fr",
-    guidance: "Pair a heading block with the reading or component side of a section.",
+    guidance: "Earlier guidance paired a heading block with the reading or component side.",
   },
   {
     label: "Content stack",
     token: ".site-content-stack",
     value: "24px gap",
-    guidance: "Stack cards, panels, notes, and principle blocks inside the content column.",
+    guidance: "Earlier guidance stacked cards, panels, notes, and principle blocks inside a content column.",
   },
   {
     label: "Standard radius",
     token: "--radius",
     value: "8px",
-    guidance: "Use for cards, buttons, inputs, chips, and docs-shell surfaces.",
+    guidance: "Earlier guidance applied this radius to cards, buttons, inputs, chips, and docs surfaces.",
   },
   {
     label: "Shadow",
     token: "--shadow",
     value: "0 8px 22px rgba(31, 35, 31, 0.055)",
-    guidance: "Use sparingly. Most separation should come from borders and spacing.",
+    guidance: "Earlier guidance used this shadow sparingly, after borders and spacing.",
   },
 ];
 
 const stateRules = [
   {
     title: "Links stay visible",
-    text: "Inline rich-text links use cedar, weight, underline, and underline offset so they remain obvious in calm copy.",
+    text: "This snapshot styled inline rich-text links with cedar, weight, underline, and underline offset.",
   },
   {
     title: "Focus is quiet but clear",
-    text: "Inputs, linked stacks, and editorial links use cedar outlines or rings. The state should be legible without feeling loud.",
+    text: "This snapshot used cedar outlines or rings for inputs, linked stacks, and editorial links.",
   },
   {
     title: "Hover is a small lift",
-    text: "Cards and buttons move slightly or deepen their border. Avoid large motion or decorative hover states.",
+    text: "This snapshot used slight movement or a deeper border for card and button hover states.",
   },
 ];
 
@@ -186,77 +186,77 @@ const foundationReferenceNames = [
   {
     name: "Foundation rule card",
     pointsTo: "The small principle cards in Core rules.",
-    status: "Active example built with .site-card.",
+    status: "Previously catalogued as active: .site-card.",
   },
   {
     name: "Token swatch card",
-    pointsTo: "The colour token cards with a live swatch, token name, value, and role.",
-    status: "Docs-only token preview.",
+    pointsTo: "The colour token cards with a historical swatch, token name, value, and role.",
+    status: "Historical docs-only token preview.",
   },
   {
     name: "Paper action panel",
-    pointsTo: "The larger left panel in the live colour composition example.",
-    status: "Docs-only composition example using production tokens.",
+    pointsTo: "The larger left panel in the historical colour composition example.",
+    status: "Historical docs-only composition example.",
   },
   {
     name: "Soft surface block",
-    pointsTo: "The smaller soft-green block in the live colour composition example.",
-    status: "Docs-only surface example using production tokens.",
+    pointsTo: "The smaller soft-green block in the historical colour composition example.",
+    status: "Historical docs-only surface example.",
   },
   {
     name: "Hero display specimen",
     pointsTo: "The large hero typography sample in the Typography section.",
-    status: "Active hero-* system example.",
+    status: "Previously catalogued as active: hero-* example.",
   },
   {
     name: "Section heading specimen",
     pointsTo: "The contained section heading sample in the type specimen grid.",
-    status: "Active type-role example.",
+    status: "Previously catalogued as active: type-role example.",
   },
   {
     name: "Contained trust card",
     pointsTo: "The Card title / Contained trust card in the type specimen grid.",
-    status: "Active .site-card example.",
+    status: "Previously catalogued as active: .site-card.",
   },
   {
     name: "Rich text panel",
     pointsTo: "The panel showing rich text headings, paragraphs, and contextual links.",
-    status: "Active .site-copy-panel.rich-text example.",
+    status: "Previously catalogued as active: .site-copy-panel.rich-text.",
   },
   {
     name: "Fee display card",
     pointsTo: "The numeric display card showing a large session fee.",
-    status: "Active .site-fee-card example.",
+    status: "Previously catalogued as active: .site-fee-card.",
   },
   {
     name: "Section rhythm preview",
     pointsTo: "The stacked neutral and highlighted section preview in Spacing & layout.",
-    status: "Active .site-grid and quieter .site-highlight example.",
+    status: "Previously catalogued as active: .site-grid and .site-highlight.",
   },
   {
     name: "Edge sample card",
     pointsTo: "The radius, border, and shadow examples in Surfaces & edges.",
-    status: "Docs-only edge preview using production tokens.",
+    status: "Historical docs-only edge preview.",
   },
   {
     name: "State rule card",
     pointsTo: "The Links stay visible, Focus is quiet, and Hover is a small lift cards.",
-    status: "Active behaviour guidance built with .site-card.",
+    status: "Previously catalogued as active: .site-card behaviour guidance.",
   },
   {
     name: "Rich text link sample",
     pointsTo: "The small text block showing the shared rich-text link treatment.",
-    status: "Active .rich-text link-state example.",
+    status: "Previously catalogued as active: .rich-text link state.",
   },
   {
     name: "Mini form focus sample",
     pointsTo: "The small form field in Links & states.",
-    status: "Active .site-form focus-state example.",
+    status: "Previously catalogued as active: .site-form focus state.",
   },
   {
     name: "Editorial HTML panel",
     pointsTo: "The final rich-text demo with headings, links, lists, quote, table, code, divider, and button.",
-    status: "Active .rich-text baseline and contextual-button example.",
+    status: "Previously catalogued as active: .rich-text baseline.",
   },
 ];
 
@@ -269,18 +269,18 @@ function ReferenceName({ block = false, children }: ReferenceNameProps) {
   return <span className={`ds-reference-name${block ? " ds-reference-name--block" : ""}`}>Reference: {children}</span>;
 }
 
-// AI maintainers: Foundations is for tokens, base typography, spacing, section rhythm,
-// shared rich-text behavior, and baseline state rules. Component-specific demos belong
-// in DS_Components; page-level composition belongs in DS_Patterns or DS_Heroes.
 export default function DS_Foundations() {
-  useDocumentMetadata("Foundations | Design System | Vive Counselling");
+  useDocumentMetadata(
+    "Historical Foundations | Design Catalogue | Vive Counselling",
+    "An archived foundations snapshot retained for reconciliation, not current production guidance.",
+  );
 
   return (
     <main className="site-page ds-foundations-page">
       <DevPageHero
-        badge="Design system"
-        title="Foundations"
-        description="The baseline rules behind the site: color, type, section rhythm, editorial HTML, and the small interaction states that keep sensitive content readable."
+        badge="Historical catalogue"
+        title="Historical foundations"
+        description="An archived snapshot of earlier colour, type, section rhythm, editorial HTML, and interaction-state guidance. Its classifications remain unverified."
       />
 
       <div className="ds-layout">
@@ -291,11 +291,11 @@ export default function DS_Foundations() {
         <div className="ds-layout__content">
           <section className="ds-section" id="rules">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Core rules</span>
-              <h2>The foundations are practical constraints.</h2>
+              <span className="site-eyebrow">Recorded core rules</span>
+              <h2>Constraints described by the earlier catalogue.</h2>
               <p>
-                These rules keep the site grounded as pages change. Use them before reaching for new colors, special
-                wrappers, decorative effects, or page-specific typography.
+                These cards preserve the rules attached to this snapshot. They are historical records rather than
+                instructions for current maintenance or new work.
               </p>
             </div>
 
@@ -312,18 +312,18 @@ export default function DS_Foundations() {
 
           <section className="ds-section" id="reference-names">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Reference names</span>
-              <h2>Use these names when pointing at a Foundations treatment.</h2>
+              <span className="site-eyebrow">Historical reference names</span>
+              <h2>Names attached to treatments in this snapshot.</h2>
               <p>
-                These are stable conversational handles for the examples on this page. They do not create new
-                production components by themselves.
+                These labels are retained to make the archive discussable. They do not indicate current components,
+                current status, or approved reusable API.
               </p>
             </div>
 
             <table className="ds-spacing-table">
               <thead>
                 <tr>
-                  <th>Name to use</th>
+                  <th>Recorded name</th>
                   <th>What it points to</th>
                   <th>Status</th>
                 </tr>
@@ -342,11 +342,11 @@ export default function DS_Foundations() {
 
           <section className="ds-section" id="colour">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Colour tokens</span>
-              <h2>The palette should read as paper, surface, text, and cedar.</h2>
+              <span className="site-eyebrow">Historical colour tokens</span>
+              <h2>The palette recorded as paper, surface, text, and cedar.</h2>
               <p>
-                Token values are shown here with live swatches using the actual CSS variables. Hex values are labels for
-                maintainers, not an invitation to hard-code colors in components.
+                The swatches still resolve from the CSS variables so the snapshot remains inspectable. Their presence
+                does not confirm current design-system status.
               </p>
             </div>
 
@@ -382,28 +382,28 @@ export default function DS_Foundations() {
             <div className="ds-demo ds-foundation-colour-demo">
               <div className="ds-foundation-colour-demo__paper">
                 <ReferenceName>Paper action panel</ReferenceName>
-                <span className="site-eyebrow">Live color composition</span>
-                <h3>Paper carries the page. Cedar only marks action and emphasis.</h3>
+                <span className="site-eyebrow">Historical colour composition</span>
+                <h3>This snapshot used paper as canvas and cedar for action and emphasis.</h3>
                 <p>
-                  The strongest color should usually be text or a focused call to action, not the whole section.
+                  The earlier composition concentrated its strongest colour in text and focused actions.
                 </p>
                 <Button href="/contact">Primary cedar action</Button>
               </div>
               <div className="ds-foundation-colour-demo__surface">
                 <ReferenceName>Soft surface block</ReferenceName>
                 <strong>Soft surface</strong>
-                <span>Use for alternating rhythm, chips, icon wells, and low-pressure emphasis.</span>
+                <span>Earlier intended use: alternating rhythm, chips, icon wells, and low-pressure emphasis.</span>
               </div>
             </div>
           </section>
 
           <section className="ds-section" id="typography">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Typography</span>
-              <h2>Serif headings create the voice; body copy does the work.</h2>
+              <span className="site-eyebrow">Historical typography</span>
+              <h2>The type roles recorded by this snapshot.</h2>
               <p>
-                The type scale now has named roles. Use these before adding page-specific sizes, and keep display type
-                reserved for page openings or deliberately large closing prompts.
+                The earlier catalogue assigned named roles to its type scale. The table records those intended uses
+                without confirming their current status.
               </p>
             </div>
 
@@ -412,8 +412,8 @@ export default function DS_Foundations() {
                 <tr>
                   <th>Role</th>
                   <th>Token</th>
-                  <th>Current source</th>
-                  <th>Use</th>
+                  <th>Recorded source</th>
+                  <th>Earlier intended use</th>
                 </tr>
               </thead>
               <tbody>
@@ -440,8 +440,8 @@ export default function DS_Foundations() {
                   for complicated things.
                 </p>
                 <p className="hero-intro">
-                  Use <code>.hero-display</code> for the expressive production hero statement. The scale is measured,
-                  the weight is deliberate, and the default title measure keeps longer headings under control.
+                  This snapshot treated <code>.hero-display</code> as its expressive hero statement, with a measured scale,
+                  deliberate weight, and controlled title measure.
                 </p>
               </article>
 
@@ -449,7 +449,7 @@ export default function DS_Foundations() {
                 <article className="ds-foundation-type-specimen ds-foundation-type-specimen--section">
                   <ReferenceName>Section heading specimen</ReferenceName>
                   <span className="site-eyebrow">Section heading</span>
-                  <h2>A section heading should read like a considered statement.</h2>
+                  <h2>The earlier section heading read like a considered statement.</h2>
                   <p className="section-heading__copy">
                     Support copy can orient the reader without becoming a second headline.
                   </p>
@@ -459,7 +459,7 @@ export default function DS_Foundations() {
                   <ReferenceName>Contained trust card</ReferenceName>
                   <span className="site-eyebrow">Card title</span>
                   <h3>Contained trust</h3>
-                  <p>Card copy stays quieter than section copy and should be easy to scan.</p>
+                  <p>The earlier card treatment kept copy quieter than section copy.</p>
                 </article>
 
                 <article className="site-copy-panel rich-text ds-foundation-type-copy">
@@ -467,12 +467,12 @@ export default function DS_Foundations() {
                   <span className="site-eyebrow">Rich text</span>
                   <h2>Rich text gets its own compact heading role.</h2>
                   <p>
-                    Body copy should feel warm, specific, and plain. It can include a{" "}
-                    <a href="/working-with-joel">contextual text link</a> without needing page-specific link styling.
+                    This specimen used warm, specific body copy with a{" "}
+                    <a href="/working-with-joel">contextual text link</a>.
                   </p>
                   <h3>Nested rich heading</h3>
                   <p>
-                    H3s support smaller content clusters. They should not compete with the surrounding section heading.
+                    In this snapshot, H3s supported smaller content clusters below the surrounding section heading.
                   </p>
                 </article>
 
@@ -486,19 +486,18 @@ export default function DS_Foundations() {
             </div>
 
             <div className="ds-usage-note">
-              <strong>Rule of thumb:</strong> one visible production <code>h1</code> per page, usually the hero topic
-              label, followed by a serif-led <code>p.hero-display</code> when the page uses the shared hero system.
-              Do not use display scale inside compact cards, sidebars, form panels, or small support blocks.
+              <strong>Earlier rule of thumb:</strong> the snapshot paired one visible <code>h1</code> with a serif-led
+              <code> p.hero-display</code> and kept display scale outside compact surfaces.
             </div>
           </section>
 
           <section className="ds-section" id="spacing">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Spacing & layout</span>
-              <h2>Spacing, not decoration, creates the page rhythm.</h2>
+              <span className="site-eyebrow">Historical spacing & layout</span>
+              <h2>The spacing and section rhythm recorded here.</h2>
               <p>
-                Major content should sit inside the shared container. Page sections alternate between neutral
-                <code> .site-grid</code> and quieter <code>.site-highlight</code> surfaces.
+                The earlier catalogue placed major content inside Container and alternated <code>.site-grid</code> with
+                quieter <code>.site-highlight</code> surfaces.
               </p>
             </div>
 
@@ -532,7 +531,7 @@ export default function DS_Foundations() {
                   <div className="site-split">
                     <div className="section-heading">
                       <span className="site-eyebrow">Neutral section</span>
-                      <h3>Use site-grid for the default content step.</h3>
+                      <h3>This snapshot used site-grid as its default content step.</h3>
                     </div>
                     <p className="site-ruled-paragraph">
                       This preview uses the real section class, container, split layout, and ruled paragraph treatment.
@@ -546,7 +545,7 @@ export default function DS_Foundations() {
                   <div className="site-split">
                     <div className="section-heading">
                       <span className="site-eyebrow">Highlighted section</span>
-                      <h3>Use site-highlight as the quiet alternate surface.</h3>
+                      <h3>This snapshot used site-highlight as its quiet alternate surface.</h3>
                     </div>
                     <div className="site-content-stack">
                       <article className="site-card">
@@ -562,11 +561,11 @@ export default function DS_Foundations() {
 
           <section className="ds-section" id="surfaces">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Surfaces & edges</span>
-              <h2>Edges should feel crisp, not glossy.</h2>
+              <span className="site-eyebrow">Historical surfaces & edges</span>
+              <h2>The crisp edge treatment recorded by this snapshot.</h2>
               <p>
-                The system uses an 8px radius as the baseline, quiet borders for most containment, and a restrained
-                shadow only where a surface needs to feel lifted.
+                The earlier system recorded an 8px radius, quiet borders for containment, and restrained shadows for
+                lifted surfaces.
               </p>
             </div>
 
@@ -577,7 +576,7 @@ export default function DS_Foundations() {
                 <div>
                   <strong>Radius</strong>
                   <code>--radius: 8px</code>
-                  <p>Cards, buttons, forms, chips, and docs previews should all feel related.</p>
+                  <p>The snapshot applied this radius across cards, buttons, forms, chips, and documentation previews.</p>
                 </div>
               </article>
               <article className="ds-foundation-edge-sample">
@@ -585,7 +584,7 @@ export default function DS_Foundations() {
                 <div>
                   <strong>Border</strong>
                   <code>--line</code>
-                  <p>Use dividers and borders before adding decorative elevation.</p>
+                  <p>Earlier guidance favoured dividers and borders before decorative elevation.</p>
                 </div>
               </article>
               <article className="ds-foundation-edge-sample">
@@ -593,7 +592,7 @@ export default function DS_Foundations() {
                 <div>
                   <strong>Shadow</strong>
                   <code>--shadow</code>
-                  <p>Reserve for dropdowns, forms, fee cards, and cards that truly lift.</p>
+                  <p>Earlier intended use: dropdowns, forms, fee cards, and lifted cards.</p>
                 </div>
               </article>
             </div>
@@ -601,11 +600,11 @@ export default function DS_Foundations() {
 
           <section className="ds-section" id="states">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Links & states</span>
-              <h2>Interaction states should be obvious without becoming noisy.</h2>
+              <span className="site-eyebrow">Historical links & states</span>
+              <h2>The interaction-state treatment recorded here.</h2>
               <p>
-                Foundational states apply across shared components: links, inputs, cards, buttons, and structured text.
-                Cedar is the signal color; motion stays small.
+                This snapshot applied cedar signals and small motion across links, inputs, cards, buttons, and structured
+                text.
               </p>
             </div>
 
@@ -623,7 +622,7 @@ export default function DS_Foundations() {
               <div className="rich-text">
                 <ReferenceName>Rich text link sample</ReferenceName>
                 <p>
-                  A rich text link should look like a link:{" "}
+                  The earlier rich-text link remained visibly underlined:{" "}
                   <a href="/fees">read the fee and session details</a>.
                 </p>
               </div>
@@ -644,12 +643,11 @@ export default function DS_Foundations() {
 
           <section className="ds-section" id="html">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Editorial HTML</span>
-              <h2>Rich text should still look designed.</h2>
+              <span className="site-eyebrow">Historical editorial HTML</span>
+              <h2>The rich-text baseline captured by this snapshot.</h2>
               <p>
-                The shared <code>.rich-text</code> baseline now covers headings, paragraphs, links, lists, quotes,
-                tables, dividers, inline code, and an optional contextual button. Use it for editorial content instead
-                of styling each page by hand.
+                The earlier <code>.rich-text</code> baseline covered headings, paragraphs, links, lists, quotes, tables,
+                dividers, inline code, and a contextual button.
               </p>
             </div>
 
@@ -663,37 +661,36 @@ export default function DS_Foundations() {
               </p>
               <h3>Heading three groups a smaller idea</h3>
               <p>
-                Use lists when the content is genuinely list-shaped, such as practical requirements or related
-                considerations.
+                This historical specimen used a list for practical requirements and related considerations.
               </p>
               <ul>
-                <li>Use plain language before specialist language.</li>
-                <li>Keep each item short enough to scan.</li>
-                <li>Let the list sit inside the same reading rhythm as the paragraphs.</li>
+                <li>Plain language appeared before specialist language.</li>
+                <li>Items stayed short enough to scan.</li>
+                <li>The list followed the same reading rhythm as the paragraphs.</li>
               </ul>
               <blockquote>
-                <p>The design should make clear information feel steady, not sterile.</p>
+                <p>The earlier design aimed to make clear information feel steady, not sterile.</p>
               </blockquote>
               <table>
                 <thead>
                   <tr>
                     <th>Element</th>
-                    <th>Use</th>
+                    <th>Earlier role</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Table</td>
-                    <td>Simple structured details such as fees, availability, or comparison notes.</td>
+                    <td>The snapshot used tables for structured details such as fees, availability, or comparison notes.</td>
                   </tr>
                   <tr>
                     <td>Blockquote</td>
-                    <td>A quiet editorial principle or short reflective statement.</td>
+                    <td>The snapshot used blockquotes for a quiet editorial principle or short reflective statement.</td>
                   </tr>
                 </tbody>
               </table>
               <hr />
-              <p>Dividers should close a thought quietly, not split a page into heavy chunks.</p>
+              <p>In this snapshot, dividers closed a thought quietly rather than splitting the page into heavy chunks.</p>
               <Button href="/contact" variant="secondary">
                 View contact and session details
               </Button>

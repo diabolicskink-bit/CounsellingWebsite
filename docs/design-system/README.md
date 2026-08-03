@@ -1,6 +1,6 @@
 # Design System Documentation
 
-This directory records the currently implemented Vive Counselling design system: visual foundations, shared components, page patterns, rendered examples, and legacy status.
+This directory records the Vive Counselling design-system implementation, governance, written catalogues, and legacy status. Its rendered catalogue is currently quarantined as a historical snapshot pending source-backed reconciliation.
 
 ## Creative-Within-Identity Status
 
@@ -44,13 +44,13 @@ For design-system architecture or promotion work:
 
 - `src/styles.css` is the production implementation source for current tokens, base typography, shared classes, `site-*`, `hero-*`, and promoted reusable patterns. This describes what exists; it does not make those visual choices mandatory for new work.
 - `src/components/` contains shared React components, but a file existing there does not automatically make it active design-system API. Check `current-scope.md` and `patterns/components.md`.
-- `src/pages/dev/design-system/` contains the rendered design-system pages.
+- `src/pages/dev/design-system/` contains historical rendered catalogue pages. Their examples and classifications are not current guidance or approved reusable API.
 - `src/styles-dev.css` contains docs/dev support styling such as `ds-*`.
 - Page-scoped CSS can be production-safe without being design-system API.
 
-## Rendered Pages
+## Historical Rendered Catalogue
 
-The rendered design-system experience currently lives under historical `/design-language` routes:
+The development-only `/design-language/*` routes preserve an outdated rendered snapshot:
 
 - `/design-language`
 - `/design-language/foundations`
@@ -58,4 +58,6 @@ The rendered design-system experience currently lives under historical `/design-
 - `/design-language/heroes`
 - `/design-language/patterns`
 
-Treat those as design-system pages even though the route name is historical.
+Every route inherits a visible “Historical catalogue” notice through `DesignSystemArchiveLayout`. Keep new rendered-catalogue routes nested beneath that layout while the quarantine remains in force.
+
+Do not use these pages to infer current production guidance, implementation status, or approved reusable API. Verify current public-route source and this directory's governance and written catalogues first. Full reconciliation of both the rendered and written catalogue claims is tracked as `DEBT-37`.

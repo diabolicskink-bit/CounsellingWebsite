@@ -64,13 +64,14 @@ export default function DesignSystemSidebar({ className }: Props) {
   const isOverview = pathname === overviewHref;
 
   return (
-    <nav className={`ds-sidebar${className ? ` ${className}` : ""}`} aria-label="Design system navigation">
+    <nav className={`ds-sidebar${className ? ` ${className}` : ""}`} aria-label="Historical design catalogue navigation">
+      <p className="ds-sidebar__status">Historical catalogue</p>
       <NavLink
         to={overviewHref}
         end
         className={`ds-sidebar__overview${isOverview ? " ds-sidebar__overview--active" : ""}`}
       >
-        Overview
+        Archive overview
       </NavLink>
 
       {navGroups.map((group) => {

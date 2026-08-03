@@ -1,5 +1,71 @@
 /* Shared dev-page shell */
 
+.ds-archive-notice {
+  position: relative;
+  z-index: 2;
+  border-bottom: 1px solid rgba(247, 240, 225, 0.2);
+  background:
+    radial-gradient(circle at 84% -40%, rgba(220, 191, 132, 0.2), transparent 42%),
+    #173028;
+  color: #f7f0e1;
+}
+
+.ds-archive-notice__inner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.ds-archive-notice__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(247, 240, 225, 0.28);
+  color: #e4c98e;
+}
+
+.ds-archive-notice__copy {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.34fr) minmax(0, 1fr);
+  gap: 5px 32px;
+  align-items: baseline;
+}
+
+.ds-archive-notice__label {
+  grid-column: 1;
+  color: #e4c98e;
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  font-weight: 760;
+  letter-spacing: 0.09em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.ds-archive-notice__copy strong {
+  grid-column: 1;
+  color: #fffaf0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.ds-archive-notice__copy p {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  max-width: 76ch;
+  margin: 0;
+  color: rgba(247, 240, 225, 0.9);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
 .ds-layout {
   display: grid;
   grid-template-columns: 210px minmax(0, 1fr);
@@ -26,6 +92,16 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.ds-sidebar__status {
+  margin: 0 0 14px;
+  color: #7b5b28;
+  font-size: var(--type-caption);
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
 }
 
 .ds-sidebar__overview {
@@ -1388,6 +1464,15 @@
 }
 
 @media (max-width: 900px) {
+  .ds-archive-notice__copy {
+    grid-template-columns: 1fr;
+  }
+
+  .ds-archive-notice__copy p {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
   .ds-layout {
     grid-template-columns: 1fr;
     padding-block: 0 64px;
@@ -1536,6 +1621,10 @@
 }
 
 @media (max-width: 660px) {
+  .ds-archive-notice__inner {
+    grid-template-columns: 1fr;
+  }
+
   .design-language-topic-grid,
   .design-language-pattern-grid {
     grid-template-columns: 1fr;

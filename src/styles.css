@@ -2446,10 +2446,9 @@ h3 {
 }
 
 /* ---------------------------------------------------------------------------
-   HERO DESIGN LANGUAGE
-   Shared building blocks for page-level heroes.
-   The shared hero classes below are the canonical implementation. New page heroes should compose from these classes
-   rather than creating new scoped variants.
+   HISTORICAL SHARED HERO PRIMITIVES
+   Shared hero classes retained for existing consumers and catalogue reconciliation.
+   Their presence does not make them canonical guidance for new or redesigned pages.
    --------------------------------------------------------------------------- */
 
 /* Wrapper ------------------------------------------------------------------ */

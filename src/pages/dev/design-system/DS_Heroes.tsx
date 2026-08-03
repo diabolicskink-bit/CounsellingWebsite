@@ -37,79 +37,79 @@ const demoHeroDetailStackItems = [
 const demoHeroDeck = {
   lead: "Kinky, non-monogamous, queer, or some mix of all three.",
   body:
-    "Use the deck when the first sentence should do more than introduce the paragraph. Give the opening line its own weight, then let the body carry the fuller explanation in a quieter voice.",
+    "The earlier catalogue used the deck when the first sentence carried more weight than the rest of the introduction, with fuller explanation following in a quieter voice.",
 };
 
 const anatomyRows = [
   {
     zone: "Wrapper",
     className: ".hero-section",
-    desc: "Full-width page-opening section with the shared 40px top and bottom rhythm plus a bottom divider.",
+    desc: "The snapshot recorded a full-width page-opening section with 40px top and bottom rhythm plus a bottom divider.",
   },
   {
     zone: "Background",
     className: ".hero-bg--default",
-    desc: "The one shared hero background for public pages. It creates a calm paper-and-sage field with soft depth, while page-level classes stay focused on layout and content rather than alternate hero skins.",
+    desc: "The snapshot described this as the single shared hero background, creating a calm paper-and-sage field with soft depth.",
   },
   {
     zone: "Top zone",
     className: ".hero-top",
-    desc: "Two-column opening grid: display heading left, copy panel or media right. Default column split is 1fr / minmax(240px, 310px).",
+    desc: "The recorded two-column opening placed a display heading left and copy panel or media right, using a 1fr / minmax(240px, 310px) split.",
   },
   {
     zone: "Top zone (media variant)",
     className: ".hero-top--supporting-media",
-    desc: "Wider right column variant for when the second column holds a portrait note rather than a short copy panel. Used on the Home page.",
+    desc: "The recorded wider-right-column variant held a portrait note rather than a short copy panel and was associated with the earlier Home-page treatment.",
   },
   {
     zone: "Display statement",
     className: ".hero-display",
-    desc: "Measured serif display type for the expressive hero statement. Use it on p.hero-display after the page-topic h1.hero-badge; adjacent pairs use the shared 16px gap. Set --hero-display-max-width on the page scope when a hero only needs a different title measure.",
+    desc: "The snapshot placed this measured serif statement after h1.hero-badge, with a 16px gap and --hero-display-max-width available for the recorded title-measure variation.",
   },
   {
     zone: "Intro paragraph",
     className: ".hero-intro",
-    desc: "Measured introductory copy for text-led heroes. Use it when the opening paragraph needs a readable line length under the heading.",
+    desc: "The snapshot used this measured introductory copy for a readable line length beneath text-led hero headings.",
   },
   {
     zone: "Hero deck",
     className: ".hero-deck",
-    desc: "Two-level editorial support deck with a quiet left rule, a balanced lead sentence, and calmer body copy. Use when the intro needs internal hierarchy rather than one continuous paragraph.",
+    desc: "The snapshot used this two-level editorial deck when an introduction needed internal hierarchy rather than one continuous paragraph.",
   },
   {
     zone: "Copy panel",
     className: ".hero-copy-panel",
-    desc: "Support copy rail with a cedar left rule. It can be a simple paragraph or a richer panel with badge, body copy, and actions.",
+    desc: "The recorded support-copy rail used a cedar left rule and appeared as either a simple paragraph or a richer panel.",
   },
   {
     zone: "Tagline row",
     className: ".hero-support-tagline",
-    desc: "Thin trust row used beneath supporting copy when a hero needs practical details without becoming a second block.",
+    desc: "The snapshot placed this thin trust row beneath supporting copy for practical details.",
   },
   {
     zone: "Media note",
     className: ".hero-media-note*",
-    desc: "Supporting portrait or image note with a quiet caption. Add .hero-media-note--portrait and .hero-media-note__tag when the image needs the shared practitioner portrait frame.",
+    desc: "The snapshot paired this supporting portrait or image note with a quiet caption and recorded portrait and tag modifiers.",
   },
   {
     zone: "Badge",
     className: ".hero-badge",
-    desc: "Small uppercase cedar block label. In production page heroes, use h1.hero-badge as the visible page-topic heading above p.hero-display.",
+    desc: "The earlier guidance placed this small uppercase cedar label in an h1 above p.hero-display on public-page examples.",
   },
   {
     zone: "Detail stack",
     className: ".hero-detail-stack",
-    desc: "Open typographic stack for a few short supporting themes when a hero needs emphasis without adding a card or strip. Add .hero-detail-stack__link when the items should act as quiet pathways.",
+    desc: "The snapshot used this open typographic stack for a few short supporting themes and recorded a link modifier for pathway variants.",
   },
   {
     zone: "Principles strip",
     className: ".hero-principles-strip",
-    desc: "Three supporting items with a top rule and quiet vertical dividers. Use when a hero genuinely needs three short supporting ideas.",
+    desc: "The recorded strip contained three supporting items with a top rule and quiet vertical dividers.",
   },
   {
     zone: "Principle item",
     className: ".hero-principle-item",
-    desc: "One column in the supporting strip: serif label plus small muted copy.",
+    desc: "The snapshot defined each supporting-strip column as a serif label with small muted copy.",
   },
 ];
 
@@ -118,19 +118,22 @@ const backgroundTreatments = [
     label: "Default hero surface",
     className: "hero-bg--default",
     value: "layered radial washes + paper gradient",
-    use: "The single shared background used across public heroes and hero demos. It should read as one calm editorial field with soft depth, not as a visible shape or alternate skin.",
+    use: "The snapshot catalogued this as a single calm editorial field with soft depth, rather than a visible shape or alternate skin.",
   },
 ];
 
 export default function DS_Heroes() {
-  useDocumentMetadata("Heroes | Design System | Vive Counselling");
+  useDocumentMetadata(
+    "Historical Heroes | Design Catalogue | Vive Counselling",
+    "An archived snapshot of earlier Vive hero guidance, retained for historical reference and source-backed reconciliation.",
+  );
 
   return (
     <main className="site-page">
       <DevPageHero
-        badge="Design system"
-        title="Heroes"
-        description="Page-opening hero patterns for Vive: display headings, copy rails, supporting strips, and one calm shared background surface. The shared hero system is the canonical reference used across the site, with a continuous paper-and-sage hero field reused before any page-specific layout refinements."
+        badge="Historical catalogue"
+        title="Historical heroes"
+        description="An outdated snapshot of earlier page-opening hero patterns. These examples are retained for reconciliation and do not define current production guidance or approved reusable API."
       />
 
       <div className="ds-layout">
@@ -141,11 +144,11 @@ export default function DS_Heroes() {
         <div className="ds-layout__content">
           <section className="ds-section" id="anatomy">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Anatomy</span>
-              <h2>A page hero is a composed opening statement.</h2>
+              <span className="site-eyebrow">Historical anatomy</span>
+              <h2>How this snapshot described a composed page opening.</h2>
               <p>
-                Use the shared hero classes for public page openings. Keep the top zone focused, use one background
-                treatment, and reserve the principles strip for three short supporting ideas.
+                The earlier catalogue presented a focused top zone, one background treatment, and an optional
+                three-item principles strip. Those claims have not yet been reconciled with current public routes.
               </p>
             </div>
 
@@ -175,18 +178,17 @@ export default function DS_Heroes() {
 
           <section className="ds-section" id="display-heading">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Display Statement</span>
-              <h2>Large, light, and still readable across longer hero statements.</h2>
+              <span className="site-eyebrow">Historical display statement</span>
+              <h2>The recorded large, light display treatment.</h2>
               <p>
-                `.hero-display` is the authoritative expressive display-statement pattern for public page heroes. In
-                production it sits on a <code>p</code> after the visible <code>h1.hero-badge</code>. Keep the phrase
-                deliberate, use line breaks intentionally when you control them, and adjust width with
-                `--hero-display-max-width` on the page scope before reaching for a page-specific display class.
+                The snapshot described <code>.hero-display</code> as an expressive statement placed after an{" "}
+                <code>h1.hero-badge</code>, with deliberate line breaks and a page-scoped{" "}
+                <code>--hero-display-max-width</code> option. That description is historical, not authoritative.
               </p>
             </div>
 
             <div className="ds-hero-demo">
-              <div className="ds-hero-demo__label">Live sample: .hero-display</div>
+              <div className="ds-hero-demo__label">Historical sample: .hero-display</div>
               <div className="ds-hero-demo__body hero-bg--default">
                 <p className="hero-display">
                   Working with
@@ -199,11 +201,11 @@ export default function DS_Heroes() {
             </div>
 
             <div className="ds-hero-demo" style={{ marginTop: "20px" }}>
-              <div className="ds-hero-demo__label">Live sample: .hero-intro</div>
+              <div className="ds-hero-demo__label">Historical sample: .hero-intro</div>
               <div className="ds-hero-demo__body hero-bg--default">
                 <p className="hero-intro">
-                  Longer hero introductions should stay calm and readable, especially when the heading already takes up
-                  several lines. Keep the measure controlled and let the opening paragraph do quiet orienting work.
+                  The earlier sample kept longer introductions calm and readable beneath a heading occupying several
+                  lines, with a controlled measure for quiet orienting work.
                 </p>
               </div>
             </div>
@@ -222,56 +224,56 @@ export default function DS_Heroes() {
                   <td>
                     <code>var(--hero-badge-display-gap, 16px)</code>
                   </td>
-                  <td>Keeps the visible page-topic H1 close to the expressive statement without changing each hero's support-copy rhythm.</td>
+                  <td>The snapshot kept the page-topic H1 close to the expressive statement without changing the recorded support-copy rhythm.</td>
                 </tr>
                 <tr>
                   <td>title measure</td>
                   <td>
                     <code>max-width: var(--hero-display-max-width, 18ch)</code>
                   </td>
-                  <td>Gives hero statements a shared default measure while still letting pages tune width through a shared variable.</td>
+                  <td>The snapshot gave hero statements a default measure with a page-level width variable.</td>
                 </tr>
                 <tr>
                   <td>font-size</td>
                   <td>
                     <code>var(--type-display)</code>
                   </td>
-                  <td>Uses the shared display role so hero scale is controlled by the foundational type system.</td>
+                  <td>The recorded treatment took its scale from the earlier foundational display role.</td>
                 </tr>
                 <tr>
                   <td>font-weight</td>
                   <td>
                     <code>500</code>
                   </td>
-                  <td>Gives the serif display more presence without turning it into a heavy sales heading.</td>
+                  <td>The snapshot gave the serif display more presence without a heavy sales-heading effect.</td>
                 </tr>
                 <tr>
                   <td>line-height</td>
                   <td>
                     <code>var(--leading-display)</code>
                   </td>
-                  <td>Keeps display headings compact while giving longer multi-line titles a little more breathing room.</td>
+                  <td>The recorded line height balanced compact display headings with longer multi-line titles.</td>
                 </tr>
                 <tr>
                   <td>letter-spacing</td>
                   <td>
                     <code>0</code>
                   </td>
-                  <td>Keep spacing stable across the site typography system.</td>
+                  <td>The snapshot kept letter spacing stable within its recorded typography system.</td>
                 </tr>
                 <tr>
                   <td>emphasis</td>
                   <td>
                     <code>em color: var(--cedar); font-style: normal; font-weight: 600</code>
                   </td>
-                  <td>Highlights the key phrase without changing the voice of the heading.</td>
+                  <td>The recorded emphasis highlighted a key phrase without changing the heading voice.</td>
                 </tr>
                 <tr>
                   <td>shared rhythm</td>
                   <td>
                     <code>.hero-section 40px top and bottom</code>
                   </td>
-                  <td>Sets the default opening field rhythm from the hero content to the hero boundary.</td>
+                  <td>The snapshot used this as its default rhythm from hero content to boundary.</td>
                 </tr>
               </tbody>
             </table>
@@ -279,17 +281,16 @@ export default function DS_Heroes() {
 
           <section className="ds-section" id="hero-deck">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Hero Deck</span>
-              <h2>When the under-heading copy needs hierarchy inside itself.</h2>
+              <span className="site-eyebrow">Historical hero deck</span>
+              <h2>The snapshot's hierarchy within under-heading copy.</h2>
               <p>
-                Use the deck when the first sentence should land as a hook rather than dissolving into the full
-                paragraph. It should feel editorial and deliberate, not like a quote box or a card, and the lead
-                should stay poised rather than oversized.
+                The earlier catalogue used this deck when the first sentence needed to land separately from the full
+                paragraph. It described the result as editorial and deliberate rather than a quote box or card.
               </p>
             </div>
 
             <div className="ds-hero-demo">
-              <div className="ds-hero-demo__label">Live sample: .hero-deck</div>
+              <div className="ds-hero-demo__label">Historical sample: .hero-deck</div>
               <div className="ds-hero-demo__body hero-bg--default">
                 <div className="hero-deck ds-hero-demo__copy-panel" style={{ marginTop: 0 }}>
                   <p className="hero-deck__lead">{demoHeroDeck.lead}</p>
@@ -301,16 +302,16 @@ export default function DS_Heroes() {
 
           <section className="ds-section" id="copy-panel">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Copy Panel</span>
-              <h2>A cedar rule anchors the explanatory copy.</h2>
+              <span className="site-eyebrow">Historical copy panel</span>
+              <h2>The recorded cedar-rule treatment for explanatory copy.</h2>
               <p>
-                Use a plain paragraph for simple heroes. Use a panel container when the hero needs a breadcrumb, badge,
-                or actions inside the same support rail.
+                The snapshot paired simple heroes with a plain paragraph and used a panel container when a breadcrumb,
+                badge, or actions appeared within the same support rail.
               </p>
             </div>
 
             <div className="ds-hero-demo">
-              <div className="ds-hero-demo__label">Live sample: .hero-copy-panel</div>
+              <div className="ds-hero-demo__label">Historical sample: .hero-copy-panel</div>
               <div className="ds-hero-demo__body hero-bg--default">
                 <div className="hero-copy-panel ds-hero-demo__copy-panel">
                   <span className="hero-badge">Inclusive counselling</span>
@@ -329,12 +330,12 @@ export default function DS_Heroes() {
             </div>
 
             <div className="ds-hero-demo">
-              <div className="ds-hero-demo__label">Live sample: .hero-support-tagline + .hero-media-note--portrait</div>
+              <div className="ds-hero-demo__label">Historical sample: .hero-support-tagline + .hero-media-note--portrait</div>
               <div className="ds-hero-demo__body hero-bg--default">
                 <div className="hero-top hero-top--supporting-media" style={{ paddingBottom: 0 }}>
                   <div className="hero-copy-panel ds-hero-demo__copy-panel">
                     <p>
-                      Use the trust row when a hero needs a few practical signals kept inside the same support flow.
+                      The earlier catalogue used this trust row for a few practical signals within the support flow.
                     </p>
                     <ul className="hero-support-tagline" aria-label="Practice details">
                       {demoTaglineItems.map((item) => (
@@ -356,16 +357,16 @@ export default function DS_Heroes() {
 
           <section className="ds-section" id="principles">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Principles Strip</span>
-              <h2>Three short supports below the main statement.</h2>
+              <span className="site-eyebrow">Historical principles strip</span>
+              <h2>The recorded three-support treatment.</h2>
               <p>
-                The strip should clarify the promise of the page. Keep each item short and parallel. If there are not
-                three genuinely useful supports, skip the strip.
+                The earlier catalogue described short, parallel items clarifying the page promise and omitted the
+                strip when three useful supports were not available.
               </p>
             </div>
 
             <div className="ds-hero-demo">
-              <div className="ds-hero-demo__label">Live sample: .hero-principles-strip</div>
+              <div className="ds-hero-demo__label">Historical sample: .hero-principles-strip</div>
               <div className="ds-hero-demo__body hero-bg--default">
                 <div className="hero-principles-strip">
                   {demoPrinciples.map((principle) => (
@@ -381,16 +382,16 @@ export default function DS_Heroes() {
 
           <section className="ds-section" id="detail-stack">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Detail Stack</span>
-              <h2>An open hero-side stack when the text itself should carry the emphasis.</h2>
+              <span className="site-eyebrow">Historical detail stack</span>
+              <h2>The snapshot's open, text-led hero-side stack.</h2>
               <p>
-                Use this when a hero needs two or three strong thematic labels, but a card or principles strip would
-                feel too heavy. Keep it short, typographic, and slightly staggered rather than boxed in.
+                The earlier catalogue used this for two or three strong thematic labels when a card or principles
+                strip felt too heavy, keeping the treatment short, typographic, and slightly staggered.
               </p>
             </div>
 
             <div className="ds-hero-demo">
-              <div className="ds-hero-demo__label">Live sample: .hero-detail-stack</div>
+              <div className="ds-hero-demo__label">Historical sample: .hero-detail-stack</div>
               <div className="ds-hero-demo__body hero-bg--default">
                 <div style={{ display: "grid", justifyContent: "end" }}>
                   <div className="hero-detail-stack" style={{ maxWidth: "388px" }}>
@@ -407,11 +408,11 @@ export default function DS_Heroes() {
 
           <section className="ds-section" id="backgrounds">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Background</span>
-              <h2>The one shared surface used across public heroes.</h2>
+              <span className="site-eyebrow">Historical background</span>
+              <h2>The surface this snapshot catalogued for public heroes.</h2>
               <p>
-                The hero background should create atmosphere without becoming the subject. It should read as one soft
-                field of paper and sage light, not as a visible wedge, split panel, or alternate theme.
+                The earlier catalogue described a soft field of paper and sage light that created atmosphere without
+                becoming the subject, rather than a visible wedge, split panel, or alternate theme.
               </p>
             </div>
 
@@ -432,7 +433,7 @@ export default function DS_Heroes() {
                 <tr>
                   <th>Class</th>
                   <th>Value</th>
-                  <th>Use</th>
+                  <th>Earlier description</th>
                 </tr>
               </thead>
               <tbody>
@@ -451,18 +452,17 @@ export default function DS_Heroes() {
 
           <section className="ds-section" id="full-hero">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Full Composition</span>
-              <h2>The shared hero composition.</h2>
+              <span className="site-eyebrow">Historical full composition</span>
+              <h2>The hero composition retained in this snapshot.</h2>
               <p>
-                This sample uses the same shared classes as the live hero system. In production, use{" "}
-                <code>h1.hero-badge</code> for the visible page-topic label and <code>p.hero-display</code> for the
-                expressive hero statement. The demo keeps the badge as a non-heading label to avoid adding a duplicate
-                page H1 inside the documentation page.
+                This historical sample preserves the classes and semantic pairing recorded by the earlier catalogue:
+                an <code>h1.hero-badge</code> page-topic label followed by a <code>p.hero-display</code> statement.
+                The demo keeps the badge as a non-heading label to avoid a duplicate page H1 within this archive page.
               </p>
             </div>
 
             <div className="ds-hero-demo">
-              <div className="ds-hero-demo__label">Live sample: full shared hero</div>
+              <div className="ds-hero-demo__label">Historical sample: full shared hero</div>
               <section className="hero-section hero-bg--default" style={{ borderBottom: "none" }}>
                 <Container>
                   <div className="hero-top">

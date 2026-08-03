@@ -16,6 +16,7 @@ import { devRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/ro
 const devPages = import.meta.env.DEV
   ? {
       CodexTB: lazy(() => import("./pages/dev/test-beds/CodexTB")),
+      DesignSystemArchiveLayout: lazy(() => import("./components/DesignSystemArchiveLayout")),
       DesignLanguage: lazy(() => import("./pages/dev/DesignLanguage")),
       Documents: lazy(() => import("./pages/dev/Documents")),
       DS_Components: lazy(() => import("./pages/dev/design-system/DS_Components")),
@@ -29,15 +30,17 @@ const devPages = import.meta.env.DEV
 type DevPages = NonNullable<typeof devPages>;
 type DevPageKey = keyof DevPages;
 
-const devRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof typeof devRoutePaths] }> = [
+const standaloneDevRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof typeof devRoutePaths] }> = [
   { path: devRoutePaths.codexTestBed, page: "CodexTB" },
   { path: devRoutePaths.opusTestBed, page: "OpusTB" },
   { path: devRoutePaths.documents, page: "Documents" },
-  { path: devRoutePaths.designLanguage, page: "DesignLanguage" },
-  { path: devRoutePaths.designLanguageFoundations, page: "DS_Foundations" },
-  { path: devRoutePaths.designLanguageComponents, page: "DS_Components" },
-  { path: devRoutePaths.designLanguageHeroes, page: "DS_Heroes" },
-  { path: devRoutePaths.designLanguagePatterns, page: "DS_Patterns" },
+];
+
+const designSystemRoutes: Array<{ page: DevPageKey; path: string }> = [
+  { path: "foundations", page: "DS_Foundations" },
+  { path: "components", page: "DS_Components" },
+  { path: "heroes", page: "DS_Heroes" },
+  { path: "patterns", page: "DS_Patterns" },
 ];
 
 export type AppProps = {
@@ -68,10 +71,21 @@ export default function App({ initialRenderAt }: AppProps) {
           <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
           <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
           {devPages
-            ? devRoutes.map((route) => (
+            ? standaloneDevRoutes.map((route) => (
                 <Route key={route.path} path={route.path} element={renderDevPage(devPages[route.page])} />
               ))
             : null}
+          {devPages ? (
+            <Route
+              path={devRoutePaths.designLanguage}
+              element={renderDevPage(devPages.DesignSystemArchiveLayout)}
+            >
+              <Route index element={renderDevPage(devPages.DesignLanguage)} />
+              {designSystemRoutes.map((route) => (
+                <Route key={route.path} path={route.path} element={renderDevPage(devPages[route.page])} />
+              ))}
+            </Route>
+          ) : null}
           <Route path={publicRoutePaths.contact} element={<Contact initialRenderAt={initialRenderAt} />} />
           <Route path="*" element={<NotFound />} />
         </Route>

@@ -25,14 +25,16 @@ This is the live factual inventory of the design system.
 - The active CTA pattern is `.site-cta-block` and related child classes.
 - The active `Layout` footer is a compact warm utility bar that mirrors the header's material and height discipline. It contains the wordmark, short navigation, email, practice hours, understated Instagram and LinkedIn profile links, and copyright without owning a page-level CTA. It is demonstrated on the Components page.
 - The current enquiry/contact form uses `EnquiryForm`, `src/data/enquiry.ts`, and `.site-form*` classes.
-- Design-system routes exist at `/design-language`, `/design-language/foundations`, `/design-language/components`, `/design-language/heroes`, and `/design-language/patterns`.
+- Five development-only catalogue routes exist at `/design-language`, `/design-language/foundations`, `/design-language/components`, `/design-language/heroes`, and `/design-language/patterns`. They are quarantined as a historical archive and are not evidence of current status or approved reusable API.
+- `DesignSystemArchiveLayout` is the required parent for those routes while quarantine is active. It supplies exactly one visible historical notice before the retained page content.
 - Written design-system guidance exists in `docs/design-system/README.md`, `governance.md`, this file, `foundations/`, `patterns/`, and `maintenance/`.
 
 ## Partially Included / In Progress
 
-- Rendered design-system pages still depend on `ds-*` documentation scaffolding and some older `design-language-*` support classes.
+- Rendered design-system pages are intentionally retained as an outdated snapshot pending source-backed reconciliation under `DEBT-37`. Their demonstrations remain browsable, but their former prescriptive commentary has been removed and their claims are not current guidance.
+- The historical rendered pages still depend on `ds-*` documentation scaffolding and some older `design-language-*` support classes.
 - `ds-*` is still used for docs/dev scaffolding in `src/styles-dev.css`, design-system pages, the Documents page, and design-system support components.
-- The Patterns page is mixed: it includes active `site-*` and `hero-*` examples plus older `design-language-*` candidate/reference examples.
+- The historical Patterns page preserves a mixture of `site-*`, `hero-*`, and older `design-language-*` demonstrations without asserting that any displayed treatment remains active.
 - The hero system is implemented and shared by current pages, but is not canonical for fresh work. Existing pages still layer page-scoped hero classes on top for composition-specific needs.
 - Type roles exist and are documented, but page-specific type overrides and older experimental styles still need periodic audit.
 - Page pattern consolidation is partial; repeated public-page compositions are not all promoted or catalogued.
@@ -53,7 +55,7 @@ This is the live factual inventory of the design system.
 - The old generic `.stack` production helper has been removed; current purpose-specific replacements include `.site-content-stack` and `.site-detail-stack`.
 - The unused `.site-highlight__box` selector has been removed. `.site-highlight` remains the active alternate section band.
 - The unused `.site-spotlight*` composition and its responsive hook have been removed after a source audit found no runtime or development-page consumers.
-- `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css`; it is not part of the production or preferred future layer.
+- `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css`; it supports the quarantined historical catalogue and is not part of the production or preferred future layer.
 - `legacy-*`, old `test-bed-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only.
 - No active `site-hero-*` source usage was found during the latest pass; the documented `hero-*` system supersedes it.
 - Raw design export files, historical icon candidate export folders, and the old type-scale plan are not active design-system docs in the rebuilt structure. Historical icon candidates have been removed; durable guidance has been folded into the canonical docs.

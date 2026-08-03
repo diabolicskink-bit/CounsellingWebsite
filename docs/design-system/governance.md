@@ -27,11 +27,13 @@ When determining what is actually implemented, use this evidence order:
 
 1. Production source and configuration, especially `src/styles.css` and the components used by active routes.
 2. Tested or rendered behaviour on affected public and development routes.
-3. `current-scope.md`, pattern catalogues, and rendered design-system pages as maintained summaries and visual references.
+3. `current-scope.md` and the written pattern catalogues as maintained summaries.
 
 If documentation disagrees with executable behaviour, treat the implementation as the current fact. Reconcile the stale documentation when the task changes or formally assesses that durable state.
 
 `src/styles-dev.css` and `ds-*` are dev support rather than production implementation. Page-scoped CSS can be production-safe for its page without becoming shared API. Legacy, demo, reference, and archive layers remain reference only unless deliberately promoted.
+
+The rendered `/design-language/*` catalogue is quarantined as an outdated historical snapshot. It is not implementation evidence or reusable-API authority until `DEBT-37` completes source-backed reconciliation.
 
 ### Available Reusable API
 
@@ -76,22 +78,22 @@ Promote a page-scoped pattern only when the current task includes shared-system 
 - it solves a repeated need
 - it has a clear name and role
 - it uses existing tokens and type roles
-- it is represented in markdown guidance and, when visual, the rendered design-system pages
+- it is represented in markdown guidance; while the rendered-catalogue quarantine is active, do not add it to the historical routes as proof of promotion
 - `current-scope.md` is updated
 
-## Rendered Design-System Pages
+## Historical Rendered Catalogue
 
-Rendered pages document current and historical implementation. They are not visual references for fresh concepts unless the current task explicitly selects them. When maintaining the shared system, they should accurately show the implementation status of foundations, components, heroes, and page patterns.
+The development-only `/design-language/*` routes are quarantined as a browsable historical archive:
 
-Current rendered routes:
+- `/design-language`: historical index
+- `/design-language/foundations`: earlier foundation demonstrations
+- `/design-language/components`: earlier component demonstrations
+- `/design-language/heroes`: earlier hero demonstrations
+- `/design-language/patterns`: earlier composition demonstrations
 
-- `/design-language`: overview route
-- `/design-language/foundations`: tokens, typography, spacing, surfaces, focus/link states, and rich-text HTML
-- `/design-language/components`: buttons, cards, trust strips, forms, footer, lists, stacks, FAQ, and reusable UI pieces
-- `/design-language/heroes`: currently implemented `hero-*` system
-- `/design-language/patterns`: page-level composition patterns
+Each route must inherit `DesignSystemArchiveLayout`, display exactly one visible historical notice, and use a document title prefixed with “Historical”. Future rendered-catalogue routes must be nested beneath the same parent while the quarantine remains active.
 
-If a rendered example is experimental, legacy, or reference-only, label it clearly before future work treats it as production-safe.
+The preserved demonstrations, classifications, status labels, and usage descriptions do not establish current implementation, production guidance, or approved reusable API. Verify public-route source and the written authority chain before reusing anything shown there. Reconciliation is tracked as `DEBT-37`.
 
 ## Promotion Workflow
 
@@ -100,7 +102,7 @@ If a rendered example is experimental, legacy, or reference-only, label it clear
 3. It receives a clear name and role.
 4. It is implemented with production-safe tokens, classes, or components.
 5. It is documented in the relevant markdown doc.
-6. It is shown in the relevant rendered design-system page when visual.
+6. Once the rendered catalogue has been reconciled, it is shown there when visual. During quarantine, record promotion in written guidance without presenting the historical routes as validation.
 7. `current-scope.md` is updated.
 8. Old duplicate or legacy usage is removed or tracked for cleanup.
 
@@ -108,7 +110,7 @@ If a rendered example is experimental, legacy, or reference-only, label it clear
 
 - For documentation-only changes, run reference searches or link checks that confirm active guidance points to the intended canonical documents.
 - For CSS, component, or rendered-page changes, run `npm run build` unless the current task explicitly excludes it.
-- For visual changes, inspect the affected public route or rendered design-system page when practical.
+- For visual changes, inspect the affected public route. Inspect a rendered catalogue route only when the task is maintaining that historical archive.
 
 ## Scope Updates
 

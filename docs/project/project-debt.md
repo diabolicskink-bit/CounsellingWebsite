@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-37`
+- `Next ID`: `DEBT-38`
 
 ## How To Maintain This Tracker
 
@@ -98,6 +98,32 @@ Each active item should include enough direction that a future session can choos
   - Avoid CAPTCHA or challenge flows as the first implementation unless rate limiting and request-shape checks prove insufficient. The enquiry form should remain low-friction for legitimate visitors.
   - If Bot Protection is enabled later, test it carefully against both React `fetch` submissions and endpoint-level native form posts.
 - `Links`: `api/enquiry.ts`, `vercel.json`, `src/components/EnquiryForm.tsx`
+
+### DEBT-37 - Design catalogue needs source-backed reconciliation
+
+- `Priority`: `P1`
+- `Size`: `L`
+- `Priority Rationale`: This is `P1` because the rendered catalogue and its related written classifications can misdirect maintainers and AI agents after substantial public-site redesigns. The rendered routes are now visibly quarantined, which contains the immediate risk but does not restore a trustworthy reusable-API inventory.
+- `Status`: `Open`
+- `Detected`: 2026-08-03
+- `Source`: Design-system instruction and catalogue review
+- `Area`: Design System, Documentation, Maintainability
+- `Problem`: The rendered `/design-language/*` catalogue preserves examples and former status claims that have not been reconciled against route-reachable public source after recent visual overhauls. The written catalogues and current-scope classifications may also retain claims derived from that earlier snapshot.
+- `Why It Matters`: Historical demonstrations can look plausible while describing obsolete composition, superseded components, or unsupported reuse paths. Without source-backed classification, maintainers may copy stale patterns or treat implementation existence as approval.
+- `Preferred Direction`: Rebuild the catalogue inventory from current public-route source and governance. Classify each token, component, class family, and pattern as public-active, shared-supported, candidate, dev-only, dormant, or deprecated, then reconcile written and rendered documentation without using the historical pages as evidence.
+- `Resolution Path`: Inventory route-reachable public usage and shared component consumers; compare findings with foundations and pattern catalogues; decide reusable-API status through governance; update current-scope and written catalogues; rebuild or remove rendered examples to match verified state; remove the quarantine only after the reconciled routes can state their authority accurately.
+- `Next Action`: Produce a source-backed usage inventory for production tokens, shared React components, `site-*`, `hero-*`, and other documented class families, keeping route reachability and reusable-API approval as separate fields.
+- `Resolved When`: Every catalogue status and reuse claim is traceable to current source and governance, dormant or deprecated material is clearly classified, the rendered pages accurately represent the reconciled system, and the historical quarantine can be removed without ambiguity.
+- `Related Items`:
+  - `DEBT-13`: Legacy CSS cleanup depends on knowing whether a selector is genuinely dormant, retained for compatibility, or still route-reachable.
+  - `DEBT-20`: Page-scoped typography classification is one source-backed slice of the wider catalogue reconciliation.
+  - `DEBT-21`: Shared typography audit can supply verified foundation status to the reconciled catalogue.
+- `Dependencies`: `None`
+- `Notes`:
+  - The quarantine preserves all five rendered routes and their demonstrations for comparison; it does not validate any displayed pattern.
+  - Keep public pages and their current visual treatment unchanged during reconciliation unless a separate task explicitly authorizes visitor-facing work.
+  - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
+- `Links`: `src/pages/dev/DesignLanguage.tsx`, `src/pages/dev/design-system/`, `src/components/DesignSystemArchiveLayout.tsx`, `docs/design-system/`
 
 ### DEBT-8 - Route parity coverage needs explicit enforcement
 

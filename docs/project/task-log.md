@@ -17,6 +17,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-03 - Rendered Design Catalogue Quarantined
+
+- Quarantined: All five development-only `/design-language/*` routes remain browsable as a historical archive, inherit one prominent outdated-catalogue notice, and use historical navigation, metadata, and sample framing.
+- Removed: Prescriptive AI-maintainer comments and unverified current, canonical, authoritative, approved, and direct-reuse claims were removed or rewritten as descriptions of the earlier snapshot while demonstrations and class markup were preserved.
+- Governed: Rendered catalogue pages no longer count as implementation evidence or reusable-API authority; future catalogue routes must remain nested beneath `DesignSystemArchiveLayout` while quarantine is active.
+- Tracked: Added P1 `DEBT-37` for full source-backed reconciliation of implementation usage, written catalogues, classifications, and rendered examples.
+
 ## 2026-07-29 - Contact Confirmation Simplified
 
 - Changed: Successful Contact submissions now show one compact confirmation with the owner-confirmed expectation that Joel usually replies within 24 hours.

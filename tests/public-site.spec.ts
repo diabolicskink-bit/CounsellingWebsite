@@ -697,6 +697,9 @@ const devOnlyRoutes = [
   "/documents",
   "/design-language",
   "/design-language/foundations",
+  "/design-language/components",
+  "/design-language/heroes",
+  "/design-language/patterns",
 ] as const;
 
 const notFoundBoundaryRoutes = [...retiredRoutes, ...devOnlyRoutes, "/not-a-real-page"] as const;
