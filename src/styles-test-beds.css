@@ -1,0 +1,48 @@
+/* Clean test-bed shells using the current live-site hero treatment. */
+
+.test-bed-page {
+  background: var(--paper);
+}
+
+.test-bed-page .hero-section {
+  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(135, 172, 145, 0.32), transparent 42%),
+    linear-gradient(132deg, #132b23 0%, #1b3b30 54%, #234b3d 100%);
+}
+
+.test-bed-page .hero-section::before,
+.test-bed-page .hero-section::after {
+  display: none;
+}
+
+.test-bed-page .hero-badge {
+  color: #c8d9cc;
+  font-size: var(--type-label);
+  font-weight: 760;
+  letter-spacing: 0.065em;
+  line-height: 1.35;
+}
+
+.test-bed-page .hero-display {
+  margin: var(--hero-badge-display-gap) 0 0;
+  color: #fcfcfa;
+  font-size: clamp(3.25rem, 4.65vw, 4.45rem);
+  letter-spacing: -0.045em;
+  line-height: 0.96;
+}
+
+.test-bed-page .hero-copy-panel {
+  border-color: rgba(232, 239, 233, 0.42);
+}
+
+.test-bed-page .hero-copy-panel,
+.test-bed-page .hero-copy-panel > p {
+  color: #fcfcfa;
+}
+
+@media (max-width: 700px) {
+  .test-bed-page .hero-display {
+    font-size: clamp(2.65rem, 10.7vw, 3rem);
+  }
+}
