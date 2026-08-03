@@ -122,7 +122,7 @@ const faqItems = [
 const footerDemoLinks = [
   { label: "Working with Joel", href: "/working-with-joel" },
   { label: "Inclusive practice", href: "/inclusive-counselling" },
-  { label: "Fees", href: "/contact#contact-fees" },
+  { label: "Fees", href: "/contact" },
 ];
 
 // AI maintainers: this page documents reusable UI components. When a production

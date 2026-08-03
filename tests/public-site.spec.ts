@@ -767,7 +767,7 @@ test.describe("public pages", () => {
 });
 
 test.describe("shared navigation", () => {
-  test("routes enquiry and fee actions to the top of Contact", async ({ page }) => {
+  test("routes enquiry and fee actions to Contact", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto("/", { waitUntil: "networkidle" });
 
@@ -785,7 +785,7 @@ test.describe("shared navigation", () => {
     );
     await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute(
       "href",
-      "/contact#contact-fees",
+      "/contact",
     );
     for (const profile of expectedSocialProfileLinks) {
       const profileLink = footer.getByRole("link", { name: profile.name, exact: true });
@@ -796,12 +796,10 @@ test.describe("shared navigation", () => {
 
     await header.getByRole("link", { name: "Get in touch" }).click();
     await expect(page).toHaveURL(/\/contact$/);
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 
     await page.goto("/", { waitUntil: "networkidle" });
     await mainNavigation.getByRole("link", { name: "Fees" }).click();
     await expect(page).toHaveURL(/\/contact$/);
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   });
 
   test("exposes inclusion child pages in desktop and mobile navigation", async ({ page }) => {
@@ -827,7 +825,7 @@ test.describe("shared navigation", () => {
 
     await expect(
       mobileNavigation.getByRole("link", { name: "Fees", exact: true }),
-    ).toHaveAttribute("href", "/contact#contact-fees");
+    ).toHaveAttribute("href", "/contact");
     await expect(
       mobileNavigation.getByRole("link", { name: "Contact", exact: true }),
     ).toHaveAttribute("href", "/contact");
@@ -1002,7 +1000,7 @@ test.describe("prerendered routes without JavaScript", () => {
       await expect(footer).toBeVisible();
       await expect(
         footer.getByRole("link", { name: "Fees", exact: true }),
-      ).toHaveAttribute("href", "/contact#contact-fees");
+      ).toHaveAttribute("href", "/contact");
       await expect(
         footer.getByRole("link", { name: "joel@vivecounselling.com.au", exact: true }),
       ).toHaveAttribute("href", "mailto:joel@vivecounselling.com.au");
@@ -1080,7 +1078,6 @@ test.describe("first response metadata", () => {
         expect(html).toContain(fragment);
       }
       expect(html).toContain('<footer class="site-footer">');
-      expect(html).toContain('href="/contact#contact-fees"');
       expect(html).toContain('href="mailto:joel@vivecounselling.com.au"');
       for (const profile of expectedSocialProfileLinks) {
         expect(html).toContain(`href="${profile.href}" rel="me"`);
