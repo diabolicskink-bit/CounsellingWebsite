@@ -11,7 +11,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Public desktop navigation includes Home, Working with Joel, Inclusion with its three child pages, and Fees, plus a separate Get in touch action. The mobile navigation exposes Fees and Contact separately. All shared Fees and Contact entry points open the Contact page at its top so visitors encounter its context before scrolling to the fee details. The compact shared footer keeps the wordmark, short navigation, email, hours, Instagram and LinkedIn profile links, and copyright separate from page-level CTA content.
 - Development-only routes include the rendered design-system pages, Documents, Codex test bed, and Opus test bed.
 - The Codex and Opus test beds are clean development-only shells for future design explorations. Each retains the shared development-page hero, navigation and footer with the Dev menu available, but contains no active page candidate or enquiry form.
-- The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, `docs/research/`, `docs/page-plan/`, and `docs/plans/`; exact inline checklist status labels render as quiet coloured badges.
+- The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, `docs/research/`, `docs/page-plan/`, and `docs/plans/`; exact inline checklist status labels render as quiet coloured badges. Its page-scoped presentation follows the production site's dark hero, warm paper and sage surfaces, serif hierarchy, and flat ruled treatment while retaining a responsive, scrollable document library.
 
 ## Public Content And Discoverability
 
@@ -50,7 +50,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 ## Enquiry Flow And API
 
-- Contact/Fees uses a page-owned progressive form with three direct paths: make an appointment, request a consult, or make a general enquiry. It retains the shared success and recipient content in `src/data/enquiry.ts`.
+- Contact/Fees uses a page-owned progressive form with three direct paths: make an appointment, request a consult, or make a general enquiry. It owns the browser submission workflow and reads its recipient and success content from `src/data/enquiry.ts`.
 - The form reveals only the fields relevant to the selected path after hydration. Its server-rendered version exposes the complete field set so the native form remains available without JavaScript; the endpoint derives the structured enquiry and booking types from the selected Contact path for those native submissions.
 - The page displays fixed Perth business hours in AWST within Practical details. Interstate comparison notes start from the generated route timestamp and refresh in the browser when daylight-saving differences have changed since deployment.
 - Consult-request timezone options are calculated from the current Australian timezone set when the conditional timezone field opens.

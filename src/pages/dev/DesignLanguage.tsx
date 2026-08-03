@@ -71,7 +71,7 @@ const implementationPath = [
 const statusGroups = [
   {
     label: "Active",
-    items: ["site-* page system", "hero-* hero system", "shared form, FAQ, CTA, footer, card, and trust patterns"],
+    items: ["site-* page system", "hero-* hero system", "shared FAQ, CTA, footer, card, and trust patterns"],
   },
   {
     label: "Partial",
@@ -79,7 +79,7 @@ const statusGroups = [
   },
   {
     label: "Legacy",
-    items: ["design-language-* demos", "test-bed routes", "opus-* and inc-lab-* experiments", "old hero candidates"],
+    items: ["design-language-* demos", "opus-* and inc-lab-* experiments", "old hero candidates"],
   },
 ];
 

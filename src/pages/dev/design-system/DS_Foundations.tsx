@@ -251,7 +251,7 @@ const foundationReferenceNames = [
   {
     name: "Mini form focus sample",
     pointsTo: "The small form field in Links & states.",
-    status: "Active .site-form focus-state example.",
+    status: "Docs-only focus-state example using production tokens.",
   },
   {
     name: "Editorial HTML panel",
@@ -627,9 +627,9 @@ export default function DS_Foundations() {
                   <a href="/fees">read the fee and session details</a>.
                 </p>
               </div>
-              <form className="site-form ds-foundation-mini-form" action="#" method="post">
+              <form className="ds-foundation-mini-form" onSubmit={(event) => event.preventDefault()}>
                 <ReferenceName>Mini form focus sample</ReferenceName>
-                <div className="form-row">
+                <div className="ds-foundation-mini-form__row">
                   <label htmlFor="foundation-focus-example">Focused field treatment</label>
                   <input
                     id="foundation-focus-example"

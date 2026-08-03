@@ -97,14 +97,14 @@ const prerenderedRouteContracts = {
       "More than two?",
       "Mon to Fri, 9.30am to 5.00pm AWST",
       'data-timezone-notes-source="prerendered"',
-      'class="site-form codex-contact__form"',
+      'class="codex-contact__form"',
       'action="/api/enquiry"',
       'aria-label="Enquiry"',
       'data-clarity-mask="true"',
       "Get in touch</h2>",
       'href="mailto:joel@vivecounselling.com.au"',
     ],
-    noJavaScriptSelector: "form.site-form",
+    noJavaScriptSelector: "form.codex-contact__form",
   },
 } as const;
 
@@ -1435,7 +1435,7 @@ test.describe("crawl and app metadata assets", () => {
   test("enquiry form is explicitly masked for Clarity", async ({ page }) => {
     await page.goto("/contact", { waitUntil: "networkidle" });
 
-    await expect(page.locator("form.site-form")).toHaveAttribute("data-clarity-mask", "true");
+    await expect(page.locator("form.codex-contact__form")).toHaveAttribute("data-clarity-mask", "true");
   });
 
   test("Google Analytics sends route-change page views when enabled", async ({ page }) => {
@@ -1938,7 +1938,7 @@ test.describe("enquiry form", () => {
       });
 
       await page.goto("/contact", { waitUntil: "commit" });
-      const form = page.locator("form.site-form");
+      const form = page.locator("form.codex-contact__form");
 
       try {
         await form.getByLabel("Name").fill("Alex Before Hydration");
@@ -2028,7 +2028,7 @@ test.describe("enquiry form", () => {
       releaseSubmission();
     }
 
-    const completedFormArea = page.locator("section.site-form.site-form--complete");
+    const completedFormArea = page.locator("section.codex-contact__submission-success");
     const success = completedFormArea.getByRole("status");
     await expect(success).toContainText("Your enquiry has been sent.");
     await expect(success).toContainText(

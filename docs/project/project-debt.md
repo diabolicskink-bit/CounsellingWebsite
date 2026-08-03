@@ -97,7 +97,7 @@ Each active item should include enough direction that a future session can choos
   - Vercel Firewall configuration may live outside the repo. If the rule is added through the dashboard, record the exact rule name, path/method conditions, threshold, key, and action when resolving this item.
   - Avoid CAPTCHA or challenge flows as the first implementation unless rate limiting and request-shape checks prove insufficient. The enquiry form should remain low-friction for legitimate visitors.
   - If Bot Protection is enabled later, test it carefully against both React `fetch` submissions and endpoint-level native form posts.
-- `Links`: `api/enquiry.ts`, `vercel.json`, `src/components/EnquiryForm.tsx`
+- `Links`: `api/enquiry.ts`, `vercel.json`, `src/pages/Contact.tsx`
 
 ### DEBT-8 - Route parity coverage needs explicit enforcement
 
@@ -309,7 +309,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-4`: Keep structured enquiry payload and server-rendered email content in place before adding derived timezone prose.
 - `Notes`:
   - Do not use server IP geolocation as a source of truth. Browser timezone detection may be a convenience default later, but submitted explicit user-confirmed fields should drive email output.
-- `Links`: `api/enquiry.ts`, `src/components/EnquiryForm.tsx`, `src/utils/timeZones.ts`
+- `Links`: `api/enquiry.ts`, `src/pages/Contact.tsx`, `src/utils/timeZones.ts`
 
 ### DEBT-24 - Live Vercel deployment smoke testing is manual
 
