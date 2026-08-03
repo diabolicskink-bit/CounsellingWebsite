@@ -116,7 +116,7 @@ Promote a page-scoped pattern to `Shared-supported` only when the current task e
 - it has a stable name, role, and supported boundary
 - responsive behaviour, accessibility, interaction states, and affected consumers are covered proportionately
 - existing consumers are migrated to the elevated implementation without retaining accidental duplicates
-- it is represented in the relevant written catalogue; no rendered catalogue exists as proof of promotion
+- it is represented in the relevant written catalogue; the rendered workspace is not proof of promotion
 - `current-scope.md` is updated
 
 Repeated literal values or declarations do not establish a semantic role and are not sufficient reason to create a token or shared selector.
@@ -125,7 +125,19 @@ Repeated literal values or declarations do not establish a semantic role and are
 
 The former development-only `/design-language/*` routes, page modules, archive layout, navigation component, and archive-only styling were removed on 2026-08-03. The written lifecycle, current-scope summary, and item-level catalogues are now the only active design-system documentation.
 
-Do not restore the old rendered snapshot or copy demonstrations from Git history as current guidance. A future explorer would require an explicitly authorized task, source-backed `Shared-supported` records, and a new implementation whose authority is stated independently of the removed catalogue. Incremental source reconciliation remains tracked as `DEBT-37`.
+Do not restore the old rendered snapshot, redirect its URLs, or copy demonstrations from Git history as current guidance. The new `/design-system` workspace is a separate implementation with authority stated independently of the removed catalogue. Incremental source reconciliation remains tracked as `DEBT-37`.
+
+## Source-Backed Rendered Workspace
+
+The development-only `/design-system` route visualises the supported production system without becoming a second catalogue or approval path.
+
+- Written item records remain the only lifecycle register. Do not add a parallel TypeScript, JSON, route, or rendered status registry.
+- Render an item only after its relevant catalogue record is complete and explicitly marked `Shared-supported`.
+- Import the real production component or apply the supported production classes. Do not recreate an approximate demonstration implementation.
+- Each specimen must expose its exact identifier, semantic role, verified production consumers, `Shared-supported` status, and a link to the authoritative written record.
+- Keep `Candidate`, `Page-local`, `Unreviewed`, `Deprecated`, `Dormant`, `Historical/dev-only`, and `Removed` items out of the supported specimen area. Use public-page source, bounded page work, or the test beds for investigation instead.
+- Add Foundations, Components, or Patterns navigation only when that area gains its first supported specimen. Empty category scaffolding must not imply an approved inventory.
+- The workspace shell and specimen frame are development support only. They do not become reusable production API merely because they describe reusable production API.
 
 ## Promotion Workflow
 
@@ -134,6 +146,7 @@ Do not restore the old rendered snapshot or copy demonstrations from Git history
 3. In an explicitly authorized shared-system task, verify consumers, role, boundaries, responsive behaviour, accessibility, and interaction states.
 4. Elevate the implementation, migrate the intended consumers, and remove or separately track accidental duplicates.
 5. Mark the item `Shared-supported`, complete its catalogue record, and update `current-scope.md`.
+6. When a visual specimen would help maintenance, render the real supported implementation in `/design-system` and link it back to the completed item record.
 
 ## Deprecation And Removal
 
@@ -149,7 +162,7 @@ Do not restore the old rendered snapshot or copy demonstrations from Git history
 
 - For documentation-only changes, run reference searches or link checks that confirm AI guidance points to this lifecycle and that unreviewed or historical material is not described as approved reusable API.
 - For CSS, component, or rendered-page changes, run `npm run build` unless the current task explicitly excludes it.
-- For visual changes, inspect the affected public route or remaining development tool. There is no rendered design catalogue to use as validation.
+- For visual changes, inspect the affected public route or development tool directly. The `/design-system` workspace may show supported behaviour, but it is not proof of lifecycle status or a substitute for testing affected consumers.
 
 ## Scope Updates
 

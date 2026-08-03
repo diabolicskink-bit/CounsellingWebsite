@@ -16,6 +16,7 @@ import { devRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/ro
 const devPages = import.meta.env.DEV
   ? {
       CodexTB: lazy(() => import("./pages/dev/test-beds/CodexTB")),
+      DesignSystem: lazy(() => import("./pages/dev/DesignSystem")),
       Documents: lazy(() => import("./pages/dev/Documents")),
       OpusTB: lazy(() => import("./pages/dev/test-beds/OpusTB")),
     }
@@ -26,6 +27,7 @@ type DevPageKey = keyof DevPages;
 
 const standaloneDevRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof typeof devRoutePaths] }> = [
   { path: devRoutePaths.codexTestBed, page: "CodexTB" },
+  { path: devRoutePaths.designSystem, page: "DesignSystem" },
   { path: devRoutePaths.opusTestBed, page: "OpusTB" },
   { path: devRoutePaths.documents, page: "Documents" },
 ];

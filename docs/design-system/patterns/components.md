@@ -51,6 +51,14 @@ When related work verifies or changes an item, add the record required by [gover
 - `Replacement or migration`: `None`; `DocumentsSidebar` remains scoped to the separate Documents route.
 - `Reviewed`: 2026-08-03 — rendered design catalogue retirement
 
+### `DesignSystemSpecimen`
+
+- `Status`: `Historical/dev-only`
+- `Role and boundary`: Development-only evidence frame for a production item that already has an explicit `Shared-supported` record. It displays the identifier, role, verified consumers, real rendered implementation, and record link without granting status itself.
+- `Source evidence and public consumers`: Implemented at `src/components/DesignSystemSpecimen.tsx`; reserved for the `/design-system` workspace and excluded from production routes. No supported specimen uses it yet.
+- `Replacement or migration`: `None`; do not use it in public pages or for unapproved catalogue items.
+- `Reviewed`: 2026-08-03 — source-backed design-system workspace setup
+
 ## Legacy Component Boundary
 
 - The old `src/components/Card.tsx` component is `Removed` and is not API for new work.

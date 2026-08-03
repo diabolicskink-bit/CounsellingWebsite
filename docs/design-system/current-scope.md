@@ -8,6 +8,7 @@ This is the live factual inventory of the design system.
 - No pre-existing production token, selector family, component, or pattern was classified by the framework-adoption task. Existing catalogue entries remain `Unreviewed` until related work adds a source-backed item record.
 - Only an explicit `Shared-supported` item record authorizes deliberate shared reuse. Production source and the retained inventory below establish implementation facts, not reusable status.
 - The rendered `/design-language/*` catalogue, its archive components, and its `ds-*` / `design-language-*` styling are `Removed`. The separate Documents route now uses page-scoped `documents-*` styling.
+- The new `/design-system` route, `DesignSystemSpecimen`, and their page-scoped styling are `Historical/dev-only` workspace support. The route contains zero supported specimens and does not authorize reuse.
 - Future lifecycle changes are summarized here only after the relevant item record is updated in the token, component, or page-pattern catalogue.
 
 ## Creative-Within-Identity Authority Status
@@ -25,8 +26,9 @@ The following implementation summary predates item-level lifecycle records. Term
 - Production source contains `site-*` classes for public-page sections, cards, panels, lists, tabs, footer, FAQ, CTA, trust, detail, and contact patterns.
 - Production source contains `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-media-note--portrait`, `.hero-media-note__tag`, `.hero-principles-strip`, and `.hero-detail-stack`. Adjacent `.hero-badge` and `.hero-display` elements use the recorded `--hero-badge-display-gap` value of 16px.
 - Existing non-prefixed implementation includes `.container`, `.button`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
-- Recorded React components include `Container`, `Button`, `SectionHeading`, `FaqSection`, `FaqSchema`, `BroadTabPanel`, `Layout`, `DevPageHero`, and `DocumentsSidebar`.
+- Recorded React components include `Container`, `Button`, `SectionHeading`, `FaqSection`, `FaqSchema`, `BroadTabPanel`, `Layout`, `DevPageHero`, `DocumentsSidebar`, and the development-only `DesignSystemSpecimen` frame.
 - The development Documents route composes `Container` with page-scoped `documents-*` styles; its production-aligned presentation is not promoted reusable page API.
+- The development Design System route uses a page-scoped governance-ledger composition, links to authoritative Markdown records through Documents, and renders no production specimen until that item is explicitly `Shared-supported`.
 - The Codex and Opus test beds use `DevPageHero` with the page-scoped `.test-bed-page` shell in `src/styles-test-beds.css`; these clean development routes are not promoted reusable page API.
 - The implemented `Layout` header uses a short warm editorial surface, single-line wordmark, desktop flyout navigation, dark cedar contact action, bottom-anchored active-route treatment, and a fixed dark full-viewport navigation index below the desktop breakpoint. The mobile index exposes separate Fees and Contact links; both open the Contact page at its top, matching the desktop Fees destination and shared footer. Mobile behaviour retains Escape dismissal, body scroll locking and restoration, focus return to the toggle, and automatic dismissal when responsive resizing crosses into the desktop layout so the page cannot remain scroll-locked behind a hidden menu. The outer shell stays in the document's root overflow flow so the complete footer remains part of the reachable scroll range.
 - Recorded card classes include `.site-card`, `.site-card--link`, `.site-card__list`, `.site-card__action`, and `.site-card-grid`.
@@ -45,7 +47,7 @@ The following implementation summary predates item-level lifecycle records. Term
 - Type roles exist and are documented, but page-specific type overrides and older experimental styles still need periodic audit.
 - Page pattern consolidation is partial; repeated public-page compositions are not all promoted or catalogued.
 - Inclusion-oriented layouts exist on public pages, but inclusion panels are mostly page-specific rather than a fully promoted reusable subsystem.
-- Form styling and `EnquiryForm` are production-ready for the current contact/enquiry flow, but there is no general-purpose form component library.
+- Contact owns the current enquiry form and page-scoped form styling; there is no shared or general-purpose form component library.
 - Icons are used through `lucide-react`, `.icon-box`, and `site-card__icon`, but there is no formal icon system.
 - Focus states, FAQ semantics, form states, and reduced-motion handling exist in places, but there is no complete accessibility audit matrix.
 - Responsive CSS exists across shared and page-scoped styles, but there is no responsive QA matrix.
@@ -76,6 +78,7 @@ These descriptions also predate item-level lifecycle records unless governance o
 - Responsive QA matrix.
 - Visual regression testing.
 - Storybook or equivalent external component explorer.
+- Any supported specimen in the internal `/design-system` workspace; none has yet completed promotion under the current lifecycle.
 - Dark mode; `src/styles.css` declares `color-scheme: light`.
 - Animation or motion system beyond small transitions and existing reduced-motion handling.
 - CMS content component model.

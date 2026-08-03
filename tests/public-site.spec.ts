@@ -698,6 +698,7 @@ const accessibilitySmokeRoutes = publicRoutes;
 
 const devOnlyRoutes = [
   "/codex-tb",
+  "/design-system",
   "/opus-tb",
   "/documents",
 ] as const;

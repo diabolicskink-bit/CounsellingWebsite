@@ -18,7 +18,7 @@ For fresh creation or redesign:
 2. Read `../project/writing-direction.md` when public copy or content hierarchy may be affected.
 3. Establish at least two structurally different, content-shaped directions within the basic identity scheme when the user has not already selected one; ensure at least one materially departs from existing page patterns.
 4. Check source and `current-scope.md` after selection for implementation facts and behaviour worth preserving.
-5. Reuse or replace existing components and styles according to concept fit, accessibility, behaviour, and maintenance—not prior design-system status alone.
+5. Implement the selected direction page-locally by default. Reuse existing implementation only when its lifecycle record authorizes that reuse; lifecycle status constrains implementation without choosing the visual direction.
 
 For shared-UI maintenance or deliberate reuse:
 
@@ -30,6 +30,7 @@ For design-system architecture or promotion work:
 
 1. Read `governance.md`.
 2. Check production source, `current-scope.md`, and the relevant foundation or pattern catalogue.
+3. Use `/design-system` only after written status and production evidence are established; the rendered workspace does not grant status.
 
 ## Incremental Lifecycle
 
@@ -55,10 +56,13 @@ The lifecycle is `Unreviewed`, `Page-local`, `Candidate`, `Shared-supported`, `D
 - `src/styles.css` is production implementation evidence for tokens, base typography, `site-*`, `hero-*`, and other classes. Presence there does not establish `Shared-supported` status.
 - `src/components/` contains React components, but a file existing there does not automatically make it reusable design-system API. Require an explicit `Shared-supported` record.
 - `src/styles-dev.css` contains page-scoped `documents-*` styling for the development-only Documents route.
+- `src/pages/dev/DesignSystem.tsx`, `src/components/DesignSystemSpecimen.tsx`, and `src/styles-design-system.css` form the development-only rendered workspace. They may visualise only items already recorded as `Shared-supported`.
 - Page-scoped CSS can be production-safe without being design-system API.
 
-## Rendered Catalogue Status
+## Rendered Workspace Status
 
 The former development-only `/design-language/*` routes and their archive-only implementation were removed on 2026-08-03. Git history preserves the old snapshot, but it has no current design-system authority and must not be restored or copied as present guidance.
 
-Use this README, `governance.md`, `current-scope.md`, and the item-level written catalogues as the active documentation chain. A future rendered explorer would be new, explicitly authorized shared-system work rather than a continuation of the retired catalogue. Incremental source reconciliation remains tracked as `DEBT-37`.
+The new development-only `/design-system` route is a source-backed workspace with no supported specimens yet. It explains the promotion gate, links into the written records through Documents, and provides a strict specimen frame for future promoted items. It is a view over authority rather than a catalogue register or a continuation of the retired snapshot.
+
+Use this README, `governance.md`, `current-scope.md`, and the item-level written catalogues as the active documentation chain. Incremental source reconciliation remains tracked as `DEBT-37`.

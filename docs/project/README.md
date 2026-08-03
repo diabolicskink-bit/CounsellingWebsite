@@ -2,7 +2,7 @@
 
 This directory is the whole-project memory for Vive Counselling. [../../AGENTS.md](../../AGENTS.md) owns agent task routing and repository-wide update triggers; this file maps document ownership and artifact authority.
 
-Project documentation sits beside, not inside, the design-system documentation. `docs/design-system/` records existing tokens, shared components, implemented patterns, and design-system governance. The outdated `/design-language/*` rendered catalogue has been removed; the written governance and item-level catalogues are the active authority while `DEBT-37` proceeds incrementally. During the temporary open-design period, the design-system documentation does not supply mandatory visual direction for fresh creation or redesign unless the current task explicitly adopts it.
+Project documentation sits beside, not inside, the design-system documentation. `docs/design-system/` records existing tokens, shared components, implemented patterns, and design-system governance. The outdated `/design-language/*` rendered catalogue has been removed; the written governance and item-level catalogues remain authoritative while the new development-only `/design-system` workspace visualises only completed `Shared-supported` records. During the temporary open-design period, the design-system documentation does not supply mandatory visual direction for fresh creation or redesign unless the current task explicitly adopts it.
 
 ## Authority And Artifact Types
 

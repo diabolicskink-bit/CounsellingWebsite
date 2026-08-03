@@ -17,6 +17,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-03 - Source-Backed Design-System Workspace Established
+
+- Added: A new development-only `/design-system` governance ledger explains the authority order and promotion gate, links to the written records through Documents, and begins with zero supported specimens.
+- Guarded: `DesignSystemSpecimen` can frame only real production items already recorded as `Shared-supported`; candidates and unreviewed implementation remain page-local or in the test beds, and no parallel status registry was introduced.
+- Separated: The new workspace uses its own page-scoped implementation and does not restore, redirect, or inherit the retired `/design-language/*` snapshot.
+- Routed: The Dev menu now opens Design system first, Documents also reads `docs/design-system/`, and production-boundary coverage includes the new route.
+
 ## 2026-08-03 - Rendered Design Catalogue Retired
 
 - Removed: The five `/design-language/*` development routes, their page modules, archive layout and sidebar, Dev-menu entry, route constants, and archive-only styling were deleted after source-usage checks found no production dependency.

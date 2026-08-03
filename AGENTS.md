@@ -42,6 +42,9 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 - Do not add new consumers of `Deprecated`, `Dormant`, `Historical/dev-only`, or `Unreviewed` items. Existing consumers may receive scoped correctness, accessibility, or compatibility fixes until an explicitly authorized migration replaces them.
 - Remove or migrate old implementation only within explicit cleanup or shared-system scope, after verifying source consumers and running checks proportionate to the affected behaviour. Preserve existing consumers otherwise.
 - Similar declarations or literal values are not enough to justify elevation. Shared implementation must represent the same semantic role across current consumers without flattening content-shaped page composition.
+- Treat the development-only `/design-system` workspace as a rendered view of written authority, never as authority itself. It may show an item only after the relevant catalogue record explicitly marks that item `Shared-supported`.
+- Render supported specimens from the real production component or supported production classes. Do not copy approximate demo markup, maintain a parallel status registry, or place `Candidate`, `Page-local`, `Unreviewed`, deprecated, dormant, or historical items in the supported specimen area.
+- Keep candidate exploration in page-local work or the development test beds. Do not restore or redirect the retired `/design-language/*` snapshot when extending the new workspace.
 
 ## IDE Visual Verification
 

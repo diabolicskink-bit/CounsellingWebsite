@@ -15,7 +15,7 @@ When related work verifies or changes an item, add the record required by [gover
 - `Status`: `Removed`
 - `Role and boundary`: Former development-only rendered snapshot of earlier design-system guidance.
 - `Source evidence and public consumers`: All five routes, their page modules, route constants, lazy imports, navigation entry, and archive layout were removed after verification found no production dependency. The paths remain in the retired-route boundary test and resolve through the ordinary Not Found route.
-- `Replacement or migration`: Written lifecycle governance and item registers remain under `docs/design-system/`; no rendered replacement is currently planned.
+- `Replacement or migration`: Written lifecycle governance and item registers remain under `docs/design-system/`. The separate `/design-system` workspace neither restores nor redirects this snapshot.
 - `Reviewed`: 2026-08-03 — rendered design catalogue retirement
 
 ### Rendered-catalogue support selectors
@@ -25,6 +25,22 @@ When related work verifies or changes an item, add the record required by [gover
 - `Source evidence and public consumers`: Removed from `src/styles-dev.css` after source search verified that their only consumers were the retired catalogue pages. The remaining `ds-layout*` and `ds-sidebar*` rules continue to support the separate Documents route.
 - `Replacement or migration`: `None`.
 - `Reviewed`: 2026-08-03 — rendered design catalogue retirement
+
+### `/design-system` rendered workspace
+
+- `Status`: `Historical/dev-only`
+- `Role and boundary`: Development-only governance ledger and empty supported-specimen workspace. It visualises completed written authority but does not define reusable API.
+- `Source evidence and public consumers`: Implemented by `src/pages/dev/DesignSystem.tsx` and registered only through the development route map. It has no production consumer and currently contains zero supported specimens.
+- `Replacement or migration`: `None`; the route is separate from and does not restore the retired `/design-language/*` snapshot.
+- `Reviewed`: 2026-08-03 — source-backed design-system workspace setup
+
+### `.system-workspace*`, `.system-specimen*`
+
+- `Status`: `Historical/dev-only`
+- `Role and boundary`: Page-scoped presentation for the `/design-system` governance ledger and its strict supported-specimen frame.
+- `Source evidence and public consumers`: Implemented in `src/styles-design-system.css`; imported only by the development workspace, with no production route consumer.
+- `Replacement or migration`: `None`; do not promote these documentation styles as production UI.
+- `Reviewed`: 2026-08-03 — source-backed design-system workspace setup
 
 ## Recorded Section Patterns
 
