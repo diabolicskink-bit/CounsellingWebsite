@@ -54,7 +54,7 @@ The lifecycle is `Unreviewed`, `Page-local`, `Candidate`, `Shared-supported`, `D
 
 - `src/styles.css` is production implementation evidence for tokens, base typography, `site-*`, `hero-*`, and other classes. Presence there does not establish `Shared-supported` status.
 - `src/components/` contains React components, but a file existing there does not automatically make it reusable design-system API. Require an explicit `Shared-supported` record.
-- `src/styles-dev.css` contains development-only Documents-route support styling such as the remaining `ds-*` layout and sidebar rules.
+- `src/styles-dev.css` contains page-scoped `documents-*` styling for the development-only Documents route.
 - Page-scoped CSS can be production-safe without being design-system API.
 
 ## Rendered Catalogue Status

@@ -22,12 +22,18 @@ When related work verifies or changes an item, add the record required by [gover
   FAQ structured data helper.
 - `BroadTabPanel`
   Compact sets of three to five related labels where each tab opens paragraph-length content in one broad panel. Owns ARIA tab semantics, roving focus, responsive stacking, reduced-motion handling, and `site-broad-tabs*` styling.
-- `EnquiryForm`
-  The production contact/enquiry form. Its behaviour and `src/data/enquiry.ts` contract should stay aligned when retained; its current styling is not visual authority.
 - `Layout`
-  Production shell, navigation, shared chrome detection, and footer. The shared header uses a short warm editorial surface, single-line wordmark, desktop flyout navigation, and a dark cedar contact action. Below the desktop breakpoint, navigation becomes a fixed dark full-viewport index with separate Fees and Contact destinations; its mobile menu owns Escape handling, body scroll locking and restoration, focus return to the toggle, and desktop-breakpoint dismissal during responsive resizing. The outer shell remains in the root document overflow flow rather than globally clipping it. The shared footer mirrors the header's warm material and compact discipline, presenting the wordmark, short navigation, email, hours, understated social-profile links, and copyright so page-level CTA content can remain separate.
+  Production shell, navigation, shared chrome detection, and footer. The shared header uses a short warm editorial surface, single-line wordmark, desktop flyout navigation, and a dark cedar contact action. Below the desktop breakpoint, navigation becomes a fixed dark full-viewport index with separate Fees and Contact labels; both open the Contact page at its top, as do the desktop and footer Fees links. Its mobile menu owns Escape handling, body scroll locking and restoration, focus return to the toggle, and desktop-breakpoint dismissal during responsive resizing. The outer shell remains in the root document overflow flow rather than globally clipping it. The shared footer mirrors the header's warm material and compact discipline, presenting the wordmark, short navigation, email, hours, understated social-profile links, and copyright so page-level CTA content can remain separate.
 - `DevPageHero`, `DocumentsSidebar`
-  Dev/documentation support components.
+  Dev/documentation support components. The Documents route gives `DocumentsSidebar` page-scoped `documents-*` styling; the test beds use `DevPageHero` within their page-scoped shell.
+
+### `EnquiryForm`
+
+- `Status`: `Removed`
+- `Role and boundary`: Former shared progressive enquiry-form component.
+- `Source evidence and public consumers`: Removed from `src/components/`; production enquiry behaviour is now owned by `Contact.tsx`, with no remaining component consumer.
+- `Replacement or migration`: Contact uses its page-local `ContactEnquiryForm` implementation and retains shared recipient and success content from `src/data/enquiry.ts`.
+- `Reviewed`: 2026-08-03 — staging Contact/form consolidation
 
 ### `DesignSystemArchiveLayout`
 

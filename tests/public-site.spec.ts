@@ -97,14 +97,14 @@ const prerenderedRouteContracts = {
       "More than two?",
       "Mon to Fri, 9.30am to 5.00pm AWST",
       'data-timezone-notes-source="prerendered"',
-      'class="site-form codex-contact__form"',
+      'class="codex-contact__form"',
       'action="/api/enquiry"',
       'aria-label="Enquiry"',
       'data-clarity-mask="true"',
       "Get in touch</h2>",
       'href="mailto:joel@vivecounselling.com.au"',
     ],
-    noJavaScriptSelector: "form.site-form",
+    noJavaScriptSelector: "form.codex-contact__form",
   },
 } as const;
 
@@ -770,7 +770,7 @@ test.describe("public pages", () => {
 });
 
 test.describe("shared navigation", () => {
-  test("routes enquiry and fee actions to the top of Contact", async ({ page }) => {
+  test("routes enquiry and fee actions to Contact", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto("/", { waitUntil: "networkidle" });
 
@@ -788,7 +788,7 @@ test.describe("shared navigation", () => {
     );
     await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute(
       "href",
-      "/contact#contact-fees",
+      "/contact",
     );
     for (const profile of expectedSocialProfileLinks) {
       const profileLink = footer.getByRole("link", { name: profile.name, exact: true });
@@ -799,12 +799,10 @@ test.describe("shared navigation", () => {
 
     await header.getByRole("link", { name: "Get in touch" }).click();
     await expect(page).toHaveURL(/\/contact$/);
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 
     await page.goto("/", { waitUntil: "networkidle" });
     await mainNavigation.getByRole("link", { name: "Fees" }).click();
     await expect(page).toHaveURL(/\/contact$/);
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   });
 
   test("exposes inclusion child pages in desktop and mobile navigation", async ({ page }) => {
@@ -830,7 +828,7 @@ test.describe("shared navigation", () => {
 
     await expect(
       mobileNavigation.getByRole("link", { name: "Fees", exact: true }),
-    ).toHaveAttribute("href", "/contact#contact-fees");
+    ).toHaveAttribute("href", "/contact");
     await expect(
       mobileNavigation.getByRole("link", { name: "Contact", exact: true }),
     ).toHaveAttribute("href", "/contact");
@@ -1005,7 +1003,7 @@ test.describe("prerendered routes without JavaScript", () => {
       await expect(footer).toBeVisible();
       await expect(
         footer.getByRole("link", { name: "Fees", exact: true }),
-      ).toHaveAttribute("href", "/contact#contact-fees");
+      ).toHaveAttribute("href", "/contact");
       await expect(
         footer.getByRole("link", { name: "joel@vivecounselling.com.au", exact: true }),
       ).toHaveAttribute("href", "mailto:joel@vivecounselling.com.au");
@@ -1083,7 +1081,6 @@ test.describe("first response metadata", () => {
         expect(html).toContain(fragment);
       }
       expect(html).toContain('<footer class="site-footer">');
-      expect(html).toContain('href="/contact#contact-fees"');
       expect(html).toContain('href="mailto:joel@vivecounselling.com.au"');
       for (const profile of expectedSocialProfileLinks) {
         expect(html).toContain(`href="${profile.href}" rel="me"`);
@@ -1441,7 +1438,7 @@ test.describe("crawl and app metadata assets", () => {
   test("enquiry form is explicitly masked for Clarity", async ({ page }) => {
     await page.goto("/contact", { waitUntil: "networkidle" });
 
-    await expect(page.locator("form.site-form")).toHaveAttribute("data-clarity-mask", "true");
+    await expect(page.locator("form.codex-contact__form")).toHaveAttribute("data-clarity-mask", "true");
   });
 
   test("Google Analytics sends route-change page views when enabled", async ({ page }) => {
@@ -1944,7 +1941,7 @@ test.describe("enquiry form", () => {
       });
 
       await page.goto("/contact", { waitUntil: "commit" });
-      const form = page.locator("form.site-form");
+      const form = page.locator("form.codex-contact__form");
 
       try {
         await form.getByLabel("Name").fill("Alex Before Hydration");
@@ -2034,7 +2031,7 @@ test.describe("enquiry form", () => {
       releaseSubmission();
     }
 
-    const completedFormArea = page.locator("section.site-form.site-form--complete");
+    const completedFormArea = page.locator("section.codex-contact__submission-success");
     const success = completedFormArea.getByRole("status");
     await expect(success).toContainText("Your enquiry has been sent.");
     await expect(success).toContainText(

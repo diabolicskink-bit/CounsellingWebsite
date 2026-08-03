@@ -2,12 +2,12 @@ import { useEffect, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Link, useSearchParams } from "react-router-dom";
+import "../../styles-dev.css";
 import DocumentsSidebar, {
   type DocumentsSidebarGroup,
 } from "../../components/DocumentsSidebar";
-import DevPageHero from "../../components/DevPageHero";
+import Container from "../../components/Container";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
-import "../../styles-dev.css";
 
 type DocumentCategory = "checklists" | "reports" | "research" | "page-plans" | "plans";
 
@@ -218,87 +218,97 @@ export default function Documents() {
     categoryMeta.find((category) => category.key === selectedDocument?.category)?.label ?? "Documents";
 
   return (
-    <main className="site-page">
-      <DevPageHero
-        badge="Dev documents"
-        title="Documents"
-        description="A small reader for project checklists, reports, research, page plans, and draft plans. Drop markdown into any of these document folders and it will appear here automatically in development."
-      />
+    <main className="site-page documents-page">
+      <section className="hero-section documents-page__hero">
+        <Container className="documents-page__hero-layout">
+          <div className="documents-page__hero-heading">
+            <p className="hero-badge">Dev documents</p>
+            <h1>Documents</h1>
+          </div>
+          <p className="documents-page__hero-description">
+            A small reader for project checklists, reports, research, page plans, and draft plans. Drop markdown
+            into any of these document folders and it will appear here automatically in development.
+          </p>
+        </Container>
+      </section>
 
-      <div className="ds-layout">
-        <div className="ds-layout__sidebar">
-          <DocumentsSidebar groups={groups} selectedPath={selectedDocument?.path ?? null} />
-        </div>
+      <section className="documents-page__workspace" aria-label="Project documents">
+        <Container className="documents-page__workspace-layout">
+          <aside className="documents-page__navigation">
+            <p className="documents-page__navigation-label">Library</p>
+            <DocumentsSidebar groups={groups} selectedPath={selectedDocument?.path ?? null} />
+          </aside>
 
-        <div className="ds-layout__content">
-          <section className="documents-viewer" aria-live="polite">
-            {selectedDocument ? (
-              <>
-                <div className="documents-viewer__meta">
-                  <span>{selectedCategoryLabel}</span>
-                  <code>{selectedDocument.path}</code>
-                </div>
-
-                <article className="documents-viewer__article">
-                  <div className="documents-markdown">
-                    <ReactMarkdown
-                      components={{
-                        a({ href = "", children, ...props }) {
-                          const linkedDocumentPath =
-                            selectedDocument && !href.startsWith("#")
-                              ? resolveMarkdownPath(selectedDocument.path, href)
-                              : null;
-
-                          if (linkedDocumentPath && documentLookup.has(linkedDocumentPath)) {
-                            const nextSearchParams = new URLSearchParams(searchParams);
-                            nextSearchParams.set("doc", linkedDocumentPath);
-
-                            return <Link to={`/documents?${nextSearchParams.toString()}`}>{children}</Link>;
-                          }
-
-                          const isExternal = /^https?:\/\//i.test(href);
-
-                          return (
-                            <a
-                              {...props}
-                              href={href}
-                              rel={isExternal ? "noreferrer" : undefined}
-                              target={isExternal ? "_blank" : undefined}
-                            >
-                              {children}
-                            </a>
-                          );
-                        },
-                        code({ children, className, node: _node, ...props }) {
-                          const statusClassName = className ? null : getStatusClassName(children);
-
-                          if (statusClassName) {
-                            return <span className={statusClassName}>{children}</span>;
-                          }
-
-                          return (
-                            <code className={className} {...props}>
-                              {children}
-                            </code>
-                          );
-                        },
-                      }}
-                      remarkPlugins={[remarkGfm]}
-                    >
-                      {selectedDocument.content}
-                    </ReactMarkdown>
+          <div className="documents-page__content">
+            <section className="documents-viewer" aria-live="polite">
+              {selectedDocument ? (
+                <>
+                  <div className="documents-viewer__meta">
+                    <span>{selectedCategoryLabel}</span>
+                    <code>{selectedDocument.path}</code>
                   </div>
-                </article>
-              </>
-            ) : (
-              <div className="documents-viewer__empty">
-                <h2>No markdown files found.</h2>
-                <p>Add `.md` files under the supported `docs/` folders to populate this page.</p>
-              </div>
-            )}
-          </section>
-        </div>
-      </div>
+
+                  <article className="documents-viewer__article">
+                    <div className="documents-markdown">
+                      <ReactMarkdown
+                        components={{
+                          a({ href = "", children, ...props }) {
+                            const linkedDocumentPath =
+                              selectedDocument && !href.startsWith("#")
+                                ? resolveMarkdownPath(selectedDocument.path, href)
+                                : null;
+
+                            if (linkedDocumentPath && documentLookup.has(linkedDocumentPath)) {
+                              const nextSearchParams = new URLSearchParams(searchParams);
+                              nextSearchParams.set("doc", linkedDocumentPath);
+
+                              return <Link to={`/documents?${nextSearchParams.toString()}`}>{children}</Link>;
+                            }
+
+                            const isExternal = /^https?:\/\//i.test(href);
+
+                            return (
+                              <a
+                                {...props}
+                                href={href}
+                                rel={isExternal ? "noreferrer" : undefined}
+                                target={isExternal ? "_blank" : undefined}
+                              >
+                                {children}
+                              </a>
+                            );
+                          },
+                          code({ children, className, node: _node, ...props }) {
+                            const statusClassName = className ? null : getStatusClassName(children);
+
+                            if (statusClassName) {
+                              return <span className={statusClassName}>{children}</span>;
+                            }
+
+                            return (
+                              <code className={className} {...props}>
+                                {children}
+                              </code>
+                            );
+                          },
+                        }}
+                        remarkPlugins={[remarkGfm]}
+                      >
+                        {selectedDocument.content}
+                      </ReactMarkdown>
+                    </div>
+                  </article>
+                </>
+              ) : (
+                <div className="documents-viewer__empty">
+                  <h2>No markdown files found.</h2>
+                  <p>Add `.md` files under the supported `docs/` folders to populate this page.</p>
+                </div>
+              )}
+            </section>
+          </div>
+        </Container>
+      </section>
     </main>
   );
 }

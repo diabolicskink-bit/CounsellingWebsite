@@ -61,7 +61,7 @@ const prerenderedRouteSmokeFragments = {
     "More than two?",
     "Mon to Fri, 9.30am to 5.00pm AWST",
     'data-timezone-notes-source="prerendered"',
-    'class="site-form codex-contact__form"',
+    'class="codex-contact__form"',
     'action="/api/enquiry"',
     'data-clarity-mask="true"',
     'href="mailto:joel@vivecounselling.com.au"',

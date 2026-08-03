@@ -76,8 +76,8 @@ Use this structure when a region is expanded to class-token leaves:
   - Next: Expand by route/page file, then by class token.
 
 - `CSS-4` `Bucket` Dev/test-bed experiment CSS files.
-  - Scope: `styles-codex-tb.css` and `styles-opus-tb.css`.
-  - Next: Confirm whether these are still useful, then keep, move, or delete through a focused review.
+  - Scope: `styles-test-beds.css`, the page-scoped shell shared by the clean Codex and Opus development routes. The former candidate-specific test-bed stylesheets have been removed.
+  - Next: Review the clean-shell stylesheet when either test bed receives a new design exploration; keep exploration-specific styling page-scoped until it proves reusable.
 
 ## CSS-1 - `src/styles.css`
 
@@ -115,9 +115,9 @@ Use this structure when a region is expanded to class-token leaves:
 - `Naming/Structure Check`: Base class name is short but explicitly documented as an active non-prefixed shared component class, so it is a valid exception to the newer `site-*` and `hero-*` naming pattern. `Button` consistently emits `button button--${variant}`, which keeps base and modifier structure clear. The previous family-level docs mismatch around a nonexistent `light` variant has been actioned.
 - `Declaration Review`: The base rule owns the right shared mechanics: inline-flex layout, alignment, gap, max-width, border shape, padding, pointer affordance, type weight, centered text, and shared transition properties. The lift hover and disabled rules are correctly base-level because every variant shares that behavior. Contextual width and placement refinements remain with their owning contexts. The duplicate `border-radius: 8px` declaration has been removed from `.site-page .button`, which now inherits the same `--radius` value from the base class while retaining its page-level minimum width. No variant declaration needs to move up into `.button`.
 - `Architecture Check`: Keep the base rule in `src/styles.css` with shared production primitives. Contextual selectors such as `.rich-text .button`, `.site-cta-block .button`, `.site-page .button`, and page/dev overrides remain legitimate placement or sizing refinements. This leaf is not a `Restructure candidate` by itself.
-- `Used By`: `Button` component; public page CTAs/actions on Home, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, and Not Found; `EnquiryForm` submit action; `Layout` contact action via `.header-button`; rendered design-system/dev examples.
+- `Used By`: `Button` component; public page CTAs/actions on Home, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, and Not Found; the Contact form submit action; `Layout` contact action via `.header-button`; rendered design-system/dev examples.
 - `Decision`: Keep as the base shared action class. It is active, documented, component-backed, widely used, and not a delete, move, consolidate, or restructure candidate at this leaf level.
-- `Evidence`: `docs/design-system/current-scope.md` and `docs/design-system/governance.md` name `.button` as an active non-prefixed shared class, while `docs/design-system/patterns/components.md` documents the component-backed variants. `src/components/Button.tsx` composes every rendered `Button` with `button button--${variant}` and only exposes `primary`, `secondary`, and `tertiary`. Source search found `.button` usage through public pages, dev design-system pages, `EnquiryForm`, and `Layout`; no competing base button class was found. Disabled usage currently appears only on the native submit button path, so `.button:disabled` matches current behavior.
+- `Evidence`: `docs/design-system/current-scope.md` and `docs/design-system/governance.md` name `.button` as an active non-prefixed shared class, while `docs/design-system/patterns/components.md` documents the component-backed variants. `src/components/Button.tsx` composes every rendered `Button` with `button button--${variant}` and only exposes `primary`, `secondary`, and `tertiary`. Source search found `.button` usage through public pages, dev design-system pages, the Contact form, and `Layout`; no competing base button class was found. Disabled usage currently appears only on the native submit button path, so `.button:disabled` matches current behavior.
 - `Follow-up`: None.
 
 ##### CSS-1.4.1.2 - `.button--primary`
@@ -128,7 +128,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Naming/Structure Check`: Modifier naming matches the component contract and the active `.button button--${variant}` structure. Because `Button` defaults to `primary`, most primary usage is intentionally implicit in JSX rather than written as `variant="primary"`.
 - `Declaration Review`: The modifier owns only visual variant declarations: cedar background, cedar border, light text, and a stronger action shadow. Hover changes background and border color only, which matches the base transition list and keeps motion/layout in `.button`. The shadow is a one-off literal rather than `--shadow`, but it is also a distinct primary-action treatment rather than a repeated surface shadow; leave it in place unless a future token-alignment sweep introduces a button-specific shadow token.
 - `Architecture Check`: Keep beside `.button` and the other button modifiers in `src/styles.css`. The rule owns the cedar-filled primary treatment and a small action shadow; it is not a move, consolidate, or restructure candidate.
-- `Used By`: Default `Button` path across public primary CTAs, including contact/enquiry actions, Home closing CTA, Kink/BDSM hero action, LGBTQIA+ hero action, Not Found homepage action, `EnquiryForm` submit action, `Layout` header contact action, and rendered design-system examples.
+- `Used By`: Default `Button` path across public primary CTAs, including contact/enquiry actions, Home closing CTA, Kink/BDSM hero action, LGBTQIA+ hero action, Not Found homepage action, the Contact form submit action, `Layout` header contact action, and rendered design-system examples.
 - `Decision`: Keep as the default primary action variant.
 - `Evidence`: `src/components/Button.tsx` defaults `variant` to `primary` and emits `button button--${variant}`. `src/styles.css` defines `.button--primary` and `.button--primary:hover` with cedar tokens. Rendered design-system usage describes Primary as the one-per-view key action. Source search found no direct production use of `button--primary` outside CSS/checklist text, which means the modifier is component-generated rather than a free-floating class hook.
 - `Follow-up`: No CSS action. Component documentation now lists `primary` as part of the active variant set without the stale `light` reference; consider the primary shadow only if a broader shadow-token cleanup happens.
@@ -655,9 +655,9 @@ Use this structure when a region is expanded to class-token leaves:
 - `Evidence`: A 2026-07-13 token and source scan found `--radius` defined once at `8px`, no descendant overrides, and exact matching base values for all four removed declarations.
 - `Follow-up`: Continue `CSS-1.7` one documented pattern family at a time.
 
-- `CSS-1.8` `Not reviewed` Form, FAQ, CTA, and interactive shared patterns.
-  - Scope: `.site-form*`, `.form-row` within shared form context, `.site-broad-tabs*`, `.site-faq-*`, `.site-cta-block*`, reduced-motion support, and hover/focus states for these patterns.
-  - Next: Expand by form system, broad tabs, FAQ, CTA, and interaction-state clusters.
+- `CSS-1.8` `Not reviewed` FAQ, CTA, and interactive shared patterns.
+  - Scope: `.site-broad-tabs*`, `.site-faq-*`, `.site-cta-block*`, reduced-motion support, and hover/focus states for these patterns. The obsolete `.site-form*` layer was removed in the 2026-08-03 source-first cleanup sweep.
+  - Next: Expand by broad tabs, FAQ, CTA, and interaction-state clusters.
 
 - `CSS-1.9` `Not reviewed` Hero design language.
   - Scope: `.hero-section`, `.hero-top`, `.hero-display`, `.hero-intro`, `.site-emphasis`, `.hero-copy-panel`, `.hero-deck*`, `.hero-support-tagline`, `.hero-badge`, `.hero-principles-strip`, `.hero-principle-item`, `.hero-bg--default`, `.hero-top--supporting-media`, `.hero-media-note*`, and hero responsive rules.

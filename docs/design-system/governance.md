@@ -31,7 +31,7 @@ When determining what is actually implemented, use this evidence order:
 
 If documentation disagrees with executable behaviour, treat the implementation as the current fact. Reconcile the stale documentation when the task changes or formally assesses that durable state.
 
-`src/styles-dev.css` and its remaining `ds-*` rules support the Documents development route rather than production implementation. Page-scoped CSS can be production-safe for its page without becoming shared API. Legacy, demo, and reference layers remain reference only unless deliberately promoted.
+`src/styles-dev.css` contains page-scoped `documents-*` support for the Documents development route rather than production implementation. Page-scoped CSS can be production-safe for its page without becoming shared API. Legacy, demo, and reference layers remain reference only unless deliberately promoted.
 
 The rendered `/design-language/*` catalogue was removed on 2026-08-03. Its former pages survive only in Git history and are not implementation evidence or reusable-API authority.
 
@@ -91,8 +91,9 @@ Production source currently contains tokens in `src/styles.css`, `site-*` and `h
 
 ## Legacy And Support Layers
 
-- Remaining `ds-*` rules are `Historical/dev-only` Documents-route support and must stay out of production pages. The rendered-catalogue selectors and `design-language-*` support are `Removed`.
-- `test-bed-*` and `opus-*` are `Historical/dev-only`; `legacy-*`, `inc-lab-*`, and superseded `site-hero-*` require their existing catalogue or source-backed record before any maintenance decision.
+- `ds-*` and `design-language-*` rendered-catalogue support are `Removed`.
+- `.test-bed-page` and `src/styles-test-beds.css` are current page-scoped development support for the clean test-bed shells; they are not reusable design-system API.
+- `legacy-*`, old `opus-*`, `inc-lab-*`, and superseded `site-hero-*` require their existing catalogue or source-backed record before any maintenance decision.
 - The old `src/components/Card.tsx`, `.card`, `.card-grid`, and `.card-kicker` path is `Removed`. Do not reintroduce it as card API.
 
 Useful legacy ideas can be rebuilt as new `Page-local` implementation when a selected concept calls for them. They need promotion and documentation only when an explicitly authorized task elevates them to `Shared-supported`.
@@ -115,7 +116,7 @@ Promote a page-scoped pattern to `Shared-supported` only when the current task e
 - it has a stable name, role, and supported boundary
 - responsive behaviour, accessibility, interaction states, and affected consumers are covered proportionately
 - existing consumers are migrated to the elevated implementation without retaining accidental duplicates
-  - it is represented in the relevant written catalogue; no rendered catalogue exists as proof of promotion
+- it is represented in the relevant written catalogue; no rendered catalogue exists as proof of promotion
 - `current-scope.md` is updated
 
 Repeated literal values or declarations do not establish a semantic role and are not sufficient reason to create a token or shared selector.

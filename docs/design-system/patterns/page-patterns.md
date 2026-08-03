@@ -110,20 +110,13 @@ The `hero-*` and `site-*` families exist in current production source. That impl
 
 Fresh work should preserve one clear page topic and valid heading structure without assuming `hero-*`, the badge/display pairing, or the recorded hero composition is reusable. Use a recorded hero item only when its adjacent status is `Shared-supported`; otherwise keep new work `Page-local`.
 
-## Forms
+### `.site-form*`
 
-- `.site-form`
-  Recorded form shell.
-- `.site-form__heading`
-  Semantic form heading that keeps the shared eyebrow treatment and names the control-bearing form through `aria-labelledby`.
-- `.site-form__grid`, `.site-form__row--full`, `.site-form__submit`
-  Recorded enquiry form layout helpers.
-- `.site-form__status`
-  Direct form submission feedback.
-- `.site-form__choice-group`, `.site-form__choices`, `.site-form__choice`
-  Radio-choice treatment for the progressive enquiry flow.
-
-For the current enquiry flow, preserve the behaviour and data contract owned by `EnquiryForm` and `src/data/enquiry.ts` unless the task explicitly changes them. Their current visual treatment may be redesigned independently.
+- `Status`: `Removed`
+- `Role and boundary`: Former shared production styling for the progressive enquiry form.
+- `Source evidence and public consumers`: Removed from `src/styles.css`; production enquiry form markup and styling are now page-local to `Contact.tsx` and `src/styles-contact.css`.
+- `Replacement or migration`: Contact retains shared recipient and success content from `src/data/enquiry.ts`, but no general-purpose shared form CSS API replaces this selector family.
+- `Reviewed`: 2026-08-03 — staging Contact/form consolidation
 
 ## Footer And Navigation
 
