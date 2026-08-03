@@ -101,7 +101,7 @@ Fresh work may retain, modify, replace, or omit the shared hero composition. Pre
 - `.site-form__choice-group`, `.site-form__choices`, `.site-form__choice`
   Radio-choice treatment for the progressive enquiry flow.
 
-For the current enquiry flow, preserve the behaviour and data contract owned by `EnquiryForm` and `src/data/enquiry.ts` unless the task explicitly changes them. Their current visual treatment may be redesigned independently.
+The production enquiry behaviour and data flow are page-owned by `Contact.tsx`; the `site-form*` classes describe its current visual implementation without creating a shared React form API.
 
 ## Footer And Navigation
 

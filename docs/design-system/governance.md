@@ -87,7 +87,7 @@ Current rendered routes:
 
 - `/design-language`: overview route
 - `/design-language/foundations`: tokens, typography, spacing, surfaces, focus/link states, and rich-text HTML
-- `/design-language/components`: buttons, cards, trust strips, forms, footer, lists, stacks, FAQ, and reusable UI pieces
+- `/design-language/components`: buttons, cards, trust strips, contact surfaces, footer, lists, stacks, FAQ, and reusable UI pieces
 - `/design-language/heroes`: currently implemented `hero-*` system
 - `/design-language/patterns`: page-level composition patterns
 

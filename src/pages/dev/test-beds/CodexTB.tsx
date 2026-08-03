@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useState } from "react";
 import Button from "../../../components/Button";
 import Container from "../../../components/Container";
-import { enquiryEmail, enquiryFormContent } from "../../../data/enquiry";
+import { enquiryEmail } from "../../../data/enquiry";
 import {
   australianStateOptions,
   bookingTypes,
@@ -9,15 +9,10 @@ import {
 } from "../../../data/enquiryContract";
 import { getRouteMetadata } from "../../../data/routeMetadata";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
-import {
-  trackEnquiryStarted,
-  trackSuccessfulEnquirySubmission,
-} from "../../../utils/analytics";
 import { getActiveAustralianTimeZoneOptions } from "../../../utils/timeZones";
 import "../../../styles-contact.css";
 
 type ContactPath = "appointment" | "consult" | "question";
-type SubmitStatus = "idle" | "sending" | "success" | "error";
 
 type ContactPathOption = {
   id: ContactPath;
@@ -41,26 +36,6 @@ const contactPathOptions: readonly ContactPathOption[] = [
 
 const contactMetadata = getRouteMetadata("/contact");
 
-function getFormText(formData: FormData, fieldName: string) {
-  const value = formData.get(fieldName);
-  return typeof value === "string" ? value.trim() : "";
-}
-
-function buildEnquiryPayload(formData: FormData) {
-  return {
-    availability: getFormText(formData, "availability"),
-    bookingType: getFormText(formData, "bookingType"),
-    email: getFormText(formData, "email"),
-    enquiryType: getFormText(formData, "enquiryType"),
-    message: getFormText(formData, "message"),
-    name: getFormText(formData, "name"),
-    state: getFormText(formData, "state"),
-    timing: getFormText(formData, "timing"),
-    timeZone: getFormText(formData, "timeZone"),
-    website: getFormText(formData, "website"),
-  };
-}
-
 function RequiredMark() {
   return (
     <>
@@ -70,97 +45,12 @@ function RequiredMark() {
   );
 }
 
-function SubmissionSuccess() {
-  const statusRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const statusElement = statusRef.current;
-
-    statusElement?.focus({ preventScroll: true });
-    statusElement?.scrollIntoView({
-      behavior: "instant",
-      block: "center",
-      inline: "nearest",
-    });
-  }, []);
-
-  return (
-    <section className="site-form site-form--complete codex-contact__submission-success">
-      <div
-        className="codex-contact__submission-status"
-        ref={statusRef}
-        role="status"
-        tabIndex={-1}
-      >
-        <span className="codex-contact__submission-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false">
-            <path d="m6.5 12.5 3.3 3.3 7.7-8" />
-          </svg>
-        </span>
-        <div className="codex-contact__submission-copy">
-          <h2>{enquiryFormContent.success.title}</h2>
-          <p>{enquiryFormContent.success.note}</p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function ContactEnquiryForm() {
   const [contactPath, setContactPath] = useState<ContactPath | "">("");
-  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
-  const enquiryStartTrackedRef = useRef(false);
   const timeZoneOptions = getActiveAustralianTimeZoneOptions();
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formElement = event.currentTarget;
-
-    setSubmitStatus("sending");
-
-    try {
-      const response = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(buildEnquiryPayload(new FormData(formElement))),
-      });
-
-      if (!response.ok) {
-        throw new Error("Enquiry submission failed.");
-      }
-
-      trackSuccessfulEnquirySubmission("contact");
-      formElement.reset();
-      setContactPath("");
-      setSubmitStatus("success");
-    } catch {
-      setSubmitStatus("error");
-    }
-  };
-
-  const handleFormInput = (event: FormEvent<HTMLFormElement>) => {
-    const target = event.target;
-
-    if (
-      enquiryStartTrackedRef.current ||
-      (target instanceof HTMLInputElement && target.name === "website")
-    ) {
-      return;
-    }
-
-    enquiryStartTrackedRef.current = true;
-    trackEnquiryStarted();
-  };
 
   const handlePathChange = (value: ContactPath) => {
     setContactPath(value);
-    setSubmitStatus("idle");
-  };
-
-  if (submitStatus === "success") {
-    return <SubmissionSuccess />;
   }
 
   const isAppointment = contactPath === "appointment";
@@ -181,13 +71,9 @@ function ContactEnquiryForm() {
 
   return (
     <form
-      action="/api/enquiry"
       aria-labelledby="codex-contact-form-heading"
       className="codex-contact__form"
-      data-clarity-mask="true"
-      method="post"
-      onInputCapture={handleFormInput}
-      onSubmit={handleSubmit}
+      onSubmit={(event) => event.preventDefault()}
     >
       <input
         aria-hidden="true"
@@ -344,19 +230,8 @@ function ContactEnquiryForm() {
           </div>
 
           <div className="codex-contact__submit-row">
-            <Button disabled={submitStatus === "sending"} type="submit">
-              {submitStatus === "sending" ? "Sending..." : submitLabel}
-            </Button>
+            <Button type="submit">{submitLabel}</Button>
           </div>
-
-          {submitStatus === "error" ? (
-            <div className="codex-contact__submission-error" role="alert">
-              <p>
-                Sorry, the enquiry could not be sent. Please email{" "}
-                <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a> directly.
-              </p>
-            </div>
-          ) : null}
         </div>
       ) : null}
 

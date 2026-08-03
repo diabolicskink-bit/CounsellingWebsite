@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Button from "../components/Button";
 import Container from "../components/Container";
-import { enquiryEmail, enquiryFormContent } from "../data/enquiry";
+import { enquiryEmail, enquirySuccessContent } from "../data/enquiry";
 import {
   australianStateOptions,
   bookingTypes,
@@ -146,8 +146,8 @@ function SubmissionSuccess() {
           </svg>
         </span>
         <div className="codex-contact__submission-copy">
-          <h2>{enquiryFormContent.success.title}</h2>
-          <p>{enquiryFormContent.success.note}</p>
+          <h2>{enquirySuccessContent.title}</h2>
+          <p>{enquirySuccessContent.note}</p>
         </div>
       </div>
     </section>

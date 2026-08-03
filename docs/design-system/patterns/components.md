@@ -16,8 +16,6 @@ This catalogue inventories currently implemented React components and component-
   FAQ structured data helper.
 - `BroadTabPanel`
   Compact sets of three to five related labels where each tab opens paragraph-length content in one broad panel. Owns ARIA tab semantics, roving focus, responsive stacking, reduced-motion handling, and `site-broad-tabs*` styling.
-- `EnquiryForm`
-  The production contact/enquiry form. Its behaviour and `src/data/enquiry.ts` contract should stay aligned when retained; its current styling is not visual authority.
 - `Layout`
   Production shell, navigation, shared chrome detection, and footer. The shared header uses a short warm editorial surface, single-line wordmark, desktop flyout navigation, and a dark cedar contact action. Below the desktop breakpoint, navigation becomes a fixed dark full-viewport index with separate Fees and Contact destinations; its mobile menu owns Escape handling, body scroll locking and restoration, focus return to the toggle, and desktop-breakpoint dismissal during responsive resizing. The outer shell remains in the root document overflow flow rather than globally clipping it. The shared footer mirrors the header's warm material and compact discipline, presenting the wordmark, short navigation, email, hours, understated social-profile links, and copyright so page-level CTA content can remain separate.
 - `DevPageHero`, `DesignSystemSidebar`, `DocumentsSidebar`

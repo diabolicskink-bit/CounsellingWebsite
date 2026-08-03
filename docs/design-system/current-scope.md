@@ -15,7 +15,7 @@ This is the live factual inventory of the design system.
 - The active shared production class layer uses `site-*` classes for public-page sections, cards, panels, lists, tabs, forms, footer, FAQ, CTA, trust, detail, and contact patterns.
 - The active shared hero system uses `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-media-note--portrait`, `.hero-media-note__tag`, `.hero-principles-strip`, and `.hero-detail-stack`. Adjacent `.hero-badge` and `.hero-display` elements use the shared `--hero-badge-display-gap` value of 16px.
 - Existing non-prefixed shared component classes remain active where they back current promoted components or patterns: `.container`, `.button`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
-- Active shared React components include `Container`, `Button`, `SectionHeading`, `FaqSection` with its standard FAQ heading, `FaqSchema`, `BroadTabPanel`, `EnquiryForm`, `Layout`, `DevPageHero`, `DesignSystemSidebar`, and `DocumentsSidebar`.
+- Active shared React components include `Container`, `Button`, `SectionHeading`, `FaqSection` with its standard FAQ heading, `FaqSchema`, `BroadTabPanel`, `Layout`, `DevPageHero`, `DesignSystemSidebar`, and `DocumentsSidebar`.
 - The active `Layout` header uses a short warm editorial surface, single-line wordmark, desktop flyout navigation, dark cedar contact action, bottom-anchored active-route treatment, and a fixed dark full-viewport navigation index below the desktop breakpoint. The mobile index exposes separate Fees and Contact links, with Fees targeting the fee section and Contact opening the page at the top. Mobile behaviour retains Escape dismissal, body scroll locking and restoration, focus return to the toggle, and automatic dismissal when responsive resizing crosses into the desktop layout so the page cannot remain scroll-locked behind a hidden menu. The outer shell stays in the document's root overflow flow so the complete footer remains part of the reachable scroll range.
 - The active general card pattern is `.site-card`, `.site-card--link`, `.site-card__list`, `.site-card__action`, and `.site-card-grid`.
 - The active topic-card pattern is `.site-topic-grid`, `.site-topic-card`, and topic-card modifiers.
@@ -24,7 +24,7 @@ This is the live factual inventory of the design system.
 - Active panel and practical-info patterns include `.site-copy-panel`, `.site-check-panel`, `.site-check-panel--grid`, `.site-contact-strip`, `.site-contact-item`, `.site-fee-card`, `.site-principles`, and `.site-principle`.
 - The active CTA pattern is `.site-cta-block` and related child classes.
 - The active `Layout` footer is a compact warm utility bar that mirrors the header's material and height discipline. It contains the wordmark, short navigation, email, practice hours, understated Instagram and LinkedIn profile links, and copyright without owning a page-level CTA. It is demonstrated on the Components page.
-- The current enquiry/contact form uses `EnquiryForm`, `src/data/enquiry.ts`, and `.site-form*` classes.
+- The current enquiry/contact form is page-owned by `Contact.tsx`; it uses production recipient and success content from `src/data/enquiry.ts` plus `.site-form*` and page-scoped classes. There is no shared React form component.
 - Design-system routes exist at `/design-language`, `/design-language/foundations`, `/design-language/components`, `/design-language/heroes`, and `/design-language/patterns`.
 - Written design-system guidance exists in `docs/design-system/README.md`, `governance.md`, this file, `foundations/`, `patterns/`, and `maintenance/`.
 
@@ -37,7 +37,7 @@ This is the live factual inventory of the design system.
 - Type roles exist and are documented, but page-specific type overrides and older experimental styles still need periodic audit.
 - Page pattern consolidation is partial; repeated public-page compositions are not all promoted or catalogued.
 - Inclusion-oriented layouts exist on public pages, but inclusion panels are mostly page-specific rather than a fully promoted reusable subsystem.
-- Form styling and `EnquiryForm` are production-ready for the current contact/enquiry flow, but there is no general-purpose form component library.
+- Form styling supports the page-owned production contact/enquiry flow, but there is no shared or general-purpose React form component library.
 - Icons are used through `lucide-react`, `.icon-box`, and `site-card__icon`, but there is no formal icon system.
 - Focus states, FAQ semantics, form states, and reduced-motion handling exist in places, but there is no complete accessibility audit matrix.
 - Responsive CSS exists across shared and page-scoped styles, but there is no responsive QA matrix.
@@ -53,6 +53,7 @@ This is the live factual inventory of the design system.
 - The old generic `.stack` production helper has been removed; current purpose-specific replacements include `.site-content-stack` and `.site-detail-stack`.
 - The unused `.site-highlight__box` selector has been removed. `.site-highlight` remains the active alternate section band.
 - The unused `.site-spotlight*` composition and its responsive hook have been removed after a source audit found no runtime or development-page consumers.
+- The former shared `EnquiryForm` component and rendered design-system form specimen have been removed. Production behaviour is owned by `Contact.tsx`; the temporary test-bed forms are inert visual interaction references.
 - `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css`; it is not part of the production or preferred future layer.
 - `legacy-*`, old `test-bed-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only.
 - No active `site-hero-*` source usage was found during the latest pass; the documented `hero-*` system supersedes it.

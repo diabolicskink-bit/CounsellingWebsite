@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useState } from "react";
 import Button from "../../../components/Button";
 import Container from "../../../components/Container";
 import { enquiryEmail } from "../../../data/enquiry";
@@ -9,15 +9,10 @@ import {
 } from "../../../data/enquiryContract";
 import { getRouteMetadata } from "../../../data/routeMetadata";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
-import {
-  trackEnquiryStarted,
-  trackSuccessfulEnquirySubmission,
-} from "../../../utils/analytics";
 import { getActiveAustralianTimeZoneOptions } from "../../../utils/timeZones";
 import "../../../styles-opus-tb.css";
 
 type ContactPath = "appointment" | "consult" | "question";
-type SubmitStatus = "idle" | "sending" | "success" | "error";
 
 const contactPathOptions: readonly {
   id: ContactPath;
@@ -38,26 +33,6 @@ const contactPathOptions: readonly {
 ] as const;
 
 const contactMetadata = getRouteMetadata("/contact");
-
-function getFormText(formData: FormData, fieldName: string) {
-  const value = formData.get(fieldName);
-  return typeof value === "string" ? value.trim() : "";
-}
-
-function buildEnquiryPayload(formData: FormData) {
-  return {
-    availability: getFormText(formData, "availability"),
-    bookingType: getFormText(formData, "bookingType"),
-    email: getFormText(formData, "email"),
-    enquiryType: getFormText(formData, "enquiryType"),
-    message: getFormText(formData, "message"),
-    name: getFormText(formData, "name"),
-    state: getFormText(formData, "state"),
-    timing: getFormText(formData, "timing"),
-    timeZone: getFormText(formData, "timeZone"),
-    website: getFormText(formData, "website"),
-  };
-}
 
 function RequiredMark() {
   return (
@@ -107,32 +82,11 @@ function PathFacts({ path }: { path: ContactPath }) {
   );
 }
 
-function SubmissionSuccess() {
-  const statusRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    statusRef.current?.focus();
-  }, []);
-
-  return (
-    <div
-      className="opus-contact__submission-success"
-      ref={statusRef}
-      role="status"
-      tabIndex={-1}
-    >
-      <span className="opus-contact__utility-label">Enquiry sent</span>
-      <h2>Thanks, your enquiry has been sent.</h2>
-    </div>
-  );
-}
-
 type EnquiryDetailsProps = {
   contactPath: ContactPath;
-  submitStatus: SubmitStatus;
 };
 
-function EnquiryDetails({ contactPath, submitStatus }: EnquiryDetailsProps) {
+function EnquiryDetails({ contactPath }: EnquiryDetailsProps) {
   const timeZoneOptions = getActiveAustralianTimeZoneOptions();
   const isAppointment = contactPath === "appointment";
   const isConsult = contactPath === "consult";
@@ -267,19 +221,8 @@ function EnquiryDetails({ contactPath, submitStatus }: EnquiryDetailsProps) {
         </div>
 
         <div className="opus-contact__submit-row">
-          <Button disabled={submitStatus === "sending"} type="submit">
-            {submitStatus === "sending" ? "Sending..." : submitLabel}
-          </Button>
+          <Button type="submit">{submitLabel}</Button>
         </div>
-
-        {submitStatus === "error" ? (
-          <div className="opus-contact__submission-error" role="alert">
-            <p>
-              Sorry, the enquiry could not be sent. Please email{" "}
-              <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a> directly.
-            </p>
-          </div>
-        ) : null}
       </div>
     </div>
   );
@@ -287,69 +230,16 @@ function EnquiryDetails({ contactPath, submitStatus }: EnquiryDetailsProps) {
 
 function ContactEnquiryForm() {
   const [contactPath, setContactPath] = useState<ContactPath | "">("");
-  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
-  const enquiryStartTrackedRef = useRef(false);
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formElement = event.currentTarget;
-
-    setSubmitStatus("sending");
-
-    try {
-      const response = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(buildEnquiryPayload(new FormData(formElement))),
-      });
-
-      if (!response.ok) {
-        throw new Error("Enquiry submission failed.");
-      }
-
-      trackSuccessfulEnquirySubmission("contact");
-      formElement.reset();
-      setContactPath("");
-      setSubmitStatus("success");
-    } catch {
-      setSubmitStatus("error");
-    }
-  };
-
-  const handleFormInput = (event: FormEvent<HTMLFormElement>) => {
-    const target = event.target;
-
-    if (
-      enquiryStartTrackedRef.current ||
-      (target instanceof HTMLInputElement && target.name === "website")
-    ) {
-      return;
-    }
-
-    enquiryStartTrackedRef.current = true;
-    trackEnquiryStarted();
-  };
 
   const handlePathChange = (value: ContactPath) => {
     setContactPath(value);
-    setSubmitStatus("idle");
-  };
-
-  if (submitStatus === "success") {
-    return <SubmissionSuccess />;
   }
 
   return (
     <form
-      action="/api/enquiry"
       aria-labelledby="opus-contact-form-heading"
       className="opus-contact__form"
-      data-clarity-mask="true"
-      method="post"
-      onInputCapture={handleFormInput}
-      onSubmit={handleSubmit}
+      onSubmit={(event) => event.preventDefault()}
     >
       <input
         aria-hidden="true"
@@ -391,7 +281,7 @@ function ContactEnquiryForm() {
                 </label>
 
                 {isSelected ? (
-                  <EnquiryDetails contactPath={option.id} submitStatus={submitStatus} />
+                  <EnquiryDetails contactPath={option.id} />
                 ) : null}
               </div>
             );

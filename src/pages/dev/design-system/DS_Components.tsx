@@ -16,9 +16,8 @@ import Button from "../../../components/Button";
 import Container from "../../../components/Container";
 import DevPageHero from "../../../components/DevPageHero";
 import DesignSystemSidebar from "../../../components/DesignSystemSidebar";
-import EnquiryForm from "../../../components/EnquiryForm";
 import FaqSection from "../../../components/FaqSection";
-import { enquiryEmail, enquiryFormContent } from "../../../data/enquiry";
+import { enquiryEmail } from "../../../data/enquiry";
 import { socialProfileLinks } from "../../../data/site";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
 
@@ -136,7 +135,7 @@ export default function DS_Components() {
       <DevPageHero
         badge="Design system"
         title="Components"
-        description="Buttons, cards, trust strips, forms, and list treatments — the reusable UI pieces and their usage rules."
+        description="Buttons, cards, trust strips, contact surfaces, and list treatments — the reusable UI pieces and their usage rules."
       />
 
       <div className="ds-layout">
@@ -274,15 +273,11 @@ export default function DS_Components() {
             </div>
           </section>
 
-          <section className="ds-section" id="forms">
+          <section className="ds-section" id="contact-surfaces">
             <div className="ds-section-heading">
-              <span className="site-eyebrow">Forms & contact</span>
+              <span className="site-eyebrow">Contact & fees</span>
               <h2>Contact surfaces should feel clear, calm, and low-friction.</h2>
-              <p>Form fields, side notes, and contact details use the same card, border, and icon language as the rest of the site.</p>
-            </div>
-
-            <div className="ds-demo" style={{ maxWidth: "760px" }}>
-              <EnquiryForm content={enquiryFormContent} idPrefix="design-system-enquiry" />
+              <p>Contact notes and practical fee details use the same restrained border and icon language as the rest of the site.</p>
             </div>
 
             <div className="site-contact-strip" style={{ marginTop: "32px" }}>
@@ -304,8 +299,6 @@ export default function DS_Components() {
             </div>
 
             <div className="ds-usage-note" style={{ marginTop: "24px" }}>
-              <strong>Enquiry form</strong> - Use the shared <code>EnquiryForm</code> component and <code>src/data/enquiry.ts</code> content so the production contact form and this example stay identical.<br />
-              <strong>All form elements</strong> share the same border, radius, and focus-ring treatment. Do not invent custom input styles.<br />
               <strong>Contact strip</strong> — Icon + label + value. Use for email, phone, and location. Sits below the form or in a page aside.
             </div>
 
