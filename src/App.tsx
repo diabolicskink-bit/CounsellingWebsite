@@ -16,13 +16,7 @@ import { devRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/ro
 const devPages = import.meta.env.DEV
   ? {
       CodexTB: lazy(() => import("./pages/dev/test-beds/CodexTB")),
-      DesignSystemArchiveLayout: lazy(() => import("./components/DesignSystemArchiveLayout")),
-      DesignLanguage: lazy(() => import("./pages/dev/DesignLanguage")),
       Documents: lazy(() => import("./pages/dev/Documents")),
-      DS_Components: lazy(() => import("./pages/dev/design-system/DS_Components")),
-      DS_Foundations: lazy(() => import("./pages/dev/design-system/DS_Foundations")),
-      DS_Heroes: lazy(() => import("./pages/dev/design-system/DS_Heroes")),
-      DS_Patterns: lazy(() => import("./pages/dev/design-system/DS_Patterns")),
       OpusTB: lazy(() => import("./pages/dev/test-beds/OpusTB")),
     }
   : null;
@@ -34,13 +28,6 @@ const standaloneDevRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths
   { path: devRoutePaths.codexTestBed, page: "CodexTB" },
   { path: devRoutePaths.opusTestBed, page: "OpusTB" },
   { path: devRoutePaths.documents, page: "Documents" },
-];
-
-const designSystemRoutes: Array<{ page: DevPageKey; path: string }> = [
-  { path: "foundations", page: "DS_Foundations" },
-  { path: "components", page: "DS_Components" },
-  { path: "heroes", page: "DS_Heroes" },
-  { path: "patterns", page: "DS_Patterns" },
 ];
 
 export type AppProps = {
@@ -75,17 +62,6 @@ export default function App({ initialRenderAt }: AppProps) {
                 <Route key={route.path} path={route.path} element={renderDevPage(devPages[route.page])} />
               ))
             : null}
-          {devPages ? (
-            <Route
-              path={devRoutePaths.designLanguage}
-              element={renderDevPage(devPages.DesignSystemArchiveLayout)}
-            >
-              <Route index element={renderDevPage(devPages.DesignLanguage)} />
-              {designSystemRoutes.map((route) => (
-                <Route key={route.path} path={route.path} element={renderDevPage(devPages[route.page])} />
-              ))}
-            </Route>
-          ) : null}
           <Route path={publicRoutePaths.contact} element={<Contact initialRenderAt={initialRenderAt} />} />
           <Route path="*" element={<NotFound />} />
         </Route>

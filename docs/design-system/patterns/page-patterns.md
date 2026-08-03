@@ -10,6 +10,22 @@ This inventory has not been item-by-item reconciled. Every entry without an adja
 
 When related work verifies or changes an item, add the record required by [governance](../governance.md): identifier, status, semantic role and boundary, source evidence and current public consumers, replacement or migration note, and review date/task. Do not classify unrelated entries during that work.
 
+### `/design-language/*` rendered catalogue
+
+- `Status`: `Removed`
+- `Role and boundary`: Former development-only rendered snapshot of earlier design-system guidance.
+- `Source evidence and public consumers`: All five routes, their page modules, route constants, lazy imports, navigation entry, and archive layout were removed after verification found no production dependency. The paths remain in the retired-route boundary test and resolve through the ordinary Not Found route.
+- `Replacement or migration`: Written lifecycle governance and item registers remain under `docs/design-system/`; no rendered replacement is currently planned.
+- `Reviewed`: 2026-08-03 — rendered design catalogue retirement
+
+### Rendered-catalogue support selectors
+
+- `Status`: `Removed`
+- `Role and boundary`: Former `.ds-archive-notice*`, `.ds-overview-*`, `.ds-section*`, `.ds-foundation-*`, `.ds-hero-demo*`, and `design-language-*` development-only catalogue presentation.
+- `Source evidence and public consumers`: Removed from `src/styles-dev.css` after source search verified that their only consumers were the retired catalogue pages. The remaining `ds-layout*` and `ds-sidebar*` rules continue to support the separate Documents route.
+- `Replacement or migration`: `None`.
+- `Reviewed`: 2026-08-03 — rendered design catalogue retirement
+
 ## Recorded Section Patterns
 
 - `.site-grid`

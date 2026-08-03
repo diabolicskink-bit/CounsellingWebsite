@@ -7,6 +7,7 @@ import DocumentsSidebar, {
 } from "../../components/DocumentsSidebar";
 import DevPageHero from "../../components/DevPageHero";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
+import "../../styles-dev.css";
 
 type DocumentCategory = "checklists" | "reports" | "research" | "page-plans" | "plans";
 

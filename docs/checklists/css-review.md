@@ -4,6 +4,8 @@ This is the progressive review checklist for the site's CSS. It is a working rev
 
 Use this checklist to expand, review, and record decisions about CSS in manageable slices. When review finds actual cleanup work, link or create the relevant `DEBT-*` item instead of turning this checklist into a backlog card.
 
+> **Rendered-catalogue retirement:** The `/design-language/*` routes and their source modules were removed on 2026-08-03. Earlier `Used By`, `Evidence`, or architecture notes that mention rendered design-system examples are dated review history, not current consumers or reusable-API evidence. Re-run source usage before acting on any affected item.
+
 ## Status Labels
 
 - `Bucket`: A high-level area exists, but has not been expanded into reviewable children.
@@ -66,7 +68,7 @@ Use this structure when a region is expanded to class-token leaves:
   - Next: Expand one major region at a time into class groups or class-token leaves.
 
 - `CSS-2` `Bucket` `src/styles-dev.css`, dev/docs support CSS.
-  - Scope: `ds-*`, documents reader, rendered design-system support, and dev-only documentation surfaces.
+  - Scope: Remaining `ds-*`, the Documents reader, and other dev-only documentation support.
   - Next: Expand after production shared CSS has enough review structure.
 
 - `CSS-3` `Bucket` Public page-scoped CSS files.

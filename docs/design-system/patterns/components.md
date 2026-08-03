@@ -26,8 +26,24 @@ When related work verifies or changes an item, add the record required by [gover
   The production contact/enquiry form. Its behaviour and `src/data/enquiry.ts` contract should stay aligned when retained; its current styling is not visual authority.
 - `Layout`
   Production shell, navigation, shared chrome detection, and footer. The shared header uses a short warm editorial surface, single-line wordmark, desktop flyout navigation, and a dark cedar contact action. Below the desktop breakpoint, navigation becomes a fixed dark full-viewport index with separate Fees and Contact destinations; its mobile menu owns Escape handling, body scroll locking and restoration, focus return to the toggle, and desktop-breakpoint dismissal during responsive resizing. The outer shell remains in the root document overflow flow rather than globally clipping it. The shared footer mirrors the header's warm material and compact discipline, presenting the wordmark, short navigation, email, hours, understated social-profile links, and copyright so page-level CTA content can remain separate.
-- `DevPageHero`, `DesignSystemSidebar`, `DocumentsSidebar`
+- `DevPageHero`, `DocumentsSidebar`
   Dev/documentation support components.
+
+### `DesignSystemArchiveLayout`
+
+- `Status`: `Removed`
+- `Role and boundary`: Former development-only parent layout for the rendered historical design catalogue.
+- `Source evidence and public consumers`: Removed from `src/components/` after all `/design-language/*` routes and page modules were retired; it had no public consumer.
+- `Replacement or migration`: `None`; written governance and catalogues remain under `docs/design-system/`.
+- `Reviewed`: 2026-08-03 — rendered design catalogue retirement
+
+### `DesignSystemSidebar`
+
+- `Status`: `Removed`
+- `Role and boundary`: Former development-only navigation for the rendered historical design catalogue.
+- `Source evidence and public consumers`: Removed from `src/components/` after source search found consumers only in the retired `/design-language/*` page modules.
+- `Replacement or migration`: `None`; `DocumentsSidebar` remains scoped to the separate Documents route.
+- `Reviewed`: 2026-08-03 — rendered design catalogue retirement
 
 ## Legacy Component Boundary
 

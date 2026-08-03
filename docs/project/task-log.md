@@ -17,6 +17,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-03 - Rendered Design Catalogue Retired
+
+- Removed: The five `/design-language/*` development routes, their page modules, archive layout and sidebar, Dev-menu entry, route constants, and archive-only styling were deleted after source-usage checks found no production dependency.
+- Preserved: The Documents route, Codex and Opus test beds, their Dev navigation, and Documents-specific `ds-*` layout/sidebar support remain available.
+- Governed: Written lifecycle governance and item-level catalogues are now the only active design-system documentation; concise `Removed` records retain the catalogue's retirement state while Git preserves its detailed history.
+- Tracked: `DEBT-37` remains open for incremental source-backed classification of the retained production system, independent of any rendered explorer.
+
 ## 2026-08-03 - Incremental Design-System Migration Governance Added
 
 - Established: Design-system items now use the `Unreviewed`, `Page-local`, `Candidate`, `Shared-supported`, `Deprecated`, `Dormant`, `Historical/dev-only`, and `Removed` lifecycle, with source evidence and consumer records required as items are touched.

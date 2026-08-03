@@ -7,7 +7,7 @@ This is the live factual inventory of the design system.
 - The incremental lifecycle and its item-record requirements are active under `governance.md`.
 - No pre-existing production token, selector family, component, or pattern was classified by the framework-adoption task. Existing catalogue entries remain `Unreviewed` until related work adds a source-backed item record.
 - Only an explicit `Shared-supported` item record authorizes deliberate shared reuse. Production source and the retained inventory below establish implementation facts, not reusable status.
-- The rendered `/design-language/*` catalogue and its `ds-*` / `design-language-*` support remain `Historical/dev-only`.
+- The rendered `/design-language/*` catalogue, its archive components, and archive-only styling are `Removed`. Remaining `ds-*` rules support the separate Documents development route and remain `Historical/dev-only`.
 - Future lifecycle changes are summarized here only after the relevant item record is updated in the token, component, or page-pattern catalogue.
 
 ## Creative-Within-Identity Authority Status
@@ -25,7 +25,7 @@ The following implementation summary predates item-level lifecycle records. Term
 - Production source contains `site-*` classes for public-page sections, cards, panels, lists, tabs, forms, footer, FAQ, CTA, trust, detail, and contact patterns.
 - Production source contains `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-media-note--portrait`, `.hero-media-note__tag`, `.hero-principles-strip`, and `.hero-detail-stack`. Adjacent `.hero-badge` and `.hero-display` elements use the recorded `--hero-badge-display-gap` value of 16px.
 - Existing non-prefixed implementation includes `.container`, `.button`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
-- Recorded React components include `Container`, `Button`, `SectionHeading`, `FaqSection`, `FaqSchema`, `BroadTabPanel`, `EnquiryForm`, `Layout`, `DevPageHero`, `DesignSystemSidebar`, and `DocumentsSidebar`.
+- Recorded React components include `Container`, `Button`, `SectionHeading`, `FaqSection`, `FaqSchema`, `BroadTabPanel`, `EnquiryForm`, `Layout`, `DevPageHero`, and `DocumentsSidebar`.
 - The implemented `Layout` header uses a short warm editorial surface, single-line wordmark, desktop flyout navigation, dark cedar contact action, bottom-anchored active-route treatment, and a fixed dark full-viewport navigation index below the desktop breakpoint. The mobile index exposes separate Fees and Contact links, with Fees targeting the fee section and Contact opening the page at the top. Mobile behaviour retains Escape dismissal, body scroll locking and restoration, focus return to the toggle, and automatic dismissal when responsive resizing crosses into the desktop layout so the page cannot remain scroll-locked behind a hidden menu. The outer shell stays in the document's root overflow flow so the complete footer remains part of the reachable scroll range.
 - Recorded card classes include `.site-card`, `.site-card--link`, `.site-card__list`, `.site-card__action`, and `.site-card-grid`.
 - Recorded topic-card classes include `.site-topic-grid`, `.site-topic-card`, and topic-card modifiers.
@@ -35,16 +35,11 @@ The following implementation summary predates item-level lifecycle records. Term
 - Recorded CTA classes include `.site-cta-block` and related child classes.
 - The implemented `Layout` footer is a compact warm utility bar that mirrors the header's material and height discipline. It contains the wordmark, short navigation, email, practice hours, understated Instagram and LinkedIn profile links, and copyright without owning a page-level CTA.
 - The current enquiry/contact form uses `EnquiryForm`, `src/data/enquiry.ts`, and `.site-form*` classes.
-- Five development-only catalogue routes exist at `/design-language`, `/design-language/foundations`, `/design-language/components`, `/design-language/heroes`, and `/design-language/patterns`. They are quarantined as a historical archive and are not evidence of current status or approved reusable API.
-- `DesignSystemArchiveLayout` is the required parent for those routes while quarantine is active. It supplies exactly one visible historical notice before the retained page content.
 - Written design-system guidance exists in `docs/design-system/README.md`, `governance.md`, this file, `foundations/`, and `patterns/`.
 
 ## Partially Included / In Progress
 
-- Rendered design-system pages are intentionally retained as an outdated snapshot pending source-backed reconciliation under `DEBT-37`. Their demonstrations remain browsable, but their former prescriptive commentary has been removed and their claims are not current guidance.
-- The historical rendered pages still depend on `ds-*` documentation scaffolding and some older `design-language-*` support classes.
-- `ds-*` is still used for docs/dev scaffolding in `src/styles-dev.css`, design-system pages, the Documents page, and design-system support components.
-- The historical Patterns page preserves a mixture of `site-*`, `hero-*`, and older `design-language-*` demonstrations without asserting that any displayed treatment remains active.
+- `ds-*` remains in `src/styles-dev.css` only for the Documents page layout and sidebar. It is development support rather than production or reusable design-system API.
 - Current pages consume parts of the `hero-*` implementation and layer page-scoped hero classes on top for composition-specific needs. This does not assign `Shared-supported` status.
 - Type roles exist and are documented, but page-specific type overrides and older experimental styles still need periodic audit.
 - Page pattern consolidation is partial; repeated public-page compositions are not all promoted or catalogued.
@@ -54,20 +49,19 @@ The following implementation summary predates item-level lifecycle records. Term
 - Focus states, FAQ semantics, form states, and reduced-motion handling exist in places, but there is no complete accessibility audit matrix.
 - Responsive CSS exists across shared and page-scoped styles, but there is no responsive QA matrix.
 - The production header and navigation are implemented, but they are not yet represented as a dedicated design-system page section.
-- The design-system route name is still `/design-language`.
 
 ## Recorded Legacy And Removed History
 
 These descriptions also predate item-level lifecycle records unless governance or an adjacent catalogue record explicitly assigns a status.
 
-- `ds-*` is docs/dev-page support styling, not a production system.
+- Remaining `ds-*` is Documents-route support styling, not a production system.
+- The five `/design-language/*` routes, their page modules, `DesignSystemArchiveLayout`, `DesignSystemSidebar`, archive navigation, and archive-only `ds-*` / `design-language-*` styling were removed on 2026-08-03. Their concise `Removed` records live in `patterns/components.md` and `patterns/page-patterns.md`.
 - The old `src/components/Card.tsx` component and generic `.card`, `.card-grid`, `.card-kicker`, and card-specific responsive selectors have been removed from source; newer recorded card implementation is inventoried in `patterns/components.md` and `patterns/page-patterns.md`.
 - The old `src/components/SplitSection.tsx` component and generic `.section`, `.section--surface`, and `.split` production selectors have been removed from source; current split sections use `.site-grid` or `.site-highlight`, `Container`, `.site-split`, `.section-heading`, and `.rich-text`.
 - The old `.issues-section`, `.issues-section__inner`, `.topic-grid`, and `.topic-card` production selectors have been removed; production source contains `.site-topic-grid` and `.site-topic-card`.
 - The old generic `.stack` production helper has been removed; current purpose-specific replacements include `.site-content-stack` and `.site-detail-stack`.
 - The unused `.site-highlight__box` selector has been removed. `.site-highlight` remains in production source.
 - The unused `.site-spotlight*` composition and its responsive hook have been removed after a source audit found no runtime or development-page consumers.
-- `design-language-*` exists as older design-language/demo/reference styling in `src/styles-dev.css`; it supports the quarantined historical catalogue and is not part of the production or preferred future layer.
 - `legacy-*`, old `test-bed-*`, old `opus-*`, and old `inc-lab-*` layers are retired or reference only.
 - A previous source search found no `site-hero-*` usage. That finding does not by itself authorize removal or assign lifecycle status.
 - Raw design export files, historical icon candidate export folders, and the old type-scale plan are not part of the current written design-system guidance. Historical icon candidates have been removed.

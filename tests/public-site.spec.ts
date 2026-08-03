@@ -683,6 +683,11 @@ const aliasRedirects = [
 const retiredRoutes = [
   "/about-joel",
   "/approach",
+  "/design-language",
+  "/design-language/foundations",
+  "/design-language/components",
+  "/design-language/heroes",
+  "/design-language/patterns",
   "/enquire",
   "/inclusion/kink-bdsm",
   "/inclusion/enm-polyamory",
@@ -695,11 +700,6 @@ const devOnlyRoutes = [
   "/codex-tb",
   "/opus-tb",
   "/documents",
-  "/design-language",
-  "/design-language/foundations",
-  "/design-language/components",
-  "/design-language/heroes",
-  "/design-language/patterns",
 ] as const;
 
 const notFoundBoundaryRoutes = [...retiredRoutes, ...devOnlyRoutes, "/not-a-real-page"] as const;

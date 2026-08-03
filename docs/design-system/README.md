@@ -1,6 +1,6 @@
 # Design System Documentation
 
-This directory governs the gradual movement from page-local, old, or uncertain implementation toward a deliberately supported shared layer. Its written catalogues are being reconciled incrementally, and its rendered catalogue is quarantined as a historical snapshot.
+This directory governs the gradual movement from page-local, old, or uncertain implementation toward a deliberately supported shared layer. Its written catalogues are being reconciled incrementally; the former rendered catalogue has been removed.
 
 ## Creative-Within-Identity Status
 
@@ -54,20 +54,11 @@ The lifecycle is `Unreviewed`, `Page-local`, `Candidate`, `Shared-supported`, `D
 
 - `src/styles.css` is production implementation evidence for tokens, base typography, `site-*`, `hero-*`, and other classes. Presence there does not establish `Shared-supported` status.
 - `src/components/` contains React components, but a file existing there does not automatically make it reusable design-system API. Require an explicit `Shared-supported` record.
-- `src/pages/dev/design-system/` contains historical rendered catalogue pages. Their examples and classifications are not current guidance or approved reusable API.
-- `src/styles-dev.css` contains docs/dev support styling such as `ds-*`.
+- `src/styles-dev.css` contains development-only Documents-route support styling such as the remaining `ds-*` layout and sidebar rules.
 - Page-scoped CSS can be production-safe without being design-system API.
 
-## Historical Rendered Catalogue
+## Rendered Catalogue Status
 
-The development-only `/design-language/*` routes preserve an outdated rendered snapshot:
+The former development-only `/design-language/*` routes and their archive-only implementation were removed on 2026-08-03. Git history preserves the old snapshot, but it has no current design-system authority and must not be restored or copied as present guidance.
 
-- `/design-language`
-- `/design-language/foundations`
-- `/design-language/components`
-- `/design-language/heroes`
-- `/design-language/patterns`
-
-Every route inherits a visible “Historical catalogue” notice through `DesignSystemArchiveLayout`. Keep new rendered-catalogue routes nested beneath that layout while the quarantine remains in force.
-
-Do not use these pages to infer current production guidance, implementation status, or approved reusable API. Verify current public-route source and require explicit lifecycle records in the written catalogues. Incremental reconciliation is tracked as `DEBT-37`.
+Use this README, `governance.md`, `current-scope.md`, and the item-level written catalogues as the active documentation chain. A future rendered explorer would be new, explicitly authorized shared-system work rather than a continuation of the retired catalogue. Incremental source reconciliation remains tracked as `DEBT-37`.

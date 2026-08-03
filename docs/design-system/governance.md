@@ -31,9 +31,9 @@ When determining what is actually implemented, use this evidence order:
 
 If documentation disagrees with executable behaviour, treat the implementation as the current fact. Reconcile the stale documentation when the task changes or formally assesses that durable state.
 
-`src/styles-dev.css` and `ds-*` are dev support rather than production implementation. Page-scoped CSS can be production-safe for its page without becoming shared API. Legacy, demo, reference, and archive layers remain reference only unless deliberately promoted.
+`src/styles-dev.css` and its remaining `ds-*` rules support the Documents development route rather than production implementation. Page-scoped CSS can be production-safe for its page without becoming shared API. Legacy, demo, and reference layers remain reference only unless deliberately promoted.
 
-The rendered `/design-language/*` catalogue is quarantined as an outdated historical snapshot. It is not implementation evidence or reusable-API authority until `DEBT-37` completes source-backed reconciliation.
+The rendered `/design-language/*` catalogue was removed on 2026-08-03. Its former pages survive only in Git history and are not implementation evidence or reusable-API authority.
 
 ## Lifecycle
 
@@ -91,7 +91,7 @@ Production source currently contains tokens in `src/styles.css`, `site-*` and `h
 
 ## Legacy And Support Layers
 
-- `ds-*` and `design-language-*` are `Historical/dev-only` documentation support and must stay out of production pages.
+- Remaining `ds-*` rules are `Historical/dev-only` Documents-route support and must stay out of production pages. The rendered-catalogue selectors and `design-language-*` support are `Removed`.
 - `test-bed-*` and `opus-*` are `Historical/dev-only`; `legacy-*`, `inc-lab-*`, and superseded `site-hero-*` require their existing catalogue or source-backed record before any maintenance decision.
 - The old `src/components/Card.tsx`, `.card`, `.card-grid`, and `.card-kicker` path is `Removed`. Do not reintroduce it as card API.
 
@@ -115,24 +115,16 @@ Promote a page-scoped pattern to `Shared-supported` only when the current task e
 - it has a stable name, role, and supported boundary
 - responsive behaviour, accessibility, interaction states, and affected consumers are covered proportionately
 - existing consumers are migrated to the elevated implementation without retaining accidental duplicates
-- it is represented in markdown guidance; while the rendered-catalogue quarantine is active, do not add it to the historical routes as proof of promotion
+  - it is represented in the relevant written catalogue; no rendered catalogue exists as proof of promotion
 - `current-scope.md` is updated
 
 Repeated literal values or declarations do not establish a semantic role and are not sufficient reason to create a token or shared selector.
 
-## Historical Rendered Catalogue
+## Removed Rendered Catalogue
 
-The development-only `/design-language/*` routes are quarantined as a browsable historical archive:
+The former development-only `/design-language/*` routes, page modules, archive layout, navigation component, and archive-only styling were removed on 2026-08-03. The written lifecycle, current-scope summary, and item-level catalogues are now the only active design-system documentation.
 
-- `/design-language`: historical index
-- `/design-language/foundations`: earlier foundation demonstrations
-- `/design-language/components`: earlier component demonstrations
-- `/design-language/heroes`: earlier hero demonstrations
-- `/design-language/patterns`: earlier composition demonstrations
-
-Each route must inherit `DesignSystemArchiveLayout`, display exactly one visible historical notice, and use a document title prefixed with “Historical”. Future rendered-catalogue routes must be nested beneath the same parent while the quarantine remains active.
-
-The preserved demonstrations, classifications, status labels, and usage descriptions do not establish current implementation, production guidance, or approved reusable API. Verify public-route source and the written authority chain before reusing anything shown there. Reconciliation is tracked as `DEBT-37`.
+Do not restore the old rendered snapshot or copy demonstrations from Git history as current guidance. A future explorer would require an explicitly authorized task, source-backed `Shared-supported` records, and a new implementation whose authority is stated independently of the removed catalogue. Incremental source reconciliation remains tracked as `DEBT-37`.
 
 ## Promotion Workflow
 
@@ -141,7 +133,6 @@ The preserved demonstrations, classifications, status labels, and usage descript
 3. In an explicitly authorized shared-system task, verify consumers, role, boundaries, responsive behaviour, accessibility, and interaction states.
 4. Elevate the implementation, migrate the intended consumers, and remove or separately track accidental duplicates.
 5. Mark the item `Shared-supported`, complete its catalogue record, and update `current-scope.md`.
-6. Once the rendered catalogue has been reconciled, show the supported item there when visual. During quarantine, do not present historical routes as validation.
 
 ## Deprecation And Removal
 
@@ -157,7 +148,7 @@ The preserved demonstrations, classifications, status labels, and usage descript
 
 - For documentation-only changes, run reference searches or link checks that confirm AI guidance points to this lifecycle and that unreviewed or historical material is not described as approved reusable API.
 - For CSS, component, or rendered-page changes, run `npm run build` unless the current task explicitly excludes it.
-- For visual changes, inspect the affected public route. Inspect a rendered catalogue route only when the task is maintaining that historical archive.
+- For visual changes, inspect the affected public route or remaining development tool. There is no rendered design catalogue to use as validation.
 
 ## Scope Updates
 

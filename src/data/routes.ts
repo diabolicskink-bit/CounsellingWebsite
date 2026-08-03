@@ -20,11 +20,6 @@ export const publicRedirectRoutes = [
 
 export const devRoutePaths = {
   codexTestBed: "codex-tb",
-  designLanguage: "design-language",
-  designLanguageComponents: "design-language/components",
-  designLanguageFoundations: "design-language/foundations",
-  designLanguageHeroes: "design-language/heroes",
-  designLanguagePatterns: "design-language/patterns",
   documents: "documents",
   opusTestBed: "opus-tb",
 } as const;
@@ -40,10 +35,6 @@ const sharedChromePaths = new Set([
   ...(import.meta.env.DEV ? Object.values(devRoutePaths).map((path) => routeHref(path)) : []),
 ]);
 
-const sharedChromePrefixes = [
-  ...(import.meta.env.DEV ? [`${routeHref(devRoutePaths.designLanguage)}/`] : []),
-];
-
 export function usesSharedChromePath(pathname: string) {
-  return sharedChromePaths.has(pathname) || sharedChromePrefixes.some((prefix) => pathname.startsWith(prefix));
+  return sharedChromePaths.has(pathname);
 }
