@@ -187,8 +187,9 @@
   outline-offset: 4px;
 }
 
-.codex-contact__form.site-form,
+.codex-contact__form,
 .codex-contact__submission-success {
+  display: grid;
   gap: 0;
   padding: 0;
   overflow: hidden;
@@ -196,6 +197,10 @@
   border-radius: 3px;
   background: #fbfbf8;
   box-shadow: 0 20px 46px rgba(31, 35, 31, 0.09);
+}
+
+.codex-contact__honeypot {
+  display: none;
 }
 
 .codex-contact__form-heading {
@@ -404,6 +409,7 @@
 
 .codex-contact__submission-success {
   display: grid;
+  align-content: start;
   padding: clamp(32px, 4vw, 44px);
 }
 

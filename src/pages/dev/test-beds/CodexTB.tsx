@@ -75,14 +75,6 @@ function ContactEnquiryForm() {
       className="codex-contact__form"
       onSubmit={(event) => event.preventDefault()}
     >
-      <input
-        aria-hidden="true"
-        autoComplete="off"
-        className="site-form__honeypot"
-        name="website"
-        tabIndex={-1}
-      />
-
       <header className="codex-contact__form-heading">
         <span className="codex-contact__step-label">Your enquiry</span>
         <h2 id="codex-contact-form-heading">Get in touch</h2>

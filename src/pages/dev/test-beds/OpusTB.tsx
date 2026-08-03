@@ -241,14 +241,6 @@ function ContactEnquiryForm() {
       className="opus-contact__form"
       onSubmit={(event) => event.preventDefault()}
     >
-      <input
-        aria-hidden="true"
-        autoComplete="off"
-        className="site-form__honeypot"
-        name="website"
-        tabIndex={-1}
-      />
-
       <header className="opus-contact__form-heading">
         <span className="opus-contact__utility-label">Your enquiry</span>
         <h2 id="opus-contact-form-heading">What would you like to do?</h2>

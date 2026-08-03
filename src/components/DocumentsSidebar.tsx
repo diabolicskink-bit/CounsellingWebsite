@@ -24,16 +24,19 @@ function documentHref(path: string) {
 
 export default function DocumentsSidebar({ groups, selectedPath }: Props) {
   return (
-    <nav className="ds-sidebar documents-sidebar" aria-label="Documents navigation">
+    <nav className="documents-sidebar" aria-label="Documents navigation">
       {groups.map((group) => (
-        <div className="ds-sidebar__group" key={group.key}>
+        <div className="documents-sidebar__group" key={group.key}>
           <details open>
-            <summary className="ds-sidebar__group-label">{group.label}</summary>
+            <summary className="documents-sidebar__group-label">{group.label}</summary>
             {group.items.length ? (
               group.items.map((item) => (
                 <Link
                   key={item.path}
-                  className={`ds-sidebar__link${item.path === selectedPath ? " ds-sidebar__link--active" : ""}`}
+                  aria-current={item.path === selectedPath ? "page" : undefined}
+                  className={`documents-sidebar__link${
+                    item.path === selectedPath ? " documents-sidebar__link--active" : ""
+                  }`}
                   to={documentHref(item.path)}
                 >
                   {item.title}

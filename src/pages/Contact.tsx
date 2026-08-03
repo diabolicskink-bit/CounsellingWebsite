@@ -133,7 +133,7 @@ function SubmissionSuccess() {
   }, []);
 
   return (
-    <section className="site-form site-form--complete codex-contact__submission-success">
+    <section className="codex-contact__submission-success">
       <div
         className="codex-contact__submission-status"
         ref={statusRef}
@@ -263,7 +263,7 @@ function ContactEnquiryForm() {
     <form
       action="/api/enquiry"
       aria-label="Enquiry"
-      className="site-form codex-contact__form"
+      className="codex-contact__form"
       data-clarity-mask="true"
       method="post"
       onInputCapture={handleFormInput}
@@ -273,7 +273,7 @@ function ContactEnquiryForm() {
       <input
         aria-hidden="true"
         autoComplete="off"
-        className="site-form__honeypot"
+        className="codex-contact__honeypot"
         name="website"
         tabIndex={-1}
       />

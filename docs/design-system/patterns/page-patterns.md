@@ -88,21 +88,6 @@ The `hero-*` system is a currently implemented shared subsystem alongside `site-
 
 Fresh work may retain, modify, replace, or omit the shared hero composition. Preserve one clear page topic and valid heading structure, but do not require `hero-*`, the badge/display pairing, or layering page styles on top of the current hero.
 
-## Forms
-
-- `.site-form`
-  Shared form shell.
-- `.site-form__heading`
-  Semantic form heading that keeps the shared eyebrow treatment and names the control-bearing form through `aria-labelledby`.
-- `.site-form__grid`, `.site-form__row--full`, `.site-form__submit`
-  Shared enquiry form layout helpers.
-- `.site-form__status`
-  Direct form submission feedback.
-- `.site-form__choice-group`, `.site-form__choices`, `.site-form__choice`
-  Radio-choice treatment for the progressive enquiry flow.
-
-The production enquiry behaviour and data flow are page-owned by `Contact.tsx`; the `site-form*` classes describe its current visual implementation without creating a shared React form API.
-
 ## Footer And Navigation
 
 - `.site-footer`, `.site-footer__main`, `.site-footer__nav`, `.site-footer__email`, `.site-footer__utility`, `.site-footer__social`

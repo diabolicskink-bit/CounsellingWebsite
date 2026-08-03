@@ -19,7 +19,7 @@ This catalogue inventories currently implemented React components and component-
 - `Layout`
   Production shell, navigation, shared chrome detection, and footer. The shared header uses a short warm editorial surface, single-line wordmark, desktop flyout navigation, and a dark cedar contact action. Below the desktop breakpoint, navigation becomes a fixed dark full-viewport index with separate Fees and Contact destinations; its mobile menu owns Escape handling, body scroll locking and restoration, focus return to the toggle, and desktop-breakpoint dismissal during responsive resizing. The outer shell remains in the root document overflow flow rather than globally clipping it. The shared footer mirrors the header's warm material and compact discipline, presenting the wordmark, short navigation, email, hours, understated social-profile links, and copyright so page-level CTA content can remain separate.
 - `DevPageHero`, `DesignSystemSidebar`, `DocumentsSidebar`
-  Dev/documentation support components.
+  Dev/documentation support components. The Documents route gives `DocumentsSidebar` page-scoped `documents-*` styling rather than treating the older `ds-*` shell as production-aligned UI.
 
 ## Legacy Component Boundary
 
