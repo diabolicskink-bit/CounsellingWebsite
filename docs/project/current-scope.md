@@ -12,7 +12,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Development-only routes include the source-backed `/design-system` workspace, Documents, and the Codex and Opus test beds. The former five `/design-language/*` rendered-catalogue routes remain retired and resolve through the ordinary Not Found route.
 - The Codex and Opus test beds are clean development-only shells for future design explorations. Each retains the shared development-page hero, navigation and footer with the Dev menu available, but contains no active page candidate or enquiry form.
 - The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, `docs/research/`, `docs/page-plan/`, `docs/plans/`, and `docs/design-system/`; exact inline checklist status labels render as quiet coloured badges. Its page-scoped presentation follows the production site's dark hero, warm paper and sage surfaces, serif hierarchy, and flat ruled treatment while retaining a responsive, scrollable document library.
-- The `/design-system` workspace is an intentionally empty governance ledger for future source-backed specimens. Written catalogue records remain authoritative, candidate work stays page-local or in test beds, and only real production items already marked `Shared-supported` may be rendered there.
+- The `/design-system` workspace is a governance ledger for source-backed specimens. Its Foundations section renders four `Shared-supported` production colour tokens: `--cedar` and the three-token portrait-material set shared by Home and Working with Joel. Written catalogue records remain authoritative, candidate work stays page-local or in test beds, and unreviewed items remain absent.
 
 ## Public Content And Discoverability
 

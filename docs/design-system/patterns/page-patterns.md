@@ -29,18 +29,18 @@ When related work verifies or changes an item, add the record required by [gover
 ### `/design-system` rendered workspace
 
 - `Status`: `Historical/dev-only`
-- `Role and boundary`: Development-only governance ledger and empty supported-specimen workspace. It visualises completed written authority but does not define reusable API.
-- `Source evidence and public consumers`: Implemented by `src/pages/dev/DesignSystem.tsx` and registered only through the development route map. It has no production consumer and currently contains zero supported specimens.
+- `Role and boundary`: Development-only governance ledger and supported-specimen workspace. It visualises completed written authority but does not define reusable API.
+- `Source evidence and public consumers`: Implemented by `src/pages/dev/DesignSystem.tsx` and registered only through the development route map. It has no production consumer and currently contains four Foundations colour specimens.
 - `Replacement or migration`: `None`; the route is separate from and does not restore the retired `/design-language/*` snapshot.
-- `Reviewed`: 2026-08-03 — source-backed design-system workspace setup
+- `Reviewed`: 2026-08-05 — shared portrait-colour promotion
 
-### `.system-workspace*`, `.system-specimen*`
+### `.system-workspace*`, `.system-specimen*`, `.system-colour-specimen*`
 
 - `Status`: `Historical/dev-only`
-- `Role and boundary`: Page-scoped presentation for the `/design-system` governance ledger and its strict supported-specimen frame.
+- `Role and boundary`: Page-scoped presentation for the `/design-system` governance ledger, its strict supported-specimen frame, and colour-token evidence.
 - `Source evidence and public consumers`: Implemented in `src/styles-design-system.css`; imported only by the development workspace, with no production route consumer.
 - `Replacement or migration`: `None`; do not promote these documentation styles as production UI.
-- `Reviewed`: 2026-08-03 — source-backed design-system workspace setup
+- `Reviewed`: 2026-08-05 — shared portrait-colour promotion
 
 ## Recorded Section Patterns
 

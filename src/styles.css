@@ -10,6 +10,9 @@
   --accent: #2d5946;
   --accent-deep: #173028;
   --accent-soft: #eaf2eb;
+  --portrait-panel: #6b5146;
+  --portrait-frame: #e4d9cc;
+  --portrait-footer-tint: rgba(32, 21, 17, 0.12);
   --surface-muted: #f4f6f2;
   --paper: #f7f6f2;
   --surface: #eef2ec;

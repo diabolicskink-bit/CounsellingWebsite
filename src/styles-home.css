@@ -7,7 +7,6 @@
   --home-dark-rule: rgba(232, 239, 233, 0.2);
   --home-paper: #f2efe8;
   --home-sage: #dfe8dc;
-  --home-photo-panel: #6b5146;
   --home-rule: rgba(35, 75, 61, 0.2);
   --home-type-section-title: clamp(3.3rem, 4.5vw, 4.2rem);
   --home-type-reading: clamp(1.01rem, 1.15vw, 1.08rem);
@@ -180,7 +179,7 @@
   margin: 0;
   padding: var(--home-portrait-pad);
   border: 1px solid rgba(55, 34, 27, 0.34);
-  background: var(--home-photo-panel);
+  background: var(--portrait-panel);
   box-shadow:
     0 24px 54px rgba(55, 34, 27, 0.16),
     0 5px 12px rgba(55, 34, 27, 0.1);
@@ -193,7 +192,7 @@
   aspect-ratio: 4 / 5.35;
   padding: 1px;
   border: 1px solid rgba(252, 248, 241, 0.74);
-  background: #e4d9cc;
+  background: var(--portrait-frame);
   box-shadow:
     0 0 0 1px rgba(47, 29, 23, 0.42),
     0 16px 30px rgba(32, 21, 17, 0.26);
@@ -216,7 +215,7 @@
   margin: 12px calc(-1 * var(--home-portrait-pad)) calc(-1 * var(--home-portrait-pad));
   padding: 14px var(--home-portrait-pad);
   border-top: 1px solid rgba(252, 252, 250, 0.24);
-  background: rgba(32, 21, 17, 0.12);
+  background: var(--portrait-footer-tint);
   color: #fcfcfa;
   font-family: var(--font-sans);
   font-size: 0.95rem;

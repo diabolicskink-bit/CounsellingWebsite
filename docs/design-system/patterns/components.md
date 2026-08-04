@@ -55,9 +55,9 @@ When related work verifies or changes an item, add the record required by [gover
 
 - `Status`: `Historical/dev-only`
 - `Role and boundary`: Development-only evidence frame for a production item that already has an explicit `Shared-supported` record. It displays the identifier, role, verified consumers, real rendered implementation, and record link without granting status itself.
-- `Source evidence and public consumers`: Implemented at `src/components/DesignSystemSpecimen.tsx`; reserved for the `/design-system` workspace and excluded from production routes. No supported specimen uses it yet.
+- `Source evidence and public consumers`: Implemented at `src/components/DesignSystemSpecimen.tsx`; reserved for the `/design-system` workspace and excluded from production routes. It currently frames the four promoted Foundations colour specimens.
 - `Replacement or migration`: `None`; do not use it in public pages or for unapproved catalogue items.
-- `Reviewed`: 2026-08-03 — source-backed design-system workspace setup
+- `Reviewed`: 2026-08-05 — shared portrait-colour promotion
 
 ## Legacy Component Boundary
 

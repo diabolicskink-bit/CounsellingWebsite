@@ -35,7 +35,7 @@ export default function DesignSystemSpecimen({
           <span className="system-specimen__status">Shared-supported</span>
           <code>{identifier}</code>
         </div>
-        <h2>{title}</h2>
+        <h3>{title}</h3>
         <p>{role}</p>
       </header>
 
@@ -43,7 +43,7 @@ export default function DesignSystemSpecimen({
 
       <footer className="system-specimen__evidence">
         <div>
-          <h3>Verified consumers</h3>
+          <h4>Verified consumers</h4>
           <ul>
             {consumers.map((consumer) => (
               <li key={consumer}>{consumer}</li>

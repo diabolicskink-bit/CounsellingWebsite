@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import DesignSystemSpecimen from "../../components/DesignSystemSpecimen";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import "../../styles-design-system.css";
 
@@ -46,12 +47,6 @@ const promotionGate = [
     title: "Render the real item",
     description: "Only then add a specimen that imports the production component or applies the supported production classes.",
   },
-] as const;
-
-const futureSections = [
-  ["Foundations", "Supported semantic tokens and identity decisions."],
-  ["Components", "Supported React components and their behavioural contracts."],
-  ["Patterns", "Supported selector families and repeatable compositions."],
 ] as const;
 
 function documentHref(path: string) {
@@ -102,9 +97,17 @@ export default function DesignSystem() {
           <aside className="system-workspace__rail">
             <div className="system-workspace__state">
               <p>Current state</p>
-              <strong>0 supported specimens</strong>
-              <span>Nothing has yet been promoted under the current lifecycle.</span>
+              <strong>4 supported specimens</strong>
+              <span>Foundations contains the verified shared colour set.</span>
             </div>
+
+            <nav className="system-workspace__section-nav" aria-label="Supported specimen sections">
+              <p>Supported sections</p>
+              <a href="#foundations">
+                <strong>Foundations</strong>
+                <span>04</span>
+              </a>
+            </nav>
 
             <nav className="system-workspace__documents" aria-label="Design-system authority documents">
               <p>Written authority</p>
@@ -118,6 +121,175 @@ export default function DesignSystem() {
           </aside>
 
           <div className="system-workspace__working-field">
+            <section
+              className="system-workspace__supported"
+              id="foundations"
+              aria-labelledby="foundations-heading"
+              data-supported-specimen-count="4"
+            >
+              <div className="system-workspace__section-heading">
+                <p>Supported foundation</p>
+                <h2 id="foundations-heading">Foundations</h2>
+              </div>
+
+              <DesignSystemSpecimen
+                consumers={[
+                  ".site-header .header-button and .button--primary",
+                  ".rich-text a, .site-text-link, and .site-card__action",
+                  ".home-closing__action and Contact form focus states",
+                ]}
+                identifier="--cedar"
+                recordPath="docs/design-system/foundations/tokens.md"
+                role="Primary brand accent for action surfaces, strong interactive or editorial emphasis, and focus or boundary cues on verified light site surfaces."
+                title="Cedar"
+              >
+                <div className="system-colour-specimen">
+                  <div
+                    className="system-colour-specimen__swatch system-colour-specimen__swatch--cedar"
+                    aria-label="Cedar colour swatch, hexadecimal 234b3d"
+                  >
+                    <span>Primary accent</span>
+                    <strong>#234B3D</strong>
+                  </div>
+
+                  <div className="system-colour-specimen__facts">
+                    <div>
+                      <span>Production token</span>
+                      <code>var(--cedar)</code>
+                    </div>
+                    <dl>
+                      <div>
+                        <dt>Light text on cedar</dt>
+                        <dd>9.53:1</dd>
+                      </div>
+                      <div>
+                        <dt>Cedar on paper</dt>
+                        <dd>9.05:1</dd>
+                      </div>
+                    </dl>
+                    <p>Both recorded pairings meet WCAG AAA contrast for ordinary text.</p>
+                  </div>
+                </div>
+              </DesignSystemSpecimen>
+
+              <DesignSystemSpecimen
+                consumers={[
+                  ".home-about__portrait",
+                  ".working-with-joel-page__intro-note",
+                ]}
+                identifier="--portrait-panel"
+                recordPath="docs/design-system/foundations/tokens.md"
+                role="Dark chocolate outer material for the identified-person portrait treatment; not a general surface or action colour."
+                title="Portrait panel"
+              >
+                <div className="system-colour-specimen">
+                  <div
+                    className="system-colour-specimen__swatch system-colour-specimen__swatch--portrait-panel"
+                    aria-label="Portrait panel colour swatch, hexadecimal 6b5146"
+                  >
+                    <span>Portrait material</span>
+                    <strong>#6B5146</strong>
+                  </div>
+
+                  <div className="system-colour-specimen__facts">
+                    <div>
+                      <span>Production token</span>
+                      <code>var(--portrait-panel)</code>
+                    </div>
+                    <dl>
+                      <div>
+                        <dt>Light text on panel</dt>
+                        <dd>7.07:1</dd>
+                      </div>
+                      <div>
+                        <dt>Panel against frame</dt>
+                        <dd>5.22:1</dd>
+                      </div>
+                    </dl>
+                    <p>The supported role is limited to the shared portrait treatment.</p>
+                  </div>
+                </div>
+              </DesignSystemSpecimen>
+
+              <DesignSystemSpecimen
+                consumers={[
+                  ".home-about__portrait-frame",
+                  ".working-with-joel-page__intro-note .hero-media-note__image",
+                ]}
+                identifier="--portrait-frame"
+                recordPath="docs/design-system/foundations/tokens.md"
+                role="Pale warm backing immediately around identified-person imagery inside the shared chocolate portrait panel."
+                title="Portrait frame"
+              >
+                <div className="system-colour-specimen">
+                  <div
+                    className="system-colour-specimen__swatch system-colour-specimen__swatch--portrait-frame"
+                    aria-label="Portrait frame colour swatch, hexadecimal e4d9cc"
+                  >
+                    <span>Image backing</span>
+                    <strong>#E4D9CC</strong>
+                  </div>
+
+                  <div className="system-colour-specimen__facts">
+                    <div>
+                      <span>Production token</span>
+                      <code>var(--portrait-frame)</code>
+                    </div>
+                    <dl>
+                      <div>
+                        <dt>Dark text on frame</dt>
+                        <dd>11.45:1</dd>
+                      </div>
+                      <div>
+                        <dt>Frame against panel</dt>
+                        <dd>5.22:1</dd>
+                      </div>
+                    </dl>
+                    <p>This is a non-text media material, not a general content surface.</p>
+                  </div>
+                </div>
+              </DesignSystemSpecimen>
+
+              <DesignSystemSpecimen
+                consumers={[
+                  ".home-about__portrait-link",
+                  ".working-with-joel-page__intro-note-details",
+                ]}
+                identifier="--portrait-footer-tint"
+                recordPath="docs/design-system/foundations/tokens.md"
+                role="Translucent chocolate footer or action band applied only over the shared portrait panel."
+                title="Portrait footer tint"
+              >
+                <div className="system-colour-specimen">
+                  <div
+                    className="system-colour-specimen__swatch system-colour-specimen__swatch--portrait-footer"
+                    aria-label="Portrait footer tint swatch, rgba 32 21 17 at 12 percent over the portrait panel"
+                  >
+                    <span>Footer and action tint</span>
+                    <strong>12%</strong>
+                  </div>
+
+                  <div className="system-colour-specimen__facts">
+                    <div>
+                      <span>Production token</span>
+                      <code>var(--portrait-footer-tint)</code>
+                    </div>
+                    <dl>
+                      <div>
+                        <dt>Composite on panel</dt>
+                        <dd>#624A40</dd>
+                      </div>
+                      <div>
+                        <dt>Light text on composite</dt>
+                        <dd>7.95:1</dd>
+                      </div>
+                    </dl>
+                    <p>The stronger Home-only interaction tint remains page-local.</p>
+                  </div>
+                </div>
+              </DesignSystemSpecimen>
+            </section>
+
             <section className="system-workspace__gate" aria-labelledby="promotion-gate-heading">
               <div className="system-workspace__section-heading">
                 <p>Before an item appears here</p>
@@ -135,35 +307,6 @@ export default function DesignSystem() {
                   </li>
                 ))}
               </ol>
-            </section>
-
-            <section
-              className="system-workspace__empty"
-              aria-labelledby="supported-specimens-heading"
-              data-supported-specimen-count="0"
-            >
-              <div className="system-workspace__section-heading system-workspace__section-heading--light">
-                <p>Supported specimens</p>
-                <h2 id="supported-specimens-heading">The shelves are intentionally empty.</h2>
-              </div>
-
-              <p className="system-workspace__empty-copy">
-                Existing production CSS and components remain implementation facts, not approved API. The first
-                specimen will arrive with the first completed <code>Shared-supported</code> promotion—not before it.
-              </p>
-
-              <dl className="system-workspace__future-sections">
-                {futureSections.map(([term, description]) => (
-                  <div key={term}>
-                    <dt>{term}</dt>
-                    <dd>{description}</dd>
-                  </div>
-                ))}
-              </dl>
-
-              <Link className="system-workspace__governance-link" to={documentHref("docs/design-system/governance.md")}>
-                Read the promotion rules
-              </Link>
             </section>
           </div>
         </div>

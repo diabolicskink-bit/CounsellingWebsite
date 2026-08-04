@@ -63,6 +63,6 @@ The lifecycle is `Unreviewed`, `Page-local`, `Candidate`, `Shared-supported`, `D
 
 The former development-only `/design-language/*` routes and their archive-only implementation were removed on 2026-08-03. Git history preserves the old snapshot, but it has no current design-system authority and must not be restored or copied as present guidance.
 
-The new development-only `/design-system` route is a source-backed workspace with no supported specimens yet. It explains the promotion gate, links into the written records through Documents, and provides a strict specimen frame for future promoted items. It is a view over authority rather than a catalogue register or a continuation of the retired snapshot.
+The new development-only `/design-system` route is a source-backed workspace. Its Foundations section contains four supported colour specimens: `--cedar` plus the `--portrait-panel`, `--portrait-frame`, and `--portrait-footer-tint` material set shared by Home and Working with Joel. All other unreviewed inventory remains absent. The workspace explains the promotion gate, links into the written records through Documents, and provides a strict specimen frame for promoted items. It is a view over authority rather than a catalogue register or a continuation of the retired snapshot.
 
 Use this README, `governance.md`, `current-scope.md`, and the item-level written catalogues as the active documentation chain. Incremental source reconciliation remains tracked as `DEBT-37`.

@@ -17,6 +17,19 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-05 - Shared Portrait Colours Promoted
+
+- Promoted: `--portrait-panel`, `--portrait-frame`, and `--portrait-footer-tint` now form a bounded `Shared-supported` material set for identified-person portrait treatments.
+- Migrated: Home and Working with Joel use the new root tokens in place of duplicate page-local chocolate, frame, and footer-tint values, with no intended visual change.
+- Rendered: Foundations now shows all four supported colours using their real production properties and records the portrait set's exact consumer and contrast boundaries.
+- Contained: Home's stronger portrait-button interaction tint remains page-local because it has only one verified consumer.
+
+## 2026-08-03 - First Shared-Supported Colour Promoted
+
+- Promoted: `--cedar` is the first `Shared-supported` production token, with a bounded primary brand-accent role, verified route-reachable consumers, and recorded contrast on the site's light surfaces.
+- Rendered: Foundations now contains the first `/design-system` specimen, using the real production custom property and linking back to its authoritative token record.
+- Contained: Related colour tokens remain `Unreviewed`; this promotion does not authorize `--cedar-dark`, `--cedar-soft`, or visually similar literal values.
+
 ## 2026-08-03 - Source-Backed Design-System Workspace Established
 
 - Added: A new development-only `/design-system` governance ledger explains the authority order and promotion gate, links to the written records through Documents, and begins with zero supported specimens.
