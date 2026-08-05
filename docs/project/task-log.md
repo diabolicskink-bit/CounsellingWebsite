@@ -8,7 +8,7 @@ Curated milestone history for durable project state. This is not a full changelo
 - Use `current-scope.md` for exact current scope.
 - Use `project-debt.md` for technical pressure.
 - Use `site-backlog.md` for concrete deferred visitor-facing change work.
-- Use `docs/design-system/current-scope.md` for design-system scope.
+- Use `docs/design-system/` for the complete current reusable API and `docs/design-system-legacy/` only when inherited implementation evidence matters.
 - Use [archive/task-log-2026-06.md](archive/task-log-2026-06.md) only when June 2026 milestone history matters.
 
 ## Admission Rule
@@ -16,6 +16,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Add entries for public behaviour changes, documentation governance changes, major design-system state changes, deployment/testing posture changes, API/form milestones, or tracker creation/resolution.
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
+
+## 2026-08-05 - Design-System Catalogues Separated From Legacy Evidence
+
+- Simplified: `docs/design-system/` now contains current promoted contracts only, split into Foundations, Components, and Patterns under one operational governance file.
+- Separated: Inherited tokens, components, and selector families now live in the non-authoritative `docs/design-system-legacy/` register; presence there neither grants reuse authority nor makes removal safe.
+- Removed: The mixed design-system current-scope inventory, unreviewed catalogue entries, active removed-item records, and combined lifecycle status model no longer sit in the current system.
+- Routed: Repository guidance, Documents, project debt, and `/design-system` record links now follow the active/legacy boundary; Git and this task log retain completed removal history without a retired-item catalogue.
 
 ## 2026-08-05 - Warm Editorial Section System Promoted
 

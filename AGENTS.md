@@ -6,7 +6,7 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 
 - For requirements and intent, the current task defines the requested outcome, followed by the repository-wide rules in this file and then the relevant domain guidance. A tracker item or plan applies only when the current task selects it.
 - For current implementation facts, executable behaviour, tests, configuration, and source are the strongest evidence. Current-scope documents summarize that state; reports and task history provide supporting context.
-- For reusable design-system API, follow [docs/design-system/governance.md](docs/design-system/governance.md), the item-level catalogues, and explicit lifecycle records. Source code, a public consumer, an old catalogue description, or a rendered example does not by itself make something approved reusable API.
+- For reusable design-system API, follow [docs/design-system/governance.md](docs/design-system/governance.md) and the current-only `foundations.md`, `components.md`, and `patterns.md` catalogues. Source code, a public consumer, a legacy-register entry, or a rendered example does not by itself make something approved reusable API.
 - Trackers, reports, plans, checklists, archives, and task history are supporting memory. They do not override active guidance or authorize work unless the current task explicitly adopts them.
 
 ## Required Reading
@@ -30,20 +30,22 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 - Unless the current task explicitly changes the visual identity, keep the site's basic scheme: established font families, type roles and type scale; the existing colour palette and semantic colour roles; shared navigation, footer and interaction behaviour; and the accessibility baseline. These are identity anchors, not layout templates.
 - Treat composition, grids, component forms, surfaces, depth, layering, shape, spacing rhythm, imagery, motion and responsive recomposition as active creative variables. New page-scoped components and treatments are encouraged when they give the content a clearer or more memorable form.
 - Do not default to existing cards, fine rules, flat surfaces, split sections, spacing patterns, rendered examples or page silhouettes simply because they already exist. Reuse them only when they strengthen the selected concept. Every creative departure should clarify hierarchy, meaning, relationship or interaction rather than add novelty for its own sake.
-- Do not treat a file in `src/components/` as reusable design-system API unless its catalogue record explicitly marks it `Shared-supported`.
+- Do not treat a file in `src/components/` as reusable design-system API unless it has a current contract in `docs/design-system/components.md`.
 - Keep one-off visual explorations page-scoped until they prove useful beyond one context.
 
 ## Incremental Design-System Migration
 
-- Production source proves what is implemented; it does not by itself make a token, selector, component, or pattern approved reusable API. Only an explicit `Shared-supported` lifecycle record under [docs/design-system/](docs/design-system/) authorizes deliberate shared reuse.
-- Treat every catalogue item without an explicit source-backed lifecycle record as `Unreviewed`. Do not reuse or remove an unreviewed item merely because it exists, looks current, has a shared-looking name, or appears on a public route.
-- Keep new visual implementation `Page-local` by default. Record a credible repeated need as a `Candidate`, but do not promote it during ordinary page work.
+- Production source proves what is implemented; it does not by itself make a token, selector, component, or pattern approved reusable API. Only a current contract in [docs/design-system/foundations.md](docs/design-system/foundations.md), [components.md](docs/design-system/components.md), or [patterns.md](docs/design-system/patterns.md) authorizes deliberate shared reuse.
+- The active catalogues contain promoted items only. Do not place inherited, page-local, candidate, development-only, withdrawn, removed, or historical items in them.
+- Treat implementation absent from the active catalogues as outside the design system. Do not reuse or remove it merely because it exists, looks current, has a shared-looking name, appears on a public route, or is recorded in `docs/design-system-legacy/`.
+- Keep new visual implementation page-local by default. Investigate repeated needs within the current task, but do not add candidate records to the active catalogues or promote during ordinary page work.
 - Promote CSS, tokens, components, or patterns only when the current task explicitly includes shared-system work and the promotion rules in [docs/design-system/governance.md](docs/design-system/governance.md) are satisfied.
-- Do not add new consumers of `Deprecated`, `Dormant`, `Historical/dev-only`, or `Unreviewed` items. Existing consumers may receive scoped correctness, accessibility, or compatibility fixes until an explicitly authorized migration replaces them.
+- Existing consumers of inherited implementation may receive scoped correctness, accessibility, or compatibility fixes until an explicitly authorized migration replaces them. Do not broaden the implementation's role during that work.
 - Remove or migrate old implementation only within explicit cleanup or shared-system scope, after verifying source consumers and running checks proportionate to the affected behaviour. Preserve existing consumers otherwise.
 - Similar declarations or literal values are not enough to justify elevation. Shared implementation must represent the same semantic role across current consumers without flattening content-shaped page composition.
-- Treat the development-only `/design-system` workspace as a rendered view of written authority, never as authority itself. It may show an item only after the relevant catalogue record explicitly marks that item `Shared-supported`.
-- Render supported specimens from the real production component or supported production classes. Do not copy approximate demo markup, maintain a parallel status registry, or place `Candidate`, `Page-local`, `Unreviewed`, deprecated, dormant, or historical items in the supported specimen area.
+- Use `docs/design-system-legacy/` only as non-authoritative, source-backed working evidence about inherited implementation. Remove a legacy entry when its item is promoted or its source is removed; Git and the project task log retain completed history.
+- Treat the development-only `/design-system` workspace as a rendered view of the active catalogues, never as authority itself. It may show only items currently present in those catalogues.
+- Render supported specimens from the real production component or supported production classes. Do not copy approximate demo markup, maintain a parallel status registry, or place legacy, candidate, page-local, withdrawn, removed, or development-only items in the supported specimen area.
 - Keep candidate exploration in page-local work or the development test beds. Do not restore or redirect the retired `/design-language/*` snapshot when extending the new workspace.
 
 ## IDE Visual Verification
@@ -66,4 +68,4 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 - Add or update `DEBT-*` items in [docs/project/project-debt.md](docs/project/project-debt.md) when technical or maintainability pressure should stay visible.
 - Add or update `SITE-*` items in [docs/project/site-backlog.md](docs/project/site-backlog.md) when meaningful concrete visitor-facing change work is deferred.
 - Update [docs/project/task-log.md](docs/project/task-log.md) only for durable project state changes.
-- Update [docs/design-system/current-scope.md](docs/design-system/current-scope.md) when visual/component system state changes.
+- Update the relevant active catalogue under [docs/design-system/](docs/design-system/) when supported system state changes, and update [docs/design-system-legacy/](docs/design-system-legacy/) only when current source work changes or verifies inherited implementation facts.

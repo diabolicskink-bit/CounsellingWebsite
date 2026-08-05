@@ -104,7 +104,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Status`: `Expanded`
 - `Layer`: Shared production API
 - `Scope`: Base button styling, visual button variants, disabled/hover behavior, and contextual button sizing or placement overrides.
-- `Naming/Structure Note`: Variant review found the active Button set is `primary`, `secondary`, and `tertiary`. No `light` component type, CSS class, rendered example, or source usage was found, so `docs/design-system/patterns/components.md` has been corrected to match the active API.
+- `Naming/Structure Note`: Variant review found the implemented Button set is `primary`, `secondary`, and `tertiary`. No `light` component type, CSS class, rendered example, or source usage was found; the current source evidence now lives in `docs/design-system-legacy/components.md` because Button has not been promoted.
 - `Next`: No CSS action for the core button family. Revisit only if a broader token, shadow, or button API cleanup is opened.
 
 ##### CSS-1.4.1.1 - `.button`
@@ -117,7 +117,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: Keep the base rule in `src/styles.css` with shared production primitives. Contextual selectors such as `.rich-text .button`, `.site-cta-block .button`, `.site-page .button`, and page/dev overrides remain legitimate placement or sizing refinements. This leaf is not a `Restructure candidate` by itself.
 - `Used By`: `Button` component; public page CTAs/actions on Home, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, and Not Found; the Contact form submit action; `Layout` contact action via `.header-button`; rendered design-system/dev examples.
 - `Decision`: Keep as the base shared action class. It is active, documented, component-backed, widely used, and not a delete, move, consolidate, or restructure candidate at this leaf level.
-- `Evidence`: `docs/design-system/current-scope.md` and `docs/design-system/governance.md` name `.button` as an active non-prefixed shared class, while `docs/design-system/patterns/components.md` documents the component-backed variants. `src/components/Button.tsx` composes every rendered `Button` with `button button--${variant}` and only exposes `primary`, `secondary`, and `tertiary`. Source search found `.button` usage through public pages, dev design-system pages, the Contact form, and `Layout`; no competing base button class was found. Disabled usage currently appears only on the native submit button path, so `.button:disabled` matches current behavior.
+- `Evidence`: `docs/design-system-legacy/components.md` records `.button` and the component-backed variants as inherited implementation outside the active system. `src/components/Button.tsx` composes every rendered `Button` with `button button--${variant}` and only exposes `primary`, `secondary`, and `tertiary`. Source search found `.button` usage through public pages, the Contact form, and `Layout`; no competing base button class was found. Disabled usage currently appears only on the native submit button path, so `.button:disabled` matches current behavior.
 - `Follow-up`: None.
 
 ##### CSS-1.4.1.2 - `.button--primary`
@@ -314,7 +314,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Naming/Structure Check`: Not assessed in this usage-only pass.
 - `Declaration Review`: Not performed in this usage-only pass.
 - `Architecture Check`: Active shared exception; it is documented as a current non-prefixed shared class and is used by current page and design-system examples.
-- `Used By`: `src/pages/LgbtqiaCounselling.tsx`, `src/pages/dev/design-system/DS_Components.tsx`, `docs/design-system/current-scope.md`, and `docs/design-system/governance.md`.
+- `Used By`: Historical source review recorded `src/pages/LgbtqiaCounselling.tsx` and the retired rendered catalogue; current evidence belongs in `docs/design-system-legacy/patterns.md` when the selector is reassessed.
 - `Decision`: Used; not a delete candidate on usage evidence alone.
 - `Evidence`: 2026-06-27 usage pass found live references at `src/pages/LgbtqiaCounselling.tsx:140`, `src/pages/dev/design-system/DS_Components.tsx:386`, and `src/pages/dev/design-system/DS_Components.tsx:401`; docs list `.check-item` as an active non-prefixed shared class.
 - `Follow-up`: Run full declaration, naming, and structure review before deciding whether to keep, document, or consolidate.
@@ -327,7 +327,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Naming/Structure Check`: The short name is an intentional documented exception to the `site-*` layer. It represents one reusable icon surface rather than a page-specific composition.
 - `Declaration Review`: The base rule owns the shared inline-flex sizing, alignment, radius, background, and colour. `.site-contact-item .icon-box` now adds only its contextual border; duplicate radius, background, and colour declarations have been removed.
 - `Architecture Check`: Keep the base primitive and its one-value contact-item refinement. Public Contact uses `.icon-box` with a page-scoped alignment adjustment, while the rendered design-system contact pattern uses the shared contextual border.
-- `Used By`: `src/pages/Contact.tsx`, `src/pages/dev/design-system/DS_Components.tsx`, `docs/design-system/current-scope.md`, and `docs/design-system/governance.md`.
+- `Used By`: Historical source review recorded `src/pages/Contact.tsx` and the retired rendered catalogue; current evidence belongs in `docs/design-system-legacy/patterns.md` when the selector is reassessed.
 - `Decision`: Keep the active shared primitive and the narrower contextual border rule.
 - `Evidence`: The 2026-07-13 declaration review confirmed that `--radius` resolves to `8px` globally and found no alternate token overrides. Source usage remains in `src/pages/Contact.tsx` and `src/pages/dev/design-system/DS_Components.tsx`; canonical design-system docs continue to list `.icon-box` as active shared API.
 - `Follow-up`: None.
@@ -496,7 +496,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: Keep as the shared editorial HTML styling boundary. The broad descendant selector set is acceptable here because the wrapper intentionally absorbs ordinary rich HTML and prevents one-off page styles for links, lists, quotes, code, and simple tables. `.rich-text .button` remains a small placement refinement for one optional contextual next step, while grouped actions belong outside the wrapper. The blockquote left rule stays scoped to editorial quote content rather than becoming a generic callout/card pattern.
 - `Used By`: `src/pages/WorkingWithJoel.tsx`, rendered examples in `src/pages/dev/design-system/DS_Foundations.tsx` and `src/pages/dev/design-system/DS_Patterns.tsx`, and design-system docs.
 - `Decision`: Keep and document. Tighten the ordinary-link selector so it does not override a nested `Button`, and exercise the supported button placement in the rendered editorial HTML example.
-- `Evidence`: The 2026-07-21 completion pass revalidated current source usage and found that `Button` emits `.button` on both link and native-button forms. The rendered foundations HTML demo now exercises headings, paragraphs, links, strong text, inline code, lists, blockquote, table, divider, and a contextual button inside `.rich-text`; `patterns/page-patterns.md` documents the wrapper boundary, panel-width composition, button placement, and conditional wide-table treatment. `npm.cmd run check:encoding` and `npm.cmd run build` passed after the change.
+- `Evidence`: The 2026-07-21 completion pass revalidated source usage and found that `Button` emits `.button` on both link and native-button forms. The now-retired rendered catalogue exercised headings, paragraphs, links, strong text, inline code, lists, blockquote, table, divider, and a contextual button inside `.rich-text`; current inherited `.rich-text` evidence belongs in `docs/design-system-legacy/patterns.md`. `npm.cmd run check:encoding` and `npm.cmd run build` passed after that change.
 - `Follow-up`: If rich public content starts using wider tables, add an overflow/responsive treatment rather than stretching the base wrapper.
 
 #### CSS-1.5.6 - Legacy issue and topic-card cluster

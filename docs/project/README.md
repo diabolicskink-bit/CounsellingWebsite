@@ -2,7 +2,7 @@
 
 This directory is the whole-project memory for Vive Counselling. [../../AGENTS.md](../../AGENTS.md) owns agent task routing and repository-wide update triggers; this file maps document ownership and artifact authority.
 
-Project documentation sits beside, not inside, the design-system documentation. `docs/design-system/` records existing tokens, shared components, implemented patterns, and design-system governance. The outdated `/design-language/*` rendered catalogue has been removed; the written governance and item-level catalogues remain authoritative while the new development-only `/design-system` workspace visualises only completed `Shared-supported` records. During the temporary open-design period, the design-system documentation does not supply mandatory visual direction for fresh creation or redesign unless the current task explicitly adopts it.
+Project documentation sits beside, not inside, the design-system documentation. `docs/design-system/` is a current-only catalogue: every listed foundation, component, or pattern is approved for deliberate reuse. `docs/design-system-legacy/` separately records source-backed facts about inherited implementation without granting reuse authority or making removal safe. The outdated `/design-language/*` rendered catalogue has been removed; the development-only `/design-system` workspace visualises only the current promoted catalogue. During the temporary open-design period, the design system does not supply mandatory visual direction for fresh creation or redesign unless the current task explicitly adopts a supported pattern.
 
 ## Authority And Artifact Types
 
@@ -16,14 +16,14 @@ Project documentation sits beside, not inside, the design-system documentation. 
 ## Writing Direction
 
 - [writing-direction.md](writing-direction.md) owns public-copy status, source order, voice, SEO language, temporary wording constraints, collaboration, and implementation rules.
-- [../design-system/README.md](../design-system/README.md) is the entry point for current implementation reference, reusable UI assessment, and design-system maintenance. It is not a required source of visual direction for fresh design work during the temporary open-design period.
+- [../design-system/README.md](../design-system/README.md) is the entry point for approved reusable UI and design-system maintenance. [The legacy register](../design-system-legacy/README.md) is optional working evidence when inherited implementation is being assessed; neither is a required source of visual direction for fresh design work during the temporary open-design period.
 
 ## Current State
 
 - [current-scope.md](current-scope.md) is the factual inventory of public and development routes, content status, rendering, metadata, enquiry behaviour, analytics, deployment, tests, known gaps, and excluded project scope.
 - [visual-verification.md](visual-verification.md) owns the supported access mechanism for ad-hoc visual inspection by Codex in the VS Code extension without defining task-specific review criteria.
-- [../design-system/current-scope.md](../design-system/current-scope.md) summarizes verified lifecycle state and retains a clearly marked pre-framework implementation inventory while item-level reconciliation proceeds.
-- [../design-system/governance.md](../design-system/governance.md) owns design-system implementation evidence, reusable-API authority, promotion, verification, and update duties.
+- [../design-system/governance.md](../design-system/governance.md) owns design-system authority, promotion, withdrawal, removal, verification, and update duties.
+- [../design-system/foundations.md](../design-system/foundations.md), [components.md](../design-system/components.md), and [patterns.md](../design-system/patterns.md) are the complete current reusable API.
 
 ## Tracked Work
 
@@ -37,6 +37,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 - `../page-plan/` contains reader-informed content plans for individual public pages. These are supporting plans and do not approve wording or authorise implementation by themselves.
 - [task-log.md](task-log.md) records selected durable milestones; Git remains the detailed implementation history.
 - [archive/README.md](archive/README.md) maps resolved tracker items and older task history kept outside the active reading path.
+- [../design-system-legacy/README.md](../design-system-legacy/README.md) maps inherited implementation evidence kept outside the active design-system catalogue.
 - `../checklists/` contains owner-directed monitors and manual-QA checklists.
 - `../reports/` contains generated audits and assessments.
 - `../plans/` contains draft plans and working documents.

@@ -9,7 +9,14 @@ import DocumentsSidebar, {
 import Container from "../../components/Container";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 
-type DocumentCategory = "checklists" | "reports" | "research" | "page-plans" | "plans" | "design-system";
+type DocumentCategory =
+  | "checklists"
+  | "reports"
+  | "research"
+  | "page-plans"
+  | "plans"
+  | "design-system"
+  | "design-system-legacy";
 
 type DocumentItem = {
   category: DocumentCategory;
@@ -53,6 +60,11 @@ const categoryMeta: Array<{
     label: "Design system",
     emptyLabel: "No design-system documents yet.",
   },
+  {
+    key: "design-system-legacy",
+    label: "Design system legacy",
+    emptyLabel: "No legacy design-system documents yet.",
+  },
 ];
 
 const markdownFiles = import.meta.glob(
@@ -63,6 +75,7 @@ const markdownFiles = import.meta.glob(
     "../../../docs/page-plan/**/*.md",
     "../../../docs/plans/**/*.md",
     "../../../docs/design-system/**/*.md",
+    "../../../docs/design-system-legacy/**/*.md",
   ],
   {
     eager: true,
@@ -139,6 +152,10 @@ function getCategory(path: string): DocumentCategory {
     return "design-system";
   }
 
+  if (path.startsWith("docs/design-system-legacy/")) {
+    return "design-system-legacy";
+  }
+
   return "plans";
 }
 
@@ -198,7 +215,7 @@ export default function Documents() {
 
   useDocumentMetadata(
     "Documents | Vive Counselling",
-    "Developer-only markdown reader for project guidance, design-system records, research, and working documents."
+    "Developer-only markdown reader for project guidance, current and legacy design-system records, research, and working documents."
   );
 
   const groups = useMemo<DocumentsSidebarGroup[]>(
@@ -236,8 +253,9 @@ export default function Documents() {
             <h1>Documents</h1>
           </div>
           <p className="documents-page__hero-description">
-            A small reader for project guidance, design-system records, research, page plans, and draft plans. Drop
-            markdown into any supported document folder and it will appear here automatically in development.
+            A small reader for project guidance, current and legacy design-system records, research, page plans, and
+            draft plans. Drop markdown into any supported document folder and it will appear here automatically in
+            development.
           </p>
         </Container>
       </section>

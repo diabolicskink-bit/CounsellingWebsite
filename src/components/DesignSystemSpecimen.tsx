@@ -17,8 +17,8 @@ function documentHref(path: DesignSystemRecordPath) {
 }
 
 /**
- * Development-only frame for an item that already has a source-backed
- * `Shared-supported` record. The frame visualises authority; it does not grant it.
+ * Development-only frame for an item that already has a source-backed contract
+ * in an active catalogue. The frame visualises authority; it does not grant it.
  */
 export default function DesignSystemSpecimen({
   children,
@@ -29,10 +29,10 @@ export default function DesignSystemSpecimen({
   title,
 }: Props) {
   return (
-    <article className="system-specimen" data-design-system-status="shared-supported">
+    <article className="system-specimen" data-design-system-status="supported">
       <header className="system-specimen__header">
         <div className="system-specimen__identity">
-          <span className="system-specimen__status">Shared-supported</span>
+          <span className="system-specimen__status">Supported</span>
           <code>{identifier}</code>
         </div>
         <h3>{title}</h3>

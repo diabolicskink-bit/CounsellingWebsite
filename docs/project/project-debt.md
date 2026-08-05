@@ -60,7 +60,7 @@ Statuses:
 
 - Preserve current visitor-facing behaviour unless a future task explicitly requests a behaviour change.
 - Keep public copy, routes, layout, visual design, SEO, analytics, and form-flow behaviour unchanged unless the selected debt item directly requires that surface.
-- Keep design-system scope and project scope separate. Visual/component system changes update `docs/design-system/current-scope.md`; public-site capability changes update `docs/project/current-scope.md`.
+- Keep design-system scope and project scope separate. Supported-system changes update the relevant current-only catalogue under `docs/design-system/`; source-backed inherited implementation notes update `docs/design-system-legacy/`; public-site capability changes update `docs/project/current-scope.md`.
 - Prefer small vertical fixes with focused verification over broad mechanical rewrites.
 - Split broad items into smaller linked `DEBT-*` cards when implementation risk, ambiguity, or ownership boundaries become clearer.
 - Keep server-owned validation, security, email delivery, public error handling, and deployment configuration explicit when touching API or build/deploy debt.
@@ -103,17 +103,17 @@ Each active item should include enough direction that a future session can choos
 
 - `Priority`: `P1`
 - `Size`: `L`
-- `Priority Rationale`: This remains `P1` because the written inventory and production implementation still predate source-backed lifecycle records after substantial public-site redesigns. Removing the stale rendered catalogue eliminates its immediate reuse risk but does not establish a trustworthy reusable-API inventory.
+- `Priority Rationale`: This remains `P1` because production still contains substantial inherited implementation from two rebuilds. The active catalogue is now trustworthy and current-only, but the retained source still needs incremental reconciliation as related work encounters it.
 - `Status`: `Open`
 - `Detected`: 2026-08-03
 - `Source`: Design-system instruction and catalogue review
 - `Area`: Design System, Documentation, Maintainability
-- `Problem`: The written catalogues and current-scope inventory predate the lifecycle framework and may retain descriptions that have not been reconciled against route-reachable public source after recent visual overhauls.
-- `Why It Matters`: Without source-backed classification, maintainers may treat implementation existence or an old written description as approval, expand obsolete styling, or remove compatibility code without verified consumers.
-- `Preferred Direction`: Reconcile the system incrementally as authorized work touches it. Use the lifecycle in `docs/design-system/governance.md`; keep new styling page-local, record credible candidates, promote only in explicit shared-system scope, and classify old implementation from current source and consumers.
-- `Resolution Path`: For each selected token, component, selector family, or pattern, verify source and current public consumers; add its required catalogue record; preserve it as page-local, record it as a candidate, promote it to shared-supported, or give deprecated/dormant implementation an explicit migration direction. Summarize verified changes in current-scope.
-- `Next Action`: On the next authorized CSS, component, or design-system task, classify only the items that task touches and leave unrelated catalogue entries unreviewed. Add further `/design-system` specimens only when the same task completes a genuine `Shared-supported` promotion.
-- `Resolved When`: Every retained catalogue entry has a source-backed lifecycle record, supported reuse claims are explicit, deprecated or dormant material has a migration or retirement outcome, and the written summaries reflect those records.
+- `Problem`: Shared-looking tokens, components, selector families, and page patterns remain in production outside the small promoted system. Their exact consumers and future direction are not fully reconciled after the two rebuilds.
+- `Why It Matters`: Without a clean active/legacy boundary, maintainers may treat implementation existence or an old description as approval, expand obsolete styling, or remove compatibility code without verified consumers.
+- `Preferred Direction`: Keep `docs/design-system/` limited to promoted current contracts. Reconcile inherited implementation incrementally as authorized work touches it; record useful source evidence in `docs/design-system-legacy/`, keep new styling page-local, and promote only in explicit shared-system scope.
+- `Resolution Path`: For each selected token, component, selector family, or pattern, verify source and current consumers; preserve it outside the system, record or refine its legacy evidence, promote a clean semantic contract, or remove confirmed-dead source within separately authorized cleanup scope. Promotion removes the corresponding legacy entry and adds the complete contract to one active catalogue.
+- `Next Action`: On the next authorized CSS, component, or design-system task, assess only the items that task touches. Add further `/design-system` specimens only when the same task completes a genuine promotion into an active catalogue.
+- `Resolved When`: All retained shared-looking production implementation is either deliberately promoted, explicitly page-owned, or sufficiently understood in the legacy register that future work does not need the earlier catalogue to determine reuse or cleanup safety.
 - `Related Items`:
   - `DEBT-13`: Legacy CSS cleanup depends on knowing whether a selector is genuinely dormant, retained for compatibility, or still route-reachable.
   - `DEBT-20`: Page-scoped typography classification is one source-backed slice of the wider catalogue reconciliation.
@@ -121,11 +121,12 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - 2026-08-03: Removed all five rendered `/design-language/*` routes, their archive components, navigation, and archive-only styles. Git history retains that snapshot; it has no migration path or redirect into the separate source-backed workspace.
-  - 2026-08-03: Added the incremental lifecycle and item-record framework. Existing catalogue entries default to `Unreviewed`; no initial whole-system audit or classification is required.
+  - 2026-08-03: Added the first incremental lifecycle and item-record framework; no initial whole-system audit was required.
   - 2026-08-03: Added the separate `/design-system` development workspace and strict specimen frame without changing the written catalogues' authority.
   - 2026-08-03: Promoted `--cedar` as the first `Shared-supported` token after verifying its production role, consumers, and accessible light-surface pairings; its Foundations specimen is the workspace's first supported item.
   - 2026-08-05: Promoted the three-token portrait-material set after verifying identical semantic use across Home and Working with Joel, then replaced the duplicate page-local values with the shared production tokens. The Home-only stronger interaction tint remains page-local.
   - 2026-08-05: Promoted `--section-warm`, `--section-rule`, and `.site-section-warm` for the verified warm editorial sections across Home, Working with Joel, Inclusion, Contact, Kink and BDSM, ENM and polyamory, and LGBTQIA+. The shared pattern replaces repeated default padding, background, and lower-boundary declarations; responsive padding exceptions remain page-local. The former Introducing Joel sage glow was removed by owner direction, while the Inclusion chapter's sage left-hand overlay remains page-local.
+  - 2026-08-05: Replaced the mixed active inventory and lifecycle catalogue with current-only Foundations, Components, and Patterns catalogues. Inherited implementation evidence now lives in a separate non-authoritative legacy register and completed removal history stays in Git and the task log.
   - Keep public pages and their current visual treatment unchanged during reconciliation unless a separate task explicitly authorizes visitor-facing work.
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
 - `Links`: `docs/design-system/`, `src/styles.css`, `src/components/`
@@ -237,7 +238,7 @@ Each active item should include enough direction that a future session can choos
   - 2026-07-10: Archived `DEBT-19` after removing the unused `.issues-section*`, `.topic-grid`, and `.topic-card` selector cluster while preserving the active `site-topic-*` system.
   - 2026-07-13: Removed the unused generic `.stack` helper after a focused source audit confirmed no runtime call sites; active stack outcomes remain covered by `.site-content-stack` and `.site-detail-stack`.
   - 2026-07-13: Removed the unused `.site-highlight__box` selector after confirming it had no runtime or dev-page call sites; the active `.site-highlight` band and shared panel patterns were preserved.
-- `Links`: `src/styles.css`, `docs/design-system/current-scope.md`
+- `Links`: `src/styles.css`, `docs/design-system-legacy/patterns.md`
 
 ### DEBT-15 - Public page CSS is globally bundled and relies on naming discipline
 
@@ -289,7 +290,7 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - Do not treat this as a redesign or global re-scale. The first type-role implementation slice is already complete; this is follow-up cleanup.
   - Preserve page-specific type where a page has a genuine editorial composition, such as special hero title measures or unique visual moments.
-- `Links`: `src/styles-*.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system/current-scope.md`, `docs/design-system-old/type-scale-plan.md`
+- `Links`: `src/styles-*.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-21 - Shared production typography needs raw-size and fluid-rule audit
 
@@ -314,7 +315,7 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - The old plan recommended fluid display/hero roles, mostly fixed body/label/card/form roles, and lightly responsive section headings. Use that as classification guidance, not as permission to re-scale the site.
   - Some raw values may remain appropriate for icons, nav details, compact metadata, or deliberately non-body roles.
-- `Links`: `src/styles.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system-old/type-scale-plan.md`
+- `Links`: `src/styles.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-22 - Enquiry timezone comparison notes need server-owned handling
 

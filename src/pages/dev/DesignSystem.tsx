@@ -11,18 +11,18 @@ const authorityDocuments = [
   },
   {
     label: "Foundations",
-    path: "docs/design-system/foundations/tokens.md",
-    description: "Item records for tokens, type roles, colour, and spacing.",
+    path: "docs/design-system/foundations.md",
+    description: "Current promoted foundation contracts.",
   },
   {
     label: "Components",
-    path: "docs/design-system/patterns/components.md",
-    description: "Item records for React components and component behaviour.",
+    path: "docs/design-system/components.md",
+    description: "Current promoted React component contracts.",
   },
   {
     label: "Patterns",
-    path: "docs/design-system/patterns/page-patterns.md",
-    description: "Item records for selector families and page-level patterns.",
+    path: "docs/design-system/patterns.md",
+    description: "Current promoted semantic pattern contracts.",
   },
 ] as const;
 
@@ -56,7 +56,7 @@ function documentHref(path: string) {
 export default function DesignSystem() {
   useDocumentMetadata(
     "Design system | Vive Counselling",
-    "Development-only workspace for source-backed, shared-supported design-system specimens.",
+    "Development-only workspace for source-backed, supported design-system specimens.",
   );
 
   return (
@@ -143,7 +143,7 @@ export default function DesignSystem() {
                   ".home-closing__action and Contact form focus states",
                 ]}
                 identifier="--cedar"
-                recordPath="docs/design-system/foundations/tokens.md"
+                recordPath="docs/design-system/foundations.md"
                 role="Primary brand accent for action surfaces, strong interactive or editorial emphasis, and focus or boundary cues on verified light site surfaces."
                 title="Cedar"
               >
@@ -179,7 +179,7 @@ export default function DesignSystem() {
               <DesignSystemSpecimen
                 consumers={[".site-section-warm"]}
                 identifier="--section-rule"
-                recordPath="docs/design-system/foundations/tokens.md"
+                recordPath="docs/design-system/foundations.md"
                 role="Quiet lower boundary for the supported warm editorial section pattern."
                 title="Warm section rule"
               >
@@ -221,7 +221,7 @@ export default function DesignSystem() {
                   ".enm-page__reasons and .lgbtqia-page__recognition",
                 ]}
                 identifier="--section-warm"
-                recordPath="docs/design-system/foundations/tokens.md"
+                recordPath="docs/design-system/foundations.md"
                 role="Flat warm paper background for primary light editorial sections across the public site."
                 title="Warm section"
               >
@@ -260,7 +260,7 @@ export default function DesignSystem() {
                   ".working-with-joel-page__intro-note",
                 ]}
                 identifier="--portrait-panel"
-                recordPath="docs/design-system/foundations/tokens.md"
+                recordPath="docs/design-system/foundations.md"
                 role="Dark chocolate outer material for the identified-person portrait treatment; not a general surface or action colour."
                 title="Portrait panel"
               >
@@ -299,7 +299,7 @@ export default function DesignSystem() {
                   ".working-with-joel-page__intro-note .hero-media-note__image",
                 ]}
                 identifier="--portrait-frame"
-                recordPath="docs/design-system/foundations/tokens.md"
+                recordPath="docs/design-system/foundations.md"
                 role="Pale warm backing immediately around identified-person imagery inside the shared chocolate portrait panel."
                 title="Portrait frame"
               >
@@ -338,7 +338,7 @@ export default function DesignSystem() {
                   ".working-with-joel-page__intro-note-details",
                 ]}
                 identifier="--portrait-footer-tint"
-                recordPath="docs/design-system/foundations/tokens.md"
+                recordPath="docs/design-system/foundations.md"
                 role="Translucent chocolate footer or action band applied only over the shared portrait panel."
                 title="Portrait footer tint"
               >
@@ -390,7 +390,7 @@ export default function DesignSystem() {
                   "Contact enquiry task, Kink misread, ENM reasons, and LGBTQIA+ recognition sections",
                 ]}
                 identifier=".site-section-warm"
-                recordPath="docs/design-system/patterns/page-patterns.md"
+                recordPath="docs/design-system/patterns.md"
                 role="Shared warm editorial band with a 60px default vertical rhythm, common lower rule, and explicit page-local responsive override boundary."
                 title="Warm editorial section"
               >

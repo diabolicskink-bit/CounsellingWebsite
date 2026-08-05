@@ -1,6 +1,6 @@
 # Current Project Scope
 
-This is the factual current-state summary of the Vive Counselling website and supporting app. Design-system inventory is maintained separately in `docs/design-system/current-scope.md`.
+This is the factual current-state summary of the Vive Counselling website and supporting app. The complete approved reusable UI is maintained separately in the current-only catalogues under `docs/design-system/`; inherited implementation evidence lives under `docs/design-system-legacy/`.
 
 ## Application And Routes
 
@@ -11,8 +11,8 @@ This is the factual current-state summary of the Vive Counselling website and su
 - Public desktop navigation includes Home, Working with Joel, Inclusion with its three child pages, and Fees, plus a separate Get in touch action. The mobile navigation exposes Fees and Contact separately. All shared Fees and Contact entry points open the Contact page at its top so visitors encounter its context before scrolling to the fee details. The compact shared footer keeps the wordmark, short navigation, email, hours, Instagram and LinkedIn profile links, and copyright separate from page-level CTA content.
 - Development-only routes include the source-backed `/design-system` workspace, Documents, and the Codex and Opus test beds. The former five `/design-language/*` rendered-catalogue routes remain retired and resolve through the ordinary Not Found route.
 - The Codex and Opus test beds are clean development-only shells for future design explorations. Each retains the shared development-page hero, navigation and footer with the Dev menu available, but contains no active page candidate or enquiry form.
-- The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, `docs/research/`, `docs/page-plan/`, `docs/plans/`, and `docs/design-system/`; exact inline checklist status labels render as quiet coloured badges. Its page-scoped presentation follows the production site's dark hero, warm paper and sage surfaces, serif hierarchy, and flat ruled treatment while retaining a responsive, scrollable document library.
-- The `/design-system` workspace is a governance ledger for source-backed specimens. Foundations renders six `Shared-supported` production tokens: `--cedar`, the `--section-warm` and `--section-rule` editorial-section foundations, and the three-token portrait-material set. Patterns renders the supported `.site-section-warm` contract used across all seven public routes. Written catalogue records remain authoritative, candidate work stays page-local or in test beds, and unreviewed items remain absent.
+- The development Documents page imports Markdown from `docs/checklists/`, `docs/reports/`, `docs/research/`, `docs/page-plan/`, `docs/plans/`, `docs/design-system/`, and `docs/design-system-legacy/`; exact inline checklist status labels render as quiet coloured badges. The active and legacy design-system documents appear as separate library groups. Its page-scoped presentation follows the production site's dark hero, warm paper and sage surfaces, serif hierarchy, and flat ruled treatment while retaining a responsive, scrollable document library.
+- The `/design-system` workspace is a rendered view of the current-only catalogues. Foundations renders the promoted `--cedar`, warm-section, and portrait-material tokens; Patterns renders the promoted `.site-section-warm` contract used across all seven public routes. Only `docs/design-system/foundations.md`, `components.md`, and `patterns.md` authorize reuse; inherited implementation remains absent from the workspace and is recorded separately under `docs/design-system-legacy/` when useful.
 
 ## Public Content And Discoverability
 
@@ -122,4 +122,4 @@ The following remain outside the current project scope unless a task explicitly 
 - Booking, payment, account, or client-portal features.
 - Expanding development or test-bed routes into public pages.
 
-Fresh visual exploration and redesign are currently permitted when requested. Existing design-system palette, typography, heroes, page patterns, and components do not constrain concept development; `docs/design-system/current-scope.md` records their temporary implementation-reference status.
+Fresh visual exploration and redesign are currently permitted when requested. Inherited palette, typography, heroes, page patterns, and components do not constrain concept development; the active catalogues constrain deliberate reuse without acting as layout templates.
