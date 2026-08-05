@@ -606,6 +606,8 @@ async function expectHomePageStructure(page: Page) {
     ),
   ).toBeVisible();
   await expect(about.locator(".home-about__story > p")).toHaveCount(5);
+  await expect(about.locator(".home-about__story > p.site-reading")).toHaveCount(5);
+  await expect(about.locator(".home-about__story > p.site-reading--lead")).toHaveCount(1);
   await expect(about.locator("h3")).toHaveCount(0);
   await expect(about.getByRole("link", { name: "Working with Joel" })).toHaveAttribute(
     "href",
@@ -625,6 +627,8 @@ async function expectHomePageStructure(page: Page) {
   await expect(home.locator(".contact-invitation__copy")).toHaveText(
     "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
   );
+  await expect(home.locator(".home-page__inclusive-copy.site-reading")).toHaveCount(1);
+  await expect(home.locator(".contact-invitation__copy.site-reading")).toHaveCount(1);
   const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
   await expect(inclusiveTopics.locator(":scope li")).toHaveCount(4);
   await expect(inclusiveTopics.locator(".home-page__inclusive-topic-link--parent")).toHaveCount(1);
@@ -648,6 +652,10 @@ async function expectWorkingWithJoelPageStructure(page: Page) {
     main.getByRole("list", { name: "Joel Griffiths credentials and practice details" }).locator(":scope > li"),
   ).toHaveCount(4);
   await expect(main.getByRole("region", { name: "Introducing Joel" })).toBeVisible();
+  await expect(main.locator(".working-with-joel-page__intro-panel p.site-reading")).toHaveCount(3);
+  await expect(main.locator(".working-with-joel-page__intro-panel p.site-reading--lead")).toHaveCount(1);
+  await expect(main.locator(".working-approach__overview > p:not(.site-reading)")).toHaveCount(0);
+  await expect(main.locator(".site-broad-tabs__content p:not(.site-reading)")).toHaveCount(0);
   await expect(main.getByRole("complementary", { name: "About Joel Griffiths" })).toBeVisible();
   await expect(portrait).toBeVisible();
   await expect(portrait).toHaveAttribute("alt", "Joel Griffiths");

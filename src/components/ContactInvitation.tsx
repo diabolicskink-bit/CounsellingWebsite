@@ -24,7 +24,7 @@ export default function ContactInvitation() {
         </div>
 
         <div className="contact-invitation__content">
-          <p className="contact-invitation__copy">
+          <p className="contact-invitation__copy site-reading">
             Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You
             can also send me a message with any questions. I’m happy to answer them.
           </p>

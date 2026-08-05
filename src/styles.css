@@ -156,6 +156,21 @@ h3 {
   line-height: var(--leading-body);
 }
 
+/* Supported reading type roles ------------------------------------------- */
+
+.site-reading {
+  color: var(--body);
+  font-family: var(--font-sans);
+  font-size: clamp(1.01rem, 1.12vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.64;
+}
+
+.site-reading.site-reading--lead {
+  color: var(--ink);
+  font-weight: 500;
+}
+
 .site-shell {
   min-height: 100vh;
   background: var(--paper);
@@ -886,7 +901,6 @@ h3 {
 
 .contact-invitation {
   --contact-invitation-title-size: clamp(3.3rem, 4.5vw, 4.2rem);
-  --contact-invitation-reading-size: clamp(1.01rem, 1.15vw, 1.08rem);
   --contact-invitation-action-size: clamp(1.12rem, 1.45vw, 1.25rem);
 }
 
@@ -922,9 +936,6 @@ h3 {
 .contact-invitation__copy {
   max-width: 54ch;
   margin: 0;
-  color: var(--body);
-  font-size: var(--contact-invitation-reading-size);
-  line-height: 1.64;
   text-wrap: pretty;
 }
 
@@ -997,7 +1008,6 @@ h3 {
 @media (max-width: 660px) {
   .contact-invitation {
     --contact-invitation-title-size: clamp(2.75rem, 11.4vw, 3.35rem);
-    --contact-invitation-reading-size: 1rem;
     --contact-invitation-action-size: 1.13rem;
 
     padding: 48px 0;

@@ -4,8 +4,8 @@ import DesignSystemWorkspace from "./design-system/DesignSystemWorkspace";
 
 const cataloguePages = [
   {
-    count: "6 supported foundations",
-    description: "Semantic colours and shared material roles currently approved for deliberate reuse.",
+    count: "8 supported foundations",
+    description: "Semantic reading typography, colours, and shared material roles approved for deliberate reuse.",
     label: "Foundations",
     path: routeHref(devRoutePaths.designSystemFoundations),
   },

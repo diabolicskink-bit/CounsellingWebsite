@@ -10,8 +10,6 @@
   --working-heading-weight: 500;
   --working-heading-leading: 0.94;
   --working-subheading-leading: 1.22;
-  --working-reading: clamp(1.01rem, 1.12vw, 1.08rem);
-  --working-leading: 1.64;
 
   background: var(--working-paper);
 }
@@ -144,15 +142,6 @@
 
 .working-with-joel-page .working-with-joel-page__intro-panel p {
   max-width: 62ch;
-  color: var(--body);
-  font-family: var(--font-sans);
-  font-size: var(--working-reading);
-  line-height: var(--working-leading);
-}
-
-.working-with-joel-page .working-with-joel-page__intro-panel p:first-of-type {
-  color: var(--ink);
-  font-weight: 500;
 }
 
 .working-with-joel-page__intro-media {
@@ -248,9 +237,6 @@
 .working-with-joel-page .working-approach__overview > * {
   max-width: 56ch;
   margin: 0;
-  color: var(--body);
-  font-size: var(--working-reading);
-  line-height: var(--working-leading);
 }
 
 .working-with-joel-page .site-broad-tabs {
@@ -316,9 +302,6 @@
 
 .working-with-joel-page .site-broad-tabs__content p {
   max-width: 56ch;
-  color: var(--body);
-  font-size: var(--working-reading);
-  line-height: var(--working-leading);
 }
 
 .working-with-joel-page .site-broad-tabs__content:focus-visible {
@@ -512,7 +495,6 @@
 @media (max-width: 700px) {
   .working-with-joel-page {
     --working-section-title: clamp(2.75rem, 11.4vw, 3.35rem);
-    --working-reading: 1rem;
   }
 
   .working-with-joel-page .working-with-joel-page__hero .hero-display {

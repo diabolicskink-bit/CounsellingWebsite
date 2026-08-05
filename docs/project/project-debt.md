@@ -129,6 +129,7 @@ Each active item should include enough direction that a future session can choos
   - 2026-08-05: Replaced the mixed active inventory and lifecycle catalogue with current-only Foundations, Components, and Patterns catalogues. Inherited implementation evidence now lives in a separate non-authoritative legacy register and completed removal history stays in Git and the task log.
   - 2026-08-05: Promoted `.site-hero-background` as the shared dark surface for all seven public-route heroes and every development hero or cover. Removed the obsolete light `.hero-bg--default` helper, its unused noise asset, and the duplicated public and development hero background declarations while leaving hero structure, typography, actions, and responsive composition outside the promotion.
   - 2026-08-05: Promoted the no-prop `<ContactInvitation />` contract by explicit owner direction with Home as its first and currently only verified production consumer. The component now owns the canonical copy, Contact destination, accessible section relationship, interaction states, and responsive presentation; the former `home-closing*` implementation was removed. Rollout to the remaining non-Contact public pages is intentionally separate work.
+  - 2026-08-05: Promoted `.site-reading` and `.site-reading--lead` after verifying the same prose and lead-paragraph jobs across Home and Working with Joel. Both routes and `<ContactInvitation />` now consume the shared classes; broader inherited type-token and raw-size reconciliation remains open.
   - Keep public pages and their current visual treatment unchanged during reconciliation unless a separate task explicitly authorizes visitor-facing work.
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
 - `Links`: `docs/design-system/`, `src/styles.css`, `src/components/`
@@ -292,6 +293,7 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - Do not treat this as a redesign or global re-scale. The first type-role implementation slice is already complete; this is follow-up cleanup.
   - Preserve page-specific type where a page has a genuine editorial composition, such as special hero title measures or unique visual moments.
+  - 2026-08-05: Home and Working with Joel migrated their matching long-form prose and opening-paragraph declarations to the promoted `.site-reading` and `.site-reading--lead` roles. Remaining page-specific typography still requires route-by-route classification.
 - `Links`: `src/styles-*.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-21 - Shared production typography needs raw-size and fluid-rule audit
@@ -317,6 +319,7 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - The old plan recommended fluid display/hero roles, mostly fixed body/label/card/form roles, and lightly responsive section headings. Use that as classification guidance, not as permission to re-scale the site.
   - Some raw values may remain appropriate for icons, nav details, compact metadata, or deliberately non-body roles.
+  - 2026-08-05: The first audited shared slice promoted `.site-reading` and `.site-reading--lead` with exact values and verified consumers. The remaining raw shared sizes and inherited root type tokens are still outside the active system.
 - `Links`: `src/styles.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-22 - Enquiry timezone comparison notes need server-owned handling

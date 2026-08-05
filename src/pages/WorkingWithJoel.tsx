@@ -231,8 +231,13 @@ function IntroductionSection({
         <div className="working-with-joel-page__intro-copy">
           <article className="site-copy-panel rich-text working-with-joel-page__intro-panel">
             <h2 id="working-with-joel-intro-title">{introduction.title}</h2>
-            {introduction.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+            {introduction.paragraphs.map((paragraph, index) => (
+              <p
+                className={index === 0 ? "site-reading site-reading--lead" : "site-reading"}
+                key={paragraph}
+              >
+                {paragraph}
+              </p>
             ))}
           </article>
         </div>
@@ -265,7 +270,11 @@ function PortraitNote({ portrait }: { portrait: WorkingHeroPortrait }) {
 function ApproachSection({ approach }: { approach: ApproachContent }) {
   const tabItems = approach.items.map((item) => ({
     title: item.title,
-    content: item.details.map((paragraph) => <p key={paragraph}>{paragraph}</p>),
+    content: item.details.map((paragraph) => (
+      <p className="site-reading" key={paragraph}>
+        {paragraph}
+      </p>
+    )),
   }));
 
   return (
@@ -277,7 +286,7 @@ function ApproachSection({ approach }: { approach: ApproachContent }) {
           </h2>
           <div className="working-approach__overview">
             {approach.overview.map((paragraph) => (
-              <p className="section-heading__copy" key={paragraph}>
+              <p className="section-heading__copy site-reading" key={paragraph}>
                 {paragraph}
               </p>
             ))}

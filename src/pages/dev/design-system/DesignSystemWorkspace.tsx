@@ -15,7 +15,7 @@ type Props = {
 
 const cataloguePages = [
   {
-    count: "06",
+    count: "08",
     label: "Foundations",
     path: routeHref(devRoutePaths.designSystemFoundations),
   },
@@ -105,7 +105,7 @@ export default function DesignSystemWorkspace({ children, description, section, 
           <aside className="system-workspace__rail">
             <div className="system-workspace__state">
               <p>Current state</p>
-              <strong>9 supported specimens</strong>
+              <strong>11 supported specimens</strong>
               <span>Foundations, Components, and Patterns contain the verified shared system.</span>
             </div>
 
@@ -113,7 +113,7 @@ export default function DesignSystemWorkspace({ children, description, section, 
               <p>Workspace pages</p>
               <NavLink end to={routeHref(devRoutePaths.designSystem)}>
                 <strong>Overview</strong>
-                <span>09</span>
+                <span>11</span>
               </NavLink>
               {cataloguePages.map((page) => (
                 <NavLink key={page.path} to={page.path}>

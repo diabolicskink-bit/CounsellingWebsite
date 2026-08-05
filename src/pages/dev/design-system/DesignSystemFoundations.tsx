@@ -4,7 +4,7 @@ import DesignSystemWorkspace from "./DesignSystemWorkspace";
 export default function DesignSystemFoundations() {
   return (
     <DesignSystemWorkspace
-      description="Public semantic materials approved for deliberate reuse, shown through their current production tokens and verified roles."
+      description="Public semantic type and material foundations approved for deliberate reuse, shown through their current production implementation and verified roles."
       section="foundations"
       title="Foundations"
     >
@@ -12,12 +12,74 @@ export default function DesignSystemFoundations() {
         className="system-workspace__supported"
         id="foundations"
         aria-labelledby="foundations-heading"
-        data-supported-specimen-count="6"
+        data-supported-specimen-count="8"
       >
         <div className="system-workspace__section-heading">
           <p>Supported foundation</p>
           <h2 id="foundations-heading">Foundations</h2>
         </div>
+
+        <DesignSystemSpecimen
+          consumers={[
+            "Home About narrative, inclusive copy, and closing invitation",
+            "Working with Joel introduction, approach overview, and active tab copy",
+          ]}
+          identifier=".site-reading"
+          recordPath="docs/design-system/foundations.md"
+          role="Default long-form reading typography for public-page prose, with a contextual foreground allowed when the supported body colour does not suit the surface."
+          title="Reading copy"
+        >
+          <div className="system-reading-specimen">
+            <p className="site-reading system-reading-specimen__sample">
+              Counselling can help you make sense of what is happening and look at what might need to change.
+            </p>
+            <dl className="system-reading-specimen__facts">
+              <div>
+                <dt>Weight</dt>
+                <dd>400</dd>
+              </div>
+              <div>
+                <dt>Size</dt>
+                <dd>1.01–1.08rem</dd>
+              </div>
+              <div>
+                <dt>Leading</dt>
+                <dd>1.64</dd>
+              </div>
+            </dl>
+          </div>
+        </DesignSystemSpecimen>
+
+        <DesignSystemSpecimen
+          consumers={[
+            "Home About opening paragraph",
+            "Working with Joel introduction opening paragraph",
+          ]}
+          identifier=".site-reading--lead"
+          recordPath="docs/design-system/foundations.md"
+          role="Lead-paragraph modifier that preserves the reading measure and rhythm while adding one step of emphasis through darker ink and medium weight."
+          title="Lead reading copy"
+        >
+          <div className="system-reading-specimen">
+            <p className="site-reading site-reading--lead system-reading-specimen__sample">
+              I’m Joel Griffiths. I offer online counselling to individuals and couples across Australia.
+            </p>
+            <dl className="system-reading-specimen__facts">
+              <div>
+                <dt>Weight</dt>
+                <dd>500</dd>
+              </div>
+              <div>
+                <dt>Size</dt>
+                <dd>1.01–1.08rem</dd>
+              </div>
+              <div>
+                <dt>Leading</dt>
+                <dd>1.64</dd>
+              </div>
+            </dl>
+          </div>
+        </DesignSystemSpecimen>
 
         <DesignSystemSpecimen
           consumers={[

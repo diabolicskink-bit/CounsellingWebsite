@@ -51,8 +51,10 @@ The following root tokens are implemented but not promoted:
 
 The type-size tokens adjust at the current `900px` breakpoint. Public source widely consumes these values, but their exact roles, exceptions, and raw-size overlap remain under `DEBT-20` and `DEBT-21` rather than active design-system authority.
 
+The promoted `.site-reading` and `.site-reading--lead` semantic roles are intentionally absent from this legacy list and live in `docs/design-system/foundations.md`. Their internal use of `--font-sans` does not separately promote that raw token.
+
 ## Global Baseline
 
 `src/styles.css` also owns inherited global box sizing, root scrolling, body typography, heading defaults, paragraph defaults, link behaviour, focus treatment, and reduced-motion rules. These rules affect production but have not been promoted as one supported baseline contract.
 
-Last consolidated from current source: 2026-08-05 — active/legacy catalogue separation under `DEBT-37`.
+Last consolidated from current source: 2026-08-05 — reading-role promotion under `DEBT-20`, `DEBT-21`, and `DEBT-37`.

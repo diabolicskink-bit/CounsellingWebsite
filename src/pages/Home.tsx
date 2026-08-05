@@ -185,8 +185,13 @@ function AboutViveSection({
 
           <div className="home-about__narrative">
             <div className="home-about__story">
-              {about.narrative.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+              {about.narrative.map((paragraph, index) => (
+                <p
+                  className={index === 0 ? "site-reading site-reading--lead" : "site-reading"}
+                  key={paragraph}
+                >
+                  {paragraph}
+                </p>
               ))}
             </div>
           </div>
@@ -226,7 +231,7 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
               <em className="site-emphasis">{inclusive.heading.emphasis}</em>
               {inclusive.heading.after}
             </h2>
-            <p className="home-page__inclusive-copy">{inclusive.copy}</p>
+            <p className="home-page__inclusive-copy site-reading">{inclusive.copy}</p>
           </div>
 
           <nav className="home-page__inclusive-topics-nav" aria-label={inclusive.topicsAriaLabel}>

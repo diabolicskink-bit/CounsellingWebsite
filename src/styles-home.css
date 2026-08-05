@@ -6,12 +6,9 @@
   --home-dark-soft: #21483a;
   --home-dark-rule: rgba(232, 239, 233, 0.2);
   --home-type-section-title: clamp(3.3rem, 4.5vw, 4.2rem);
-  --home-type-reading: clamp(1.01rem, 1.15vw, 1.08rem);
   --home-type-link: clamp(1.05rem, 1.12vw, 1.12rem);
   --home-type-action: clamp(1.12rem, 1.45vw, 1.25rem);
   --home-leading-section-title: 0.94;
-  --home-leading-reading: 1.64;
-  --home-weight-reading: 440;
 }
 
 .home-page__hero-shell {
@@ -243,18 +240,10 @@
 .home-page .home-about__story p {
   max-width: 58ch;
   margin: 0;
-  color: var(--body);
-  font-family: var(--font-sans);
-  font-size: clamp(1.01rem, 1.1vw, 1.08rem);
-  font-weight: var(--home-weight-reading);
-  line-height: var(--home-leading-reading);
 }
 
 .home-page .home-about__story p:first-child {
   max-width: 54ch;
-  color: var(--ink);
-  font-size: clamp(1.15rem, 1.32vw, 1.26rem);
-  letter-spacing: -0.006em;
 }
 
 .home-inclusive {
@@ -298,14 +287,6 @@
   padding-top: clamp(24px, 2.5vw, 32px);
   border-top: 1px solid rgba(232, 239, 233, 0.28);
   color: rgba(245, 249, 246, 0.82);
-  font-size: var(--home-type-reading);
-  font-weight: var(--home-weight-reading);
-  line-height: var(--home-leading-reading);
-}
-
-.home-page .contact-invitation__copy {
-  font-weight: var(--home-weight-reading);
-  line-height: var(--home-leading-reading);
 }
 
 .home-page__inclusive-topics-nav {
@@ -507,7 +488,6 @@
 @media (max-width: 660px) {
   .home-page {
     --home-type-section-title: clamp(2.75rem, 11.4vw, 3.35rem);
-    --home-type-reading: 1rem;
     --home-type-link: 1.06rem;
     --home-type-action: 1.13rem;
   }
@@ -571,10 +551,6 @@
     grid-column: 1;
     grid-row: 2;
     margin-top: 34px;
-  }
-
-  .home-page .home-about__story p:first-child {
-    font-size: 1.1rem;
   }
 
   .home-page .home-page__inclusive-main h2 {
