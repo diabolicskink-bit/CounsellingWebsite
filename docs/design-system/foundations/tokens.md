@@ -28,6 +28,8 @@ When related work verifies or changes an item, add the record required by [gover
 - `--portrait-panel`: dark chocolate outer material for the shared portrait treatment.
 - `--portrait-frame`: pale warm backing immediately around portrait imagery.
 - `--portrait-footer-tint`: translucent footer/action band over the portrait panel.
+- `--section-warm`: flat warm paper for primary light editorial sections.
+- `--section-rule`: quiet boundary below the supported warm section pattern.
 
 `--surface` and `--cedar-soft` currently share a value but represent different roles in existing styles: structural surface and accent-related emphasis.
 
@@ -62,6 +64,22 @@ When related work verifies or changes an item, add the record required by [gover
 - `Source evidence and public consumers`: Defined on `:root` in `src/styles.css`. It supplies the resting background for Home's `.home-about__portrait-link` and the matching Working with Joel `.working-with-joel-page__intro-note-details` band.
 - `Replacement or migration`: Replaces the duplicate base tint in both page styles. Home's stronger `rgba(32, 21, 17, 0.28)` hover, focus, and coarse-pointer active state remains page-local and is not promoted by this record.
 - `Reviewed`: 2026-08-05 — shared portrait-colour promotion under `DEBT-37`
+
+### `--section-warm`
+
+- `Status`: `Shared-supported`
+- `Role and boundary`: Flat warm paper (`#f2efe8`) for primary light editorial sections across public routes. Dark `#1f231f` ink has a 13.87:1 contrast ratio and `#3f493f` body text has an 8.18:1 ratio on this surface. It is not the root page canvas, footer material, a sage or dark section treatment, or authority for unrelated declarations that happen to share the same literal value.
+- `Source evidence and public consumers`: Defined on `:root` in `src/styles.css` and consumed through `.site-section-warm`. Verified public sections are Home's `.home-about` and `.home-closing`; Working with Joel's `.site-grid.working-with-joel-page__intro`; the warm base and right-hand field of `.inclusion-hub-page__chapter`; Contact's `.codex-contact__task-section` ("Choosing a counsellor can be hard"); `.kink-page__misread`; `.enm-page__reasons`; and `.lgbtqia-page__recognition`.
+- `Replacement or migration`: Replaces the intended consumers' page-local aliases or matching `#f2efe8` literal. The now-unused Home paper and sage aliases and the redundant Inclusion chapters-wrapper background were removed. The requested migration also removes the decorative sage glow formerly layered over the Working with Joel introduction. The Inclusion chapters retain their separate page-local sage left-hand overlay; remaining matching literals and aliases retain their existing unreviewed or page-local status. Use the supported `.site-section-warm` pattern when the complete shared section contract is intended.
+- `Reviewed`: 2026-08-05 — shared warm-section promotion under `DEBT-37`
+
+### `--section-rule`
+
+- `Status`: `Shared-supported`
+- `Role and boundary`: Cedar-derived boundary (`rgba(35, 75, 61, 0.22)`) below `.site-section-warm`. Over `--section-warm` it resolves to approximately `#c4cbc2`. It is a quiet decorative separator, not a general border token or the sole cue to content structure.
+- `Source evidence and public consumers`: Defined on `:root` in `src/styles.css` and used by `.site-section-warm` for the verified warm editorial sections across all seven public content routes.
+- `Replacement or migration`: Replaces the repeated page-local section boundaries, including the minor `0.20` versus `0.22` opacity drift. Internal page rules keep their local tokens and are not promoted by this record.
+- `Reviewed`: 2026-08-05 — shared warm-section pattern promotion under `DEBT-37`
 
 ## Layout Tokens
 

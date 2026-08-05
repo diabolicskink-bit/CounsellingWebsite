@@ -109,7 +109,7 @@ function InclusionChapterSection({ chapter }: { chapter: InclusionChapter }) {
 
   return (
     <section
-      className={`inclusion-hub-page__chapter inclusion-hub-page__chapter--${chapter.id}`}
+      className={`inclusion-hub-page__chapter inclusion-hub-page__chapter--${chapter.id} site-section-warm`}
       aria-labelledby={headingId}
     >
       <Container className="inclusion-hub-page__chapter-layout">

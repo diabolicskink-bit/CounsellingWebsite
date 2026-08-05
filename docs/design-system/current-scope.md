@@ -9,8 +9,10 @@ This is the live factual inventory of the design system.
 - Only an explicit `Shared-supported` item record authorizes deliberate shared reuse. Production source and the retained inventory below establish implementation facts, not reusable status.
 - The rendered `/design-language/*` catalogue, its archive components, and its `ds-*` / `design-language-*` styling are `Removed`. The separate Documents route now uses page-scoped `documents-*` styling.
 - `--cedar` is the first `Shared-supported` production token. Its authoritative record in `foundations/tokens.md` limits reuse to the verified primary brand-accent role and does not promote adjacent colour tokens.
+- `--section-warm` is `Shared-supported` as the flat warm background for verified primary light editorial sections across Home, Working with Joel, Inclusion, Contact, Kink and BDSM, ENM and polyamory, and LGBTQIA+. The former Working with Joel introduction glow has been removed; the Inclusion chapters retain their page-local sage left-hand overlay.
+- `--section-rule` and `.site-section-warm` are `Shared-supported` as the shared boundary and complete warm editorial-section contract. The pattern owns its material, `60px` default vertical rhythm, and lower rule while leaving content composition and verified responsive padding exceptions page-local.
 - `--portrait-panel`, `--portrait-frame`, and `--portrait-footer-tint` are `Shared-supported` only as the portrait-material set verified across Home and Working with Joel. The Home-only stronger interaction tint remains page-local.
-- The `/design-system` route, `DesignSystemSpecimen`, and their page-scoped styling are `Historical/dev-only` workspace support. The route renders four source-backed Foundations specimens without becoming lifecycle authority itself.
+- The `/design-system` route, `DesignSystemSpecimen`, and their page-scoped styling are `Historical/dev-only` workspace support. The route renders six source-backed Foundations specimens and one Patterns specimen without becoming lifecycle authority itself.
 - Future lifecycle changes are summarized here only after the relevant item record is updated in the token, component, or page-pattern catalogue.
 
 ## Creative-Within-Identity Authority Status
@@ -23,14 +25,14 @@ This is the live factual inventory of the design system.
 
 The following implementation summary predates item-level lifecycle records. Terms such as “active” and “shared” are retained descriptions of the recorded source structure, not `Shared-supported` classifications.
 
-- Production colour, typography, spacing, radius, shadow, surface, and layout tokens are defined in `src/styles.css`; the supported portrait-material tokens replace duplicate Home and Working with Joel colour declarations without changing their rendered values.
+- Production colour, typography, spacing, radius, shadow, surface, and layout tokens are defined in `src/styles.css`; the supported warm-section pattern aligns the verified light editorial sections' material, default spacing, and boundary across public routes, while the supported portrait-material tokens replace duplicate colour declarations on Home and Working with Joel.
 - Standard paragraph-style copy uses `--type-body` and `--leading-body`; literal `p`, `.site-body-copy`, `.site-copy-flow`, and `.rich-text` are the shared body-copy paths.
 - Production source contains `site-*` classes for public-page sections, cards, panels, lists, tabs, footer, FAQ, CTA, trust, detail, and contact patterns.
 - Production source contains `hero-*` classes, including `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck`, `.hero-support-tagline`, `.hero-media-note`, `.hero-media-note--portrait`, `.hero-media-note__tag`, `.hero-principles-strip`, and `.hero-detail-stack`. Adjacent `.hero-badge` and `.hero-display` elements use the recorded `--hero-badge-display-gap` value of 16px.
 - Existing non-prefixed implementation includes `.container`, `.button`, `.section-heading`, `.rich-text`, `.check-item`, and `.icon-box`.
 - Recorded React components include `Container`, `Button`, `SectionHeading`, `FaqSection`, `FaqSchema`, `BroadTabPanel`, `Layout`, `DevPageHero`, `DocumentsSidebar`, and the development-only `DesignSystemSpecimen` frame.
 - The development Documents route composes `Container` with page-scoped `documents-*` styles; its production-aligned presentation is not promoted reusable page API.
-- The development Design System route uses a page-scoped governance-ledger composition, links to authoritative Markdown records through Documents, and renders the four explicitly `Shared-supported` colour tokens in Foundations.
+- The development Design System route uses a page-scoped governance-ledger composition, links to authoritative Markdown records through Documents, and renders six explicitly `Shared-supported` Foundations tokens plus the first supported Patterns specimen.
 - The Codex and Opus test beds use `DevPageHero` with the page-scoped `.test-bed-page` shell in `src/styles-test-beds.css`; these clean development routes are not promoted reusable page API.
 - The implemented `Layout` header uses a short warm editorial surface, single-line wordmark, desktop flyout navigation, dark cedar contact action, bottom-anchored active-route treatment, and a fixed dark full-viewport navigation index below the desktop breakpoint. The mobile index exposes separate Fees and Contact links; both open the Contact page at its top, matching the desktop Fees destination and shared footer. Mobile behaviour retains Escape dismissal, body scroll locking and restoration, focus return to the toggle, and automatic dismissal when responsive resizing crosses into the desktop layout so the page cannot remain scroll-locked behind a hidden menu. The outer shell stays in the document's root overflow flow so the complete footer remains part of the reachable scroll range.
 - Recorded card classes include `.site-card`, `.site-card--link`, `.site-card__list`, `.site-card__action`, and `.site-card-grid`.
@@ -80,7 +82,7 @@ These descriptions also predate item-level lifecycle records unless governance o
 - Responsive QA matrix.
 - Visual regression testing.
 - Storybook or equivalent external component explorer.
-- Supported specimens beyond the four promoted Foundations colour tokens; no other item has completed promotion under the current lifecycle.
+- Supported specimens beyond the six promoted Foundations tokens and `.site-section-warm`; no other item has completed promotion under the current lifecycle.
 - Dark mode; `src/styles.css` declares `color-scheme: light`.
 - Animation or motion system beyond small transitions and existing reduced-motion handling.
 - CMS content component model.

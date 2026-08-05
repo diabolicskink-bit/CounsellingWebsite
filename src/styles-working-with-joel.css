@@ -104,14 +104,6 @@
   display: none;
 }
 
-.site-grid.working-with-joel-page__intro {
-  padding: 60px 0;
-  border-bottom: 1px solid var(--working-rule);
-  background:
-    radial-gradient(circle at 88% 12%, rgba(223, 232, 220, 0.58), transparent 27%),
-    var(--working-paper);
-}
-
 .working-with-joel-page__intro > .site-split {
   display: grid;
   grid-template-columns: minmax(310px, 0.84fr) minmax(0, 1.16fr);

@@ -9,12 +9,6 @@
   background: var(--enm-paper);
 }
 
-.enm-page__reasons {
-  padding: 60px 0;
-  border-bottom: 1px solid var(--enm-rule);
-  background: var(--enm-paper);
-}
-
 .enm-page__reasons-layout,
 .enm-page__focus-layout,
 .enm-page__position-layout {
@@ -169,7 +163,6 @@
 }
 
 @media (max-width: 700px) {
-  .enm-page__reasons,
   .enm-page__focus,
   .enm-page__position {
     padding: 60px 0;

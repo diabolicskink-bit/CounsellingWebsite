@@ -13,12 +13,6 @@
   background: var(--lgbtqia-paper);
 }
 
-.lgbtqia-page__recognition {
-  padding: 60px 0;
-  border-bottom: 1px solid var(--lgbtqia-rule);
-  background: var(--lgbtqia-paper);
-}
-
 .lgbtqia-page__recognition-title,
 .lgbtqia-page__assumptions-title,
 .lgbtqia-page__disclosure-title {
@@ -351,7 +345,7 @@
 }
 
 @media (max-width: 700px) {
-  .lgbtqia-page__recognition {
+  .lgbtqia-page .lgbtqia-page__recognition {
     padding: 48px 0 40px;
   }
 

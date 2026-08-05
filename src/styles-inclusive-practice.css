@@ -74,17 +74,10 @@
   text-wrap: pretty;
 }
 
-.inclusion-hub-page__chapters {
-  background: var(--inclusion-paper);
-}
-
 .inclusion-hub-page__chapter {
   position: relative;
   isolation: isolate;
   overflow: clip;
-  padding: 60px 0;
-  border-bottom: 1px solid var(--inclusion-rule);
-  background: var(--inclusion-paper);
 }
 
 .inclusion-hub-page__chapter::before {
@@ -185,7 +178,7 @@
     font-size: clamp(2.75rem, 5.9vw, 3.65rem);
   }
 
-  .inclusion-hub-page__chapter {
+  .inclusion-hub-page .inclusion-hub-page__chapter {
     --inclusion-mobile-heading-depth: clamp(190px, 26vw, 230px);
 
     padding: 0;

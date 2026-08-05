@@ -476,7 +476,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
         </Container>
       </section>
 
-      <section className="codex-contact__task-section" id="contact-start" tabIndex={-1}>
+      <section className="codex-contact__task-section site-section-warm" id="contact-start" tabIndex={-1}>
         <Container className="codex-contact__task-grid">
           <aside
             aria-labelledby="contact-first-message-title"

@@ -116,7 +116,7 @@ export default function KinkBdsmCounselling() {
       </section>
 
       <section
-        className="kink-page__misread"
+        className="kink-page__misread site-section-warm"
         aria-labelledby="kink-misread-heading"
       >
         <Container className="kink-page__misread-layout">

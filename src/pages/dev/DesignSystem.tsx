@@ -97,15 +97,19 @@ export default function DesignSystem() {
           <aside className="system-workspace__rail">
             <div className="system-workspace__state">
               <p>Current state</p>
-              <strong>4 supported specimens</strong>
-              <span>Foundations contains the verified shared colour set.</span>
+              <strong>7 supported specimens</strong>
+              <span>Foundations and Patterns contain the verified shared section system.</span>
             </div>
 
             <nav className="system-workspace__section-nav" aria-label="Supported specimen sections">
               <p>Supported sections</p>
               <a href="#foundations">
                 <strong>Foundations</strong>
-                <span>04</span>
+                <span>06</span>
+              </a>
+              <a href="#patterns">
+                <strong>Patterns</strong>
+                <span>01</span>
               </a>
             </nav>
 
@@ -125,7 +129,7 @@ export default function DesignSystem() {
               className="system-workspace__supported"
               id="foundations"
               aria-labelledby="foundations-heading"
-              data-supported-specimen-count="4"
+              data-supported-specimen-count="6"
             >
               <div className="system-workspace__section-heading">
                 <p>Supported foundation</p>
@@ -168,6 +172,84 @@ export default function DesignSystem() {
                       </div>
                     </dl>
                     <p>Both recorded pairings meet WCAG AAA contrast for ordinary text.</p>
+                  </div>
+                </div>
+              </DesignSystemSpecimen>
+
+              <DesignSystemSpecimen
+                consumers={[".site-section-warm"]}
+                identifier="--section-rule"
+                recordPath="docs/design-system/foundations/tokens.md"
+                role="Quiet lower boundary for the supported warm editorial section pattern."
+                title="Warm section rule"
+              >
+                <div className="system-colour-specimen">
+                  <div
+                    className="system-colour-specimen__swatch system-colour-specimen__swatch--section-rule"
+                    aria-label="Warm section rule swatch, cedar at 22 percent over the warm section background"
+                  >
+                    <span>Section boundary</span>
+                    <strong>22%</strong>
+                  </div>
+
+                  <div className="system-colour-specimen__facts">
+                    <div>
+                      <span>Production token</span>
+                      <code>var(--section-rule)</code>
+                    </div>
+                    <dl>
+                      <div>
+                        <dt>Composite on section</dt>
+                        <dd>#C4CBC2</dd>
+                      </div>
+                      <div>
+                        <dt>Rule width</dt>
+                        <dd>1px</dd>
+                      </div>
+                    </dl>
+                    <p>The rule separates adjacent materials without being the only cue to section structure.</p>
+                  </div>
+                </div>
+              </DesignSystemSpecimen>
+
+              <DesignSystemSpecimen
+                consumers={[
+                  ".home-about and .home-closing",
+                  ".site-grid.working-with-joel-page__intro",
+                  ".inclusion-hub-page__chapter (warm base and right-hand field)",
+                  ".codex-contact__task-section and .kink-page__misread",
+                  ".enm-page__reasons and .lgbtqia-page__recognition",
+                ]}
+                identifier="--section-warm"
+                recordPath="docs/design-system/foundations/tokens.md"
+                role="Flat warm paper background for primary light editorial sections across the public site."
+                title="Warm section"
+              >
+                <div className="system-colour-specimen">
+                  <div
+                    className="system-colour-specimen__swatch system-colour-specimen__swatch--section-warm"
+                    aria-label="Warm section colour swatch, hexadecimal f2efe8"
+                  >
+                    <span>Editorial section</span>
+                    <strong>#F2EFE8</strong>
+                  </div>
+
+                  <div className="system-colour-specimen__facts">
+                    <div>
+                      <span>Production token</span>
+                      <code>var(--section-warm)</code>
+                    </div>
+                    <dl>
+                      <div>
+                        <dt>Dark ink on section</dt>
+                        <dd>13.87:1</dd>
+                      </div>
+                      <div>
+                        <dt>Body text on section</dt>
+                        <dd>8.18:1</dd>
+                      </div>
+                    </dl>
+                    <p>The sage side of the Inclusion chapters remains a separate page-local overlay.</p>
                   </div>
                 </div>
               </DesignSystemSpecimen>
@@ -287,6 +369,41 @@ export default function DesignSystem() {
                     <p>The stronger Home-only interaction tint remains page-local.</p>
                   </div>
                 </div>
+              </DesignSystemSpecimen>
+            </section>
+
+            <section
+              className="system-workspace__supported"
+              id="patterns"
+              aria-labelledby="patterns-heading"
+              data-supported-specimen-count="1"
+            >
+              <div className="system-workspace__section-heading">
+                <p>Supported pattern</p>
+                <h2 id="patterns-heading">Patterns</h2>
+              </div>
+
+              <DesignSystemSpecimen
+                consumers={[
+                  "Home About Vive and closing invitation",
+                  "Working with Joel introduction and Inclusion chapters",
+                  "Contact enquiry task, Kink misread, ENM reasons, and LGBTQIA+ recognition sections",
+                ]}
+                identifier=".site-section-warm"
+                recordPath="docs/design-system/patterns/page-patterns.md"
+                role="Shared warm editorial band with a 60px default vertical rhythm, common lower rule, and explicit page-local responsive override boundary."
+                title="Warm editorial section"
+              >
+                <section className="site-section-warm system-warm-section-pattern">
+                  <div className="system-warm-section-pattern__inner">
+                    <p>Shared public pattern</p>
+                    <h4>Warm editorial section</h4>
+                    <p>
+                      The shared layer owns the material, default spacing, and boundary. Content composition and
+                      responsive exceptions remain shaped by each page.
+                    </p>
+                  </div>
+                </section>
               </DesignSystemSpecimen>
             </section>
 

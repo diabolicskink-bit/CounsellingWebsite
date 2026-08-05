@@ -30,17 +30,25 @@ When related work verifies or changes an item, add the record required by [gover
 
 - `Status`: `Historical/dev-only`
 - `Role and boundary`: Development-only governance ledger and supported-specimen workspace. It visualises completed written authority but does not define reusable API.
-- `Source evidence and public consumers`: Implemented by `src/pages/dev/DesignSystem.tsx` and registered only through the development route map. It has no production consumer and currently contains four Foundations colour specimens.
+- `Source evidence and public consumers`: Implemented by `src/pages/dev/DesignSystem.tsx` and registered only through the development route map. It has no production consumer and currently contains six Foundations specimens and one Patterns specimen.
 - `Replacement or migration`: `None`; the route is separate from and does not restore the retired `/design-language/*` snapshot.
-- `Reviewed`: 2026-08-05 — shared portrait-colour promotion
+- `Reviewed`: 2026-08-05 — shared warm-section pattern promotion
 
-### `.system-workspace*`, `.system-specimen*`, `.system-colour-specimen*`
+### `.system-workspace*`, `.system-specimen*`, `.system-colour-specimen*`, `.system-warm-section-pattern*`
 
 - `Status`: `Historical/dev-only`
-- `Role and boundary`: Page-scoped presentation for the `/design-system` governance ledger, its strict supported-specimen frame, and colour-token evidence.
+- `Role and boundary`: Page-scoped presentation for the `/design-system` governance ledger, its strict supported-specimen frame, token evidence, and warm-section pattern demonstration.
 - `Source evidence and public consumers`: Implemented in `src/styles-design-system.css`; imported only by the development workspace, with no production route consumer.
 - `Replacement or migration`: `None`; do not promote these documentation styles as production UI.
-- `Reviewed`: 2026-08-05 — shared portrait-colour promotion
+- `Reviewed`: 2026-08-05 — shared warm-section pattern promotion
+
+### `.site-section-warm`
+
+- `Status`: `Shared-supported`
+- `Role and boundary`: Primary light editorial section band. It owns the flat `--section-warm` material, a `60px` default vertical rhythm, and the `--section-rule` lower boundary. It does not prescribe the section's grid, content structure, heading treatment, internal rules, or page-specific responsive recomposition; verified consumers may override only the vertical padding when their narrow layout moves that space into inner regions.
+- `Source evidence and public consumers`: Implemented in `src/styles.css`. Public consumers are Home About Vive and closing invitation; Working with Joel introduction; all Inclusion chapters; Contact's enquiry task; Kink's "When therapy gets kink wrong" section; ENM's "What might bring you here" section; and LGBTQIA+'s "Where does sexuality or gender fit?" section.
+- `Replacement or migration`: Replaces repeated page-level background, lower-border, and default-padding declarations. The Working with Joel glow was retired by owner direction; the Inclusion sage left-hand overlay and deliberately different narrow padding remain page-local.
+- `Reviewed`: 2026-08-05 — shared warm-section pattern promotion under `DEBT-37`
 
 ## Recorded Section Patterns
 

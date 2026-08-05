@@ -17,6 +17,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-05 - Warm Editorial Section System Promoted
+
+- Promoted: `--section-warm`, `--section-rule`, and `.site-section-warm` now provide one `Shared-supported` material, default rhythm, and lower boundary for verified primary light editorial sections across all seven public content routes.
+- Simplified: The subtle sage glow was removed from the Working with Joel introduction; the Inclusion chapters retain their distinct page-local sage left-hand overlay over the shared warm base.
+- Rendered: Foundations now contains six source-backed token specimens, and Patterns contains the real `.site-section-warm` implementation as its first supported specimen.
+- Contained: Unused Home colour aliases and a redundant Inclusion wrapper background were removed; other light backgrounds, matching `#f2efe8` declarations, and dark section treatments remain outside this promotion.
+
 ## 2026-08-05 - Shared Portrait Colours Promoted
 
 - Promoted: `--portrait-panel`, `--portrait-frame`, and `--portrait-footer-tint` now form a bounded `Shared-supported` material set for identified-person portrait treatments.

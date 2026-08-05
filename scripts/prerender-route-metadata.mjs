@@ -20,28 +20,35 @@ const prerenderedRoutePaths = [
 ];
 const indexableRoutePaths = prerenderedRoutePaths;
 const prerenderedRouteSmokeFragments = {
-  "/": ['<main class="site-page home-page">', "Online Counselling and Therapy Across Australia"],
+  "/": [
+    '<main class="site-page home-page">',
+    "Online Counselling and Therapy Across Australia",
+    'class="home-about site-section-warm"',
+    'class="home-closing site-section-warm"',
+  ],
   "/working-with-joel": [
     '<main class="site-page working-with-joel-page">',
     "Working with Joel",
     'src="/joel-griffiths-working-with-joel-portrait.jpg"',
+    'class="site-grid working-with-joel-page__intro site-section-warm"',
   ],
   "/inclusive-counselling": [
     '<main class="site-page inclusion-hub-page">',
     "Inclusive counselling",
     'class="inclusion-hub-page__chapters"',
+    'class="inclusion-hub-page__chapter inclusion-hub-page__chapter--kink-bdsm site-section-warm"',
   ],
   "/kink-bdsm-counselling": [
     '<main class="site-page kink-page">',
     "Kink-aware counselling and therapy",
-    'class="kink-page__misread"',
+    'class="kink-page__misread site-section-warm"',
     'class="kink-page__more"',
   ],
   "/polyamory-enm-counselling": [
     '<main class="site-page enm-page">',
     "Polyamory and ethical non-monogamy counselling and therapy",
     'class="hero-section specialist-counselling-hero enm-page__hero"',
-    'class="enm-page__reasons"',
+    'class="enm-page__reasons site-section-warm"',
     'class="enm-page__reasons-list"',
     'class="enm-page__position"',
   ],
@@ -49,6 +56,7 @@ const prerenderedRouteSmokeFragments = {
     '<main class="site-page inclusion-page lgbtqia-page">',
     "LGBTQIA+ affirming counselling",
     'class="hero-section specialist-counselling-hero lgbtqia-page__hero"',
+    'class="lgbtqia-page__recognition site-section-warm"',
     'class="lgbtqia-page__recognition-list"',
     'class="lgbtqia-page__disclosure"',
   ],
@@ -56,6 +64,7 @@ const prerenderedRouteSmokeFragments = {
     '<main class="site-page contact-page codex-contact">',
     "Contact and fees",
     "Choosing a counsellor can be hard.",
+    'class="codex-contact__task-section site-section-warm"',
     'id="contact-start"',
     'id="contact-fees"',
     "More than two?",

@@ -223,7 +223,10 @@ function IntroductionSection({
   portrait: WorkingHeroPortrait;
 }) {
   return (
-    <section className="site-grid working-with-joel-page__intro" aria-labelledby="working-with-joel-intro-title">
+    <section
+      className="site-grid working-with-joel-page__intro site-section-warm"
+      aria-labelledby="working-with-joel-intro-title"
+    >
       <Container className="site-split">
         <div className="working-with-joel-page__intro-copy">
           <article className="site-copy-panel rich-text working-with-joel-page__intro-panel">

@@ -102,7 +102,7 @@ export default function LgbtqiaCounselling() {
       />
 
       <section
-        className="lgbtqia-page__recognition"
+        className="lgbtqia-page__recognition site-section-warm"
         aria-labelledby="lgbtqia-recognition-heading"
       >
         <Container>

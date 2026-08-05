@@ -32,7 +32,8 @@ const prerenderedRouteContracts = {
     rawFragments: [
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
-      'class="home-about"',
+      'class="home-about site-section-warm"',
+      'class="home-closing site-section-warm"',
       'aria-label="Inclusive practice topics"',
       'class="home-page__inclusive-topic-link home-page__inclusive-topic-link--parent"',
       'class="home-page__inclusive-topic-children"',
@@ -50,6 +51,7 @@ const prerenderedRouteContracts = {
       'aria-label="Joel Griffiths credentials and practice details"',
       'aria-label="About Joel Griffiths"',
       'class="site-copy-panel rich-text working-with-joel-page__intro-panel"',
+      'class="site-grid working-with-joel-page__intro site-section-warm"',
       'aria-label="Counselling approach"',
       'aria-label="Examples of what people bring to counselling"',
       'id="issues-i-work-with"',
@@ -61,6 +63,7 @@ const prerenderedRouteContracts = {
     mainClass: "site-page inclusion-hub-page",
     rawFragments: [
       'class="inclusion-hub-page__chapters"',
+      'class="inclusion-hub-page__chapter inclusion-hub-page__chapter--kink-bdsm site-section-warm"',
       'id="inclusion-kink-bdsm-heading"',
       'id="inclusion-enm-polyamory-heading"',
       'id="inclusion-lgbtqia-heading"',
@@ -69,14 +72,14 @@ const prerenderedRouteContracts = {
   },
   "/kink-bdsm-counselling": {
     mainClass: "site-page kink-page",
-    rawFragments: ['class="kink-page__misread"', 'class="kink-page__more"'],
+    rawFragments: ['class="kink-page__misread site-section-warm"', 'class="kink-page__more"'],
     noJavaScriptSelector: ".kink-page__misread",
   },
   "/polyamory-enm-counselling": {
     mainClass: "site-page enm-page",
     rawFragments: [
       'class="hero-section specialist-counselling-hero enm-page__hero"',
-      'class="enm-page__reasons"',
+      'class="enm-page__reasons site-section-warm"',
       'class="enm-page__reasons-list"',
       'class="enm-page__position"',
     ],
@@ -84,13 +87,18 @@ const prerenderedRouteContracts = {
   },
   "/lgbtqia-affirming-counselling": {
     mainClass: "site-page inclusion-page lgbtqia-page",
-    rawFragments: ['class="lgbtqia-page__recognition-list"', 'class="lgbtqia-page__disclosure"'],
+    rawFragments: [
+      'class="lgbtqia-page__recognition site-section-warm"',
+      'class="lgbtqia-page__recognition-list"',
+      'class="lgbtqia-page__disclosure"',
+    ],
     noJavaScriptSelector: ".lgbtqia-page__recognition-list",
   },
   "/contact": {
     mainClass: "site-page contact-page codex-contact",
     rawFragments: [
       'class="codex-contact__opening"',
+      'class="codex-contact__task-section site-section-warm"',
       'id="contact-start"',
       'id="contact-fees"',
       "Choosing a counsellor can be hard.",

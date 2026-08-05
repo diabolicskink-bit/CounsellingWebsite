@@ -191,7 +191,7 @@ function AboutViveSection({
   portrait: HomePortrait;
 }) {
   return (
-    <section className="home-about" aria-labelledby="home-about-title">
+    <section className="home-about site-section-warm" aria-labelledby="home-about-title">
       <Container>
         <div className="home-about__profile">
           <header className="home-about__masthead">
@@ -283,7 +283,7 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
 
 function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }) {
   return (
-    <section className="home-closing" aria-labelledby="home-closing-title">
+    <section className="home-closing site-section-warm" aria-labelledby="home-closing-title">
       <Container className="home-closing__inner">
         <div className="home-closing__heading">
           <h2 id="home-closing-title">

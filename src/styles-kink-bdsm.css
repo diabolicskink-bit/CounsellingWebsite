@@ -61,12 +61,6 @@
   text-wrap: pretty;
 }
 
-.kink-page__misread {
-  padding: 60px 0;
-  border-bottom: 1px solid var(--kink-rule);
-  background: var(--kink-paper);
-}
-
 .kink-page__misread-layout {
   display: grid;
   grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
@@ -174,7 +168,6 @@
 
 @media (max-width: 700px) {
   .kink-page__fluency,
-  .kink-page__misread,
   .kink-page__more {
     padding: 60px 0;
   }

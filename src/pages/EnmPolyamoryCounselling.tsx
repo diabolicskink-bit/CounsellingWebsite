@@ -95,7 +95,7 @@ export default function EnmPolyamoryCounselling() {
         }
       />
 
-      <section className="enm-page__reasons" aria-labelledby="enm-reasons-heading">
+      <section className="enm-page__reasons site-section-warm" aria-labelledby="enm-reasons-heading">
         <Container className="enm-page__reasons-layout">
           <h2 className="enm-page__reasons-title" id="enm-reasons-heading">
             {reasons.heading}

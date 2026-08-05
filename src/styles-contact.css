@@ -135,9 +135,6 @@
 
 .codex-contact__task-section {
   scroll-margin-top: 84px;
-  padding: 60px 0;
-  border-bottom: 1px solid var(--codex-contact-rule);
-  background: #f2efe8;
 }
 
 .codex-contact__task-grid {
@@ -618,7 +615,7 @@
     padding-bottom: 20px;
   }
 
-  .codex-contact__task-section {
+  .codex-contact .codex-contact__task-section {
     padding: 0;
   }
 
