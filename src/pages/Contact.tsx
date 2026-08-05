@@ -485,7 +485,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
             <h2 id="contact-first-message-title">
               Choosing a counsellor can be hard.
             </h2>
-            <p>
+            <p className="site-reading">
               I offer a free 15-minute consult so you can speak with me before
               deciding whether to book. If you would rather start with a
               question, you can send one through the form or{" "}
@@ -562,9 +562,11 @@ export default function Contact({ initialRenderAt }: ContactProps) {
             <div id="contact-crisis-support">
               <dt>Crisis support</dt>
               <dd>
-                Vive Counselling is not an emergency service. If you are in
-                immediate danger, call 000. For crisis support, call Lifeline on
-                13 11 14 or Suicide Call Back Service on 1300 659 467.
+                <p className="site-reading">
+                  Vive Counselling is not an emergency service. If you are in
+                  immediate danger, call 000. For crisis support, call Lifeline on
+                  13 11 14 or Suicide Call Back Service on 1300 659 467.
+                </p>
               </dd>
             </div>
           </dl>

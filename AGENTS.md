@@ -51,6 +51,7 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 ## IDE Visual Verification
 
 - For visual verification from Codex in the VS Code extension, follow [docs/project/visual-verification.md](docs/project/visual-verification.md). It owns the supported browser route, managed server lifecycle, invocation, and capture techniques without defining task-specific visual review criteria.
+- For changes confined to development-only pages, default to a quick code sanity check: focused source inspection and the smallest relevant typecheck or build check. Do not perform full visual, responsive, accessibility, or browser testing on development-only pages unless the current task explicitly requests it.
 
 ## Git And Release Workflow
 

@@ -293,7 +293,7 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - Do not treat this as a redesign or global re-scale. The first type-role implementation slice is already complete; this is follow-up cleanup.
   - Preserve page-specific type where a page has a genuine editorial composition, such as special hero title measures or unique visual moments.
-  - 2026-08-05: Home and Working with Joel migrated their matching long-form prose and opening-paragraph declarations to the promoted `.site-reading` and `.site-reading--lead` roles. Remaining page-specific typography still requires route-by-route classification.
+  - 2026-08-05: All seven public content routes now use `.site-reading` for matching substantive prose; Home and Working with Joel also use `.site-reading--lead` for their established opening paragraphs. Contextual dark-surface foregrounds and deliberate serif, heading, label, form, metadata, and compact-support roles remain page-owned. This debt stays open for the broader classification of remaining page-specific type rules.
 - `Links`: `src/styles-*.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-21 - Shared production typography needs raw-size and fluid-rule audit

@@ -90,7 +90,7 @@ export default function InclusivePractice() {
               </p>
             </div>
 
-            <p className="inclusion-hub-page__hero-support">{hero.support}</p>
+            <p className="inclusion-hub-page__hero-support site-reading">{hero.support}</p>
           </div>
         </Container>
       </section>
@@ -118,7 +118,7 @@ function InclusionChapterSection({ chapter }: { chapter: InclusionChapter }) {
         </header>
 
         <div className="inclusion-hub-page__chapter-overview">
-          <p>{chapter.overview}</p>
+          <p className="site-reading">{chapter.overview}</p>
           <Link className="inclusion-hub-page__chapter-link" to={chapter.href}>
             <span>{chapter.linkLabel}</span>
             <ArrowRight size={18} aria-hidden="true" />

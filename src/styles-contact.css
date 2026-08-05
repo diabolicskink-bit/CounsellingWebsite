@@ -152,9 +152,6 @@
 
 .codex-contact__first-message p {
   max-width: 31ch;
-  color: var(--body);
-  font-size: var(--type-body);
-  line-height: 1.6;
 }
 
 .codex-contact__first-message a {
@@ -627,8 +624,6 @@
 
   .codex-contact__first-message p {
     max-width: 48ch;
-    font-size: 0.98rem;
-    line-height: 1.55;
   }
 
   .codex-contact__form,

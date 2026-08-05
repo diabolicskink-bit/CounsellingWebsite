@@ -9,7 +9,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Default long-form reading role for public-page prose: the Inter-first `--font-sans` stack, `clamp(1.01rem, 1.12vw, 1.08rem)`, weight `400`, line-height `1.64`, and `--body` as the supported light-surface foreground.
 - `Boundary`: Use for substantive paragraphs that need comfortable continuous reading, not headings, labels, navigation, buttons, captions, metadata, form controls, or compact supporting text. A consumer on a dark or otherwise incompatible surface may override only the foreground colour with a contrast-appropriate contextual value; the family, size, weight, and line-height remain part of the role. The underlying `--font-sans` token is not separately promoted by this contract.
 - `Implementation`: `.site-reading` in `src/styles.css`.
-- `Verified consumers`: Home About narrative, inclusive copy, and `<ContactInvitation />` copy; Working with Joel introduction, approach overview, and active tab copy.
+- `Verified consumers`: Home About narrative, inclusive copy, and `<ContactInvitation />` copy; Working with Joel introduction, approach overview, and active tab copy; Inclusion hub hero support and chapter overviews; Kink and BDSM chapter prose; ENM and polyamory reasons, focus, and position prose; LGBTQIA+ recognition, assumptions, and disclosure prose; Contact first-message and crisis-support prose.
 - `Promoted`: 2026-08-05 — owner-authorized reading-role promotion under `DEBT-20` and `DEBT-21`.
 
 ### `.site-reading--lead`

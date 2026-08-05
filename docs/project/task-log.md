@@ -20,7 +20,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-08-05 - Reading Typography Roles Promoted
 
 - Promoted: `.site-reading` now owns the shared Inter-first body-prose family, responsive `1.01–1.08rem` size, weight `400`, and `1.64` line-height; `.site-reading--lead` adds the bounded darker-ink, weight-`500` opening-paragraph treatment.
-- Migrated: Home prose, inclusive copy, and closing invitation plus the Working with Joel introduction, approach overview, and active tab copy now consume the supported roles instead of duplicate page-level typography declarations.
+- Migrated: All seven public content routes now use the supported roles for matching substantive prose instead of duplicate page-level typography declarations.
 - Preserved: Page composition, measures, paragraph spacing, contextual dark-surface colour, and the smaller issues-index copy remain page-owned.
 - Rendered: Foundations now shows both production classes as real specimens and documents their reuse boundaries.
 

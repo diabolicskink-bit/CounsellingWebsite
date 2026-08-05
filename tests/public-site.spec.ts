@@ -754,6 +754,16 @@ test.describe("public pages", () => {
         ).toHaveCount(3);
         await expect(page.locator(".kink-page h3:not(.site-faq-item__heading)")).toHaveCount(0);
         await expect(page.locator(".kink-page .site-faq-list")).toHaveCount(0);
+        await expect(page.locator(".kink-page p.site-reading")).toHaveCount(6);
+      }
+
+      if (route === "/polyamory-enm-counselling") {
+        const pageMain = page.locator("main.enm-page");
+
+        await expect(pageMain.locator(".enm-page__reasons-list p.site-reading")).toHaveCount(3);
+        await expect(pageMain.locator(".enm-page__focus-copy.site-reading")).toHaveCount(1);
+        await expect(pageMain.locator(".enm-page__position-copy p.site-reading")).toHaveCount(2);
+        await expect(pageMain.locator(".enm-page__position-distinction.site-reading")).toHaveCount(0);
       }
 
       if (route === "/lgbtqia-affirming-counselling") {
@@ -763,6 +773,18 @@ test.describe("public pages", () => {
         await expect(pageMain.locator(".lgbtqia-page__recognition-list > li")).toHaveCount(3);
         await expect(pageMain.locator(".lgbtqia-page__assumptions-list > li")).toHaveCount(3);
         await expect(pageMain.locator(".lgbtqia-page__disclosure-copy > p")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__recognition-list p.site-reading")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__assumptions-introduction.site-reading")).toHaveCount(1);
+        await expect(pageMain.locator(".lgbtqia-page__disclosure-copy > p.site-reading")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__disclosure-position.site-reading")).toHaveCount(0);
+      }
+
+      if (route === "/contact") {
+        const pageMain = page.locator("main.codex-contact");
+
+        await expect(pageMain.locator(".codex-contact__first-message p.site-reading")).toHaveCount(1);
+        await expect(pageMain.locator("#contact-crisis-support p.site-reading")).toHaveCount(1);
+        await expect(pageMain.locator(".codex-contact__form p.site-reading")).toHaveCount(0);
       }
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
@@ -1263,6 +1285,9 @@ test.describe("crawl and app metadata assets", () => {
 
     await page.goto("/inclusive-counselling", { waitUntil: "networkidle" });
     const inclusionMain = page.locator("main.inclusion-hub-page");
+
+    await expect(inclusionMain.locator(".inclusion-hub-page__hero-support.site-reading")).toHaveCount(1);
+    await expect(inclusionMain.locator(".inclusion-hub-page__chapter-overview > p.site-reading")).toHaveCount(3);
 
     for (const route of inclusionChildRoutes) {
       await expect(inclusionMain.locator(`a[href="${route.path}"]`)).toHaveCount(1);
