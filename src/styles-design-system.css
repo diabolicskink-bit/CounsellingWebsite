@@ -222,6 +222,7 @@
 
 .system-workspace__section-nav a:hover strong,
 .system-workspace__section-nav a:focus-visible strong,
+.system-workspace__section-nav a[aria-current="page"] strong,
 .system-workspace__documents a:hover strong,
 .system-workspace__documents a:focus-visible strong {
   color: var(--system-cedar);
@@ -236,6 +237,74 @@
 
 .system-workspace__working-field {
   min-width: 0;
+}
+
+.system-workspace__catalogue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 18px;
+  padding: 0;
+  margin: 48px 0 0;
+  list-style: none;
+}
+
+.system-workspace__catalogue-grid li {
+  min-width: 0;
+}
+
+.system-workspace__catalogue-grid a {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 18px;
+  min-height: 280px;
+  padding: clamp(24px, 3.5vw, 36px);
+  border: 1px solid var(--system-rule);
+  background: #fffdf8;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.system-workspace__catalogue-grid a:hover,
+.system-workspace__catalogue-grid a:focus-visible {
+  border-color: var(--system-cedar);
+  transform: translateY(-2px);
+}
+
+.system-workspace__catalogue-grid a:focus-visible {
+  outline: 2px solid var(--system-cedar);
+  outline-offset: 4px;
+}
+
+.system-workspace__catalogue-grid span,
+.system-workspace__catalogue-grid strong {
+  color: var(--system-cedar);
+  font-size: var(--system-caption);
+  font-weight: 760;
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
+}
+
+.system-workspace__catalogue-grid h3 {
+  margin: 0;
+  color: var(--system-dark);
+  font-size: clamp(1.85rem, 2.35vw, 2.35rem);
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.system-workspace__catalogue-grid p {
+  margin: 0;
+  color: var(--system-muted);
+  line-height: 1.62;
+}
+
+.system-workspace__overview + .system-workspace__gate {
+  margin-top: 104px;
+  padding-top: 88px;
+  border-top: 1px solid var(--system-rule);
 }
 
 .system-workspace__supported {
@@ -691,6 +760,12 @@
   .system-specimen__evidence {
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .system-workspace__catalogue-grid a {
+    transition: none;
   }
 }
 

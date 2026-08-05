@@ -9,7 +9,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Primary brand accent (`#234b3d`) for action surfaces, strong interactive or editorial emphasis, and focus or boundary cues on verified light site surfaces.
 - `Boundary`: Light text `#fcfcfa` on cedar has a 9.53:1 contrast ratio, cedar on `--paper` has a 9.05:1 ratio, and cedar on `--surface` has an 8.65:1 ratio. Do not assume the same contrast on photographs or dark-green surfaces. This contract does not include `--cedar-dark`, `--cedar-soft`, or adjacent colour tokens.
 - `Implementation`: Defined on `:root` in `src/styles.css`.
-- `Verified consumers`: `.site-header .header-button`, `.button--primary`, `.rich-text a`, `.site-text-link`, `.site-card__action`, `.site-footer a:focus-visible`, `.home-closing__action`, Working with Joel's active-tab rule, and Contact form labels, controls, links, and focus states.
+- `Verified consumers`: `.site-header .header-button`, `.button--primary`, `.rich-text a`, `.site-text-link`, `.site-card__action`, `.site-footer a:focus-visible`, `.contact-invitation__action`, Working with Joel's active-tab rule, and Contact form labels, controls, links, and focus states.
 - `Promoted`: 2026-08-03 — first colour promotion under `DEBT-37`.
 
 ### `--portrait-panel`

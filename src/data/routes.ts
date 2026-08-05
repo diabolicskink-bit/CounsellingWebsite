@@ -21,6 +21,9 @@ export const publicRedirectRoutes = [
 export const devRoutePaths = {
   codexTestBed: "codex-tb",
   designSystem: "design-system",
+  designSystemComponents: "design-system/components",
+  designSystemFoundations: "design-system/foundations",
+  designSystemPatterns: "design-system/patterns",
   documents: "documents",
   opusTestBed: "opus-tb",
 } as const;

@@ -17,6 +17,9 @@ const devPages = import.meta.env.DEV
   ? {
       CodexTB: lazy(() => import("./pages/dev/test-beds/CodexTB")),
       DesignSystem: lazy(() => import("./pages/dev/DesignSystem")),
+      DesignSystemComponents: lazy(() => import("./pages/dev/design-system/DesignSystemComponents")),
+      DesignSystemFoundations: lazy(() => import("./pages/dev/design-system/DesignSystemFoundations")),
+      DesignSystemPatterns: lazy(() => import("./pages/dev/design-system/DesignSystemPatterns")),
       Documents: lazy(() => import("./pages/dev/Documents")),
       OpusTB: lazy(() => import("./pages/dev/test-beds/OpusTB")),
     }
@@ -28,6 +31,9 @@ type DevPageKey = keyof DevPages;
 const standaloneDevRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof typeof devRoutePaths] }> = [
   { path: devRoutePaths.codexTestBed, page: "CodexTB" },
   { path: devRoutePaths.designSystem, page: "DesignSystem" },
+  { path: devRoutePaths.designSystemComponents, page: "DesignSystemComponents" },
+  { path: devRoutePaths.designSystemFoundations, page: "DesignSystemFoundations" },
+  { path: devRoutePaths.designSystemPatterns, page: "DesignSystemPatterns" },
   { path: devRoutePaths.opusTestBed, page: "OpusTB" },
   { path: devRoutePaths.documents, page: "Documents" },
 ];

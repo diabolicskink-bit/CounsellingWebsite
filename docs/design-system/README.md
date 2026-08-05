@@ -9,7 +9,7 @@ If a foundation, component, or pattern is absent from the active catalogues, it 
 1. `governance.md` defines ownership, scope, promotion, withdrawal, removal, verification, and update duties.
 2. `foundations.md`, `components.md`, and `patterns.md` are the complete current reusable API.
 3. Production source proves implementation and behaviour.
-4. The development-only `/design-system` workspace renders supported items but does not approve them.
+4. The development-only `/design-system` workspace and its category pages render supported items but do not approve them.
 
 The catalogues do not contain candidates, page-local work, inherited implementation, development tooling, withdrawn items, or removal history.
 

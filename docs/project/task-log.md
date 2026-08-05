@@ -17,6 +17,19 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-05 - Design-System Workspace Split By Catalogue
+
+- Split: `/design-system` is now a concise operational overview, with Foundations, Components, and Patterns rendered on separate development-only category routes.
+- Shared: One workspace shell owns the hero, catalogue navigation, specimen totals, active-page state, and written-authority links across all four pages.
+- Preserved: Every supported specimen still renders from the real promoted implementation and links to its authoritative current-only catalogue record.
+
+## 2026-08-05 - Contact Invitation Component Promoted
+
+- Promoted: `<ContactInvitation />` is the first supported React component contract, with fixed visitor-facing copy and destination plus component-owned semantics, interaction states, and responsive presentation.
+- Migrated: Home now renders the shared component as its final section; the former `ClosingCtaSection`, `HomeClosingCtaContent`, and `home-closing*` CSS were removed.
+- Scoped: Home is the only verified production consumer today. Rollout to the other non-Contact public pages remains separate work.
+- Rendered: The Components catalogue and `/design-system` workspace now expose the real production component.
+
 ## 2026-08-05 - Shared Hero Background Promoted
 
 - Promoted: `.site-hero-background` now owns the dark-green gradient, clipping, isolation, and lower boundary used by every public-route hero while leaving hero layout, content, typography, actions, and responsive composition page-owned.

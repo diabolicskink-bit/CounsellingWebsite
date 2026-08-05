@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
+import ContactInvitation from "../components/ContactInvitation";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths, routeHref } from "../data/routes";
@@ -51,18 +52,11 @@ type HomeInclusiveContent = {
   topics: HomeInclusiveTopic[];
 };
 
-type HomeClosingCtaContent = {
-  heading: EmphasisCopy;
-  body: string;
-  link: HomeLink;
-};
-
 type HomePageContent = {
   hero: HomeHeroContent;
   portrait: HomePortrait;
   about: HomeAboutContent;
   inclusive: HomeInclusiveContent;
-  closingCta: HomeClosingCtaContent;
 };
 
 const homeMetadata = getRouteMetadata("/");
@@ -135,19 +129,6 @@ const homePageContent: HomePageContent = {
         href: routeHref(publicRoutePaths.lgbtqia),
       },
     ],
-  },
-  closingCta: {
-    heading: {
-      before: "Get in ",
-      emphasis: "touch",
-      after: ".",
-    },
-    body:
-      "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
-    link: {
-      href: contactHref,
-      label: "See contact options",
-    },
   },
 };
 
@@ -281,40 +262,16 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
   );
 }
 
-function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }) {
-  return (
-    <section className="home-closing site-section-warm" aria-labelledby="home-closing-title">
-      <Container className="home-closing__inner">
-        <div className="home-closing__heading">
-          <h2 id="home-closing-title">
-            {closingCta.heading.before}
-            <em className="site-emphasis">{closingCta.heading.emphasis}</em>
-            {closingCta.heading.after}
-          </h2>
-        </div>
-
-        <div className="home-closing__invitation">
-          <p className="home-closing__copy">{closingCta.body}</p>
-          <Link className="home-closing__action" to={closingCta.link.href}>
-            <span>{closingCta.link.label}</span>
-            <ArrowRight aria-hidden="true" size={18} />
-          </Link>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
 export default function Home() {
   useDocumentMetadata(homeMetadata.title, homeMetadata.description);
-  const { hero, portrait, about, inclusive, closingCta } = homePageContent;
+  const { hero, portrait, about, inclusive } = homePageContent;
 
   return (
     <main className="site-page home-page">
       <HomeHeroSection hero={hero} />
       <AboutViveSection about={about} portrait={portrait} />
       <InclusiveSection inclusive={inclusive} />
-      <ClosingCtaSection closingCta={closingCta} />
+      <ContactInvitation />
     </main>
   );
 }

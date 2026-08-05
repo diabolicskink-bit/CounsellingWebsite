@@ -85,7 +85,7 @@ When an item is no longer supported:
 
 ## Rendered Workspace
 
-The development-only `/design-system` route is a view over the active catalogues.
+The development-only `/design-system` overview and its `/design-system/foundations`, `/design-system/components`, and `/design-system/patterns` category routes are views over the active catalogues.
 
 - Render only items present in `foundations.md`, `components.md`, or `patterns.md`.
 - Import the real production component or apply the supported production classes.

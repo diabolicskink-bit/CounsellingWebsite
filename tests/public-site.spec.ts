@@ -34,7 +34,7 @@ const prerenderedRouteContracts = {
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
       'class="home-about site-section-warm"',
-      'class="home-closing site-section-warm"',
+      'class="contact-invitation site-section-warm"',
       'aria-label="Inclusive practice topics"',
       'class="home-page__inclusive-topic-link home-page__inclusive-topic-link--parent"',
       'class="home-page__inclusive-topic-children"',
@@ -616,13 +616,13 @@ async function expectHomePageStructure(page: Page) {
   ).toHaveCount(0);
   await expect(about.getByText(/15-minute consultation/)).toHaveCount(0);
   await expect(
-    home.locator(".home-closing").getByRole("link", { name: "See contact options" }),
+    home.locator(".contact-invitation").getByRole("link", { name: "See contact options" }),
   ).toHaveAttribute("href", "/contact");
-  await expect(home.locator(".home-closing").getByRole("heading", { level: 2 })).toHaveText(
+  await expect(home.locator(".contact-invitation").getByRole("heading", { level: 2 })).toHaveText(
     "Get in touch.",
   );
-  await expect(home.locator(".home-closing h2 em")).toHaveText("touch");
-  await expect(home.locator(".home-closing__copy")).toHaveText(
+  await expect(home.locator(".contact-invitation h2 em")).toHaveText("touch");
+  await expect(home.locator(".contact-invitation__copy")).toHaveText(
     "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
   );
   const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
@@ -715,6 +715,9 @@ const accessibilitySmokeRoutes = publicRoutes;
 const devOnlyRoutes = [
   "/codex-tb",
   "/design-system",
+  "/design-system/components",
+  "/design-system/foundations",
+  "/design-system/patterns",
   "/opus-tb",
   "/documents",
 ] as const;
