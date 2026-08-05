@@ -40,9 +40,9 @@ These selectors have production consumers but have not completed promotion as cu
 
 ## Hero Family
 
-Current source includes `.hero-section`, `.hero-bg--default`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck*`, `.hero-support-tagline`, `.hero-media-note*`, `.hero-principles-strip`, and `.hero-detail-stack*`.
+Current inherited source includes `.hero-section`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck*`, `.hero-support-tagline`, `.hero-media-note*`, `.hero-principles-strip`, and `.hero-detail-stack*`.
 
-Public pages consume parts of this family and layer page-specific composition on top. The family remains inherited implementation rather than an approved hero system.
+Public pages consume parts of this family and layer page-specific composition on top. The family remains inherited implementation rather than an approved hero system. The former light `.hero-bg--default` helper, its unused noise asset, and duplicated public and development dark backgrounds were removed when `.site-hero-background` became the supported shared hero-surface contract.
 
 ## Navigation, Footer, And FAQ Families
 

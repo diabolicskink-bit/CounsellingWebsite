@@ -17,6 +17,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-05 - Shared Hero Background Promoted
+
+- Promoted: `.site-hero-background` now owns the dark-green gradient, clipping, isolation, and lower boundary used by every public-route hero while leaving hero layout, content, typography, actions, and responsive composition page-owned.
+- Migrated: Home, Working with Joel, Inclusion, all three specialist routes, Contact, the Design System cover, Documents hero, and shared development test-bed hero now use the supported surface.
+- Removed: Deleted the obsolete light `.hero-bg--default` helper, its unused noise asset, and repeated page-level hero background declarations after migrating all consumers.
+- Rendered: Patterns now shows the real supported hero surface alongside the warm editorial-section contract.
+
 ## 2026-08-05 - Design-System Catalogues Separated From Legacy Evidence
 
 - Simplified: `docs/design-system/` now contains current promoted contracts only, split into Foundations, Components, and Patterns under one operational governance file.

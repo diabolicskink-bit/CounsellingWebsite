@@ -30,6 +30,7 @@ const prerenderedRouteContracts = {
   "/": {
     mainClass: "site-page home-page",
     rawFragments: [
+      'class="hero-section site-hero-background home-page__hero"',
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
       'class="home-about site-section-warm"',
@@ -46,6 +47,7 @@ const prerenderedRouteContracts = {
   "/working-with-joel": {
     mainClass: "site-page working-with-joel-page",
     rawFragments: [
+      'class="hero-section site-hero-background working-with-joel-page__hero"',
       'src="/joel-griffiths-working-with-joel-portrait.jpg"',
       'loading="lazy"',
       'aria-label="Joel Griffiths credentials and practice details"',
@@ -62,6 +64,7 @@ const prerenderedRouteContracts = {
   "/inclusive-counselling": {
     mainClass: "site-page inclusion-hub-page",
     rawFragments: [
+      'class="hero-section site-hero-background inclusion-hub-page__hero"',
       'class="inclusion-hub-page__chapters"',
       'class="inclusion-hub-page__chapter inclusion-hub-page__chapter--kink-bdsm site-section-warm"',
       'id="inclusion-kink-bdsm-heading"',
@@ -72,13 +75,17 @@ const prerenderedRouteContracts = {
   },
   "/kink-bdsm-counselling": {
     mainClass: "site-page kink-page",
-    rawFragments: ['class="kink-page__misread site-section-warm"', 'class="kink-page__more"'],
+    rawFragments: [
+      'class="hero-section site-hero-background specialist-counselling-hero kink-page__hero"',
+      'class="kink-page__misread site-section-warm"',
+      'class="kink-page__more"',
+    ],
     noJavaScriptSelector: ".kink-page__misread",
   },
   "/polyamory-enm-counselling": {
     mainClass: "site-page enm-page",
     rawFragments: [
-      'class="hero-section specialist-counselling-hero enm-page__hero"',
+      'class="hero-section site-hero-background specialist-counselling-hero enm-page__hero"',
       'class="enm-page__reasons site-section-warm"',
       'class="enm-page__reasons-list"',
       'class="enm-page__position"',
@@ -88,6 +95,7 @@ const prerenderedRouteContracts = {
   "/lgbtqia-affirming-counselling": {
     mainClass: "site-page inclusion-page lgbtqia-page",
     rawFragments: [
+      'class="hero-section site-hero-background specialist-counselling-hero lgbtqia-page__hero"',
       'class="lgbtqia-page__recognition site-section-warm"',
       'class="lgbtqia-page__recognition-list"',
       'class="lgbtqia-page__disclosure"',
@@ -97,7 +105,7 @@ const prerenderedRouteContracts = {
   "/contact": {
     mainClass: "site-page contact-page codex-contact",
     rawFragments: [
-      'class="codex-contact__opening"',
+      'class="codex-contact__opening site-hero-background"',
       'class="codex-contact__task-section site-section-warm"',
       'id="contact-start"',
       'id="contact-fees"',

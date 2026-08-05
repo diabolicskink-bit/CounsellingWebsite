@@ -153,7 +153,7 @@ const homePageContent: HomePageContent = {
 
 function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
   return (
-    <section className="hero-section hero-bg--default home-page__hero">
+    <section className="hero-section site-hero-background home-page__hero">
       <Container className="home-page__hero-shell">
         <div className="home-page__hero-copy">
           <h1 className="hero-badge">{hero.eyebrow}</h1>

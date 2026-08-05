@@ -61,7 +61,7 @@ export default function DesignSystem() {
 
   return (
     <main className="system-workspace" data-design-system-workspace="source-backed">
-      <header className="system-workspace__cover">
+      <header className="system-workspace__cover site-hero-background">
         <div className="system-workspace__container system-workspace__cover-layout">
           <div className="system-workspace__title">
             <p className="system-workspace__eyebrow">Development workspace</p>
@@ -97,8 +97,8 @@ export default function DesignSystem() {
           <aside className="system-workspace__rail">
             <div className="system-workspace__state">
               <p>Current state</p>
-              <strong>7 supported specimens</strong>
-              <span>Foundations and Patterns contain the verified shared section system.</span>
+              <strong>8 supported specimens</strong>
+              <span>Foundations and Patterns contain the verified shared surface system.</span>
             </div>
 
             <nav className="system-workspace__section-nav" aria-label="Supported specimen sections">
@@ -109,7 +109,7 @@ export default function DesignSystem() {
               </a>
               <a href="#patterns">
                 <strong>Patterns</strong>
-                <span>01</span>
+                <span>02</span>
               </a>
             </nav>
 
@@ -376,12 +376,35 @@ export default function DesignSystem() {
               className="system-workspace__supported"
               id="patterns"
               aria-labelledby="patterns-heading"
-              data-supported-specimen-count="1"
+              data-supported-specimen-count="2"
             >
               <div className="system-workspace__section-heading">
                 <p>Supported pattern</p>
                 <h2 id="patterns-heading">Patterns</h2>
               </div>
+
+              <DesignSystemSpecimen
+                consumers={[
+                  "Home, Working with Joel, and Inclusion heroes",
+                  "Kink and BDSM, ENM and polyamory, and LGBTQIA+ heroes",
+                  "Contact opening",
+                ]}
+                identifier=".site-hero-background"
+                recordPath="docs/design-system/patterns.md"
+                role="Shared dark-green hero surface with one restrained sage highlight and a quiet lower boundary; hero content and composition remain consumer-owned."
+                title="Shared hero background"
+              >
+                <section className="site-hero-background system-hero-background-pattern">
+                  <div className="system-hero-background-pattern__inner">
+                    <p>Shared public surface</p>
+                    <h4>One background. Content-shaped heroes.</h4>
+                    <p>
+                      The shared layer owns the surface and boundary. Each route retains its own structure, copy,
+                      actions, and responsive composition.
+                    </p>
+                  </div>
+                </section>
+              </DesignSystemSpecimen>
 
               <DesignSystemSpecimen
                 consumers={[

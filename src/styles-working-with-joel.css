@@ -16,13 +16,6 @@
   background: var(--working-paper);
 }
 
-.hero-section.working-with-joel-page__hero {
-  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
-  background:
-    radial-gradient(ellipse at 80% 0%, rgba(135, 172, 145, 0.32), transparent 40%),
-    linear-gradient(132deg, #132b23 0%, #1b3b30 54%, #234b3d 100%);
-}
-
 .working-with-joel-page__hero-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.18fr) minmax(330px, 0.82fr);

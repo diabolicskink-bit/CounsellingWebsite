@@ -6,15 +6,6 @@
   background: var(--paper);
 }
 
-.codex-contact__opening {
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
-  background:
-    radial-gradient(ellipse at 82% -12%, rgba(135, 172, 145, 0.38), transparent 46%),
-    linear-gradient(132deg, #132b23 0%, #1b3b30 54%, #234b3d 100%);
-}
-
 .codex-contact__opening-grid {
   position: relative;
   z-index: 1;
@@ -596,12 +587,6 @@
 }
 
 @media (max-width: 700px) {
-  .codex-contact__opening {
-    background:
-      radial-gradient(ellipse at 94% 0%, rgba(135, 172, 145, 0.34), transparent 44%),
-      linear-gradient(145deg, #132b23 0%, #1b3b30 58%, #234b3d 100%);
-  }
-
   .codex-contact .codex-contact__intro h1 {
     max-width: none;
     font-size: clamp(3.15rem, 14.5vw, 4.2rem);

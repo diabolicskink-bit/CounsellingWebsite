@@ -467,7 +467,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
 
   return (
     <main className="site-page contact-page codex-contact">
-      <section className="codex-contact__opening" aria-labelledby="contact-title">
+      <section className="codex-contact__opening site-hero-background" aria-labelledby="contact-title">
         <Container className="codex-contact__opening-grid">
           <header className="codex-contact__intro">
             <span className="codex-contact__eyebrow">Contact and fees</span>

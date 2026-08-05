@@ -660,7 +660,7 @@ Use this structure when a region is expanded to class-token leaves:
   - Next: Expand by broad tabs, FAQ, CTA, and interaction-state clusters.
 
 - `CSS-1.9` `Not reviewed` Hero design language.
-  - Scope: `.hero-section`, `.hero-top`, `.hero-display`, `.hero-intro`, `.site-emphasis`, `.hero-copy-panel`, `.hero-deck*`, `.hero-support-tagline`, `.hero-badge`, `.hero-principles-strip`, `.hero-principle-item`, `.hero-bg--default`, `.hero-top--supporting-media`, `.hero-media-note*`, and hero responsive rules.
+  - Scope: `.hero-section`, `.hero-top`, `.hero-display`, `.hero-intro`, `.site-emphasis`, `.hero-copy-panel`, `.hero-deck*`, `.hero-support-tagline`, `.hero-badge`, `.hero-principles-strip`, `.hero-principle-item`, `.hero-top--supporting-media`, `.hero-media-note*`, and hero responsive rules. `.site-hero-background` was separately reviewed and promoted on 2026-08-05; the former `.hero-bg--default` helper was removed.
   - Next: Expand by hero wrapper/top layout, hero typography/copy, hero decks/support, hero principles, hero backgrounds, and hero media.
 
 - `CSS-1.10` `Not reviewed` Shared hero detail stack and late shared overrides.
