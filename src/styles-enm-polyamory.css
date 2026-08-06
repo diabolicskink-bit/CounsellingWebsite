@@ -9,12 +9,6 @@
   background: var(--enm-paper);
 }
 
-.enm-page__reasons {
-  padding: 60px 0;
-  border-bottom: 1px solid var(--enm-rule);
-  background: var(--enm-paper);
-}
-
 .enm-page__reasons-layout,
 .enm-page__focus-layout,
 .enm-page__position-layout {
@@ -77,9 +71,6 @@
 .enm-page .enm-page__reasons-list p {
   max-width: 62ch;
   margin: 0;
-  color: var(--body);
-  font-size: clamp(1rem, 1.12vw, 1.06rem);
-  line-height: 1.66;
   text-wrap: pretty;
 }
 
@@ -101,9 +92,6 @@
   margin: 4px 0 0;
   padding: 4px 0 4px 30px;
   border-left: 1px solid rgba(35, 75, 61, 0.34);
-  color: var(--body);
-  font-size: clamp(1.02rem, 1.2vw, 1.1rem);
-  line-height: 1.68;
   text-wrap: pretty;
 }
 
@@ -131,8 +119,6 @@
 .enm-page .enm-page__position-copy p {
   margin: 0;
   color: rgba(239, 244, 240, 0.86);
-  font-size: clamp(1.02rem, 1.18vw, 1.08rem);
-  line-height: 1.68;
   text-wrap: pretty;
 }
 
@@ -169,7 +155,6 @@
 }
 
 @media (max-width: 700px) {
-  .enm-page__reasons,
   .enm-page__focus,
   .enm-page__position {
     padding: 60px 0;
@@ -192,13 +177,6 @@
   .enm-page__reasons-list h3 {
     max-width: 18ch;
     font-size: 1.35rem;
-  }
-
-  .enm-page .enm-page__reasons-list p,
-  .enm-page .enm-page__focus-copy,
-  .enm-page .enm-page__position-copy p {
-    font-size: 1rem;
-    line-height: 1.64;
   }
 
   .enm-page .enm-page__focus-copy,

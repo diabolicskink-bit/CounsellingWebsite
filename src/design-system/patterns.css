@@ -1,0 +1,20 @@
+/*
+ * Supported patterns only.
+ * Authority: docs/design-system/patterns.md
+ */
+
+.site-section-warm {
+  padding: 60px 0;
+  border-bottom: 1px solid var(--section-rule);
+  background: var(--section-warm);
+}
+
+.site-hero-background {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(135, 172, 145, 0.32), transparent 42%),
+    linear-gradient(132deg, #132b23 0%, #1b3b30 54%, #234b3d 100%);
+}

@@ -30,9 +30,11 @@ const prerenderedRouteContracts = {
   "/": {
     mainClass: "site-page home-page",
     rawFragments: [
+      'class="hero-section site-hero-background home-page__hero"',
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
-      'class="home-about"',
+      'class="home-about site-section-warm"',
+      'class="contact-invitation site-section-warm"',
       'aria-label="Inclusive practice topics"',
       'class="home-page__inclusive-topic-link home-page__inclusive-topic-link--parent"',
       'class="home-page__inclusive-topic-children"',
@@ -45,11 +47,13 @@ const prerenderedRouteContracts = {
   "/working-with-joel": {
     mainClass: "site-page working-with-joel-page",
     rawFragments: [
+      'class="hero-section site-hero-background working-with-joel-page__hero"',
       'src="/joel-griffiths-working-with-joel-portrait.jpg"',
       'loading="lazy"',
       'aria-label="Joel Griffiths credentials and practice details"',
       'aria-label="About Joel Griffiths"',
       'class="site-copy-panel rich-text working-with-joel-page__intro-panel"',
+      'class="site-grid working-with-joel-page__intro site-section-warm"',
       'aria-label="Counselling approach"',
       'aria-label="Examples of what people bring to counselling"',
       'id="issues-i-work-with"',
@@ -60,7 +64,9 @@ const prerenderedRouteContracts = {
   "/inclusive-counselling": {
     mainClass: "site-page inclusion-hub-page",
     rawFragments: [
+      'class="hero-section site-hero-background inclusion-hub-page__hero"',
       'class="inclusion-hub-page__chapters"',
+      'class="inclusion-hub-page__chapter inclusion-hub-page__chapter--kink-bdsm site-section-warm"',
       'id="inclusion-kink-bdsm-heading"',
       'id="inclusion-enm-polyamory-heading"',
       'id="inclusion-lgbtqia-heading"',
@@ -69,14 +75,18 @@ const prerenderedRouteContracts = {
   },
   "/kink-bdsm-counselling": {
     mainClass: "site-page kink-page",
-    rawFragments: ['class="kink-page__misread"', 'class="kink-page__more"'],
+    rawFragments: [
+      'class="hero-section site-hero-background specialist-counselling-hero kink-page__hero"',
+      'class="kink-page__misread site-section-warm"',
+      'class="kink-page__more"',
+    ],
     noJavaScriptSelector: ".kink-page__misread",
   },
   "/polyamory-enm-counselling": {
     mainClass: "site-page enm-page",
     rawFragments: [
-      'class="hero-section specialist-counselling-hero enm-page__hero"',
-      'class="enm-page__reasons"',
+      'class="hero-section site-hero-background specialist-counselling-hero enm-page__hero"',
+      'class="enm-page__reasons site-section-warm"',
       'class="enm-page__reasons-list"',
       'class="enm-page__position"',
     ],
@@ -84,13 +94,19 @@ const prerenderedRouteContracts = {
   },
   "/lgbtqia-affirming-counselling": {
     mainClass: "site-page inclusion-page lgbtqia-page",
-    rawFragments: ['class="lgbtqia-page__recognition-list"', 'class="lgbtqia-page__disclosure"'],
+    rawFragments: [
+      'class="hero-section site-hero-background specialist-counselling-hero lgbtqia-page__hero"',
+      'class="lgbtqia-page__recognition site-section-warm"',
+      'class="lgbtqia-page__recognition-list"',
+      'class="lgbtqia-page__disclosure"',
+    ],
     noJavaScriptSelector: ".lgbtqia-page__recognition-list",
   },
   "/contact": {
     mainClass: "site-page contact-page codex-contact",
     rawFragments: [
-      'class="codex-contact__opening"',
+      'class="codex-contact__opening site-hero-background"',
+      'class="codex-contact__task-section site-section-warm"',
       'id="contact-start"',
       'id="contact-fees"',
       "Choosing a counsellor can be hard.",
@@ -590,6 +606,8 @@ async function expectHomePageStructure(page: Page) {
     ),
   ).toBeVisible();
   await expect(about.locator(".home-about__story > p")).toHaveCount(5);
+  await expect(about.locator(".home-about__story > p.site-reading")).toHaveCount(5);
+  await expect(about.locator(".home-about__story > p.site-reading--lead")).toHaveCount(1);
   await expect(about.locator("h3")).toHaveCount(0);
   await expect(about.getByRole("link", { name: "Working with Joel" })).toHaveAttribute(
     "href",
@@ -600,15 +618,17 @@ async function expectHomePageStructure(page: Page) {
   ).toHaveCount(0);
   await expect(about.getByText(/15-minute consultation/)).toHaveCount(0);
   await expect(
-    home.locator(".home-closing").getByRole("link", { name: "See contact options" }),
+    home.locator(".contact-invitation").getByRole("link", { name: "See contact options" }),
   ).toHaveAttribute("href", "/contact");
-  await expect(home.locator(".home-closing").getByRole("heading", { level: 2 })).toHaveText(
+  await expect(home.locator(".contact-invitation").getByRole("heading", { level: 2 })).toHaveText(
     "Get in touch.",
   );
-  await expect(home.locator(".home-closing h2 em")).toHaveText("touch");
-  await expect(home.locator(".home-closing__copy")).toHaveText(
+  await expect(home.locator(".contact-invitation h2 em")).toHaveText("touch");
+  await expect(home.locator(".contact-invitation__copy")).toHaveText(
     "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
   );
+  await expect(home.locator(".home-page__inclusive-copy.site-reading")).toHaveCount(1);
+  await expect(home.locator(".contact-invitation__copy.site-reading")).toHaveCount(1);
   const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
   await expect(inclusiveTopics.locator(":scope li")).toHaveCount(4);
   await expect(inclusiveTopics.locator(".home-page__inclusive-topic-link--parent")).toHaveCount(1);
@@ -632,6 +652,10 @@ async function expectWorkingWithJoelPageStructure(page: Page) {
     main.getByRole("list", { name: "Joel Griffiths credentials and practice details" }).locator(":scope > li"),
   ).toHaveCount(4);
   await expect(main.getByRole("region", { name: "Introducing Joel" })).toBeVisible();
+  await expect(main.locator(".working-with-joel-page__intro-panel p.site-reading")).toHaveCount(3);
+  await expect(main.locator(".working-with-joel-page__intro-panel p.site-reading--lead")).toHaveCount(1);
+  await expect(main.locator(".working-approach__overview > p:not(.site-reading)")).toHaveCount(0);
+  await expect(main.locator(".site-broad-tabs__content p:not(.site-reading)")).toHaveCount(0);
   await expect(main.getByRole("complementary", { name: "About Joel Griffiths" })).toBeVisible();
   await expect(portrait).toBeVisible();
   await expect(portrait).toHaveAttribute("alt", "Joel Griffiths");
@@ -683,6 +707,11 @@ const aliasRedirects = [
 const retiredRoutes = [
   "/about-joel",
   "/approach",
+  "/design-language",
+  "/design-language/foundations",
+  "/design-language/components",
+  "/design-language/heroes",
+  "/design-language/patterns",
   "/enquire",
   "/inclusion/kink-bdsm",
   "/inclusion/enm-polyamory",
@@ -693,10 +722,12 @@ const accessibilitySmokeRoutes = publicRoutes;
 
 const devOnlyRoutes = [
   "/codex-tb",
+  "/design-system",
+  "/design-system/components",
+  "/design-system/foundations",
+  "/design-system/patterns",
   "/opus-tb",
   "/documents",
-  "/design-language",
-  "/design-language/foundations",
 ] as const;
 
 const notFoundBoundaryRoutes = [...retiredRoutes, ...devOnlyRoutes, "/not-a-real-page"] as const;
@@ -710,6 +741,7 @@ test.describe("public pages", () => {
       await page.goto(route, { waitUntil: "networkidle" });
 
       await expect(page.locator("main").first()).toBeVisible();
+      await expect(page.locator("header.site-header > .container.site-header__inner")).toHaveCount(1);
       await expect(page.locator("h1.hero-badge")).toHaveCount(1);
       await expect(page.locator("h1.hero-badge")).toBeVisible();
       await expect(page.locator(".hero-section p.hero-display")).toHaveCount(1);
@@ -721,8 +753,17 @@ test.describe("public pages", () => {
             "h2.kink-page__fluency-title, h2.kink-page__misread-title, h2.kink-page__more-title",
           ),
         ).toHaveCount(3);
-        await expect(page.locator(".kink-page h3:not(.site-faq-item__heading)")).toHaveCount(0);
-        await expect(page.locator(".kink-page .site-faq-list")).toHaveCount(0);
+        await expect(page.locator(".kink-page h3")).toHaveCount(0);
+        await expect(page.locator(".kink-page p.site-reading")).toHaveCount(6);
+      }
+
+      if (route === "/polyamory-enm-counselling") {
+        const pageMain = page.locator("main.enm-page");
+
+        await expect(pageMain.locator(".enm-page__reasons-list p.site-reading")).toHaveCount(3);
+        await expect(pageMain.locator(".enm-page__focus-copy.site-reading")).toHaveCount(1);
+        await expect(pageMain.locator(".enm-page__position-copy p.site-reading")).toHaveCount(2);
+        await expect(pageMain.locator(".enm-page__position-distinction.site-reading")).toHaveCount(0);
       }
 
       if (route === "/lgbtqia-affirming-counselling") {
@@ -732,6 +773,18 @@ test.describe("public pages", () => {
         await expect(pageMain.locator(".lgbtqia-page__recognition-list > li")).toHaveCount(3);
         await expect(pageMain.locator(".lgbtqia-page__assumptions-list > li")).toHaveCount(3);
         await expect(pageMain.locator(".lgbtqia-page__disclosure-copy > p")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__recognition-list p.site-reading")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__assumptions-introduction.site-reading")).toHaveCount(1);
+        await expect(pageMain.locator(".lgbtqia-page__disclosure-copy > p.site-reading")).toHaveCount(3);
+        await expect(pageMain.locator(".lgbtqia-page__disclosure-position.site-reading")).toHaveCount(0);
+      }
+
+      if (route === "/contact") {
+        const pageMain = page.locator("main.codex-contact");
+
+        await expect(pageMain.locator(".codex-contact__first-message p.site-reading")).toHaveCount(1);
+        await expect(pageMain.locator("#contact-crisis-support p.site-reading")).toHaveCount(1);
+        await expect(pageMain.locator(".codex-contact__form p.site-reading")).toHaveCount(0);
       }
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
@@ -1072,6 +1125,7 @@ test.describe("first response metadata", () => {
       expect(html).toContain('data-render-mode="prerendered"');
       expect(html).toContain(`data-prerendered-path="${escapeHtml(route)}"`);
       expect(html).toContain('<header class="site-header">');
+      expect(html).toContain('<div class="container site-header__inner">');
       expect(html).toContain(`<main class="${contract.mainClass}">`);
       expectMeaningfulRawH1(html);
       for (const fragment of contract.rawFragments) {
@@ -1232,6 +1286,9 @@ test.describe("crawl and app metadata assets", () => {
 
     await page.goto("/inclusive-counselling", { waitUntil: "networkidle" });
     const inclusionMain = page.locator("main.inclusion-hub-page");
+
+    await expect(inclusionMain.locator(".inclusion-hub-page__hero-support.site-reading")).toHaveCount(1);
+    await expect(inclusionMain.locator(".inclusion-hub-page__chapter-overview > p.site-reading")).toHaveCount(3);
 
     for (const route of inclusionChildRoutes) {
       await expect(inclusionMain.locator(`a[href="${route.path}"]`)).toHaveCount(1);

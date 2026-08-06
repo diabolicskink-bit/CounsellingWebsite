@@ -1,6 +1,5 @@
 type AustralianTimeZoneRegion = {
   label: string;
-  stateValues: string[];
   timeZone: string;
 };
 
@@ -12,11 +11,11 @@ type ActiveAustralianTimeZone = {
 };
 
 const australianTimeZoneRegions: AustralianTimeZoneRegion[] = [
-  { label: "WA", stateValues: ["wa"], timeZone: "Australia/Perth" },
-  { label: "SA", stateValues: ["sa"], timeZone: "Australia/Adelaide" },
-  { label: "NT", stateValues: ["nt"], timeZone: "Australia/Darwin" },
-  { label: "QLD", stateValues: ["qld"], timeZone: "Australia/Brisbane" },
-  { label: "NSW / ACT / VIC / TAS", stateValues: ["nsw", "act", "vic", "tas"], timeZone: "Australia/Sydney" },
+  { label: "WA", timeZone: "Australia/Perth" },
+  { label: "SA", timeZone: "Australia/Adelaide" },
+  { label: "NT", timeZone: "Australia/Darwin" },
+  { label: "QLD", timeZone: "Australia/Brisbane" },
+  { label: "NSW / ACT / VIC / TAS", timeZone: "Australia/Sydney" },
 ];
 
 const fallbackAustralianTimeZoneLabels: Record<string, string> = {
@@ -27,7 +26,7 @@ const fallbackAustralianTimeZoneLabels: Record<string, string> = {
   AWST: "AWST (WA)",
 };
 
-export function getTimeZoneAbbreviation(date: Date, timeZone: string) {
+function getTimeZoneAbbreviation(date: Date, timeZone: string) {
   const parts = new Intl.DateTimeFormat("en-AU", {
     timeZone,
     timeZoneName: "short",
@@ -39,7 +38,7 @@ export function getTimeZoneAbbreviation(date: Date, timeZone: string) {
   return parts.find((part) => part.type === "timeZoneName")?.value ?? "";
 }
 
-export function getTimeZoneOffsetMinutes(date: Date, timeZone: string) {
+function getTimeZoneOffsetMinutes(date: Date, timeZone: string) {
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone,
     year: "numeric",
@@ -66,7 +65,7 @@ export function getTimeZoneOffsetMinutes(date: Date, timeZone: string) {
   return Math.round((zonedTime - date.getTime()) / 60000);
 }
 
-export function getActiveAustralianTimeZones(date = new Date()): ActiveAustralianTimeZone[] {
+function getActiveAustralianTimeZones(date = new Date()): ActiveAustralianTimeZone[] {
   const groupedTimeZones = australianTimeZoneRegions.reduce<Record<string, ActiveAustralianTimeZone>>(
     (groups, region) => {
       const abbreviation = getTimeZoneAbbreviation(date, region.timeZone);
@@ -105,25 +104,6 @@ export function getAustralianTimeZoneLabel(value: string, date = new Date()) {
   return activeTimeZone
     ? `${activeTimeZone.abbreviation} (${activeTimeZone.labels.join(" / ")})`
     : fallbackAustralianTimeZoneLabels[value] ?? "";
-}
-
-export function getActiveAustralianTimeZoneByAbbreviation(abbreviation: string, date = new Date()) {
-  return getActiveAustralianTimeZones(date).find((timeZone) => timeZone.abbreviation === abbreviation);
-}
-
-export function getActiveAustralianTimeZoneByState(stateValue: string, date = new Date()) {
-  const region = australianTimeZoneRegions.find((timeZone) => timeZone.stateValues.includes(stateValue));
-
-  if (!region) {
-    return undefined;
-  }
-
-  return {
-    abbreviation: getTimeZoneAbbreviation(date, region.timeZone),
-    labels: [region.label],
-    offsetMinutes: getTimeZoneOffsetMinutes(date, region.timeZone),
-    timeZone: region.timeZone,
-  };
 }
 
 function getTimeParts(date: Date, timeZone: string) {
@@ -165,42 +145,10 @@ function getPerthBusinessHoursUtcRange(date = new Date()) {
   };
 }
 
-export function getPerthBusinessHoursRange(timeZone: string, date = new Date()) {
+function getPerthBusinessHoursRange(timeZone: string, date = new Date()) {
   const { start, end } = getPerthBusinessHoursUtcRange(date);
 
   return `${getTimeParts(start, timeZone)} to ${getTimeParts(end, timeZone)}`;
-}
-
-export function getPerthBusinessHoursPrimaryLabel(date = new Date()) {
-  const perthTimeZone = "Australia/Perth";
-  const { start } = getPerthBusinessHoursUtcRange(date);
-  const abbreviation = getTimeZoneAbbreviation(start, perthTimeZone);
-
-  return `Mon to Fri, ${getPerthBusinessHoursRange(perthTimeZone, date)} ${abbreviation}`;
-}
-
-export function getPerthBusinessHoursComparisonNote({
-  date = new Date(),
-  stateLabel,
-  timeZone,
-  timeZoneLabel,
-}: {
-  date?: Date;
-  stateLabel?: string;
-  timeZone: string;
-  timeZoneLabel?: string;
-}) {
-  const perthTimeZone = "Australia/Perth";
-  const { start } = getPerthBusinessHoursUtcRange(date);
-  const perthAbbreviation = getTimeZoneAbbreviation(start, perthTimeZone);
-  const localAbbreviation = getTimeZoneAbbreviation(start, timeZone);
-  const stateText = stateLabel ? `State/territory: ${stateLabel}. ` : "";
-  const timeZoneText = `Timezone: ${timeZoneLabel ?? localAbbreviation}. `;
-
-  return `${stateText}${timeZoneText}Joel's Mon-Fri 9.30am-5.00pm ${perthAbbreviation} is ${getPerthBusinessHoursRange(
-    timeZone,
-    date,
-  )} ${localAbbreviation}.`;
 }
 
 export function getActiveAustralianPerthBusinessHoursNotes(date = new Date()) {

@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import "../styles-dev.css";
 import Container from "./Container";
 
 type Props = {
@@ -11,7 +10,7 @@ type Props = {
 
 export default function DevPageHero({ badge, title, description, children }: Props) {
   return (
-    <section className="hero-section hero-bg--default">
+    <section className="hero-section site-hero-background">
       <Container>
         <div className="hero-top">
           <div>

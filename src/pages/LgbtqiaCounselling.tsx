@@ -102,7 +102,7 @@ export default function LgbtqiaCounselling() {
       />
 
       <section
-        className="lgbtqia-page__recognition"
+        className="lgbtqia-page__recognition site-section-warm"
         aria-labelledby="lgbtqia-recognition-heading"
       >
         <Container>
@@ -114,7 +114,7 @@ export default function LgbtqiaCounselling() {
             {recognition.items.map((item) => (
               <li key={item.title}>
                 <h3>{item.title}</h3>
-                <p>{item.body}</p>
+                <p className="site-reading">{item.body}</p>
               </li>
             ))}
           </ol>
@@ -130,7 +130,7 @@ export default function LgbtqiaCounselling() {
             <h2 className="lgbtqia-page__assumptions-title" id="lgbtqia-assumptions-heading">
               {assumptions.heading}
             </h2>
-            <p className="lgbtqia-page__assumptions-introduction">
+            <p className="lgbtqia-page__assumptions-introduction site-reading">
               {assumptions.introduction}
             </p>
           </div>
@@ -162,7 +162,9 @@ export default function LgbtqiaCounselling() {
 
           <div className="lgbtqia-page__disclosure-copy">
             {disclosure.body.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+              <p className="site-reading" key={paragraph}>
+                {paragraph}
+              </p>
             ))}
           </div>
         </Container>

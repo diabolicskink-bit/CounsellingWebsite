@@ -95,7 +95,7 @@ export default function EnmPolyamoryCounselling() {
         }
       />
 
-      <section className="enm-page__reasons" aria-labelledby="enm-reasons-heading">
+      <section className="enm-page__reasons site-section-warm" aria-labelledby="enm-reasons-heading">
         <Container className="enm-page__reasons-layout">
           <h2 className="enm-page__reasons-title" id="enm-reasons-heading">
             {reasons.heading}
@@ -105,7 +105,7 @@ export default function EnmPolyamoryCounselling() {
             {reasons.items.map((item) => (
               <li key={item.heading}>
                 <h3>{item.heading}</h3>
-                <p>{item.body}</p>
+                <p className="site-reading">{item.body}</p>
               </li>
             ))}
           </ol>
@@ -117,7 +117,7 @@ export default function EnmPolyamoryCounselling() {
           <h2 className="enm-page__focus-title" id="enm-focus-heading">
             {focus.heading}
           </h2>
-          <p className="enm-page__focus-copy">{focus.body}</p>
+          <p className="enm-page__focus-copy site-reading">{focus.body}</p>
         </Container>
       </section>
 
@@ -127,9 +127,9 @@ export default function EnmPolyamoryCounselling() {
             {position.heading}
           </h2>
           <div className="enm-page__position-copy">
-            <p>{position.lead}</p>
+            <p className="site-reading">{position.lead}</p>
             <p className="enm-page__position-distinction">{position.distinction}</p>
-            <p>{position.detail}</p>
+            <p className="site-reading">{position.detail}</p>
           </div>
         </Container>
       </section>

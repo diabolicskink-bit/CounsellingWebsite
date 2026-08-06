@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
+import ContactInvitation from "../components/ContactInvitation";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths, routeHref } from "../data/routes";
@@ -51,18 +52,11 @@ type HomeInclusiveContent = {
   topics: HomeInclusiveTopic[];
 };
 
-type HomeClosingCtaContent = {
-  heading: EmphasisCopy;
-  body: string;
-  link: HomeLink;
-};
-
 type HomePageContent = {
   hero: HomeHeroContent;
   portrait: HomePortrait;
   about: HomeAboutContent;
   inclusive: HomeInclusiveContent;
-  closingCta: HomeClosingCtaContent;
 };
 
 const homeMetadata = getRouteMetadata("/");
@@ -136,24 +130,11 @@ const homePageContent: HomePageContent = {
       },
     ],
   },
-  closingCta: {
-    heading: {
-      before: "Get in ",
-      emphasis: "touch",
-      after: ".",
-    },
-    body:
-      "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
-    link: {
-      href: contactHref,
-      label: "See contact options",
-    },
-  },
 };
 
 function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
   return (
-    <section className="hero-section hero-bg--default home-page__hero">
+    <section className="hero-section site-hero-background home-page__hero">
       <Container className="home-page__hero-shell">
         <div className="home-page__hero-copy">
           <h1 className="hero-badge">{hero.eyebrow}</h1>
@@ -191,7 +172,7 @@ function AboutViveSection({
   portrait: HomePortrait;
 }) {
   return (
-    <section className="home-about" aria-labelledby="home-about-title">
+    <section className="home-about site-section-warm" aria-labelledby="home-about-title">
       <Container>
         <div className="home-about__profile">
           <header className="home-about__masthead">
@@ -204,8 +185,13 @@ function AboutViveSection({
 
           <div className="home-about__narrative">
             <div className="home-about__story">
-              {about.narrative.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+              {about.narrative.map((paragraph, index) => (
+                <p
+                  className={index === 0 ? "site-reading site-reading--lead" : "site-reading"}
+                  key={paragraph}
+                >
+                  {paragraph}
+                </p>
               ))}
             </div>
           </div>
@@ -245,7 +231,7 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
               <em className="site-emphasis">{inclusive.heading.emphasis}</em>
               {inclusive.heading.after}
             </h2>
-            <p className="home-page__inclusive-copy">{inclusive.copy}</p>
+            <p className="home-page__inclusive-copy site-reading">{inclusive.copy}</p>
           </div>
 
           <nav className="home-page__inclusive-topics-nav" aria-label={inclusive.topicsAriaLabel}>
@@ -281,40 +267,16 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
   );
 }
 
-function ClosingCtaSection({ closingCta }: { closingCta: HomeClosingCtaContent }) {
-  return (
-    <section className="home-closing" aria-labelledby="home-closing-title">
-      <Container className="home-closing__inner">
-        <div className="home-closing__heading">
-          <h2 id="home-closing-title">
-            {closingCta.heading.before}
-            <em className="site-emphasis">{closingCta.heading.emphasis}</em>
-            {closingCta.heading.after}
-          </h2>
-        </div>
-
-        <div className="home-closing__invitation">
-          <p className="home-closing__copy">{closingCta.body}</p>
-          <Link className="home-closing__action" to={closingCta.link.href}>
-            <span>{closingCta.link.label}</span>
-            <ArrowRight aria-hidden="true" size={18} />
-          </Link>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
 export default function Home() {
   useDocumentMetadata(homeMetadata.title, homeMetadata.description);
-  const { hero, portrait, about, inclusive, closingCta } = homePageContent;
+  const { hero, portrait, about, inclusive } = homePageContent;
 
   return (
     <main className="site-page home-page">
       <HomeHeroSection hero={hero} />
       <AboutViveSection about={about} portrait={portrait} />
       <InclusiveSection inclusive={inclusive} />
-      <ClosingCtaSection closingCta={closingCta} />
+      <ContactInvitation />
     </main>
   );
 }

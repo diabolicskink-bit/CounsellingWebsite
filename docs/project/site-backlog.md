@@ -88,7 +88,7 @@ Statuses:
 - `First Useful Slice`: Add a global `prefers-reduced-motion: reduce` baseline for scroll behaviour and broad shared transitions.
 - `Implemented When`: Reduced-motion preference disables smooth scrolling and avoids non-essential shared motion without breaking component states.
 - `Notes`:
-- `Links`: `src/styles.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system/governance.md`
+- `Links`: `src/styles.css`, `docs/design-system/foundations.md`, `docs/design-system/governance.md`
 
 ### SITE-14 - Contact availability and reply-time expectations
 
@@ -165,7 +165,7 @@ Statuses:
 - `Notes`:
   - W3C WCAG guidance says colour should not be the only visual means of distinguishing an element, and non-text visual information needed for understanding should have sufficient contrast against adjacent colours.
   - Keep this page-scoped unless the treatment proves useful for other inclusion-oriented language fields.
-- `Links`: `src/pages/KinkBdsmCounselling.tsx`, `src/styles-kink-bdsm.css`, `docs/design-system/foundations/principles.md`, `https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html`, `https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html`
+- `Links`: `src/pages/KinkBdsmCounselling.tsx`, `src/styles-kink-bdsm.css`, `AGENTS.md`, `https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html`, `https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html`
 
 ### SITE-22 - Working With Joel hero support design polish
 
@@ -181,7 +181,7 @@ Statuses:
 - `Implemented When`: The support copy has a deliberate, on-brand treatment across desktop and mobile, does not read like filler or a generic card, and the practice owner is happy with how it looks.
 - `Notes`:
   - Keep the work page-scoped unless the treatment clearly belongs in the shared hero system.
-- `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system/patterns/page-patterns.md`
+- `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system-legacy/patterns.md`
 
 ## Resolved Item Archive
 

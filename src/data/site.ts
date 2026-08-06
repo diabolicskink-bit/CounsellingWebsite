@@ -43,18 +43,9 @@ export const navItems: readonly NavItem[] = [
     ? [
         {
           label: "Dev",
-          href: routeHref(devRoutePaths.designLanguage),
+          href: routeHref(devRoutePaths.designSystem),
           children: [
-            {
-              label: "Design",
-              href: routeHref(devRoutePaths.designLanguage),
-              children: [
-                { label: "Foundations", href: routeHref(devRoutePaths.designLanguageFoundations) },
-                { label: "Components", href: routeHref(devRoutePaths.designLanguageComponents) },
-                { label: "Heroes", href: routeHref(devRoutePaths.designLanguageHeroes) },
-                { label: "Patterns", href: routeHref(devRoutePaths.designLanguagePatterns) },
-              ],
-            },
+            { label: "Design system", href: routeHref(devRoutePaths.designSystem) },
             { label: "Documents", href: routeHref(devRoutePaths.documents) },
             {
               label: "Test Beds",
