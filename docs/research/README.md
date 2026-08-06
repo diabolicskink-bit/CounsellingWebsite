@@ -21,6 +21,14 @@ decisions or current service information.
 - Apply [writing direction](../project/writing-direction.md), relevant current
   project information, and owner decisions before turning research into public
   wording.
+- Use research as a source of content considerations, language, differences,
+  and blind-spot checks. It does not set the argument, tone, level of caution,
+  or shape of ordinary public copy, and copy does not need to resemble an
+  evidence summary merely because research informed it.
+- Treat labels such as `central`, `contextual`, `incidental`, `peripheral`, and
+  `unrelated` as analytical categories used to preserve differences in the
+  evidence. Do not reuse them as visitor-facing wording, a comprehensive
+  sentence pattern, or a page structure.
 
 ## Dossiers
 

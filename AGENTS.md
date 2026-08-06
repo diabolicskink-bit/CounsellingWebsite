@@ -5,13 +5,14 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 ## Authority Model
 
 - For requirements and intent, the current task defines the requested outcome, followed by the repository-wide rules in this file and then the relevant domain guidance. A tracker item or plan applies only when the current task selects it.
+- For stable practice scope, expertise, positioning, and public-site purpose, follow [docs/project/practice-direction.md](docs/project/practice-direction.md). It supplies internal direction, not reusable public wording.
 - For current implementation facts, executable behaviour, tests, configuration, and source are the strongest evidence. Current-scope documents summarize that state; reports and task history provide supporting context.
 - For reusable design-system API, follow [docs/design-system/governance.md](docs/design-system/governance.md) and the current-only `foundations.md`, `components.md`, and `patterns.md` catalogues. Source code, a public consumer, a legacy-register entry, or a rendered example does not by itself make something approved reusable API.
 - Trackers, reports, plans, checklists, archives, and task history are supporting memory. They do not override active guidance or authorize work unless the current task explicitly adopts them.
 
 ## Required Reading
 
-- For public copy, content hierarchy, inclusion language, enquiry flow, metadata wording, or visitor-facing positioning, read [docs/project/writing-direction.md](docs/project/writing-direction.md) and the relevant content and research. Consult source or [docs/project/current-scope.md](docs/project/current-scope.md) only when the wording needs a current service or implementation detail.
+- For public copy, content hierarchy, inclusion language, enquiry flow, metadata wording, or visitor-facing positioning, read [docs/project/practice-direction.md](docs/project/practice-direction.md), [docs/project/writing-direction.md](docs/project/writing-direction.md), and the target page context, then use the repository-local `copywriter` skill. Do not consult audience or market research for ordinary drafting unless the user explicitly requests research-informed work. Consult source or [docs/project/current-scope.md](docs/project/current-scope.md) only when the wording needs a current service or implementation detail.
 - For current routes, app behaviour, API/form behaviour, deployment assumptions, tests, or documentation structure, check [docs/project/current-scope.md](docs/project/current-scope.md).
 - For a source-first cleanup run, cleanup sweep, or open-ended maintainability improvement, use the repository-local `improve-codebase` skill. Do not use trackers to select its target; consult project debt only when the selected source finding cannot be completed safely, and treat that debt record as the outcome.
 - For other technical, routing, API, security, deployment, test, design-system maintenance, or general maintainability work, search [docs/project/project-debt.md](docs/project/project-debt.md) for related `DEBT-*` items rather than reading it as a general prerequisite.
@@ -21,7 +22,7 @@ Start with [docs/project/README.md](docs/project/README.md). It is the whole-pro
 ## Working Rules
 
 - In Planning Mode, actively use questions to understand the user's intent and preferences. The user welcomes exploratory dialogue: ask freely whenever an answer could improve the plan, including non-blocking preferences and choices for which a reasonable assumption is available, and do not cap the total at three. Inspect available context first so questions build on what is already known. If the interface limits each prompt to three questions, use additional concise, grouped rounds and adapt later questions to earlier answers. Outside Planning Mode, ask before acting when missing information would materially change the requested outcome, scope, safety, or an irreversible decision; otherwise make a reasonable assumption, state it when useful, and proceed.
-- Public copy is under active owner-led revision. Treat existing page source as factual and layout context, not as an approved voice reference; use the source order in `docs/project/writing-direction.md`.
+- Public copy is under active owner-led revision. Treat existing page source as factual and layout context, not as an approved voice reference or editorial precedent; use the source order in `docs/project/writing-direction.md`.
 - When the user asks for copy review or analysis, do not edit files unless implementation is also requested. When exact replacement wording is supplied, preserve it unless asked to edit it.
 - Treat SEO reports and sample outlines as research and coverage prompts, not as mandatory page templates or voice references.
 - Apply tracker items only when they are relevant to the current task; their presence is not permission to implement unrelated scope.

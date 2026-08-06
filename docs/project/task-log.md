@@ -17,6 +17,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-06 - Public-Copy Instruction Path Rebuilt
+
+- Added: `practice-direction.md` now owns stable practice scope and positioning without encoding reader-range classifications as reusable public wording.
+- Rebuilt: The copywriter skill now requires a content-bearing direction and a strong creative commitment, keeps analytical frameworks out of public copy, and records explicit owner direction from rejected drafts.
+- Simplified: Ordinary copy work no longer loads audience or market research unless the owner explicitly requests it, while `develop-page-copy` is limited to whole-page direction and durable handoffs rather than routine section drafting.
+- Removed: The former editorial-direction, line-craft, cold-review, exceptional-claims, and page-artifact-contract references no longer form a mandatory process around short copy tasks.
+
 ## 2026-08-05 - Promoted CSS Separated From Inherited Source
 
 - Separated: Every currently promoted CSS foundation, component treatment, and pattern now lives under the current-only `src/design-system/` production source entry; inherited shared CSS remains outside it.

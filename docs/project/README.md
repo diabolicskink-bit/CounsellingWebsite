@@ -6,6 +6,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 ## Authority And Artifact Types
 
+- `practice-direction.md` owns stable practice scope, expertise, positioning, and public-site purpose without supplying ready-made public wording.
 - `writing-direction.md` owns public-writing policy.
 - Current-scope documents summarize current state. When exact details disagree, verify executable behaviour, tests, configuration, and source, then reconcile stale documentation when the task changes durable state.
 - Audience research dossiers are supporting evidence and synthesis for downstream work. They do not override owner decisions, current service information, or writing direction, make public claims approved, or authorize implementation.
@@ -15,6 +16,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 ## Writing Direction
 
+- [practice-direction.md](practice-direction.md) owns stable practice facts and positioning used by copy, design, research, and implementation.
 - [writing-direction.md](writing-direction.md) owns public-copy status, source order, voice, SEO language, temporary wording constraints, collaboration, and implementation rules.
 - [../design-system/README.md](../design-system/README.md) is the entry point for approved reusable UI and design-system maintenance. [The legacy register](../design-system-legacy/README.md) is optional working evidence when inherited implementation is being assessed; neither is a required source of visual direction for fresh design work during the temporary open-design period.
 
