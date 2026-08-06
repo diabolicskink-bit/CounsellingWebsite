@@ -752,8 +752,7 @@ test.describe("public pages", () => {
             "h2.kink-page__fluency-title, h2.kink-page__misread-title, h2.kink-page__more-title",
           ),
         ).toHaveCount(3);
-        await expect(page.locator(".kink-page h3:not(.site-faq-item__heading)")).toHaveCount(0);
-        await expect(page.locator(".kink-page .site-faq-list")).toHaveCount(0);
+        await expect(page.locator(".kink-page h3")).toHaveCount(0);
         await expect(page.locator(".kink-page p.site-reading")).toHaveCount(6);
       }
 

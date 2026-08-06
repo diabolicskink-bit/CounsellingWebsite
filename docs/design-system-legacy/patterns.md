@@ -38,16 +38,17 @@ These names describe current inherited source, not a coherent or approved compon
 
 These selectors have production consumers but have not completed promotion as current reusable contracts.
 
+The first source-level body-copy review batch is recorded beside the shared selector group in `src/styles.css`. As of 2026-08-06, `.site-copy-flow`, `.section-heading__copy`, `.rich-text`, and `.site-broad-tabs__content` have mounted use through Working with Joel, while `.hero-copy-panel` is mounted through `DevPageHero` on the two development test beds. `.site-body-copy`, `.site-ruled-paragraph`, `.site-ruled-paragraph--wide`, `.site-cta-block`, and `.hero-intro` have no TS/TSX consumer. These facts identify later cleanup candidates but do not authorize removal by themselves.
+
 ## Hero Family
 
 Current inherited source includes `.hero-section`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-intro`, `.hero-copy-panel`, `.hero-deck*`, `.hero-support-tagline`, `.hero-media-note*`, `.hero-principles-strip`, and `.hero-detail-stack*`.
 
 Public pages consume parts of this family and layer page-specific composition on top. The family remains inherited implementation rather than an approved hero system. The former light `.hero-bg--default` helper, its unused noise asset, and duplicated public and development dark backgrounds were removed when `.site-hero-background` became the supported shared hero-surface contract.
 
-## Navigation, Footer, And FAQ Families
+## Navigation, Footer, And Broad-Tab Families
 
 - `.site-header*`, navigation classes, and `.site-footer*` support the current `Layout` shell.
-- `.site-faq-*` supports the current FAQ components, but no component consumer outside their own source was found in the 2026-08-05 source search.
 - `.site-broad-tabs*` supports `BroadTabPanel` on Working with Joel.
 
 These functional surfaces require focused source and behaviour review before promotion or cleanup.
@@ -56,4 +57,4 @@ These functional surfaces require focused source and behaviour review before pro
 
 Contact owns the current enquiry form through `Contact.tsx` and `src/styles-contact.css`; there is no promoted form component or shared form pattern. Other page-prefixed selectors remain owned by their pages unless an authorized task promotes a repeated semantic contract.
 
-Last consolidated from current source: 2026-08-05 — active/legacy catalogue separation under `DEBT-37`.
+Last consolidated from current source: 2026-08-06 — first inherited body-copy selector review batch under `DEBT-21`.

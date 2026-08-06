@@ -7,7 +7,7 @@ This is source-backed working evidence about React components outside the active
 ### `Container`
 
 - `Implementation`: `src/components/Container.tsx` with inherited `.container` styling in `src/styles.css`.
-- `Known consumers`: Used across all public content routes, the shared `Layout`, `FaqSection`, `DevPageHero`, and the Documents route.
+- `Known consumers`: Used across all public content routes, the shared `Layout`, `DevPageHero`, and the Documents route.
 - `Legacy note`: Widely used current containment implementation; not yet promoted as a supported layout primitive or component contract.
 - `Checked`: 2026-08-05 — active/legacy catalogue separation under `DEBT-37`.
 
@@ -37,13 +37,6 @@ This is source-backed working evidence about React components outside the active
 - `Implementation`: `src/components/SectionHeading.tsx` with inherited `.section-heading*` styling in `src/styles.css`.
 - `Known consumers`: No current import outside its own source was found in the 2026-08-05 source search.
 - `Legacy note`: Consumer absence is a cleanup lead, not removal authority.
-- `Checked`: 2026-08-05 — active/legacy catalogue separation under `DEBT-37`.
-
-### `FaqSection` and `FaqSchema`
-
-- `Implementation`: `src/components/FaqSection.tsx`, `src/components/FaqSchema.tsx`, and inherited `.site-faq-*` styling in `src/styles.css`.
-- `Known consumers`: No current import outside their own source was found in the 2026-08-05 source search.
-- `Legacy note`: The component and CSS require a focused consumer and behaviour audit before any cleanup decision.
 - `Checked`: 2026-08-05 — active/legacy catalogue separation under `DEBT-37`.
 
 ## Development Support

@@ -45,7 +45,7 @@ The following root tokens are implemented but not promoted:
 - `--type-display`, `--type-page-title`, `--type-section`, `--type-section-compact`
 - `--type-card-title`, `--type-topic-title`
 - `--type-body`, `--type-body-rich`, `--type-support`, `--type-small`
-- `--type-label`, `--type-caption`, `--type-faq-question`
+- `--type-label`, `--type-caption`
 - `--type-hero-deck-lead`, `--type-hero-detail`, `--type-fee-display`
 - `--leading-display`, `--leading-heading`, `--leading-card`, `--leading-body`, `--leading-rich`, `--leading-loose`
 

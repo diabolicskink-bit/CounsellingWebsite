@@ -659,9 +659,9 @@ Use this structure when a region is expanded to class-token leaves:
 - `Evidence`: A 2026-07-13 token and source scan found `--radius` defined once at `8px`, no descendant overrides, and exact matching base values for all four removed declarations.
 - `Follow-up`: Continue `CSS-1.7` one documented pattern family at a time.
 
-- `CSS-1.8` `Not reviewed` FAQ, CTA, and interactive shared patterns.
-  - Scope: `.site-broad-tabs*`, `.site-faq-*`, `.site-cta-block*`, reduced-motion support, and hover/focus states for these patterns. The obsolete `.site-form*` layer was removed in the 2026-08-03 source-first cleanup sweep.
-  - Next: Expand by broad tabs, FAQ, CTA, and interaction-state clusters.
+- `CSS-1.8` `Not reviewed` Broad-tab, CTA, and interactive shared patterns.
+  - Scope: `.site-broad-tabs*`, `.site-cta-block*`, reduced-motion support, and hover/focus states for these patterns. The obsolete `.site-form*` layer was removed in the 2026-08-03 source-first cleanup sweep; the unconsumed `.site-faq-*` feature family was removed in the 2026-08-06 source-first cleanup sweep.
+  - Next: Expand by broad tabs, CTA, and interaction-state clusters.
 
 - `CSS-1.9` `Not reviewed` Hero design language.
   - Scope: `.hero-section`, `.hero-top`, `.hero-display`, `.hero-intro`, `.site-emphasis`, `.hero-copy-panel`, `.hero-deck*`, `.hero-support-tagline`, `.hero-badge`, `.hero-principles-strip`, `.hero-principle-item`, `.hero-top--supporting-media`, `.hero-media-note*`, and hero responsive rules. `.site-hero-background` was separately reviewed and promoted on 2026-08-05; the former `.hero-bg--default` helper was removed.
