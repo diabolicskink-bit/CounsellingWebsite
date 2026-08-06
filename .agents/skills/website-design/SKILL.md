@@ -124,6 +124,8 @@ Build the hierarchy before styling:
 
 Map each content block to the visitor question it answers, the evidence it contains, and the form that makes that relationship easiest to understand. Revise the amount, order, and rhetorical shape of draft copy when design work is authorised; do not preserve a stack of similarly shaped text modules merely because they arrived as separate sections.
 
+When that work requires substantive visitor-facing copy to be written or rewritten, follow the repository's public-writing authority and use its applicable copywriting skill. Design authorisation permits content-shaped hierarchy and composition; it does not create a separate house voice or make explicitly approved wording disposable.
+
 Select section forms semantically. Use a timeline for sequence, a table for exact comparison, an annotated image for spatial explanation, a ruled list for genuine distinctions, or a form for an actual transaction. Use direct answers, examples, boundaries, evidence, narrative, and practical detail in forms appropriate to them. Avoid repeating one rhetorical and visual module—label, expressive heading, deck, prose—through an entire page.
 
 Compose visual weight deliberately: establish a first read, create dominant/supporting/quiet levels, use alignment and proximity to express relationships, balance density with space, vary rhythm when meaning changes, and break the grid only after establishing it.

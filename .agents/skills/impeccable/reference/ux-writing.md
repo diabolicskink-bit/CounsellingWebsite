@@ -1,5 +1,11 @@
 # UX Writing
 
+This reference governs transactional interface text, not substantive marketing,
+editorial, or professional-service copy. When the task changes visitor-facing
+page copy, follow the repository's writing authority and applicable copywriting
+skill. Preserve wording explicitly approved for publication unless the owner
+asks to revise it.
+
 ## The Button Label Problem
 
 **Never use "OK", "Submit", or "Yes/No".** These are lazy and ambiguous. Use specific verb + object patterns:

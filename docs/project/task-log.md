@@ -10,6 +10,7 @@ Curated milestone history for durable project state. This is not a full changelo
 - Use `site-backlog.md` for concrete deferred visitor-facing change work.
 - Use `docs/design-system/` for the complete current reusable API and `docs/design-system-legacy/` only when inherited implementation evidence matters.
 - Use [archive/task-log-2026-06.md](archive/task-log-2026-06.md) only when June 2026 milestone history matters.
+- Treat dated workflow and skill entries as history, not current AI instructions; use the active skill and authority files they refer to.
 
 ## Admission Rule
 
@@ -19,10 +20,10 @@ Curated milestone history for durable project state. This is not a full changelo
 
 ## 2026-08-06 - Public-Copy Instruction Path Rebuilt
 
-- Added: `practice-direction.md` now owns stable practice scope and positioning without encoding reader-range classifications as reusable public wording.
-- Rebuilt: The copywriter skill now requires a content-bearing direction and a strong creative commitment, keeps analytical frameworks out of public copy, and records explicit owner direction from rejected drafts.
+- Added: `practice-direction.md` now owns stable practice scope and positioning without supplying a reusable public-copy formula.
+- Rebuilt: The copywriter path now gives client-facing recognition and commercial persuasion a positive role, uses the owner-approved “Known before you arrive. Not learned as you go.” line as bounded taste evidence, and avoids fixed creativity rituals.
 - Simplified: Ordinary copy work no longer loads audience or market research unless the owner explicitly requests it, while `develop-page-copy` is limited to whole-page direction and durable handoffs rather than routine section drafting.
-- Removed: The former editorial-direction, line-craft, cold-review, exceptional-claims, and page-artifact-contract references no longer form a mandatory process around short copy tasks.
+- Routed: Broader website-design and explicit Impeccable UX-writing paths now hand substantive public wording back to the project's writing authority and copywriter rather than applying a competing voice standard.
 
 ## 2026-08-05 - Promoted CSS Separated From Inherited Source
 

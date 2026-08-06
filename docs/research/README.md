@@ -1,17 +1,17 @@
 # Audience research
 
-This directory contains extensive internal audience understanding for reuse
-across copywriting, page development, content strategy, service explanation,
-and website work. Dossiers combine formal findings with public first-person
-experiences. They are not approved public copy and do not override owner
-decisions or current service information.
+This directory contains internal audience understanding for tasks where the
+owner explicitly requests research-informed work. Dossiers combine formal
+findings with public first-person experiences. They are decision support, not
+approved public copy or a default input to drafting.
 
 ## Using this research
 
 - Read the relevant dossier before starting new audience research.
 - Check its research coverage before relying on it. Research questions or a
   brief without findings do not constitute audience evidence.
-- Use only the material relevant to the current decision or writing task.
+- Use only the material relevant to the explicitly selected decision or
+  research-informed writing task.
 - Expand thin, dated, or narrow coverage when it materially affects the work.
 - Add durable new findings back to the dossier rather than leaving them in a
   one-off report.
@@ -21,10 +21,9 @@ decisions or current service information.
 - Apply [writing direction](../project/writing-direction.md), relevant current
   project information, and owner decisions before turning research into public
   wording.
-- Use research as a source of content considerations, language, differences,
-  and blind-spot checks. It does not set the argument, tone, level of caution,
-  or shape of ordinary public copy, and copy does not need to resemble an
-  evidence summary merely because research informed it.
+- For research-informed public copy, use findings to consider content,
+  language, differences, and blind spots. Hand the writing decision back to the
+  project copy direction and copywriter skill.
 - Treat labels such as `central`, `contextual`, `incidental`, `peripheral`, and
   `unrelated` as analytical categories used to preserve differences in the
   evidence. Do not reuse them as visitor-facing wording, a comprehensive

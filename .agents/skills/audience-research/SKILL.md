@@ -2,21 +2,21 @@
 name: audience-research
 description: >
   Create, expand, refresh, organise, and maintain extensive audience dossiers
-  that combine formal evidence with public first-person experiences for later
-  use by copywriting and page-development skills. Use when Codex needs a broad,
-  detailed account of an audience's lived contexts, differing perspectives,
-  recurring experiences, language, and relevant quantitative findings. This
-  skill does not produce copy, design or communication recommendations, SEO
-  research, search-landscape research, market analysis, or competitor analysis.
+  that combine formal evidence with public first-person experiences. Use when
+  the user asks for audience research or a broad, detailed account of an
+  audience's lived contexts, differing perspectives, recurring experiences,
+  language, and relevant quantitative findings. It is not a prerequisite or
+  default input for copywriting and does not produce copy, design or
+  communication recommendations, SEO research, search-landscape research,
+  market analysis, or competitor analysis.
 ---
 
 # Audience research
 
-Build a broad, detailed account that helps downstream copywriting and page work
-understand the audience from the inside. Combine concrete formal findings with
-the texture, language, variation, and disagreement found in public first-person
-material. This is extensive audience learning, not a formal research paper or
-an auditable literature review.
+Build a broad, detailed account for an explicitly selected research task.
+Combine concrete formal findings with the texture, language, variation, and
+disagreement found in public first-person material. This is extensive audience
+learning, not a formal research paper or an auditable literature review.
 
 ## Keep a strict research boundary
 

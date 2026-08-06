@@ -22,9 +22,10 @@ or owner decisions.
 - Ignore `working/` outside the same continuing parent research task unless the
   user explicitly requests its inspection. Working files are retained raw
   material, not reusable evidence.
-- Use the dossier's decision synthesis as the market-facing direction for
-  downstream SEO, copy, design, product or implementation tasks, then let the
-  relevant specialist develop and execute the artifact.
+- Treat the dossier's decision synthesis as a researched recommendation for
+  downstream SEO, copy, design, product, or implementation tasks. Carry it
+  forward as direction only after the relevant owner decision, then let the
+  specialist skill develop the artifact under its own authority.
 
 ## Segment dossiers
 

@@ -1,3 +1,9 @@
+> **Scope**: This command is for transactional interface text such as labels,
+> forms, instructions, errors, and system states. It is not a standalone
+> marketing, editorial, or professional-service copywriter. For substantive
+> visitor-facing copy, follow the repository's writing authority and applicable
+> copywriting skill; use this reference only for the interface strings.
+
 > **Additional context needed**: audience technical level and users' mental state in context.
 
 Identify and improve unclear, confusing, or poorly written interface text to make the product easier to understand and use.

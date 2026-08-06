@@ -2,8 +2,7 @@
 
 This owner-controlled brief defines Vive Counselling's stable practice scope
 and positioning. It supplies facts and priorities for copy, design, research,
-and implementation. It is not public copy and should not be paraphrased as if
-it were.
+and implementation; it is not ready-made public wording.
 
 ## The practice
 
@@ -29,24 +28,18 @@ Joel has specialist knowledge of kink, BDSM, ethical non-monogamy, and
 polyamory. LGBTQIA+ affirming counselling is also an established part of the
 practice.
 
-These strengths sit within a broad counselling practice and do not dictate the
-focus of counselling. Public copy may state them where they help someone judge
-fit, but should not turn possible enquiries into a recurring taxonomy or
-reusable sentence formula.
-
-Specialist-knowledge wording is a claim about Joel's professional knowledge
-and counselling work, not an accreditation or a guarantee of universal fit.
+These strengths sit within a broad counselling practice. Specialist knowledge
+describes Joel's professional knowledge and counselling work; it is not a
+separate accreditation or a guarantee of universal fit.
 
 ## Approach and delivery
 
 Joel works psychodynamically, with an attachment-informed and integrative
-approach. This is part of how he works rather than the practice's defining
-headline. Detailed methodology normally belongs on the Working with Joel page
+approach. Detailed methodology normally belongs on the Working with Joel page
 or another place where it helps someone evaluate the work.
 
 Online delivery, Perth location, fees, credentials, and availability are
-practical eligibility, trust, and search facts. Use them where they answer a
-real question; do not repeat them merely for emphasis or SEO.
+practical eligibility, trust, and search facts.
 
 ## Positioning priorities
 

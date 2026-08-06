@@ -24,10 +24,8 @@ For Vive Counselling, read:
 3. the relevant page and its immediate surrounding copy; and
 4. the complete `copywriter` skill and its routed references.
 
-Use current scope or source only for needed operational facts. Do not use
-audience or market research unless the user explicitly requests
-research-informed work. Existing page copy is implementation context, not a
-writing model.
+Use current scope or source only for needed operational facts. Existing page
+copy is implementation context, not a writing model.
 
 ## Match the requested artifact
 
@@ -35,15 +33,17 @@ writing model.
 
 When the user wants strategy rather than finished copy, provide:
 
-- the page's job and one content-bearing idea, tension, point of view, or form;
+- the page's job and the central impression, argument, or relationship that can
+  organise it;
 - the strongest practice material available;
 - the visitor decisions the page must support;
 - a proposed sequence with one useful contribution per section;
 - material that belongs elsewhere or should remain absent; and
 - consequential questions that require owner input.
 
-Use descriptive planning labels, not pretend headlines. A coverage map can
-check omissions and repetition, but must not become the page's argument.
+Use descriptive planning labels, not pretend headlines. Check important facts
+for omissions and repetition without turning that inventory into the page's
+argument.
 
 ### Complete-page copy
 
@@ -52,10 +52,9 @@ copywriter workflow for the requested scope. Check that sections develop the
 page rather than repeating the same offer, specialist caveat, reassurance, or
 action in different forms.
 
-Do not require one paragraph or section per supplied topic. Do not publish
-reader ranges, research classifications, or planning distinctions. Use
-creative judgement to turn category-level facts into a page idea; ask the owner
-only when a missing fact or position would materially change the practice.
+Do not require one paragraph or section per supplied topic. Use creative
+judgement to turn category-level facts into a coherent page; ask the owner only
+when a missing fact or position would materially change the practice.
 
 ### Durable handoff
 
@@ -67,9 +66,10 @@ artifact or later design or implementation clearly requires one. Include only:
 - consequential facts, assumptions, and unresolved decisions; and
 - semantic or interaction notes that later work could otherwise misread.
 
-Do not add stable IDs, cross-link systems, coverage ledgers, unit-by-unit
-records, or a visible draft-review transcript unless the task genuinely needs
-them. Recommended copy is not owner-approved or implemented by implication.
+Keep the artifact light enough to read and use. Do not add stable IDs,
+cross-link systems, coverage ledgers, unit-by-unit records, or a visible
+draft-review transcript unless the task genuinely needs them. Recommended copy
+is not owner-approved or implemented by implication.
 
 ## Deliver and stop
 
