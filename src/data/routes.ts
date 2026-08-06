@@ -27,6 +27,7 @@ export const devRoutePaths = {
   designLanguagePatterns: "design-language/patterns",
   documents: "documents",
   opusTestBed: "opus-tb",
+  policies: "policies",
 } as const;
 
 const sharedChromePaths = new Set([

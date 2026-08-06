@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } f
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
 import {
+  devRoutePaths,
   publicRoutePaths,
   routeHref,
   usesSharedChromePath,
@@ -18,6 +19,7 @@ const homeHref = routeHref(publicRoutePaths.home);
 const workingWithJoelHref = routeHref(publicRoutePaths.workingWithJoel);
 const inclusionHref = routeHref(publicRoutePaths.inclusion);
 const contactHref = routeHref(publicRoutePaths.contact);
+const policiesHref = routeHref(devRoutePaths.policies);
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -136,6 +138,11 @@ export default function Layout() {
                 <li>
                   <Link to={contactHref}>Fees</Link>
                 </li>
+                {import.meta.env.DEV ? (
+                  <li>
+                    <Link to={policiesHref}>Policies</Link>
+                  </li>
+                ) : null}
               </ul>
             </nav>
 

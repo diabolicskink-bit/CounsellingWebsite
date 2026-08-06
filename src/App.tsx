@@ -23,6 +23,7 @@ const devPages = import.meta.env.DEV
       DS_Heroes: lazy(() => import("./pages/dev/design-system/DS_Heroes")),
       DS_Patterns: lazy(() => import("./pages/dev/design-system/DS_Patterns")),
       OpusTB: lazy(() => import("./pages/dev/test-beds/OpusTB")),
+      Policies: lazy(() => import("./pages/dev/Policies")),
     }
   : null;
 
@@ -38,6 +39,7 @@ const devRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof ty
   { path: devRoutePaths.designLanguageComponents, page: "DS_Components" },
   { path: devRoutePaths.designLanguageHeroes, page: "DS_Heroes" },
   { path: devRoutePaths.designLanguagePatterns, page: "DS_Patterns" },
+  { path: devRoutePaths.policies, page: "Policies" },
 ];
 
 export type AppProps = {
