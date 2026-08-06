@@ -16,12 +16,11 @@ import { devRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/ro
 const devPages = import.meta.env.DEV
   ? {
       CodexTB: lazy(() => import("./pages/dev/test-beds/CodexTB")),
-      DesignLanguage: lazy(() => import("./pages/dev/DesignLanguage")),
+      DesignSystem: lazy(() => import("./pages/dev/DesignSystem")),
+      DesignSystemComponents: lazy(() => import("./pages/dev/design-system/DesignSystemComponents")),
+      DesignSystemFoundations: lazy(() => import("./pages/dev/design-system/DesignSystemFoundations")),
+      DesignSystemPatterns: lazy(() => import("./pages/dev/design-system/DesignSystemPatterns")),
       Documents: lazy(() => import("./pages/dev/Documents")),
-      DS_Components: lazy(() => import("./pages/dev/design-system/DS_Components")),
-      DS_Foundations: lazy(() => import("./pages/dev/design-system/DS_Foundations")),
-      DS_Heroes: lazy(() => import("./pages/dev/design-system/DS_Heroes")),
-      DS_Patterns: lazy(() => import("./pages/dev/design-system/DS_Patterns")),
       OpusTB: lazy(() => import("./pages/dev/test-beds/OpusTB")),
     }
   : null;
@@ -29,15 +28,14 @@ const devPages = import.meta.env.DEV
 type DevPages = NonNullable<typeof devPages>;
 type DevPageKey = keyof DevPages;
 
-const devRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof typeof devRoutePaths] }> = [
+const standaloneDevRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof typeof devRoutePaths] }> = [
   { path: devRoutePaths.codexTestBed, page: "CodexTB" },
+  { path: devRoutePaths.designSystem, page: "DesignSystem" },
+  { path: devRoutePaths.designSystemComponents, page: "DesignSystemComponents" },
+  { path: devRoutePaths.designSystemFoundations, page: "DesignSystemFoundations" },
+  { path: devRoutePaths.designSystemPatterns, page: "DesignSystemPatterns" },
   { path: devRoutePaths.opusTestBed, page: "OpusTB" },
   { path: devRoutePaths.documents, page: "Documents" },
-  { path: devRoutePaths.designLanguage, page: "DesignLanguage" },
-  { path: devRoutePaths.designLanguageFoundations, page: "DS_Foundations" },
-  { path: devRoutePaths.designLanguageComponents, page: "DS_Components" },
-  { path: devRoutePaths.designLanguageHeroes, page: "DS_Heroes" },
-  { path: devRoutePaths.designLanguagePatterns, page: "DS_Patterns" },
 ];
 
 export type AppProps = {
@@ -68,7 +66,7 @@ export default function App({ initialRenderAt }: AppProps) {
           <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
           <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
           {devPages
-            ? devRoutes.map((route) => (
+            ? standaloneDevRoutes.map((route) => (
                 <Route key={route.path} path={route.path} element={renderDevPage(devPages[route.page])} />
               ))
             : null}

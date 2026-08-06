@@ -13,12 +13,6 @@
   background: var(--lgbtqia-paper);
 }
 
-.lgbtqia-page__recognition {
-  padding: 60px 0;
-  border-bottom: 1px solid var(--lgbtqia-rule);
-  background: var(--lgbtqia-paper);
-}
-
 .lgbtqia-page__recognition-title,
 .lgbtqia-page__assumptions-title,
 .lgbtqia-page__disclosure-title {
@@ -81,9 +75,6 @@
 .lgbtqia-page .lgbtqia-page__recognition-list p {
   max-width: 48ch;
   margin: 0;
-  color: var(--body);
-  font-size: clamp(1rem, 1.1vw, 1.05rem);
-  line-height: 1.66;
   text-wrap: pretty;
 }
 
@@ -131,9 +122,6 @@
 .lgbtqia-page .lgbtqia-page__assumptions-introduction {
   max-width: 42ch;
   margin: 0;
-  color: var(--body);
-  font-size: clamp(1.02rem, 1.18vw, 1.08rem);
-  line-height: 1.68;
   text-wrap: pretty;
 }
 
@@ -215,8 +203,6 @@
   padding: 22px 0 24px;
   border-bottom: 1px solid var(--lgbtqia-dark-rule);
   color: rgba(239, 244, 240, 0.86);
-  font-size: clamp(1.02rem, 1.18vw, 1.08rem);
-  line-height: 1.68;
   text-wrap: pretty;
 }
 
@@ -351,7 +337,7 @@
 }
 
 @media (max-width: 700px) {
-  .lgbtqia-page__recognition {
+  .lgbtqia-page .lgbtqia-page__recognition {
     padding: 48px 0 40px;
   }
 
@@ -389,13 +375,6 @@
 
   .lgbtqia-page__recognition-list h3 {
     font-size: 1.35rem;
-  }
-
-  .lgbtqia-page .lgbtqia-page__recognition-list p,
-  .lgbtqia-page .lgbtqia-page__assumptions-introduction,
-  .lgbtqia-page .lgbtqia-page__disclosure-copy p {
-    font-size: 1rem;
-    line-height: 1.64;
   }
 
   .lgbtqia-page__disclosure-copy {

@@ -4,18 +4,6 @@
   background: var(--paper);
 }
 
-.test-bed-page .hero-section {
-  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
-  background:
-    radial-gradient(ellipse at 80% 0%, rgba(135, 172, 145, 0.32), transparent 42%),
-    linear-gradient(132deg, #132b23 0%, #1b3b30 54%, #234b3d 100%);
-}
-
-.test-bed-page .hero-section::before,
-.test-bed-page .hero-section::after {
-  display: none;
-}
-
 .test-bed-page .hero-badge {
   color: #c8d9cc;
   font-size: var(--type-label);

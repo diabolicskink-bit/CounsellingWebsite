@@ -76,7 +76,7 @@ export default function InclusivePractice() {
 
   return (
     <main className="site-page inclusion-hub-page">
-      <section className="hero-section inclusion-hub-page__hero">
+      <section className="hero-section site-hero-background inclusion-hub-page__hero">
         <Container>
           <div className="inclusion-hub-page__hero-layout">
             <h1 className="hero-badge">{hero.heading}</h1>
@@ -90,7 +90,7 @@ export default function InclusivePractice() {
               </p>
             </div>
 
-            <p className="inclusion-hub-page__hero-support">{hero.support}</p>
+            <p className="inclusion-hub-page__hero-support site-reading">{hero.support}</p>
           </div>
         </Container>
       </section>
@@ -109,7 +109,7 @@ function InclusionChapterSection({ chapter }: { chapter: InclusionChapter }) {
 
   return (
     <section
-      className={`inclusion-hub-page__chapter inclusion-hub-page__chapter--${chapter.id}`}
+      className={`inclusion-hub-page__chapter inclusion-hub-page__chapter--${chapter.id} site-section-warm`}
       aria-labelledby={headingId}
     >
       <Container className="inclusion-hub-page__chapter-layout">
@@ -118,7 +118,7 @@ function InclusionChapterSection({ chapter }: { chapter: InclusionChapter }) {
         </header>
 
         <div className="inclusion-hub-page__chapter-overview">
-          <p>{chapter.overview}</p>
+          <p className="site-reading">{chapter.overview}</p>
           <Link className="inclusion-hub-page__chapter-link" to={chapter.href}>
             <span>{chapter.linkLabel}</span>
             <ArrowRight size={18} aria-hidden="true" />

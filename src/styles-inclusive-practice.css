@@ -9,13 +9,6 @@
   background: var(--inclusion-paper);
 }
 
-.hero-section.inclusion-hub-page__hero {
-  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
-  background:
-    radial-gradient(ellipse at 82% 0%, rgba(135, 172, 145, 0.3), transparent 42%),
-    linear-gradient(132deg, #132b23 0%, #1b3b30 54%, var(--inclusion-dark-soft) 100%);
-}
-
 .inclusion-hub-page__hero-layout {
   display: grid;
 }
@@ -69,22 +62,13 @@
   padding: 22px 0 0;
   border-top: 1px solid var(--inclusion-dark-rule);
   color: rgba(239, 244, 240, 0.86);
-  font-size: clamp(1rem, 1.05vw, 1.06rem);
-  line-height: 1.66;
   text-wrap: pretty;
-}
-
-.inclusion-hub-page__chapters {
-  background: var(--inclusion-paper);
 }
 
 .inclusion-hub-page__chapter {
   position: relative;
   isolation: isolate;
   overflow: clip;
-  padding: 60px 0;
-  border-bottom: 1px solid var(--inclusion-rule);
-  background: var(--inclusion-paper);
 }
 
 .inclusion-hub-page__chapter::before {
@@ -136,10 +120,6 @@
 .inclusion-hub-page__chapter-overview p {
   max-width: 62ch;
   margin: 0;
-  color: var(--body);
-  font-family: var(--font-sans);
-  font-size: clamp(1.02rem, 1.2vw, 1.1rem);
-  line-height: 1.68;
   text-wrap: pretty;
 }
 
@@ -185,7 +165,7 @@
     font-size: clamp(2.75rem, 5.9vw, 3.65rem);
   }
 
-  .inclusion-hub-page__chapter {
+  .inclusion-hub-page .inclusion-hub-page__chapter {
     --inclusion-mobile-heading-depth: clamp(190px, 26vw, 230px);
 
     padding: 0;
@@ -242,8 +222,6 @@
   .inclusion-hub-page .inclusion-hub-page__hero .inclusion-hub-page__hero-support {
     margin-top: 0;
     padding-top: 22px;
-    font-size: 1rem;
-    line-height: 1.64;
   }
 
   .inclusion-hub-page__chapter {
@@ -263,11 +241,6 @@
   .inclusion-hub-page__chapter-overview {
     gap: 28px;
     padding: 40px 0 50px;
-  }
-
-  .inclusion-hub-page__chapter-overview p {
-    font-size: 1rem;
-    line-height: 1.64;
   }
 
   .inclusion-hub-page__chapter-link {

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Button from "../components/Button";
 import Container from "../components/Container";
-import { enquiryEmail, enquiryFormContent } from "../data/enquiry";
+import { enquiryEmail, enquirySuccessContent } from "../data/enquiry";
 import {
   australianStateOptions,
   bookingTypes,
@@ -133,7 +133,7 @@ function SubmissionSuccess() {
   }, []);
 
   return (
-    <section className="site-form site-form--complete codex-contact__submission-success">
+    <section className="codex-contact__submission-success">
       <div
         className="codex-contact__submission-status"
         ref={statusRef}
@@ -146,8 +146,8 @@ function SubmissionSuccess() {
           </svg>
         </span>
         <div className="codex-contact__submission-copy">
-          <h2>{enquiryFormContent.success.title}</h2>
-          <p>{enquiryFormContent.success.note}</p>
+          <h2>{enquirySuccessContent.title}</h2>
+          <p>{enquirySuccessContent.note}</p>
         </div>
       </div>
     </section>
@@ -263,7 +263,7 @@ function ContactEnquiryForm() {
     <form
       action="/api/enquiry"
       aria-label="Enquiry"
-      className="site-form codex-contact__form"
+      className="codex-contact__form"
       data-clarity-mask="true"
       method="post"
       onInputCapture={handleFormInput}
@@ -273,7 +273,7 @@ function ContactEnquiryForm() {
       <input
         aria-hidden="true"
         autoComplete="off"
-        className="site-form__honeypot"
+        className="codex-contact__honeypot"
         name="website"
         tabIndex={-1}
       />
@@ -467,7 +467,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
 
   return (
     <main className="site-page contact-page codex-contact">
-      <section className="codex-contact__opening" aria-labelledby="contact-title">
+      <section className="codex-contact__opening site-hero-background" aria-labelledby="contact-title">
         <Container className="codex-contact__opening-grid">
           <header className="codex-contact__intro">
             <span className="codex-contact__eyebrow">Contact and fees</span>
@@ -476,7 +476,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
         </Container>
       </section>
 
-      <section className="codex-contact__task-section" id="contact-start" tabIndex={-1}>
+      <section className="codex-contact__task-section site-section-warm" id="contact-start" tabIndex={-1}>
         <Container className="codex-contact__task-grid">
           <aside
             aria-labelledby="contact-first-message-title"
@@ -485,7 +485,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
             <h2 id="contact-first-message-title">
               Choosing a counsellor can be hard.
             </h2>
-            <p>
+            <p className="site-reading">
               I offer a free 15-minute consult so you can speak with me before
               deciding whether to book. If you would rather start with a
               question, you can send one through the form or{" "}
@@ -562,9 +562,11 @@ export default function Contact({ initialRenderAt }: ContactProps) {
             <div id="contact-crisis-support">
               <dt>Crisis support</dt>
               <dd>
-                Vive Counselling is not an emergency service. If you are in
-                immediate danger, call 000. For crisis support, call Lifeline on
-                13 11 14 or Suicide Call Back Service on 1300 659 467.
+                <p className="site-reading">
+                  Vive Counselling is not an emergency service. If you are in
+                  immediate danger, call 000. For crisis support, call Lifeline on
+                  13 11 14 or Suicide Call Back Service on 1300 659 467.
+                </p>
               </dd>
             </div>
           </dl>

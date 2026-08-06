@@ -75,7 +75,7 @@ export default function Layout() {
   return (
     <div className={`site-shell ${usesSiteChrome ? "site-shell--shared" : ""}`}>
       <header className="site-header">
-        <div className="site-header__inner">
+        <Container className="site-header__inner">
           <Link className="brand brand--header" to={homeHref} onClick={closeMenu}>
             <span className="brand__name brand__name--header">Vive Counselling</span>
           </Link>
@@ -106,7 +106,7 @@ export default function Layout() {
               {isOpen ? <X size={21} /> : <Menu size={21} />}
             </button>
           </div>
-        </div>
+        </Container>
 
         {isOpen ? (
           <MobileNavigation

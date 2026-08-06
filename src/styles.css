@@ -4,7 +4,6 @@
   --body: #3f493f;
   --muted: #505a51;
   --faint: #687268;
-  --cedar: #234b3d;
   --cedar-dark: #1d4034;
   --cedar-soft: #eef2ec;
   --accent: #2d5946;
@@ -36,7 +35,6 @@
   --type-small: 0.9rem;
   --type-label: 0.86rem;
   --type-caption: 0.78rem;
-  --type-faq-question: 1.34rem;
   --type-hero-deck-lead: 1.28rem;
   --type-hero-detail: 2.1rem;
   --type-fee-display: 4rem;
@@ -127,21 +125,58 @@ h3 {
 
 :where(
   p,
+  /* CSS-1.2.1.1
+     Used: No.
+     Consumers: None in current TS/TSX. */
   .site-body-copy,
+  /* CSS-1.2.1.2
+     Used: Yes.
+     Consumers: BroadTabPanel on Working with Joel.
+     Maintenance: Compare its generic content fallback with the promoted .site-reading
+     role already carried by every current tab paragraph. */
   .site-copy-flow,
   .site-copy-flow :where(p, li),
+  /* CSS-1.2.1.3
+     Used: Yes.
+     Consumers: Working with Joel approach copy; also emitted by uncalled SectionHeading.
+     Maintenance: Resolve the direct page use, unused component ownership, and overlap
+     with .site-reading before treating this as a shared copy role. */
   .section-heading__copy,
+  /* CSS-1.2.1.4
+     Used: Yes.
+     Consumers: Working with Joel introduction panel.
+     Maintenance: Audit the broad descendant family; its only live public consumer uses
+     headings and .site-reading paragraphs while many rich-child rules are dormant. */
   .rich-text,
   .rich-text p,
+  /* CSS-1.2.1.5
+     Used: No.
+     Consumers: None in current TS/TSX. */
   .site-ruled-paragraph,
+  /* CSS-1.2.1.6
+     Used: No.
+     Consumers: None in current TS/TSX. */
   .site-ruled-paragraph--wide,
+  /* CSS-1.2.1.7
+     Used: Yes.
+     Consumers: BroadTabPanel on Working with Joel.
+     Maintenance: Review the generic panel contract against its single route consumer,
+     whose page stylesheet replaces much of the base surface and responsive treatment. */
   .site-broad-tabs__content,
   .site-broad-tabs__content p,
-  .site-faq-shell__intro,
-  .site-faq-answer__inner,
-  .site-faq-answer__inner :where(p, li),
+  /* CSS-1.2.1.8
+     Used: No.
+     Consumers: None in current TS/TSX. */
   .site-cta-block p,
+  /* CSS-1.2.1.9
+     Used: No.
+     Consumers: None in current TS/TSX. */
   .hero-intro,
+  /* CSS-1.2.1.10
+     Used: Yes.
+     Consumers: DevPageHero on the Codex and Opus development test beds.
+     Maintenance: Reassess why a development-only hero panel is owned by shared
+     production CSS rather than the test-bed layer. */
   .hero-copy-panel,
   .check-item,
   .rich-text li
@@ -151,16 +186,27 @@ h3 {
   line-height: var(--leading-body);
 }
 
+/* CSS-1.3.1.1
+   Used: Yes.
+   Consumers: Layout on every mounted route; page-owned :has() canvas refinements.
+   Maintenance: Inspect the .site-shell--shared family and page-owned :has() refinements
+   together for contextual complexity. */
 .site-shell {
   min-height: 100vh;
   background: var(--paper);
 }
 
+/* CSS-1.3.1.2
+   Used: Yes.
+   Consumers: Container across public/dev routes, including Layout header and footer. */
 .container {
   width: min(100% - 40px, var(--max));
   margin-inline: auto;
 }
 
+/* CSS-1.3.1.3
+   Used: Yes.
+   Consumers: Layout's single shared banner across mounted routes. */
 .site-header {
   --site-header-height: 72px;
 
@@ -172,34 +218,54 @@ h3 {
   color: var(--ink);
 }
 
+/* CSS-1.3.1.4
+   Used: Yes.
+   Consumers: Layout's header wrapper, composed with Container. */
 .site-header__inner {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: stretch;
   gap: clamp(20px, 2.4vw, 36px);
-  width: min(100% - 40px, var(--max));
   min-height: var(--site-header-height);
-  margin-inline: auto;
 }
 
+/* CSS-1.3.1.5
+   Used: Yes.
+   Consumers: Layout's header home link.
+   Maintenance: The broad base and header modifier currently serve one context and may be
+   more structure than the wordmark needs. */
 .brand {
   display: inline-flex;
   align-items: baseline;
   min-width: 0;
 }
 
+/* CSS-1.3.1.6
+   Used: Yes.
+   Consumers: Layout's header wordmark; shared serif heading declaration group.
+   Maintenance: Assess the single-context base/modifier split and its coupling to the
+   global heading declaration group as one brand-family review. */
 .brand__name {
   color: var(--ink);
   font-size: 1.62rem;
   line-height: 1.05;
 }
 
+/* CSS-1.3.1.7
+   Used: Yes.
+   Consumers: Layout's header home link.
+   Maintenance: Review with .brand; the modifier has one consumer and may be collapsible
+   if no second brand context is planned. */
 .brand--header {
   align-self: center;
   padding: 8px 0;
-  color: var(--ink);
 }
 
+/* CSS-1.3.1.8
+   Used: Yes.
+   Consumers: Layout's header wordmark plus its responsive size overrides.
+   Maintenance: Review with .brand__name; responsive overrides make this more than a safe
+   class-local simplification. */
 .brand__name--header {
   color: inherit;
   font-size: 1.78rem;
@@ -208,6 +274,9 @@ h3 {
   white-space: nowrap;
 }
 
+/* CSS-1.3.1.9
+   Used: Yes.
+   Consumers: Layout's DesktopNavigation placement wrapper. */
 .site-header__cluster {
   display: flex;
   align-self: stretch;
@@ -215,6 +284,11 @@ h3 {
   justify-self: center;
 }
 
+/* CSS-1.3.1.10
+   Used: Yes.
+   Consumers: DesktopNavigation in SiteNavigation, mounted by Layout.
+   Maintenance: Assess this root with its link, active-state, dropdown, and responsive
+   descendant families in the next navigation audit. */
 .desktop-nav {
   display: flex;
   align-self: stretch;
@@ -1278,200 +1352,6 @@ h3 {
   line-height: 1.45;
 }
 
-.site-form {
-  display: grid;
-  gap: 20px;
-  padding: 34px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-strong);
-  box-shadow: var(--shadow);
-}
-
-.site-form .site-form__heading {
-  color: var(--cedar);
-  font-family: inherit;
-  line-height: inherit;
-}
-
-.site-form__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 16px;
-}
-
-.site-form__row--full {
-  grid-column: 1 / -1;
-}
-
-.site-form__submit {
-  width: 100%;
-}
-
-.site-form__status {
-  margin: -4px 0 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 12px 14px;
-  color: var(--body);
-  font-size: var(--type-small);
-  line-height: 1.45;
-}
-
-.site-form__status p {
-  margin: 0;
-}
-
-.site-form--complete {
-  align-content: start;
-}
-
-.site-form--complete:focus {
-  outline: none;
-}
-
-.site-form__status--complete {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-  padding: 22px;
-}
-
-.site-form__status--complete h2 {
-  margin: 0;
-  color: var(--ink);
-  font-size: var(--type-section-compact);
-  line-height: 1.12;
-}
-
-.site-form__status--complete p {
-  color: var(--muted);
-}
-
-.site-form__status--success {
-  border-color: var(--line);
-  background: var(--cedar-soft);
-}
-
-.site-form__status--error {
-  border-color: var(--line);
-  background: var(--surface-muted);
-}
-
-.site-form__honeypot {
-  display: none;
-}
-
-.site-form__choice-group {
-  display: grid;
-  min-inline-size: 0;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.site-form__legend {
-  display: block;
-  margin: 0 0 8px;
-  padding: 0;
-  color: var(--ink);
-  font-weight: 700;
-}
-
-.site-form__choices {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.site-form__choice {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  min-height: 50px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-strong);
-  padding: 13px 14px;
-  color: var(--ink);
-  font-weight: 650;
-  line-height: 1.35;
-  cursor: pointer;
-  transition:
-    border-color 160ms ease,
-    background-color 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.site-form__choice:has(input:checked) {
-  border-color: var(--cedar);
-  background: var(--cedar-soft);
-}
-
-.site-form__choice:focus-within {
-  border-color: var(--cedar);
-  box-shadow: 0 0 0 3px rgba(35, 75, 61, 0.12);
-}
-
-.site-form__choice input {
-  flex: 0 0 auto;
-  margin: 0.2em 0 0;
-  accent-color: var(--cedar);
-}
-
-.site-form .form-row {
-  display: grid;
-  gap: 8px;
-}
-
-.site-form .form-row label {
-  color: var(--ink);
-  font-weight: 700;
-}
-
-.site-form .form-row input,
-.site-form .form-row textarea,
-.site-form .form-row select {
-  width: 100%;
-  min-height: 50px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-strong);
-  color: var(--ink);
-  padding: 13px 14px;
-  outline: none;
-  transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.site-form .form-row textarea {
-  min-height: 156px;
-  resize: vertical;
-}
-
-.site-form .form-row select {
-  appearance: none;
-  cursor: pointer;
-  padding-right: 42px;
-  background-image:
-    linear-gradient(45deg, transparent 50%, var(--cedar) 50%),
-    linear-gradient(135deg, var(--cedar) 50%, transparent 50%);
-  background-position:
-    calc(100% - 18px) 50%,
-    calc(100% - 12px) 50%;
-  background-repeat: no-repeat;
-  background-size: 6px 6px, 6px 6px;
-}
-
-.site-form .form-row input:focus,
-.site-form .form-row textarea:focus,
-.site-form .form-row select:focus {
-  border-color: var(--cedar);
-  box-shadow: 0 0 0 3px rgba(35, 75, 61, 0.12);
-}
-
 .site-detail-stack {
   display: grid;
   align-content: start;
@@ -1765,269 +1645,6 @@ h3 {
   padding: 0;
 }
 
-.site-faq-shell {
-  display: grid;
-  width: min(100%, 920px);
-  margin-inline: auto;
-}
-
-.site-faq-shell__header {
-  max-width: 720px;
-  margin-bottom: 28px;
-}
-
-.site-faq-shell__title {
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--font-serif);
-  font-size: var(--type-section);
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: var(--leading-heading);
-  text-wrap: balance;
-}
-
-.site-faq-shell__intro {
-  max-width: 62ch;
-  margin: 0;
-}
-
-.site-faq-shell__title + .site-faq-shell__intro {
-  margin-top: 16px;
-}
-
-.site-faq-list {
-  display: grid;
-  gap: 10px;
-}
-
-.site-faq-item {
-  overflow: hidden;
-  overflow: clip;
-  border: 1px solid rgba(204, 212, 202, 0.92);
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(252, 252, 249, 0.96), rgba(247, 246, 242, 0.98));
-  transition:
-    border-color 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    background 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.site-faq-item[data-open="true"] {
-  border-color: rgba(35, 75, 61, 0.24);
-  background: linear-gradient(180deg, rgba(238, 242, 236, 0.9), rgba(247, 246, 242, 0.98));
-  box-shadow: 0 8px 20px rgba(31, 35, 31, 0.04);
-}
-
-.site-faq-item__heading {
-  margin: 0;
-}
-
-@media (hover: hover) {
-  .site-faq-item:hover {
-    border-color: rgba(35, 75, 61, 0.22);
-  }
-
-  .site-faq-item:hover .site-faq-icon {
-    background: rgba(35, 75, 61, 0.07);
-    border-color: rgba(35, 75, 61, 0.24);
-  }
-}
-
-.site-faq-question {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 40px;
-  gap: 16px;
-  align-items: center;
-  width: 100%;
-  padding: 14px 22px 14px 26px;
-  border: 0;
-  appearance: none;
-  background: transparent;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.site-faq-question:focus-visible {
-  outline: 2px solid rgba(35, 75, 61, 0.45);
-  outline-offset: 4px;
-  border-radius: 12px;
-}
-
-.site-faq-question__text {
-  align-self: center;
-  color: var(--ink);
-  font-family: var(--font-serif);
-  font-size: var(--type-faq-question);
-  font-weight: 400;
-  line-height: var(--leading-card);
-  letter-spacing: 0;
-  text-wrap: balance;
-}
-
-.site-faq-icon {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  align-self: start;
-  justify-content: center;
-  justify-self: end;
-  width: 36px;
-  height: 36px;
-  margin-top: 0;
-  border: 1px solid rgba(35, 75, 61, 0.16);
-  border-radius: 999px;
-  background: rgba(35, 75, 61, 0.04);
-  transition:
-    background 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    border-color 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.site-faq-item[data-open="true"] .site-faq-icon {
-  border-color: rgba(35, 75, 61, 0.2);
-  background: rgba(35, 75, 61, 0.08);
-}
-
-.site-faq-icon::before,
-.site-faq-icon::after {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background: var(--cedar);
-  content: "";
-  transform: translate(-50%, -50%);
-  transition:
-    opacity 200ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.site-faq-icon::before {
-  width: 13px;
-  height: 1.5px;
-}
-
-.site-faq-icon::after {
-  width: 1.5px;
-  height: 13px;
-}
-
-.site-faq-item[data-open="true"] .site-faq-icon::after {
-  opacity: 0;
-  transform: translate(-50%, -50%) scaleY(0);
-}
-
-.site-faq-answer-region {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 230ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.site-faq-answer-region[data-open="true"] {
-  grid-template-rows: 1fr;
-}
-
-.site-faq-answer {
-  min-height: 0;
-  overflow: hidden;
-}
-
-.site-faq-answer__inner {
-  max-width: 72ch;
-  overflow: hidden;
-  padding: 0 22px 0 26px;
-  opacity: 0;
-  transition:
-    opacity 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    padding 230ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.site-faq-item[data-open="true"] .site-faq-answer__inner {
-  padding: 0 22px 24px 26px;
-  opacity: 1;
-}
-
-.site-faq-item[data-open="true"] .site-faq-answer__inner::before {
-  display: block;
-  width: 100%;
-  height: 1px;
-  margin-bottom: 18px;
-  background: rgba(204, 212, 202, 0.85);
-  content: "";
-}
-
-.site-faq-answer__inner p {
-  margin: 0;
-}
-
-.site-faq-answer__inner > * + * {
-  margin-top: 14px;
-}
-
-.site-faq-answer__inner :where(ul, ol) {
-  margin: 0;
-  padding-left: 1.25rem;
-}
-
-.site-faq-answer__inner a {
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
-
-@media (max-width: 640px) {
-  .site-faq-shell__header {
-    margin-bottom: 22px;
-  }
-
-  .site-faq-list {
-    gap: 9px;
-  }
-
-  .site-faq-item {
-    border-radius: 15px;
-  }
-
-  .site-faq-question {
-    grid-template-columns: minmax(0, 1fr) 36px;
-    gap: 13px;
-    padding: 12px 16px 12px 18px;
-  }
-
-  .site-faq-question__text {
-    font-size: var(--type-faq-question);
-    line-height: 1.18;
-  }
-
-  .site-faq-icon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .site-faq-answer__inner {
-    max-width: none;
-    padding: 0 16px 0 18px;
-  }
-
-  .site-faq-item[data-open="true"] .site-faq-answer__inner {
-    padding: 0 16px 20px 18px;
-  }
-
-  .site-faq-item[data-open="true"] .site-faq-answer__inner::before {
-    margin-bottom: 16px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .site-faq-item,
-  .site-faq-icon,
-  .site-faq-answer-region,
-  .site-faq-answer__inner,
-  .site-faq-icon::before,
-  .site-faq-icon::after {
-    transition: none;
-  }
-}
-
 .site-cta-block {
   background: var(--color-bg-main);
 }
@@ -2081,14 +1698,6 @@ h3 {
   min-width: 210px;
 }
 
-.site-shell--shared .site-header {
-  border-bottom-color: rgba(35, 75, 61, 0.22);
-}
-
-.site-shell--shared .site-header .brand__name--header {
-  color: var(--ink);
-}
-
 .site-shell--shared .site-header .nav-link {
   color: var(--muted);
 }
@@ -2109,9 +1718,7 @@ h3 {
 
 @media (max-width: 900px) {
   .site-split,
-  .site-topic-grid,
-  .site-form__grid,
-  .site-form__choices {
+  .site-topic-grid {
     grid-template-columns: 1fr;
   }
 
@@ -2268,8 +1875,7 @@ h3 {
 }
 
 @media (max-width: 700px) {
-  .container,
-  .site-header__inner {
+  .container {
     width: min(100% - 28px, var(--max));
   }
 
@@ -2446,10 +2052,9 @@ h3 {
 }
 
 /* ---------------------------------------------------------------------------
-   HERO DESIGN LANGUAGE
-   Shared building blocks for page-level heroes.
-   The shared hero classes below are the canonical implementation. New page heroes should compose from these classes
-   rather than creating new scoped variants.
+   HISTORICAL SHARED HERO PRIMITIVES
+   Shared hero classes retained for existing consumers and catalogue reconciliation.
+   Their presence does not make them canonical guidance for new or redesigned pages.
    --------------------------------------------------------------------------- */
 
 /* Wrapper ------------------------------------------------------------------ */
@@ -2461,7 +2066,6 @@ h3 {
   isolation: isolate;
   width: 100%;
   padding: 40px 0;
-  border-bottom: 1px solid rgba(25, 54, 39, 0.14);
 }
 
 .hero-section > .container {
@@ -2640,60 +2244,6 @@ h1.hero-badge {
   margin: 0;
 }
 
-/* Background treatment ----------------------------------------------------- */
-
-.hero-bg--default {
-  position: relative;
-  isolation: isolate;
-  overflow: clip;
-  background:
-    radial-gradient(
-      680px 440px at 12% 20%,
-      rgba(255, 255, 255, 0.38) 0%,
-      transparent 68%
-    ),
-    radial-gradient(
-      520px 320px at 82% 16%,
-      rgba(255, 255, 255, 0.44) 0%,
-      transparent 64%
-    ),
-    #dde5d9;
-  border-bottom: 1px solid rgba(34, 62, 47, 0.16);
-}
-
-.hero-bg--default > * {
-  position: relative;
-  z-index: 1;
-}
-
-.hero-bg--default::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      560px 260px at 50% 0%,
-      rgba(255, 255, 255, 0.28) 0%,
-      transparent 68%
-    );
-}
-
-.hero-bg--default::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image: url("/hero-noise.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
-  opacity: 0.6;
-  mix-blend-mode: normal;
-}
-
 /* DS page demo wrappers ---------------------------------------------------- */
 
 .hero-top--supporting-media {
@@ -2794,25 +2344,6 @@ h1.hero-badge {
 /* Responsive --------------------------------------------------------------- */
 
 @media (max-width: 900px) {
-  .hero-bg--default {
-    background:
-      radial-gradient(
-        500px 360px at 12% 18%,
-        rgba(255, 255, 255, 0.34) 0%,
-        transparent 70%
-      ),
-      #dde5d9;
-  }
-
-  .hero-bg--default::before {
-    background:
-      radial-gradient(
-        420px 220px at 50% 0%,
-        rgba(255, 255, 255, 0.24) 0%,
-        transparent 70%
-      );
-  }
-
   .hero-top {
     grid-template-columns: 1fr;
     gap: 28px;

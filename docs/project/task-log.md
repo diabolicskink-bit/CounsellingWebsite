@@ -8,7 +8,7 @@ Curated milestone history for durable project state. This is not a full changelo
 - Use `current-scope.md` for exact current scope.
 - Use `project-debt.md` for technical pressure.
 - Use `site-backlog.md` for concrete deferred visitor-facing change work.
-- Use `docs/design-system/current-scope.md` for design-system scope.
+- Use `docs/design-system/` for the complete current reusable API and `docs/design-system-legacy/` only when inherited implementation evidence matters.
 - Use [archive/task-log-2026-06.md](archive/task-log-2026-06.md) only when June 2026 milestone history matters.
 
 ## Admission Rule
@@ -16,6 +16,94 @@ Curated milestone history for durable project state. This is not a full changelo
 - Add entries for public behaviour changes, documentation governance changes, major design-system state changes, deployment/testing posture changes, API/form milestones, or tracker creation/resolution.
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
+
+## 2026-08-05 - Promoted CSS Separated From Inherited Source
+
+- Separated: Every currently promoted CSS foundation, component treatment, and pattern now lives under the current-only `src/design-system/` production source entry; inherited shared CSS remains outside it.
+- Bundled: `src/main.tsx` imports `src/design-system/index.css` once, preserving one Vite production CSS bundle rather than adding browser stylesheet requests for the source files.
+- Clarified: The development catalogue stylesheet is now `src/styles-design-system-workspace.css`, making its tooling-only role distinct from the supported production system.
+- Reconciled: Active catalogue implementation paths and governance now point to the new source structure while retaining the Markdown contracts as reuse authority.
+
+## 2026-08-05 - Reading Typography Roles Promoted
+
+- Promoted: `.site-reading` now owns the shared Inter-first body-prose family, responsive `1.01–1.08rem` size, weight `400`, and `1.64` line-height; `.site-reading--lead` adds the bounded darker-ink, weight-`500` opening-paragraph treatment.
+- Migrated: All seven public content routes now use the supported roles for matching substantive prose instead of duplicate page-level typography declarations.
+- Preserved: Page composition, measures, paragraph spacing, contextual dark-surface colour, and the smaller issues-index copy remain page-owned.
+- Rendered: Foundations now shows both production classes as real specimens and documents their reuse boundaries.
+
+## 2026-08-05 - Design-System Workspace Split By Catalogue
+
+- Split: `/design-system` is now a concise operational overview, with Foundations, Components, and Patterns rendered on separate development-only category routes.
+- Shared: One workspace shell owns the hero, catalogue navigation, specimen totals, active-page state, and written-authority links across all four pages.
+- Preserved: Every supported specimen still renders from the real promoted implementation and links to its authoritative current-only catalogue record.
+
+## 2026-08-05 - Contact Invitation Component Promoted
+
+- Promoted: `<ContactInvitation />` is the first supported React component contract, with fixed visitor-facing copy and destination plus component-owned semantics, interaction states, and responsive presentation.
+- Migrated: Home now renders the shared component as its final section; the former `ClosingCtaSection`, `HomeClosingCtaContent`, and `home-closing*` CSS were removed.
+- Scoped: Home is the only verified production consumer today. Rollout to the other non-Contact public pages remains separate work.
+- Rendered: The Components catalogue and `/design-system` workspace now expose the real production component.
+
+## 2026-08-05 - Shared Hero Background Promoted
+
+- Promoted: `.site-hero-background` now owns the dark-green gradient, clipping, isolation, and lower boundary used by every public-route hero while leaving hero layout, content, typography, actions, and responsive composition page-owned.
+- Migrated: Home, Working with Joel, Inclusion, all three specialist routes, Contact, the Design System cover, Documents hero, and shared development test-bed hero now use the supported surface.
+- Removed: Deleted the obsolete light `.hero-bg--default` helper, its unused noise asset, and repeated page-level hero background declarations after migrating all consumers.
+- Rendered: Patterns now shows the real supported hero surface alongside the warm editorial-section contract.
+
+## 2026-08-05 - Design-System Catalogues Separated From Legacy Evidence
+
+- Simplified: `docs/design-system/` now contains current promoted contracts only, split into Foundations, Components, and Patterns under one operational governance file.
+- Separated: Inherited tokens, components, and selector families now live in the non-authoritative `docs/design-system-legacy/` register; presence there neither grants reuse authority nor makes removal safe.
+- Removed: The mixed design-system current-scope inventory, unreviewed catalogue entries, active removed-item records, and combined lifecycle status model no longer sit in the current system.
+- Routed: Repository guidance, Documents, project debt, and `/design-system` record links now follow the active/legacy boundary; Git and this task log retain completed removal history without a retired-item catalogue.
+
+## 2026-08-05 - Warm Editorial Section System Promoted
+
+- Promoted: `--section-warm`, `--section-rule`, and `.site-section-warm` now provide one `Shared-supported` material, default rhythm, and lower boundary for verified primary light editorial sections across all seven public content routes.
+- Simplified: The subtle sage glow was removed from the Working with Joel introduction; the Inclusion chapters retain their distinct page-local sage left-hand overlay over the shared warm base.
+- Rendered: Foundations now contains six source-backed token specimens, and Patterns contains the real `.site-section-warm` implementation as its first supported specimen.
+- Contained: Unused Home colour aliases and a redundant Inclusion wrapper background were removed; other light backgrounds, matching `#f2efe8` declarations, and dark section treatments remain outside this promotion.
+
+## 2026-08-05 - Shared Portrait Colours Promoted
+
+- Promoted: `--portrait-panel`, `--portrait-frame`, and `--portrait-footer-tint` now form a bounded `Shared-supported` material set for identified-person portrait treatments.
+- Migrated: Home and Working with Joel use the new root tokens in place of duplicate page-local chocolate, frame, and footer-tint values, with no intended visual change.
+- Rendered: Foundations now shows all four supported colours using their real production properties and records the portrait set's exact consumer and contrast boundaries.
+- Contained: Home's stronger portrait-button interaction tint remains page-local because it has only one verified consumer.
+
+## 2026-08-03 - First Shared-Supported Colour Promoted
+
+- Promoted: `--cedar` is the first `Shared-supported` production token, with a bounded primary brand-accent role, verified route-reachable consumers, and recorded contrast on the site's light surfaces.
+- Rendered: Foundations now contains the first `/design-system` specimen, using the real production custom property and linking back to its authoritative token record.
+- Contained: Related colour tokens remain `Unreviewed`; this promotion does not authorize `--cedar-dark`, `--cedar-soft`, or visually similar literal values.
+
+## 2026-08-03 - Source-Backed Design-System Workspace Established
+
+- Added: A new development-only `/design-system` governance ledger explains the authority order and promotion gate, links to the written records through Documents, and begins with zero supported specimens.
+- Guarded: `DesignSystemSpecimen` can frame only real production items already recorded as `Shared-supported`; candidates and unreviewed implementation remain page-local or in the test beds, and no parallel status registry was introduced.
+- Separated: The new workspace uses its own page-scoped implementation and does not restore, redirect, or inherit the retired `/design-language/*` snapshot.
+- Routed: The Dev menu now opens Design system first, Documents also reads `docs/design-system/`, and production-boundary coverage includes the new route.
+
+## 2026-08-03 - Rendered Design Catalogue Retired
+
+- Removed: The five `/design-language/*` development routes, their page modules, archive layout and sidebar, Dev-menu entry, route constants, and archive-only styling were deleted after source-usage checks found no production dependency.
+- Preserved: The Documents route, Codex and Opus test beds, their Dev navigation, and Documents-specific `ds-*` layout/sidebar support remain available.
+- Governed: Written lifecycle governance and item-level catalogues are now the only active design-system documentation; concise `Removed` records retain the catalogue's retirement state while Git preserves its detailed history.
+- Tracked: `DEBT-37` remains open for incremental source-backed classification of the retained production system, independent of any rendered explorer.
+
+## 2026-08-03 - Incremental Design-System Migration Governance Added
+
+- Established: Design-system items now use the `Unreviewed`, `Page-local`, `Candidate`, `Shared-supported`, `Deprecated`, `Dormant`, `Historical/dev-only`, and `Removed` lifecycle, with source evidence and consumer records required as items are touched.
+- Directed: New styling remains page-local by default; shared promotion requires explicit shared-system scope, while deprecated, dormant, historical, and unreviewed implementation cannot gain new consumers or be removed opportunistically.
+- Routed: Existing written catalogues serve as the incremental item registers, current-scope summarizes verified changes, and `DEBT-37` remains open as the touch-as-you-go reconciliation umbrella. No production CSS, components, pages, or rendered catalogue routes changed.
+
+## 2026-08-03 - Rendered Design Catalogue Quarantined
+
+- Quarantined: All five development-only `/design-language/*` routes remain browsable as a historical archive, inherit one prominent outdated-catalogue notice, and use historical navigation, metadata, and sample framing.
+- Removed: Prescriptive AI-maintainer comments and unverified current, canonical, authoritative, approved, and direct-reuse claims were removed or rewritten as descriptions of the earlier snapshot while demonstrations and class markup were preserved.
+- Governed: Rendered catalogue pages no longer count as implementation evidence or reusable-API authority; future catalogue routes must remain nested beneath `DesignSystemArchiveLayout` while quarantine is active.
+- Tracked: Added P1 `DEBT-37` for full source-backed reconciliation of implementation usage, written catalogues, classifications, and rendered examples.
 
 ## 2026-07-31 - Practice Direction And Copy System Simplified
 

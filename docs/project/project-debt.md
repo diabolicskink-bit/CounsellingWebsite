@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-37`
+- `Next ID`: `DEBT-38`
 
 ## How To Maintain This Tracker
 
@@ -60,7 +60,7 @@ Statuses:
 
 - Preserve current visitor-facing behaviour unless a future task explicitly requests a behaviour change.
 - Keep public copy, routes, layout, visual design, SEO, analytics, and form-flow behaviour unchanged unless the selected debt item directly requires that surface.
-- Keep design-system scope and project scope separate. Visual/component system changes update `docs/design-system/current-scope.md`; public-site capability changes update `docs/project/current-scope.md`.
+- Keep design-system scope and project scope separate. Supported-system changes update the relevant current-only catalogue under `docs/design-system/`; source-backed inherited implementation notes update `docs/design-system-legacy/`; public-site capability changes update `docs/project/current-scope.md`.
 - Prefer small vertical fixes with focused verification over broad mechanical rewrites.
 - Split broad items into smaller linked `DEBT-*` cards when implementation risk, ambiguity, or ownership boundaries become clearer.
 - Keep server-owned validation, security, email delivery, public error handling, and deployment configuration explicit when touching API or build/deploy debt.
@@ -97,7 +97,43 @@ Each active item should include enough direction that a future session can choos
   - Vercel Firewall configuration may live outside the repo. If the rule is added through the dashboard, record the exact rule name, path/method conditions, threshold, key, and action when resolving this item.
   - Avoid CAPTCHA or challenge flows as the first implementation unless rate limiting and request-shape checks prove insufficient. The enquiry form should remain low-friction for legitimate visitors.
   - If Bot Protection is enabled later, test it carefully against both React `fetch` submissions and endpoint-level native form posts.
-- `Links`: `api/enquiry.ts`, `vercel.json`, `src/components/EnquiryForm.tsx`
+- `Links`: `api/enquiry.ts`, `vercel.json`, `src/pages/Contact.tsx`
+
+### DEBT-37 - Design system needs source-backed reconciliation
+
+- `Priority`: `P1`
+- `Size`: `L`
+- `Priority Rationale`: This remains `P1` because production still contains substantial inherited implementation from two rebuilds. The active catalogue is now trustworthy and current-only, but the retained source still needs incremental reconciliation as related work encounters it.
+- `Status`: `Open`
+- `Detected`: 2026-08-03
+- `Source`: Design-system instruction and catalogue review
+- `Area`: Design System, Documentation, Maintainability
+- `Problem`: Shared-looking tokens, components, selector families, and page patterns remain in production outside the small promoted system. Their exact consumers and future direction are not fully reconciled after the two rebuilds.
+- `Why It Matters`: Without a clean active/legacy boundary, maintainers may treat implementation existence or an old description as approval, expand obsolete styling, or remove compatibility code without verified consumers.
+- `Preferred Direction`: Keep `docs/design-system/` limited to promoted current contracts. Reconcile inherited implementation incrementally as authorized work touches it; record useful source evidence in `docs/design-system-legacy/`, keep new styling page-local, and promote only in explicit shared-system scope.
+- `Resolution Path`: For each selected token, component, selector family, or pattern, verify source and current consumers; preserve it outside the system, record or refine its legacy evidence, promote a clean semantic contract, or remove confirmed-dead source within separately authorized cleanup scope. Promotion removes the corresponding legacy entry and adds the complete contract to one active catalogue.
+- `Next Action`: On the next authorized CSS, component, or design-system task, assess only the items that task touches. Add further `/design-system` specimens only when the same task completes a genuine promotion into an active catalogue.
+- `Resolved When`: All retained shared-looking production implementation is either deliberately promoted, explicitly page-owned, or sufficiently understood in the legacy register that future work does not need the earlier catalogue to determine reuse or cleanup safety.
+- `Related Items`:
+  - `DEBT-13`: Legacy CSS cleanup depends on knowing whether a selector is genuinely dormant, retained for compatibility, or still route-reachable.
+  - `DEBT-20`: Page-scoped typography classification is one source-backed slice of the wider catalogue reconciliation.
+  - `DEBT-21`: Shared typography audit can supply verified foundation status to the reconciled catalogue.
+- `Dependencies`: `None`
+- `Notes`:
+  - 2026-08-03: Removed all five rendered `/design-language/*` routes, their archive components, navigation, and archive-only styles. Git history retains that snapshot; it has no migration path or redirect into the separate source-backed workspace.
+  - 2026-08-03: Added the first incremental lifecycle and item-record framework; no initial whole-system audit was required.
+  - 2026-08-03: Added the separate `/design-system` development workspace and strict specimen frame without changing the written catalogues' authority.
+  - 2026-08-03: Promoted `--cedar` as the first `Shared-supported` token after verifying its production role, consumers, and accessible light-surface pairings; its Foundations specimen is the workspace's first supported item.
+  - 2026-08-05: Promoted the three-token portrait-material set after verifying identical semantic use across Home and Working with Joel, then replaced the duplicate page-local values with the shared production tokens. The Home-only stronger interaction tint remains page-local.
+  - 2026-08-05: Promoted `--section-warm`, `--section-rule`, and `.site-section-warm` for the verified warm editorial sections across Home, Working with Joel, Inclusion, Contact, Kink and BDSM, ENM and polyamory, and LGBTQIA+. The shared pattern replaces repeated default padding, background, and lower-boundary declarations; responsive padding exceptions remain page-local. The former Introducing Joel sage glow was removed by owner direction, while the Inclusion chapter's sage left-hand overlay remains page-local.
+  - 2026-08-05: Replaced the mixed active inventory and lifecycle catalogue with current-only Foundations, Components, and Patterns catalogues. Inherited implementation evidence now lives in a separate non-authoritative legacy register and completed removal history stays in Git and the task log.
+  - 2026-08-05: Promoted `.site-hero-background` as the shared dark surface for all seven public-route heroes and every development hero or cover. Removed the obsolete light `.hero-bg--default` helper, its unused noise asset, and the duplicated public and development hero background declarations while leaving hero structure, typography, actions, and responsive composition outside the promotion.
+  - 2026-08-05: Promoted the no-prop `<ContactInvitation />` contract by explicit owner direction with Home as its first and currently only verified production consumer. The component now owns the canonical copy, Contact destination, accessible section relationship, interaction states, and responsive presentation; the former `home-closing*` implementation was removed. Rollout to the remaining non-Contact public pages is intentionally separate work.
+  - 2026-08-05: Promoted `.site-reading` and `.site-reading--lead` after verifying the same prose and lead-paragraph jobs across Home and Working with Joel. Both routes and `<ContactInvitation />` now consume the shared classes; broader inherited type-token and raw-size reconciliation remains open.
+  - 2026-08-05: Moved every currently promoted CSS implementation into the current-only `src/design-system/` source entry, split by Foundations, Components, and Patterns. Vite imports that entry once for production bundling; inherited CSS remains in `src/styles.css`, and the development catalogue stylesheet is explicitly named as workspace-only.
+  - Keep public pages and their current visual treatment unchanged during reconciliation unless a separate task explicitly authorizes visitor-facing work.
+  - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
+- `Links`: `docs/design-system/`, `src/design-system/`, `src/styles.css`, `src/components/`
 
 ### DEBT-8 - Route parity coverage needs explicit enforcement
 
@@ -206,7 +242,8 @@ Each active item should include enough direction that a future session can choos
   - 2026-07-10: Archived `DEBT-19` after removing the unused `.issues-section*`, `.topic-grid`, and `.topic-card` selector cluster while preserving the active `site-topic-*` system.
   - 2026-07-13: Removed the unused generic `.stack` helper after a focused source audit confirmed no runtime call sites; active stack outcomes remain covered by `.site-content-stack` and `.site-detail-stack`.
   - 2026-07-13: Removed the unused `.site-highlight__box` selector after confirming it had no runtime or dev-page call sites; the active `.site-highlight` band and shared panel patterns were preserved.
-- `Links`: `src/styles.css`, `docs/design-system/current-scope.md`
+  - 2026-08-06: Audited the first ten shell/header class selectors in `src/styles.css`. All are active; `Layout` now composes `Container` for header containment, and duplicate shared-shell header-border and wordmark-colour declarations were removed while preserving composition, responsive behaviour, and public appearance.
+- `Links`: `src/styles.css`, `docs/design-system-legacy/patterns.md`
 
 ### DEBT-15 - Public page CSS is globally bundled and relies on naming discipline
 
@@ -258,7 +295,8 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - Do not treat this as a redesign or global re-scale. The first type-role implementation slice is already complete; this is follow-up cleanup.
   - Preserve page-specific type where a page has a genuine editorial composition, such as special hero title measures or unique visual moments.
-- `Links`: `src/styles-*.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system/current-scope.md`, `docs/design-system-old/type-scale-plan.md`
+  - 2026-08-05: All seven public content routes now use `.site-reading` for matching substantive prose; Home and Working with Joel also use `.site-reading--lead` for their established opening paragraphs. Contextual dark-surface foregrounds and deliberate serif, heading, label, form, metadata, and compact-support roles remain page-owned. This debt stays open for the broader classification of remaining page-specific type rules.
+- `Links`: `src/styles-*.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-21 - Shared production typography needs raw-size and fluid-rule audit
 
@@ -283,7 +321,9 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - The old plan recommended fluid display/hero roles, mostly fixed body/label/card/form roles, and lightly responsive section headings. Use that as classification guidance, not as permission to re-scale the site.
   - Some raw values may remain appropriate for icons, nav details, compact metadata, or deliberately non-body roles.
-- `Links`: `src/styles.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system-old/type-scale-plan.md`
+  - 2026-08-05: The first audited shared slice promoted `.site-reading` and `.site-reading--lead` with exact values and verified consumers. The remaining raw shared sizes and inherited root type tokens are still outside the active system.
+  - 2026-08-06: Deep-reviewed the ten inherited selectors in the low-specificity body-copy group. Five are dormant delete candidates; the five mounted selectors need focused follow-up around `.site-reading` overlap, stale component ownership, broad dormant rich-child coverage, route-heavy tab-panel overrides, or development-only CSS ownership. No selector was promoted or removed during this review.
+- `Links`: `src/styles.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-22 - Enquiry timezone comparison notes need server-owned handling
 
@@ -309,7 +349,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-4`: Keep structured enquiry payload and server-rendered email content in place before adding derived timezone prose.
 - `Notes`:
   - Do not use server IP geolocation as a source of truth. Browser timezone detection may be a convenience default later, but submitted explicit user-confirmed fields should drive email output.
-- `Links`: `api/enquiry.ts`, `src/components/EnquiryForm.tsx`, `src/utils/timeZones.ts`
+- `Links`: `api/enquiry.ts`, `src/pages/Contact.tsx`, `src/utils/timeZones.ts`
 
 ### DEBT-24 - Live Vercel deployment smoke testing is manual
 

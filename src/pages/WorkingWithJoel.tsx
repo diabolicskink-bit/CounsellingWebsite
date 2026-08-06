@@ -186,7 +186,7 @@ const pageContent: WorkingWithJoelPageContent = {
 
 function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
   return (
-    <section className="hero-section working-with-joel-page__hero">
+    <section className="hero-section site-hero-background working-with-joel-page__hero">
       <Container>
         <div className="working-with-joel-page__hero-layout">
           <h1 className="hero-badge">{hero.badge}</h1>
@@ -223,13 +223,21 @@ function IntroductionSection({
   portrait: WorkingHeroPortrait;
 }) {
   return (
-    <section className="site-grid working-with-joel-page__intro" aria-labelledby="working-with-joel-intro-title">
+    <section
+      className="site-grid working-with-joel-page__intro site-section-warm"
+      aria-labelledby="working-with-joel-intro-title"
+    >
       <Container className="site-split">
         <div className="working-with-joel-page__intro-copy">
           <article className="site-copy-panel rich-text working-with-joel-page__intro-panel">
             <h2 id="working-with-joel-intro-title">{introduction.title}</h2>
-            {introduction.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+            {introduction.paragraphs.map((paragraph, index) => (
+              <p
+                className={index === 0 ? "site-reading site-reading--lead" : "site-reading"}
+                key={paragraph}
+              >
+                {paragraph}
+              </p>
             ))}
           </article>
         </div>
@@ -262,7 +270,11 @@ function PortraitNote({ portrait }: { portrait: WorkingHeroPortrait }) {
 function ApproachSection({ approach }: { approach: ApproachContent }) {
   const tabItems = approach.items.map((item) => ({
     title: item.title,
-    content: item.details.map((paragraph) => <p key={paragraph}>{paragraph}</p>),
+    content: item.details.map((paragraph) => (
+      <p className="site-reading" key={paragraph}>
+        {paragraph}
+      </p>
+    )),
   }));
 
   return (
@@ -274,7 +286,7 @@ function ApproachSection({ approach }: { approach: ApproachContent }) {
           </h2>
           <div className="working-approach__overview">
             {approach.overview.map((paragraph) => (
-              <p className="section-heading__copy" key={paragraph}>
+              <p className="section-heading__copy site-reading" key={paragraph}>
                 {paragraph}
               </p>
             ))}

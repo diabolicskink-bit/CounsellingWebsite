@@ -50,7 +50,7 @@ Statuses:
 - `Size`: `M`
 - `Status`: `Open`
 - `Classification`: `Content`
-- `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`
+- `Source`: `Fresh site review, src/pages/Contact.tsx`
 - `Visitor-Facing Goal`: Give visitors enough practical trust information to understand website tracking, enquiry-message handling, and the basic boundaries around online counselling.
 - `Current State`: The site explains fees, format, referral, and crisis limits, but it does not yet give a concise public note on website privacy/analytics, enquiry message handling, records, or online-session platform/privacy setup. Microsoft Clarity can now load when configured, and the enquiry form is explicitly Clarity-masked, but there is no public analytics/cookie notice yet.
 - `Why Deferred`: The wording needs owner confirmation so the site does not overpromise privacy, confidentiality, security, platform behaviour, or legal limits.
@@ -58,7 +58,7 @@ Statuses:
 - `Implemented When`: A visitor can find a clear, accurate website privacy and counselling-boundaries note before submitting the enquiry form.
 - `Notes`:
   - Keep "confidentiality" language tied to counselling sessions, records, and professional boundaries rather than using it as shorthand for website cookies or analytics.
-- `Links`: `src/pages/Contact.tsx`, `src/components/EnquiryForm.tsx`, `src/components/SiteAnalytics.tsx`
+- `Links`: `src/pages/Contact.tsx`, `src/components/SiteAnalytics.tsx`
 
 ### SITE-21 - Contact form required-field clarity
 
@@ -73,7 +73,7 @@ Statuses:
 - `First Useful Slice`: Add a concise required-field cue near the form and/or required labels, covering the always-required fields and the required radio choice groups without making the form feel noisy.
 - `Implemented When`: Visitors can see what is required before submitting, native validation still works, and the Contact checklist required-field clarity item can move from `Partial` to `Pass`.
 - `Notes`:
-- `Links`: `src/components/EnquiryForm.tsx`, `src/data/enquiry.ts`, `docs/checklists/accessibility-monitor.md`
+- `Links`: `src/pages/Contact.tsx`, `src/data/enquiry.ts`, `docs/checklists/accessibility-monitor.md`
 
 ### SITE-7 - Global reduced-motion baseline
 
@@ -88,7 +88,7 @@ Statuses:
 - `First Useful Slice`: Add a global `prefers-reduced-motion: reduce` baseline for scroll behaviour and broad shared transitions.
 - `Implemented When`: Reduced-motion preference disables smooth scrolling and avoids non-essential shared motion without breaking component states.
 - `Notes`:
-- `Links`: `src/styles.css`, `docs/design-system/foundations/tokens.md`, `docs/design-system/governance.md`
+- `Links`: `src/styles.css`, `docs/design-system/foundations.md`, `docs/design-system/governance.md`
 
 ### SITE-14 - Contact availability and reply-time expectations
 
@@ -133,7 +133,7 @@ Statuses:
 - `First Useful Slice`: Add a brief FAQ answer or form-adjacent note explaining the consult format, purpose, and next step.
 - `Implemented When`: A visitor can choose between a full-session enquiry and a consult request without guessing what the consult involves.
 - `Notes`:
-- `Links`: `src/pages/Contact.tsx`, `src/data/enquiry.ts`, `src/components/EnquiryForm.tsx`
+- `Links`: `src/pages/Contact.tsx`, `src/data/enquiry.ts`
 
 ### SITE-17 - Practice credentials and professional-identity detail
 
@@ -165,7 +165,7 @@ Statuses:
 - `Notes`:
   - W3C WCAG guidance says colour should not be the only visual means of distinguishing an element, and non-text visual information needed for understanding should have sufficient contrast against adjacent colours.
   - Keep this page-scoped unless the treatment proves useful for other inclusion-oriented language fields.
-- `Links`: `src/pages/KinkBdsmCounselling.tsx`, `src/styles-kink-bdsm.css`, `docs/design-system/foundations/principles.md`, `https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html`, `https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html`
+- `Links`: `src/pages/KinkBdsmCounselling.tsx`, `src/styles-kink-bdsm.css`, `AGENTS.md`, `https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html`, `https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html`
 
 ### SITE-22 - Working With Joel hero support design polish
 
@@ -181,7 +181,7 @@ Statuses:
 - `Implemented When`: The support copy has a deliberate, on-brand treatment across desktop and mobile, does not read like filler or a generic card, and the practice owner is happy with how it looks.
 - `Notes`:
   - Keep the work page-scoped unless the treatment clearly belongs in the shared hero system.
-- `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system/patterns/page-patterns.md`
+- `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system-legacy/patterns.md`
 
 ## Resolved Item Archive
 

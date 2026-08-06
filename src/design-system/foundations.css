@@ -1,0 +1,26 @@
+/*
+ * Supported foundations only.
+ * Authority: docs/design-system/foundations.md
+ */
+
+:root {
+  --cedar: #234b3d;
+  --portrait-panel: #6b5146;
+  --portrait-frame: #e4d9cc;
+  --portrait-footer-tint: rgba(32, 21, 17, 0.12);
+  --section-warm: #f2efe8;
+  --section-rule: rgba(35, 75, 61, 0.22);
+}
+
+.site-reading {
+  color: var(--body);
+  font-family: var(--font-sans);
+  font-size: clamp(1.01rem, 1.12vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.64;
+}
+
+.site-reading.site-reading--lead {
+  color: var(--ink);
+  font-weight: 500;
+}

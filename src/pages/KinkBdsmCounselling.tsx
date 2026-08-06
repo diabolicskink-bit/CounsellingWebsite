@@ -109,14 +109,16 @@ export default function KinkBdsmCounselling() {
           </h2>
           <div className="kink-page__fluency-copy">
             {fluency.body.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+              <p className="site-reading" key={paragraph}>
+                {paragraph}
+              </p>
             ))}
           </div>
         </Container>
       </section>
 
       <section
-        className="kink-page__misread"
+        className="kink-page__misread site-section-warm"
         aria-labelledby="kink-misread-heading"
       >
         <Container className="kink-page__misread-layout">
@@ -125,7 +127,9 @@ export default function KinkBdsmCounselling() {
           </h2>
           <div className="kink-page__misread-copy">
             {misread.body.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+              <p className="site-reading" key={paragraph}>
+                {paragraph}
+              </p>
             ))}
           </div>
         </Container>
@@ -141,7 +145,9 @@ export default function KinkBdsmCounselling() {
           </h2>
           <div className="kink-page__more-copy">
             {more.body.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+              <p className="site-reading" key={paragraph}>
+                {paragraph}
+              </p>
             ))}
           </div>
         </Container>
