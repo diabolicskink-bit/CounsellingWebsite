@@ -7,9 +7,9 @@ This is source-backed working evidence about React components outside the active
 ### `Container`
 
 - `Implementation`: `src/components/Container.tsx` with inherited `.container` styling in `src/styles.css`.
-- `Known consumers`: Used across all public content routes, the shared `Layout`, `DevPageHero`, and the Documents route.
-- `Legacy note`: Widely used current containment implementation; not yet promoted as a supported layout primitive or component contract.
-- `Checked`: 2026-08-05 — active/legacy catalogue separation under `DEBT-37`.
+- `Known consumers`: Used across all public content routes, the shared `Layout` header and footer, `DevPageHero`, and the Documents route.
+- `Legacy note`: Widely used current containment implementation; the header now composes it instead of duplicating its width and responsive gutters, but it is not yet promoted as a supported layout primitive or component contract.
+- `Checked`: 2026-08-06 — second inherited selector review batch under `DEBT-13`.
 
 ### `Button`
 
@@ -22,8 +22,8 @@ This is source-backed working evidence about React components outside the active
 
 - `Implementation`: `src/components/Layout.tsx` with navigation and footer support in `src/styles.css`.
 - `Known consumers`: Parent shell for public routes and development routes that use shared chrome.
-- `Legacy note`: Owns substantial navigation, mobile-menu, focus-return, scroll-lock, responsive dismissal, footer, and route behaviour. Its current importance does not make the whole component a supported design-system contract.
-- `Checked`: 2026-08-05 — active/legacy catalogue separation under `DEBT-37`.
+- `Legacy note`: Owns substantial navigation, mobile-menu, focus-return, scroll-lock, responsive dismissal, footer, and route behaviour. Its header now composes the inherited `Container` for containment while `.site-header__inner` owns grid composition. Its current importance does not make the whole component a supported design-system contract.
+- `Checked`: 2026-08-06 — second inherited selector review batch under `DEBT-13`.
 
 ### `BroadTabPanel`
 

@@ -741,6 +741,7 @@ test.describe("public pages", () => {
       await page.goto(route, { waitUntil: "networkidle" });
 
       await expect(page.locator("main").first()).toBeVisible();
+      await expect(page.locator("header.site-header > .container.site-header__inner")).toHaveCount(1);
       await expect(page.locator("h1.hero-badge")).toHaveCount(1);
       await expect(page.locator("h1.hero-badge")).toBeVisible();
       await expect(page.locator(".hero-section p.hero-display")).toHaveCount(1);
@@ -1124,6 +1125,7 @@ test.describe("first response metadata", () => {
       expect(html).toContain('data-render-mode="prerendered"');
       expect(html).toContain(`data-prerendered-path="${escapeHtml(route)}"`);
       expect(html).toContain('<header class="site-header">');
+      expect(html).toContain('<div class="container site-header__inner">');
       expect(html).toContain(`<main class="${contract.mainClass}">`);
       expectMeaningfulRawH1(html);
       for (const fragment of contract.rawFragments) {

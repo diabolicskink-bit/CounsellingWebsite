@@ -242,6 +242,7 @@ Each active item should include enough direction that a future session can choos
   - 2026-07-10: Archived `DEBT-19` after removing the unused `.issues-section*`, `.topic-grid`, and `.topic-card` selector cluster while preserving the active `site-topic-*` system.
   - 2026-07-13: Removed the unused generic `.stack` helper after a focused source audit confirmed no runtime call sites; active stack outcomes remain covered by `.site-content-stack` and `.site-detail-stack`.
   - 2026-07-13: Removed the unused `.site-highlight__box` selector after confirming it had no runtime or dev-page call sites; the active `.site-highlight` band and shared panel patterns were preserved.
+  - 2026-08-06: Audited the first ten shell/header class selectors in `src/styles.css`. All are active; `Layout` now composes `Container` for header containment, and duplicate shared-shell header-border and wordmark-colour declarations were removed while preserving composition, responsive behaviour, and public appearance.
 - `Links`: `src/styles.css`, `docs/design-system-legacy/patterns.md`
 
 ### DEBT-15 - Public page CSS is globally bundled and relies on naming discipline
@@ -321,6 +322,7 @@ Each active item should include enough direction that a future session can choos
   - The old plan recommended fluid display/hero roles, mostly fixed body/label/card/form roles, and lightly responsive section headings. Use that as classification guidance, not as permission to re-scale the site.
   - Some raw values may remain appropriate for icons, nav details, compact metadata, or deliberately non-body roles.
   - 2026-08-05: The first audited shared slice promoted `.site-reading` and `.site-reading--lead` with exact values and verified consumers. The remaining raw shared sizes and inherited root type tokens are still outside the active system.
+  - 2026-08-06: Deep-reviewed the ten inherited selectors in the low-specificity body-copy group. Five are dormant delete candidates; the five mounted selectors need focused follow-up around `.site-reading` overlap, stale component ownership, broad dormant rich-child coverage, route-heavy tab-panel overrides, or development-only CSS ownership. No selector was promoted or removed during this review.
 - `Links`: `src/styles.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-22 - Enquiry timezone comparison notes need server-owned handling

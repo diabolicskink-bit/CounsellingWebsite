@@ -36,9 +36,9 @@ These names describe current inherited source, not a coherent or approved compon
 - `.site-text-link`
 - `.site-body-copy`, `.site-copy-flow`
 
-These selectors have production consumers but have not completed promotion as current reusable contracts.
+This group mixes mounted production selectors with dormant inherited aliases. None is a current reusable contract; verify the individual source-side audit before reuse or cleanup.
 
-The first source-level body-copy review batch is recorded beside the shared selector group in `src/styles.css`. As of 2026-08-06, `.site-copy-flow`, `.section-heading__copy`, `.rich-text`, and `.site-broad-tabs__content` have mounted use through Working with Joel, while `.hero-copy-panel` is mounted through `DevPageHero` on the two development test beds. `.site-body-copy`, `.site-ruled-paragraph`, `.site-ruled-paragraph--wide`, `.site-cta-block`, and `.hero-intro` have no TS/TSX consumer. These facts identify later cleanup candidates but do not authorize removal by themselves.
+The first source-level body-copy review batch is recorded per selector beside the shared `:where(...)` group in `src/styles.css`, with full evidence in `docs/checklists/css-review.md` under `CSS-1.2.1`. As of 2026-08-06, `.site-copy-flow`, `.section-heading__copy`, `.rich-text`, and `.site-broad-tabs__content` have mounted use through Working with Joel, while `.hero-copy-panel` is mounted only through `DevPageHero` on the two development test beds. Those five receive maintenance notes for specific ownership or overlap questions. `.site-body-copy`, `.site-ruled-paragraph`, `.site-ruled-paragraph--wide`, `.site-cta-block`, and `.hero-intro` have no TS/TSX consumer and remain delete candidates pending a separately actioned cleanup.
 
 ## Hero Family
 
@@ -53,8 +53,10 @@ Public pages consume parts of this family and layer page-specific composition on
 
 These functional surfaces require focused source and behaviour review before promotion or cleanup.
 
+The second source-level selector review batch covers `.site-shell`, `.container`, `.site-header`, `.site-header__inner`, `.brand`, `.brand__name`, `.brand--header`, `.brand__name--header`, `.site-header__cluster`, and `.desktop-nav`. As of 2026-08-06, all ten are mounted through `Layout`, `Container`, or `DesktopNavigation`. The audit retained their distinct shell, wordmark, header-composition, and navigation jobs; the header inner now composes `Container`, and exact duplicate shared-shell border/wordmark colours were removed without promoting any selector.
+
 ## Page-Local Implementation
 
 Contact owns the current enquiry form through `Contact.tsx` and `src/styles-contact.css`; there is no promoted form component or shared form pattern. Other page-prefixed selectors remain owned by their pages unless an authorized task promotes a repeated semantic contract.
 
-Last consolidated from current source: 2026-08-06 — first inherited body-copy selector review batch under `DEBT-21`.
+Last consolidated from current source: 2026-08-06 — deep body-copy selector review under `DEBT-13` and `DEBT-21`.

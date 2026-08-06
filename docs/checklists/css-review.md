@@ -39,6 +39,8 @@ Class-token leaves are the final review unit. Pseudo states, media-query overrid
 - Every review should check naming and structure consistency: class name clarity, prefix/layer fit, variant naming, component prop alignment, documented API alignment, and whether selectors depend on avoidable markup shape.
 - Every class-token review should include a declaration-level CSS code review. Inspect the declarations inside the class, its pseudo states, media overrides, descendant/context selectors, and closely related sibling modifiers. Check whether repeated declarations belong on a base class, whether variant-only declarations are genuinely variant-specific, whether any override is defensive or obsolete, whether tokens are used instead of avoidable literals, whether specificity and source order are doing unnecessary work, and whether responsive or state rules duplicate logic that could be expressed once.
 - Every review should also consider CSS architecture: whether the selector belongs in its current file and layer, whether the surrounding rule order is logical, whether shared/page/dev boundaries are clean, whether grouping or file splitting would reduce ambiguity, and whether a larger staged restructure should be proposed before local cleanup.
+- Treat each class-token audit as a deep source review, not a usage-count exercise. Trace every emitter and consumer, read the owning component contract, inspect the full selector family across files and breakpoints, compare declarations with adjacent/base/context rules, check tests and rendered behavior where risk warrants it, and distinguish exact duplication from intentional semantic overlap.
+- After a leaf is reviewed, place a compact audit comment immediately above its primary selector definition with `Used` and `Consumers`. Add `Maintenance` only when deeper maintenance review is warranted; its presence is the signal, so describe the overlap, complexity, ownership ambiguity, or cleanup possibility directly without adding a status phrase. Keep implementation decisions and full evidence in this checklist rather than expanding the source comment into a second audit document.
 - Mark `Restructure candidate` only when the issue is larger than one class or simple movement. Link or create a `DEBT-*` item before implementing any broad restructure.
 - Existing reviewed leaves that do not yet include `Declaration Review` should be upgraded when revisited, before actioning a candidate, or before using them as evidence for a broader cleanup.
 
@@ -89,13 +91,293 @@ Use this structure when a region is expanded to class-token leaves:
   - Scope: `:root`, colour tokens, surface tokens, type tokens, layout tokens, shadow/radius tokens, and root-level responsive token overrides.
   - Next: Expand to token groups such as colour, typography, spacing/layout, and responsive root overrides.
 
-- `CSS-1.2` `Not reviewed` Base document, element, and typography defaults.
+- `CSS-1.2` `Expanded` Base document, element, and typography defaults.
   - Scope: Universal box sizing, `html`, `body`, native form font inheritance, links, images, heading resets, base heading roles, and shared body-copy selector groups.
-  - Next: Expand into base element rules and typography-default class tokens.
+  - Next: The inherited body-copy compatibility group is reviewed below. Expand the remaining base element rules and heading defaults separately.
 
-- `CSS-1.3` `Not reviewed` Shell, container, header, navigation, and mobile nav.
+### CSS-1.2 - Base document and typography defaults
+
+#### CSS-1.2.1 - Inherited body-copy compatibility group
+
+- `Status`: `Expanded`
+- `Layer`: Inherited shared production typography
+- `Scope`: The ten class tokens in the low-specificity body-copy `:where(...)` group, including each token's standalone, descendant, contextual, and responsive rules.
+- `Related Work`: `DEBT-13`, `DEBT-20`, `DEBT-21`.
+- `Next`: Action dormant-selector cleanup separately; give the five maintenance-marked selectors focused family reviews before changing their contracts.
+
+##### CSS-1.2.1.1 - `.site-body-copy`
+
+- `Status`: `Delete candidate`
+- `Layer`: Dormant inherited body-copy alias
+- `Selectors Covered`: `.site-body-copy` in the shared body-copy `:where(...)` rule.
+- `Naming/Structure Check`: The name suggests a general shared prose role, but the promoted `.site-reading` role now owns substantive public-page prose.
+- `Declaration Review`: It receives only `--body`, `--type-body`, and `--leading-body` from the grouped rule and has no standalone, contextual, state, or responsive declarations.
+- `Architecture Check`: Keeping an unused legacy alias beside the supported `.site-reading` contract makes the available body-copy API less clear.
+- `Used By`: No current TS, TSX, HTML, test, or component emitter.
+- `Decision`: Delete candidate; do not infer supported status from its `site-*` prefix.
+- `Evidence`: Exact source search found the token only in `src/styles.css`, legacy documentation, and audit records.
+- `Follow-up`: Remove with the other dormant members of this selector group in a focused cleanup pass.
+
+##### CSS-1.2.1.2 - `.site-copy-flow`
+
+- `Status`: `Consolidate candidate`
+- `Layer`: BroadTabPanel content fallback typography
+- `Selectors Covered`: `.site-copy-flow` and `.site-copy-flow :where(p, li)` in the grouped body-copy rule.
+- `Naming/Structure Check`: The name implies a reusable flow primitive, but its only emitter is the more specific `BroadTabPanel` component.
+- `Declaration Review`: The wrapper and paragraph/list descendants inherit the legacy body role. Every current Working with Joel tab paragraph also carries `.site-reading`, whose later, more specific promoted declarations win; only the component's string/number fallback still depends directly on `.site-copy-flow`.
+- `Architecture Check`: The generic fallback and the promoted reading role currently split typography ownership inside one component.
+- `Used By`: `BroadTabPanel`, mounted once on Working with Joel.
+- `Decision`: Retain pending a focused BroadTabPanel content-contract review; consolidation is plausible but not safe from current markup alone.
+- `Evidence`: `BroadTabPanel.tsx` always emits the wrapper class, converts string/number content to an unclassed paragraph, and otherwise accepts arbitrary `ReactNode`; Working with Joel supplies only `.site-reading` paragraphs.
+- `Follow-up`: Decide whether BroadTabPanel should apply the supported reading role to its fallback content or continue owning a separate generic flow contract.
+
+##### CSS-1.2.1.3 - `.section-heading__copy`
+
+- `Status`: `Consolidate candidate`
+- `Layer`: Inherited section-introduction copy element
+- `Selectors Covered`: `.section-heading__copy` in the grouped body rule and its standalone maximum-width rule.
+- `Naming/Structure Check`: The BEM element name is clear, but the live page uses it directly while the `SectionHeading` component that also emits it has no callers.
+- `Declaration Review`: The standalone rule contributes `max-width: 760px`. On current live paragraphs, `.site-reading` overrides the grouped size and leading, leaving this class as a measure/layout hook rather than the typography role its grouping implies.
+- `Architecture Check`: Component ownership, direct page use, layout measure, and prose typography are mixed across one class.
+- `Used By`: Working with Joel approach overview; also emitted by the currently uncalled `SectionHeading` component.
+- `Decision`: Retain because it affects live layout, but review before presenting it as a shared copy role.
+- `Evidence`: Current source search found direct page markup only in `WorkingWithJoel.tsx`; no `SectionHeading` import or invocation exists outside its own component module.
+- `Follow-up`: Review `.section-heading`, this element, the unused component, and `.site-reading` composition together.
+
+##### CSS-1.2.1.4 - `.rich-text`
+
+- `Status`: `Keep, document`
+- `Layer`: Inherited rich editorial HTML wrapper
+- `Selectors Covered`: The grouped wrapper/paragraph/list body role; base layout; heading, link, focus, list, strong, code, blockquote, table, divider, and button descendants; `.site-copy-panel.rich-text`.
+- `Naming/Structure Check`: The broad name fits a semantic rich-HTML boundary, but it should not be mistaken for a promoted reusable API.
+- `Declaration Review`: Its grid, gap, and panel-width composition are active. The live paragraph typography comes from `.site-reading`; the remaining descendant family covers substantially more HTML than the current public consumer renders.
+- `Architecture Check`: A broad descendant boundary can be appropriate for authored rich HTML, but most of this inherited contract is currently supported only by dormant capability rather than mounted examples.
+- `Used By`: Working with Joel introduction panel; its current children are one heading and `.site-reading` paragraphs.
+- `Decision`: Keep the active wrapper and document a maintenance review of its descendant family rather than deleting unexercised child rules piecemeal.
+- `Evidence`: Source search found one current TSX emitter. The former rendered design-language examples cited by the older record have been retired.
+- `Follow-up`: Audit which rich-child rules still have a foreseeable authored-content contract, and add responsive table handling only if tables regain a live consumer.
+
+##### CSS-1.2.1.5 - `.site-ruled-paragraph`
+
+- `Status`: `Delete candidate`
+- `Layer`: Dormant inherited paragraph treatment
+- `Selectors Covered`: `.site-ruled-paragraph` in the grouped body rule and its standalone margin, inset, and left-rule declarations.
+- `Naming/Structure Check`: Clear descriptive name, but current public compositions use other page or hero-specific ruled-copy treatments.
+- `Declaration Review`: The class combines prose-role inheritance with a decorative left rule and inset; no state or responsive rules exist.
+- `Architecture Check`: With no emitter, it is dormant shared-looking implementation rather than an available supported pattern.
+- `Used By`: No current TS, TSX, HTML, test, or component emitter.
+- `Decision`: Delete candidate.
+- `Evidence`: Exact source search found only CSS, legacy-documentation, and audit references.
+- `Follow-up`: Remove together with its unused wide modifier in a focused cleanup pass.
+
+##### CSS-1.2.1.6 - `.site-ruled-paragraph--wide`
+
+- `Status`: `Delete candidate`
+- `Layer`: Dormant inherited paragraph modifier
+- `Selectors Covered`: `.site-ruled-paragraph--wide` in the grouped body rule and its `54ch` maximum-width rule.
+- `Naming/Structure Check`: Modifier naming implies composition with `.site-ruled-paragraph`, but neither token has a current emitter.
+- `Declaration Review`: It adds only measure while redundantly participating in the body-type group; no responsive or contextual rules exist.
+- `Architecture Check`: An orphan modifier should not remain as apparent shared API.
+- `Used By`: No current TS, TSX, HTML, test, or component emitter.
+- `Decision`: Delete candidate with its base.
+- `Evidence`: Exact source search found only CSS, legacy-documentation, and audit references.
+- `Follow-up`: Remove with `.site-ruled-paragraph`.
+
+##### CSS-1.2.1.7 - `.site-broad-tabs__content`
+
+- `Status`: `Keep, document`
+- `Layer`: BroadTabPanel tabpanel shell
+- `Selectors Covered`: The grouped body role, base panel and paragraph rules, focus state, `900px` responsive panel rule, and Working with Joel desktop/tablet/mobile contextual overrides.
+- `Naming/Structure Check`: Clear element name under `.site-broad-tabs` and aligned with the component's tabpanel markup.
+- `Declaration Review`: The base owns grid, gap, minimum height, padding, border, radius, surface, paragraph measure, focus outline, and responsive recomposition. Working with Joel replaces the gap, minimum height, padding, border, radius, surface, paragraph measure, focus treatment, and small-screen presentation; current paragraph typography comes from `.site-reading`.
+- `Architecture Check`: A generic component shell with one route consumer and extensive page-level replacement has an unclear reusable boundary, though the accessibility and interaction structure remains component-owned.
+- `Used By`: `BroadTabPanel`, mounted once on Working with Joel.
+- `Decision`: Keep current behavior; perform a family-level ownership review before consolidating the base or page override.
+- `Evidence`: Component tracing found one mounted consumer. `styles-working-with-joel.css` overrides the panel at the base route scope and again at `1000px` and `600px`, on top of the inherited `900px` rule.
+- `Follow-up`: Review the complete `.site-broad-tabs*` family and decide whether it is genuinely generic or page-owned.
+
+##### CSS-1.2.1.8 - `.site-cta-block`
+
+- `Status`: `Delete candidate`
+- `Layer`: Dormant inherited closing-action family
+- `Selectors Covered`: `.site-cta-block p` in the grouped body rule and the complete `.site-cta-block*` root, highlight, inner, copy, heading, paragraph, button, and responsive family.
+- `Naming/Structure Check`: Coherent BEM family, but the shared-looking name no longer corresponds to a mounted component or page section.
+- `Declaration Review`: The family still carries surface, grid, spacing, heading, paragraph, action-placement, and two responsive layouts despite having no emitter.
+- `Architecture Check`: This is a whole dormant feature family rather than an isolated dead selector; removal should be complete when authorized.
+- `Used By`: No current TS, TSX, HTML, test, or component emitter.
+- `Decision`: Delete candidate as a family.
+- `Evidence`: Exact source search found no class emitter; all runtime-looking occurrences are CSS rules.
+- `Follow-up`: Remove the entire `.site-cta-block*` family together rather than deleting only its body-group entry.
+
+##### CSS-1.2.1.9 - `.hero-intro`
+
+- `Status`: `Delete candidate`
+- `Layer`: Dormant inherited hero-copy class
+- `Selectors Covered`: `.hero-intro` in the grouped body rule and its standalone measure/margin rule.
+- `Naming/Structure Check`: Clear hero element name, but no current hero implementation emits it.
+- `Declaration Review`: It provides only inherited body typography, a `38rem` maximum width, and margin reset; no contextual or responsive rules remain.
+- `Architecture Check`: Retaining the unused class makes the already broad inherited hero vocabulary harder to assess.
+- `Used By`: No current TS, TSX, HTML, test, or component emitter.
+- `Decision`: Delete candidate.
+- `Evidence`: Exact source search found only CSS, legacy-documentation, and audit references.
+- `Follow-up`: Remove during a focused hero-family cleanup after checking adjacent hero copy roles.
+
+##### CSS-1.2.1.10 - `.hero-copy-panel`
+
+- `Status`: `Move candidate`
+- `Layer`: Shared production CSS with development-only consumers
+- `Selectors Covered`: The grouped body role, base panel, non-paragraph grid wrapper, direct paragraph reset, `900px` responsive rule, and `.test-bed-page` colour/border overrides.
+- `Naming/Structure Check`: The name aligns with the inherited hero family, but its only component consumer is explicitly development-only.
+- `Declaration Review`: Base inset/rule composition and mobile top-rule recomposition remain functional. Test-bed CSS supplies the dark-surface foreground and boundary colour for both current consumers.
+- `Architecture Check`: Shipping the structural rule in shared production CSS for two development test beds blurs the production/dev ownership boundary.
+- `Used By`: `DevPageHero`, mounted by the Codex and Opus development test beds only.
+- `Decision`: Move candidate; retain until the development hero boundary is reviewed as a unit.
+- `Evidence`: Source tracing found `DevPageHero` imports only in the two test-bed routes and page overrides only in `styles-test-beds.css`.
+- `Follow-up`: Review whether `DevPageHero` and this selector should move fully into the development layer or be replaced by a production consumer-backed hero copy contract.
+
+- `CSS-1.3` `Expanded` Shell, container, header, navigation, and mobile nav.
   - Scope: `.site-shell`, `.container`, `.site-header*`, `.brand*`, `.desktop-nav`, `.nav-*`, `.menu-toggle`, `.mobile-nav`, `.header-button`, and related responsive behavior.
-  - Next: Expand by shell/container, brand/header, desktop navigation, submenu navigation, mobile navigation, and header actions.
+  - Next: The first ten shell/header selectors are reviewed below. Continue with `.nav-link` and the remaining desktop/submenu navigation selectors before moving to mobile navigation.
+
+### CSS-1.3 - Shell, container, and header
+
+#### CSS-1.3.1 - First shell/header selector batch
+
+- `Status`: `Expanded`
+- `Layer`: Inherited shared production shell CSS
+- `Scope`: The first ten class selectors in source order after the body-copy selector group.
+- `Related Work`: `DEBT-13`, `DEBT-37`.
+- `Next`: Continue the source-order review from `.nav-link`.
+
+##### CSS-1.3.1.1 - `.site-shell`
+
+- `Status`: `Keep`
+- `Layer`: Layout root
+- `Selectors Covered`: `.site-shell`, page-owned `.site-shell:has(...)` refinements, and the `.site-shell--shared` contextual family.
+- `Naming/Structure Check`: Clear shell boundary; the `site-*` prefix matches its repository-wide ownership.
+- `Declaration Review`: `min-height: 100vh` and the paper canvas are appropriate defaults. LGBTQIA+ and Not Found override the canvas only through their page-root presence.
+- `Architecture Check`: Keep in shared production CSS as the Layout-owned root rather than moving page-specific canvas rules into it.
+- `Used By`: `Layout` on every public and development route using the shared application shell.
+- `Decision`: Keep.
+- `Evidence`: `Layout.tsx` emits the base class once and conditionally adds `.site-shell--shared`; source search found only page-scoped `:has()` refinements beyond the shared-shell contextual rules.
+- `Follow-up`: Review `.site-shell--shared` as its own modifier when the remaining shell-context selectors are batched.
+
+##### CSS-1.3.1.2 - `.container`
+
+- `Status`: `Actioned`
+- `Layer`: Inherited shared containment primitive
+- `Selectors Covered`: `.container`, its `700px` gutter override, and page/hero direct-child refinements.
+- `Naming/Structure Check`: The non-prefixed name is component-backed and consistently emitted by `Container`; it remains outside the promoted component catalogue.
+- `Declaration Review`: The base owns the shared maximum width, desktop gutters, centring, and narrow-screen gutters. No page-specific declaration duplicates those core decisions after the header migration.
+- `Architecture Check`: Header containment now composes the existing `Container` component instead of maintaining a parallel width and centring contract on `.site-header__inner`.
+- `Used By`: Twenty-nine `Container` call sites across all public content routes, `Layout` header/footer, `DevPageHero`, and development/documentation routes.
+- `Decision`: Keep and consolidate the header onto this existing containment owner.
+- `Evidence`: Source search found the component as the only emitter of `.container`; the former header declarations exactly matched the base and responsive container widths.
+- `Follow-up`: Promotion remains separate shared-system work; this audit establishes current inherited ownership only.
+
+##### CSS-1.3.1.3 - `.site-header`
+
+- `Status`: `Actioned`
+- `Layer`: Layout header root
+- `Selectors Covered`: `.site-header`, header descendant contexts, its responsive height override, and the removed `.site-shell--shared .site-header` declaration.
+- `Naming/Structure Check`: Clear Layout-owned block name with consistent element selectors.
+- `Declaration Review`: The base correctly owns sticky positioning, stacking, the header-height custom property, boundary, warm surface, and ink foreground. The shared-shell border override repeated the base value exactly and was removed.
+- `Architecture Check`: Keep the invariant header surface on the base selector; reserve `.site-shell--shared` for genuine contextual differences.
+- `Used By`: The single `Layout` banner rendered across mounted routes.
+- `Decision`: Keep the base and remove the duplicate contextual border declaration.
+- `Evidence`: Both declarations used `rgba(35, 75, 61, 0.22)` with no intervening header border override; public tests exercise the banner on every route.
+- `Follow-up`: Review remaining header descendants in later batches.
+
+##### CSS-1.3.1.4 - `.site-header__inner`
+
+- `Status`: `Actioned`
+- `Layer`: Layout header composition
+- `Selectors Covered`: `.site-header__inner` and its gap overrides at `700px`, `430px`, and `360px`.
+- `Naming/Structure Check`: Clear element name for the header's three-column composition.
+- `Declaration Review`: Grid, columns, alignment, responsive gaps, and minimum height remain here. Duplicated width, centring, and narrow-screen gutter declarations were removed.
+- `Architecture Check`: `Layout` now renders `Container className="site-header__inner"`, separating containment ownership from header composition.
+- `Used By`: The single `Layout` header inner wrapper.
+- `Decision`: Retain as the composition class and compose it with `.container`.
+- `Evidence`: The removed desktop width/margin and mobile width matched `.container` exactly; no selector depends on the former single-class markup.
+- `Follow-up`: None.
+
+##### CSS-1.3.1.5 - `.brand`
+
+- `Status`: `Keep`
+- `Layer`: Header wordmark link base
+- `Selectors Covered`: `.brand`.
+- `Naming/Structure Check`: Broad but internally consistent with `.brand--header` and `.brand__name`; current use is confined to the header.
+- `Declaration Review`: Inline-flex alignment and `min-width: 0` provide the correct link-level layout without duplicating the wordmark's typography.
+- `Architecture Check`: Keep beside the header family; collapsing it into the modifier would reduce the base/modifier distinction without a maintenance gain.
+- `Used By`: The header home link in `Layout`.
+- `Decision`: Keep.
+- `Evidence`: One TSX emitter and no competing `.brand` implementation were found.
+- `Follow-up`: Revisit naming only if the wordmark gains another non-header consumer.
+
+##### CSS-1.3.1.6 - `.brand__name`
+
+- `Status`: `Keep`
+- `Layer`: Header wordmark text base
+- `Selectors Covered`: `.brand__name` and its participation in the shared serif/weight heading group.
+- `Naming/Structure Check`: Correct element naming under `.brand`.
+- `Declaration Review`: Base ink, serif family, weight, size, and leading form a coherent wordmark role; the header modifier changes only header-specific scale and tracking.
+- `Architecture Check`: Keep shared typography on the base rather than repeating it in `.brand__name--header`.
+- `Used By`: The header wordmark span in `Layout`.
+- `Decision`: Keep.
+- `Evidence`: Source search found one emitter and verified that the removed shared-shell ink override duplicated this base colour.
+- `Follow-up`: None.
+
+##### CSS-1.3.1.7 - `.brand--header`
+
+- `Status`: `Actioned`
+- `Layer`: Header wordmark link modifier
+- `Selectors Covered`: `.brand--header` and `.brand--header:focus-visible`.
+- `Naming/Structure Check`: Modifier accurately scopes link alignment and spacing to the header use.
+- `Declaration Review`: Alignment and vertical padding remain; the link-level ink declaration was removed because the child `.brand__name` already owns the rendered foreground. Focus treatment remains grouped with other header controls.
+- `Architecture Check`: Keep layout on the link modifier and visual text ownership on the child element.
+- `Used By`: The header home link in `Layout`.
+- `Decision`: Keep and remove the duplicate colour declaration.
+- `Evidence`: The modifier has no icon or additional text node; `.brand__name` supplies `var(--ink)` directly.
+- `Follow-up`: None.
+
+##### CSS-1.3.1.8 - `.brand__name--header`
+
+- `Status`: `Actioned`
+- `Layer`: Header wordmark text modifier
+- `Selectors Covered`: `.brand__name--header`, its `700px`, `430px`, and `360px` size overrides, and the removed `.site-shell--shared .site-header .brand__name--header` rule.
+- `Naming/Structure Check`: Modifier clearly owns header-specific wordmark scale and fit.
+- `Declaration Review`: Header size, tracking, leading, and no-wrap remain. The shared-shell ink declaration was removed because `.brand__name` already supplies the same value.
+- `Architecture Check`: Keep invariant wordmark colour on the base and responsive fit on the header modifier.
+- `Used By`: The header wordmark span in `Layout`.
+- `Decision`: Keep and remove the duplicate contextual colour declaration.
+- `Evidence`: Both base and removed contextual declarations resolved to `var(--ink)`; no route-specific wordmark colour override remains.
+- `Follow-up`: None.
+
+##### CSS-1.3.1.9 - `.site-header__cluster`
+
+- `Status`: `Keep`
+- `Layer`: Desktop navigation placement wrapper
+- `Selectors Covered`: `.site-header__cluster` and its `1080px` hide rule.
+- `Naming/Structure Check`: Clear Layout-owned element name, distinct from the navigation component itself.
+- `Declaration Review`: Flex alignment and centred grid placement belong to the wrapper; hiding it at the established desktop breakpoint cleanly hands over to `.mobile-nav`.
+- `Architecture Check`: Keep the wrapper because header-grid placement and navigation-internal layout are separate responsibilities.
+- `Used By`: The `DesktopNavigation` wrapper in `Layout`.
+- `Decision`: Keep.
+- `Evidence`: One TSX emitter; navigation tests exercise the desktop-to-mobile handoff around the same breakpoint.
+- `Follow-up`: None.
+
+##### CSS-1.3.1.10 - `.desktop-nav`
+
+- `Status`: `Keep`
+- `Layer`: DesktopNavigation root
+- `Selectors Covered`: `.desktop-nav`; descendant links and submenus remain for later selector batches.
+- `Naming/Structure Check`: Clear component-root name paired with the exported `DesktopNavigation` function.
+- `Declaration Review`: Flex layout, full-height alignment, muted inherited foreground, compact type, and medium weight are coherent root-level navigation decisions.
+- `Architecture Check`: Keep navigation-internal layout here and header-grid placement on `.site-header__cluster`.
+- `Used By`: `DesktopNavigation` in `SiteNavigation.tsx`, mounted once by `Layout`.
+- `Decision`: Keep.
+- `Evidence`: One component emitter; public navigation tests cover desktop visibility, nested navigation, active destinations, and route changes.
+- `Follow-up`: Continue with `.nav-link` and its states in the next batch.
 
 - `CSS-1.4` `Expanded` Buttons and action primitives.
   - Scope: `.button`, button modifiers, and action/button overrides in shared contexts.
@@ -458,50 +740,50 @@ Use this structure when a region is expanded to class-token leaves:
 
 #### CSS-1.5.5 - Section heading and rich-text system
 
-- `Status`: `Reviewing`
+- `Status`: `Expanded`
 - `Layer`: Active non-prefixed shared production classes with older contextual selectors
 - `Scope`: Active `SectionHeading` and rich editorial text classes plus their descendant selectors.
 - `Related Work`: `DEBT-13`, `DEBT-21`.
-- `Next`: `.rich-text` is actioned and documented; review `.section-heading` and `.section-heading__copy` before changing them.
+- `Next`: Current source evidence is reconciled below and in `CSS-1.2.1.3`/`CSS-1.2.1.4`. Review the section-heading component boundary and rich-child coverage before changing either family.
 
 ##### CSS-1.5.5.1 - `.section-heading`
 
-- `Status`: `Reviewing`
+- `Status`: `Keep, document`
 - `Layer`: Active non-prefixed shared class
-- `Selectors Covered`: `.section-heading`; contextual `.issues-section .section-heading` and `.issues-section .section-heading h2` are cross-region with `CSS-1.5.6`.
-- `Naming/Structure Check`: Not assessed in this usage-only pass.
-- `Declaration Review`: Not performed in this usage-only pass.
-- `Architecture Check`: Active shared class with public page, rendered design-system, component, and docs usage. Contextual `.issues-section` selectors still need separate review under `CSS-1.5.6`.
-- `Used By`: `src/components/SectionHeading.tsx`, multiple public pages, rendered design-system examples, and design-system docs.
-- `Decision`: Used; not a delete candidate on usage evidence.
-- `Evidence`: 2026-06-27 usage pass found live references including `src/components/SectionHeading.tsx:9`, `src/pages/Home.tsx:257`, `src/pages/EnmPolyamoryCounselling.tsx:341`, `src/pages/KinkBdsmCounselling.tsx:205`, `src/pages/LgbtqiaCounselling.tsx:120`, `src/pages/WorkingWithJoel.tsx:284`, `src/pages/dev/design-system/DS_Foundations.tsx:533`, and `src/pages/dev/design-system/DS_Patterns.tsx:164`.
-- `Follow-up`: Run full declaration and contextual override review before deciding whether to keep as-is, document further, or split legacy issue-section hooks.
+- `Selectors Covered`: `.section-heading`.
+- `Naming/Structure Check`: Clear block name paired with `.section-heading__copy`, but live code now writes the classes directly while the matching component is uncalled.
+- `Declaration Review`: Grid, `18px` gap, and `760px` measure form a small coherent layout wrapper; former `.issues-section` contextual rules were removed in an earlier completed cleanup.
+- `Architecture Check`: The styling remains live on Working with Joel, but component ownership is stale and should be assessed with the copy element rather than inferred from the exported component's existence.
+- `Used By`: Working with Joel approach introduction; also emitted by the currently uncalled `SectionHeading` component.
+- `Decision`: Keep the live layout class and document the component-boundary question.
+- `Evidence`: The 2026-08-06 current-source pass found one direct mounted use in `WorkingWithJoel.tsx`, one emitter in `SectionHeading.tsx`, and no import or invocation of that component.
+- `Follow-up`: Review whether the page should consume `SectionHeading`, the component should be removed, or the classes should remain page-authored.
 
 ##### CSS-1.5.5.2 - `.section-heading__copy`
 
-- `Status`: `Reviewing`
+- `Status`: `Consolidate candidate`
 - `Layer`: Active non-prefixed shared class
-- `Selectors Covered`: shared body-type grouping for `.section-heading__copy`, `.section-heading__copy`, and contextual `.issues-section .section-heading__copy`.
-- `Naming/Structure Check`: Not assessed in this usage-only pass.
-- `Declaration Review`: Not performed in this usage-only pass.
-- `Architecture Check`: Active shared section-intro copy class with public page, rendered design-system, component, and page-scoped CSS usage. Contextual `.issues-section` override still needs separate review under `CSS-1.5.6`.
-- `Used By`: `src/components/SectionHeading.tsx`, public pages, rendered design-system examples, and `src/styles-home.css`.
-- `Decision`: Used; not a delete candidate on usage evidence.
-- `Evidence`: 2026-06-27 usage pass found live references including `src/components/SectionHeading.tsx:11`, `src/pages/Home.tsx:259`, `src/pages/EnmPolyamoryCounselling.tsx:273`, `src/pages/EnmPolyamoryCounselling.tsx:295`, `src/pages/WorkingWithJoel.tsx:290`, `src/pages/dev/design-system/DS_Foundations.tsx:453`, and `src/styles-home.css:167`.
-- `Follow-up`: Run full declaration and contextual override review before deciding whether to keep as-is, document further, or split legacy issue-section hooks.
+- `Selectors Covered`: `.section-heading__copy` in the shared body-type group and its standalone measure rule.
+- `Naming/Structure Check`: Clear element name, but direct page use and an uncalled component both claim ownership.
+- `Declaration Review`: The live class contributes a `760px` maximum width; `.site-reading` supplies the current paragraph typography and overrides the low-specificity legacy body group.
+- `Architecture Check`: Layout measure and a superseded prose role are combined on one inherited class. See the current deep record at `CSS-1.2.1.3`.
+- `Used By`: Working with Joel approach overview; also emitted by the currently uncalled `SectionHeading` component.
+- `Decision`: Retain the live measure while treating the component/prose-role overlap as a consolidation candidate.
+- `Evidence`: The 2026-08-06 current-source pass found no public or development consumer beyond Working with Joel and no `SectionHeading` invocation.
+- `Follow-up`: Review with `.section-heading`, `SectionHeading`, and `.site-reading`.
 
 ##### CSS-1.5.5.3 - `.rich-text`
 
-- `Status`: `Actioned`
+- `Status`: `Keep, document`
 - `Layer`: Active non-prefixed shared class
 - `Selectors Covered`: shared body-type grouping for `.rich-text`, `.rich-text`, `.rich-text h2`, `.rich-text h3`, `.rich-text h4`, `.rich-text a:not(.button)`, `.rich-text a:not(.button):focus-visible`, `.rich-text ul`, `.rich-text ol`, `.rich-text strong`, `.rich-text code`, `.rich-text blockquote`, `.rich-text blockquote p`, `.rich-text table`, `.rich-text th`, `.rich-text td`, `.rich-text hr`, `.rich-text .button`, and contextual `.site-copy-panel.rich-text`.
 - `Naming/Structure Check`: Clear active non-prefixed shared exception. The name is broad, but appropriate for the job: a scoped editorial HTML wrapper for content whose child elements are authored as semantic HTML rather than as component classes. Keep it as the wrapper API; avoid creating near-duplicate page-scoped rich-copy classes.
 - `Declaration Review`: Base `display: grid`, `gap: 20px`, and `max-width: 680px` create a consistent reading column. Body colour, size, and leading are inherited from the shared body-type grouping for `.rich-text`, `.rich-text p`, and `.rich-text li`, which keeps the wrapper aligned with the broader type system. Descendant heading, link, focus, list, strong, code, blockquote, table, divider, and button rules are cohesive and token-led. `.site-copy-panel.rich-text { max-width: none; }` is a sensible composition override because the panel controls the container width. Ordinary editorial-link rules now exclude `.button` anchors so `Button` variants retain their own colour and text-decoration contract. The table treatment remains appropriate for the current simple design-system example; wider public tables would need an overflow wrapper.
 - `Architecture Check`: Keep as the shared editorial HTML styling boundary. The broad descendant selector set is acceptable here because the wrapper intentionally absorbs ordinary rich HTML and prevents one-off page styles for links, lists, quotes, code, and simple tables. `.rich-text .button` remains a small placement refinement for one optional contextual next step, while grouped actions belong outside the wrapper. The blockquote left rule stays scoped to editorial quote content rather than becoming a generic callout/card pattern.
-- `Used By`: `src/pages/WorkingWithJoel.tsx`, rendered examples in `src/pages/dev/design-system/DS_Foundations.tsx` and `src/pages/dev/design-system/DS_Patterns.tsx`, and design-system docs.
-- `Decision`: Keep and document. Tighten the ordinary-link selector so it does not override a nested `Button`, and exercise the supported button placement in the rendered editorial HTML example.
-- `Evidence`: The 2026-07-21 completion pass revalidated source usage and found that `Button` emits `.button` on both link and native-button forms. The now-retired rendered catalogue exercised headings, paragraphs, links, strong text, inline code, lists, blockquote, table, divider, and a contextual button inside `.rich-text`; current inherited `.rich-text` evidence belongs in `docs/design-system-legacy/patterns.md`. `npm.cmd run check:encoding` and `npm.cmd run build` passed after that change.
-- `Follow-up`: If rich public content starts using wider tables, add an overflow/responsive treatment rather than stretching the base wrapper.
+- `Used By`: Working with Joel introduction panel. Its mounted children are currently one heading and `.site-reading` paragraphs.
+- `Decision`: Keep the active wrapper. The prior ordinary-link/button correction remains valid, but the broad descendant family now needs current-consumer review rather than relying on retired rendered examples.
+- `Evidence`: The 2026-08-06 current-source pass found one TSX emitter. The `/design-language/*` examples cited by the older review have been retired; the current design-system workspace mentions `.rich-text` only as inherited link-treatment context, not as a rendered or supported contract.
+- `Follow-up`: Review dormant rich-child capabilities as one family; if wider tables regain a live consumer, add an overflow/responsive treatment rather than stretching the base wrapper.
 
 #### CSS-1.5.6 - Legacy issue and topic-card cluster
 

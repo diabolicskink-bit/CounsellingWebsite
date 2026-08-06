@@ -123,35 +123,60 @@ h3 {
   line-height: var(--leading-card);
 }
 
-/* Inherited body-copy selector review — 2026-08-06 (DEBT-21).
-   Consumer records describe current source use; they do not promote these selectors.
-   01. .site-body-copy — no current TS/TSX consumer.
-   02. .site-copy-flow — BroadTabPanel on Working with Joel; its live tab paragraphs
-       also carry .site-reading.
-   03. .section-heading__copy — Working with Joel, plus uncalled SectionHeading;
-       its live paragraphs also carry .site-reading.
-   04. .rich-text — Working with Joel's introduction panel; its live paragraphs also
-       carry .site-reading, while the wrapper still owns layout and rich-child rules.
-   05. .site-ruled-paragraph — no current TS/TSX consumer.
-   06. .site-ruled-paragraph--wide — no current TS/TSX consumer.
-   07. .site-broad-tabs__content — BroadTabPanel on Working with Joel; active panel shell.
-   08. .site-cta-block — no current TS/TSX consumer.
-   09. .hero-intro — no current TS/TSX consumer.
-   10. .hero-copy-panel — DevPageHero on the Codex and Opus development test beds. */
 :where(
   p,
+  /* CSS-1.2.1.1
+     Used: No.
+     Consumers: None in current TS/TSX. */
   .site-body-copy,
+  /* CSS-1.2.1.2
+     Used: Yes.
+     Consumers: BroadTabPanel on Working with Joel.
+     Maintenance: Compare its generic content fallback with the promoted .site-reading
+     role already carried by every current tab paragraph. */
   .site-copy-flow,
   .site-copy-flow :where(p, li),
+  /* CSS-1.2.1.3
+     Used: Yes.
+     Consumers: Working with Joel approach copy; also emitted by uncalled SectionHeading.
+     Maintenance: Resolve the direct page use, unused component ownership, and overlap
+     with .site-reading before treating this as a shared copy role. */
   .section-heading__copy,
+  /* CSS-1.2.1.4
+     Used: Yes.
+     Consumers: Working with Joel introduction panel.
+     Maintenance: Audit the broad descendant family; its only live public consumer uses
+     headings and .site-reading paragraphs while many rich-child rules are dormant. */
   .rich-text,
   .rich-text p,
+  /* CSS-1.2.1.5
+     Used: No.
+     Consumers: None in current TS/TSX. */
   .site-ruled-paragraph,
+  /* CSS-1.2.1.6
+     Used: No.
+     Consumers: None in current TS/TSX. */
   .site-ruled-paragraph--wide,
+  /* CSS-1.2.1.7
+     Used: Yes.
+     Consumers: BroadTabPanel on Working with Joel.
+     Maintenance: Review the generic panel contract against its single route consumer,
+     whose page stylesheet replaces much of the base surface and responsive treatment. */
   .site-broad-tabs__content,
   .site-broad-tabs__content p,
+  /* CSS-1.2.1.8
+     Used: No.
+     Consumers: None in current TS/TSX. */
   .site-cta-block p,
+  /* CSS-1.2.1.9
+     Used: No.
+     Consumers: None in current TS/TSX. */
   .hero-intro,
+  /* CSS-1.2.1.10
+     Used: Yes.
+     Consumers: DevPageHero on the Codex and Opus development test beds.
+     Maintenance: Reassess why a development-only hero panel is owned by shared
+     production CSS rather than the test-bed layer. */
   .hero-copy-panel,
   .check-item,
   .rich-text li
@@ -161,16 +186,27 @@ h3 {
   line-height: var(--leading-body);
 }
 
+/* CSS-1.3.1.1
+   Used: Yes.
+   Consumers: Layout on every mounted route; page-owned :has() canvas refinements.
+   Maintenance: Inspect the .site-shell--shared family and page-owned :has() refinements
+   together for contextual complexity. */
 .site-shell {
   min-height: 100vh;
   background: var(--paper);
 }
 
+/* CSS-1.3.1.2
+   Used: Yes.
+   Consumers: Container across public/dev routes, including Layout header and footer. */
 .container {
   width: min(100% - 40px, var(--max));
   margin-inline: auto;
 }
 
+/* CSS-1.3.1.3
+   Used: Yes.
+   Consumers: Layout's single shared banner across mounted routes. */
 .site-header {
   --site-header-height: 72px;
 
@@ -182,34 +218,54 @@ h3 {
   color: var(--ink);
 }
 
+/* CSS-1.3.1.4
+   Used: Yes.
+   Consumers: Layout's header wrapper, composed with Container. */
 .site-header__inner {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: stretch;
   gap: clamp(20px, 2.4vw, 36px);
-  width: min(100% - 40px, var(--max));
   min-height: var(--site-header-height);
-  margin-inline: auto;
 }
 
+/* CSS-1.3.1.5
+   Used: Yes.
+   Consumers: Layout's header home link.
+   Maintenance: The broad base and header modifier currently serve one context and may be
+   more structure than the wordmark needs. */
 .brand {
   display: inline-flex;
   align-items: baseline;
   min-width: 0;
 }
 
+/* CSS-1.3.1.6
+   Used: Yes.
+   Consumers: Layout's header wordmark; shared serif heading declaration group.
+   Maintenance: Assess the single-context base/modifier split and its coupling to the
+   global heading declaration group as one brand-family review. */
 .brand__name {
   color: var(--ink);
   font-size: 1.62rem;
   line-height: 1.05;
 }
 
+/* CSS-1.3.1.7
+   Used: Yes.
+   Consumers: Layout's header home link.
+   Maintenance: Review with .brand; the modifier has one consumer and may be collapsible
+   if no second brand context is planned. */
 .brand--header {
   align-self: center;
   padding: 8px 0;
-  color: var(--ink);
 }
 
+/* CSS-1.3.1.8
+   Used: Yes.
+   Consumers: Layout's header wordmark plus its responsive size overrides.
+   Maintenance: Review with .brand__name; responsive overrides make this more than a safe
+   class-local simplification. */
 .brand__name--header {
   color: inherit;
   font-size: 1.78rem;
@@ -218,6 +274,9 @@ h3 {
   white-space: nowrap;
 }
 
+/* CSS-1.3.1.9
+   Used: Yes.
+   Consumers: Layout's DesktopNavigation placement wrapper. */
 .site-header__cluster {
   display: flex;
   align-self: stretch;
@@ -225,6 +284,11 @@ h3 {
   justify-self: center;
 }
 
+/* CSS-1.3.1.10
+   Used: Yes.
+   Consumers: DesktopNavigation in SiteNavigation, mounted by Layout.
+   Maintenance: Assess this root with its link, active-state, dropdown, and responsive
+   descendant families in the next navigation audit. */
 .desktop-nav {
   display: flex;
   align-self: stretch;
@@ -1634,14 +1698,6 @@ h3 {
   min-width: 210px;
 }
 
-.site-shell--shared .site-header {
-  border-bottom-color: rgba(35, 75, 61, 0.22);
-}
-
-.site-shell--shared .site-header .brand__name--header {
-  color: var(--ink);
-}
-
 .site-shell--shared .site-header .nav-link {
   color: var(--muted);
 }
@@ -1819,8 +1875,7 @@ h3 {
 }
 
 @media (max-width: 700px) {
-  .container,
-  .site-header__inner {
+  .container {
     width: min(100% - 28px, var(--max));
   }
 
