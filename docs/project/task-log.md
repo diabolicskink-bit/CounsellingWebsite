@@ -18,6 +18,22 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-06 - Homepage About Vive Copy Expanded
+
+- Reframed: The first substantial Home section remains `About Vive`, opening
+  with Joel and the practice before developing client concerns rather than
+  using a colder concerns-only heading.
+- Expanded: The narrative now gives separate weight to broad counselling,
+  trauma and relationships, including perfectionism, people-pleasing, CPTSD,
+  sexual trauma, sex and intimacy, and single or repeated traumatic
+  experiences.
+- Positioned: Kink, BDSM, ENM, polyamory and LGBTQIA+ affirming work now close
+  the section as a concrete practice strength, alongside Joel's commitment to
+  people whose identity, relationships, sex work or diagnosis have made
+  suitable therapy harder to find.
+- Removed: Detailed psychodynamic, attachment-informed and integrative method
+  copy has left Home and remains available on Working with Joel.
+
 ## 2026-08-06 - Public-Copy Instruction Path Rebuilt
 
 - Added: `practice-direction.md` now owns stable practice scope and positioning without supplying a reusable public-copy formula.

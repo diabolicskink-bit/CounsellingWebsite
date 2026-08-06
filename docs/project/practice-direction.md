@@ -15,8 +15,9 @@ booking.
 
 General counselling is central. Established areas of work include:
 
-- anxiety and depression;
-- trauma;
+- anxiety, depression, perfectionism, and people-pleasing;
+- trauma, including CPTSD, sexual trauma, and the effects of single or repeated
+  traumatic experiences;
 - relationship difficulties;
 - attachment, shame, and self-criticism;
 - grief and burnout; and
@@ -27,6 +28,10 @@ General counselling is central. Established areas of work include:
 Joel has specialist knowledge of kink, BDSM, ethical non-monogamy, and
 polyamory. LGBTQIA+ affirming counselling is also an established part of the
 practice.
+
+Joel is especially committed to working with people who may have struggled to
+find suitable therapy because their sexuality, gender, identity, relationships,
+sex work, or diagnosis were misunderstood or treated as the problem.
 
 These strengths sit within a broad counselling practice. Specialist knowledge
 describes Joel's professional knowledge and counselling work; it is not a

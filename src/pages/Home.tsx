@@ -90,11 +90,11 @@ const homePageContent: HomePageContent = {
       after: "",
     },
     narrative: [
-      "I’m Joel Griffiths. I offer online counselling to individuals and couples across Australia.",
-      "You might be feeling anxious or low, dealing with the effects of trauma, or struggling in a relationship that has become painful or stuck. Counselling can help you make sense of what is happening and look at what might need to change.",
-      "I work psychodynamically, with an attachment-informed and integrative approach. That means paying attention to what is happening now, what earlier relationships and experiences still carry into the present, and what you want to understand or change. I also draw on practical or skills-based work when it is useful.",
-      "I’m especially committed to working with people who may have struggled to find a therapist who understands their sexuality, gender, relationships, identity, diagnosis or work.",
-      "Sessions are online by video, so you can join from home or wherever works for you. There’s no need to travel or sit in a waiting room.",
+      "I’m Joel Griffiths, and Vive is my online counselling practice for individuals and couples across Australia.",
+      "Anxiety, depression, perfectionism and people-pleasing can make day-to-day life difficult. You may find it hard to switch off or hard to care, while much of your energy goes into getting things right and keeping other people happy. Counselling can help you understand these difficulties more clearly and look at what might need to change.",
+      "Trauma can continue to shape daily life and relationships long after the danger itself has passed. I work with CPTSD, sexual trauma, and the effects of single or repeated traumatic experiences. Knowing that something is over does not always stop your mind or body responding as though it is still close.",
+      "Relationships can become painful without love or care disappearing. You may be caught in the same argument, living with distance, dealing with damaged trust, or struggling with sex and intimacy. Counselling can help you understand what has become stuck and decide what needs to happen next.",
+      "Alongside this broader work, I bring specialist knowledge of kink and BDSM, ENM and polyamory, and I offer LGBTQIA+ affirming counselling. I’m especially committed to working with people who may have struggled to find suitable therapy because their sexuality, gender, identity, relationships, sex work or diagnosis were misunderstood or treated as the problem.",
     ],
     links: [
       {

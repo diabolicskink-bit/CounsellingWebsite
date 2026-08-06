@@ -598,12 +598,10 @@ async function expectHomePageStructure(page: Page) {
     }),
   ).toHaveCount(1);
   await expect(
-    about.getByText(/I offer online counselling to individuals and couples across Australia/),
+    about.getByText(/Vive is my online counselling practice for individuals and couples across Australia/),
   ).toBeVisible();
   await expect(
-    about.getByText(
-      "Sessions are online by video, so you can join from home or wherever works for you. There’s no need to travel or sit in a waiting room.",
-    ),
+    about.getByText(/I work with CPTSD, sexual trauma/),
   ).toBeVisible();
   await expect(about.locator(".home-about__story > p")).toHaveCount(5);
   await expect(about.locator(".home-about__story > p.site-reading")).toHaveCount(5);

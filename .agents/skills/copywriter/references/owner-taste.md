@@ -15,8 +15,14 @@ owner feedback or approved public wording.
 - Therapeutic methodology is supporting material and normally belongs on the
   Working with Joel page rather than driving the first substantial Home
   section.
+- `About Vive` is the right theme for the first substantial Home section. It
+  should introduce Joel and the practice before developing client concerns; a
+  concerns-only heading creates too cold a start.
 - The Home offer needs to make Joel Griffiths, anxiety and depression, trauma,
   relationships, and the practice's kink, ENM, and LGBTQIA+ relevance visible.
+- Anxiety and depression can sit together as the broad general-counselling
+  passage. Trauma deserves its own developed passage, including CPTSD, sexual
+  trauma, and the effects of single or repeated traumatic experiences.
 - Some development is useful in the first substantial section, but length must
   come from something worth saying rather than category expansion.
 
