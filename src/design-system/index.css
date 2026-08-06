@@ -1,0 +1,11 @@
+/*
+ * Current supported production CSS entry.
+ *
+ * The catalogues under docs/design-system/ grant reuse authority. This entry
+ * collects their CSS implementations into one Vite production bundle; source
+ * placement alone does not promote an item.
+ */
+
+@import "./foundations.css";
+@import "./patterns.css";
+@import "./components.css";

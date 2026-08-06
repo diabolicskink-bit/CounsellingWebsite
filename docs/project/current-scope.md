@@ -5,6 +5,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 ## Application And Routes
 
 - Vite, React, and TypeScript power the public counselling website.
+- Promoted production CSS lives under `src/design-system/` in current-only Foundations, Components, and Patterns files. `src/design-system/index.css` is imported once from `src/main.tsx`, so Vite combines the organised source into the production CSS bundle; the development catalogue uses the separate `src/styles-design-system-workspace.css`.
 - Public routes include Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, LGBTQIA+, Contact/Fees, and Not Found.
 - The Inclusion hub is served at `/inclusive-counselling`; its three first-class topic pages use the flat routes `/kink-bdsm-counselling`, `/polyamory-enm-counselling`, and `/lgbtqia-affirming-counselling`, linked from the shared navigation, Home, and the hub.
 - `/about` redirects to Working with Joel, `/fees` redirects to Contact/Fees, and the former indexed `/inclusion` hub permanently redirects to `/inclusive-counselling`; the former unindexed topic URLs do not redirect.

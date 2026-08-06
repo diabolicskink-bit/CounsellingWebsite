@@ -130,9 +130,10 @@ Each active item should include enough direction that a future session can choos
   - 2026-08-05: Promoted `.site-hero-background` as the shared dark surface for all seven public-route heroes and every development hero or cover. Removed the obsolete light `.hero-bg--default` helper, its unused noise asset, and the duplicated public and development hero background declarations while leaving hero structure, typography, actions, and responsive composition outside the promotion.
   - 2026-08-05: Promoted the no-prop `<ContactInvitation />` contract by explicit owner direction with Home as its first and currently only verified production consumer. The component now owns the canonical copy, Contact destination, accessible section relationship, interaction states, and responsive presentation; the former `home-closing*` implementation was removed. Rollout to the remaining non-Contact public pages is intentionally separate work.
   - 2026-08-05: Promoted `.site-reading` and `.site-reading--lead` after verifying the same prose and lead-paragraph jobs across Home and Working with Joel. Both routes and `<ContactInvitation />` now consume the shared classes; broader inherited type-token and raw-size reconciliation remains open.
+  - 2026-08-05: Moved every currently promoted CSS implementation into the current-only `src/design-system/` source entry, split by Foundations, Components, and Patterns. Vite imports that entry once for production bundling; inherited CSS remains in `src/styles.css`, and the development catalogue stylesheet is explicitly named as workspace-only.
   - Keep public pages and their current visual treatment unchanged during reconciliation unless a separate task explicitly authorizes visitor-facing work.
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
-- `Links`: `docs/design-system/`, `src/styles.css`, `src/components/`
+- `Links`: `docs/design-system/`, `src/design-system/`, `src/styles.css`, `src/components/`
 
 ### DEBT-8 - Route parity coverage needs explicit enforcement
 

@@ -1,4 +1,5 @@
 ﻿.system-workspace {
+  /* Development-only rendered-catalogue workspace, not production API. */
   --system-dark: #142b23;
   --system-paper: #f2efe8;
   --system-sage: #dfe8dc;

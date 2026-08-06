@@ -1,6 +1,7 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { BrowserApp } from "./BrowserApp";
 import "./styles.css";
+import "./design-system/index.css";
 
 function normalizePathname(pathname: string) {
   const normalizedPathname = pathname.replace(/\/+$/, "");

@@ -20,6 +20,16 @@ The catalogues do not contain candidates, page-local work, inherited implementat
 - [Components](components.md)
 - [Patterns](patterns.md)
 
+## Production CSS Source
+
+- `src/design-system/foundations.css` contains only CSS implementations named by the active Foundations catalogue.
+- `src/design-system/components.css` contains only CSS implementations owned by active component contracts.
+- `src/design-system/patterns.css` contains only CSS implementations named by the active Patterns catalogue.
+- `src/design-system/index.css` imports those three files once from the application entry so Vite emits them through the production CSS bundle.
+- `src/styles-design-system-workspace.css` styles the development-only rendered catalogue and is not reusable production API.
+
+Source placement makes the supported layer easy to inspect, but it does not grant authority: the current catalogue records remain decisive.
+
 Inherited implementation is recorded separately in the non-authoritative [legacy design-system register](../design-system-legacy/README.md). Git and the project task log retain completed removal history.
 
 ## Working Rule

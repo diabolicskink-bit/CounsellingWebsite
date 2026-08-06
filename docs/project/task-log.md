@@ -17,6 +17,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-05 - Promoted CSS Separated From Inherited Source
+
+- Separated: Every currently promoted CSS foundation, component treatment, and pattern now lives under the current-only `src/design-system/` production source entry; inherited shared CSS remains outside it.
+- Bundled: `src/main.tsx` imports `src/design-system/index.css` once, preserving one Vite production CSS bundle rather than adding browser stylesheet requests for the source files.
+- Clarified: The development catalogue stylesheet is now `src/styles-design-system-workspace.css`, making its tooling-only role distinct from the supported production system.
+- Reconciled: Active catalogue implementation paths and governance now point to the new source structure while retaining the Markdown contracts as reuse authority.
+
 ## 2026-08-05 - Reading Typography Roles Promoted
 
 - Promoted: `.site-reading` now owns the shared Inter-first body-prose family, responsive `1.01–1.08rem` size, weight `400`, and `1.64` line-height; `.site-reading--lead` adds the bounded darker-ink, weight-`500` opening-paragraph treatment.

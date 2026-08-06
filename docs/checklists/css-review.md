@@ -63,12 +63,12 @@ Use this structure when a region is expanded to class-token leaves:
 
 ## Top-Level Buckets
 
-- `CSS-1` `Expanded` `src/styles.css`, production shared CSS.
-  - Scope: Tokens, base element rules, shared public classes, legacy shared selectors, active `site-*` system, forms, FAQ, CTA, and shared hero system.
+- `CSS-1` `Expanded` `src/styles.css`, inherited and uncatalogued shared production CSS.
+  - Scope: Base document rules, tokens and shared-looking selectors that remain outside the current-only design-system CSS entry. Promotion status must be checked against the active catalogues rather than inferred from this file.
   - Next: Expand one major region at a time into class groups or class-token leaves.
 
 - `CSS-2` `Bucket` `src/styles-dev.css`, dev/docs support CSS.
-  - Scope: Remaining `ds-*`, the Documents reader, and other dev-only documentation support.
+  - Scope: Remaining `ds-*`, the Documents reader, and the separate `src/styles-design-system-workspace.css` rendered-catalogue presentation.
   - Next: Expand after production shared CSS has enough review structure.
 
 - `CSS-3` `Bucket` Public page-scoped CSS files.
@@ -78,6 +78,10 @@ Use this structure when a region is expanded to class-token leaves:
 - `CSS-4` `Bucket` Dev/test-bed experiment CSS files.
   - Scope: `styles-test-beds.css`, the page-scoped shell shared by the clean Codex and Opus development routes. The former candidate-specific test-bed stylesheets have been removed.
   - Next: Review the clean-shell stylesheet when either test bed receives a new design exploration; keep exploration-specific styling page-scoped until it proves reusable.
+
+- `CSS-5` `Bucket` `src/design-system/`, current-only promoted production CSS.
+  - Scope: `foundations.css`, `components.css`, and `patterns.css`, imported once through `index.css`. Every retained identifier must have a matching current contract under `docs/design-system/`.
+  - Next: Review these files only when a supported contract changes, is withdrawn, or gains a new verified consumer; do not add candidate or inherited selectors here.
 
 ## CSS-1 - `src/styles.css`
 
