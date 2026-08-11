@@ -25,6 +25,7 @@ owner feedback or approved public wording.
   trauma, and the effects of single or repeated traumatic experiences.
 - Some development is useful in the first substantial section, but length must
   come from something worth saying rather than category expansion.
+- Avoid em dashes in public copy.
 
 These are ingredients and priorities. They are not a prescribed sentence or
 one-paragraph-per-topic structure.
@@ -42,6 +43,29 @@ Treat it as evidence that concise, assertive, idea-led language is welcome when
 the claim is earned. Do not turn its two-part contrast into a house formula or
 copy its rhythm into unrelated sections. No complete house-voice sample is yet
 approved.
+
+The Home Inclusive practice introduction is also owner-approved:
+
+> I bring specialist knowledge of kink and BDSM, ethical non-monogamy and
+> polyamory, alongside LGBTQIA+ affirming counselling. I also bring extensive
+> lived experience within these communities. I know personally what it is like
+> to encounter the subtle reactions and signs of discomfort that can appear
+> when talking about these parts of life, even in therapy.
+
+It states professional knowledge and personal experience separately, then
+makes the lived-experience claim concrete without making the visitor's response
+or history for them.
+
+The Home Kink and BDSM destination copy is owner-approved:
+
+> I bring significant expertise in kink and BDSM, including an understanding
+> of why it may matter in a person’s life and the different meanings it can
+> carry. You can talk about power, consent, desire and relationships without
+> awkwardness or automatic judgement, including when things have gone
+> seriously wrong.
+
+It makes the expertise useful by covering meaning, ordinary discussion and
+serious harm without treating non-judgement as uncritical affirmation.
 
 ## Explicitly rejected mechanisms
 

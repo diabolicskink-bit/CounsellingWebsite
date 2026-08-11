@@ -25,9 +25,12 @@ General counselling is central. Established areas of work include:
 
 ## Specialist knowledge and affirming practice
 
-Joel has specialist knowledge of kink, BDSM, ethical non-monogamy, and
-polyamory. LGBTQIA+ affirming counselling is also an established part of the
-practice.
+Joel has significant expertise in kink and BDSM, and specialist knowledge of
+ethical non-monogamy and polyamory. LGBTQIA+ affirming counselling is also an
+established part of the practice.
+
+Joel's work in these areas is also informed by extensive lived experience
+within the relevant communities.
 
 Joel is especially committed to working with people who may have struggled to
 find suitable therapy because their sexuality, gender, identity, relationships,

@@ -36,8 +36,9 @@ const prerenderedRouteContracts = {
       'class="home-about site-section-warm"',
       'class="contact-invitation site-section-warm"',
       'aria-label="Inclusive practice topics"',
-      'class="home-page__inclusive-topic-link home-page__inclusive-topic-link--parent"',
-      'class="home-page__inclusive-topic-children"',
+      'class="home-inclusive__topics"',
+      'class="home-inclusive__topic"',
+      'class="home-inclusive__hub-link"',
       'href="/working-with-joel"',
       'href="/inclusive-counselling"',
       'href="/contact"',
@@ -628,12 +629,30 @@ async function expectHomePageStructure(page: Page) {
   await expect(home.locator(".contact-invitation__copy")).toHaveText(
     "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
   );
-  await expect(home.locator(".home-page__inclusive-copy.site-reading")).toHaveCount(1);
+  await expect(home.locator(".home-inclusive__copy.site-reading")).toHaveCount(1);
   await expect(home.locator(".contact-invitation__copy.site-reading")).toHaveCount(1);
   const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
-  await expect(inclusiveTopics.locator(":scope li")).toHaveCount(4);
-  await expect(inclusiveTopics.locator(".home-page__inclusive-topic-link--parent")).toHaveCount(1);
-  await expect(inclusiveTopics.locator(".home-page__inclusive-topic-children > li")).toHaveCount(3);
+  await expect(home.getByRole("heading", { level: 2, name: "Inclusive practice" })).toHaveCount(1);
+  await expect(inclusiveTopics.locator(".home-inclusive__topics > li")).toHaveCount(3);
+  await expect(inclusiveTopics.locator(".home-inclusive__topic")).toHaveCount(3);
+  await expect(
+    inclusiveTopics.locator(".home-inclusive__topic-index, .home-inclusive__topic-signal"),
+  ).toHaveCount(0);
+  await expect(inclusiveTopics.locator(".home-inclusive__topic p")).toHaveCount(3);
+  await expect(
+    inclusiveTopics.getByRole("heading", {
+      level: 3,
+      name: "Ethical non-monogamy & polyamory counselling",
+    }),
+  ).toHaveCount(1);
+  await expect(inclusiveTopics.getByText(/specialist knowledge of ENM and polyamory/i)).toBeVisible();
+  await expect(
+    inclusiveTopics.getByText(/takes sexuality, gender, identity and relationships seriously/i),
+  ).toBeVisible();
+  await expect(inclusiveTopics.getByText(/ethical non-monogamy and polyamory/i)).toBeVisible();
+  await expect(
+    inclusiveTopics.getByRole("link", { name: "Read about inclusive practice" }),
+  ).toHaveAttribute("href", "/inclusive-counselling");
 
   for (const [href, count] of [
     ["/working-with-joel", 1],
@@ -1006,7 +1025,7 @@ test.describe("prerendered route activation boundaries", () => {
       document.body.dataset.spaNavigationSentinel = "preserved";
     });
 
-    await page.locator(".home-page__inclusive-topic-link--parent").click();
+    await page.getByRole("link", { name: "Read about inclusive practice" }).click();
 
     await expect(page).toHaveURL(/\/inclusive-counselling$/);
     await expect(page.locator("h1.hero-badge")).toBeVisible();
@@ -1299,7 +1318,8 @@ test.describe("crawl and app metadata assets", () => {
     for (const route of inclusionChildRoutes) {
       await expect(homeMain.locator(`a[href="${route.path}"]`)).toHaveCount(1);
     }
-    await expect(homeMain.locator(".home-page__inclusive-topic-link")).toHaveCount(4);
+    await expect(homeMain.locator(".home-inclusive__topic")).toHaveCount(3);
+    await expect(homeMain.locator(".home-inclusive__hub-link")).toHaveCount(1);
 
     await page.goto("/inclusive-counselling", { waitUntil: "networkidle" });
     const inclusionMain = page.locator("main.inclusion-hub-page");

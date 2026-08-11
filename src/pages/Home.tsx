@@ -23,6 +23,7 @@ type HomeLink = {
 
 type HomeInclusiveTopic = {
   title: string;
+  description: string;
   href: string;
 };
 
@@ -48,7 +49,7 @@ type HomeInclusiveContent = {
   heading: EmphasisCopy;
   copy: string;
   topicsAriaLabel: string;
-  hub: HomeInclusiveTopic;
+  hub: HomeLink;
   topics: HomeInclusiveTopic[];
 };
 
@@ -105,27 +106,33 @@ const homePageContent: HomePageContent = {
   },
   inclusive: {
     heading: {
-      before: "Bring ",
-      emphasis: "all",
-      after: " of yourself.",
+      before: "",
+      emphasis: "Inclusive",
+      after: " practice",
     },
-    copy: "If your relationships, sexuality or identity sit outside what people usually assume, you may be used to watching how you talk about them. You explain things that shouldn’t need explaining, or leave something out because you don’t know whether it’ll be misunderstood, judged or treated as the problem. Here, you can talk about what’s actually going on without first defending who you are or how you live.",
+    copy: "I bring specialist knowledge of kink and BDSM, ethical non-monogamy and polyamory, alongside LGBTQIA+ affirming counselling. I also bring extensive lived experience within these communities. I know personally what it is like to encounter the subtle reactions and signs of discomfort that can appear when talking about these parts of life, even in therapy.",
     topicsAriaLabel: "Inclusive practice topics",
     hub: {
-      title: "Inclusive counselling hub",
+      label: "Read about inclusive practice",
       href: routeHref(publicRoutePaths.inclusion),
     },
     topics: [
       {
         title: "Kink & BDSM-aware counselling",
+        description:
+          "I bring significant expertise in kink and BDSM, including an understanding of why it may matter in a person’s life and the different meanings it can carry. You can talk about power, consent, desire and relationships without awkwardness or automatic judgement, including when things have gone seriously wrong.",
         href: routeHref(publicRoutePaths.kinkBdsm),
       },
       {
-        title: "Polyamory & ENM-aware counselling",
+        title: "Ethical non-monogamy & polyamory counselling",
+        description:
+          "I bring specialist knowledge of ENM and polyamory, including the different ways people build relationships, commitments and families. You can talk about agreements, jealousy, changing relationships, different needs and difficult decisions without monogamy being treated as the inevitable answer.",
         href: routeHref(publicRoutePaths.enmPolyamory),
       },
       {
         title: "LGBTQIA+ affirming counselling",
+        description:
+          "I offer LGBTQIA+ affirming counselling that takes sexuality, gender, identity and relationships seriously. You can talk about what is difficult, what is changing and what matters to you without your identity being treated as the problem or used to explain everything.",
         href: routeHref(publicRoutePaths.lgbtqia),
       },
     ],
@@ -223,45 +230,36 @@ function AboutViveSection({
 function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
   return (
     <section className="home-inclusive" aria-labelledby="home-inclusive-title">
-      <Container>
-        <div className="home-page__inclusive-frame">
-          <div className="home-page__inclusive-main">
-            <h2 id="home-inclusive-title">
-              {inclusive.heading.before}
-              <em className="site-emphasis">{inclusive.heading.emphasis}</em>
-              {inclusive.heading.after}
-            </h2>
-            <p className="home-page__inclusive-copy site-reading">{inclusive.copy}</p>
-          </div>
+      <Container className="home-inclusive__inner">
+        <header className="home-inclusive__header">
+          <h2 className="home-inclusive__heading" id="home-inclusive-title">
+            {inclusive.heading.before}
+            <em className="site-emphasis">{inclusive.heading.emphasis}</em>
+            {inclusive.heading.after}
+          </h2>
+          <p className="home-inclusive__copy site-reading">{inclusive.copy}</p>
+        </header>
 
-          <nav className="home-page__inclusive-topics-nav" aria-label={inclusive.topicsAriaLabel}>
-            <ul className="home-page__inclusive-topics">
-              <li>
-                <Link
-                  className="home-page__inclusive-topic-link home-page__inclusive-topic-link--parent"
-                  to={inclusive.hub.href}
-                >
-                  <h3>{inclusive.hub.title}</h3>
-                  <ArrowRight aria-hidden="true" size={24} strokeWidth={1.5} />
+        <nav className="home-inclusive__index" aria-label={inclusive.topicsAriaLabel}>
+          <ul className="home-inclusive__topics">
+            {inclusive.topics.map((topic) => (
+              <li key={topic.title}>
+                <Link className="home-inclusive__topic" to={topic.href}>
+                  <div className="home-inclusive__topic-copy">
+                    <h3>{topic.title}</h3>
+                    <p>{topic.description}</p>
+                  </div>
+                  <ArrowRight aria-hidden="true" size={26} strokeWidth={1.5} />
                 </Link>
-
-                <ul className="home-page__inclusive-topic-children">
-                  {inclusive.topics.map((topic) => (
-                    <li key={topic.title}>
-                      <Link
-                        className="home-page__inclusive-topic-link home-page__inclusive-topic-link--child"
-                        to={topic.href}
-                      >
-                        <h3>{topic.title}</h3>
-                        <ArrowRight aria-hidden="true" size={24} strokeWidth={1.5} />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
               </li>
-            </ul>
-          </nav>
-        </div>
+            ))}
+          </ul>
+
+          <Link className="home-inclusive__hub-link" to={inclusive.hub.href}>
+            <span>{inclusive.hub.label}</span>
+            <ArrowRight aria-hidden="true" size={18} />
+          </Link>
+        </nav>
       </Container>
     </section>
   );

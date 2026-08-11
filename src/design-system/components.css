@@ -127,7 +127,8 @@
 
   .contact-invitation__content {
     gap: 22px;
-    padding-top: 24px;
+    padding-top: 0;
+    border-top: 0;
   }
 
   .contact-invitation__action {

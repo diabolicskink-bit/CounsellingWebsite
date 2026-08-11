@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-11 - Homepage Specialist-Practice Section Rebuilt
+
+- Replaced: The generic `Bring all of yourself` split section is now a direct `Inclusive practice` section centred on what Joel already knows before counselling begins.
+- Rewritten: The introduction states Joel's kink and BDSM, ethical non-monogamy and polyamory, and LGBTQIA+ relevance directly, including the lived experience informing this work; each topic has its own practice-specific scope copy and first-class route.
+- Redesigned: Three offset, overlapping editorial surfaces carry the specialist destinations without numbers or substitute category labels; the general Inclusion hub is a quiet secondary route, and the surfaces retain a small alternating offset when stacked on narrow screens.
+
 ## 2026-08-11 - Inclusion Child Pages Gain Closing Invitations
 
 - Added: Kink and BDSM, ENM and polyamory, and LGBTQIA+ pages now close with the canonical `<ContactInvitation />` after their page-specific content.
