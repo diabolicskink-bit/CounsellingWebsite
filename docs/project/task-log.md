@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-11 - Inclusion Child Pages Gain Closing Invitations
+
+- Added: Kink and BDSM, ENM and polyamory, and LGBTQIA+ pages now close with the canonical `<ContactInvitation />` after their page-specific content.
+- Preserved: The shared component retains its fixed appointment, free 15-minute consult, and general-enquiry wording, Contact destination, accessibility relationship, interaction states, and responsive treatment.
+- Verified: Route coverage now asserts one final closing invitation and its `/contact` destination on all three child pages, including their prerendered HTML.
+
 ## 2026-08-06 - Homepage About Vive Copy Expanded
 
 - Reframed: The first substantial Home section remains `About Vive`, opening

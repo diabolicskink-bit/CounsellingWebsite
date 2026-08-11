@@ -1,4 +1,5 @@
 import Container from "../components/Container";
+import ContactInvitation from "../components/ContactInvitation";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
@@ -169,6 +170,8 @@ export default function LgbtqiaCounselling() {
           </div>
         </Container>
       </section>
+
+      <ContactInvitation />
     </main>
   );
 }

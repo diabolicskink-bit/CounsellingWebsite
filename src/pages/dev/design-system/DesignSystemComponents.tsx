@@ -21,7 +21,12 @@ export default function DesignSystemComponents() {
         </div>
 
         <DesignSystemSpecimen
-          consumers={["Home closing invitation"]}
+          consumers={[
+            "Home closing invitation",
+            "Kink and BDSM closing invitation",
+            "ENM and polyamory closing invitation",
+            "LGBTQIA+ closing invitation",
+          ]}
           identifier="<ContactInvitation />"
           recordPath="docs/design-system/components.md"
           role="Canonical final invitation from a public content page into the Contact journey; copy, destination, accessibility, and responsive presentation are component-owned."

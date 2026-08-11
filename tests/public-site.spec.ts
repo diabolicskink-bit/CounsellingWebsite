@@ -79,6 +79,7 @@ const prerenderedRouteContracts = {
       'class="hero-section site-hero-background specialist-counselling-hero kink-page__hero"',
       'class="kink-page__misread site-section-warm"',
       'class="kink-page__more"',
+      'class="contact-invitation site-section-warm"',
     ],
     noJavaScriptSelector: ".kink-page__misread",
   },
@@ -89,6 +90,7 @@ const prerenderedRouteContracts = {
       'class="enm-page__reasons site-section-warm"',
       'class="enm-page__reasons-list"',
       'class="enm-page__position"',
+      'class="contact-invitation site-section-warm"',
     ],
     noJavaScriptSelector: ".enm-page__reasons-list",
   },
@@ -99,6 +101,7 @@ const prerenderedRouteContracts = {
       'class="lgbtqia-page__recognition site-section-warm"',
       'class="lgbtqia-page__recognition-list"',
       'class="lgbtqia-page__disclosure"',
+      'class="contact-invitation site-section-warm"',
     ],
     noJavaScriptSelector: ".lgbtqia-page__recognition-list",
   },
@@ -752,7 +755,11 @@ test.describe("public pages", () => {
           ),
         ).toHaveCount(3);
         await expect(page.locator(".kink-page h3")).toHaveCount(0);
-        await expect(page.locator(".kink-page p.site-reading")).toHaveCount(6);
+        await expect(
+          page.locator(
+            ".kink-page__fluency-copy p.site-reading, .kink-page__misread-copy p.site-reading, .kink-page__more-copy p.site-reading",
+          ),
+        ).toHaveCount(6);
       }
 
       if (route === "/polyamory-enm-counselling") {
@@ -775,6 +782,18 @@ test.describe("public pages", () => {
         await expect(pageMain.locator(".lgbtqia-page__assumptions-introduction.site-reading")).toHaveCount(1);
         await expect(pageMain.locator(".lgbtqia-page__disclosure-copy > p.site-reading")).toHaveCount(3);
         await expect(pageMain.locator(".lgbtqia-page__disclosure-position.site-reading")).toHaveCount(0);
+      }
+
+      if (inclusionChildRoutes.some(({ path }) => path === route)) {
+        const pageMain = page.locator("main");
+        const closingInvitation = pageMain.locator(":scope > .contact-invitation");
+
+        await expect(closingInvitation).toHaveCount(1);
+        await expect(closingInvitation).toBeVisible();
+        await expect(pageMain.locator(":scope > section").last()).toHaveClass(/contact-invitation/);
+        await expect(
+          closingInvitation.getByRole("link", { name: "See contact options" }),
+        ).toHaveAttribute("href", "/contact");
       }
 
       if (route === "/contact") {
