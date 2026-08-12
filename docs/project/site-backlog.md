@@ -113,7 +113,7 @@ Statuses:
 - `Classification`: `Content`
 - `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/data/routeMetadata.json`
 - `Visitor-Facing Goal`: Let visitors understand the real cost and payment setup before enquiring.
-- `Current State`: The Contact page states the session fee, length, free initial consult, and no referral requirement, but it does not explicitly state Medicare/private-health rebate availability, payment method, or when payment is due.
+- `Current State`: Home and Contact state the individual and couples session fees, session length, and free initial consult; Contact also states that no referral is required. The site does not explicitly state Medicare/private-health rebate availability, payment method, or when payment is due.
 - `Why Deferred`: Rebate and payment wording needs owner confirmation before becoming public.
 - `First Useful Slice`: Confirm Medicare/private-health rebate policy and preferred payment wording, then add a concise Contact page note or FAQ item.
 - `Implemented When`: Fee information answers session price, length, referral, rebate, payment timing/method, and initial consult basics in one clear place.

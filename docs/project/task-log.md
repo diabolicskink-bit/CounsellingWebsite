@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-12 - Homepage Session Fees Added
+
+- Added: Home now states the individual and couples 50-minute session fees and the free 15-minute initial consultation immediately before its shared closing invitation.
+- Aligned: The fourth `More than two?` item now uses the same `Get in touch` treatment and Contact destination as the established Contact-page fee summary.
+- Composed: The pricing remains a compact, separate four-item practical section rather than repeating the larger editorial surfaces above it, with a two-by-two narrow-screen layout.
+
 ## 2026-08-11 - Homepage Specialist-Practice Section Rebuilt
 
 - Replaced: The generic `Bring all of yourself` split section is now a direct `Inclusive practice` section centred on what Joel already knows before counselling begins.

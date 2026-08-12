@@ -53,11 +53,30 @@ type HomeInclusiveContent = {
   topics: HomeInclusiveTopic[];
 };
 
+type HomeFee =
+  | {
+      kind: "price";
+      label: string;
+      price: string;
+      duration: string;
+    }
+  | {
+      kind: "action";
+      label: string;
+      link: HomeLink;
+    };
+
+type HomeFeesContent = {
+  heading: string;
+  items: HomeFee[];
+};
+
 type HomePageContent = {
   hero: HomeHeroContent;
   portrait: HomePortrait;
   about: HomeAboutContent;
   inclusive: HomeInclusiveContent;
+  fees: HomeFeesContent;
 };
 
 const homeMetadata = getRouteMetadata("/");
@@ -134,6 +153,37 @@ const homePageContent: HomePageContent = {
         description:
           "I offer LGBTQIA+ affirming counselling that takes sexuality, gender, identity and relationships seriously. You can talk about what is difficult, what is changing and what matters to you without your identity being treated as the problem or used to explain everything.",
         href: routeHref(publicRoutePaths.lgbtqia),
+      },
+    ],
+  },
+  fees: {
+    heading: "Sessions and fees",
+    items: [
+      {
+        kind: "price",
+        label: "Individual",
+        price: "$120",
+        duration: "50 minutes",
+      },
+      {
+        kind: "price",
+        label: "Couples",
+        price: "$150",
+        duration: "50 minutes",
+      },
+      {
+        kind: "price",
+        label: "Initial consultation",
+        price: "Free",
+        duration: "15 minutes",
+      },
+      {
+        kind: "action",
+        label: "More than two?",
+        link: {
+          href: contactHref,
+          label: "Get in touch",
+        },
       },
     ],
   },
@@ -265,15 +315,50 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
   );
 }
 
+function FeesSection({ fees }: { fees: HomeFeesContent }) {
+  return (
+    <section className="home-fees" aria-labelledby="home-fees-title">
+      <Container className="home-fees__inner">
+        <header className="home-fees__header">
+          <h2 className="home-fees__heading" id="home-fees-title">
+            {fees.heading}
+          </h2>
+        </header>
+
+        <dl className="home-fees__offers" aria-label="Counselling session fees">
+          {fees.items.map((offer) => (
+            <div className={`home-fees__offer home-fees__offer--${offer.kind}`} key={offer.label}>
+              <dt>{offer.label}</dt>
+              <dd>
+                {offer.kind === "price" ? (
+                  <>
+                    <strong>{offer.price}</strong>
+                    <span>{offer.duration}</span>
+                  </>
+                ) : (
+                  <Link className="home-fees__action" to={offer.link.href}>
+                    {offer.link.label}
+                  </Link>
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </Container>
+    </section>
+  );
+}
+
 export default function Home() {
   useDocumentMetadata(homeMetadata.title, homeMetadata.description);
-  const { hero, portrait, about, inclusive } = homePageContent;
+  const { hero, portrait, about, inclusive, fees } = homePageContent;
 
   return (
     <main className="site-page home-page">
       <HomeHeroSection hero={hero} />
       <AboutViveSection about={about} portrait={portrait} />
       <InclusiveSection inclusive={inclusive} />
+      <FeesSection fees={fees} />
       <ContactInvitation />
     </main>
   );

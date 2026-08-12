@@ -39,6 +39,8 @@ const prerenderedRouteContracts = {
       'class="home-inclusive__topics"',
       'class="home-inclusive__topic"',
       'class="home-inclusive__hub-link"',
+      'class="home-fees"',
+      'aria-labelledby="home-fees-title"',
       'href="/working-with-joel"',
       'href="/inclusive-counselling"',
       'href="/contact"',
@@ -577,6 +579,7 @@ async function expectHomePageStructure(page: Page) {
   const home = page.locator("main.home-page");
   const hero = home.locator(".hero-section");
   const about = home.locator(".home-about");
+  const fees = home.getByRole("region", { name: "Sessions and fees" });
   const portrait = home.locator('img[src="/joel-griffiths-homepage-portrait.jpg"]');
 
   await expect(home).toBeVisible();
@@ -653,11 +656,28 @@ async function expectHomePageStructure(page: Page) {
   await expect(
     inclusiveTopics.getByRole("link", { name: "Read about inclusive practice" }),
   ).toHaveAttribute("href", "/inclusive-counselling");
+  await expect(fees).toHaveCount(1);
+  await expect(fees.getByRole("heading", { level: 2, name: "Sessions and fees" })).toHaveCount(1);
+  await expect(fees.locator('dl[aria-label="Counselling session fees"] > div')).toHaveCount(4);
+  await expect(fees.getByText("Individual", { exact: true })).toBeVisible();
+  await expect(fees.getByText("$120", { exact: true })).toBeVisible();
+  await expect(fees.getByText("Couples", { exact: true })).toBeVisible();
+  await expect(fees.getByText("$150", { exact: true })).toBeVisible();
+  await expect(fees.getByText("Initial consultation", { exact: true })).toBeVisible();
+  await expect(fees.getByText("Free", { exact: true })).toBeVisible();
+  await expect(fees.getByText("50 minutes", { exact: true })).toHaveCount(2);
+  await expect(fees.getByText("15 minutes", { exact: true })).toBeVisible();
+  await expect(fees.getByText("More than two?", { exact: true })).toBeVisible();
+  await expect(fees.getByRole("link", { name: "Get in touch" })).toHaveAttribute(
+    "href",
+    "/contact",
+  );
+  await expect(home.locator(".home-fees + .contact-invitation")).toHaveCount(1);
 
   for (const [href, count] of [
     ["/working-with-joel", 1],
     ["/inclusive-counselling", 2],
-    ["/contact", 2],
+    ["/contact", 3],
   ] as const) {
     await expect(home.locator(`a[href="${href}"]`)).toHaveCount(count);
   }
