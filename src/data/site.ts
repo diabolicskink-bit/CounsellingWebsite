@@ -31,6 +31,10 @@ export const navItems: readonly NavItem[] = [
     ],
   },
   {
+    label: "Articles",
+    href: routeHref(publicRoutePaths.blog),
+  },
+  {
     label: "Fees",
     href: routeHref(publicRoutePaths.contact),
   },

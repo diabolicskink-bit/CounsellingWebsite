@@ -9,16 +9,6 @@ const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
-const prerenderedRoutePaths = [
-  "/",
-  "/working-with-joel",
-  "/inclusive-counselling",
-  "/kink-bdsm-counselling",
-  "/polyamory-enm-counselling",
-  "/lgbtqia-affirming-counselling",
-  "/contact",
-];
-const indexableRoutePaths = prerenderedRoutePaths;
 const prerenderedRouteSmokeFragments = {
   "/": [
     '<main class="site-page home-page">',
@@ -80,7 +70,21 @@ const prerenderedRouteSmokeFragments = {
     'data-clarity-mask="true"',
     'href="mailto:joel@vivecounselling.com.au"',
   ],
+  "/blog": [
+    '<main class="site-page blog-index">',
+    ">Articles</h1>",
+    'class="blog-index__header"',
+    'aria-label="Published articles"',
+    'class="blog-index__site-links"',
+  ],
 };
+const blogArticleSmokeFragments = [
+  '<main class="site-page blog-article">',
+  'class="blog-article__header"',
+  'aria-label="Article details"',
+  'class="blog-article__prose',
+  'class="blog-article__return"',
+];
 const prerenderedRouteSmokeForbiddenFragments = {};
 const notFoundFallback = {
   h1: "That page isn't here.",
@@ -344,6 +348,72 @@ function getSpecialistServiceStructuredDataTag(routePath, routeMetadata, siteMet
   return getStructuredDataTag(structuredData);
 }
 
+function getCollectionStructuredDataTag(routePath, routeMetadata, siteMetadata, siteOrigin) {
+  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
+  const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": `${pageUrl}#blog`,
+    url: pageUrl,
+    name: routeMetadata.title,
+    description: routeMetadata.description,
+    isPartOf: { "@id": ids.websiteId },
+    publisher: { "@id": ids.organizationId },
+    author: { "@id": ids.personId },
+  };
+
+  return getStructuredDataTag(structuredData);
+}
+
+function getArticleStructuredDataTag(routePath, routeMetadata, siteMetadata, siteOrigin) {
+  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
+  const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
+  const pageId = `${pageUrl}#webpage`;
+  const articleId = `${pageUrl}#article`;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": pageId,
+        url: pageUrl,
+        name: routeMetadata.title,
+        description: routeMetadata.description,
+        isPartOf: { "@id": ids.websiteId },
+        mainEntity: { "@id": articleId },
+      },
+      {
+        "@type": "BlogPosting",
+        "@id": articleId,
+        url: pageUrl,
+        headline: routeMetadata.headline ?? routeMetadata.title,
+        ...(routeMetadata.abstract ? { abstract: routeMetadata.abstract } : {}),
+        description: routeMetadata.description,
+        datePublished: routeMetadata.publishedAt,
+        dateModified: routeMetadata.modifiedAt ?? routeMetadata.publishedAt,
+        articleSection: routeMetadata.articleSection,
+        author: {
+          "@type": "Person",
+          "@id": ids.personId,
+          name: routeMetadata.authorName ?? siteMetadata.person.name,
+          url: ids.profileUrl,
+        },
+        publisher: {
+          "@type": "Organization",
+          "@id": ids.organizationId,
+          name: siteMetadata.name,
+          url: ids.homepageUrl,
+        },
+        image: getAssetUrl(siteOrigin, siteMetadata.socialImage),
+        mainEntityOfPage: { "@id": pageId },
+      },
+    ],
+  };
+
+  return getStructuredDataTag(structuredData);
+}
+
 function getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   if (routePath === "/") {
     return [getHomeStructuredDataTag(siteMetadata, siteOrigin)];
@@ -355,6 +425,14 @@ function getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, site
 
   if (siteMetadata.specialistServices[routePath]) {
     return [getSpecialistServiceStructuredDataTag(routePath, routeMetadata, siteMetadata, siteOrigin)];
+  }
+
+  if (routeMetadata.pageType === "collection") {
+    return [getCollectionStructuredDataTag(routePath, routeMetadata, siteMetadata, siteOrigin)];
+  }
+
+  if (routeMetadata.pageType === "article") {
+    return [getArticleStructuredDataTag(routePath, routeMetadata, siteMetadata, siteOrigin)];
   }
 
   return [];
@@ -369,6 +447,13 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
     ? [`<meta name="robots" content="${escapeHtml(routeMetadata.robots)}" />`]
     : [];
   const structuredData = getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, siteOrigin);
+  const articleMetadata = routeMetadata.pageType === "article"
+    ? [
+        `<meta property="article:published_time" content="${escapeHtml(routeMetadata.publishedAt)}" />`,
+        `<meta property="article:modified_time" content="${escapeHtml(routeMetadata.modifiedAt ?? routeMetadata.publishedAt)}" />`,
+        `<meta property="article:section" content="${escapeHtml(routeMetadata.articleSection)}" />`,
+      ]
+    : [];
 
   return [
     "<!-- SEO metadata generated at build time -->",
@@ -377,7 +462,7 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
     ...robots,
     `<link rel="canonical" href="${escapeHtml(pageUrl)}" />`,
     `<meta property="og:site_name" content="${escapeHtml(siteMetadata.name)}" />`,
-    '<meta property="og:type" content="website" />',
+    `<meta property="og:type" content="${routeMetadata.pageType === "article" ? "article" : "website"}" />`,
     `<meta property="og:url" content="${escapeHtml(pageUrl)}" />`,
     `<meta property="og:title" content="${escapeHtml(routeMetadata.title)}" />`,
     `<meta property="og:description" content="${escapeHtml(routeMetadata.description)}" />`,
@@ -385,6 +470,7 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
     '<meta property="og:image:width" content="1200" />',
     '<meta property="og:image:height" content="630" />',
     `<meta property="og:image:alt" content="${escapeHtml(siteMetadata.socialImageAlt)}" />`,
+    ...articleMetadata,
     '<meta name="twitter:card" content="summary_large_image" />',
     `<meta name="twitter:title" content="${escapeHtml(routeMetadata.title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(routeMetadata.description)}" />`,
@@ -422,7 +508,8 @@ function applyRenderedRouteRoot(html, renderedMarkup, routePath, prerenderedAt) 
 }
 
 function assertRenderedRouteSmoke(html, routePath) {
-  const routeFragments = prerenderedRouteSmokeFragments[routePath];
+  const routeFragments = prerenderedRouteSmokeFragments[routePath]
+    ?? (routePath.startsWith("/blog/") ? blogArticleSmokeFragments : undefined);
 
   if (!routeFragments) {
     throw new Error(`Prerendered route is missing a smoke-test contract: ${routePath}`);
@@ -531,7 +618,7 @@ function getRouteOutputPaths(routePath) {
   return [routeFilePath, routeIndexPath];
 }
 
-function getSitemapEntries(routes, siteOrigin) {
+function getSitemapEntries(routes, siteOrigin, indexableRoutePaths) {
   return indexableRoutePaths.map((routePath) => {
     const routeMetadata = routes[routePath];
 
@@ -552,16 +639,9 @@ const [templateHtml, metadataJson] = await Promise.all([
   readFile(metadataPath, "utf8"),
 ]);
 
-const { routes, site } = JSON.parse(metadataJson);
+const { routes: baseRoutes, site } = JSON.parse(metadataJson);
 const siteOrigin = getSiteOrigin(site);
-const sitemapEntries = getSitemapEntries(routes, siteOrigin);
 const prerenderedAt = new Date().toISOString();
-
-for (const routePath of prerenderedRoutePaths) {
-  if (!routes[routePath]) {
-    throw new Error(`Prerendered route is missing from route metadata: ${routePath}`);
-  }
-}
 
 process.env.NODE_ENV = "production";
 const serverEntry = await import(pathToFileURL(serverEntryPath).href);
@@ -569,6 +649,14 @@ const serverEntry = await import(pathToFileURL(serverEntryPath).href);
 if (typeof serverEntry.renderRoute !== "function") {
   throw new Error(`Server render bundle does not export renderRoute: ${serverEntryPath}`);
 }
+
+const additionalRoutes = typeof serverEntry.getAdditionalPrerenderRouteMetadata === "function"
+  ? serverEntry.getAdditionalPrerenderRouteMetadata()
+  : {};
+const routes = { ...baseRoutes, ...additionalRoutes };
+const prerenderedRoutePaths = Object.keys(routes);
+const indexableRoutePaths = prerenderedRoutePaths.filter((routePath) => !routes[routePath].robots);
+const sitemapEntries = getSitemapEntries(routes, siteOrigin, indexableRoutePaths);
 
 const renderedRouteMarkup = new Map(
   prerenderedRoutePaths.map((routePath) => [

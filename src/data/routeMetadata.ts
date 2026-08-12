@@ -1,9 +1,17 @@
+import { getBlogRouteMetadata } from "../content/blog/posts";
 import metadata from "./routeMetadata.json";
 
 export type RouteMetadata = {
+  abstract?: string;
   title: string;
   description: string;
   robots?: string;
+  pageType?: "article" | "collection";
+  publishedAt?: string;
+  modifiedAt?: string;
+  authorName?: string;
+  articleSection?: string;
+  headline?: string;
 };
 
 export type SiteMetadata = {
@@ -79,6 +87,14 @@ function getCredentialRecognizedByType(value: string): CredentialRecognizedByTyp
   throw new Error(`Unsupported credential recognizedBy type: ${value}`);
 }
 
+function getRoutePageType(value: string | undefined): RouteMetadata["pageType"] {
+  if (value === undefined || value === "article" || value === "collection") {
+    return value;
+  }
+
+  throw new Error(`Unsupported route page type: ${value}`);
+}
+
 export const siteMetadata = {
   ...metadata.site,
   person: {
@@ -92,7 +108,24 @@ export const siteMetadata = {
     })),
   },
 } satisfies SiteMetadata;
-export const routeMetadata = metadata.routes satisfies Record<string, RouteMetadata>;
+const rawRouteMetadata = metadata.routes as Record<
+  string,
+  Omit<RouteMetadata, "pageType"> & { pageType?: string }
+>;
+const baseRouteMetadata = Object.fromEntries(
+  Object.entries(rawRouteMetadata).map(([path, route]) => [
+    path,
+    {
+      ...route,
+      pageType: getRoutePageType(route.pageType),
+    },
+  ]),
+) as Record<string, RouteMetadata>;
+
+export const routeMetadata: Record<string, RouteMetadata> = {
+  ...baseRouteMetadata,
+  ...getBlogRouteMetadata(),
+};
 
 export function getRouteMetadata(path: PublicRoutePath): RouteMetadata {
   return routeMetadata[path];

@@ -3,6 +3,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
 import SiteAnalytics from "./components/SiteAnalytics";
+import BlogArticle from "./pages/BlogArticle";
+import BlogIndex from "./pages/BlogIndex";
 import Contact from "./pages/Contact";
 import EnmPolyamoryCounselling from "./pages/EnmPolyamoryCounselling";
 import Home from "./pages/Home";
@@ -65,6 +67,8 @@ export default function App({ initialRenderAt }: AppProps) {
           <Route path={publicRoutePaths.kinkBdsm} element={<KinkBdsmCounselling />} />
           <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
           <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
+          <Route path={publicRoutePaths.blog} element={<BlogIndex />} />
+          <Route path={`${publicRoutePaths.blog}/:slug`} element={<BlogArticle />} />
           {devPages
             ? standaloneDevRoutes.map((route) => (
                 <Route key={route.path} path={route.path} element={renderDevPage(devPages[route.page])} />

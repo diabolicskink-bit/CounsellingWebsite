@@ -126,6 +126,11 @@
       "title": "LGBTQIA+ Affirming Counselling | Vive Counselling",
       "description": "LGBTQIA+ affirming counselling with Joel Griffiths for adults across Australia. Perth-based online counselling for sexuality, gender, relationships and other concerns."
     },
+    "/blog": {
+      "title": "Articles | Vive Counselling",
+      "description": "Essays and explanatory articles from Vive Counselling, with sources and adaptation notes included where relevant.",
+      "pageType": "collection"
+    },
     "/contact": {
       "title": "Counselling Fees & Contact | Vive Counselling",
       "description": "Request a free 15-minute initial consultation with Joel Griffiths at Vive Counselling. Counselling sessions are $120; view fees and contact details."

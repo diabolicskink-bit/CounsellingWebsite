@@ -17,6 +17,7 @@ const desktopNavigationMediaQuery = "(min-width: 1081px)";
 const homeHref = routeHref(publicRoutePaths.home);
 const workingWithJoelHref = routeHref(publicRoutePaths.workingWithJoel);
 const inclusionHref = routeHref(publicRoutePaths.inclusion);
+const blogHref = routeHref(publicRoutePaths.blog);
 const contactHref = routeHref(publicRoutePaths.contact);
 
 export default function Layout() {
@@ -132,6 +133,9 @@ export default function Layout() {
                 </li>
                 <li>
                   <Link to={inclusionHref}>Inclusive practice</Link>
+                </li>
+                <li>
+                  <Link to={blogHref}>Articles</Link>
                 </li>
                 <li>
                   <Link to={contactHref}>Fees</Link>

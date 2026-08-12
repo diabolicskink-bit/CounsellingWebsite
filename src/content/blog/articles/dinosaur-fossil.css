@@ -1,0 +1,84 @@
+.blog-article--fossil-record {
+  --article-accent: #8a583f;
+  --article-accent-soft: #eee2d6;
+}
+
+.fossil-article__evidence-key {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: clamp(44px, 7vw, 72px);
+  border-top: 1px solid color-mix(in srgb, var(--article-accent) 38%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--article-accent) 38%, transparent);
+}
+
+.fossil-article__evidence-key > div {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  min-width: 0;
+  padding: 20px 22px;
+  border-left: 1px solid color-mix(in srgb, var(--article-accent) 38%, transparent);
+}
+
+.fossil-article__evidence-key > div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.fossil-article__evidence-key > div:last-child {
+  padding-right: 0;
+}
+
+.fossil-article__evidence-key span {
+  color: var(--article-accent);
+  font-family: var(--font-serif);
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.fossil-article__evidence-key p {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.fossil-article__evidence-key strong {
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.fossil-article__prose h2 {
+  margin-left: -28px;
+  padding: 16px 0 14px 28px;
+  border-left: 4px solid var(--article-accent);
+  border-bottom: 1px solid color-mix(in srgb, var(--article-accent) 28%, transparent);
+}
+
+.fossil-article__prose h2 + p {
+  margin-top: 1.1em;
+}
+
+@media (max-width: 700px) {
+  .fossil-article__evidence-key {
+    grid-template-columns: 1fr;
+  }
+
+  .fossil-article__evidence-key > div,
+  .fossil-article__evidence-key > div:first-child,
+  .fossil-article__evidence-key > div:last-child {
+    padding: 16px 0;
+    border-top: 1px solid color-mix(in srgb, var(--article-accent) 28%, transparent);
+    border-left: 0;
+  }
+
+  .fossil-article__evidence-key > div:first-child {
+    border-top: 0;
+  }
+
+  .fossil-article__prose h2 {
+    margin-left: 0;
+    padding-left: 18px;
+  }
+}

@@ -1,4 +1,5 @@
 export const publicRoutePaths = {
+  blog: "blog",
   contact: "contact",
   enmPolyamory: "polyamory-enm-counselling",
   home: "",
@@ -29,6 +30,7 @@ export const devRoutePaths = {
 } as const;
 
 const sharedChromePaths = new Set([
+  routeHref(publicRoutePaths.blog),
   routeHref(publicRoutePaths.contact),
   routeHref(publicRoutePaths.enmPolyamory),
   routeHref(publicRoutePaths.inclusion),
@@ -40,5 +42,7 @@ const sharedChromePaths = new Set([
 ]);
 
 export function usesSharedChromePath(pathname: string) {
-  return sharedChromePaths.has(pathname);
+  const blogHref = routeHref(publicRoutePaths.blog);
+
+  return sharedChromePaths.has(pathname) || pathname.startsWith(`${blogHref}/`);
 }

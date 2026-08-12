@@ -1,6 +1,11 @@
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "playwright/test";
+import {
+  blogPosts,
+  getBlogPostPath,
+  getBlogRouteMetadata,
+} from "../src/content/blog/posts";
 import type { RouteMetadata, SiteMetadata } from "../src/data/routeMetadata";
 
 const routeMetadataData = JSON.parse(
@@ -16,7 +21,7 @@ const vercelConfigData = JSON.parse(readFileSync(new URL("../vercel.json", impor
   }>;
 };
 
-const publicRoutes = [
+const corePublicRoutes = [
   "/",
   "/working-with-joel",
   "/inclusive-counselling",
@@ -25,8 +30,16 @@ const publicRoutes = [
   "/lgbtqia-affirming-counselling",
   "/contact",
 ] as const;
+const blogArticleRoutes = blogPosts.map((post) => getBlogPostPath(post.slug));
+const publicRoutes = [...corePublicRoutes, "/blog", ...blogArticleRoutes];
 const prerenderedRoutes = publicRoutes;
-const prerenderedRouteContracts = {
+type PrerenderedRouteContract = {
+  mainClass: string;
+  rawFragments: readonly string[];
+  noJavaScriptSelector: string;
+};
+
+const prerenderedRouteContracts: Record<string, PrerenderedRouteContract> = {
   "/": {
     mainClass: "site-page home-page",
     rawFragments: [
@@ -126,13 +139,43 @@ const prerenderedRouteContracts = {
     ],
     noJavaScriptSelector: "form.codex-contact__form",
   },
-} as const;
+  "/blog": {
+    mainClass: "site-page blog-index",
+    rawFragments: [
+      'class="blog-index__header"',
+      ">Articles</h1>",
+      'aria-label="Published articles"',
+      'class="blog-index__site-links"',
+      ...blogPosts.map((post) => `href="${getBlogPostPath(post.slug)}"`),
+    ],
+    noJavaScriptSelector: ".blog-index__list",
+  },
+};
 
-const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
+for (const post of blogPosts) {
+  prerenderedRouteContracts[getBlogPostPath(post.slug)] = {
+    mainClass: "site-page blog-article",
+    rawFragments: [
+      'class="blog-article__header"',
+      `>${post.title}</h1>`,
+      'aria-label="Article details"',
+      'class="blog-article__source-note"',
+      'class="blog-article__prose',
+      'class="blog-article__return"',
+    ],
+    noJavaScriptSelector: ".blog-article__prose",
+  };
+}
+
+const publicRouteMetadata: Record<string, RouteMetadata> = {
+  ...routeMetadataData.routes,
+  ...getBlogRouteMetadata(),
+};
+const publicRouteMetadataEntries = Object.entries(publicRouteMetadata);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;
 const noindexDirective = "noindex, nofollow";
-const indexableRoutes = publicRoutes;
+const indexableRoutes = publicRoutes.filter((route) => !publicRouteMetadata[route]?.robots);
 const inclusionChildRoutes = [
   { path: "/kink-bdsm-counselling", navLabel: "Kink & BDSM" },
   { path: "/polyamory-enm-counselling", navLabel: "ENM & polyamory" },
@@ -484,7 +527,7 @@ function getSpecialistServiceStructuredDataScript(route: string) {
 }
 
 function routeRobotsDirective(route: string) {
-  return routeMetadataData.routes[route]?.robots;
+  return publicRouteMetadata[route]?.robots;
 }
 
 function expectNoGeneratedOriginLeak(content: string) {
@@ -757,15 +800,22 @@ test.describe("public pages", () => {
   for (const route of publicRoutes) {
     test(`${route} renders core content and hydrated metadata`, async ({ page }) => {
       const diagnostics = collectPageDiagnostics(page);
+      const isBlogRoute = route === "/blog" || route.startsWith("/blog/");
 
       await page.goto(route, { waitUntil: "networkidle" });
 
       await expect(page.locator("main").first()).toBeVisible();
       await expect(page.locator("header.site-header > .container.site-header__inner")).toHaveCount(1);
-      await expect(page.locator("h1.hero-badge")).toHaveCount(1);
-      await expect(page.locator("h1.hero-badge")).toBeVisible();
-      await expect(page.locator(".hero-section p.hero-display")).toHaveCount(1);
-      await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(0);
+      if (isBlogRoute) {
+        await expect(page.locator("main h1")).toHaveCount(1);
+        await expect(page.locator("main h1")).toBeVisible();
+        await expect(page.locator("h1.hero-badge, .hero-section .hero-display")).toHaveCount(0);
+      } else {
+        await expect(page.locator("h1.hero-badge")).toHaveCount(1);
+        await expect(page.locator("h1.hero-badge")).toBeVisible();
+        await expect(page.locator(".hero-section p.hero-display")).toHaveCount(1);
+        await expect(page.locator(".hero-section h2.hero-display")).toHaveCount(0);
+      }
 
       if (route === "/kink-bdsm-counselling") {
         await expect(
@@ -822,14 +872,32 @@ test.describe("public pages", () => {
         await expect(pageMain.locator("#contact-crisis-support p.site-reading")).toHaveCount(1);
         await expect(pageMain.locator(".codex-contact__form p.site-reading")).toHaveCount(0);
       }
-      await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
+
+      if (route === "/blog") {
+        const blogMain = page.locator("main.blog-index");
+
+        await expect(blogMain.locator(".blog-index__list > li")).toHaveCount(blogPosts.length);
+        await expect(blogMain.getByRole("navigation", { name: "Counselling information" })).toBeVisible();
+      }
+
+      if (route.startsWith("/blog/")) {
+        const articleMain = page.locator("main.blog-article");
+
+        await expect(articleMain.locator(".blog-article__prose")).toBeVisible();
+        await expect(articleMain.locator(".blog-article__details time")).toHaveCount(1);
+        await expect(articleMain.getByRole("link", { name: "All articles" })).toHaveAttribute(
+          "href",
+          "/blog",
+        );
+      }
+      await expect(page).toHaveTitle(publicRouteMetadata[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
         "data-react-activation",
         prerenderedRoutes.includes(route as (typeof prerenderedRoutes)[number]) ? "hydrate" : "client-render",
       );
 
       const h1Text = (await page.locator("h1").innerText()).trim();
-      expect(h1Text.length).toBeGreaterThan(8);
+      expect(h1Text.length).toBeGreaterThan(7);
 
       const description = await page.locator('meta[name="description"]').getAttribute("content");
       expect(description).toBeTruthy();
@@ -855,6 +923,62 @@ test.describe("public pages", () => {
   }
 });
 
+test.describe("article publishing flow", () => {
+  const firstPost = blogPosts[0];
+  const firstPostPath = getBlogPostPath(firstPost.slug);
+
+  test("moves from the article index into a published article and back", async ({ page }) => {
+    await page.goto("/blog", { waitUntil: "networkidle" });
+
+    await page.getByRole("link", { name: firstPost.title }).click();
+    await expect(page).toHaveURL(new RegExp(`${firstPostPath}$`));
+    await expect(page.getByRole("heading", { level: 1, name: firstPost.title })).toBeVisible();
+    if (firstPost.isSample) {
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        noindexDirective,
+      );
+    } else {
+      await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+    }
+    await expect(page.getByRole("link", { name: "All articles" })).toHaveAttribute(
+      "href",
+      "/blog",
+    );
+
+    await page.getByRole("link", { name: "All articles" }).click();
+    await expect(page).toHaveURL(/\/blog$/);
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+  });
+
+  test("uses the ordinary not-found boundary for an unpublished article slug", async ({ page }) => {
+    await page.goto("/blog/not-published", { waitUntil: "networkidle" });
+
+    await expectNotFoundPage(page, "/blog/not-published");
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
+  });
+
+  test("keeps the blog index and article inside narrow, intermediate, and wide viewports", async ({ page }) => {
+    for (const viewport of [
+      { width: 390, height: 844 },
+      { width: 1100, height: 900 },
+      { width: 1440, height: 1000 },
+    ]) {
+      await page.setViewportSize(viewport);
+
+      for (const route of ["/blog", ...blogArticleRoutes]) {
+        await page.goto(route, { waitUntil: "networkidle" });
+
+        expect(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+          ),
+        ).toBeFalsy();
+      }
+    }
+  });
+});
+
 test.describe("shared navigation", () => {
   test("routes enquiry and fee actions to Contact", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
@@ -872,6 +996,11 @@ test.describe("shared navigation", () => {
       "href",
       "/contact",
     );
+    await expect(mainNavigation.getByRole("link", { name: "Articles" })).toHaveAttribute(
+      "href",
+      "/blog",
+    );
+    await expect(footer.getByRole("link", { name: "Articles" })).toHaveAttribute("href", "/blog");
     await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute(
       "href",
       "/contact",
@@ -1186,7 +1315,9 @@ test.describe("first response metadata", () => {
       }
       expect(html).toContain(`<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`);
       expect(html).toContain(`<meta property="og:site_name" content="${escapeHtml(routeMetadataData.site.name)}" />`);
-      expect(html).toContain('<meta property="og:type" content="website" />');
+      expect(html).toContain(
+        `<meta property="og:type" content="${metadata.pageType === "article" ? "article" : "website"}" />`,
+      );
       expect(html).toContain(`<meta property="og:url" content="${escapeHtml(canonicalUrl)}" />`);
       expect(html).toContain(`<meta property="og:title" content="${escapeHtml(metadata.title)}" />`);
       expect(html).toContain(`<meta property="og:description" content="${escapeHtml(metadata.description)}" />`);
@@ -1196,6 +1327,19 @@ test.describe("first response metadata", () => {
       expect(html).toContain(
         `<meta property="og:image:alt" content="${escapeHtml(routeMetadataData.site.socialImageAlt)}" />`,
       );
+      if (metadata.pageType === "article") {
+        expect(html).toContain(
+          `<meta property="article:published_time" content="${metadata.publishedAt}" />`,
+        );
+        expect(html).toContain(
+          `<meta property="article:modified_time" content="${metadata.modifiedAt}" />`,
+        );
+        expect(html).toContain(
+          `<meta property="article:section" content="${escapeHtml(metadata.articleSection ?? "")}" />`,
+        );
+      } else {
+        expect(html).not.toContain('<meta property="article:published_time"');
+      }
       expect(html).toContain('<meta name="twitter:card" content="summary_large_image" />');
       expect(html).toContain(`<meta name="twitter:title" content="${escapeHtml(metadata.title)}" />`);
       expect(html).toContain(`<meta name="twitter:description" content="${escapeHtml(metadata.description)}" />`);
@@ -1217,6 +1361,16 @@ test.describe("first response metadata", () => {
         expect(html).not.toContain('"@type":"Organization"');
         expect(html).not.toContain('"@type":"Person"');
         expect(html).not.toContain('"@type":"ProfilePage"');
+      } else if (metadata.pageType === "collection") {
+        expect(html).toContain('"@type":"Blog"');
+        expect(html).toContain(`"@id":${JSON.stringify(`${canonicalUrl}#blog`)}`);
+        expect(html).not.toContain('"@type":"BlogPosting"');
+      } else if (metadata.pageType === "article") {
+        expect(html).toContain('"@type":"BlogPosting"');
+        expect(html).toContain(`"headline":${JSON.stringify(metadata.headline ?? "")}`);
+        expect(html).toContain(`"abstract":${JSON.stringify(metadata.abstract ?? "")}`);
+        expect(html).toContain(`"datePublished":"${metadata.publishedAt}"`);
+        expect(html).toContain(`"author":{"@type":"Person"`);
       } else {
         expect(html).not.toContain('"@type":"WebSite"');
         expect(html).not.toContain('"@type":"Organization"');
@@ -1291,8 +1445,8 @@ test.describe("crawl and app metadata assets", () => {
       expect(sitemap).toContain(`<loc>${escapeXml(absoluteRouteUrl(route))}</loc>`);
     }
 
-    for (const route of Object.keys(routeMetadataData.routes)) {
-      if (!indexableRoutes.includes(route as (typeof indexableRoutes)[number])) {
+    for (const route of Object.keys(publicRouteMetadata)) {
+      if (!indexableRoutes.includes(route)) {
         expect(sitemap).not.toContain(`<loc>${escapeXml(absoluteRouteUrl(route))}</loc>`);
       }
     }
@@ -1305,9 +1459,13 @@ test.describe("crawl and app metadata assets", () => {
     expect(sitemap).not.toContain(`${siteOrigin}/404.html`);
   });
 
-  test("public routes do not carry route-level noindex metadata", () => {
-    for (const [, metadata] of publicRouteMetadataEntries) {
-      expect(metadata.robots).toBeUndefined();
+  test("only sample articles carry route-level noindex metadata", () => {
+    const sampleRoutes = new Set(
+      blogPosts.filter((post) => post.isSample).map((post) => getBlogPostPath(post.slug)),
+    );
+
+    for (const [route, metadata] of publicRouteMetadataEntries) {
+      expect(metadata.robots).toBe(sampleRoutes.has(route) ? noindexDirective : undefined);
     }
   });
 

@@ -9,7 +9,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Default long-form reading role for public-page prose: the Inter-first `--font-sans` stack, `clamp(1.01rem, 1.12vw, 1.08rem)`, weight `400`, line-height `1.64`, and `--body` as the supported light-surface foreground.
 - `Boundary`: Use for substantive paragraphs that need comfortable continuous reading, not headings, labels, navigation, buttons, captions, metadata, form controls, or compact supporting text. A consumer on a dark or otherwise incompatible surface may override only the foreground colour with a contrast-appropriate contextual value; the family, size, weight, and line-height remain part of the role. The underlying `--font-sans` token is not separately promoted by this contract.
 - `Implementation`: `.site-reading` in `src/design-system/foundations.css`.
-- `Verified consumers`: Home About narrative, inclusive copy, and `<ContactInvitation />` copy; Working with Joel introduction, approach overview, and active tab copy; Inclusion hub hero support and chapter overviews; Kink and BDSM chapter prose; ENM and polyamory reasons, focus, and position prose; LGBTQIA+ recognition, assumptions, and disclosure prose; Contact first-message and crisis-support prose.
+- `Verified consumers`: Home About narrative, inclusive copy, and `<ContactInvitation />` copy; Working with Joel introduction, approach overview, and active tab copy; Inclusion hub hero support and chapter overviews; Kink and BDSM chapter prose; ENM and polyamory reasons, focus, and position prose; LGBTQIA+ recognition, assumptions, and disclosure prose; article index support and article prose; Contact first-message and crisis-support prose.
 - `Promoted`: 2026-08-05 — owner-authorized reading-role promotion under `DEBT-20` and `DEBT-21`.
 
 ### `.site-reading--lead`
@@ -27,7 +27,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Primary brand accent (`#234b3d`) for action surfaces, strong interactive or editorial emphasis, and focus or boundary cues on verified light site surfaces.
 - `Boundary`: Light text `#fcfcfa` on cedar has a 9.53:1 contrast ratio, cedar on `--paper` has a 9.05:1 ratio, and cedar on `--surface` has an 8.65:1 ratio. Do not assume the same contrast on photographs or dark-green surfaces. This contract does not include `--cedar-dark`, `--cedar-soft`, or adjacent colour tokens.
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
-- `Verified consumers`: `.site-header .header-button`, `.button--primary`, `.rich-text a`, `.site-text-link`, `.site-card__action`, `.site-footer a:focus-visible`, `.contact-invitation__action`, Working with Joel's active-tab rule, and Contact form labels, controls, links, and focus states.
+- `Verified consumers`: `.site-header .header-button`, `.button--primary`, `.rich-text a`, `.site-text-link`, `.site-card__action`, `.site-footer a:focus-visible`, `.contact-invitation__action`, Working with Joel's active-tab rule, article links and focus treatments, and Contact form labels, controls, links, and focus states.
 - `Promoted`: 2026-08-03 — first colour promotion under `DEBT-37`.
 
 ### `--portrait-panel`

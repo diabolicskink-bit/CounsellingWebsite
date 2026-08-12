@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-12 - Public Article Publishing System Added
+
+- Added: A public `/blog` article index and statically prerendered `/blog/:slug` article routes, linked as Articles from shared desktop, mobile, and footer navigation.
+- Added: A typed, code-managed article registry with slug and date validation, chronological ordering, Markdown article rendering, reading-time display, abstracts and source notes, generated route metadata, canonical sitemap handling, article Open Graph metadata, and `Blog` / `BlogPosting` structured data.
+- Added and documented: Optional registered React presentations allow a subject-specific article body and scoped stylesheet while preserving the shared publication shell. Ant and dinosaur articles demonstrate two distinct presentations and are explicitly labelled as samples, marked `noindex, nofollow`, and omitted from the sitemap.
+- Verified: Production build prerendered all core and article routes; focused TypeScript and browser coverage includes index/article navigation, no-JavaScript output, unknown slugs, metadata, and sitemap behaviour.
+
 ## 2026-08-11 - Homepage Specialist-Practice Section Rebuilt
 
 - Replaced: The generic `Bring all of yourself` split section is now a direct `Inclusive practice` section centred on what Joel already knows before counselling begins.
