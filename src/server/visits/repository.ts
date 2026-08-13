@@ -1,0 +1,182 @@
+import {
+  neon,
+  type NeonQueryFunction,
+} from "@neondatabase/serverless";
+
+export type VisitObservation = {
+  adCode: string | null;
+  gclid: string | null;
+  landingPath: string;
+  matchType: string | null;
+  matchedKeyword: string | null;
+  networkCode: string | null;
+  pageViewId: string;
+  path: string;
+  referrerHost: string | null;
+  referrerUrl: string | null;
+  visitId: string;
+  visitorId: string;
+};
+
+export type VisitObservationResult = {
+  pageViewInserted: boolean;
+};
+
+export type VisitDatabase = Pick<NeonQueryFunction<false, false>, "query">;
+
+type VisitObservationRow = {
+  pageViewInserted: boolean;
+  pageViewMatched: boolean;
+  visitMatched: boolean;
+};
+
+export class VisitDatabaseConfigurationError extends Error {
+  constructor() {
+    super("Visit database configuration is missing.");
+    this.name = "VisitDatabaseConfigurationError";
+  }
+}
+
+export class VisitIdentityConflictError extends Error {
+  constructor() {
+    super("The visit ID is already associated with another anonymous visitor.");
+    this.name = "VisitIdentityConflictError";
+  }
+}
+
+export class PageViewIdentityConflictError extends Error {
+  constructor() {
+    super("The page-view ID is already associated with another visit.");
+    this.name = "PageViewIdentityConflictError";
+  }
+}
+
+let cachedDatabase: VisitDatabase | undefined;
+let cachedDatabaseUrl: string | undefined;
+
+export function getVisitDatabase(): VisitDatabase {
+  const databaseUrl = process.env.DATABASE_URL?.trim();
+
+  if (!databaseUrl) {
+    throw new VisitDatabaseConfigurationError();
+  }
+
+  if (!cachedDatabase || cachedDatabaseUrl !== databaseUrl) {
+    cachedDatabase = neon(databaseUrl);
+    cachedDatabaseUrl = databaseUrl;
+  }
+
+  return cachedDatabase;
+}
+
+export const recordVisitObservationSql = `
+WITH observation_time AS (
+  SELECT CURRENT_TIMESTAMP AS recorded_at
+),
+inserted_visit AS (
+  INSERT INTO site_visits (
+    id,
+    visitor_id,
+    started_at,
+    last_seen_at,
+    landing_path,
+    referrer_url,
+    referrer_host,
+    gclid,
+    ad_code,
+    network_code,
+    matched_keyword,
+    match_type
+  )
+  SELECT
+    $2::uuid,
+    $1::uuid,
+    observation_time.recorded_at,
+    observation_time.recorded_at,
+    $4,
+    $6,
+    $7,
+    $8,
+    $9,
+    $10,
+    $11,
+    $12
+  FROM observation_time
+  ON CONFLICT (id) DO NOTHING
+  RETURNING id
+),
+matched_visit AS (
+  SELECT id FROM inserted_visit
+  UNION
+  SELECT id
+  FROM site_visits
+  WHERE id = $2::uuid AND visitor_id = $1::uuid
+),
+inserted_page_view AS (
+  INSERT INTO site_page_views (id, visit_id, viewed_at, path)
+  SELECT
+    $3::uuid,
+    matched_visit.id,
+    observation_time.recorded_at,
+    $5
+  FROM matched_visit
+  CROSS JOIN observation_time
+  ON CONFLICT (id) DO NOTHING
+  RETURNING id, visit_id, viewed_at
+),
+matched_page_view AS (
+  SELECT id FROM inserted_page_view
+  UNION
+  SELECT id
+  FROM site_page_views
+  WHERE id = $3::uuid AND visit_id = $2::uuid
+),
+updated_visit AS (
+  UPDATE site_visits
+  SET last_seen_at = GREATEST(site_visits.last_seen_at, inserted_page_view.viewed_at)
+  FROM inserted_page_view
+  WHERE site_visits.id = inserted_page_view.visit_id
+    AND NOT EXISTS (
+      SELECT 1
+      FROM inserted_visit
+      WHERE inserted_visit.id = inserted_page_view.visit_id
+    )
+  RETURNING site_visits.id
+)
+SELECT
+  EXISTS (SELECT 1 FROM matched_visit) AS "visitMatched",
+  EXISTS (SELECT 1 FROM matched_page_view) AS "pageViewMatched",
+  EXISTS (SELECT 1 FROM inserted_page_view) AS "pageViewInserted",
+  EXISTS (SELECT 1 FROM updated_visit) AS "visitActivityUpdated";
+`;
+
+export async function recordVisitObservation(
+  observation: VisitObservation,
+  database: VisitDatabase = getVisitDatabase(),
+): Promise<VisitObservationResult> {
+  const rows = (await database.query(recordVisitObservationSql, [
+    observation.visitorId,
+    observation.visitId,
+    observation.pageViewId,
+    observation.landingPath,
+    observation.path,
+    observation.referrerUrl,
+    observation.referrerHost,
+    observation.gclid,
+    observation.adCode,
+    observation.networkCode,
+    observation.matchedKeyword,
+    observation.matchType,
+  ])) as VisitObservationRow[];
+  const [result] = rows;
+
+  if (!result?.visitMatched) {
+    throw new VisitIdentityConflictError();
+  }
+
+  if (!result.pageViewMatched) {
+    throw new PageViewIdentityConflictError();
+  }
+
+  return { pageViewInserted: result.pageViewInserted };
+}
