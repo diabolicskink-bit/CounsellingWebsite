@@ -124,47 +124,41 @@ Extend the browser recorder so subsequent React route changes and page refreshes
 
 Add the Neon reporting view and useful saved queries so visits can be inspected newest first, marked as new or returning, grouped by anonymous browser, summarized by source or ad, and opened to see their page sequence.
 
+**Status:** Complete. A read-only `visit_ledger` view and five repository-owned Neon query templates now cover the newest-first ledger, anonymous-browser grouping, today's overview, 30-day source/ad reporting, and an individual visit's ordered page sequence. They remain unapplied until a Neon preview database is connected in Slice 7.
+
 **Prompt:** Complete slice 5 of the first-party visit ledger plan, update the plan, and stop.
 
-### Your Action Before Slice 6 - Choose The Retention Period
+### Retention Decision
 
-Tell me how long visit and page-view records should be kept and how long the browser identifier should remain valid. I will recommend 12 months for both unless what we learn from the ledger suggests a better period. You do not need to decide this now; I will ask when we reach this checkpoint.
+Keep visit and page-view records for 12 months. Keep the anonymous browser identifier for 12 months before replacing it with a new identifier.
 
-### 6. Add Retention And Draft The Privacy Wording
+### 6. Add Retention
 
-Add the cleanup and browser-ID expiry behaviour for the periods you chose, then prepare the exact visitor-facing wording about persistent anonymous visitor recognition, analytics, and referrer/ad tracking for your review. Do not publish the new wording yet.
+Add automated cleanup for visit and page-view records older than 12 months and replace browser identifiers after 12 months.
+
+**Status:** Complete. Browser identifiers now rotate on their 12-month calendar anniversary. A `CRON_SECRET`-protected Vercel Function removes visits older than Postgres `INTERVAL '12 months'` and their cascading page views; Vercel is configured to call it daily at 18:15 UTC. The job remains inactive until the required server environment and database are connected.
 
 **Prompt:** Complete slice 6 of the first-party visit ledger plan, update the plan, and stop.
 
-### Your Action Before Slice 7 - Approve The Public Wording
-
-Read the proposed privacy and analytics wording and either approve it or tell me what you want changed. I will not publish substantive wording about your practice or visitor privacy without your approval.
-
-### 7. Publish The Approved Privacy Information
-
-Add the wording you approved to an appropriate, accessible place on the website and connect it from the site where visitors can reasonably find it.
-
-**Prompt:** Complete slice 7 of the first-party visit ledger plan, update the plan, and stop.
-
-### Your Action Before Slice 8 - Authorize Neon Setup If Needed
+### Your Action Before Slice 7 - Authorize Neon Setup If Needed
 
 If Vercel requires an account sign-in, Marketplace plan selection, billing acceptance, or another owner-only confirmation, complete that authorization when I ask. I will handle the technical configuration wherever the available access permits and will tell you the exact action if Vercel requires you to do it. Do not send me database passwords or other credentials.
 
-### 8. Connect A Preview Environment
+### 7. Connect A Preview Environment
 
 Provision or connect Neon through Vercel, apply the schema outside production, and test the complete visit flow using controlled preview visits.
 
-**Prompt:** Complete slice 8 of the first-party visit ledger plan, update the plan, and stop.
+**Prompt:** Complete slice 7 of the first-party visit ledger plan, update the plan, and stop.
 
-### Your Action Before Slice 9 - Approve Production Collection
+### Your Action Before Slice 8 - Approve Production Collection
 
 Review the preview ledger and confirm that you want visit recording enabled on the live website. This is the explicit go-ahead to begin collecting production visitor records; a preview test does not imply that approval.
 
-### 9. Enable Production Collection
+### 8. Enable Production Collection
 
 After explicit approval, connect the production database, enable collection on the live host, confirm the ledger receives the expected records, and update the project documentation.
 
-**Prompt:** Complete slice 9 of the first-party visit ledger plan, update the plan, and stop.
+**Prompt:** Complete slice 8 of the first-party visit ledger plan, update the plan, and stop.
 
 ## Not Part Of The First Version
 
@@ -176,3 +170,4 @@ After explicit approval, connect the production database, enable collection on t
 - Linking visits to Clarity recordings
 - Importing Google Ads API data
 - Recreating GA4 or Clarity
+- Drafting, reviewing, or publishing privacy-policy or analytics-notice wording

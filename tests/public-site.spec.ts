@@ -1655,7 +1655,7 @@ test.describe("crawl and app metadata assets", () => {
     expect(observations[3].pageViewId).not.toBe(observation.pageViewId);
   });
 
-  test("first-party visit recorder recognizes a returning browser after visit inactivity", async ({ page }) => {
+  test("first-party visit recorder recognizes a return visit and rotates an expired browser ID", async ({ page }) => {
     test.skip(
       !firstPartyVisitRecordingEnabled,
       "First-party visit recording is covered by npm run qa:analytics.",
@@ -1685,6 +1685,21 @@ test.describe("crawl and app metadata assets", () => {
     expect(observations[1].visitorId).toBe(observations[0].visitorId);
     expect(observations[1].visitId).not.toBe(observations[0].visitId);
     expect(observations[1].pageViewId).not.toBe(observations[0].pageViewId);
+
+    await page.evaluate(() => {
+      const key = "vive:visit-analytics:visitor:v1";
+      const visitor = JSON.parse(localStorage.getItem(key) ?? "null");
+
+      visitor.createdAt = Date.now() - 366 * 24 * 60 * 60 * 1000;
+      localStorage.setItem(key, JSON.stringify(visitor));
+    });
+
+    await page.reload({ waitUntil: "networkidle" });
+    await expect.poll(() => observations.length).toBe(3);
+
+    expect(observations[2].visitorId).not.toBe(observations[1].visitorId);
+    expect(observations[2].visitId).not.toBe(observations[1].visitId);
+    expect(observations[2].pageViewId).not.toBe(observations[1].pageViewId);
   });
 
   test("enquiry form is explicitly masked for Clarity", async ({ page }) => {

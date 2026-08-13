@@ -2,6 +2,7 @@ const storageVersion = 1;
 const visitorStorageKey = "vive:visit-analytics:visitor:v1";
 const visitStorageKey = "vive:visit-analytics:visit:v1";
 const visitInactivityTimeoutMs = 30 * 60 * 1000;
+const visitorIdentifierLifetimeMonths = 12;
 const uuidV4Pattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 type StoredVisitor = {
@@ -111,16 +112,37 @@ function isStoredVisitor(value: unknown): value is StoredVisitor {
     && visitor.createdAt > 0;
 }
 
+function getVisitorIdentifierExpiresAt(createdAt: number) {
+  const createdDate = new Date(createdAt);
+  const targetMonthIndex = createdDate.getUTCMonth() + visitorIdentifierLifetimeMonths;
+  const targetYear = createdDate.getUTCFullYear() + Math.floor(targetMonthIndex / 12);
+  const targetMonth = targetMonthIndex % 12;
+  const lastDayOfTargetMonth = new Date(Date.UTC(targetYear, targetMonth + 1, 0)).getUTCDate();
+  const expiresAt = new Date(createdAt);
+
+  expiresAt.setUTCFullYear(
+    targetYear,
+    targetMonth,
+    Math.min(createdDate.getUTCDate(), lastDayOfTargetMonth),
+  );
+
+  return expiresAt.getTime();
+}
+
+function isVisitorIdentifierActive(visitor: StoredVisitor, now: number) {
+  return visitor.createdAt <= now && now < getVisitorIdentifierExpiresAt(visitor.createdAt);
+}
+
 function getOrCreateVisitor(now: number) {
   const storage = getLocalStorage();
   const storedVisitor = storage ? readStoredValue(storage, visitorStorageKey) : undefined;
 
-  if (isStoredVisitor(storedVisitor)) {
+  if (isStoredVisitor(storedVisitor) && isVisitorIdentifierActive(storedVisitor, now)) {
     volatileVisitor = storedVisitor;
     return storedVisitor;
   }
 
-  if (isStoredVisitor(volatileVisitor)) {
+  if (isStoredVisitor(volatileVisitor) && isVisitorIdentifierActive(volatileVisitor, now)) {
     return volatileVisitor;
   }
 

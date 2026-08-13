@@ -5,10 +5,19 @@
     "api/enquiry.ts": {
       "includeFiles": "src/{data/enquiryContract.ts,server/enquiry/**,utils/timeZones.ts}"
     },
+    "api/visit-retention.ts": {
+      "includeFiles": "src/server/visits/**"
+    },
     "api/visit.ts": {
       "includeFiles": "src/server/visits/**"
     }
   },
+  "crons": [
+    {
+      "path": "/api/visit-retention",
+      "schedule": "15 18 * * *"
+    }
+  ],
   "trailingSlash": false,
   "redirects": [
     {

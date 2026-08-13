@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-13 - First-Party Visit Ledger Reporting And Retention Defined
+
+- Added: The repository now defines a read-only Postgres visit ledger that identifies the earliest retained browser visit as new, later visits as returning, classifies traffic, and totals page views.
+- Added: Five Neon query templates cover newest-first inspection, anonymous-browser grouping, today's Australia/Perth overview, 30-day source/ad reporting, and one visit's ordered page sequence.
+- Added: Anonymous browser IDs rotate after 12 calendar months, and a protected daily Vercel job removes visits older than 12 months with their related page views.
+- Preserved: Reporting has no public read endpoint, no Neon resource has been provisioned, and production collection remains disabled pending preview testing and owner approval.
+
 ## 2026-08-11 - Homepage Specialist-Practice Section Rebuilt
 
 - Replaced: The generic `Bring all of yourself` split section is now a direct `Inclusive practice` section centred on what Joel already knows before counselling begins.
