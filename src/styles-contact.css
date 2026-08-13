@@ -507,6 +507,19 @@
   line-height: 1.58;
 }
 
+#contact-crisis-support a {
+  color: var(--cedar);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 75, 61, 0.3);
+  text-underline-offset: 3px;
+}
+
+#contact-crisis-support a:hover {
+  color: var(--cedar-dark);
+  text-decoration-color: currentColor;
+}
+
 .codex-contact__practical-list dd > span:first-child {
   display: block;
 }

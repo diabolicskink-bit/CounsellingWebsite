@@ -457,9 +457,7 @@ function ContactEnquiryForm() {
       ) : null}
 
       <p className="codex-contact__form-boundary">
-        If you’re in crisis, please use the{" "}
-        <Link to={crisisSupportHref}>crisis support page</Link> rather than this
-        form.
+        If you’re in crisis, <Link to={crisisSupportHref}>find support now</Link>.
       </p>
     </form>
   );
@@ -566,10 +564,9 @@ export default function Contact({ initialRenderAt }: ContactProps) {
               <dt>Crisis support</dt>
               <dd>
                 <p className="site-reading">
-                  Vive Counselling is not an emergency service. If you are in
-                  immediate danger, call 000. For national crisis lines and urgent
-                  public mental health services, see the{" "}
-                  <Link to={crisisSupportHref}>crisis support page</Link>.
+                  Vive Counselling is not an emergency service. Call 000 if you or
+                  someone else is in immediate danger. If you’re in crisis,{" "}
+                  <Link to={crisisSupportHref}>find support now</Link>.
                 </p>
               </dd>
             </div>
