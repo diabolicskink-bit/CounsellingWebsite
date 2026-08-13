@@ -2,6 +2,7 @@
   --crisis-ink: #17231f;
   --crisis-emergency-deep: #60221d;
   --crisis-rule: rgba(35, 75, 61, 0.22);
+  --crisis-section-padding: 60px;
   --crisis-soft-green: rgba(35, 75, 61, 0.045);
   background: var(--paper);
 }
@@ -14,13 +15,11 @@
 
 .crisis-support-page__hero-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
   align-items: end;
   gap: 18px;
 }
 
 .crisis-support-page__hero .hero-badge {
-  align-self: end;
   color: #d9e5d9;
 }
 
@@ -40,7 +39,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(28px, 4vw, 58px);
-  padding-block: 60px;
+  padding-block: var(--crisis-section-padding);
 }
 
 .crisis-support-page__emergency-copy {
@@ -67,11 +66,9 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 52px;
   padding: 0.8rem 1.1rem;
-  border: 1px solid var(--crisis-emergency-deep);
+  border: 1px solid;
   border-radius: 2px;
-  background: var(--crisis-emergency-deep);
   color: #fffaf8;
   font-weight: 760;
   line-height: 1.2;
@@ -81,15 +78,17 @@
     border-color 160ms ease;
 }
 
-.crisis-support-page__emergency-call:hover {
-  border-color: #481815;
-  background: #481815;
-}
-
 .crisis-support-page__emergency-call {
   min-width: 132px;
   min-height: 58px;
   padding-inline: 1.3rem;
+  border-color: var(--crisis-emergency-deep);
+  background: var(--crisis-emergency-deep);
+}
+
+.crisis-support-page__emergency-call:hover {
+  border-color: #481815;
+  background: #481815;
 }
 
 .crisis-support-page__emergency-call:active {
@@ -97,9 +96,9 @@
   background: #36110f;
 }
 
-.crisis-support-page__national,
+.crisis-support-page__national.site-section-warm,
 .crisis-support-page__states {
-  padding-block: 60px;
+  padding-block: var(--crisis-section-padding);
 }
 
 .crisis-support-page__section-heading {
@@ -279,12 +278,7 @@
   text-decoration-color: currentColor;
 }
 
-.crisis-support-page__state-list {
-  display: grid;
-}
-
 .crisis-support-page__state-service {
-  position: relative;
   display: grid;
   grid-template-columns: minmax(150px, 0.32fr) minmax(320px, 1fr) minmax(260px, 0.76fr);
   align-items: start;
@@ -308,8 +302,8 @@
   line-height: 1.45;
 }
 
-.crisis-support-page__state-note {
-  color: var(--ink) !important;
+.crisis-support-page__state-service-main > .crisis-support-page__state-note {
+  color: var(--ink);
   font-weight: 650;
 }
 
@@ -324,6 +318,7 @@
 }
 
 .crisis-support-page__directory-link {
+  min-height: 52px;
   border-color: var(--cedar);
   background: var(--cedar);
   font-size: 0.9rem;
@@ -339,13 +334,9 @@
   background: #183d31;
 }
 
-.crisis-support-page__information-note {
+.crisis-support-page .crisis-support-page__information-note {
   margin-top: 0;
   padding: 18px 0 0;
-}
-
-.crisis-support-page .crisis-support-page__information-note p {
-  margin: 0;
   color: var(--muted);
   font-size: var(--type-caption);
   line-height: 1.5;
@@ -377,10 +368,8 @@
 }
 
 @media (max-width: 900px) {
-  .crisis-support-page__emergency-layout,
-  .crisis-support-page .crisis-support-page__national,
-  .crisis-support-page__states {
-    padding-block: 56px;
+  .crisis-support-page {
+    --crisis-section-padding: 56px;
   }
 }
 
@@ -425,13 +414,11 @@
 }
 
 @media (max-width: 660px) {
-  .crisis-support-page__emergency-layout,
-  .crisis-support-page .crisis-support-page__national,
-  .crisis-support-page__states {
-    padding-block: 48px;
+  .crisis-support-page {
+    --crisis-section-padding: 48px;
   }
 
-  .crisis-support-page__information-note {
+  .crisis-support-page .crisis-support-page__information-note {
     padding-top: 16px;
   }
 }
