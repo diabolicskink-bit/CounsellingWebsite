@@ -129,6 +129,12 @@
     "/contact": {
       "title": "Counselling Fees & Contact | Vive Counselling",
       "description": "Request a free 15-minute initial consultation with Joel Griffiths at Vive Counselling. Counselling sessions are $120; view fees and contact details."
+    },
+    "/crisis-support": {
+      "title": "Crisis Support Numbers Australia | Vive Counselling",
+      "description": "Find Australian crisis support numbers and urgent public mental health services, including Lifeline, 13YARN and state and territory mental health lines.",
+      "lastModified": "2026-08-14",
+      "lastReviewed": "2026-08-13"
     }
   }
 }

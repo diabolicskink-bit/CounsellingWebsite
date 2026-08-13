@@ -23,6 +23,7 @@ const publicRoutes = [
   "/kink-bdsm-counselling",
   "/polyamory-enm-counselling",
   "/lgbtqia-affirming-counselling",
+  "/crisis-support",
   "/contact",
 ] as const;
 const prerenderedRoutes = publicRoutes;
@@ -105,6 +106,24 @@ const prerenderedRouteContracts = {
       'class="contact-invitation site-section-warm"',
     ],
     noJavaScriptSelector: ".lgbtqia-page__recognition-list",
+  },
+  "/crisis-support": {
+    mainClass: "site-page crisis-support-page",
+    rawFragments: [
+      'class="hero-section site-hero-background crisis-support-page__hero"',
+      'class="crisis-support-page__emergency"',
+      'href="tel:000"',
+      'class="crisis-support-page__national-list"',
+      'href="tel:131114"',
+      'href="tel:1300659467"',
+      'href="tel:139276"',
+      'aria-label="Choose a state or territory"',
+      'class="crisis-support-page__state-list"',
+      'id="crisis-vic"',
+      'id="crisis-wa"',
+      'Information current as of <time dateTime="2026-08-13">13/08/2026</time>.',
+    ],
+    noJavaScriptSelector: ".crisis-support-page__state-list",
   },
   "/contact": {
     mainClass: "site-page contact-page codex-contact",
@@ -496,6 +515,49 @@ function getSpecialistServiceStructuredDataScript(route: string) {
   });
 }
 
+function getCrisisSupportStructuredDataScript() {
+  const ids = getExpectedStructuredDataIds();
+  const routeMetadata = routeMetadataData.routes["/crisis-support"];
+  const pageUrl = absoluteRouteUrl("/crisis-support");
+  const pageId = `${pageUrl}#webpage`;
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
+
+  return getExpectedStructuredDataScript({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "MedicalWebPage",
+        "@id": pageId,
+        url: pageUrl,
+        name: routeMetadata.title,
+        description: routeMetadata.description,
+        inLanguage: "en-AU",
+        lastReviewed: routeMetadata.lastReviewed,
+        isPartOf: { "@id": ids.websiteId },
+        publisher: { "@id": ids.organizationId },
+        breadcrumb: { "@id": breadcrumbId },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: ids.homepageUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Crisis support",
+          },
+        ],
+      },
+    ],
+  });
+}
+
 function routeRobotsDirective(route: string) {
   return routeMetadataData.routes[route]?.robots;
 }
@@ -835,6 +897,31 @@ test.describe("public pages", () => {
         await expect(pageMain.locator("#contact-crisis-support p.site-reading")).toHaveCount(1);
         await expect(pageMain.locator(".codex-contact__form p.site-reading")).toHaveCount(0);
       }
+
+      if (route === "/crisis-support") {
+        const pageMain = page.locator("main.crisis-support-page");
+
+        await expect(pageMain.getByRole("link", { name: "Call 000" })).toHaveAttribute(
+          "href",
+          "tel:000",
+        );
+        await expect(
+          pageMain.locator(".crisis-support-page__emergency p.site-reading"),
+        ).toHaveCount(1);
+        await expect(pageMain.getByRole("heading", { level: 2 })).toHaveText([
+          "Immediate danger",
+          "National urgent support services",
+          "State and territory urgent support services",
+        ]);
+        await expect(pageMain.locator(".crisis-support-page__national-service")).toHaveCount(3);
+        await expect(pageMain.locator(".crisis-support-page__state-service")).toHaveCount(8);
+        await expect(
+          pageMain.getByText("Urgent mental health advice and support.", { exact: true }),
+        ).toHaveCount(6);
+        await expect(pageMain.locator('a[href="tel:131114"]')).toHaveCount(1);
+        await expect(pageMain.locator('a[href="tel:1300659467"]')).toHaveCount(1);
+        await expect(pageMain.locator('a[href="tel:139276"]')).toHaveCount(1);
+      }
       await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
       await expect(page.locator("#root")).toHaveAttribute(
         "data-react-activation",
@@ -888,6 +975,10 @@ test.describe("shared navigation", () => {
     await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute(
       "href",
       "/contact",
+    );
+    await expect(footer.getByRole("link", { name: "Crisis support" })).toHaveAttribute(
+      "href",
+      "/crisis-support",
     );
     for (const profile of expectedSocialProfileLinks) {
       const profileLink = footer.getByRole("link", { name: profile.name, exact: true });
@@ -1224,6 +1315,12 @@ test.describe("first response metadata", () => {
         expect(html).toContain(getProfileStructuredDataScript());
         expect(html).not.toContain('"@type":"WebSite"');
         expect(html).not.toContain('"@type":"Service"');
+      } else if (route === "/crisis-support") {
+        expect(html).toContain(getCrisisSupportStructuredDataScript());
+        expect(html).not.toContain('"@type":"Organization"');
+        expect(html).not.toContain('"@type":"Person"');
+        expect(html).not.toContain('"@type":"Service"');
+        expect(html).not.toContain('"@type":"ItemList"');
       } else if (routeMetadataData.site.specialistServices[route]) {
         expect(html).toContain(getSpecialistServiceStructuredDataScript(route));
         expect(html).not.toContain('"@type":"WebSite"');
@@ -1303,6 +1400,11 @@ test.describe("crawl and app metadata assets", () => {
     for (const route of indexableRoutes) {
       expect(sitemap).toContain(`<loc>${escapeXml(absoluteRouteUrl(route))}</loc>`);
     }
+
+    expect(sitemap).toContain(
+      `<url><loc>${escapeXml(absoluteRouteUrl("/crisis-support"))}</loc><lastmod>2026-08-14</lastmod></url>`,
+    );
+    expect(sitemap.match(/<lastmod>/g)).toHaveLength(1);
 
     for (const route of Object.keys(routeMetadataData.routes)) {
       if (!indexableRoutes.includes(route as (typeof indexableRoutes)[number])) {

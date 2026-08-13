@@ -15,9 +15,9 @@
 .site-reading {
   color: var(--body);
   font-family: var(--font-sans);
-  font-size: clamp(1.01rem, 1.12vw, 1.08rem);
+  font-size: clamp(1.005rem, calc(0.5rem + 0.56vw), 1.04rem);
   font-weight: 400;
-  line-height: 1.64;
+  line-height: 1.63;
 }
 
 .site-reading.site-reading--lead {

@@ -16,6 +16,7 @@ const prerenderedRoutePaths = [
   "/kink-bdsm-counselling",
   "/polyamory-enm-counselling",
   "/lgbtqia-affirming-counselling",
+  "/crisis-support",
   "/contact",
 ];
 const indexableRoutePaths = prerenderedRoutePaths;
@@ -64,6 +65,20 @@ const prerenderedRouteSmokeFragments = {
     'class="lgbtqia-page__recognition-list"',
     'class="lgbtqia-page__disclosure"',
   ],
+  "/crisis-support": [
+    '<main class="site-page crisis-support-page">',
+    "Find urgent mental health support.",
+    'class="hero-section site-hero-background crisis-support-page__hero"',
+    'class="crisis-support-page__emergency"',
+    'href="tel:000"',
+    "National urgent support services",
+    'class="crisis-support-page__national-list"',
+    "State and territory urgent support services",
+    'class="crisis-support-page__state-list"',
+    'href="tel:131114"',
+    'href="tel:1300659467"',
+    'href="tel:139276"',
+  ],
   "/contact": [
     '<main class="site-page contact-page codex-contact">',
     "Contact and fees",
@@ -109,6 +124,23 @@ function getAbsoluteUrl(siteOrigin, routePath) {
 
 function getAssetUrl(siteOrigin, assetPath) {
   return `${siteOrigin}${assetPath.startsWith("/") ? assetPath : `/${assetPath}`}`;
+}
+
+function getValidIsoDate(value, label) {
+  if (typeof value !== "string") {
+    throw new Error(`${label} must be an ISO date.`);
+  }
+
+  const parsedDate = new Date(`${value}T00:00:00.000Z`);
+  const normalizedDate = Number.isNaN(parsedDate.valueOf())
+    ? ""
+    : parsedDate.toISOString().slice(0, 10);
+
+  if (normalizedDate !== value) {
+    throw new Error(`${label} must be an ISO date.`);
+  }
+
+  return value;
 }
 
 function getFaviconTags() {
@@ -344,6 +376,52 @@ function getSpecialistServiceStructuredDataTag(routePath, routeMetadata, siteMet
   return getStructuredDataTag(structuredData);
 }
 
+function getCrisisSupportStructuredDataTag(routeMetadata, siteMetadata, siteOrigin) {
+  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
+  const pageUrl = getAbsoluteUrl(siteOrigin, "/crisis-support");
+  const pageId = `${pageUrl}#webpage`;
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "MedicalWebPage",
+        "@id": pageId,
+        url: pageUrl,
+        name: routeMetadata.title,
+        description: routeMetadata.description,
+        inLanguage: "en-AU",
+        lastReviewed: getValidIsoDate(
+          routeMetadata.lastReviewed,
+          "Crisis Support lastReviewed",
+        ),
+        isPartOf: { "@id": ids.websiteId },
+        publisher: { "@id": ids.organizationId },
+        breadcrumb: { "@id": breadcrumbId },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: ids.homepageUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Crisis support",
+          },
+        ],
+      },
+    ],
+  };
+
+  return getStructuredDataTag(structuredData);
+}
+
 function getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   if (routePath === "/") {
     return [getHomeStructuredDataTag(siteMetadata, siteOrigin)];
@@ -351,6 +429,10 @@ function getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, site
 
   if (routePath === "/working-with-joel") {
     return [getProfileStructuredDataTag(routeMetadata, siteMetadata, siteOrigin)];
+  }
+
+  if (routePath === "/crisis-support") {
+    return [getCrisisSupportStructuredDataTag(routeMetadata, siteMetadata, siteOrigin)];
   }
 
   if (siteMetadata.specialistServices[routePath]) {
@@ -543,7 +625,17 @@ function getSitemapEntries(routes, siteOrigin) {
       throw new Error(`Indexable route has robots metadata: ${routePath}`);
     }
 
-    return `  <url><loc>${escapeXml(getAbsoluteUrl(siteOrigin, routePath))}</loc></url>`;
+    const lastModified = routeMetadata.lastModified;
+
+    if (lastModified) {
+      getValidIsoDate(lastModified, `Indexable route lastModified (${routePath})`);
+    }
+
+    const lastModifiedElement = lastModified
+      ? `<lastmod>${escapeXml(lastModified)}</lastmod>`
+      : "";
+
+    return `  <url><loc>${escapeXml(getAbsoluteUrl(siteOrigin, routePath))}</loc>${lastModifiedElement}</url>`;
   });
 }
 

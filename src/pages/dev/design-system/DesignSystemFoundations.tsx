@@ -23,6 +23,7 @@ export default function DesignSystemFoundations() {
           consumers={[
             "Home About narrative, inclusive copy, and closing invitation",
             "Working with Joel introduction, approach overview, and active tab copy",
+            "Crisis Support emergency guidance and section introductions",
           ]}
           identifier=".site-reading"
           recordPath="docs/design-system/foundations.md"
@@ -40,11 +41,11 @@ export default function DesignSystemFoundations() {
               </div>
               <div>
                 <dt>Size</dt>
-                <dd>1.01–1.08rem</dd>
+                <dd>1.005–1.04rem</dd>
               </div>
               <div>
                 <dt>Leading</dt>
-                <dd>1.64</dd>
+                <dd>1.63</dd>
               </div>
             </dl>
           </div>
@@ -71,11 +72,11 @@ export default function DesignSystemFoundations() {
               </div>
               <div>
                 <dt>Size</dt>
-                <dd>1.01–1.08rem</dd>
+                <dd>1.005–1.04rem</dd>
               </div>
               <div>
                 <dt>Leading</dt>
-                <dd>1.64</dd>
+                <dd>1.63</dd>
               </div>
             </dl>
           </div>
