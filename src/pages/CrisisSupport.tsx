@@ -38,6 +38,12 @@ type StateService = StateServiceBase &
 
 const crisisSupportMetadata = getRouteMetadata("/crisis-support");
 const urgentStateSupportDescription = "Urgent mental health advice and support.";
+const informationCurrentDate = new Intl.DateTimeFormat("en-AU", {
+  day: "2-digit",
+  month: "2-digit",
+  timeZone: "UTC",
+  year: "numeric",
+}).format(new Date(`${crisisSupportMetadata.lastReviewed}T00:00:00.000Z`));
 
 function stateServiceId(id: StateCode) {
   return `crisis-${id}` as const;
@@ -329,7 +335,8 @@ export default function CrisisSupport() {
           </div>
 
           <p className="crisis-support-page__information-note">
-            Information current as of <time dateTime="2026-08-13">13/08/2026</time>.
+            Information current as of{" "}
+            <time dateTime={crisisSupportMetadata.lastReviewed}>{informationCurrentDate}</time>.
           </p>
         </Container>
       </section>
