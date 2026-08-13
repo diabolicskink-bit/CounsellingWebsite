@@ -100,6 +100,8 @@ Add the Neon dependency, the anonymous-visitor relationship, visits and page-vie
 
 Add the write-only Vercel endpoint that accepts a visit/page-view observation, validates it, and stores it idempotently.
 
+**Status:** Complete. The endpoint and its server-side validation exist, but no browser code calls it and collection remains inactive.
+
 **Prompt:** Complete slice 2 of the first-party visit ledger plan, update the plan, and stop.
 
 ### 3. Record The Initial Visit

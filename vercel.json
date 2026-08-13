@@ -4,6 +4,9 @@
   "functions": {
     "api/enquiry.ts": {
       "includeFiles": "src/{data/enquiryContract.ts,server/enquiry/**,utils/timeZones.ts}"
+    },
+    "api/visit.ts": {
+      "includeFiles": "src/server/visits/**"
     }
   },
   "trailingSlash": false,

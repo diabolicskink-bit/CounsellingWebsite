@@ -1,0 +1,73 @@
+import {
+  PageViewIdentityConflictError,
+  recordVisitObservation,
+  VisitDatabaseConfigurationError,
+  VisitIdentityConflictError,
+  type VisitObservation,
+} from "../src/server/visits/repository.ts";
+import {
+  getVisitPayloadBody,
+  getVisitRequestShapeBlock,
+  logBlockedVisitRequest,
+  type VisitRequest,
+  type VisitResponse,
+} from "../src/server/visits/request.ts";
+import { validateVisitPayload } from "../src/server/visits/validation.ts";
+
+type RecordVisitObservation = (observation: VisitObservation) => Promise<unknown>;
+
+const publicFailureMessage = "Visit could not be recorded.";
+
+function sendFailure(response: VisitResponse, status: number) {
+  response.setHeader("Cache-Control", "no-store");
+  return response.status(status).json({ error: publicFailureMessage });
+}
+
+function sendSuccess(response: VisitResponse) {
+  response.setHeader("Cache-Control", "no-store");
+  return response.status(204).end();
+}
+
+export function createVisitHandler(recordObservation: RecordVisitObservation = recordVisitObservation) {
+  return async function handler(request: VisitRequest, response: VisitResponse) {
+    if (request.method !== "POST") {
+      response.setHeader("Allow", "POST");
+      return sendFailure(response, 405);
+    }
+
+    const requestShapeBlock = getVisitRequestShapeBlock(request);
+
+    if (requestShapeBlock) {
+      logBlockedVisitRequest(request, requestShapeBlock);
+      return sendFailure(response, requestShapeBlock.status);
+    }
+
+    const validation = validateVisitPayload(getVisitPayloadBody(request));
+
+    if (validation.type === "invalid") {
+      console.warn("Visit payload rejected:", validation.issues);
+      return sendFailure(response, 400);
+    }
+
+    try {
+      await recordObservation(validation.observation);
+      return sendSuccess(response);
+    } catch (error) {
+      if (error instanceof VisitIdentityConflictError || error instanceof PageViewIdentityConflictError) {
+        console.warn("Visit identity conflict:", error.name);
+        return sendFailure(response, 409);
+      }
+
+      const errorName = error instanceof Error ? error.name : "UnknownError";
+      if (error instanceof VisitDatabaseConfigurationError) {
+        console.error("Visit database configuration missing:", errorName);
+      } else {
+        console.error("Visit recording failed:", errorName);
+      }
+
+      return sendFailure(response, 500);
+    }
+  };
+}
+
+export default createVisitHandler();

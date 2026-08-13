@@ -68,6 +68,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 ## Analytics
 
+- The repository now contains the inactive first-party visit-ledger foundation: a Neon/Postgres schema and a write-only `POST /api/visit` Vercel Function that accepts bounded anonymous visitor, visit, page-view, landing, full browser-supplied referrer, and optional ad-attribution fields. The endpoint derives the referrer hostname server-side, stores observations idempotently, exposes no read method, and returns generic public failures. No browser recorder calls it yet, no Neon resource has been provisioned, and first-party visit collection is not active.
 - `SiteAnalytics` loads Google Analytics when `VITE_GA_MEASUREMENT_ID` is configured and sends manual public-route `page_view` events.
 - The first non-honeypot enquiry-form input emits one GA4 `enquiry_started` event per rendered form, clicks on site email links emit `email_link_clicked`, and each deliberate Contact-page path selection emits `contact_option_selected` with one controlled `contact_option` parameter (`appointment`, `consult`, or `question`). These events contain no visitor-entered data.
 - After `/api/enquiry` confirms a successful send, the enquiry form emits a GA4 `generate_lead` event with controlled `form_name` and `lead_source` parameters. Failed submissions emit no conversion event.
@@ -80,7 +81,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 - `tests/public-site.spec.ts` covers public landmarks, raw and JavaScript-disabled output, hydration, shared mobile-navigation Escape/focus/scroll-lock behaviour including responsive breakpoint release, complete mobile-footer scroll reach, focused Home semantics, CTA ownership, dark-hero contrast, About Vive content, mobile portrait ordering and overflow, Working with Joel hero alignment, heading roles, tab interaction and axe checks, header, mobile-navigation and footer Contact destinations, timezone behaviour, three-path conditional enquiry fields and payloads, success/error states, form semantics, flat and nested artifacts, SPA navigation, fallback activation, generated metadata, sitemap, robots, and the 404 artifact.
 - `tests/tsconfig.json` provides strict TypeScript coverage for the Playwright public-site spec. `npm run typecheck:tests` runs that check directly, and the site, analytics, and full QA commands enforce it before browser testing.
-- Direct Node tests under `tests/api/` cover accepted and rejected enquiry submissions.
+- Direct Node tests under `tests/api/` cover accepted and rejected enquiry submissions plus the visit repository and write-only visit endpoint boundaries.
 - Direct Node tests under `tests/scripts/` cover route-metadata origin policy.
 - `npm run qa:site` builds the app, starts the QA preview server, and runs the Playwright public-site suite.
 - `npm run qa:analytics` builds with fake analytics identifiers and verifies Google Analytics SPA pageviews, all three controlled Contact-path selection values, anonymous contact-intent events, confirmed enquiry conversion events, failure suppression, and the Clarity script path without loading third-party scripts.
@@ -91,6 +92,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 ## Known Gaps
 
+- The inactive first-party visit endpoint has application-level request and payload controls but no platform rate limit. Production enablement remains gated by the visit-ledger plan's preview, abuse-resistance, privacy, retention, and owner-approval steps.
 - Enquiry protection does not include platform rate limiting or complete abuse protection.
 - The 404 build and local-preview contract is verified, but repeatable post-deploy confirmation remains manual under `DEBT-24`.
 - Route definitions, metadata, prerendering, and tests remain separate; explicit route-parity enforcement is tracked as debt.
