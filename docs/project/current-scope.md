@@ -78,7 +78,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 ## Testing And QA
 
-- `tests/public-site.spec.ts` covers public landmarks, raw and JavaScript-disabled output, hydration, shared mobile-navigation Escape/focus/scroll-lock behaviour including responsive breakpoint release, complete mobile-footer scroll reach, focused Home semantics, CTA ownership, dark-hero contrast, About Vive content, mobile portrait ordering and overflow, Working with Joel hero alignment, heading roles, tab interaction and axe checks, header, mobile-navigation and footer Contact destinations, timezone behaviour, three-path conditional enquiry fields and payloads, success/error states, form semantics, flat and nested artifacts, SPA navigation, fallback activation, generated metadata, sitemap, robots, and the 404 artifact.
+- `tests/public-site.spec.ts` is a single-Chromium, 37-case browser suite focused on durable visitor behaviour: public-route hydration and diagnostics, shared navigation and mobile focus/scroll restoration, SPA and not-found activation, a JavaScript-disabled Contact form, lightweight first-response title/description/canonical and crawl-file checks, analytics privacy and events, redirects, approach-tab interaction, enquiry success/error behaviour, compact-viewport overflow, and route-level axe smoke checks. Detailed raw structure, structured/social metadata construction, duplicate output forms, asset bytes, and the controlled 404 artifact stay with the build generator and manual metadata monitor instead of being mirrored in browser assertions.
 - `tests/tsconfig.json` provides strict TypeScript coverage for the Playwright public-site spec. `npm run typecheck:tests` runs that check directly, and the site, analytics, and full QA commands enforce it before browser testing.
 - Direct Node tests under `tests/api/` cover accepted and rejected enquiry submissions.
 - Direct Node tests under `tests/scripts/` cover route-metadata origin policy.
@@ -86,7 +86,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - `npm run qa:analytics` builds with fake analytics identifiers and verifies Google Analytics SPA pageviews, all three controlled Contact-path selection values, anonymous contact-intent events, confirmed enquiry conversion events, failure suppression, and the Clarity script path without loading third-party scripts.
 - `npm run qa` runs encoding checks, direct script tests, the build, direct API tests, and the public-site Playwright suite.
 - `npm run check:encoding` is also included in `npm run qa` and `npm run qa:site`.
-- Test tooling includes Playwright axe checks and Lighthouse audit scripts.
+- Test tooling includes one desktop Chromium Playwright project, explicit mobile viewports within the responsive interaction checks, route-level axe checks, and Lighthouse audit scripts.
 - Codex IDE visual inspection follows [visual-verification.md](visual-verification.md) and uses the repository's Playwright installation against system Chrome. `scripts/visual-session.mjs` is an optional convenience helper that manages an isolated Vite server and browser within one callback lifecycle; direct Playwright use remains supported.
 
 ## Known Gaps

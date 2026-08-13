@@ -475,38 +475,6 @@ Each active item should include enough direction that a future session can choos
   - Avoid duplicating approach prose in a separate fallback block; duplicated content would create maintenance and accessibility ambiguity.
 - `Links`: `src/components/BroadTabPanel.tsx`, `src/pages/WorkingWithJoel.tsx`, `tests/public-site.spec.ts`
 
-### DEBT-34 - Public-page tests need opportunistic maintenance
-
-- `Priority`: `P3`
-- `Size`: `S`
-- `Priority Rationale`: This is `P3` because the prerendering migration already has focused cross-route coverage and a passing production build. The remaining pressure is ordinary test relevance and maintainability as individual pages evolve, not a known production defect or a reason to delay other work.
-- `Status`: `Open`
-- `Detected`: 2026-07-13
-- `Source`: Prerendering close-out decision after Phase 9.
-- `Area`: Tests, Rendering, Public Pages, Maintainability
-- `Problem`: The broad standalone rendering-test phases were intentionally closed, but page-specific assertions can still become stale or miss new behaviour when public pages change over time.
-- `Why It Matters`: Reviewing the relevant tests while a page is already in context is cheaper and more accurate than preserving stale assertions or scheduling a separate whole-site testing campaign.
-- `Preferred Direction`: When a public page or shared page behaviour is being changed for another reason, inspect its raw HTML, no-JavaScript, hydration, interaction, accessibility, and metadata assertions as relevant to that change. Keep stable cross-route contracts shared and avoid broad copy snapshots.
-- `Resolution Path`: Work through the page checklist only as those pages are naturally touched by other approved work. Do not schedule implementation solely to clear this item.
-- `Next Action`: On the next otherwise-authorized public-page change, review that page's relevant Playwright coverage and update the matching checklist note below.
-- `Resolved When`: Every listed page/boundary has received at least one opportunistic post-migration test review during other work, or this checklist is superseded by a later explicit test-maintenance strategy.
-- `Related Items`:
-  - `DEBT-8`: Route-parity coverage protects the shared route-generation surfaces while this item tracks page-specific assertion quality.
-  - `docs/checklists/accessibility-monitor.md`: Owner-directed accessibility review may expose page-level assertions worth preserving when a page is already being changed.
-  - `docs/checklists/responsive-monitor.md`: Owner-directed responsive review may expose page-level interaction or layout checks worth preserving when a page is already being changed.
-- `Dependencies`: `None`
-- `Notes`:
-  - This is a memory aid, not authorization for a dedicated page-by-page audit or test-only campaign.
-  - Reviewed 2026-07-13 by explicit request: Home (`/`) now has focused hydrated and JavaScript-disabled checks for its semantic lists, portrait priority hint, workroom card, Inclusion detail navigation, and three page-owned route links. The raw first-response contract covers the same durable structure without snapshotting public prose, and the post-hydration SPA check now exercises a Home-owned CTA instead of the shared footer.
-  - Reviewed 2026-07-13 by explicit request: Working with Joel (`/working-with-joel`) now has focused hydrated and JavaScript-disabled checks for credentials, introduction and portrait semantics, lazy image loading, its three-tab approach control, and the complete issues list. The interaction check covers pointer selection, tab/panel relationships, roving tab stops, Home/End and wrapping arrow-key behaviour, hydration, diagnostics, and desktop/mobile axe smoke coverage without snapshotting public prose. Review exposed the pre-JavaScript approach-copy gap tracked as `DEBT-35`.
-  - Pending opportunistic review: Inclusion hub (`/inclusive-counselling`).
-  - Pending opportunistic review: Kink and BDSM (`/kink-bdsm-counselling`).
-  - Reviewed 2026-07-13 during master alignment: ENM and polyamory (`/polyamory-enm-counselling`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
-  - Reviewed 2026-07-13 during master alignment: LGBTQIA+ (`/lgbtqia-affirming-counselling`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
-  - Pending opportunistic review: Contact and fees (`/contact`).
-  - Pending opportunistic review: Not Found and controlled `404.html` boundary.
-- `Links`: `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`, `docs/project/task-log.md`
-
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
 - `Priority`: `P3`

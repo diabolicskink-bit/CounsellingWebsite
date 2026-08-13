@@ -1,5 +1,5 @@
+import { enquiryEmail } from "../../data/enquiry.ts";
 import { buildEnquiryEmail } from "./email.ts";
-import { fallbackRecipient } from "./response.ts";
 import type { ValidatedEnquiry } from "./validation.ts";
 
 type EnquiryDeliveryEnvironment = Readonly<Record<string, string | undefined>>;
@@ -26,7 +26,7 @@ export async function deliverEnquiry(
   enquiry: ValidatedEnquiry,
   { environment, fetch, logError }: EnquiryDeliveryDependencies,
 ): Promise<EnquiryDeliveryResult> {
-  const to = environment.ENQUIRY_TO_EMAIL || fallbackRecipient;
+  const to = environment.ENQUIRY_TO_EMAIL || enquiryEmail;
   const from = environment.ENQUIRY_FROM_EMAIL;
   const apiKey = environment.RESEND_API_KEY;
 
