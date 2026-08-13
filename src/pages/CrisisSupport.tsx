@@ -62,7 +62,7 @@ const stateServices: StateService[] = [
     region: "Australian Capital Territory",
     name: "Access Mental Health",
     url: "https://www.canberrahealthservices.act.gov.au/services-and-clinics/services/access-mental-health",
-    description: "Mental health advice, assessment and referral, 24 hours a day.",
+    description: "Urgent mental health advice and support.",
     actions: [{ href: "tel:1800629354", label: "Call", number: "1800 629 354" }],
   },
   {
@@ -70,8 +70,7 @@ const stateServices: StateService[] = [
     region: "New South Wales",
     name: "NSW Mental Health Line",
     url: "https://www.health.nsw.gov.au/mentalhealth/Pages/mental-health-line.aspx",
-    description:
-      "Mental health advice, brief assessment and referral to NSW Health services, 24 hours a day.",
+    description: "Urgent mental health advice and support.",
     actions: [{ href: "tel:1800011511", label: "Call", number: "1800 011 511" }],
   },
   {
@@ -79,7 +78,7 @@ const stateServices: StateService[] = [
     region: "Northern Territory",
     name: "NT Mental Health Line",
     url: "https://nt.gov.au/wellbeing/mental-health/about-mental-health",
-    description: "Mental health support and crisis advice across the Northern Territory, 24 hours a day.",
+    description: "Urgent mental health advice and support.",
     actions: [{ href: "tel:1800682288", label: "Call", number: "1800 682 288" }],
   },
   {
@@ -87,8 +86,7 @@ const stateServices: StateService[] = [
     region: "Queensland",
     name: "1300 MH CALL",
     url: "https://www.qld.gov.au/health/mental-health-and-wellbeing/how-to-get-help/1300-mh-call",
-    description:
-      "Confidential mental health triage and access to the nearest Queensland public mental health service, 24 hours a day.",
+    description: "Urgent mental health advice and support.",
     actions: [{ href: "tel:1300642255", label: "Call", number: "1300 642 255" }],
   },
   {
@@ -96,7 +94,7 @@ const stateServices: StateService[] = [
     region: "South Australia",
     name: "Mental Health Triage Service",
     url: "https://www.sahealth.sa.gov.au/wps/wcm/connect/public+content/sa+health+internet/services/mental+health+and+drug+and+alcohol+services/mental+health+services/find+mental+health+help+now",
-    description: "Assessment and advice in a mental health emergency, 24 hours a day.",
+    description: "Urgent mental health advice and support.",
     actions: [{ href: "tel:131465", label: "Call", number: "13 14 65" }],
   },
   {
@@ -104,7 +102,7 @@ const stateServices: StateService[] = [
     region: "Tasmania",
     name: "Access Mental Health",
     url: "https://www.health.tas.gov.au/health-topics/mental-health/tasmanias-mental-health-system/access-mental-health-helpline",
-    description: "Mental health advice, assessment, support and referral across Tasmania.",
+    description: "Urgent mental health advice and support.",
     actions: [{ href: "tel:1800332388", label: "Call", number: "1800 332 388" }],
   },
   {
@@ -113,7 +111,7 @@ const stateServices: StateService[] = [
     name: "Local mental health triage service",
     url: "https://vahi.vic.gov.au/mental-health-services",
     description:
-      "Victoria has area-based public mental health triage services rather than one statewide number. Each service provides triage and referral 24 hours a day.",
+      "Victoria has area-based public mental health triage services rather than one statewide number.",
     note: "Use the Victorian directory to find the phone number for your local area.",
   },
   {
@@ -163,12 +161,9 @@ export default function CrisisSupport() {
       >
         <Container className="crisis-support-page__hero-layout">
           <h1 className="hero-badge" id="crisis-support-title">
-            Crisis support
+            Crisis support services
           </h1>
           <p className="hero-display">Find urgent mental health support.</p>
-          <p className="crisis-support-page__hero-copy site-reading">
-            Australian crisis lines and public mental health services you can contact now.
-          </p>
         </Container>
       </section>
 
@@ -178,9 +173,8 @@ export default function CrisisSupport() {
       >
         <Container className="crisis-support-page__emergency-layout">
           <div className="crisis-support-page__emergency-copy">
-            <span className="crisis-support-page__section-label">Immediate danger</span>
-            <h2 id="crisis-emergency-title">If someone cannot stay safe</h2>
-            <p>
+            <h2 id="crisis-emergency-title">Immediate danger</h2>
+            <p className="site-reading">
               Call Triple Zero (000) or go to the nearest hospital emergency department if you or
               someone else is in immediate danger or cannot safely wait for telephone support.
             </p>
@@ -198,8 +192,7 @@ export default function CrisisSupport() {
       >
         <Container>
           <header className="crisis-support-page__section-heading">
-            <span className="crisis-support-page__section-label">National services</span>
-            <h2 id="national-crisis-support-title">Talk with a crisis supporter</h2>
+            <h2 id="national-crisis-support-title">National urgent support services</h2>
             <p className="site-reading">
               These free services are available 24 hours a day, 7 days a week. You can call for
               yourself or because you are worried about someone else.
@@ -232,8 +225,7 @@ export default function CrisisSupport() {
       >
         <Container>
           <header className="crisis-support-page__section-heading crisis-support-page__section-heading--states">
-            <span className="crisis-support-page__section-label">State and territory services</span>
-            <h2 id="state-crisis-support-title">Urgent public mental health services</h2>
+            <h2 id="state-crisis-support-title">State and territory urgent support services</h2>
             <p className="site-reading">
               These services provide mental health assessment, triage, advice or referral. They are
               public mental health access lines, not general counselling services.
@@ -245,7 +237,12 @@ export default function CrisisSupport() {
             <ul>
               {stateServices.map((service) => (
                 <li key={service.id}>
-                  <a href={`#crisis-${service.id}`}>{service.id.toUpperCase()}</a>
+                  <a
+                    aria-label={`${service.id.toUpperCase()}: ${service.region}`}
+                    href={`#crisis-${service.id}`}
+                  >
+                    {service.id.toUpperCase()}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -283,12 +280,7 @@ export default function CrisisSupport() {
 
           <div className="crisis-support-page__information-note">
             <p>
-              Service information checked against provider and government websites on 12 August
-              2026. Phone numbers and hours can change.
-            </p>
-            <p>
-              Vive Counselling is not an emergency service. Do not use the Vive enquiry form for
-              urgent help.
+              Information current as of <time dateTime="2026-08-13">13/08/2026</time>.
             </p>
           </div>
         </Container>

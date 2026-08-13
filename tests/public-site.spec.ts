@@ -121,7 +121,7 @@ const prerenderedRouteContracts = {
       'class="crisis-support-page__state-list"',
       'id="crisis-vic"',
       'id="crisis-wa"',
-      "Service information checked against provider and government websites on 12 August",
+      "Information current as of 13/08/2026",
     ],
     noJavaScriptSelector: ".crisis-support-page__state-list",
   },
@@ -849,8 +849,19 @@ test.describe("public pages", () => {
           "href",
           "tel:000",
         );
+        await expect(
+          pageMain.locator(".crisis-support-page__emergency p.site-reading"),
+        ).toHaveCount(1);
+        await expect(pageMain.getByRole("heading", { level: 2 })).toHaveText([
+          "Immediate danger",
+          "National urgent support services",
+          "State and territory urgent support services",
+        ]);
         await expect(pageMain.locator(".crisis-support-page__national-service")).toHaveCount(3);
         await expect(pageMain.locator(".crisis-support-page__state-service")).toHaveCount(8);
+        await expect(
+          pageMain.getByText("Urgent mental health advice and support.", { exact: true }),
+        ).toHaveCount(6);
         await expect(pageMain.locator('a[href="tel:131114"]')).toHaveCount(1);
         await expect(pageMain.locator('a[href="tel:1300659467"]')).toHaveCount(1);
         await expect(pageMain.locator('a[href="tel:139276"]')).toHaveCount(1);

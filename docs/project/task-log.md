@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-13 - Shared Reading Typography Tightened
+
+- Updated: `.site-reading` now splits the difference between its previous scale and the Crisis Support emergency paragraph, using a restrained responsive `1.005–1.04rem` size and `1.63` line-height across its verified public-page consumers.
+- Aligned: Crisis Support emergency guidance now consumes the shared reading role directly while retaining its page-owned emergency foreground colour.
+
 ## 2026-08-12 - Australian Crisis Support Route Added
 
 - Added: `/crisis-support` now puts immediate-danger guidance and a direct `000` action before verified national crisis lines and state or territory public mental health services.

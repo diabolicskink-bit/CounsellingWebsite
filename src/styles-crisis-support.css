@@ -1,8 +1,8 @@
 .crisis-support-page {
   --crisis-ink: #17231f;
-  --crisis-emergency: #7f2f28;
   --crisis-emergency-deep: #60221d;
   --crisis-rule: rgba(35, 75, 61, 0.22);
+  --crisis-soft-green: rgba(35, 75, 61, 0.045);
   background: var(--paper);
 }
 
@@ -14,32 +14,19 @@
 
 .crisis-support-page__hero-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.55fr);
-  grid-template-areas:
-    "label copy"
-    "display copy";
+  grid-template-columns: minmax(0, 1fr);
   align-items: end;
-  gap: 18px clamp(48px, 8vw, 118px);
+  gap: 18px;
 }
 
 .crisis-support-page__hero .hero-badge {
-  grid-area: label;
   align-self: end;
   color: #d9e5d9;
 }
 
 .crisis-support-page__hero .hero-display {
-  grid-area: display;
   margin: 0;
   color: #fcfcfa;
-}
-
-.crisis-support-page__hero-copy.site-reading {
-  grid-area: copy;
-  max-width: 33ch;
-  padding-left: 22px;
-  border-left: 1px solid rgba(217, 229, 217, 0.4);
-  color: rgba(252, 252, 250, 0.82);
 }
 
 .crisis-support-page__emergency {
@@ -52,13 +39,13 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 32px;
-  padding-block: clamp(34px, 5vw, 54px);
+  gap: clamp(28px, 4vw, 58px);
+  padding-block: 60px;
 }
 
 .crisis-support-page__emergency-copy {
   display: grid;
-  grid-template-columns: minmax(112px, 0.34fr) minmax(280px, 0.85fr) minmax(280px, 1fr);
+  grid-template-columns: minmax(280px, 0.85fr) minmax(280px, 1fr);
   align-items: baseline;
   gap: 18px clamp(24px, 4vw, 56px);
 }
@@ -72,21 +59,6 @@
 .crisis-support-page__emergency p {
   max-width: 52ch;
   color: #47201c;
-  font-size: 1rem;
-  line-height: 1.62;
-}
-
-.crisis-support-page__section-label {
-  color: var(--cedar-dark);
-  font-size: var(--type-caption);
-  font-weight: 760;
-  letter-spacing: 0.04em;
-  line-height: 1.35;
-  text-transform: uppercase;
-}
-
-.crisis-support-page__emergency .crisis-support-page__section-label {
-  color: var(--crisis-emergency);
 }
 
 .crisis-support-page__emergency-call,
@@ -114,14 +86,25 @@
   background: #481815;
 }
 
+.crisis-support-page__emergency-call {
+  min-width: 132px;
+  min-height: 58px;
+  padding-inline: 1.3rem;
+}
+
+.crisis-support-page__emergency-call:active {
+  border-color: #36110f;
+  background: #36110f;
+}
+
 .crisis-support-page__national,
 .crisis-support-page__states {
-  padding-block: clamp(62px, 8vw, 102px);
+  padding-block: 60px;
 }
 
 .crisis-support-page__section-heading {
   display: grid;
-  grid-template-columns: minmax(150px, 0.32fr) minmax(300px, 0.85fr) minmax(300px, 1fr);
+  grid-template-columns: minmax(300px, 0.85fr) minmax(300px, 1fr);
   align-items: start;
   gap: 18px clamp(24px, 4vw, 56px);
 }
@@ -210,7 +193,7 @@
   min-width: 205px;
   min-height: 60px;
   padding: 9px 14px;
-  border: 1px solid rgba(35, 75, 61, 0.42);
+  border: 1px solid rgba(35, 75, 61, 0.38);
   border-radius: 2px;
   background: rgba(252, 252, 250, 0.72);
   color: var(--cedar-dark);
@@ -224,6 +207,10 @@
   background: #fcfcfa;
 }
 
+.crisis-support-page__contact-action:active {
+  background: var(--crisis-soft-green);
+}
+
 .crisis-support-page__contact-action svg {
   grid-area: icon;
 }
@@ -233,6 +220,7 @@
   color: var(--muted);
   font-size: 0.72rem;
   font-weight: 720;
+  letter-spacing: 0.035em;
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -255,8 +243,9 @@
   align-items: center;
   gap: 22px;
   margin-top: clamp(36px, 5vw, 58px);
-  padding-block: 14px;
+  padding: 12px 10px;
   border-block: 1px solid var(--crisis-rule);
+  background: rgba(35, 75, 61, 0.025);
   color: var(--muted);
   font-size: var(--type-small);
   font-weight: 650;
@@ -272,9 +261,12 @@
 }
 
 .crisis-support-page__location-index a {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 44px;
-  padding: 7px 8px;
+  min-height: 44px;
+  padding: 6px 8px;
   color: var(--cedar-dark);
   text-align: center;
   text-decoration: underline;
@@ -292,6 +284,7 @@
 }
 
 .crisis-support-page__state-service {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(150px, 0.32fr) minmax(320px, 1fr) minmax(260px, 0.76fr);
   align-items: start;
@@ -299,6 +292,13 @@
   scroll-margin-top: 92px;
   padding-block: 30px;
   border-bottom: 1px solid var(--crisis-rule);
+  transition: background-color 160ms ease;
+}
+
+.crisis-support-page__state-service:target {
+  padding-inline: clamp(12px, 2vw, 18px);
+  background: var(--crisis-soft-green);
+  box-shadow: inset 3px 0 0 var(--cedar);
 }
 
 .crisis-support-page__region {
@@ -334,15 +334,21 @@
   background: var(--cedar-dark);
 }
 
+.crisis-support-page__directory-link:active {
+  border-color: #183d31;
+  background: #183d31;
+}
+
 .crisis-support-page__information-note {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px 56px;
-  margin-top: 34px;
-  padding-top: 26px;
+  margin-top: 0;
+  padding: 18px 0 0;
+}
+
+.crisis-support-page .crisis-support-page__information-note p {
+  margin: 0;
   color: var(--muted);
-  font-size: 0.84rem;
-  line-height: 1.55;
+  font-size: var(--type-caption);
+  line-height: 1.5;
 }
 
 .crisis-support-page a:focus-visible {
@@ -355,21 +361,9 @@
 }
 
 @media (max-width: 1060px) {
-  .crisis-support-page__hero-layout,
   .crisis-support-page__section-heading,
   .crisis-support-page__emergency-copy {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  }
-
-  .crisis-support-page__hero-layout {
-    grid-template-areas:
-      "label label"
-      "display copy";
-  }
-
-  .crisis-support-page__section-heading .crisis-support-page__section-label,
-  .crisis-support-page__emergency-copy .crisis-support-page__section-label {
-    grid-column: 1 / -1;
   }
 
   .crisis-support-page__state-service {
@@ -382,37 +376,29 @@
   }
 }
 
+@media (max-width: 900px) {
+  .crisis-support-page__emergency-layout,
+  .crisis-support-page .crisis-support-page__national,
+  .crisis-support-page__states {
+    padding-block: 56px;
+  }
+}
+
 @media (max-width: 760px) {
   .crisis-support-page__hero-layout {
-    grid-template-areas:
-      "label"
-      "display"
-      "copy";
-    grid-template-columns: minmax(0, 1fr);
     gap: 15px;
-  }
-
-  .crisis-support-page__hero-copy.site-reading {
-    max-width: 38ch;
-    margin-top: 12px;
   }
 
   .crisis-support-page__emergency-layout,
   .crisis-support-page__emergency-copy,
   .crisis-support-page__section-heading,
   .crisis-support-page__national-service,
-  .crisis-support-page__state-service,
-  .crisis-support-page__information-note {
+  .crisis-support-page__state-service {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .crisis-support-page__emergency-call {
     justify-self: stretch;
-  }
-
-  .crisis-support-page__emergency-copy .crisis-support-page__section-label,
-  .crisis-support-page__section-heading .crisis-support-page__section-label {
-    grid-column: auto;
   }
 
   .crisis-support-page__national-service {
@@ -438,22 +424,21 @@
   }
 }
 
+@media (max-width: 660px) {
+  .crisis-support-page__emergency-layout,
+  .crisis-support-page .crisis-support-page__national,
+  .crisis-support-page__states {
+    padding-block: 48px;
+  }
+
+  .crisis-support-page__information-note {
+    padding-top: 16px;
+  }
+}
+
 @media (max-width: 520px) {
   .crisis-support-page__hero {
     padding-block: 44px 50px;
-  }
-
-  .crisis-support-page__hero .hero-display {
-    font-size: clamp(2.55rem, 12vw, 3.25rem);
-  }
-
-  .crisis-support-page__hero-copy.site-reading {
-    padding-left: 16px;
-  }
-
-  .crisis-support-page__national,
-  .crisis-support-page__states {
-    padding-block: 54px;
   }
 
   .crisis-support-page__service-actions,
@@ -468,6 +453,22 @@
   }
 
   .crisis-support-page__location-index ul {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
     width: 100%;
+  }
+
+  .crisis-support-page__location-index a {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crisis-support-page__emergency-call,
+  .crisis-support-page__directory-link,
+  .crisis-support-page__contact-action,
+  .crisis-support-page__state-service {
+    transition: none;
   }
 }
