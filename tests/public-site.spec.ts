@@ -121,7 +121,7 @@ const prerenderedRouteContracts = {
       'class="crisis-support-page__state-list"',
       'id="crisis-vic"',
       'id="crisis-wa"',
-      "Information current as of 13/08/2026",
+      'Information current as of <time dateTime="2026-08-13">13/08/2026</time>.',
     ],
     noJavaScriptSelector: ".crisis-support-page__state-list",
   },
@@ -497,6 +497,49 @@ function getSpecialistServiceStructuredDataScript(route: string) {
         offers: getExpectedServiceOfferNode(),
         mainEntityOfPage: { "@id": pageId },
         isRelatedTo: { "@id": ids.serviceId },
+      },
+    ],
+  });
+}
+
+function getCrisisSupportStructuredDataScript() {
+  const ids = getExpectedStructuredDataIds();
+  const routeMetadata = routeMetadataData.routes["/crisis-support"];
+  const pageUrl = absoluteRouteUrl("/crisis-support");
+  const pageId = `${pageUrl}#webpage`;
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
+
+  return getExpectedStructuredDataScript({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "MedicalWebPage",
+        "@id": pageId,
+        url: pageUrl,
+        name: routeMetadata.title,
+        description: routeMetadata.description,
+        inLanguage: "en-AU",
+        lastReviewed: routeMetadata.lastReviewed,
+        isPartOf: { "@id": ids.websiteId },
+        publisher: { "@id": ids.organizationId },
+        breadcrumb: { "@id": breadcrumbId },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: ids.homepageUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Crisis support",
+          },
+        ],
       },
     ],
   });
@@ -1259,6 +1302,12 @@ test.describe("first response metadata", () => {
         expect(html).toContain(getProfileStructuredDataScript());
         expect(html).not.toContain('"@type":"WebSite"');
         expect(html).not.toContain('"@type":"Service"');
+      } else if (route === "/crisis-support") {
+        expect(html).toContain(getCrisisSupportStructuredDataScript());
+        expect(html).not.toContain('"@type":"Organization"');
+        expect(html).not.toContain('"@type":"Person"');
+        expect(html).not.toContain('"@type":"Service"');
+        expect(html).not.toContain('"@type":"ItemList"');
       } else if (routeMetadataData.site.specialistServices[route]) {
         expect(html).toContain(getSpecialistServiceStructuredDataScript(route));
         expect(html).not.toContain('"@type":"WebSite"');
@@ -1338,6 +1387,11 @@ test.describe("crawl and app metadata assets", () => {
     for (const route of indexableRoutes) {
       expect(sitemap).toContain(`<loc>${escapeXml(absoluteRouteUrl(route))}</loc>`);
     }
+
+    expect(sitemap).toContain(
+      `<url><loc>${escapeXml(absoluteRouteUrl("/crisis-support"))}</loc><lastmod>2026-08-14</lastmod></url>`,
+    );
+    expect(sitemap.match(/<lastmod>/g)).toHaveLength(1);
 
     for (const route of Object.keys(routeMetadataData.routes)) {
       if (!indexableRoutes.includes(route as (typeof indexableRoutes)[number])) {

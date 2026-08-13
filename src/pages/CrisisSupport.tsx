@@ -5,31 +5,51 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-crisis-support.css";
 
 type ContactAction = {
-  href: string;
-  label: "Call" | "Text";
   number: string;
-};
+} & (
+  | { href: `tel:${string}`; label: "Call" }
+  | { href: `sms:${string}`; label: "Text" }
+);
+
+type ContactActionList = readonly [ContactAction, ...ContactAction[]];
 
 type NationalService = {
-  actions: ContactAction[];
+  actions: ContactActionList;
   description: string;
   name: string;
   url: string;
 };
 
-type StateService = {
+type StateCode = "act" | "nsw" | "nt" | "qld" | "sa" | "tas" | "vic" | "wa";
+
+type StateServiceBase = {
   description: string;
-  id: string;
+  id: StateCode;
   name: string;
   region: string;
   url: string;
-  actions?: ContactAction[];
-  note?: string;
 };
 
-const crisisSupportMetadata = getRouteMetadata("/crisis-support");
+type StateService = StateServiceBase &
+  (
+    | { actions: ContactActionList; note?: never }
+    | { actions?: never; note: string }
+  );
 
-const nationalServices: NationalService[] = [
+const crisisSupportMetadata = getRouteMetadata("/crisis-support");
+const urgentStateSupportDescription = "Urgent mental health advice and support.";
+const informationCurrentDate = new Intl.DateTimeFormat("en-AU", {
+  day: "2-digit",
+  month: "2-digit",
+  timeZone: "UTC",
+  year: "numeric",
+}).format(new Date(`${crisisSupportMetadata.lastReviewed}T00:00:00.000Z`));
+
+function stateServiceId(id: StateCode) {
+  return `crisis-${id}` as const;
+}
+
+const nationalServices = [
   {
     name: "Lifeline",
     url: "https://www.lifeline.org.au/get-help/national-services/lifeline-crisis-support",
@@ -54,15 +74,15 @@ const nationalServices: NationalService[] = [
       "Culturally safe crisis support with an Aboriginal or Torres Strait Islander Crisis Supporter.",
     actions: [{ href: "tel:139276", label: "Call", number: "13 92 76" }],
   },
-];
+] satisfies readonly NationalService[];
 
-const stateServices: StateService[] = [
+const stateServices = [
   {
     id: "act",
     region: "Australian Capital Territory",
     name: "Access Mental Health",
     url: "https://www.canberrahealthservices.act.gov.au/services-and-clinics/services/access-mental-health",
-    description: "Urgent mental health advice and support.",
+    description: urgentStateSupportDescription,
     actions: [{ href: "tel:1800629354", label: "Call", number: "1800 629 354" }],
   },
   {
@@ -70,7 +90,7 @@ const stateServices: StateService[] = [
     region: "New South Wales",
     name: "NSW Mental Health Line",
     url: "https://www.health.nsw.gov.au/mentalhealth/Pages/mental-health-line.aspx",
-    description: "Urgent mental health advice and support.",
+    description: urgentStateSupportDescription,
     actions: [{ href: "tel:1800011511", label: "Call", number: "1800 011 511" }],
   },
   {
@@ -78,7 +98,7 @@ const stateServices: StateService[] = [
     region: "Northern Territory",
     name: "NT Mental Health Line",
     url: "https://nt.gov.au/wellbeing/mental-health/about-mental-health",
-    description: "Urgent mental health advice and support.",
+    description: urgentStateSupportDescription,
     actions: [{ href: "tel:1800682288", label: "Call", number: "1800 682 288" }],
   },
   {
@@ -86,7 +106,7 @@ const stateServices: StateService[] = [
     region: "Queensland",
     name: "1300 MH CALL",
     url: "https://www.qld.gov.au/health/mental-health-and-wellbeing/how-to-get-help/1300-mh-call",
-    description: "Urgent mental health advice and support.",
+    description: urgentStateSupportDescription,
     actions: [{ href: "tel:1300642255", label: "Call", number: "1300 642 255" }],
   },
   {
@@ -94,7 +114,7 @@ const stateServices: StateService[] = [
     region: "South Australia",
     name: "Mental Health Triage Service",
     url: "https://www.sahealth.sa.gov.au/wps/wcm/connect/public+content/sa+health+internet/services/mental+health+and+drug+and+alcohol+services/mental+health+services/find+mental+health+help+now",
-    description: "Urgent mental health advice and support.",
+    description: urgentStateSupportDescription,
     actions: [{ href: "tel:131465", label: "Call", number: "13 14 65" }],
   },
   {
@@ -102,7 +122,7 @@ const stateServices: StateService[] = [
     region: "Tasmania",
     name: "Access Mental Health",
     url: "https://www.health.tas.gov.au/health-topics/mental-health/tasmanias-mental-health-system/access-mental-health-helpline",
-    description: "Urgent mental health advice and support.",
+    description: urgentStateSupportDescription,
     actions: [{ href: "tel:1800332388", label: "Call", number: "1800 332 388" }],
   },
   {
@@ -127,7 +147,7 @@ const stateServices: StateService[] = [
       { href: "tel:1800552002", label: "Call", number: "Regional 1800 552 002" },
     ],
   },
-];
+] satisfies readonly StateService[];
 
 function ExternalServiceLink({ href, children }: { href: string; children: string }) {
   return (
@@ -147,6 +167,78 @@ function ContactActionLink({ action }: { action: ContactAction }) {
       <span className="crisis-support-page__contact-label">{action.label}</span>
       <span className="crisis-support-page__contact-number">{action.number}</span>
     </a>
+  );
+}
+
+function ContactActions({
+  actions,
+  state = false,
+}: {
+  actions: ContactActionList;
+  state?: boolean;
+}) {
+  const className = state
+    ? "crisis-support-page__service-actions crisis-support-page__service-actions--state"
+    : "crisis-support-page__service-actions";
+
+  return (
+    <div className={className}>
+      {actions.map((action) => (
+        <ContactActionLink action={action} key={action.href} />
+      ))}
+    </div>
+  );
+}
+
+function NationalServiceItem({ service }: { service: NationalService }) {
+  return (
+    <li className="crisis-support-page__national-service">
+      <div className="crisis-support-page__service-copy">
+        <h3>
+          <ExternalServiceLink href={service.url}>{service.name}</ExternalServiceLink>
+        </h3>
+        <p>{service.description}</p>
+      </div>
+      <ContactActions actions={service.actions} />
+    </li>
+  );
+}
+
+function StateServiceActions({ service }: { service: StateService }) {
+  if (service.actions) {
+    return <ContactActions actions={service.actions} state />;
+  }
+
+  return (
+    <div className="crisis-support-page__service-actions crisis-support-page__service-actions--state">
+      <a className="crisis-support-page__directory-link" href={service.url}>
+        <span>Find your local service</span>
+        <ArrowUpRight aria-hidden="true" size={18} strokeWidth={1.8} />
+      </a>
+    </div>
+  );
+}
+
+function StateServiceItem({ service }: { service: StateService }) {
+  const articleId = stateServiceId(service.id);
+  const titleId = `${articleId}-title`;
+
+  return (
+    <article
+      aria-labelledby={titleId}
+      className="crisis-support-page__state-service"
+      id={articleId}
+    >
+      <p className="crisis-support-page__region">{service.region}</p>
+      <div className="crisis-support-page__state-service-main">
+        <h3 id={titleId}>
+          <ExternalServiceLink href={service.url}>{service.name}</ExternalServiceLink>
+        </h3>
+        <p>{service.description}</p>
+        {service.note ? <p className="crisis-support-page__state-note">{service.note}</p> : null}
+      </div>
+      <StateServiceActions service={service} />
+    </article>
   );
 }
 
@@ -201,19 +293,7 @@ export default function CrisisSupport() {
 
           <ul className="crisis-support-page__national-list">
             {nationalServices.map((service) => (
-              <li className="crisis-support-page__national-service" key={service.name}>
-                <div className="crisis-support-page__service-copy">
-                  <h3>
-                    <ExternalServiceLink href={service.url}>{service.name}</ExternalServiceLink>
-                  </h3>
-                  <p>{service.description}</p>
-                </div>
-                <div className="crisis-support-page__service-actions">
-                  {service.actions.map((action) => (
-                    <ContactActionLink action={action} key={`${action.label}-${action.number}`} />
-                  ))}
-                </div>
-              </li>
+              <NationalServiceItem key={service.name} service={service} />
             ))}
           </ul>
         </Container>
@@ -224,7 +304,7 @@ export default function CrisisSupport() {
         className="crisis-support-page__states"
       >
         <Container>
-          <header className="crisis-support-page__section-heading crisis-support-page__section-heading--states">
+          <header className="crisis-support-page__section-heading">
             <h2 id="state-crisis-support-title">State and territory urgent support services</h2>
             <p className="site-reading">
               These services provide mental health assessment, triage, advice or referral. They are
@@ -239,7 +319,7 @@ export default function CrisisSupport() {
                 <li key={service.id}>
                   <a
                     aria-label={`${service.id.toUpperCase()}: ${service.region}`}
-                    href={`#crisis-${service.id}`}
+                    href={`#${stateServiceId(service.id)}`}
                   >
                     {service.id.toUpperCase()}
                   </a>
@@ -250,39 +330,14 @@ export default function CrisisSupport() {
 
           <div className="crisis-support-page__state-list">
             {stateServices.map((service) => (
-              <article
-                aria-labelledby={`crisis-${service.id}-title`}
-                className="crisis-support-page__state-service"
-                id={`crisis-${service.id}`}
-                key={service.id}
-              >
-                <p className="crisis-support-page__region">{service.region}</p>
-                <div className="crisis-support-page__state-service-main">
-                  <h3 id={`crisis-${service.id}-title`}>
-                    <ExternalServiceLink href={service.url}>{service.name}</ExternalServiceLink>
-                  </h3>
-                  <p>{service.description}</p>
-                  {service.note ? <p className="crisis-support-page__state-note">{service.note}</p> : null}
-                </div>
-                <div className="crisis-support-page__service-actions crisis-support-page__service-actions--state">
-                  {service.actions?.map((action) => (
-                    <ContactActionLink action={action} key={action.number} />
-                  )) ?? (
-                    <a className="crisis-support-page__directory-link" href={service.url}>
-                      <span>Find your local service</span>
-                      <ArrowUpRight aria-hidden="true" size={18} strokeWidth={1.8} />
-                    </a>
-                  )}
-                </div>
-              </article>
+              <StateServiceItem key={service.id} service={service} />
             ))}
           </div>
 
-          <div className="crisis-support-page__information-note">
-            <p>
-              Information current as of <time dateTime="2026-08-13">13/08/2026</time>.
-            </p>
-          </div>
+          <p className="crisis-support-page__information-note">
+            Information current as of{" "}
+            <time dateTime={crisisSupportMetadata.lastReviewed}>{informationCurrentDate}</time>.
+          </p>
         </Container>
       </section>
     </main>
