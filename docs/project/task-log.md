@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-13 - First-Party Visit Ledger Preview Connected
+
+- Connected a Vercel-managed Neon resource to Development and Preview only, added checksum-tracked transactional migrations, and applied the two visit-ledger migrations outside production.
+- Enabled recording only on the protected `work/local-analytics` preview and confirmed browser-to-function-to-Neon storage with an exact referrer, paid attribution, ordered page views, and a second visit recognized as returning for the same anonymous browser.
+- Confirmed the protected retention function runs against Preview with no eligible deletions. Production has no Neon connection and visit recording remains disabled until explicit owner approval.
+
 ## 2026-08-13 - First-Party Visit Ledger Reporting And Retention Defined
 
 - Added: The repository now defines a read-only Postgres visit ledger that identifies the earliest retained browser visit as new, later visits as returning, classifies traffic, and totals page views.

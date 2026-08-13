@@ -92,7 +92,7 @@ Each slice is intended to be completed in one future prompt. Complete only the r
 
 Add the Neon dependency, the anonymous-visitor relationship, visits and page-views schema, the migration, and the small server-side database access layer.
 
-**Status:** Complete. The repository foundation exists; no Neon resource has been provisioned and no migration has been applied to an external database.
+**Status:** Complete. The repository foundation exists. Slice 7 later provisioned the non-production Neon resource and applied the migrations.
 
 **Prompt:** Complete slice 1 of the first-party visit ledger plan, update the plan, and stop.
 
@@ -124,7 +124,7 @@ Extend the browser recorder so subsequent React route changes and page refreshes
 
 Add the Neon reporting view and useful saved queries so visits can be inspected newest first, marked as new or returning, grouped by anonymous browser, summarized by source or ad, and opened to see their page sequence.
 
-**Status:** Complete. A read-only `visit_ledger` view and five repository-owned Neon query templates now cover the newest-first ledger, anonymous-browser grouping, today's overview, 30-day source/ad reporting, and an individual visit's ordered page sequence. They remain unapplied until a Neon preview database is connected in Slice 7.
+**Status:** Complete. A read-only `visit_ledger` view and five repository-owned Neon query templates now cover the newest-first ledger, anonymous-browser grouping, today's overview, 30-day source/ad reporting, and an individual visit's ordered page sequence. Slice 7 later applied the view to the non-production Neon database.
 
 **Prompt:** Complete slice 5 of the first-party visit ledger plan, update the plan, and stop.
 
@@ -136,7 +136,7 @@ Keep visit and page-view records for 12 months. Keep the anonymous browser ident
 
 Add automated cleanup for visit and page-view records older than 12 months and replace browser identifiers after 12 months.
 
-**Status:** Complete. Browser identifiers now rotate on their 12-month calendar anniversary. A `CRON_SECRET`-protected Vercel Function removes visits older than Postgres `INTERVAL '12 months'` and their cascading page views; Vercel is configured to call it daily at 18:15 UTC. The job remains inactive until the required server environment and database are connected.
+**Status:** Complete. Browser identifiers now rotate on their 12-month calendar anniversary. A `CRON_SECRET`-protected Vercel Function removes visits older than Postgres `INTERVAL '12 months'` and their cascading page views; Vercel is configured to call it daily at 18:15 UTC. Slice 7 later configured and exercised the function in Preview; the scheduled job remains inactive until a production deployment is explicitly connected.
 
 **Prompt:** Complete slice 6 of the first-party visit ledger plan, update the plan, and stop.
 
@@ -147,6 +147,8 @@ If Vercel requires an account sign-in, Marketplace plan selection, billing accep
 ### 7. Connect A Preview Environment
 
 Provision or connect Neon through Vercel, apply the schema outside production, and test the complete visit flow using controlled preview visits.
+
+**Status:** Complete. Vercel now manages a Neon resource connected only to Development and Preview. The two versioned migrations are applied through the checksum-tracked `npm run db:migrate` command. A protected branch-scoped preview recorded two controlled visits from one anonymous browser, marked the second as returning, retained the exact controlled referrer and paid attribution, stored an ordered two-page first visit, and successfully exercised the protected retention function. Production has no Neon connection and first-party collection remains disabled there.
 
 **Prompt:** Complete slice 7 of the first-party visit ledger plan, update the plan, and stop.
 

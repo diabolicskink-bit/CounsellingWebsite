@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { test } from "node:test";
+import {
+  getTransactionalStatements,
+  readMigrations,
+  splitSqlStatements,
+} from "../../scripts/apply-database-migrations.mjs";
 
 const migrationsUrl = new URL("../../database/migrations/", import.meta.url);
 const queriesUrl = new URL("../../database/queries/", import.meta.url);
@@ -25,6 +30,48 @@ test("visit ledger migrations retain their application order", async () => {
     "0001_create_visit_ledger.sql",
     "0002_create_visit_ledger_view.sql",
   ]);
+});
+
+test("database migration reader returns the ordered ledger migrations", async () => {
+  const migrations = await readMigrations();
+
+  assert.deepEqual(
+    migrations.map((migration) => migration.filename),
+    [
+      "0001_create_visit_ledger.sql",
+      "0002_create_visit_ledger_view.sql",
+    ],
+  );
+  assert.ok(migrations.every((migration) => /^[a-f0-9]{64}$/.test(migration.checksum)));
+  assert.ok(migrations.every((migration) => migration.statements.length > 0));
+});
+
+test("SQL splitting preserves semicolons inside quoted and commented content", () => {
+  const statements = splitSqlStatements(`
+    SELECT 'one;two', "three;four", $$five;six$$;
+    -- seven;eight
+    SELECT 2 /* nine;ten */;
+  `);
+
+  assert.equal(statements.length, 2);
+  assert.match(statements[0], /one;two/);
+  assert.match(statements[0], /five;six/);
+  assert.match(statements[1], /nine;ten/);
+});
+
+test("migration transaction boundaries are validated and removed", () => {
+  assert.deepEqual(
+    getTransactionalStatements("BEGIN; SELECT 1; SELECT 'two;three'; COMMIT;"),
+    ["SELECT 1", "SELECT 'two;three'"],
+  );
+  assert.throws(
+    () => getTransactionalStatements("SELECT 1;"),
+    /one BEGIN followed by one COMMIT/,
+  );
+  assert.throws(
+    () => getTransactionalStatements("BEGIN; COMMIT; SELECT 1;"),
+    /one BEGIN followed by one COMMIT/,
+  );
 });
 
 test("visit ledger view exposes return status, traffic source, and page totals", () => {
