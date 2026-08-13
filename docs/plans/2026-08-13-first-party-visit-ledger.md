@@ -116,6 +116,8 @@ Add the React-side visitor and visit session. Create or recover the persistent a
 
 Extend the browser recorder so subsequent React route changes and page refreshes are attached to the same visit with duplicate-safe page-view IDs.
 
+**Status:** Complete. Each distinct pathname reached in the active document and each full page refresh now sends a new page-view ID under the current visit. Consecutive duplicate React effects and hash/query-only changes do not create extra page views, while revisiting a prior pathname does.
+
 **Prompt:** Complete slice 4 of the first-party visit ledger plan, update the plan, and stop.
 
 ### 5. Build The Visit Ledger

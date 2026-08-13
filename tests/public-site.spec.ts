@@ -1551,7 +1551,7 @@ test.describe("crawl and app metadata assets", () => {
     ).toHaveCount(0);
   });
 
-  test("first-party visit recorder sends one initial observation and reuses the active visit after refresh", async ({ page }) => {
+  test("first-party visit recorder records SPA route changes and refreshes in the active visit", async ({ page }) => {
     test.skip(
       !firstPartyVisitRecordingEnabled,
       "First-party visit recording is covered by npm run qa:analytics.",
@@ -1610,18 +1610,49 @@ test.describe("crawl and app metadata assets", () => {
 
     await page.getByRole("banner").getByRole("link", { name: "Get in touch" }).click();
     await expect(page).toHaveURL(/\/contact$/);
-    expect(observations).toHaveLength(1);
-
-    await page.reload({ waitUntil: "networkidle" });
     await expect.poll(() => observations.length).toBe(2);
 
     expect(observations[1]).toMatchObject({
       landingPath: observation.landingPath,
+      path: "/contact",
+      referrerUrl: observation.referrerUrl,
       visitId: observation.visitId,
       visitorId: observation.visitorId,
     });
     expect(observations[1].pageViewId).not.toBe(observation.pageViewId);
-    expect(observations[1].path).toBe("/contact");
+
+    await page.evaluate(() => {
+      history.replaceState({}, "", "/contact?ignored=yes#fees");
+      dispatchEvent(new PopStateEvent("popstate"));
+    });
+    await expect(page).toHaveURL(/\/contact\?ignored=yes#fees$/);
+    await page.evaluate(() => new Promise<void>((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    }));
+    expect(observations).toHaveLength(2);
+
+    await page.reload({ waitUntil: "networkidle" });
+    await expect.poll(() => observations.length).toBe(3);
+
+    expect(observations[2]).toMatchObject({
+      landingPath: observation.landingPath,
+      visitId: observation.visitId,
+      visitorId: observation.visitorId,
+    });
+    expect(observations[2].pageViewId).not.toBe(observations[1].pageViewId);
+    expect(observations[2].path).toBe("/contact");
+
+    await page.goBack({ waitUntil: "networkidle" });
+    await expect(page).toHaveURL(/\/polyamory-enm-counselling\?/);
+    await expect.poll(() => observations.length).toBe(4);
+
+    expect(observations[3]).toMatchObject({
+      landingPath: observation.landingPath,
+      path: "/polyamory-enm-counselling",
+      visitId: observation.visitId,
+      visitorId: observation.visitorId,
+    });
+    expect(observations[3].pageViewId).not.toBe(observation.pageViewId);
   });
 
   test("first-party visit recorder recognizes a returning browser after visit inactivity", async ({ page }) => {

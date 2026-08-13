@@ -24,7 +24,7 @@ type StoredVisit = {
   visitorId: string;
 };
 
-export type InitialVisitObservation = {
+export type VisitPageViewObservation = {
   adCode: string | null;
   gclid: string | null;
   landingPath: string;
@@ -259,13 +259,14 @@ function canReuseVisit(
 function createVisit(
   visitorId: string,
   now: number,
+  landingPath: string,
   referrerUrl: string | null,
   attribution: ReturnType<typeof getCurrentAttribution>,
 ): StoredVisit {
   return {
     ...attribution,
     id: createUuid(),
-    landingPath: window.location.pathname,
+    landingPath,
     lastActivityAt: now,
     referrerUrl,
     version: storageVersion,
@@ -273,7 +274,7 @@ function createVisit(
   };
 }
 
-function getOrCreateVisit(visitorId: string, now: number) {
+function getOrCreateVisit(visitorId: string, path: string, now: number) {
   const storage = getSessionStorage();
   const storedVisit = storage ? readStoredValue(storage, visitStorageKey) : undefined;
   const candidateVisit = isStoredVisit(storedVisit) ? storedVisit : volatileVisit;
@@ -282,7 +283,7 @@ function getOrCreateVisit(visitorId: string, now: number) {
   const visit = isStoredVisit(candidateVisit)
     && canReuseVisit(candidateVisit, visitorId, now, referrerUrl, attribution)
     ? { ...candidateVisit, lastActivityAt: now }
-    : createVisit(visitorId, now, referrerUrl, attribution);
+    : createVisit(visitorId, now, path, referrerUrl, attribution);
 
   volatileVisit = visit;
 
@@ -293,10 +294,39 @@ function getOrCreateVisit(visitorId: string, now: number) {
   return visit;
 }
 
-export function createInitialVisitObservation(now = Date.now()): InitialVisitObservation {
-  const visitor = getOrCreateVisitor(now);
-  const visit = getOrCreateVisit(visitor.id, now);
+function getOrCreateVisitForRoute(visitorId: string, path: string, now: number) {
+  const storage = getSessionStorage();
+  const storedVisit = storage ? readStoredValue(storage, visitStorageKey) : undefined;
+  const candidateVisit = isStoredVisit(storedVisit) ? storedVisit : volatileVisit;
+  const inactivity = isStoredVisit(candidateVisit) ? now - candidateVisit.lastActivityAt : undefined;
+  const visit = isStoredVisit(candidateVisit)
+    && candidateVisit.visitorId === visitorId
+    && typeof inactivity === "number"
+    && inactivity >= 0
+    && inactivity <= visitInactivityTimeoutMs
+    ? { ...candidateVisit, lastActivityAt: now }
+    : createVisit(visitorId, now, path, null, {
+        adCode: null,
+        gclid: null,
+        matchType: null,
+        matchedKeyword: null,
+        networkCode: null,
+      });
 
+  volatileVisit = visit;
+
+  if (storage) {
+    writeStoredValue(storage, visitStorageKey, visit);
+  }
+
+  return visit;
+}
+
+function createObservation(
+  visitor: StoredVisitor,
+  visit: StoredVisit,
+  path: string,
+): VisitPageViewObservation {
   return {
     adCode: visit.adCode,
     gclid: visit.gclid,
@@ -305,9 +335,29 @@ export function createInitialVisitObservation(now = Date.now()): InitialVisitObs
     matchedKeyword: visit.matchedKeyword,
     networkCode: visit.networkCode,
     pageViewId: createUuid(),
-    path: window.location.pathname,
+    path,
     referrerUrl: visit.referrerUrl,
     visitId: visit.id,
     visitorId: visitor.id,
   };
+}
+
+export function createInitialVisitObservation(
+  path = window.location.pathname,
+  now = Date.now(),
+): VisitPageViewObservation {
+  const visitor = getOrCreateVisitor(now);
+  const visit = getOrCreateVisit(visitor.id, path, now);
+
+  return createObservation(visitor, visit, path);
+}
+
+export function createRouteVisitObservation(
+  path: string,
+  now = Date.now(),
+): VisitPageViewObservation {
+  const visitor = getOrCreateVisitor(now);
+  const visit = getOrCreateVisitForRoute(visitor.id, path, now);
+
+  return createObservation(visitor, visit, path);
 }

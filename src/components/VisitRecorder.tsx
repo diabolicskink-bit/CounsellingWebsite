@@ -1,21 +1,29 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import {
   isVisitAnalyticsHostAllowed,
   visitAnalyticsEnabled,
 } from "../utils/visitAnalytics";
-import { createInitialVisitObservation } from "../utils/visitSession";
+import {
+  createInitialVisitObservation,
+  createRouteVisitObservation,
+} from "../utils/visitSession";
 
-let initialRecordingStarted = false;
+let lastRecordedPath: string | undefined;
 
-function recordInitialVisit() {
-  if (initialRecordingStarted) {
+function recordPageView(path: string) {
+  if (lastRecordedPath === path) {
     return;
   }
 
-  initialRecordingStarted = true;
+  const isInitialPageView = typeof lastRecordedPath === "undefined";
+
+  lastRecordedPath = path;
 
   try {
-    const observation = createInitialVisitObservation();
+    const observation = isInitialPageView
+      ? createInitialVisitObservation(path)
+      : createRouteVisitObservation(path);
 
     void fetch("/api/visit", {
       body: JSON.stringify(observation),
@@ -32,13 +40,15 @@ function recordInitialVisit() {
 }
 
 export default function VisitRecorder() {
+  const { pathname } = useLocation();
+
   useEffect(() => {
     if (!visitAnalyticsEnabled || !isVisitAnalyticsHostAllowed()) {
       return;
     }
 
-    recordInitialVisit();
-  }, []);
+    recordPageView(pathname);
+  }, [pathname]);
 
   return null;
 }
