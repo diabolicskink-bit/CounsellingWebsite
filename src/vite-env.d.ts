@@ -5,6 +5,8 @@ interface ImportMetaEnv {
   readonly VITE_ANALYTICS_ALLOWED_HOSTS?: string;
   readonly VITE_GA_MEASUREMENT_ID?: string;
   readonly VITE_CLARITY_PROJECT_ID?: string;
+  readonly VITE_VISIT_ANALYTICS_ALLOWED_HOSTS?: string;
+  readonly VITE_VISIT_ANALYTICS_ENABLED?: string;
 }
 
 interface ImportMeta {

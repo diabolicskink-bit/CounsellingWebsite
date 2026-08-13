@@ -108,6 +108,8 @@ Add the write-only Vercel endpoint that accepts a visit/page-view observation, v
 
 Add the React-side visitor and visit session. Create or recover the persistent anonymous visitor ID, create and retain the visit ID, capture the landing page and original referrer URL, collect any recognized ad parameters, and send the initial observation.
 
+**Status:** Complete. The versioned browser identity and visit session now send one initial page-view observation when first-party visit analytics is explicitly enabled on an allowed host. Collection remains disabled by default; React route-change recording remains Slice 4.
+
 **Prompt:** Complete slice 3 of the first-party visit ledger plan, update the plan, and stop.
 
 ### 4. Record Page Views
