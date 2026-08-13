@@ -18,6 +18,7 @@ const homeHref = routeHref(publicRoutePaths.home);
 const workingWithJoelHref = routeHref(publicRoutePaths.workingWithJoel);
 const inclusionHref = routeHref(publicRoutePaths.inclusion);
 const contactHref = routeHref(publicRoutePaths.contact);
+const crisisSupportHref = routeHref(publicRoutePaths.crisisSupport);
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -135,6 +136,9 @@ export default function Layout() {
                 </li>
                 <li>
                   <Link to={contactHref}>Fees</Link>
+                </li>
+                <li>
+                  <Link to={crisisSupportHref}>Crisis support</Link>
                 </li>
               </ul>
             </nav>

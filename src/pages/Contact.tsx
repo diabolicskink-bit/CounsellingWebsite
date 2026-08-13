@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import { enquiryEmail, enquirySuccessContent } from "../data/enquiry";
@@ -8,6 +9,7 @@ import {
   enquiryTypes,
 } from "../data/enquiryContract";
 import { getRouteMetadata } from "../data/routeMetadata";
+import { publicRoutePaths, routeHref } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
   trackContactOptionSelected,
@@ -48,6 +50,7 @@ const contactPathOptions: readonly ContactPathOption[] = [
 ] as const;
 
 const contactMetadata = getRouteMetadata("/contact");
+const crisisSupportHref = routeHref(publicRoutePaths.crisisSupport);
 
 function isContactPath(value: FormDataEntryValue | null): value is ContactPath {
   return (
@@ -455,7 +458,7 @@ function ContactEnquiryForm() {
 
       <p className="codex-contact__form-boundary">
         If you’re in crisis, please use the{" "}
-        <a href="#contact-crisis-support">support options below</a> rather than this
+        <Link to={crisisSupportHref}>crisis support page</Link> rather than this
         form.
       </p>
     </form>
@@ -564,8 +567,9 @@ export default function Contact({ initialRenderAt }: ContactProps) {
               <dd>
                 <p className="site-reading">
                   Vive Counselling is not an emergency service. If you are in
-                  immediate danger, call 000. For crisis support, call Lifeline on
-                  13 11 14 or Suicide Call Back Service on 1300 659 467.
+                  immediate danger, call 000. For national crisis lines and urgent
+                  public mental health services, see the{" "}
+                  <Link to={crisisSupportHref}>crisis support page</Link>.
                 </p>
               </dd>
             </div>

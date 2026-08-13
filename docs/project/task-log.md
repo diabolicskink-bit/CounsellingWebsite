@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-12 - Australian Crisis Support Route Added
+
+- Added: `/crisis-support` now puts immediate-danger guidance and a direct `000` action before verified national crisis lines and state or territory public mental health services.
+- Covered: The route includes Lifeline, Suicide Call Back Service, 13YARN, all eight state and territory locations, Victoria's area-based directory, and RuralLink for regional and remote Western Australia; every service name links to an official source and the verification date is public.
+- Connected: Contact now directs urgent visitors away from the enquiry form to the dedicated route, and the shared footer gives Crisis Support a permanent site-wide entry point.
+- Published: Route metadata, server prerendering, sitemap output, raw-output contracts, phone destinations, service counts, and accessibility smoke coverage now include the eighth public content route.
+
 ## 2026-08-11 - Homepage Specialist-Practice Section Rebuilt
 
 - Replaced: The generic `Bring all of yourself` split section is now a direct `Inclusive practice` section centred on what Joel already knows before counselling begins.

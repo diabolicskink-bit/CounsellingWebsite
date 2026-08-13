@@ -16,6 +16,7 @@ const prerenderedRoutePaths = [
   "/kink-bdsm-counselling",
   "/polyamory-enm-counselling",
   "/lgbtqia-affirming-counselling",
+  "/crisis-support",
   "/contact",
 ];
 const indexableRoutePaths = prerenderedRoutePaths;
@@ -63,6 +64,20 @@ const prerenderedRouteSmokeFragments = {
     'class="lgbtqia-page__recognition site-section-warm"',
     'class="lgbtqia-page__recognition-list"',
     'class="lgbtqia-page__disclosure"',
+  ],
+  "/crisis-support": [
+    '<main class="site-page crisis-support-page">',
+    "Find urgent mental health support.",
+    'class="hero-section site-hero-background crisis-support-page__hero"',
+    'class="crisis-support-page__emergency"',
+    'href="tel:000"',
+    "Talk with a crisis supporter",
+    'class="crisis-support-page__national-list"',
+    "Urgent public mental health services",
+    'class="crisis-support-page__state-list"',
+    'href="tel:131114"',
+    'href="tel:1300659467"',
+    'href="tel:139276"',
   ],
   "/contact": [
     '<main class="site-page contact-page codex-contact">',

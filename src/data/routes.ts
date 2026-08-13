@@ -1,5 +1,6 @@
 export const publicRoutePaths = {
   contact: "contact",
+  crisisSupport: "crisis-support",
   enmPolyamory: "polyamory-enm-counselling",
   home: "",
   inclusion: "inclusive-counselling",
@@ -30,6 +31,7 @@ export const devRoutePaths = {
 
 const sharedChromePaths = new Set([
   routeHref(publicRoutePaths.contact),
+  routeHref(publicRoutePaths.crisisSupport),
   routeHref(publicRoutePaths.enmPolyamory),
   routeHref(publicRoutePaths.inclusion),
   routeHref(publicRoutePaths.kinkBdsm),
