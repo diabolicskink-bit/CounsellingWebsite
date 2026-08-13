@@ -14,9 +14,11 @@ The application connects to Neon through the server-only `DATABASE_URL`
 environment variable. Never prefix this variable with `VITE_` or expose it to
 browser code.
 
-The Vercel-managed Neon resource is connected only to Development and Preview.
-It is intentionally not connected to Production while preview testing is in
-progress.
+The Vercel-managed Neon resource is connected to Development, Preview, and
+Production. The schema is current in the shared database. Production build
+variables and its retention secret are prepared, but visit recording does not
+begin until a new production deployment containing the visit-ledger code is
+released.
 
 `visit_ledger` is the read-only reporting view created by migration `0002`. It
 marks the earliest retained visit for an anonymous browser ID as `new`, marks

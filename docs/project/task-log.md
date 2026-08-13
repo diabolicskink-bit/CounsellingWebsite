@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-14 - First-Party Visit Ledger Production Configuration Prepared
+
+- Connected the existing Vercel-managed Neon resource to Production while preserving Development and Preview, and confirmed the shared database remains current at two migrations.
+- Added a separate sensitive Production retention secret and configured the future Production build to record only on the apex and `www` Vive hostnames.
+- Removed the two synthetic Slice 7 visits and their three cascading page views from the shared database. No production deployment was made, so live visit collection has not started.
+
 ## 2026-08-13 - First-Party Visit Ledger Preview Connected
 
 - Connected a Vercel-managed Neon resource to Development and Preview only, added checksum-tracked transactional migrations, and applied the two visit-ledger migrations outside production.
