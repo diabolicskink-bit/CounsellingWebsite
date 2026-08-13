@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-13 - Dormant Inherited Presentation Layer Removed
+
+- Removed: Unmounted global card, topic, checklist, fee, detail, CTA, list, and hero selector families plus their responsive rules and orphaned tokens no longer ship in production CSS.
+- Simplified: The unused `SectionHeading` component and unconsumed tertiary `Button` variant were removed; live Working with Joel layout, tabs, portrait, and shared-shell styles remain intact.
+- Reconciled: The active cedar evidence, development specimen, and living legacy registers now describe only current source and verified consumers.
+
 ## 2026-08-11 - Homepage Specialist-Practice Section Rebuilt
 
 - Replaced: The generic `Bring all of yourself` split section is now a direct `Inclusive practice` section centred on what Joel already knows before counselling begins.
