@@ -25,7 +25,8 @@ const prerenderedRouteSmokeFragments = {
     "Online Counselling and Therapy Across Australia",
     'class="hero-section site-hero-background home-page__hero"',
     'class="home-about site-section-warm"',
-    'class="contact-invitation site-section-warm"',
+    'class="home-contact codex-contact__task-section site-section-warm"',
+    'aria-label="Enquiry"',
   ],
   "/working-with-joel": [
     '<main class="site-page working-with-joel-page">',

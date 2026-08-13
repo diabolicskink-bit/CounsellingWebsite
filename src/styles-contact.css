@@ -194,6 +194,10 @@
   padding: 42px 44px 30px;
 }
 
+.codex-contact__form-heading--compact {
+  padding-bottom: 24px;
+}
+
 .codex-contact__form-heading h2 {
   max-width: 14ch;
   color: var(--ink);
@@ -637,6 +641,10 @@
   .codex-contact__form-heading {
     gap: 11px;
     padding: 30px 20px 24px;
+  }
+
+  .codex-contact__form-heading--compact {
+    padding-bottom: 20px;
   }
 
   .codex-contact__form-heading h2 {

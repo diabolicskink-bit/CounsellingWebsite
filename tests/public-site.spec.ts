@@ -34,7 +34,8 @@ const prerenderedRouteContracts = {
       'src="/joel-griffiths-homepage-portrait.jpg"',
       'fetchpriority="high"',
       'class="home-about site-section-warm"',
-      'class="contact-invitation site-section-warm"',
+      'class="home-contact codex-contact__task-section site-section-warm"',
+      'aria-label="Enquiry"',
       'aria-label="Inclusive practice topics"',
       'class="home-inclusive__topics"',
       'class="home-inclusive__topic"',
@@ -43,7 +44,8 @@ const prerenderedRouteContracts = {
       'aria-labelledby="home-fees-title"',
       'href="/working-with-joel"',
       'href="/inclusive-counselling"',
-      'href="/contact"',
+      'href="/#home-contact"',
+      'href="/contact#contact-crisis-support"',
     ],
     noJavaScriptSelector: 'img[src="/joel-griffiths-homepage-portrait.jpg"]',
   },
@@ -622,18 +624,24 @@ async function expectHomePageStructure(page: Page) {
     about.getByRole("link", { name: "More reasons people come to counselling" }),
   ).toHaveCount(0);
   await expect(about.getByText(/15-minute consultation/)).toHaveCount(0);
-  await expect(
-    home.locator(".contact-invitation").getByRole("link", { name: "See contact options" }),
-  ).toHaveAttribute("href", "/contact");
-  await expect(home.locator(".contact-invitation").getByRole("heading", { level: 2 })).toHaveText(
-    "Get in touch.",
-  );
-  await expect(home.locator(".contact-invitation h2 em")).toHaveText("touch");
-  await expect(home.locator(".contact-invitation__copy")).toHaveText(
+  const homeContact = home.locator("#home-contact");
+  await expect(home.locator(".contact-invitation")).toHaveCount(0);
+  await expect(homeContact.getByRole("heading", { level: 2 })).toHaveText("Get in touch.");
+  await expect(homeContact.locator("h2 em")).toHaveText("touch");
+  await expect(homeContact.locator(".codex-contact__first-message p")).toHaveText(
     "Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You can also send me a message with any questions. I’m happy to answer them.",
   );
+  await expect(homeContact.getByRole("form", { name: "Enquiry" })).toBeVisible();
+  await expect(homeContact.getByRole("radio")).toHaveCount(3);
+  await expect(homeContact.getByRole("radio", { name: "Make an appointment" })).toBeVisible();
+  await expect(homeContact.getByRole("radio", { name: "Request a consult" })).toBeVisible();
+  await expect(homeContact.getByRole("radio", { name: "General enquiry" })).toBeVisible();
+  await expect(homeContact.getByRole("link", { name: "support options" })).toHaveAttribute(
+    "href",
+    "/contact#contact-crisis-support",
+  );
   await expect(home.locator(".home-inclusive__copy.site-reading")).toHaveCount(1);
-  await expect(home.locator(".contact-invitation__copy.site-reading")).toHaveCount(1);
+  await expect(homeContact.locator(".codex-contact__first-message p.site-reading")).toHaveCount(1);
   const inclusiveTopics = home.getByRole("navigation", { name: "Inclusive practice topics" });
   await expect(home.getByRole("heading", { level: 2, name: "Inclusive practice" })).toHaveCount(1);
   await expect(inclusiveTopics.locator(".home-inclusive__topics > li")).toHaveCount(3);
@@ -670,14 +678,15 @@ async function expectHomePageStructure(page: Page) {
   await expect(fees.getByText("More than two?", { exact: true })).toBeVisible();
   await expect(fees.getByRole("link", { name: "Get in touch" })).toHaveAttribute(
     "href",
-    "/contact",
+    "/#home-contact",
   );
-  await expect(home.locator(".home-fees + .contact-invitation")).toHaveCount(1);
+  await expect(home.locator(".home-fees + .home-contact")).toHaveCount(1);
 
   for (const [href, count] of [
     ["/working-with-joel", 1],
     ["/inclusive-counselling", 2],
-    ["/contact", 3],
+    ["/#home-contact", 2],
+    ["/contact#contact-crisis-support", 1],
   ] as const) {
     await expect(home.locator(`a[href="${href}"]`)).toHaveCount(count);
   }

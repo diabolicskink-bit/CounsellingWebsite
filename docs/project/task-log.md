@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-12 - Homepage Enquiry Form Added
+
+- Added: Home now closes with the progressive appointment, free-consult, and general-enquiry form instead of routing every visitor through a promotional closing invitation.
+- Shared: Contact and Home use one enquiry-form implementation, preserving the established conditional fields, submission states, validation, analytics, and API payload.
+- Connected: The Home hero and `More than two?` fee action now move directly to the embedded form, while its crisis-support boundary links to the dedicated Contact page.
+
 ## 2026-08-12 - Homepage Session Fees Added
 
 - Added: Home now states the individual and couples 50-minute session fees and the free 15-minute initial consultation immediately before its shared closing invitation.

@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
-import ContactInvitation from "../components/ContactInvitation";
+import ContactEnquiryForm from "../components/ContactEnquiryForm";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths, routeHref } from "../data/routes";
@@ -81,6 +81,7 @@ type HomePageContent = {
 
 const homeMetadata = getRouteMetadata("/");
 const contactHref = routeHref(publicRoutePaths.contact);
+const homeContactHref = "/#home-contact";
 
 const homePageContent: HomePageContent = {
   hero: {
@@ -91,7 +92,7 @@ const homePageContent: HomePageContent = {
       after: ".",
     },
     contactLink: {
-      href: contactHref,
+      href: homeContactHref,
       label: "Get in touch",
     },
     inclusionLink: {
@@ -181,7 +182,7 @@ const homePageContent: HomePageContent = {
         kind: "action",
         label: "More than two?",
         link: {
-          href: contactHref,
+          href: homeContactHref,
           label: "Get in touch",
         },
       },
@@ -349,6 +350,35 @@ function FeesSection({ fees }: { fees: HomeFeesContent }) {
   );
 }
 
+function HomeContactSection() {
+  return (
+    <section
+      className="home-contact codex-contact__task-section site-section-warm"
+      id="home-contact"
+      aria-labelledby="home-contact-title"
+      tabIndex={-1}
+    >
+      <Container className="codex-contact__task-grid">
+        <header className="codex-contact__first-message">
+          <h2 id="home-contact-title">
+            Get in <em className="site-emphasis">touch</em>.
+          </h2>
+          <p className="site-reading">
+            Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You
+            can also send me a message with any questions. I’m happy to answer them.
+          </p>
+        </header>
+
+        <ContactEnquiryForm
+          analyticsFormName="home"
+          crisisHref={`${contactHref}#contact-crisis-support`}
+          showHeading={false}
+        />
+      </Container>
+    </section>
+  );
+}
+
 export default function Home() {
   useDocumentMetadata(homeMetadata.title, homeMetadata.description);
   const { hero, portrait, about, inclusive, fees } = homePageContent;
@@ -359,7 +389,7 @@ export default function Home() {
       <AboutViveSection about={about} portrait={portrait} />
       <InclusiveSection inclusive={inclusive} />
       <FeesSection fees={fees} />
-      <ContactInvitation />
+      <HomeContactSection />
     </main>
   );
 }
