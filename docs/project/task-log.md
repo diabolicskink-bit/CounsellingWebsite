@@ -18,12 +18,31 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-14 - First-Party Visit Ledger Production Configuration Prepared
+
+- Connected the existing Vercel-managed Neon resource to Production while preserving Development and Preview, and confirmed the shared database remains current at two migrations.
+- Added a separate sensitive Production retention secret and configured the future Production build to record only on the apex and `www` Vive hostnames.
+- Removed the two synthetic Slice 7 visits and their three cascading page views from the shared database. No production deployment was made, so live visit collection has not started.
+
 ## 2026-08-14 - Public Browser Suite Simplified
 
 - Reduced: The Playwright suite now has 37 focused cases in one Chromium project instead of 262 cases duplicated across desktop and mobile Chromium profiles.
 - Removed: Broad copy, class-count, pixel-alignment, asset-byte, raw-markup, generated-metadata, and duplicate-artifact assertions no longer mirror page source and build implementation inside browser tests.
 - Preserved: Route hydration and diagnostics, navigation and mobile focus/scroll behaviour, progressive enhancement, core first-response metadata, redirects, analytics privacy and events, enquiry success/error behaviour, responsive overflow, and axe coverage remain automated; detailed generated artifacts stay with the build generator and manual metadata monitor.
 - Resolved: `DEBT-34` is archived under the new durable testing strategy.
+
+## 2026-08-13 - First-Party Visit Ledger Preview Connected
+
+- Connected a Vercel-managed Neon resource to Development and Preview only, added checksum-tracked transactional migrations, and applied the two visit-ledger migrations outside production.
+- Enabled recording only on the protected `work/local-analytics` preview and confirmed browser-to-function-to-Neon storage with an exact referrer, paid attribution, ordered page views, and a second visit recognized as returning for the same anonymous browser.
+- Confirmed the protected retention function runs against Preview with no eligible deletions. Production has no Neon connection and visit recording remains disabled until explicit owner approval.
+
+## 2026-08-13 - First-Party Visit Ledger Reporting And Retention Defined
+
+- Added: The repository now defines a read-only Postgres visit ledger that identifies the earliest retained browser visit as new, later visits as returning, classifies traffic, and totals page views.
+- Added: Five Neon query templates cover newest-first inspection, anonymous-browser grouping, today's Australia/Perth overview, 30-day source/ad reporting, and one visit's ordered page sequence.
+- Added: Anonymous browser IDs rotate after 12 calendar months, and a protected daily Vercel job removes visits older than 12 months with their related page views.
+- Preserved: Reporting has no public read endpoint, no Neon resource has been provisioned, and production collection remains disabled pending preview testing and owner approval.
 
 ## 2026-08-13 - Public Route Parity Enforced
 

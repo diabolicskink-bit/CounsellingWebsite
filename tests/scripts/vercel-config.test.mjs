@@ -13,12 +13,27 @@ test("Vercel config does not use a blanket SPA catch-all rewrite", () => {
   assert.equal(Object.hasOwn(vercelConfig, "rewrites"), false);
 });
 
-test("Vercel packages the enquiry function's external TypeScript modules", () => {
+test("Vercel packages each serverless function's external TypeScript modules", () => {
   assert.deepEqual(vercelConfig.functions, {
     "api/enquiry.ts": {
       includeFiles: "src/{data/enquiryContract.ts,server/enquiry/**,utils/timeZones.ts}",
     },
+    "api/visit-retention.ts": {
+      includeFiles: "src/server/visits/**",
+    },
+    "api/visit.ts": {
+      includeFiles: "src/server/visits/**",
+    },
   });
+});
+
+test("Vercel schedules one daily visit retention cleanup", () => {
+  assert.deepEqual(vercelConfig.crons, [
+    {
+      path: "/api/visit-retention",
+      schedule: "15 18 * * *",
+    },
+  ]);
 });
 
 test("Vercel config keeps public alias redirects", () => {
