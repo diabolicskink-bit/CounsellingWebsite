@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -11,6 +17,8 @@ import {
   australianStateOptions,
   bookingTypes,
   enquiryTypes,
+  type BookingType,
+  type EnquiryType,
 } from "../data/enquiryContract";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths } from "../data/routes";
@@ -26,40 +34,51 @@ import {
 } from "../utils/timeZones";
 import "../styles-contact.css";
 
-type ContactPath = "appointment" | "consult" | "question";
+type EnquiryPath = BookingType | "question";
 type SubmitStatus = "idle" | "sending" | "success" | "error";
 
-type ContactPathOption = {
-  id: ContactPath;
+type EnquiryPathOption = {
+  bookingType?: BookingType;
+  enquiryType: EnquiryType;
+  id: EnquiryPath;
+  submitLabel: string;
   title: string;
 };
 
-type ContactProps = {
+type ContactPageProps = {
   initialRenderAt: string;
 };
 
-const contactPathOptions: readonly ContactPathOption[] = [
+const enquiryPathOptions: readonly EnquiryPathOption[] = [
   {
+    bookingType: bookingTypes.appointment.value,
+    enquiryType: enquiryTypes.booking.value,
     id: "appointment",
+    submitLabel: "Send session enquiry",
     title: "Make an appointment",
   },
   {
+    bookingType: bookingTypes.consult.value,
+    enquiryType: enquiryTypes.booking.value,
     id: "consult",
+    submitLabel: "Request the 15-minute consult",
     title: "Request a consult",
   },
   {
+    enquiryType: enquiryTypes.general.value,
     id: "question",
+    submitLabel: "Send enquiry",
     title: "General enquiry",
   },
-] as const;
+];
 
 const contactMetadata = getRouteMetadata(publicRoutePaths.contact);
 const crisisSupportHref = publicRoutePaths.crisisSupport;
 
-function isContactPath(value: FormDataEntryValue | null): value is ContactPath {
+function isEnquiryPath(value: FormDataEntryValue | null): value is EnquiryPath {
   return (
     typeof value === "string" &&
-    contactPathOptions.some((option) => option.id === value)
+    enquiryPathOptions.some((option) => option.id === value)
   );
 }
 
@@ -87,12 +106,39 @@ function RequiredMark() {
   return (
     <>
       <span aria-hidden="true"> *</span>
-      <span className="codex-contact__sr-only"> (required)</span>
+      <span className="contact-page__sr-only"> (required)</span>
     </>
   );
 }
 
-function ContactTimeZoneNotes({ initialRenderAt }: ContactProps) {
+function RequiredField({
+  children,
+  id,
+  label,
+  wide = false,
+}: {
+  children: ReactNode;
+  id: string;
+  label: string;
+  wide?: boolean;
+}) {
+  return (
+    <div
+      className={
+        "contact-page__form-field" +
+        (wide ? " contact-page__form-field--wide" : "")
+      }
+    >
+      <label htmlFor={id}>
+        {label}
+        <RequiredMark />
+      </label>
+      {children}
+    </div>
+  );
+}
+
+function BusinessHoursTimeZoneNotes({ initialRenderAt }: ContactPageProps) {
   const [comparison, setComparison] = useState(() => ({
     notes: getActiveAustralianPerthBusinessHoursNotes(new Date(initialRenderAt)),
     source: "prerendered" as "current" | "prerendered",
@@ -114,7 +160,7 @@ function ContactTimeZoneNotes({ initialRenderAt }: ContactProps) {
 
   return (
     <span
-      className="contact-page__contact-notes"
+      className="contact-page__time-zone-notes"
       data-timezone-notes-source={comparison.source}
     >
       {comparison.notes.map((note) => (
@@ -124,7 +170,7 @@ function ContactTimeZoneNotes({ initialRenderAt }: ContactProps) {
   );
 }
 
-function SubmissionSuccess() {
+function EnquirySuccess() {
   const statusRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -140,19 +186,19 @@ function SubmissionSuccess() {
   }, []);
 
   return (
-    <section className="codex-contact__submission-success">
+    <section className="contact-page__success">
       <div
-        className="codex-contact__submission-status"
+        className="contact-page__success-status"
         ref={statusRef}
         role="status"
         tabIndex={-1}
       >
-        <span className="codex-contact__submission-mark" aria-hidden="true">
+        <span className="contact-page__success-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" focusable="false">
             <path d="m6.5 12.5 3.3 3.3 7.7-8" />
           </svg>
         </span>
-        <div className="codex-contact__submission-copy">
+        <div className="contact-page__success-copy">
           <h2>{enquirySuccessContent.title}</h2>
           <p>{enquirySuccessContent.note}</p>
         </div>
@@ -161,12 +207,12 @@ function SubmissionSuccess() {
   );
 }
 
-function ContactEnquiryForm() {
+function EnquiryForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const enquiryStartTrackedRef = useRef(false);
-  const [contactPath, setContactPath] = useState<ContactPath | "">("");
-  const [isEnhanced, setIsEnhanced] = useState(false);
-  const [preserveInitialDetails, setPreserveInitialDetails] = useState(false);
+  const [selectedPath, setSelectedPath] = useState<EnquiryPath | "">("");
+  const [hasHydrated, setHasHydrated] = useState(false);
+  const [hasRestoredDetails, setHasRestoredDetails] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const timeZoneOptions = getActiveAustralianTimeZoneOptions();
 
@@ -175,19 +221,19 @@ function ContactEnquiryForm() {
 
     if (formElement) {
       const formData = new FormData(formElement);
-      const selectedPath = formData.get("contactPath");
-      const hasEnteredDetails = ["name", "email", "message"].some(
+      const restoredPath = formData.get("contactPath");
+      const hasBrowserRestoredDetails = ["name", "email", "message"].some(
         (fieldName) => getFormText(formData, fieldName).length > 0,
       );
 
-      if (isContactPath(selectedPath)) {
-        setContactPath(selectedPath);
+      if (isEnquiryPath(restoredPath)) {
+        setSelectedPath(restoredPath);
       }
 
-      setPreserveInitialDetails(hasEnteredDetails);
+      setHasRestoredDetails(hasBrowserRestoredDetails);
     }
 
-    setIsEnhanced(true);
+    setHasHydrated(true);
   }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -211,8 +257,8 @@ function ContactEnquiryForm() {
 
       trackSuccessfulEnquirySubmission("contact");
       formElement.reset();
-      setContactPath("");
-      setPreserveInitialDetails(false);
+      setSelectedPath("");
+      setHasRestoredDetails(false);
       setSubmitStatus("success");
     } catch {
       setSubmitStatus("error");
@@ -233,44 +279,32 @@ function ContactEnquiryForm() {
     trackEnquiryStarted();
   };
 
-  const handlePathChange = (value: ContactPath) => {
+  const handleEnquiryPathChange = (value: EnquiryPath) => {
     trackContactOptionSelected(value);
-    setContactPath(value);
-    setPreserveInitialDetails(false);
+    setSelectedPath(value);
+    setHasRestoredDetails(false);
     setSubmitStatus("idle");
   };
 
   if (submitStatus === "success") {
-    return <SubmissionSuccess />;
+    return <EnquirySuccess />;
   }
 
-  const isAppointment = contactPath === "appointment";
-  const isConsult = contactPath === "consult";
-  const isQuestion = contactPath === "question";
-  const showDetails = Boolean(contactPath) || !isEnhanced || preserveInitialDetails;
-  const showAppointmentFields = isAppointment || !isEnhanced;
-  const showConsultFields = isConsult || !isEnhanced;
-  const enquiryType = isQuestion
-    ? enquiryTypes.general.value
-    : contactPath
-      ? enquiryTypes.booking.value
-      : "";
-  const bookingType = isAppointment
-    ? bookingTypes.appointment.value
-    : isConsult
-      ? bookingTypes.consult.value
-      : "";
-  const submitLabel = isAppointment
-    ? "Send session enquiry"
-    : isConsult
-      ? "Request the 15-minute consult"
-      : "Send enquiry";
+  const selectedOption = enquiryPathOptions.find(
+    (option) => option.id === selectedPath,
+  );
+  const isAppointment = selectedPath === "appointment";
+  const isConsult = selectedPath === "consult";
+  const isQuestion = selectedPath === "question";
+  const showDetails = Boolean(selectedOption) || !hasHydrated || hasRestoredDetails;
+  const showAppointmentFields = isAppointment || !hasHydrated;
+  const showConsultFields = isConsult || !hasHydrated;
 
   return (
     <form
       action="/api/enquiry"
       aria-label="Enquiry"
-      className="codex-contact__form"
+      className="contact-page__form"
       data-clarity-mask="true"
       method="post"
       onInputCapture={handleFormInput}
@@ -284,21 +318,21 @@ function ContactEnquiryForm() {
         tabIndex={-1}
       />
 
-      <header className="codex-contact__form-heading">
-        <span className="codex-contact__step-label">Your enquiry</span>
+      <header className="contact-page__form-heading">
+        <span className="contact-page__form-eyebrow">Your enquiry</span>
         <h2>Get in touch</h2>
       </header>
 
-      <fieldset className="codex-contact__path-fieldset">
-        <legend className="codex-contact__sr-only">Choose an enquiry type</legend>
-        <div className="codex-contact__path-list">
-          {contactPathOptions.map((option) => (
-            <label className="codex-contact__path-choice" key={option.id}>
+      <fieldset className="contact-page__enquiry-options">
+        <legend className="contact-page__sr-only">Choose an enquiry type</legend>
+        <div className="contact-page__enquiry-option-list">
+          {enquiryPathOptions.map((option) => (
+            <label className="contact-page__enquiry-option" key={option.id}>
               <strong>{option.title}</strong>
               <input
-                checked={contactPath === option.id}
+                checked={selectedPath === option.id}
                 name="contactPath"
-                onChange={() => handlePathChange(option.id)}
+                onChange={() => handleEnquiryPathChange(option.id)}
                 required
                 type="radio"
                 value={option.id}
@@ -309,55 +343,51 @@ function ContactEnquiryForm() {
       </fieldset>
 
       {showDetails ? (
-        <div className="codex-contact__details">
-          <div className="codex-contact__details-heading">
+        <div className="contact-page__form-details">
+          <div className="contact-page__form-details-heading">
             <h3>A few details</h3>
             <p>Fields marked * are required.</p>
           </div>
 
-          <input name="enquiryType" type="hidden" value={enquiryType} />
-          {bookingType ? (
-            <input name="bookingType" type="hidden" value={bookingType} />
+          <input
+            name="enquiryType"
+            type="hidden"
+            value={selectedOption?.enquiryType ?? ""}
+          />
+          {selectedOption?.bookingType ? (
+            <input
+              name="bookingType"
+              type="hidden"
+              value={selectedOption.bookingType}
+            />
           ) : null}
 
-          <div className="codex-contact__field-grid">
-            <div className="codex-contact__field">
-              <label htmlFor="contact-name">
-                Name
-                <RequiredMark />
-              </label>
+          <div className="contact-page__form-fields">
+            <RequiredField id="contact-name" label="Name">
               <input
                 autoComplete="name"
                 id="contact-name"
                 name="name"
                 placeholder="Your name"
-                required={Boolean(contactPath)}
+                required={Boolean(selectedOption)}
                 type="text"
               />
-            </div>
+            </RequiredField>
 
-            <div className="codex-contact__field">
-              <label htmlFor="contact-email">
-                Email
-                <RequiredMark />
-              </label>
+            <RequiredField id="contact-email" label="Email">
               <input
                 autoComplete="email"
                 id="contact-email"
                 name="email"
                 placeholder="you@example.com"
-                required={Boolean(contactPath)}
+                required={Boolean(selectedOption)}
                 type="email"
               />
-            </div>
+            </RequiredField>
 
             {showAppointmentFields ? (
               <>
-                <div className="codex-contact__field" key="appointment-timing">
-                  <label htmlFor="contact-timing">
-                    Preferred timing
-                    <RequiredMark />
-                  </label>
+                <RequiredField id="contact-timing" label="Preferred timing">
                   <input
                     id="contact-timing"
                     name="timing"
@@ -365,13 +395,9 @@ function ContactEnquiryForm() {
                     required={isAppointment}
                     type="text"
                   />
-                </div>
+                </RequiredField>
 
-                <div className="codex-contact__field" key="appointment-state">
-                  <label htmlFor="contact-state">
-                    State or territory
-                    <RequiredMark />
-                  </label>
+                <RequiredField id="contact-state" label="State or territory">
                   <select
                     defaultValue=""
                     id="contact-state"
@@ -385,17 +411,13 @@ function ContactEnquiryForm() {
                       </option>
                     ))}
                   </select>
-                </div>
+                </RequiredField>
               </>
             ) : null}
 
             {showConsultFields ? (
               <>
-                <div className="codex-contact__field" key="consult-availability">
-                  <label htmlFor="contact-availability">
-                    Availability
-                    <RequiredMark />
-                  </label>
+                <RequiredField id="contact-availability" label="Availability">
                   <input
                     id="contact-availability"
                     name="availability"
@@ -403,13 +425,9 @@ function ContactEnquiryForm() {
                     required={isConsult}
                     type="text"
                   />
-                </div>
+                </RequiredField>
 
-                <div className="codex-contact__field" key="consult-timezone">
-                  <label htmlFor="contact-timezone">
-                    Timezone
-                    <RequiredMark />
-                  </label>
+                <RequiredField id="contact-timezone" label="Timezone">
                   <select
                     defaultValue=""
                     id="contact-timezone"
@@ -422,32 +440,34 @@ function ContactEnquiryForm() {
                       </option>
                     ))}
                   </select>
-                </div>
+                </RequiredField>
               </>
             ) : null}
 
-            <div className="codex-contact__field codex-contact__field--message" key="message">
-              <label htmlFor="contact-message">
-                {isQuestion ? "Your enquiry" : "Your message"}
-                <RequiredMark />
-              </label>
+            <RequiredField
+              id="contact-message"
+              label={isQuestion ? "Your enquiry" : "Your message"}
+              wide
+            >
               <textarea
                 id="contact-message"
                 name="message"
-                required={Boolean(contactPath)}
+                required={Boolean(selectedOption)}
                 rows={4}
               />
-            </div>
+            </RequiredField>
           </div>
 
-          <div className="codex-contact__submit-row">
+          <div className="contact-page__form-actions">
             <Button disabled={submitStatus === "sending"} type="submit">
-              {submitStatus === "sending" ? "Sending..." : submitLabel}
+              {submitStatus === "sending"
+                ? "Sending..."
+                : selectedOption?.submitLabel ?? "Send enquiry"}
             </Button>
           </div>
 
           {submitStatus === "error" ? (
-            <div className="codex-contact__submission-error" role="alert">
+            <div className="contact-page__form-error" role="alert">
               <p>
                 {enquiryFailureContent.messageBeforeEmail}{" "}
                 <a href={`mailto:${enquiryFailureContent.email}`}>
@@ -460,34 +480,36 @@ function ContactEnquiryForm() {
         </div>
       ) : null}
 
-      <p className="codex-contact__form-boundary">
+      <p className="contact-page__crisis-note">
         If you’re in crisis, <Link to={crisisSupportHref}>find support now</Link>.
       </p>
     </form>
   );
 }
 
-export default function Contact({ initialRenderAt }: ContactProps) {
+export default function Contact({ initialRenderAt }: ContactPageProps) {
   useDocumentMetadata(contactMetadata.title, contactMetadata.description);
 
   return (
-    <main className="site-page contact-page codex-contact">
-      <section className="codex-contact__opening site-hero-background" aria-labelledby="contact-title">
+    <main className="site-page contact-page">
+      <section className="contact-page__hero site-hero-background" aria-labelledby="contact-title">
         <Container>
-          <header className="codex-contact__intro">
-            <span className="codex-contact__eyebrow">Contact and fees</span>
-            <h1 id="contact-title">Make an enquiry.</h1>
+          <header className="contact-page__hero-content">
+            <span className="contact-page__eyebrow">Contact and fees</span>
+            <h1 className="contact-page__hero-title" id="contact-title">
+              Make an enquiry.
+            </h1>
           </header>
         </Container>
       </section>
 
-      <section className="codex-contact__task-section site-section-warm" id="contact-start" tabIndex={-1}>
-        <Container className="codex-contact__task-grid">
+      <section className="contact-page__enquiry site-section-warm" id="contact-start" tabIndex={-1}>
+        <Container className="contact-page__enquiry-layout">
           <aside
-            aria-labelledby="contact-first-message-title"
-            className="codex-contact__first-message"
+            aria-labelledby="contact-enquiry-intro-title"
+            className="contact-page__enquiry-intro"
           >
-            <h2 id="contact-first-message-title">
+            <h2 id="contact-enquiry-intro-title">
               Choosing a counsellor can be hard.
             </h2>
             <p className="site-reading">
@@ -498,21 +520,21 @@ export default function Contact({ initialRenderAt }: ContactProps) {
             </p>
           </aside>
 
-          <ContactEnquiryForm />
+          <EnquiryForm />
         </Container>
       </section>
 
       <section
-        aria-labelledby="contact-essentials-title"
-        className="codex-contact__essentials"
+        aria-labelledby="contact-fees-title"
+        className="contact-page__fees"
         id="contact-fees"
         tabIndex={-1}
       >
         <Container>
-          <h2 className="codex-contact__sr-only" id="contact-essentials-title">
+          <h2 className="contact-page__sr-only" id="contact-fees-title">
             Fees and session details
           </h2>
-          <dl className="codex-contact__essentials-list">
+          <dl className="contact-page__fee-list">
             <div>
               <dt>Initial consult</dt>
               <dd>
@@ -537,7 +559,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
             <div>
               <dt>More than two?</dt>
               <dd>
-                <a className="codex-contact__essential-action" href="#contact-start">
+                <a className="contact-page__fee-action" href="#contact-start">
                   Get in touch
                 </a>
               </dd>
@@ -548,23 +570,26 @@ export default function Contact({ initialRenderAt }: ContactProps) {
 
       <section
         aria-label="Contact details"
-        className="codex-contact__practical"
-        id="contact-practical"
+        className="contact-page__practice-details"
+        id="contact-details"
       >
         <Container>
-          <header className="codex-contact__practical-heading">
-            <span className="codex-contact__eyebrow">Practical details</span>
+          <header className="contact-page__practice-heading">
+            <span className="contact-page__eyebrow">Practical details</span>
           </header>
 
-          <dl className="codex-contact__practical-list">
+          <dl className="contact-page__practice-list">
             <div>
               <dt>Practice hours</dt>
               <dd>
                 <span>Mon to Fri, 9.30am to 5.00pm AWST.</span>
-                <ContactTimeZoneNotes initialRenderAt={initialRenderAt} />
+                <BusinessHoursTimeZoneNotes initialRenderAt={initialRenderAt} />
               </dd>
             </div>
-            <div id="contact-crisis-support">
+            <div
+              className="contact-page__crisis-support"
+              id="contact-crisis-support"
+            >
               <dt>Crisis support</dt>
               <dd>
                 <p className="site-reading">

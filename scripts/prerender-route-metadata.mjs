@@ -17,7 +17,7 @@ const routeMainClasses = {
   "/polyamory-enm-counselling": "site-page enm-page",
   "/lgbtqia-affirming-counselling": "site-page inclusion-page lgbtqia-page",
   "/crisis-support": "site-page crisis-support-page",
-  "/contact": "site-page contact-page codex-contact",
+  "/contact": "site-page contact-page",
 };
 const faviconTags = [
   '<link rel="icon" href="/favicon.ico" sizes="any" />',
