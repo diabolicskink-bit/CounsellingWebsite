@@ -16,16 +16,6 @@ const vercelConfigData = JSON.parse(readFileSync(new URL("../vercel.json", impor
   }>;
 };
 
-const publicRoutes = [
-  "/",
-  "/working-with-joel",
-  "/inclusive-counselling",
-  "/kink-bdsm-counselling",
-  "/polyamory-enm-counselling",
-  "/lgbtqia-affirming-counselling",
-  "/contact",
-] as const;
-const prerenderedRoutes = publicRoutes;
 const prerenderedRouteContracts = {
   "/": {
     mainClass: "site-page home-page",
@@ -128,6 +118,8 @@ const prerenderedRouteContracts = {
   },
 } as const;
 
+const publicRoutes = Object.keys(prerenderedRouteContracts) as Array<keyof typeof prerenderedRouteContracts>;
+const prerenderedRoutes = publicRoutes;
 const publicRouteMetadataEntries = Object.entries(routeMetadataData.routes);
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const socialImageUrl = `${siteOrigin}${routeMetadataData.site.socialImage}`;

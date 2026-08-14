@@ -5,6 +5,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 ## Application And Routes
 
 - Vite, React, and TypeScript power the public counselling website.
+- Public and development route constants use their final absolute hrefs directly. Public constants are checked against the metadata-backed route set, while prerendering and browser coverage derive their inventories from their existing route contract maps.
 - Promoted production CSS lives under `src/design-system/` in current-only Foundations, Components, and Patterns files. `src/design-system/index.css` is imported once from `src/main.tsx`, so Vite combines the organised source into the production CSS bundle; the development catalogue uses the separate `src/styles-design-system-workspace.css`.
 - Public routes include Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, LGBTQIA+, Contact/Fees, and Not Found.
 - The Inclusion hub is served at `/inclusive-counselling`; its three first-class topic pages use the flat routes `/kink-bdsm-counselling`, `/polyamory-enm-counselling`, and `/lgbtqia-affirming-counselling`, linked from the shared navigation, Home, and the hub.
@@ -81,7 +82,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - `tests/public-site.spec.ts` covers public landmarks, raw and JavaScript-disabled output, hydration, shared mobile-navigation Escape/focus/scroll-lock behaviour including responsive breakpoint release, complete mobile-footer scroll reach, focused Home semantics, CTA ownership, dark-hero contrast, About Vive content, mobile portrait ordering and overflow, Working with Joel hero alignment, heading roles, tab interaction and axe checks, header, mobile-navigation and footer Contact destinations, timezone behaviour, three-path conditional enquiry fields and payloads, success/error states, form semantics, flat and nested artifacts, SPA navigation, fallback activation, generated metadata, sitemap, robots, and the 404 artifact.
 - `tests/tsconfig.json` provides strict TypeScript coverage for the Playwright public-site spec. `npm run typecheck:tests` runs that check directly, and the site, analytics, and full QA commands enforce it before browser testing.
 - Direct Node tests under `tests/api/` cover accepted and rejected enquiry submissions.
-- Direct Node tests under `tests/scripts/` cover route-metadata origin policy.
+- Direct Node tests under `tests/scripts/` cover route-metadata origin policy, public route-to-metadata parity, redirect destinations, and Vercel routing configuration.
 - `npm run qa:site` builds the app, starts the QA preview server, and runs the Playwright public-site suite.
 - `npm run qa:analytics` builds with fake analytics identifiers and verifies Google Analytics SPA pageviews, all three controlled Contact-path selection values, anonymous contact-intent events, confirmed enquiry conversion events, failure suppression, and the Clarity script path without loading third-party scripts.
 - `npm run qa` runs encoding checks, direct script tests, the build, direct API tests, and the public-site Playwright suite.
@@ -93,7 +94,6 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 - Enquiry protection does not include platform rate limiting or complete abuse protection.
 - The 404 build and local-preview contract is verified, but repeatable post-deploy confirmation remains manual under `DEBT-24`.
-- Route definitions, metadata, prerendering, and tests remain separate; explicit route-parity enforcement is tracked as debt.
 - The Working with Joel approach tabs work after hydration, but only the initially active Psychodynamic explanation is present before JavaScript; progressive access to the Attachment and Integrative copy is tracked under `DEBT-35`.
 - Dedicated type checking covers the Playwright public-site spec, but the direct JavaScript tests, scripts, and most configuration files remain outside TypeScript checking.
 - Accessibility support and automated route coverage exist. `docs/checklists/accessibility-monitor.md` is the owner-directed WCAG 2.2 AA-oriented manual record for shared-shell, public-route, and not-found accessibility review, with no automatic cadence or claim of formal conformance.

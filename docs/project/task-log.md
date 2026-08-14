@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-13 - Public Route Parity Enforced
+
+- Simplified: Public and development route constants now store final absolute hrefs, removing the repeated `routeHref()` conversion layer from navigation, pages, metadata lookups, redirects, and development tools.
+- Consolidated: Prerendering and browser tests derive their route inventories from existing route contract maps rather than maintaining separate seven-route lists.
+- Guarded: Direct script tests compare public route constants with metadata and validate redirect destinations; the production build continues to enforce metadata, rendered-route, and prerender-contract parity.
+- Resolved: `DEBT-8` moved to the project debt archive without introducing a shared route manifest.
+
 ## 2026-08-13 - Dormant Inherited Presentation Layer Removed
 
 - Removed: Unmounted global card, topic, checklist, fee, detail, CTA, list, and hero selector families plus their responsive rules and orphaned tokens no longer ship in production CSS.

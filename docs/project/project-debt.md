@@ -136,32 +136,6 @@ Each active item should include enough direction that a future session can choos
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
 - `Links`: `docs/design-system/`, `src/design-system/`, `src/styles.css`, `src/components/`
 
-### DEBT-8 - Route parity coverage needs explicit enforcement
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Priority Rationale`: This is `P2` because duplicated route, metadata, redirect, prerender, and test expectations can drift without a clear failing check. It is not `P1` while the current route set is still small and local QA already covers key generated artifacts.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: Routing, Metadata, Tests
-- `Problem`: Public route expectations are repeated across route definitions, app registration, metadata JSON, prerendering, redirects, and tests without one explicit parity check that verifies those surfaces stay aligned.
-- `Why It Matters`: It is easy to add, rename, or redirect a route without getting a clear local failure for missing metadata, prerender output, sitemap coverage, redirect expectations, or public-site test coverage.
-- `Preferred Direction`: Add focused parity tests that enforce consistency across the current duplicated route surfaces while preserving the existing route implementation.
-- `Resolution Path`: Identify the route surfaces that should agree today, add the smallest useful parity test around them, and keep failures specific enough that future route changes tell the maintainer what was missed.
-- `Next Action`: Add a focused parity test for the current route, metadata, prerender, redirect, and public-site coverage surfaces.
-- `Resolved When`: Public route changes fail clearly when metadata, prerendering, redirects, sitemap output, or tests are out of sync.
-- `Related Items`:
-  - `DEBT-1`: Route parity assertions can now build on the restored public-site QA gate.
-  - `DEBT-6`: Archived production URL and fallback decisions need to match any future route manifest or parity test.
-  - `DEBT-25`: Archived route-manifest consolidation was assessed as not worth pursuing for this small, mostly static site.
-  - `SITE-3`: The SEO/metadata matrix is the visitor-facing counterpart to this technical route consistency work.
-- `Dependencies`: `None`
-- `Notes`:
-  - Split from the old broad `DEBT-8` on 2026-06-18. The shared-manifest/source-of-truth question was assessed and closed in archived sibling item `DEBT-25`.
-  - Brief breakdown assessment: do not split this further yet. It should be attempted as one focused parity-test slice first. If implementation reveals unrelated checks with different owners, split those then rather than pre-creating child items now.
-- `Links`: `src/data/routes.ts`, `src/App.tsx`, `src/data/routeMetadata.json`, `tests/public-site.spec.ts`
-
 ### DEBT-9 - Type checking does not cover tests, scripts, or most config code
 
 - `Priority`: `P2`
@@ -491,7 +465,7 @@ Each active item should include enough direction that a future session can choos
 - `Next Action`: On the next otherwise-authorized public-page change, review that page's relevant Playwright coverage and update the matching checklist note below.
 - `Resolved When`: Every listed page/boundary has received at least one opportunistic post-migration test review during other work, or this checklist is superseded by a later explicit test-maintenance strategy.
 - `Related Items`:
-  - `DEBT-8`: Route-parity coverage protects the shared route-generation surfaces while this item tracks page-specific assertion quality.
+  - Archived `DEBT-8`: Route-parity coverage protects the shared route-generation surfaces while this item tracks page-specific assertion quality.
   - `docs/checklists/accessibility-monitor.md`: Owner-directed accessibility review may expose page-level assertions worth preserving when a page is already being changed.
   - `docs/checklists/responsive-monitor.md`: Owner-directed responsive review may expose page-level interaction or layout checks worth preserving when a page is already being changed.
 - `Dependencies`: `None`

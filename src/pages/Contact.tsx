@@ -8,6 +8,7 @@ import {
   enquiryTypes,
 } from "../data/enquiryContract";
 import { getRouteMetadata } from "../data/routeMetadata";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
   trackContactOptionSelected,
@@ -47,7 +48,7 @@ const contactPathOptions: readonly ContactPathOption[] = [
   },
 ] as const;
 
-const contactMetadata = getRouteMetadata("/contact");
+const contactMetadata = getRouteMetadata(publicRoutePaths.contact);
 
 function isContactPath(value: FormDataEntryValue | null): value is ContactPath {
   return (

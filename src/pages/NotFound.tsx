@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-not-found.css";
 
@@ -34,17 +34,17 @@ const notFoundRoutes = [
   {
     title: "Working with Joel",
     copy: "How sessions work, Joel's background, and the shape of the work.",
-    href: routeHref(publicRoutePaths.workingWithJoel),
+    href: publicRoutePaths.workingWithJoel,
   },
   {
     title: "Inclusive practice",
     copy: "Kink, ENM, polyamory, LGBTQIA+ lives, and other misunderstood parts of life.",
-    href: routeHref(publicRoutePaths.inclusion),
+    href: publicRoutePaths.inclusion,
   },
   {
     title: "Fees and contact",
     copy: "Session fee, availability, and the enquiry form.",
-    href: routeHref(publicRoutePaths.contact),
+    href: publicRoutePaths.contact,
   },
 ] as const;
 
@@ -85,8 +85,8 @@ export default function NotFound() {
           </div>
 
           <div className="not-found-page__actions">
-            <Button href={routeHref(publicRoutePaths.home)}>Go to homepage</Button>
-            <Button href={routeHref(publicRoutePaths.contact)} variant="secondary">
+            <Button href={publicRoutePaths.home}>Go to homepage</Button>
+            <Button href={publicRoutePaths.contact} variant="secondary">
               Make an enquiry <ArrowRight size={16} aria-hidden="true" />
             </Button>
           </div>

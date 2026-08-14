@@ -2,6 +2,12 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-8 - Route parity coverage needs explicit enforcement
+
+Resolved on 2026-08-13 by normalizing public and development route constants to their actual absolute hrefs, removing the repeated `routeHref()` conversion layer, and using those constants for page metadata lookups as well as navigation and registration. A focused direct test now fails when the public constants and metadata-backed route set diverge or a redirect leaves the canonical route set.
+
+Prerendering and browser tests now derive their public-route inventories from their existing route contract maps instead of maintaining additional manual lists. The production build continues to fail when metadata, component rendering, or a prerender smoke contract is missing, without introducing the shared manifest rejected under `DEBT-25`.
+
 ### DEBT-36 - Legacy spotlight CSS needed usage audit
 
 Resolved on 2026-07-13 after a focused source audit found no runtime, development-page, test, or HTML call sites for `.site-spotlight`, `.site-spotlight__grid`, `.site-spotlight__eyebrow`, or `.site-spotlight__stats`. The complete base, descendant, and responsive selector family was removed from `src/styles.css`.

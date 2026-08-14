@@ -4,7 +4,7 @@ import Button from "../components/Button";
 import ContactInvitation from "../components/ContactInvitation";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-home.css";
 
@@ -60,8 +60,8 @@ type HomePageContent = {
   inclusive: HomeInclusiveContent;
 };
 
-const homeMetadata = getRouteMetadata("/");
-const contactHref = routeHref(publicRoutePaths.contact);
+const homeMetadata = getRouteMetadata(publicRoutePaths.home);
+const contactHref = publicRoutePaths.contact;
 
 const homePageContent: HomePageContent = {
   hero: {
@@ -76,7 +76,7 @@ const homePageContent: HomePageContent = {
       label: "Get in touch",
     },
     inclusionLink: {
-      href: routeHref(publicRoutePaths.inclusion),
+      href: publicRoutePaths.inclusion,
       label: "Explore inclusive counselling",
     },
   },
@@ -99,7 +99,7 @@ const homePageContent: HomePageContent = {
     ],
     links: [
       {
-        href: routeHref(publicRoutePaths.workingWithJoel),
+        href: publicRoutePaths.workingWithJoel,
         label: "Working with Joel",
       },
     ],
@@ -114,26 +114,26 @@ const homePageContent: HomePageContent = {
     topicsAriaLabel: "Inclusive practice topics",
     hub: {
       label: "Read about inclusive practice",
-      href: routeHref(publicRoutePaths.inclusion),
+      href: publicRoutePaths.inclusion,
     },
     topics: [
       {
         title: "Kink & BDSM-aware counselling",
         description:
           "I bring significant expertise in kink and BDSM, including an understanding of why it may matter in a person’s life and the different meanings it can carry. You can talk about power, consent, desire and relationships without awkwardness or automatic judgement, including when things have gone seriously wrong.",
-        href: routeHref(publicRoutePaths.kinkBdsm),
+        href: publicRoutePaths.kinkBdsm,
       },
       {
         title: "Ethical non-monogamy & polyamory counselling",
         description:
           "I bring specialist knowledge of ENM and polyamory, including the different ways people build relationships, commitments and families. You can talk about agreements, jealousy, changing relationships, different needs and difficult decisions without monogamy being treated as the inevitable answer.",
-        href: routeHref(publicRoutePaths.enmPolyamory),
+        href: publicRoutePaths.enmPolyamory,
       },
       {
         title: "LGBTQIA+ affirming counselling",
         description:
           "I offer LGBTQIA+ affirming counselling that takes sexuality, gender, identity and relationships seriously. You can talk about what is difficult, what is changing and what matters to you without your identity being treated as the problem or used to explain everything.",
-        href: routeHref(publicRoutePaths.lgbtqia),
+        href: publicRoutePaths.lgbtqia,
       },
     ],
   },
