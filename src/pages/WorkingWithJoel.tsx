@@ -1,6 +1,7 @@
 import BroadTabPanel from "../components/BroadTabPanel";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-working-with-joel.css";
 
@@ -65,7 +66,7 @@ type WorkingWithJoelPageContent = {
   focus: FocusContent;
 };
 
-const pageMetadata = getRouteMetadata("/working-with-joel");
+const pageMetadata = getRouteMetadata(publicRoutePaths.workingWithJoel);
 
 const pageContent: WorkingWithJoelPageContent = {
   title: pageMetadata.title,

@@ -18,6 +18,26 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-14 - Public Browser Suite Simplified
+
+- Reduced: The Playwright suite now has 37 focused cases in one Chromium project instead of 262 cases duplicated across desktop and mobile Chromium profiles.
+- Removed: Broad copy, class-count, pixel-alignment, asset-byte, raw-markup, generated-metadata, and duplicate-artifact assertions no longer mirror page source and build implementation inside browser tests.
+- Preserved: Route hydration and diagnostics, navigation and mobile focus/scroll behaviour, progressive enhancement, core first-response metadata, redirects, analytics privacy and events, enquiry success/error behaviour, responsive overflow, and axe coverage remain automated; detailed generated artifacts stay with the build generator and manual metadata monitor.
+- Resolved: `DEBT-34` is archived under the new durable testing strategy.
+
+## 2026-08-13 - Public Route Parity Enforced
+
+- Simplified: Public and development route constants now store final absolute hrefs, removing the repeated `routeHref()` conversion layer from navigation, pages, metadata lookups, redirects, and development tools.
+- Consolidated: Prerendering and browser tests derive their route inventories from existing route contract maps rather than maintaining separate seven-route lists.
+- Guarded: Direct script tests compare public route constants with metadata and validate redirect destinations; the production build continues to enforce metadata, rendered-route, and prerender-contract parity.
+- Resolved: `DEBT-8` moved to the project debt archive without introducing a shared route manifest.
+
+## 2026-08-13 - Dormant Inherited Presentation Layer Removed
+
+- Removed: Unmounted global card, topic, checklist, fee, detail, CTA, list, and hero selector families plus their responsive rules and orphaned tokens no longer ship in production CSS.
+- Simplified: The unused `SectionHeading` component and unconsumed tertiary `Button` variant were removed; live Working with Joel layout, tabs, portrait, and shared-shell styles remain intact.
+- Reconciled: The active cedar evidence, development specimen, and living legacy registers now describe only current source and verified consumers.
+
 ## 2026-08-13 - Shared Reading Typography Tightened
 
 - Updated: `.site-reading` now splits the difference between its previous scale and the Crisis Support emergency paragraph, using a restrained responsive `1.005–1.04rem` size and `1.63` line-height across its verified public-page consumers.

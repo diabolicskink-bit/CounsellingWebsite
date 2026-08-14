@@ -2,14 +2,18 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
-import { enquiryEmail, enquirySuccessContent } from "../data/enquiry";
+import {
+  enquiryEmail,
+  enquiryFailureContent,
+  enquirySuccessContent,
+} from "../data/enquiry";
 import {
   australianStateOptions,
   bookingTypes,
   enquiryTypes,
 } from "../data/enquiryContract";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
   trackContactOptionSelected,
@@ -49,8 +53,8 @@ const contactPathOptions: readonly ContactPathOption[] = [
   },
 ] as const;
 
-const contactMetadata = getRouteMetadata("/contact");
-const crisisSupportHref = routeHref(publicRoutePaths.crisisSupport);
+const contactMetadata = getRouteMetadata(publicRoutePaths.contact);
+const crisisSupportHref = publicRoutePaths.crisisSupport;
 
 function isContactPath(value: FormDataEntryValue | null): value is ContactPath {
   return (
@@ -276,7 +280,6 @@ function ContactEnquiryForm() {
       <input
         aria-hidden="true"
         autoComplete="off"
-        className="codex-contact__honeypot"
         name="website"
         tabIndex={-1}
       />
@@ -291,9 +294,7 @@ function ContactEnquiryForm() {
         <div className="codex-contact__path-list">
           {contactPathOptions.map((option) => (
             <label className="codex-contact__path-choice" key={option.id}>
-              <span className="codex-contact__path-copy">
-                <strong>{option.title}</strong>
-              </span>
+              <strong>{option.title}</strong>
               <input
                 checked={contactPath === option.id}
                 name="contactPath"
@@ -448,8 +449,11 @@ function ContactEnquiryForm() {
           {submitStatus === "error" ? (
             <div className="codex-contact__submission-error" role="alert">
               <p>
-                Sorry, the enquiry could not be sent. Please email{" "}
-                <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a> directly.
+                {enquiryFailureContent.messageBeforeEmail}{" "}
+                <a href={`mailto:${enquiryFailureContent.email}`}>
+                  {enquiryFailureContent.email}
+                </a>{" "}
+                {enquiryFailureContent.messageAfterEmail}
               </p>
             </div>
           ) : null}
@@ -469,7 +473,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
   return (
     <main className="site-page contact-page codex-contact">
       <section className="codex-contact__opening site-hero-background" aria-labelledby="contact-title">
-        <Container className="codex-contact__opening-grid">
+        <Container>
           <header className="codex-contact__intro">
             <span className="codex-contact__eyebrow">Contact and fees</span>
             <h1 id="contact-title">Make an enquiry.</h1>

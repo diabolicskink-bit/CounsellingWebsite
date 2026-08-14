@@ -103,7 +103,7 @@
     linear-gradient(132deg, #132b23 0%, var(--enm-dark) 58%, #21473a 100%);
 }
 
-.enm-page .enm-page__position .enm-page__position-title {
+.enm-page .enm-page__position-title {
   max-width: 9ch;
   color: #fcfcfa;
 }
@@ -144,7 +144,7 @@
 
   .enm-page__reasons-title,
   .enm-page__focus-title,
-  .enm-page .enm-page__position .enm-page__position-title {
+  .enm-page .enm-page__position-title {
     max-width: 14ch;
   }
 
@@ -162,7 +162,7 @@
 
   .enm-page__reasons-title,
   .enm-page__focus-title,
-  .enm-page .enm-page__position .enm-page__position-title {
+  .enm-page .enm-page__position-title {
     max-width: 13ch;
     font-size: clamp(2.45rem, 10.7vw, 2.95rem);
     line-height: 0.96;

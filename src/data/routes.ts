@@ -1,44 +1,36 @@
-export const publicRoutePaths = {
-  contact: "contact",
-  crisisSupport: "crisis-support",
-  enmPolyamory: "polyamory-enm-counselling",
-  home: "",
-  inclusion: "inclusive-counselling",
-  kinkBdsm: "kink-bdsm-counselling",
-  lgbtqia: "lgbtqia-affirming-counselling",
-  workingWithJoel: "working-with-joel",
-} as const;
+import type { PublicRoutePath } from "./routeMetadata";
 
-export function routeHref(path: string) {
-  return path.startsWith("/") ? path : `/${path}`;
-}
+export const publicRoutePaths = {
+  contact: "/contact",
+  crisisSupport: "/crisis-support",
+  enmPolyamory: "/polyamory-enm-counselling",
+  home: "/",
+  inclusion: "/inclusive-counselling",
+  kinkBdsm: "/kink-bdsm-counselling",
+  lgbtqia: "/lgbtqia-affirming-counselling",
+  workingWithJoel: "/working-with-joel",
+} as const satisfies Record<string, PublicRoutePath>;
 
 export const publicRedirectRoutes = [
-  { path: "about", to: routeHref(publicRoutePaths.workingWithJoel) },
-  { path: "fees", to: routeHref(publicRoutePaths.contact) },
-  { path: "inclusion", to: routeHref(publicRoutePaths.inclusion) },
+  { path: "/about", to: publicRoutePaths.workingWithJoel },
+  { path: "/fees", to: publicRoutePaths.contact },
+  { path: "/inclusion", to: publicRoutePaths.inclusion },
 ] as const;
 
 export const devRoutePaths = {
-  codexTestBed: "codex-tb",
-  designSystem: "design-system",
-  designSystemComponents: "design-system/components",
-  designSystemFoundations: "design-system/foundations",
-  designSystemPatterns: "design-system/patterns",
-  documents: "documents",
-  opusTestBed: "opus-tb",
+  codexTestBed: "/codex-tb",
+  designSystem: "/design-system",
+  designSystemComponents: "/design-system/components",
+  designSystemFoundations: "/design-system/foundations",
+  designSystemPatterns: "/design-system/patterns",
+  documents: "/documents",
+  opusTestBed: "/opus-tb",
 } as const;
 
-const sharedChromePaths = new Set([
-  routeHref(publicRoutePaths.contact),
-  routeHref(publicRoutePaths.crisisSupport),
-  routeHref(publicRoutePaths.enmPolyamory),
-  routeHref(publicRoutePaths.inclusion),
-  routeHref(publicRoutePaths.kinkBdsm),
-  routeHref(publicRoutePaths.lgbtqia),
-  routeHref(publicRoutePaths.workingWithJoel),
-  ...publicRedirectRoutes.map((route) => routeHref(route.path)),
-  ...(import.meta.env.DEV ? Object.values(devRoutePaths).map((path) => routeHref(path)) : []),
+const sharedChromePaths = new Set<string>([
+  ...Object.values(publicRoutePaths).filter((path) => path !== publicRoutePaths.home),
+  ...publicRedirectRoutes.map((route) => route.path),
+  ...(import.meta.env?.DEV ? Object.values(devRoutePaths) : []),
 ]);
 
 export function usesSharedChromePath(pathname: string) {
