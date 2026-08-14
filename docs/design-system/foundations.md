@@ -56,16 +56,48 @@ This catalogue contains every foundation currently approved for deliberate reuse
 
 ### `--section-warm`
 
-- `Contract`: Flat warm paper (`#f2efe8`) for primary light editorial sections across public routes.
-- `Boundary`: It is not the root page canvas, footer material, a sage or dark section treatment, or authority for unrelated declarations that share the same literal value. Dark `#1f231f` ink has a 13.87:1 contrast ratio and `#3f493f` body text has an 8.18:1 ratio on the surface. Use `.site-section-warm` when the complete supported section contract is intended.
-- `Implementation`: Defined on `:root` in `src/design-system/foundations.css` and consumed through `.site-section-warm`.
-- `Verified consumers`: Home About Vive and closing invitation; Working with Joel introduction; Inclusion chapters; Contact enquiry task; Kink misread; ENM reasons; and LGBTQIA+ recognition sections.
+- `Contract`: Flat warm paper (`#f2efe8`) for public editorial page backings, sections, and content materials.
+- `Boundary`: It is distinct from the lighter root `--paper` canvas and is not authority for the shared header, navigation, or footer merely because they currently share its literal value. Dark `#1f231f` ink has a 13.87:1 contrast ratio and `#3f493f` body text has an 8.18:1 ratio on the surface. Use `.site-section-warm` when the complete supported section pattern is intended.
+- `Implementation`: Defined on `:root` in `src/design-system/foundations.css`; consumers may use the token as a material or `.site-section-warm` for the complete pattern.
+- `Verified consumers`: Documents workspace; Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+ page backings or editorial sections; Contact enquiry task; and the shared closing invitation.
 - `Promoted`: 2026-08-05 — shared warm-section promotion under `DEBT-37`.
+
+### `--section-sage`
+
+- `Contract`: Pale sage material (`#dfe8dc`) for editorial fields, sections, supporting fills, and the Documents workspace navigation.
+- `Boundary`: It is not the inherited `--surface` treatment, a generic success colour, or authority for every similar green tint. Dark `#1f231f` ink has a 12.68:1 contrast ratio and `#3f493f` body text has a 7.47:1 ratio on the surface.
+- `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
+- `Verified consumers`: Documents workspace and table headings; Working with Joel topic close; Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+ editorial fields; Contact essentials and submission mark; and development design-system workspace framing.
+- `Promoted`: 2026-08-14 — owner-authorized editorial-material consolidation under `DEBT-37`.
+
+### `--section-dark`
+
+- `Contract`: Deep green (`#173028`) for dark editorial surfaces and strong foregrounds on supported warm or sage materials.
+- `Boundary`: It is not the primary action colour, an interaction-state replacement for `--cedar` or `--cedar-dark`, or authority for nearby dark greens such as the Kink page's `#163229`. Light `#fcfcfa` text has a 13.72:1 contrast ratio on the surface; the token has 12.27:1 contrast on `--section-warm` and 11.22:1 on `--section-sage`.
+- `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
+- `Verified consumers`: Documents navigation; Home inclusive-practice foregrounds; Working with Joel method and topic treatments; Inclusion, ENM and polyamory, and LGBTQIA+ editorial surfaces or foregrounds; and the Contact first-message heading.
+- `Promoted`: 2026-08-14 — owner-authorized editorial-material consolidation under `DEBT-37`.
+
+### `--section-dark-soft`
+
+- `Contract`: Softened deep green (`#21483a`) used as the lighter endpoint of supported dark editorial gradients.
+- `Boundary`: Use only with `--section-dark` in a dark content surface; it is not an independent page background, foreground colour, or interaction state. Light `#fcfcfa` text has a 9.96:1 contrast ratio on the colour.
+- `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
+- `Verified consumers`: Home inclusive-practice background and Working with Joel topics background.
+- `Promoted`: 2026-08-14 — owner-authorized editorial-material consolidation under `DEBT-37`.
 
 ### `--section-rule`
 
-- `Contract`: Cedar-derived boundary (`rgba(35, 75, 61, 0.22)`) below `.site-section-warm`.
-- `Boundary`: It is a quiet decorative separator, not a general border token or the sole cue to content structure.
-- `Implementation`: Defined on `:root` in `src/design-system/foundations.css` and used by `.site-section-warm`.
-- `Verified consumers`: The supported warm editorial sections across all seven public content routes.
+- `Contract`: Cedar-derived boundary (`rgba(35, 75, 61, 0.22)`) for quiet separators on supported light editorial materials.
+- `Boundary`: It is not a general site-chrome or form-control border token and must not be the sole cue to content structure. The Contact form's stronger and quieter rules retain their page-owned opacities.
+- `Implementation`: Defined on `:root` in `src/design-system/foundations.css` and used by `.site-section-warm` and verified editorial consumers.
+- `Verified consumers`: Supported warm sections and closing invitations; Documents boundaries and Markdown content; Crisis Support service and region separators; and editorial rules across Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+.
 - `Promoted`: 2026-08-05 — shared warm-section pattern promotion under `DEBT-37`.
+
+### `--section-dark-rule`
+
+- `Contract`: Pale translucent boundary (`rgba(232, 239, 233, 0.2)`) for quiet separators over supported dark editorial and hero materials.
+- `Boundary`: It is decorative, not a text colour, a light-surface rule, or the sole cue to content structure. Over `--section-dark` it composites to approximately `#41564f`.
+- `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
+- `Verified consumers`: Specialist counselling hero actions; Home inclusive-practice topics; Working with Joel dark topics; Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+ dark editorial regions; and the Documents hero.
+- `Promoted`: 2026-08-14 — owner-authorized editorial-material consolidation under `DEBT-37`.

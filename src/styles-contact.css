@@ -2,7 +2,6 @@
 
 .codex-contact {
   --codex-contact-rule: rgba(35, 75, 61, 0.2);
-  --codex-contact-quiet-rule: rgba(35, 75, 61, 0.12);
   background: var(--paper);
 }
 
@@ -39,7 +38,7 @@
 .codex-contact__essentials {
   scroll-margin-top: 84px;
   border-bottom: 1px solid var(--codex-contact-rule);
-  background: #dfe8dc;
+  background: var(--section-sage);
 }
 
 .codex-contact__essentials-list {
@@ -137,7 +136,7 @@
 
 .codex-contact__first-message h2 {
   max-width: 12ch;
-  color: var(--accent-deep);
+  color: var(--section-dark);
   font-size: clamp(2.2rem, 3.2vw, 3.15rem);
   letter-spacing: -0.035em;
   line-height: 1.02;
@@ -413,7 +412,7 @@
   place-items: center;
   border: 1px solid rgba(35, 75, 61, 0.28);
   border-radius: 50%;
-  background: #dfe8dc;
+  background: var(--section-sage);
   color: var(--cedar-dark);
 }
 

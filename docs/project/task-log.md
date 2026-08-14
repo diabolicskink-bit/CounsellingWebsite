@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-14 - Editorial Material Palette Promoted
+
+- Promoted: Warm paper, sage, deep and softened green, and matching light- and dark-surface rules now form one six-token `--section-*` foundation palette with documented semantic and contrast boundaries.
+- Consolidated: Public editorial pages, shared specialist heroes, and the development Documents and Design System workspaces consume the shared foundations directly instead of carrying route-prefixed copies.
+- Preserved: The lighter root page canvas, shared chrome and footer roles, Contact-specific rule opacities, and nearby page-owned dark greens remain distinct rather than being merged by literal colour alone.
+
 ## 2026-08-14 - Public Browser Suite Simplified
 
 - Reduced: The Playwright suite now has 37 focused cases in one Chromium project instead of 262 cases duplicated across desktop and mobile Chromium profiles.

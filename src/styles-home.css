@@ -2,9 +2,6 @@
    to Vive, and a practical inclusive-practice index. */
 
 .home-page {
-  --home-dark: #173028;
-  --home-dark-soft: #21483a;
-  --home-dark-rule: rgba(232, 239, 233, 0.2);
   --home-type-action: clamp(1.12rem, 1.45vw, 1.25rem);
 }
 
@@ -51,7 +48,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   max-width: 640px;
   margin-top: 16px;
-  border-top: 1px solid var(--home-dark-rule);
+  border-top: 1px solid var(--section-dark-rule);
 }
 
 .home-page .home-page__hero-action.button {
@@ -62,8 +59,8 @@
   gap: 20px;
   padding: 11px 18px 11px 2px;
   border: 0;
-  border-right: 1px solid var(--home-dark-rule);
-  border-bottom: 1px solid var(--home-dark-rule);
+  border-right: 1px solid var(--section-dark-rule);
+  border-bottom: 1px solid var(--section-dark-rule);
   border-radius: 0;
   background: transparent;
   box-shadow: none;
@@ -250,7 +247,7 @@
   border-bottom: 1px solid rgba(8, 31, 23, 0.5);
   background:
     radial-gradient(circle at 92% 5%, rgba(104, 143, 119, 0.28), transparent 31%),
-    linear-gradient(142deg, #122b23 0%, var(--home-dark) 48%, var(--home-dark-soft) 100%);
+    linear-gradient(142deg, #122b23 0%, var(--section-dark) 48%, var(--section-dark-soft) 100%);
 }
 
 .home-inclusive__header {
@@ -339,7 +336,6 @@
 }
 
 .home-inclusive__topic {
-  --topic-ink: #173028;
 
   position: relative;
   overflow: hidden;
@@ -353,7 +349,7 @@
   box-shadow:
     0 28px 52px rgba(4, 19, 14, 0.22),
     0 7px 16px rgba(4, 19, 14, 0.16);
-  color: var(--topic-ink);
+  color: var(--section-dark);
   text-decoration: none;
   transition:
     box-shadow 180ms ease,
@@ -413,7 +409,7 @@
   width: 22px;
   height: 22px;
   padding: 12px;
-  background: var(--topic-ink);
+  background: var(--section-dark);
   color: var(--topic-surface);
   transition: transform 180ms ease;
 }
@@ -507,7 +503,7 @@
   .home-page .home-page__hero-action.button:last-child {
     min-height: 54px;
     padding: 12px 16px 12px 2px;
-    border-right: 1px solid var(--home-dark-rule);
+    border-right: 1px solid var(--section-dark-rule);
   }
 
   .home-page .home-page__hero-action.button:last-child {

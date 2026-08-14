@@ -1,7 +1,6 @@
 .crisis-support-page {
   --crisis-ink: #17231f;
   --crisis-emergency-deep: #60221d;
-  --crisis-rule: rgba(35, 75, 61, 0.22);
   --crisis-section-padding: 60px;
   --crisis-soft-green: rgba(35, 75, 61, 0.045);
   background: var(--paper);
@@ -121,7 +120,7 @@
   display: grid;
   margin: clamp(42px, 6vw, 72px) 0 0;
   padding: 0;
-  border-top: 1px solid var(--crisis-rule);
+  border-top: 1px solid var(--section-rule);
   list-style: none;
 }
 
@@ -131,7 +130,7 @@
   align-items: center;
   gap: 30px 52px;
   padding-block: 30px;
-  border-bottom: 1px solid var(--crisis-rule);
+  border-bottom: 1px solid var(--section-rule);
 }
 
 .crisis-support-page__service-copy,
@@ -233,7 +232,7 @@
 }
 
 .crisis-support-page__states {
-  border-bottom: 1px solid var(--crisis-rule);
+  border-bottom: 1px solid var(--section-rule);
   background: var(--paper);
 }
 
@@ -243,7 +242,7 @@
   gap: 22px;
   margin-top: clamp(36px, 5vw, 58px);
   padding: 12px 10px;
-  border-block: 1px solid var(--crisis-rule);
+  border-block: 1px solid var(--section-rule);
   background: rgba(35, 75, 61, 0.025);
   color: var(--muted);
   font-size: var(--type-small);
@@ -285,7 +284,7 @@
   gap: 24px clamp(24px, 4vw, 56px);
   scroll-margin-top: 92px;
   padding-block: 30px;
-  border-bottom: 1px solid var(--crisis-rule);
+  border-bottom: 1px solid var(--section-rule);
   transition: background-color 160ms ease;
 }
 

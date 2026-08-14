@@ -9,7 +9,11 @@
   --portrait-frame: #e4d9cc;
   --portrait-footer-tint: rgba(32, 21, 17, 0.12);
   --section-warm: #f2efe8;
+  --section-sage: #dfe8dc;
+  --section-dark: #173028;
+  --section-dark-soft: #21483a;
   --section-rule: rgba(35, 75, 61, 0.22);
+  --section-dark-rule: rgba(232, 239, 233, 0.2);
 }
 
 .site-reading {

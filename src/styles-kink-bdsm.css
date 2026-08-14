@@ -1,20 +1,15 @@
 .kink-page {
   --kink-dark: #163229;
-  --kink-dark-soft: #244d3e;
-  --kink-paper: #f2efe8;
-  --kink-sage: #dfe8dc;
-  --kink-rule: rgba(35, 75, 61, 0.22);
-  --kink-dark-rule: rgba(232, 239, 233, 0.2);
 
-  background: var(--kink-paper);
+  background: var(--section-warm);
 }
 
 .kink-page__fluency {
   padding: 60px 0;
-  border-bottom: 1px solid var(--kink-rule);
+  border-bottom: 1px solid var(--section-rule);
   background:
     radial-gradient(circle at 8% 12%, rgba(252, 252, 250, 0.48), transparent 28%),
-    var(--kink-sage);
+    var(--section-sage);
 }
 
 .kink-page__fluency-layout {
@@ -81,7 +76,7 @@
   max-width: 64ch;
   margin-top: 4px;
   padding: 4px 0 4px 30px;
-  border-left: 1px solid var(--kink-rule);
+  border-left: 1px solid var(--section-rule);
 }
 
 .kink-page .kink-page__misread-copy p {
@@ -92,7 +87,7 @@
 
 .kink-page .kink-page__misread-copy p + p {
   padding-top: 20px;
-  border-top: 1px solid var(--kink-rule);
+  border-top: 1px solid var(--section-rule);
 }
 
 .kink-page__more {
@@ -125,7 +120,7 @@
   gap: 20px;
   max-width: 64ch;
   padding: 4px 0 4px 30px;
-  border-left: 1px solid var(--kink-dark-rule);
+  border-left: 1px solid var(--section-dark-rule);
 }
 
 .kink-page .kink-page__more-copy p {
@@ -191,6 +186,6 @@
 
   .kink-page .kink-page__misread-copy p + p {
     padding-top: 18px;
-    border-top: 1px solid var(--kink-rule);
+    border-top: 1px solid var(--section-rule);
   }
 }

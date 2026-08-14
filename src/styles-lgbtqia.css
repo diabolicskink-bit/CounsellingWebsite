@@ -1,16 +1,9 @@
 .lgbtqia-page {
-  --lgbtqia-dark: #173028;
-  --lgbtqia-dark-soft: #244d3e;
-  --lgbtqia-paper: #f2efe8;
-  --lgbtqia-sage: #dfe8dc;
-  --lgbtqia-rule: rgba(35, 75, 61, 0.22);
-  --lgbtqia-dark-rule: rgba(232, 239, 233, 0.2);
-
-  background: var(--lgbtqia-paper);
+  background: var(--section-warm);
 }
 
 .site-shell:has(.lgbtqia-page) {
-  background: var(--lgbtqia-paper);
+  background: var(--section-warm);
 }
 
 .lgbtqia-page__recognition-title,
@@ -35,8 +28,8 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 42px 0 0;
   padding: 0;
-  border-top: 1px solid var(--lgbtqia-rule);
-  border-bottom: 1px solid var(--lgbtqia-rule);
+  border-top: 1px solid var(--section-rule);
+  border-bottom: 1px solid var(--section-rule);
   list-style: none;
 }
 
@@ -57,13 +50,13 @@
 }
 
 .lgbtqia-page__recognition-list li + li {
-  border-left: 1px solid var(--lgbtqia-rule);
+  border-left: 1px solid var(--section-rule);
 }
 
 .lgbtqia-page__recognition-list h3 {
   max-width: 15ch;
   margin: 0;
-  color: var(--lgbtqia-dark);
+  color: var(--section-dark);
   font-family: var(--font-serif);
   font-size: clamp(1.42rem, 1.9vw, 1.72rem);
   font-weight: 500;
@@ -80,18 +73,18 @@
 
 .lgbtqia-page__assumptions {
   padding: 60px 0;
-  border-bottom: 1px solid var(--lgbtqia-rule);
+  border-bottom: 1px solid var(--section-rule);
   background:
     radial-gradient(circle at 8% 12%, rgba(252, 252, 250, 0.48), transparent 28%),
-    var(--lgbtqia-sage);
+    var(--section-sage);
 }
 
 .lgbtqia-page__assumptions-layout {
   display: grid;
   grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
   align-items: stretch;
-  border-top: 1px solid var(--lgbtqia-rule);
-  border-bottom: 1px solid var(--lgbtqia-rule);
+  border-top: 1px solid var(--section-rule);
+  border-bottom: 1px solid var(--section-rule);
 }
 
 .lgbtqia-page__disclosure-layout {
@@ -114,7 +107,7 @@
 
 .lgbtqia-page__assumptions-title {
   max-width: 11ch;
-  color: var(--lgbtqia-dark);
+  color: var(--section-dark);
   font-size: clamp(2.85rem, 4vw, 3.75rem);
   line-height: 0.97;
 }
@@ -130,13 +123,13 @@
   gap: 22px;
   align-content: start;
   padding: 38px clamp(30px, 4.4vw, 64px) 42px;
-  border-left: 1px solid var(--lgbtqia-rule);
+  border-left: 1px solid var(--section-rule);
   background: rgba(252, 252, 250, 0.5);
 }
 
 .lgbtqia-page .lgbtqia-page__assumptions-label {
   margin: 0;
-  color: var(--lgbtqia-dark);
+  color: var(--section-dark);
   font-family: var(--font-serif);
   font-size: clamp(1.35rem, 1.8vw, 1.6rem);
   font-weight: 500;
@@ -147,14 +140,14 @@
   display: grid;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--lgbtqia-rule);
+  border-top: 1px solid var(--section-rule);
   list-style: none;
 }
 
 .lgbtqia-page__assumptions-list li {
   padding: 18px 0 19px;
-  border-bottom: 1px solid var(--lgbtqia-rule);
-  color: var(--lgbtqia-dark);
+  border-bottom: 1px solid var(--section-rule);
+  color: var(--section-dark);
   font-size: clamp(1rem, 1.12vw, 1.06rem);
   line-height: 1.58;
   text-wrap: pretty;
@@ -165,7 +158,7 @@
   border-bottom: 1px solid rgba(252, 252, 250, 0.12);
   background:
     radial-gradient(ellipse at 82% 16%, rgba(110, 159, 128, 0.22), transparent 42%),
-    linear-gradient(132deg, #132b23 0%, var(--lgbtqia-dark) 58%, #21473a 100%);
+    linear-gradient(132deg, #132b23 0%, var(--section-dark) 58%, #21473a 100%);
 }
 
 .lgbtqia-page .lgbtqia-page__disclosure-title {
@@ -182,7 +175,7 @@
   max-width: 18ch;
   margin: 0;
   padding-top: 26px;
-  border-top: 1px solid var(--lgbtqia-dark-rule);
+  border-top: 1px solid var(--section-dark-rule);
   color: #d9e5d9;
   font-family: var(--font-serif);
   font-size: clamp(1.55rem, 2.35vw, 2rem);
@@ -195,13 +188,13 @@
 .lgbtqia-page__disclosure-copy {
   display: grid;
   max-width: 66ch;
-  border-top: 1px solid var(--lgbtqia-dark-rule);
+  border-top: 1px solid var(--section-dark-rule);
 }
 
 .lgbtqia-page .lgbtqia-page__disclosure-copy p {
   margin: 0;
   padding: 22px 0 24px;
-  border-bottom: 1px solid var(--lgbtqia-dark-rule);
+  border-bottom: 1px solid var(--section-dark-rule);
   color: rgba(239, 244, 240, 0.86);
   text-wrap: pretty;
 }
@@ -241,7 +234,7 @@
     height: 11px;
     border: 2px solid var(--cedar);
     border-radius: 50%;
-    background: var(--lgbtqia-paper);
+    background: var(--section-warm);
     content: "";
   }
 
