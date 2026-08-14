@@ -9,17 +9,6 @@ const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
-const prerenderedRoutePaths = [
-  "/",
-  "/working-with-joel",
-  "/inclusive-counselling",
-  "/kink-bdsm-counselling",
-  "/polyamory-enm-counselling",
-  "/lgbtqia-affirming-counselling",
-  "/crisis-support",
-  "/contact",
-];
-const indexableRoutePaths = prerenderedRoutePaths;
 const prerenderedRouteSmokeFragments = {
   "/": [
     '<main class="site-page home-page">',
@@ -96,6 +85,8 @@ const prerenderedRouteSmokeFragments = {
     'href="mailto:joel@vivecounselling.com.au"',
   ],
 };
+const prerenderedRoutePaths = Object.keys(prerenderedRouteSmokeFragments);
+const indexableRoutePaths = prerenderedRoutePaths;
 const prerenderedRouteSmokeForbiddenFragments = {};
 const notFoundFallback = {
   h1: "That page isn't here.",

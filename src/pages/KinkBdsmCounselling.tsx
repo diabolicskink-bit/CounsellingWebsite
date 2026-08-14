@@ -1,7 +1,7 @@
 import Container from "../components/Container";
 import ContactInvitation from "../components/ContactInvitation";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-kink-bdsm.css";
 import SpecialistCounsellingHero from "./SpecialistCounsellingHero";
@@ -38,7 +38,7 @@ type KinkPageContent = {
   };
 };
 
-const kinkMetadata = getRouteMetadata("/kink-bdsm-counselling");
+const kinkMetadata = getRouteMetadata(publicRoutePaths.kinkBdsm);
 
 const kinkPageContent: KinkPageContent = {
   title: kinkMetadata.title,
@@ -51,11 +51,11 @@ const kinkPageContent: KinkPageContent = {
     },
     primaryAction: {
       label: "Make an enquiry",
-      href: routeHref(publicRoutePaths.contact),
+      href: publicRoutePaths.contact,
     },
     secondaryAction: {
       label: "Back to inclusive counselling",
-      href: routeHref(publicRoutePaths.inclusion),
+      href: publicRoutePaths.inclusion,
     },
   },
   fluency: {

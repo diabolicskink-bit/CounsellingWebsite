@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import Container from "./Container";
 
-const contactHref = routeHref(publicRoutePaths.contact);
+const contactHref = publicRoutePaths.contact;
 
 /**
  * Canonical closing invitation for public pages that lead naturally into the

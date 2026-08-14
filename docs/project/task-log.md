@@ -24,6 +24,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Added a separate sensitive Production retention secret and configured the future Production build to record only on the apex and `www` Vive hostnames.
 - Removed the two synthetic Slice 7 visits and their three cascading page views from the shared database. No production deployment was made, so live visit collection has not started.
 
+## 2026-08-14 - Public Browser Suite Simplified
+
+- Reduced: The Playwright suite now has 37 focused cases in one Chromium project instead of 262 cases duplicated across desktop and mobile Chromium profiles.
+- Removed: Broad copy, class-count, pixel-alignment, asset-byte, raw-markup, generated-metadata, and duplicate-artifact assertions no longer mirror page source and build implementation inside browser tests.
+- Preserved: Route hydration and diagnostics, navigation and mobile focus/scroll behaviour, progressive enhancement, core first-response metadata, redirects, analytics privacy and events, enquiry success/error behaviour, responsive overflow, and axe coverage remain automated; detailed generated artifacts stay with the build generator and manual metadata monitor.
+- Resolved: `DEBT-34` is archived under the new durable testing strategy.
+
 ## 2026-08-13 - First-Party Visit Ledger Preview Connected
 
 - Connected a Vercel-managed Neon resource to Development and Preview only, added checksum-tracked transactional migrations, and applied the two visit-ledger migrations outside production.
@@ -36,6 +43,19 @@ Curated milestone history for durable project state. This is not a full changelo
 - Added: Five Neon query templates cover newest-first inspection, anonymous-browser grouping, today's Australia/Perth overview, 30-day source/ad reporting, and one visit's ordered page sequence.
 - Added: Anonymous browser IDs rotate after 12 calendar months, and a protected daily Vercel job removes visits older than 12 months with their related page views.
 - Preserved: Reporting has no public read endpoint, no Neon resource has been provisioned, and production collection remains disabled pending preview testing and owner approval.
+
+## 2026-08-13 - Public Route Parity Enforced
+
+- Simplified: Public and development route constants now store final absolute hrefs, removing the repeated `routeHref()` conversion layer from navigation, pages, metadata lookups, redirects, and development tools.
+- Consolidated: Prerendering and browser tests derive their route inventories from existing route contract maps rather than maintaining separate seven-route lists.
+- Guarded: Direct script tests compare public route constants with metadata and validate redirect destinations; the production build continues to enforce metadata, rendered-route, and prerender-contract parity.
+- Resolved: `DEBT-8` moved to the project debt archive without introducing a shared route manifest.
+
+## 2026-08-13 - Dormant Inherited Presentation Layer Removed
+
+- Removed: Unmounted global card, topic, checklist, fee, detail, CTA, list, and hero selector families plus their responsive rules and orphaned tokens no longer ship in production CSS.
+- Simplified: The unused `SectionHeading` component and unconsumed tertiary `Button` variant were removed; live Working with Joel layout, tabs, portrait, and shared-shell styles remain intact.
+- Reconciled: The active cedar evidence, development specimen, and living legacy registers now describe only current source and verified consumers.
 
 ## 2026-08-13 - Shared Reading Typography Tightened
 

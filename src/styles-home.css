@@ -134,7 +134,7 @@
   text-wrap: balance;
 }
 
-.home-about__profile {
+.home-about > .container {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: clamp(20px, 2.4vw, 36px);
@@ -251,11 +251,6 @@
   background:
     radial-gradient(circle at 92% 5%, rgba(104, 143, 119, 0.28), transparent 31%),
     linear-gradient(142deg, #122b23 0%, var(--home-dark) 48%, var(--home-dark-soft) 100%);
-}
-
-.home-inclusive__inner {
-  display: grid;
-  gap: 0;
 }
 
 .home-inclusive__header {
@@ -520,7 +515,7 @@
     border-right: 0;
   }
 
-  .home-about__profile {
+  .home-about > .container {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: clamp(30px, 5vw, 48px);
   }
@@ -638,7 +633,7 @@
     line-height: 0.9;
   }
 
-  .home-about__profile {
+  .home-about > .container {
     grid-template-columns: minmax(0, 1fr);
     column-gap: 0;
   }

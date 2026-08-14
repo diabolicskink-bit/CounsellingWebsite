@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../styles-inclusive-practice.css";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 
 type InclusionChapter = {
@@ -28,7 +28,7 @@ type InclusionPageContent = {
   chapters: InclusionChapter[];
 };
 
-const inclusionMetadata = getRouteMetadata("/inclusive-counselling");
+const inclusionMetadata = getRouteMetadata(publicRoutePaths.inclusion);
 
 const inclusionPageContent: InclusionPageContent = {
   title: inclusionMetadata.title,
@@ -46,7 +46,7 @@ const inclusionPageContent: InclusionPageContent = {
     {
       id: "kink-bdsm",
       heading: "Kink & BDSM-aware counselling",
-      href: routeHref(publicRoutePaths.kinkBdsm),
+      href: publicRoutePaths.kinkBdsm,
       overview:
         "Use the words you normally use. Kink may be the reason for counselling, relevant to a relationship or simply part of your life. I already understand the basics of D/s, power exchange, consent, drop and common kink practices, so the session does not have to begin with an introduction. I will still ask what something means for you. The same label can describe very different relationships and experiences.",
       linkLabel: "Read about kink & BDSM-aware counselling",
@@ -54,7 +54,7 @@ const inclusionPageContent: InclusionPageContent = {
     {
       id: "enm-polyamory",
       heading: "ENM & polyamory counselling",
-      href: routeHref(publicRoutePaths.enmPolyamory),
+      href: publicRoutePaths.enmPolyamory,
       overview:
         "Polyamory and ENM do not come with one correct relationship shape. Opening a relationship, jealousy, agreements, time, a mono/poly difference or the effect one relationship has on another can all bring someone to counselling. Sometimes non-monogamy is simply part of the background. I work from the relationships that actually exist and the goals of the people involved, without treating monogamy or non-monogamy as the preferred result.",
       linkLabel: "Read about ENM & polyamory counselling",
@@ -62,7 +62,7 @@ const inclusionPageContent: InclusionPageContent = {
     {
       id: "lgbtqia",
       heading: "LGBTQIA+ affirming counselling",
-      href: routeHref(publicRoutePaths.lgbtqia),
+      href: publicRoutePaths.lgbtqia,
       overview:
         "Sexuality, gender or sex characteristics may be the question, part of the context or barely relevant to what you want to discuss. LGBTQIA+ affirming counselling can include questioning, disclosure, family, faith and relationships, as well as anxiety, grief or work. Identity is not debated, and being more open is not assumed to be the goal.",
       linkLabel: "Read about LGBTQIA+ affirming counselling",

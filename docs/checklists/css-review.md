@@ -6,6 +6,8 @@ Use this checklist to expand, review, and record decisions about CSS in manageab
 
 > **Rendered-catalogue retirement:** The `/design-language/*` routes and their source modules were removed on 2026-08-03. Earlier `Used By`, `Evidence`, or architecture notes that mention rendered design-system examples are dated review history, not current consumers or reusable-API evidence. Re-run source usage before acting on any affected item.
 
+> **Dormant presentation cleanup:** The 2026-08-13 source-first cleanup actioned the unmounted selector families and tokens previously recorded here, including the dormant body-copy aliases, rich-text descendants, tertiary button variant, card/topic/check/fee/detail/CTA/list systems, unused hero subsets, and uncalled `SectionHeading` component. Earlier leaf evidence remains dated review history; the living current-source inventory is `docs/design-system-legacy/`.
+
 ## Status Labels
 
 - `Bucket`: A high-level area exists, but has not been expanded into reviewable children.

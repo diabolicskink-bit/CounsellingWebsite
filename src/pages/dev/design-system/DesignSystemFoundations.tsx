@@ -85,7 +85,7 @@ export default function DesignSystemFoundations() {
         <DesignSystemSpecimen
           consumers={[
             ".site-header .header-button and .button--primary",
-            ".rich-text a, .site-text-link, and .site-card__action",
+            ".site-footer focus-visible states",
             ".contact-invitation__action and Contact form focus states",
           ]}
           identifier="--cedar"

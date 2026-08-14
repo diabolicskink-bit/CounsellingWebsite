@@ -1,38 +1,36 @@
 import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
-import handler from "../../api/enquiry.ts";
+import { handleEnquiry } from "../../api/enquiry.ts";
 
-const deliveryEnvKeys = ["RESEND_API_KEY", "ENQUIRY_FROM_EMAIL", "ENQUIRY_TO_EMAIL"];
-const originalEnv = Object.fromEntries(deliveryEnvKeys.map((key) => [key, process.env[key]]));
-const originalFetch = globalThis.fetch;
-const originalConsoleError = console.error;
-const originalConsoleWarn = console.warn;
 const publicFailureMessage = "Sorry, the enquiry could not be sent. Please email joel@vivecounselling.com.au directly.";
 
-afterEach(() => {
-  for (const key of deliveryEnvKeys) {
-    if (typeof originalEnv[key] === "undefined") {
-      delete process.env[key];
-    } else {
-      process.env[key] = originalEnv[key];
-    }
-  }
+function createDependencies() {
+  return {
+    environment: {},
+    fetch: async () => {
+      throw new Error("Unexpected fetch call");
+    },
+    logError: () => {},
+    logWarning: () => {},
+  };
+}
 
-  globalThis.fetch = originalFetch;
-  console.error = originalConsoleError;
-  console.warn = originalConsoleWarn;
+let dependencies = createDependencies();
+
+afterEach(() => {
+  dependencies = createDependencies();
 });
 
 function setDeliveryEnv() {
-  process.env.RESEND_API_KEY = "test_resend_key";
-  process.env.ENQUIRY_FROM_EMAIL = "no-reply@vivecounselling.com.au";
-  process.env.ENQUIRY_TO_EMAIL = "inbox@example.com";
+  dependencies.environment = {
+    ENQUIRY_FROM_EMAIL: "no-reply@vivecounselling.com.au",
+    ENQUIRY_TO_EMAIL: "inbox@example.com",
+    RESEND_API_KEY: "test_resend_key",
+  };
 }
 
 function clearDeliveryEnv() {
-  for (const key of deliveryEnvKeys) {
-    delete process.env[key];
-  }
+  dependencies.environment = {};
 }
 
 function createResponse() {
@@ -66,13 +64,14 @@ function createResponse() {
 async function invokeHandler(body, options = {}) {
   const { response, result } = createResponse();
   const headers = options.headers === undefined ? jsonHeaders() : options.headers;
-  const returned = await handler(
+  const returned = await handleEnquiry(
     {
       body,
       headers,
       method: options.method ?? "POST",
     },
     response,
+    dependencies,
   );
 
   return returned ?? result;
@@ -81,7 +80,7 @@ async function invokeHandler(body, options = {}) {
 function mockResendSuccess() {
   const calls = [];
 
-  globalThis.fetch = async (url, init) => {
+  dependencies.fetch = async (url, init) => {
     calls.push({
       body: JSON.parse(init.body),
       headers: init.headers,
@@ -103,7 +102,7 @@ function mockResendSuccess() {
 function mockResendFailure({ status = 429, statusText = "Too Many Requests", text = "quota exceeded" } = {}) {
   const calls = [];
 
-  globalThis.fetch = async (url, init) => {
+  dependencies.fetch = async (url, init) => {
     calls.push({
       body: JSON.parse(init.body),
       headers: init.headers,
@@ -125,7 +124,7 @@ function mockResendFailure({ status = 429, statusText = "Too Many Requests", tex
 function mockConsoleError() {
   const calls = [];
 
-  console.error = (...args) => {
+  dependencies.logError = (...args) => {
     calls.push(args.map(String).join(" "));
   };
 
@@ -135,7 +134,7 @@ function mockConsoleError() {
 function mockConsoleWarn() {
   const calls = [];
 
-  console.warn = (...args) => {
+  dependencies.logWarning = (...args) => {
     calls.push(args);
   };
 
@@ -216,7 +215,7 @@ test("accepts a structured general enquiry and builds the Resend email server-si
 
 test("uses the visitor name with the configured sender address", async () => {
   setDeliveryEnv();
-  process.env.ENQUIRY_FROM_EMAIL = "Vive Counselling <no-reply@vivecounselling.com.au>";
+  dependencies.environment.ENQUIRY_FROM_EMAIL = "Vive Counselling <no-reply@vivecounselling.com.au>";
   const fetchCalls = mockResendSuccess();
 
   const result = await invokeHandler(
@@ -306,7 +305,7 @@ test("rejects a missing content type safely before delivery", async () => {
   setDeliveryEnv();
   const consoleWarnings = mockConsoleWarn();
   let fetchCalled = false;
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called for blocked request shapes");
   };
@@ -323,7 +322,7 @@ test("rejects an unsupported content type safely before delivery", async () => {
   setDeliveryEnv();
   const consoleWarnings = mockConsoleWarn();
   let fetchCalled = false;
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called for blocked request shapes");
   };
@@ -344,7 +343,7 @@ test("rejects multipart form submissions with a safe HTML failure page", async (
   setDeliveryEnv();
   const consoleWarnings = mockConsoleWarn();
   let fetchCalled = false;
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called for multipart submissions");
   };
@@ -372,7 +371,7 @@ test("rejects an oversized declared body safely before delivery", async () => {
   setDeliveryEnv();
   const consoleWarnings = mockConsoleWarn();
   let fetchCalled = false;
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called for oversized submissions");
   };
@@ -393,7 +392,7 @@ test("rejects an explicit cross-site fetch-site signal safely before delivery", 
   setDeliveryEnv();
   const consoleWarnings = mockConsoleWarn();
   let fetchCalled = false;
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called for cross-site submissions");
   };
@@ -414,7 +413,7 @@ test("rejects a mismatched origin safely before delivery", async () => {
   setDeliveryEnv();
   const consoleWarnings = mockConsoleWarn();
   let fetchCalled = false;
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called for mismatched origins");
   };
@@ -437,7 +436,7 @@ test("rejects a mismatched referer when origin is absent safely before delivery"
   setDeliveryEnv();
   const consoleWarnings = mockConsoleWarn();
   let fetchCalled = false;
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called for mismatched referers");
   };
@@ -461,7 +460,7 @@ test("rejects a mismatched referer when origin is absent safely before delivery"
 test("short-circuits honeypot submissions without sending email", async () => {
   clearDeliveryEnv();
   let fetchCalled = false;
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called for honeypot submissions");
   };
@@ -482,7 +481,7 @@ test("short-circuits honeypot submissions without sending email", async () => {
 test("rejects the old composed subject body replyTo payload", async () => {
   setDeliveryEnv();
   let fetchCalled = false;
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called for invalid submissions");
   };
@@ -536,7 +535,7 @@ test("returns a generic public error and logs details when delivery env is missi
   clearDeliveryEnv();
   const consoleErrors = mockConsoleError();
   let fetchCalled = false;
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called without delivery config");
   };
@@ -581,7 +580,7 @@ test("returns a generic public error and logs details when Resend throws unexpec
   setDeliveryEnv();
   const consoleErrors = mockConsoleError();
 
-  globalThis.fetch = async () => {
+  dependencies.fetch = async () => {
     throw new Error("network socket reset");
   };
 
