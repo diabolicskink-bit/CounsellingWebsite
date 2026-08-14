@@ -2,6 +2,12 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-34 - Public-page tests need opportunistic maintenance
+
+Resolved on 2026-08-14 by replacing the page-markup and generated-artifact mirror in `tests/public-site.spec.ts` with a durable visitor-behaviour suite. Browser cases fell from 262 across two Chromium profiles to 37 in one Chromium project; targeted mobile viewport, route hydration, navigation, progressive-enhancement, analytics, form, responsive, and accessibility checks remain.
+
+Core first-response title, description, canonical, robots, and sitemap checks remain. Detailed raw prerender structure, structured/social metadata construction, duplicate output forms, asset bytes, and the controlled 404 artifact stay with build generation and the manual metadata monitor instead of being restated in Playwright. This explicit test strategy supersedes the page-by-page maintenance checklist; focused tests should still be reviewed when their owned visitor behaviour changes.
+
 ### DEBT-8 - Route parity coverage needs explicit enforcement
 
 Resolved on 2026-08-13 by normalizing public and development route constants to their actual absolute hrefs, removing the repeated `routeHref()` conversion layer, and using those constants for page metadata lookups as well as navigation and registration. A focused direct test now fails when the public constants and metadata-backed route set diverge or a redirect leaves the canonical route set.

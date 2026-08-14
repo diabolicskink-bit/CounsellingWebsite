@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-14 - Public Browser Suite Simplified
+
+- Reduced: The Playwright suite now has 37 focused cases in one Chromium project instead of 262 cases duplicated across desktop and mobile Chromium profiles.
+- Removed: Broad copy, class-count, pixel-alignment, asset-byte, raw-markup, generated-metadata, and duplicate-artifact assertions no longer mirror page source and build implementation inside browser tests.
+- Preserved: Route hydration and diagnostics, navigation and mobile focus/scroll behaviour, progressive enhancement, core first-response metadata, redirects, analytics privacy and events, enquiry success/error behaviour, responsive overflow, and axe coverage remain automated; detailed generated artifacts stay with the build generator and manual metadata monitor.
+- Resolved: `DEBT-34` is archived under the new durable testing strategy.
+
 ## 2026-08-13 - Public Route Parity Enforced
 
 - Simplified: Public and development route constants now store final absolute hrefs, removing the repeated `routeHref()` conversion layer from navigation, pages, metadata lookups, redirects, and development tools.

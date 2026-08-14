@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Button from "../components/Button";
 import Container from "../components/Container";
-import { enquiryEmail, enquirySuccessContent } from "../data/enquiry";
+import {
+  enquiryEmail,
+  enquiryFailureContent,
+  enquirySuccessContent,
+} from "../data/enquiry";
 import {
   australianStateOptions,
   bookingTypes,
@@ -443,8 +447,11 @@ function ContactEnquiryForm() {
           {submitStatus === "error" ? (
             <div className="codex-contact__submission-error" role="alert">
               <p>
-                Sorry, the enquiry could not be sent. Please email{" "}
-                <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a> directly.
+                {enquiryFailureContent.messageBeforeEmail}{" "}
+                <a href={`mailto:${enquiryFailureContent.email}`}>
+                  {enquiryFailureContent.email}
+                </a>{" "}
+                {enquiryFailureContent.messageAfterEmail}
               </p>
             </div>
           ) : null}
