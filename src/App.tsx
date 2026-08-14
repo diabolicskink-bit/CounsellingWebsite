@@ -24,6 +24,7 @@ const devPages = import.meta.env.DEV
       DesignSystemPatterns: lazy(() => import("./pages/dev/design-system/DesignSystemPatterns")),
       Documents: lazy(() => import("./pages/dev/Documents")),
       OpusTB: lazy(() => import("./pages/dev/test-beds/OpusTB")),
+      VisitReportMock: lazy(() => import("./pages/dev/VisitReportMock")),
     }
   : null;
 
@@ -57,6 +58,12 @@ export default function App({ initialRenderAt }: AppProps) {
     <>
       <ScrollToTop />
       <Routes>
+        {devPages ? (
+          <Route
+            path={devRoutePaths.visitReport}
+            element={renderDevPage(devPages.VisitReportMock)}
+          />
+        ) : null}
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           {publicRedirectRoutes.map((route) => (
