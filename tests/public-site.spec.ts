@@ -28,6 +28,7 @@ const expectedSocialProfileLinks = [
 const noindexDirective = "noindex, nofollow";
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 const analyticsConfigured = process.env.VITE_ANALYTICS_ENABLED === "true";
+const visitAnalyticsConfigured = process.env.VITE_VISIT_ANALYTICS_ENABLED === "true";
 const qaRuntimeUrl = new URL(process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:4287");
 const qaRuntimeOrigin = qaRuntimeUrl.origin;
 
@@ -61,15 +62,27 @@ const analyticsAllowedHostnames = new Set(
     .map((hostname) => normalizeAnalyticsHostname(hostname))
     .filter((hostname): hostname is string => Boolean(hostname)),
 );
+const visitAnalyticsAllowedHostnames = new Set(
+  (process.env.VITE_VISIT_ANALYTICS_ALLOWED_HOSTS ?? "")
+    .split(",")
+    .map((hostname) => normalizeAnalyticsHostname(hostname))
+    .filter((hostname): hostname is string => Boolean(hostname)),
+);
 const qaRuntimeHostAllowed = analyticsAllowedHostnames.has(qaRuntimeUrl.hostname);
+const qaRuntimeHostAllowedForVisitAnalytics = visitAnalyticsAllowedHostnames.has(qaRuntimeUrl.hostname);
 const googleAnalyticsRouteTrackingEnabled =
   analyticsConfigured && qaRuntimeHostAllowed && Boolean(process.env.VITE_GA_MEASUREMENT_ID);
 const microsoftClarityEnabled =
   analyticsConfigured && qaRuntimeHostAllowed && Boolean(process.env.VITE_CLARITY_PROJECT_ID);
 const analyticsConfiguredOnBlockedHost =
-  analyticsConfigured &&
-  !qaRuntimeHostAllowed &&
-  (Boolean(process.env.VITE_GA_MEASUREMENT_ID) || Boolean(process.env.VITE_CLARITY_PROJECT_ID));
+  (
+    analyticsConfigured
+    && !qaRuntimeHostAllowed
+    && (Boolean(process.env.VITE_GA_MEASUREMENT_ID) || Boolean(process.env.VITE_CLARITY_PROJECT_ID))
+  )
+  || (visitAnalyticsConfigured && !qaRuntimeHostAllowedForVisitAnalytics);
+const firstPartyVisitRecordingEnabled =
+  visitAnalyticsConfigured && qaRuntimeHostAllowedForVisitAnalytics;
 
 type PageDiagnostics = {
   consoleErrors: string[];
@@ -390,16 +403,22 @@ test.describe("crawl output", () => {
 test.describe("analytics", () => {
   test("analytics providers are disabled in default QA builds", async ({ page }) => {
     const analyticsRequests: string[] = [];
+    const visitRequests: string[] = [];
 
     page.on("request", (request) => {
       if (isAnalyticsUrl(request.url())) {
         analyticsRequests.push(request.url());
+      }
+
+      if (new URL(request.url()).pathname === "/api/visit") {
+        visitRequests.push(request.url());
       }
     });
 
     await page.goto("/", { waitUntil: "networkidle" });
 
     expect(analyticsRequests).toEqual([]);
+    expect(visitRequests).toEqual([]);
     await expect(
       page.locator(
         [
@@ -418,16 +437,174 @@ test.describe("analytics", () => {
     test.skip(!analyticsConfiguredOnBlockedHost, "Analytics host blocking is covered by npm run qa:analytics.");
 
     const analyticsRequests: string[] = [];
+    const visitRequests: string[] = [];
+
     page.on("request", (request) => {
       if (isAnalyticsUrl(request.url())) {
         analyticsRequests.push(request.url());
+      }
+
+      if (new URL(request.url()).pathname === "/api/visit") {
+        visitRequests.push(request.url());
       }
     });
 
     await page.goto("/", { waitUntil: "networkidle" });
 
     expect(analyticsRequests).toEqual([]);
+    expect(visitRequests).toEqual([]);
     await expect(page.locator("#vive-google-analytics, #vive-microsoft-clarity")).toHaveCount(0);
+  });
+
+  test("first-party visit recorder records SPA route changes and refreshes in the active visit", async ({ page }) => {
+    test.skip(
+      !firstPartyVisitRecordingEnabled,
+      "First-party visit recording is covered by npm run qa:analytics.",
+    );
+
+    const observations: Array<Record<string, unknown>> = [];
+
+    await page.route("**/api/visit", async (route) => {
+      observations.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({ status: 204 });
+    });
+
+    await page.goto(
+      "/polyamory-enm-counselling?ad=enm&net=g&kw=polyamory%20therapy&mt=p&gclid=CjwK-test-click",
+      {
+        referer: "https://referrer.example/articles/open-relationships?source=directory",
+        waitUntil: "networkidle",
+      },
+    );
+
+    await expect.poll(() => observations.length).toBe(1);
+
+    const [observation] = observations;
+    const uuidV4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+
+    expect(observation).toEqual({
+      adCode: "enm",
+      gclid: "CjwK-test-click",
+      landingPath: "/polyamory-enm-counselling",
+      matchType: "p",
+      matchedKeyword: "polyamory therapy",
+      networkCode: "g",
+      pageViewId: expect.stringMatching(uuidV4),
+      path: "/polyamory-enm-counselling",
+      referrerUrl: "https://referrer.example/articles/open-relationships?source=directory",
+      visitId: expect.stringMatching(uuidV4),
+      visitorId: expect.stringMatching(uuidV4),
+    });
+
+    const storedIdentity = await page.evaluate(() => {
+      const visitor = JSON.parse(localStorage.getItem("vive:visit-analytics:visitor:v1") ?? "null");
+      const visit = JSON.parse(sessionStorage.getItem("vive:visit-analytics:visit:v1") ?? "null");
+
+      return {
+        visitId: visit?.id,
+        visitorId: visitor?.id,
+        visitVisitorId: visit?.visitorId,
+      };
+    });
+
+    expect(storedIdentity).toEqual({
+      visitId: observation.visitId,
+      visitorId: observation.visitorId,
+      visitVisitorId: observation.visitorId,
+    });
+
+    await page.getByRole("banner").getByRole("link", { name: "Get in touch" }).click();
+    await expect(page).toHaveURL(/\/contact$/);
+    await expect.poll(() => observations.length).toBe(2);
+
+    expect(observations[1]).toMatchObject({
+      landingPath: observation.landingPath,
+      path: "/contact",
+      referrerUrl: observation.referrerUrl,
+      visitId: observation.visitId,
+      visitorId: observation.visitorId,
+    });
+    expect(observations[1].pageViewId).not.toBe(observation.pageViewId);
+
+    await page.evaluate(() => {
+      history.replaceState({}, "", "/contact?ignored=yes#fees");
+      dispatchEvent(new PopStateEvent("popstate"));
+    });
+    await expect(page).toHaveURL(/\/contact\?ignored=yes#fees$/);
+    await page.evaluate(() => new Promise<void>((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    }));
+    expect(observations).toHaveLength(2);
+
+    await page.reload({ waitUntil: "networkidle" });
+    await expect.poll(() => observations.length).toBe(3);
+
+    expect(observations[2]).toMatchObject({
+      landingPath: observation.landingPath,
+      visitId: observation.visitId,
+      visitorId: observation.visitorId,
+    });
+    expect(observations[2].pageViewId).not.toBe(observations[1].pageViewId);
+    expect(observations[2].path).toBe("/contact");
+
+    await page.goBack({ waitUntil: "networkidle" });
+    await expect(page).toHaveURL(/\/polyamory-enm-counselling\?/);
+    await expect.poll(() => observations.length).toBe(4);
+
+    expect(observations[3]).toMatchObject({
+      landingPath: observation.landingPath,
+      path: "/polyamory-enm-counselling",
+      visitId: observation.visitId,
+      visitorId: observation.visitorId,
+    });
+    expect(observations[3].pageViewId).not.toBe(observation.pageViewId);
+  });
+
+  test("first-party visit recorder recognizes a return visit and rotates an expired browser ID", async ({ page }) => {
+    test.skip(
+      !firstPartyVisitRecordingEnabled,
+      "First-party visit recording is covered by npm run qa:analytics.",
+    );
+
+    const observations: Array<Record<string, string | null>> = [];
+
+    await page.route("**/api/visit", async (route) => {
+      observations.push(route.request().postDataJSON() as Record<string, string | null>);
+      await route.fulfill({ status: 204 });
+    });
+
+    await page.goto("/", { waitUntil: "networkidle" });
+    await expect.poll(() => observations.length).toBe(1);
+
+    await page.evaluate(() => {
+      const key = "vive:visit-analytics:visit:v1";
+      const visit = JSON.parse(sessionStorage.getItem(key) ?? "null");
+
+      visit.lastActivityAt = Date.now() - 31 * 60 * 1000;
+      sessionStorage.setItem(key, JSON.stringify(visit));
+    });
+
+    await page.reload({ waitUntil: "networkidle" });
+    await expect.poll(() => observations.length).toBe(2);
+
+    expect(observations[1].visitorId).toBe(observations[0].visitorId);
+    expect(observations[1].visitId).not.toBe(observations[0].visitId);
+    expect(observations[1].pageViewId).not.toBe(observations[0].pageViewId);
+
+    await page.evaluate(() => {
+      const key = "vive:visit-analytics:visitor:v1";
+      const visitor = JSON.parse(localStorage.getItem(key) ?? "null");
+
+      visitor.createdAt = Date.now() - 366 * 24 * 60 * 60 * 1000;
+      localStorage.setItem(key, JSON.stringify(visitor));
+    });
+
+    await page.reload({ waitUntil: "networkidle" });
+    await expect.poll(() => observations.length).toBe(3);
+
+    expect(observations[2].visitorId).not.toBe(observations[1].visitorId);
+    expect(observations[2].visitId).not.toBe(observations[1].visitId);
+    expect(observations[2].pageViewId).not.toBe(observations[1].pageViewId);
   });
 
   test("enquiry form is explicitly masked for Clarity", async ({ page }) => {

@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
 import SiteAnalytics from "./components/SiteAnalytics";
+import VisitRecorder from "./components/VisitRecorder";
 import Contact from "./pages/Contact";
 import CrisisSupport from "./pages/CrisisSupport";
 import EnmPolyamoryCounselling from "./pages/EnmPolyamoryCounselling";
@@ -77,6 +78,7 @@ export default function App({ initialRenderAt }: AppProps) {
         </Route>
       </Routes>
       <SiteAnalytics />
+      <VisitRecorder />
     </>
   );
 }

@@ -11,14 +11,17 @@ const baseAnalyticsEnv = {
   VITE_ANALYTICS_ENABLED: "true",
   VITE_CLARITY_PROJECT_ID: "testclarity1",
   VITE_GA_MEASUREMENT_ID: "G-TEST12345",
+  VITE_VISIT_ANALYTICS_ENABLED: "true",
 };
 const blockedHostAnalyticsEnv = {
   ...baseAnalyticsEnv,
   VITE_ANALYTICS_ALLOWED_HOSTS: "",
+  VITE_VISIT_ANALYTICS_ALLOWED_HOSTS: "",
 };
 const allowedHostAnalyticsEnv = {
   ...baseAnalyticsEnv,
   VITE_ANALYTICS_ALLOWED_HOSTS: "127.0.0.1",
+  VITE_VISIT_ANALYTICS_ALLOWED_HOSTS: "127.0.0.1",
 };
 const playwrightCli = path.join("node_modules", "playwright", "cli.js");
 const viteCli = path.join("node_modules", "vite", "bin", "vite.js");
@@ -165,6 +168,6 @@ await runPreviewTests(
 
 await run(process.execPath, [process.env.npm_execpath, "run", "build"], allowedHostAnalyticsEnv);
 await runPreviewTests(
-  "Google Analytics sends route-change page views when enabled|confirmed enquiry submissions emit conversion analytics|Google Analytics contact-intent events contain no visitor data|Microsoft Clarity loads when configured",
+  "Google Analytics sends route-change page views when enabled|confirmed enquiry submissions emit conversion analytics|Google Analytics contact-intent events contain no visitor data|Microsoft Clarity loads when configured|first-party visit recorder records SPA route changes and refreshes in the active visit|first-party visit recorder recognizes a return visit and rotates an expired browser ID",
   allowedHostAnalyticsEnv,
 );
