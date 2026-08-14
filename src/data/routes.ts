@@ -17,6 +17,10 @@ export const publicRedirectRoutes = [
   { path: "/inclusion", to: publicRoutePaths.inclusion },
 ] as const;
 
+export const privateRoutePaths = {
+  visitReport: "/visit-report",
+} as const;
+
 export const devRoutePaths = {
   codexTestBed: "/codex-tb",
   designSystem: "/design-system",
@@ -25,7 +29,6 @@ export const devRoutePaths = {
   designSystemPatterns: "/design-system/patterns",
   documents: "/documents",
   opusTestBed: "/opus-tb",
-  visitReport: "/visit-report",
 } as const;
 
 const sharedChromePaths = new Set<string>([

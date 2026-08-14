@@ -9,6 +9,7 @@ const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
+const privateRoutePath = "/visit-report";
 const prerenderedRouteSmokeFragments = {
   "/": [
     '<main class="site-page home-page">',
@@ -536,6 +537,28 @@ function getNotFoundTags(siteMetadata) {
   ].join("\n    ");
 }
 
+function getPrivateRouteTags(siteMetadata) {
+  return [
+    "<!-- SEO metadata generated at build time -->",
+    "<title>Visit reporting | Vive Counselling</title>",
+    '<meta name="description" content="Private visit reporting." />',
+    `<meta name="robots" content="${escapeHtml(noindexDirective)}" />`,
+    ...getFaviconTags(),
+    `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
+    "<!-- /SEO metadata generated at build time -->",
+  ].join("\n    ");
+}
+
+function applyPrivateRouteMetadata(html, siteMetadata) {
+  const seoTags = getPrivateRouteTags(siteMetadata);
+
+  return html
+    .replace(/\s*<!-- SEO metadata generated at build time -->.*?<!-- \/SEO metadata generated at build time -->/s, "")
+    .replace(/\s*<title>.*?<\/title>/s, "")
+    .replace(/\s*<meta\s+name="description"\s+content="[^"]*"\s*\/?>/s, "")
+    .replace("</head>", `    ${seoTags}\n  </head>`);
+}
+
 function applyNotFoundMetadata(html, siteMetadata) {
   const seoTags = getNotFoundTags(siteMetadata);
 
@@ -695,6 +718,7 @@ const robotsTxt = [
 ].join("\n");
 
 const notFoundHtml = applyNotFoundFallbackRoot(applyNotFoundMetadata(templateHtml, site), prerenderedAt);
+const privateRouteHtml = applyPrivateRouteMetadata(templateHtml, site);
 
 assertNotFoundFallback(notFoundHtml, prerenderedAt);
 
@@ -702,6 +726,10 @@ await Promise.all([
   writeFile(path.join(distDir, "404.html"), notFoundHtml),
   writeFile(path.join(distDir, "sitemap.xml"), sitemapXml),
   writeFile(path.join(distDir, "robots.txt"), robotsTxt),
+  ...getRouteOutputPaths(privateRoutePath).map(async (outputPath) => {
+    await mkdir(path.dirname(outputPath), { recursive: true });
+    await writeFile(outputPath, privateRouteHtml);
+  }),
 ]);
 
 console.log(

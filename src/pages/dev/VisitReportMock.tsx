@@ -252,7 +252,10 @@ function SignalHeader({ isDetail, onHome }: { isDetail: boolean; onHome: () => v
         </div>
         <div className="signal-header__system">
           <span><Clock3 aria-hidden="true" size={14} /> Perth time</span>
-          <span className="signal-header__warning"><LockKeyhole aria-hidden="true" size={14} /> Authentication off</span>
+          <span className="signal-header__warning">
+            <LockKeyhole aria-hidden="true" size={14} />
+            {import.meta.env.DEV ? "Auth bypassed locally" : "Protected"}
+          </span>
           <span className="signal-header__mock"><i aria-hidden="true" /> Fictional data</span>
         </div>
       </div>
