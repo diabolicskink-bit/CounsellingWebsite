@@ -160,7 +160,7 @@ Review the preview ledger and confirm that you want visit recording enabled on t
 
 After explicit approval, connect the production database, enable collection on the live host, confirm the ledger receives the expected records, and update the project documentation.
 
-**Preparation status:** The existing Neon resource is now connected to Production, its two migrations are current, a Production-only retention secret is configured, and the Production build is configured to enable recording only on `vivecounselling.com.au` and `www.vivecounselling.com.au`. The synthetic Slice 7 records were removed from the shared database. No production deployment has been made, so the live site is not yet collecting first-party visits. Release and live-flow confirmation remain before this slice is complete.
+**Release status:** The existing Neon resource is connected to Production, its two migrations are current, a Production-only retention secret is configured, and commit `e533a51` is live with recording enabled only on `vivecounselling.com.au` and `www.vivecounselling.com.au`. The production site and client asset respond successfully, the visit endpoint rejects reads as designed, and Vercel reported no runtime errors immediately after release. A first natural production visit still needs to be confirmed in the ledger before this slice is marked complete.
 
 **Prompt:** Complete slice 8 of the first-party visit ledger plan, update the plan, and stop.
 

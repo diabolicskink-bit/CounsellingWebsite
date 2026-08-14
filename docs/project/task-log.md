@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-14 - First-Party Visit Ledger Released
+
+- Released the reviewed `staging` candidate to Production with first-party visit recording enabled only on `vivecounselling.com.au` and `www.vivecounselling.com.au`; failures remain isolated from the visitor experience.
+- Activated the protected daily 12-month retention schedule against the migrated Neon database while keeping all reporting server-side and outside the public API.
+- Confirmed the live site responds successfully, the visit endpoint rejects reads, the deployed client contains the canonical-host recorder configuration, and Vercel reported no runtime errors immediately after release. A first natural production record remains to be confirmed in the ledger.
+
 ## 2026-08-14 - First-Party Visit Ledger Production Configuration Prepared
 
 - Connected the existing Vercel-managed Neon resource to Production while preserving Development and Preview, and confirmed the shared database remains current at two migrations.
