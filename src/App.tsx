@@ -60,7 +60,7 @@ export default function App({ initialRenderAt }: AppProps) {
       <ScrollToTop />
       <Routes>
         <Route
-          path={privateRoutePaths.visitReport}
+          path={privateRoutePaths.analytics}
           element={(
             <Suspense fallback={null}>
               <VisitReport />

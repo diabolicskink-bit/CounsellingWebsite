@@ -8,7 +8,7 @@
     "api/visit-retention.ts": {
       "includeFiles": "src/server/visits/**"
     },
-    "api/visit-report.ts": {
+    "api/analytics.ts": {
       "includeFiles": "src/server/reporting/**"
     },
     "api/visit.ts": {

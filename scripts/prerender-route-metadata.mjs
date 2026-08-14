@@ -9,7 +9,7 @@ const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
-const privateRoutePath = "/visit-report";
+const privateRoutePath = "/analytics";
 const prerenderedRouteSmokeFragments = {
   "/": [
     '<main class="site-page home-page">',

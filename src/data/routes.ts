@@ -18,7 +18,7 @@ export const publicRedirectRoutes = [
 ] as const;
 
 export const privateRoutePaths = {
-  visitReport: "/visit-report",
+  analytics: "/analytics",
 } as const;
 
 export const devRoutePaths = {

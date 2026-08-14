@@ -1,5 +1,5 @@
 import { next } from "@vercel/functions";
-import { getVisitReportAuthState } from "./src/server/reporting/basicAuth.ts";
+import { getAnalyticsAuthState } from "./src/server/reporting/basicAuth.ts";
 
 const protectedResponseHeaders = {
   "Cache-Control": "private, no-store",
@@ -25,12 +25,12 @@ function requestAuthentication() {
   });
 }
 
-export default function protectVisitReporting(request: Request) {
-  const authState = getVisitReportAuthState(
+export default function protectAnalytics(request: Request) {
+  const authState = getAnalyticsAuthState(
     request.headers.get("authorization"),
     {
-      password: process.env.VISIT_REPORT_PASSWORD,
-      username: process.env.VISIT_REPORT_USERNAME,
+      password: process.env.ANALYTICS_PASSWORD,
+      username: process.env.ANALYTICS_USERNAME,
     },
   );
 
@@ -47,6 +47,6 @@ export default function protectVisitReporting(request: Request) {
 }
 
 export const config = {
-  matcher: ["/visit-report/:path*", "/api/visit-report/:path*"],
+  matcher: ["/analytics/:path*", "/api/analytics/:path*"],
   runtime: "nodejs",
 };

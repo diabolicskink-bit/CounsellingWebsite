@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
-import { createVisitReportHandler } from "../../api/visit-report.ts";
+import { createAnalyticsHandler } from "../../api/analytics.ts";
 
 const originalConsoleError = console.error;
 
@@ -34,9 +34,9 @@ async function invoke(handler, request) {
   return returned ?? result;
 }
 
-test("requests a selected daily report through the injected reader", async () => {
+test("requests selected daily analytics through the injected reader", async () => {
   const selections = [];
-  const handler = createVisitReportHandler(async (selection) => {
+  const handler = createAnalyticsHandler(async (selection) => {
     selections.push(selection);
     return { visits: [] };
   });
@@ -54,7 +54,7 @@ test("requests a selected daily report through the injected reader", async () =>
 
 test("defaults a daily request to the current Australia/Perth date", async () => {
   const selections = [];
-  const handler = createVisitReportHandler(
+  const handler = createAnalyticsHandler(
     async (selection) => {
       selections.push(selection);
       return {};
@@ -70,7 +70,7 @@ test("defaults a daily request to the current Australia/Perth date", async () =>
 test("requests a complete visitor history by anonymous visitor ID", async () => {
   const visitorId = "7a2f0000-0000-4000-8000-000000000004";
   const selections = [];
-  const handler = createVisitReportHandler(async (selection) => {
+  const handler = createAnalyticsHandler(async (selection) => {
     selections.push(selection);
     return { visits: [] };
   });
@@ -86,7 +86,7 @@ test("requests a complete visitor history by anonymous visitor ID", async () => 
 
 test("rejects writes and invalid or ambiguous report selections before reading", async () => {
   let readCalls = 0;
-  const handler = createVisitReportHandler(async () => {
+  const handler = createAnalyticsHandler(async () => {
     readCalls += 1;
     return {};
   });
@@ -112,7 +112,7 @@ test("rejects writes and invalid or ambiguous report selections before reading",
 
 test("the unfinished database reader fails closed with a generic response", async () => {
   console.error = () => {};
-  const handler = createVisitReportHandler();
+  const handler = createAnalyticsHandler();
 
   const result = await invoke(handler, { method: "GET", query: {} });
 

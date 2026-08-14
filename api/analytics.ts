@@ -24,7 +24,7 @@ function sendSuccess(response: VisitReportResponse, data: unknown) {
   return response.status(200).json({ data });
 }
 
-export function createVisitReportHandler(
+export function createAnalyticsHandler(
   readReport: ReadVisitReport = readVisitReport,
   getNow: GetNow = () => new Date(),
 ) {
@@ -56,4 +56,4 @@ export function createVisitReportHandler(
   };
 }
 
-export default createVisitReportHandler();
+export default createAnalyticsHandler();

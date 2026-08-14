@@ -1,8 +1,8 @@
 import { timingSafeEqual } from "node:crypto";
 
-export type VisitReportAuthState = "authorized" | "misconfigured" | "unauthorized";
+export type AnalyticsAuthState = "authorized" | "misconfigured" | "unauthorized";
 
-export type VisitReportCredentials = {
+export type AnalyticsCredentials = {
   password?: string;
   username?: string;
 };
@@ -27,10 +27,10 @@ function getBasicToken(authorization: string | null) {
   return match?.[1] ?? "";
 }
 
-export function getVisitReportAuthState(
+export function getAnalyticsAuthState(
   authorization: string | null,
-  credentials: VisitReportCredentials,
-): VisitReportAuthState {
+  credentials: AnalyticsCredentials,
+): AnalyticsAuthState {
   const { password, username } = credentials;
 
   if (!username || !password) {
