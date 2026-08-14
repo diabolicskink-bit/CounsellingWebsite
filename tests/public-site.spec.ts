@@ -194,6 +194,24 @@ test.describe("public routes", () => {
   }
 });
 
+test("Crisis Support exposes urgent actions and national and regional services", async ({ page }) => {
+  await page.goto("/crisis-support", { waitUntil: "networkidle" });
+
+  const main = page.locator("main.crisis-support-page");
+
+  await expect(main.getByRole("link", { name: "Call 000" })).toHaveAttribute("href", "tel:000");
+  await expect(main.getByRole("heading", { level: 2 })).toHaveText([
+    "Immediate danger",
+    "National urgent support services",
+    "State and territory urgent support services",
+  ]);
+  await expect(main.locator(".crisis-support-page__national-service")).toHaveCount(3);
+  await expect(main.locator(".crisis-support-page__state-service")).toHaveCount(8);
+  await expect(main.locator('a[href="tel:131114"]')).toHaveCount(1);
+  await expect(main.locator('a[href="tel:1300659467"]')).toHaveCount(1);
+  await expect(main.locator('a[href="tel:139276"]')).toHaveCount(1);
+});
+
 test.describe("shared navigation", () => {
   test("routes primary contact actions and exposes social profiles", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
@@ -206,6 +224,10 @@ test.describe("shared navigation", () => {
       header.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Fees" }),
     ).toHaveAttribute("href", "/contact");
     await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute("href", "/contact");
+    await expect(footer.getByRole("link", { name: "Crisis support" })).toHaveAttribute(
+      "href",
+      "/crisis-support",
+    );
 
     for (const profile of expectedSocialProfileLinks) {
       const link = footer.getByRole("link", { name: profile.name, exact: true });
@@ -323,6 +345,7 @@ test.describe("progressive enhancement", () => {
     await expect(form).toHaveAttribute("action", "/api/enquiry");
     await expect(form).toHaveAttribute("method", "post");
     await expect(form).toHaveAttribute("data-clarity-mask", "true");
+    await expect(page.getByRole("link", { name: "find support now" })).toHaveCount(2);
     await expect(page.locator("#root")).not.toHaveAttribute("data-react-activation", /.+/);
   });
 });
@@ -353,6 +376,14 @@ test.describe("crawl output", () => {
       expect(routeHtml).toContain(`<link rel="canonical" href="${routeUrl}" />`);
       expect(sitemap).toContain(`<loc>${routeUrl}</loc>`);
     }
+
+    const crisisSupportUrl = `${siteOrigin}/crisis-support`;
+    const crisisSupportLastModified = routeMetadataData.routes["/crisis-support"].lastModified;
+
+    expect(crisisSupportLastModified).toBeTruthy();
+    expect(sitemap).toContain(
+      `<url><loc>${crisisSupportUrl}</loc><lastmod>${crisisSupportLastModified}</lastmod></url>`,
+    );
   });
 });
 

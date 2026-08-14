@@ -6,15 +6,15 @@ This catalogue contains every foundation currently approved for deliberate reuse
 
 ### `.site-reading`
 
-- `Contract`: Default long-form reading role for public-page prose: the Inter-first `--font-sans` stack, `clamp(1.01rem, 1.12vw, 1.08rem)`, weight `400`, line-height `1.64`, and `--body` as the supported light-surface foreground.
+- `Contract`: Default long-form reading role for public-page prose: the Inter-first `--font-sans` stack, responsive `1.005–1.04rem` size, weight `400`, line-height `1.63`, and `--body` as the supported light-surface foreground.
 - `Boundary`: Use for substantive paragraphs that need comfortable continuous reading, not headings, labels, navigation, buttons, captions, metadata, form controls, or compact supporting text. A consumer on a dark or otherwise incompatible surface may override only the foreground colour with a contrast-appropriate contextual value; the family, size, weight, and line-height remain part of the role. The underlying `--font-sans` token is not separately promoted by this contract.
 - `Implementation`: `.site-reading` in `src/design-system/foundations.css`.
-- `Verified consumers`: Home About narrative, inclusive copy, and `<ContactInvitation />` copy; Working with Joel introduction, approach overview, and active tab copy; Inclusion hub hero support and chapter overviews; Kink and BDSM chapter prose; ENM and polyamory reasons, focus, and position prose; LGBTQIA+ recognition, assumptions, and disclosure prose; Contact first-message and crisis-support prose.
+- `Verified consumers`: Home About narrative, inclusive copy, and `<ContactInvitation />` copy; Working with Joel introduction, approach overview, and active tab copy; Inclusion hub hero support and chapter overviews; Kink and BDSM chapter prose; ENM and polyamory reasons, focus, and position prose; LGBTQIA+ recognition, assumptions, and disclosure prose; Crisis Support emergency guidance and section introductions; Contact first-message and crisis-support prose.
 - `Promoted`: 2026-08-05 — owner-authorized reading-role promotion under `DEBT-20` and `DEBT-21`.
 
 ### `.site-reading--lead`
 
-- `Contract`: Lead-paragraph modifier for one opening or summary paragraph within a reading group. Used together with `.site-reading`, it keeps the same family, responsive size, and `1.64` line-height while changing the foreground to `--ink` and the weight to `500`.
+- `Contract`: Lead-paragraph modifier for one opening or summary paragraph within a reading group. Used together with `.site-reading`, it keeps the same family, responsive `1.005–1.04rem` size, and `1.63` line-height while changing the foreground to `--ink` and the weight to `500`.
 - `Boundary`: It is a restrained paragraph-level hierarchy step, not an inline bold utility, heading substitute, general emphasis class, or dark-surface treatment. Apply it only with `.site-reading` where the darker ink remains appropriate and accessible.
 - `Implementation`: `.site-reading.site-reading--lead` in `src/design-system/foundations.css`; consumers apply the public `.site-reading--lead` modifier alongside `.site-reading`.
 - `Verified consumers`: Home About opening paragraph and Working with Joel introduction opening paragraph.

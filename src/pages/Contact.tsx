@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import {
@@ -53,6 +54,7 @@ const contactPathOptions: readonly ContactPathOption[] = [
 ] as const;
 
 const contactMetadata = getRouteMetadata(publicRoutePaths.contact);
+const crisisSupportHref = publicRoutePaths.crisisSupport;
 
 function isContactPath(value: FormDataEntryValue | null): value is ContactPath {
   return (
@@ -459,9 +461,7 @@ function ContactEnquiryForm() {
       ) : null}
 
       <p className="codex-contact__form-boundary">
-        If you’re in crisis, please use the{" "}
-        <a href="#contact-crisis-support">support options below</a> rather than this
-        form.
+        If you’re in crisis, <Link to={crisisSupportHref}>find support now</Link>.
       </p>
     </form>
   );
@@ -568,9 +568,9 @@ export default function Contact({ initialRenderAt }: ContactProps) {
               <dt>Crisis support</dt>
               <dd>
                 <p className="site-reading">
-                  Vive Counselling is not an emergency service. If you are in
-                  immediate danger, call 000. For crisis support, call Lifeline on
-                  13 11 14 or Suicide Call Back Service on 1300 659 467.
+                  Vive Counselling is not an emergency service. Call 000 if you or
+                  someone else is in immediate danger. If you’re in crisis,{" "}
+                  <Link to={crisisSupportHref}>find support now</Link>.
                 </p>
               </dd>
             </div>

@@ -2,6 +2,7 @@ import type { PublicRoutePath } from "./routeMetadata";
 
 export const publicRoutePaths = {
   contact: "/contact",
+  crisisSupport: "/crisis-support",
   enmPolyamory: "/polyamory-enm-counselling",
   home: "/",
   inclusion: "/inclusive-counselling",
