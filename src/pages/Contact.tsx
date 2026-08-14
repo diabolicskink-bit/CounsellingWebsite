@@ -274,7 +274,6 @@ function ContactEnquiryForm() {
       <input
         aria-hidden="true"
         autoComplete="off"
-        className="codex-contact__honeypot"
         name="website"
         tabIndex={-1}
       />
@@ -289,9 +288,7 @@ function ContactEnquiryForm() {
         <div className="codex-contact__path-list">
           {contactPathOptions.map((option) => (
             <label className="codex-contact__path-choice" key={option.id}>
-              <span className="codex-contact__path-copy">
-                <strong>{option.title}</strong>
-              </span>
+              <strong>{option.title}</strong>
               <input
                 checked={contactPath === option.id}
                 name="contactPath"
@@ -469,7 +466,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
   return (
     <main className="site-page contact-page codex-contact">
       <section className="codex-contact__opening site-hero-background" aria-labelledby="contact-title">
-        <Container className="codex-contact__opening-grid">
+        <Container>
           <header className="codex-contact__intro">
             <span className="codex-contact__eyebrow">Contact and fees</span>
             <h1 id="contact-title">Make an enquiry.</h1>

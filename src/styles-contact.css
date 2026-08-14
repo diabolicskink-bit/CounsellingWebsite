@@ -6,13 +6,6 @@
   background: var(--paper);
 }
 
-.codex-contact__opening-grid {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  min-height: 0;
-}
-
 .codex-contact__intro {
   display: grid;
   gap: 16px;
@@ -184,7 +177,7 @@
   box-shadow: 0 20px 46px rgba(31, 35, 31, 0.09);
 }
 
-.codex-contact__honeypot {
+.codex-contact__form > input[name="website"] {
   display: none;
 }
 
@@ -239,11 +232,8 @@
   outline-offset: -3px;
 }
 
-.codex-contact__path-copy {
+.codex-contact__path-choice > strong {
   min-width: 0;
-}
-
-.codex-contact__path-copy strong {
   font-size: clamp(1.04rem, 1.6vw, 1.22rem);
   line-height: 1.3;
 }
@@ -549,10 +539,6 @@
 }
 
 @media (max-width: 980px) {
-  .codex-contact__opening-grid {
-    min-height: 0;
-  }
-
   .codex-contact__essentials-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -655,7 +641,7 @@
     padding: 12px 8px;
   }
 
-  .codex-contact__path-copy strong {
+  .codex-contact__path-choice > strong {
     font-size: 1rem;
   }
 

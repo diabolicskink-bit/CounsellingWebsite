@@ -64,7 +64,7 @@ export default function NotFound() {
 
   return (
     <main className="site-page not-found-page">
-      <Container className="not-found-page__shell">
+      <Container>
         <div className="not-found-page__mark" aria-hidden="true">
           <span>4</span>
           <span>0</span>

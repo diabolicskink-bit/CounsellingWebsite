@@ -114,7 +114,7 @@
   min-width: 0;
 }
 
-.kink-page .kink-page__more .kink-page__more-title {
+.kink-page .kink-page__more-title {
   max-width: 9ch;
   color: #fcfcfa;
   font-size: clamp(3.05rem, 4.2vw, 4rem);
@@ -142,7 +142,7 @@
   }
 
   .kink-page__fluency-title,
-  .kink-page .kink-page__more .kink-page__more-title {
+  .kink-page .kink-page__more-title {
     max-width: 14ch;
   }
 
@@ -166,7 +166,7 @@
 
   .kink-page__fluency-title,
   .kink-page__misread-title,
-  .kink-page .kink-page__more .kink-page__more-title {
+  .kink-page .kink-page__more-title {
     max-width: 13ch;
     font-size: clamp(2.45rem, 10.7vw, 2.95rem);
     line-height: 0.96;

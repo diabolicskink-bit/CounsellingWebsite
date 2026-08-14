@@ -181,47 +181,45 @@ function AboutViveSection({
   return (
     <section className="home-about site-section-warm" aria-labelledby="home-about-title">
       <Container>
-        <div className="home-about__profile">
-          <header className="home-about__masthead">
-            <h2 className="home-about__heading" id="home-about-title">
-              {about.heading.before}
-              <em className="site-emphasis">{about.heading.emphasis}</em>
-              {about.heading.after}
-            </h2>
-          </header>
+        <header className="home-about__masthead">
+          <h2 className="home-about__heading" id="home-about-title">
+            {about.heading.before}
+            <em className="site-emphasis">{about.heading.emphasis}</em>
+            {about.heading.after}
+          </h2>
+        </header>
 
-          <div className="home-about__narrative">
-            <div className="home-about__story">
-              {about.narrative.map((paragraph, index) => (
-                <p
-                  className={index === 0 ? "site-reading site-reading--lead" : "site-reading"}
-                  key={paragraph}
-                >
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          <figure className="home-about__portrait">
-            <div className="home-about__portrait-frame">
-              <img
-                src={portrait.imageSrc}
-                alt={portrait.alt}
-                width="744"
-                height="1122"
-                decoding="async"
-                {...highPriorityImageAttributes}
-              />
-            </div>
-            {about.links.map((link) => (
-              <Link className="home-about__portrait-link" to={link.href} key={link.href}>
-                <span>{link.label}</span>
-                <ArrowRight aria-hidden="true" size={18} />
-              </Link>
+        <div className="home-about__narrative">
+          <div className="home-about__story">
+            {about.narrative.map((paragraph, index) => (
+              <p
+                className={index === 0 ? "site-reading site-reading--lead" : "site-reading"}
+                key={paragraph}
+              >
+                {paragraph}
+              </p>
             ))}
-          </figure>
+          </div>
         </div>
+
+        <figure className="home-about__portrait">
+          <div className="home-about__portrait-frame">
+            <img
+              src={portrait.imageSrc}
+              alt={portrait.alt}
+              width="744"
+              height="1122"
+              decoding="async"
+              {...highPriorityImageAttributes}
+            />
+          </div>
+          {about.links.map((link) => (
+            <Link className="home-about__portrait-link" to={link.href} key={link.href}>
+              <span>{link.label}</span>
+              <ArrowRight aria-hidden="true" size={18} />
+            </Link>
+          ))}
+        </figure>
       </Container>
     </section>
   );
@@ -230,7 +228,7 @@ function AboutViveSection({
 function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
   return (
     <section className="home-inclusive" aria-labelledby="home-inclusive-title">
-      <Container className="home-inclusive__inner">
+      <Container>
         <header className="home-inclusive__header">
           <h2 className="home-inclusive__heading" id="home-inclusive-title">
             {inclusive.heading.before}
