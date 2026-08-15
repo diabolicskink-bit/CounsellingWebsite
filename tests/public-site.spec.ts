@@ -650,6 +650,7 @@ test.describe("analytics", () => {
         referrerUrl: null,
         startedAt: `${date}T03:00:00.000Z`,
         trafficSource: "paid",
+        totalVisits: 3,
         visitNumber: 2,
         visitorId,
       };
@@ -667,6 +668,7 @@ test.describe("analytics", () => {
           },
         ],
         trafficSource: "direct",
+        totalVisits: 1,
         visitNumber: 1,
         visitorId: "214ba8f9-96f8-41e1-a301-15112400760e",
       };
@@ -706,6 +708,9 @@ test.describe("analytics", () => {
     await expect(page.getByText("/inclusive-counselling", { exact: true })).toBeVisible();
     await expect(page.getByText("/bot-only", { exact: true })).toHaveCount(0);
     await expect(page.locator(".signal-bot")).toHaveCount(0);
+    await expect(page.getByText("Returning · Visit 2 of 3", { exact: true })).toBeVisible();
+    await expect(page.getByText("New visitor · Visit 1 of 1", { exact: true })).toBeVisible();
+    await expect(page.locator(".signal-event__beacon--returning")).toHaveCount(1);
 
     const includeBots = page.getByRole("button", { name: "Include bots" });
     await expect(includeBots).toHaveAttribute("aria-pressed", "false");

@@ -550,6 +550,14 @@ body:has(.visit-dashboard) {
   background: var(--report-purple);
 }
 
+.signal-event__beacon--returning {
+  background: var(--report-pink);
+}
+
+.signal-event__beacon--returning i {
+  background: var(--report-red);
+}
+
 .signal-event__identity > div,
 .signal-event__trace {
   min-width: 0;

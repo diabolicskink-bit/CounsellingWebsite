@@ -45,6 +45,7 @@ function createVisitRow(overrides = {}) {
     referrerUrl: "https://www.google.com/",
     startedAt: "2026-08-15T03:00:00.000Z",
     trafficSource: "paid",
+    totalVisits: "3",
     visitNumber: "2",
     visitorId: "114ba8f9-96f8-41e1-a301-15112400759e",
     ...overrides,
@@ -79,6 +80,7 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
   assert.equal(result.type, "daily");
   assert.equal(result.date, "2026-08-15");
   assert.equal(result.visits[0].visitNumber, 2);
+  assert.equal(result.visits[0].totalVisits, 3);
   assert.equal(result.visits[0].durationSeconds, 305);
   assert.equal(result.visits[0].isBot, true);
   assert.equal(result.visits[0].botName, "googlebot");
@@ -89,6 +91,7 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
   );
   assert.match(calls[0].query, /Australia\/Perth/);
   assert.match(calls[0].query, /ORDER BY ledger\.started_at DESC/);
+  assert.match(calls[0].query, /visitor_visits\.visitor_id = ledger\.visitor_id/);
 });
 
 test("reads complete retained history for one anonymous browser", async () => {

@@ -412,10 +412,19 @@ function DailyObservatory({
                     </time>
 
                     <div className="signal-event__identity">
-                      <span className="signal-event__beacon"><i aria-hidden="true" /></span>
+                      <span
+                        className={visit.visitNumber > 1
+                          ? "signal-event__beacon signal-event__beacon--returning"
+                          : "signal-event__beacon"}
+                      >
+                        <i aria-hidden="true" />
+                      </span>
                       <div>
                         <strong>{visitorLabel(visit.visitorId)}</strong>
-                        <span>{visit.visitNumber > 1 ? `Returning · visit ${visit.visitNumber}` : "New visitor"}</span>
+                        <span>
+                          {visit.visitNumber > 1 ? "Returning" : "New visitor"}
+                          {` · Visit ${visit.visitNumber} of ${visit.totalVisits}`}
+                        </span>
                       </div>
                     </div>
 
@@ -585,7 +594,10 @@ function VisitorHistory({
                 <header className="visitor-visit__summary">
                   <span className="visitor-visit__number">{String(visit.visitNumber).padStart(2, "0")}</span>
                   <div>
-                    <p>{isFocused ? "Opened from daily activity" : `Visit ${visit.visitNumber}`}</p>
+                    <p>
+                      {isFocused ? "Opened from daily activity" : "Visit history"}
+                      {` · Visit ${visit.visitNumber} of ${visit.totalVisits}`}
+                    </p>
                     <h3>{formatDate(visit.dateKey, true)} at {formatTime(visit.startedAt)}</h3>
                     <SourceMark source={visit.trafficSource} />
                     <BotMark visit={visit} />

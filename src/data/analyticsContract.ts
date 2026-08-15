@@ -50,6 +50,7 @@ export type AnalyticsVisit = {
   referrerUrl: string | null;
   startedAt: string;
   trafficSource: AnalyticsTrafficSource;
+  totalVisits: number;
   visitNumber: number;
   visitorId: string;
 };

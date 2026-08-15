@@ -24,6 +24,11 @@ const analyticsVisitColumns = `
   ledger.visit_id::TEXT AS "id",
   ledger.visitor_id::TEXT AS "visitorId",
   ledger.visit_number::INTEGER AS "visitNumber",
+  (
+    SELECT COUNT(*)::INTEGER
+    FROM site_visits AS visitor_visits
+    WHERE visitor_visits.visitor_id = ledger.visitor_id
+  ) AS "totalVisits",
   TO_CHAR(
     ledger.started_at AT TIME ZONE 'Australia/Perth',
     'YYYY-MM-DD'
@@ -160,9 +165,10 @@ function normalizePageViews(value: unknown): AnalyticsPageView[] {
 
 function normalizeVisit(row: AnalyticsVisitRow): AnalyticsVisit {
   const visitNumber = nonNegativeInteger(row.visitNumber, "visit number");
+  const totalVisits = nonNegativeInteger(row.totalVisits, "total visits");
 
-  if (visitNumber < 1) {
-    throw new TypeError("Analytics row has an invalid visit number.");
+  if (visitNumber < 1 || totalVisits < visitNumber) {
+    throw new TypeError("Analytics row has an invalid visit sequence.");
   }
 
   return {
@@ -184,6 +190,7 @@ function normalizeVisit(row: AnalyticsVisitRow): AnalyticsVisit {
     referrerUrl: nullableString(row.referrerUrl, "referrer URL"),
     startedAt: timestampString(row.startedAt, "start time"),
     trafficSource: normalizeTrafficSource(row.trafficSource),
+    totalVisits,
     visitNumber,
     visitorId: requiredString(row.visitorId, "visitor ID"),
   };
