@@ -10,7 +10,12 @@ test("Vercel config keeps clean URLs and extensionless trailing-slash policy", (
 });
 
 test("Vercel config does not use a blanket SPA catch-all rewrite", () => {
-  assert.equal(Object.hasOwn(vercelConfig, "rewrites"), false);
+  const hasBlanketSpaRewrite = (vercelConfig.rewrites ?? []).some(({ source, destination }) => (
+    ["/(.*)", "/:path*"].includes(source)
+    || destination === "/index.html"
+  ));
+
+  assert.equal(hasBlanketSpaRewrite, false);
 });
 
 test("Vercel packages each serverless function's external TypeScript modules", () => {

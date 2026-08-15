@@ -1,13 +1,15 @@
 # Database
 
 Versioned SQL migrations for the first-party visit ledger live in
-`database/migrations/` and are applied in filename order with `npm run
-db:migrate:production`. Before running it, intentionally pull the Production
-environment into the ignored `.env.production.local` file:
+`database/migrations/` and are applied in filename order. Pull the intended
+environment into its matching ignored file before running its migration command:
 
 ```powershell
 npx vercel env pull .env.production.local --environment=production --yes
 npm run db:migrate:production
+
+npx vercel env pull .env.preview.local --environment=preview --yes
+npm run db:migrate:preview
 ```
 
 Do not pull Production into `.env.local` or `.env.preview.local`. Remove the
@@ -24,14 +26,11 @@ The application connects to Neon through the server-only `DATABASE_URL`
 environment variable. Never prefix this variable with `VITE_` or expose it to
 browser code.
 
-The Vercel-managed Neon resource and all of its generated connection variables
-are scoped to Production only. Development and Preview deployments receive no
-Neon project identifiers, hosts, usernames, passwords, or connection strings;
-their database-backed functions therefore fail closed. The first two
-migrations are current in Production, and visit recording is enabled only on
-the canonical Vive hostnames. Migration `0003` adds nullable BotID verdict and
-verified-bot identity fields; apply it before deploying the classification
-code.
+Production and Preview use separate Vercel-managed Neon resources. Each
+resource and its generated connection variables are scoped only to its matching
+Vercel environment; Development receives neither database. Apply every
+migration to both databases before deploying code that depends on it.
+Migration `0003` adds nullable BotID verdict and verified-bot identity fields.
 
 `visit_ledger` is the read-only reporting view created by migration `0002` and
 extended by migration `0003`. It marks the earliest retained visit for an

@@ -1,20 +1,5 @@
 import { siteMetadata } from "../data/routeMetadata";
-
-function normalizeHostname(value: string) {
-  const trimmedValue = value.trim();
-
-  if (!trimmedValue) {
-    return undefined;
-  }
-
-  try {
-    const withProtocol = trimmedValue.includes("://") ? trimmedValue : `https://${trimmedValue}`;
-
-    return new URL(withProtocol).hostname.toLowerCase();
-  } catch {
-    return trimmedValue.toLowerCase();
-  }
-}
+import { isHostnameAllowed, normalizeHostname } from "./hostnameAllowlist";
 
 function getDefaultAllowedHostnames() {
   const defaultHostname = normalizeHostname(siteMetadata.defaultOrigin);
@@ -49,5 +34,5 @@ export function isCurrentHostnameAllowed(allowedHostnames: Set<string>) {
     return false;
   }
 
-  return allowedHostnames.has(window.location.hostname.toLowerCase());
+  return isHostnameAllowed(allowedHostnames, window.location.hostname);
 }

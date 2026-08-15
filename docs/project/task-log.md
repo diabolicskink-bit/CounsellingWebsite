@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-16 - Separate Preview Analytics Restored
+
+- Reused the existing fully migrated Preview Neon database and broadened Preview report authentication and recorder configuration from the `staging` branch to the Preview environment without changing Production resources.
+- Added wildcard hostname support so Vercel-generated Preview URLs can record to the Preview ledger without a per-branch hostname override; Development remains disconnected from both deployed databases.
+- Added a dedicated Preview migration command and documented the straightforward two-database model: one database for Production and one for Preview.
+
 ## 2026-08-15 - Bot Visibility Made Optional In Private Analytics
 
 - Excluded visits explicitly identified by BotID as bots from dashboard figures, daily activity, and anonymous-browser history by default, while treating nullable unclassified verdicts as ordinary visits.
