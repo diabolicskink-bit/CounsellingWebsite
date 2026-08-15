@@ -211,6 +211,37 @@ test("Crisis Support exposes urgent actions and national and regional services",
   await page.goto("/crisis-support", { waitUntil: "networkidle" });
 
   const main = page.locator("main.crisis-support-page");
+  const expectedContactHrefs = [
+    "tel:000",
+    "tel:131114",
+    "sms:0477131114",
+    "tel:1300659467",
+    "tel:139276",
+    "tel:1800629354",
+    "tel:1800011511",
+    "tel:1800682288",
+    "tel:1300642255",
+    "tel:131465",
+    "tel:1800332388",
+    "tel:1300555788",
+    "tel:1800676822",
+    "tel:1800552002",
+  ];
+  const expectedStateHrefs = [
+    "#crisis-act",
+    "#crisis-nsw",
+    "#crisis-nt",
+    "#crisis-qld",
+    "#crisis-sa",
+    "#crisis-tas",
+    "#crisis-vic",
+    "#crisis-wa",
+  ];
+  const lastReviewed = routeMetadataData.routes["/crisis-support"].lastReviewed;
+
+  if (!lastReviewed) {
+    throw new Error("Crisis Support metadata must include a lastReviewed date.");
+  }
 
   await expect(main.getByRole("link", { name: "Call 000" })).toHaveAttribute("href", "tel:000");
   await expect(main.getByRole("heading", { level: 2 })).toHaveText([
@@ -220,9 +251,55 @@ test("Crisis Support exposes urgent actions and national and regional services",
   ]);
   await expect(main.locator(".crisis-support-page__national-service")).toHaveCount(3);
   await expect(main.locator(".crisis-support-page__state-service")).toHaveCount(8);
-  await expect(main.locator('a[href="tel:131114"]')).toHaveCount(1);
-  await expect(main.locator('a[href="tel:1300659467"]')).toHaveCount(1);
-  await expect(main.locator('a[href="tel:139276"]')).toHaveCount(1);
+  expect(
+    await main
+      .locator('a[href^="tel:"], a[href^="sms:"]')
+      .evaluateAll((links) => links.map((link) => link.getAttribute("href"))),
+  ).toEqual(expectedContactHrefs);
+  expect(
+    await main
+      .locator(".crisis-support-page__location-index a")
+      .evaluateAll((links) => links.map((link) => link.getAttribute("href"))),
+  ).toEqual(expectedStateHrefs);
+  await expect(main.getByRole("link", { name: "Find your local service" })).toHaveAttribute(
+    "href",
+    "https://vahi.vic.gov.au/mental-health-services",
+  );
+  await expect(main.locator(".crisis-support-page__information-note time")).toHaveAttribute(
+    "datetime",
+    lastReviewed,
+  );
+});
+
+test("Crisis Support keeps keyboard focus visible and respects reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/crisis-support", { waitUntil: "networkidle" });
+
+  const emergencyCall = page.getByRole("main").getByRole("link", { name: "Call 000" });
+  const lifelineLink = page.getByRole("main").getByRole("link", { name: "Lifeline" });
+
+  await emergencyCall.focus();
+  await expect(emergencyCall).toHaveCSS("outline-color", "rgb(96, 34, 29)");
+
+  await lifelineLink.focus();
+  await expect(lifelineLink).toHaveCSS("outline-color", "rgb(35, 75, 61)");
+  await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
+});
+
+test("Crisis Support semantic colours survive the shared CSS cascade", async ({ page }) => {
+  await page.goto("/crisis-support", { waitUntil: "networkidle" });
+
+  const emergency = page.locator(".crisis-support-page__emergency");
+
+  await expect(emergency.getByRole("heading", { name: "Immediate danger" })).toHaveCSS(
+    "color",
+    "rgb(96, 34, 29)",
+  );
+  await expect(emergency.locator("p")).toHaveCSS("color", "rgb(71, 32, 28)");
+  await expect(page.locator(".crisis-support-page__region").first()).toHaveCSS(
+    "color",
+    "rgb(29, 64, 52)",
+  );
 });
 
 test.describe("shared navigation", () => {

@@ -1,6 +1,7 @@
 import { ArrowUpRight, MessageSquareText, Phone } from "lucide-react";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-crisis-support.css";
 
@@ -36,7 +37,7 @@ type StateService = StateServiceBase &
     | { actions?: never; note: string }
   );
 
-const crisisSupportMetadata = getRouteMetadata("/crisis-support");
+const crisisSupportMetadata = getRouteMetadata(publicRoutePaths.crisisSupport);
 const urgentStateSupportDescription = "Urgent mental health advice and support.";
 const informationCurrentDate = new Intl.DateTimeFormat("en-AU", {
   day: "2-digit",
@@ -251,7 +252,7 @@ export default function CrisisSupport() {
         aria-labelledby="crisis-support-title"
         className="hero-section site-hero-background crisis-support-page__hero"
       >
-        <Container className="crisis-support-page__hero-layout">
+        <Container>
           <h1 className="hero-badge" id="crisis-support-title">
             Crisis support services
           </h1>
@@ -328,11 +329,9 @@ export default function CrisisSupport() {
             </ul>
           </nav>
 
-          <div className="crisis-support-page__state-list">
-            {stateServices.map((service) => (
-              <StateServiceItem key={service.id} service={service} />
-            ))}
-          </div>
+          {stateServices.map((service) => (
+            <StateServiceItem key={service.id} service={service} />
+          ))}
 
           <p className="crisis-support-page__information-note">
             Information current as of{" "}

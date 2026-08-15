@@ -3,19 +3,14 @@
   --crisis-emergency-deep: #60221d;
   --crisis-section-padding: 60px;
   --crisis-soft-green: rgba(35, 75, 61, 0.045);
-  background: var(--paper);
+}
+
+.site-page.crisis-support-page {
+  --color-heading: var(--crisis-ink);
 }
 
 .crisis-support-page__hero {
   --hero-display-max-width: 14ch;
-  padding-block: clamp(52px, 8vw, 96px);
-  color: #fcfcfa;
-}
-
-.crisis-support-page__hero-layout {
-  display: grid;
-  align-items: end;
-  gap: 18px;
 }
 
 .crisis-support-page__hero .hero-badge {
@@ -28,9 +23,11 @@
 }
 
 .crisis-support-page__emergency {
+  --color-heading: var(--crisis-emergency-deep);
+  --color-text: #47201c;
+
   border-bottom: 1px solid rgba(96, 34, 29, 0.4);
   background: #f1dfda;
-  color: var(--crisis-emergency-deep);
 }
 
 .crisis-support-page__emergency-layout {
@@ -50,13 +47,10 @@
 
 .crisis-support-page__emergency h2 {
   max-width: 12ch;
-  color: var(--crisis-emergency-deep);
-  font-size: clamp(2rem, 3.7vw, 3.35rem);
 }
 
 .crisis-support-page__emergency p {
   max-width: 52ch;
-  color: #47201c;
 }
 
 .crisis-support-page__emergency-call,
@@ -109,7 +103,6 @@
 
 .crisis-support-page__section-heading h2 {
   max-width: 13ch;
-  color: var(--crisis-ink);
 }
 
 .crisis-support-page__section-heading .site-reading {
@@ -117,7 +110,6 @@
 }
 
 .crisis-support-page__national-list {
-  display: grid;
   margin: clamp(42px, 6vw, 72px) 0 0;
   padding: 0;
   border-top: 1px solid var(--section-rule);
@@ -139,16 +131,9 @@
   gap: 10px;
 }
 
-.crisis-support-page__service-copy h3,
-.crisis-support-page__state-service-main h3 {
-  color: var(--crisis-ink);
-  font-size: clamp(1.52rem, 2vw, 1.95rem);
-}
-
 .crisis-support-page__service-copy p,
 .crisis-support-page__state-service-main > p {
   max-width: 62ch;
-  color: var(--body);
   font-size: 0.98rem;
   line-height: 1.6;
 }
@@ -289,13 +274,13 @@
 }
 
 .crisis-support-page__state-service:target {
-  padding-inline: clamp(12px, 2vw, 18px);
   background: var(--crisis-soft-green);
   box-shadow: inset 3px 0 0 var(--cedar);
 }
 
 .crisis-support-page__region {
-  color: var(--cedar-dark);
+  --color-text: var(--cedar-dark);
+
   font-size: var(--type-small);
   font-weight: 730;
   line-height: 1.45;
@@ -334,7 +319,6 @@
 }
 
 .crisis-support-page .crisis-support-page__information-note {
-  margin-top: 0;
   padding: 18px 0 0;
   color: var(--muted);
   font-size: var(--type-caption);
@@ -342,12 +326,12 @@
 }
 
 .crisis-support-page a:focus-visible {
-  outline: 3px solid rgba(35, 75, 61, 0.48);
+  outline: 3px solid var(--cedar);
   outline-offset: 3px;
 }
 
 .crisis-support-page__emergency a:focus-visible {
-  outline-color: rgba(96, 34, 29, 0.58);
+  outline-color: var(--crisis-emergency-deep);
 }
 
 @media (max-width: 1060px) {
@@ -373,10 +357,6 @@
 }
 
 @media (max-width: 760px) {
-  .crisis-support-page__hero-layout {
-    gap: 15px;
-  }
-
   .crisis-support-page__emergency-layout,
   .crisis-support-page__emergency-copy,
   .crisis-support-page__section-heading,
@@ -423,11 +403,6 @@
 }
 
 @media (max-width: 520px) {
-  .crisis-support-page__hero {
-    padding-block: 44px 50px;
-  }
-
-  .crisis-support-page__service-actions,
   .crisis-support-page__contact-action {
     width: 100%;
   }

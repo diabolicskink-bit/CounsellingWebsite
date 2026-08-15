@@ -53,6 +53,6 @@ The promoted `.site-reading` and `.site-reading--lead` semantic roles are intent
 
 ## Global Baseline
 
-`src/styles.css` also owns inherited global box sizing, root scrolling, body typography, heading defaults, paragraph defaults, link behaviour, focus treatment, and reduced-motion rules. These rules affect production but have not been promoted as one supported baseline contract.
+`src/styles.css` also owns inherited global box sizing, root scrolling, body typography, heading defaults, paragraph defaults, link behaviour, focus treatment, and reduced-motion rules. Root scrolling is smooth by default and immediate when reduced motion is requested. These rules affect production but have not been promoted as one supported baseline contract.
 
-Last consolidated from current source: 2026-08-14 — editorial-material token promotion under `DEBT-37`.
+Last consolidated from current source: 2026-08-15 — reduced-motion root scrolling review.
