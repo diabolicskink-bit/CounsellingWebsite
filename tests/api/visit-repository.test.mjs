@@ -23,7 +23,10 @@ afterEach(() => {
 function createObservation(overrides = {}) {
   return {
     adCode: "enm",
+    botCategory: null,
+    botName: null,
     gclid: "CjwK-test-click",
+    isBot: false,
     landingPath: "/polyamory-enm-counselling",
     matchType: "p",
     matchedKeyword: "polyamory therapy",
@@ -88,6 +91,9 @@ test("records a visit observation through one parameterized statement", async ()
     observation.networkCode,
     observation.matchedKeyword,
     observation.matchType,
+    observation.isBot,
+    observation.botName,
+    observation.botCategory,
   ]);
   assert.doesNotMatch(calls[0].query, /private-test-value|polyamory therapy|CjwK-test-click/);
 });

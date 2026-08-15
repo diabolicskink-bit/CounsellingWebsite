@@ -1,4 +1,4 @@
-import type { VisitObservation } from "./repository.ts";
+import type { VisitObservationPayload } from "./repository.ts";
 
 type ValidationIssue = {
   code: "invalid_format" | "invalid_type" | "required" | "too_long";
@@ -7,7 +7,7 @@ type ValidationIssue = {
 
 export type VisitValidationResult =
   | { issues: ValidationIssue[]; type: "invalid" }
-  | { observation: VisitObservation; type: "valid" };
+  | { observation: VisitObservationPayload; type: "valid" };
 
 const uuidV4Pattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const controlCharacterPattern = /[\u0000-\u001f\u007f]/;

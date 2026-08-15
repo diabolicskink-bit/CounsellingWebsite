@@ -3,7 +3,13 @@ import {
   type NeonQueryFunction,
 } from "@neondatabase/serverless";
 
-export type VisitObservation = {
+export type VisitBotClassification = {
+  botCategory: string | null;
+  botName: string | null;
+  isBot: boolean | null;
+};
+
+export type VisitObservationPayload = {
   adCode: string | null;
   gclid: string | null;
   landingPath: string;
@@ -17,6 +23,8 @@ export type VisitObservation = {
   visitId: string;
   visitorId: string;
 };
+
+export type VisitObservation = VisitObservationPayload & VisitBotClassification;
 
 export type VisitObservationResult = {
   pageViewInserted: boolean;
@@ -87,7 +95,10 @@ inserted_visit AS (
     ad_code,
     network_code,
     matched_keyword,
-    match_type
+    match_type,
+    is_bot,
+    bot_name,
+    bot_category
   )
   SELECT
     $2::uuid,
@@ -101,7 +112,10 @@ inserted_visit AS (
     $9,
     $10,
     $11,
-    $12
+    $12,
+    $13::BOOLEAN,
+    $14,
+    $15
   FROM observation_time
   ON CONFLICT (id) DO NOTHING
   RETURNING id
@@ -113,14 +127,28 @@ matched_visit AS (
   FROM site_visits
   WHERE id = $2::uuid AND visitor_id = $1::uuid
 ),
+classified_visit AS (
+  UPDATE site_visits
+  SET
+    is_bot = CASE
+      WHEN site_visits.is_bot IS TRUE OR $13::BOOLEAN IS TRUE THEN TRUE
+      WHEN site_visits.is_bot IS FALSE OR $13::BOOLEAN IS FALSE THEN FALSE
+      ELSE NULL
+    END,
+    bot_name = COALESCE(site_visits.bot_name, $14),
+    bot_category = COALESCE(site_visits.bot_category, $15)
+  FROM matched_visit
+  WHERE site_visits.id = matched_visit.id
+  RETURNING site_visits.id
+),
 inserted_page_view AS (
   INSERT INTO site_page_views (id, visit_id, viewed_at, path)
   SELECT
     $3::uuid,
-    matched_visit.id,
+    classified_visit.id,
     observation_time.recorded_at,
     $5
-  FROM matched_visit
+  FROM classified_visit
   CROSS JOIN observation_time
   ON CONFLICT (id) DO NOTHING
   RETURNING id, visit_id, viewed_at
@@ -180,6 +208,9 @@ export async function recordVisitObservation(
     observation.networkCode,
     observation.matchedKeyword,
     observation.matchType,
+    observation.isBot,
+    observation.botName,
+    observation.botCategory,
   ];
   const readResult = async () => {
     const rows = (await database.query(

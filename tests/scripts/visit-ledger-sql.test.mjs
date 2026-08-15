@@ -14,6 +14,10 @@ const viewMigration = await readFile(
   new URL("0002_create_visit_ledger_view.sql", migrationsUrl),
   "utf8",
 );
+const botMigration = await readFile(
+  new URL("0003_add_visit_bot_classification.sql", migrationsUrl),
+  "utf8",
+);
 const queryFilenames = (await readdir(queriesUrl))
   .filter((filename) => filename.endsWith(".sql"))
   .sort();
@@ -30,6 +34,7 @@ test("visit ledger migrations retain their application order", async () => {
   assert.deepEqual(migrationFilenames, [
     "0001_create_visit_ledger.sql",
     "0002_create_visit_ledger_view.sql",
+    "0003_add_visit_bot_classification.sql",
   ]);
 });
 
@@ -41,6 +46,7 @@ test("database migration reader returns the ordered ledger migrations", async ()
     [
       "0001_create_visit_ledger.sql",
       "0002_create_visit_ledger_view.sql",
+      "0003_add_visit_bot_classification.sql",
     ],
   );
   assert.ok(migrations.every((migration) => /^[a-f0-9]{64}$/.test(migration.checksum)));
@@ -96,6 +102,14 @@ test("visit ledger view exposes return status, traffic source, and page totals",
   assert.match(viewMigration, /WITH \(security_invoker = true\)/i);
 });
 
+test("bot classification migration preserves nullable verdicts and verified identities", () => {
+  assert.match(botMigration, /ADD COLUMN is_bot BOOLEAN/i);
+  assert.match(botMigration, /ADD COLUMN bot_name TEXT/i);
+  assert.match(botMigration, /ADD COLUMN bot_category TEXT/i);
+  assert.match(botMigration, /CREATE OR REPLACE VIEW visit_ledger/i);
+  assert.match(botMigration, /ordered_visits\.is_bot/i);
+});
+
 test("saved visit ledger queries are read-only and cover each reporting task", async () => {
   assert.deepEqual(queryFilenames, [
     "01_latest_visits.sql",
@@ -127,6 +141,7 @@ test("saved visit ledger queries are read-only and cover each reporting task", a
   assert.match(queries.get("02_visitors.sql"), /GROUP BY ledger\.visitor_id/i);
   assert.match(queries.get("03_today_overview.sql"), /Australia\/Perth/i);
   assert.match(queries.get("04_traffic_last_30_days.sql"), /matched_keyword/i);
+  assert.match(queries.get("04_traffic_last_30_days.sql"), /is_bot IS NOT TRUE/i);
   assert.match(
     queries.get("05_visit_page_sequence.sql"),
     /ORDER BY page_views\.viewed_at, page_views\.id/i,

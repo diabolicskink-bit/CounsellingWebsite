@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_CLARITY_PROJECT_ID?: string;
   readonly VITE_VISIT_ANALYTICS_ALLOWED_HOSTS?: string;
   readonly VITE_VISIT_ANALYTICS_ENABLED?: string;
+  readonly VITE_VISIT_BOT_DETECTION_ENABLED?: string;
 }
 
 interface ImportMeta {

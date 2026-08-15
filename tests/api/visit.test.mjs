@@ -9,6 +9,11 @@ import {
 
 const originalConsoleError = console.error;
 const originalConsoleWarn = console.warn;
+const nonBotClassification = {
+  botCategory: null,
+  botName: null,
+  isBot: false,
+};
 
 afterEach(() => {
   console.error = originalConsoleError;
@@ -78,6 +83,10 @@ function silenceExpectedLogs() {
   return { errors, warnings };
 }
 
+function createTestVisitHandler(recordObservation, classifyBot = async () => nonBotClassification) {
+  return createVisitHandler(recordObservation, classifyBot);
+}
+
 async function invoke(handler, { body = validPayload(), headers = jsonHeaders(), method = "POST" } = {}) {
   const { response, result } = createResponse();
   const returned = await handler({ body, headers, method }, response);
@@ -87,7 +96,7 @@ async function invoke(handler, { body = validPayload(), headers = jsonHeaders(),
 
 test("records a valid observation and returns no content", async () => {
   const observations = [];
-  const handler = createVisitHandler(async (observation) => {
+  const handler = createTestVisitHandler(async (observation) => {
     observations.push(observation);
     return { pageViewInserted: true };
   });
@@ -101,13 +110,53 @@ test("records a valid observation and returns no content", async () => {
   assert.equal(observations.length, 1);
   assert.deepEqual(observations[0], {
     ...validPayload(),
+    ...nonBotClassification,
     referrerHost: "www.google.com",
   });
 });
 
+test("stores a verified bot verdict and identity without blocking the visit", async () => {
+  const observations = [];
+  const handler = createTestVisitHandler(
+    async (observation) => observations.push(observation),
+    async () => ({
+      botCategory: "search engine",
+      botName: "googlebot",
+      isBot: true,
+    }),
+  );
+
+  const result = await invoke(handler);
+
+  assert.equal(result.statusCode, 204);
+  assert.equal(observations[0].isBot, true);
+  assert.equal(observations[0].botName, "googlebot");
+  assert.equal(observations[0].botCategory, "search engine");
+});
+
+test("records an unclassified visit when bot detection is unavailable", async () => {
+  const { warnings } = silenceExpectedLogs();
+  const observations = [];
+  const handler = createTestVisitHandler(
+    async (observation) => observations.push(observation),
+    async () => {
+      throw new Error("private bot provider detail");
+    },
+  );
+
+  const result = await invoke(handler);
+
+  assert.equal(result.statusCode, 204);
+  assert.equal(observations[0].isBot, null);
+  assert.equal(observations[0].botName, null);
+  assert.equal(observations[0].botCategory, null);
+  assert.match(JSON.stringify(warnings), /Visit bot classification unavailable/);
+  assert.doesNotMatch(JSON.stringify(warnings), /private bot provider detail/);
+});
+
 test("normalizes absent optional attribution and referrer fields to null", async () => {
   const observations = [];
-  const handler = createVisitHandler(async (observation) => observations.push(observation));
+  const handler = createTestVisitHandler(async (observation) => observations.push(observation));
 
   const result = await invoke(handler, {
     body: validPayload({
@@ -129,7 +178,7 @@ test("normalizes absent optional attribution and referrer fields to null", async
 });
 
 test("returns the same success for an idempotent repeated observation", async () => {
-  const handler = createVisitHandler(async () => ({ pageViewInserted: false }));
+  const handler = createTestVisitHandler(async () => ({ pageViewInserted: false }));
 
   const result = await invoke(handler);
 
@@ -139,7 +188,7 @@ test("returns the same success for an idempotent repeated observation", async ()
 
 test("does not expose a read method", async () => {
   let recordCalled = false;
-  const handler = createVisitHandler(async () => {
+  const handler = createTestVisitHandler(async () => {
     recordCalled = true;
   });
 
@@ -154,7 +203,7 @@ test("does not expose a read method", async () => {
 test("rejects unsupported and missing content types before storage", async () => {
   const { warnings } = silenceExpectedLogs();
   let recordCalled = false;
-  const handler = createVisitHandler(async () => {
+  const handler = createTestVisitHandler(async () => {
     recordCalled = true;
   });
 
@@ -172,7 +221,7 @@ test("rejects unsupported and missing content types before storage", async () =>
 
 test("rejects oversized declared and parsed request bodies", async () => {
   silenceExpectedLogs();
-  const handler = createVisitHandler(async () => {
+  const handler = createTestVisitHandler(async () => {
     throw new Error("storage should not be called");
   });
 
@@ -190,7 +239,7 @@ test("rejects oversized declared and parsed request bodies", async () => {
 test("rejects cross-site request signals before storage", async () => {
   const { warnings } = silenceExpectedLogs();
   let recordCalled = false;
-  const handler = createVisitHandler(async () => {
+  const handler = createTestVisitHandler(async () => {
     recordCalled = true;
   });
 
@@ -222,7 +271,7 @@ test("rejects cross-site request signals before storage", async () => {
 
 test("accepts a same-origin production-shaped request", async () => {
   let recordCalled = false;
-  const handler = createVisitHandler(async () => {
+  const handler = createTestVisitHandler(async () => {
     recordCalled = true;
   });
 
@@ -242,7 +291,7 @@ test("accepts a same-origin production-shaped request", async () => {
 test("rejects invalid identities, paths, referrers, and oversized attribution", async () => {
   const { warnings } = silenceExpectedLogs();
   const observations = [];
-  const handler = createVisitHandler(async (observation) => observations.push(observation));
+  const handler = createTestVisitHandler(async (observation) => observations.push(observation));
   const payloads = [
     validPayload({ visitorId: "not-a-uuid" }),
     validPayload({ path: "/contact?message=secret" }),
@@ -264,7 +313,7 @@ test("maps identity conflicts to a generic conflict response", async () => {
   const { warnings } = silenceExpectedLogs();
 
   for (const error of [new VisitIdentityConflictError(), new PageViewIdentityConflictError()]) {
-    const handler = createVisitHandler(async () => {
+    const handler = createTestVisitHandler(async () => {
       throw error;
     });
     const result = await invoke(handler);
@@ -284,7 +333,7 @@ test("keeps database configuration and runtime failures out of public responses"
   ];
 
   for (const error of failures) {
-    const handler = createVisitHandler(async () => {
+    const handler = createTestVisitHandler(async () => {
       throw error;
     });
     const result = await invoke(handler);

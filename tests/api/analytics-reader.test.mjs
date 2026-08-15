@@ -17,10 +17,13 @@ afterEach(() => {
 function createVisitRow(overrides = {}) {
   return {
     adCode: "enm",
+    botCategory: "search engine",
+    botName: "googlebot",
     dateKey: "2026-08-15",
     durationSeconds: "305",
     gclid: "CjwK-test",
     id: "1a560836-220d-4d33-a05e-5f364891f9cb",
+    isBot: true,
     landingPath: "/polyamory-enm-counselling",
     lastSeenAt: "2026-08-15T03:05:00.000Z",
     matchType: "p",
@@ -77,6 +80,9 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
   assert.equal(result.date, "2026-08-15");
   assert.equal(result.visits[0].visitNumber, 2);
   assert.equal(result.visits[0].durationSeconds, 305);
+  assert.equal(result.visits[0].isBot, true);
+  assert.equal(result.visits[0].botName, "googlebot");
+  assert.equal(result.visits[0].botCategory, "search engine");
   assert.deepEqual(
     result.visits[0].pageViews.map((pageView) => pageView.path),
     ["/polyamory-enm-counselling", "/contact"],

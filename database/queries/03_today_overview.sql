@@ -9,12 +9,15 @@ WITH today AS (
 )
 SELECT
   COUNT(*)::INTEGER AS visit_count,
+  COUNT(*) FILTER (WHERE today.is_bot IS TRUE)::INTEGER AS bot_visit_count,
+  COUNT(*) FILTER (WHERE today.is_bot IS NOT TRUE)::INTEGER AS unflagged_visit_count,
+  COUNT(*) FILTER (WHERE today.is_bot IS NULL)::INTEGER AS unclassified_visit_count,
   COUNT(DISTINCT today.visitor_id)::INTEGER AS browser_count,
-  COUNT(*) FILTER (WHERE NOT today.is_returning)::INTEGER AS new_visit_count,
-  COUNT(*) FILTER (WHERE today.is_returning)::INTEGER AS returning_visit_count,
-  COUNT(*) FILTER (WHERE today.traffic_source = 'paid')::INTEGER AS paid_visit_count,
-  COUNT(*) FILTER (WHERE today.traffic_source = 'referral')::INTEGER AS referral_visit_count,
-  COUNT(*) FILTER (WHERE today.traffic_source = 'internal')::INTEGER AS internal_visit_count,
-  COUNT(*) FILTER (WHERE today.traffic_source = 'direct')::INTEGER AS direct_visit_count,
-  COALESCE(SUM(today.page_view_count), 0)::INTEGER AS page_view_count
+  COUNT(*) FILTER (WHERE NOT today.is_returning AND today.is_bot IS NOT TRUE)::INTEGER AS new_visit_count,
+  COUNT(*) FILTER (WHERE today.is_returning AND today.is_bot IS NOT TRUE)::INTEGER AS returning_visit_count,
+  COUNT(*) FILTER (WHERE today.traffic_source = 'paid' AND today.is_bot IS NOT TRUE)::INTEGER AS paid_visit_count,
+  COUNT(*) FILTER (WHERE today.traffic_source = 'referral' AND today.is_bot IS NOT TRUE)::INTEGER AS referral_visit_count,
+  COUNT(*) FILTER (WHERE today.traffic_source = 'internal' AND today.is_bot IS NOT TRUE)::INTEGER AS internal_visit_count,
+  COUNT(*) FILTER (WHERE today.traffic_source = 'direct' AND today.is_bot IS NOT TRUE)::INTEGER AS direct_visit_count,
+  COALESCE(SUM(today.page_view_count) FILTER (WHERE today.is_bot IS NOT TRUE), 0)::INTEGER AS page_view_count
 FROM today;

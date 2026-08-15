@@ -40,6 +40,9 @@ const analyticsVisitColumns = `
   ledger.network_code AS "networkCode",
   ledger.matched_keyword AS "matchedKeyword",
   ledger.match_type AS "matchType",
+  ledger.is_bot AS "isBot",
+  ledger.bot_name AS "botName",
+  ledger.bot_category AS "botCategory",
   COALESCE(
     (
       SELECT JSON_AGG(
@@ -98,6 +101,16 @@ function nullableString(value: unknown, field: string) {
   return requiredString(value, field);
 }
 
+function nullableBoolean(value: unknown, field: string) {
+  if (value === null || value === undefined) return null;
+
+  if (typeof value !== "boolean") {
+    throw new TypeError(`Analytics row has an invalid ${field}.`);
+  }
+
+  return value;
+}
+
 function nonNegativeInteger(value: unknown, field: string) {
   const number = typeof value === "number" ? value : Number(value);
 
@@ -154,10 +167,13 @@ function normalizeVisit(row: AnalyticsVisitRow): AnalyticsVisit {
 
   return {
     adCode: nullableString(row.adCode, "ad code"),
+    botCategory: nullableString(row.botCategory, "bot category"),
+    botName: nullableString(row.botName, "bot name"),
     dateKey: requiredString(row.dateKey, "date"),
     durationSeconds: nonNegativeInteger(row.durationSeconds, "duration"),
     gclid: nullableString(row.gclid, "GCLID"),
     id: requiredString(row.id, "visit ID"),
+    isBot: nullableBoolean(row.isBot, "bot verdict"),
     landingPath: requiredString(row.landingPath, "landing path"),
     lastSeenAt: timestampString(row.lastSeenAt, "last-seen time"),
     matchType: nullableString(row.matchType, "match type"),

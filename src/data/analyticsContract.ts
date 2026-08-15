@@ -33,10 +33,13 @@ export type AnalyticsPageView = {
 
 export type AnalyticsVisit = {
   adCode: string | null;
+  botCategory: string | null;
+  botName: string | null;
   dateKey: string;
   durationSeconds: number;
   gclid: string | null;
   id: string;
+  isBot: boolean | null;
   landingPath: string;
   lastSeenAt: string;
   matchType: string | null;

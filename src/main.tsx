@@ -1,7 +1,23 @@
+import { initBotId } from "botid/client/core";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { BrowserApp } from "./BrowserApp";
+import {
+  isVisitAnalyticsHostAllowed,
+  visitAnalyticsEnabled,
+  visitBotDetectionEnabled,
+} from "./utils/visitAnalytics";
 import "./styles.css";
 import "./design-system/index.css";
+
+if (visitAnalyticsEnabled && visitBotDetectionEnabled && isVisitAnalyticsHostAllowed()) {
+  initBotId({
+    protect: [{
+      advancedOptions: { checkLevel: "basic" },
+      method: "POST",
+      path: "/api/visit",
+    }],
+  });
+}
 
 function normalizePathname(pathname: string) {
   const normalizedPathname = pathname.replace(/\/+$/, "");

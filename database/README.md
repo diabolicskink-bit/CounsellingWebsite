@@ -27,15 +27,19 @@ browser code.
 The Vercel-managed Neon resource and all of its generated connection variables
 are scoped to Production only. Development and Preview deployments receive no
 Neon project identifiers, hosts, usernames, passwords, or connection strings;
-their database-backed functions therefore fail closed. The schema is current
-in Production, and visit recording is enabled only on the canonical Vive
-hostnames.
+their database-backed functions therefore fail closed. The first two
+migrations are current in Production, and visit recording is enabled only on
+the canonical Vive hostnames. Migration `0003` adds nullable BotID verdict and
+verified-bot identity fields; apply it before deploying the classification
+code.
 
-`visit_ledger` is the read-only reporting view created by migration `0002`. It
-marks the earliest retained visit for an anonymous browser ID as `new`, marks
-later retained visits as `returning`, classifies traffic, and adds page-view
-totals. The private `/analytics` interface reads it only through the Basic
-Authentication-protected, read-only `GET /api/analytics` function.
+`visit_ledger` is the read-only reporting view created by migration `0002` and
+extended by migration `0003`. It marks the earliest retained visit for an
+anonymous browser ID as `new`, marks later retained visits as `returning`,
+classifies traffic, adds page-view totals, and exposes the nullable BotID
+verdict and verified name/category. The private `/analytics` interface reads it
+only through the Basic Authentication-protected, read-only `GET /api/analytics`
+function.
 
 Repository-owned Neon saved-query templates live in `database/queries/`. The
 queries apply explicit ordering and Australia/Perth reporting dates; a view does

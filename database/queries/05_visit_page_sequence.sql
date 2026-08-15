@@ -6,6 +6,9 @@ SELECT
   ledger.started_at AT TIME ZONE 'Australia/Perth' AS visit_started_at_awst,
   ledger.visitor_status,
   ledger.visitor_id,
+  ledger.is_bot,
+  ledger.bot_name,
+  ledger.bot_category,
   page_views.visit_id,
   ROW_NUMBER() OVER (
     PARTITION BY page_views.visit_id

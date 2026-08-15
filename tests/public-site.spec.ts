@@ -553,10 +553,13 @@ test.describe("analytics", () => {
       const date = requestUrl.searchParams.get("date") ?? "2026-08-15";
       const visit = {
         adCode: null,
+        botCategory: null,
+        botName: null,
         dateKey: date,
         durationSeconds: 90,
         gclid: "CjwK-gclid-only",
         id: visitId,
+        isBot: false,
         landingPath: "/",
         lastSeenAt: `${date}T03:01:30.000Z`,
         matchType: null,

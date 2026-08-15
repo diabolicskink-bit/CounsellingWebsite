@@ -3,6 +3,7 @@ import {
   recordVisitObservation,
   VisitDatabaseConfigurationError,
   VisitIdentityConflictError,
+  type VisitBotClassification,
   type VisitObservation,
 } from "../src/server/visits/repository.ts";
 import {
@@ -12,9 +13,14 @@ import {
   type VisitRequest,
   type VisitResponse,
 } from "../src/server/visits/request.ts";
+import {
+  classifyVisitBot,
+  unclassifiedVisitBot,
+} from "../src/server/visits/bot.ts";
 import { validateVisitPayload } from "../src/server/visits/validation.ts";
 
 type RecordVisitObservation = (observation: VisitObservation) => Promise<unknown>;
+type ClassifyVisitBot = (request: VisitRequest) => Promise<VisitBotClassification>;
 
 const publicFailureMessage = "Visit could not be recorded.";
 
@@ -28,7 +34,10 @@ function sendSuccess(response: VisitResponse) {
   return response.status(204).end();
 }
 
-export function createVisitHandler(recordObservation: RecordVisitObservation = recordVisitObservation) {
+export function createVisitHandler(
+  recordObservation: RecordVisitObservation = recordVisitObservation,
+  classifyBot: ClassifyVisitBot = classifyVisitBot,
+) {
   return async function handler(request: VisitRequest, response: VisitResponse) {
     if (request.method !== "POST") {
       response.setHeader("Allow", "POST");
@@ -49,8 +58,22 @@ export function createVisitHandler(recordObservation: RecordVisitObservation = r
       return sendFailure(response, 400);
     }
 
+    let botClassification = unclassifiedVisitBot;
+
     try {
-      await recordObservation(validation.observation);
+      botClassification = await classifyBot(request);
+    } catch (error) {
+      console.warn(
+        "Visit bot classification unavailable:",
+        error instanceof Error ? error.name : "UnknownError",
+      );
+    }
+
+    try {
+      await recordObservation({
+        ...validation.observation,
+        ...botClassification,
+      });
       return sendSuccess(response);
     } catch (error) {
       if (error instanceof VisitIdentityConflictError || error instanceof PageViewIdentityConflictError) {
