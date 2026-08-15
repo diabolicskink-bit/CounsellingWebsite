@@ -126,6 +126,7 @@ Each active item should include enough direction that a future session can choos
   - 2026-08-03: Promoted `--cedar` as the first `Shared-supported` token after verifying its production role, consumers, and accessible light-surface pairings; its Foundations specimen is the workspace's first supported item.
   - 2026-08-05: Promoted the three-token portrait-material set after verifying identical semantic use across Home and Working with Joel, then replaced the duplicate page-local values with the shared production tokens. The Home-only stronger interaction tint remains page-local.
   - 2026-08-05: Promoted `--section-warm`, `--section-rule`, and `.site-section-warm` for the verified warm editorial sections across Home, Working with Joel, Inclusion, Contact, Kink and BDSM, ENM and polyamory, and LGBTQIA+. The shared pattern replaces repeated default padding, background, and lower-boundary declarations; responsive padding exceptions remain page-local. The former Introducing Joel sage glow was removed by owner direction, while the Inclusion chapter's sage left-hand overlay remains page-local.
+  - 2026-08-14: Broadened the verified `--section-warm` and `--section-rule` material roles and promoted `--section-sage`, `--section-dark`, `--section-dark-soft`, and `--section-dark-rule`. Public content pages and the Documents workspace now consume those six foundations directly instead of retaining page-prefixed aliases; nearby colours with different values or roles remain local or inherited.
   - 2026-08-05: Replaced the mixed active inventory and lifecycle catalogue with current-only Foundations, Components, and Patterns catalogues. Inherited implementation evidence now lives in a separate non-authoritative legacy register and completed removal history stays in Git and the task log.
   - 2026-08-05: Promoted `.site-hero-background` as the shared dark surface for all seven public-route heroes and every development hero or cover. Removed the obsolete light `.hero-bg--default` helper, its unused noise asset, and the duplicated public and development hero background declarations while leaving hero structure, typography, actions, and responsive composition outside the promotion.
   - 2026-08-05: Promoted the no-prop `<ContactInvitation />` contract by explicit owner direction with Home as its first and currently only verified production consumer. The component now owns the canonical copy, Contact destination, accessible section relationship, interaction states, and responsive presentation; the former `home-closing*` implementation was removed. Rollout to the remaining non-Contact public pages is intentionally separate work.
@@ -135,32 +136,6 @@ Each active item should include enough direction that a future session can choos
   - Keep public pages and their current visual treatment unchanged during reconciliation unless a separate task explicitly authorizes visitor-facing work.
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
 - `Links`: `docs/design-system/`, `src/design-system/`, `src/styles.css`, `src/components/`
-
-### DEBT-8 - Route parity coverage needs explicit enforcement
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Priority Rationale`: This is `P2` because duplicated route, metadata, redirect, prerender, and test expectations can drift without a clear failing check. It is not `P1` while the current route set is still small and local QA already covers key generated artifacts.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: Routing, Metadata, Tests
-- `Problem`: Public route expectations are repeated across route definitions, app registration, metadata JSON, prerendering, redirects, and tests without one explicit parity check that verifies those surfaces stay aligned.
-- `Why It Matters`: It is easy to add, rename, or redirect a route without getting a clear local failure for missing metadata, prerender output, sitemap coverage, redirect expectations, or public-site test coverage.
-- `Preferred Direction`: Add focused parity tests that enforce consistency across the current duplicated route surfaces while preserving the existing route implementation.
-- `Resolution Path`: Identify the route surfaces that should agree today, add the smallest useful parity test around them, and keep failures specific enough that future route changes tell the maintainer what was missed.
-- `Next Action`: Add a focused parity test for the current route, metadata, prerender, redirect, and public-site coverage surfaces.
-- `Resolved When`: Public route changes fail clearly when metadata, prerendering, redirects, sitemap output, or tests are out of sync.
-- `Related Items`:
-  - `DEBT-1`: Route parity assertions can now build on the restored public-site QA gate.
-  - `DEBT-6`: Archived production URL and fallback decisions need to match any future route manifest or parity test.
-  - `DEBT-25`: Archived route-manifest consolidation was assessed as not worth pursuing for this small, mostly static site.
-  - `SITE-3`: The SEO/metadata matrix is the visitor-facing counterpart to this technical route consistency work.
-- `Dependencies`: `None`
-- `Notes`:
-  - Split from the old broad `DEBT-8` on 2026-06-18. The shared-manifest/source-of-truth question was assessed and closed in archived sibling item `DEBT-25`.
-  - Brief breakdown assessment: do not split this further yet. It should be attempted as one focused parity-test slice first. If implementation reveals unrelated checks with different owners, split those then rather than pre-creating child items now.
-- `Links`: `src/data/routes.ts`, `src/App.tsx`, `src/data/routeMetadata.json`, `tests/public-site.spec.ts`
 
 ### DEBT-9 - Type checking does not cover tests, scripts, or most config code
 
@@ -244,6 +219,8 @@ Each active item should include enough direction that a future session can choos
   - 2026-07-13: Removed the unused generic `.stack` helper after a focused source audit confirmed no runtime call sites; active stack outcomes remain covered by `.site-content-stack` and `.site-detail-stack`.
   - 2026-07-13: Removed the unused `.site-highlight__box` selector after confirming it had no runtime or dev-page call sites; the active `.site-highlight` band and shared panel patterns were preserved.
   - 2026-08-06: Audited the first ten shell/header class selectors in `src/styles.css`. All are active; `Layout` now composes `Container` for header containment, and duplicate shared-shell header-border and wordmark-colour declarations were removed while preserving composition, responsive behaviour, and public appearance.
+  - 2026-08-13: Removed the source-confirmed dormant inherited presentation layer: unmounted card, topic, checklist, fee, detail, CTA, list, and hero selector families; their responsive rules and orphaned tokens; the unused `SectionHeading` component; and the unconsumed tertiary `Button` variant. Static source tracing now leaves only the live secondary button variant and development-document status modifiers without literal TS/TSX class references.
+  - 2026-08-14: Removed the mounted but redundant `.site-copy-panel`, `.rich-text`, `.section-heading`, `.section-heading__copy`, and `.site-copy-flow` layer after tracing its only production consumer. Working with Joel now owns the affected layout directly and keeps the promoted `.site-reading` role for prose; broad-tab and development-hero selectors remain for their live consumers.
 - `Links`: `src/styles.css`, `docs/design-system-legacy/patterns.md`
 
 ### DEBT-15 - Public page CSS is globally bundled and relies on naming discipline
@@ -269,6 +246,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-20`: Page-specific typography overrides are one concrete way global page CSS can drift from shared design-system roles.
 - `Dependencies`: `None`
 - `Notes`:
+  - 2026-08-15: The Crisis Support review confirmed a concrete cascade-order failure: the production bundle placed page CSS before equal-specificity shared rules, leaving several colour and hero-spacing declarations inert. The route now uses deliberate higher specificity only for page-level semantic colour variables; redundant declarations were removed, and its hero retains the inherited `.hero-section` spacing. The broader bundling and scoping decision remains open.
 - `Links`: `src/App.tsx`, `src/pages/`, `src/styles-*.css`
 
 ### DEBT-20 - Page-specific typography overrides need role audit
@@ -297,6 +275,7 @@ Each active item should include enough direction that a future session can choos
   - Do not treat this as a redesign or global re-scale. The first type-role implementation slice is already complete; this is follow-up cleanup.
   - Preserve page-specific type where a page has a genuine editorial composition, such as special hero title measures or unique visual moments.
   - 2026-08-05: All seven public content routes now use `.site-reading` for matching substantive prose; Home and Working with Joel also use `.site-reading--lead` for their established opening paragraphs. Contextual dark-surface foregrounds and deliberate serif, heading, label, form, metadata, and compact-support roles remain page-owned. This debt stays open for the broader classification of remaining page-specific type rules.
+  - 2026-08-15: Replaced the live Crisis Support `h2` and `h3` size overrides with the shared heading defaults after rendered desktop, intermediate, and mobile review. Page CSS retains layout, measure, compact service-copy sizing, and semantic colour responsibilities.
 - `Links`: `src/styles-*.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-21 - Shared production typography needs raw-size and fluid-rule audit
@@ -324,6 +303,8 @@ Each active item should include enough direction that a future session can choos
   - Some raw values may remain appropriate for icons, nav details, compact metadata, or deliberately non-body roles.
   - 2026-08-05: The first audited shared slice promoted `.site-reading` and `.site-reading--lead` with exact values and verified consumers. The remaining raw shared sizes and inherited root type tokens are still outside the active system.
   - 2026-08-06: Deep-reviewed the ten inherited selectors in the low-specificity body-copy group. Five are dormant delete candidates; the five mounted selectors need focused follow-up around `.site-reading` overlap, stale component ownership, broad dormant rich-child coverage, route-heavy tab-panel overrides, or development-only CSS ownership. No selector was promoted or removed during this review.
+  - 2026-08-13: Removed the five dormant low-specificity aliases, the unmounted rich-text descendants, the uncalled `SectionHeading` source, and orphaned type tokens. Mounted `.site-copy-flow`, `.section-heading__copy`, `.rich-text`, `.site-broad-tabs__content`, and development-only `.hero-copy-panel` behaviour remains unchanged for later focused ownership review.
+  - 2026-08-14: Removed `.site-copy-flow`, `.section-heading__copy`, and `.rich-text` after confirming the promoted `.site-reading` role and page-owned layout already supplied their live outcomes. `.site-broad-tabs__content` and development-only `.hero-copy-panel` remain mounted for separate ownership review.
 - `Links`: `src/styles.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-22 - Enquiry timezone comparison notes need server-owned handling
@@ -472,38 +453,6 @@ Each active item should include enough direction that a future session can choos
   - The current hydrated control has connected tab/tabpanel semantics and supports click, Home, End, and wrapping arrow-key selection. The gap is pre-JavaScript content availability, not the normal hydrated interaction.
   - Avoid duplicating approach prose in a separate fallback block; duplicated content would create maintenance and accessibility ambiguity.
 - `Links`: `src/components/BroadTabPanel.tsx`, `src/pages/WorkingWithJoel.tsx`, `tests/public-site.spec.ts`
-
-### DEBT-34 - Public-page tests need opportunistic maintenance
-
-- `Priority`: `P3`
-- `Size`: `S`
-- `Priority Rationale`: This is `P3` because the prerendering migration already has focused cross-route coverage and a passing production build. The remaining pressure is ordinary test relevance and maintainability as individual pages evolve, not a known production defect or a reason to delay other work.
-- `Status`: `Open`
-- `Detected`: 2026-07-13
-- `Source`: Prerendering close-out decision after Phase 9.
-- `Area`: Tests, Rendering, Public Pages, Maintainability
-- `Problem`: The broad standalone rendering-test phases were intentionally closed, but page-specific assertions can still become stale or miss new behaviour when public pages change over time.
-- `Why It Matters`: Reviewing the relevant tests while a page is already in context is cheaper and more accurate than preserving stale assertions or scheduling a separate whole-site testing campaign.
-- `Preferred Direction`: When a public page or shared page behaviour is being changed for another reason, inspect its raw HTML, no-JavaScript, hydration, interaction, accessibility, and metadata assertions as relevant to that change. Keep stable cross-route contracts shared and avoid broad copy snapshots.
-- `Resolution Path`: Work through the page checklist only as those pages are naturally touched by other approved work. Do not schedule implementation solely to clear this item.
-- `Next Action`: On the next otherwise-authorized public-page change, review that page's relevant Playwright coverage and update the matching checklist note below.
-- `Resolved When`: Every listed page/boundary has received at least one opportunistic post-migration test review during other work, or this checklist is superseded by a later explicit test-maintenance strategy.
-- `Related Items`:
-  - `DEBT-8`: Route-parity coverage protects the shared route-generation surfaces while this item tracks page-specific assertion quality.
-  - `docs/checklists/accessibility-monitor.md`: Owner-directed accessibility review may expose page-level assertions worth preserving when a page is already being changed.
-  - `docs/checklists/responsive-monitor.md`: Owner-directed responsive review may expose page-level interaction or layout checks worth preserving when a page is already being changed.
-- `Dependencies`: `None`
-- `Notes`:
-  - This is a memory aid, not authorization for a dedicated page-by-page audit or test-only campaign.
-  - Reviewed 2026-07-13 by explicit request: Home (`/`) now has focused hydrated and JavaScript-disabled checks for its semantic lists, portrait priority hint, workroom card, Inclusion detail navigation, and three page-owned route links. The raw first-response contract covers the same durable structure without snapshotting public prose, and the post-hydration SPA check now exercises a Home-owned CTA instead of the shared footer.
-  - Reviewed 2026-07-13 by explicit request: Working with Joel (`/working-with-joel`) now has focused hydrated and JavaScript-disabled checks for credentials, introduction and portrait semantics, lazy image loading, its three-tab approach control, and the complete issues list. The interaction check covers pointer selection, tab/panel relationships, roving tab stops, Home/End and wrapping arrow-key behaviour, hydration, diagnostics, and desktop/mobile axe smoke coverage without snapshotting public prose. Review exposed the pre-JavaScript approach-copy gap tracked as `DEBT-35`.
-  - Pending opportunistic review: Inclusion hub (`/inclusive-counselling`).
-  - Pending opportunistic review: Kink and BDSM (`/kink-bdsm-counselling`).
-  - Reviewed 2026-07-13 during master alignment: ENM and polyamory (`/polyamory-enm-counselling`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
-  - Reviewed 2026-07-13 during master alignment: LGBTQIA+ (`/lgbtqia-affirming-counselling`) first-response metadata and component-prerender assertions passed after the copy adjustment; no broad copy snapshot was needed.
-  - Pending opportunistic review: Contact and fees (`/contact`).
-  - Pending opportunistic review: Not Found and controlled `404.html` boundary.
-- `Links`: `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`, `docs/project/task-log.md`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 

@@ -11,3 +11,5 @@ vite.config.d.ts
 codex-*.log
 .vite-dev.err.log
 .vite-dev.out.log
+.vercel
+.env*

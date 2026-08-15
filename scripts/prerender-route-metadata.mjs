@@ -9,81 +9,25 @@ const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
-const prerenderedRoutePaths = [
-  "/",
-  "/working-with-joel",
-  "/inclusive-counselling",
-  "/kink-bdsm-counselling",
-  "/polyamory-enm-counselling",
-  "/lgbtqia-affirming-counselling",
-  "/contact",
-];
-const indexableRoutePaths = prerenderedRoutePaths;
-const prerenderedRouteSmokeFragments = {
-  "/": [
-    '<main class="site-page home-page">',
-    "Online Counselling and Therapy Across Australia",
-    'class="hero-section site-hero-background home-page__hero"',
-    'class="home-about site-section-warm"',
-    'class="home-contact codex-contact__task-section site-section-warm"',
-    'aria-label="Enquiry"',
-  ],
-  "/working-with-joel": [
-    '<main class="site-page working-with-joel-page">',
-    "Working with Joel",
-    'class="hero-section site-hero-background working-with-joel-page__hero"',
-    'src="/joel-griffiths-working-with-joel-portrait.jpg"',
-    'class="site-grid working-with-joel-page__intro site-section-warm"',
-  ],
-  "/inclusive-counselling": [
-    '<main class="site-page inclusion-hub-page">',
-    "Inclusive counselling",
-    'class="hero-section site-hero-background inclusion-hub-page__hero"',
-    'class="inclusion-hub-page__chapters"',
-    'class="inclusion-hub-page__chapter inclusion-hub-page__chapter--kink-bdsm site-section-warm"',
-  ],
-  "/kink-bdsm-counselling": [
-    '<main class="site-page kink-page">',
-    "Kink-aware counselling and therapy",
-    'class="hero-section site-hero-background specialist-counselling-hero kink-page__hero"',
-    'class="kink-page__misread site-section-warm"',
-    'class="kink-page__more"',
-  ],
-  "/polyamory-enm-counselling": [
-    '<main class="site-page enm-page">',
-    "Polyamory and ethical non-monogamy counselling and therapy",
-    'class="hero-section site-hero-background specialist-counselling-hero enm-page__hero"',
-    'class="enm-page__reasons site-section-warm"',
-    'class="enm-page__reasons-list"',
-    'class="enm-page__position"',
-  ],
-  "/lgbtqia-affirming-counselling": [
-    '<main class="site-page inclusion-page lgbtqia-page">',
-    "LGBTQIA+ affirming counselling",
-    'class="hero-section site-hero-background specialist-counselling-hero lgbtqia-page__hero"',
-    'class="lgbtqia-page__recognition site-section-warm"',
-    'class="lgbtqia-page__recognition-list"',
-    'class="lgbtqia-page__disclosure"',
-  ],
-  "/contact": [
-    '<main class="site-page contact-page codex-contact">',
-    "Contact and fees",
-    'class="codex-contact__opening site-hero-background"',
-    "Choosing a counsellor can be hard.",
-    'class="codex-contact__task-section site-section-warm"',
-    'id="contact-start"',
-    'id="contact-fees"',
-    "More than two?",
-    "Mon to Fri, 9.30am to 5.00pm AWST",
-    'data-timezone-notes-source="prerendered"',
-    'class="codex-contact__form"',
-    'action="/api/enquiry"',
-    'data-clarity-mask="true"',
-    'href="mailto:joel@vivecounselling.com.au"',
-  ],
+const routeMainClasses = {
+  "/": "site-page home-page",
+  "/working-with-joel": "site-page working-with-joel-page",
+  "/inclusive-counselling": "site-page inclusion-hub-page",
+  "/kink-bdsm-counselling": "site-page kink-page",
+  "/polyamory-enm-counselling": "site-page enm-page",
+  "/lgbtqia-affirming-counselling": "site-page inclusion-page lgbtqia-page",
+  "/crisis-support": "site-page crisis-support-page",
+  "/contact": "site-page contact-page",
 };
-const prerenderedRouteSmokeForbiddenFragments = {};
-const notFoundFallback = {
+const faviconTags = [
+  '<link rel="icon" href="/favicon.ico" sizes="any" />',
+  '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />',
+  '<link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />',
+  '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
+  '<link rel="manifest" href="/site.webmanifest" />',
+];
+const notFoundPage = {
+  title: "Page not found | Vive Counselling",
   h1: "That page isn't here.",
   description: "This page could not be found on the Vive Counselling website.",
 };
@@ -112,16 +56,22 @@ function getAssetUrl(siteOrigin, assetPath) {
   return `${siteOrigin}${assetPath.startsWith("/") ? assetPath : `/${assetPath}`}`;
 }
 
-function getFaviconTags() {
-  return [
-    '<link rel="icon" href="/favicon.ico" sizes="any" />',
-    '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />',
-    '<link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />',
-    '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
-    '<link rel="manifest" href="/site.webmanifest" />',
-  ];
-}
+function getValidIsoDate(value, label) {
+  if (typeof value !== "string") {
+    throw new Error(`${label} must be an ISO date.`);
+  }
 
+  const parsedDate = new Date(`${value}T00:00:00.000Z`);
+  const normalizedDate = Number.isNaN(parsedDate.valueOf())
+    ? ""
+    : parsedDate.toISOString().slice(0, 10);
+
+  if (normalizedDate !== value) {
+    throw new Error(`${label} must be an ISO date.`);
+  }
+
+  return value;
+}
 function getStructuredDataIds(siteMetadata, siteOrigin) {
   const homepageUrl = getAbsoluteUrl(siteOrigin, "/");
   const profileUrl = getAbsoluteUrl(siteOrigin, siteMetadata.person.url);
@@ -179,24 +129,6 @@ function getStructuredDataTag(structuredData) {
   return `<script type="application/ld+json">${escapeJsonForHtml(JSON.stringify(structuredData))}</script>`;
 }
 
-function getServiceChannelNode(service, siteOrigin) {
-  return {
-    "@type": "ServiceChannel",
-    name: service.deliveryChannel.name,
-    serviceUrl: getAbsoluteUrl(siteOrigin, service.deliveryChannel.url),
-  };
-}
-
-function getServiceOfferNode(service, siteOrigin) {
-  return {
-    "@type": "Offer",
-    name: service.offer.name,
-    price: service.offer.price,
-    priceCurrency: service.offer.priceCurrency,
-    url: getAbsoluteUrl(siteOrigin, service.offer.url),
-  };
-}
-
 function getServiceNode({
   description,
   id,
@@ -225,8 +157,18 @@ function getServiceNode({
       "@type": "Country",
       name: service.areaServed,
     },
-    availableChannel: getServiceChannelNode(service, siteOrigin),
-    offers: getServiceOfferNode(service, siteOrigin),
+    availableChannel: {
+      "@type": "ServiceChannel",
+      name: service.deliveryChannel.name,
+      serviceUrl: getAbsoluteUrl(siteOrigin, service.deliveryChannel.url),
+    },
+    offers: {
+      "@type": "Offer",
+      name: service.offer.name,
+      price: service.offer.price,
+      priceCurrency: service.offer.priceCurrency,
+      url: getAbsoluteUrl(siteOrigin, service.offer.url),
+    },
     ...(mainEntityOfPage ? { mainEntityOfPage: { "@id": mainEntityOfPage } } : {}),
     ...(isRelatedTo ? { isRelatedTo: { "@id": isRelatedTo } } : {}),
   };
@@ -345,6 +287,52 @@ function getSpecialistServiceStructuredDataTag(routePath, routeMetadata, siteMet
   return getStructuredDataTag(structuredData);
 }
 
+function getCrisisSupportStructuredDataTag(routeMetadata, siteMetadata, siteOrigin) {
+  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
+  const pageUrl = getAbsoluteUrl(siteOrigin, "/crisis-support");
+  const pageId = `${pageUrl}#webpage`;
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "MedicalWebPage",
+        "@id": pageId,
+        url: pageUrl,
+        name: routeMetadata.title,
+        description: routeMetadata.description,
+        inLanguage: "en-AU",
+        lastReviewed: getValidIsoDate(
+          routeMetadata.lastReviewed,
+          "Crisis Support lastReviewed",
+        ),
+        isPartOf: { "@id": ids.websiteId },
+        publisher: { "@id": ids.organizationId },
+        breadcrumb: { "@id": breadcrumbId },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: ids.homepageUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Crisis support",
+          },
+        ],
+      },
+    ],
+  };
+
+  return getStructuredDataTag(structuredData);
+}
+
 function getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
   if (routePath === "/") {
     return [getHomeStructuredDataTag(siteMetadata, siteOrigin)];
@@ -352,6 +340,10 @@ function getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, site
 
   if (routePath === "/working-with-joel") {
     return [getProfileStructuredDataTag(routeMetadata, siteMetadata, siteOrigin)];
+  }
+
+  if (routePath === "/crisis-support") {
+    return [getCrisisSupportStructuredDataTag(routeMetadata, siteMetadata, siteOrigin)];
   }
 
   if (siteMetadata.specialistServices[routePath]) {
@@ -392,15 +384,13 @@ function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
     `<meta name="twitter:image" content="${escapeHtml(imageUrl)}" />`,
     `<meta name="twitter:image:alt" content="${escapeHtml(siteMetadata.socialImageAlt)}" />`,
     ...structuredData,
-    ...getFaviconTags(),
+    ...faviconTags,
     `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
     "<!-- /SEO metadata generated at build time -->",
   ].join("\n    ");
 }
 
-function applyMetadata(html, routePath, routeMetadata, siteMetadata, siteOrigin) {
-  const seoTags = getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin);
-
+function applySeoTags(html, seoTags) {
   return html
     .replace(/\s*<!-- SEO metadata generated at build time -->.*?<!-- \/SEO metadata generated at build time -->/s, "")
     .replace(/\s*<title>.*?<\/title>/s, "")
@@ -408,46 +398,60 @@ function applyMetadata(html, routePath, routeMetadata, siteMetadata, siteOrigin)
     .replace("</head>", `    ${seoTags}\n  </head>`);
 }
 
-function applyRenderedRouteRoot(html, renderedMarkup, routePath, prerenderedAt) {
+function replaceEmptyRoot(html, replacement, purpose) {
   const emptyRoot = '<div id="root"></div>';
 
   if (!html.includes(emptyRoot)) {
-    throw new Error("Unable to find the empty root element while validating the static render entry.");
+    throw new Error(`Unable to find the empty root element while ${purpose}.`);
   }
 
+  return html.replace(emptyRoot, () => replacement);
+}
+
+function applyRenderedRouteRoot(html, renderedMarkup, routePath, prerenderedAt) {
   const renderedRoot = `<div id="root" data-render-mode="prerendered" data-prerendered-path="${escapeHtml(
     routePath,
   )}" data-prerendered-at="${escapeHtml(prerenderedAt)}">${renderedMarkup}</div>`;
 
-  return html.replace(emptyRoot, () => renderedRoot);
+  return replaceEmptyRoot(html, renderedRoot, "validating the static render entry");
 }
 
-function assertRenderedRouteSmoke(html, routePath) {
-  const routeFragments = prerenderedRouteSmokeFragments[routePath];
+function assertRenderedRouteMarkup(renderedMarkup, routePath) {
+  const mainClass = routeMainClasses[routePath];
 
-  if (!routeFragments) {
-    throw new Error(`Prerendered route is missing a smoke-test contract: ${routePath}`);
+  if (!mainClass) {
+    throw new Error(`Prerendered route is missing its main-element contract: ${routePath}`);
   }
 
   const expectedFragments = [
     '<header class="site-header">',
-    ...routeFragments,
+    `<main class="${mainClass}">`,
     '<footer class="site-footer">',
   ];
 
   for (const fragment of expectedFragments) {
-    if (!html.includes(fragment)) {
+    if (!renderedMarkup.includes(fragment)) {
       throw new Error(`Static render smoke check for ${routePath} is missing expected content: ${fragment}`);
     }
   }
 
-  for (const fragment of prerenderedRouteSmokeForbiddenFragments[routePath] ?? []) {
-    if (html.includes(fragment)) {
-      throw new Error(`Static render smoke check for ${routePath} contains deferred content: ${fragment}`);
-    }
+  const headings = [...renderedMarkup.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
+
+  if (headings.length !== 1) {
+    throw new Error(`Static render smoke check for ${routePath} expected one h1, found ${headings.length}.`);
   }
 
-  if (html.includes("data-not-found-fallback") || html.includes("data-static-route-shell")) {
+  const headingText = headings[0][1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+
+  if (!headingText) {
+    throw new Error(`Static render smoke check for ${routePath} found an empty h1.`);
+  }
+
+  if (
+    renderedMarkup.includes("not-found-page") ||
+    renderedMarkup.includes("data-not-found-fallback") ||
+    renderedMarkup.includes("data-static-route-shell")
+  ) {
     throw new Error(`Static render smoke check for ${routePath} unexpectedly contains fallback markup.`);
   }
 }
@@ -455,51 +459,35 @@ function assertRenderedRouteSmoke(html, routePath) {
 function getNotFoundTags(siteMetadata) {
   return [
     "<!-- SEO metadata generated at build time -->",
-    "<title>Page not found | Vive Counselling</title>",
-    '<meta name="description" content="This page could not be found on the Vive Counselling website." />',
+    `<title>${escapeHtml(notFoundPage.title)}</title>`,
+    `<meta name="description" content="${escapeHtml(notFoundPage.description)}" />`,
     `<meta name="robots" content="${escapeHtml(noindexDirective)}" />`,
-    ...getFaviconTags(),
+    ...faviconTags,
     `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
     "<!-- /SEO metadata generated at build time -->",
   ].join("\n    ");
 }
 
-function applyNotFoundMetadata(html, siteMetadata) {
-  const seoTags = getNotFoundTags(siteMetadata);
-
-  return html
-    .replace(/\s*<!-- SEO metadata generated at build time -->.*?<!-- \/SEO metadata generated at build time -->/s, "")
-    .replace(/\s*<title>.*?<\/title>/s, "")
-    .replace(/\s*<meta\s+name="description"\s+content="[^"]*"\s*\/?>/s, "")
-    .replace("</head>", `    ${seoTags}\n  </head>`);
-}
-
 function applyNotFoundFallbackRoot(html, prerenderedAt) {
-  const emptyRoot = '<div id="root"></div>';
-
-  if (!html.includes(emptyRoot)) {
-    throw new Error("Unable to find the empty root element while adding the generic 404 fallback.");
-  }
-
   const fallbackMarkup = [
     '<main data-not-found-fallback="true">',
-    `  <h1>${escapeHtml(notFoundFallback.h1)}</h1>`,
-    `  <p>${escapeHtml(notFoundFallback.description)}</p>`,
+    `  <h1>${escapeHtml(notFoundPage.h1)}</h1>`,
+    `  <p>${escapeHtml(notFoundPage.description)}</p>`,
     "</main>",
   ].join("\n      ");
   const fallbackRoot = `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">\n      ${fallbackMarkup}\n    </div>`;
 
-  return html.replace(emptyRoot, () => fallbackRoot);
+  return replaceEmptyRoot(html, fallbackRoot, "adding the generic 404 fallback");
 }
 
 function assertNotFoundFallback(html, prerenderedAt) {
   const expectedFragments = [
-    "<title>Page not found | Vive Counselling</title>",
+    `<title>${escapeHtml(notFoundPage.title)}</title>`,
     `<meta name="robots" content="${noindexDirective}" />`,
     `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">`,
     '<main data-not-found-fallback="true">',
-    "<h1>That page isn't here.</h1>",
-    "<p>This page could not be found on the Vive Counselling website.</p>",
+    `<h1>${escapeHtml(notFoundPage.h1)}</h1>`,
+    `<p>${escapeHtml(notFoundPage.description)}</p>`,
     'script type="module"',
     "/assets/",
   ];
@@ -532,19 +520,41 @@ function getRouteOutputPaths(routePath) {
   return [routeFilePath, routeIndexPath];
 }
 
-function getSitemapEntries(routes, siteOrigin) {
-  return indexableRoutePaths.map((routePath) => {
-    const routeMetadata = routes[routePath];
+function getPrerenderedRoutePaths(routes) {
+  const metadataPaths = Object.keys(routes);
 
-    if (!routeMetadata) {
-      throw new Error(`Indexable route is missing from route metadata: ${routePath}`);
+  for (const routePath of metadataPaths) {
+    if (!routeMainClasses[routePath]) {
+      throw new Error(`Metadata route is missing its main-element contract: ${routePath}`);
     }
+  }
 
+  for (const routePath of Object.keys(routeMainClasses)) {
+    if (!routes[routePath]) {
+      throw new Error(`Prerendered route is missing from route metadata: ${routePath}`);
+    }
+  }
+
+  return metadataPaths;
+}
+
+function getSitemapEntries(routes, siteOrigin) {
+  return Object.entries(routes).map(([routePath, routeMetadata]) => {
     if (routeMetadata.robots) {
       throw new Error(`Indexable route has robots metadata: ${routePath}`);
     }
 
-    return `  <url><loc>${escapeXml(getAbsoluteUrl(siteOrigin, routePath))}</loc></url>`;
+    const lastModified = routeMetadata.lastModified;
+
+    if (lastModified) {
+      getValidIsoDate(lastModified, `Indexable route lastModified (${routePath})`);
+    }
+
+    const lastModifiedElement = lastModified
+      ? `<lastmod>${escapeXml(lastModified)}</lastmod>`
+      : "";
+
+    return `  <url><loc>${escapeXml(getAbsoluteUrl(siteOrigin, routePath))}</loc>${lastModifiedElement}</url>`;
   });
 }
 
@@ -554,15 +564,10 @@ const [templateHtml, metadataJson] = await Promise.all([
 ]);
 
 const { routes, site } = JSON.parse(metadataJson);
+const prerenderedRoutePaths = getPrerenderedRoutePaths(routes);
 const siteOrigin = getSiteOrigin(site);
 const sitemapEntries = getSitemapEntries(routes, siteOrigin);
 const prerenderedAt = new Date().toISOString();
-
-for (const routePath of prerenderedRoutePaths) {
-  if (!routes[routePath]) {
-    throw new Error(`Prerendered route is missing from route metadata: ${routePath}`);
-  }
-}
 
 process.env.NODE_ENV = "production";
 const serverEntry = await import(pathToFileURL(serverEntryPath).href);
@@ -579,16 +584,19 @@ const renderedRouteMarkup = new Map(
 );
 
 for (const [routePath, routeMetadata] of Object.entries(routes)) {
-  const routeTemplate = applyMetadata(templateHtml, routePath, routeMetadata, site, siteOrigin);
   const renderedMarkup = renderedRouteMarkup.get(routePath);
 
   if (!renderedMarkup) {
     throw new Error(`Metadata route is missing from the component prerender set: ${routePath}`);
   }
 
-  const routeHtml = applyRenderedRouteRoot(routeTemplate, renderedMarkup, routePath, prerenderedAt);
+  assertRenderedRouteMarkup(renderedMarkup, routePath);
 
-  assertRenderedRouteSmoke(routeHtml, routePath);
+  const routeTemplate = applySeoTags(
+    templateHtml,
+    getSeoTags(routePath, routeMetadata, site, siteOrigin),
+  );
+  const routeHtml = applyRenderedRouteRoot(routeTemplate, renderedMarkup, routePath, prerenderedAt);
 
   for (const outputPath of getRouteOutputPaths(routePath)) {
     await mkdir(path.dirname(outputPath), { recursive: true });
@@ -612,7 +620,10 @@ const robotsTxt = [
   "",
 ].join("\n");
 
-const notFoundHtml = applyNotFoundFallbackRoot(applyNotFoundMetadata(templateHtml, site), prerenderedAt);
+const notFoundHtml = applyNotFoundFallbackRoot(
+  applySeoTags(templateHtml, getNotFoundTags(site)),
+  prerenderedAt,
+);
 
 assertNotFoundFallback(notFoundHtml, prerenderedAt);
 

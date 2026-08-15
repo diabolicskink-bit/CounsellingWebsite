@@ -1,7 +1,7 @@
 import Container from "../components/Container";
 import ContactInvitation from "../components/ContactInvitation";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-lgbtqia.css";
 import SpecialistCounsellingHero from "./SpecialistCounsellingHero";
@@ -11,7 +11,7 @@ type RecognitionItem = {
   body: string;
 };
 
-const pageMetadata = getRouteMetadata("/lgbtqia-affirming-counselling");
+const pageMetadata = getRouteMetadata(publicRoutePaths.lgbtqia);
 
 const pageContent = {
   title: pageMetadata.title,
@@ -25,9 +25,9 @@ const pageContent = {
     },
     actions: {
       enquiryLabel: "Make an enquiry",
-      enquiryHref: routeHref(publicRoutePaths.contact),
+      enquiryHref: publicRoutePaths.contact,
       inclusionLabel: "Back to inclusive counselling",
-      inclusionHref: routeHref(publicRoutePaths.inclusion),
+      inclusionHref: publicRoutePaths.inclusion,
     },
   },
 

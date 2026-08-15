@@ -18,16 +18,79 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-14 - First-Party Visit Ledger Released
+
+- Released the reviewed `staging` candidate to Production with first-party visit recording enabled only on `vivecounselling.com.au` and `www.vivecounselling.com.au`; failures remain isolated from the visitor experience.
+- Activated the protected daily 12-month retention schedule against the migrated Neon database while keeping all reporting server-side and outside the public API.
+- Confirmed the live site responds successfully, the visit endpoint rejects reads, the deployed client contains the canonical-host recorder configuration, and Vercel reported no runtime errors immediately after release. A first natural production record remains to be confirmed in the ledger.
+
+## 2026-08-14 - Editorial Material Palette Promoted
+
+- Promoted: Warm paper, sage, deep and softened green, and matching light- and dark-surface rules now form one six-token `--section-*` foundation palette with documented semantic and contrast boundaries.
+- Consolidated: Public editorial pages, shared specialist heroes, and the development Documents and Design System workspaces consume the shared foundations directly instead of carrying route-prefixed copies.
+- Preserved: The lighter root page canvas, shared chrome and footer roles, Contact-specific rule opacities, and nearby page-owned dark greens remain distinct rather than being merged by literal colour alone.
+
+## 2026-08-14 - First-Party Visit Ledger Production Configuration Prepared
+
+- Connected the existing Vercel-managed Neon resource to Production while preserving Development and Preview, and confirmed the shared database remains current at two migrations.
+- Added a separate sensitive Production retention secret and configured the future Production build to record only on the apex and `www` Vive hostnames.
+- Removed the two synthetic Slice 7 visits and their three cascading page views from the shared database. No production deployment was made, so live visit collection has not started.
+
+## 2026-08-14 - Public Browser Suite Simplified
+
+- Reduced: The Playwright suite now has 37 focused cases in one Chromium project instead of 262 cases duplicated across desktop and mobile Chromium profiles.
+- Removed: Broad copy, class-count, pixel-alignment, asset-byte, raw-markup, generated-metadata, and duplicate-artifact assertions no longer mirror page source and build implementation inside browser tests.
+- Preserved: Route hydration and diagnostics, navigation and mobile focus/scroll behaviour, progressive enhancement, core first-response metadata, redirects, analytics privacy and events, enquiry success/error behaviour, responsive overflow, and axe coverage remain automated; detailed generated artifacts stay with the build generator and manual metadata monitor.
+- Resolved: `DEBT-34` is archived under the new durable testing strategy.
+
+## 2026-08-13 - First-Party Visit Ledger Preview Connected
+
+- Connected a Vercel-managed Neon resource to Development and Preview only, added checksum-tracked transactional migrations, and applied the two visit-ledger migrations outside production.
+- Enabled recording only on the protected `work/local-analytics` preview and confirmed browser-to-function-to-Neon storage with an exact referrer, paid attribution, ordered page views, and a second visit recognized as returning for the same anonymous browser.
+- Confirmed the protected retention function runs against Preview with no eligible deletions. Production has no Neon connection and visit recording remains disabled until explicit owner approval.
+
+## 2026-08-13 - First-Party Visit Ledger Reporting And Retention Defined
+
+- Added: The repository now defines a read-only Postgres visit ledger that identifies the earliest retained browser visit as new, later visits as returning, classifies traffic, and totals page views.
+- Added: Five Neon query templates cover newest-first inspection, anonymous-browser grouping, today's Australia/Perth overview, 30-day source/ad reporting, and one visit's ordered page sequence.
+- Added: Anonymous browser IDs rotate after 12 calendar months, and a protected daily Vercel job removes visits older than 12 months with their related page views.
+- Preserved: Reporting has no public read endpoint, no Neon resource has been provisioned, and production collection remains disabled pending preview testing and owner approval.
+
+## 2026-08-13 - Public Route Parity Enforced
+
+- Simplified: Public and development route constants now store final absolute hrefs, removing the repeated `routeHref()` conversion layer from navigation, pages, metadata lookups, redirects, and development tools.
+- Consolidated: Prerendering and browser tests derive their route inventories from existing route contract maps rather than maintaining separate seven-route lists.
+- Guarded: Direct script tests compare public route constants with metadata and validate redirect destinations; the production build continues to enforce metadata, rendered-route, and prerender-contract parity.
+- Resolved: `DEBT-8` moved to the project debt archive without introducing a shared route manifest.
+
+## 2026-08-13 - Dormant Inherited Presentation Layer Removed
+
+- Removed: Unmounted global card, topic, checklist, fee, detail, CTA, list, and hero selector families plus their responsive rules and orphaned tokens no longer ship in production CSS.
+- Simplified: The unused `SectionHeading` component and unconsumed tertiary `Button` variant were removed; live Working with Joel layout, tabs, portrait, and shared-shell styles remain intact.
+- Reconciled: The active cedar evidence, development specimen, and living legacy registers now describe only current source and verified consumers.
+
+## 2026-08-13 - Shared Reading Typography Tightened
+
+- Updated: `.site-reading` now splits the difference between its previous scale and the Crisis Support emergency paragraph, using a restrained responsive `1.005–1.04rem` size and `1.63` line-height across its verified public-page consumers.
+- Aligned: Crisis Support emergency guidance now consumes the shared reading role directly while retaining its page-owned emergency foreground colour.
+
+## 2026-08-12 - Australian Crisis Support Route Added
+
+- Added: `/crisis-support` now puts immediate-danger guidance and a direct `000` action before verified national crisis lines and state or territory public mental health services.
+- Covered: The route includes Lifeline, Suicide Call Back Service, 13YARN, all eight state and territory locations, Victoria's area-based directory, and RuralLink for regional and remote Western Australia; every service name links to an official source and the verification date is public.
+- Connected: Contact now directs urgent visitors away from the enquiry form to the dedicated route, and the shared footer gives Crisis Support a permanent site-wide entry point.
+- Published: Route metadata, server prerendering, sitemap output, raw-output contracts, phone destinations, service counts, and accessibility smoke coverage now include the eighth public content route.
+
 ## 2026-08-12 - Homepage Enquiry Form Added
 
 - Added: Home now closes with the progressive appointment, free-consult, and general-enquiry form instead of routing every visitor through a promotional closing invitation.
 - Shared: Contact and Home use one enquiry-form implementation, preserving the established conditional fields, submission states, validation, analytics, and API payload.
-- Connected: The Home hero and `More than two?` fee action now move directly to the embedded form, while its crisis-support boundary links to the dedicated Contact page.
+- Connected: The Home hero and `More than two?` fee action now move directly to the embedded form, while its crisis-support boundary links to the dedicated Crisis Support route.
 
 ## 2026-08-12 - Homepage Session Fees Added
 
-- Added: Home now states the individual and couples 50-minute session fees and the free 15-minute initial consultation immediately before its shared closing invitation.
-- Aligned: The fourth `More than two?` item now uses the same `Get in touch` treatment and Contact destination as the established Contact-page fee summary.
+- Added: Home now states the individual and couples 50-minute session fees and the free 15-minute initial consultation immediately before the enquiry form.
+- Aligned: The fourth `More than two?` item uses the same `Get in touch` treatment and moves visitors directly to the Home enquiry form.
 - Composed: The pricing remains a compact, separate four-item practical section rather than repeating the larger editorial surfaces above it, with a two-by-two narrow-screen layout.
 
 ## 2026-08-11 - Homepage Specialist-Practice Section Rebuilt

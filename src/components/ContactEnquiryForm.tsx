@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { enquiryEmail, enquirySuccessContent } from "../data/enquiry";
+import { Link } from "react-router-dom";
+import { enquiryFailureContent, enquirySuccessContent } from "../data/enquiry";
 import {
   australianStateOptions,
   bookingTypes,
   enquiryTypes,
 } from "../data/enquiryContract";
+import { publicRoutePaths } from "../data/routes";
 import {
   trackContactOptionSelected,
   trackEnquiryStarted,
@@ -74,7 +76,7 @@ function RequiredMark() {
   return (
     <>
       <span aria-hidden="true"> *</span>
-      <span className="codex-contact__sr-only"> (required)</span>
+      <span className="contact-page__sr-only"> (required)</span>
     </>
   );
 }
@@ -94,19 +96,19 @@ function SubmissionSuccess() {
   }, []);
 
   return (
-    <section className="codex-contact__submission-success">
+    <section className="contact-page__success">
       <div
-        className="codex-contact__submission-status"
+        className="contact-page__success-status"
         ref={statusRef}
         role="status"
         tabIndex={-1}
       >
-        <span className="codex-contact__submission-mark" aria-hidden="true">
+        <span className="contact-page__success-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" focusable="false">
             <path d="m6.5 12.5 3.3 3.3 7.7-8" />
           </svg>
         </span>
-        <div className="codex-contact__submission-copy">
+        <div className="contact-page__success-copy">
           <h2>{enquirySuccessContent.title}</h2>
           <p>{enquirySuccessContent.note}</p>
         </div>
@@ -117,7 +119,7 @@ function SubmissionSuccess() {
 
 export default function ContactEnquiryForm({
   analyticsFormName = "contact",
-  crisisHref = "#contact-crisis-support",
+  crisisHref = publicRoutePaths.crisisSupport,
   showHeading = true,
 }: ContactEnquiryFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
@@ -228,7 +230,7 @@ export default function ContactEnquiryForm({
     <form
       action="/api/enquiry"
       aria-label="Enquiry"
-      className="codex-contact__form"
+      className="contact-page__form"
       data-clarity-mask="true"
       method="post"
       onInputCapture={handleFormInput}
@@ -238,28 +240,26 @@ export default function ContactEnquiryForm({
       <input
         aria-hidden="true"
         autoComplete="off"
-        className="codex-contact__honeypot"
+        className="contact-page__honeypot"
         name="website"
         tabIndex={-1}
       />
 
       <header
-        className={`codex-contact__form-heading${
-          showHeading ? "" : " codex-contact__form-heading--compact"
+        className={`contact-page__form-heading${
+          showHeading ? "" : " contact-page__form-heading--compact"
         }`}
       >
-        <span className="codex-contact__step-label">Your enquiry</span>
+        <span className="contact-page__form-eyebrow">Your enquiry</span>
         {showHeading ? <h2>Get in touch</h2> : null}
       </header>
 
-      <fieldset className="codex-contact__path-fieldset">
-        <legend className="codex-contact__sr-only">Choose an enquiry type</legend>
-        <div className="codex-contact__path-list">
+      <fieldset className="contact-page__enquiry-options">
+        <legend className="contact-page__sr-only">Choose an enquiry type</legend>
+        <div className="contact-page__enquiry-option-list">
           {contactPathOptions.map((option) => (
-            <label className="codex-contact__path-choice" key={option.id}>
-              <span className="codex-contact__path-copy">
-                <strong>{option.title}</strong>
-              </span>
+            <label className="contact-page__enquiry-option" key={option.id}>
+              <strong>{option.title}</strong>
               <input
                 checked={contactPath === option.id}
                 name="contactPath"
@@ -274,8 +274,8 @@ export default function ContactEnquiryForm({
       </fieldset>
 
       {showDetails ? (
-        <div className="codex-contact__details">
-          <div className="codex-contact__details-heading">
+        <div className="contact-page__form-details">
+          <div className="contact-page__form-details-heading">
             <h3>A few details</h3>
             <p>Fields marked * are required.</p>
           </div>
@@ -285,8 +285,8 @@ export default function ContactEnquiryForm({
             <input name="bookingType" type="hidden" value={bookingType} />
           ) : null}
 
-          <div className="codex-contact__field-grid">
-            <div className="codex-contact__field">
+          <div className="contact-page__form-fields">
+            <div className="contact-page__form-field">
               <label htmlFor="contact-name">
                 Name
                 <RequiredMark />
@@ -301,7 +301,7 @@ export default function ContactEnquiryForm({
               />
             </div>
 
-            <div className="codex-contact__field">
+            <div className="contact-page__form-field">
               <label htmlFor="contact-email">
                 Email
                 <RequiredMark />
@@ -318,7 +318,7 @@ export default function ContactEnquiryForm({
 
             {showAppointmentFields ? (
               <>
-                <div className="codex-contact__field" key="appointment-timing">
+                <div className="contact-page__form-field" key="appointment-timing">
                   <label htmlFor="contact-timing">
                     Preferred timing
                     <RequiredMark />
@@ -332,7 +332,7 @@ export default function ContactEnquiryForm({
                   />
                 </div>
 
-                <div className="codex-contact__field" key="appointment-state">
+                <div className="contact-page__form-field" key="appointment-state">
                   <label htmlFor="contact-state">
                     State or territory
                     <RequiredMark />
@@ -356,7 +356,7 @@ export default function ContactEnquiryForm({
 
             {showConsultFields ? (
               <>
-                <div className="codex-contact__field" key="consult-availability">
+                <div className="contact-page__form-field" key="consult-availability">
                   <label htmlFor="contact-availability">
                     Availability
                     <RequiredMark />
@@ -370,7 +370,7 @@ export default function ContactEnquiryForm({
                   />
                 </div>
 
-                <div className="codex-contact__field" key="consult-timezone">
+                <div className="contact-page__form-field" key="consult-timezone">
                   <label htmlFor="contact-timezone">
                     Timezone
                     <RequiredMark />
@@ -391,7 +391,7 @@ export default function ContactEnquiryForm({
               </>
             ) : null}
 
-            <div className="codex-contact__field codex-contact__field--message" key="message">
+            <div className="contact-page__form-field contact-page__form-field--wide" key="message">
               <label htmlFor="contact-message">
                 {isQuestion ? "Your enquiry" : "Your message"}
                 <RequiredMark />
@@ -405,26 +405,28 @@ export default function ContactEnquiryForm({
             </div>
           </div>
 
-          <div className="codex-contact__submit-row">
+          <div className="contact-page__form-actions">
             <Button disabled={submitStatus === "sending"} type="submit">
               {submitStatus === "sending" ? "Sending..." : submitLabel}
             </Button>
           </div>
 
           {submitStatus === "error" ? (
-            <div className="codex-contact__submission-error" role="alert">
+            <div className="contact-page__form-error" role="alert">
               <p>
-                Sorry, the enquiry could not be sent. Please email{" "}
-                <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a> directly.
+                {enquiryFailureContent.messageBeforeEmail}{" "}
+                <a href={`mailto:${enquiryFailureContent.email}`}>
+                  {enquiryFailureContent.email}
+                </a>{" "}
+                {enquiryFailureContent.messageAfterEmail}
               </p>
             </div>
           ) : null}
         </div>
       ) : null}
 
-      <p className="codex-contact__form-boundary">
-        If you’re in crisis, please use the <a href={crisisHref}>support options</a>{" "}
-        rather than this form.
+      <p className="contact-page__crisis-note">
+        If you’re in crisis, <Link to={crisisHref}>find support now</Link>.
       </p>
     </form>
   );

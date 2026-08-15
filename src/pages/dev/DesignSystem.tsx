@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { devRoutePaths, routeHref } from "../../data/routes";
+import { devRoutePaths } from "../../data/routes";
 import DesignSystemWorkspace from "./design-system/DesignSystemWorkspace";
 
 const cataloguePages = [
@@ -7,19 +7,19 @@ const cataloguePages = [
     count: "8 supported foundations",
     description: "Semantic reading typography, colours, and shared material roles approved for deliberate reuse.",
     label: "Foundations",
-    path: routeHref(devRoutePaths.designSystemFoundations),
+    path: devRoutePaths.designSystemFoundations,
   },
   {
     count: "1 supported component",
     description: "Reusable React contracts with explicit ownership, accessibility, and consumer boundaries.",
     label: "Components",
-    path: routeHref(devRoutePaths.designSystemComponents),
+    path: devRoutePaths.designSystemComponents,
   },
   {
     count: "2 supported patterns",
     description: "Repeated semantic arrangements that coordinate supported implementation without fixing page layout.",
     label: "Patterns",
-    path: routeHref(devRoutePaths.designSystemPatterns),
+    path: devRoutePaths.designSystemPatterns,
   },
 ] as const;
 

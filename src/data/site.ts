@@ -1,4 +1,4 @@
-import { devRoutePaths, publicRoutePaths, routeHref } from "./routes";
+import { devRoutePaths, publicRoutePaths } from "./routes";
 
 export type NavItem = Readonly<{
   label: string;
@@ -19,40 +19,40 @@ export const socialProfileLinks = [
 ] as const;
 
 export const navItems: readonly NavItem[] = [
-  { label: "Home", href: routeHref(publicRoutePaths.home) },
-  { label: "Working with Joel", href: routeHref(publicRoutePaths.workingWithJoel) },
+  { label: "Home", href: publicRoutePaths.home },
+  { label: "Working with Joel", href: publicRoutePaths.workingWithJoel },
   {
     label: "Inclusion",
-    href: routeHref(publicRoutePaths.inclusion),
+    href: publicRoutePaths.inclusion,
     children: [
-      { label: "Kink & BDSM", href: routeHref(publicRoutePaths.kinkBdsm) },
-      { label: "ENM & polyamory", href: routeHref(publicRoutePaths.enmPolyamory) },
-      { label: "LGBTQIA+", href: routeHref(publicRoutePaths.lgbtqia) },
+      { label: "Kink & BDSM", href: publicRoutePaths.kinkBdsm },
+      { label: "ENM & polyamory", href: publicRoutePaths.enmPolyamory },
+      { label: "LGBTQIA+", href: publicRoutePaths.lgbtqia },
     ],
   },
   {
     label: "Fees",
-    href: routeHref(publicRoutePaths.contact),
+    href: publicRoutePaths.contact,
   },
   {
     label: "Contact",
-    href: routeHref(publicRoutePaths.contact),
+    href: publicRoutePaths.contact,
     mobileOnly: true,
   },
   ...(import.meta.env.DEV
     ? [
         {
           label: "Dev",
-          href: routeHref(devRoutePaths.designSystem),
+          href: devRoutePaths.designSystem,
           children: [
-            { label: "Design system", href: routeHref(devRoutePaths.designSystem) },
-            { label: "Documents", href: routeHref(devRoutePaths.documents) },
+            { label: "Design system", href: devRoutePaths.designSystem },
+            { label: "Documents", href: devRoutePaths.documents },
             {
               label: "Test Beds",
-              href: routeHref(devRoutePaths.codexTestBed),
+              href: devRoutePaths.codexTestBed,
               children: [
-                { label: "Codex TB", href: routeHref(devRoutePaths.codexTestBed) },
-                { label: "Opus TB", href: routeHref(devRoutePaths.opusTestBed) },
+                { label: "Codex TB", href: devRoutePaths.codexTestBed },
+                { label: "Opus TB", href: devRoutePaths.opusTestBed },
               ],
             },
           ],

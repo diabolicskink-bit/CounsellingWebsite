@@ -1,6 +1,7 @@
 import BroadTabPanel from "../components/BroadTabPanel";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-working-with-joel.css";
 
@@ -65,7 +66,7 @@ type WorkingWithJoelPageContent = {
   focus: FocusContent;
 };
 
-const pageMetadata = getRouteMetadata("/working-with-joel");
+const pageMetadata = getRouteMetadata(publicRoutePaths.workingWithJoel);
 
 const pageContent: WorkingWithJoelPageContent = {
   title: pageMetadata.title,
@@ -229,7 +230,7 @@ function IntroductionSection({
     >
       <Container className="site-split">
         <div className="working-with-joel-page__intro-copy">
-          <article className="site-copy-panel rich-text working-with-joel-page__intro-panel">
+          <article className="working-with-joel-page__intro-panel">
             <h2 id="working-with-joel-intro-title">{introduction.title}</h2>
             {introduction.paragraphs.map((paragraph, index) => (
               <p
@@ -280,13 +281,13 @@ function ApproachSection({ approach }: { approach: ApproachContent }) {
   return (
     <section className="site-highlight working-with-joel-page__approach" aria-labelledby="working-approach-title">
       <Container className="working-approach">
-        <div className="section-heading working-approach__intro">
+        <div className="working-approach__intro">
           <h2 className="working-with-joel-page__section-title" id="working-approach-title">
             {approach.title}
           </h2>
           <div className="working-approach__overview">
             {approach.overview.map((paragraph) => (
-              <p className="section-heading__copy site-reading" key={paragraph}>
+              <p className="site-reading" key={paragraph}>
                 {paragraph}
               </p>
             ))}

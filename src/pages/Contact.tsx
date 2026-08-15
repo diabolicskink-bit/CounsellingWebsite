@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import ContactEnquiryForm from "../components/ContactEnquiryForm";
 import Container from "../components/Container";
 import { enquiryEmail } from "../data/enquiry";
 import { getRouteMetadata } from "../data/routeMetadata";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import { getActiveAustralianPerthBusinessHoursNotes } from "../utils/timeZones";
 import "../styles-contact.css";
 
-type ContactProps = {
+type ContactPageProps = {
   initialRenderAt: string;
 };
 
-const contactMetadata = getRouteMetadata("/contact");
+const contactMetadata = getRouteMetadata(publicRoutePaths.contact);
+const crisisSupportHref = publicRoutePaths.crisisSupport;
 
-function ContactTimeZoneNotes({ initialRenderAt }: ContactProps) {
+function BusinessHoursTimeZoneNotes({ initialRenderAt }: ContactPageProps) {
   const [comparison, setComparison] = useState(() => ({
     notes: getActiveAustralianPerthBusinessHoursNotes(new Date(initialRenderAt)),
     source: "prerendered" as "current" | "prerendered",
@@ -35,7 +38,7 @@ function ContactTimeZoneNotes({ initialRenderAt }: ContactProps) {
 
   return (
     <span
-      className="contact-page__contact-notes"
+      className="contact-page__time-zone-notes"
       data-timezone-notes-source={comparison.source}
     >
       {comparison.notes.map((note) => (
@@ -45,27 +48,36 @@ function ContactTimeZoneNotes({ initialRenderAt }: ContactProps) {
   );
 }
 
-export default function Contact({ initialRenderAt }: ContactProps) {
+export default function Contact({ initialRenderAt }: ContactPageProps) {
   useDocumentMetadata(contactMetadata.title, contactMetadata.description);
 
   return (
-    <main className="site-page contact-page codex-contact">
-      <section className="codex-contact__opening site-hero-background" aria-labelledby="contact-title">
-        <Container className="codex-contact__opening-grid">
-          <header className="codex-contact__intro">
-            <span className="codex-contact__eyebrow">Contact and fees</span>
-            <h1 id="contact-title">Make an enquiry.</h1>
+    <main className="site-page contact-page">
+      <section
+        aria-labelledby="contact-title"
+        className="contact-page__hero site-hero-background"
+      >
+        <Container>
+          <header className="contact-page__hero-content">
+            <span className="contact-page__eyebrow">Contact and fees</span>
+            <h1 className="contact-page__hero-title" id="contact-title">
+              Make an enquiry.
+            </h1>
           </header>
         </Container>
       </section>
 
-      <section className="codex-contact__task-section site-section-warm" id="contact-start" tabIndex={-1}>
-        <Container className="codex-contact__task-grid">
+      <section
+        className="contact-page__enquiry site-section-warm"
+        id="contact-start"
+        tabIndex={-1}
+      >
+        <Container className="contact-page__enquiry-layout">
           <aside
-            aria-labelledby="contact-first-message-title"
-            className="codex-contact__first-message"
+            aria-labelledby="contact-enquiry-intro-title"
+            className="contact-page__enquiry-intro"
           >
-            <h2 id="contact-first-message-title">
+            <h2 id="contact-enquiry-intro-title">
               Choosing a counsellor can be hard.
             </h2>
             <p className="site-reading">
@@ -81,16 +93,16 @@ export default function Contact({ initialRenderAt }: ContactProps) {
       </section>
 
       <section
-        aria-labelledby="contact-essentials-title"
-        className="codex-contact__essentials"
+        aria-labelledby="contact-fees-title"
+        className="contact-page__fees"
         id="contact-fees"
         tabIndex={-1}
       >
         <Container>
-          <h2 className="codex-contact__sr-only" id="contact-essentials-title">
+          <h2 className="contact-page__sr-only" id="contact-fees-title">
             Fees and session details
           </h2>
-          <dl className="codex-contact__essentials-list">
+          <dl className="contact-page__fee-list">
             <div>
               <dt>Initial consult</dt>
               <dd>
@@ -115,7 +127,7 @@ export default function Contact({ initialRenderAt }: ContactProps) {
             <div>
               <dt>More than two?</dt>
               <dd>
-                <a className="codex-contact__essential-action" href="#contact-start">
+                <a className="contact-page__fee-action" href="#contact-start">
                   Get in touch
                 </a>
               </dd>
@@ -126,29 +138,32 @@ export default function Contact({ initialRenderAt }: ContactProps) {
 
       <section
         aria-label="Contact details"
-        className="codex-contact__practical"
-        id="contact-practical"
+        className="contact-page__practice-details"
+        id="contact-details"
       >
         <Container>
-          <header className="codex-contact__practical-heading">
-            <span className="codex-contact__eyebrow">Practical details</span>
+          <header className="contact-page__practice-heading">
+            <span className="contact-page__eyebrow">Practical details</span>
           </header>
 
-          <dl className="codex-contact__practical-list">
+          <dl className="contact-page__practice-list">
             <div>
               <dt>Practice hours</dt>
               <dd>
                 <span>Mon to Fri, 9.30am to 5.00pm AWST.</span>
-                <ContactTimeZoneNotes initialRenderAt={initialRenderAt} />
+                <BusinessHoursTimeZoneNotes initialRenderAt={initialRenderAt} />
               </dd>
             </div>
-            <div id="contact-crisis-support">
+            <div
+              className="contact-page__crisis-support"
+              id="contact-crisis-support"
+            >
               <dt>Crisis support</dt>
               <dd>
                 <p className="site-reading">
-                  Vive Counselling is not an emergency service. If you are in
-                  immediate danger, call 000. For crisis support, call Lifeline on
-                  13 11 14 or Suicide Call Back Service on 1300 659 467.
+                  Vive Counselling is not an emergency service. Call 000 if you or
+                  someone else is in immediate danger. If you’re in crisis,{" "}
+                  <Link to={crisisSupportHref}>find support now</Link>.
                 </p>
               </dd>
             </div>

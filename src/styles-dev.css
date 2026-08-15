@@ -1,14 +1,7 @@
 ﻿/* Documents page */
 
 .documents-page {
-  --documents-dark: #173028;
-  --documents-dark-soft: #234b3d;
-  --documents-paper: #f2efe8;
-  --documents-sage: #dfe8dc;
-  --documents-rule: rgba(35, 75, 61, 0.22);
-  --documents-dark-rule: rgba(232, 239, 233, 0.2);
-
-  background: var(--documents-paper);
+  background: var(--section-warm);
 }
 
 .documents-page__hero-layout {
@@ -48,7 +41,7 @@
   max-width: 42ch;
   margin: 0;
   padding: 20px 0 2px;
-  border-top: 1px solid var(--documents-dark-rule);
+  border-top: 1px solid var(--section-dark-rule);
   color: rgba(239, 244, 240, 0.84);
   font-size: var(--type-body);
   line-height: 1.64;
@@ -56,10 +49,10 @@
 }
 
 .documents-page__workspace {
-  border-bottom: 1px solid var(--documents-rule);
+  border-bottom: 1px solid var(--section-rule);
   background:
-    linear-gradient(90deg, var(--documents-sage) 0, var(--documents-sage) calc((100% - min(100% - 40px, var(--max))) / 2 + 270px), transparent calc((100% - min(100% - 40px, var(--max))) / 2 + 270px)),
-    var(--documents-paper);
+    linear-gradient(90deg, var(--section-sage) 0, var(--section-sage) calc((100% - min(100% - 40px, var(--max))) / 2 + 270px), transparent calc((100% - min(100% - 40px, var(--max))) / 2 + 270px)),
+    var(--section-warm);
 }
 
 .documents-page__workspace-layout {
@@ -78,7 +71,7 @@
 
 .documents-page__navigation-label {
   margin: 0 0 18px;
-  color: var(--documents-dark);
+  color: var(--section-dark);
   font-family: var(--font-serif);
   font-size: 1.42rem;
   font-weight: 500;
@@ -98,11 +91,11 @@
 
 .documents-sidebar {
   display: grid;
-  border-top: 1px solid var(--documents-rule);
+  border-top: 1px solid var(--section-rule);
 }
 
 .documents-sidebar__group {
-  border-bottom: 1px solid var(--documents-rule);
+  border-bottom: 1px solid var(--section-rule);
 }
 
 .documents-sidebar__group-label {
@@ -152,7 +145,7 @@
 
 .documents-sidebar__link:hover {
   padding-left: 5px;
-  color: var(--documents-dark);
+  color: var(--section-dark);
 }
 
 .documents-sidebar__link:focus-visible {
@@ -164,7 +157,7 @@
 .documents-sidebar__link--active {
   padding-left: 12px;
   border-left: 3px solid var(--cedar);
-  color: var(--documents-dark);
+  color: var(--section-dark);
   font-weight: 680;
 }
 
@@ -194,7 +187,7 @@
   justify-content: space-between;
   gap: 10px 18px;
   padding: 0 0 16px;
-  border-bottom: 1px solid var(--documents-rule);
+  border-bottom: 1px solid var(--section-rule);
   color: var(--faint);
   font-size: 0.84rem;
   line-height: 1.45;
@@ -322,7 +315,7 @@
 
 .documents-markdown hr {
   border: 0;
-  border-top: 1px solid var(--documents-rule);
+  border-top: 1px solid var(--section-rule);
 }
 
 .documents-markdown code {
@@ -423,7 +416,7 @@
 .documents-markdown pre {
   overflow-x: auto;
   padding: 18px 20px;
-  border: 1px solid var(--documents-rule);
+  border: 1px solid var(--section-rule);
   background: rgba(223, 232, 220, 0.44);
 }
 
@@ -436,19 +429,19 @@
 .documents-markdown table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid var(--documents-rule);
+  border: 1px solid var(--section-rule);
 }
 
 .documents-markdown th,
 .documents-markdown td {
   padding: 12px 14px;
-  border: 1px solid var(--documents-rule);
+  border: 1px solid var(--section-rule);
   text-align: left;
   vertical-align: top;
 }
 
 .documents-markdown th {
-  background: var(--documents-sage);
+  background: var(--section-sage);
   color: var(--ink);
   font-size: 0.84rem;
   font-weight: 700;
@@ -456,7 +449,7 @@
 }
 
 .documents-markdown img {
-  border: 1px solid var(--documents-rule);
+  border: 1px solid var(--section-rule);
 }
 
 @media (max-width: 900px) {
@@ -471,7 +464,7 @@
   }
 
   .documents-page__workspace {
-    background: var(--documents-paper);
+    background: var(--section-warm);
   }
 
   .documents-page__workspace-layout {
@@ -483,8 +476,8 @@
   .documents-page__navigation {
     position: static;
     padding: 36px 0 40px;
-    background: var(--documents-sage);
-    box-shadow: 0 0 0 100vmax var(--documents-sage);
+    background: var(--section-sage);
+    box-shadow: 0 0 0 100vmax var(--section-sage);
     clip-path: inset(0 -100vmax);
   }
 

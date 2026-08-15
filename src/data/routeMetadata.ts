@@ -3,6 +3,8 @@ import metadata from "./routeMetadata.json";
 export type RouteMetadata = {
   title: string;
   description: string;
+  lastModified?: string;
+  lastReviewed?: string;
   robots?: string;
 };
 
@@ -94,6 +96,6 @@ export const siteMetadata = {
 } satisfies SiteMetadata;
 export const routeMetadata = metadata.routes satisfies Record<string, RouteMetadata>;
 
-export function getRouteMetadata(path: PublicRoutePath): RouteMetadata {
+export function getRouteMetadata<Path extends PublicRoutePath>(path: Path): (typeof routeMetadata)[Path] {
   return routeMetadata[path];
 }

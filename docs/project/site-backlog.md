@@ -83,11 +83,12 @@ Statuses:
 - `Classification`: `Accessibility`
 - `Source`: `docs/reports/2026-06-17-technical-code-review.md`
 - `Visitor-Facing Goal`: Respect reduced-motion preferences consistently across scrolling, transitions, and interactive shared components.
-- `Current State`: Global smooth scrolling is enabled, while reduced-motion handling is localised around specific components such as FAQ and broad tabs.
-- `Why Deferred`: It is a focused accessibility baseline improvement that should be made carefully so existing interactions remain clear.
-- `First Useful Slice`: Add a global `prefers-reduced-motion: reduce` baseline for scroll behaviour and broad shared transitions.
+- `Current State`: Global smooth scrolling now falls back to immediate scrolling when reduced motion is requested. Transition and animation handling remains localised around specific shared and page-owned components.
+- `Why Deferred`: The scrolling slice is complete; the remaining shared-transition audit should be made carefully so existing interaction state changes remain clear.
+- `First Useful Slice`: Audit the remaining shared transitions and animations against the existing component-level reduced-motion rules, then disable only non-essential motion that is not already covered.
 - `Implemented When`: Reduced-motion preference disables smooth scrolling and avoids non-essential shared motion without breaking component states.
 - `Notes`:
+  - 2026-08-15: Added the root reduced-motion scroll override and browser coverage from the Crisis Support state-directory review. Broader transition coverage remains open.
 - `Links`: `src/styles.css`, `docs/design-system/foundations.md`, `docs/design-system/governance.md`
 
 ### SITE-14 - Contact availability and reply-time expectations

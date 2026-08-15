@@ -2,11 +2,7 @@ import { ArrowRight, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
-import {
-  publicRoutePaths,
-  routeHref,
-  usesSharedChromePath,
-} from "../data/routes";
+import { publicRoutePaths, usesSharedChromePath } from "../data/routes";
 import { navItems, socialProfileLinks } from "../data/site";
 import Button from "./Button";
 import Container from "./Container";
@@ -14,10 +10,11 @@ import { DesktopNavigation, MobileNavigation } from "./SiteNavigation";
 
 const copyrightPublicationYear = 2026;
 const desktopNavigationMediaQuery = "(min-width: 1081px)";
-const homeHref = routeHref(publicRoutePaths.home);
-const workingWithJoelHref = routeHref(publicRoutePaths.workingWithJoel);
-const inclusionHref = routeHref(publicRoutePaths.inclusion);
-const contactHref = routeHref(publicRoutePaths.contact);
+const homeHref = publicRoutePaths.home;
+const workingWithJoelHref = publicRoutePaths.workingWithJoel;
+const inclusionHref = publicRoutePaths.inclusion;
+const contactHref = publicRoutePaths.contact;
+const crisisSupportHref = publicRoutePaths.crisisSupport;
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -135,6 +132,9 @@ export default function Layout() {
                 </li>
                 <li>
                   <Link to={contactHref}>Fees</Link>
+                </li>
+                <li>
+                  <Link to={crisisSupportHref}>Crisis support</Link>
                 </li>
               </ul>
             </nav>
