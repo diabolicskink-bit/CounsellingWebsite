@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import {
+  isPrivateRoutePath,
   privateRoutePaths,
   publicRedirectRoutes,
   publicRoutePaths,
@@ -29,4 +30,8 @@ test("private routes remain separate from public metadata routes", () => {
   assert.deepEqual(privateRoutePaths, { analytics: "/analytics" });
   assert.ok(!Object.values(publicRoutePaths).includes(privateRoutePaths.analytics));
   assert.ok(!Object.hasOwn(metadata.routes, privateRoutePaths.analytics));
+  assert.equal(isPrivateRoutePath("/analytics"), true);
+  assert.equal(isPrivateRoutePath("/analytics/visitor"), true);
+  assert.equal(isPrivateRoutePath("/analytics-other"), false);
+  assert.equal(isPrivateRoutePath("/contact"), false);
 });

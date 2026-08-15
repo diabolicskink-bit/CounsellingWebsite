@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { routeMetadata, type RouteMetadata } from "../data/routeMetadata";
+import { isPrivateRoutePath } from "../data/routes";
 import {
   analyticsEnabled,
   clarityProjectId,
@@ -127,7 +128,9 @@ function EmailLinkAnalytics() {
 }
 
 export default function SiteAnalytics() {
-  if (!analyticsEnabled || !isAnalyticsHostAllowed()) {
+  const { pathname } = useLocation();
+
+  if (!analyticsEnabled || !isAnalyticsHostAllowed() || isPrivateRoutePath(pathname)) {
     return null;
   }
 

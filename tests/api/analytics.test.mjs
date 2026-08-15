@@ -110,12 +110,12 @@ test("rejects writes and invalid or ambiguous report selections before reading",
   assert.equal(readCalls, 0);
 });
 
-test("the unfinished database reader fails closed with a generic response", async () => {
+test("missing database configuration fails closed with a generic response", async () => {
   console.error = () => {};
   const handler = createAnalyticsHandler();
 
   const result = await invoke(handler, { method: "GET", query: {} });
 
   assert.equal(result.statusCode, 503);
-  assert.deepEqual(result.body, { error: "Visit reporting data is unavailable." });
+  assert.deepEqual(result.body, { error: "Analytics data is unavailable." });
 });

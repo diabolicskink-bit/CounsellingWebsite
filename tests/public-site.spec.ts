@@ -456,6 +456,51 @@ test.describe("analytics", () => {
     await expect(page.locator("#vive-google-analytics, #vive-microsoft-clarity")).toHaveCount(0);
   });
 
+  test("private analytics routes do not record or load analytics providers", async ({ page }) => {
+    test.skip(
+      !(firstPartyVisitRecordingEnabled && googleAnalyticsRouteTrackingEnabled && microsoftClarityEnabled),
+      "Private-route analytics exclusion is covered by npm run qa:analytics.",
+    );
+
+    const analyticsRequests: string[] = [];
+    const visitRequests: string[] = [];
+
+    page.on("request", (request) => {
+      if (isAnalyticsUrl(request.url())) {
+        analyticsRequests.push(request.url());
+      }
+
+      if (new URL(request.url()).pathname === "/api/visit") {
+        visitRequests.push(request.url());
+      }
+    });
+
+    await page.route("**/api/analytics?*", async (route) => {
+      await route.fulfill({
+        body: JSON.stringify({ error: "Reporting unavailable." }),
+        contentType: "application/json",
+        status: 503,
+      });
+    });
+
+    await page.goto("/analytics", { waitUntil: "networkidle" });
+
+    expect(analyticsRequests).toEqual([]);
+    expect(visitRequests).toEqual([]);
+    await expect(
+      page.locator(
+        "#vive-google-analytics, #vive-google-analytics-config, #vive-microsoft-clarity",
+      ),
+    ).toHaveCount(0);
+
+    const storedIdentity = await page.evaluate(() => ({
+      visit: sessionStorage.getItem("vive:visit-analytics:visit:v1"),
+      visitor: localStorage.getItem("vive:visit-analytics:visitor:v1"),
+    }));
+
+    expect(storedIdentity).toEqual({ visit: null, visitor: null });
+  });
+
   test("first-party visit recorder records SPA route changes and refreshes in the active visit", async ({ page }) => {
     test.skip(
       !firstPartyVisitRecordingEnabled,

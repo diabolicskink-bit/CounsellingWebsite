@@ -1,6 +1,6 @@
 # First-Party Visit Ledger Plan
 
-**Status:** In progress  
+**Status:** Complete
 **Created:** 2026-08-13  
 **Branch:** `work/local-analytics`
 
@@ -160,11 +160,13 @@ Review the preview ledger and confirm that you want visit recording enabled on t
 
 After explicit approval, connect the production database, enable collection on the live host, confirm the ledger receives the expected records, and update the project documentation.
 
-**Release status:** The existing Neon resource is connected to Production, its two migrations are current, a Production-only retention secret is configured, and commit `e533a51` is live with recording enabled only on `vivecounselling.com.au` and `www.vivecounselling.com.au`. The production site and client asset respond successfully, the visit endpoint rejects reads as designed, and Vercel reported no runtime errors immediately after release. A first natural production visit still needs to be confirmed in the ledger before this slice is marked complete.
+**Status:** Complete. The existing Neon resource is connected to Production, its two migrations are current, a Production-only retention secret is configured, and commit `e533a51` is live with recording enabled only on `vivecounselling.com.au` and `www.vivecounselling.com.au`. Natural production entries were subsequently confirmed in the ledger.
 
 **Prompt:** Complete slice 8 of the first-party visit ledger plan, update the plan, and stop.
 
 ## Not Part Of The First Version
+
+The later protected reporting interface was intentionally added after this first-version plan completed. The exclusions below describe this plan's original boundary rather than current project scope.
 
 - A website analytics dashboard
 - Admin accounts or authentication

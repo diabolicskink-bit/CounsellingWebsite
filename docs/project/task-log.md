@@ -18,11 +18,17 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-15 - Private Visit Analytics Connected
+
+- Added the unlisted `/analytics` interface and protected `GET /api/analytics` function, with HTTP Basic Authentication applied to both through Vercel Routing Middleware.
+- Connected daily Australia/Perth activity and complete anonymous-browser history to the retained Neon visit ledger, including ordered page journeys, full stored referrers, repeat-visit sequence, and recognized ad attribution.
+- Replaced the fictional dashboard fixtures with live API loading, failure, retry, empty-day, expandable-visit, and visitor-history states while keeping database credentials and read access server-side.
+
 ## 2026-08-14 - First-Party Visit Ledger Released
 
 - Released the reviewed `staging` candidate to Production with first-party visit recording enabled only on `vivecounselling.com.au` and `www.vivecounselling.com.au`; failures remain isolated from the visitor experience.
 - Activated the protected daily 12-month retention schedule against the migrated Neon database while keeping all reporting server-side and outside the public API.
-- Confirmed the live site responds successfully, the visit endpoint rejects reads, the deployed client contains the canonical-host recorder configuration, and Vercel reported no runtime errors immediately after release. A first natural production record remains to be confirmed in the ledger.
+- Confirmed the live site responds successfully, the visit endpoint rejects reads, the deployed client contains the canonical-host recorder configuration, and Vercel reported no runtime errors immediately after release. Natural production records were subsequently confirmed in the ledger.
 
 ## 2026-08-14 - First-Party Visit Ledger Production Configuration Prepared
 

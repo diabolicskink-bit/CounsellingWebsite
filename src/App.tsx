@@ -15,7 +15,7 @@ import NotFound from "./pages/NotFound";
 import WorkingWithJoel from "./pages/WorkingWithJoel";
 import { devRoutePaths, privateRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/routes";
 
-const VisitReport = lazy(() => import("./pages/dev/VisitReportMock"));
+const Analytics = lazy(() => import("./pages/Analytics"));
 
 const devPages = import.meta.env.DEV
   ? {
@@ -63,7 +63,7 @@ export default function App({ initialRenderAt }: AppProps) {
           path={privateRoutePaths.analytics}
           element={(
             <Suspense fallback={null}>
-              <VisitReport />
+              <Analytics />
             </Suspense>
           )}
         />

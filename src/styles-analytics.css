@@ -1,3 +1,4 @@
+/* Private analytics dashboard */
 html:has(.visit-dashboard),
 body:has(.visit-dashboard) {
   scroll-behavior: auto;
@@ -143,7 +144,7 @@ body:has(.visit-dashboard) {
   color: #93601e !important;
 }
 
-.signal-header__mock i {
+.signal-header__live i {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -339,10 +340,6 @@ body:has(.visit-dashboard) {
   background: var(--report-mint);
 }
 
-.signal-telemetry > div:last-child {
-  display: none;
-}
-
 .signal-telemetry strong {
   order: 2;
 }
@@ -372,7 +369,8 @@ body:has(.visit-dashboard) {
   background: conic-gradient(
     var(--report-red) 0 var(--signal-paid-end),
     var(--report-blue) var(--signal-paid-end) var(--signal-referral-end),
-    #2dcf74 var(--signal-referral-end) 360deg
+    var(--report-purple) var(--signal-referral-end) var(--signal-internal-end),
+    #2dcf74 var(--signal-internal-end) 360deg
   );
 }
 
@@ -426,6 +424,7 @@ body:has(.visit-dashboard) {
 
 .signal-spectrum__paid { color: var(--report-red) !important; }
 .signal-spectrum__referral { color: var(--report-blue) !important; }
+.signal-spectrum__internal { color: var(--report-purple) !important; }
 .signal-spectrum__direct { color: var(--report-green) !important; }
 
 .signal-stream {
@@ -583,6 +582,7 @@ body:has(.visit-dashboard) {
 
 .signal-source--paid { color: var(--report-red); }
 .signal-source--referral { color: var(--report-blue); }
+.signal-source--internal { color: var(--report-purple); }
 .signal-source--direct { color: var(--report-green); }
 
 .signal-event__path {
@@ -826,6 +826,41 @@ body:has(.visit-dashboard) {
 .signal-stream__empty p {
   max-width: 430px;
   font-size: 0.8rem;
+}
+
+.signal-report-state {
+  min-height: calc(100vh - 174px);
+}
+
+.signal-report-state h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  letter-spacing: -0.035em;
+}
+
+.signal-report-state button {
+  min-height: 40px;
+  margin-top: 8px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--report-purple);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.signal-report-state button:hover {
+  background: var(--report-purple-dark);
+}
+
+.signal-report-state__spinner {
+  animation: signal-report-spin 900ms linear infinite;
+}
+
+@keyframes signal-report-spin {
+  to { transform: rotate(360deg); }
 }
 
 .signal-footnote {
@@ -1349,5 +1384,9 @@ body:has(.visit-dashboard) {
   .signal-event,
   .signal-event__toggle svg {
     transition: none;
+  }
+
+  .signal-report-state__spinner {
+    animation: none;
   }
 }

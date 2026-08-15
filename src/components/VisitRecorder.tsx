@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { isPrivateRoutePath } from "../data/routes";
 import {
   isVisitAnalyticsHostAllowed,
   visitAnalyticsEnabled,
@@ -43,7 +44,11 @@ export default function VisitRecorder() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (!visitAnalyticsEnabled || !isVisitAnalyticsHostAllowed()) {
+    if (
+      !visitAnalyticsEnabled
+      || !isVisitAnalyticsHostAllowed()
+      || isPrivateRoutePath(pathname)
+    ) {
       return;
     }
 

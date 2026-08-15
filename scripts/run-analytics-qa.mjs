@@ -168,6 +168,6 @@ await runPreviewTests(
 
 await run(process.execPath, [process.env.npm_execpath, "run", "build"], allowedHostAnalyticsEnv);
 await runPreviewTests(
-  "Google Analytics sends route-change page views when enabled|confirmed enquiry submissions emit conversion analytics|Google Analytics contact-intent events contain no visitor data|Microsoft Clarity loads when configured|first-party visit recorder records SPA route changes and refreshes in the active visit|first-party visit recorder recognizes a return visit and rotates an expired browser ID",
+  "Google Analytics sends route-change page views when enabled|confirmed enquiry submissions emit conversion analytics|Google Analytics contact-intent events contain no visitor data|Microsoft Clarity loads when configured|first-party visit recorder records SPA route changes and refreshes in the active visit|first-party visit recorder recognizes a return visit and rotates an expired browser ID|private analytics routes do not record or load analytics providers",
   allowedHostAnalyticsEnv,
 );

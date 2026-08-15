@@ -1,40 +1,40 @@
 import {
-  getVisitReportSelection,
-  type VisitReportRequest,
-  type VisitReportResponse,
-  type VisitReportSelection,
+  getAnalyticsSelection,
+  type AnalyticsRequest,
+  type AnalyticsResponse,
+  type AnalyticsSelection,
 } from "../src/server/reporting/request.ts";
 import {
-  readVisitReport,
-  VisitReportDataUnavailableError,
+  AnalyticsDataUnavailableError,
+  readAnalytics,
 } from "../src/server/reporting/reader.ts";
 
-type ReadVisitReport = (selection: VisitReportSelection) => Promise<unknown>;
+type ReadAnalytics = (selection: AnalyticsSelection) => Promise<unknown>;
 type GetNow = () => Date;
 
-const publicFailureMessage = "Visit reporting data is unavailable.";
+const publicFailureMessage = "Analytics data is unavailable.";
 
-function sendFailure(response: VisitReportResponse, status: number) {
+function sendFailure(response: AnalyticsResponse, status: number) {
   response.setHeader("Cache-Control", "private, no-store");
   return response.status(status).json({ error: publicFailureMessage });
 }
 
-function sendSuccess(response: VisitReportResponse, data: unknown) {
+function sendSuccess(response: AnalyticsResponse, data: unknown) {
   response.setHeader("Cache-Control", "private, no-store");
   return response.status(200).json({ data });
 }
 
 export function createAnalyticsHandler(
-  readReport: ReadVisitReport = readVisitReport,
+  readReport: ReadAnalytics = readAnalytics,
   getNow: GetNow = () => new Date(),
 ) {
-  return async function handler(request: VisitReportRequest, response: VisitReportResponse) {
+  return async function handler(request: AnalyticsRequest, response: AnalyticsResponse) {
     if (request.method !== "GET") {
       response.setHeader("Allow", "GET");
       return sendFailure(response, 405);
     }
 
-    const selection = getVisitReportSelection(request.query, getNow());
+    const selection = getAnalyticsSelection(request.query, getNow());
 
     if (selection.type === "invalid") {
       return sendFailure(response, 400);
@@ -45,12 +45,12 @@ export function createAnalyticsHandler(
     } catch (error) {
       const errorName = error instanceof Error ? error.name : "UnknownError";
 
-      if (error instanceof VisitReportDataUnavailableError) {
-        console.error("Visit reporting reader unavailable:", errorName);
+      if (error instanceof AnalyticsDataUnavailableError) {
+        console.error("Analytics reader unavailable:", errorName);
         return sendFailure(response, 503);
       }
 
-      console.error("Visit reporting read failed:", errorName);
+      console.error("Analytics read failed:", errorName);
       return sendFailure(response, 500);
     }
   };

@@ -1,20 +1,20 @@
-export type VisitReportSelection =
+export type AnalyticsSelection =
   | { date: string; type: "daily" }
   | { type: "visitor"; visitorId: string };
 
-export type VisitReportRequest = {
+export type AnalyticsRequest = {
   method?: string;
   query?: Record<string, string | string[] | undefined>;
 };
 
-export type VisitReportResponse = {
+export type AnalyticsResponse = {
   json(body: unknown): unknown;
   setHeader(name: string, value: string): void;
-  status(statusCode: number): VisitReportResponse;
+  status(statusCode: number): AnalyticsResponse;
 };
 
-export type VisitReportSelectionResult =
-  | { selection: VisitReportSelection; type: "valid" }
+export type AnalyticsSelectionResult =
+  | { selection: AnalyticsSelection; type: "valid" }
   | { type: "invalid" };
 
 const allowedQueryKeys = new Set(["date", "visitor"]);
@@ -47,10 +47,10 @@ export function getPerthDateKey(date: Date) {
   return `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
 }
 
-export function getVisitReportSelection(
-  query: VisitReportRequest["query"],
+export function getAnalyticsSelection(
+  query: AnalyticsRequest["query"],
   now: Date,
-): VisitReportSelectionResult {
+): AnalyticsSelectionResult {
   const normalizedQuery = query ?? {};
 
   if (Object.keys(normalizedQuery).some((key) => !allowedQueryKeys.has(key))) {

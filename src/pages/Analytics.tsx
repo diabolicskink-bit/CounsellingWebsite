@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -9,48 +9,37 @@ import {
   Clock3,
   LockKeyhole,
   Radio,
+  RefreshCw,
   Route,
 } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-import useDocumentMetadata from "../../hooks/useDocumentMetadata";
-import "../../styles-visit-report.css";
+import type {
+  AnalyticsApiResponse,
+  AnalyticsReport,
+  AnalyticsTrafficSource,
+  AnalyticsVisit,
+  DailyAnalyticsReport,
+  VisitorAnalyticsReport,
+} from "../data/analyticsContract";
+import useDocumentMetadata from "../hooks/useDocumentMetadata";
+import "../styles-analytics.css";
 
-type TrafficSource = "direct" | "paid" | "referral";
-
-type PageView = {
-  path: string;
-  time: string;
-};
-
-type MockVisit = {
-  adCode?: string;
-  dateKey: string;
-  durationMinutes: number;
-  gclid?: string;
-  id: string;
-  landingPath: string;
-  matchType?: string;
-  matchedKeyword?: string;
-  networkCode?: string;
-  pageViews: PageView[];
-  referrerUrl: string | null;
-  startedAt: string;
-  trafficSource: TrafficSource;
-  visitNumber: number;
-  visitorId: string;
-  visitorLabel: string;
-};
-
-type VisitFixture = Omit<MockVisit, "dateKey" | "landingPath" | "pageViews"> & {
-  dayOffset?: number;
-  pages: Array<[time: string, path: string]>;
-};
+type AnalyticsLoadState =
+  | { report: null; status: "error" | "loading" }
+  | { report: AnalyticsReport; status: "ready" };
 
 const perthDateFormatter = new Intl.DateTimeFormat("en-CA", {
   day: "2-digit",
   month: "2-digit",
   timeZone: "Australia/Perth",
   year: "numeric",
+});
+
+const perthTimeFormatter = new Intl.DateTimeFormat("en-AU", {
+  hour: "2-digit",
+  hour12: false,
+  minute: "2-digit",
+  timeZone: "Australia/Perth",
 });
 
 const displayDateFormatter = new Intl.DateTimeFormat("en-AU", {
@@ -98,138 +87,102 @@ function formatDate(dateKey: string, compact = false) {
   return (compact ? compactDateFormatter : displayDateFormatter).format(parseDateKey(dateKey));
 }
 
-function formatDuration(minutes: number) {
-  return minutes < 1 ? "< 1 min" : `${minutes} min`;
+function formatTime(timestamp: string) {
+  return perthTimeFormatter.format(new Date(timestamp));
 }
 
-function sourceLabel(source: TrafficSource) {
+function formatDuration(seconds: number) {
+  if (seconds < 60) return "< 1 min";
+  const minutes = Math.max(1, Math.round(seconds / 60));
+  return `${minutes} min`;
+}
+
+function visitorLabel(visitorId: string) {
+  const suffix = visitorId.replace(/-/g, "").slice(-6).toUpperCase();
+  return `Browser ${suffix}`;
+}
+
+function sourceLabel(source: AnalyticsTrafficSource) {
   if (source === "paid") return "Paid search";
   if (source === "referral") return "Referral";
+  if (source === "internal") return "Internal";
   return "Direct";
 }
 
-function networkLabel(networkCode?: string) {
+function networkLabel(networkCode: string | null) {
   if (networkCode === "g") return "Google Search";
   if (networkCode === "s") return "Search partners";
+  if (networkCode === "d") return "Google Display";
   return networkCode ?? "Network unavailable";
 }
 
-function sourceDetail(visit: MockVisit) {
+function matchTypeLabel(matchType: string | null) {
+  if (matchType === "e") return "Exact";
+  if (matchType === "p") return "Phrase";
+  if (matchType === "b") return "Broad";
+  return matchType ?? "Match unavailable";
+}
+
+function sourceDetail(visit: AnalyticsVisit) {
   if (visit.trafficSource === "paid") {
-    return `${networkLabel(visit.networkCode)} · ${visit.matchedKeyword ?? "Keyword unavailable"} · ${visit.matchType ?? "Match unavailable"}`;
+    return `${networkLabel(visit.networkCode)} · ${visit.matchedKeyword ?? "Keyword unavailable"} · ${matchTypeLabel(visit.matchType)}`;
   }
 
-  if (visit.trafficSource === "referral") {
-    try {
-      return new URL(visit.referrerUrl ?? "").hostname.replace(/^www\./, "");
-    } catch {
-      return "Referrer unavailable";
-    }
+  if (visit.trafficSource === "referral" || visit.trafficSource === "internal") {
+    return visit.referrerHost ?? "Referrer unavailable";
   }
 
   return "No referrer";
 }
 
-function createMockVisits(todayKey: string): MockVisit[] {
-  const fixtures: VisitFixture[] = [
-    {
-      id: "visit-7a2f-4", visitorId: "mock-visitor-7a2f", visitorLabel: "Browser 7A2F",
-      startedAt: "10:54", durationMinutes: 17, visitNumber: 4, trafficSource: "paid",
-      referrerUrl: "https://www.google.com/", adCode: "enm", networkCode: "g",
-      matchedKeyword: "polyamory therapy", matchType: "Phrase", gclid: "CjwKCA-demo-7a2f-visit-04",
-      pages: [
-        ["10:54", "/polyamory-enm-counselling"],
-        ["10:56", "/working-with-joel"],
-        ["10:58", "/inclusive-counselling"],
-        ["11:00", "/kink-bdsm-counselling"],
-        ["11:02", "/polyamory-enm-counselling"],
-        ["11:04", "/lgbtqia-affirming-counselling"],
-        ["11:06", "/contact"],
-        ["11:08", "/crisis-support"],
-        ["11:11", "/contact"],
-      ],
-    },
-    {
-      id: "visit-31bc-2", visitorId: "mock-visitor-31bc", visitorLabel: "Browser 31BC",
-      startedAt: "10:17", durationMinutes: 5, visitNumber: 2, trafficSource: "paid",
-      referrerUrl: "https://www.google.com/", adCode: "kink", networkCode: "s",
-      matchedKeyword: "kink aware therapist", matchType: "Exact", gclid: "CjwKCA-demo-31bc-visit-02",
-      pages: [["10:17", "/kink-bdsm-counselling"], ["10:19", "/inclusive-counselling"], ["10:22", "/contact"]],
-    },
-    {
-      id: "visit-982d-1", visitorId: "mock-visitor-982d", visitorLabel: "Browser 982D",
-      startedAt: "09:42", durationMinutes: 6, visitNumber: 1, trafficSource: "referral",
-      referrerUrl: "https://www.psychologytoday.com/au/counselling/western-australia?category=lgbtq",
-      pages: [["09:42", "/lgbtqia-affirming-counselling"], ["09:45", "/working-with-joel"], ["09:48", "/contact"]],
-    },
-    {
-      id: "visit-b04e-3", visitorId: "mock-visitor-b04e", visitorLabel: "Browser B04E",
-      startedAt: "08:56", durationMinutes: 3, visitNumber: 3, trafficSource: "direct", referrerUrl: null,
-      pages: [["08:56", "/"], ["08:59", "/contact"]],
-    },
-    {
-      id: "visit-51ad-1", visitorId: "mock-visitor-51ad", visitorLabel: "Browser 51AD",
-      startedAt: "08:31", durationMinutes: 4, visitNumber: 1, trafficSource: "referral",
-      referrerUrl: "https://www.bing.com/search?q=online+counselling+perth",
-      pages: [["08:31", "/working-with-joel"], ["08:35", "/contact"]],
-    },
-    {
-      id: "visit-c887-1", visitorId: "mock-visitor-c887", visitorLabel: "Browser C887",
-      startedAt: "07:48", durationMinutes: 0, visitNumber: 1, trafficSource: "direct", referrerUrl: null,
-      pages: [["07:48", "/inclusive-counselling"]],
-    },
-    {
-      id: "visit-ee19-1", visitorId: "mock-visitor-ee19", visitorLabel: "Browser EE19",
-      startedAt: "07:12", durationMinutes: 2, visitNumber: 1, trafficSource: "direct", referrerUrl: null,
-      pages: [["07:12", "/"], ["07:14", "/working-with-joel"]],
-    },
-    {
-      id: "visit-7a2f-3", visitorId: "mock-visitor-7a2f", visitorLabel: "Browser 7A2F", dayOffset: -1,
-      startedAt: "19:26", durationMinutes: 7, visitNumber: 3, trafficSource: "direct", referrerUrl: null,
-      pages: [["19:26", "/"], ["19:29", "/polyamory-enm-counselling"], ["19:33", "/contact"]],
-    },
-    {
-      id: "visit-7a2f-2", visitorId: "mock-visitor-7a2f", visitorLabel: "Browser 7A2F", dayOffset: -5,
-      startedAt: "12:08", durationMinutes: 4, visitNumber: 2, trafficSource: "referral",
-      referrerUrl: "https://directory.example.org.au/affirming-counsellors/perth-online",
-      pages: [["12:08", "/inclusive-counselling"], ["12:12", "/polyamory-enm-counselling"]],
-    },
-    {
-      id: "visit-7a2f-1", visitorId: "mock-visitor-7a2f", visitorLabel: "Browser 7A2F", dayOffset: -12,
-      startedAt: "21:41", durationMinutes: 1, visitNumber: 1, trafficSource: "paid",
-      referrerUrl: "https://www.google.com/", adCode: "enm", networkCode: "g",
-      matchedKeyword: "enm counselling perth", matchType: "Broad", gclid: "CjwKCA-demo-7a2f-visit-01",
-      pages: [["21:41", "/polyamory-enm-counselling"]],
-    },
-    {
-      id: "visit-31bc-1", visitorId: "mock-visitor-31bc", visitorLabel: "Browser 31BC", dayOffset: -8,
-      startedAt: "16:03", durationMinutes: 3, visitNumber: 1, trafficSource: "paid",
-      referrerUrl: "https://www.google.com/", adCode: "kink", networkCode: "g",
-      matchedKeyword: "bdsm friendly counselling", matchType: "Phrase", gclid: "CjwKCA-demo-31bc-visit-01",
-      pages: [["16:03", "/kink-bdsm-counselling"], ["16:06", "/working-with-joel"]],
-    },
-    {
-      id: "visit-b04e-2", visitorId: "mock-visitor-b04e", visitorLabel: "Browser B04E", dayOffset: -2,
-      startedAt: "07:18", durationMinutes: 2, visitNumber: 2, trafficSource: "direct", referrerUrl: null,
-      pages: [["07:18", "/contact"]],
-    },
-    {
-      id: "visit-b04e-1", visitorId: "mock-visitor-b04e", visitorLabel: "Browser B04E", dayOffset: -27,
-      startedAt: "18:32", durationMinutes: 5, visitNumber: 1, trafficSource: "referral",
-      referrerUrl: "https://www.instagram.com/",
-      pages: [["18:32", "/"], ["18:34", "/working-with-joel"], ["18:37", "/contact"]],
-    },
-  ];
+function isAnalyticsReport(value: unknown): value is AnalyticsReport {
+  if (!value || typeof value !== "object") return false;
+  const report = value as Partial<AnalyticsReport>;
 
-  return fixtures.map(({ dayOffset = 0, pages, ...visit }) => ({
-    ...visit,
-    dateKey: shiftDateKey(todayKey, dayOffset),
-    landingPath: pages[0]?.[1] ?? "/",
-    pageViews: pages.map(([time, path]) => ({ time, path })),
-  }));
+  return (report.type === "daily" || report.type === "visitor")
+    && Array.isArray(report.visits);
 }
 
-function SourceMark({ source }: { source: TrafficSource }) {
+function useAnalyticsReport(query: string) {
+  const [requestVersion, setRequestVersion] = useState(0);
+  const [state, setState] = useState<AnalyticsLoadState>({ report: null, status: "loading" });
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setState({ report: null, status: "loading" });
+
+    async function loadReport() {
+      try {
+        const response = await fetch(`/api/analytics?${query}`, {
+          credentials: "same-origin",
+          headers: { Accept: "application/json" },
+          signal: controller.signal,
+        });
+        const body = await response.json() as Partial<AnalyticsApiResponse>;
+
+        if (!response.ok || !isAnalyticsReport(body.data)) {
+          throw new Error("Analytics request failed.");
+        }
+
+        setState({ report: body.data, status: "ready" });
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        console.error("Analytics request failed:", error instanceof Error ? error.name : "UnknownError");
+        setState({ report: null, status: "error" });
+      }
+    }
+
+    void loadReport();
+    return () => controller.abort();
+  }, [query, requestVersion]);
+
+  return {
+    ...state,
+    retry: () => setRequestVersion((version) => version + 1),
+  };
+}
+
+function SourceMark({ source }: { source: AnalyticsTrafficSource }) {
   return (
     <span className={`signal-source signal-source--${source}`}>
       <i aria-hidden="true" />
@@ -247,7 +200,7 @@ function SignalHeader({ isDetail, onHome }: { isDetail: boolean; onHome: () => v
           <strong>Vive</strong>
         </button>
         <div className="signal-header__title">
-          <small>Private reporting</small>
+          <small>Private analytics</small>
           <strong>{isDetail ? "Visitor history" : "Daily activity"}</strong>
         </div>
         <div className="signal-header__system">
@@ -256,7 +209,7 @@ function SignalHeader({ isDetail, onHome }: { isDetail: boolean; onHome: () => v
             <LockKeyhole aria-hidden="true" size={14} />
             {import.meta.env.DEV ? "Auth bypassed locally" : "Protected"}
           </span>
-          <span className="signal-header__mock"><i aria-hidden="true" /> Fictional data</span>
+          <span className="signal-header__live"><i aria-hidden="true" /> Live data</span>
         </div>
       </div>
     </header>
@@ -306,13 +259,14 @@ function DailyObservatory({
   dateKey: string;
   expandedVisitId: string | null;
   onDateChange: (date: string) => void;
-  onOpenVisitor: (visitId: string) => void;
+  onOpenVisitor: (visit: AnalyticsVisit) => void;
   onToggleVisit: (visitId: string) => void;
   todayKey: string;
-  visits: MockVisit[];
+  visits: AnalyticsVisit[];
 }) {
   const summary = useMemo(() => ({
     direct: visits.filter((visit) => visit.trafficSource === "direct").length,
+    internal: visits.filter((visit) => visit.trafficSource === "internal").length,
     pages: visits.reduce((total, visit) => total + visit.pageViews.length, 0),
     paid: visits.filter((visit) => visit.trafficSource === "paid").length,
     referral: visits.filter((visit) => visit.trafficSource === "referral").length,
@@ -322,7 +276,9 @@ function DailyObservatory({
   const denominator = Math.max(visits.length, 1);
   const paidEnd = (summary.paid / denominator) * 360;
   const referralEnd = paidEnd + (summary.referral / denominator) * 360;
+  const internalEnd = referralEnd + (summary.internal / denominator) * 360;
   const spectrumStyle = {
+    "--signal-internal-end": `${internalEnd}deg`,
     "--signal-paid-end": `${paidEnd}deg`,
     "--signal-referral-end": `${referralEnd}deg`,
   } as CSSProperties;
@@ -340,12 +296,12 @@ function DailyObservatory({
         <div className="signal-overview__count" aria-label={`${visits.length} recorded visits`}>
           <span>Visits</span>
           <strong>{String(visits.length).padStart(2, "0")}</strong>
-          <small>Recorded today</small>
+          <small>Recorded on this day</small>
         </div>
 
         <div className="signal-spectrum">
           <div
-            aria-label={`${summary.paid} paid, ${summary.referral} referral and ${summary.direct} direct visits`}
+            aria-label={`${summary.paid} paid, ${summary.referral} referral, ${summary.internal} internal and ${summary.direct} direct visits`}
             className="signal-spectrum__orbit"
             role="img"
             style={spectrumStyle}
@@ -358,6 +314,7 @@ function DailyObservatory({
           <div className="signal-spectrum__legend">
             <span className="signal-spectrum__paid"><i />{summary.paid} paid</span>
             <span className="signal-spectrum__referral"><i />{summary.referral} referral</span>
+            <span className="signal-spectrum__internal"><i />{summary.internal} internal</span>
             <span className="signal-spectrum__direct"><i />{summary.direct} direct</span>
           </div>
         </div>
@@ -365,7 +322,6 @@ function DailyObservatory({
         <div className="signal-telemetry" aria-label="Daily summary">
           <div><span>Returning</span><strong>{String(summary.returning).padStart(2, "0")}</strong><small>{visits.length ? Math.round((summary.returning / visits.length) * 100) : 0}% of visits</small></div>
           <div><span>Average pages</span><strong>{visits.length ? (summary.pages / visits.length).toFixed(1) : "0.0"}</strong><small>Per visit</small></div>
-          <div><span>Data</span><strong className="signal-telemetry__status">Mock</strong><small>Fictional records</small></div>
         </div>
       </section>
 
@@ -394,14 +350,14 @@ function DailyObservatory({
                     onClick={() => onToggleVisit(visit.id)}
                     type="button"
                   >
-                    <time className="signal-event__time" dateTime={`${visit.dateKey}T${visit.startedAt}:00+08:00`}>
-                      {visit.startedAt}
+                    <time className="signal-event__time" dateTime={visit.startedAt}>
+                      {formatTime(visit.startedAt)}
                     </time>
 
                     <div className="signal-event__identity">
                       <span className="signal-event__beacon"><i aria-hidden="true" /></span>
                       <div>
-                        <strong>{visit.visitorLabel}</strong>
+                        <strong>{visitorLabel(visit.visitorId)}</strong>
                         <span>{visit.visitNumber > 1 ? `Returning · visit ${visit.visitNumber}` : "New visitor"}</span>
                       </div>
                     </div>
@@ -413,7 +369,7 @@ function DailyObservatory({
                       </div>
                       <div className="signal-event__path" aria-label={`Journey preview from ${visit.landingPath}`}>
                         {previewPages.map((pageView, index) => (
-                          <span key={`${visit.id}-${pageView.time}`}>
+                          <span key={pageView.id}>
                             <b>{pageView.path}</b>
                             {index < previewPages.length - 1 ? <em aria-hidden="true" /> : null}
                           </span>
@@ -426,7 +382,7 @@ function DailyObservatory({
 
                     <div className="signal-event__readout">
                       <strong>{visit.pageViews.length}</strong>
-                      <span>{visit.pageViews.length === 1 ? "page" : "pages"} · {formatDuration(visit.durationMinutes)}</span>
+                      <span>{visit.pageViews.length === 1 ? "page" : "pages"} · {formatDuration(visit.durationSeconds)}</span>
                     </div>
                     <span className="signal-event__toggle">
                       {isExpanded ? "Hide" : "Details"}
@@ -446,9 +402,9 @@ function DailyObservatory({
                         </header>
                         <ol>
                           {visit.pageViews.map((pageView, index) => (
-                            <li key={`${visit.id}-detail-${pageView.time}`}>
+                            <li key={pageView.id}>
                               <span>{String(index + 1).padStart(2, "0")}</span>
-                              <time dateTime={`${visit.dateKey}T${pageView.time}:00+08:00`}>{pageView.time}</time>
+                              <time dateTime={pageView.viewedAt}>{formatTime(pageView.viewedAt)}</time>
                               <strong>{pageView.path}</strong>
                             </li>
                           ))}
@@ -463,11 +419,11 @@ function DailyObservatory({
                         <dl>
                           <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
                           <div><dt>Ad / network</dt><dd>{visit.adCode ? `${visit.adCode} / ${networkLabel(visit.networkCode)}` : "Not an ad visit"}</dd></div>
-                          <div><dt>Keyword / match</dt><dd>{visit.matchedKeyword ? `${visit.matchedKeyword} / ${visit.matchType ?? "—"}` : "None recorded"}</dd></div>
+                          <div><dt>Keyword / match</dt><dd>{visit.matchedKeyword ? `${visit.matchedKeyword} / ${matchTypeLabel(visit.matchType)}` : "None recorded"}</dd></div>
                           <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
                         </dl>
-                        <button onClick={() => onOpenVisitor(visit.id)} type="button">
-                          View all visits from {visit.visitorLabel}
+                        <button onClick={() => onOpenVisitor(visit)} type="button">
+                          View all visits from {visitorLabel(visit.visitorId)}
                           <ChevronRight aria-hidden="true" size={17} />
                         </button>
                       </aside>
@@ -481,7 +437,7 @@ function DailyObservatory({
           <div className="signal-stream__empty">
             <Radio aria-hidden="true" size={30} />
             <h3>No visits recorded</h3>
-            <p>No fictional visits exist on this date. Choose another date to continue.</p>
+            <p>No page loads were recorded on this date.</p>
           </div>
         )}
       </section>
@@ -494,32 +450,34 @@ function DailyObservatory({
 }
 
 function VisitorHistory({
-  allVisits,
   contextDate,
+  focusedVisitId,
   onBack,
-  visit,
+  report,
 }: {
-  allVisits: MockVisit[];
   contextDate: string;
+  focusedVisitId: string | null;
   onBack: () => void;
-  visit: MockVisit | null;
+  report: VisitorAnalyticsReport;
 }) {
-  if (!visit) {
+  const focusedVisit = report.visits.find((visit) => visit.id === focusedVisitId)
+    ?? report.visits[0]
+    ?? null;
+
+  if (!focusedVisit) {
     return (
       <section className="signal-missing">
         <Radio aria-hidden="true" size={34} />
         <p className="signal-kicker">Visitor not found</p>
-        <h1>This visitor is unavailable</h1>
+        <h1>This browser has no retained visits</h1>
         <button onClick={onBack} type="button"><ArrowLeft aria-hidden="true" size={17} /> Back to visits</button>
       </section>
     );
   }
 
-  const visitorHistory = allVisits
-    .filter((candidate) => candidate.visitorId === visit.visitorId)
-    .sort((a, b) => `${b.dateKey}T${b.startedAt}`.localeCompare(`${a.dateKey}T${a.startedAt}`));
-  const firstVisit = visitorHistory[visitorHistory.length - 1] ?? visit;
-  const latestVisit = visitorHistory[0] ?? visit;
+  const firstVisit = report.visits[report.visits.length - 1] ?? focusedVisit;
+  const latestVisit = report.visits[0] ?? focusedVisit;
+  const label = visitorLabel(report.visitorId);
 
   return (
     <>
@@ -530,17 +488,17 @@ function VisitorHistory({
 
       <section className="visitor-summary" aria-labelledby="visitor-history-title">
         <div className="visitor-summary__identity">
-          <span aria-hidden="true">{visit.visitorLabel.replace("Browser ", "")}</span>
+          <span aria-hidden="true">{label.replace("Browser ", "")}</span>
           <div>
             <p className="signal-kicker">Anonymous browser</p>
-            <h1 id="visitor-history-title">{visit.visitorLabel}</h1>
-            <p>This browser has {visitorHistory.length} recorded {visitorHistory.length === 1 ? "visit" : "visits"}.</p>
+            <h1 id="visitor-history-title">{label}</h1>
+            <p>This browser has {report.visits.length} recorded {report.visits.length === 1 ? "visit" : "visits"}.</p>
           </div>
         </div>
         <dl>
           <div><dt>First seen</dt><dd>{formatDate(firstVisit.dateKey, true)}</dd></div>
           <div><dt>Most recent</dt><dd>{formatDate(latestVisit.dateKey, true)}</dd></div>
-          <div><dt>Total visits</dt><dd>{String(visitorHistory.length).padStart(2, "0")}</dd></div>
+          <div><dt>Total visits</dt><dd>{String(report.visits.length).padStart(2, "0")}</dd></div>
         </dl>
       </section>
 
@@ -550,53 +508,53 @@ function VisitorHistory({
             <p className="signal-kicker">Complete history</p>
             <h2 id="all-visits-title">All visits</h2>
           </div>
-          <p>Each visit shows every recorded page load and the information stored when the visit began.</p>
+          <p>Every retained page load and the attribution stored when each visit began.</p>
         </header>
 
         <div className="visitor-history__list">
-          {visitorHistory.map((historyVisit) => {
-            const isFocused = historyVisit.id === visit.id;
+          {report.visits.map((visit) => {
+            const isFocused = visit.id === focusedVisit.id;
 
             return (
-              <article className={isFocused ? "visitor-visit visitor-visit--focused" : "visitor-visit"} key={historyVisit.id}>
+              <article className={isFocused ? "visitor-visit visitor-visit--focused" : "visitor-visit"} key={visit.id}>
                 <header className="visitor-visit__summary">
-                  <span className="visitor-visit__number">{String(historyVisit.visitNumber).padStart(2, "0")}</span>
+                  <span className="visitor-visit__number">{String(visit.visitNumber).padStart(2, "0")}</span>
                   <div>
-                    <p>{isFocused ? "Opened from daily activity" : `Visit ${historyVisit.visitNumber}`}</p>
-                    <h3>{formatDate(historyVisit.dateKey, true)} at {historyVisit.startedAt}</h3>
-                    <SourceMark source={historyVisit.trafficSource} />
+                    <p>{isFocused ? "Opened from daily activity" : `Visit ${visit.visitNumber}`}</p>
+                    <h3>{formatDate(visit.dateKey, true)} at {formatTime(visit.startedAt)}</h3>
+                    <SourceMark source={visit.trafficSource} />
                   </div>
                   <dl>
-                    <div><dt>Landing page</dt><dd>{historyVisit.landingPath}</dd></div>
-                    <div><dt>Pages</dt><dd>{historyVisit.pageViews.length}</dd></div>
-                    <div><dt>Duration</dt><dd>{formatDuration(historyVisit.durationMinutes)}</dd></div>
+                    <div><dt>Landing page</dt><dd>{visit.landingPath}</dd></div>
+                    <div><dt>Pages</dt><dd>{visit.pageViews.length}</dd></div>
+                    <div><dt>Duration</dt><dd>{formatDuration(visit.durationSeconds)}</dd></div>
                   </dl>
                 </header>
 
                 <div className="visitor-visit__detail">
-                  <section className="visitor-visit__journey" aria-labelledby={`${historyVisit.id}-journey`}>
+                  <section className="visitor-visit__journey" aria-labelledby={`${visit.id}-journey`}>
                     <header>
-                      <h4 id={`${historyVisit.id}-journey`}>Page journey</h4>
-                      <span>{historyVisit.pageViews.length} in order</span>
+                      <h4 id={`${visit.id}-journey`}>Page journey</h4>
+                      <span>{visit.pageViews.length} in order</span>
                     </header>
                     <ol>
-                      {historyVisit.pageViews.map((pageView, index) => (
-                        <li key={`${historyVisit.id}-${pageView.time}`}>
+                      {visit.pageViews.map((pageView, index) => (
+                        <li key={pageView.id}>
                           <span>{String(index + 1).padStart(2, "0")}</span>
-                          <time dateTime={`${historyVisit.dateKey}T${pageView.time}:00+08:00`}>{pageView.time}</time>
+                          <time dateTime={pageView.viewedAt}>{formatTime(pageView.viewedAt)}</time>
                           <strong>{pageView.path}</strong>
                         </li>
                       ))}
                     </ol>
                   </section>
 
-                  <section className="visitor-visit__attribution" aria-labelledby={`${historyVisit.id}-attribution`}>
-                    <header><h4 id={`${historyVisit.id}-attribution`}>Attribution</h4></header>
+                  <section className="visitor-visit__attribution" aria-labelledby={`${visit.id}-attribution`}>
+                    <header><h4 id={`${visit.id}-attribution`}>Attribution</h4></header>
                     <dl>
-                      <div><dt>Referrer</dt><dd>{historyVisit.referrerUrl ?? "None recorded"}</dd></div>
-                      <div><dt>Ad / network</dt><dd>{historyVisit.adCode ? `${historyVisit.adCode} / ${networkLabel(historyVisit.networkCode)}` : "Not an ad visit"}</dd></div>
-                      <div><dt>Keyword / match</dt><dd>{historyVisit.matchedKeyword ? `${historyVisit.matchedKeyword} / ${historyVisit.matchType ?? "—"}` : "None recorded"}</dd></div>
-                      <div><dt>GCLID</dt><dd>{historyVisit.gclid ?? "None recorded"}</dd></div>
+                      <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
+                      <div><dt>Ad / network</dt><dd>{visit.adCode ? `${visit.adCode} / ${networkLabel(visit.networkCode)}` : "Not an ad visit"}</dd></div>
+                      <div><dt>Keyword / match</dt><dd>{visit.matchedKeyword ? `${visit.matchedKeyword} / ${matchTypeLabel(visit.matchType)}` : "None recorded"}</dd></div>
+                      <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
                     </dl>
                   </section>
                 </div>
@@ -606,34 +564,49 @@ function VisitorHistory({
         </div>
 
         <p className="visitor-history__note">
-          This is one anonymous browser identifier, not a known person. A different device or cleared browser storage starts a separate history.
+          This is one anonymous browser identifier, not a known person. Another device or cleared browser storage starts a separate history.
         </p>
       </section>
     </>
   );
 }
 
-export default function VisitReportMock() {
+function ReportState({ onRetry, status }: { onRetry: () => void; status: "error" | "loading" }) {
+  return (
+    <section className="signal-stream__empty signal-report-state" aria-live="polite">
+      {status === "loading" ? (
+        <span className="signal-report-state__spinner">
+          <RefreshCw aria-hidden="true" size={30} />
+        </span>
+      ) : <Radio aria-hidden="true" size={30} />}
+      <h1>{status === "loading" ? "Loading activity" : "Activity could not be loaded"}</h1>
+      <p>{status === "loading" ? "Reading the latest retained visit data." : "The protected analytics API did not return a report."}</p>
+      {status === "error" ? <button onClick={onRetry} type="button">Try again</button> : null}
+    </section>
+  );
+}
+
+export default function Analytics() {
   const [searchParams, setSearchParams] = useSearchParams();
   const todayKey = useMemo(() => getPerthDateKey(), []);
-  const allVisits = useMemo(() => createMockVisits(todayKey), [todayKey]);
   const requestedDate = searchParams.get("date");
   const dateKey = isDateKey(requestedDate) && requestedDate <= todayKey ? requestedDate : todayKey;
   const expandedVisitId = searchParams.get("expanded");
-  const selectedVisitId = searchParams.get("visit");
-  const selectedVisit = selectedVisitId ? allVisits.find((visit) => visit.id === selectedVisitId) ?? null : null;
-  const dailyVisits = allVisits
-    .filter((visit) => visit.dateKey === dateKey)
-    .sort((a, b) => b.startedAt.localeCompare(a.startedAt));
+  const requestedVisitorId = searchParams.get("visitor");
+  const focusedVisitId = searchParams.get("visit");
+  const requestQuery = requestedVisitorId
+    ? `visitor=${encodeURIComponent(requestedVisitorId)}`
+    : `date=${encodeURIComponent(dateKey)}`;
+  const { report, retry, status } = useAnalyticsReport(requestQuery);
 
   useDocumentMetadata(
-    "Visit reporting mock | Vive Counselling",
-    "Development-only interface mock for fictional visit activity and anonymous browser history.",
+    "Analytics | Vive Counselling",
+    "Private first-party visit analytics for Vive Counselling.",
   );
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
-  }, [selectedVisitId]);
+  }, [requestedVisitorId]);
 
   function updateDate(nextDate: string) {
     if (!isDateKey(nextDate) || nextDate > todayKey) return;
@@ -650,10 +623,12 @@ export default function VisitReportMock() {
     setSearchParams(nextParams);
   }
 
-  function openVisitor(visitId: string) {
+  function openVisitor(visit: AnalyticsVisit) {
     const nextParams = new URLSearchParams(searchParams);
     if (dateKey !== todayKey) nextParams.set("date", dateKey);
-    nextParams.set("visit", visitId);
+    nextParams.delete("expanded");
+    nextParams.set("visitor", visit.visitorId);
+    nextParams.set("visit", visit.id);
     setSearchParams(nextParams);
   }
 
@@ -661,32 +636,42 @@ export default function VisitReportMock() {
     const nextParams = new URLSearchParams(searchParams);
     if (dateKey !== todayKey) nextParams.set("date", dateKey);
     else nextParams.delete("date");
+    nextParams.delete("expanded");
     nextParams.delete("visit");
+    nextParams.delete("visitor");
     setSearchParams(nextParams);
   }
 
+  const dailyReport = report?.type === "daily" ? report as DailyAnalyticsReport : null;
+  const visitorReport = report?.type === "visitor" ? report as VisitorAnalyticsReport : null;
+
   return (
     <main className="visit-dashboard">
-      <SignalHeader isDetail={Boolean(selectedVisitId)} onHome={closeVisitor} />
+      <SignalHeader isDetail={Boolean(requestedVisitorId)} onHome={closeVisitor} />
       <div className="visit-signal__field">
-        {selectedVisitId ? (
+        {status !== "ready" ? <ReportState onRetry={retry} status={status} /> : null}
+        {status === "ready" && requestedVisitorId && visitorReport ? (
           <VisitorHistory
-            allVisits={allVisits}
             contextDate={dateKey}
+            focusedVisitId={focusedVisitId}
             onBack={closeVisitor}
-            visit={selectedVisit}
+            report={visitorReport}
           />
-        ) : (
+        ) : null}
+        {status === "ready" && !requestedVisitorId && dailyReport ? (
           <DailyObservatory
-            dateKey={dateKey}
+            dateKey={dailyReport.date}
             expandedVisitId={expandedVisitId}
             onDateChange={updateDate}
             onOpenVisitor={openVisitor}
             onToggleVisit={toggleVisit}
             todayKey={todayKey}
-            visits={dailyVisits}
+            visits={dailyReport.visits}
           />
-        )}
+        ) : null}
+        {status === "ready" && ((requestedVisitorId && !visitorReport) || (!requestedVisitorId && !dailyReport)) ? (
+          <ReportState onRetry={retry} status="error" />
+        ) : null}
       </div>
     </main>
   );

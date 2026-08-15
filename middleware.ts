@@ -1,5 +1,50 @@
+import { timingSafeEqual } from "node:crypto";
 import { next } from "@vercel/functions";
-import { getAnalyticsAuthState } from "./src/server/reporting/basicAuth.ts";
+
+export type AnalyticsAuthState = "authorized" | "misconfigured" | "unauthorized";
+
+export type AnalyticsCredentials = {
+  password?: string;
+  username?: string;
+};
+
+function safeStringEqual(supplied: string, expected: string) {
+  const suppliedBytes = Buffer.from(supplied);
+  const expectedBytes = Buffer.from(expected);
+  const comparisonLength = Math.max(suppliedBytes.length, expectedBytes.length, 1);
+  const suppliedComparison = Buffer.alloc(comparisonLength);
+  const expectedComparison = Buffer.alloc(comparisonLength);
+
+  suppliedBytes.copy(suppliedComparison);
+  expectedBytes.copy(expectedComparison);
+
+  return suppliedBytes.length === expectedBytes.length
+    && timingSafeEqual(suppliedComparison, expectedComparison);
+}
+
+function getBasicToken(authorization: string | null) {
+  const match = authorization?.match(/^\s*Basic\s+([^\s]+)\s*$/i);
+
+  return match?.[1] ?? "";
+}
+
+export function getAnalyticsAuthState(
+  authorization: string | null,
+  credentials: AnalyticsCredentials,
+): AnalyticsAuthState {
+  const { password, username } = credentials;
+
+  if (!username || !password) {
+    return "misconfigured";
+  }
+
+  const suppliedToken = getBasicToken(authorization);
+  const expectedToken = Buffer.from(`${username}:${password}`).toString("base64");
+
+  return safeStringEqual(suppliedToken, expectedToken)
+    ? "authorized"
+    : "unauthorized";
+}
 
 const protectedResponseHeaders = {
   "Cache-Control": "private, no-store",
@@ -9,7 +54,7 @@ const protectedResponseHeaders = {
 };
 
 function sendUnavailable() {
-  return new Response("Visit reporting is unavailable.", {
+  return new Response("Analytics is unavailable.", {
     status: 503,
     headers: protectedResponseHeaders,
   });
@@ -20,7 +65,7 @@ function requestAuthentication() {
     status: 401,
     headers: {
       ...protectedResponseHeaders,
-      "WWW-Authenticate": 'Basic realm="Vive visit reporting", charset="UTF-8"',
+      "WWW-Authenticate": 'Basic realm="Vive analytics", charset="UTF-8"',
     },
   });
 }
@@ -35,7 +80,7 @@ export default function protectAnalytics(request: Request) {
   );
 
   if (authState === "misconfigured") {
-    console.error("Visit reporting authentication is not configured.");
+    console.error("Analytics authentication is not configured.");
     return sendUnavailable();
   }
 

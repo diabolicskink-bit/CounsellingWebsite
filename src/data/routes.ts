@@ -21,6 +21,12 @@ export const privateRoutePaths = {
   analytics: "/analytics",
 } as const;
 
+export function isPrivateRoutePath(pathname: string) {
+  return Object.values(privateRoutePaths).some(
+    (privatePath) => pathname === privatePath || pathname.startsWith(`${privatePath}/`),
+  );
+}
+
 export const devRoutePaths = {
   codexTestBed: "/codex-tb",
   designSystem: "/design-system",

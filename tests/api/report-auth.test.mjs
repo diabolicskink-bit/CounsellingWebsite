@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
-import protectAnalytics, { config } from "../../middleware.ts";
-import { getAnalyticsAuthState } from "../../src/server/reporting/basicAuth.ts";
+import protectAnalytics, { config, getAnalyticsAuthState } from "../../middleware.ts";
 
 const originalConsoleError = console.error;
 const originalPassword = process.env.ANALYTICS_PASSWORD;
@@ -89,7 +88,7 @@ test("middleware challenges unauthorized requests and passes authorized requests
   assert.equal(unauthorized.status, 401);
   assert.equal(
     unauthorized.headers.get("www-authenticate"),
-    'Basic realm="Vive visit reporting", charset="UTF-8"',
+    'Basic realm="Vive analytics", charset="UTF-8"',
   );
   assert.equal(unauthorized.headers.get("cache-control"), "private, no-store");
   assert.equal(authorized.status, 200);
