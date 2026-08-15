@@ -12,6 +12,7 @@ const baseAnalyticsEnv = {
   VITE_CLARITY_PROJECT_ID: "testclarity1",
   VITE_GA_MEASUREMENT_ID: "G-TEST12345",
   VITE_VISIT_ANALYTICS_ENABLED: "true",
+  VITE_VISIT_BOT_DETECTION_ENABLED: "false",
 };
 const blockedHostAnalyticsEnv = {
   ...baseAnalyticsEnv,

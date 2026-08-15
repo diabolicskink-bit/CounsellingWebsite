@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
+  Bot,
   CalendarDays,
   ChevronDown,
   ChevronRight,
@@ -134,6 +135,15 @@ function sourceDetail(visit: AnalyticsVisit) {
   return "No referrer";
 }
 
+function botDetail(visit: AnalyticsVisit) {
+  if (visit.isBot === null) return "Unclassified";
+  if (!visit.isBot) return "Not detected as a bot";
+
+  return [visit.botName ?? "Unknown bot", visit.botCategory]
+    .filter((value): value is string => Boolean(value))
+    .join(" · ");
+}
+
 function isAnalyticsReport(value: unknown): value is AnalyticsReport {
   if (!value || typeof value !== "object") return false;
   const report = value as Partial<AnalyticsReport>;
@@ -186,6 +196,18 @@ function SourceMark({ source }: { source: AnalyticsTrafficSource }) {
     <span className={`signal-source signal-source--${source}`}>
       <i aria-hidden="true" />
       {sourceLabel(source)}
+    </span>
+  );
+}
+
+function BotMark({ visit }: { visit: AnalyticsVisit }) {
+  if (!visit.isBot) return null;
+
+  return (
+    <span className="signal-bot">
+      <Bot aria-hidden="true" size={13} />
+      {visit.botName ?? "Unknown bot"}
+      {visit.botCategory ? <small>{visit.botCategory}</small> : null}
     </span>
   );
 }
@@ -281,16 +303,22 @@ function DailyObservatory({
   todayKey: string;
   visits: AnalyticsVisit[];
 }) {
-  const summary = useMemo(() => ({
-    direct: visits.filter((visit) => visit.trafficSource === "direct").length,
-    internal: visits.filter((visit) => visit.trafficSource === "internal").length,
-    pages: visits.reduce((total, visit) => total + visit.pageViews.length, 0),
-    paid: visits.filter((visit) => visit.trafficSource === "paid").length,
-    referral: visits.filter((visit) => visit.trafficSource === "referral").length,
-    returning: visits.filter((visit) => visit.visitNumber > 1).length,
-  }), [visits]);
+  const summary = useMemo(() => {
+    const unflaggedVisits = visits.filter((visit) => !visit.isBot);
+
+    return {
+      bots: visits.length - unflaggedVisits.length,
+      direct: unflaggedVisits.filter((visit) => visit.trafficSource === "direct").length,
+      internal: unflaggedVisits.filter((visit) => visit.trafficSource === "internal").length,
+      pages: unflaggedVisits.reduce((total, visit) => total + visit.pageViews.length, 0),
+      paid: unflaggedVisits.filter((visit) => visit.trafficSource === "paid").length,
+      referral: unflaggedVisits.filter((visit) => visit.trafficSource === "referral").length,
+      returning: unflaggedVisits.filter((visit) => visit.visitNumber > 1).length,
+      unflagged: unflaggedVisits.length,
+    };
+  }, [visits]);
   const isToday = dateKey === todayKey;
-  const denominator = Math.max(visits.length, 1);
+  const denominator = Math.max(summary.unflagged, 1);
   const paidEnd = (summary.paid / denominator) * 360;
   const referralEnd = paidEnd + (summary.referral / denominator) * 360;
   const internalEnd = referralEnd + (summary.internal / denominator) * 360;
@@ -310,16 +338,16 @@ function DailyObservatory({
           <DateControls dateKey={dateKey} isToday={isToday} onDateChange={onDateChange} todayKey={todayKey} />
         </div>
 
-        <div className="signal-overview__count" aria-label={`${visits.length} recorded visits`}>
-          <span>Visits</span>
-          <strong>{String(visits.length).padStart(2, "0")}</strong>
-          <small>Recorded on this day</small>
+        <div className="signal-overview__count" aria-label={`${summary.unflagged} visits not flagged as bots`}>
+          <span>Not flagged</span>
+          <strong>{String(summary.unflagged).padStart(2, "0")}</strong>
+          <small>{summary.bots} {summary.bots === 1 ? "bot record" : "bot records"} separated</small>
         </div>
 
         <div className="signal-spectrum">
           <div
             aria-label={`${summary.pages} page views across ${summary.paid} paid, ${summary.referral} referral, ${summary.internal} internal and ${summary.direct} direct visits`}
-            className={visits.length ? "signal-spectrum__orbit" : "signal-spectrum__orbit signal-spectrum__orbit--empty"}
+            className={summary.unflagged ? "signal-spectrum__orbit" : "signal-spectrum__orbit signal-spectrum__orbit--empty"}
             role="img"
             style={spectrumStyle}
           >
@@ -337,8 +365,8 @@ function DailyObservatory({
         </div>
 
         <div className="signal-telemetry" aria-label="Daily summary">
-          <div><span>Returning</span><strong>{String(summary.returning).padStart(2, "0")}</strong><small>{visits.length ? Math.round((summary.returning / visits.length) * 100) : 0}% of visits</small></div>
-          <div><span>Average pages</span><strong>{visits.length ? (summary.pages / visits.length).toFixed(1) : "0.0"}</strong><small>Per visit</small></div>
+          <div><span>Returning</span><strong>{String(summary.returning).padStart(2, "0")}</strong><small>{summary.unflagged ? Math.round((summary.returning / summary.unflagged) * 100) : 0}% not flagged</small></div>
+          <div><span>Average pages</span><strong>{summary.unflagged ? (summary.pages / summary.unflagged).toFixed(1) : "0.0"}</strong><small>Per unflagged visit</small></div>
         </div>
       </section>
 
@@ -348,7 +376,7 @@ function DailyObservatory({
             <p className="signal-kicker">Newest first</p>
             <h2 id="signal-stream-title">Visits on this day</h2>
           </div>
-          <span>{visits.length} {visits.length === 1 ? "visit" : "visits"}</span>
+          <span>{visits.length} {visits.length === 1 ? "record" : "records"} · {summary.bots} bots</span>
         </header>
 
         {visits.length ? (
@@ -382,6 +410,7 @@ function DailyObservatory({
                     <div className="signal-event__trace">
                       <div className="signal-event__trace-meta">
                         <SourceMark source={visit.trafficSource} />
+                        <BotMark visit={visit} />
                         <span>{sourceDetail(visit)}</span>
                       </div>
                       <div className="signal-event__path" aria-label={`Journey preview from ${visit.landingPath}`}>
@@ -438,6 +467,7 @@ function DailyObservatory({
                           <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
                           <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
                           <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
+                          <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div>
                         </dl>
                         <button onClick={() => onOpenVisitor(visit)} type="button">
                           View all visits from {visitorLabel(visit.visitorId)}
@@ -460,7 +490,7 @@ function DailyObservatory({
       </section>
 
       <p className="signal-footnote">
-        Records page loads only. Elapsed spans run from the first to the last recorded page load; they do not include time spent on the final page. It does not show clicks, scrolling, reading time or form contents.
+        Records page loads only. Visits explicitly identified by BotID are retained in the list but excluded from headline figures. Elapsed spans run from the first to the last recorded page load; they do not include time spent on the final page. It does not show clicks, scrolling, reading time or form contents.
       </p>
     </>
   );
@@ -540,6 +570,7 @@ function VisitorHistory({
                     <p>{isFocused ? "Opened from daily activity" : `Visit ${visit.visitNumber}`}</p>
                     <h3>{formatDate(visit.dateKey, true)} at {formatTime(visit.startedAt)}</h3>
                     <SourceMark source={visit.trafficSource} />
+                    <BotMark visit={visit} />
                   </div>
                   <dl>
                     <div><dt>Landing page</dt><dd>{visit.landingPath}</dd></div>
@@ -572,6 +603,7 @@ function VisitorHistory({
                       <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
                       <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
                       <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
+                      <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div>
                     </dl>
                   </section>
                 </div>

@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-15 - Visit Bot Classification Prepared
+
+- Added Vercel BotID Basic to the first-party visit recorder and write endpoint without blocking classified bots; failures remain best-effort and store an unclassified verdict.
+- Added a third ledger migration for nullable bot verdict, verified name and category, with positive verdicts winning across later page observations and legacy rows remaining unclassified.
+- Extended the protected report, dashboard and saved queries so explicit bots remain inspectable but are separated from headline visit, returning, page and source figures. The migration and deployed BotID flow remain pending Production application and live verification because testing was unavailable during this task.
+
 ## 2026-08-15 - Production Visit Ledger Isolated
 
 - Retargeted every Vercel-managed Neon identifier, connection variable, and private-report Basic-auth credential to Production only; Development and Preview no longer receive a path capable of reading or writing the private visit ledger.

@@ -20,6 +20,7 @@ SELECT
   COUNT(*) FILTER (WHERE recent_visits.is_returning)::INTEGER AS returning_visit_count,
   SUM(recent_visits.page_view_count)::INTEGER AS page_view_count
 FROM recent_visits
+WHERE recent_visits.is_bot IS NOT TRUE
 GROUP BY
   visit_date_awst,
   recent_visits.traffic_source,
