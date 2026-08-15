@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-38`
+- `Next ID`: `DEBT-41`
 
 ## How To Maintain This Tracker
 
@@ -135,6 +135,74 @@ Each active item should include enough direction that a future session can choos
   - Keep public pages and their current visual treatment unchanged during reconciliation unless a separate task explicitly authorizes visitor-facing work.
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
 - `Links`: `docs/design-system/`, `src/design-system/`, `src/styles.css`, `src/components/`
+
+### DEBT-38 - Analytics data needs deployment-environment isolation
+
+- `Priority`: `P1`
+- `Size`: `M`
+- `Priority Rationale`: This is `P1` because the current shared Preview and Production database contains private full referrers and anonymous browser histories, while arbitrary Preview branch functions can receive the same database credential. It is not `P0` because the reporting read route remains authenticated and no unauthorized access incident is known.
+- `Status`: `Open`
+- `Detected`: 2026-08-15
+- `Source`: Local analytics code review
+- `Area`: Analytics, Privacy, Deployment, Neon, Vercel
+- `Problem`: Development, Preview, and Production currently receive one Neon database URL. The ledger does not store a trusted deployment or request-host dimension, so enabled preview traffic is also indistinguishable from production traffic in reports.
+- `Why It Matters`: A preview branch has unnecessary access to production analytics data, and preview verification or browsing can distort the operational report even when the public production-host recorder is correctly allowlisted.
+- `Preferred Direction`: Give Production an isolated Neon database or branch and remove its credential from general Development/Preview. If selected non-production recording must remain, store a server-derived environment/host dimension and filter reports explicitly.
+- `Resolution Path`: Confirm the intended Neon branching model, provision or connect the isolated resource, apply the existing migrations there, scope Vercel environment variables, disable the old recorder-enabled preview, and verify both environments without copying private production rows.
+- `Next Action`: Inspect the Vercel/Neon integration scopes and choose whether Production receives a separate Neon branch or Preview loses database access entirely.
+- `Resolved When`: Preview branch code cannot read or write the production visit ledger, production reports contain only the intended production host data, and verification uses disposable non-production records.
+- `Related Items`:
+  - `DEBT-24`: A deployed smoke test should verify the selected environment boundary as well as route behavior.
+  - `DEBT-40`: Environment isolation limits accidental mixing; bounded reads limit the impact of unusually large legitimate or abusive datasets.
+- `Dependencies`: `None`
+- `Notes`:
+  - `scripts/verify-visit-preview.mjs` now deletes its uniquely marked synthetic visits in `finally`, which prevents that script from adding further permanent report noise but does not isolate credentials or arbitrary preview traffic.
+- `Links`: `docs/project/current-scope.md`, `database/README.md`, `scripts/verify-visit-preview.mjs`, `src/server/visits/repository.ts`, `src/server/reporting/reader.ts`
+
+### DEBT-39 - Visit page journeys need persisted causal ordering
+
+- `Priority`: `P1`
+- `Size`: `M`
+- `Priority Rationale`: This is `P1` because the private dashboard presents page journeys as ordered operational data, but request arrival order can differ from browser navigation order. The current same-document queue substantially reduces the normal SPA race, so this is not `P0`.
+- `Status`: `Open`
+- `Detected`: 2026-08-15
+- `Source`: Local analytics code review
+- `Area`: Analytics, Browser, API, Database, Reporting
+- `Problem`: Page views contain a UUID and server receipt timestamp but no per-visit sequence. Same-document observations are now sent serially, yet overlapping keepalive requests across reloads, restored documents, or copied sessions can still reach separate functions out of causal order; reporting then orders by server time and random UUID.
+- `Why It Matters`: A landing page can appear after a later route, `started_at` can reflect the first request received rather than the first page viewed, and the displayed journey can be misleading precisely when navigation is rapid or connectivity is uneven.
+- `Preferred Direction`: Add a browser-assigned monotonic page sequence scoped to each visit, validate and store it with a uniqueness contract, and order reports by that sequence while retaining server timestamps as receipt times.
+- `Resolution Path`: Define sequence behavior for refreshes, BFCache restoration, sessionStorage copies, retries, and conflicting observations; add a migration and payload validation; update idempotent storage and report ordering; then cover deliberately reordered requests against a real Postgres instance.
+- `Next Action`: Design the sequence/conflict contract and a database integration test that submits later sequence numbers before earlier ones.
+- `Resolved When`: Page journeys render in browser-observed order despite out-of-order function/database arrival, and concurrency is verified against Postgres rather than only scripted row mocks.
+- `Related Items`:
+  - `DEBT-38`: Isolated non-production storage would provide a safer place for real concurrency verification.
+- `Dependencies`: `None`
+- `Notes`:
+  - The current recorder serializes fetches within one active document, and the repository retries a conflict hidden by a concurrent statement snapshot. Those fixes prevent the common rapid-SPA loss but do not create a persisted causal sequence across documents.
+- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/server/visits/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `tests/api/visit-repository.test.mjs`
+
+### DEBT-40 - Analytics reporting reads need bounded pagination
+
+- `Priority`: `P2`
+- `Size`: `M`
+- `Priority Rationale`: This is `P2` because current traffic is small and the route is authenticated, but daily and visitor reads have no row or page-view bound. A noisy day, long retained browser history, or write-endpoint abuse can eventually exceed function time, memory, or response limits.
+- `Status`: `Open`
+- `Detected`: 2026-08-15
+- `Source`: Local analytics code review
+- `Area`: Analytics, API, Database, Performance, Resilience
+- `Problem`: The read API returns every visit for a selected day or visitor and JSON-aggregates every associated page view in one response. The dashboard and contract have no cursor, limit, truncation state, or continuation action.
+- `Why It Matters`: A single oversized report can make the protected dashboard unavailable and amplify the existing absence of platform rate limiting on the public visit recorder.
+- `Preferred Direction`: Add deterministic cursor pagination and explicit server-side limits for visits and page journeys, with dashboard continuation states that never imply a partial response is complete.
+- `Resolution Path`: Choose operational limits from realistic traffic, extend the validated request/response contract with opaque cursors, keep ordering stable, add continuation UI, and test boundary/truncation behavior.
+- `Next Action`: Measure current retained row/page counts and define the first daily, visitor-history, and per-visit page caps before changing the API contract.
+- `Resolved When`: Every analytics read has enforced deterministic bounds, the dashboard can continue through larger reports, and limit behavior is covered at the API and UI layers.
+- `Related Items`:
+  - `DEBT-38`: Deployment isolation prevents preview data from consuming production report capacity.
+  - `DEBT-23`: The enquiry endpoint has a separate platform rate-limit need; the visit endpoint needs an equivalent operational decision.
+- `Dependencies`: `None`
+- `Notes`:
+  - The protected Basic-auth boundary limits who can request reports but does not bound the amount of data a valid request can serialize.
+- `Links`: `api/analytics.ts`, `src/server/reporting/request.ts`, `src/server/reporting/reader.ts`, `src/data/analyticsContract.ts`, `src/pages/Analytics.tsx`
 
 ### DEBT-9 - Type checking does not cover tests, scripts, or most config code
 

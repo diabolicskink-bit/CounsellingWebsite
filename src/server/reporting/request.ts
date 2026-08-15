@@ -1,3 +1,8 @@
+import {
+  getPerthDateKey,
+  isAnalyticsDateKey,
+} from "../../data/analyticsContract.ts";
+
 export type AnalyticsSelection =
   | { date: string; type: "daily" }
   | { type: "visitor"; visitorId: string };
@@ -22,29 +27,6 @@ const visitorIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-
 
 function getSingleQueryValue(value: string | string[] | undefined) {
   return typeof value === "string" ? value.trim() : "";
-}
-
-function isDateKey(value: string) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-
-  const [year, month, day] = value.split("-").map(Number);
-  const parsedDate = new Date(Date.UTC(year, month - 1, day, 12));
-
-  return !Number.isNaN(parsedDate.valueOf())
-    && parsedDate.toISOString().slice(0, 10) === value;
-}
-
-export function getPerthDateKey(date: Date) {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    day: "2-digit",
-    month: "2-digit",
-    timeZone: "Australia/Perth",
-    year: "numeric",
-  }).formatToParts(date);
-  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
-    parts.find((part) => part.type === type)?.value ?? "";
-
-  return `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
 }
 
 export function getAnalyticsSelection(
@@ -76,7 +58,7 @@ export function getAnalyticsSelection(
 
   const selectedDate = date || getPerthDateKey(now);
 
-  return isDateKey(selectedDate)
+  return isAnalyticsDateKey(selectedDate)
     ? { type: "valid", selection: { type: "daily", date: selectedDate } }
     : { type: "invalid" };
 }

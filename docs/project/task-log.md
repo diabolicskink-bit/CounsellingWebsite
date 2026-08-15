@@ -21,8 +21,9 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-08-15 - Private Visit Analytics Connected
 
 - Added the unlisted `/analytics` interface and protected `GET /api/analytics` function, with HTTP Basic Authentication applied to both through Vercel Routing Middleware.
-- Connected daily Australia/Perth activity and complete anonymous-browser history to the retained Neon visit ledger, including ordered page journeys, full stored referrers, repeat-visit sequence, and recognized ad attribution.
+- Connected daily Australia/Perth activity and complete anonymous-browser history to the retained Neon visit ledger, including stored page journeys, full stored referrers, repeat-visit sequence, and recognized ad attribution.
 - Replaced the fictional dashboard fixtures with live API loading, failure, retry, empty-day, expandable-visit, and visitor-history states while keeping database credentials and read access server-side.
+- Hardened the connected feature after whole-slice review: same-document writes are serialized and retry concurrent visibility, rejected page collisions no longer retain empty visits, preview verification cleans up its records, migration hashes are line-ending stable, and private reports receive a clean document boundary from third-party analytics.
 
 ## 2026-08-14 - First-Party Visit Ledger Released
 

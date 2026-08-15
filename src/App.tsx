@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useLayoutEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
@@ -54,6 +54,32 @@ function renderDevPage(Page: DevPages[DevPageKey]) {
   );
 }
 
+function AnalyticsRoute() {
+  const requiresPrivateDocument = typeof window !== "undefined" && Boolean(
+    document.getElementById("vive-google-analytics")
+    || document.getElementById("vive-google-analytics-config")
+    || document.getElementById("vive-microsoft-clarity")
+    || window.gtag
+    || window.clarity,
+  );
+
+  useLayoutEffect(() => {
+    if (requiresPrivateDocument) {
+      window.location.replace(window.location.href);
+    }
+  }, [requiresPrivateDocument]);
+
+  if (requiresPrivateDocument) {
+    return null;
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <Analytics />
+    </Suspense>
+  );
+}
+
 export default function App({ initialRenderAt }: AppProps) {
   return (
     <>
@@ -61,11 +87,7 @@ export default function App({ initialRenderAt }: AppProps) {
       <Routes>
         <Route
           path={privateRoutePaths.analytics}
-          element={(
-            <Suspense fallback={null}>
-              <Analytics />
-            </Suspense>
-          )}
+          element={<AnalyticsRoute />}
         />
         <Route element={<Layout />}>
           <Route index element={<Home />} />

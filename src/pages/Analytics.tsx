@@ -13,13 +13,15 @@ import {
   Route,
 } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-import type {
-  AnalyticsApiResponse,
-  AnalyticsReport,
-  AnalyticsTrafficSource,
-  AnalyticsVisit,
-  DailyAnalyticsReport,
-  VisitorAnalyticsReport,
+import {
+  getPerthDateKey,
+  isAnalyticsDateKey,
+  type AnalyticsApiResponse,
+  type AnalyticsReport,
+  type AnalyticsTrafficSource,
+  type AnalyticsVisit,
+  type DailyAnalyticsReport,
+  type VisitorAnalyticsReport,
 } from "../data/analyticsContract";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-analytics.css";
@@ -27,13 +29,6 @@ import "../styles-analytics.css";
 type AnalyticsLoadState =
   | { report: null; status: "error" | "loading" }
   | { report: AnalyticsReport; status: "ready" };
-
-const perthDateFormatter = new Intl.DateTimeFormat("en-CA", {
-  day: "2-digit",
-  month: "2-digit",
-  timeZone: "Australia/Perth",
-  year: "numeric",
-});
 
 const perthTimeFormatter = new Intl.DateTimeFormat("en-AU", {
   hour: "2-digit",
@@ -57,24 +52,9 @@ const compactDateFormatter = new Intl.DateTimeFormat("en-AU", {
   year: "numeric",
 });
 
-function getPerthDateKey() {
-  const parts = perthDateFormatter.formatToParts(new Date());
-  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
-    parts.find((part) => part.type === type)?.value ?? "";
-
-  return `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
-}
-
 function parseDateKey(dateKey: string) {
   const [year, month, day] = dateKey.split("-").map(Number);
   return new Date(Date.UTC(year, month - 1, day, 12));
-}
-
-function isDateKey(value: string | null): value is string {
-  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-
-  const parsed = parseDateKey(value);
-  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
 }
 
 function shiftDateKey(dateKey: string, offset: number) {
@@ -103,7 +83,7 @@ function visitorLabel(visitorId: string) {
 }
 
 function sourceLabel(source: AnalyticsTrafficSource) {
-  if (source === "paid") return "Paid search";
+  if (source === "paid") return "Paid";
   if (source === "referral") return "Referral";
   if (source === "internal") return "Internal";
   return "Direct";
@@ -121,6 +101,25 @@ function matchTypeLabel(matchType: string | null) {
   if (matchType === "p") return "Phrase";
   if (matchType === "b") return "Broad";
   return matchType ?? "Match unavailable";
+}
+
+function adNetworkDetail(visit: AnalyticsVisit) {
+  const values = [
+    visit.adCode,
+    visit.networkCode ? networkLabel(visit.networkCode) : null,
+  ].filter((value): value is string => Boolean(value));
+
+  if (values.length) return values.join(" / ");
+  return visit.trafficSource === "paid" ? "None recorded" : "Not a paid visit";
+}
+
+function keywordMatchDetail(visit: AnalyticsVisit) {
+  const values = [
+    visit.matchedKeyword,
+    visit.matchType ? matchTypeLabel(visit.matchType) : null,
+  ].filter((value): value is string => Boolean(value));
+
+  return values.length ? values.join(" / ") : "None recorded";
 }
 
 function sourceDetail(visit: AnalyticsVisit) {
@@ -191,7 +190,17 @@ function SourceMark({ source }: { source: AnalyticsTrafficSource }) {
   );
 }
 
-function SignalHeader({ isDetail, onHome }: { isDetail: boolean; onHome: () => void }) {
+function SignalHeader({
+  isDetail,
+  onHome,
+  onRefresh,
+  status,
+}: {
+  isDetail: boolean;
+  onHome: () => void;
+  onRefresh: () => void;
+  status: AnalyticsLoadState["status"];
+}) {
   return (
     <header className="signal-header">
       <div className="signal-header__inner">
@@ -209,7 +218,15 @@ function SignalHeader({ isDetail, onHome }: { isDetail: boolean; onHome: () => v
             <LockKeyhole aria-hidden="true" size={14} />
             {import.meta.env.DEV ? "Auth bypassed locally" : "Protected"}
           </span>
-          <span className="signal-header__live"><i aria-hidden="true" /> Live data</span>
+          <button
+            className="signal-header__refresh"
+            disabled={status === "loading"}
+            onClick={onRefresh}
+            type="button"
+          >
+            <RefreshCw aria-hidden="true" size={14} />
+            {status === "loading" ? "Loading" : "Refresh data"}
+          </button>
         </div>
       </div>
     </header>
@@ -301,8 +318,8 @@ function DailyObservatory({
 
         <div className="signal-spectrum">
           <div
-            aria-label={`${summary.paid} paid, ${summary.referral} referral, ${summary.internal} internal and ${summary.direct} direct visits`}
-            className="signal-spectrum__orbit"
+            aria-label={`${summary.pages} page views across ${summary.paid} paid, ${summary.referral} referral, ${summary.internal} internal and ${summary.direct} direct visits`}
+            className={visits.length ? "signal-spectrum__orbit" : "signal-spectrum__orbit signal-spectrum__orbit--empty"}
             role="img"
             style={spectrumStyle}
           >
@@ -418,8 +435,8 @@ function DailyObservatory({
                         </header>
                         <dl>
                           <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
-                          <div><dt>Ad / network</dt><dd>{visit.adCode ? `${visit.adCode} / ${networkLabel(visit.networkCode)}` : "Not an ad visit"}</dd></div>
-                          <div><dt>Keyword / match</dt><dd>{visit.matchedKeyword ? `${visit.matchedKeyword} / ${matchTypeLabel(visit.matchType)}` : "None recorded"}</dd></div>
+                          <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
+                          <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
                           <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
                         </dl>
                         <button onClick={() => onOpenVisitor(visit)} type="button">
@@ -443,7 +460,7 @@ function DailyObservatory({
       </section>
 
       <p className="signal-footnote">
-        Records page loads only. It does not show clicks, scrolling, reading time or form contents.
+        Records page loads only. Elapsed spans run from the first to the last recorded page load; they do not include time spent on the final page. It does not show clicks, scrolling, reading time or form contents.
       </p>
     </>
   );
@@ -527,7 +544,7 @@ function VisitorHistory({
                   <dl>
                     <div><dt>Landing page</dt><dd>{visit.landingPath}</dd></div>
                     <div><dt>Pages</dt><dd>{visit.pageViews.length}</dd></div>
-                    <div><dt>Duration</dt><dd>{formatDuration(visit.durationSeconds)}</dd></div>
+                    <div><dt>Elapsed to last page</dt><dd>{formatDuration(visit.durationSeconds)}</dd></div>
                   </dl>
                 </header>
 
@@ -552,8 +569,8 @@ function VisitorHistory({
                     <header><h4 id={`${visit.id}-attribution`}>Attribution</h4></header>
                     <dl>
                       <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
-                      <div><dt>Ad / network</dt><dd>{visit.adCode ? `${visit.adCode} / ${networkLabel(visit.networkCode)}` : "Not an ad visit"}</dd></div>
-                      <div><dt>Keyword / match</dt><dd>{visit.matchedKeyword ? `${visit.matchedKeyword} / ${matchTypeLabel(visit.matchType)}` : "None recorded"}</dd></div>
+                      <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
+                      <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
                       <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
                     </dl>
                   </section>
@@ -588,9 +605,9 @@ function ReportState({ onRetry, status }: { onRetry: () => void; status: "error"
 
 export default function Analytics() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const todayKey = useMemo(() => getPerthDateKey(), []);
+  const [todayKey, setTodayKey] = useState(getPerthDateKey);
   const requestedDate = searchParams.get("date");
-  const dateKey = isDateKey(requestedDate) && requestedDate <= todayKey ? requestedDate : todayKey;
+  const dateKey = isAnalyticsDateKey(requestedDate) && requestedDate <= todayKey ? requestedDate : todayKey;
   const expandedVisitId = searchParams.get("expanded");
   const requestedVisitorId = searchParams.get("visitor");
   const focusedVisitId = searchParams.get("visit");
@@ -608,8 +625,13 @@ export default function Analytics() {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [requestedVisitorId]);
 
+  function refreshReport() {
+    setTodayKey(getPerthDateKey());
+    retry();
+  }
+
   function updateDate(nextDate: string) {
-    if (!isDateKey(nextDate) || nextDate > todayKey) return;
+    if (!isAnalyticsDateKey(nextDate) || nextDate > todayKey) return;
     const nextParams = new URLSearchParams();
     if (nextDate !== todayKey) nextParams.set("date", nextDate);
     setSearchParams(nextParams);
@@ -647,9 +669,14 @@ export default function Analytics() {
 
   return (
     <main className="visit-dashboard">
-      <SignalHeader isDetail={Boolean(requestedVisitorId)} onHome={closeVisitor} />
+      <SignalHeader
+        isDetail={Boolean(requestedVisitorId)}
+        onHome={closeVisitor}
+        onRefresh={refreshReport}
+        status={status}
+      />
       <div className="visit-signal__field">
-        {status !== "ready" ? <ReportState onRetry={retry} status={status} /> : null}
+        {status !== "ready" ? <ReportState onRetry={refreshReport} status={status} /> : null}
         {status === "ready" && requestedVisitorId && visitorReport ? (
           <VisitorHistory
             contextDate={dateKey}
@@ -670,7 +697,7 @@ export default function Analytics() {
           />
         ) : null}
         {status === "ready" && ((requestedVisitorId && !visitorReport) || (!requestedVisitorId && !dailyReport)) ? (
-          <ReportState onRetry={retry} status="error" />
+          <ReportState onRetry={refreshReport} status="error" />
         ) : null}
       </div>
     </main>

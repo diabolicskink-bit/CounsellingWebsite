@@ -4,7 +4,9 @@ Versioned SQL migrations for the first-party visit ledger live in
 `database/migrations/` and are applied in filename order with `npm run
 db:migrate`. The command records each filename and checksum in
 `visit_schema_migrations`, skips migrations already applied unchanged, and
-refuses to continue if an applied migration file has been edited.
+refuses to continue if an applied migration file has been edited. Checksums use
+canonical LF line endings while accepting equivalent legacy LF or CRLF hashes,
+so applying from Windows and verifying from Linux does not create false drift.
 
 `npm run db:migrate` reads `.env.local` when it exists. After pulling Preview
 into the ignored `.env.preview.local` file, use `npm run db:migrate:preview` to

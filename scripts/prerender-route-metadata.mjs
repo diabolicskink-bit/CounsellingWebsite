@@ -540,8 +540,8 @@ function getNotFoundTags(siteMetadata) {
 function getPrivateRouteTags(siteMetadata) {
   return [
     "<!-- SEO metadata generated at build time -->",
-    "<title>Visit reporting | Vive Counselling</title>",
-    '<meta name="description" content="Private visit reporting." />',
+    "<title>Analytics | Vive Counselling</title>",
+    '<meta name="description" content="Private first-party visit analytics for Vive Counselling." />',
     `<meta name="robots" content="${escapeHtml(noindexDirective)}" />`,
     ...getFaviconTags(),
     `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
@@ -557,6 +557,27 @@ function applyPrivateRouteMetadata(html, siteMetadata) {
     .replace(/\s*<title>.*?<\/title>/s, "")
     .replace(/\s*<meta\s+name="description"\s+content="[^"]*"\s*\/?>/s, "")
     .replace("</head>", `    ${seoTags}\n  </head>`);
+}
+
+function assertPrivateRouteShell(html) {
+  const expectedFragments = [
+    "<title>Analytics | Vive Counselling</title>",
+    '<meta name="description" content="Private first-party visit analytics for Vive Counselling." />',
+    `<meta name="robots" content="${noindexDirective}" />`,
+    '<div id="root"></div>',
+    'script type="module"',
+    "/assets/",
+  ];
+
+  for (const fragment of expectedFragments) {
+    if (!html.includes(fragment)) {
+      throw new Error(`Private analytics shell is missing expected content: ${fragment}`);
+    }
+  }
+
+  if (html.includes('<link rel="canonical"') || html.includes('data-render-mode="prerendered"')) {
+    throw new Error("Private analytics shell unexpectedly contains public-route metadata.");
+  }
 }
 
 function applyNotFoundMetadata(html, siteMetadata) {
@@ -721,6 +742,7 @@ const notFoundHtml = applyNotFoundFallbackRoot(applyNotFoundMetadata(templateHtm
 const privateRouteHtml = applyPrivateRouteMetadata(templateHtml, site);
 
 assertNotFoundFallback(notFoundHtml, prerenderedAt);
+assertPrivateRouteShell(privateRouteHtml);
 
 await Promise.all([
   writeFile(path.join(distDir, "404.html"), notFoundHtml),

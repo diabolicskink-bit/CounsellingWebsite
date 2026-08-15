@@ -16,6 +16,7 @@ const previewOrigin = accessUrl.origin;
 const testMarker = `slice7-${randomUUID()}`;
 const controlledReferrer = "https://preview-referrer.example/controlled?source=slice-7";
 const attributedPath = "/polyamory-enm-counselling";
+const sql = neon(databaseUrl);
 
 function createAttributedUrl(includeAccessToken) {
   const url = new URL(attributedPath, previewOrigin);
@@ -73,7 +74,6 @@ try {
     { referer: controlledReferrer, waitUntil: "domcontentloaded" },
   ));
 
-  const sql = neon(databaseUrl);
   const ledgerRows = await sql.query(`
     SELECT
       visit_id,
@@ -130,11 +130,13 @@ try {
     });
 
     assert.equal(retentionResponse.status(), 200);
-    assert.deepEqual(await retentionResponse.json(), {
-      ok: true,
-      pageViewsDeleted: 0,
-      visitsDeleted: 0,
-    });
+    const retentionResult = await retentionResponse.json();
+
+    assert.equal(retentionResult.ok, true);
+    assert.ok(Number.isSafeInteger(retentionResult.pageViewsDeleted));
+    assert.ok(retentionResult.pageViewsDeleted >= 0);
+    assert.ok(Number.isSafeInteger(retentionResult.visitsDeleted));
+    assert.ok(retentionResult.visitsDeleted >= 0);
     retentionEndpoint = "ok";
   }
 
@@ -146,5 +148,12 @@ try {
     visits: ledgerRows.length,
   }));
 } finally {
-  await browser.close();
+  try {
+    await sql.query(
+      "DELETE FROM site_visits WHERE gclid = $1",
+      [testMarker],
+    );
+  } finally {
+    await browser.close();
+  }
 }

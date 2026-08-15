@@ -8,6 +8,24 @@ const rootDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)),
 const migrationsDirectory = path.join(rootDirectory, "database", "migrations");
 const migrationFilenamePattern = /^\d{4}_[a-z0-9_]+\.sql$/;
 
+function hashSql(sql) {
+  return createHash("sha256").update(sql).digest("hex");
+}
+
+export function getMigrationChecksums(sql) {
+  const normalizedSql = sql.replace(/\r\n?/g, "\n");
+  const lineEndingVariants = new Set([
+    sql,
+    normalizedSql,
+    normalizedSql.replaceAll("\n", "\r\n"),
+  ]);
+
+  return {
+    acceptedChecksums: [...lineEndingVariants].map(hashSql),
+    checksum: hashSql(normalizedSql),
+  };
+}
+
 function getDollarQuoteDelimiter(sql, index) {
   const match = sql.slice(index).match(/^\$[A-Za-z_][A-Za-z0-9_]*\$|^\$\$/);
 
@@ -187,9 +205,10 @@ export async function readMigrations(directory = migrationsDirectory) {
 
   return Promise.all(filenames.map(async (filename) => {
     const sql = await readFile(path.join(directory, filename), "utf8");
+    const checksums = getMigrationChecksums(sql);
 
     return {
-      checksum: createHash("sha256").update(sql).digest("hex"),
+      ...checksums,
       filename,
       statements: getTransactionalStatements(sql),
     };
@@ -227,7 +246,7 @@ export async function applyDatabaseMigrations(databaseUrl = process.env.DATABASE
   const changedMigration = migrations.find((migration) => {
     const appliedChecksum = appliedChecksums.get(migration.filename);
 
-    return appliedChecksum && appliedChecksum !== migration.checksum;
+    return appliedChecksum && !migration.acceptedChecksums.includes(appliedChecksum);
   });
 
   if (changedMigration) {

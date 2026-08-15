@@ -125,7 +125,8 @@ body:has(.visit-dashboard) {
   margin-left: auto;
 }
 
-.signal-header__system > span {
+.signal-header__system > span,
+.signal-header__system > button {
   display: inline-flex;
   min-height: 32px;
   align-items: center;
@@ -139,17 +140,19 @@ body:has(.visit-dashboard) {
   white-space: nowrap;
 }
 
+.signal-header__system > button {
+  border: 0;
+  cursor: pointer;
+}
+
+.signal-header__system > button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 .signal-header__warning {
   background: #fff5df !important;
   color: #93601e !important;
-}
-
-.signal-header__live i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #2fc978;
-  box-shadow: 0 0 0 3px rgba(47, 201, 120, 0.12);
 }
 
 .visit-signal__field {
@@ -372,6 +375,10 @@ body:has(.visit-dashboard) {
     var(--report-purple) var(--signal-referral-end) var(--signal-internal-end),
     #2dcf74 var(--signal-internal-end) 360deg
   );
+}
+
+.signal-spectrum__orbit--empty {
+  background: var(--report-line);
 }
 
 .signal-spectrum__orbit::before {

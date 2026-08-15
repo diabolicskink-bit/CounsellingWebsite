@@ -501,6 +501,106 @@ test.describe("analytics", () => {
     expect(storedIdentity).toEqual({ visit: null, visitor: null });
   });
 
+  test("private analytics routes force a clean document after an SPA transition", async ({ page }) => {
+    test.skip(
+      !(firstPartyVisitRecordingEnabled && googleAnalyticsRouteTrackingEnabled && microsoftClarityEnabled),
+      "Private-route analytics exclusion is covered by npm run qa:analytics.",
+    );
+
+    await stubAnalyticsRequests(page);
+    await page.route("**/api/visit", async (route) => route.fulfill({ status: 204 }));
+    await page.route("**/api/analytics?*", async (route) => {
+      const date = new URL(route.request().url()).searchParams.get("date") ?? "2026-08-15";
+
+      await route.fulfill({
+        body: JSON.stringify({ data: { type: "daily", date, visits: [] } }),
+        contentType: "application/json",
+        status: 200,
+      });
+    });
+
+    let privateDocumentRequests = 0;
+    page.on("request", (request) => {
+      if (request.isNavigationRequest() && new URL(request.url()).pathname === "/analytics") {
+        privateDocumentRequests += 1;
+      }
+    });
+
+    await page.goto("/", { waitUntil: "networkidle" });
+    await expect(page.locator("#vive-google-analytics, #vive-microsoft-clarity")).toHaveCount(2);
+
+    await page.evaluate(() => {
+      history.pushState({}, "", "/analytics");
+      dispatchEvent(new PopStateEvent("popstate"));
+    });
+
+    await expect(page).toHaveURL(/\/analytics$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Today" })).toBeVisible();
+    expect(privateDocumentRequests).toBe(1);
+    await expect(
+      page.locator("#vive-google-analytics, #vive-google-analytics-config, #vive-microsoft-clarity"),
+    ).toHaveCount(0);
+  });
+
+  test("private analytics dashboard renders stored reports and complete visitor history", async ({ page }) => {
+    const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
+    const visitId = "1a560836-220d-4d33-a05e-5f364891f9cb";
+    let reportRequests = 0;
+
+    await page.route("**/api/analytics?*", async (route) => {
+      reportRequests += 1;
+      const requestUrl = new URL(route.request().url());
+      const date = requestUrl.searchParams.get("date") ?? "2026-08-15";
+      const visit = {
+        adCode: null,
+        dateKey: date,
+        durationSeconds: 90,
+        gclid: "CjwK-gclid-only",
+        id: visitId,
+        landingPath: "/",
+        lastSeenAt: `${date}T03:01:30.000Z`,
+        matchType: null,
+        matchedKeyword: null,
+        networkCode: null,
+        pageViews: [
+          { id: "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf", path: "/", viewedAt: `${date}T03:00:00.000Z` },
+          { id: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98", path: "/contact", viewedAt: `${date}T03:01:30.000Z` },
+        ],
+        referrerHost: null,
+        referrerUrl: null,
+        startedAt: `${date}T03:00:00.000Z`,
+        trafficSource: "paid",
+        visitNumber: 2,
+        visitorId,
+      };
+      const data = requestUrl.searchParams.has("visitor")
+        ? { type: "visitor", visitorId, visits: [visit] }
+        : { type: "daily", date, visits: [visit] };
+
+      await route.fulfill({
+        body: JSON.stringify({ data }),
+        contentType: "application/json",
+        status: 200,
+      });
+    });
+
+    await page.goto("/analytics", { waitUntil: "networkidle" });
+    await expect(page.getByRole("heading", { level: 2, name: "Visits on this day" })).toBeVisible();
+    await expect(page.getByText("Paid", { exact: true })).toBeVisible();
+
+    await page.locator(".signal-event").click();
+    await expect(page.getByText("CjwK-gclid-only", { exact: true })).toBeVisible();
+    await expect(page.getByText("Not a paid visit", { exact: true })).toHaveCount(0);
+
+    await page.getByRole("button", { name: /View all visits from Browser/ }).click();
+    await expect(page.getByRole("heading", { level: 2, name: "All visits" })).toBeVisible();
+    await expect(page.getByText("Elapsed to last page", { exact: true })).toBeVisible();
+
+    const requestsBeforeRefresh = reportRequests;
+    await page.getByRole("button", { name: "Refresh data" }).click();
+    await expect.poll(() => reportRequests).toBeGreaterThan(requestsBeforeRefresh);
+  });
+
   test("first-party visit recorder records SPA route changes and refreshes in the active visit", async ({ page }) => {
     test.skip(
       !firstPartyVisitRecordingEnabled,

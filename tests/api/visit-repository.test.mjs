@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
 import {
+  deleteEmptyVisitSql,
   getVisitDatabase,
   PageViewIdentityConflictError,
   recordVisitObservation,
@@ -37,15 +38,18 @@ function createObservation(overrides = {}) {
   };
 }
 
-function createDatabase(result) {
+function createDatabase(...results) {
   const calls = [];
+  let resultIndex = 0;
 
   return {
     calls,
     database: {
       async query(query, parameters) {
         calls.push({ parameters, query });
-        return [result];
+        const result = results[Math.min(resultIndex, results.length - 1)];
+        resultIndex += 1;
+        return result === undefined ? [] : [result];
       },
     },
   };
@@ -62,6 +66,7 @@ test("records a visit observation through one parameterized statement", async ()
   const { calls, database } = createDatabase({
     pageViewInserted: true,
     pageViewMatched: true,
+    visitInserted: true,
     visitMatched: true,
   });
 
@@ -91,6 +96,7 @@ test("treats a repeated matching page-view ID as an idempotent observation", asy
   const { database } = createDatabase({
     pageViewInserted: false,
     pageViewMatched: true,
+    visitInserted: false,
     visitMatched: true,
   });
 
@@ -99,28 +105,82 @@ test("treats a repeated matching page-view ID as an idempotent observation", asy
   assert.deepEqual(result, { pageViewInserted: false });
 });
 
-test("rejects a visit ID already associated with another anonymous visitor", async () => {
-  const { database } = createDatabase({
+test("retries when a concurrent insert is not visible to the first statement snapshot", async () => {
+  const firstResult = {
     pageViewInserted: false,
     pageViewMatched: false,
+    visitInserted: false,
     visitMatched: false,
-  });
+  };
+  const secondResult = {
+    pageViewInserted: true,
+    pageViewMatched: true,
+    visitInserted: false,
+    visitMatched: true,
+  };
+  const { calls, database } = createDatabase(firstResult, secondResult);
+
+  const result = await recordVisitObservation(createObservation(), database);
+
+  assert.deepEqual(result, { pageViewInserted: true });
+  assert.equal(calls.length, 2);
+  assert.ok(calls.every((call) => call.query === recordVisitObservationSql));
+});
+
+test("rejects a visit ID already associated with another anonymous visitor", async () => {
+  const conflict = {
+    pageViewInserted: false,
+    pageViewMatched: false,
+    visitInserted: false,
+    visitMatched: false,
+  };
+  const { calls, database } = createDatabase(conflict, conflict);
 
   await assert.rejects(
     recordVisitObservation(createObservation(), database),
     VisitIdentityConflictError,
   );
+
+  assert.equal(calls.length, 2);
 });
 
-test("rejects a page-view ID already associated with another visit", async () => {
-  const { database } = createDatabase({
+test("removes a newly inserted empty visit before rejecting a page-view identity conflict", async () => {
+  const firstConflict = {
     pageViewInserted: false,
     pageViewMatched: false,
+    visitInserted: true,
     visitMatched: true,
-  });
+  };
+  const repeatedConflict = {
+    ...firstConflict,
+    visitInserted: false,
+  };
+  const { calls, database } = createDatabase(firstConflict, repeatedConflict, undefined);
+  const observation = createObservation();
+
+  await assert.rejects(
+    recordVisitObservation(observation, database),
+    PageViewIdentityConflictError,
+  );
+
+  assert.equal(calls.length, 3);
+  assert.equal(calls[2].query, deleteEmptyVisitSql);
+  assert.deepEqual(calls[2].parameters, [observation.visitorId, observation.visitId]);
+});
+
+test("does not delete an established visit after a page-view identity conflict", async () => {
+  const conflict = {
+    pageViewInserted: false,
+    pageViewMatched: false,
+    visitInserted: false,
+    visitMatched: true,
+  };
+  const { calls, database } = createDatabase(conflict, conflict);
 
   await assert.rejects(
     recordVisitObservation(createObservation(), database),
     PageViewIdentityConflictError,
   );
+
+  assert.equal(calls.length, 2);
 });
