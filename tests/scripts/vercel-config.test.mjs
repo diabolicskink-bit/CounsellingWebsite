@@ -22,7 +22,7 @@ test("Vercel packages each serverless function's external TypeScript modules", (
       includeFiles: "src/server/visits/**",
     },
     "api/analytics.ts": {
-      includeFiles: "src/{server/reporting/**,server/visits/repository.ts}",
+      includeFiles: "src/{data/analyticsContract.ts,server/reporting/**,server/visits/repository.ts}",
     },
     "api/visit.ts": {
       includeFiles: "src/server/visits/**",
