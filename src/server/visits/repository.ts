@@ -27,6 +27,7 @@ export type VisitDatabase = Pick<NeonQueryFunction<false, false>, "query">;
 type VisitObservationRow = {
   pageViewInserted: boolean;
   pageViewMatched: boolean;
+  visitInserted: boolean;
   visitMatched: boolean;
 };
 
@@ -144,17 +145,29 @@ updated_visit AS (
   RETURNING site_visits.id
 )
 SELECT
+  EXISTS (SELECT 1 FROM inserted_visit) AS "visitInserted",
   EXISTS (SELECT 1 FROM matched_visit) AS "visitMatched",
   EXISTS (SELECT 1 FROM matched_page_view) AS "pageViewMatched",
   EXISTS (SELECT 1 FROM inserted_page_view) AS "pageViewInserted",
   EXISTS (SELECT 1 FROM updated_visit) AS "visitActivityUpdated";
 `;
 
+export const deleteEmptyVisitSql = `
+DELETE FROM site_visits AS visits
+WHERE visits.id = $2::UUID
+  AND visits.visitor_id = $1::UUID
+  AND NOT EXISTS (
+    SELECT 1
+    FROM site_page_views AS page_views
+    WHERE page_views.visit_id = visits.id
+  );
+`;
+
 export async function recordVisitObservation(
   observation: VisitObservation,
   database: VisitDatabase = getVisitDatabase(),
 ): Promise<VisitObservationResult> {
-  const rows = (await database.query(recordVisitObservationSql, [
+  const parameters = [
     observation.visitorId,
     observation.visitId,
     observation.pageViewId,
@@ -167,14 +180,32 @@ export async function recordVisitObservation(
     observation.networkCode,
     observation.matchedKeyword,
     observation.matchType,
-  ])) as VisitObservationRow[];
-  const [result] = rows;
+  ];
+  const readResult = async () => {
+    const rows = (await database.query(
+      recordVisitObservationSql,
+      parameters,
+    )) as VisitObservationRow[];
+
+    return rows[0];
+  };
+  const firstResult = await readResult();
+  const shouldRetry = !firstResult?.visitMatched || !firstResult.pageViewMatched;
+  const result = shouldRetry ? await readResult() : firstResult;
+  const insertedVisit = Boolean(firstResult?.visitInserted || result?.visitInserted);
 
   if (!result?.visitMatched) {
     throw new VisitIdentityConflictError();
   }
 
   if (!result.pageViewMatched) {
+    if (insertedVisit) {
+      await database.query(deleteEmptyVisitSql, [
+        observation.visitorId,
+        observation.visitId,
+      ]);
+    }
+
     throw new PageViewIdentityConflictError();
   }
 

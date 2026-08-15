@@ -9,6 +9,7 @@ const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
+const privateRoutePath = "/analytics";
 const routeMainClasses = {
   "/": "site-page home-page",
   "/working-with-joel": "site-page working-with-joel-page",
@@ -468,6 +469,38 @@ function getNotFoundTags(siteMetadata) {
   ].join("\n    ");
 }
 
+function getPrivateRouteTags(siteMetadata) {
+  return [
+    "<!-- SEO metadata generated at build time -->",
+    "<title>Analytics | Vive Counselling</title>",
+    '<meta name="description" content="Private first-party visit analytics for Vive Counselling." />',
+    `<meta name="robots" content="${escapeHtml(noindexDirective)}" />`,
+    ...faviconTags,
+    `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
+    "<!-- /SEO metadata generated at build time -->",
+  ].join("\n    ");
+}
+
+function assertPrivateRouteShell(html) {
+  const expectedFragments = [
+    "<title>Analytics | Vive Counselling</title>",
+    '<meta name="description" content="Private first-party visit analytics for Vive Counselling." />',
+    `<meta name="robots" content="${noindexDirective}" />`,
+    '<div id="root"></div>',
+    'script type="module"',
+    "/assets/",
+  ];
+
+  for (const fragment of expectedFragments) {
+    if (!html.includes(fragment)) {
+      throw new Error(`Private analytics shell is missing expected content: ${fragment}`);
+    }
+  }
+
+  if (html.includes('<link rel="canonical"') || html.includes('data-render-mode="prerendered"')) {
+    throw new Error("Private analytics shell unexpectedly contains public-route metadata.");
+  }
+}
 function applyNotFoundFallbackRoot(html, prerenderedAt) {
   const fallbackMarkup = [
     '<main data-not-found-fallback="true">',
@@ -624,13 +657,19 @@ const notFoundHtml = applyNotFoundFallbackRoot(
   applySeoTags(templateHtml, getNotFoundTags(site)),
   prerenderedAt,
 );
+const privateRouteHtml = applySeoTags(templateHtml, getPrivateRouteTags(site));
 
 assertNotFoundFallback(notFoundHtml, prerenderedAt);
+assertPrivateRouteShell(privateRouteHtml);
 
 await Promise.all([
   writeFile(path.join(distDir, "404.html"), notFoundHtml),
   writeFile(path.join(distDir, "sitemap.xml"), sitemapXml),
   writeFile(path.join(distDir, "robots.txt"), robotsTxt),
+  ...getRouteOutputPaths(privateRoutePath).map(async (outputPath) => {
+    await mkdir(path.dirname(outputPath), { recursive: true });
+    await writeFile(outputPath, privateRouteHtml);
+  }),
 ]);
 
 console.log(

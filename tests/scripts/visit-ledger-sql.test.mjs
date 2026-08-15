@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { test } from "node:test";
 import {
+  getMigrationChecksums,
   getTransactionalStatements,
   readMigrations,
   splitSqlStatements,
@@ -44,6 +45,17 @@ test("database migration reader returns the ordered ledger migrations", async ()
   );
   assert.ok(migrations.every((migration) => /^[a-f0-9]{64}$/.test(migration.checksum)));
   assert.ok(migrations.every((migration) => migration.statements.length > 0));
+});
+
+test("migration checksums are stable across checkout line endings", () => {
+  const lfSql = "BEGIN;\nSELECT 'stable';\nCOMMIT;\n";
+  const crlfSql = lfSql.replaceAll("\n", "\r\n");
+  const lfChecksums = getMigrationChecksums(lfSql);
+  const crlfChecksums = getMigrationChecksums(crlfSql);
+
+  assert.equal(lfChecksums.checksum, crlfChecksums.checksum);
+  assert.ok(lfChecksums.acceptedChecksums.includes(crlfChecksums.checksum));
+  assert.ok(crlfChecksums.acceptedChecksums.includes(lfChecksums.checksum));
 });
 
 test("SQL splitting preserves semicolons inside quoted and commented content", () => {

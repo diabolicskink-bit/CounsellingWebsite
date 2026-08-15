@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
-import { publicRedirectRoutes, publicRoutePaths } from "../../src/data/routes.ts";
+import {
+  isPrivateRoutePath,
+  privateRoutePaths,
+  publicRedirectRoutes,
+  publicRoutePaths,
+} from "../../src/data/routes.ts";
 
 const metadata = JSON.parse(
   await readFile(new URL("../../src/data/routeMetadata.json", import.meta.url), "utf8"),
@@ -19,4 +24,14 @@ test("public redirects use absolute source and destination paths", () => {
     assert.match(path, /^\//);
     assert.ok(Object.values(publicRoutePaths).includes(to));
   }
+});
+
+test("private routes remain separate from public metadata routes", () => {
+  assert.deepEqual(privateRoutePaths, { analytics: "/analytics" });
+  assert.ok(!Object.values(publicRoutePaths).includes(privateRoutePaths.analytics));
+  assert.ok(!Object.hasOwn(metadata.routes, privateRoutePaths.analytics));
+  assert.equal(isPrivateRoutePath("/analytics"), true);
+  assert.equal(isPrivateRoutePath("/analytics/visitor"), true);
+  assert.equal(isPrivateRoutePath("/analytics-other"), false);
+  assert.equal(isPrivateRoutePath("/contact"), false);
 });

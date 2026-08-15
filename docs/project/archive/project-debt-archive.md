@@ -135,3 +135,9 @@ Default QA builds still keep analytics disabled and assert that no analytics scr
 Resolved on 2026-06-18 by replacing the active public favicon, touch, and web-app icon assets with the approved folded-paper `v07` source. The active PNG set lives in `public/` at the referenced browser/device sizes, and `public/favicon.svg` has been replaced with a compact vector sibling so SVG-capable browsers do not keep showing the old mark. The historical icon candidate exports were removed on 2026-07-08 after the active public assets were confirmed.
 
 The icon references were confirmed in generated head metadata and `public/site.webmanifest`, and public-site tests now verify the served PNG icon dimensions in addition to existence.
+
+### DEBT-38 - Analytics data needs deployment-environment isolation
+
+Resolved on 2026-08-15 by retargeting every Vercel-managed Neon project identifier, host, username, password, connection string, and private-report Basic-auth credential to Production only. Development and Preview now receive no path to the private ledger, the obsolete `work/local-analytics` recorder overrides were removed, and the local non-production env snapshots were scrubbed of their stale Production values.
+
+Twenty Preview deployments created after the Production connection string was introduced were removed so their immutable runtime snapshots could not retain access; Production deployments and ledger data were left untouched. The obsolete Preview migration and live-ledger verifier commands were removed, while future migrations now require an intentional Production env pull into `.env.production.local`. Persisted journey ordering and bounded report reads remain tracked separately under `DEBT-39` and `DEBT-40`.

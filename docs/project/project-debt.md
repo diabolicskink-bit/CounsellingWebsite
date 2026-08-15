@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-38`
+- `Next ID`: `DEBT-41`
 
 ## How To Maintain This Tracker
 
@@ -136,6 +136,51 @@ Each active item should include enough direction that a future session can choos
   - Keep public pages and their current visual treatment unchanged during reconciliation unless a separate task explicitly authorizes visitor-facing work.
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
 - `Links`: `docs/design-system/`, `src/design-system/`, `src/styles.css`, `src/components/`
+
+### DEBT-39 - Visit page journeys need persisted causal ordering
+
+- `Priority`: `P1`
+- `Size`: `M`
+- `Priority Rationale`: This is `P1` because the private dashboard presents page journeys as ordered operational data, but request arrival order can differ from browser navigation order. The current same-document queue substantially reduces the normal SPA race, so this is not `P0`.
+- `Status`: `Open`
+- `Detected`: 2026-08-15
+- `Source`: Local analytics code review
+- `Area`: Analytics, Browser, API, Database, Reporting
+- `Problem`: Page views contain a UUID and server receipt timestamp but no per-visit sequence. Same-document observations are now sent serially, yet overlapping keepalive requests across reloads, restored documents, or copied sessions can still reach separate functions out of causal order; reporting then orders by server time and random UUID.
+- `Why It Matters`: A landing page can appear after a later route, `started_at` can reflect the first request received rather than the first page viewed, and the displayed journey can be misleading precisely when navigation is rapid or connectivity is uneven.
+- `Preferred Direction`: Add a browser-assigned monotonic page sequence scoped to each visit, validate and store it with a uniqueness contract, and order reports by that sequence while retaining server timestamps as receipt times.
+- `Resolution Path`: Define sequence behavior for refreshes, BFCache restoration, sessionStorage copies, retries, and conflicting observations; add a migration and payload validation; update idempotent storage and report ordering; then cover deliberately reordered requests against a real Postgres instance.
+- `Next Action`: Design the sequence/conflict contract and a database integration test that submits later sequence numbers before earlier ones.
+- `Resolved When`: Page journeys render in browser-observed order despite out-of-order function/database arrival, and concurrency is verified against Postgres rather than only scripted row mocks.
+- `Related Items`:
+  - `DEBT-38` (archived): Production credentials are isolated from non-production; a disposable database would still be needed for real concurrency verification.
+- `Dependencies`: `None`
+- `Notes`:
+  - The current recorder serializes fetches within one active document, and the repository retries a conflict hidden by a concurrent statement snapshot. Those fixes prevent the common rapid-SPA loss but do not create a persisted causal sequence across documents.
+- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/server/visits/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `tests/api/visit-repository.test.mjs`
+
+### DEBT-40 - Analytics reporting reads need bounded pagination
+
+- `Priority`: `P2`
+- `Size`: `M`
+- `Priority Rationale`: This is `P2` because current traffic is small and the route is authenticated, but daily and visitor reads have no row or page-view bound. A noisy day, long retained browser history, or write-endpoint abuse can eventually exceed function time, memory, or response limits.
+- `Status`: `Open`
+- `Detected`: 2026-08-15
+- `Source`: Local analytics code review
+- `Area`: Analytics, API, Database, Performance, Resilience
+- `Problem`: The read API returns every visit for a selected day or visitor and JSON-aggregates every associated page view in one response. The dashboard and contract have no cursor, limit, truncation state, or continuation action.
+- `Why It Matters`: A single oversized report can make the protected dashboard unavailable and amplify the existing absence of platform rate limiting on the public visit recorder.
+- `Preferred Direction`: Add deterministic cursor pagination and explicit server-side limits for visits and page journeys, with dashboard continuation states that never imply a partial response is complete.
+- `Resolution Path`: Choose operational limits from realistic traffic, extend the validated request/response contract with opaque cursors, keep ordering stable, add continuation UI, and test boundary/truncation behavior.
+- `Next Action`: Measure current retained row/page counts and define the first daily, visitor-history, and per-visit page caps before changing the API contract.
+- `Resolved When`: Every analytics read has enforced deterministic bounds, the dashboard can continue through larger reports, and limit behavior is covered at the API and UI layers.
+- `Related Items`:
+  - `DEBT-38` (archived): The resolved deployment isolation prevents preview data from consuming production report capacity.
+  - `DEBT-23`: The enquiry endpoint has a separate platform rate-limit need; the visit endpoint needs an equivalent operational decision.
+- `Dependencies`: `None`
+- `Notes`:
+  - The protected Basic-auth boundary limits who can request reports but does not bound the amount of data a valid request can serialize.
+- `Links`: `api/analytics.ts`, `src/server/reporting/request.ts`, `src/server/reporting/reader.ts`, `src/data/analyticsContract.ts`, `src/pages/Analytics.tsx`
 
 ### DEBT-9 - Type checking does not cover tests, scripts, or most config code
 

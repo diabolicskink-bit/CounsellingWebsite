@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useLayoutEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
@@ -13,7 +13,9 @@ import KinkBdsmCounselling from "./pages/KinkBdsmCounselling";
 import LgbtqiaCounselling from "./pages/LgbtqiaCounselling";
 import NotFound from "./pages/NotFound";
 import WorkingWithJoel from "./pages/WorkingWithJoel";
-import { devRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/routes";
+import { devRoutePaths, privateRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/routes";
+
+const Analytics = lazy(() => import("./pages/Analytics"));
 
 const devPages = import.meta.env.DEV
   ? {
@@ -52,11 +54,41 @@ function renderDevPage(Page: DevPages[DevPageKey]) {
   );
 }
 
+function AnalyticsRoute() {
+  const requiresPrivateDocument = typeof window !== "undefined" && Boolean(
+    document.getElementById("vive-google-analytics")
+    || document.getElementById("vive-google-analytics-config")
+    || document.getElementById("vive-microsoft-clarity")
+    || window.gtag
+    || window.clarity,
+  );
+
+  useLayoutEffect(() => {
+    if (requiresPrivateDocument) {
+      window.location.replace(window.location.href);
+    }
+  }, [requiresPrivateDocument]);
+
+  if (requiresPrivateDocument) {
+    return null;
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <Analytics />
+    </Suspense>
+  );
+}
+
 export default function App({ initialRenderAt }: AppProps) {
   return (
     <>
       <ScrollToTop />
       <Routes>
+        <Route
+          path={privateRoutePaths.analytics}
+          element={<AnalyticsRoute />}
+        />
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           {publicRedirectRoutes.map((route) => (

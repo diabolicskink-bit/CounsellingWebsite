@@ -17,5 +17,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "api"]
+  "include": ["src", "api", "middleware.ts"]
 }
