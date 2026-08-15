@@ -136,29 +136,6 @@ Each active item should include enough direction that a future session can choos
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
 - `Links`: `docs/design-system/`, `src/design-system/`, `src/styles.css`, `src/components/`
 
-### DEBT-38 - Analytics data needs deployment-environment isolation
-
-- `Priority`: `P1`
-- `Size`: `M`
-- `Priority Rationale`: This is `P1` because the current shared Preview and Production database contains private full referrers and anonymous browser histories, while arbitrary Preview branch functions can receive the same database credential. It is not `P0` because the reporting read route remains authenticated and no unauthorized access incident is known.
-- `Status`: `Open`
-- `Detected`: 2026-08-15
-- `Source`: Local analytics code review
-- `Area`: Analytics, Privacy, Deployment, Neon, Vercel
-- `Problem`: Development, Preview, and Production currently receive one Neon database URL. The ledger does not store a trusted deployment or request-host dimension, so enabled preview traffic is also indistinguishable from production traffic in reports.
-- `Why It Matters`: A preview branch has unnecessary access to production analytics data, and preview verification or browsing can distort the operational report even when the public production-host recorder is correctly allowlisted.
-- `Preferred Direction`: Give Production an isolated Neon database or branch and remove its credential from general Development/Preview. If selected non-production recording must remain, store a server-derived environment/host dimension and filter reports explicitly.
-- `Resolution Path`: Confirm the intended Neon branching model, provision or connect the isolated resource, apply the existing migrations there, scope Vercel environment variables, disable the old recorder-enabled preview, and verify both environments without copying private production rows.
-- `Next Action`: Inspect the Vercel/Neon integration scopes and choose whether Production receives a separate Neon branch or Preview loses database access entirely.
-- `Resolved When`: Preview branch code cannot read or write the production visit ledger, production reports contain only the intended production host data, and verification uses disposable non-production records.
-- `Related Items`:
-  - `DEBT-24`: A deployed smoke test should verify the selected environment boundary as well as route behavior.
-  - `DEBT-40`: Environment isolation limits accidental mixing; bounded reads limit the impact of unusually large legitimate or abusive datasets.
-- `Dependencies`: `None`
-- `Notes`:
-  - `scripts/verify-visit-preview.mjs` now deletes its uniquely marked synthetic visits in `finally`, which prevents that script from adding further permanent report noise but does not isolate credentials or arbitrary preview traffic.
-- `Links`: `docs/project/current-scope.md`, `database/README.md`, `scripts/verify-visit-preview.mjs`, `src/server/visits/repository.ts`, `src/server/reporting/reader.ts`
-
 ### DEBT-39 - Visit page journeys need persisted causal ordering
 
 - `Priority`: `P1`
@@ -175,7 +152,7 @@ Each active item should include enough direction that a future session can choos
 - `Next Action`: Design the sequence/conflict contract and a database integration test that submits later sequence numbers before earlier ones.
 - `Resolved When`: Page journeys render in browser-observed order despite out-of-order function/database arrival, and concurrency is verified against Postgres rather than only scripted row mocks.
 - `Related Items`:
-  - `DEBT-38`: Isolated non-production storage would provide a safer place for real concurrency verification.
+  - `DEBT-38` (archived): Production credentials are isolated from non-production; a disposable database would still be needed for real concurrency verification.
 - `Dependencies`: `None`
 - `Notes`:
   - The current recorder serializes fetches within one active document, and the repository retries a conflict hidden by a concurrent statement snapshot. Those fixes prevent the common rapid-SPA loss but do not create a persisted causal sequence across documents.
@@ -197,7 +174,7 @@ Each active item should include enough direction that a future session can choos
 - `Next Action`: Measure current retained row/page counts and define the first daily, visitor-history, and per-visit page caps before changing the API contract.
 - `Resolved When`: Every analytics read has enforced deterministic bounds, the dashboard can continue through larger reports, and limit behavior is covered at the API and UI layers.
 - `Related Items`:
-  - `DEBT-38`: Deployment isolation prevents preview data from consuming production report capacity.
+  - `DEBT-38` (archived): The resolved deployment isolation prevents preview data from consuming production report capacity.
   - `DEBT-23`: The enquiry endpoint has a separate platform rate-limit need; the visit endpoint needs an equivalent operational decision.
 - `Dependencies`: `None`
 - `Notes`:

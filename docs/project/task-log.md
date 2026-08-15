@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-15 - Production Visit Ledger Isolated
+
+- Retargeted every Vercel-managed Neon identifier, connection variable, and private-report Basic-auth credential to Production only; Development and Preview no longer receive a path capable of reading or writing the private visit ledger.
+- Removed the obsolete `work/local-analytics` Preview recorder overrides and deleted the 20 Preview deployments created after the Production database credential was introduced, invalidating their retained runtime snapshots without touching Production or ledger data.
+- Removed the retired Preview migration/verifier workflow, made future migration access an explicit Production env pull, scrubbed stale local non-production env snapshots, and archived `DEBT-38` as resolved.
+
 ## 2026-08-15 - Private Visit Analytics Connected
 
 - Added the unlisted `/analytics` interface and protected `GET /api/analytics` function, with HTTP Basic Authentication applied to both through Vercel Routing Middleware.

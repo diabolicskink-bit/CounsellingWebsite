@@ -2,23 +2,34 @@
 
 Versioned SQL migrations for the first-party visit ledger live in
 `database/migrations/` and are applied in filename order with `npm run
-db:migrate`. The command records each filename and checksum in
+db:migrate:production`. Before running it, intentionally pull the Production
+environment into the ignored `.env.production.local` file:
+
+```powershell
+npx vercel env pull .env.production.local --environment=production --yes
+npm run db:migrate:production
+```
+
+Do not pull Production into `.env.local` or `.env.preview.local`. Remove the
+generated `.env.production.local` file after the migration when continued local
+Production access is not required.
+
+The migration command records each filename and checksum in
 `visit_schema_migrations`, skips migrations already applied unchanged, and
 refuses to continue if an applied migration file has been edited. Checksums use
 canonical LF line endings while accepting equivalent legacy LF or CRLF hashes,
 so applying from Windows and verifying from Linux does not create false drift.
 
-`npm run db:migrate` reads `.env.local` when it exists. After pulling Preview
-into the ignored `.env.preview.local` file, use `npm run db:migrate:preview` to
-target that environment explicitly.
-
 The application connects to Neon through the server-only `DATABASE_URL`
 environment variable. Never prefix this variable with `VITE_` or expose it to
 browser code.
 
-The Vercel-managed Neon resource is connected to Development, Preview, and
-Production. The schema is current in the shared database, and production visit
-recording is enabled only on the canonical Vive hostnames.
+The Vercel-managed Neon resource and all of its generated connection variables
+are scoped to Production only. Development and Preview deployments receive no
+Neon project identifiers, hosts, usernames, passwords, or connection strings;
+their database-backed functions therefore fail closed. The schema is current
+in Production, and visit recording is enabled only on the canonical Vive
+hostnames.
 
 `visit_ledger` is the read-only reporting view created by migration `0002`. It
 marks the earliest retained visit for an anonymous browser ID as `new`, marks

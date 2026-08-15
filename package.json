@@ -5,9 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "db:migrate": "node --env-file-if-exists=.env.local scripts/apply-database-migrations.mjs",
-    "db:migrate:preview": "node --env-file=.env.preview.local scripts/apply-database-migrations.mjs",
-    "db:verify-preview": "node --env-file=.env.preview.local scripts/verify-visit-preview.mjs",
+    "db:migrate:production": "node --env-file=.env.production.local scripts/apply-database-migrations.mjs",
     "check:encoding": "node scripts/check-encoding.mjs",
     "typecheck:tests": "tsc -p tests/tsconfig.json",
     "build": "node scripts/validate-analytics-env.mjs && tsc -b && npm run build:client && npm run build:server && node scripts/prerender-route-metadata.mjs",
