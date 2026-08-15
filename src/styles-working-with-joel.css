@@ -108,6 +108,7 @@
 .working-with-joel-page .working-with-joel-page__intro-panel {
   display: grid;
   gap: 20px;
+  align-content: start;
   max-width: 65ch;
   padding: 0;
   border: 0;

@@ -12,20 +12,9 @@ Primary shared-looking implementation currently lives in `src/styles.css`; page-
 
 These patterns remain implemented and may have current consumers. None is part of the active catalogue. The promoted `.site-section-warm` pattern is intentionally absent and lives in `docs/design-system/patterns.md`.
 
-## Card, Panel, List, And Detail Families
-
-- `.site-copy-panel`
-
-This name describes current inherited source, not an approved component contract. Verify its semantic role and consumer before promotion or cleanup.
-
 ## Rich Text And Copy Families
 
-- `.rich-text`
-- `.site-copy-flow`
-
-These mounted production selectors are not current reusable contracts; verify their exact consumers before reuse or cleanup.
-
-As of 2026-08-13, `.site-copy-flow`, `.section-heading__copy`, `.rich-text`, and `.site-broad-tabs__content` remain mounted through Working with Joel, while `.hero-copy-panel` remains mounted only through `DevPageHero` on the two development test beds. Dormant aliases and unmounted rich-text descendants were removed in the source-first cleanup.
+`.site-broad-tabs__content` remains mounted through Working with Joel, while `.hero-copy-panel` remains mounted only through `DevPageHero` on the two development test beds. The page's copy uses the promoted `.site-reading` role rather than an inherited generic copy wrapper.
 
 ## Hero Family
 
@@ -46,4 +35,4 @@ The second source-level selector review batch covers `.site-shell`, `.container`
 
 Contact owns the current enquiry form through `Contact.tsx` and `src/styles-contact.css`; there is no promoted form component or shared form pattern. Other page-prefixed selectors remain owned by their pages unless an authorized task promotes a repeated semantic contract.
 
-Last consolidated from current source: 2026-08-13 — dormant inherited presentation cleanup under `DEBT-13` and `DEBT-21`.
+Last consolidated from current source: 2026-08-14 — redundant inherited copy and panel wrappers removed in source-first cleanup.

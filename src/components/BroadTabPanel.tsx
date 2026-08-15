@@ -127,7 +127,7 @@ export default function BroadTabPanel({
 
       <div
         aria-labelledby={getTabId(safeActiveIndex)}
-        className="site-broad-tabs__content site-copy-flow"
+        className="site-broad-tabs__content"
         id={panelId}
         role="tabpanel"
         tabIndex={0}

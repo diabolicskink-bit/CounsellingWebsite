@@ -76,30 +76,26 @@ export default function InclusivePractice() {
 
   return (
     <main className="site-page inclusion-hub-page">
-      <section className="hero-section site-hero-background inclusion-hub-page__hero">
+      <section className="hero-section site-hero-background">
         <Container>
-          <div className="inclusion-hub-page__hero-layout">
-            <h1 className="hero-badge">{hero.heading}</h1>
+          <h1 className="hero-badge">{hero.heading}</h1>
 
-            <div className="inclusion-hub-page__hero-promise">
-              <p className="inclusion-hub-page__hero-promise-line">
-                {hero.statement.lineOne}
-              </p>
-              <p className="inclusion-hub-page__hero-promise-line">
-                {hero.statement.lineTwo}
-              </p>
-            </div>
-
-            <p className="inclusion-hub-page__hero-support site-reading">{hero.support}</p>
+          <div className="inclusion-hub-page__hero-promise">
+            <p className="inclusion-hub-page__hero-promise-line">
+              {hero.statement.lineOne}
+            </p>
+            <p className="inclusion-hub-page__hero-promise-line">
+              {hero.statement.lineTwo}
+            </p>
           </div>
+
+          <p className="inclusion-hub-page__hero-support site-reading">{hero.support}</p>
         </Container>
       </section>
 
-      <div className="inclusion-hub-page__chapters" aria-label="Inclusive counselling services">
-        {chapters.map((chapter) => (
-          <InclusionChapterSection chapter={chapter} key={chapter.id} />
-        ))}
-      </div>
+      {chapters.map((chapter) => (
+        <InclusionChapterSection chapter={chapter} key={chapter.id} />
+      ))}
     </main>
   );
 }
@@ -109,7 +105,7 @@ function InclusionChapterSection({ chapter }: { chapter: InclusionChapter }) {
 
   return (
     <section
-      className={`inclusion-hub-page__chapter inclusion-hub-page__chapter--${chapter.id} site-section-warm`}
+      className="inclusion-hub-page__chapter site-section-warm"
       aria-labelledby={headingId}
     >
       <Container className="inclusion-hub-page__chapter-layout">
