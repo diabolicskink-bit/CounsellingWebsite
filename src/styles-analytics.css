@@ -150,6 +150,11 @@ body:has(.visit-dashboard) {
   opacity: 0.72;
 }
 
+.signal-header__bots[aria-pressed="true"] {
+  background: var(--report-purple-soft);
+  color: var(--report-purple-dark);
+}
+
 .signal-header__warning {
   background: #fff5df !important;
   color: #93601e !important;
@@ -304,7 +309,6 @@ body:has(.visit-dashboard) {
 }
 
 .signal-overview__count > span,
-.signal-overview__count > small,
 .signal-spectrum__orbit span,
 .signal-telemetry span,
 .signal-telemetry small {
@@ -314,10 +318,17 @@ body:has(.visit-dashboard) {
 
 .signal-overview__count strong,
 .signal-telemetry strong {
-  margin-block: auto 7px;
   font-size: 2.25rem;
   line-height: 1;
   letter-spacing: -0.04em;
+}
+
+.signal-overview__count strong {
+  margin: 9px 0 0;
+}
+
+.signal-telemetry strong {
+  margin-block: auto 7px;
 }
 
 .signal-telemetry {

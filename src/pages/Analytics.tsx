@@ -136,9 +136,6 @@ function sourceDetail(visit: AnalyticsVisit) {
 }
 
 function botDetail(visit: AnalyticsVisit) {
-  if (visit.isBot === null) return "Unclassified";
-  if (!visit.isBot) return "Not detected as a bot";
-
   return [visit.botName ?? "Unknown bot", visit.botCategory]
     .filter((value): value is string => Boolean(value))
     .join(" · ");
@@ -213,13 +210,17 @@ function BotMark({ visit }: { visit: AnalyticsVisit }) {
 }
 
 function SignalHeader({
+  includeBots,
   isDetail,
   onHome,
+  onIncludeBotsChange,
   onRefresh,
   status,
 }: {
+  includeBots: boolean;
   isDetail: boolean;
   onHome: () => void;
+  onIncludeBotsChange: (includeBots: boolean) => void;
   onRefresh: () => void;
   status: AnalyticsLoadState["status"];
 }) {
@@ -240,6 +241,15 @@ function SignalHeader({
             <LockKeyhole aria-hidden="true" size={14} />
             {import.meta.env.DEV ? "Auth bypassed locally" : "Protected"}
           </span>
+          <button
+            aria-pressed={includeBots}
+            className="signal-header__bots"
+            onClick={() => onIncludeBotsChange(!includeBots)}
+            type="button"
+          >
+            <Bot aria-hidden="true" size={14} />
+            {includeBots ? "Bots included" : "Include bots"}
+          </button>
           <button
             className="signal-header__refresh"
             disabled={status === "loading"}
@@ -289,6 +299,7 @@ function DateControls({
 function DailyObservatory({
   dateKey,
   expandedVisitId,
+  includeBots,
   onDateChange,
   onOpenVisitor,
   onToggleVisit,
@@ -297,28 +308,30 @@ function DailyObservatory({
 }: {
   dateKey: string;
   expandedVisitId: string | null;
+  includeBots: boolean;
   onDateChange: (date: string) => void;
   onOpenVisitor: (visit: AnalyticsVisit) => void;
   onToggleVisit: (visitId: string) => void;
   todayKey: string;
   visits: AnalyticsVisit[];
 }) {
+  const includedVisits = useMemo(
+    () => includeBots ? visits : visits.filter((visit) => visit.isBot !== true),
+    [includeBots, visits],
+  );
   const summary = useMemo(() => {
-    const unflaggedVisits = visits.filter((visit) => !visit.isBot);
-
     return {
-      bots: visits.length - unflaggedVisits.length,
-      direct: unflaggedVisits.filter((visit) => visit.trafficSource === "direct").length,
-      internal: unflaggedVisits.filter((visit) => visit.trafficSource === "internal").length,
-      pages: unflaggedVisits.reduce((total, visit) => total + visit.pageViews.length, 0),
-      paid: unflaggedVisits.filter((visit) => visit.trafficSource === "paid").length,
-      referral: unflaggedVisits.filter((visit) => visit.trafficSource === "referral").length,
-      returning: unflaggedVisits.filter((visit) => visit.visitNumber > 1).length,
-      unflagged: unflaggedVisits.length,
+      direct: includedVisits.filter((visit) => visit.trafficSource === "direct").length,
+      internal: includedVisits.filter((visit) => visit.trafficSource === "internal").length,
+      pages: includedVisits.reduce((total, visit) => total + visit.pageViews.length, 0),
+      paid: includedVisits.filter((visit) => visit.trafficSource === "paid").length,
+      referral: includedVisits.filter((visit) => visit.trafficSource === "referral").length,
+      returning: includedVisits.filter((visit) => visit.visitNumber > 1).length,
+      visits: includedVisits.length,
     };
-  }, [visits]);
+  }, [includedVisits]);
   const isToday = dateKey === todayKey;
-  const denominator = Math.max(summary.unflagged, 1);
+  const denominator = Math.max(summary.visits, 1);
   const paidEnd = (summary.paid / denominator) * 360;
   const referralEnd = paidEnd + (summary.referral / denominator) * 360;
   const internalEnd = referralEnd + (summary.internal / denominator) * 360;
@@ -338,16 +351,15 @@ function DailyObservatory({
           <DateControls dateKey={dateKey} isToday={isToday} onDateChange={onDateChange} todayKey={todayKey} />
         </div>
 
-        <div className="signal-overview__count" aria-label={`${summary.unflagged} visits not flagged as bots`}>
-          <span>Not flagged</span>
-          <strong>{String(summary.unflagged).padStart(2, "0")}</strong>
-          <small>{summary.bots} {summary.bots === 1 ? "bot record" : "bot records"} separated</small>
+        <div className="signal-overview__count" aria-label={`${summary.visits} visits`}>
+          <span>Visits</span>
+          <strong>{String(summary.visits).padStart(2, "0")}</strong>
         </div>
 
         <div className="signal-spectrum">
           <div
             aria-label={`${summary.pages} page views across ${summary.paid} paid, ${summary.referral} referral, ${summary.internal} internal and ${summary.direct} direct visits`}
-            className={summary.unflagged ? "signal-spectrum__orbit" : "signal-spectrum__orbit signal-spectrum__orbit--empty"}
+            className={summary.visits ? "signal-spectrum__orbit" : "signal-spectrum__orbit signal-spectrum__orbit--empty"}
             role="img"
             style={spectrumStyle}
           >
@@ -365,8 +377,8 @@ function DailyObservatory({
         </div>
 
         <div className="signal-telemetry" aria-label="Daily summary">
-          <div><span>Returning</span><strong>{String(summary.returning).padStart(2, "0")}</strong><small>{summary.unflagged ? Math.round((summary.returning / summary.unflagged) * 100) : 0}% not flagged</small></div>
-          <div><span>Average pages</span><strong>{summary.unflagged ? (summary.pages / summary.unflagged).toFixed(1) : "0.0"}</strong><small>Per unflagged visit</small></div>
+          <div><span>Returning</span><strong>{String(summary.returning).padStart(2, "0")}</strong><small>{summary.visits ? Math.round((summary.returning / summary.visits) * 100) : 0}% of visits</small></div>
+          <div><span>Average pages</span><strong>{summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"}</strong><small>Per visit</small></div>
         </div>
       </section>
 
@@ -376,12 +388,12 @@ function DailyObservatory({
             <p className="signal-kicker">Newest first</p>
             <h2 id="signal-stream-title">Visits on this day</h2>
           </div>
-          <span>{visits.length} {visits.length === 1 ? "record" : "records"} · {summary.bots} bots</span>
+          <span>{includedVisits.length} {includedVisits.length === 1 ? "record" : "records"}</span>
         </header>
 
-        {visits.length ? (
+        {includedVisits.length ? (
           <ol className="signal-stream__list">
-            {visits.map((visit) => {
+            {includedVisits.map((visit) => {
               const isExpanded = visit.id === expandedVisitId;
               const detailId = `visit-detail-${visit.id}`;
               const previewPages = visit.pageViews.slice(0, 2);
@@ -467,7 +479,7 @@ function DailyObservatory({
                           <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
                           <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
                           <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
-                          <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div>
+                          {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
                         </dl>
                         <button onClick={() => onOpenVisitor(visit)} type="button">
                           View all visits from {visitorLabel(visit.visitorId)}
@@ -490,7 +502,7 @@ function DailyObservatory({
       </section>
 
       <p className="signal-footnote">
-        Records page loads only. Visits explicitly identified by BotID are retained in the list but excluded from headline figures. Elapsed spans run from the first to the last recorded page load; they do not include time spent on the final page. It does not show clicks, scrolling, reading time or form contents.
+        Records page loads only. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Elapsed spans run from the first to the last recorded page load; they do not include time spent on the final page. It does not show clicks, scrolling, reading time or form contents.
       </p>
     </>
   );
@@ -499,16 +511,22 @@ function DailyObservatory({
 function VisitorHistory({
   contextDate,
   focusedVisitId,
+  includeBots,
   onBack,
   report,
 }: {
   contextDate: string;
   focusedVisitId: string | null;
+  includeBots: boolean;
   onBack: () => void;
   report: VisitorAnalyticsReport;
 }) {
-  const focusedVisit = report.visits.find((visit) => visit.id === focusedVisitId)
-    ?? report.visits[0]
+  const includedVisits = useMemo(
+    () => includeBots ? report.visits : report.visits.filter((visit) => visit.isBot !== true),
+    [includeBots, report.visits],
+  );
+  const focusedVisit = includedVisits.find((visit) => visit.id === focusedVisitId)
+    ?? includedVisits[0]
     ?? null;
 
   if (!focusedVisit) {
@@ -522,8 +540,8 @@ function VisitorHistory({
     );
   }
 
-  const firstVisit = report.visits[report.visits.length - 1] ?? focusedVisit;
-  const latestVisit = report.visits[0] ?? focusedVisit;
+  const firstVisit = includedVisits[includedVisits.length - 1] ?? focusedVisit;
+  const latestVisit = includedVisits[0] ?? focusedVisit;
   const label = visitorLabel(report.visitorId);
 
   return (
@@ -539,13 +557,13 @@ function VisitorHistory({
           <div>
             <p className="signal-kicker">Anonymous browser</p>
             <h1 id="visitor-history-title">{label}</h1>
-            <p>This browser has {report.visits.length} recorded {report.visits.length === 1 ? "visit" : "visits"}.</p>
+            <p>This browser has {includedVisits.length} recorded {includedVisits.length === 1 ? "visit" : "visits"}.</p>
           </div>
         </div>
         <dl>
           <div><dt>First seen</dt><dd>{formatDate(firstVisit.dateKey, true)}</dd></div>
           <div><dt>Most recent</dt><dd>{formatDate(latestVisit.dateKey, true)}</dd></div>
-          <div><dt>Total visits</dt><dd>{String(report.visits.length).padStart(2, "0")}</dd></div>
+          <div><dt>Total visits</dt><dd>{String(includedVisits.length).padStart(2, "0")}</dd></div>
         </dl>
       </section>
 
@@ -559,7 +577,7 @@ function VisitorHistory({
         </header>
 
         <div className="visitor-history__list">
-          {report.visits.map((visit) => {
+          {includedVisits.map((visit) => {
             const isFocused = visit.id === focusedVisit.id;
 
             return (
@@ -603,7 +621,7 @@ function VisitorHistory({
                       <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
                       <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
                       <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
-                      <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div>
+                      {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
                     </dl>
                   </section>
                 </div>
@@ -641,6 +659,7 @@ export default function Analytics() {
   const requestedDate = searchParams.get("date");
   const dateKey = isAnalyticsDateKey(requestedDate) && requestedDate <= todayKey ? requestedDate : todayKey;
   const expandedVisitId = searchParams.get("expanded");
+  const includeBots = searchParams.get("bots") === "include";
   const requestedVisitorId = searchParams.get("visitor");
   const focusedVisitId = searchParams.get("visit");
   const requestQuery = requestedVisitorId
@@ -662,9 +681,17 @@ export default function Analytics() {
     retry();
   }
 
+  function updateIncludeBots(nextIncludeBots: boolean) {
+    const nextParams = new URLSearchParams(searchParams);
+    if (nextIncludeBots) nextParams.set("bots", "include");
+    else nextParams.delete("bots");
+    setSearchParams(nextParams);
+  }
+
   function updateDate(nextDate: string) {
     if (!isAnalyticsDateKey(nextDate) || nextDate > todayKey) return;
     const nextParams = new URLSearchParams();
+    if (includeBots) nextParams.set("bots", "include");
     if (nextDate !== todayKey) nextParams.set("date", nextDate);
     setSearchParams(nextParams);
   }
@@ -702,8 +729,10 @@ export default function Analytics() {
   return (
     <main className="visit-dashboard">
       <SignalHeader
+        includeBots={includeBots}
         isDetail={Boolean(requestedVisitorId)}
         onHome={closeVisitor}
+        onIncludeBotsChange={updateIncludeBots}
         onRefresh={refreshReport}
         status={status}
       />
@@ -713,6 +742,7 @@ export default function Analytics() {
           <VisitorHistory
             contextDate={dateKey}
             focusedVisitId={focusedVisitId}
+            includeBots={includeBots}
             onBack={closeVisitor}
             report={visitorReport}
           />
@@ -721,6 +751,7 @@ export default function Analytics() {
           <DailyObservatory
             dateKey={dailyReport.date}
             expandedVisitId={expandedVisitId}
+            includeBots={includeBots}
             onDateChange={updateDate}
             onOpenVisitor={openVisitor}
             onToggleVisit={toggleVisit}

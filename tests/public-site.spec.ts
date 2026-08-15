@@ -653,9 +653,44 @@ test.describe("analytics", () => {
         visitNumber: 2,
         visitorId,
       };
+      const unclassifiedVisit = {
+        ...visit,
+        gclid: null,
+        id: "2a560836-220d-4d33-a05e-5f364891f9cb",
+        isBot: null,
+        landingPath: "/inclusive-counselling",
+        pageViews: [
+          {
+            id: "b948d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+            path: "/inclusive-counselling",
+            viewedAt: `${date}T03:02:00.000Z`,
+          },
+        ],
+        trafficSource: "direct",
+        visitNumber: 1,
+        visitorId: "214ba8f9-96f8-41e1-a301-15112400760e",
+      };
+      const botVisit = {
+        ...visit,
+        botCategory: "search_engine_crawler",
+        botName: "googlebot",
+        gclid: null,
+        id: "3a560836-220d-4d33-a05e-5f364891f9cb",
+        isBot: true,
+        landingPath: "/bot-only",
+        pageViews: [
+          {
+            id: "c948d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+            path: "/bot-only",
+            viewedAt: `${date}T03:03:00.000Z`,
+          },
+        ],
+        trafficSource: "direct",
+        visitNumber: 3,
+      };
       const data = requestUrl.searchParams.has("visitor")
-        ? { type: "visitor", visitorId, visits: [visit] }
-        : { type: "daily", date, visits: [visit] };
+        ? { type: "visitor", visitorId, visits: [botVisit, visit] }
+        : { type: "daily", date, visits: [visit, unclassifiedVisit, botVisit] };
 
       await route.fulfill({
         body: JSON.stringify({ data }),
@@ -667,14 +702,37 @@ test.describe("analytics", () => {
     await page.goto("/analytics", { waitUntil: "networkidle" });
     await expect(page.getByRole("heading", { level: 2, name: "Visits on this day" })).toBeVisible();
     await expect(page.getByText("Paid", { exact: true })).toBeVisible();
+    await expect(page.locator(".signal-event")).toHaveCount(2);
+    await expect(page.getByText("/inclusive-counselling", { exact: true })).toBeVisible();
+    await expect(page.getByText("/bot-only", { exact: true })).toHaveCount(0);
+    await expect(page.locator(".signal-bot")).toHaveCount(0);
 
-    await page.locator(".signal-event").click();
+    const includeBots = page.getByRole("button", { name: "Include bots" });
+    await expect(includeBots).toHaveAttribute("aria-pressed", "false");
+    await includeBots.click();
+    await expect(page).toHaveURL(/bots=include/);
+    await expect(page.locator(".signal-event")).toHaveCount(3);
+    await expect(page.locator(".signal-overview__count strong")).toHaveText("03");
+    await expect(page.getByText("/bot-only", { exact: true })).toBeVisible();
+    await expect(page.locator(".signal-bot")).toContainText("googlebot");
+
+    await page.locator(".signal-event").first().click();
     await expect(page.getByText("CjwK-gclid-only", { exact: true })).toBeVisible();
     await expect(page.getByText("Not a paid visit", { exact: true })).toHaveCount(0);
 
     await page.getByRole("button", { name: /View all visits from Browser/ }).click();
     await expect(page.getByRole("heading", { level: 2, name: "All visits" })).toBeVisible();
     await expect(page.getByText("Elapsed to last page", { exact: true })).toBeVisible();
+    await expect(page.locator(".visitor-visit")).toHaveCount(2);
+    await expect(page.getByText("This browser has 2 recorded visits.", { exact: true })).toBeVisible();
+    await expect(page.getByText("/bot-only", { exact: true })).toBeVisible();
+
+    const botsIncluded = page.getByRole("button", { name: "Bots included" });
+    await expect(botsIncluded).toHaveAttribute("aria-pressed", "true");
+    await botsIncluded.click();
+    await expect(page.locator(".visitor-visit")).toHaveCount(1);
+    await expect(page.getByText("This browser has 1 recorded visit.", { exact: true })).toBeVisible();
+    await expect(page.getByText("/bot-only", { exact: true })).toHaveCount(0);
 
     const requestsBeforeRefresh = reportRequests;
     await page.getByRole("button", { name: "Refresh data" }).click();
