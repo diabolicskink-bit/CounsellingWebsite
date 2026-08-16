@@ -980,7 +980,6 @@ function DailyObservatory({
                           <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
                           <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
                           <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
-                          <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
                           {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
                         </dl>
                         <button onClick={() => onOpenVisitor(visit)} type="button">
@@ -1198,7 +1197,6 @@ function VisitorHistory({
                       <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
                       <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
                       <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
-                      <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
                       {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
                     </dl>
                   </section>

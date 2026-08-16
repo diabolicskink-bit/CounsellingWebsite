@@ -852,11 +852,14 @@ test.describe("analytics", () => {
     await expect(page.locator(".signal-bot")).toContainText("googlebot");
 
     await page.locator(".signal-event").first().click();
-    await expect(page.getByText("CjwK-gclid-only", { exact: true })).toBeVisible();
+    await expect(page.getByText("GCLID", { exact: true })).toHaveCount(0);
+    await expect(page.getByText("CjwK-gclid-only", { exact: true })).toHaveCount(0);
     await expect(page.getByText("Not a paid visit", { exact: true })).toHaveCount(0);
 
     await page.getByRole("button", { name: /View all visits from Visitor/ }).click();
     await expect(page.getByRole("heading", { level: 2, name: "All visits" })).toBeVisible();
+    await expect(page.getByText("GCLID", { exact: true })).toHaveCount(0);
+    await expect(page.getByText("CjwK-gclid-only", { exact: true })).toHaveCount(0);
     await expect(page.getByText("Elapsed to last page", { exact: true }).first()).toBeVisible();
     await expect(page.locator(".visitor-visit")).toHaveCount(2);
     await expect(page.getByText("This visitor has 2 recorded visits.", { exact: true })).toBeVisible();
