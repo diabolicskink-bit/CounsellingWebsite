@@ -42,6 +42,9 @@ test("private routes remain separate from public metadata routes", () => {
   assert.equal(isPrivateRoutePath("/analytics/excluded"), true);
   assert.equal(isPrivateRoutePath("/analytics/pages"), true);
   assert.equal(isPrivateRoutePath("/analytics/visitor"), true);
+  assert.equal(isPrivateRoutePath("/Analytics"), true);
+  assert.equal(isPrivateRoutePath("/ANALYTICS/pages"), true);
   assert.equal(isPrivateRoutePath("/analytics-other"), false);
+  assert.equal(isPrivateRoutePath("/Analytics-other"), false);
   assert.equal(isPrivateRoutePath("/contact"), false);
 });

@@ -25,9 +25,11 @@ export const privateRoutePaths = {
 } as const;
 
 export function isPrivateRoutePath(pathname: string) {
-  return Object.values(privateRoutePaths).some(
-    (privatePath) => pathname === privatePath || pathname.startsWith(`${privatePath}/`),
-  );
+  const normalizedPathname = pathname.toLowerCase();
+  const analyticsRoot = privateRoutePaths.analytics;
+
+  return normalizedPathname === analyticsRoot
+    || normalizedPathname.startsWith(`${analyticsRoot}/`);
 }
 
 export const devRoutePaths = {

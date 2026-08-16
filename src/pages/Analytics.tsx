@@ -1164,31 +1164,45 @@ function PageViewsBreakdown({
         </header>
 
         {report.routes.length ? (
-          <ol className="page-view-report__list">
-            {report.routes.map((route, index) => {
-              const share = report.totalPageViews
-                ? Math.round((route.pageViews / report.totalPageViews) * 100)
-                : 0;
-              const barStyle = {
-                "--page-view-route-width": `${(route.pageViews / routePeak) * 100}%`,
-              } as CSSProperties;
+          <div className="page-view-report__table-wrap">
+            <table className="page-view-report__table">
+              <caption className="signal-visually-hidden">
+                Routes ranked by page views, including share of views and visits
+              </caption>
+              <thead>
+                <tr>
+                  <th aria-label="Rank" scope="col">#</th>
+                  <th scope="col">Route</th>
+                  <th scope="col">Share</th>
+                  <th scope="col">Views</th>
+                  <th scope="col">Visits</th>
+                </tr>
+              </thead>
+              <tbody>
+                {report.routes.map((route, index) => {
+                  const share = report.totalPageViews
+                    ? Math.round((route.pageViews / report.totalPageViews) * 100)
+                    : 0;
+                  const barStyle = {
+                    "--page-view-route-width": `${(route.pageViews / routePeak) * 100}%`,
+                  } as CSSProperties;
 
-              return (
-                <li
-                  aria-label={`${route.path}: ${route.pageViews} page views across ${route.visits} visits, ${share}% of page views`}
-                  key={route.path}
-                >
-                  <span className="page-view-report__rank">{String(index + 1).padStart(2, "0")}</span>
-                  <div className="page-view-report__route">
-                    <div><strong>{route.path}</strong><span>{share}% of views</span></div>
-                    <i aria-hidden="true"><b style={barStyle} /></i>
-                  </div>
-                  <div className="page-view-report__metric"><strong>{route.pageViews}</strong><span>views</span></div>
-                  <div className="page-view-report__metric"><strong>{route.visits}</strong><span>visits</span></div>
-                </li>
-              );
-            })}
-          </ol>
+                  return (
+                    <tr key={route.path}>
+                      <td className="page-view-report__rank">{String(index + 1).padStart(2, "0")}</td>
+                      <th className="page-view-report__route" scope="row">
+                        <strong>{route.path}</strong>
+                        <i aria-hidden="true"><b style={barStyle} /></i>
+                      </th>
+                      <td className="page-view-report__share">{share}%</td>
+                      <td className="page-view-report__metric">{route.pageViews}</td>
+                      <td className="page-view-report__metric">{route.visits}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <div className="signal-stream__empty page-view-report__empty">
             <Radio aria-hidden="true" size={30} />

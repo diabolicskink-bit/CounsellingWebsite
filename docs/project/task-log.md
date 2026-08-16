@@ -21,8 +21,9 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-08-16 - Page-View Range Report Added
 
 - Added a complete protected route breakdown linked from the daily page-view widget, defaulting to the dashboard's selected day.
-- Added an inclusive date-range selector of up to 366 days with total views, visits, average pages per visit, route share, and per-route visit counts.
-- Kept range reads to one aggregate database query with existing visitor exclusions and server-side bot filtering, without adding schema fields or migrations.
+- Added an inclusive date-range selector of up to 366 days with total views, visits, average pages per visit, and one compact ranked table for route share and per-route visit counts.
+- Kept range reads to one aggregate database query with existing visitor exclusions and server-side bot filtering, while canonicalizing route casing before storage.
+- Made the private analytics boundary case-insensitive in the browser and visit API so the complete subtree cannot create new first-party records under casing variants, and removed the existing private rows from Preview data.
 
 ## 2026-08-16 - Daily Analytics Signals Refined
 

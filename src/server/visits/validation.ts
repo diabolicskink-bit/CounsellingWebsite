@@ -1,4 +1,5 @@
 import type { VisitObservationPayload } from "./repository.ts";
+import { isPrivateRoutePath } from "../../data/routes.ts";
 
 type ValidationIssue = {
   code: "invalid_format" | "invalid_type" | "required" | "too_long";
@@ -60,7 +61,14 @@ function getPath(payload: Record<string, unknown>, field: string, issues: Valida
     return "";
   }
 
-  return value;
+  const normalizedValue = value.toLowerCase();
+
+  if (isPrivateRoutePath(normalizedValue)) {
+    addIssue(issues, field, "invalid_format");
+    return "";
+  }
+
+  return normalizedValue;
 }
 
 function getOptionalText(

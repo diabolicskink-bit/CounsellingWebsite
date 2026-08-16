@@ -154,7 +154,7 @@ test("records an unclassified visit when bot detection is unavailable", async ()
   assert.doesNotMatch(JSON.stringify(warnings), /private bot provider detail/);
 });
 
-test("normalizes absent optional attribution and referrer fields to null", async () => {
+test("normalizes absent optional fields and route casing", async () => {
   const observations = [];
   const handler = createTestVisitHandler(async (observation) => observations.push(observation));
 
@@ -165,6 +165,8 @@ test("normalizes absent optional attribution and referrer fields to null", async
       matchType: undefined,
       matchedKeyword: undefined,
       networkCode: undefined,
+      landingPath: "/Contact",
+      path: "/Working-With-Joel",
       referrerUrl: "",
     }),
   });
@@ -173,6 +175,8 @@ test("normalizes absent optional attribution and referrer fields to null", async
   assert.equal(observations.length, 1);
   assert.equal(observations[0].adCode, null);
   assert.equal(observations[0].gclid, null);
+  assert.equal(observations[0].landingPath, "/contact");
+  assert.equal(observations[0].path, "/working-with-joel");
   assert.equal(observations[0].referrerHost, null);
   assert.equal(observations[0].referrerUrl, null);
 });
@@ -295,6 +299,8 @@ test("rejects invalid identities, paths, referrers, and oversized attribution", 
   const payloads = [
     validPayload({ visitorId: "not-a-uuid" }),
     validPayload({ path: "/contact?message=secret" }),
+    validPayload({ landingPath: "/Analytics", path: "/Analytics" }),
+    validPayload({ path: "/ANALYTICS/pages" }),
     validPayload({ referrerUrl: "javascript:alert(1)" }),
     validPayload({ matchedKeyword: "x".repeat(1025) }),
   ];
