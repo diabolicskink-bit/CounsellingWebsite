@@ -302,6 +302,22 @@ test("Crisis Support semantic colours survive the shared CSS cascade", async ({ 
   );
 });
 
+test("Working with Joel offers contact actions in the hero and closing invitation", async ({ page }) => {
+  await page.goto("/working-with-joel", { waitUntil: "networkidle" });
+
+  const main = page.getByRole("main");
+  const hero = main.locator(".working-with-joel-page__hero");
+  const closingInvitation = main.locator(".contact-invitation");
+
+  await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveAttribute("href", "/contact");
+  await expect(closingInvitation.getByRole("heading", { name: "Get in touch." })).toBeVisible();
+  await expect(closingInvitation.getByRole("link", { name: "See contact options" })).toHaveAttribute(
+    "href",
+    "/contact",
+  );
+  await expect(main.locator(":scope > section").last()).toHaveClass(/contact-invitation/);
+});
+
 test.describe("shared navigation", () => {
   test("routes primary contact actions and exposes social profiles", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });

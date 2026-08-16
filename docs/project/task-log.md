@@ -74,6 +74,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Added a third ledger migration for nullable bot verdict, verified name and category, with positive verdicts winning across later page observations and legacy rows remaining unclassified.
 - Extended the protected report, dashboard and saved queries so explicit bots remain inspectable but are separated from headline visit, returning, page and source figures. The migration and deployed BotID flow remain pending Production application and live verification because testing was unavailable during this task.
 
+## 2026-08-15 - Working With Joel Contact Paths Added
+
+- Added a direct Get in touch action to the Working with Joel hero, with page-scoped responsive, focus, pointer, and reduced-motion treatment.
+- Added the canonical Contact invitation as the page's closing section, making appointment, free consult, and general-enquiry options available after the issues index.
+- Extended public-route coverage and the supported-component records to include both new contact paths.
+
 ## 2026-08-15 - Production Visit Ledger Isolated
 
 - Retargeted every Vercel-managed Neon identifier, connection variable, and private-report Basic-auth credential to Production only; Development and Preview no longer receive a path capable of reading or writing the private visit ledger.

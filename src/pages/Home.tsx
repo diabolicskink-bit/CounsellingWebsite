@@ -8,6 +8,8 @@ import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-home.css";
 
+/* React 18 does not recognise `fetchPriority`, so it is spread in lowercase to
+   reach the DOM as a passthrough attribute without a development warning. */
 const highPriorityImageAttributes = { fetchpriority: "high" } as const;
 
 type EmphasisCopy = {
@@ -190,16 +192,14 @@ function AboutViveSection({
         </header>
 
         <div className="home-about__narrative">
-          <div className="home-about__story">
-            {about.narrative.map((paragraph, index) => (
-              <p
-                className={index === 0 ? "site-reading site-reading--lead" : "site-reading"}
-                key={paragraph}
-              >
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          {about.narrative.map((paragraph, index) => (
+            <p
+              className={index === 0 ? "site-reading site-reading--lead" : "site-reading"}
+              key={paragraph}
+            >
+              {paragraph}
+            </p>
+          ))}
         </div>
 
         <figure className="home-about__portrait">

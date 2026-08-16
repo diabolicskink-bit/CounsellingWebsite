@@ -1,4 +1,7 @@
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import BroadTabPanel from "../components/BroadTabPanel";
+import ContactInvitation from "../components/ContactInvitation";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths } from "../data/routes";
@@ -24,6 +27,10 @@ type WorkingHeroPortrait = {
 type WorkingHeroContent = {
   badge: string;
   title: EmphasisCopy;
+  contactLink: {
+    href: string;
+    label: string;
+  };
   credentialsAriaLabel: string;
   credentials: string[];
   portrait: WorkingHeroPortrait;
@@ -77,6 +84,10 @@ const pageContent: WorkingWithJoelPageContent = {
       before: "A little ",
       emphasis: "about me",
       after: " and my approach.",
+    },
+    contactLink: {
+      href: publicRoutePaths.contact,
+      label: "Get in touch",
     },
     credentialsAriaLabel: "Joel Griffiths credentials and practice details",
                credentials: [
@@ -198,6 +209,11 @@ function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
             <br />
             {hero.title.after}
           </p>
+
+          <Link className="working-with-joel-page__hero-action" to={hero.contactLink.href}>
+            <span>{hero.contactLink.label}</span>
+            <ArrowRight aria-hidden="true" size={18} />
+          </Link>
 
           <CredentialsList items={hero.credentials} ariaLabel={hero.credentialsAriaLabel} />
         </div>
@@ -356,6 +372,7 @@ export default function WorkingWithJoel() {
       <IntroductionSection introduction={introduction} portrait={hero.portrait} />
       <ApproachSection approach={approach} />
       <FocusSection focus={focus} />
+      <ContactInvitation />
     </main>
   );
 }
