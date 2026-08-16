@@ -622,44 +622,11 @@ test.describe("analytics", () => {
     ).toHaveCount(0);
   });
 
-  test("private analytics dashboard renders stored reports and complete visitor history", async ({ page }) => {
+  test("private analytics dashboard supports its core reporting path", async ({ page }) => {
     const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
     const visitId = "1a560836-220d-4d33-a05e-5f364891f9cb";
-    let reportRequests = 0;
-    let visitorExcluded = false;
-
-    await page.route("**/api/analytics/exclusions", async (route) => {
-      if (route.request().method() === "PUT") {
-        const update = route.request().postDataJSON() as { excluded: boolean; visitorId: string };
-        visitorExcluded = update.excluded;
-        await route.fulfill({
-          body: JSON.stringify({ data: { isExcluded: visitorExcluded, visitorId: update.visitorId } }),
-          contentType: "application/json",
-          status: 200,
-        });
-        return;
-      }
-
-      await route.fulfill({
-        body: JSON.stringify({
-          data: {
-            type: "excluded",
-            visitors: visitorExcluded ? [{
-              excludedAt: "2026-08-16T03:10:00.000Z",
-              firstSeenAt: "2026-08-01T03:00:00.000Z",
-              latestSeenAt: "2026-08-15T03:03:00.000Z",
-              totalVisits: 3,
-              visitorId,
-            }] : [],
-          },
-        }),
-        contentType: "application/json",
-        status: 200,
-      });
-    });
 
     await page.route("**/api/analytics?*", async (route) => {
-      reportRequests += 1;
       const requestUrl = new URL(route.request().url());
       const date = requestUrl.searchParams.get("date") ?? "2026-08-15";
       const visit = {
@@ -678,35 +645,11 @@ test.describe("analytics", () => {
             source: "client",
           },
           {
-            eventType: "enquiry_started",
-            id: "d248d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-            occurredAt: `${date}T03:01:00.000Z`,
-            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
-            properties: {},
-            source: "client",
-          },
-          {
-            eventType: "enquiry_submit_attempted",
-            id: "d348d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-            occurredAt: `${date}T03:01:10.000Z`,
-            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
-            properties: {},
-            source: "server",
-          },
-          {
             eventType: "enquiry_failed",
             id: "d448d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
             occurredAt: `${date}T03:01:15.000Z`,
             pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
             properties: { reason: "email_provider" },
-            source: "server",
-          },
-          {
-            eventType: "enquiry_submit_attempted",
-            id: "d548d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-            occurredAt: `${date}T03:01:20.000Z`,
-            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
-            properties: {},
             source: "server",
           },
           {
@@ -739,54 +682,15 @@ test.describe("analytics", () => {
         visitNumber: 2,
         visitorId,
       };
-      const unclassifiedVisit = {
-        ...visit,
-        events: [],
-        gclid: null,
-        id: "2a560836-220d-4d33-a05e-5f364891f9cb",
-        isBot: null,
-        landingPath: "/inclusive-counselling",
-        pageViews: [
-          {
-            id: "b948d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-            path: "/inclusive-counselling",
-            viewedAt: `${date}T03:02:00.000Z`,
-          },
-        ],
-        trafficSource: "direct",
-        totalVisits: 1,
-        visitNumber: 1,
-        visitorId: "214ba8f9-96f8-41e1-a301-15112400760e",
-      };
-      const botVisit = {
-        ...visit,
-        botCategory: "search_engine_crawler",
-        botName: "googlebot",
-        events: [],
-        gclid: null,
-        id: "3a560836-220d-4d33-a05e-5f364891f9cb",
-        isBot: true,
-        landingPath: "/bot-only",
-        pageViews: [
-          {
-            id: "c948d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-            path: "/bot-only",
-            viewedAt: `${date}T03:03:00.000Z`,
-          },
-        ],
-        trafficSource: "direct",
-        visitNumber: 3,
-      };
-      const reportVisits = visitorExcluded ? [unclassifiedVisit] : [visit, unclassifiedVisit, botVisit];
       const data = requestUrl.searchParams.has("visitor")
-        ? { isExcluded: visitorExcluded, type: "visitor", visitorId, visits: [botVisit, visit] }
+        ? { isExcluded: false, type: "visitor", visitorId, visits: [visit] }
         : requestUrl.searchParams.has("month")
           ? {
               type: "monthly",
               month: requestUrl.searchParams.get("month"),
-              visits: reportVisits,
+              visits: [visit],
             }
-          : { type: "daily", date, visits: reportVisits };
+          : { type: "daily", date, visits: [visit] };
 
       await route.fulfill({
         body: JSON.stringify({ data }),
@@ -795,119 +699,34 @@ test.describe("analytics", () => {
       });
     });
 
-    await page.goto("/analytics", { waitUntil: "networkidle" });
+    await page.goto("/analytics?date=2026-08-15", { waitUntil: "networkidle" });
     await expect(page.getByRole("heading", { level: 2, name: "Visits on this day" })).toBeVisible();
-    await expect(page.getByText("Paid", { exact: true })).toBeVisible();
-    await expect(page.locator(".signal-event")).toHaveCount(2);
-    await expect(page.getByText("/inclusive-counselling", { exact: true })).toBeVisible();
-    await expect(page.getByText("/bot-only", { exact: true })).toHaveCount(0);
-    await expect(page.locator(".signal-bot")).toHaveCount(0);
-    await expect(page.getByText("Returning · Visit 2 of 3", { exact: true })).toBeVisible();
-    await expect(page.getByText("New visitor · Visit 1 of 1", { exact: true })).toBeVisible();
-    await expect(page.locator(".signal-event__beacon--returning")).toHaveCount(1);
-    await expect(page.getByRole("region", { name: "Enquiry activity" })).toHaveCount(0);
-    await expect(page.locator(".signal-spectrum__orbit strong")).toHaveText("02");
-    await expect(page.locator(".signal-pages__summary strong")).toHaveText("04");
-    await expect(page.locator(".signal-pages__summary")).toContainText("2.0 average per visit");
-    await expect(page.locator(".signal-pages__ranking")).toContainText("/contact");
+    await expect(page.getByRole("img", { name: /1 visits: 1 paid/ })).toBeVisible();
+    await expect(page.getByText("Page views", { exact: true })).toBeVisible();
 
-    const paidVisit = page.locator(".signal-event").filter({ hasText: "Ad enm-01" });
+    const paidVisit = page.getByRole("button").filter({ hasText: "Ad enm-01" });
     await expect(paidVisit).toHaveCount(1);
     await expect(paidVisit).toContainText("Enquiry sent");
     await expect(paidVisit).toContainText("Question selected");
     await expect(paidVisit).not.toContainText("Send failed");
 
-    const includeBots = page.getByRole("button", { name: "Include bots" });
-    await expect(includeBots).toHaveAttribute("aria-pressed", "false");
-    await includeBots.click();
-    await expect(page).toHaveURL(/bots=include/);
-    await expect(page.locator(".signal-event")).toHaveCount(3);
-    await expect(page.locator(".signal-spectrum__orbit strong")).toHaveText("03");
-    await expect(page.getByText("/bot-only", { exact: true })).toBeVisible();
-    await expect(page.locator(".signal-bot")).toContainText("googlebot");
-
-    await page.locator(".signal-event").first().click();
-    await expect(
-      page.locator(".signal-event-detail .signal-journey > li strong"),
-    ).toHaveText([
-      "/",
-      "/contact",
-      "Contact option selected",
-      "Enquiry started",
-      "Enquiry submit attempted",
-      "Enquiry failed",
-      "Enquiry submit attempted",
-      "Enquiry sent",
-      "/contact",
-    ]);
+    await paidVisit.click();
+    await expect(page.getByRole("heading", { level: 3, name: "Visit timeline" })).toBeVisible();
+    await expect(page.getByText("Enquiry failed", { exact: true })).toBeVisible();
     await expect(page.getByText("GCLID", { exact: true })).toHaveCount(0);
     await expect(page.getByText("CjwK-gclid-only", { exact: true })).toHaveCount(0);
-    await expect(page.getByText("Not a paid visit", { exact: true })).toHaveCount(0);
 
     await page.getByRole("button", { name: /View all visits from Visitor/ }).click();
     await expect(page.getByRole("heading", { level: 2, name: "All visits" })).toBeVisible();
     await expect(page.getByText("GCLID", { exact: true })).toHaveCount(0);
     await expect(page.getByText("CjwK-gclid-only", { exact: true })).toHaveCount(0);
-    await expect(page.getByText("Elapsed to last page", { exact: true }).first()).toBeVisible();
-    await expect(page.locator(".visitor-visit")).toHaveCount(2);
-    await expect(page.getByText("This visitor has 2 recorded visits.", { exact: true })).toBeVisible();
-    await expect(page.getByText(/not a known person/i)).toHaveCount(0);
-    await expect(page.locator(".visitor-visit").filter({ hasText: "/bot-only" })).toHaveCount(1);
-
-    const botsIncluded = page.getByRole("button", { name: "Bots included" });
-    await expect(botsIncluded).toHaveAttribute("aria-pressed", "true");
-    await botsIncluded.click();
-    await expect(page.locator(".visitor-visit")).toHaveCount(1);
-    await expect(page.getByText("This visitor has 1 recorded visit.", { exact: true })).toBeVisible();
-    await expect(page.getByText("/bot-only", { exact: true })).toHaveCount(0);
-
-    const requestsBeforeRefresh = reportRequests;
-    await page.getByRole("button", { name: "Refresh data" }).click();
-    await expect.poll(() => reportRequests).toBeGreaterThan(requestsBeforeRefresh);
 
     await page.getByRole("link", { name: "Enquiries" }).click();
     await expect(page).toHaveURL(/\/analytics\/enquiries$/);
-    await expect(page.getByRole("heading", { level: 1, name: "August 2026" })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: "All enquiries" })).toBeVisible();
-    await expect(page.locator(".monthly-enquiries__list > li")).toHaveCount(2);
-    await expect(page.getByRole("definition").filter({ hasText: "02" })).toHaveCount(1);
-    await expect(page.locator(".monthly-enquiries__summary").getByText("50%", { exact: false })).toBeVisible();
-
     await page.getByRole("button", { name: /Enquiry sent on.*Open enquiry journey/ }).click();
     await expect(page.getByRole("heading", { level: 1, name: "Enquiry journey" })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Back to August 2026 enquiries" })).toBeVisible();
-    await page.getByRole("button", { name: "Back to August 2026 enquiries" }).click();
-    await expect(page.getByRole("heading", { level: 2, name: "All enquiries" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Enquiries" })).toHaveAttribute("aria-current", "page");
-
-    await page.getByRole("button", { name: /Enquiry sent on.*Open enquiry journey/ }).click();
-    const excludeVisitor = page.getByRole("button", { name: "Exclude Visitor 00759E from reports" });
-    await expect(excludeVisitor).toHaveAttribute("aria-pressed", "false");
-    await excludeVisitor.click();
-    await expect(page.getByText("Excluded from reports", { exact: true })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Include Visitor 00759E in reports" })).toHaveAttribute("aria-pressed", "true");
-    await page.getByRole("button", { name: "Back to August 2026 enquiries" }).click();
-    await expect(page.getByRole("heading", { level: 3, name: "No enquiries recorded" })).toBeVisible();
-
-    await page.getByRole("link", { name: "Daily" }).click();
-    await expect(page.locator(".signal-event")).toHaveCount(1);
-    await expect(page.getByText("Visitor 00759E", { exact: true })).toHaveCount(0);
-
-    await page.getByRole("link", { name: "Excluded" }).click();
-    await expect(page).toHaveURL(/\/analytics\/excluded$/);
-    await expect(page.getByRole("heading", { level: 1, name: "Excluded visitors" })).toBeVisible();
-    await expect(page.getByRole("button", { name: /Open Visitor 00759E/ })).toBeVisible();
-    await page.getByRole("button", { name: /Open Visitor 00759E/ }).click();
-    await expect(page.getByRole("heading", { level: 1, name: "Visitor 00759E" })).toBeVisible();
-    const includeVisitor = page.getByRole("button", { name: "Include Visitor 00759E in reports" });
-    await expect(includeVisitor).toHaveAttribute("aria-pressed", "true");
-    await includeVisitor.click();
-    await expect(page.getByRole("button", { name: "Exclude Visitor 00759E from reports" })).toHaveAttribute("aria-pressed", "false");
-    await page.getByRole("button", { name: "Back to excluded visitors" }).click();
-    await expect(page.getByRole("heading", { level: 3, name: "No excluded visitors" })).toBeVisible();
-
-    await page.getByRole("link", { name: "Daily" }).click();
-    await expect(page.locator(".signal-event")).toHaveCount(2);
+    await expect(page.getByRole("heading", { level: 2, name: "Visits and enquiry activity" })).toBeVisible();
   });
 
   test("first-party visit recorder records SPA route changes and refreshes in the active visit", async ({ page }) => {

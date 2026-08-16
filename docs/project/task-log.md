@@ -23,6 +23,7 @@ Curated milestone history for durable project state. This is not a full changelo
 - Reworked the private daily dashboard around visit-source composition, total and average page views, a four-route view ranking, and a compact returning-visits measure.
 - Moved enquiry outcomes and contact-choice cues onto their visit rows, with successful retries taking precedence while expanded timelines retain every event.
 - Exposed existing paid-ad codes on collapsed visit rows and removed stored GCLIDs from daily and visitor-history display without changing collection or reporting contracts.
+- Reduced private-dashboard browser coverage to its core report and drill-down path while leaving data contracts, exclusions, and reporting queries with the existing API and repository tests.
 
 ## 2026-08-16 - Analytics Journeys And Exclusions Released
 
