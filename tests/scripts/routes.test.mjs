@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import {
+  feesRoutePath,
+  getTrackedPagePath,
   isPrivateRoutePath,
   privateRoutePaths,
   publicRedirectRoutes,
@@ -24,6 +26,17 @@ test("public redirects use absolute source and destination paths", () => {
     assert.match(path, /^\//);
     assert.ok(Object.values(publicRoutePaths).includes(to));
   }
+});
+
+test("Fees link state records a virtual Fees page without changing the Contact route", () => {
+  assert.equal(feesRoutePath, "/fees");
+  assert.equal(
+    getTrackedPagePath("/contact", { trackedPagePath: feesRoutePath }),
+    feesRoutePath,
+  );
+  assert.equal(getTrackedPagePath("/contact", null), "/contact");
+  assert.equal(getTrackedPagePath("/contact", { trackedPagePath: "/other" }), "/contact");
+  assert.equal(getTrackedPagePath("/", { trackedPagePath: feesRoutePath }), "/");
 });
 
 test("private routes remain separate from public metadata routes", () => {

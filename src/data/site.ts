@@ -1,9 +1,10 @@
-import { devRoutePaths, publicRoutePaths } from "./routes";
+import { devRoutePaths, feesRoutePath, publicRoutePaths } from "./routes";
 
 export type NavItem = Readonly<{
   label: string;
   href: string;
   mobileOnly?: boolean;
+  trackedPagePath?: typeof feesRoutePath;
   children?: readonly NavItem[];
 }>;
 
@@ -33,6 +34,7 @@ export const navItems: readonly NavItem[] = [
   {
     label: "Fees",
     href: publicRoutePaths.contact,
+    trackedPagePath: feesRoutePath,
   },
   {
     label: "Contact",

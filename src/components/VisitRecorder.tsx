@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { isPrivateRoutePath } from "../data/routes";
+import { getTrackedPagePath, isPrivateRoutePath } from "../data/routes";
 import {
   isVisitAnalyticsHostAllowed,
   visitAnalyticsEnabled,
@@ -45,7 +45,8 @@ function recordPageView(path: string, force = false) {
 }
 
 export default function VisitRecorder() {
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
+  const trackedPagePath = getTrackedPagePath(pathname, state);
 
   useEffect(() => {
     if (!visitAnalyticsEnabled || !isVisitAnalyticsHostAllowed()) {
@@ -57,8 +58,8 @@ export default function VisitRecorder() {
       return;
     }
 
-    recordPageView(pathname);
-  }, [pathname]);
+    recordPageView(trackedPagePath);
+  }, [pathname, trackedPagePath]);
 
   useEffect(() => {
     if (!visitAnalyticsEnabled || !isVisitAnalyticsHostAllowed()) {
@@ -67,9 +68,12 @@ export default function VisitRecorder() {
 
     const handlePageShow = (event: PageTransitionEvent) => {
       const restoredPath = window.location.pathname;
+      const restoredState = window.history.state && typeof window.history.state === "object"
+        ? (window.history.state as { usr?: unknown }).usr
+        : undefined;
 
       if (event.persisted && !isPrivateRoutePath(restoredPath)) {
-        recordPageView(restoredPath, true);
+        recordPageView(getTrackedPagePath(restoredPath, restoredState), true);
       }
     };
 

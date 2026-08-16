@@ -11,11 +11,23 @@ export const publicRoutePaths = {
   workingWithJoel: "/working-with-joel",
 } as const satisfies Record<string, PublicRoutePath>;
 
+export const feesRoutePath = "/fees";
+
 export const publicRedirectRoutes = [
   { path: "/about", to: publicRoutePaths.workingWithJoel },
-  { path: "/fees", to: publicRoutePaths.contact },
+  { path: feesRoutePath, to: publicRoutePaths.contact },
   { path: "/inclusion", to: publicRoutePaths.inclusion },
 ] as const;
+
+export function getTrackedPagePath(pathname: string, state: unknown) {
+  if (pathname.toLowerCase() !== publicRoutePaths.contact || !state || typeof state !== "object") {
+    return pathname;
+  }
+
+  return (state as Record<string, unknown>).trackedPagePath === feesRoutePath
+    ? feesRoutePath
+    : pathname;
+}
 
 export const privateRoutePaths = {
   analytics: "/analytics",

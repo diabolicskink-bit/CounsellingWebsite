@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-16 - Fees Visit Attribution Added
+
+- Kept Fees-labelled navigation and footer links on the Contact route while recording those arrivals under the virtual `/fees` page path in first-party analytics and GA.
+- Left ordinary Contact, enquiry, and invitation links recorded as `/contact`, with the accepted virtual path constrained to the existing Fees alias.
+
 ## 2026-08-16 - Page-View Range Report Added
 
 - Added a complete protected route breakdown linked from the daily page-view widget, defaulting to the dashboard's selected day.
