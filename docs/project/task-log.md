@@ -23,7 +23,7 @@ Curated milestone history for durable project state. This is not a full changelo
 - Added cumulative active seconds to each first-party page view, counting only while the page is visible and updating at 30-second intervals plus page-hide and route-exit flushes.
 - Kept engagement writes bounded, identity-checked, and idempotent so later cumulative updates replace earlier measurements without creating heartbeat rows.
 - Added active time to daily visit rows, page timelines, visitor history, and the compact route breakdown with total and average active-time reporting.
-- Applied the sixth migration to Preview while leaving Production unchanged pending release.
+- Applied the sixth migration independently to Preview and Production as part of the staged release.
 
 ## 2026-08-16 - Fees Visit Attribution Added
 
