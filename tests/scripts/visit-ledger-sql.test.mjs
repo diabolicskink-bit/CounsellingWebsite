@@ -26,6 +26,10 @@ const exclusionMigration = await readFile(
   new URL("0005_create_analytics_visitor_exclusions.sql", migrationsUrl),
   "utf8",
 );
+const activeTimeMigration = await readFile(
+  new URL("0006_add_page_view_active_time.sql", migrationsUrl),
+  "utf8",
+);
 const queryFilenames = (await readdir(queriesUrl))
   .filter((filename) => filename.endsWith(".sql"))
   .sort();
@@ -45,6 +49,7 @@ test("visit ledger migrations retain their application order", async () => {
     "0003_add_visit_bot_classification.sql",
     "0004_create_visit_event_ledger.sql",
     "0005_create_analytics_visitor_exclusions.sql",
+    "0006_add_page_view_active_time.sql",
   ]);
 });
 
@@ -59,6 +64,7 @@ test("database migration reader returns the ordered ledger migrations", async ()
       "0003_add_visit_bot_classification.sql",
       "0004_create_visit_event_ledger.sql",
       "0005_create_analytics_visitor_exclusions.sql",
+      "0006_add_page_view_active_time.sql",
     ],
   );
   assert.ok(migrations.every((migration) => /^[a-f0-9]{64}$/.test(migration.checksum)));
@@ -141,6 +147,11 @@ test("visitor-exclusion migration creates a durable visitor-level filter", () =>
   assert.match(exclusionMigration, /CREATE TABLE analytics_excluded_visitors/i);
   assert.match(exclusionMigration, /visitor_id UUID PRIMARY KEY/i);
   assert.match(exclusionMigration, /excluded_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP/i);
+});
+
+test("page-view active-time migration stores bounded cumulative seconds", () => {
+  assert.match(activeTimeMigration, /ADD COLUMN active_seconds INTEGER NOT NULL DEFAULT 0/i);
+  assert.match(activeTimeMigration, /active_seconds BETWEEN 0 AND 43200/i);
 });
 
 test("saved visit ledger queries are read-only and cover each reporting task", async () => {

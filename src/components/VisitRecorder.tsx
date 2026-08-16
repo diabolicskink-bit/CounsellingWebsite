@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { isPrivateRoutePath } from "../data/routes";
+import { getTrackedPagePath, isPrivateRoutePath } from "../data/routes";
 import {
   isVisitAnalyticsHostAllowed,
   visitAnalyticsEnabled,
@@ -10,6 +10,7 @@ import {
   createRouteVisitObservation,
 } from "../utils/visitSession";
 import { enqueueVisitAnalyticsRecord } from "../utils/visitAnalyticsQueue";
+import { startPageEngagement, stopPageEngagement } from "../utils/pageEngagement";
 
 let hasRecordedPageView = false;
 let lastObservedPath: string | undefined;
@@ -39,13 +40,15 @@ function recordPageView(path: string, force = false) {
         method: "POST",
       });
     });
+    startPageEngagement(observation);
   } catch {
     // Visit analytics is best-effort and must never affect the visitor experience.
   }
 }
 
 export default function VisitRecorder() {
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
+  const trackedPagePath = getTrackedPagePath(pathname, state);
 
   useEffect(() => {
     if (!visitAnalyticsEnabled || !isVisitAnalyticsHostAllowed()) {
@@ -54,11 +57,12 @@ export default function VisitRecorder() {
 
     if (isPrivateRoutePath(pathname)) {
       lastObservedPath = pathname;
+      stopPageEngagement();
       return;
     }
 
-    recordPageView(pathname);
-  }, [pathname]);
+    recordPageView(trackedPagePath);
+  }, [pathname, trackedPagePath]);
 
   useEffect(() => {
     if (!visitAnalyticsEnabled || !isVisitAnalyticsHostAllowed()) {
@@ -67,9 +71,12 @@ export default function VisitRecorder() {
 
     const handlePageShow = (event: PageTransitionEvent) => {
       const restoredPath = window.location.pathname;
+      const restoredState = window.history.state && typeof window.history.state === "object"
+        ? (window.history.state as { usr?: unknown }).usr
+        : undefined;
 
       if (event.persisted && !isPrivateRoutePath(restoredPath)) {
-        recordPageView(restoredPath, true);
+        recordPageView(getTrackedPagePath(restoredPath, restoredState), true);
       }
     };
 

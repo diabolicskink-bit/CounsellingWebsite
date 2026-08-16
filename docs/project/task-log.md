@@ -18,6 +18,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-16 - Visible Page Time Added
+
+- Added cumulative active seconds to each first-party page view, counting only while the page is visible and updating at 30-second intervals plus page-hide and route-exit flushes.
+- Kept engagement writes bounded, identity-checked, and idempotent so later cumulative updates replace earlier measurements without creating heartbeat rows.
+- Added active time to daily visit rows, page timelines, visitor history, and the compact route breakdown with total and average active-time reporting.
+- Applied the sixth migration to Preview while leaving Production unchanged pending release.
+
+## 2026-08-16 - Fees Visit Attribution Added
+
+- Kept Fees-labelled navigation and footer links on the Contact route while recording those arrivals under the virtual `/fees` page path in first-party analytics and GA.
+- Left ordinary Contact, enquiry, and invitation links recorded as `/contact`, with the accepted virtual path constrained to the existing Fees alias.
+
 ## 2026-08-16 - Page-View Range Report Added
 
 - Added a complete protected route breakdown linked from the daily page-view widget, defaulting to the dashboard's selected day.

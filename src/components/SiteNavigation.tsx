@@ -55,6 +55,7 @@ function DesktopNavigationItem({
               )
         }
         onPointerUp={onLinkPointerUp}
+        state={item.trackedPagePath ? { trackedPagePath: item.trackedPagePath } : undefined}
         to={item.href}
       >
         {item.label}
@@ -102,6 +103,7 @@ function MobileNavigationItem({
           )
         }
         onClick={onNavigate}
+        state={item.trackedPagePath ? { trackedPagePath: item.trackedPagePath } : undefined}
         to={item.href}
       >
         {item.label}

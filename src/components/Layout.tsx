@@ -2,7 +2,7 @@ import { ArrowRight, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
-import { publicRoutePaths, usesSharedChromePath } from "../data/routes";
+import { feesRoutePath, publicRoutePaths, usesSharedChromePath } from "../data/routes";
 import { navItems, socialProfileLinks } from "../data/site";
 import Button from "./Button";
 import Container from "./Container";
@@ -131,7 +131,7 @@ export default function Layout() {
                   <Link to={inclusionHref}>Inclusive practice</Link>
                 </li>
                 <li>
-                  <Link to={contactHref}>Fees</Link>
+                  <Link state={{ trackedPagePath: feesRoutePath }} to={contactHref}>Fees</Link>
                 </li>
                 <li>
                   <Link to={crisisSupportHref}>Crisis support</Link>

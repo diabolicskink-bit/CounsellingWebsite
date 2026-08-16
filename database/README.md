@@ -29,7 +29,9 @@ browser code.
 Production and Preview use separate Vercel-managed Neon resources. Each
 resource and its generated connection variables are scoped only to its matching
 Vercel environment; Development receives neither database. Apply every
-migration to both databases before deploying code that depends on it.
+Migration `0006` adds bounded cumulative visible-time seconds to each page view.
+Apply migrations to the database for an environment before deploying code that
+depends on them there.
 Migration `0003` adds nullable BotID verdict and verified-bot identity fields,
 `0004` adds visit-linked analytics events, and `0005` adds the persistent visitor
 exclusion list used by private reports.

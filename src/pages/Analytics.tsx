@@ -52,6 +52,7 @@ type VisitJourneyItem =
       visitEvent: AnalyticsVisitEvent;
     }
   | {
+      activeSeconds: number;
       id: string;
       kind: "page";
       occurredAt: string;
@@ -105,10 +106,14 @@ function formatTime(timestamp: string) {
   return perthTimeFormatter.format(new Date(timestamp));
 }
 
-function formatDuration(seconds: number) {
-  if (seconds < 60) return "< 1 min";
-  const minutes = Math.max(1, Math.round(seconds / 60));
-  return `${minutes} min`;
+function formatActiveTime(seconds: number) {
+  const minutes = Math.floor(seconds / 60);
+  const remainder = seconds % 60;
+  return `${minutes}:${String(remainder).padStart(2, "0")}`;
+}
+
+function visitActiveSeconds(visit: AnalyticsVisit) {
+  return visit.pageViews.reduce((total, pageView) => total + pageView.activeSeconds, 0);
 }
 
 function visitorLabel(visitorId: string) {
@@ -245,6 +250,7 @@ function eventDetail(visitEvent: AnalyticsVisitEvent) {
 function visitJourney(visit: AnalyticsVisit): VisitJourneyItem[] {
   return [
     ...visit.pageViews.map((pageView) => ({
+      activeSeconds: pageView.activeSeconds,
       id: pageView.id,
       kind: "page" as const,
       occurredAt: pageView.viewedAt,
@@ -294,7 +300,10 @@ function JourneyTimeline({
             <li className="signal-journey__page" key={`page-${item.id}`}>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <time dateTime={item.occurredAt}>{formatTime(item.occurredAt)}</time>
-              <strong>{item.path}</strong>
+              <div>
+                <strong>{item.path}</strong>
+                <small>{item.activeSeconds ? `${formatActiveTime(item.activeSeconds)} active` : "Active time not recorded"}</small>
+              </div>
             </li>
           );
         }
@@ -347,6 +356,7 @@ function isAnalyticsReport(value: unknown): value is AnalyticsReport {
     return Array.isArray(report.routes)
       && typeof report.startDate === "string"
       && typeof report.endDate === "string"
+      && typeof report.totalActiveSeconds === "number"
       && typeof report.totalPageViews === "number"
       && typeof report.totalVisits === "number";
   }
@@ -928,6 +938,7 @@ function DailyObservatory({
                 .filter((visitEvent) => visitEvent.eventType === "contact_option_selected")
                 .sort((left, right) => new Date(right.occurredAt).getTime() - new Date(left.occurredAt).getTime())[0];
               const selectedContact = selectedContactEvent ? contactSelectionLabel(selectedContactEvent) : null;
+              const activeSeconds = visitActiveSeconds(visit);
               const cardClassName = [
                 "signal-visit-card",
                 isExpanded ? "signal-visit-card--expanded" : null,
@@ -1004,8 +1015,14 @@ function DailyObservatory({
                     </div>
 
                     <div className="signal-event__readout">
-                      <strong>{visit.pageViews.length}</strong>
-                      <span>{visit.pageViews.length === 1 ? "page" : "pages"} · {formatDuration(visit.durationSeconds)}</span>
+                      <span>
+                        <strong>{visit.pageViews.length}</strong>
+                        <small>{visit.pageViews.length === 1 ? "page" : "pages"}</small>
+                      </span>
+                      <span>
+                        <strong>{activeSeconds ? formatActiveTime(activeSeconds) : "–"}</strong>
+                        <small>active</small>
+                      </span>
                     </div>
                     <span className="signal-event__toggle">
                       {isExpanded ? "Hide" : "Details"}
@@ -1058,7 +1075,7 @@ function DailyObservatory({
       </section>
 
       <p className="signal-footnote">
-        Records page loads and the five enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Elapsed spans run from the first to the last recorded page load; they do not include time spent on the final page. Form contents are not included in this report.
+        Records page loads, visible active time and the five enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Form contents are not included in this report.
       </p>
     </>
   );
@@ -1151,7 +1168,7 @@ function PageViewsBreakdown({
         <div><span>Page views</span><strong>{report.totalPageViews}</strong></div>
         <div><span>Visits</span><strong>{report.totalVisits}</strong></div>
         <div><span>Avg per visit</span><strong>{averagePages}</strong></div>
-        <div><span>Viewed routes</span><strong>{report.routes.length}</strong></div>
+        <div><span>Active time</span><strong>{formatActiveTime(report.totalActiveSeconds)}</strong></div>
       </section>
 
       <section className="page-view-report__routes" aria-labelledby="page-view-routes-title">
@@ -1167,7 +1184,7 @@ function PageViewsBreakdown({
           <div className="page-view-report__table-wrap">
             <table className="page-view-report__table">
               <caption className="signal-visually-hidden">
-                Routes ranked by page views, including share of views and visits
+                Routes ranked by page views, including share of views, visits and average active time
               </caption>
               <thead>
                 <tr>
@@ -1176,6 +1193,7 @@ function PageViewsBreakdown({
                   <th scope="col">Share</th>
                   <th scope="col">Views</th>
                   <th scope="col">Visits</th>
+                  <th scope="col">Avg active</th>
                 </tr>
               </thead>
               <tbody>
@@ -1197,6 +1215,9 @@ function PageViewsBreakdown({
                       <td className="page-view-report__share">{share}%</td>
                       <td className="page-view-report__metric">{route.pageViews}</td>
                       <td className="page-view-report__metric">{route.visits}</td>
+                      <td className="page-view-report__metric">
+                        {route.activeSeconds ? formatActiveTime(Math.round(route.activeSeconds / route.pageViews)) : "—"}
+                      </td>
                     </tr>
                   );
                 })}
@@ -1213,7 +1234,7 @@ function PageViewsBreakdown({
       </section>
 
       <p className="signal-footnote">
-        Totals use visits that began in the selected Australia/Perth date range. {includeBots ? "Bot visits are included." : "Identified bot visits are excluded."}
+        Totals use visits that began in the selected Australia/Perth date range. Active time counts seconds while a page is visible. {includeBots ? "Bot visits are included." : "Identified bot visits are excluded."}
       </p>
     </>
   );
@@ -1366,6 +1387,7 @@ function VisitorHistory({
         <div className="visitor-history__list">
           {includedVisits.map((visit) => {
             const isFocused = visit.id === focusedVisit.id;
+            const activeSeconds = visitActiveSeconds(visit);
 
             return (
               <article className={isFocused ? "visitor-visit visitor-visit--focused" : "visitor-visit"} key={visit.id}>
@@ -1385,7 +1407,7 @@ function VisitorHistory({
                   <dl>
                     <div><dt>Landing page</dt><dd>{visit.landingPath}</dd></div>
                     <div><dt>Pages</dt><dd>{visit.pageViews.length}</dd></div>
-                    <div><dt>Elapsed to last page</dt><dd>{formatDuration(visit.durationSeconds)}</dd></div>
+                    <div><dt>Active time</dt><dd>{activeSeconds ? formatActiveTime(activeSeconds) : "Not recorded"}</dd></div>
                   </dl>
                 </header>
 
