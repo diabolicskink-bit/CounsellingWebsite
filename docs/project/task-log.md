@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-16 - Analytics Journeys And Exclusions Released
+
+- Released the calendar-month enquiry ledger, visit-linked enquiry journeys, and reversible visitor exclusions from the verified `staging` candidate to Production.
+- Applied migrations `0004_create_visit_event_ledger.sql` and `0005_create_analytics_visitor_exclusions.sql` to the separate Production database before deployment; Preview and Production are now independently current through migration `0005`.
+- Confirmed the live protected analytics page and API accept the configured Production login and return successful responses.
+
 ## 2026-08-16 - Reversible Visitor Exclusions Added
 
 - Added a persistent visitor-level exclusion list that omits all retained and future visits for selected IDs from daily and monthly reports without deleting their data.
