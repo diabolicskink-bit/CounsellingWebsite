@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-15 - Working With Joel Contact Paths Added
+
+- Added a direct Get in touch action to the Working with Joel hero, with page-scoped responsive, focus, pointer, and reduced-motion treatment.
+- Added the canonical Contact invitation as the page's closing section, making appointment, free consult, and general-enquiry options available after the issues index.
+- Extended public-route coverage and the supported-component records to include both new contact paths.
+
 ## 2026-08-15 - Production Visit Ledger Isolated
 
 - Retargeted every Vercel-managed Neon identifier, connection variable, and private-report Basic-auth credential to Production only; Development and Preview no longer receive a path capable of reading or writing the private visit ledger.
