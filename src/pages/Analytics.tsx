@@ -107,16 +107,9 @@ function formatTime(timestamp: string) {
 }
 
 function formatActiveTime(seconds: number) {
-  if (seconds < 60) return `${seconds} sec`;
-  if (seconds < 3600) {
-    const minutes = Math.floor(seconds / 60);
-    const remainder = seconds % 60;
-    return remainder ? `${minutes}m ${remainder}s` : `${minutes} min`;
-  }
-
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  return minutes ? `${hours}h ${minutes}m` : `${hours} hr`;
+  const minutes = Math.floor(seconds / 60);
+  const remainder = seconds % 60;
+  return `${minutes}:${String(remainder).padStart(2, "0")}`;
 }
 
 function visitActiveSeconds(visit: AnalyticsVisit) {
@@ -1027,8 +1020,8 @@ function DailyObservatory({
                         <small>{visit.pageViews.length === 1 ? "page" : "pages"}</small>
                       </span>
                       <span>
-                        <strong>{activeSeconds || "–"}</strong>
-                        <small>sec</small>
+                        <strong>{activeSeconds ? formatActiveTime(activeSeconds) : "–"}</strong>
+                        <small>active</small>
                       </span>
                     </div>
                     <span className="signal-event__toggle">
