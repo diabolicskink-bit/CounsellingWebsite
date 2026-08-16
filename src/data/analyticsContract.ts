@@ -36,6 +36,11 @@ export function isAnalyticsMonthKey(value: string | null): value is string {
   return month >= 1 && month <= 12;
 }
 
+export function isAnalyticsVisitorId(value: unknown): value is string {
+  return typeof value === "string"
+    && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+}
+
 export type AnalyticsPageView = {
   id: string;
   path: string;
@@ -89,12 +94,30 @@ export type MonthlyAnalyticsReport = {
 };
 
 export type VisitorAnalyticsReport = {
+  isExcluded: boolean;
   type: "visitor";
   visitorId: string;
   visits: AnalyticsVisit[];
 };
 
-export type AnalyticsReport = DailyAnalyticsReport | MonthlyAnalyticsReport | VisitorAnalyticsReport;
+export type ExcludedVisitorSummary = {
+  excludedAt: string;
+  firstSeenAt: string;
+  latestSeenAt: string;
+  totalVisits: number;
+  visitorId: string;
+};
+
+export type ExcludedVisitorsReport = {
+  type: "excluded";
+  visitors: ExcludedVisitorSummary[];
+};
+
+export type AnalyticsReport =
+  | DailyAnalyticsReport
+  | ExcludedVisitorsReport
+  | MonthlyAnalyticsReport
+  | VisitorAnalyticsReport;
 
 export type AnalyticsApiResponse = {
   data: AnalyticsReport;
@@ -102,4 +125,15 @@ export type AnalyticsApiResponse = {
 
 export type AnalyticsApiError = {
   error: string;
+};
+
+export type AnalyticsExclusionsApiResponse = {
+  data: ExcludedVisitorsReport;
+};
+
+export type AnalyticsExclusionUpdateResponse = {
+  data: {
+    isExcluded: boolean;
+    visitorId: string;
+  };
 };

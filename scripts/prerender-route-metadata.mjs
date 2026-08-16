@@ -9,7 +9,11 @@ const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
 const noindexDirective = "noindex, nofollow";
-const privateRoutePath = "/analytics";
+const privateRoutePaths = [
+  "/analytics",
+  "/analytics/enquiries",
+  "/analytics/excluded",
+];
 const routeMainClasses = {
   "/": "site-page home-page",
   "/working-with-joel": "site-page working-with-joel-page",
@@ -666,10 +670,12 @@ await Promise.all([
   writeFile(path.join(distDir, "404.html"), notFoundHtml),
   writeFile(path.join(distDir, "sitemap.xml"), sitemapXml),
   writeFile(path.join(distDir, "robots.txt"), robotsTxt),
-  ...getRouteOutputPaths(privateRoutePath).map(async (outputPath) => {
-    await mkdir(path.dirname(outputPath), { recursive: true });
-    await writeFile(outputPath, privateRouteHtml);
-  }),
+  ...privateRoutePaths.flatMap((privateRoutePath) => (
+    getRouteOutputPaths(privateRoutePath).map(async (outputPath) => {
+      await mkdir(path.dirname(outputPath), { recursive: true });
+      await writeFile(outputPath, privateRouteHtml);
+    })
+  )),
 ]);
 
 console.log(

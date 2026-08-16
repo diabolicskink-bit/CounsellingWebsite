@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-16 - Reversible Visitor Exclusions Added
+
+- Added a persistent visitor-level exclusion list that omits all retained and future visits for selected IDs from daily and monthly reports without deleting their data.
+- Added the protected Excluded visitors page and a visitor-history toggle for excluding or restoring IDs, with server-side filtering and environment-specific state in the existing Preview and Production databases.
+- Renamed dashboard-facing browser labels to visitors, removed the browser-versus-person note, and extended retention cleanup to remove exclusion markers after their final retained visit expires.
+
 ## 2026-08-16 - Monthly Enquiry Ledger Added
 
 - Added the protected `/analytics/enquiries` view with Australia/Perth calendar-month navigation, sent and failed totals, send rate, and a newest-first row for every recorded enquiry outcome.

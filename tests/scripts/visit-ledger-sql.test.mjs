@@ -22,6 +22,10 @@ const eventMigration = await readFile(
   new URL("0004_create_visit_event_ledger.sql", migrationsUrl),
   "utf8",
 );
+const exclusionMigration = await readFile(
+  new URL("0005_create_analytics_visitor_exclusions.sql", migrationsUrl),
+  "utf8",
+);
 const queryFilenames = (await readdir(queriesUrl))
   .filter((filename) => filename.endsWith(".sql"))
   .sort();
@@ -40,6 +44,7 @@ test("visit ledger migrations retain their application order", async () => {
     "0002_create_visit_ledger_view.sql",
     "0003_add_visit_bot_classification.sql",
     "0004_create_visit_event_ledger.sql",
+    "0005_create_analytics_visitor_exclusions.sql",
   ]);
 });
 
@@ -53,6 +58,7 @@ test("database migration reader returns the ordered ledger migrations", async ()
       "0002_create_visit_ledger_view.sql",
       "0003_add_visit_bot_classification.sql",
       "0004_create_visit_event_ledger.sql",
+      "0005_create_analytics_visitor_exclusions.sql",
     ],
   );
   assert.ok(migrations.every((migration) => /^[a-f0-9]{64}$/.test(migration.checksum)));
@@ -131,6 +137,12 @@ test("visit-event migration enforces controlled event and page ownership data", 
   assert.match(eventMigration, /enquiry_failed/i);
 });
 
+test("visitor-exclusion migration creates a durable visitor-level filter", () => {
+  assert.match(exclusionMigration, /CREATE TABLE analytics_excluded_visitors/i);
+  assert.match(exclusionMigration, /visitor_id UUID PRIMARY KEY/i);
+  assert.match(exclusionMigration, /excluded_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP/i);
+});
+
 test("saved visit ledger queries are read-only and cover each reporting task", async () => {
   assert.deepEqual(queryFilenames, [
     "01_latest_visits.sql",
@@ -163,6 +175,9 @@ test("saved visit ledger queries are read-only and cover each reporting task", a
   assert.match(queries.get("03_today_overview.sql"), /Australia\/Perth/i);
   assert.match(queries.get("04_traffic_last_30_days.sql"), /matched_keyword/i);
   assert.match(queries.get("04_traffic_last_30_days.sql"), /is_bot IS NOT TRUE/i);
+  for (const filename of queryFilenames.slice(0, 4)) {
+    assert.match(queries.get(filename), /analytics_excluded_visitors/i);
+  }
   assert.match(
     queries.get("05_visit_page_sequence.sql"),
     /ORDER BY page_views\.viewed_at, page_views\.id/i,

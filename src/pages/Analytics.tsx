@@ -10,6 +10,7 @@ import {
   CircleCheck,
   CircleX,
   Clock3,
+  EyeOff,
   LockKeyhole,
   Radio,
   RefreshCw,
@@ -22,11 +23,14 @@ import {
   isAnalyticsDateKey,
   isAnalyticsMonthKey,
   type AnalyticsApiResponse,
+  type AnalyticsExclusionUpdateResponse,
   type AnalyticsReport,
   type AnalyticsTrafficSource,
   type AnalyticsVisit,
   type AnalyticsVisitEvent,
   type DailyAnalyticsReport,
+  type ExcludedVisitorSummary,
+  type ExcludedVisitorsReport,
   type MonthlyAnalyticsReport,
   type VisitorAnalyticsReport,
 } from "../data/analyticsContract";
@@ -107,7 +111,7 @@ function formatDuration(seconds: number) {
 
 function visitorLabel(visitorId: string) {
   const suffix = visitorId.replace(/-/g, "").slice(-6).toUpperCase();
-  return `Browser ${suffix}`;
+  return `Visitor ${suffix}`;
 }
 
 function sourceLabel(source: AnalyticsTrafficSource) {
@@ -320,11 +324,16 @@ function isAnalyticsReport(value: unknown): value is AnalyticsReport {
   if (!value || typeof value !== "object") return false;
   const report = value as Partial<AnalyticsReport>;
 
+  if (report.type === "excluded") {
+    return Array.isArray(report.visitors);
+  }
+
   return (report.type === "daily" || report.type === "monthly" || report.type === "visitor")
-    && Array.isArray(report.visits);
+    && Array.isArray(report.visits)
+    && (report.type !== "visitor" || typeof report.isExcluded === "boolean");
 }
 
-function useAnalyticsReport(query: string) {
+function useAnalyticsReport(requestUrl: string) {
   const [requestVersion, setRequestVersion] = useState(0);
   const [state, setState] = useState<AnalyticsLoadState>({ report: null, status: "loading" });
 
@@ -334,7 +343,7 @@ function useAnalyticsReport(query: string) {
 
     async function loadReport() {
       try {
-        const response = await fetch(`/api/analytics?${query}`, {
+        const response = await fetch(requestUrl, {
           credentials: "same-origin",
           headers: { Accept: "application/json" },
           signal: controller.signal,
@@ -355,7 +364,7 @@ function useAnalyticsReport(query: string) {
 
     void loadReport();
     return () => controller.abort();
-  }, [query, requestVersion]);
+  }, [requestUrl, requestVersion]);
 
   return {
     ...state,
@@ -390,13 +399,15 @@ function SignalHeader({
   onHome,
   onIncludeBotsChange,
   onRefresh,
+  showBotControl,
   status,
 }: {
-  detailTitle: "Daily activity" | "Enquiry journey" | "Monthly enquiries" | "Visitor history";
+  detailTitle: "Daily activity" | "Enquiry journey" | "Excluded visitors" | "Monthly enquiries" | "Visitor history";
   includeBots: boolean;
   onHome: () => void;
   onIncludeBotsChange: (includeBots: boolean) => void;
   onRefresh: () => void;
+  showBotControl: boolean;
   status: AnalyticsLoadState["status"];
 }) {
   return (
@@ -413,6 +424,7 @@ function SignalHeader({
         <nav aria-label="Analytics views" className="signal-header__views">
           <NavLink end to={privateRoutePaths.analytics}>Daily</NavLink>
           <NavLink to={privateRoutePaths.analyticsEnquiries}>Enquiries</NavLink>
+          <NavLink to={privateRoutePaths.analyticsExcluded}>Excluded</NavLink>
         </nav>
         <div className="signal-header__system">
           <span><Clock3 aria-hidden="true" size={14} /> Perth time</span>
@@ -420,15 +432,17 @@ function SignalHeader({
             <LockKeyhole aria-hidden="true" size={14} />
             {import.meta.env.DEV ? "Auth bypassed locally" : "Protected"}
           </span>
-          <button
-            aria-pressed={includeBots}
-            className="signal-header__bots"
-            onClick={() => onIncludeBotsChange(!includeBots)}
-            type="button"
-          >
-            <Bot aria-hidden="true" size={14} />
-            {includeBots ? "Bots included" : "Include bots"}
-          </button>
+          {showBotControl ? (
+            <button
+              aria-pressed={includeBots}
+              className="signal-header__bots"
+              onClick={() => onIncludeBotsChange(!includeBots)}
+              type="button"
+            >
+              <Bot aria-hidden="true" size={14} />
+              {includeBots ? "Bots included" : "Include bots"}
+            </button>
+          ) : null}
           <button
             className="signal-header__refresh"
             disabled={status === "loading"}
@@ -548,7 +562,7 @@ function MonthlyEnquiries({
       - new Date(left.visitEvent.occurredAt).getTime()), [includeBots, monthKey, visits]);
   const sentCount = enquiryOutcomes.filter(({ visitEvent }) => visitEvent.eventType === "enquiry_sent").length;
   const failedCount = enquiryOutcomes.length - sentCount;
-  const browserCount = new Set(enquiryOutcomes.map(({ visit }) => visit.visitorId)).size;
+  const visitorCount = new Set(enquiryOutcomes.map(({ visit }) => visit.visitorId)).size;
   const successRate = enquiryOutcomes.length
     ? Math.round((sentCount / enquiryOutcomes.length) * 100)
     : 0;
@@ -571,7 +585,7 @@ function MonthlyEnquiries({
             <dt>Send rate</dt>
             <dd>
               {successRate}%
-              <small>{`${browserCount} ${browserCount === 1 ? "browser" : "browsers"}`}</small>
+              <small>{`${visitorCount} ${visitorCount === 1 ? "visitor" : "visitors"}`}</small>
             </dd>
           </div>
         </dl>
@@ -639,6 +653,86 @@ function MonthlyEnquiries({
       <p className="signal-footnote">
         Each sent or failed submission outcome appears as one row, so a failed submission followed by a retry appears twice. {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
       </p>
+    </>
+  );
+}
+
+function ExcludedVisitors({
+  onOpenVisitor,
+  visitors,
+}: {
+  onOpenVisitor: (visitorId: string) => void;
+  visitors: ExcludedVisitorSummary[];
+}) {
+  return (
+    <>
+      <section className="excluded-visitors__overview" aria-labelledby="excluded-visitors-title">
+        <div>
+          <p className="signal-kicker">Report filter</p>
+          <h1 id="excluded-visitors-title">Excluded visitors</h1>
+          <p>These visitors are retained but kept out of daily activity and monthly enquiry reports.</p>
+        </div>
+        <div className="excluded-visitors__count" aria-label={`${visitors.length} excluded ${visitors.length === 1 ? "visitor" : "visitors"}`}>
+          <EyeOff aria-hidden="true" size={20} />
+          <strong>{String(visitors.length).padStart(2, "0")}</strong>
+          <span>{visitors.length === 1 ? "visitor" : "visitors"}</span>
+        </div>
+      </section>
+
+      <section className="excluded-visitors__directory" aria-labelledby="excluded-visitors-list-title">
+        <header>
+          <div>
+            <p className="signal-kicker">Newest exclusion first</p>
+            <h2 id="excluded-visitors-list-title">Manage exclusions</h2>
+          </div>
+          <p>Open a visitor to review their retained history or include them in reports again.</p>
+        </header>
+
+        {visitors.length ? (
+          <ol className="excluded-visitors__list">
+            {visitors.map((visitor) => {
+              const excludedDate = getPerthDateKey(new Date(visitor.excludedAt));
+              const firstSeenDate = getPerthDateKey(new Date(visitor.firstSeenAt));
+              const latestSeenDate = getPerthDateKey(new Date(visitor.latestSeenAt));
+
+              return (
+                <li key={visitor.visitorId}>
+                  <button
+                    aria-label={`Open ${visitorLabel(visitor.visitorId)}, excluded ${formatDate(excludedDate, true)}`}
+                    onClick={() => onOpenVisitor(visitor.visitorId)}
+                    type="button"
+                  >
+                    <span className="excluded-visitors__mark"><EyeOff aria-hidden="true" size={18} /></span>
+                    <span className="excluded-visitors__identity">
+                      <strong>{visitorLabel(visitor.visitorId)}</strong>
+                      <small>Excluded {formatDate(excludedDate, true)} at {formatTime(visitor.excludedAt)}</small>
+                    </span>
+                    <span className="excluded-visitors__history excluded-visitors__history--first">
+                      <small>First seen</small>
+                      <strong>{formatDate(firstSeenDate, true)}</strong>
+                    </span>
+                    <span className="excluded-visitors__history excluded-visitors__history--latest">
+                      <small>Most recent</small>
+                      <strong>{formatDate(latestSeenDate, true)}</strong>
+                    </span>
+                    <span className="excluded-visitors__visits">
+                      <strong>{String(visitor.totalVisits).padStart(2, "0")}</strong>
+                      <small>{visitor.totalVisits === 1 ? "visit" : "visits"}</small>
+                    </span>
+                    <ChevronRight aria-hidden="true" size={18} />
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+        ) : (
+          <div className="signal-stream__empty excluded-visitors__empty">
+            <CircleCheck aria-hidden="true" size={30} />
+            <h3>No excluded visitors</h3>
+            <p>Visitors excluded from their history page will appear here.</p>
+          </div>
+        )}
+      </section>
     </>
   );
 }
@@ -931,6 +1025,8 @@ function VisitorHistory({
   onBack: () => void;
   report: VisitorAnalyticsReport;
 }) {
+  const [isExcluded, setIsExcluded] = useState(report.isExcluded);
+  const [exclusionStatus, setExclusionStatus] = useState<"error" | "idle" | "saving">("idle");
   const includedVisits = useMemo(
     () => includeBots ? report.visits : report.visits.filter((visit) => visit.isBot !== true),
     [includeBots, report.visits],
@@ -944,12 +1040,52 @@ function VisitorHistory({
     ?? includedVisits[0]
     ?? null;
 
+  useEffect(() => {
+    setIsExcluded(report.isExcluded);
+    setExclusionStatus("idle");
+  }, [report.isExcluded, report.visitorId]);
+
+  async function updateExclusion() {
+    const nextIsExcluded = !isExcluded;
+    setExclusionStatus("saving");
+
+    try {
+      const response = await fetch("/api/analytics/exclusions", {
+        body: JSON.stringify({ excluded: nextIsExcluded, visitorId: report.visitorId }),
+        credentials: "same-origin",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "PUT",
+      });
+      const body = await response.json() as Partial<AnalyticsExclusionUpdateResponse>;
+
+      if (
+        !response.ok
+        || body.data?.visitorId !== report.visitorId
+        || body.data.isExcluded !== nextIsExcluded
+      ) {
+        throw new Error("Analytics exclusion update failed.");
+      }
+
+      setIsExcluded(nextIsExcluded);
+      setExclusionStatus("idle");
+    } catch (error) {
+      console.error(
+        "Analytics exclusion update failed:",
+        error instanceof Error ? error.name : "UnknownError",
+      );
+      setExclusionStatus("error");
+    }
+  }
+
   if (!focusedVisit) {
     return (
       <section className="signal-missing">
         <Radio aria-hidden="true" size={34} />
         <p className="signal-kicker">Visitor not found</p>
-        <h1>This browser has no retained visits</h1>
+        <h1>This visitor has no retained visits</h1>
         <button onClick={onBack} type="button"><ArrowLeft aria-hidden="true" size={17} /> Back to visits</button>
       </section>
     );
@@ -970,19 +1106,36 @@ function VisitorHistory({
 
       <section className="visitor-summary" aria-labelledby="visitor-history-title">
         <div className="visitor-summary__identity">
-          <span aria-hidden="true">{label.replace("Browser ", "")}</span>
+          <span aria-hidden="true">{label.replace("Visitor ", "")}</span>
           <div>
             <p className="signal-kicker">
               {isEnquiryJourney && selectedEvent
                 ? `${eventLabel(selectedEvent)} · ${label}`
-                : "Anonymous browser"}
+                : "Visitor history"}
             </p>
             <h1 id="visitor-history-title">{isEnquiryJourney ? "Enquiry journey" : label}</h1>
             <p>
               {isEnquiryJourney && selectedEvent
                 ? `The selected ${eventLabel(selectedEvent).toLowerCase()} is highlighted within ${includedVisits.length} retained ${includedVisits.length === 1 ? "visit" : "visits"}.`
-                : `This browser has ${includedVisits.length} recorded ${includedVisits.length === 1 ? "visit" : "visits"}.`}
+                : `This visitor has ${includedVisits.length} recorded ${includedVisits.length === 1 ? "visit" : "visits"}.`}
             </p>
+            <div className="visitor-summary__exclusion">
+              <button
+                aria-label={isExcluded ? `Include ${label} in reports` : `Exclude ${label} from reports`}
+                aria-pressed={isExcluded}
+                disabled={exclusionStatus === "saving"}
+                onClick={() => void updateExclusion()}
+                type="button"
+              >
+                <span aria-hidden="true"><i /></span>
+                <EyeOff aria-hidden="true" size={15} />
+                <strong>{isExcluded ? "Excluded from reports" : "Exclude from reports"}</strong>
+                {exclusionStatus === "saving" ? <small>Saving</small> : null}
+              </button>
+              {exclusionStatus === "error" ? (
+                <p role="alert">Could not update this visitor. Try again.</p>
+              ) : null}
+            </div>
           </div>
         </div>
         <dl>
@@ -1054,10 +1207,6 @@ function VisitorHistory({
             );
           })}
         </div>
-
-        <p className="visitor-history__note">
-          This is one anonymous browser identifier, not a known person. Another device or cleared browser storage starts a separate history.
-        </p>
       </section>
     </>
   );
@@ -1084,6 +1233,7 @@ export default function Analytics() {
   const [todayKey, setTodayKey] = useState(getPerthDateKey);
   const currentMonth = todayKey.slice(0, 7);
   const isMonthlyView = pathname === privateRoutePaths.analyticsEnquiries;
+  const isExcludedView = pathname === privateRoutePaths.analyticsExcluded;
   const requestedDate = searchParams.get("date");
   const dateKey = isAnalyticsDateKey(requestedDate) && requestedDate <= todayKey ? requestedDate : todayKey;
   const requestedMonth = searchParams.get("month");
@@ -1095,16 +1245,22 @@ export default function Analytics() {
   const requestedVisitorId = searchParams.get("visitor");
   const focusedVisitId = searchParams.get("visit");
   const focusedEventId = searchParams.get("event");
-  const requestQuery = requestedVisitorId
-    ? `visitor=${encodeURIComponent(requestedVisitorId)}`
+  const requestUrl = requestedVisitorId
+    ? `/api/analytics?visitor=${encodeURIComponent(requestedVisitorId)}`
+    : isExcludedView
+      ? "/api/analytics/exclusions"
     : isMonthlyView
-      ? `month=${encodeURIComponent(monthKey)}`
-      : `date=${encodeURIComponent(dateKey)}`;
-  const { report, retry, status } = useAnalyticsReport(requestQuery);
+      ? `/api/analytics?month=${encodeURIComponent(monthKey)}`
+      : `/api/analytics?date=${encodeURIComponent(dateKey)}`;
+  const { report, retry, status } = useAnalyticsReport(requestUrl);
 
   useDocumentMetadata(
-    isMonthlyView ? "Enquiries | Vive Analytics" : "Analytics | Vive Counselling",
-    isMonthlyView
+    isExcludedView
+      ? "Excluded Visitors | Vive Analytics"
+      : isMonthlyView ? "Enquiries | Vive Analytics" : "Analytics | Vive Counselling",
+    isExcludedView
+      ? "Private excluded visitor management for Vive Counselling analytics."
+      : isMonthlyView
       ? "Private monthly enquiry analytics for Vive Counselling."
       : "Private first-party visit analytics for Vive Counselling.",
   );
@@ -1144,6 +1300,10 @@ export default function Analytics() {
   function getReportContextParams() {
     const nextParams = new URLSearchParams();
     if (includeBots) nextParams.set("bots", "include");
+    if (isExcludedView) {
+      return nextParams;
+    }
+
     if (isMonthlyView) {
       if (monthKey !== currentMonth) nextParams.set("month", monthKey);
     } else if (dateKey !== todayKey) {
@@ -1175,11 +1335,18 @@ export default function Analytics() {
     setSearchParams(nextParams);
   }
 
+  function openExcludedVisitor(visitorId: string) {
+    const nextParams = new URLSearchParams();
+    nextParams.set("visitor", visitorId);
+    setSearchParams(nextParams);
+  }
+
   function closeVisitor() {
     setSearchParams(getReportContextParams());
   }
 
   const dailyReport = report?.type === "daily" ? report as DailyAnalyticsReport : null;
+  const excludedReport = report?.type === "excluded" ? report as ExcludedVisitorsReport : null;
   const monthlyReport = report?.type === "monthly" ? report as MonthlyAnalyticsReport : null;
   const visitorReport = report?.type === "visitor" ? report as VisitorAnalyticsReport : null;
 
@@ -1188,28 +1355,33 @@ export default function Analytics() {
       <SignalHeader
         detailTitle={requestedVisitorId
           ? (focusedEventId ? "Enquiry journey" : "Visitor history")
-          : isMonthlyView ? "Monthly enquiries" : "Daily activity"}
+          : isExcludedView
+            ? "Excluded visitors"
+            : isMonthlyView ? "Monthly enquiries" : "Daily activity"}
         includeBots={includeBots}
         onHome={closeVisitor}
         onIncludeBotsChange={updateIncludeBots}
         onRefresh={refreshReport}
+        showBotControl={!isExcludedView}
         status={status}
       />
       <div className="visit-signal__field">
         {status !== "ready" ? <ReportState onRetry={refreshReport} status={status} /> : null}
         {status === "ready" && requestedVisitorId && visitorReport ? (
           <VisitorHistory
-            backLabel={isMonthlyView
-              ? `${formatMonth(monthKey)} enquiries`
-              : dateKey === todayKey ? "today" : formatDate(dateKey, true)}
+            backLabel={isExcludedView
+              ? "excluded visitors"
+              : isMonthlyView
+                ? `${formatMonth(monthKey)} enquiries`
+                : dateKey === todayKey ? "today" : formatDate(dateKey, true)}
             focusedEventId={focusedEventId}
             focusedVisitId={focusedVisitId}
-            includeBots={includeBots}
+            includeBots={isExcludedView || includeBots}
             onBack={closeVisitor}
             report={visitorReport}
           />
         ) : null}
-        {status === "ready" && !requestedVisitorId && !isMonthlyView && dailyReport ? (
+        {status === "ready" && !requestedVisitorId && !isMonthlyView && !isExcludedView && dailyReport ? (
           <DailyObservatory
             dateKey={dailyReport.date}
             expandedVisitId={expandedVisitId}
@@ -1232,10 +1404,17 @@ export default function Analytics() {
             visits={monthlyReport.visits}
           />
         ) : null}
+        {status === "ready" && !requestedVisitorId && isExcludedView && excludedReport ? (
+          <ExcludedVisitors
+            onOpenVisitor={openExcludedVisitor}
+            visitors={excludedReport.visitors}
+          />
+        ) : null}
         {status === "ready" && (
           (requestedVisitorId && !visitorReport)
+          || (!requestedVisitorId && isExcludedView && !excludedReport)
           || (!requestedVisitorId && isMonthlyView && !monthlyReport)
-          || (!requestedVisitorId && !isMonthlyView && !dailyReport)
+          || (!requestedVisitorId && !isMonthlyView && !isExcludedView && !dailyReport)
         ) ? (
           <ReportState onRetry={refreshReport} status="error" />
         ) : null}

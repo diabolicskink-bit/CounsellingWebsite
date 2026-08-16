@@ -5,41 +5,42 @@ import {
   deleteExpiredVisitDataSql,
 } from "../../src/server/visits/retention.ts";
 
-test("deletes visits outside the 12-month window and counts cascaded page views", async () => {
+test("deletes expired visits, cascaded page views, and orphaned exclusions", async () => {
   const calls = [];
   const database = {
     async query(query, parameters) {
       calls.push({ parameters, query });
-      return [{ pageViewsDeleted: 9, visitsDeleted: 3 }];
+      return [{ exclusionsDeleted: 1, pageViewsDeleted: 9, visitsDeleted: 3 }];
     },
   };
 
   const result = await deleteExpiredVisitData(database);
 
-  assert.deepEqual(result, { pageViewsDeleted: 9, visitsDeleted: 3 });
+  assert.deepEqual(result, { exclusionsDeleted: 1, pageViewsDeleted: 9, visitsDeleted: 3 });
   assert.deepEqual(calls, [{ parameters: [], query: deleteExpiredVisitDataSql }]);
   assert.match(deleteExpiredVisitDataSql, /INTERVAL '12 months'/i);
   assert.match(deleteExpiredVisitDataSql, /DELETE FROM site_visits/i);
   assert.match(deleteExpiredVisitDataSql, /site_page_views/i);
+  assert.match(deleteExpiredVisitDataSql, /DELETE FROM analytics_excluded_visitors/i);
 });
 
 test("normalizes integer deletion counts returned as strings", async () => {
   const database = {
     async query() {
-      return [{ pageViewsDeleted: "4", visitsDeleted: "2" }];
+      return [{ exclusionsDeleted: "1", pageViewsDeleted: "4", visitsDeleted: "2" }];
     },
   };
 
   assert.deepEqual(
     await deleteExpiredVisitData(database),
-    { pageViewsDeleted: 4, visitsDeleted: 2 },
+    { exclusionsDeleted: 1, pageViewsDeleted: 4, visitsDeleted: 2 },
   );
 });
 
 test("rejects malformed cleanup results", async () => {
   const database = {
     async query() {
-      return [{ pageViewsDeleted: -1, visitsDeleted: 1 }];
+      return [{ exclusionsDeleted: 0, pageViewsDeleted: -1, visitsDeleted: 1 }];
     },
   };
 

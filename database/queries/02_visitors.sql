@@ -11,6 +11,11 @@ SELECT
   SUM(ledger.page_view_count)::INTEGER AS total_page_view_count,
   ARRAY_AGG(ledger.visit_id ORDER BY ledger.started_at DESC, ledger.visit_id DESC) AS visit_ids
 FROM visit_ledger AS ledger
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM analytics_excluded_visitors AS exclusions
+  WHERE exclusions.visitor_id = ledger.visitor_id
+)
 GROUP BY ledger.visitor_id
 ORDER BY MAX(ledger.started_at) DESC, ledger.visitor_id DESC
 LIMIT 200;

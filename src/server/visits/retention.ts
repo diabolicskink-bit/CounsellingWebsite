@@ -4,11 +4,13 @@ import {
 } from "./repository.ts";
 
 export type VisitRetentionCleanupResult = {
+  exclusionsDeleted: number;
   pageViewsDeleted: number;
   visitsDeleted: number;
 };
 
 type VisitRetentionCleanupRow = {
+  exclusionsDeleted: number | string;
   pageViewsDeleted: number | string;
   visitsDeleted: number | string;
 };
@@ -33,8 +35,19 @@ deleted_visits AS (
   USING expired_visits
   WHERE visits.id = expired_visits.id
   RETURNING visits.id
+),
+deleted_exclusions AS (
+  DELETE FROM analytics_excluded_visitors AS exclusions
+  WHERE NOT EXISTS (
+    SELECT 1
+    FROM site_visits AS visits
+    WHERE visits.visitor_id = exclusions.visitor_id
+      AND visits.id NOT IN (SELECT id FROM expired_visits)
+  )
+  RETURNING exclusions.visitor_id
 )
 SELECT
+  (SELECT COUNT(*)::INTEGER FROM deleted_exclusions) AS "exclusionsDeleted",
   (SELECT COUNT(*)::INTEGER FROM deleted_visits) AS "visitsDeleted",
   (SELECT page_views_deleted FROM expired_page_views) AS "pageViewsDeleted";
 `;
@@ -56,6 +69,7 @@ export async function deleteExpiredVisitData(
   const [result] = rows;
 
   return {
+    exclusionsDeleted: getDeletedCount(result?.exclusionsDeleted),
     pageViewsDeleted: getDeletedCount(result?.pageViewsDeleted),
     visitsDeleted: getDeletedCount(result?.visitsDeleted),
   };

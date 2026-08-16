@@ -6,6 +6,11 @@ WITH recent_visits AS (
     ((CURRENT_TIMESTAMP AT TIME ZONE 'Australia/Perth')::DATE - 29)::TIMESTAMP
       AT TIME ZONE 'Australia/Perth'
   )
+  AND NOT EXISTS (
+    SELECT 1
+    FROM analytics_excluded_visitors AS exclusions
+    WHERE exclusions.visitor_id = ledger.visitor_id
+  )
 )
 SELECT
   (recent_visits.started_at AT TIME ZONE 'Australia/Perth')::DATE AS visit_date_awst,

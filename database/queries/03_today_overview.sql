@@ -6,6 +6,11 @@ WITH today AS (
     (CURRENT_TIMESTAMP AT TIME ZONE 'Australia/Perth')::DATE::TIMESTAMP
       AT TIME ZONE 'Australia/Perth'
   )
+  AND NOT EXISTS (
+    SELECT 1
+    FROM analytics_excluded_visitors AS exclusions
+    WHERE exclusions.visitor_id = ledger.visitor_id
+  )
 )
 SELECT
   COUNT(*)::INTEGER AS visit_count,

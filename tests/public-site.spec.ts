@@ -626,6 +626,37 @@ test.describe("analytics", () => {
     const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
     const visitId = "1a560836-220d-4d33-a05e-5f364891f9cb";
     let reportRequests = 0;
+    let visitorExcluded = false;
+
+    await page.route("**/api/analytics/exclusions", async (route) => {
+      if (route.request().method() === "PUT") {
+        const update = route.request().postDataJSON() as { excluded: boolean; visitorId: string };
+        visitorExcluded = update.excluded;
+        await route.fulfill({
+          body: JSON.stringify({ data: { isExcluded: visitorExcluded, visitorId: update.visitorId } }),
+          contentType: "application/json",
+          status: 200,
+        });
+        return;
+      }
+
+      await route.fulfill({
+        body: JSON.stringify({
+          data: {
+            type: "excluded",
+            visitors: visitorExcluded ? [{
+              excludedAt: "2026-08-16T03:10:00.000Z",
+              firstSeenAt: "2026-08-01T03:00:00.000Z",
+              latestSeenAt: "2026-08-15T03:03:00.000Z",
+              totalVisits: 3,
+              visitorId,
+            }] : [],
+          },
+        }),
+        contentType: "application/json",
+        status: 200,
+      });
+    });
 
     await page.route("**/api/analytics?*", async (route) => {
       reportRequests += 1;
@@ -746,15 +777,16 @@ test.describe("analytics", () => {
         trafficSource: "direct",
         visitNumber: 3,
       };
+      const reportVisits = visitorExcluded ? [unclassifiedVisit] : [visit, unclassifiedVisit, botVisit];
       const data = requestUrl.searchParams.has("visitor")
-        ? { type: "visitor", visitorId, visits: [botVisit, visit] }
+        ? { isExcluded: visitorExcluded, type: "visitor", visitorId, visits: [botVisit, visit] }
         : requestUrl.searchParams.has("month")
           ? {
               type: "monthly",
               month: requestUrl.searchParams.get("month"),
-              visits: [visit, unclassifiedVisit, botVisit],
+              visits: reportVisits,
             }
-          : { type: "daily", date, visits: [visit, unclassifiedVisit, botVisit] };
+          : { type: "daily", date, visits: reportVisits };
 
       await route.fulfill({
         body: JSON.stringify({ data }),
@@ -823,18 +855,19 @@ test.describe("analytics", () => {
     await expect(page.getByText("CjwK-gclid-only", { exact: true })).toBeVisible();
     await expect(page.getByText("Not a paid visit", { exact: true })).toHaveCount(0);
 
-    await page.getByRole("button", { name: /View all visits from Browser/ }).click();
+    await page.getByRole("button", { name: /View all visits from Visitor/ }).click();
     await expect(page.getByRole("heading", { level: 2, name: "All visits" })).toBeVisible();
     await expect(page.getByText("Elapsed to last page", { exact: true }).first()).toBeVisible();
     await expect(page.locator(".visitor-visit")).toHaveCount(2);
-    await expect(page.getByText("This browser has 2 recorded visits.", { exact: true })).toBeVisible();
+    await expect(page.getByText("This visitor has 2 recorded visits.", { exact: true })).toBeVisible();
+    await expect(page.getByText(/not a known person/i)).toHaveCount(0);
     await expect(page.locator(".visitor-visit").filter({ hasText: "/bot-only" })).toHaveCount(1);
 
     const botsIncluded = page.getByRole("button", { name: "Bots included" });
     await expect(botsIncluded).toHaveAttribute("aria-pressed", "true");
     await botsIncluded.click();
     await expect(page.locator(".visitor-visit")).toHaveCount(1);
-    await expect(page.getByText("This browser has 1 recorded visit.", { exact: true })).toBeVisible();
+    await expect(page.getByText("This visitor has 1 recorded visit.", { exact: true })).toBeVisible();
     await expect(page.getByText("/bot-only", { exact: true })).toHaveCount(0);
 
     const requestsBeforeRefresh = reportRequests;
@@ -855,6 +888,35 @@ test.describe("analytics", () => {
     await page.getByRole("button", { name: "Back to August 2026 enquiries" }).click();
     await expect(page.getByRole("heading", { level: 2, name: "All enquiries" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Enquiries" })).toHaveAttribute("aria-current", "page");
+
+    await page.getByRole("button", { name: /Enquiry sent on.*Open enquiry journey/ }).click();
+    const excludeVisitor = page.getByRole("button", { name: "Exclude Visitor 00759E from reports" });
+    await expect(excludeVisitor).toHaveAttribute("aria-pressed", "false");
+    await excludeVisitor.click();
+    await expect(page.getByText("Excluded from reports", { exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Include Visitor 00759E in reports" })).toHaveAttribute("aria-pressed", "true");
+    await page.getByRole("button", { name: "Back to August 2026 enquiries" }).click();
+    await expect(page.getByRole("heading", { level: 3, name: "No enquiries recorded" })).toBeVisible();
+
+    await page.getByRole("link", { name: "Daily" }).click();
+    await expect(page.locator(".signal-event")).toHaveCount(1);
+    await expect(page.getByText("Visitor 00759E", { exact: true })).toHaveCount(0);
+
+    await page.getByRole("link", { name: "Excluded" }).click();
+    await expect(page).toHaveURL(/\/analytics\/excluded$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Excluded visitors" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Open Visitor 00759E/ })).toBeVisible();
+    await page.getByRole("button", { name: /Open Visitor 00759E/ }).click();
+    await expect(page.getByRole("heading", { level: 1, name: "Visitor 00759E" })).toBeVisible();
+    const includeVisitor = page.getByRole("button", { name: "Include Visitor 00759E in reports" });
+    await expect(includeVisitor).toHaveAttribute("aria-pressed", "true");
+    await includeVisitor.click();
+    await expect(page.getByRole("button", { name: "Exclude Visitor 00759E from reports" })).toHaveAttribute("aria-pressed", "false");
+    await page.getByRole("button", { name: "Back to excluded visitors" }).click();
+    await expect(page.getByRole("heading", { level: 3, name: "No excluded visitors" })).toBeVisible();
+
+    await page.getByRole("link", { name: "Daily" }).click();
+    await expect(page.locator(".signal-event")).toHaveCount(2);
   });
 
   test("first-party visit recorder records SPA route changes and refreshes in the active visit", async ({ page }) => {

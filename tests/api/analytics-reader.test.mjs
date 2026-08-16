@@ -43,6 +43,7 @@ function createVisitRow(overrides = {}) {
     gclid: "CjwK-test",
     id: "1a560836-220d-4d33-a05e-5f364891f9cb",
     isBot: true,
+    isExcluded: false,
     landingPath: "/polyamory-enm-counselling",
     lastSeenAt: "2026-08-15T03:05:00.000Z",
     matchType: "p",
@@ -138,7 +139,7 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
 test("reads complete retained history for one anonymous browser", async () => {
   const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
   const { calls, database } = createDatabase([
-    createVisitRow(),
+    createVisitRow({ isExcluded: true }),
     createVisitRow({
       adCode: null,
       gclid: null,
@@ -150,6 +151,7 @@ test("reads complete retained history for one anonymous browser", async () => {
       pageViews: "[]",
       trafficSource: "direct",
       visitNumber: 1,
+      isExcluded: true,
     }),
   ]);
 
@@ -158,11 +160,13 @@ test("reads complete retained history for one anonymous browser", async () => {
   assert.equal(calls[0].query, visitorAnalyticsSql);
   assert.deepEqual(calls[0].parameters, [visitorId]);
   assert.deepEqual(result, {
+    isExcluded: true,
     type: "visitor",
     visitorId,
     visits: result.visits,
   });
   assert.equal(result.visits.length, 2);
+  assert.match(calls[0].query, /analytics_excluded_visitors/);
   assert.deepEqual(result.visits[1].events, []);
   assert.deepEqual(result.visits[1].pageViews, []);
 });
@@ -185,6 +189,7 @@ test("reads visits with enquiry outcomes in one Perth calendar month", async () 
   assert.match(calls[0].query, /enquiry_failed/);
   assert.match(calls[0].query, /INTERVAL '1 month'/);
   assert.match(calls[0].query, /Australia\/Perth/);
+  assert.match(calls[0].query, /analytics_excluded_visitors/);
 });
 
 test("normalizes serialized event collections and rejects unsafe event shapes", async () => {

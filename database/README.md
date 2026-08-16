@@ -30,15 +30,18 @@ Production and Preview use separate Vercel-managed Neon resources. Each
 resource and its generated connection variables are scoped only to its matching
 Vercel environment; Development receives neither database. Apply every
 migration to both databases before deploying code that depends on it.
-Migration `0003` adds nullable BotID verdict and verified-bot identity fields.
+Migration `0003` adds nullable BotID verdict and verified-bot identity fields,
+`0004` adds visit-linked analytics events, and `0005` adds the persistent visitor
+exclusion list used by private reports.
 
 `visit_ledger` is the read-only reporting view created by migration `0002` and
 extended by migration `0003`. It marks the earliest retained visit for an
 anonymous browser ID as `new`, marks later retained visits as `returning`,
 classifies traffic, adds page-view totals, and exposes the nullable BotID
-verdict and verified name/category. The private `/analytics` interface reads it
-only through the Basic Authentication-protected, read-only `GET /api/analytics`
-function.
+verdict and verified name/category. The private analytics interfaces read it
+through the Basic Authentication-protected `GET /api/analytics` function. The
+separately protected `GET|PUT /api/analytics/exclusions` function lists and
+updates visitor exclusions; it does not delete visit history.
 
 Repository-owned Neon saved-query templates live in `database/queries/`. The
 queries apply explicit ordering and Australia/Perth reporting dates; a view does
@@ -50,5 +53,7 @@ the protected `GET /api/visit-retention` function daily at 18:15 UTC (02:15 in
 Australia/Perth) and supplies the server-only `CRON_SECRET` authorization. The
 cleanup deletes visits whose start time is older than Postgres `INTERVAL '12
 months'`; the foreign key removes their page views through `ON DELETE CASCADE`.
+The same cleanup removes exclusion markers after their final retained visit has
+expired.
 Vercel Cron schedules run only on production deployments; the protected
 retention function was also exercised directly during preview setup.

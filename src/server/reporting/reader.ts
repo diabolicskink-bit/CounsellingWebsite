@@ -54,6 +54,11 @@ const analyticsVisitColumns = `
   ledger.is_bot AS "isBot",
   ledger.bot_name AS "botName",
   ledger.bot_category AS "botCategory",
+  EXISTS (
+    SELECT 1
+    FROM analytics_excluded_visitors AS exclusions
+    WHERE exclusions.visitor_id = ledger.visitor_id
+  ) AS "isExcluded",
   COALESCE(
     (
       SELECT JSON_AGG(
@@ -99,6 +104,11 @@ WHERE ledger.started_at >= (
 AND ledger.started_at < (
   (($1::DATE + 1)::TIMESTAMP) AT TIME ZONE 'Australia/Perth'
 )
+AND NOT EXISTS (
+  SELECT 1
+  FROM analytics_excluded_visitors AS exclusions
+  WHERE exclusions.visitor_id = ledger.visitor_id
+)
 ORDER BY ledger.started_at DESC, ledger.visit_id DESC;
 `;
 
@@ -118,6 +128,11 @@ WHERE EXISTS (
       (((($1 || '-01')::DATE + INTERVAL '1 month')::TIMESTAMP))
       AT TIME ZONE 'Australia/Perth'
     )
+)
+AND NOT EXISTS (
+  SELECT 1
+  FROM analytics_excluded_visitors AS exclusions
+  WHERE exclusions.visitor_id = ledger.visitor_id
 )
 ORDER BY ledger.started_at DESC, ledger.visit_id DESC;
 `;
@@ -158,6 +173,16 @@ function nullableBoolean(value: unknown, field: string) {
   }
 
   return value;
+}
+
+function requiredBoolean(value: unknown, field: string) {
+  const normalized = nullableBoolean(value, field);
+
+  if (normalized === null) {
+    throw new TypeError(`Analytics row has an invalid ${field}.`);
+  }
+
+  return normalized;
 }
 
 function nonNegativeInteger(value: unknown, field: string) {
@@ -327,5 +352,12 @@ export async function readAnalytics(
     ? { type: "daily", date: selection.date, visits }
     : selection.type === "monthly"
       ? { type: "monthly", month: selection.month, visits }
-      : { type: "visitor", visitorId: selection.visitorId, visits };
+      : {
+          type: "visitor",
+          visitorId: selection.visitorId,
+          isExcluded: rows.length
+            ? requiredBoolean(rows[0].isExcluded, "visitor exclusion state")
+            : false,
+          visits,
+        };
 }

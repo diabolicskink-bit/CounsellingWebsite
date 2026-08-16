@@ -65,7 +65,7 @@ test("runs an authorized retention cleanup and returns counts only", async () =>
   const handler = createVisitRetentionHandler(
     async () => {
       cleanupCalls += 1;
-      return { pageViewsDeleted: 8, visitsDeleted: 3 };
+      return { exclusionsDeleted: 1, pageViewsDeleted: 8, visitsDeleted: 3 };
     },
     () => "test-retention-secret",
   );
@@ -79,6 +79,7 @@ test("runs an authorized retention cleanup and returns counts only", async () =>
   assert.equal(result.headers["cache-control"], "no-store");
   assert.deepEqual(result.body, {
     ok: true,
+    exclusionsDeleted: 1,
     pageViewsDeleted: 8,
     visitsDeleted: 3,
   });
@@ -91,7 +92,7 @@ test("rejects missing and incorrect cron authorization before cleanup", async ()
   const handler = createVisitRetentionHandler(
     async () => {
       cleanupCalls += 1;
-      return { pageViewsDeleted: 0, visitsDeleted: 0 };
+      return { exclusionsDeleted: 0, pageViewsDeleted: 0, visitsDeleted: 0 };
     },
     () => "test-retention-secret",
   );
@@ -111,7 +112,7 @@ test("fails closed when cron or database configuration is missing", async () => 
   const missingSecretHandler = createVisitRetentionHandler(
     async () => {
       cleanupCalls += 1;
-      return { pageViewsDeleted: 0, visitsDeleted: 0 };
+      return { exclusionsDeleted: 0, pageViewsDeleted: 0, visitsDeleted: 0 };
     },
     () => undefined,
   );
@@ -139,7 +140,7 @@ test("rejects non-GET requests", async () => {
   const handler = createVisitRetentionHandler(
     async () => {
       cleanupCalls += 1;
-      return { pageViewsDeleted: 0, visitsDeleted: 0 };
+      return { exclusionsDeleted: 0, pageViewsDeleted: 0, visitsDeleted: 0 };
     },
     () => "test-retention-secret",
   );

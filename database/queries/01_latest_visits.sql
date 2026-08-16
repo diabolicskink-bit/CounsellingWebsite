@@ -23,5 +23,10 @@ SELECT
   ledger.gclid,
   ledger.referrer_url
 FROM visit_ledger AS ledger
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM analytics_excluded_visitors AS exclusions
+  WHERE exclusions.visitor_id = ledger.visitor_id
+)
 ORDER BY ledger.started_at DESC, ledger.visit_id DESC
 LIMIT 200;
