@@ -89,6 +89,10 @@ export default function App({ initialRenderAt }: AppProps) {
           path={privateRoutePaths.analytics}
           element={<AnalyticsRoute />}
         />
+        <Route
+          path={privateRoutePaths.analyticsEnquiries}
+          element={<AnalyticsRoute />}
+        />
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           {publicRedirectRoutes.map((route) => (

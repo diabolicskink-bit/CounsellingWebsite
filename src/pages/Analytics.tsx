@@ -15,18 +15,22 @@ import {
   RefreshCw,
   Route,
 } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
+import { NavLink, useLocation, useSearchParams } from "react-router-dom";
 import {
   getPerthDateKey,
+  getPerthMonthKey,
   isAnalyticsDateKey,
+  isAnalyticsMonthKey,
   type AnalyticsApiResponse,
   type AnalyticsReport,
   type AnalyticsTrafficSource,
   type AnalyticsVisit,
   type AnalyticsVisitEvent,
   type DailyAnalyticsReport,
+  type MonthlyAnalyticsReport,
   type VisitorAnalyticsReport,
 } from "../data/analyticsContract";
+import { privateRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-analytics.css";
 
@@ -66,6 +70,12 @@ const displayDateFormatter = new Intl.DateTimeFormat("en-AU", {
 const compactDateFormatter = new Intl.DateTimeFormat("en-AU", {
   day: "numeric",
   month: "short",
+  timeZone: "UTC",
+  year: "numeric",
+});
+
+const monthFormatter = new Intl.DateTimeFormat("en-AU", {
+  month: "long",
   timeZone: "UTC",
   year: "numeric",
 });
@@ -150,6 +160,20 @@ function sourceDetail(visit: AnalyticsVisit) {
   }
 
   return "No referrer";
+}
+
+function parseMonthKey(monthKey: string) {
+  return parseDateKey(`${monthKey}-01`);
+}
+
+function shiftMonthKey(monthKey: string, offset: number) {
+  const shiftedMonth = parseMonthKey(monthKey);
+  shiftedMonth.setUTCMonth(shiftedMonth.getUTCMonth() + offset);
+  return shiftedMonth.toISOString().slice(0, 7);
+}
+
+function formatMonth(monthKey: string) {
+  return monthFormatter.format(parseMonthKey(monthKey));
 }
 
 const eventLabels: Record<string, string> = {
@@ -296,7 +320,7 @@ function isAnalyticsReport(value: unknown): value is AnalyticsReport {
   if (!value || typeof value !== "object") return false;
   const report = value as Partial<AnalyticsReport>;
 
-  return (report.type === "daily" || report.type === "visitor")
+  return (report.type === "daily" || report.type === "monthly" || report.type === "visitor")
     && Array.isArray(report.visits);
 }
 
@@ -368,7 +392,7 @@ function SignalHeader({
   onRefresh,
   status,
 }: {
-  detailTitle: "Daily activity" | "Enquiry journey" | "Visitor history";
+  detailTitle: "Daily activity" | "Enquiry journey" | "Monthly enquiries" | "Visitor history";
   includeBots: boolean;
   onHome: () => void;
   onIncludeBotsChange: (includeBots: boolean) => void;
@@ -386,6 +410,10 @@ function SignalHeader({
           <small>Private analytics</small>
           <strong>{detailTitle}</strong>
         </div>
+        <nav aria-label="Analytics views" className="signal-header__views">
+          <NavLink end to={privateRoutePaths.analytics}>Daily</NavLink>
+          <NavLink to={privateRoutePaths.analyticsEnquiries}>Enquiries</NavLink>
+        </nav>
         <div className="signal-header__system">
           <span><Clock3 aria-hidden="true" size={14} /> Perth time</span>
           <span className="signal-header__warning">
@@ -444,6 +472,174 @@ function DateControls({
         Today
       </button>
     </div>
+  );
+}
+
+function MonthControls({
+  currentMonth,
+  monthKey,
+  onMonthChange,
+}: {
+  currentMonth: string;
+  monthKey: string;
+  onMonthChange: (month: string) => void;
+}) {
+  const isCurrentMonth = monthKey === currentMonth;
+
+  return (
+    <div className="signal-date-controls signal-month-controls" aria-label="Choose enquiry month">
+      <button aria-label="Previous month" onClick={() => onMonthChange(shiftMonthKey(monthKey, -1))} type="button">
+        <ArrowLeft aria-hidden="true" size={17} />
+      </button>
+      <label>
+        <CalendarDays aria-hidden="true" size={15} />
+        <span className="signal-visually-hidden">Enquiry month</span>
+        <input
+          max={currentMonth}
+          onChange={(event) => onMonthChange(event.target.value)}
+          type="month"
+          value={monthKey}
+        />
+      </label>
+      <button
+        aria-label="Next month"
+        disabled={isCurrentMonth}
+        onClick={() => onMonthChange(shiftMonthKey(monthKey, 1))}
+        type="button"
+      >
+        <ArrowRight aria-hidden="true" size={17} />
+      </button>
+      <button
+        className="signal-date-controls__today"
+        disabled={isCurrentMonth}
+        onClick={() => onMonthChange(currentMonth)}
+        type="button"
+      >
+        This month
+      </button>
+    </div>
+  );
+}
+
+function MonthlyEnquiries({
+  currentMonth,
+  includeBots,
+  monthKey,
+  onMonthChange,
+  onOpenEnquiry,
+  visits,
+}: {
+  currentMonth: string;
+  includeBots: boolean;
+  monthKey: string;
+  onMonthChange: (month: string) => void;
+  onOpenEnquiry: (visit: AnalyticsVisit, visitEvent: AnalyticsVisitEvent) => void;
+  visits: AnalyticsVisit[];
+}) {
+  const enquiryOutcomes = useMemo(() => visits
+    .filter((visit) => includeBots || visit.isBot !== true)
+    .flatMap((visit) => visit.events
+      .filter((visitEvent) => (
+        visitEvent.eventType === "enquiry_sent"
+        || visitEvent.eventType === "enquiry_failed"
+      ) && getPerthMonthKey(new Date(visitEvent.occurredAt)) === monthKey)
+      .map((visitEvent) => ({ visit, visitEvent })))
+    .sort((left, right) => new Date(right.visitEvent.occurredAt).getTime()
+      - new Date(left.visitEvent.occurredAt).getTime()), [includeBots, monthKey, visits]);
+  const sentCount = enquiryOutcomes.filter(({ visitEvent }) => visitEvent.eventType === "enquiry_sent").length;
+  const failedCount = enquiryOutcomes.length - sentCount;
+  const browserCount = new Set(enquiryOutcomes.map(({ visit }) => visit.visitorId)).size;
+  const successRate = enquiryOutcomes.length
+    ? Math.round((sentCount / enquiryOutcomes.length) * 100)
+    : 0;
+
+  return (
+    <>
+      <section className="monthly-enquiries__overview" aria-labelledby="monthly-enquiries-title">
+        <div className="monthly-enquiries__intro">
+          <p className="signal-kicker">Calendar month</p>
+          <h1 id="monthly-enquiries-title">{formatMonth(monthKey)}</h1>
+          <p>Every recorded sent or failed contact-form outcome in Australia/Perth time.</p>
+        </div>
+        <MonthControls currentMonth={currentMonth} monthKey={monthKey} onMonthChange={onMonthChange} />
+
+        <dl className="monthly-enquiries__summary" aria-label="Monthly enquiry summary">
+          <div><dt>Enquiries</dt><dd>{String(enquiryOutcomes.length).padStart(2, "0")}</dd></div>
+          <div><dt>Sent</dt><dd>{String(sentCount).padStart(2, "0")}</dd></div>
+          <div><dt>Failed</dt><dd>{String(failedCount).padStart(2, "0")}</dd></div>
+          <div>
+            <dt>Send rate</dt>
+            <dd>
+              {successRate}%
+              <small>{`${browserCount} ${browserCount === 1 ? "browser" : "browsers"}`}</small>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section className="monthly-enquiries__ledger" aria-labelledby="monthly-enquiry-list-title">
+        <header className="monthly-enquiries__ledger-header">
+          <div>
+            <p className="signal-kicker">Newest first</p>
+            <h2 id="monthly-enquiry-list-title">All enquiries</h2>
+          </div>
+          <span>{enquiryOutcomes.length} {enquiryOutcomes.length === 1 ? "outcome" : "outcomes"}</span>
+        </header>
+
+        {enquiryOutcomes.length ? (
+          <ol className="monthly-enquiries__list">
+            {enquiryOutcomes.map(({ visit, visitEvent }) => {
+              const wasSent = visitEvent.eventType === "enquiry_sent";
+              const option = enquiryOptionForEvent(visit, visitEvent);
+              const failure = eventDetail(visitEvent);
+              const dateKey = getPerthDateKey(new Date(visitEvent.occurredAt));
+
+              return (
+                <li key={visitEvent.id}>
+                  <button
+                    aria-label={`${eventLabel(visitEvent)} on ${formatDate(dateKey)} at ${formatTime(visitEvent.occurredAt)}. Open enquiry journey for ${visitorLabel(visit.visitorId)}`}
+                    onClick={() => onOpenEnquiry(visit, visitEvent)}
+                    type="button"
+                  >
+                    <span className={wasSent
+                      ? "enquiry-activity__status enquiry-activity__status--sent"
+                      : "enquiry-activity__status enquiry-activity__status--failed"}
+                    >
+                      {wasSent
+                        ? <CircleCheck aria-hidden="true" size={19} />
+                        : <CircleX aria-hidden="true" size={19} />}
+                    </span>
+                    <span className="monthly-enquiries__date">
+                      <strong>{formatDate(dateKey, true)}</strong>
+                      <time dateTime={visitEvent.occurredAt}>{formatTime(visitEvent.occurredAt)}</time>
+                    </span>
+                    <span className="enquiry-activity__outcome">
+                      <strong>{eventLabel(visitEvent)}</strong>
+                      <small>{[option, failure].filter(Boolean).join(" · ") || "Contact form"}</small>
+                    </span>
+                    <span className="enquiry-activity__visitor">
+                      <strong>{visitorLabel(visit.visitorId)}</strong>
+                      <small>Visit {visit.visitNumber} of {visit.totalVisits}</small>
+                    </span>
+                    <ChevronRight aria-hidden="true" size={18} />
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+        ) : (
+          <div className="signal-stream__empty monthly-enquiries__empty">
+            <Radio aria-hidden="true" size={30} />
+            <h3>No enquiries recorded</h3>
+            <p>No sent or failed contact-form outcomes were recorded in {formatMonth(monthKey)}.</p>
+          </div>
+        )}
+      </section>
+
+      <p className="signal-footnote">
+        Each sent or failed submission outcome appears as one row, so a failed submission followed by a retry appears twice. {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
+      </p>
+    </>
   );
 }
 
@@ -721,14 +917,14 @@ function DailyObservatory({
 }
 
 function VisitorHistory({
-  contextDate,
+  backLabel,
   focusedEventId,
   focusedVisitId,
   includeBots,
   onBack,
   report,
 }: {
-  contextDate: string;
+  backLabel: string;
   focusedEventId: string | null;
   focusedVisitId: string | null;
   includeBots: boolean;
@@ -769,7 +965,7 @@ function VisitorHistory({
     <>
       <button className="signal-back" onClick={onBack} type="button">
         <ArrowLeft aria-hidden="true" size={16} />
-        Back to {contextDate === getPerthDateKey() ? "today" : formatDate(contextDate, true)}
+        Back to {backLabel}
       </button>
 
       <section className="visitor-summary" aria-labelledby="visitor-history-title">
@@ -883,10 +1079,17 @@ function ReportState({ onRetry, status }: { onRetry: () => void; status: "error"
 }
 
 export default function Analytics() {
+  const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [todayKey, setTodayKey] = useState(getPerthDateKey);
+  const currentMonth = todayKey.slice(0, 7);
+  const isMonthlyView = pathname === privateRoutePaths.analyticsEnquiries;
   const requestedDate = searchParams.get("date");
   const dateKey = isAnalyticsDateKey(requestedDate) && requestedDate <= todayKey ? requestedDate : todayKey;
+  const requestedMonth = searchParams.get("month");
+  const monthKey = isAnalyticsMonthKey(requestedMonth) && requestedMonth <= currentMonth
+    ? requestedMonth
+    : currentMonth;
   const expandedVisitId = searchParams.get("expanded");
   const includeBots = searchParams.get("bots") === "include";
   const requestedVisitorId = searchParams.get("visitor");
@@ -894,17 +1097,21 @@ export default function Analytics() {
   const focusedEventId = searchParams.get("event");
   const requestQuery = requestedVisitorId
     ? `visitor=${encodeURIComponent(requestedVisitorId)}`
-    : `date=${encodeURIComponent(dateKey)}`;
+    : isMonthlyView
+      ? `month=${encodeURIComponent(monthKey)}`
+      : `date=${encodeURIComponent(dateKey)}`;
   const { report, retry, status } = useAnalyticsReport(requestQuery);
 
   useDocumentMetadata(
-    "Analytics | Vive Counselling",
-    "Private first-party visit analytics for Vive Counselling.",
+    isMonthlyView ? "Enquiries | Vive Analytics" : "Analytics | Vive Counselling",
+    isMonthlyView
+      ? "Private monthly enquiry analytics for Vive Counselling."
+      : "Private first-party visit analytics for Vive Counselling.",
   );
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
-  }, [requestedVisitorId]);
+  }, [pathname, requestedVisitorId]);
 
   function refreshReport() {
     setTodayKey(getPerthDateKey());
@@ -926,6 +1133,25 @@ export default function Analytics() {
     setSearchParams(nextParams);
   }
 
+  function updateMonth(nextMonth: string) {
+    if (!isAnalyticsMonthKey(nextMonth) || nextMonth > currentMonth) return;
+    const nextParams = new URLSearchParams();
+    if (includeBots) nextParams.set("bots", "include");
+    if (nextMonth !== currentMonth) nextParams.set("month", nextMonth);
+    setSearchParams(nextParams);
+  }
+
+  function getReportContextParams() {
+    const nextParams = new URLSearchParams();
+    if (includeBots) nextParams.set("bots", "include");
+    if (isMonthlyView) {
+      if (monthKey !== currentMonth) nextParams.set("month", monthKey);
+    } else if (dateKey !== todayKey) {
+      nextParams.set("date", dateKey);
+    }
+    return nextParams;
+  }
+
   function toggleVisit(visitId: string) {
     const nextParams = new URLSearchParams(searchParams);
     if (dateKey !== todayKey) nextParams.set("date", dateKey);
@@ -935,19 +1161,14 @@ export default function Analytics() {
   }
 
   function openVisitor(visit: AnalyticsVisit) {
-    const nextParams = new URLSearchParams(searchParams);
-    if (dateKey !== todayKey) nextParams.set("date", dateKey);
-    nextParams.delete("expanded");
-    nextParams.delete("event");
+    const nextParams = getReportContextParams();
     nextParams.set("visitor", visit.visitorId);
     nextParams.set("visit", visit.id);
     setSearchParams(nextParams);
   }
 
   function openEnquiry(visit: AnalyticsVisit, visitEvent: AnalyticsVisitEvent) {
-    const nextParams = new URLSearchParams(searchParams);
-    if (dateKey !== todayKey) nextParams.set("date", dateKey);
-    nextParams.delete("expanded");
+    const nextParams = getReportContextParams();
     nextParams.set("event", visitEvent.id);
     nextParams.set("visitor", visit.visitorId);
     nextParams.set("visit", visit.id);
@@ -955,17 +1176,11 @@ export default function Analytics() {
   }
 
   function closeVisitor() {
-    const nextParams = new URLSearchParams(searchParams);
-    if (dateKey !== todayKey) nextParams.set("date", dateKey);
-    else nextParams.delete("date");
-    nextParams.delete("expanded");
-    nextParams.delete("event");
-    nextParams.delete("visit");
-    nextParams.delete("visitor");
-    setSearchParams(nextParams);
+    setSearchParams(getReportContextParams());
   }
 
   const dailyReport = report?.type === "daily" ? report as DailyAnalyticsReport : null;
+  const monthlyReport = report?.type === "monthly" ? report as MonthlyAnalyticsReport : null;
   const visitorReport = report?.type === "visitor" ? report as VisitorAnalyticsReport : null;
 
   return (
@@ -973,7 +1188,7 @@ export default function Analytics() {
       <SignalHeader
         detailTitle={requestedVisitorId
           ? (focusedEventId ? "Enquiry journey" : "Visitor history")
-          : "Daily activity"}
+          : isMonthlyView ? "Monthly enquiries" : "Daily activity"}
         includeBots={includeBots}
         onHome={closeVisitor}
         onIncludeBotsChange={updateIncludeBots}
@@ -984,7 +1199,9 @@ export default function Analytics() {
         {status !== "ready" ? <ReportState onRetry={refreshReport} status={status} /> : null}
         {status === "ready" && requestedVisitorId && visitorReport ? (
           <VisitorHistory
-            contextDate={dateKey}
+            backLabel={isMonthlyView
+              ? `${formatMonth(monthKey)} enquiries`
+              : dateKey === todayKey ? "today" : formatDate(dateKey, true)}
             focusedEventId={focusedEventId}
             focusedVisitId={focusedVisitId}
             includeBots={includeBots}
@@ -992,7 +1209,7 @@ export default function Analytics() {
             report={visitorReport}
           />
         ) : null}
-        {status === "ready" && !requestedVisitorId && dailyReport ? (
+        {status === "ready" && !requestedVisitorId && !isMonthlyView && dailyReport ? (
           <DailyObservatory
             dateKey={dailyReport.date}
             expandedVisitId={expandedVisitId}
@@ -1005,7 +1222,21 @@ export default function Analytics() {
             visits={dailyReport.visits}
           />
         ) : null}
-        {status === "ready" && ((requestedVisitorId && !visitorReport) || (!requestedVisitorId && !dailyReport)) ? (
+        {status === "ready" && !requestedVisitorId && isMonthlyView && monthlyReport ? (
+          <MonthlyEnquiries
+            currentMonth={currentMonth}
+            includeBots={includeBots}
+            monthKey={monthlyReport.month}
+            onMonthChange={updateMonth}
+            onOpenEnquiry={openEnquiry}
+            visits={monthlyReport.visits}
+          />
+        ) : null}
+        {status === "ready" && (
+          (requestedVisitorId && !visitorReport)
+          || (!requestedVisitorId && isMonthlyView && !monthlyReport)
+          || (!requestedVisitorId && !isMonthlyView && !dailyReport)
+        ) ? (
           <ReportState onRetry={refreshReport} status="error" />
         ) : null}
       </div>

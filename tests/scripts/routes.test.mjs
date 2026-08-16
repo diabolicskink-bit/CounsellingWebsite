@@ -27,10 +27,16 @@ test("public redirects use absolute source and destination paths", () => {
 });
 
 test("private routes remain separate from public metadata routes", () => {
-  assert.deepEqual(privateRoutePaths, { analytics: "/analytics" });
-  assert.ok(!Object.values(publicRoutePaths).includes(privateRoutePaths.analytics));
-  assert.ok(!Object.hasOwn(metadata.routes, privateRoutePaths.analytics));
+  assert.deepEqual(privateRoutePaths, {
+    analytics: "/analytics",
+    analyticsEnquiries: "/analytics/enquiries",
+  });
+  for (const privatePath of Object.values(privateRoutePaths)) {
+    assert.ok(!Object.values(publicRoutePaths).includes(privatePath));
+    assert.ok(!Object.hasOwn(metadata.routes, privatePath));
+  }
   assert.equal(isPrivateRoutePath("/analytics"), true);
+  assert.equal(isPrivateRoutePath("/analytics/enquiries"), true);
   assert.equal(isPrivateRoutePath("/analytics/visitor"), true);
   assert.equal(isPrivateRoutePath("/analytics-other"), false);
   assert.equal(isPrivateRoutePath("/contact"), false);

@@ -748,7 +748,13 @@ test.describe("analytics", () => {
       };
       const data = requestUrl.searchParams.has("visitor")
         ? { type: "visitor", visitorId, visits: [botVisit, visit] }
-        : { type: "daily", date, visits: [visit, unclassifiedVisit, botVisit] };
+        : requestUrl.searchParams.has("month")
+          ? {
+              type: "monthly",
+              month: requestUrl.searchParams.get("month"),
+              visits: [visit, unclassifiedVisit, botVisit],
+            }
+          : { type: "daily", date, visits: [visit, unclassifiedVisit, botVisit] };
 
       await route.fulfill({
         body: JSON.stringify({ data }),
@@ -834,6 +840,21 @@ test.describe("analytics", () => {
     const requestsBeforeRefresh = reportRequests;
     await page.getByRole("button", { name: "Refresh data" }).click();
     await expect.poll(() => reportRequests).toBeGreaterThan(requestsBeforeRefresh);
+
+    await page.getByRole("link", { name: "Enquiries" }).click();
+    await expect(page).toHaveURL(/\/analytics\/enquiries$/);
+    await expect(page.getByRole("heading", { level: 1, name: "August 2026" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "All enquiries" })).toBeVisible();
+    await expect(page.locator(".monthly-enquiries__list > li")).toHaveCount(2);
+    await expect(page.getByRole("definition").filter({ hasText: "02" })).toHaveCount(1);
+    await expect(page.locator(".monthly-enquiries__summary").getByText("50%", { exact: false })).toBeVisible();
+
+    await page.getByRole("button", { name: /Enquiry sent on.*Open enquiry journey/ }).click();
+    await expect(page.getByRole("heading", { level: 1, name: "Enquiry journey" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Back to August 2026 enquiries" })).toBeVisible();
+    await page.getByRole("button", { name: "Back to August 2026 enquiries" }).click();
+    await expect(page.getByRole("heading", { level: 2, name: "All enquiries" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Enquiries" })).toHaveAttribute("aria-current", "page");
   });
 
   test("first-party visit recorder records SPA route changes and refreshes in the active visit", async ({ page }) => {

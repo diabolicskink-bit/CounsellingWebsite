@@ -52,6 +52,22 @@ test("requests selected daily analytics through the injected reader", async () =
   assert.deepEqual(result.body, { data: { visits: [] } });
 });
 
+test("requests all enquiry visits for a selected calendar month", async () => {
+  const selections = [];
+  const handler = createAnalyticsHandler(async (selection) => {
+    selections.push(selection);
+    return { visits: [] };
+  });
+
+  const result = await invoke(handler, {
+    method: "GET",
+    query: { month: "2026-08" },
+  });
+
+  assert.deepEqual(selections, [{ type: "monthly", month: "2026-08" }]);
+  assert.equal(result.statusCode, 200);
+});
+
 test("defaults a daily request to the current Australia/Perth date", async () => {
   const selections = [];
   const handler = createAnalyticsHandler(
@@ -93,6 +109,7 @@ test("rejects writes and invalid or ambiguous report selections before reading",
 
   const write = await invoke(handler, { method: "POST", query: {} });
   const invalidDate = await invoke(handler, { method: "GET", query: { date: "2026-02-31" } });
+  const invalidMonth = await invoke(handler, { method: "GET", query: { month: "2026-13" } });
   const ambiguous = await invoke(handler, {
     method: "GET",
     query: {
@@ -100,12 +117,18 @@ test("rejects writes and invalid or ambiguous report selections before reading",
       visitor: "7a2f0000-0000-4000-8000-000000000004",
     },
   });
+  const ambiguousMonth = await invoke(handler, {
+    method: "GET",
+    query: { date: "2026-08-14", month: "2026-08" },
+  });
   const unknown = await invoke(handler, { method: "GET", query: { limit: "100" } });
 
   assert.equal(write.statusCode, 405);
   assert.equal(write.headers.allow, "GET");
   assert.equal(invalidDate.statusCode, 400);
+  assert.equal(invalidMonth.statusCode, 400);
   assert.equal(ambiguous.statusCode, 400);
+  assert.equal(ambiguousMonth.statusCode, 400);
   assert.equal(unknown.statusCode, 400);
   assert.equal(readCalls, 0);
 });

@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-16 - Monthly Enquiry Ledger Added
+
+- Added the protected `/analytics/enquiries` view with Australia/Perth calendar-month navigation, sent and failed totals, send rate, and a newest-first row for every recorded enquiry outcome.
+- Connected each monthly outcome to the existing anonymous-browser journey, preserving its selected visit and event so the complete context remains available without creating a separate enquiry record.
+- Kept explicit bots excluded by default and covered monthly request validation, report reads, route behaviour, navigation, summary figures, outcome rows, and journey drill-down.
+
 ## 2026-08-16 - Enquiry Journeys Added To First-Party Analytics
 
 - Added a generic visit-event ledger and controlled write endpoint, with client-authored contact selection/form-start events and server-authored submit-attempt, sent, and failed outcomes tied to the existing visit and optional page view.

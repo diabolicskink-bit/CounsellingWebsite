@@ -163,16 +163,16 @@ Each active item should include enough direction that a future session can choos
 
 - `Priority`: `P2`
 - `Size`: `M`
-- `Priority Rationale`: This is `P2` because current traffic is small and the route is authenticated, but daily and visitor reads have no row or page-view bound. A noisy day, long retained browser history, or write-endpoint abuse can eventually exceed function time, memory, or response limits.
+- `Priority Rationale`: This is `P2` because current traffic is small and the route is authenticated, but daily, monthly, and visitor reads have no row or page-view bound. A noisy period, long retained browser history, or write-endpoint abuse can eventually exceed function time, memory, or response limits.
 - `Status`: `Open`
 - `Detected`: 2026-08-15
 - `Source`: Local analytics code review
 - `Area`: Analytics, API, Database, Performance, Resilience
-- `Problem`: The read API returns every visit for a selected day or visitor and JSON-aggregates every associated page view and event in one response. The dashboard and contract have no cursor, limit, truncation state, or continuation action.
+- `Problem`: The read API returns every visit for a selected day, every outcome-bearing visit for a selected calendar month, or every visit for a selected visitor, and JSON-aggregates every associated page view and event in one response. The dashboard and contract have no cursor, limit, truncation state, or continuation action.
 - `Why It Matters`: A single oversized report can make the protected dashboard unavailable and amplify the existing absence of platform rate limiting on the public visit recorder.
 - `Preferred Direction`: Add deterministic cursor pagination and explicit server-side limits for visits and page journeys, with dashboard continuation states that never imply a partial response is complete.
 - `Resolution Path`: Choose operational limits from realistic traffic, extend the validated request/response contract with opaque cursors, keep ordering stable, add continuation UI, and test boundary/truncation behavior.
-- `Next Action`: Measure current retained row/page counts and define the first daily, visitor-history, and per-visit page caps before changing the API contract.
+- `Next Action`: Measure current retained row/page counts and define the first daily, monthly, visitor-history, and per-visit page caps before changing the API contract.
 - `Resolved When`: Every analytics read has enforced deterministic bounds, the dashboard can continue through larger reports, and limit behavior is covered at the API and UI layers.
 - `Related Items`:
   - `DEBT-38` (archived): The resolved deployment isolation prevents preview data from consuming production report capacity.

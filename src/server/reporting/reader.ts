@@ -102,6 +102,26 @@ AND ledger.started_at < (
 ORDER BY ledger.started_at DESC, ledger.visit_id DESC;
 `;
 
+export const monthlyEnquiryAnalyticsSql = `
+SELECT
+${analyticsVisitColumns}
+FROM visit_ledger AS ledger
+WHERE EXISTS (
+  SELECT 1
+  FROM site_visit_events AS monthly_events
+  WHERE monthly_events.visit_id = ledger.visit_id
+    AND monthly_events.event_type IN ('enquiry_sent', 'enquiry_failed')
+    AND monthly_events.occurred_at >= (
+      (($1 || '-01')::DATE::TIMESTAMP) AT TIME ZONE 'Australia/Perth'
+    )
+    AND monthly_events.occurred_at < (
+      (((($1 || '-01')::DATE + INTERVAL '1 month')::TIMESTAMP))
+      AT TIME ZONE 'Australia/Perth'
+    )
+)
+ORDER BY ledger.started_at DESC, ledger.visit_id DESC;
+`;
+
 export const visitorAnalyticsSql = `
 SELECT
 ${analyticsVisitColumns}
@@ -290,12 +310,22 @@ export async function readAnalytics(
   database?: VisitDatabase,
 ): Promise<AnalyticsReport> {
   const selectedDatabase = resolveDatabase(database);
-  const query = selection.type === "daily" ? dailyAnalyticsSql : visitorAnalyticsSql;
-  const parameter = selection.type === "daily" ? selection.date : selection.visitorId;
+  const query = selection.type === "daily"
+    ? dailyAnalyticsSql
+    : selection.type === "monthly"
+      ? monthlyEnquiryAnalyticsSql
+      : visitorAnalyticsSql;
+  const parameter = selection.type === "daily"
+    ? selection.date
+    : selection.type === "monthly"
+      ? selection.month
+      : selection.visitorId;
   const rows = await selectedDatabase.query(query, [parameter]) as AnalyticsVisitRow[];
   const visits = rows.map(normalizeVisit);
 
   return selection.type === "daily"
     ? { type: "daily", date: selection.date, visits }
-    : { type: "visitor", visitorId: selection.visitorId, visits };
+    : selection.type === "monthly"
+      ? { type: "monthly", month: selection.month, visits }
+      : { type: "visitor", visitorId: selection.visitorId, visits };
 }

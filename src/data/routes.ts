@@ -19,6 +19,7 @@ export const publicRedirectRoutes = [
 
 export const privateRoutePaths = {
   analytics: "/analytics",
+  analyticsEnquiries: "/analytics/enquiries",
 } as const;
 
 export function isPrivateRoutePath(pathname: string) {

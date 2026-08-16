@@ -15,6 +15,10 @@ export function getPerthDateKey(date = new Date()) {
   return `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
 }
 
+export function getPerthMonthKey(date = new Date()) {
+  return getPerthDateKey(date).slice(0, 7);
+}
+
 export function isAnalyticsDateKey(value: string | null): value is string {
   if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
 
@@ -23,6 +27,13 @@ export function isAnalyticsDateKey(value: string | null): value is string {
 
   return !Number.isNaN(parsedDate.valueOf())
     && parsedDate.toISOString().slice(0, 10) === value;
+}
+
+export function isAnalyticsMonthKey(value: string | null): value is string {
+  if (!value || !/^\d{4}-\d{2}$/.test(value)) return false;
+
+  const month = Number(value.slice(5));
+  return month >= 1 && month <= 12;
 }
 
 export type AnalyticsPageView = {
@@ -71,13 +82,19 @@ export type DailyAnalyticsReport = {
   visits: AnalyticsVisit[];
 };
 
+export type MonthlyAnalyticsReport = {
+  month: string;
+  type: "monthly";
+  visits: AnalyticsVisit[];
+};
+
 export type VisitorAnalyticsReport = {
   type: "visitor";
   visitorId: string;
   visits: AnalyticsVisit[];
 };
 
-export type AnalyticsReport = DailyAnalyticsReport | VisitorAnalyticsReport;
+export type AnalyticsReport = DailyAnalyticsReport | MonthlyAnalyticsReport | VisitorAnalyticsReport;
 
 export type AnalyticsApiResponse = {
   data: AnalyticsReport;

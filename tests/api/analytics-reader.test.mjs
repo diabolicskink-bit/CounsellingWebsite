@@ -3,6 +3,7 @@ import { afterEach, test } from "node:test";
 import {
   AnalyticsDataUnavailableError,
   dailyAnalyticsSql,
+  monthlyEnquiryAnalyticsSql,
   readAnalytics,
   visitorAnalyticsSql,
 } from "../../src/server/reporting/reader.ts";
@@ -164,6 +165,26 @@ test("reads complete retained history for one anonymous browser", async () => {
   assert.equal(result.visits.length, 2);
   assert.deepEqual(result.visits[1].events, []);
   assert.deepEqual(result.visits[1].pageViews, []);
+});
+
+test("reads visits with enquiry outcomes in one Perth calendar month", async () => {
+  const { calls, database } = createDatabase([createVisitRow()]);
+
+  const result = await readAnalytics(
+    { type: "monthly", month: "2026-08" },
+    database,
+  );
+
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].query, monthlyEnquiryAnalyticsSql);
+  assert.deepEqual(calls[0].parameters, ["2026-08"]);
+  assert.equal(result.type, "monthly");
+  assert.equal(result.month, "2026-08");
+  assert.equal(result.visits.length, 1);
+  assert.match(calls[0].query, /enquiry_sent/);
+  assert.match(calls[0].query, /enquiry_failed/);
+  assert.match(calls[0].query, /INTERVAL '1 month'/);
+  assert.match(calls[0].query, /Australia\/Perth/);
 });
 
 test("normalizes serialized event collections and rejects unsafe event shapes", async () => {
