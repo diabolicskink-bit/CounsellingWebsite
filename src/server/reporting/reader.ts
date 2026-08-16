@@ -137,6 +137,44 @@ AND NOT EXISTS (
 ORDER BY ledger.started_at DESC, ledger.visit_id DESC;
 `;
 
+export const pageViewsAnalyticsSql = `
+WITH included_visits AS (
+  SELECT ledger.visit_id
+  FROM visit_ledger AS ledger
+  WHERE ledger.started_at >= (
+    $1::DATE::TIMESTAMP AT TIME ZONE 'Australia/Perth'
+  )
+  AND ledger.started_at < (
+    (($2::DATE + 1)::TIMESTAMP) AT TIME ZONE 'Australia/Perth'
+  )
+  AND ($3::BOOLEAN OR ledger.is_bot IS DISTINCT FROM TRUE)
+  AND NOT EXISTS (
+    SELECT 1
+    FROM analytics_excluded_visitors AS exclusions
+    WHERE exclusions.visitor_id = ledger.visitor_id
+  )
+),
+route_counts AS (
+  SELECT
+    page_views.path,
+    COUNT(*)::INTEGER AS page_view_count,
+    COUNT(DISTINCT page_views.visit_id)::INTEGER AS visit_count
+  FROM site_page_views AS page_views
+  INNER JOIN included_visits
+    ON included_visits.visit_id = page_views.visit_id
+  GROUP BY page_views.path
+)
+SELECT
+  route_counts.path,
+  route_counts.page_view_count AS "pageViews",
+  route_counts.visit_count AS "visits",
+  (SELECT COUNT(*)::INTEGER FROM included_visits) AS "totalVisits",
+  COALESCE((SELECT SUM(page_view_count)::INTEGER FROM route_counts), 0) AS "totalPageViews"
+FROM (SELECT 1) AS report_row
+LEFT JOIN route_counts ON TRUE
+ORDER BY route_counts.page_view_count DESC NULLS LAST, route_counts.path ASC;
+`;
+
 export const visitorAnalyticsSql = `
 SELECT
 ${analyticsVisitColumns}
@@ -335,6 +373,32 @@ export async function readAnalytics(
   database?: VisitDatabase,
 ): Promise<AnalyticsReport> {
   const selectedDatabase = resolveDatabase(database);
+
+  if (selection.type === "pageViews") {
+    const rows = await selectedDatabase.query(pageViewsAnalyticsSql, [
+      selection.startDate,
+      selection.endDate,
+      selection.includeBots,
+    ]) as AnalyticsVisitRow[];
+    const totals = rows[0] ?? { totalPageViews: 0, totalVisits: 0 };
+    const routes = rows
+      .filter((row) => row.path !== null && row.path !== undefined)
+      .map((row) => ({
+        pageViews: nonNegativeInteger(row.pageViews, "route page views"),
+        path: requiredString(row.path, "route path"),
+        visits: nonNegativeInteger(row.visits, "route visits"),
+      }));
+
+    return {
+      endDate: selection.endDate,
+      routes,
+      startDate: selection.startDate,
+      totalPageViews: nonNegativeInteger(totals.totalPageViews, "total page views"),
+      totalVisits: nonNegativeInteger(totals.totalVisits, "total visits"),
+      type: "pageViews",
+    };
+  }
+
   const query = selection.type === "daily"
     ? dailyAnalyticsSql
     : selection.type === "monthly"

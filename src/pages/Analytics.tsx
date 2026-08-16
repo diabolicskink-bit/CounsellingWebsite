@@ -17,7 +17,7 @@ import {
   RefreshCw,
   Route,
 } from "lucide-react";
-import { NavLink, useLocation, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom";
 import {
   getPerthDateKey,
   getPerthMonthKey,
@@ -33,6 +33,7 @@ import {
   type ExcludedVisitorSummary,
   type ExcludedVisitorsReport,
   type MonthlyAnalyticsReport,
+  type PageViewsAnalyticsReport,
   type VisitorAnalyticsReport,
 } from "../data/analyticsContract";
 import { privateRoutePaths } from "../data/routes";
@@ -342,6 +343,14 @@ function isAnalyticsReport(value: unknown): value is AnalyticsReport {
     return Array.isArray(report.visitors);
   }
 
+  if (report.type === "pageViews") {
+    return Array.isArray(report.routes)
+      && typeof report.startDate === "string"
+      && typeof report.endDate === "string"
+      && typeof report.totalPageViews === "number"
+      && typeof report.totalVisits === "number";
+  }
+
   return (report.type === "daily" || report.type === "monthly" || report.type === "visitor")
     && Array.isArray(report.visits)
     && (report.type !== "visitor" || typeof report.isExcluded === "boolean");
@@ -416,7 +425,7 @@ function SignalHeader({
   showBotControl,
   status,
 }: {
-  detailTitle: "Daily activity" | "Enquiry journey" | "Excluded visitors" | "Monthly enquiries" | "Visitor history";
+  detailTitle: "Daily activity" | "Enquiry journey" | "Excluded visitors" | "Monthly enquiries" | "Page views" | "Visitor history";
   includeBots: boolean;
   onHome: () => void;
   onIncludeBotsChange: (includeBots: boolean) => void;
@@ -816,6 +825,9 @@ function DailyObservatory({
   const returningStyle = {
     "--signal-returning-end": `${returningPercentage * 3.6}deg`,
   } as CSSProperties;
+  const pageViewParams = new URLSearchParams({ end: dateKey, start: dateKey });
+  if (includeBots) pageViewParams.set("bots", "include");
+  const pageViewReportPath = `${privateRoutePaths.analyticsPageViews}?${pageViewParams.toString()}`;
 
   return (
     <>
@@ -871,6 +883,13 @@ function DailyObservatory({
             <span>Page views</span>
             <strong>{String(summary.pages).padStart(2, "0")}</strong>
             <small>{summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"} avg per visit</small>
+            <Link
+              aria-label={`View full page-view breakdown for ${formatDate(dateKey, true)}`}
+              className="signal-pages__open"
+              to={pageViewReportPath}
+            >
+              Full breakdown <ArrowRight aria-hidden="true" size={14} />
+            </Link>
           </div>
           <div className="signal-pages__ranking" aria-label="Most-viewed routes">
             {topPages.length ? topPages.map((page) => (
@@ -1040,6 +1059,147 @@ function DailyObservatory({
 
       <p className="signal-footnote">
         Records page loads and the five enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Elapsed spans run from the first to the last recorded page load; they do not include time spent on the final page. Form contents are not included in this report.
+      </p>
+    </>
+  );
+}
+
+function PageViewsBreakdown({
+  includeBots,
+  onRangeChange,
+  report,
+  todayKey,
+}: {
+  includeBots: boolean;
+  onRangeChange: (startDate: string, endDate: string) => void;
+  report: PageViewsAnalyticsReport;
+  todayKey: string;
+}) {
+  const [draftStartDate, setDraftStartDate] = useState(report.startDate);
+  const [draftEndDate, setDraftEndDate] = useState(report.endDate);
+  const hasDateKeys = isAnalyticsDateKey(draftStartDate) && isAnalyticsDateKey(draftEndDate);
+  const rangeLength = hasDateKeys
+    ? Math.round((parseDateKey(draftEndDate).getTime() - parseDateKey(draftStartDate).getTime()) / 86_400_000)
+    : -1;
+  const isRangeValid = hasDateKeys
+    && rangeLength >= 0
+    && rangeLength < 366
+    && draftEndDate <= todayKey;
+  const routePeak = Math.max(...report.routes.map((route) => route.pageViews), 1);
+  const averagePages = report.totalVisits
+    ? (report.totalPageViews / report.totalVisits).toFixed(1)
+    : "0.0";
+  const dailyParams = new URLSearchParams();
+  if (report.endDate !== todayKey) dailyParams.set("date", report.endDate);
+  if (includeBots) dailyParams.set("bots", "include");
+  const dailyQuery = dailyParams.toString();
+  const dailyPath = `${privateRoutePaths.analytics}${dailyQuery ? `?${dailyQuery}` : ""}`;
+
+  useEffect(() => {
+    setDraftStartDate(report.startDate);
+    setDraftEndDate(report.endDate);
+  }, [report.endDate, report.startDate]);
+
+  return (
+    <>
+      <section className="page-view-report__overview" aria-labelledby="page-view-report-title">
+        <div className="page-view-report__intro">
+          <Link className="page-view-report__back" to={dailyPath}>
+            <ArrowLeft aria-hidden="true" size={16} /> Back to daily
+          </Link>
+          <p className="signal-kicker">Route breakdown</p>
+          <h1 id="page-view-report-title">Page views</h1>
+          <p>
+            {report.startDate === report.endDate
+              ? formatDate(report.startDate)
+              : `${formatDate(report.startDate, true)} to ${formatDate(report.endDate, true)}`}
+          </p>
+        </div>
+
+        <form
+          className="page-view-report__range"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (isRangeValid) onRangeChange(draftStartDate, draftEndDate);
+          }}
+        >
+          <label>
+            <span>Start date</span>
+            <input
+              max={draftEndDate < todayKey ? draftEndDate : todayKey}
+              onChange={(event) => setDraftStartDate(event.target.value)}
+              type="date"
+              value={draftStartDate}
+            />
+          </label>
+          <label>
+            <span>End date</span>
+            <input
+              max={todayKey}
+              min={draftStartDate}
+              onChange={(event) => setDraftEndDate(event.target.value)}
+              type="date"
+              value={draftEndDate}
+            />
+          </label>
+          <button disabled={!isRangeValid} type="submit">Apply range</button>
+          <small>Select up to 366 days.</small>
+        </form>
+      </section>
+
+      <section className="page-view-report__summary" aria-label="Page-view totals">
+        <div><span>Page views</span><strong>{report.totalPageViews}</strong></div>
+        <div><span>Visits</span><strong>{report.totalVisits}</strong></div>
+        <div><span>Avg per visit</span><strong>{averagePages}</strong></div>
+        <div><span>Viewed routes</span><strong>{report.routes.length}</strong></div>
+      </section>
+
+      <section className="page-view-report__routes" aria-labelledby="page-view-routes-title">
+        <header>
+          <div>
+            <p className="signal-kicker">Most viewed first</p>
+            <h2 id="page-view-routes-title">All viewed routes</h2>
+          </div>
+          <span>{report.routes.length} {report.routes.length === 1 ? "route" : "routes"}</span>
+        </header>
+
+        {report.routes.length ? (
+          <ol className="page-view-report__list">
+            {report.routes.map((route, index) => {
+              const share = report.totalPageViews
+                ? Math.round((route.pageViews / report.totalPageViews) * 100)
+                : 0;
+              const barStyle = {
+                "--page-view-route-width": `${(route.pageViews / routePeak) * 100}%`,
+              } as CSSProperties;
+
+              return (
+                <li
+                  aria-label={`${route.path}: ${route.pageViews} page views across ${route.visits} visits, ${share}% of page views`}
+                  key={route.path}
+                >
+                  <span className="page-view-report__rank">{String(index + 1).padStart(2, "0")}</span>
+                  <div className="page-view-report__route">
+                    <div><strong>{route.path}</strong><span>{share}% of views</span></div>
+                    <i aria-hidden="true"><b style={barStyle} /></i>
+                  </div>
+                  <div className="page-view-report__metric"><strong>{route.pageViews}</strong><span>views</span></div>
+                  <div className="page-view-report__metric"><strong>{route.visits}</strong><span>visits</span></div>
+                </li>
+              );
+            })}
+          </ol>
+        ) : (
+          <div className="signal-stream__empty page-view-report__empty">
+            <Radio aria-hidden="true" size={30} />
+            <h3>No page views recorded</h3>
+            <p>No routes were viewed in this date range.</p>
+          </div>
+        )}
+      </section>
+
+      <p className="signal-footnote">
+        Totals use visits that began in the selected Australia/Perth date range. {includeBots ? "Bot visits are included." : "Identified bot visits are excluded."}
       </p>
     </>
   );
@@ -1268,35 +1428,59 @@ export default function Analytics() {
   const currentMonth = todayKey.slice(0, 7);
   const isMonthlyView = pathname === privateRoutePaths.analyticsEnquiries;
   const isExcludedView = pathname === privateRoutePaths.analyticsExcluded;
+  const isPageViewsView = pathname === privateRoutePaths.analyticsPageViews;
   const requestedDate = searchParams.get("date");
   const dateKey = isAnalyticsDateKey(requestedDate) && requestedDate <= todayKey ? requestedDate : todayKey;
   const requestedMonth = searchParams.get("month");
   const monthKey = isAnalyticsMonthKey(requestedMonth) && requestedMonth <= currentMonth
     ? requestedMonth
     : currentMonth;
+  const requestedStartDate = searchParams.get("start");
+  const requestedEndDate = searchParams.get("end");
+  const requestedRangeLength = isAnalyticsDateKey(requestedStartDate)
+    && isAnalyticsDateKey(requestedEndDate)
+    ? Math.round((parseDateKey(requestedEndDate).getTime() - parseDateKey(requestedStartDate).getTime()) / 86_400_000)
+    : -1;
+  const hasValidPageViewRange = requestedRangeLength >= 0
+    && requestedRangeLength < 366
+    && requestedEndDate !== null
+    && requestedEndDate <= todayKey;
+  const pageViewStartDate = hasValidPageViewRange && requestedStartDate ? requestedStartDate : todayKey;
+  const pageViewEndDate = hasValidPageViewRange && requestedEndDate ? requestedEndDate : todayKey;
   const expandedVisitId = searchParams.get("expanded");
   const includeBots = searchParams.get("bots") === "include";
   const requestedVisitorId = searchParams.get("visitor");
   const focusedVisitId = searchParams.get("visit");
   const focusedEventId = searchParams.get("event");
+  const pageViewRequestParams = new URLSearchParams({
+    end: pageViewEndDate,
+    start: pageViewStartDate,
+  });
+  if (includeBots) pageViewRequestParams.set("bots", "include");
   const requestUrl = requestedVisitorId
     ? `/api/analytics?visitor=${encodeURIComponent(requestedVisitorId)}`
     : isExcludedView
       ? "/api/analytics/exclusions"
-    : isMonthlyView
-      ? `/api/analytics?month=${encodeURIComponent(monthKey)}`
-      : `/api/analytics?date=${encodeURIComponent(dateKey)}`;
+      : isMonthlyView
+        ? `/api/analytics?month=${encodeURIComponent(monthKey)}`
+        : isPageViewsView
+          ? `/api/analytics?${pageViewRequestParams.toString()}`
+          : `/api/analytics?date=${encodeURIComponent(dateKey)}`;
   const { report, retry, status } = useAnalyticsReport(requestUrl);
 
   useDocumentMetadata(
     isExcludedView
       ? "Excluded Visitors | Vive Analytics"
-      : isMonthlyView ? "Enquiries | Vive Analytics" : "Analytics | Vive Counselling",
+      : isMonthlyView
+        ? "Enquiries | Vive Analytics"
+        : isPageViewsView ? "Page Views | Vive Analytics" : "Analytics | Vive Counselling",
     isExcludedView
       ? "Private excluded visitor management for Vive Counselling analytics."
       : isMonthlyView
-      ? "Private monthly enquiry analytics for Vive Counselling."
-      : "Private first-party visit analytics for Vive Counselling.",
+        ? "Private monthly enquiry analytics for Vive Counselling."
+        : isPageViewsView
+          ? "Private page-view breakdown for Vive Counselling analytics."
+          : "Private first-party visit analytics for Vive Counselling.",
   );
 
   useEffect(() => {
@@ -1331,6 +1515,18 @@ export default function Analytics() {
     setSearchParams(nextParams);
   }
 
+  function updatePageViewRange(startDate: string, endDate: string) {
+    if (!isAnalyticsDateKey(startDate) || !isAnalyticsDateKey(endDate)) return;
+    const rangeLength = Math.round(
+      (parseDateKey(endDate).getTime() - parseDateKey(startDate).getTime()) / 86_400_000,
+    );
+    if (rangeLength < 0 || rangeLength >= 366 || endDate > todayKey) return;
+
+    const nextParams = new URLSearchParams({ end: endDate, start: startDate });
+    if (includeBots) nextParams.set("bots", "include");
+    setSearchParams(nextParams);
+  }
+
   function getReportContextParams() {
     const nextParams = new URLSearchParams();
     if (includeBots) nextParams.set("bots", "include");
@@ -1338,7 +1534,10 @@ export default function Analytics() {
       return nextParams;
     }
 
-    if (isMonthlyView) {
+    if (isPageViewsView) {
+      nextParams.set("end", pageViewEndDate);
+      nextParams.set("start", pageViewStartDate);
+    } else if (isMonthlyView) {
       if (monthKey !== currentMonth) nextParams.set("month", monthKey);
     } else if (dateKey !== todayKey) {
       nextParams.set("date", dateKey);
@@ -1382,6 +1581,7 @@ export default function Analytics() {
   const dailyReport = report?.type === "daily" ? report as DailyAnalyticsReport : null;
   const excludedReport = report?.type === "excluded" ? report as ExcludedVisitorsReport : null;
   const monthlyReport = report?.type === "monthly" ? report as MonthlyAnalyticsReport : null;
+  const pageViewsReport = report?.type === "pageViews" ? report as PageViewsAnalyticsReport : null;
   const visitorReport = report?.type === "visitor" ? report as VisitorAnalyticsReport : null;
 
   return (
@@ -1391,7 +1591,9 @@ export default function Analytics() {
           ? (focusedEventId ? "Enquiry journey" : "Visitor history")
           : isExcludedView
             ? "Excluded visitors"
-            : isMonthlyView ? "Monthly enquiries" : "Daily activity"}
+            : isMonthlyView
+              ? "Monthly enquiries"
+              : isPageViewsView ? "Page views" : "Daily activity"}
         includeBots={includeBots}
         onHome={closeVisitor}
         onIncludeBotsChange={updateIncludeBots}
@@ -1405,9 +1607,11 @@ export default function Analytics() {
           <VisitorHistory
             backLabel={isExcludedView
               ? "excluded visitors"
-              : isMonthlyView
-                ? `${formatMonth(monthKey)} enquiries`
-                : dateKey === todayKey ? "today" : formatDate(dateKey, true)}
+              : isPageViewsView
+                ? "page views"
+                : isMonthlyView
+                  ? `${formatMonth(monthKey)} enquiries`
+                  : dateKey === todayKey ? "today" : formatDate(dateKey, true)}
             focusedEventId={focusedEventId}
             focusedVisitId={focusedVisitId}
             includeBots={isExcludedView || includeBots}
@@ -1415,7 +1619,7 @@ export default function Analytics() {
             report={visitorReport}
           />
         ) : null}
-        {status === "ready" && !requestedVisitorId && !isMonthlyView && !isExcludedView && dailyReport ? (
+        {status === "ready" && !requestedVisitorId && !isMonthlyView && !isExcludedView && !isPageViewsView && dailyReport ? (
           <DailyObservatory
             dateKey={dailyReport.date}
             expandedVisitId={expandedVisitId}
@@ -1437,6 +1641,14 @@ export default function Analytics() {
             visits={monthlyReport.visits}
           />
         ) : null}
+        {status === "ready" && !requestedVisitorId && isPageViewsView && pageViewsReport ? (
+          <PageViewsBreakdown
+            includeBots={includeBots}
+            onRangeChange={updatePageViewRange}
+            report={pageViewsReport}
+            todayKey={todayKey}
+          />
+        ) : null}
         {status === "ready" && !requestedVisitorId && isExcludedView && excludedReport ? (
           <ExcludedVisitors
             onOpenVisitor={openExcludedVisitor}
@@ -1447,7 +1659,8 @@ export default function Analytics() {
           (requestedVisitorId && !visitorReport)
           || (!requestedVisitorId && isExcludedView && !excludedReport)
           || (!requestedVisitorId && isMonthlyView && !monthlyReport)
-          || (!requestedVisitorId && !isMonthlyView && !isExcludedView && !dailyReport)
+          || (!requestedVisitorId && isPageViewsView && !pageViewsReport)
+          || (!requestedVisitorId && !isMonthlyView && !isExcludedView && !isPageViewsView && !dailyReport)
         ) ? (
           <ReportState onRetry={refreshReport} status="error" />
         ) : null}

@@ -97,6 +97,10 @@ export default function App({ initialRenderAt }: AppProps) {
           path={privateRoutePaths.analyticsExcluded}
           element={<AnalyticsRoute />}
         />
+        <Route
+          path={privateRoutePaths.analyticsPageViews}
+          element={<AnalyticsRoute />}
+        />
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           {publicRedirectRoutes.map((route) => (

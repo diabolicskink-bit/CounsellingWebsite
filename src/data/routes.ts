@@ -21,6 +21,7 @@ export const privateRoutePaths = {
   analytics: "/analytics",
   analyticsEnquiries: "/analytics/enquiries",
   analyticsExcluded: "/analytics/excluded",
+  analyticsPageViews: "/analytics/pages",
 } as const;
 
 export function isPrivateRoutePath(pathname: string) {

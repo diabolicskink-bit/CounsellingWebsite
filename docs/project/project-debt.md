@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-41`
+- `Next ID`: `DEBT-42`
 
 ## How To Maintain This Tracker
 
@@ -181,6 +181,30 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
   - The protected Basic-auth boundary limits who can request reports but does not bound the amount of data a valid request can serialize.
 - `Links`: `api/analytics.ts`, `src/server/reporting/request.ts`, `src/server/reporting/reader.ts`, `src/data/analyticsContract.ts`, `src/pages/Analytics.tsx`
+
+### DEBT-41 - Private analytics presentation still depends on public styling
+
+- `Priority`: `P2`
+- `Size`: `M`
+- `Priority Rationale`: This is `P2` because the owner has established strict visual independence between the private analytics product and the public site, while the current shared browser entry still lets public presentation affect the dashboard. The present interface remains usable, so this is an architectural boundary to resolve deliberately rather than an urgent outage.
+- `Status`: `Open`
+- `Detected`: 2026-08-16
+- `Source`: Owner direction and source inspection
+- `Area`: Analytics, CSS, Routing, Build, Maintainability
+- `Problem`: The shared browser entry imports the public global and design-system styles for every route, including private analytics, and `styles-analytics.css` reads public font variables. The analytics stylesheet is imported from the lazy analytics page, but its absence from public-route output has not been made an explicit verified contract. The private interface therefore does not yet satisfy the required two-way visual implementation boundary.
+- `Why It Matters`: Public visual changes can alter the private dashboard unintentionally, and unclear ownership may encourage future agents to reuse analytics presentation on the public site or public presentation in analytics.
+- `Preferred Direction`: Give private analytics a self-contained presentation and runtime boundary whose routes do not load public visual layers and whose visual CSS, tokens, assets, and components are absent from public pages. Retain only genuinely nonvisual shared contracts, utilities, and tracking infrastructure.
+- `Resolution Path`: Audit the current entry, route loading, generated CSS chunks, font ownership, assets, and visual component consumers; choose a dedicated private entry/document or an equivalently strict route-isolation strategy; replace public visual dependencies with analytics-owned foundations; then verify generated asset separation and the protected interface on Vercel Preview.
+- `Next Action`: Trace the built CSS and runtime imports for public and private routes, then select the smallest architecture that guarantees two-way visual isolation without changing analytics behaviour or the public site's appearance.
+- `Resolved When`: Private analytics renders without loading public presentation, public routes do not load analytics presentation, neither surface consumes the other's visual tokens, assets, or UI components, and focused build inspection plus owner verification on the database-backed Preview deployment confirms the separation.
+- `Related Items`:
+  - `DEBT-15`: Public page CSS is already globally bundled; resolving the private boundary must not silently turn that broader public-page issue into analytics scope.
+- `Dependencies`: `None`
+- `Notes`:
+  - The repository-wide analytics instructions define the required direction now; this tracker item records the existing implementation gap and does not authorize the refactor by itself.
+  - Keep the eventual solution proportionate to a single-owner internal tool. Do not introduce a generalized dashboard design system or multi-user administration architecture to resolve the CSS boundary.
+  - Database-backed verification remains a Preview-and-owner workflow because no local analytics database is configured.
+- `Links`: `src/main.tsx`, `src/App.tsx`, `src/pages/Analytics.tsx`, `src/styles-analytics.css`
 
 ### DEBT-9 - Type checking does not cover tests, scripts, or most config code
 

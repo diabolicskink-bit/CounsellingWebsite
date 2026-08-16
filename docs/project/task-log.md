@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-16 - Page-View Range Report Added
+
+- Added a complete protected route breakdown linked from the daily page-view widget, defaulting to the dashboard's selected day.
+- Added an inclusive date-range selector of up to 366 days with total views, visits, average pages per visit, route share, and per-route visit counts.
+- Kept range reads to one aggregate database query with existing visitor exclusions and server-side bot filtering, without adding schema fields or migrations.
+
 ## 2026-08-16 - Daily Analytics Signals Refined
 
 - Reworked the private daily dashboard around visit-source composition, total and average page views, a four-route view ranking, and a compact returning-visits measure.

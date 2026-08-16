@@ -68,6 +68,30 @@ test("requests all enquiry visits for a selected calendar month", async () => {
   assert.equal(result.statusCode, 200);
 });
 
+test("requests one aggregated page-view breakdown for a bounded date range", async () => {
+  const selections = [];
+  const handler = createAnalyticsHandler(
+    async (selection) => {
+      selections.push(selection);
+      return { routes: [] };
+    },
+    () => new Date("2026-08-16T04:00:00.000Z"),
+  );
+
+  const result = await invoke(handler, {
+    method: "GET",
+    query: { bots: "include", end: "2026-08-16", start: "2026-08-01" },
+  });
+
+  assert.deepEqual(selections, [{
+    endDate: "2026-08-16",
+    includeBots: true,
+    startDate: "2026-08-01",
+    type: "pageViews",
+  }]);
+  assert.equal(result.statusCode, 200);
+});
+
 test("defaults a daily request to the current Australia/Perth date", async () => {
   const selections = [];
   const handler = createAnalyticsHandler(
@@ -102,10 +126,13 @@ test("requests a complete visitor history by anonymous visitor ID", async () => 
 
 test("rejects writes and invalid or ambiguous report selections before reading", async () => {
   let readCalls = 0;
-  const handler = createAnalyticsHandler(async () => {
-    readCalls += 1;
-    return {};
-  });
+  const handler = createAnalyticsHandler(
+    async () => {
+      readCalls += 1;
+      return {};
+    },
+    () => new Date("2026-08-16T04:00:00.000Z"),
+  );
 
   const write = await invoke(handler, { method: "POST", query: {} });
   const invalidDate = await invoke(handler, { method: "GET", query: { date: "2026-02-31" } });
@@ -122,6 +149,22 @@ test("rejects writes and invalid or ambiguous report selections before reading",
     query: { date: "2026-08-14", month: "2026-08" },
   });
   const unknown = await invoke(handler, { method: "GET", query: { limit: "100" } });
+  const incompleteRange = await invoke(handler, {
+    method: "GET",
+    query: { start: "2026-08-01" },
+  });
+  const reversedRange = await invoke(handler, {
+    method: "GET",
+    query: { end: "2026-08-01", start: "2026-08-02" },
+  });
+  const futureRange = await invoke(handler, {
+    method: "GET",
+    query: { end: "2027-08-01", start: "2027-08-01" },
+  });
+  const oversizedRange = await invoke(handler, {
+    method: "GET",
+    query: { end: "2026-08-14", start: "2025-08-13" },
+  });
 
   assert.equal(write.statusCode, 405);
   assert.equal(write.headers.allow, "GET");
@@ -130,6 +173,10 @@ test("rejects writes and invalid or ambiguous report selections before reading",
   assert.equal(ambiguous.statusCode, 400);
   assert.equal(ambiguousMonth.statusCode, 400);
   assert.equal(unknown.statusCode, 400);
+  assert.equal(incompleteRange.statusCode, 400);
+  assert.equal(reversedRange.statusCode, 400);
+  assert.equal(futureRange.statusCode, 400);
+  assert.equal(oversizedRange.statusCode, 400);
   assert.equal(readCalls, 0);
 });
 

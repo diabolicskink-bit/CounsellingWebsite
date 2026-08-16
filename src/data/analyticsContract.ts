@@ -93,6 +93,21 @@ export type MonthlyAnalyticsReport = {
   visits: AnalyticsVisit[];
 };
 
+export type PageViewRouteSummary = {
+  pageViews: number;
+  path: string;
+  visits: number;
+};
+
+export type PageViewsAnalyticsReport = {
+  endDate: string;
+  routes: PageViewRouteSummary[];
+  startDate: string;
+  totalPageViews: number;
+  totalVisits: number;
+  type: "pageViews";
+};
+
 export type VisitorAnalyticsReport = {
   isExcluded: boolean;
   type: "visitor";
@@ -117,6 +132,7 @@ export type AnalyticsReport =
   | DailyAnalyticsReport
   | ExcludedVisitorsReport
   | MonthlyAnalyticsReport
+  | PageViewsAnalyticsReport
   | VisitorAnalyticsReport;
 
 export type AnalyticsApiResponse = {

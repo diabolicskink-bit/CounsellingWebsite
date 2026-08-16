@@ -4,6 +4,7 @@ import {
   AnalyticsDataUnavailableError,
   dailyAnalyticsSql,
   monthlyEnquiryAnalyticsSql,
+  pageViewsAnalyticsSql,
   readAnalytics,
   visitorAnalyticsSql,
 } from "../../src/server/reporting/reader.ts";
@@ -189,6 +190,41 @@ test("reads visits with enquiry outcomes in one Perth calendar month", async () 
   assert.match(calls[0].query, /enquiry_failed/);
   assert.match(calls[0].query, /INTERVAL '1 month'/);
   assert.match(calls[0].query, /Australia\/Perth/);
+  assert.match(calls[0].query, /analytics_excluded_visitors/);
+});
+
+test("reads an aggregated page-view breakdown in one query", async () => {
+  const { calls, database } = createDatabase([
+    { pageViews: "5", path: "/contact", totalPageViews: "8", totalVisits: "4", visits: "3" },
+    { pageViews: "3", path: "/", totalPageViews: "8", totalVisits: "4", visits: "2" },
+  ]);
+
+  const result = await readAnalytics(
+    {
+      endDate: "2026-08-15",
+      includeBots: false,
+      startDate: "2026-08-01",
+      type: "pageViews",
+    },
+    database,
+  );
+
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].query, pageViewsAnalyticsSql);
+  assert.deepEqual(calls[0].parameters, ["2026-08-01", "2026-08-15", false]);
+  assert.deepEqual(result, {
+    endDate: "2026-08-15",
+    routes: [
+      { pageViews: 5, path: "/contact", visits: 3 },
+      { pageViews: 3, path: "/", visits: 2 },
+    ],
+    startDate: "2026-08-01",
+    totalPageViews: 8,
+    totalVisits: 4,
+    type: "pageViews",
+  });
+  assert.match(calls[0].query, /COUNT\(DISTINCT page_views\.visit_id\)/);
+  assert.match(calls[0].query, /ledger\.is_bot IS DISTINCT FROM TRUE/);
   assert.match(calls[0].query, /analytics_excluded_visitors/);
 });
 
