@@ -9,11 +9,10 @@ import {
   createInitialVisitObservation,
   createRouteVisitObservation,
 } from "../utils/visitSession";
+import { enqueueVisitAnalyticsRecord } from "../utils/visitAnalyticsQueue";
 
 let hasRecordedPageView = false;
 let lastObservedPath: string | undefined;
-let recordQueue = Promise.resolve();
-
 function recordPageView(path: string, force = false) {
   if (!force && lastObservedPath === path) {
     return;
@@ -29,23 +28,17 @@ function recordPageView(path: string, force = false) {
       ? createInitialVisitObservation(path)
       : createRouteVisitObservation(path);
 
-    recordQueue = recordQueue
-      .catch(() => undefined)
-      .then(async () => {
-        try {
-          await fetch("/api/visit", {
-            body: JSON.stringify(observation),
-            credentials: "same-origin",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            keepalive: true,
-            method: "POST",
-          });
-        } catch {
-          // Visit analytics is best-effort and must never affect the visitor experience.
-        }
+    void enqueueVisitAnalyticsRecord(async () => {
+      await fetch("/api/visit", {
+        body: JSON.stringify(observation),
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        keepalive: true,
+        method: "POST",
       });
+    });
   } catch {
     // Visit analytics is best-effort and must never affect the visitor experience.
   }

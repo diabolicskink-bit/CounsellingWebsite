@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "functions": {
     "api/enquiry.ts": {
-      "includeFiles": "src/{data/enquiryContract.ts,server/enquiry/**,utils/timeZones.ts}"
+      "includeFiles": "src/{data/enquiryContract.ts,data/visitEventContract.ts,server/enquiry/**,server/visit-events/**,server/visits/repository.ts,utils/timeZones.ts}"
     },
     "api/visit-retention.ts": {
       "includeFiles": "src/server/visits/**"
@@ -13,6 +13,9 @@
     },
     "api/visit.ts": {
       "includeFiles": "src/server/visits/**"
+    },
+    "api/visit-event.ts": {
+      "includeFiles": "src/{data/visitEventContract.ts,server/visit-events/**,server/visits/repository.ts}"
     }
   },
   "crons": [

@@ -39,10 +39,16 @@ export type VisitPageViewObservation = {
   visitorId: string;
 };
 
+export type VisitEventContext = Pick<
+  VisitPageViewObservation,
+  "pageViewId" | "visitId" | "visitorId"
+>;
+
 let volatileVisitor: StoredVisitor | undefined;
 let volatileVisit: StoredVisit | undefined;
+let currentEventContext: VisitEventContext | undefined;
 
-function createUuid() {
+export function createVisitAnalyticsUuid() {
   if (typeof crypto.randomUUID === "function") {
     return crypto.randomUUID();
   }
@@ -148,7 +154,7 @@ function getOrCreateVisitor(now: number) {
 
   const visitor: StoredVisitor = {
     createdAt: now,
-    id: createUuid(),
+    id: createVisitAnalyticsUuid(),
     version: storageVersion,
   };
 
@@ -287,7 +293,7 @@ function createVisit(
 ): StoredVisit {
   return {
     ...attribution,
-    id: createUuid(),
+    id: createVisitAnalyticsUuid(),
     landingPath,
     lastActivityAt: now,
     referrerUrl,
@@ -349,19 +355,31 @@ function createObservation(
   visit: StoredVisit,
   path: string,
 ): VisitPageViewObservation {
-  return {
+  const observation = {
     adCode: visit.adCode,
     gclid: visit.gclid,
     landingPath: visit.landingPath,
     matchType: visit.matchType,
     matchedKeyword: visit.matchedKeyword,
     networkCode: visit.networkCode,
-    pageViewId: createUuid(),
+    pageViewId: createVisitAnalyticsUuid(),
     path,
     referrerUrl: visit.referrerUrl,
     visitId: visit.id,
     visitorId: visitor.id,
   };
+
+  currentEventContext = {
+    pageViewId: observation.pageViewId,
+    visitId: observation.visitId,
+    visitorId: observation.visitorId,
+  };
+
+  return observation;
+}
+
+export function getCurrentVisitEventContext() {
+  return currentEventContext;
 }
 
 export function createInitialVisitObservation(

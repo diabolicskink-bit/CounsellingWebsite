@@ -514,22 +514,25 @@ test.describe("analytics", () => {
     test.skip(!analyticsConfiguredOnBlockedHost, "Analytics host blocking is covered by npm run qa:analytics.");
 
     const analyticsRequests: string[] = [];
-    const visitRequests: string[] = [];
+    const firstPartyAnalyticsRequests: string[] = [];
 
     page.on("request", (request) => {
       if (isAnalyticsUrl(request.url())) {
         analyticsRequests.push(request.url());
       }
 
-      if (new URL(request.url()).pathname === "/api/visit") {
-        visitRequests.push(request.url());
+      if (["/api/visit", "/api/visit-event"].includes(new URL(request.url()).pathname)) {
+        firstPartyAnalyticsRequests.push(request.url());
       }
     });
 
-    await page.goto("/", { waitUntil: "networkidle" });
+    await page.goto("/contact", { waitUntil: "networkidle" });
+    const form = page.getByRole("form", { name: "Enquiry" });
+    await form.getByLabel("General enquiry").check();
+    await form.getByLabel("Name").fill("Host gate check");
 
     expect(analyticsRequests).toEqual([]);
-    expect(visitRequests).toEqual([]);
+    expect(firstPartyAnalyticsRequests).toEqual([]);
     await expect(page.locator("#vive-google-analytics, #vive-microsoft-clarity")).toHaveCount(0);
   });
 
@@ -634,6 +637,56 @@ test.describe("analytics", () => {
         botName: null,
         dateKey: date,
         durationSeconds: 90,
+        events: [
+          {
+            eventType: "contact_option_selected",
+            id: "d148d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+            occurredAt: `${date}T03:00:45.000Z`,
+            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
+            properties: { option: "question" },
+            source: "client",
+          },
+          {
+            eventType: "enquiry_started",
+            id: "d248d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+            occurredAt: `${date}T03:01:00.000Z`,
+            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
+            properties: {},
+            source: "client",
+          },
+          {
+            eventType: "enquiry_submit_attempted",
+            id: "d348d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+            occurredAt: `${date}T03:01:10.000Z`,
+            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
+            properties: {},
+            source: "server",
+          },
+          {
+            eventType: "enquiry_failed",
+            id: "d448d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+            occurredAt: `${date}T03:01:15.000Z`,
+            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
+            properties: { reason: "email_provider" },
+            source: "server",
+          },
+          {
+            eventType: "enquiry_submit_attempted",
+            id: "d548d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+            occurredAt: `${date}T03:01:20.000Z`,
+            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
+            properties: {},
+            source: "server",
+          },
+          {
+            eventType: "enquiry_sent",
+            id: "d648d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+            occurredAt: `${date}T03:01:25.000Z`,
+            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
+            properties: {},
+            source: "server",
+          },
+        ],
         gclid: "CjwK-gclid-only",
         id: visitId,
         isBot: false,
@@ -644,7 +697,8 @@ test.describe("analytics", () => {
         networkCode: null,
         pageViews: [
           { id: "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf", path: "/", viewedAt: `${date}T03:00:00.000Z` },
-          { id: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98", path: "/contact", viewedAt: `${date}T03:01:30.000Z` },
+          { id: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98", path: "/contact", viewedAt: `${date}T03:00:30.000Z` },
+          { id: "f7bb1f87-203f-4ea8-812b-97d80b2d5e98", path: "/contact", viewedAt: `${date}T03:01:30.000Z` },
         ],
         referrerHost: null,
         referrerUrl: null,
@@ -656,6 +710,7 @@ test.describe("analytics", () => {
       };
       const unclassifiedVisit = {
         ...visit,
+        events: [],
         gclid: null,
         id: "2a560836-220d-4d33-a05e-5f364891f9cb",
         isBot: null,
@@ -676,6 +731,7 @@ test.describe("analytics", () => {
         ...visit,
         botCategory: "search_engine_crawler",
         botName: "googlebot",
+        events: [],
         gclid: null,
         id: "3a560836-220d-4d33-a05e-5f364891f9cb",
         isBot: true,
@@ -712,6 +768,42 @@ test.describe("analytics", () => {
     await expect(page.getByText("New visitor · Visit 1 of 1", { exact: true })).toBeVisible();
     await expect(page.locator(".signal-event__beacon--returning")).toHaveCount(1);
 
+    const enquiryActivity = page.getByRole("region", { name: "Enquiry activity" });
+    await expect(enquiryActivity.getByText("Enquiry failed", { exact: true })).toBeVisible();
+    await expect(enquiryActivity.getByText("Enquiry sent", { exact: true })).toBeVisible();
+    await enquiryActivity.getByRole("button", { name: /Enquiry sent.*Open enquiry journey/ }).click();
+
+    await expect(page.getByRole("heading", { level: 1, name: "Enquiry journey" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Visits and enquiry activity" })).toBeVisible();
+    await expect.poll(() => {
+      const journeyUrl = new URL(page.url());
+
+      return {
+        event: journeyUrl.searchParams.get("event"),
+        visitor: journeyUrl.searchParams.get("visitor"),
+      };
+    }).toEqual({
+      event: "d648d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+      visitor: visitorId,
+    });
+    await expect(
+      page.locator(".visitor-visit--focused .signal-journey > li strong"),
+    ).toHaveText([
+      "/",
+      "/contact",
+      "Contact option selected",
+      "Enquiry started",
+      "Enquiry submit attempted",
+      "Enquiry failed",
+      "Enquiry submit attempted",
+      "Enquiry sent",
+      "/contact",
+    ]);
+    await expect(page.locator(".signal-journey__event--selected")).toContainText("Enquiry sent");
+
+    await page.getByRole("button", { name: /Back to/ }).click();
+    await expect(page.getByRole("heading", { level: 2, name: "Visits on this day" })).toBeVisible();
+
     const includeBots = page.getByRole("button", { name: "Include bots" });
     await expect(includeBots).toHaveAttribute("aria-pressed", "false");
     await includeBots.click();
@@ -727,10 +819,10 @@ test.describe("analytics", () => {
 
     await page.getByRole("button", { name: /View all visits from Browser/ }).click();
     await expect(page.getByRole("heading", { level: 2, name: "All visits" })).toBeVisible();
-    await expect(page.getByText("Elapsed to last page", { exact: true })).toBeVisible();
+    await expect(page.getByText("Elapsed to last page", { exact: true }).first()).toBeVisible();
     await expect(page.locator(".visitor-visit")).toHaveCount(2);
     await expect(page.getByText("This browser has 2 recorded visits.", { exact: true })).toBeVisible();
-    await expect(page.getByText("/bot-only", { exact: true })).toBeVisible();
+    await expect(page.locator(".visitor-visit").filter({ hasText: "/bot-only" })).toHaveCount(1);
 
     const botsIncluded = page.getByRole("button", { name: "Bots included" });
     await expect(botsIncluded).toHaveAttribute("aria-pressed", "true");
@@ -893,6 +985,72 @@ test.describe("analytics", () => {
     expect(observations[2].visitorId).not.toBe(observations[1].visitorId);
     expect(observations[2].visitId).not.toBe(observations[1].visitId);
     expect(observations[2].pageViewId).not.toBe(observations[1].pageViewId);
+  });
+
+  test("first-party enquiry events stay visit-linked and server-owned", async ({ page }) => {
+    test.skip(
+      !firstPartyVisitRecordingEnabled,
+      "First-party enquiry event recording is covered by npm run qa:analytics.",
+    );
+
+    const visitObservations: Array<Record<string, unknown>> = [];
+    const eventObservations: Array<Record<string, unknown>> = [];
+    const enquirySubmissions: Array<Record<string, unknown>> = [];
+    const uuidV4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+
+    await stubAnalyticsRequests(page);
+    await page.route("**/api/visit", async (route) => {
+      visitObservations.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({ status: 204 });
+    });
+    await page.route("**/api/visit-event", async (route) => {
+      eventObservations.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({ status: 204 });
+    });
+    await page.route("**/api/enquiry", async (route) => {
+      enquirySubmissions.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({ body: JSON.stringify({ ok: true }), contentType: "application/json", status: 200 });
+    });
+
+    await page.goto("/contact", { waitUntil: "networkidle" });
+    await expect.poll(() => visitObservations.length).toBe(1);
+
+    const form = page.getByRole("form", { name: "Enquiry" });
+    await form.getByLabel("General enquiry").check();
+    await form.getByLabel("Name").fill("Alex Person");
+    await form.getByLabel("Email").fill("alex@example.com");
+    await form.getByLabel("Your enquiry").fill("Hello");
+    await expect.poll(() => eventObservations.length).toBe(2);
+
+    const visitObservation = visitObservations[0];
+    expect(eventObservations).toEqual([
+      {
+        eventId: expect.stringMatching(uuidV4),
+        eventType: "contact_option_selected",
+        pageViewId: visitObservation.pageViewId,
+        properties: { option: "question" },
+        visitId: visitObservation.visitId,
+      },
+      {
+        eventId: expect.stringMatching(uuidV4),
+        eventType: "enquiry_started",
+        pageViewId: visitObservation.pageViewId,
+        properties: {},
+        visitId: visitObservation.visitId,
+      },
+    ]);
+
+    await form.getByRole("button", { name: "Send enquiry" }).click();
+    await expect(page.getByRole("status")).toBeVisible();
+    await expect.poll(() => enquirySubmissions.length).toBe(1);
+    expect(enquirySubmissions[0]).toMatchObject({
+      analyticsPageViewId: visitObservation.pageViewId,
+      analyticsVisitId: visitObservation.visitId,
+    });
+    expect(eventObservations.map((observation) => observation.eventType)).toEqual([
+      "contact_option_selected",
+      "enquiry_started",
+    ]);
   });
 
   test("enquiry form is explicitly masked for Clarity", async ({ page }) => {
@@ -1089,6 +1247,8 @@ test.describe("enquiry form", () => {
     await expect(success).toBeFocused();
     expect(submittedMethod).toBe("POST");
     expect(submittedPayload).toEqual({
+      analyticsPageViewId: "",
+      analyticsVisitId: "",
       availability: "Weekday afternoons",
       bookingType: "consult",
       email: "alex@example.com",

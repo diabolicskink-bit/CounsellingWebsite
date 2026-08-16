@@ -12,7 +12,11 @@ type EnquiryDeliveryDependencies = {
 
 type EnquiryDeliveryResult =
   | { type: "sent" }
-  | { status: 500 | 502; type: "failed" };
+  | {
+      reason: "configuration" | "email_provider" | "network";
+      status: 500 | 502;
+      type: "failed";
+    };
 
 const resendEndpoint = "https://api.resend.com/emails";
 
@@ -38,7 +42,7 @@ export async function deliverEnquiry(
 
     logError("Enquiry delivery configuration missing:", missingEnvironment.join(", "));
 
-    return { status: 500, type: "failed" };
+    return { reason: "configuration", status: 500, type: "failed" };
   }
 
   try {
@@ -56,14 +60,14 @@ export async function deliverEnquiry(
 
       logError("Resend enquiry send failed:", resendResponse.status, resendError);
 
-      return { status: 502, type: "failed" };
+      return { reason: "email_provider", status: 502, type: "failed" };
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
 
     logError("Unexpected enquiry send error:", message);
 
-    return { status: 500, type: "failed" };
+    return { reason: "network", status: 500, type: "failed" };
   }
 
   return { type: "sent" };

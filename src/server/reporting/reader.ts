@@ -3,6 +3,7 @@ import type {
   AnalyticsReport,
   AnalyticsTrafficSource,
   AnalyticsVisit,
+  AnalyticsVisitEvent,
 } from "../../data/analyticsContract.ts";
 import {
   getVisitDatabase,
@@ -18,6 +19,11 @@ const trafficSources = new Set<AnalyticsTrafficSource>([
   "internal",
   "paid",
   "referral",
+]);
+
+const eventSources = new Set<AnalyticsVisitEvent["source"]>([
+  "client",
+  "server",
 ]);
 
 const analyticsVisitColumns = `
@@ -62,7 +68,25 @@ const analyticsVisitColumns = `
       WHERE page_views.visit_id = ledger.visit_id
     ),
     '[]'::JSON
-  ) AS "pageViews"
+  ) AS "pageViews",
+  COALESCE(
+    (
+      SELECT JSON_AGG(
+        JSON_BUILD_OBJECT(
+          'id', visit_events.id::TEXT,
+          'eventType', visit_events.event_type,
+          'occurredAt', visit_events.occurred_at,
+          'pageViewId', visit_events.page_view_id::TEXT,
+          'properties', visit_events.properties,
+          'source', visit_events.source
+        )
+        ORDER BY visit_events.occurred_at, visit_events.id
+      )
+      FROM site_visit_events AS visit_events
+      WHERE visit_events.visit_id = ledger.visit_id
+    ),
+    '[]'::JSON
+  ) AS "events"
 `;
 
 export const dailyAnalyticsSql = `
@@ -142,6 +166,56 @@ function normalizeTrafficSource(value: unknown) {
   throw new TypeError("Analytics row has an invalid traffic source.");
 }
 
+function normalizeEventSource(value: unknown): AnalyticsVisitEvent["source"] {
+  if (
+    typeof value === "string"
+    && eventSources.has(value as AnalyticsVisitEvent["source"])
+  ) {
+    return value as AnalyticsVisitEvent["source"];
+  }
+
+  throw new TypeError("Analytics row has an invalid event source.");
+}
+
+function normalizeEventProperties(value: unknown): Record<string, string> {
+  const properties = typeof value === "string" ? JSON.parse(value) : value;
+
+  if (!properties || typeof properties !== "object" || Array.isArray(properties)) {
+    throw new TypeError("Analytics row has invalid event properties.");
+  }
+
+  const entries = Object.entries(properties);
+  if (entries.some(([, propertyValue]) => typeof propertyValue !== "string")) {
+    throw new TypeError("Analytics row has invalid event properties.");
+  }
+
+  return Object.fromEntries(entries) as Record<string, string>;
+}
+
+function normalizeEvents(value: unknown): AnalyticsVisitEvent[] {
+  const events = typeof value === "string" ? JSON.parse(value) : value;
+
+  if (!Array.isArray(events)) {
+    throw new TypeError("Analytics row has invalid events.");
+  }
+
+  return events.map((event) => {
+    if (!event || typeof event !== "object") {
+      throw new TypeError("Analytics row has an invalid event.");
+    }
+
+    const row = event as Record<string, unknown>;
+    return {
+      eventType: requiredString(row.eventType, "event type"),
+      id: requiredString(row.id, "event ID"),
+      occurredAt: timestampString(row.occurredAt, "event time"),
+      pageViewId: nullableString(row.pageViewId, "event page-view ID"),
+      properties: normalizeEventProperties(row.properties),
+      source: normalizeEventSource(row.source),
+    };
+  });
+}
+
 function normalizePageViews(value: unknown): AnalyticsPageView[] {
   const pageViews = typeof value === "string" ? JSON.parse(value) : value;
 
@@ -177,6 +251,7 @@ function normalizeVisit(row: AnalyticsVisitRow): AnalyticsVisit {
     botName: nullableString(row.botName, "bot name"),
     dateKey: requiredString(row.dateKey, "date"),
     durationSeconds: nonNegativeInteger(row.durationSeconds, "duration"),
+    events: normalizeEvents(row.events),
     gclid: nullableString(row.gclid, "GCLID"),
     id: requiredString(row.id, "visit ID"),
     isBot: nullableBoolean(row.isBot, "bot verdict"),

@@ -18,6 +18,10 @@ const botMigration = await readFile(
   new URL("0003_add_visit_bot_classification.sql", migrationsUrl),
   "utf8",
 );
+const eventMigration = await readFile(
+  new URL("0004_create_visit_event_ledger.sql", migrationsUrl),
+  "utf8",
+);
 const queryFilenames = (await readdir(queriesUrl))
   .filter((filename) => filename.endsWith(".sql"))
   .sort();
@@ -35,6 +39,7 @@ test("visit ledger migrations retain their application order", async () => {
     "0001_create_visit_ledger.sql",
     "0002_create_visit_ledger_view.sql",
     "0003_add_visit_bot_classification.sql",
+    "0004_create_visit_event_ledger.sql",
   ]);
 });
 
@@ -47,6 +52,7 @@ test("database migration reader returns the ordered ledger migrations", async ()
       "0001_create_visit_ledger.sql",
       "0002_create_visit_ledger_view.sql",
       "0003_add_visit_bot_classification.sql",
+      "0004_create_visit_event_ledger.sql",
     ],
   );
   assert.ok(migrations.every((migration) => /^[a-f0-9]{64}$/.test(migration.checksum)));
@@ -108,6 +114,21 @@ test("bot classification migration preserves nullable verdicts and verified iden
   assert.match(botMigration, /ADD COLUMN bot_category TEXT/i);
   assert.match(botMigration, /CREATE OR REPLACE VIEW visit_ledger/i);
   assert.match(botMigration, /ordered_visits\.is_bot/i);
+});
+
+test("visit-event migration enforces controlled event and page ownership data", () => {
+  assert.match(eventMigration, /CREATE TABLE site_visit_events/i);
+  assert.match(eventMigration, /id UUID PRIMARY KEY/i);
+  assert.match(eventMigration, /visit_id UUID NOT NULL REFERENCES site_visits/i);
+  assert.match(eventMigration, /FOREIGN KEY \(page_view_id, visit_id\)/i);
+  assert.match(eventMigration, /occurred_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP/i);
+  assert.match(eventMigration, /source IN \('client', 'server'\)/i);
+  assert.match(eventMigration, /properties JSONB NOT NULL/i);
+  assert.match(eventMigration, /contact_option_selected/i);
+  assert.match(eventMigration, /enquiry_started/i);
+  assert.match(eventMigration, /enquiry_submit_attempted/i);
+  assert.match(eventMigration, /enquiry_sent/i);
+  assert.match(eventMigration, /enquiry_failed/i);
 });
 
 test("saved visit ledger queries are read-only and cover each reporting task", async () => {

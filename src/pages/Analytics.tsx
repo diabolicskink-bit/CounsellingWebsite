@@ -7,6 +7,8 @@ import {
   CalendarDays,
   ChevronDown,
   ChevronRight,
+  CircleCheck,
+  CircleX,
   Clock3,
   LockKeyhole,
   Radio,
@@ -21,6 +23,7 @@ import {
   type AnalyticsReport,
   type AnalyticsTrafficSource,
   type AnalyticsVisit,
+  type AnalyticsVisitEvent,
   type DailyAnalyticsReport,
   type VisitorAnalyticsReport,
 } from "../data/analyticsContract";
@@ -30,6 +33,20 @@ import "../styles-analytics.css";
 type AnalyticsLoadState =
   | { report: null; status: "error" | "loading" }
   | { report: AnalyticsReport; status: "ready" };
+
+type VisitJourneyItem =
+  | {
+      id: string;
+      kind: "event";
+      occurredAt: string;
+      visitEvent: AnalyticsVisitEvent;
+    }
+  | {
+      id: string;
+      kind: "page";
+      occurredAt: string;
+      path: string;
+    };
 
 const perthTimeFormatter = new Intl.DateTimeFormat("en-AU", {
   hour: "2-digit",
@@ -135,6 +152,140 @@ function sourceDetail(visit: AnalyticsVisit) {
   return "No referrer";
 }
 
+const eventLabels: Record<string, string> = {
+  contact_option_selected: "Contact option selected",
+  enquiry_failed: "Enquiry failed",
+  enquiry_sent: "Enquiry sent",
+  enquiry_started: "Enquiry started",
+  enquiry_submit_attempted: "Enquiry submit attempted",
+};
+
+const contactOptionLabels: Record<string, string> = {
+  appointment: "Make an appointment",
+  consult: "Request a 15-minute consult",
+  question: "General enquiry",
+};
+
+const failureReasonLabels: Record<string, string> = {
+  configuration: "Configuration",
+  email_provider: "Email provider",
+  network: "Network",
+  server: "Server",
+};
+
+function eventLabel(visitEvent: AnalyticsVisitEvent) {
+  return eventLabels[visitEvent.eventType] ?? visitEvent.eventType.split("_").join(" ");
+}
+
+function eventProperty(visitEvent: AnalyticsVisitEvent, ...keys: string[]) {
+  return keys.map((key) => visitEvent.properties[key]).find(Boolean) ?? null;
+}
+
+function contactOptionLabel(value: string | null) {
+  if (!value) return null;
+  return contactOptionLabels[value] ?? value.split("_").join(" ");
+}
+
+function eventDetail(visitEvent: AnalyticsVisitEvent) {
+  if (visitEvent.eventType === "contact_option_selected") {
+    return contactOptionLabel(eventProperty(visitEvent, "option", "contactOption", "contact_option"));
+  }
+
+  if (visitEvent.eventType === "enquiry_failed") {
+    const reason = eventProperty(visitEvent, "reason", "failureReason", "failure_reason");
+    return reason ? (failureReasonLabels[reason] ?? reason.split("_").join(" ")) : null;
+  }
+
+  return null;
+}
+
+function visitJourney(visit: AnalyticsVisit): VisitJourneyItem[] {
+  return [
+    ...visit.pageViews.map((pageView) => ({
+      id: pageView.id,
+      kind: "page" as const,
+      occurredAt: pageView.viewedAt,
+      path: pageView.path,
+    })),
+    ...(visit.events ?? []).map((visitEvent) => ({
+      id: visitEvent.id,
+      kind: "event" as const,
+      occurredAt: visitEvent.occurredAt,
+      visitEvent,
+    })),
+  ].sort((left, right) => {
+    const timeDifference = new Date(left.occurredAt).getTime() - new Date(right.occurredAt).getTime();
+    if (timeDifference !== 0) return timeDifference;
+    if (left.kind !== right.kind) return left.kind === "page" ? -1 : 1;
+    return left.id.localeCompare(right.id);
+  });
+}
+
+function enquiryOptionForEvent(visit: AnalyticsVisit, targetEvent: AnalyticsVisitEvent) {
+  const ownOption = contactOptionLabel(eventProperty(targetEvent, "option", "contactOption", "contact_option"));
+  if (ownOption) return ownOption;
+
+  const targetTime = new Date(targetEvent.occurredAt).getTime();
+  const selectedOption = [...(visit.events ?? [])]
+    .filter((visitEvent) => visitEvent.eventType === "contact_option_selected"
+      && new Date(visitEvent.occurredAt).getTime() <= targetTime)
+    .sort((left, right) => new Date(right.occurredAt).getTime() - new Date(left.occurredAt).getTime())[0];
+
+  return selectedOption ? eventDetail(selectedOption) : null;
+}
+
+function JourneyTimeline({
+  selectedEventId,
+  visit,
+}: {
+  selectedEventId?: string | null;
+  visit: AnalyticsVisit;
+}) {
+  const pagePathById = new Map(visit.pageViews.map((pageView) => [pageView.id, pageView.path]));
+
+  return (
+    <ol className="signal-journey">
+      {visitJourney(visit).map((item, index) => {
+        if (item.kind === "page") {
+          return (
+            <li className="signal-journey__page" key={`page-${item.id}`}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <time dateTime={item.occurredAt}>{formatTime(item.occurredAt)}</time>
+              <strong>{item.path}</strong>
+            </li>
+          );
+        }
+
+        const isSelected = item.id === selectedEventId;
+        const detail = eventDetail(item.visitEvent);
+        const pagePath = item.visitEvent.pageViewId
+          ? pagePathById.get(item.visitEvent.pageViewId)
+          : null;
+
+        return (
+          <li
+            aria-current={isSelected ? "true" : undefined}
+            className={isSelected
+              ? "signal-journey__event signal-journey__event--selected"
+              : "signal-journey__event"}
+            id={isSelected ? `selected-event-${item.id}` : undefined}
+            key={`event-${item.id}`}
+          >
+            <span>EV</span>
+            <time dateTime={item.occurredAt}>{formatTime(item.occurredAt)}</time>
+            <div>
+              <strong>{eventLabel(item.visitEvent)}</strong>
+              {detail || pagePath ? (
+                <small>{[detail, pagePath].filter(Boolean).join(" · ")}</small>
+              ) : null}
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 function botDetail(visit: AnalyticsVisit) {
   return [visit.botName ?? "Unknown bot", visit.botCategory]
     .filter((value): value is string => Boolean(value))
@@ -210,15 +361,15 @@ function BotMark({ visit }: { visit: AnalyticsVisit }) {
 }
 
 function SignalHeader({
+  detailTitle,
   includeBots,
-  isDetail,
   onHome,
   onIncludeBotsChange,
   onRefresh,
   status,
 }: {
+  detailTitle: "Daily activity" | "Enquiry journey" | "Visitor history";
   includeBots: boolean;
-  isDetail: boolean;
   onHome: () => void;
   onIncludeBotsChange: (includeBots: boolean) => void;
   onRefresh: () => void;
@@ -233,7 +384,7 @@ function SignalHeader({
         </button>
         <div className="signal-header__title">
           <small>Private analytics</small>
-          <strong>{isDetail ? "Visitor history" : "Daily activity"}</strong>
+          <strong>{detailTitle}</strong>
         </div>
         <div className="signal-header__system">
           <span><Clock3 aria-hidden="true" size={14} /> Perth time</span>
@@ -301,6 +452,7 @@ function DailyObservatory({
   expandedVisitId,
   includeBots,
   onDateChange,
+  onOpenEnquiry,
   onOpenVisitor,
   onToggleVisit,
   todayKey,
@@ -310,6 +462,7 @@ function DailyObservatory({
   expandedVisitId: string | null;
   includeBots: boolean;
   onDateChange: (date: string) => void;
+  onOpenEnquiry: (visit: AnalyticsVisit, visitEvent: AnalyticsVisitEvent) => void;
   onOpenVisitor: (visit: AnalyticsVisit) => void;
   onToggleVisit: (visitId: string) => void;
   todayKey: string;
@@ -330,6 +483,13 @@ function DailyObservatory({
       visits: includedVisits.length,
     };
   }, [includedVisits]);
+  const enquiryActivity = useMemo(() => includedVisits
+    .flatMap((visit) => (visit.events ?? [])
+      .filter((visitEvent) => visitEvent.eventType === "enquiry_sent"
+        || visitEvent.eventType === "enquiry_failed")
+      .map((visitEvent) => ({ visit, visitEvent })))
+    .sort((left, right) => new Date(right.visitEvent.occurredAt).getTime()
+      - new Date(left.visitEvent.occurredAt).getTime()), [includedVisits]);
   const isToday = dateKey === todayKey;
   const denominator = Math.max(summary.visits, 1);
   const paidEnd = (summary.paid / denominator) * 360;
@@ -380,6 +540,57 @@ function DailyObservatory({
           <div><span>Returning</span><strong>{String(summary.returning).padStart(2, "0")}</strong><small>{summary.visits ? Math.round((summary.returning / summary.visits) * 100) : 0}% of visits</small></div>
           <div><span>Average pages</span><strong>{summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"}</strong><small>Per visit</small></div>
         </div>
+      </section>
+
+      <section className="enquiry-activity" aria-labelledby="enquiry-activity-title">
+        <header className="enquiry-activity__header">
+          <div>
+            <p className="signal-kicker">Form outcomes</p>
+            <h2 id="enquiry-activity-title">Enquiry activity</h2>
+          </div>
+          <span>{enquiryActivity.length} {enquiryActivity.length === 1 ? "event" : "events"}</span>
+        </header>
+
+        {enquiryActivity.length ? (
+          <ol className="enquiry-activity__list">
+            {enquiryActivity.map(({ visit, visitEvent }) => {
+              const wasSent = visitEvent.eventType === "enquiry_sent";
+              const option = enquiryOptionForEvent(visit, visitEvent);
+              const failure = eventDetail(visitEvent);
+
+              return (
+                <li key={visitEvent.id}>
+                  <button
+                    aria-label={`${eventLabel(visitEvent)} at ${formatTime(visitEvent.occurredAt)}. Open enquiry journey for ${visitorLabel(visit.visitorId)}`}
+                    onClick={() => onOpenEnquiry(visit, visitEvent)}
+                    type="button"
+                  >
+                    <span className={wasSent
+                      ? "enquiry-activity__status enquiry-activity__status--sent"
+                      : "enquiry-activity__status enquiry-activity__status--failed"}
+                    >
+                      {wasSent
+                        ? <CircleCheck aria-hidden="true" size={19} />
+                        : <CircleX aria-hidden="true" size={19} />}
+                    </span>
+                    <span className="enquiry-activity__outcome">
+                      <strong>{eventLabel(visitEvent)}</strong>
+                      <small>{[option, failure].filter(Boolean).join(" · ") || "Contact form"}</small>
+                    </span>
+                    <span className="enquiry-activity__visitor">
+                      <strong>{visitorLabel(visit.visitorId)}</strong>
+                      <small>Visit {visit.visitNumber} of {visit.totalVisits}</small>
+                    </span>
+                    <time dateTime={visitEvent.occurredAt}>{formatTime(visitEvent.occurredAt)}</time>
+                    <ChevronRight aria-hidden="true" size={18} />
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+        ) : (
+          <p className="enquiry-activity__empty">No sent or failed enquiries were recorded on this day.</p>
+        )}
       </section>
 
       <section className="signal-stream" aria-labelledby="signal-stream-title">
@@ -463,19 +674,11 @@ function DailyObservatory({
                         <header>
                           <div>
                             <p className="signal-kicker">This visit</p>
-                            <h3 id={`${detailId}-journey`}>Page journey</h3>
+                            <h3 id={`${detailId}-journey`}>Visit timeline</h3>
                           </div>
-                          <span><Route aria-hidden="true" size={15} /> {visit.pageViews.length} pages in order</span>
+                          <span><Route aria-hidden="true" size={15} /> {visitJourney(visit).length} moments in order</span>
                         </header>
-                        <ol>
-                          {visit.pageViews.map((pageView, index) => (
-                            <li key={pageView.id}>
-                              <span>{String(index + 1).padStart(2, "0")}</span>
-                              <time dateTime={pageView.viewedAt}>{formatTime(pageView.viewedAt)}</time>
-                              <strong>{pageView.path}</strong>
-                            </li>
-                          ))}
-                        </ol>
+                        <JourneyTimeline visit={visit} />
                       </section>
 
                       <aside className="signal-event-detail__attribution">
@@ -511,7 +714,7 @@ function DailyObservatory({
       </section>
 
       <p className="signal-footnote">
-        Records page loads only. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Elapsed spans run from the first to the last recorded page load; they do not include time spent on the final page. It does not show clicks, scrolling, reading time or form contents.
+        Records page loads and the five enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Elapsed spans run from the first to the last recorded page load; they do not include time spent on the final page. Form contents are not included in this report.
       </p>
     </>
   );
@@ -519,12 +722,14 @@ function DailyObservatory({
 
 function VisitorHistory({
   contextDate,
+  focusedEventId,
   focusedVisitId,
   includeBots,
   onBack,
   report,
 }: {
   contextDate: string;
+  focusedEventId: string | null;
   focusedVisitId: string | null;
   includeBots: boolean;
   onBack: () => void;
@@ -534,7 +739,12 @@ function VisitorHistory({
     () => includeBots ? report.visits : report.visits.filter((visit) => visit.isBot !== true),
     [includeBots, report.visits],
   );
-  const focusedVisit = includedVisits.find((visit) => visit.id === focusedVisitId)
+  const focusedEventContext = includedVisits
+    .flatMap((visit) => (visit.events ?? []).map((visitEvent) => ({ visit, visitEvent })))
+    .find(({ visitEvent }) => visitEvent.id === focusedEventId)
+    ?? null;
+  const focusedVisit = focusedEventContext?.visit
+    ?? includedVisits.find((visit) => visit.id === focusedVisitId)
     ?? includedVisits[0]
     ?? null;
 
@@ -552,6 +762,8 @@ function VisitorHistory({
   const firstVisit = includedVisits[includedVisits.length - 1] ?? focusedVisit;
   const latestVisit = includedVisits[0] ?? focusedVisit;
   const label = visitorLabel(report.visitorId);
+  const isEnquiryJourney = Boolean(focusedEventContext);
+  const selectedEvent = focusedEventContext?.visitEvent ?? null;
 
   return (
     <>
@@ -564,9 +776,17 @@ function VisitorHistory({
         <div className="visitor-summary__identity">
           <span aria-hidden="true">{label.replace("Browser ", "")}</span>
           <div>
-            <p className="signal-kicker">Anonymous browser</p>
-            <h1 id="visitor-history-title">{label}</h1>
-            <p>This browser has {includedVisits.length} recorded {includedVisits.length === 1 ? "visit" : "visits"}.</p>
+            <p className="signal-kicker">
+              {isEnquiryJourney && selectedEvent
+                ? `${eventLabel(selectedEvent)} · ${label}`
+                : "Anonymous browser"}
+            </p>
+            <h1 id="visitor-history-title">{isEnquiryJourney ? "Enquiry journey" : label}</h1>
+            <p>
+              {isEnquiryJourney && selectedEvent
+                ? `The selected ${eventLabel(selectedEvent).toLowerCase()} is highlighted within ${includedVisits.length} retained ${includedVisits.length === 1 ? "visit" : "visits"}.`
+                : `This browser has ${includedVisits.length} recorded ${includedVisits.length === 1 ? "visit" : "visits"}.`}
+            </p>
           </div>
         </div>
         <dl>
@@ -579,10 +799,10 @@ function VisitorHistory({
       <section className="visitor-history" aria-labelledby="all-visits-title">
         <header className="visitor-history__header">
           <div>
-            <p className="signal-kicker">Complete history</p>
-            <h2 id="all-visits-title">All visits</h2>
+            <p className="signal-kicker">{isEnquiryJourney ? "Journey to this outcome" : "Complete history"}</p>
+            <h2 id="all-visits-title">{isEnquiryJourney ? "Visits and enquiry activity" : "All visits"}</h2>
           </div>
-          <p>Every retained page load and the attribution stored when each visit began.</p>
+          <p>Every retained page load and enquiry event, with the attribution stored when each visit began.</p>
         </header>
 
         <div className="visitor-history__list">
@@ -595,7 +815,9 @@ function VisitorHistory({
                   <span className="visitor-visit__number">{String(visit.visitNumber).padStart(2, "0")}</span>
                   <div>
                     <p>
-                      {isFocused ? "Opened from daily activity" : "Visit history"}
+                      {isFocused
+                        ? (isEnquiryJourney ? "Selected enquiry visit" : "Opened from daily activity")
+                        : "Visit history"}
                       {` · Visit ${visit.visitNumber} of ${visit.totalVisits}`}
                     </p>
                     <h3>{formatDate(visit.dateKey, true)} at {formatTime(visit.startedAt)}</h3>
@@ -612,18 +834,13 @@ function VisitorHistory({
                 <div className="visitor-visit__detail">
                   <section className="visitor-visit__journey" aria-labelledby={`${visit.id}-journey`}>
                     <header>
-                      <h4 id={`${visit.id}-journey`}>Page journey</h4>
-                      <span>{visit.pageViews.length} in order</span>
+                      <h4 id={`${visit.id}-journey`}>Visit timeline</h4>
+                      <span>{visitJourney(visit).length} moments in order</span>
                     </header>
-                    <ol>
-                      {visit.pageViews.map((pageView, index) => (
-                        <li key={pageView.id}>
-                          <span>{String(index + 1).padStart(2, "0")}</span>
-                          <time dateTime={pageView.viewedAt}>{formatTime(pageView.viewedAt)}</time>
-                          <strong>{pageView.path}</strong>
-                        </li>
-                      ))}
-                    </ol>
+                    <JourneyTimeline
+                      selectedEventId={isFocused ? selectedEvent?.id : null}
+                      visit={visit}
+                    />
                   </section>
 
                   <section className="visitor-visit__attribution" aria-labelledby={`${visit.id}-attribution`}>
@@ -674,6 +891,7 @@ export default function Analytics() {
   const includeBots = searchParams.get("bots") === "include";
   const requestedVisitorId = searchParams.get("visitor");
   const focusedVisitId = searchParams.get("visit");
+  const focusedEventId = searchParams.get("event");
   const requestQuery = requestedVisitorId
     ? `visitor=${encodeURIComponent(requestedVisitorId)}`
     : `date=${encodeURIComponent(dateKey)}`;
@@ -720,6 +938,17 @@ export default function Analytics() {
     const nextParams = new URLSearchParams(searchParams);
     if (dateKey !== todayKey) nextParams.set("date", dateKey);
     nextParams.delete("expanded");
+    nextParams.delete("event");
+    nextParams.set("visitor", visit.visitorId);
+    nextParams.set("visit", visit.id);
+    setSearchParams(nextParams);
+  }
+
+  function openEnquiry(visit: AnalyticsVisit, visitEvent: AnalyticsVisitEvent) {
+    const nextParams = new URLSearchParams(searchParams);
+    if (dateKey !== todayKey) nextParams.set("date", dateKey);
+    nextParams.delete("expanded");
+    nextParams.set("event", visitEvent.id);
     nextParams.set("visitor", visit.visitorId);
     nextParams.set("visit", visit.id);
     setSearchParams(nextParams);
@@ -730,6 +959,7 @@ export default function Analytics() {
     if (dateKey !== todayKey) nextParams.set("date", dateKey);
     else nextParams.delete("date");
     nextParams.delete("expanded");
+    nextParams.delete("event");
     nextParams.delete("visit");
     nextParams.delete("visitor");
     setSearchParams(nextParams);
@@ -741,8 +971,10 @@ export default function Analytics() {
   return (
     <main className="visit-dashboard">
       <SignalHeader
+        detailTitle={requestedVisitorId
+          ? (focusedEventId ? "Enquiry journey" : "Visitor history")
+          : "Daily activity"}
         includeBots={includeBots}
-        isDetail={Boolean(requestedVisitorId)}
         onHome={closeVisitor}
         onIncludeBotsChange={updateIncludeBots}
         onRefresh={refreshReport}
@@ -753,6 +985,7 @@ export default function Analytics() {
         {status === "ready" && requestedVisitorId && visitorReport ? (
           <VisitorHistory
             contextDate={dateKey}
+            focusedEventId={focusedEventId}
             focusedVisitId={focusedVisitId}
             includeBots={includeBots}
             onBack={closeVisitor}
@@ -765,6 +998,7 @@ export default function Analytics() {
             expandedVisitId={expandedVisitId}
             includeBots={includeBots}
             onDateChange={updateDate}
+            onOpenEnquiry={openEnquiry}
             onOpenVisitor={openVisitor}
             onToggleVisit={toggleVisit}
             todayKey={todayKey}

@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-16 - Enquiry Journeys Added To First-Party Analytics
+
+- Added a generic visit-event ledger and controlled write endpoint, with client-authored contact selection/form-start events and server-authored submit-attempt, sent, and failed outcomes tied to the existing visit and optional page view.
+- Kept event recording best-effort around the existing enquiry delivery path: a sent event is recorded only after Resend accepts delivery, while analytics storage failures never change the visitor-facing enquiry outcome.
+- Extended protected reports with daily enquiry activity and selectable, multi-visit browser histories that interleave page views and enquiry events; Preview carries the fourth migration while Production remains unchanged until release.
+
 ## 2026-08-16 - Separate Preview Analytics Restored
 
 - Reused the existing fully migrated Preview Neon database and broadened Preview report authentication and recorder configuration from the `staging` branch to the Preview environment without changing Production resources.

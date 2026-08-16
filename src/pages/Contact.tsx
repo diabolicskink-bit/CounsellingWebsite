@@ -32,6 +32,8 @@ import {
   getActiveAustralianPerthBusinessHoursNotes,
   getActiveAustralianTimeZoneOptions,
 } from "../utils/timeZones";
+import { recordVisitEvent } from "../utils/visitEvents";
+import { getCurrentVisitEventContext } from "../utils/visitSession";
 import "../styles-contact.css";
 
 type EnquiryPath = BookingType | "question";
@@ -88,7 +90,11 @@ function getFormText(formData: FormData, fieldName: string) {
 }
 
 function buildEnquiryPayload(formData: FormData) {
+  const analyticsContext = getCurrentVisitEventContext();
+
   return {
+    analyticsPageViewId: analyticsContext?.pageViewId ?? "",
+    analyticsVisitId: analyticsContext?.visitId ?? "",
     availability: getFormText(formData, "availability"),
     bookingType: getFormText(formData, "bookingType"),
     email: getFormText(formData, "email"),
@@ -270,17 +276,19 @@ function EnquiryForm() {
 
     if (
       enquiryStartTrackedRef.current ||
-      (target instanceof HTMLInputElement && target.name === "website")
+      (target instanceof HTMLInputElement && ["contactPath", "website"].includes(target.name))
     ) {
       return;
     }
 
     enquiryStartTrackedRef.current = true;
     trackEnquiryStarted();
+    recordVisitEvent("enquiry_started", {});
   };
 
   const handleEnquiryPathChange = (value: EnquiryPath) => {
     trackContactOptionSelected(value);
+    recordVisitEvent("contact_option_selected", { option: value });
     setSelectedPath(value);
     setHasRestoredDetails(false);
     setSubmitStatus("idle");

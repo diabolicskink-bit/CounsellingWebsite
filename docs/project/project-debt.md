@@ -137,27 +137,27 @@ Each active item should include enough direction that a future session can choos
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
 - `Links`: `docs/design-system/`, `src/design-system/`, `src/styles.css`, `src/components/`
 
-### DEBT-39 - Visit page journeys need persisted causal ordering
+### DEBT-39 - Visit timelines need persisted causal ordering
 
 - `Priority`: `P1`
 - `Size`: `M`
-- `Priority Rationale`: This is `P1` because the private dashboard presents page journeys as ordered operational data, but request arrival order can differ from browser navigation order. The current same-document queue substantially reduces the normal SPA race, so this is not `P0`.
+- `Priority Rationale`: This is `P1` because the private dashboard presents interleaved page and enquiry-event journeys as ordered operational data, but request arrival order can differ from browser action order. The current same-document queue substantially reduces the normal client race, so this is not `P0`.
 - `Status`: `Open`
 - `Detected`: 2026-08-15
 - `Source`: Local analytics code review
 - `Area`: Analytics, Browser, API, Database, Reporting
-- `Problem`: Page views contain a UUID and server receipt timestamp but no per-visit sequence. Same-document observations are now sent serially, yet overlapping keepalive requests across reloads, restored documents, or copied sessions can still reach separate functions out of causal order; reporting then orders by server time and random UUID.
-- `Why It Matters`: A landing page can appear after a later route, `started_at` can reflect the first request received rather than the first page viewed, and the displayed journey can be misleading precisely when navigation is rapid or connectivity is uneven.
-- `Preferred Direction`: Add a browser-assigned monotonic page sequence scoped to each visit, validate and store it with a uniqueness contract, and order reports by that sequence while retaining server timestamps as receipt times.
-- `Resolution Path`: Define sequence behavior for refreshes, BFCache restoration, sessionStorage copies, retries, and conflicting observations; add a migration and payload validation; update idempotent storage and report ordering; then cover deliberately reordered requests against a real Postgres instance.
+- `Problem`: Page views and visit events contain UUIDs and server receipt timestamps but no shared per-visit causal sequence. Same-document browser observations are sent serially, yet overlapping requests across reloads, restored documents, copied sessions, and server-authored enquiry outcomes can still reach separate functions out of causal order; reporting then orders by server time and random UUID.
+- `Why It Matters`: A landing page can appear after a later route, an enquiry outcome can be visually separated from its triggering attempt, `started_at` can reflect the first request received rather than the first page viewed, and the displayed journey can be misleading precisely when navigation is rapid or connectivity is uneven.
+- `Preferred Direction`: Add a browser-assigned monotonic observation sequence scoped to each visit, define how server-authored outcomes relate to their triggering browser action, validate and store that contract, and order reports causally while retaining server timestamps as receipt times.
+- `Resolution Path`: Define sequence behavior for page views, client events, server events, refreshes, BFCache restoration, sessionStorage copies, retries, and conflicting observations; add a migration and payload validation; update idempotent storage and report ordering; then cover deliberately reordered requests against a real Postgres instance.
 - `Next Action`: Design the sequence/conflict contract and a database integration test that submits later sequence numbers before earlier ones.
-- `Resolved When`: Page journeys render in browser-observed order despite out-of-order function/database arrival, and concurrency is verified against Postgres rather than only scripted row mocks.
+- `Resolved When`: Page views and events render in causal order despite out-of-order function/database arrival, and concurrency is verified against Postgres rather than only scripted row mocks.
 - `Related Items`:
   - `DEBT-38` (archived): Production credentials are isolated from non-production; a disposable database would still be needed for real concurrency verification.
 - `Dependencies`: `None`
 - `Notes`:
-  - The current recorder serializes fetches within one active document, and the repository retries a conflict hidden by a concurrent statement snapshot. Those fixes prevent the common rapid-SPA loss but do not create a persisted causal sequence across documents.
-- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/server/visits/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `tests/api/visit-repository.test.mjs`
+  - The current recorder serializes page and client-event fetches within one active document, and the repositories retry conflicts hidden by a concurrent statement snapshot. Those fixes prevent the common rapid-SPA loss but do not create a persisted causal sequence across documents and server-authored outcomes.
+- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/utils/visitEvents.ts`, `src/server/visits/repository.ts`, `src/server/visit-events/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `database/migrations/0004_create_visit_event_ledger.sql`, `tests/api/visit-repository.test.mjs`, `tests/api/visit-event-repository.test.mjs`
 
 ### DEBT-40 - Analytics reporting reads need bounded pagination
 
@@ -168,7 +168,7 @@ Each active item should include enough direction that a future session can choos
 - `Detected`: 2026-08-15
 - `Source`: Local analytics code review
 - `Area`: Analytics, API, Database, Performance, Resilience
-- `Problem`: The read API returns every visit for a selected day or visitor and JSON-aggregates every associated page view in one response. The dashboard and contract have no cursor, limit, truncation state, or continuation action.
+- `Problem`: The read API returns every visit for a selected day or visitor and JSON-aggregates every associated page view and event in one response. The dashboard and contract have no cursor, limit, truncation state, or continuation action.
 - `Why It Matters`: A single oversized report can make the protected dashboard unavailable and amplify the existing absence of platform rate limiting on the public visit recorder.
 - `Preferred Direction`: Add deterministic cursor pagination and explicit server-side limits for visits and page journeys, with dashboard continuation states that never imply a partial response is complete.
 - `Resolution Path`: Choose operational limits from realistic traffic, extend the validated request/response contract with opaque cursors, keep ordering stable, add continuation UI, and test boundary/truncation behavior.
@@ -176,7 +176,7 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Every analytics read has enforced deterministic bounds, the dashboard can continue through larger reports, and limit behavior is covered at the API and UI layers.
 - `Related Items`:
   - `DEBT-38` (archived): The resolved deployment isolation prevents preview data from consuming production report capacity.
-  - `DEBT-23`: The enquiry endpoint has a separate platform rate-limit need; the visit endpoint needs an equivalent operational decision.
+  - `DEBT-23`: The enquiry endpoint has a separate platform rate-limit need; the visit and visit-event endpoints need an equivalent operational decision.
 - `Dependencies`: `None`
 - `Notes`:
   - The protected Basic-auth boundary limits who can request reports but does not bound the amount of data a valid request can serialize.

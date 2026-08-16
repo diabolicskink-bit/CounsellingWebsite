@@ -31,12 +31,22 @@ export type AnalyticsPageView = {
   viewedAt: string;
 };
 
+export type AnalyticsVisitEvent = {
+  eventType: string;
+  id: string;
+  occurredAt: string;
+  pageViewId: string | null;
+  properties: Record<string, string>;
+  source: "client" | "server";
+};
+
 export type AnalyticsVisit = {
   adCode: string | null;
   botCategory: string | null;
   botName: string | null;
   dateKey: string;
   durationSeconds: number;
+  events: AnalyticsVisitEvent[];
   gclid: string | null;
   id: string;
   isBot: boolean | null;
