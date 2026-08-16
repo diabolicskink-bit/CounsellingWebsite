@@ -15,7 +15,7 @@
       "includeFiles": "src/{data/analyticsContract.ts,server/reporting/**,server/visits/repository.ts}"
     },
     "api/visit.ts": {
-      "includeFiles": "src/server/visits/**"
+      "includeFiles": "src/{data/routes.ts,server/visits/**}"
     },
     "api/visit-event.ts": {
       "includeFiles": "src/{data/visitEventContract.ts,server/visit-events/**,server/visits/repository.ts}"

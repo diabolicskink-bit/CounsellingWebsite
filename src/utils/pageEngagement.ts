@@ -38,7 +38,12 @@ export function startPageEngagement(context: VisitEventContext) {
 
     void enqueueVisitAnalyticsRecord(async () => {
       await fetch("/api/page-engagement", {
-        body: JSON.stringify({ ...context, activeSeconds }),
+        body: JSON.stringify({
+          activeSeconds,
+          pageViewId: context.pageViewId,
+          visitId: context.visitId,
+          visitorId: context.visitorId,
+        }),
         credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         keepalive: true,
