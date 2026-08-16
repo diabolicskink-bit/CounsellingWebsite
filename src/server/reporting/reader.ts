@@ -63,6 +63,7 @@ const analyticsVisitColumns = `
     (
       SELECT JSON_AGG(
         JSON_BUILD_OBJECT(
+          'activeSeconds', page_views.active_seconds,
           'id', page_views.id::TEXT,
           'path', page_views.path,
           'viewedAt', page_views.viewed_at
@@ -157,6 +158,7 @@ WITH included_visits AS (
 route_counts AS (
   SELECT
     page_views.path,
+    SUM(page_views.active_seconds)::INTEGER AS active_seconds,
     COUNT(*)::INTEGER AS page_view_count,
     COUNT(DISTINCT page_views.visit_id)::INTEGER AS visit_count
   FROM site_page_views AS page_views
@@ -166,9 +168,11 @@ route_counts AS (
 )
 SELECT
   route_counts.path,
+  route_counts.active_seconds AS "activeSeconds",
   route_counts.page_view_count AS "pageViews",
   route_counts.visit_count AS "visits",
   (SELECT COUNT(*)::INTEGER FROM included_visits) AS "totalVisits",
+  COALESCE((SELECT SUM(active_seconds)::INTEGER FROM route_counts), 0) AS "totalActiveSeconds",
   COALESCE((SELECT SUM(page_view_count)::INTEGER FROM route_counts), 0) AS "totalPageViews"
 FROM (SELECT 1) AS report_row
 LEFT JOIN route_counts ON TRUE
@@ -313,6 +317,7 @@ function normalizePageViews(value: unknown): AnalyticsPageView[] {
 
     const row = pageView as Record<string, unknown>;
     return {
+      activeSeconds: nonNegativeInteger(row.activeSeconds, "page-view active time"),
       id: requiredString(row.id, "page-view ID"),
       path: requiredString(row.path, "page-view path"),
       viewedAt: timestampString(row.viewedAt, "page-view time"),
@@ -380,10 +385,11 @@ export async function readAnalytics(
       selection.endDate,
       selection.includeBots,
     ]) as AnalyticsVisitRow[];
-    const totals = rows[0] ?? { totalPageViews: 0, totalVisits: 0 };
+    const totals = rows[0] ?? { totalActiveSeconds: 0, totalPageViews: 0, totalVisits: 0 };
     const routes = rows
       .filter((row) => row.path !== null && row.path !== undefined)
       .map((row) => ({
+        activeSeconds: nonNegativeInteger(row.activeSeconds, "route active time"),
         pageViews: nonNegativeInteger(row.pageViews, "route page views"),
         path: requiredString(row.path, "route path"),
         visits: nonNegativeInteger(row.visits, "route visits"),
@@ -393,6 +399,7 @@ export async function readAnalytics(
       endDate: selection.endDate,
       routes,
       startDate: selection.startDate,
+      totalActiveSeconds: nonNegativeInteger(totals.totalActiveSeconds, "total active time"),
       totalPageViews: nonNegativeInteger(totals.totalPageViews, "total page views"),
       totalVisits: nonNegativeInteger(totals.totalVisits, "total visits"),
       type: "pageViews",

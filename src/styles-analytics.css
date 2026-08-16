@@ -733,7 +733,7 @@ body:has(.visit-dashboard) {
 
 .page-view-report__table {
   width: 100%;
-  min-width: 620px;
+  min-width: 710px;
   border-collapse: collapse;
   table-layout: fixed;
 }
@@ -764,7 +764,8 @@ body:has(.visit-dashboard) {
 }
 
 .page-view-report__table thead th:nth-child(4),
-.page-view-report__table thead th:nth-child(5) {
+.page-view-report__table thead th:nth-child(5),
+.page-view-report__table thead th:nth-child(6) {
   width: 76px;
 }
 
@@ -1643,6 +1644,19 @@ body:has(.visit-dashboard) {
   min-width: 0;
   overflow-wrap: anywhere;
   font-size: 0.79rem;
+}
+
+.signal-journey__page > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+  padding-block: 7px;
+}
+
+.signal-journey__page small {
+  color: var(--report-muted);
+  font-size: 0.7rem;
 }
 
 .signal-journey__event {
@@ -2726,7 +2740,7 @@ body:has(.visit-dashboard) {
   }
 
   .page-view-report__table {
-    min-width: 560px;
+    min-width: 650px;
   }
 }
 

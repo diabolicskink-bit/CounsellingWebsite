@@ -42,6 +42,7 @@ export function isAnalyticsVisitorId(value: unknown): value is string {
 }
 
 export type AnalyticsPageView = {
+  activeSeconds: number;
   id: string;
   path: string;
   viewedAt: string;
@@ -94,6 +95,7 @@ export type MonthlyAnalyticsReport = {
 };
 
 export type PageViewRouteSummary = {
+  activeSeconds: number;
   pageViews: number;
   path: string;
   visits: number;
@@ -103,6 +105,7 @@ export type PageViewsAnalyticsReport = {
   endDate: string;
   routes: PageViewRouteSummary[];
   startDate: string;
+  totalActiveSeconds: number;
   totalPageViews: number;
   totalVisits: number;
   type: "pageViews";

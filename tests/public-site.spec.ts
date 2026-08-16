@@ -670,9 +670,9 @@ test.describe("analytics", () => {
         matchedKeyword: null,
         networkCode: null,
         pageViews: [
-          { id: "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf", path: "/", viewedAt: `${date}T03:00:00.000Z` },
-          { id: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98", path: "/contact", viewedAt: `${date}T03:00:30.000Z` },
-          { id: "f7bb1f87-203f-4ea8-812b-97d80b2d5e98", path: "/contact", viewedAt: `${date}T03:01:30.000Z` },
+          { activeSeconds: 30, id: "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf", path: "/", viewedAt: `${date}T03:00:00.000Z` },
+          { activeSeconds: 60, id: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98", path: "/contact", viewedAt: `${date}T03:00:30.000Z` },
+          { activeSeconds: 15, id: "f7bb1f87-203f-4ea8-812b-97d80b2d5e98", path: "/contact", viewedAt: `${date}T03:01:30.000Z` },
         ],
         referrerHost: null,
         referrerUrl: null,

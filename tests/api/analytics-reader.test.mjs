@@ -52,11 +52,13 @@ function createVisitRow(overrides = {}) {
     networkCode: "g",
     pageViews: [
       {
+        activeSeconds: 90,
         id: "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
         path: "/polyamory-enm-counselling",
         viewedAt: "2026-08-15T03:00:00.000Z",
       },
       {
+        activeSeconds: 35,
         id: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
         path: "/contact",
         viewedAt: "2026-08-15T03:05:00.000Z",
@@ -195,8 +197,8 @@ test("reads visits with enquiry outcomes in one Perth calendar month", async () 
 
 test("reads an aggregated page-view breakdown in one query", async () => {
   const { calls, database } = createDatabase([
-    { pageViews: "5", path: "/contact", totalPageViews: "8", totalVisits: "4", visits: "3" },
-    { pageViews: "3", path: "/", totalPageViews: "8", totalVisits: "4", visits: "2" },
+    { activeSeconds: "250", pageViews: "5", path: "/contact", totalActiveSeconds: "370", totalPageViews: "8", totalVisits: "4", visits: "3" },
+    { activeSeconds: "120", pageViews: "3", path: "/", totalActiveSeconds: "370", totalPageViews: "8", totalVisits: "4", visits: "2" },
   ]);
 
   const result = await readAnalytics(
@@ -215,15 +217,17 @@ test("reads an aggregated page-view breakdown in one query", async () => {
   assert.deepEqual(result, {
     endDate: "2026-08-15",
     routes: [
-      { pageViews: 5, path: "/contact", visits: 3 },
-      { pageViews: 3, path: "/", visits: 2 },
+      { activeSeconds: 250, pageViews: 5, path: "/contact", visits: 3 },
+      { activeSeconds: 120, pageViews: 3, path: "/", visits: 2 },
     ],
     startDate: "2026-08-01",
+    totalActiveSeconds: 370,
     totalPageViews: 8,
     totalVisits: 4,
     type: "pageViews",
   });
   assert.match(calls[0].query, /COUNT\(DISTINCT page_views\.visit_id\)/);
+  assert.match(calls[0].query, /SUM\(page_views\.active_seconds\)/);
   assert.match(calls[0].query, /ledger\.is_bot IS DISTINCT FROM TRUE/);
   assert.match(calls[0].query, /analytics_excluded_visitors/);
 });

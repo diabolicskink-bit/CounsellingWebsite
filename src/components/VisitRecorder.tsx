@@ -10,6 +10,7 @@ import {
   createRouteVisitObservation,
 } from "../utils/visitSession";
 import { enqueueVisitAnalyticsRecord } from "../utils/visitAnalyticsQueue";
+import { startPageEngagement, stopPageEngagement } from "../utils/pageEngagement";
 
 let hasRecordedPageView = false;
 let lastObservedPath: string | undefined;
@@ -39,6 +40,7 @@ function recordPageView(path: string, force = false) {
         method: "POST",
       });
     });
+    startPageEngagement(observation);
   } catch {
     // Visit analytics is best-effort and must never affect the visitor experience.
   }
@@ -55,6 +57,7 @@ export default function VisitRecorder() {
 
     if (isPrivateRoutePath(pathname)) {
       lastObservedPath = pathname;
+      stopPageEngagement();
       return;
     }
 

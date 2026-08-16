@@ -19,6 +19,9 @@
     },
     "api/visit-event.ts": {
       "includeFiles": "src/{data/visitEventContract.ts,server/visit-events/**,server/visits/repository.ts}"
+    },
+    "api/page-engagement.ts": {
+      "includeFiles": "src/{server/page-engagement/**,server/visits/repository.ts,server/visits/request.ts}"
     }
   },
   "crons": [
