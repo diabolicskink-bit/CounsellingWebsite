@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "packageManager": "npm@11.11.0",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "db:migrate:production": "node --env-file=.env.production.local scripts/apply-database-migrations.mjs",
@@ -29,22 +33,22 @@
     "@vercel/functions": "^3.9.3",
     "botid": "^1.5.11",
     "lucide-react": "^0.468.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.28.0",
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.11.2",
-    "@types/node": "^25.6.0",
-    "@types/react": "^18.3.28",
-    "@types/react-dom": "^18.3.7",
-    "@vitejs/plugin-react": "^6.0.1",
-    "lighthouse": "^13.1.0",
+    "@axe-core/playwright": "^4.13.0",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "lighthouse": "^13.4.1",
     "playwright": "^1.59.1",
     "start-server-and-test": "^3.0.2",
     "typescript": "^5.7.2",
-    "vite": "^8.0.8"
+    "vite": "^8.2.1"
   }
 }

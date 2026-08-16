@@ -2,6 +2,30 @@
 
 This file preserves implemented and superseded `SITE-*` items moved out of the [active site backlog](../site-backlog.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### SITE-24 - Vite security and maintenance update
+
+Implemented on 2026-08-16. Vite moved from `8.0.8` to `8.2.1`, with PostCSS resolving to `8.5.26` and Nano ID to `3.3.18`; the Vite and related transitive advisories are no longer reported. Client and SSR builds, eight-route metadata prerendering, the production preview, and the public browser suite passed on the updated toolchain.
+
+### SITE-25 - Lighthouse security and maintenance update
+
+Implemented on 2026-08-16. Lighthouse moved from `13.1.0` to `13.4.1`, replacing the vulnerable Puppeteer, Sentry/OpenTelemetry, archive-extraction, and supporting dependency chain. The repository's full Lighthouse workflow completed against a fresh production build with scores of 100 for performance, accessibility, best practices, and SEO.
+
+### SITE-27 - Axe Playwright accessibility-engine update
+
+Implemented on 2026-08-17. `@axe-core/playwright` moved from `4.11.2` to `4.13.0`. The complete QA gate passed with all eight public routes retaining clean serious-impact Axe results; the newer engine surfaced no accessibility finding that required a source or monitor change.
+
+### SITE-28 - Node type definitions update and runtime alignment
+
+Implemented on 2026-08-17 by aligning the project to its actual Node 24 local and Vercel runtime instead of adopting Node-26 definitions. `@types/node` moved from `25.6.0` to the current Node-24 release `24.13.3`, `package.json` now declares Node `24.x` and npm `11.11.0`, application and test typechecks pass, and the linked `DEBT-16` runtime drift is resolved.
+
+### SITE-29 - Vite React plugin maintenance update
+
+Implemented on 2026-08-17. `@vitejs/plugin-react` moved from `6.0.1` to `6.0.5`. A real Vite development session rendered the complete homepage without console errors or an error overlay and injected the `/@react-refresh` runtime hook; client and SSR production builds also passed.
+
+### SITE-32 - React 19 application and type migration
+
+Implemented on 2026-08-17. React and React DOM moved together from `18.3.1` to `19.2.8`, with `@types/react` updated to `19.2.18` and `@types/react-dom` to `19.2.4`. The existing browser root, hydration, and server-rendering entry points already used React's current APIs, so no source migration was required. The complete site and analytics QA gates passed, and Lighthouse retained scores of 100 for performance, accessibility, best practices, and SEO.
+
 ### SITE-21 - Contact form required-field clarity
 
 Implemented on 2026-07-27, with accessible required-label reinforcement on 2026-08-14. The progressive Contact form now requires an enquiry-path choice before exposing its submit flow, explains the required marker, marks each applicable visible field, provides screen-reader required text, and retains native validation.

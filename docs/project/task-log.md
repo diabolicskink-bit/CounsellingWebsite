@@ -18,6 +18,24 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-17 - React 19 Migration Completed
+
+- Updated React and React DOM together from `18.3.1` to `19.2.8`, with their type packages moved to the matching React 19 generation.
+- Retained the existing browser root, hydration, and server-rendering implementation because it already uses the current APIs and compiled without migration changes.
+- Passed the complete site QA gate, the analytics-specific QA gate, and the production Lighthouse workflow with scores of 100 across all four categories; archived `SITE-32` as implemented.
+
+## 2026-08-17 - Accessibility And Runtime Tooling Updated
+
+- Updated `@axe-core/playwright` to `4.13.0` and `@vitejs/plugin-react` to `6.0.5`; the new Axe rules retain clean serious-impact results across all public routes, and the Vite development transform renders normally with React Refresh injected.
+- Standardized the project on Node `24.x` and npm `11.11.0`, with matching `@types/node` `24.13.3`, aligning local development and Vercel's Node 24 LTS runtime and resolving `DEBT-16`.
+- Passed the complete QA gate: 27 script tests, 106 API tests, application and test typechecks, client and SSR builds, eight-route prerendering, and 39 enabled browser cases; archived `SITE-27`, `SITE-28`, and `SITE-29` as implemented.
+
+## 2026-08-16 - Vite And Lighthouse Security Updates
+
+- Updated Vite from `8.0.8` to `8.2.1` and Lighthouse from `13.1.0` to `13.4.1`, refreshing their vulnerable transitive dependencies and clearing both direct advisory chains.
+- Verified the client build, SSR build, eight-route metadata prerender, production preview, and public browser suite; 39 browser cases passed and 10 analytics-provider cases were intentionally skipped in the default QA environment.
+- Completed the repository's Lighthouse workflow with scores of 100 for performance, accessibility, best practices, and SEO, and archived `SITE-24` and `SITE-25` as implemented.
+
 ## 2026-08-16 - Visible Page Time Added
 
 - Added cumulative active seconds to each first-party page view, counting only while the page is visible and updating at 30-second intervals plus page-hide and route-exit flushes.

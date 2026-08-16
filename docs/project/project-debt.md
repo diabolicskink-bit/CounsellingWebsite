@@ -523,29 +523,6 @@ Each active item should include enough direction that a future session can choos
   - Avoid duplicating approach prose in a separate fallback block; duplicated content would create maintenance and accessibility ambiguity.
 - `Links`: `src/components/BroadTabPanel.tsx`, `src/pages/WorkingWithJoel.tsx`, `tests/public-site.spec.ts`
 
-### DEBT-16 - Runtime and package-manager expectations are not pinned
-
-- `Priority`: `P3`
-- `Size`: `XS`
-- `Priority Rationale`: This is `P3` because runtime/package-manager drift is real but lower urgency than visitor-facing, API, QA, and design-system ambiguity. The likely fix is tiny once the intended versions are confirmed.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Area`: Tooling, Build, Deployment
-- `Problem`: The project uses modern Vite/plugin tooling but does not declare expected Node or package-manager versions in `package.json`.
-- `Why It Matters`: Local, CI, and Vercel environments can drift and produce avoidable install or build differences.
-- `Preferred Direction`: Add `engines.node` and `packageManager` entries that match the intended development and deployment environment.
-- `Resolution Path`: Confirm the intended Node and npm versions, add explicit metadata to `package.json`, and verify install/build behaviour in the normal local path.
-- `Next Action`: Confirm the intended Node and npm versions, then pin them in `package.json`.
-- `Resolved When`: Runtime and package-manager expectations are explicit and available to local tooling and deployment environments.
-- `Related Items`:
-  - `DEBT-1`: Stable runtime/tooling expectations help keep the restored QA gate reproducible across machines.
-  - `DEBT-6`: Archived production build validation and fallback handling benefit from consistent runtime behaviour.
-  - `DEBT-9`: Expanded typecheck and script coverage is easier to trust when Node and package-manager versions are pinned.
-- `Dependencies`: `None`
-- `Notes`:
-- `Links`: `package.json`
-
 ## Resolved Item Archive
 
 Resolved and superseded `DEBT-*` items live in [archive/project-debt-archive.md](archive/project-debt-archive.md). Search that file only when historical implementation or a retired stable ID matters.

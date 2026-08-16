@@ -60,37 +60,6 @@ Statuses:
   - Keep "confidentiality" language tied to counselling sessions, records, and professional boundaries rather than using it as shorthand for website cookies or analytics.
 - `Links`: `src/pages/Contact.tsx`, `src/components/SiteAnalytics.tsx`
 
-### SITE-24 - Vite security and maintenance update
-
-- `Priority`: `P1`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Security`
-- `Source`: `2026-08-16 dependency audit, npm outdated, npm audit`
-- `Visitor-Facing Goal`: Keep the public-site development and build pipeline on a supported Vite release without known local-server path-disclosure issues.
-- `Current State`: The lockfile installs Vite `8.0.8`. The npm advisory audit reports one high and one moderate vulnerability affecting Vite `8.0.0` through `8.0.15`; `8.2.1` is the current compatible target and also refreshes vulnerable transitive PostCSS and Nano ID versions.
-- `Why Deferred`: The audit identified the update but did not alter dependencies; the generated client and SSR builds, prerendering, preview server, and browser suite need to be verified together after the lockfile changes.
-- `First Useful Slice`: Update Vite to `8.2.1`, regenerate the lockfile, confirm the resolved PostCSS and Nano ID versions are outside their advisory ranges, and run the full site QA path.
-- `Implemented When`: Vite resolves to at least `8.2.1`, the related npm advisories are absent, and the client build, SSR build, metadata prerender, preview server, and public browser tests pass.
-- `Notes`:
-  - Keep this same-major security update separate from unrelated framework migrations.
-- `Links`: `package.json`, `package-lock.json`, `vite.config.ts`, `scripts/prerender-route-metadata.mjs`
-
-### SITE-25 - Lighthouse security and maintenance update
-
-- `Priority`: `P1`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Security`
-- `Source`: `2026-08-16 dependency audit, npm outdated, npm audit`
-- `Visitor-Facing Goal`: Keep the site's performance and accessibility audit tooling trustworthy so release decisions are based on a maintained scanner stack.
-- `Current State`: The project installs Lighthouse `13.1.0`. The npm audit reports high-severity findings through Lighthouse `13.4.0`, including vulnerable Puppeteer, Sentry/OpenTelemetry, archive-extraction, and supporting packages; `13.4.1` is the current compatible target.
-- `Why Deferred`: Updating Lighthouse significantly reshapes its transitive dependency tree and should be checked against the repository's scripted Lighthouse runner before the new report is trusted.
-- `First Useful Slice`: Update Lighthouse to `13.4.1`, regenerate the lockfile, run `npm run audit:lighthouse`, and review the resulting direct and transitive advisory state.
-- `Implemented When`: Lighthouse resolves to at least `13.4.1`, its reported advisory chain is cleared, and the repository's scripted audit completes against a production build.
-- `Notes`:
-- `Links`: `package.json`, `package-lock.json`, `scripts/run-lighthouse.mjs`
-
 ### SITE-26 - React Router 7 security migration
 
 - `Priority`: `P1`
@@ -183,53 +152,6 @@ Statuses:
 - `Notes`:
 - `Links`: `src/pages/WorkingWithJoel.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`
 
-### SITE-27 - Axe Playwright accessibility-engine update
-
-- `Priority`: `P2`
-- `Size`: `XS`
-- `Status`: `Open`
-- `Classification`: `Accessibility`
-- `Source`: `2026-08-16 dependency audit, npm outdated`
-- `Visitor-Facing Goal`: Keep automated accessibility checks aligned with the current Axe rules and browser integration so regressions affecting visitors are detected reliably.
-- `Current State`: The project installs `@axe-core/playwright` `4.11.2`; `4.13.0` is the current compatible release.
-- `Why Deferred`: New Axe releases can introduce or refine rule results, so the update should be reviewed alongside the existing accessibility monitor rather than accepted as a lockfile-only change.
-- `First Useful Slice`: Update `@axe-core/playwright` to `4.13.0`, run the focused accessibility/browser checks, and triage any changed findings against the monitor.
-- `Implemented When`: `@axe-core/playwright` resolves to `4.13.0`, the relevant browser tests pass, and any newly surfaced accessibility finding is fixed or recorded accurately.
-- `Notes`:
-- `Links`: `package.json`, `package-lock.json`, `tests/public-site.spec.ts`, `docs/checklists/accessibility-monitor.md`
-
-### SITE-28 - Node type definitions update and runtime alignment
-
-- `Priority`: `P2`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Technical Maintenance`
-- `Source`: `2026-08-16 dependency audit, npm outdated, DEBT-16`
-- `Visitor-Facing Goal`: Keep server, API, migration, and build code checked against Node definitions that match the project's intended runtime.
-- `Current State`: The project installs `@types/node` `25.6.0`; `25.9.5` is available within the declared major line and `26.2.0` is the current latest major. The intended Node and npm versions are not yet declared in `package.json`.
-- `Why Deferred`: Moving to the latest definitions without first confirming the deployment runtime could produce misleading type coverage; the compatible v25 update can be handled first.
-- `First Useful Slice`: Update to `25.9.5`, run application and test typechecks, then decide whether `26.2.0` should follow as part of resolving the runtime/package-manager pinning work.
-- `Implemented When`: Node type definitions are current for the explicitly supported runtime, the application and tests typecheck, and the relationship to `DEBT-16` is resolved or recorded.
-- `Notes`:
-  - Coordinate the v26 type migration with the supported Node runtime rather than selecting it only because it is latest.
-- `Links`: `package.json`, `package-lock.json`, `tsconfig.json`, `tests/tsconfig.json`, `docs/project/project-debt.md`
-
-### SITE-29 - Vite React plugin maintenance update
-
-- `Priority`: `P2`
-- `Size`: `XS`
-- `Status`: `Open`
-- `Classification`: `Technical Maintenance`
-- `Source`: `2026-08-16 dependency audit, npm outdated`
-- `Visitor-Facing Goal`: Keep React transformation and Fast Refresh tooling compatible with the maintained Vite build stack.
-- `Current State`: The project installs `@vitejs/plugin-react` `6.0.1`; `6.0.5` is the current compatible release.
-- `Why Deferred`: The update should be verified with both the development transform and production client/SSR builds rather than changed without checks.
-- `First Useful Slice`: Update `@vitejs/plugin-react` to `6.0.5`, regenerate the lockfile, and run the build plus a focused development-server smoke check.
-- `Implemented When`: The plugin resolves to `6.0.5`, React compilation and Fast Refresh remain functional, and the client and SSR builds pass.
-- `Notes`:
-  - This can be implemented beside `SITE-24`, but it remains independently verifiable.
-- `Links`: `package.json`, `package-lock.json`, `vite.config.ts`
-
 ### SITE-30 - Playwright browser-testing update
 
 - `Priority`: `P2`
@@ -259,22 +181,6 @@ Statuses:
 - `Implemented When`: The package resolves to `3.0.12`, preview startup and teardown remain deterministic, and both a browser-QA invocation and Lighthouse invocation complete cleanly.
 - `Notes`:
 - `Links`: `package.json`, `package-lock.json`, `playwright.config.ts`, `scripts/run-lighthouse.mjs`
-
-### SITE-32 - React 19 application and type migration
-
-- `Priority`: `P3`
-- `Size`: `L`
-- `Status`: `Open`
-- `Classification`: `Technical Maintenance`
-- `Source`: `2026-08-16 dependency audit, npm outdated`
-- `Visitor-Facing Goal`: Move the public site and private analytics interface to the maintained React generation while preserving rendering, interaction, accessibility, and form behaviour.
-- `Current State`: The project installs React and React DOM `18.3.1`, `@types/react` `18.3.28`, and `@types/react-dom` `18.3.7`. React and React DOM `19.2.8`, React types `19.2.18`, and React DOM types `19.2.4` are current; `@types/react` also has a compatible `18.3.31` patch available before the major migration.
-- `Why Deferred`: React 19 is a coordinated runtime and type-system migration that can affect browser mounting, SSR/hydration, refs, effects, form behaviour, third-party peer compatibility, and tests across both public and private routes.
-- `First Useful Slice`: Apply the compatible React 18 type patch, review React 19 and third-party peer requirements, then upgrade React, React DOM, and both type packages together and resolve compile-time issues before behavioural QA.
-- `Implemented When`: All four packages resolve to compatible React 19 versions, application and test typechecks pass, SSR/prerender and hydration remain clean, and public navigation, enquiry submission states, analytics tracking, and private analytics interactions pass proportionate verification.
-- `Notes`:
-  - Keep React and React DOM on identical versions and keep their type packages on the matching major.
-- `Links`: `package.json`, `package-lock.json`, `src/main.tsx`, `src/entry-server.tsx`, `src/App.tsx`, `tests/public-site.spec.ts`
 
 ### SITE-33 - Lucide React 1.x icon migration
 

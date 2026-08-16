@@ -2,6 +2,10 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-16 - Runtime and package-manager expectations are not pinned
+
+Resolved on 2026-08-17 by declaring Node `24.x` in `engines.node` and npm `11.11.0` in `packageManager`, matching the local Node 24/npm 11 toolchain and Vercel's current default Node 24 LTS runtime. Node type definitions now follow the matching current Node-24 release instead of drifting onto an unsupported future major, and the complete local QA gate passes with the explicit runtime metadata.
+
 ### DEBT-34 - Public-page tests need opportunistic maintenance
 
 Resolved on 2026-08-14 by replacing the page-markup and generated-artifact mirror in `tests/public-site.spec.ts` with a durable visitor-behaviour suite. Browser cases fell from 262 across two Chromium profiles to 37 in one Chromium project; targeted mobile viewport, route hydration, navigation, progressive-enhancement, analytics, form, responsive, and accessibility checks remain.

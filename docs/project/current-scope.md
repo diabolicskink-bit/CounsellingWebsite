@@ -47,6 +47,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 
 - The public site is live at `https://vivecounselling.com.au`.
 - Browser and static entry points share the same route/application tree, Strict Mode boundary, and serializable initial-render timestamp contract.
+- Browser, SSR, and prerender rendering use React and React DOM `19.2.8` with matching React 19 type definitions.
 - `npm run build` creates a disposable Vite SSR bundle under `.prerender/server` and imports it while prerendering every metadata-backed public route.
 - Generated route HTML contains component-rendered header, page, navigation, and footer markup in the first response.
 - The controlled `404.html` artifact uses dedicated generic not-found fallback markup.
@@ -54,6 +55,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - The prerender process updates generated route HTML, metadata artifacts, sitemap, robots, and the app-powered `404.html` fallback.
 - The build fails when a metadata-backed route is absent from the component prerender set.
 - TypeScript checking covers the application and the TypeScript serverless API.
+- `package.json` declares Node `24.x` and npm `11.11.0`; local development and Vercel use the Node 24 LTS line, and the project carries matching Node-24 type definitions.
 - `vercel.json` defines clean URLs, trailing-slash redirects, and public alias redirects.
 
 ## Enquiry Flow And API
