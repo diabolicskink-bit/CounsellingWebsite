@@ -4,7 +4,10 @@
       "Bash(npx tsc *)",
       "Bash(Get-ChildItem -Recurse -Force)",
       "Bash(Select-Object FullName)",
-      "Bash(Get-Content \"c:\\\\Users\\\\auzzi\\\\OneDrive\\\\Documents\\\\CounsellingWebsite\\\\vite-dev.out.log\" -Tail 10)"
+      "Bash(Get-Content \"c:\\\\Users\\\\auzzi\\\\OneDrive\\\\Documents\\\\CounsellingWebsite\\\\vite-dev.out.log\" -Tail 10)",
+      "PowerShell(npm run build 2>&1)",
+      "Bash(grep -o '<p class=\"hero-display\">.\\\\{0,120\\\\}' dist/lgbtqia-affirming-counselling.html)",
+      "Bash(git --no-pager diff src/styles-lgbtqia.css src/pages/LgbtqiaCounselling.tsx)"
     ]
   }
 }

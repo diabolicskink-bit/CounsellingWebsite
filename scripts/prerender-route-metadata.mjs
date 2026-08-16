@@ -16,7 +16,7 @@ const routeMainClasses = {
   "/inclusive-counselling": "site-page inclusion-hub-page",
   "/kink-bdsm-counselling": "site-page kink-page",
   "/polyamory-enm-counselling": "site-page enm-page",
-  "/lgbtqia-affirming-counselling": "site-page inclusion-page lgbtqia-page",
+  "/lgbtqia-affirming-counselling": "site-page lgbtqia-page",
   "/crisis-support": "site-page crisis-support-page",
   "/contact": "site-page contact-page",
 };
