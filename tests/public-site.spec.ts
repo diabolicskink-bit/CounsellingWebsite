@@ -663,7 +663,7 @@ test.describe("analytics", () => {
       const requestUrl = new URL(route.request().url());
       const date = requestUrl.searchParams.get("date") ?? "2026-08-15";
       const visit = {
-        adCode: null,
+        adCode: "enm-01",
         botCategory: null,
         botName: null,
         dateKey: date,
@@ -805,27 +805,30 @@ test.describe("analytics", () => {
     await expect(page.getByText("Returning · Visit 2 of 3", { exact: true })).toBeVisible();
     await expect(page.getByText("New visitor · Visit 1 of 1", { exact: true })).toBeVisible();
     await expect(page.locator(".signal-event__beacon--returning")).toHaveCount(1);
+    await expect(page.getByRole("region", { name: "Enquiry activity" })).toHaveCount(0);
+    await expect(page.locator(".signal-spectrum__orbit strong")).toHaveText("02");
+    await expect(page.locator(".signal-pages__summary strong")).toHaveText("04");
+    await expect(page.locator(".signal-pages__summary")).toContainText("2.0 average per visit");
+    await expect(page.locator(".signal-pages__ranking")).toContainText("/contact");
 
-    const enquiryActivity = page.getByRole("region", { name: "Enquiry activity" });
-    await expect(enquiryActivity.getByText("Enquiry failed", { exact: true })).toBeVisible();
-    await expect(enquiryActivity.getByText("Enquiry sent", { exact: true })).toBeVisible();
-    await enquiryActivity.getByRole("button", { name: /Enquiry sent.*Open enquiry journey/ }).click();
+    const paidVisit = page.locator(".signal-event").filter({ hasText: "Ad enm-01" });
+    await expect(paidVisit).toHaveCount(1);
+    await expect(paidVisit).toContainText("Enquiry sent");
+    await expect(paidVisit).toContainText("Question selected");
+    await expect(paidVisit).not.toContainText("Send failed");
 
-    await expect(page.getByRole("heading", { level: 1, name: "Enquiry journey" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "Visits and enquiry activity" })).toBeVisible();
-    await expect.poll(() => {
-      const journeyUrl = new URL(page.url());
+    const includeBots = page.getByRole("button", { name: "Include bots" });
+    await expect(includeBots).toHaveAttribute("aria-pressed", "false");
+    await includeBots.click();
+    await expect(page).toHaveURL(/bots=include/);
+    await expect(page.locator(".signal-event")).toHaveCount(3);
+    await expect(page.locator(".signal-spectrum__orbit strong")).toHaveText("03");
+    await expect(page.getByText("/bot-only", { exact: true })).toBeVisible();
+    await expect(page.locator(".signal-bot")).toContainText("googlebot");
 
-      return {
-        event: journeyUrl.searchParams.get("event"),
-        visitor: journeyUrl.searchParams.get("visitor"),
-      };
-    }).toEqual({
-      event: "d648d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-      visitor: visitorId,
-    });
+    await page.locator(".signal-event").first().click();
     await expect(
-      page.locator(".visitor-visit--focused .signal-journey > li strong"),
+      page.locator(".signal-event-detail .signal-journey > li strong"),
     ).toHaveText([
       "/",
       "/contact",
@@ -837,21 +840,6 @@ test.describe("analytics", () => {
       "Enquiry sent",
       "/contact",
     ]);
-    await expect(page.locator(".signal-journey__event--selected")).toContainText("Enquiry sent");
-
-    await page.getByRole("button", { name: /Back to/ }).click();
-    await expect(page.getByRole("heading", { level: 2, name: "Visits on this day" })).toBeVisible();
-
-    const includeBots = page.getByRole("button", { name: "Include bots" });
-    await expect(includeBots).toHaveAttribute("aria-pressed", "false");
-    await includeBots.click();
-    await expect(page).toHaveURL(/bots=include/);
-    await expect(page.locator(".signal-event")).toHaveCount(3);
-    await expect(page.locator(".signal-overview__count strong")).toHaveText("03");
-    await expect(page.getByText("/bot-only", { exact: true })).toBeVisible();
-    await expect(page.locator(".signal-bot")).toContainText("googlebot");
-
-    await page.locator(".signal-event").first().click();
     await expect(page.getByText("GCLID", { exact: true })).toHaveCount(0);
     await expect(page.getByText("CjwK-gclid-only", { exact: true })).toHaveCount(0);
     await expect(page.getByText("Not a paid visit", { exact: true })).toHaveCount(0);

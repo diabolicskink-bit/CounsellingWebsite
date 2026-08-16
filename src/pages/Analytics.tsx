@@ -12,6 +12,7 @@ import {
   Clock3,
   EyeOff,
   LockKeyhole,
+  MousePointerClick,
   Radio,
   RefreshCw,
   Route,
@@ -156,7 +157,8 @@ function keywordMatchDetail(visit: AnalyticsVisit) {
 
 function sourceDetail(visit: AnalyticsVisit) {
   if (visit.trafficSource === "paid") {
-    return `${networkLabel(visit.networkCode)} · ${visit.matchedKeyword ?? "Keyword unavailable"} · ${matchTypeLabel(visit.matchType)}`;
+    const adLabel = visit.adCode ? `Ad ${visit.adCode}` : "Ad unavailable";
+    return `${adLabel} · ${networkLabel(visit.networkCode)} · ${visit.matchedKeyword ?? "Keyword unavailable"} · ${matchTypeLabel(visit.matchType)}`;
   }
 
   if (visit.trafficSource === "referral" || visit.trafficSource === "internal") {
@@ -194,6 +196,12 @@ const contactOptionLabels: Record<string, string> = {
   question: "General enquiry",
 };
 
+const contactSelectionLabels: Record<string, string> = {
+  appointment: "Appointment selected",
+  consult: "Consult selected",
+  question: "Question selected",
+};
+
 const failureReasonLabels: Record<string, string> = {
   configuration: "Configuration",
   email_provider: "Email provider",
@@ -212,6 +220,12 @@ function eventProperty(visitEvent: AnalyticsVisitEvent, ...keys: string[]) {
 function contactOptionLabel(value: string | null) {
   if (!value) return null;
   return contactOptionLabels[value] ?? value.split("_").join(" ");
+}
+
+function contactSelectionLabel(visitEvent: AnalyticsVisitEvent) {
+  const value = eventProperty(visitEvent, "option", "contactOption", "contact_option");
+  if (!value) return null;
+  return contactSelectionLabels[value] ?? `${value.split("_").join(" ")} selected`;
 }
 
 function eventDetail(visitEvent: AnalyticsVisitEvent) {
@@ -742,7 +756,6 @@ function DailyObservatory({
   expandedVisitId,
   includeBots,
   onDateChange,
-  onOpenEnquiry,
   onOpenVisitor,
   onToggleVisit,
   todayKey,
@@ -752,7 +765,6 @@ function DailyObservatory({
   expandedVisitId: string | null;
   includeBots: boolean;
   onDateChange: (date: string) => void;
-  onOpenEnquiry: (visit: AnalyticsVisit, visitEvent: AnalyticsVisitEvent) => void;
   onOpenVisitor: (visit: AnalyticsVisit) => void;
   onToggleVisit: (visitId: string) => void;
   todayKey: string;
@@ -773,13 +785,21 @@ function DailyObservatory({
       visits: includedVisits.length,
     };
   }, [includedVisits]);
-  const enquiryActivity = useMemo(() => includedVisits
-    .flatMap((visit) => (visit.events ?? [])
-      .filter((visitEvent) => visitEvent.eventType === "enquiry_sent"
-        || visitEvent.eventType === "enquiry_failed")
-      .map((visitEvent) => ({ visit, visitEvent })))
-    .sort((left, right) => new Date(right.visitEvent.occurredAt).getTime()
-      - new Date(left.visitEvent.occurredAt).getTime()), [includedVisits]);
+  const topPages = useMemo(() => {
+    const pageCounts = new Map<string, number>();
+
+    includedVisits.forEach((visit) => {
+      visit.pageViews.forEach((pageView) => {
+        pageCounts.set(pageView.path, (pageCounts.get(pageView.path) ?? 0) + 1);
+      });
+    });
+
+    return [...pageCounts.entries()]
+      .map(([path, count]) => ({ count, path }))
+      .sort((left, right) => right.count - left.count || left.path.localeCompare(right.path))
+      .slice(0, 4);
+  }, [includedVisits]);
+  const pagePeak = Math.max(...topPages.map((page) => page.count), 1);
   const isToday = dateKey === todayKey;
   const denominator = Math.max(summary.visits, 1);
   const paidEnd = (summary.paid / denominator) * 360;
@@ -801,21 +821,16 @@ function DailyObservatory({
           <DateControls dateKey={dateKey} isToday={isToday} onDateChange={onDateChange} todayKey={todayKey} />
         </div>
 
-        <div className="signal-overview__count" aria-label={`${summary.visits} visits`}>
-          <span>Visits</span>
-          <strong>{String(summary.visits).padStart(2, "0")}</strong>
-        </div>
-
-        <div className="signal-spectrum">
+        <div className="signal-visits">
           <div
-            aria-label={`${summary.pages} page views across ${summary.paid} paid, ${summary.referral} referral, ${summary.internal} internal and ${summary.direct} direct visits`}
+            aria-label={`${summary.visits} visits: ${summary.paid} paid, ${summary.referral} referral, ${summary.internal} internal and ${summary.direct} direct`}
             className={summary.visits ? "signal-spectrum__orbit" : "signal-spectrum__orbit signal-spectrum__orbit--empty"}
             role="img"
             style={spectrumStyle}
           >
             <div>
-              <strong>{String(summary.pages).padStart(2, "0")}</strong>
-              <span>Views</span>
+              <strong>{String(summary.visits).padStart(2, "0")}</strong>
+              <span>Visits</span>
             </div>
           </div>
           <div className="signal-spectrum__legend">
@@ -826,61 +841,30 @@ function DailyObservatory({
           </div>
         </div>
 
-        <div className="signal-telemetry" aria-label="Daily summary">
-          <div><span>Returning</span><strong>{String(summary.returning).padStart(2, "0")}</strong><small>{summary.visits ? Math.round((summary.returning / summary.visits) * 100) : 0}% of visits</small></div>
-          <div><span>Average pages</span><strong>{summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"}</strong><small>Per visit</small></div>
-        </div>
-      </section>
-
-      <section className="enquiry-activity" aria-labelledby="enquiry-activity-title">
-        <header className="enquiry-activity__header">
-          <div>
-            <p className="signal-kicker">Form outcomes</p>
-            <h2 id="enquiry-activity-title">Enquiry activity</h2>
+        <div className="signal-pages" aria-label={`${summary.pages} page views, ${summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"} average pages per visit`}>
+          <div className="signal-pages__summary">
+            <span>Page views</span>
+            <strong>{String(summary.pages).padStart(2, "0")}</strong>
+            <small>{summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"} average per visit</small>
           </div>
-          <span>{enquiryActivity.length} {enquiryActivity.length === 1 ? "event" : "events"}</span>
-        </header>
+          <div className="signal-pages__ranking" aria-label="Most-viewed routes">
+            {topPages.length ? topPages.map((page) => (
+              <div className="signal-pages__route" key={page.path}>
+                <span title={page.path}>{page.path}</span>
+                <i aria-hidden="true">
+                  <b style={{ "--signal-page-width": `${(page.count / pagePeak) * 100}%` } as CSSProperties} />
+                </i>
+                <strong>{page.count}</strong>
+              </div>
+            )) : <p>No routes viewed</p>}
+          </div>
+        </div>
 
-        {enquiryActivity.length ? (
-          <ol className="enquiry-activity__list">
-            {enquiryActivity.map(({ visit, visitEvent }) => {
-              const wasSent = visitEvent.eventType === "enquiry_sent";
-              const option = enquiryOptionForEvent(visit, visitEvent);
-              const failure = eventDetail(visitEvent);
-
-              return (
-                <li key={visitEvent.id}>
-                  <button
-                    aria-label={`${eventLabel(visitEvent)} at ${formatTime(visitEvent.occurredAt)}. Open enquiry journey for ${visitorLabel(visit.visitorId)}`}
-                    onClick={() => onOpenEnquiry(visit, visitEvent)}
-                    type="button"
-                  >
-                    <span className={wasSent
-                      ? "enquiry-activity__status enquiry-activity__status--sent"
-                      : "enquiry-activity__status enquiry-activity__status--failed"}
-                    >
-                      {wasSent
-                        ? <CircleCheck aria-hidden="true" size={19} />
-                        : <CircleX aria-hidden="true" size={19} />}
-                    </span>
-                    <span className="enquiry-activity__outcome">
-                      <strong>{eventLabel(visitEvent)}</strong>
-                      <small>{[option, failure].filter(Boolean).join(" · ") || "Contact form"}</small>
-                    </span>
-                    <span className="enquiry-activity__visitor">
-                      <strong>{visitorLabel(visit.visitorId)}</strong>
-                      <small>Visit {visit.visitNumber} of {visit.totalVisits}</small>
-                    </span>
-                    <time dateTime={visitEvent.occurredAt}>{formatTime(visitEvent.occurredAt)}</time>
-                    <ChevronRight aria-hidden="true" size={18} />
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-        ) : (
-          <p className="enquiry-activity__empty">No sent or failed enquiries were recorded on this day.</p>
-        )}
+        <div className="signal-returning" aria-label={`${summary.returning} returning visits`}>
+          <span>Returning</span>
+          <strong>{String(summary.returning).padStart(2, "0")}</strong>
+          <small>{summary.visits ? Math.round((summary.returning / summary.visits) * 100) : 0}% of visits</small>
+        </div>
       </section>
 
       <section className="signal-stream" aria-labelledby="signal-stream-title">
@@ -898,9 +882,23 @@ function DailyObservatory({
               const isExpanded = visit.id === expandedVisitId;
               const detailId = `visit-detail-${visit.id}`;
               const previewPages = visit.pageViews.slice(0, 2);
+              const events = visit.events ?? [];
+              const hasSuccessfulEnquiry = events.some((visitEvent) => visitEvent.eventType === "enquiry_sent");
+              const hasFailedEnquiry = !hasSuccessfulEnquiry
+                && events.some((visitEvent) => visitEvent.eventType === "enquiry_failed");
+              const selectedContactEvent = [...events]
+                .filter((visitEvent) => visitEvent.eventType === "contact_option_selected")
+                .sort((left, right) => new Date(right.occurredAt).getTime() - new Date(left.occurredAt).getTime())[0];
+              const selectedContact = selectedContactEvent ? contactSelectionLabel(selectedContactEvent) : null;
+              const cardClassName = [
+                "signal-visit-card",
+                isExpanded ? "signal-visit-card--expanded" : null,
+                hasSuccessfulEnquiry ? "signal-visit-card--enquiry-sent" : null,
+                hasFailedEnquiry ? "signal-visit-card--enquiry-failed" : null,
+              ].filter(Boolean).join(" ");
 
               return (
-                <li className={isExpanded ? "signal-visit-card signal-visit-card--expanded" : "signal-visit-card"} key={visit.id}>
+                <li className={cardClassName} key={visit.id}>
                   <button
                     aria-controls={detailId}
                     aria-expanded={isExpanded}
@@ -935,6 +933,25 @@ function DailyObservatory({
                         <BotMark visit={visit} />
                         <span>{sourceDetail(visit)}</span>
                       </div>
+                      {hasSuccessfulEnquiry || hasFailedEnquiry || selectedContact ? (
+                        <div className="signal-event__signals">
+                          {hasSuccessfulEnquiry ? (
+                            <span className="signal-enquiry-signal signal-enquiry-signal--sent">
+                              <CircleCheck aria-hidden="true" size={15} /> Enquiry sent
+                            </span>
+                          ) : null}
+                          {hasFailedEnquiry ? (
+                            <span className="signal-enquiry-signal signal-enquiry-signal--failed">
+                              <CircleX aria-hidden="true" size={15} /> Send failed
+                            </span>
+                          ) : null}
+                          {selectedContact ? (
+                            <span className="signal-contact-signal">
+                              <MousePointerClick aria-hidden="true" size={14} /> {selectedContact}
+                            </span>
+                          ) : null}
+                        </div>
+                      ) : null}
                       <div className="signal-event__path" aria-label={`Journey preview from ${visit.landingPath}`}>
                         {previewPages.map((pageView, index) => (
                           <span key={pageView.id}>
@@ -1385,7 +1402,6 @@ export default function Analytics() {
             expandedVisitId={expandedVisitId}
             includeBots={includeBots}
             onDateChange={updateDate}
-            onOpenEnquiry={openEnquiry}
             onOpenVisitor={openVisitor}
             onToggleVisit={toggleVisit}
             todayKey={todayKey}

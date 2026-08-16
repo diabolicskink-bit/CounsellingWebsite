@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-16 - Daily Analytics Signals Refined
+
+- Reworked the private daily dashboard around visit-source composition, total and average page views, a four-route view ranking, and a compact returning-visits measure.
+- Moved enquiry outcomes and contact-choice cues onto their visit rows, with successful retries taking precedence while expanded timelines retain every event.
+- Exposed existing paid-ad codes on collapsed visit rows and removed stored GCLIDs from daily and visitor-history display without changing collection or reporting contracts.
+
 ## 2026-08-16 - Analytics Journeys And Exclusions Released
 
 - Released the calendar-month enquiry ledger, visit-linked enquiry journeys, and reversible visitor exclusions from the verified `staging` candidate to Production.
