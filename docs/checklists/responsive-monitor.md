@@ -122,13 +122,13 @@ Use a real browser for interaction-dependent states such as navigation, tabs, FA
 
 - `Not checked` Hero actions remain visible, reachable, and neatly wrapped or stacked.
 
-- `Not checked` Knowledge copy and the language field reflow as coherent grouped content rather than scattered fragments.
+- `Not checked` Fluency, therapy-misreading, and broader-context chapters reflow in a clear reading order.
 
-- `Not checked` Language-field items wrap without clipping or forcing horizontal scrolling.
+- `Not checked` Chapter headings and prose remain readable without clipping or excessive line lengths.
 
-- `Not checked` Closing introduction and support card stack in a clear order without cramped content or unstable widths.
+- `Not checked` Chapter-specific rules, offsets, and split layouts recombine without cramped content or unstable widths.
 
-- `Not checked` FAQ controls and answers remain readable and contained at mobile and intermediate widths.
+- `Not checked` The closing invitation remains visible and connected to the page-specific content.
 
 - `Not checked` Long kink and BDSM wording wraps without breaking cards, links, buttons, or headings.
 
@@ -178,9 +178,9 @@ Use a real browser for interaction-dependent states such as navigation, tabs, FA
 
 - `Not checked` Hero copy remains readable without overlap, clipping, excessive line length, or awkward heading wraps.
 
-- `Not checked` Fee card remains readable and contained, with no clipped fee or session details.
+- `Not checked` The fee strip remains readable and contained, with no clipped fee or session details.
 
-- `Not checked` Contact and practical-detail rail content stacks cleanly without clipping email, fee, or supporting text.
+- `Not checked` The enquiry introduction and form stack cleanly without clipping labels, choices, or supporting text.
 
 - `Not checked` Practical notes remain readable without excessive line length or cramped spacing.
 
@@ -189,8 +189,6 @@ Use a real browser for interaction-dependent states such as navigation, tabs, FA
 - `Not checked` Conditional form fields appear without layout shifts that hide the active field or submit button.
 
 - `Not checked` Sending, success, validation, and error states remain readable, contained, and close to the form context.
-
-- `Not checked` FAQ controls and answers remain readable and contained at mobile and intermediate widths.
 
 - `Not checked` Section spacing avoids orphaned headings, excessive gaps, cramped controls, or content detached from its heading.
 

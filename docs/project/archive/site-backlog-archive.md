@@ -2,6 +2,18 @@
 
 This file preserves implemented and superseded `SITE-*` items moved out of the [active site backlog](../site-backlog.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### SITE-21 - Contact form required-field clarity
+
+Implemented on 2026-07-27, with accessible required-label reinforcement on 2026-08-14. The progressive Contact form now requires an enquiry-path choice before exposing its submit flow, explains the required marker, marks each applicable visible field, provides screen-reader required text, and retains native validation.
+
+### SITE-19 - Kink language table cell colour distinction
+
+Superseded on 2026-07-27 when the terminology grid was removed and the Kink and BDSM page was restructured around three prose chapters. The former cell-colour distinction no longer has a source consumer.
+
+### SITE-22 - Working With Joel hero support design polish
+
+Superseded on 2026-07-17 when the former hero-support block was removed during the Working with Joel redesign. The current compact hero uses its title, Contact action, and credential list without the old “Life is complicated” support copy.
+
 ### SITE-9 - ENM and polyamory page copy completion
 
 Implemented on 2026-07-18. The ENM/polyamory page now contains deliberately written public copy with no Latin placeholder paragraphs or visible encoding artifacts. The route passed the repository encoding check and was published with the other Inclusion child pages. Copy refinement continues through the owner-led writing process and concrete `SITE-*` work.

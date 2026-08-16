@@ -156,20 +156,15 @@ Redirect aliases `/about`, `/fees`, and `/inclusion` are covered by `docs/checkl
 
 - `Not checked` Page has one clear page-level heading and a coherent heading order.
 
-- `Not checked` Hero, knowledge content, language field, closing support, and FAQ appear in a sensible reading order.
+- `Not checked` Hero, three prose chapters, and closing invitation appear in a sensible reading order.
 
-- `Not checked` Page-specific links, buttons, and FAQ controls have meaningful accessible names.
+- `Not checked` Page-specific links and actions have meaningful accessible names.
 
-- `Not checked` Focus order and visible focus remain clear across page actions and FAQ controls.
+- `Not checked` Focus order and visible focus remain clear across the hero actions and closing invitation.
 
-- `Partial` The language field remains understandable without relying on cell colour alone, and meaningful visual distinctions meet non-text contrast expectations.
-  - **Note:** The unresolved purpose and contrast of the language-field cell colours remain tracked under `SITE-19`.
+- `Not checked` Fluency, therapy-misreading, and broader-context chapters retain clear heading and paragraph relationships.
 
-- `Not checked` Language-field content is exposed as coherent grouped content rather than decorative fragments.
-
-- `Not checked` FAQ controls expose expanded state, control the intended answer, and work with keyboard alone.
-
-- `Not checked` FAQ answers have an appropriate relationship to their questions and hidden answers are not exposed as active content.
+- `Not checked` Decorative and expressive visual treatments are hidden appropriately or have intentional alternatives.
 
 - `Not checked` Reviewed text, non-text interface elements, and focus states meet WCAG AA contrast expectations.
 
@@ -239,16 +234,16 @@ Redirect aliases `/about`, `/fees`, and `/inclusion` are covered by `docs/checkl
 
 - `Pass` Heading order supports scanning and assistive navigation, including the labelled enquiry form and success section.
 
-- `Pass` Hero, fee card, contact details, practical notes, enquiry form, and FAQ appear in a sensible reading order.
+- `Pass` Hero, enquiry introduction and form, fee strip, and practical details appear in a sensible reading order.
 
-- `Pass` Email link, form controls, submit button, and FAQ controls have meaningful accessible names.
+- `Pass` Email link, form controls, submit button, and crisis-support link have meaningful accessible names.
 
-- `Pass` Focus is visible on page links, form controls, radio choices, selects, submit button, and FAQ controls.
+- `Pass` Focus is visible on page links, form controls, radio choices, selects, and the submit button.
 
 - `Pass` Every visitor-facing form field has a visible label or group legend.
 
-- `Partial` Required fields and required choices are clear before submission.
-  - **Note:** Visible required-field and required-choice clarity remains tracked under `SITE-21`.
+- `Pass` Required fields and required choices are clear before submission.
+  - **Note:** The enquiry-path choice gates the progressive details and submit flow; the revealed form explains `*` and marks each applicable required field visibly and for screen readers.
 
 - `Not checked` Validation errors identify the affected fields or groups.
 
