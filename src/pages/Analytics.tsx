@@ -810,6 +810,12 @@ function DailyObservatory({
     "--signal-paid-end": `${paidEnd}deg`,
     "--signal-referral-end": `${referralEnd}deg`,
   } as CSSProperties;
+  const returningPercentage = summary.visits
+    ? Math.round((summary.returning / summary.visits) * 100)
+    : 0;
+  const returningStyle = {
+    "--signal-returning-end": `${returningPercentage * 3.6}deg`,
+  } as CSSProperties;
 
   return (
     <>
@@ -841,11 +847,30 @@ function DailyObservatory({
           </div>
         </div>
 
+        <div
+          className="signal-returning"
+          aria-label={`${summary.returning} returning visits, ${returningPercentage}% of visits`}
+          style={returningStyle}
+        >
+          <div className="signal-returning__summary">
+            <span>Returning</span>
+            <strong>{String(summary.returning).padStart(2, "0")}</strong>
+            <small>{returningPercentage}% of visits</small>
+          </div>
+          <span className={summary.visits
+            ? "signal-returning__orbit"
+            : "signal-returning__orbit signal-returning__orbit--empty"}
+            aria-hidden="true"
+          >
+            <RefreshCw size={19} strokeWidth={2.2} />
+          </span>
+        </div>
+
         <div className="signal-pages" aria-label={`${summary.pages} page views, ${summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"} average pages per visit`}>
           <div className="signal-pages__summary">
             <span>Page views</span>
             <strong>{String(summary.pages).padStart(2, "0")}</strong>
-            <small>{summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"} average per visit</small>
+            <small>{summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"} avg per visit</small>
           </div>
           <div className="signal-pages__ranking" aria-label="Most-viewed routes">
             {topPages.length ? topPages.map((page) => (
@@ -858,12 +883,6 @@ function DailyObservatory({
               </div>
             )) : <p>No routes viewed</p>}
           </div>
-        </div>
-
-        <div className="signal-returning" aria-label={`${summary.returning} returning visits`}>
-          <span>Returning</span>
-          <strong>{String(summary.returning).padStart(2, "0")}</strong>
-          <small>{summary.visits ? Math.round((summary.returning / summary.visits) * 100) : 0}% of visits</small>
         </div>
       </section>
 
