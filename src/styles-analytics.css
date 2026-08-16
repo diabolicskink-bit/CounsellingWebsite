@@ -1223,7 +1223,7 @@ body:has(.visit-dashboard) {
   display: grid;
   width: 100%;
   min-height: 94px;
-  grid-template-columns: 72px 190px minmax(210px, 1fr) 105px 82px;
+  grid-template-columns: 72px 190px minmax(210px, 1fr) 132px 82px;
   align-items: center;
   gap: 18px;
   padding: 16px 20px;
@@ -1388,7 +1388,6 @@ body:has(.visit-dashboard) {
 
 .signal-event__identity > div span,
 .signal-event__trace-meta > span:last-child,
-.signal-event__readout span,
 .signal-footnote {
   color: var(--report-muted);
   font-size: 0.76rem;
@@ -1535,16 +1534,37 @@ body:has(.visit-dashboard) {
 }
 
 .signal-event__readout {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
   padding-left: 16px;
+  border-left: 1px solid var(--report-line);
+}
+
+.signal-event__readout > span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.signal-event__readout > span:first-child {
+  padding-right: 12px;
+}
+
+.signal-event__readout > span + span {
+  padding-left: 12px;
   border-left: 1px solid var(--report-line);
 }
 
 .signal-event__readout strong {
   font-size: 1.15rem;
   line-height: 1;
+}
+
+.signal-event__readout small {
+  color: var(--report-muted);
+  font-size: 0.7rem;
 }
 
 .signal-event__toggle {
@@ -2140,7 +2160,7 @@ body:has(.visit-dashboard) {
   .signal-returning { grid-column: 2; grid-row: 2; }
 
   .signal-event {
-    grid-template-columns: 68px 175px minmax(180px, 1fr) 90px 34px;
+    grid-template-columns: 68px 175px minmax(180px, 1fr) 112px 34px;
     gap: 13px;
   }
 
@@ -2320,15 +2340,13 @@ body:has(.visit-dashboard) {
   .signal-event__readout {
     grid-column: 2 / 4;
     grid-row: 3;
-    flex-direction: row;
-    align-items: baseline;
-    gap: 7px;
+    width: 144px;
     padding: 0;
     border: 0;
   }
 
   .signal-event__readout strong {
-    font-size: 0.85rem;
+    font-size: 1rem;
   }
 
   .signal-event-detail__journey,

@@ -1022,8 +1022,14 @@ function DailyObservatory({
                     </div>
 
                     <div className="signal-event__readout">
-                      <strong>{visit.pageViews.length}</strong>
-                      <span>{visit.pageViews.length === 1 ? "page" : "pages"} · {activeSeconds ? `${formatActiveTime(activeSeconds)} active` : "time not recorded"}</span>
+                      <span>
+                        <strong>{visit.pageViews.length}</strong>
+                        <small>{visit.pageViews.length === 1 ? "page" : "pages"}</small>
+                      </span>
+                      <span>
+                        <strong>{activeSeconds || "–"}</strong>
+                        <small>sec</small>
+                      </span>
                     </div>
                     <span className="signal-event__toggle">
                       {isExpanded ? "Hide" : "Details"}
