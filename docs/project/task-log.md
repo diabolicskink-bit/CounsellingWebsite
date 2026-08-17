@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-17 - TypeScript 7 Migration Completed
+
+- Updated the project compiler from resolved TypeScript `5.9.3` to the native TypeScript `7.0.2` release.
+- Made the Node ambient-type dependency explicit while preserving strict mode, bundler module resolution, configured targets and libraries, and existing application, API, middleware, and test coverage.
+- Passed the complete QA gate with 27 script tests, 106 API tests, successful client and SSR builds, eight-route prerendering, and 39 enabled browser cases; a live Vite browser check also rendered without an error overlay or captured console errors, and `SITE-34` is archived as implemented.
+
 ## 2026-08-17 - React 19 Migration Completed
 
 - Updated React and React DOM together from `18.3.1` to `19.2.8`, with their type packages moved to the matching React 19 generation.

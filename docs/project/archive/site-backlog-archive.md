@@ -26,6 +26,10 @@ Implemented on 2026-08-17. `@vitejs/plugin-react` moved from `6.0.1` to `6.0.5`.
 
 Implemented on 2026-08-17. React and React DOM moved together from `18.3.1` to `19.2.8`, with `@types/react` updated to `19.2.18` and `@types/react-dom` to `19.2.4`. The existing browser root, hydration, and server-rendering entry points already used React's current APIs, so no source migration was required. The complete site and analytics QA gates passed, and Lighthouse retained scores of 100 for performance, accessibility, best practices, and SEO.
 
+### SITE-34 - TypeScript 7 migration
+
+Implemented on 2026-08-17. The manifest moved from TypeScript `^5.7.2` with `5.9.3` resolved to TypeScript `^7.0.2` with `7.0.2` resolved. The root compiler configuration now explicitly includes Node ambient types, accommodating TypeScript 7's empty default type set while retaining strict mode, the existing bundler resolution, explicit targets and libraries, and the same source coverage. Application and test typechecks, script and API tests, client and SSR builds, eight-route prerendering, the public browser suite, and a live Vite browser check all passed.
+
 ### SITE-21 - Contact form required-field clarity
 
 Implemented on 2026-07-27, with accessible required-label reinforcement on 2026-08-14. The progressive Contact form now requires an enquiry-path choice before exposing its submit flow, explains the required marker, marks each applicable visible field, provides screen-reader required text, and retains native validation.

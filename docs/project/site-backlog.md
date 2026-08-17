@@ -198,22 +198,6 @@ Statuses:
   - Preserve the strict visual boundary between public pages and private analytics while verifying their separate icon consumers.
 - `Links`: `package.json`, `package-lock.json`, `src`
 
-### SITE-34 - TypeScript 7 migration
-
-- `Priority`: `P3`
-- `Size`: `L`
-- `Status`: `Open`
-- `Classification`: `Technical Maintenance`
-- `Source`: `2026-08-16 dependency audit, npm outdated`
-- `Visitor-Facing Goal`: Keep compile-time checks effective on the maintained TypeScript generation without changing working visitor-facing behaviour accidentally.
-- `Current State`: The manifest declares TypeScript `^5.7.2` and the lockfile installs `5.9.3`; `7.0.2` is the current major release.
-- `Why Deferred`: A two-major compiler migration can change defaults, module resolution, library definitions, diagnostics, emit behaviour, and project-reference handling across application, test, API, and script code.
-- `First Useful Slice`: Review TypeScript 6 and 7 migration notes and dependency compatibility, update the compiler in an isolated change, then resolve diagnostics without weakening strictness or broadening exclusions.
-- `Implemented When`: TypeScript resolves to `7.0.2` or a newer approved 7.x release, application and test typechecks pass under the intended Node runtime, client and SSR builds succeed, and no configuration change silently reduces coverage.
-- `Notes`:
-  - Coordinate runtime-sensitive compiler and library choices with `DEBT-16`.
-- `Links`: `package.json`, `package-lock.json`, `tsconfig.json`, `tests/tsconfig.json`, `docs/project/project-debt.md`
-
 ## Resolved Item Archive
 
 Implemented and superseded `SITE-*` items live in [archive/site-backlog-archive.md](archive/site-backlog-archive.md). Search that file only when historical visitor-facing work or a retired stable ID matters.
