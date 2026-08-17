@@ -33,6 +33,7 @@ export const privateRoutePaths = {
   analytics: "/analytics",
   analyticsEnquiries: "/analytics/enquiries",
   analyticsExcluded: "/analytics/excluded",
+  analyticsKeywords: "/analytics/keywords",
   analyticsPageViews: "/analytics/pages",
 } as const;
 

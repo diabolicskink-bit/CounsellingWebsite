@@ -92,6 +92,34 @@ test("requests one aggregated page-view breakdown for a bounded date range", asy
   assert.equal(result.statusCode, 200);
 });
 
+test("requests keyword journeys for a bounded date range", async () => {
+  const selections = [];
+  const handler = createAnalyticsHandler(
+    async (selection) => {
+      selections.push(selection);
+      return { keywords: [] };
+    },
+    () => new Date("2026-08-16T04:00:00.000Z"),
+  );
+
+  const result = await invoke(handler, {
+    method: "GET",
+    query: {
+      end: "2026-08-16",
+      report: "keywords",
+      start: "2026-07-18",
+    },
+  });
+
+  assert.deepEqual(selections, [{
+    endDate: "2026-08-16",
+    includeBots: false,
+    startDate: "2026-07-18",
+    type: "keywords",
+  }]);
+  assert.equal(result.statusCode, 200);
+});
+
 test("defaults a daily request to the current Australia/Perth date", async () => {
   const selections = [];
   const handler = createAnalyticsHandler(
@@ -153,6 +181,14 @@ test("rejects writes and invalid or ambiguous report selections before reading",
     method: "GET",
     query: { start: "2026-08-01" },
   });
+  const incompleteKeywordRange = await invoke(handler, {
+    method: "GET",
+    query: { report: "keywords" },
+  });
+  const unknownReport = await invoke(handler, {
+    method: "GET",
+    query: { end: "2026-08-14", report: "sources", start: "2026-08-01" },
+  });
   const reversedRange = await invoke(handler, {
     method: "GET",
     query: { end: "2026-08-01", start: "2026-08-02" },
@@ -174,6 +210,8 @@ test("rejects writes and invalid or ambiguous report selections before reading",
   assert.equal(ambiguousMonth.statusCode, 400);
   assert.equal(unknown.statusCode, 400);
   assert.equal(incompleteRange.statusCode, 400);
+  assert.equal(incompleteKeywordRange.statusCode, 400);
+  assert.equal(unknownReport.statusCode, 400);
   assert.equal(reversedRange.statusCode, 400);
   assert.equal(futureRange.statusCode, 400);
   assert.equal(oversizedRange.statusCode, 400);

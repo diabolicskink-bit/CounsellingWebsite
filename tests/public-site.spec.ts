@@ -700,13 +700,36 @@ test.describe("analytics", () => {
       };
       const data = requestUrl.searchParams.has("visitor")
         ? { isExcluded: false, type: "visitor", visitorId, visits: [visit] }
-        : requestUrl.searchParams.has("month")
+        : requestUrl.searchParams.get("report") === "keywords"
           ? {
-              type: "monthly",
-              month: requestUrl.searchParams.get("month"),
-              visits: [visit],
+              endDate: requestUrl.searchParams.get("end"),
+              keywords: [{
+                activeSeconds: 300,
+                enquiryVisits: 1,
+                keyword: "kink aware counselling",
+                latestVisitAt: "2026-08-15T03:00:00.000Z",
+                matchTypes: ["e", "p"],
+                pageViews: 7,
+                returningVisits: 1,
+                topLandingPath: "/kink-bdsm-counselling",
+                visits: 3,
+              }],
+              startDate: requestUrl.searchParams.get("start"),
+              taggedEnquiryVisits: 1,
+              taggedVisits: 3,
+              totalActiveSeconds: 390,
+              totalEnquiryVisits: 1,
+              totalPageViews: 9,
+              totalPaidVisits: 4,
+              type: "keywords",
             }
-          : { type: "daily", date, visits: [visit] };
+          : requestUrl.searchParams.has("month")
+            ? {
+                type: "monthly",
+                month: requestUrl.searchParams.get("month"),
+                visits: [visit],
+              }
+            : { type: "daily", date, visits: [visit] };
 
       await route.fulfill({
         body: JSON.stringify({ data }),
@@ -743,6 +766,15 @@ test.describe("analytics", () => {
     await page.getByRole("button", { name: /Enquiry sent on.*Open enquiry journey/ }).click();
     await expect(page.getByRole("heading", { level: 1, name: "Enquiry journey" })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: "Visits and enquiry activity" })).toBeVisible();
+
+    await page.getByRole("link", { name: "Keywords" }).click();
+    await expect(page).toHaveURL(/\/analytics\/keywords$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Keyword journeys" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Search intent ledger" })).toBeVisible();
+    const keywordRow = page.getByRole("row").filter({ hasText: "kink aware counselling" });
+    await expect(keywordRow).toContainText("7 views");
+    await expect(keywordRow).toContainText("1:40");
+    await expect(keywordRow).toContainText("/kink-bdsm-counselling");
   });
 
   test("first-party visit recorder records SPA route changes and refreshes in the active visit", async ({ page }) => {

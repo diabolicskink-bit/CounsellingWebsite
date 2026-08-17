@@ -16,6 +16,7 @@ import {
   Radio,
   RefreshCw,
   Route,
+  Search,
 } from "lucide-react";
 import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom";
 import {
@@ -32,6 +33,7 @@ import {
   type DailyAnalyticsReport,
   type ExcludedVisitorSummary,
   type ExcludedVisitorsReport,
+  type KeywordAnalyticsReport,
   type MonthlyAnalyticsReport,
   type PageViewsAnalyticsReport,
   type VisitorAnalyticsReport,
@@ -110,6 +112,14 @@ function formatActiveTime(seconds: number) {
   const minutes = Math.floor(seconds / 60);
   const remainder = seconds % 60;
   return `${minutes}:${String(remainder).padStart(2, "0")}`;
+}
+
+function formatLongActiveTime(seconds: number) {
+  if (seconds < 3600) return formatActiveTime(seconds);
+
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  return `${hours}h ${minutes}m`;
 }
 
 function visitActiveSeconds(visit: AnalyticsVisit) {
@@ -361,6 +371,18 @@ function isAnalyticsReport(value: unknown): value is AnalyticsReport {
       && typeof report.totalVisits === "number";
   }
 
+  if (report.type === "keywords") {
+    return Array.isArray(report.keywords)
+      && typeof report.startDate === "string"
+      && typeof report.endDate === "string"
+      && typeof report.taggedEnquiryVisits === "number"
+      && typeof report.taggedVisits === "number"
+      && typeof report.totalActiveSeconds === "number"
+      && typeof report.totalEnquiryVisits === "number"
+      && typeof report.totalPageViews === "number"
+      && typeof report.totalPaidVisits === "number";
+  }
+
   return (report.type === "daily" || report.type === "monthly" || report.type === "visitor")
     && Array.isArray(report.visits)
     && (report.type !== "visitor" || typeof report.isExcluded === "boolean");
@@ -435,7 +457,7 @@ function SignalHeader({
   showBotControl,
   status,
 }: {
-  detailTitle: "Daily activity" | "Enquiry journey" | "Excluded visitors" | "Monthly enquiries" | "Page views" | "Visitor history";
+  detailTitle: "Daily activity" | "Enquiry journey" | "Excluded visitors" | "Keywords" | "Monthly enquiries" | "Page views" | "Visitor history";
   includeBots: boolean;
   onHome: () => void;
   onIncludeBotsChange: (includeBots: boolean) => void;
@@ -457,6 +479,7 @@ function SignalHeader({
         <nav aria-label="Analytics views" className="signal-header__views">
           <NavLink end to={privateRoutePaths.analytics}>Daily</NavLink>
           <NavLink to={privateRoutePaths.analyticsEnquiries}>Enquiries</NavLink>
+          <NavLink to={privateRoutePaths.analyticsKeywords}>Keywords</NavLink>
           <NavLink to={privateRoutePaths.analyticsExcluded}>Excluded</NavLink>
         </nav>
         <div className="signal-header__system">
@@ -1240,6 +1263,239 @@ function PageViewsBreakdown({
   );
 }
 
+function KeywordAnalytics({
+  includeBots,
+  onRangeChange,
+  report,
+  todayKey,
+}: {
+  includeBots: boolean;
+  onRangeChange: (startDate: string, endDate: string) => void;
+  report: KeywordAnalyticsReport;
+  todayKey: string;
+}) {
+  const [draftStartDate, setDraftStartDate] = useState(report.startDate);
+  const [draftEndDate, setDraftEndDate] = useState(report.endDate);
+  const hasDateKeys = isAnalyticsDateKey(draftStartDate) && isAnalyticsDateKey(draftEndDate);
+  const rangeLength = hasDateKeys
+    ? Math.round((parseDateKey(draftEndDate).getTime() - parseDateKey(draftStartDate).getTime()) / 86_400_000)
+    : -1;
+  const isRangeValid = hasDateKeys
+    && rangeLength >= 0
+    && rangeLength < 366
+    && draftEndDate <= todayKey;
+  const attributionCoverage = report.totalPaidVisits
+    ? Math.round((report.taggedVisits / report.totalPaidVisits) * 100)
+    : 0;
+  const pagesPerVisit = report.totalPaidVisits
+    ? (report.totalPageViews / report.totalPaidVisits).toFixed(1)
+    : "0.0";
+  const activeTimePerVisit = report.totalPaidVisits
+    ? Math.round(report.totalActiveSeconds / report.totalPaidVisits)
+    : 0;
+  const untaggedVisits = report.totalPaidVisits - report.taggedVisits;
+
+  useEffect(() => {
+    setDraftStartDate(report.startDate);
+    setDraftEndDate(report.endDate);
+  }, [report.endDate, report.startDate]);
+
+  return (
+    <>
+      <section className="keyword-report__masthead" aria-labelledby="keyword-report-title">
+        <div className="keyword-report__intro">
+          <p className="signal-kicker">Paid search intelligence</p>
+          <h1 id="keyword-report-title">Keyword journeys</h1>
+          <p>
+            See which captured search terms led to actual reading time, deeper page journeys and enquiries.
+          </p>
+          <p className="keyword-report__period">
+            {report.startDate === report.endDate
+              ? formatDate(report.startDate)
+              : `${formatDate(report.startDate, true)} to ${formatDate(report.endDate, true)}`}
+          </p>
+        </div>
+
+        <form
+          className="keyword-report__range"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (isRangeValid) onRangeChange(draftStartDate, draftEndDate);
+          }}
+        >
+          <div className="keyword-report__range-heading">
+            <CalendarDays aria-hidden="true" size={16} />
+            <strong>Observation window</strong>
+          </div>
+          <label>
+            <span>Start</span>
+            <input
+              max={draftEndDate < todayKey ? draftEndDate : todayKey}
+              onChange={(event) => setDraftStartDate(event.target.value)}
+              type="date"
+              value={draftStartDate}
+            />
+          </label>
+          <label>
+            <span>End</span>
+            <input
+              max={todayKey}
+              min={draftStartDate}
+              onChange={(event) => setDraftEndDate(event.target.value)}
+              type="date"
+              value={draftEndDate}
+            />
+          </label>
+          <button disabled={!isRangeValid} type="submit">Update report</button>
+          <small>Up to 366 days, based on when each paid visit began.</small>
+        </form>
+      </section>
+
+      <section className="keyword-report__pulse" aria-label="Paid keyword overview">
+        <div className="keyword-report__coverage">
+          <span className="keyword-report__coverage-value">{attributionCoverage}%</span>
+          <div>
+            <strong>Keyword coverage</strong>
+            <p>{report.taggedVisits} of {report.totalPaidVisits} paid visits carried a keyword tag.</p>
+          </div>
+          <progress max="100" value={attributionCoverage}>{attributionCoverage}%</progress>
+          <small>{untaggedVisits ? `${untaggedVisits} paid ${untaggedVisits === 1 ? "visit has" : "visits have"} no keyword tag.` : "Every paid visit in this range is keyword-tagged."}</small>
+        </div>
+
+        <dl className="keyword-report__metrics">
+          <div>
+            <dt>Paid visits</dt>
+            <dd>{report.totalPaidVisits}</dd>
+          </div>
+          <div>
+            <dt>Page views</dt>
+            <dd>
+              {report.totalPageViews}
+              <small>{pagesPerVisit} per visit</small>
+            </dd>
+          </div>
+          <div>
+            <dt>Recorded attention</dt>
+            <dd>
+              {formatLongActiveTime(report.totalActiveSeconds)}
+              <small>{activeTimePerVisit ? `${formatActiveTime(activeTimePerVisit)} per visit` : "No active time"}</small>
+            </dd>
+          </div>
+          <div>
+            <dt>Enquiry visits</dt>
+            <dd>
+              {report.totalEnquiryVisits}
+              <small>{report.taggedEnquiryVisits} keyword-attributed</small>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section className="keyword-report__ledger" aria-labelledby="keyword-ledger-title">
+        <header>
+          <div>
+            <p className="signal-kicker">Ranked by enquiry signal, then visits</p>
+            <h2 id="keyword-ledger-title">Search intent ledger</h2>
+          </div>
+          <span>{report.keywords.length} captured {report.keywords.length === 1 ? "term" : "terms"}</span>
+        </header>
+
+        {report.keywords.length ? (
+          <div
+            aria-label="Keyword ledger. Scroll horizontally to see every column."
+            className="keyword-report__table-wrap"
+            role="region"
+            tabIndex={0}
+          >
+            <table className="keyword-report__table">
+              <caption className="signal-visually-hidden">
+                Paid search keywords with visits, page depth, active time, enquiries, landing page and latest visit
+              </caption>
+              <thead>
+                <tr>
+                  <th aria-label="Rank" scope="col">#</th>
+                  <th scope="col">Keyword</th>
+                  <th scope="col">Visits</th>
+                  <th scope="col">Page depth</th>
+                  <th scope="col">Active / visit</th>
+                  <th scope="col">Enquiries</th>
+                  <th scope="col">Top landing page</th>
+                  <th scope="col">Latest</th>
+                </tr>
+              </thead>
+              <tbody>
+                {report.keywords.map((keyword, index) => {
+                  const pagesPerKeywordVisit = keyword.visits
+                    ? (keyword.pageViews / keyword.visits).toFixed(1)
+                    : "0.0";
+                  const averageActiveTime = keyword.visits
+                    ? Math.round(keyword.activeSeconds / keyword.visits)
+                    : 0;
+                  const enquiryRate = keyword.visits
+                    ? Math.round((keyword.enquiryVisits / keyword.visits) * 100)
+                    : 0;
+
+                  return (
+                    <tr key={keyword.keyword}>
+                      <td className="keyword-report__rank" data-label="Rank">
+                        {String(index + 1).padStart(2, "0")}
+                      </td>
+                      <th className="keyword-report__term" data-label="Keyword" scope="row">
+                        <strong>{keyword.keyword}</strong>
+                        <span>
+                          {keyword.matchTypes.length
+                            ? keyword.matchTypes.map((type) => matchTypeLabel(type)).join(" · ")
+                            : "Match unavailable"}
+                        </span>
+                      </th>
+                      <td className="keyword-report__number" data-label="Visits">
+                        <strong>{keyword.visits}</strong>
+                        <small>{keyword.returningVisits} returning</small>
+                      </td>
+                      <td className="keyword-report__number" data-label="Page depth">
+                        <strong>{pagesPerKeywordVisit}</strong>
+                        <small>{keyword.pageViews} views</small>
+                      </td>
+                      <td className="keyword-report__number" data-label="Active / visit">
+                        <strong>{averageActiveTime ? formatActiveTime(averageActiveTime) : "—"}</strong>
+                        <small>{formatLongActiveTime(keyword.activeSeconds)} total</small>
+                      </td>
+                      <td className="keyword-report__number keyword-report__number--enquiries" data-label="Enquiries">
+                        <strong>{keyword.enquiryVisits}</strong>
+                        <small>{enquiryRate}% of visits</small>
+                      </td>
+                      <td className="keyword-report__landing" data-label="Top landing page">
+                        <span>{keyword.topLandingPath}</span>
+                      </td>
+                      <td className="keyword-report__latest" data-label="Latest">
+                        {formatDate(getPerthDateKey(new Date(keyword.latestVisitAt)), true)}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="signal-stream__empty keyword-report__empty">
+            <Search aria-hidden="true" size={30} />
+            <h3>No captured keywords</h3>
+            <p>
+              {report.totalPaidVisits
+                ? `There ${report.totalPaidVisits === 1 ? "was" : "were"} ${report.totalPaidVisits} paid ${report.totalPaidVisits === 1 ? "visit" : "visits"}, but none carried a keyword tag.`
+                : "No paid visits began in this date range."}
+            </p>
+          </div>
+        )}
+      </section>
+
+      <p className="signal-footnote keyword-report__footnote">
+        A visit is counted once per captured keyword. Page depth and active time include the complete visit, not only its landing page. Enquiries count visits containing at least one successful send. {includeBots ? "Bot visits are included." : "Identified bot visits are excluded."}
+      </p>
+    </>
+  );
+}
+
 function VisitorHistory({
   backLabel,
   focusedEventId,
@@ -1464,6 +1720,7 @@ export default function Analytics() {
   const currentMonth = todayKey.slice(0, 7);
   const isMonthlyView = pathname === privateRoutePaths.analyticsEnquiries;
   const isExcludedView = pathname === privateRoutePaths.analyticsExcluded;
+  const isKeywordView = pathname === privateRoutePaths.analyticsKeywords;
   const isPageViewsView = pathname === privateRoutePaths.analyticsPageViews;
   const requestedDate = searchParams.get("date");
   const dateKey = isAnalyticsDateKey(requestedDate) && requestedDate <= todayKey ? requestedDate : todayKey;
@@ -1477,30 +1734,32 @@ export default function Analytics() {
     && isAnalyticsDateKey(requestedEndDate)
     ? Math.round((parseDateKey(requestedEndDate).getTime() - parseDateKey(requestedStartDate).getTime()) / 86_400_000)
     : -1;
-  const hasValidPageViewRange = requestedRangeLength >= 0
+  const hasValidRange = requestedRangeLength >= 0
     && requestedRangeLength < 366
     && requestedEndDate !== null
     && requestedEndDate <= todayKey;
-  const pageViewStartDate = hasValidPageViewRange && requestedStartDate ? requestedStartDate : todayKey;
-  const pageViewEndDate = hasValidPageViewRange && requestedEndDate ? requestedEndDate : todayKey;
+  const defaultRangeStartDate = isKeywordView ? shiftDateKey(todayKey, -29) : todayKey;
+  const rangeStartDate = hasValidRange && requestedStartDate ? requestedStartDate : defaultRangeStartDate;
+  const rangeEndDate = hasValidRange && requestedEndDate ? requestedEndDate : todayKey;
   const expandedVisitId = searchParams.get("expanded");
   const includeBots = searchParams.get("bots") === "include";
   const requestedVisitorId = searchParams.get("visitor");
   const focusedVisitId = searchParams.get("visit");
   const focusedEventId = searchParams.get("event");
-  const pageViewRequestParams = new URLSearchParams({
-    end: pageViewEndDate,
-    start: pageViewStartDate,
+  const rangeRequestParams = new URLSearchParams({
+    end: rangeEndDate,
+    start: rangeStartDate,
   });
-  if (includeBots) pageViewRequestParams.set("bots", "include");
+  if (isKeywordView) rangeRequestParams.set("report", "keywords");
+  if (includeBots) rangeRequestParams.set("bots", "include");
   const requestUrl = requestedVisitorId
     ? `/api/analytics?visitor=${encodeURIComponent(requestedVisitorId)}`
     : isExcludedView
       ? "/api/analytics/exclusions"
       : isMonthlyView
         ? `/api/analytics?month=${encodeURIComponent(monthKey)}`
-        : isPageViewsView
-          ? `/api/analytics?${pageViewRequestParams.toString()}`
+        : isKeywordView || isPageViewsView
+          ? `/api/analytics?${rangeRequestParams.toString()}`
           : `/api/analytics?date=${encodeURIComponent(dateKey)}`;
   const { report, retry, status } = useAnalyticsReport(requestUrl);
 
@@ -1509,14 +1768,18 @@ export default function Analytics() {
       ? "Excluded Visitors | Vive Analytics"
       : isMonthlyView
         ? "Enquiries | Vive Analytics"
-        : isPageViewsView ? "Page Views | Vive Analytics" : "Analytics | Vive Counselling",
+        : isKeywordView
+          ? "Keywords | Vive Analytics"
+          : isPageViewsView ? "Page Views | Vive Analytics" : "Analytics | Vive Counselling",
     isExcludedView
       ? "Private excluded visitor management for Vive Counselling analytics."
       : isMonthlyView
         ? "Private monthly enquiry analytics for Vive Counselling."
-        : isPageViewsView
-          ? "Private page-view breakdown for Vive Counselling analytics."
-          : "Private first-party visit analytics for Vive Counselling.",
+        : isKeywordView
+          ? "Private paid keyword journey analytics for Vive Counselling."
+          : isPageViewsView
+            ? "Private page-view breakdown for Vive Counselling analytics."
+            : "Private first-party visit analytics for Vive Counselling.",
   );
 
   useEffect(() => {
@@ -1551,7 +1814,7 @@ export default function Analytics() {
     setSearchParams(nextParams);
   }
 
-  function updatePageViewRange(startDate: string, endDate: string) {
+  function updateRange(startDate: string, endDate: string) {
     if (!isAnalyticsDateKey(startDate) || !isAnalyticsDateKey(endDate)) return;
     const rangeLength = Math.round(
       (parseDateKey(endDate).getTime() - parseDateKey(startDate).getTime()) / 86_400_000,
@@ -1570,9 +1833,9 @@ export default function Analytics() {
       return nextParams;
     }
 
-    if (isPageViewsView) {
-      nextParams.set("end", pageViewEndDate);
-      nextParams.set("start", pageViewStartDate);
+    if (isKeywordView || isPageViewsView) {
+      nextParams.set("end", rangeEndDate);
+      nextParams.set("start", rangeStartDate);
     } else if (isMonthlyView) {
       if (monthKey !== currentMonth) nextParams.set("month", monthKey);
     } else if (dateKey !== todayKey) {
@@ -1616,6 +1879,7 @@ export default function Analytics() {
 
   const dailyReport = report?.type === "daily" ? report as DailyAnalyticsReport : null;
   const excludedReport = report?.type === "excluded" ? report as ExcludedVisitorsReport : null;
+  const keywordReport = report?.type === "keywords" ? report as KeywordAnalyticsReport : null;
   const monthlyReport = report?.type === "monthly" ? report as MonthlyAnalyticsReport : null;
   const pageViewsReport = report?.type === "pageViews" ? report as PageViewsAnalyticsReport : null;
   const visitorReport = report?.type === "visitor" ? report as VisitorAnalyticsReport : null;
@@ -1629,7 +1893,9 @@ export default function Analytics() {
             ? "Excluded visitors"
             : isMonthlyView
               ? "Monthly enquiries"
-              : isPageViewsView ? "Page views" : "Daily activity"}
+              : isKeywordView
+                ? "Keywords"
+                : isPageViewsView ? "Page views" : "Daily activity"}
         includeBots={includeBots}
         onHome={closeVisitor}
         onIncludeBotsChange={updateIncludeBots}
@@ -1643,6 +1909,8 @@ export default function Analytics() {
           <VisitorHistory
             backLabel={isExcludedView
               ? "excluded visitors"
+              : isKeywordView
+                ? "keyword journeys"
               : isPageViewsView
                 ? "page views"
                 : isMonthlyView
@@ -1655,7 +1923,7 @@ export default function Analytics() {
             report={visitorReport}
           />
         ) : null}
-        {status === "ready" && !requestedVisitorId && !isMonthlyView && !isExcludedView && !isPageViewsView && dailyReport ? (
+        {status === "ready" && !requestedVisitorId && !isMonthlyView && !isExcludedView && !isKeywordView && !isPageViewsView && dailyReport ? (
           <DailyObservatory
             dateKey={dailyReport.date}
             expandedVisitId={expandedVisitId}
@@ -1677,10 +1945,18 @@ export default function Analytics() {
             visits={monthlyReport.visits}
           />
         ) : null}
+        {status === "ready" && !requestedVisitorId && isKeywordView && keywordReport ? (
+          <KeywordAnalytics
+            includeBots={includeBots}
+            onRangeChange={updateRange}
+            report={keywordReport}
+            todayKey={todayKey}
+          />
+        ) : null}
         {status === "ready" && !requestedVisitorId && isPageViewsView && pageViewsReport ? (
           <PageViewsBreakdown
             includeBots={includeBots}
-            onRangeChange={updatePageViewRange}
+            onRangeChange={updateRange}
             report={pageViewsReport}
             todayKey={todayKey}
           />
@@ -1695,8 +1971,9 @@ export default function Analytics() {
           (requestedVisitorId && !visitorReport)
           || (!requestedVisitorId && isExcludedView && !excludedReport)
           || (!requestedVisitorId && isMonthlyView && !monthlyReport)
+          || (!requestedVisitorId && isKeywordView && !keywordReport)
           || (!requestedVisitorId && isPageViewsView && !pageViewsReport)
-          || (!requestedVisitorId && !isMonthlyView && !isExcludedView && !isPageViewsView && !dailyReport)
+          || (!requestedVisitorId && !isMonthlyView && !isExcludedView && !isKeywordView && !isPageViewsView && !dailyReport)
         ) ? (
           <ReportState onRetry={refreshReport} status="error" />
         ) : null}

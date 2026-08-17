@@ -98,6 +98,10 @@ export default function App({ initialRenderAt }: AppProps) {
           element={<AnalyticsRoute />}
         />
         <Route
+          path={privateRoutePaths.analyticsKeywords}
+          element={<AnalyticsRoute />}
+        />
+        <Route
           path={privateRoutePaths.analyticsPageViews}
           element={<AnalyticsRoute />}
         />
