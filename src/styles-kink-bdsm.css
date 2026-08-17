@@ -1,191 +1,490 @@
+/* Kink and BDSM counselling page.
+   Page-scoped composition, written mobile first because most visitors arrive
+   on a phone. Three typographic devices carry the page and none of them repeats:
+
+   1. an index of terms whose definition column is deliberately left blank;
+   2. a mirrored pair for the two opposite ways therapy misreads kink;
+   3. one sentence in which every reason for counselling is weighted the same.
+
+   Section colour is set through the inherited --color-heading and --color-text
+   roles that .site-page establishes, so the base heading and paragraph rules
+   keep working without per-element overrides. */
+
 .kink-page {
-  --kink-dark: #163229;
+  --kink-deep: #163229;
+  --kink-deep-soft: #21473a;
+  --kink-rule: rgba(35, 75, 61, 0.26);
+  --kink-light: #fcfcfa;
 
   background: var(--section-warm);
 }
 
-.kink-page__fluency {
-  padding: 60px 0;
+/* Index of terms ---------------------------------------------------------- */
+
+.kink-lexicon {
+  --color-heading: var(--kink-deep);
+
+  padding: 56px 0 60px;
   border-bottom: 1px solid var(--section-rule);
   background:
-    radial-gradient(circle at 8% 12%, rgba(252, 252, 250, 0.48), transparent 28%),
+    radial-gradient(circle at 4% 0%, rgba(252, 252, 250, 0.55), transparent 36%),
     var(--section-sage);
 }
 
-.kink-page__fluency-layout {
+.kink-lexicon__layout {
   display: grid;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(64px, 8vw, 120px);
-  align-items: start;
+  gap: 34px;
 }
 
-.kink-page__fluency-layout > * {
+.kink-lexicon__layout > * {
   min-width: 0;
 }
 
-.kink-page__fluency-title,
-.kink-page__misread-title,
-.kink-page__more-title {
-  margin: 0;
+.kink-lexicon__title {
+  max-width: 11ch;
   font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 10.6vw, 3.15rem);
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 0.96;
   text-wrap: balance;
 }
 
-.kink-page__fluency-title {
-  max-width: 10ch;
-  color: var(--kink-dark);
-  font-size: clamp(3.05rem, 4.2vw, 4rem);
+.kink-page .kink-lexicon__label {
+  margin-bottom: 14px;
+  color: rgba(22, 50, 41, 0.74);
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  font-weight: 700;
+  letter-spacing: 0.065em;
+  line-height: 1.35;
+  text-transform: uppercase;
 }
 
-.kink-page__fluency-copy {
+.kink-lexicon__terms {
   display: grid;
-  gap: 20px;
-  max-width: 64ch;
-  padding: 4px 0 4px 30px;
-  border-left: 1px solid rgba(35, 75, 61, 0.34);
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--kink-rule);
+  border-bottom: 1px solid var(--kink-rule);
+  list-style: none;
 }
 
-.kink-page .kink-page__fluency-copy p {
-  margin: 0;
+/* The leader runs to where a definition would start and then fades out. */
+.kink-lexicon__term {
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  padding: 15px 0 14px;
+}
+
+.kink-lexicon__term + .kink-lexicon__term {
+  border-top: 1px solid rgba(35, 75, 61, 0.11);
+}
+
+.kink-lexicon__term-word {
+  color: var(--kink-deep);
+  font-family: var(--font-serif);
+  font-size: clamp(1.62rem, 7vw, 2.05rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+.kink-lexicon__term-leader {
+  flex: 1 1 auto;
+  min-width: 24px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(35, 75, 61, 0.32) 0%,
+    rgba(35, 75, 61, 0.32) 38%,
+    rgba(35, 75, 61, 0) 100%
+  );
+}
+
+.kink-lexicon__answer {
+  display: grid;
+  gap: 16px;
+  max-width: 60ch;
+}
+
+.kink-page .kink-lexicon__answer-line {
+  color: var(--kink-deep);
+  font-family: var(--font-serif);
+  font-size: clamp(1.34rem, 5.3vw, 1.6rem);
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  line-height: 1.24;
   text-wrap: pretty;
 }
 
-.kink-page__misread-layout {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(64px, 8vw, 120px);
-  align-items: start;
+.kink-page .kink-lexicon__answer-note {
+  text-wrap: pretty;
 }
 
-.kink-page__misread-layout > * {
+/* Two opposite misreadings ------------------------------------------------ */
+
+.kink-misread {
+  --color-heading: var(--kink-light);
+  --color-text: rgba(239, 244, 240, 0.86);
+
+  padding: 58px 0 62px;
+  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
+  background:
+    radial-gradient(ellipse at 86% 6%, rgba(110, 159, 128, 0.2), transparent 46%),
+    linear-gradient(146deg, #12291f 0%, var(--kink-deep) 56%, var(--kink-deep-soft) 100%);
+}
+
+.kink-misread__layout {
+  display: grid;
+  gap: 40px;
+}
+
+.kink-misread__layout > * {
   min-width: 0;
 }
 
-.kink-page__misread-title {
-  max-width: 12ch;
-  color: var(--ink);
-  font-size: clamp(3.05rem, 4.2vw, 4rem);
+.kink-misread__title {
+  max-width: 13ch;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 10.6vw, 3.15rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  text-wrap: balance;
 }
 
-.kink-page__misread-copy {
+.kink-misread__pair {
   display: grid;
-  gap: 20px;
-  max-width: 64ch;
-  margin-top: 4px;
-  padding: 4px 0 4px 30px;
-  border-left: 1px solid var(--section-rule);
-}
-
-.kink-page .kink-page__misread-copy p {
+  gap: 40px;
   margin: 0;
   padding: 0;
+  list-style: none;
+}
+
+.kink-misread__item {
+  display: grid;
+  gap: 14px;
+  /* The shorter panel is stretched to the taller one, so pin its rows to the
+     top instead of letting the spare height spread through the gaps. */
+  align-content: start;
+  min-width: 0;
+}
+
+/* The marker rules point away from each other so the pair reads as opposed
+   at any width, including when the two items are stacked on a phone. */
+.kink-misread__marker {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.kink-misread__index {
+  color: rgba(217, 229, 217, 0.74);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.kink-misread__rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(232, 239, 233, 0.44), rgba(232, 239, 233, 0));
+}
+
+.kink-misread__item:last-child .kink-misread__marker {
+  flex-direction: row-reverse;
+}
+
+.kink-misread__item:last-child .kink-misread__rule {
+  background: linear-gradient(270deg, rgba(232, 239, 233, 0.44), rgba(232, 239, 233, 0));
+}
+
+.kink-page .kink-misread__item-title {
+  color: #eaf1ea;
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 6.2vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.kink-page .kink-misread__item-copy {
+  max-width: 56ch;
   text-wrap: pretty;
 }
 
-.kink-page .kink-page__misread-copy p + p {
-  padding-top: 20px;
+/* Proportion -------------------------------------------------------------- */
+
+.kink-more {
+  padding: 58px 0 64px;
+  border-bottom: 1px solid var(--section-rule);
+  background:
+    radial-gradient(circle at 94% 2%, rgba(223, 232, 220, 0.62), transparent 44%),
+    var(--surface-strong);
+}
+
+.kink-more__layout {
+  display: grid;
+  gap: 32px;
+}
+
+.kink-more__layout > * {
+  min-width: 0;
+}
+
+.kink-more__opening {
+  display: grid;
+  gap: 18px;
+}
+
+.kink-more__title {
+  max-width: 10ch;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 10.6vw, 3.15rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+.kink-page .kink-more__lead {
+  max-width: 32ch;
+  color: var(--muted);
+  font-family: var(--font-serif);
+  font-size: clamp(1.14rem, 4.6vw, 1.3rem);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.kink-page .kink-more__proportion {
+  padding-top: 28px;
+  border-top: 1px solid var(--section-rule);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.44rem, 6.1vw, 1.95rem);
+  font-weight: 500;
+  letter-spacing: -0.022em;
+  line-height: 1.18;
+  text-wrap: pretty;
+}
+
+/* Identical treatment for every reason is the argument, so do not vary it. */
+.kink-more__mark {
+  color: var(--cedar);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 75, 61, 0.26);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+.kink-page .kink-more__relevance-label {
+  margin-bottom: 4px;
+  color: var(--faint);
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  font-weight: 700;
+  letter-spacing: 0.065em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.kink-more__relevance-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kink-more__relevance-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--section-rule);
+  color: var(--body);
+  font-family: var(--font-sans);
+  font-size: var(--type-body);
+  line-height: 1.4;
+}
+
+.kink-more__relevance-list li:first-child {
   border-top: 1px solid var(--section-rule);
 }
 
-.kink-page__more {
-  padding: 60px 0;
-  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
-  background:
-    radial-gradient(ellipse at 82% 16%, rgba(110, 159, 128, 0.22), transparent 42%),
-    linear-gradient(132deg, #132b23 0%, var(--kink-dark) 58%, #21473a 100%);
+.kink-page .kink-more__closing {
+  margin-top: 6px;
+  max-width: 26ch;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 5.3vw, 1.55rem);
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  line-height: 1.22;
+  text-wrap: balance;
 }
 
-.kink-page__more-layout {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(64px, 8vw, 120px);
-  align-items: start;
-}
+/* Intermediate widths ----------------------------------------------------- */
 
-.kink-page__more-layout > * {
-  min-width: 0;
-}
-
-.kink-page .kink-page__more-title {
-  max-width: 9ch;
-  color: #fcfcfa;
-  font-size: clamp(3.05rem, 4.2vw, 4rem);
-}
-
-.kink-page__more-copy {
-  display: grid;
-  gap: 20px;
-  max-width: 64ch;
-  padding: 4px 0 4px 30px;
-  border-left: 1px solid var(--section-dark-rule);
-}
-
-.kink-page .kink-page__more-copy p {
-  margin: 0;
-  color: rgba(239, 244, 240, 0.86);
-  text-wrap: pretty;
-}
-
-@media (max-width: 980px) {
-  .kink-page__fluency-layout,
-  .kink-page__more-layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 36px;
+@media (min-width: 700px) {
+  .kink-lexicon,
+  .kink-misread,
+  .kink-more {
+    padding: 76px 0 80px;
   }
 
-  .kink-page__fluency-title,
-  .kink-page .kink-page__more-title {
-    max-width: 14ch;
+  .kink-lexicon__title,
+  .kink-misread__title,
+  .kink-more__title {
+    font-size: clamp(3.05rem, 6.4vw, 3.7rem);
   }
 
-  .kink-page__fluency-copy,
-  .kink-page__misread-copy,
-  .kink-page__more-copy {
-    max-width: 70ch;
+  .kink-lexicon__term {
+    gap: 28px;
+    padding: 18px 0 16px;
   }
 
-  .kink-page__misread-layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 36px;
+  .kink-lexicon__term-word {
+    font-size: clamp(1.95rem, 4vw, 2.35rem);
+  }
+
+  .kink-page .kink-more__proportion {
+    font-size: clamp(1.95rem, 4.2vw, 2.5rem);
+  }
+
+  .kink-more__relevance {
+    max-width: 48ch;
   }
 }
 
-@media (max-width: 700px) {
-  .kink-page__fluency,
-  .kink-page__more {
-    padding: 60px 0;
+/* Wide widths: the pair gains a real centre axis and the index gains its
+   empty definition column. Both are recomposed rather than merely stretched. */
+
+@media (min-width: 1000px) {
+  .kink-lexicon,
+  .kink-misread,
+  .kink-more {
+    padding: 96px 0 104px;
   }
 
-  .kink-page__fluency-title,
-  .kink-page__misread-title,
-  .kink-page .kink-page__more-title {
+  .kink-lexicon__layout {
+    grid-template-columns: minmax(0, 0.55fr) minmax(0, 0.45fr);
+    column-gap: clamp(48px, 5.5vw, 88px);
+    row-gap: 44px;
+  }
+
+  .kink-lexicon__title {
+    grid-column: 1 / -1;
+  }
+
+  .kink-lexicon__index {
+    grid-column: 1;
+  }
+
+  .kink-lexicon__title,
+  .kink-misread__title,
+  .kink-more__title {
+    font-size: clamp(3.4rem, 4.4vw, 4.1rem);
+  }
+
+  .kink-lexicon__title {
     max-width: 13ch;
-    font-size: clamp(2.45rem, 10.7vw, 2.95rem);
-    line-height: 0.96;
   }
 
-  .kink-page__fluency-copy,
-  .kink-page__more-copy {
-    gap: 18px;
-    padding: 0 0 0 20px;
+  /* Each leader runs out of its term and dies in open space. The definition
+     column beside it holds one sentence, which answers all five at once. */
+  .kink-lexicon__term-leader {
+    max-width: 260px;
+    background: linear-gradient(
+      90deg,
+      rgba(35, 75, 61, 0.32) 0%,
+      rgba(35, 75, 61, 0.32) 34%,
+      rgba(35, 75, 61, 0) 100%
+    );
   }
 
-  .kink-page__misread-copy {
-    gap: 18px;
-    margin-top: 0;
-    padding: 0 0 0 20px;
+  .kink-lexicon__answer {
+    grid-column: 2;
+    align-self: center;
+    max-width: 38ch;
   }
 
-  .kink-page .kink-page__misread-copy p,
-  .kink-page .kink-page__misread-copy p + p {
-    padding: 0;
+  .kink-misread__layout {
+    gap: 52px;
   }
 
-  .kink-page .kink-page__misread-copy p + p {
-    padding-top: 18px;
+  .kink-misread__pair {
+    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .kink-misread__pair::before {
+    content: "";
+    grid-column: 2;
+    grid-row: 1;
+    background: linear-gradient(
+      180deg,
+      rgba(232, 239, 233, 0) 0%,
+      rgba(232, 239, 233, 0.42) 22%,
+      rgba(232, 239, 233, 0.42) 78%,
+      rgba(232, 239, 233, 0) 100%
+    );
+  }
+
+  .kink-misread__item:first-child {
+    grid-column: 1;
+    padding-right: clamp(36px, 4.4vw, 64px);
+  }
+
+  .kink-misread__item:last-child {
+    grid-column: 3;
+    padding-left: clamp(36px, 4.4vw, 64px);
+  }
+
+  /* The ordinary case takes the wide column, the conditional case sits quietly
+     beside it, and the conclusion runs the full measure underneath. */
+  .kink-more__layout {
+    grid-template-columns: minmax(0, 0.58fr) minmax(0, 0.42fr);
+    column-gap: clamp(48px, 6vw, 92px);
+    row-gap: 48px;
+    align-items: start;
+  }
+
+  .kink-more__opening {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 0.46fr) minmax(0, 0.54fr);
+    gap: clamp(48px, 6vw, 92px);
+    align-items: end;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--section-rule);
+  }
+
+  .kink-page .kink-more__lead {
+    padding-bottom: 8px;
+  }
+
+  /* The divider under the opening already spans both columns here. */
+  .kink-page .kink-more__proportion {
+    grid-column: 1;
+    max-width: 28ch;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .kink-more__relevance {
+    grid-column: 2;
+    padding-top: 6px;
+  }
+
+  /* The conclusion runs the full measure on one line, under one full rule. */
+  .kink-page .kink-more__closing {
+    grid-column: 1 / -1;
+    max-width: none;
+    padding-top: 38px;
     border-top: 1px solid var(--section-rule);
+    font-size: clamp(1.55rem, 2.4vw, 1.95rem);
   }
 }

@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-17 - Kink And BDSM Page Redesigned
+
+- Replaced the route's three repeated heading-and-prose modules with three distinct content forms: an index of terms whose definition column is left blank, a mirrored numbered pair for the two opposite misreadings, and one display sentence that weights every reason for counselling the same, kink included.
+- Kept the shared specialist hero, the canonical Contact invitation, the site palette, type roles, and the owner's existing paragraphs; new wording is limited to two section labels and the two parallel item headings.
+- Rewrote the page stylesheet mobile first and set section foreground colour through the inherited `--color-heading` and `--color-text` roles instead of per-element overrides.
+- Closed `SITE-19` as superseded, since the language field it targeted no longer exists.
+
 ## 2026-08-16 - Visible Page Time Added
 
 - Added cumulative active seconds to each first-party page view, counting only while the page is visible and updating at 30-second intervals plus page-hide and route-exit flushes.

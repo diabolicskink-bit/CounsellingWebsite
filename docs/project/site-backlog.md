@@ -151,23 +151,6 @@ Statuses:
 - `Notes`:
 - `Links`: `src/pages/WorkingWithJoel.tsx`
 
-### SITE-19 - Kink language table cell colour distinction
-
-- `Priority`: `P2`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Accessibility`
-- `Source`: `User screenshot/review, src/pages/KinkBdsmCounselling.tsx, src/styles-kink-bdsm.css, WCAG 2.2 SC 1.4.1 and 1.4.11`
-- `Visitor-Facing Goal`: Make the Kink & BDSM language table feel intentional and easy to scan, with cell colour differences that are actually distinguishable rather than almost invisible.
-- `Current State`: The language field lists 16 terms and applies four page-scoped `nth-child` background groups. Local token research found the rendered mixes are clustered around `#ebeeeb`, `#edefeb`, `#eef1ed`, and `#f8f8f4`; text contrast is strong, but adjacent cell-background contrast is only about `1.01:1` to `1.10:1`, so most of the intended colour variation is hard to perceive.
-- `Why Deferred`: This is a focused visual/accessibility polish task for the Kink/BDSM page, not part of the current backlog update.
-- `First Useful Slice`: Decide whether the colours are decorative rhythm or meaningful grouping. If decorative, simplify or strengthen the cell rhythm within the existing palette; if meaningful, add a non-colour cue or clear grouping treatment and test it without relying on hue alone.
-- `Implemented When`: The table has visibly distinct, on-brand cell treatments across desktop and mobile, preserves readable text contrast, and remains understandable in grayscale or colour-vision-deficiency checks.
-- `Notes`:
-  - W3C WCAG guidance says colour should not be the only visual means of distinguishing an element, and non-text visual information needed for understanding should have sufficient contrast against adjacent colours.
-  - Keep this page-scoped unless the treatment proves useful for other inclusion-oriented language fields.
-- `Links`: `src/pages/KinkBdsmCounselling.tsx`, `src/styles-kink-bdsm.css`, `AGENTS.md`, `https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html`, `https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html`
-
 ### SITE-22 - Working With Joel hero support design polish
 
 - `Priority`: `P2`

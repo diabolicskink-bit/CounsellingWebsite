@@ -2,6 +2,10 @@
 
 This file preserves implemented and superseded `SITE-*` items moved out of the [active site backlog](../site-backlog.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### SITE-19 - Kink language table cell colour distinction
+
+Superseded on 2026-08-17 by the Kink and BDSM page redesign. The item asked for distinguishable cell treatments in a 16-term language field whose four page-scoped `nth-child` background groups rendered at roughly `1.01:1` to `1.10:1` against each other. That field no longer exists. The fluency chapter now presents five terms as an index of hairline leaders with no cell backgrounds at all, so there is nothing left to distinguish by colour. The redesigned route passes an axe WCAG 2.1 AA scan with no violations at 320, 390, and 1280 pixels wide.
+
 ### SITE-9 - ENM and polyamory page copy completion
 
 Implemented on 2026-07-18. The ENM/polyamory page now contains deliberately written public copy with no Latin placeholder paragraphs or visible encoding artifacts. The route passed the repository encoding check and was published with the other Inclusion child pages. Copy refinement continues through the owner-led writing process and concrete `SITE-*` work.
