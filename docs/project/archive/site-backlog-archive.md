@@ -10,6 +10,10 @@ Implemented on 2026-08-16. Vite moved from `8.0.8` to `8.2.1`, with PostCSS reso
 
 Implemented on 2026-08-16. Lighthouse moved from `13.1.0` to `13.4.1`, replacing the vulnerable Puppeteer, Sentry/OpenTelemetry, archive-extraction, and supporting dependency chain. The repository's full Lighthouse workflow completed against a fresh production build with scores of 100 for performance, accessibility, best practices, and SEO.
 
+### SITE-26 - React Router 7 security migration
+
+Implemented on 2026-08-17. React Router DOM and React Router moved together from `6.30.3` to `7.18.2`; the server entry now imports `StaticRouter` from the v7 package root instead of the removed `react-router-dom/server` subpath. Public direct loads, client navigation, redirects, SSR, hydration, metadata prerendering, route tracking, and private-route boundaries passed their existing checks, and `npm audit --omit=dev` now reports zero vulnerabilities.
+
 ### SITE-27 - Axe Playwright accessibility-engine update
 
 Implemented on 2026-08-17. `@axe-core/playwright` moved from `4.11.2` to `4.13.0`. The complete QA gate passed with all eight public routes retaining clean serious-impact Axe results; the newer engine surfaced no accessibility finding that required a source or monitor change.
@@ -22,9 +26,21 @@ Implemented on 2026-08-17 by aligning the project to its actual Node 24 local an
 
 Implemented on 2026-08-17. `@vitejs/plugin-react` moved from `6.0.1` to `6.0.5`. A real Vite development session rendered the complete homepage without console errors or an error overlay and injected the `/@react-refresh` runtime hook; client and SSR production builds also passed.
 
+### SITE-30 - Playwright browser-testing update
+
+Implemented on 2026-08-17. Playwright and Playwright Core moved from `1.59.1` to `1.62.1`, with the matching Chrome for Testing `151.0.7922.34` and headless-shell builds installed. Test typechecking, client and SSR builds, eight-route prerendering, and all 36 non-analytics public browser cases passed. A focused homepage inspection found complete content and navigation, no framework error overlay, and no captured console errors; private analytics browser review remained owner-only.
+
+### SITE-31 - Preview test orchestrator maintenance update
+
+Implemented on 2026-08-17. `start-server-and-test` moved from `3.0.2` to `3.0.12`, with `wait-on` resolving to `9.1.0`. Both the public Playwright run and the full Lighthouse workflow started the production preview, completed successfully, terminated their server process trees, and released the strict QA port. Lighthouse retained scores of 100 for performance, accessibility, best practices, and SEO.
+
 ### SITE-32 - React 19 application and type migration
 
 Implemented on 2026-08-17. React and React DOM moved together from `18.3.1` to `19.2.8`, with `@types/react` updated to `19.2.18` and `@types/react-dom` to `19.2.4`. The existing browser root, hydration, and server-rendering entry points already used React's current APIs, so no source migration was required. The complete site and analytics QA gates passed, and Lighthouse retained scores of 100 for performance, accessibility, best practices, and SEO.
+
+### SITE-33 - Lucide React 1.x icon migration
+
+Implemented on 2026-08-17. `lucide-react` moved from `0.468.0` to `1.31.0`. The source inventory contains only retained non-brand interface icons, so the v1 brand-icon removals required no replacement artwork. Public and private icon imports compile in their separate bundles; the public browser suite and live homepage inspection found no missing icons, sizing or alignment regression, and every rendered Lucide icon remained decorative with `aria-hidden="true"`. Private analytics visual review remains owner-only.
 
 ### SITE-34 - TypeScript 7 migration
 

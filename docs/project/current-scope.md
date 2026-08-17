@@ -48,6 +48,8 @@ This is the factual current-state summary of the Vive Counselling website and su
 - The public site is live at `https://vivecounselling.com.au`.
 - Browser and static entry points share the same route/application tree, Strict Mode boundary, and serializable initial-render timestamp contract.
 - Browser, SSR, and prerender rendering use React and React DOM `19.2.8` with matching React 19 type definitions.
+- Declarative browser and static routing use React Router DOM and React Router `7.18.2`; all public, redirect, private, and development paths continue to come from the shared route contracts.
+- Lucide React `1.31.0` supplies the site's non-brand interface icons. Public and private consumers remain visually separate, and decorative icons are hidden from the accessibility tree.
 - `npm run build` creates a disposable Vite SSR bundle under `.prerender/server` and imports it while prerendering every metadata-backed public route.
 - Generated route HTML contains component-rendered header, page, navigation, and footer markup in the first response.
 - The controlled `404.html` artifact uses dedicated generic not-found fallback markup.
@@ -93,11 +95,11 @@ This is the factual current-state summary of the Vive Counselling website and su
 - `tests/tsconfig.json` provides strict TypeScript coverage for the Playwright public-site spec. `npm run typecheck:tests` runs that check directly, and the site, analytics, and full QA commands enforce it before browser testing.
 - Direct Node tests under `tests/api/` cover accepted and rejected enquiry submissions, authoritative enquiry lifecycle events, visit and visit-event recording, analytics reporting and visitor exclusions, retention repository, and protected cleanup endpoint boundaries.
 - Direct Node tests under `tests/scripts/` cover route-metadata origin policy, public route-to-metadata parity, redirect destinations, Vercel routing configuration, visit-ledger migration/query contracts, and the migration file parser.
-- `npm run qa:site` builds the app, starts the QA preview server, and runs the Playwright public-site suite.
+- `npm run qa:site` builds the app, uses `start-server-and-test` `3.0.12` to manage the QA preview lifecycle, and runs the Playwright public-site suite.
 - `npm run qa:analytics` builds with fake analytics identifiers and verifies Google Analytics SPA pageviews, all three controlled Contact-path selection values, anonymous contact-intent events, confirmed enquiry conversion events, failure suppression, the Clarity script path without loading third-party scripts, private-route document isolation and report rendering, first-party initial/SPA/refresh page views and visit-linked form events, returning visits, and expired browser-ID rotation.
 - `npm run qa` runs encoding checks, direct script tests, the build, direct API tests, and the public-site Playwright suite.
 - `npm run check:encoding` is also included in `npm run qa` and `npm run qa:site`.
-- Test tooling includes one desktop Chromium Playwright project, explicit mobile viewports within the responsive interaction checks, route-level axe checks, and Lighthouse audit scripts.
+- Test tooling uses Playwright `1.62.1` with its matching Chrome for Testing `151.0.7922.34` runtime, one desktop Chromium project, explicit mobile viewports within the responsive interaction checks, route-level axe checks, and Lighthouse audit scripts.
 - Codex IDE visual inspection follows [visual-verification.md](visual-verification.md) and uses the repository's Playwright installation against system Chrome. `scripts/visual-session.mjs` is an optional convenience helper that manages an isolated Vite server and browser within one callback lifecycle; direct Playwright use remains supported.
 
 ## Known Gaps

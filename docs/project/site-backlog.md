@@ -60,22 +60,6 @@ Statuses:
   - Keep "confidentiality" language tied to counselling sessions, records, and professional boundaries rather than using it as shorthand for website cookies or analytics.
 - `Links`: `src/pages/Contact.tsx`, `src/components/SiteAnalytics.tsx`
 
-### SITE-26 - React Router 7 security migration
-
-- `Priority`: `P1`
-- `Size`: `L`
-- `Status`: `Open`
-- `Classification`: `Security`
-- `Source`: `2026-08-16 dependency audit, npm outdated, npm audit --omit=dev`
-- `Visitor-Facing Goal`: Keep public and private route navigation, redirects, hydration, and direct-entry behaviour protected against the current React Router redirect, XSS, and SSR-hydration advisories.
-- `Current State`: The lockfile installs `react-router-dom` and `react-router` `6.30.3` with `@remix-run/router` `1.23.2`. Updating to `6.30.4` fixes only part of the reported advisory set; the production-only audit still covers the v6 line, while `7.18.2` is the current fixed release.
-- `Why Deferred`: This is a major-version migration across the shared browser entry, SSR/prerender path, navigation helpers, route definitions, analytics SPA tracking, private analytics routes, and browser tests.
-- `First Useful Slice`: Inventory every Router API and redirect/navigation path, review the v7 migration requirements, then upgrade the router packages together and resolve compile-time changes before browser verification.
-- `Implemented When`: The application resolves React Router DOM and React Router to at least `7.18.2`, the production npm audit no longer reports the router advisories, and public navigation, direct route loads, metadata prerendering, redirects, analytics pageviews, and protected `/analytics` flows pass proportionate QA.
-- `Notes`:
-  - Do not treat the compatible `6.30.4` patch as full completion; it does not clear the complete current advisory set.
-- `Links`: `package.json`, `package-lock.json`, `src/main.tsx`, `src/entry-server.tsx`, `src/App.tsx`, `tests/public-site.spec.ts`
-
 ### SITE-7 - Global reduced-motion baseline
 
 - `Priority`: `P2`
@@ -151,52 +135,6 @@ Statuses:
 - `Implemented When`: The public credential presentation is accurate, intentional, and easy to verify where verification details are appropriate.
 - `Notes`:
 - `Links`: `src/pages/WorkingWithJoel.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`
-
-### SITE-30 - Playwright browser-testing update
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `Technical Maintenance`
-- `Source`: `2026-08-16 dependency audit, npm outdated`
-- `Visitor-Facing Goal`: Keep end-to-end coverage representative of current browser behaviour so visitor-facing regressions are caught before release.
-- `Current State`: The project installs Playwright `1.59.1`; `1.62.1` is the current compatible release.
-- `Why Deferred`: Playwright upgrades can require matching browser binaries and can change browser behaviour, selectors, timing, screenshots, or test-runner expectations.
-- `First Useful Slice`: Update Playwright to `1.62.1`, install the matching supported browser binary, typecheck the tests, and run the public-site and analytics QA paths proportionate to their boundaries.
-- `Implemented When`: Playwright and its browser binary are aligned at `1.62.1`, test typechecking passes, and the relevant public-site and analytics suites complete without unexplained regressions.
-- `Notes`:
-- `Links`: `package.json`, `package-lock.json`, `playwright.config.ts`, `tests/public-site.spec.ts`, `scripts/run-analytics-qa.mjs`
-
-### SITE-31 - Preview test orchestrator maintenance update
-
-- `Priority`: `P2`
-- `Size`: `XS`
-- `Status`: `Open`
-- `Classification`: `Technical Maintenance`
-- `Source`: `2026-08-16 dependency audit, npm outdated`
-- `Visitor-Facing Goal`: Keep automated preview-server startup and teardown reliable so browser QA continues to protect visitor-facing releases.
-- `Current State`: The project installs `start-server-and-test` `3.0.2`; `3.0.12` is the current compatible release and is used by the site QA and Lighthouse scripts.
-- `Why Deferred`: Process lifecycle changes can cause false test passes, hangs, or orphaned preview servers, so the update needs a real scripted run.
-- `First Useful Slice`: Update `start-server-and-test` to `3.0.12`, regenerate the lockfile, and run one QA command plus the Lighthouse orchestration path.
-- `Implemented When`: The package resolves to `3.0.12`, preview startup and teardown remain deterministic, and both a browser-QA invocation and Lighthouse invocation complete cleanly.
-- `Notes`:
-- `Links`: `package.json`, `package-lock.json`, `playwright.config.ts`, `scripts/run-lighthouse.mjs`
-
-### SITE-33 - Lucide React 1.x icon migration
-
-- `Priority`: `P3`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `Technical Maintenance`
-- `Source`: `2026-08-16 dependency audit, npm outdated`
-- `Visitor-Facing Goal`: Keep site icons maintained and visually consistent without losing accessible names, intended sizing, or page-specific meaning.
-- `Current State`: The project installs `lucide-react` `0.468.0`; `1.31.0` is the current major release.
-- `Why Deferred`: This is a large version jump across visitor-facing icon consumers and needs API review plus visual inspection rather than an automatic version replacement.
-- `First Useful Slice`: Inventory imported icons and shared wrappers, review the 1.x migration notes for renamed or changed exports, then upgrade and resolve source changes.
-- `Implemented When`: `lucide-react` resolves to `1.31.0` or a newer approved 1.x release, all icon imports compile, accessible labelling remains correct, and representative public and analytics views show no sizing, stroke, alignment, or missing-icon regressions.
-- `Notes`:
-  - Preserve the strict visual boundary between public pages and private analytics while verifying their separate icon consumers.
-- `Links`: `package.json`, `package-lock.json`, `src`
 
 ## Resolved Item Archive
 

@@ -18,6 +18,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-17 - Browser And Preview QA Tooling Updated
+
+- Updated Playwright and Playwright Core from `1.59.1` to `1.62.1`, installed the matching Chrome for Testing `151.0.7922.34` runtime, and updated `start-server-and-test` from `3.0.2` to `3.0.12`.
+- Passed test typechecking, client and SSR builds, eight-route prerendering, and all 36 non-analytics public browser cases; private analytics browser review remains owner-only.
+- Completed the production-preview Lighthouse workflow at 100 across performance, accessibility, best practices, and SEO, with both orchestrated runs terminating cleanly and releasing the QA port; archived `SITE-30` and `SITE-31` as implemented.
+
+## 2026-08-17 - React Router And Lucide Major Upgrades Completed
+
+- Updated React Router DOM and React Router from `6.30.3` to `7.18.2`, moving the static router import to the v7 package root and clearing all production dependency advisories.
+- Updated `lucide-react` from `0.468.0` to `1.31.0`; every existing import remains available, no removed brand icon was in use, and rendered public icons retain their decorative accessibility treatment.
+- Passed application and test typechecks, 27 script tests, 106 API tests, client and SSR builds, eight-route prerendering, and all 39 enabled default browser cases; live public inspection showed the expected icon sizing and alignment with no error overlay or captured console errors, and `SITE-26` and `SITE-33` are archived as implemented.
+
 ## 2026-08-17 - TypeScript 7 Migration Completed
 
 - Updated the project compiler from resolved TypeScript `5.9.3` to the native TypeScript `7.0.2` release.
