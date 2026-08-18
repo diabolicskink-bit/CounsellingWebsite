@@ -54,7 +54,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - The browser hydrates only when the prerendered route marker, valid build timestamp, and normalized pathname match. Development roots, stale or mismatched artifacts, unknown paths, and `404.html` use the client-render fallback.
 - The prerender process updates generated route HTML, metadata artifacts, sitemap, robots, and the app-powered `404.html` fallback.
 - The build fails when a metadata-backed route is absent from the component prerender set.
-- TypeScript `7.0.2` checks the application and TypeScript serverless API under strict mode. The root configuration explicitly includes Node ambient types while retaining its existing bundler resolution, targets, libraries, and source coverage; the dedicated test configuration extends that contract.
+- TypeScript `7.0.2` checks the application and TypeScript serverless API under strict mode. The root configuration explicitly includes Node ambient types and resolves them from the project's installed type packages so Vercel's temporary native-compiler configuration inherits the correct location, while retaining its existing bundler resolution, targets, libraries, and source coverage; the dedicated test configuration extends that contract.
 - `package.json` declares Node `24.x` and npm `11.11.0`; local development and Vercel use the Node 24 LTS line, and the project carries matching Node-24 type definitions.
 - `vercel.json` defines clean URLs, trailing-slash redirects, and public alias redirects.
 
