@@ -101,16 +101,7 @@
 
 .contact-page__form-heading {
   display: grid;
-  gap: 13px;
   padding: 42px 44px 30px;
-}
-
-.contact-page__form-heading h2 {
-  max-width: 14ch;
-  color: var(--ink);
-  font-size: clamp(2.5rem, 4.7vw, 4rem);
-  letter-spacing: -0.035em;
-  line-height: 0.98;
 }
 
 .contact-page__enquiry-options {
@@ -613,13 +604,7 @@
   }
 
   .contact-page__form-heading {
-    gap: 11px;
     padding: 30px 20px 24px;
-  }
-
-  .contact-page__form-heading h2 {
-    max-width: 13ch;
-    font-size: clamp(2.35rem, 10.5vw, 3rem);
   }
 
   .contact-page__enquiry-options {

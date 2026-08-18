@@ -328,7 +328,6 @@ function EnquiryForm() {
 
       <header className="contact-page__form-heading">
         <span className="contact-page__form-eyebrow">Your enquiry</span>
-        <h2>Get in touch</h2>
       </header>
 
       <fieldset className="contact-page__enquiry-options">
@@ -505,7 +504,7 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
           <header className="contact-page__hero-content">
             <span className="contact-page__eyebrow">Contact and fees</span>
             <h1 className="contact-page__hero-title" id="contact-title">
-              Make an enquiry.
+              Get in touch.
             </h1>
           </header>
         </Container>
