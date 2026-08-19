@@ -2,6 +2,12 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-35 - Working with Joel approach copy depends on JavaScript
+
+Resolved on 2026-08-19 by rendering every approach explanation once in the generated page HTML, with ordinary headings and no inert tab semantics before JavaScript. After hydration, the same content nodes become three connected tab panels and only the selected panel remains visible, preserving the existing visual interaction without duplicating copy.
+
+Focused coverage now protects the complete JavaScript-disabled reading experience as well as the hydrated pointer, Home, End, and wrapping arrow-key behaviour. The production build and system-Chrome verification confirmed deterministic hydration without recoverable errors.
+
 ### DEBT-22 - Enquiry timezone comparison notes need server-owned handling
 
 Closed on 2026-08-19 after the owner confirmed that the current timezone behaviour is complete and personalized Perth-hours comparison notes should not be restored to enquiry emails. Consult submissions continue to include the visitor-selected timezone and its human-readable label; the Contact page separately retains its visitor-facing interstate business-hours notes.

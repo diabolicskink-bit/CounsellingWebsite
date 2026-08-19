@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-19 - Working With Joel Tabs Progressively Enhanced
+
+- Changed the approach component so Psychodynamic, Attachment, and Integrative copy all exist in the generated HTML and remain readable as headed sections without JavaScript.
+- Preserved the hydrated visual design while giving every tab its own retained, labelled panel and keeping pointer, Home, End, and wrapping arrow-key selection.
+- Added focused JavaScript-disabled and hydrated interaction coverage, and archived resolved `DEBT-35`.
+
 ## 2026-08-19 - Scoped Code Quality Pass Added
 
 - Added the repository-local `code-quality-pass` skill for holistic review and direct improvement of a user-supplied implementation surface or code change set.

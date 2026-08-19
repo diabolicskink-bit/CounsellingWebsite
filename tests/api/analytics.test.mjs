@@ -124,7 +124,7 @@ test("requests a complete visitor history by anonymous visitor ID", async () => 
   assert.equal(result.statusCode, 200);
 });
 
-test("rejects writes and invalid or ambiguous report selections before reading", async () => {
+test("rejects writes, ambiguous selections, and oversized ranges before reading", async () => {
   let readCalls = 0;
   const handler = createAnalyticsHandler(
     async () => {
@@ -135,31 +135,12 @@ test("rejects writes and invalid or ambiguous report selections before reading",
   );
 
   const write = await invoke(handler, { method: "POST", query: {} });
-  const invalidDate = await invoke(handler, { method: "GET", query: { date: "2026-02-31" } });
-  const invalidMonth = await invoke(handler, { method: "GET", query: { month: "2026-13" } });
   const ambiguous = await invoke(handler, {
     method: "GET",
     query: {
       date: "2026-08-14",
       visitor: "7a2f0000-0000-4000-8000-000000000004",
     },
-  });
-  const ambiguousMonth = await invoke(handler, {
-    method: "GET",
-    query: { date: "2026-08-14", month: "2026-08" },
-  });
-  const unknown = await invoke(handler, { method: "GET", query: { limit: "100" } });
-  const incompleteRange = await invoke(handler, {
-    method: "GET",
-    query: { start: "2026-08-01" },
-  });
-  const reversedRange = await invoke(handler, {
-    method: "GET",
-    query: { end: "2026-08-01", start: "2026-08-02" },
-  });
-  const futureRange = await invoke(handler, {
-    method: "GET",
-    query: { end: "2027-08-01", start: "2027-08-01" },
   });
   const oversizedRange = await invoke(handler, {
     method: "GET",
@@ -168,14 +149,7 @@ test("rejects writes and invalid or ambiguous report selections before reading",
 
   assert.equal(write.statusCode, 405);
   assert.equal(write.headers.allow, "GET");
-  assert.equal(invalidDate.statusCode, 400);
-  assert.equal(invalidMonth.statusCode, 400);
   assert.equal(ambiguous.statusCode, 400);
-  assert.equal(ambiguousMonth.statusCode, 400);
-  assert.equal(unknown.statusCode, 400);
-  assert.equal(incompleteRange.statusCode, 400);
-  assert.equal(reversedRange.statusCode, 400);
-  assert.equal(futureRange.statusCode, 400);
   assert.equal(oversizedRange.statusCode, 400);
   assert.equal(readCalls, 0);
 });

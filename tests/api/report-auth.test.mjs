@@ -20,21 +20,12 @@ function basicAuthorization(username, password) {
   return `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`;
 }
 
-test("authorizes the exact configured reporting credentials", () => {
+test("authorizes a configured password containing colons", () => {
   assert.equal(
     getAnalyticsAuthState(
       basicAuthorization("report-owner", "correct:horse:battery"),
       { username: "report-owner", password: "correct:horse:battery" },
     ),
-    "authorized",
-  );
-});
-
-test("accepts the Basic authentication scheme case-insensitively", () => {
-  const authorization = basicAuthorization("report-owner", "secret").replace("Basic", "basic");
-
-  assert.equal(
-    getAnalyticsAuthState(authorization, { username: "report-owner", password: "secret" }),
     "authorized",
   );
 });

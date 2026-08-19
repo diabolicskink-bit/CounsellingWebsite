@@ -101,6 +101,12 @@
     "socialImage": "/og-vive-counselling.png",
     "socialImageAlt": "Vive Counselling social preview card featuring Joel Griffiths."
   },
+  "notFound": {
+    "title": "Page not found | Vive Counselling",
+    "description": "This page could not be found on the Vive Counselling website.",
+    "heading": "That page isn't here.",
+    "robots": "noindex, nofollow"
+  },
   "routes": {
     "/": {
       "title": "Online Therapy Across Australia | Vive Counselling",
