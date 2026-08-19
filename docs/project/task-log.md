@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-19 - Cleanup Sweep Skill Narrowed
+
+- Renamed the repository-local `improve-codebase` skill to `cleanup-sweep` so its name and invocation token communicate the intended workflow.
+- Limited its use to explicit cleanup-sweep requests; other review, cleanup, refactoring, CSS, and maintainability work follows the task's stated scope without invoking source-first problem selection.
+- Preserved the sweep's existing one-problem selection, complete-resolution, verification, and project-debt outcome rules.
+
 ## 2026-08-16 - Visible Page Time Added
 
 - Added cumulative active seconds to each first-party page view, counting only while the page is visible and updating at 30-second intervals plus page-hide and route-exit flushes.
