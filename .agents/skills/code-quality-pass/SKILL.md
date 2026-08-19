@@ -1,117 +1,147 @@
 ---
 name: code-quality-pass
-description: Holistically review and improve a user-specified implementation surface or code change set using senior engineering judgment. Use when the user asks to review, improve, simplify, clean up, or give a quality pass to named files, pages, components, features, HTML or templates, stylesheets, scripts, tests, configuration, or a working-tree, commit, branch, or pull-request diff. Unless the user explicitly asks for review-only findings, implement all justified in-scope improvements and verify the result. Do not use for repository-wide cleanup sweeps.
+description: Holistically review and improve the structure, readability, maintainability, simplicity, and behaviour of a user-specified implementation surface or code change set using senior engineering judgment. Use when the user asks to review, improve, simplify, clean up, or give a quality pass to named files, pages, components, features, HTML or templates, stylesheets, scripts, tests, configuration, or a working-tree, commit, branch, or pull-request diff. Unless the user explicitly asks for review-only findings, implement all justified in-scope improvements and verify the result. Do not use for repository-wide cleanup sweeps.
 ---
 
 # Code Quality Pass
 
-Leave the supplied code surface or change set in the strongest justified state
-for its current requirements. Use senior engineering judgment rather than
-checklist compliance. The best result is correct, simple, clear, cohesive,
-maintainable, and proportionate to the problem.
+Take senior-level ownership of the supplied code surface or change set and leave
+it in the strongest justified state for its current requirements. This is not
+primarily a bug hunt, style audit, or search for one isolated improvement.
+Working code may still warrant meaningful structural improvement.
 
-## Own the supplied boundary
+Judge the result along two inseparable dimensions:
+
+- Internal quality: the code is simple, clear, cohesive, easy to reason about,
+  and straightforward to change.
+- Observable quality: the implementation is correct, reliable, accessible,
+  secure, performant, and well integrated where those qualities are relevant.
+
+Neither dimension is a substitute for the other. Improve every material issue
+supported by the evidence, then stop rather than manufacturing churn.
+
+## Establish the real boundary
 
 - Treat the user's named surface or change set as the selection boundary. Do not
   replace it with a repository-wide search for a different opportunity.
-- Interpret a surface semantically. A page or feature may include its relevant
+- Interpret that boundary semantically. A page or feature can include its
   application code, components, HTML or templates, CSS, scripts, tests, types,
-  configuration, and data flow. A file may require inspecting its callers,
-  dependencies, and contracts before it can be judged responsibly.
-- For a change set, review both the diff and the resulting source state. Include
-  the surrounding implementation needed to understand intent, integration,
-  regressions, incomplete migrations, and whether the change is simpler than
-  the code it replaces.
-- Change adjacent files only when they are part of the same supplied surface or
+  configuration, and data flow. A named file can require inspecting its callers,
+  dependencies, contracts, and relevant history before judging it responsibly.
+- For a change set, review both the diff and the resulting source state. Look for
+  regressions, incomplete migrations, stale parallel approaches, and whether the
+  new whole is better than the code it replaces.
+- Change adjacent files only when they belong to the same supplied surface or
   are necessary to complete, simplify, integrate, or verify its improvement.
-  Preserve unrelated worktree changes and unrelated repository concerns.
-- Infer a reasonable coherent boundary from the task and repository context.
-  Ask only when materially different interpretations would produce different
+  Preserve unrelated worktree changes and repository concerns.
+- Infer a coherent boundary from the task and repository context. Ask only when
+  materially different interpretations would produce meaningfully different
   work.
 
-Unless the user explicitly requests review-only findings, treat a code quality
-pass as authorization to implement supported improvements within that boundary.
-For review-only work, make no edits and report only material findings.
+Unless the user explicitly requests review-only findings, implement supported
+improvements within that boundary. For review-only work, make no edits and
+report only material findings.
 
-## Apply the quality bar
+## Review the implementation as a whole
 
-Consider the implementation as a whole and address every material issue within
-scope rather than selecting one finding and stopping. Give greatest weight to:
+Use the following as connected lenses, not a box-ticking sequence:
 
-- correctness, edge cases, failure behaviour, and preservation of intended
-  behaviour;
-- unnecessary complexity, indirection, duplication, and fragmented ownership;
-- clear responsibilities, interfaces, data flow, names, and local reasoning;
-- appropriate use of the language, platform, framework, and repository's actual
-  supported contracts;
-- accessibility, security, performance, reliability, and testability where they
-  are relevant to the code under review; and
-- removal of obsolete code, styles, compatibility paths, comments, tests, or
-  configuration made unnecessary by the improved end state.
+- **Structure and ownership.** Assess file, module, component, function, and
+  style boundaries; cohesion; responsibility placement; proximity of related
+  logic; coupling; and whether each important fact has a clear source of truth.
+- **Readability and local reasoning.** Assess names, control flow, state and data
+  flow, side effects, conditions, interfaces, and comments. Prefer code that can
+  be understood without tracing avoidable indirection across the repository.
+- **Simplicity and proportionality.** Find unnecessary layers, abstractions,
+  wrappers, configuration, defensive machinery, semantic duplication, and
+  incidental complexity. Do not confuse more architecture with better code.
+- **Maintainability and completeness.** Consider the next realistic changes the
+  code is likely to receive, opportunities for drift, brittle coupling, and
+  obsolete or superseded code, styles, compatibility paths, comments, tests, or
+  configuration that should disappear from the improved end state.
+- **Behaviour and integration.** Check intended behaviour, realistic edge and
+  failure cases, callers, dependencies, routes, data contracts, external
+  interfaces, browser or runtime behaviour, and consistency with the rest of
+  the selected surface.
+- **Relevant technical qualities.** Apply accessibility, semantic markup,
+  responsive behaviour, security, privacy, performance, reliability,
+  testability, and appropriate language, platform, and framework use when the
+  reviewed code actually engages them.
+- **Tests and verification.** Judge whether tests provide useful confidence in
+  observable behaviour and important contracts, miss a material risk, duplicate
+  one another, or freeze implementation shape so tightly that safe improvement
+  becomes difficult.
 
-Preserve public behaviour, visual intent, copy, routes, data contracts, and
-external interfaces unless the task authorizes a change or a clear defect must
-be corrected. Keep feature work and visual redesign outside the pass unless the
-user includes them.
+Judge each medium on its own terms. For example, component code has composition,
+state, and effect concerns; HTML has structure and semantics; CSS has ownership,
+cascade, responsive behaviour, and dead-rule concerns; scripts have data flow,
+side effects, and failure behaviour; tests have confidence and brittleness
+concerns. Do not reduce a mixed-surface review to the functional behaviour of its
+primary programming language.
 
-## Match the actual operating model
+A functional defect does not end the pass: correct it, then continue assessing
+the internal design. Conversely, do not rewrite clear working code merely to
+express a subjective preference or fashionable pattern.
+
+## Keep improvements proportionate
 
 This repository is a small site maintained by one developer. Judge architecture,
-defensive code, and coverage against that actual operating model. Do not assume
+defensive code, and coverage against that operating model rather than assuming
 multi-team coordination, enterprise extensibility, generalized administration,
-or safeguards against other developers unless a present requirement establishes
-the need.
+or safeguards against other maintainers.
 
-- Scale protection to realistic likelihood and consequence. The single-developer
-  context reduces the need for maintainer-proofing; it does not make untrusted
-  input, authentication, privacy, destructive actions, or production data risks
-  harmless.
-- Protect a high-impact invariant at its clearest authoritative boundary and
-  verify that boundary directly. Add defence-in-depth only when each additional
-  layer addresses a distinct, realistic failure mode.
-- Do not repeat equivalent preview/production, environment, permission, or data
-  guards across multiple layers merely because a future code change could bypass
-  one. Prefer a legible source of truth over a web of mutually defensive checks.
-- Do not design code or tests to prevent the sole maintainer from intentionally
-  changing the implementation. Version control, review, and focused verification
-  are the appropriate controls for ordinary future edits.
-- Test observable behaviour and genuinely important contracts. Avoid collections
-  of tests that freeze implementation shape, duplicate the same protection,
-  exhaust hypothetical misuse of internal helpers, or make safe refactoring
-  artificially difficult.
+- Solve demonstrated current problems and realistic near-term needs, not
+  hypothetical future requirements.
+- Prefer deleting, combining, flattening, moving responsibility to its natural
+  owner, or making a direct local correction over adding another layer, helper,
+  option, dependency, or framework.
+- Introduce an abstraction only when it clarifies a real contract, consolidates
+  genuinely shared semantics, or materially improves local reasoning. Small,
+  readable duplication can be better than premature generalization.
+- Scale protection to realistic likelihood and consequence. Untrusted input,
+  authentication, privacy, destructive actions, and production data can justify
+  strong boundaries even on a single-developer site.
+- Protect a high-impact invariant at its clearest authoritative boundary. Add
+  defence-in-depth only when another layer addresses a distinct realistic
+  failure mode; do not repeat equivalent environment, permission, or data guards
+  merely to prevent the sole maintainer from intentionally changing the code.
+- Prefer focused behavioural and contract tests over collections that duplicate
+  the same protection, exhaust hypothetical misuse of internal helpers, or make
+  safe refactoring artificially difficult.
 - Before removing an existing guard or test, confirm that it does not protect a
-  separate trust boundary, failure mode, regression, or irreversible effect.
+  separate trust boundary, regression, failure mode, or irreversible effect.
+- Preserve intended public behaviour, visual direction, copy, routes, data
+  contracts, and external interfaces unless the task authorizes a change or the
+  review establishes a clear defect. Keep feature work and visual redesign out
+  of scope unless the user includes them.
 
-## Resist overengineering
+Every edit must have a concrete quality benefit that can be named. The objective
+is not minimal diff size, maximal change, stylistic uniformity, or theoretical
+purity; it is the best proportionate implementation of the current requirements.
 
-- Solve demonstrated current problems, not hypothetical future requirements.
-- Prefer deleting, combining, flattening, or making a direct local correction
-  over adding a layer, helper, option, dependency, or framework.
-- Introduce an abstraction only when it clarifies a real contract or removes
-  demonstrated semantic duplication, coupling, or complexity. Small readable
-  duplication can be better than a premature abstraction.
-- Do not replace straightforward working code merely with a more fashionable
-  pattern, enforce consistency that erases useful differences, or add
-  configurability without a present need.
-- Every edit should have a concrete benefit that can be named. If the existing
-  implementation is already strong, leave it alone rather than creating churn.
+## Complete the pass
 
-Stop when no material, evidence-backed improvement remains inside the supplied
-boundary. There is no requirement to change every file or to pursue stylistic
-perfection.
+Implement the coherent set of justified improvements rather than stopping after
+the first finding. Update necessary callers, styles, tests, types, configuration,
+and documentation inside the selected boundary, and remove superseded code
+instead of leaving parallel approaches behind.
 
-## Complete and verify the pass
+Then inspect the complete resulting state, not only the edits. Confirm that:
 
-Implement the coherent set of justified improvements, including necessary
-call-site, style, test, and configuration updates. Remove superseded code rather
-than leaving parallel approaches behind.
+- the code is easier to understand and change;
+- complexity was removed rather than displaced;
+- responsibilities and sources of truth are clearer;
+- behaviour and integration remain sound; and
+- the pass did not introduce speculative machinery or unrelated scope.
 
-Verify behaviour in proportion to the affected surface and risk. Use the most
-relevant static checks, tests, build checks, or rendered inspection; inspect the
-complete resulting diff and run `git diff --check`. Fix regressions caused by
-the pass without expanding into unrelated pre-existing problems.
+Verify in proportion to the affected surface and risk using the most relevant
+static checks, tests, build checks, or rendered inspection. Inspect the complete
+diff and run `git diff --check`. Fix regressions caused by the pass without
+expanding into unrelated pre-existing problems.
 
-Report the boundary reviewed, the material improvements made, the simplification
-or quality reasoning behind them, and the verification performed. Mention any
+Stop when no material evidence-backed improvement remains inside the supplied
+boundary. There is no requirement to change every file or pursue stylistic
+perfection. Report the boundary reviewed, material improvements made, structural
+or behavioural reasoning behind them, and verification performed. Mention any
 important issue deliberately left unchanged because it was outside scope,
 unsupported by evidence, or required a user decision.

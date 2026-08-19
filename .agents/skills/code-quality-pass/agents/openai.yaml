@@ -1,4 +1,4 @@
 interface:
   display_name: "Code Quality Pass"
-  short_description: "Review and improve a scoped code surface or diff"
-  default_prompt: "Use $code-quality-pass to review and improve the specified code surface or change set, simplifying it where possible and avoiding overengineering."
+  short_description: "Holistically improve a scoped code surface or diff"
+  default_prompt: "Use $code-quality-pass to improve the structure, readability, maintainability, simplicity, and behaviour of the specified code surface or change set."
