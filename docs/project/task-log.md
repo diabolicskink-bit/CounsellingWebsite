@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-19 - Scoped Code Quality Pass Added
+
+- Added the repository-local `code-quality-pass` skill for holistic review and direct improvement of a user-supplied implementation surface or code change set.
+- Defined named pages, features, files, and diffs as semantic boundaries that may include the relevant code, HTML, CSS, scripts, tests, configuration, callers, and dependencies without becoming repository-wide cleanup sweeps.
+- Made simplicity and current evidence the quality standard: the pass addresses all material in-scope issues while resisting speculative abstractions, configurability, dependencies, coverage, and stylistic churn.
+
 ## 2026-08-19 - Cleanup Sweep Skill Narrowed
 
 - Renamed the repository-local `improve-codebase` skill to `cleanup-sweep` so its name and invocation token communicate the intended workflow.
