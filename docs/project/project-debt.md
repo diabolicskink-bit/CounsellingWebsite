@@ -376,32 +376,6 @@ Each active item should include enough direction that a future session can choos
   - 2026-08-14: Removed `.site-copy-flow`, `.section-heading__copy`, and `.rich-text` after confirming the promoted `.site-reading` role and page-owned layout already supplied their live outcomes. `.site-broad-tabs__content` and development-only `.hero-copy-panel` remain mounted for separate ownership review.
 - `Links`: `src/styles.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
-### DEBT-22 - Enquiry timezone comparison notes need server-owned handling
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Priority Rationale`: This is `P2` because timezone comparison notes are useful booking context but should not block the safer structured enquiry payload. It is not `P1` while explicit state/timezone fields are still captured and sent in enquiry emails.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `DEBT-4` implementation planning
-- `Area`: API, Forms, Email, Timezones
-- `Problem`: The old enquiry flow generated a Perth business-hours comparison note in the browser while composing the whole email body. After structured server-side rendering, timezone/state values are trusted fields but the derived comparison note is not yet canonical server-owned output.
-- `Why It Matters`: Booking logistics should use an explicit, testable timezone policy rather than browser-composed prose or automatic timezone guesses.
-- `Preferred Direction`: Generate any Perth business-hours comparison note server-side from explicit submitted state/timezone values, using shared or duplicated canonical timezone helpers with tests for daylight-saving and non-Australian/unsure cases.
-- `Resolution Path`: Decide the canonical state/timezone value model, move comparison-note generation to the API email renderer, and add direct API tests for representative winter/summer timezone outputs.
-- `Next Action`: Define whether timezone payload values should remain abbreviations or move to stable region identifiers before reintroducing the comparison note.
-- `Resolved When`: Enquiry emails include any intended timezone comparison note from server-owned logic, with tests covering accepted timezone/state values and seasonal offset changes.
-- `Related Items`:
-  - `DEBT-4`: Structured enquiry payloads now give this item the server-side field boundary it needs.
-  - `DEBT-5`: Archived generic public error handling is the current boundary for any timezone field problems.
-  - `DEBT-10`: Archived direct API coverage provides the harness for timezone-note rendering tests once the policy is chosen.
-  - `SITE-6`: Form-flow QA may later verify the visible timezone/state choices that feed the email.
-- `Dependencies`:
-  - `DEBT-4`: Keep structured enquiry payload and server-rendered email content in place before adding derived timezone prose.
-- `Notes`:
-  - Do not use server IP geolocation as a source of truth. Browser timezone detection may be a convenience default later, but submitted explicit user-confirmed fields should drive email output.
-- `Links`: `api/enquiry.ts`, `src/pages/Contact.tsx`, `src/utils/timeZones.ts`
-
 ### DEBT-24 - Live Vercel deployment smoke testing is manual
 
 - `Priority`: `P2`

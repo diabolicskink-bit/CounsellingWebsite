@@ -2,6 +2,12 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-22 - Enquiry timezone comparison notes need server-owned handling
+
+Closed on 2026-08-19 after the owner confirmed that the current timezone behaviour is complete and personalized Perth-hours comparison notes should not be restored to enquiry emails. Consult submissions continue to include the visitor-selected timezone and its human-readable label; the Contact page separately retains its visitor-facing interstate business-hours notes.
+
+No email-comparison helper or active implementation remains. The earlier split from `DEBT-4` is retained only as historical context; adding personalized comparison prose to emails in future would be new scope rather than unresolved debt.
+
 ### DEBT-34 - Public-page tests need opportunistic maintenance
 
 Resolved on 2026-08-14 by replacing the page-markup and generated-artifact mirror in `tests/public-site.spec.ts` with a durable visitor-behaviour suite. Browser cases fell from 262 across two Chromium profiles to 37 in one Chromium project; targeted mobile viewport, route hydration, navigation, progressive-enhancement, analytics, form, responsive, and accessibility checks remain.
@@ -66,7 +72,7 @@ Blocked requests reuse the archived `DEBT-5` generic public error contract and l
 
 Resolved on 2026-06-17 by changing enquiry submissions to structured JSON fields and making the API validate those fields before building the email subject, reply-to, plain text, and HTML output server-side.
 
-The old composed `{ subject, body, replyTo }` payload is now rejected by validation, and direct Node API tests cover successful submissions, invalid payloads, honeypot handling, missing delivery config, and provider failure. The derived Perth business-hours comparison note was intentionally split into `DEBT-22` so timezone policy can be cleaned up separately.
+The old composed `{ subject, body, replyTo }` payload is now rejected by validation, and direct Node API tests cover successful submissions, invalid payloads, honeypot handling, missing delivery config, and provider failure. The derived Perth business-hours comparison note was intentionally split into `DEBT-22`, which was later closed when the owner confirmed that personalized comparison prose should not return to enquiry emails.
 
 ### DEBT-5 - Enquiry error handling and no-JavaScript fallback are inconsistent
 
