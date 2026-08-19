@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-17 - Contact Form Simplified
+
+- Replaced the required three-way enquiry choice and conditional practical questions with three immediately visible fields: name, email, and message.
+- Kept the free 15-minute consult visible in the surrounding page copy while allowing visitors to describe what they want without first classifying their enquiry.
+- Preserved native submission, server validation, Clarity masking, enquiry-start and successful-send analytics, failure handling, and focused confirmation behaviour.
+- Closed `SITE-21` after retaining clear required-field labels, guidance, and native validation in the smaller form.
+
 ## 2026-08-16 - Visible Page Time Added
 
 - Added cumulative active seconds to each first-party page view, counting only while the page is visible and updating at 30-second intervals plus page-hide and route-exit flushes.

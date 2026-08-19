@@ -10,6 +10,10 @@ Implemented on 2026-07-18. The ENM/polyamory page now contains deliberately writ
 
 Implemented on 2026-07-14. The visible "Enquiry" label is now a peer `h2` that names the control-bearing form through `aria-labelledby` across prerendered, no-JavaScript, hydrated, sending, and error states. Successful submission replaces the form with a non-form status section containing one relevant success `h2`, while preserving status focus, payload behaviour, native fallback, and Clarity masking. Desktop and mobile Playwright coverage and the serious-impact axe smoke check pass.
 
+### SITE-21 - Contact form required-field clarity
+
+Implemented on 2026-08-17. The simplified Contact form shows name, email, and message immediately, marks each visible label as required, gives a concise required-field note before the controls, and preserves native browser validation with and without JavaScript. The former required enquiry-path choice and its conditional fields were removed from the public form.
+
 ### SITE-12 - Crisis and immediate-support resource block
 
 Implemented on 2026-07-08. The Contact/Fees FAQ now states that Vive Counselling is not an emergency service, warns that enquiries may not be seen straight away, and gives concrete immediate-support steps: call `000` for immediate danger, or contact Lifeline on `13 11 14` or Suicide Call Back Service on `1300 659 467` for crisis support.

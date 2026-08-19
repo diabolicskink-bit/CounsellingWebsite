@@ -243,12 +243,12 @@ Redirect aliases `/about`, `/fees`, and `/inclusion` are covered by `docs/checkl
 
 - `Pass` Email link, form controls, submit button, and FAQ controls have meaningful accessible names.
 
-- `Pass` Focus is visible on page links, form controls, radio choices, selects, submit button, and FAQ controls.
+- `Pass` Focus is visible on page links, form controls, the submit button, and FAQ controls.
 
 - `Pass` Every visitor-facing form field has a visible label or group legend.
 
-- `Partial` Required fields and required choices are clear before submission.
-  - **Note:** Visible required-field and required-choice clarity remains tracked under `SITE-21`.
+- `Pass` Required fields are clear before submission.
+  - **Note:** The simplified form marks all three visible fields as required and explains the marker before the controls.
 
 - `Not checked` Validation errors identify the affected fields or groups.
 

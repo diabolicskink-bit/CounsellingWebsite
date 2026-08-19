@@ -60,21 +60,6 @@ Statuses:
   - Keep "confidentiality" language tied to counselling sessions, records, and professional boundaries rather than using it as shorthand for website cookies or analytics.
 - `Links`: `src/pages/Contact.tsx`, `src/components/SiteAnalytics.tsx`
 
-### SITE-21 - Contact form required-field clarity
-
-- `Priority`: `P1`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Accessibility`
-- `Source`: Former accessibility assessment, now preserved in `docs/checklists/accessibility-monitor.md`
-- `Visitor-Facing Goal`: Let visitors know which enquiry form fields and choices are required before they try to submit.
-- `Current State`: The Contact form uses native `required` attributes and browser validation, but the visible labels do not mark required fields or explain required choices before submission.
-- `Why Deferred`: This was identified during checklist assessment; the right fix should be small but deliberate so the form stays calm and readable.
-- `First Useful Slice`: Add a concise required-field cue near the form and/or required labels, covering the always-required fields and the required radio choice groups without making the form feel noisy.
-- `Implemented When`: Visitors can see what is required before submitting, native validation still works, and the Contact checklist required-field clarity item can move from `Partial` to `Pass`.
-- `Notes`:
-- `Links`: `src/pages/Contact.tsx`, `src/data/enquiry.ts`, `docs/checklists/accessibility-monitor.md`
-
 ### SITE-7 - Global reduced-motion baseline
 
 - `Priority`: `P2`
@@ -128,8 +113,8 @@ Statuses:
 - `Status`: `Open`
 - `Classification`: `Form Flow`
 - `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/data/enquiry.ts`
-- `Visitor-Facing Goal`: Help visitors understand the lower-commitment 15-minute consult option before choosing it in the enquiry form.
-- `Current State`: The fee card and FAQ mention a free 15-minute initial consult, and the form lets visitors request one, but the site does not explain whether it is phone or video, what it is for, what it is not, or what happens afterward.
+- `Visitor-Facing Goal`: Help visitors understand the lower-commitment 15-minute consult option before requesting it.
+- `Current State`: The fee card and Contact introduction mention a free 15-minute initial consult, and the simplified form lets visitors request one in their message without first classifying their enquiry. The site does not explain whether the consult is phone or video, what it is for, what it is not, or what happens afterward.
 - `Why Deferred`: The practice owner should confirm the actual consult format and boundaries before public copy is added.
 - `First Useful Slice`: Add a brief FAQ answer or form-adjacent note explaining the consult format, purpose, and next step.
 - `Implemented When`: A visitor can choose between a full-session enquiry and a consult request without guessing what the consult involves.

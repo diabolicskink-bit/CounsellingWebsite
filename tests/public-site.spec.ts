@@ -544,7 +544,6 @@ test.describe("analytics", () => {
 
     await page.goto("/contact", { waitUntil: "networkidle" });
     const form = page.getByRole("form", { name: "Enquiry" });
-    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Host gate check");
 
     expect(analyticsRequests).toEqual([]);
@@ -925,21 +924,13 @@ test.describe("analytics", () => {
     await expect.poll(() => visitObservations.length).toBe(1);
 
     const form = page.getByRole("form", { name: "Enquiry" });
-    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
-    await form.getByLabel("Your enquiry").fill("Hello");
-    await expect.poll(() => eventObservations.length).toBe(2);
+    await form.getByLabel("Your message").fill("Hello");
+    await expect.poll(() => eventObservations.length).toBe(1);
 
     const visitObservation = visitObservations[0];
     expect(eventObservations).toEqual([
-      {
-        eventId: expect.stringMatching(uuidV4),
-        eventType: "contact_option_selected",
-        pageViewId: visitObservation.pageViewId,
-        properties: { option: "question" },
-        visitId: visitObservation.visitId,
-      },
       {
         eventId: expect.stringMatching(uuidV4),
         eventType: "enquiry_started",
@@ -957,7 +948,6 @@ test.describe("analytics", () => {
       analyticsVisitId: visitObservation.visitId,
     });
     expect(eventObservations.map((observation) => observation.eventType)).toEqual([
-      "contact_option_selected",
       "enquiry_started",
     ]);
   });
@@ -1020,10 +1010,9 @@ test.describe("analytics", () => {
 
     await page.goto("/contact", { waitUntil: "networkidle" });
     const form = page.getByRole("form", { name: "Enquiry" });
-    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
-    await form.getByLabel("Your enquiry").fill("Hello");
+    await form.getByLabel("Your message").fill("Hello");
     await form.getByRole("button", { name: "Send enquiry" }).click();
 
     await expect(form.getByRole("alert")).toBeVisible();
@@ -1044,33 +1033,11 @@ test.describe("analytics", () => {
     ]);
   });
 
-  test("Google Analytics contact-intent events contain no visitor data", async ({ page }) => {
+  test("Google Analytics email-click events contain no visitor data", async ({ page }) => {
     test.skip(!googleAnalyticsRouteTrackingEnabled, "Analytics contact-intent tracking is covered by npm run qa:analytics.");
     await stubAnalyticsRequests(page);
 
     await page.goto("/contact", { waitUntil: "networkidle" });
-    const form = page.getByRole("form", { name: "Enquiry" });
-    await form.getByLabel("General enquiry").check();
-    await form.getByLabel("Name").fill("Alex Person");
-    await form.getByLabel("Email").fill("alex@example.com");
-    await form.getByLabel("Request a consult").check();
-    await form.getByLabel("Make an appointment").check();
-
-    await expect.poll(() => getGoogleAnalyticsEvents(page, "contact_option_selected")).toEqual([
-      {
-        eventName: "contact_option_selected",
-        params: { contact_option: "question", send_to: process.env.VITE_GA_MEASUREMENT_ID },
-      },
-      {
-        eventName: "contact_option_selected",
-        params: { contact_option: "consult", send_to: process.env.VITE_GA_MEASUREMENT_ID },
-      },
-      {
-        eventName: "contact_option_selected",
-        params: { contact_option: "appointment", send_to: process.env.VITE_GA_MEASUREMENT_ID },
-      },
-    ]);
-
     const emailLink = page.getByRole("link", { name: "joel@vivecounselling.com.au" }).first();
     await emailLink.evaluate((link) => {
       link.addEventListener("click", (event) => event.preventDefault(), { once: true });
@@ -1130,7 +1097,7 @@ test("Working with Joel tabs support pointer and keyboard input", async ({ page 
 });
 
 test.describe("enquiry form", () => {
-  test("preserves conditional payload values and success focus", async ({ page }) => {
+  test("submits the simple enquiry payload and focuses the success state", async ({ page }) => {
     let submittedMethod = "";
     let submittedPayload: Record<string, string> | undefined;
 
@@ -1143,13 +1110,15 @@ test.describe("enquiry form", () => {
     await page.goto("/contact", { waitUntil: "networkidle" });
 
     const form = page.getByRole("form", { name: "Enquiry" });
-    await form.getByLabel("Request a consult").check();
+    await expect(form.getByRole("radio")).toHaveCount(0);
+    await expect(form.getByRole("textbox")).toHaveCount(3);
+    await expect(
+      form.getByText("A few words are enough. You don’t need to explain everything here."),
+    ).toBeVisible();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
-    await form.getByLabel("Your message").fill("I would like an initial consult.");
-    await form.getByLabel("Availability").fill("Weekday afternoons");
-    await form.getByLabel("Timezone").selectOption("AEDT");
-    await form.getByRole("button", { name: "Request the 15-minute consult" }).click();
+    await form.getByLabel("Your message").fill("I would like to get started.");
+    await form.getByRole("button", { name: "Send enquiry" }).click();
 
     const success = page.getByRole("status");
     await expect(success).toBeVisible();
@@ -1158,15 +1127,10 @@ test.describe("enquiry form", () => {
     expect(submittedPayload).toEqual({
       analyticsPageViewId: "",
       analyticsVisitId: "",
-      availability: "Weekday afternoons",
-      bookingType: "consult",
       email: "alex@example.com",
-      enquiryType: "booking",
-      message: "I would like an initial consult.",
+      enquiryType: "general",
+      message: "I would like to get started.",
       name: "Alex Person",
-      state: "",
-      timing: "",
-      timeZone: "AEDT",
       website: "",
     });
   });
@@ -1185,10 +1149,9 @@ test.describe("enquiry form", () => {
     await page.goto("/contact", { waitUntil: "networkidle" });
 
     const form = page.getByRole("form", { name: "Enquiry" });
-    await form.getByLabel("General enquiry").check();
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
-    await form.getByLabel("Your enquiry").fill("Hello");
+    await form.getByLabel("Your message").fill("Hello");
     await form.getByRole("button", { name: "Send enquiry" }).click();
 
     const alert = form.getByRole("alert");

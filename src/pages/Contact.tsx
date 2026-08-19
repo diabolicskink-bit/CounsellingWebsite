@@ -13,76 +13,29 @@ import {
   enquiryFailureContent,
   enquirySuccessContent,
 } from "../data/enquiry";
-import {
-  australianStateOptions,
-  bookingTypes,
-  enquiryTypes,
-  type BookingType,
-  type EnquiryType,
-} from "../data/enquiryContract";
+import { enquiryTypes } from "../data/enquiryContract";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
-  trackContactOptionSelected,
   trackEnquiryStarted,
   trackSuccessfulEnquirySubmission,
 } from "../utils/analytics";
 import {
   getActiveAustralianPerthBusinessHoursNotes,
-  getActiveAustralianTimeZoneOptions,
 } from "../utils/timeZones";
 import { recordVisitEvent } from "../utils/visitEvents";
 import { getCurrentVisitEventContext } from "../utils/visitSession";
 import "../styles-contact.css";
 
-type EnquiryPath = BookingType | "question";
 type SubmitStatus = "idle" | "sending" | "success" | "error";
-
-type EnquiryPathOption = {
-  bookingType?: BookingType;
-  enquiryType: EnquiryType;
-  id: EnquiryPath;
-  submitLabel: string;
-  title: string;
-};
 
 type ContactPageProps = {
   initialRenderAt: string;
 };
 
-const enquiryPathOptions: readonly EnquiryPathOption[] = [
-  {
-    bookingType: bookingTypes.appointment.value,
-    enquiryType: enquiryTypes.booking.value,
-    id: "appointment",
-    submitLabel: "Send session enquiry",
-    title: "Make an appointment",
-  },
-  {
-    bookingType: bookingTypes.consult.value,
-    enquiryType: enquiryTypes.booking.value,
-    id: "consult",
-    submitLabel: "Request the 15-minute consult",
-    title: "Request a consult",
-  },
-  {
-    enquiryType: enquiryTypes.general.value,
-    id: "question",
-    submitLabel: "Send enquiry",
-    title: "General enquiry",
-  },
-];
-
 const contactMetadata = getRouteMetadata(publicRoutePaths.contact);
 const crisisSupportHref = publicRoutePaths.crisisSupport;
-
-function isEnquiryPath(value: FormDataEntryValue | null): value is EnquiryPath {
-  return (
-    typeof value === "string" &&
-    enquiryPathOptions.some((option) => option.id === value)
-  );
-}
 
 function getFormText(formData: FormData, fieldName: string) {
   const value = formData.get(fieldName);
@@ -95,15 +48,10 @@ function buildEnquiryPayload(formData: FormData) {
   return {
     analyticsPageViewId: analyticsContext?.pageViewId ?? "",
     analyticsVisitId: analyticsContext?.visitId ?? "",
-    availability: getFormText(formData, "availability"),
-    bookingType: getFormText(formData, "bookingType"),
     email: getFormText(formData, "email"),
     enquiryType: getFormText(formData, "enquiryType"),
     message: getFormText(formData, "message"),
     name: getFormText(formData, "name"),
-    state: getFormText(formData, "state"),
-    timing: getFormText(formData, "timing"),
-    timeZone: getFormText(formData, "timeZone"),
     website: getFormText(formData, "website"),
   };
 }
@@ -216,31 +164,7 @@ function EnquirySuccess() {
 function EnquiryForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const enquiryStartTrackedRef = useRef(false);
-  const [selectedPath, setSelectedPath] = useState<EnquiryPath | "">("");
-  const [hasHydrated, setHasHydrated] = useState(false);
-  const [hasRestoredDetails, setHasRestoredDetails] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
-  const timeZoneOptions = getActiveAustralianTimeZoneOptions();
-
-  useEffect(() => {
-    const formElement = formRef.current;
-
-    if (formElement) {
-      const formData = new FormData(formElement);
-      const restoredPath = formData.get("contactPath");
-      const hasBrowserRestoredDetails = ["name", "email", "message"].some(
-        (fieldName) => getFormText(formData, fieldName).length > 0,
-      );
-
-      if (isEnquiryPath(restoredPath)) {
-        setSelectedPath(restoredPath);
-      }
-
-      setHasRestoredDetails(hasBrowserRestoredDetails);
-    }
-
-    setHasHydrated(true);
-  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -263,8 +187,6 @@ function EnquiryForm() {
 
       trackSuccessfulEnquirySubmission("contact");
       formElement.reset();
-      setSelectedPath("");
-      setHasRestoredDetails(false);
       setSubmitStatus("success");
     } catch {
       setSubmitStatus("error");
@@ -276,7 +198,7 @@ function EnquiryForm() {
 
     if (
       enquiryStartTrackedRef.current ||
-      (target instanceof HTMLInputElement && ["contactPath", "website"].includes(target.name))
+      (target instanceof HTMLInputElement && target.name === "website")
     ) {
       return;
     }
@@ -286,27 +208,9 @@ function EnquiryForm() {
     recordVisitEvent("enquiry_started", {});
   };
 
-  const handleEnquiryPathChange = (value: EnquiryPath) => {
-    trackContactOptionSelected(value);
-    recordVisitEvent("contact_option_selected", { option: value });
-    setSelectedPath(value);
-    setHasRestoredDetails(false);
-    setSubmitStatus("idle");
-  };
-
   if (submitStatus === "success") {
     return <EnquirySuccess />;
   }
-
-  const selectedOption = enquiryPathOptions.find(
-    (option) => option.id === selectedPath,
-  );
-  const isAppointment = selectedPath === "appointment";
-  const isConsult = selectedPath === "consult";
-  const isQuestion = selectedPath === "question";
-  const showDetails = Boolean(selectedOption) || !hasHydrated || hasRestoredDetails;
-  const showAppointmentFields = isAppointment || !hasHydrated;
-  const showConsultFields = isConsult || !hasHydrated;
 
   return (
     <form
@@ -331,162 +235,70 @@ function EnquiryForm() {
         <h2>Get in touch</h2>
       </header>
 
-      <fieldset className="contact-page__enquiry-options">
-        <legend className="contact-page__sr-only">Choose an enquiry type</legend>
-        <div className="contact-page__enquiry-option-list">
-          {enquiryPathOptions.map((option) => (
-            <label className="contact-page__enquiry-option" key={option.id}>
-              <strong>{option.title}</strong>
-              <input
-                checked={selectedPath === option.id}
-                name="contactPath"
-                onChange={() => handleEnquiryPathChange(option.id)}
-                required
-                type="radio"
-                value={option.id}
-              />
-            </label>
-          ))}
-        </div>
-      </fieldset>
+      <div className="contact-page__form-details">
+        <p className="contact-page__required-note">Fields marked * are required.</p>
 
-      {showDetails ? (
-        <div className="contact-page__form-details">
-          <div className="contact-page__form-details-heading">
-            <h3>A few details</h3>
-            <p>Fields marked * are required.</p>
-          </div>
+        <input
+          name="enquiryType"
+          type="hidden"
+          value={enquiryTypes.general.value}
+        />
 
-          <input
-            name="enquiryType"
-            type="hidden"
-            value={selectedOption?.enquiryType ?? ""}
-          />
-          {selectedOption?.bookingType ? (
+        <div className="contact-page__form-fields">
+          <RequiredField id="contact-name" label="Name">
             <input
-              name="bookingType"
-              type="hidden"
-              value={selectedOption.bookingType}
+              autoComplete="name"
+              id="contact-name"
+              name="name"
+              placeholder="Your name"
+              required
+              type="text"
             />
-          ) : null}
+          </RequiredField>
 
-          <div className="contact-page__form-fields">
-            <RequiredField id="contact-name" label="Name">
-              <input
-                autoComplete="name"
-                id="contact-name"
-                name="name"
-                placeholder="Your name"
-                required={Boolean(selectedOption)}
-                type="text"
-              />
-            </RequiredField>
+          <RequiredField id="contact-email" label="Email">
+            <input
+              autoComplete="email"
+              id="contact-email"
+              name="email"
+              placeholder="you@example.com"
+              required
+              type="email"
+            />
+          </RequiredField>
 
-            <RequiredField id="contact-email" label="Email">
-              <input
-                autoComplete="email"
-                id="contact-email"
-                name="email"
-                placeholder="you@example.com"
-                required={Boolean(selectedOption)}
-                type="email"
-              />
-            </RequiredField>
-
-            {showAppointmentFields ? (
-              <>
-                <RequiredField id="contact-timing" label="Preferred timing">
-                  <input
-                    id="contact-timing"
-                    name="timing"
-                    placeholder="For example: weekday afternoons"
-                    required={isAppointment}
-                    type="text"
-                  />
-                </RequiredField>
-
-                <RequiredField id="contact-state" label="State or territory">
-                  <select
-                    defaultValue=""
-                    id="contact-state"
-                    name="state"
-                    required={isAppointment}
-                  >
-                    <option value="">Select your state or territory</option>
-                    {australianStateOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </RequiredField>
-              </>
-            ) : null}
-
-            {showConsultFields ? (
-              <>
-                <RequiredField id="contact-availability" label="Availability">
-                  <input
-                    id="contact-availability"
-                    name="availability"
-                    placeholder="For example: Tuesday after 3pm"
-                    required={isConsult}
-                    type="text"
-                  />
-                </RequiredField>
-
-                <RequiredField id="contact-timezone" label="Timezone">
-                  <select
-                    defaultValue=""
-                    id="contact-timezone"
-                    name="timeZone"
-                    required={isConsult}
-                  >
-                    {timeZoneOptions.map((option) => (
-                      <option key={option.value || "default"} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </RequiredField>
-              </>
-            ) : null}
-
-            <RequiredField
+          <RequiredField id="contact-message" label="Your message" wide>
+            <textarea
+              aria-describedby="contact-message-note"
               id="contact-message"
-              label={isQuestion ? "Your enquiry" : "Your message"}
-              wide
-            >
-              <textarea
-                id="contact-message"
-                name="message"
-                required={Boolean(selectedOption)}
-                rows={4}
-              />
-            </RequiredField>
-          </div>
-
-          <div className="contact-page__form-actions">
-            <Button disabled={submitStatus === "sending"} type="submit">
-              {submitStatus === "sending"
-                ? "Sending..."
-                : selectedOption?.submitLabel ?? "Send enquiry"}
-            </Button>
-          </div>
-
-          {submitStatus === "error" ? (
-            <div className="contact-page__form-error" role="alert">
-              <p>
-                {enquiryFailureContent.messageBeforeEmail}{" "}
-                <a href={`mailto:${enquiryFailureContent.email}`}>
-                  {enquiryFailureContent.email}
-                </a>{" "}
-                {enquiryFailureContent.messageAfterEmail}
-              </p>
-            </div>
-          ) : null}
+              name="message"
+              required
+              rows={4}
+            />
+            <small id="contact-message-note">
+              A few words are enough. You don’t need to explain everything here.
+            </small>
+          </RequiredField>
         </div>
-      ) : null}
+
+        <div className="contact-page__form-actions">
+          <Button disabled={submitStatus === "sending"} type="submit">
+            {submitStatus === "sending" ? "Sending..." : "Send enquiry"}
+          </Button>
+        </div>
+
+        {submitStatus === "error" ? (
+          <div className="contact-page__form-error" role="alert">
+            <p>
+              {enquiryFailureContent.messageBeforeEmail}{" "}
+              <a href={`mailto:${enquiryFailureContent.email}`}>
+                {enquiryFailureContent.email}
+              </a>{" "}
+              {enquiryFailureContent.messageAfterEmail}
+            </p>
+          </div>
+        ) : null}
+      </div>
 
       <p className="contact-page__crisis-note">
         If you’re in crisis, <Link to={crisisSupportHref}>find support now</Link>.
