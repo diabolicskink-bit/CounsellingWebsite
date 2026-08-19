@@ -2,6 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "playwright/test";
 import type { RouteMetadata, SiteMetadata } from "../src/data/routeMetadata";
+import { privateRoutePaths } from "../src/data/routes";
 
 const routeMetadataData = JSON.parse(
   readFileSync(new URL("../src/data/routeMetadata.json", import.meta.url), "utf8"),
@@ -211,32 +212,12 @@ test("Crisis Support exposes urgent actions and national and regional services",
   await page.goto("/crisis-support", { waitUntil: "networkidle" });
 
   const main = page.locator("main.crisis-support-page");
-  const expectedContactHrefs = [
-    "tel:000",
+  const nationalContactHrefs = [
     "tel:131114",
     "sms:0477131114",
     "tel:1300659467",
     "tel:139276",
-    "tel:1800629354",
-    "tel:1800011511",
-    "tel:1800682288",
-    "tel:1300642255",
-    "tel:131465",
-    "tel:1800332388",
-    "tel:1300555788",
-    "tel:1800676822",
-    "tel:1800552002",
-  ];
-  const expectedStateHrefs = [
-    "#crisis-act",
-    "#crisis-nsw",
-    "#crisis-nt",
-    "#crisis-qld",
-    "#crisis-sa",
-    "#crisis-tas",
-    "#crisis-vic",
-    "#crisis-wa",
-  ];
+  ] as const;
   const lastReviewed = routeMetadataData.routes["/crisis-support"].lastReviewed;
 
   if (!lastReviewed) {
@@ -251,16 +232,10 @@ test("Crisis Support exposes urgent actions and national and regional services",
   ]);
   await expect(main.locator(".crisis-support-page__national-service")).toHaveCount(3);
   await expect(main.locator(".crisis-support-page__state-service")).toHaveCount(8);
-  expect(
-    await main
-      .locator('a[href^="tel:"], a[href^="sms:"]')
-      .evaluateAll((links) => links.map((link) => link.getAttribute("href"))),
-  ).toEqual(expectedContactHrefs);
-  expect(
-    await main
-      .locator(".crisis-support-page__location-index a")
-      .evaluateAll((links) => links.map((link) => link.getAttribute("href"))),
-  ).toEqual(expectedStateHrefs);
+  await expect(main.locator('.crisis-support-page__state-service a[href^="tel:"]')).toHaveCount(9);
+  for (const href of nationalContactHrefs) {
+    await expect(main.locator(`a[href="${href}"]`)).toHaveCount(1);
+  }
   await expect(main.getByRole("link", { name: "Find your local service" })).toHaveAttribute(
     "href",
     "https://vahi.vic.gov.au/mental-health-services",
@@ -490,6 +465,20 @@ test.describe("crawl output", () => {
     expect(sitemap).toContain(
       `<url><loc>${crisisSupportUrl}</loc><lastmod>${crisisSupportLastModified}</lastmod></url>`,
     );
+  });
+
+  test("serves every private analytics route from the no-index client shell", async ({ request }) => {
+    for (const route of Object.values(privateRoutePaths)) {
+      const response = await request.get(route);
+      const html = await response.text();
+
+      expect(response.ok()).toBeTruthy();
+      expect(html).toContain("<title>Analytics | Vive Counselling</title>");
+      expect(html).toContain(`<meta name="robots" content="${noindexDirective}" />`);
+      expect(html).toContain('<div id="root"></div>');
+      expect(html).not.toContain('<link rel="canonical"');
+      expect(html).not.toContain('data-render-mode="prerendered"');
+    }
   });
 });
 

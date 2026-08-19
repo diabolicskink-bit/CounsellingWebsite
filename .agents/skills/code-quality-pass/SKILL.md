@@ -54,6 +54,34 @@ external interfaces unless the task authorizes a change or a clear defect must
 be corrected. Keep feature work and visual redesign outside the pass unless the
 user includes them.
 
+## Match the actual operating model
+
+This repository is a small site maintained by one developer. Judge architecture,
+defensive code, and coverage against that actual operating model. Do not assume
+multi-team coordination, enterprise extensibility, generalized administration,
+or safeguards against other developers unless a present requirement establishes
+the need.
+
+- Scale protection to realistic likelihood and consequence. The single-developer
+  context reduces the need for maintainer-proofing; it does not make untrusted
+  input, authentication, privacy, destructive actions, or production data risks
+  harmless.
+- Protect a high-impact invariant at its clearest authoritative boundary and
+  verify that boundary directly. Add defence-in-depth only when each additional
+  layer addresses a distinct, realistic failure mode.
+- Do not repeat equivalent preview/production, environment, permission, or data
+  guards across multiple layers merely because a future code change could bypass
+  one. Prefer a legible source of truth over a web of mutually defensive checks.
+- Do not design code or tests to prevent the sole maintainer from intentionally
+  changing the implementation. Version control, review, and focused verification
+  are the appropriate controls for ordinary future edits.
+- Test observable behaviour and genuinely important contracts. Avoid collections
+  of tests that freeze implementation shape, duplicate the same protection,
+  exhaust hypothetical misuse of internal helpers, or make safe refactoring
+  artificially difficult.
+- Before removing an existing guard or test, confirm that it does not protect a
+  separate trust boundary, failure mode, regression, or irreversible effect.
+
 ## Resist overengineering
 
 - Solve demonstrated current problems, not hypothetical future requirements.
@@ -65,9 +93,6 @@ user includes them.
 - Do not replace straightforward working code merely with a more fashionable
   pattern, enforce consistency that erases useful differences, or add
   configurability without a present need.
-- Keep defensive handling and tests proportionate to realistic risks. Do not
-  manufacture edge cases, comments, or coverage solely to make the solution
-  appear comprehensive.
 - Every edit should have a concrete benefit that can be named. If the existing
   implementation is already strong, leave it alone rather than creating churn.
 

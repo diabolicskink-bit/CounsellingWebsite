@@ -13,6 +13,7 @@ const privateRoutePaths = [
   "/analytics",
   "/analytics/enquiries",
   "/analytics/excluded",
+  "/analytics/pages",
 ];
 const routeMainClasses = {
   "/": "site-page home-page",

@@ -22,7 +22,8 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Added the repository-local `code-quality-pass` skill for holistic review and direct improvement of a user-supplied implementation surface or code change set.
 - Defined named pages, features, files, and diffs as semantic boundaries that may include the relevant code, HTML, CSS, scripts, tests, configuration, callers, and dependencies without becoming repository-wide cleanup sweeps.
-- Made simplicity and current evidence the quality standard: the pass addresses all material in-scope issues while resisting speculative abstractions, configurability, dependencies, coverage, and stylistic churn.
+- Made simplicity, current evidence, and the site's small single-developer operating model the quality standard, resisting speculative abstractions, configurability, coordination machinery, dependencies, coverage, and stylistic churn.
+- Required high-impact boundaries to have clear authoritative enforcement and focused behavioural verification, with additional defensive layers only for distinct realistic failure modes rather than hypothetical future maintainer edits.
 
 ## 2026-08-19 - Cleanup Sweep Skill Narrowed
 
