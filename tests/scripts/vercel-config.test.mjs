@@ -21,7 +21,7 @@ test("Vercel config does not use a blanket SPA catch-all rewrite", () => {
 test("Vercel packages each serverless function's external TypeScript modules", () => {
   assert.deepEqual(vercelConfig.functions, {
     "api/enquiry.ts": {
-      includeFiles: "src/{data/enquiryContract.ts,data/visitEventContract.ts,server/enquiry/**,server/visit-events/**,server/visits/repository.ts,utils/timeZones.ts}",
+      includeFiles: "src/{data/enquiry.ts,data/enquiryContract.ts,data/visitEventContract.ts,server/enquiry/**,server/visit-events/**,server/visits/repository.ts,utils/timeZones.ts}",
     },
     "api/visit-retention.ts": {
       includeFiles: "src/server/visits/**",
