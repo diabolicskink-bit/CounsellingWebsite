@@ -1,34 +1,24 @@
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
-export type BroadTabPanelItem = {
-  title: string;
-  content: ReactNode;
+type BroadTabPanelItem = {
+  readonly title: string;
+  readonly content: ReactNode;
 };
 
 type BroadTabPanelProps = {
   ariaLabel: string;
-  items: BroadTabPanelItem[];
-  className?: string;
-  defaultActiveIndex?: number;
+  items: readonly BroadTabPanelItem[];
 };
 
-function getInitialIndex(defaultActiveIndex: number | undefined, itemCount: number) {
-  if (defaultActiveIndex == null || defaultActiveIndex < 0 || defaultActiveIndex >= itemCount) {
-    return 0;
-  }
-
-  return defaultActiveIndex;
-}
-
-export default function BroadTabPanel({
-  ariaLabel,
-  items,
-  className = "",
-  defaultActiveIndex,
-}: BroadTabPanelProps) {
+export default function BroadTabPanel({ ariaLabel, items }: BroadTabPanelProps) {
   const baseId = useId();
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const [activeIndex, setActiveIndex] = useState(() => getInitialIndex(defaultActiveIndex, items.length));
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isEnhanced, setIsEnhanced] = useState(false);
+
+  useEffect(() => {
+    setIsEnhanced(true);
+  }, []);
 
   useEffect(() => {
     setActiveIndex((currentIndex) => {
@@ -45,38 +35,34 @@ export default function BroadTabPanel({
   }
 
   const safeActiveIndex = Math.min(activeIndex, items.length - 1);
-  const activeItem = items[safeActiveIndex];
-  const panelId = `${baseId}-panel`;
-  const rootClassName = ["site-broad-tabs", className].filter(Boolean).join(" ");
 
   function getTabId(index: number) {
     return `${baseId}-tab-${index}`;
   }
 
-  function focusTab(index: number) {
-    window.requestAnimationFrame(() => {
-      tabRefs.current[index]?.focus();
-    });
+  function getPanelId(index: number) {
+    return `${baseId}-panel-${index}`;
   }
 
   function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     const lastIndex = items.length - 1;
     let nextIndex: number | null = null;
 
-    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      nextIndex = index === lastIndex ? 0 : index + 1;
-    }
-
-    if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-      nextIndex = index === 0 ? lastIndex : index - 1;
-    }
-
-    if (event.key === "Home") {
-      nextIndex = 0;
-    }
-
-    if (event.key === "End") {
-      nextIndex = lastIndex;
+    switch (event.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        nextIndex = index === lastIndex ? 0 : index + 1;
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        nextIndex = index === 0 ? lastIndex : index - 1;
+        break;
+      case "Home":
+        nextIndex = 0;
+        break;
+      case "End":
+        nextIndex = lastIndex;
+        break;
     }
 
     if (nextIndex === null) {
@@ -85,27 +71,25 @@ export default function BroadTabPanel({
 
     event.preventDefault();
     setActiveIndex(nextIndex);
-    focusTab(nextIndex);
+    tabRefs.current[nextIndex]?.focus();
   }
 
-  const activeContent =
-    typeof activeItem.content === "string" || typeof activeItem.content === "number" ? (
-      <p>{activeItem.content}</p>
-    ) : (
-      activeItem.content
-    );
-
   return (
-    <div className={rootClassName}>
-      <div className="site-broad-tabs__tabs" role="tablist" aria-label={ariaLabel}>
+    <div className="site-broad-tabs" data-enhanced={isEnhanced ? "true" : "false"}>
+      <div
+        aria-label={isEnhanced ? ariaLabel : undefined}
+        className="site-broad-tabs__tabs"
+        hidden={!isEnhanced}
+        role={isEnhanced ? "tablist" : undefined}
+      >
         {items.map((item, index) => {
           const isActive = safeActiveIndex === index;
           const tabId = getTabId(index);
 
           return (
             <button
-              aria-controls={panelId}
-              aria-selected={isActive}
+              aria-controls={isEnhanced ? getPanelId(index) : undefined}
+              aria-selected={isEnhanced ? isActive : undefined}
               className="site-broad-tabs__tab"
               data-active={isActive ? "true" : "false"}
               id={tabId}
@@ -115,8 +99,8 @@ export default function BroadTabPanel({
               ref={(node) => {
                 tabRefs.current[index] = node;
               }}
-              role="tab"
-              tabIndex={isActive ? 0 : -1}
+              role={isEnhanced ? "tab" : undefined}
+              tabIndex={isEnhanced && isActive ? 0 : -1}
               type="button"
             >
               {item.title}
@@ -125,14 +109,27 @@ export default function BroadTabPanel({
         })}
       </div>
 
-      <div
-        aria-labelledby={getTabId(safeActiveIndex)}
-        className="site-broad-tabs__content"
-        id={panelId}
-        role="tabpanel"
-        tabIndex={0}
-      >
-        {activeContent}
+      <div className="site-broad-tabs__panels">
+        {items.map((item, index) => {
+          const isActive = safeActiveIndex === index;
+
+          return (
+            <div
+              aria-labelledby={isEnhanced ? getTabId(index) : undefined}
+              className="site-broad-tabs__content"
+              hidden={isEnhanced && !isActive}
+              id={getPanelId(index)}
+              key={`${item.title}-${index}`}
+              role={isEnhanced ? "tabpanel" : undefined}
+              tabIndex={isEnhanced ? 0 : undefined}
+            >
+              <h3 className="site-broad-tabs__fallback-title" hidden={isEnhanced}>
+                {item.title}
+              </h3>
+              {item.content}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

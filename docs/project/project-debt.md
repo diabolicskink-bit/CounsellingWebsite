@@ -376,32 +376,6 @@ Each active item should include enough direction that a future session can choos
   - 2026-08-14: Removed `.site-copy-flow`, `.section-heading__copy`, and `.rich-text` after confirming the promoted `.site-reading` role and page-owned layout already supplied their live outcomes. `.site-broad-tabs__content` and development-only `.hero-copy-panel` remain mounted for separate ownership review.
 - `Links`: `src/styles.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
-### DEBT-22 - Enquiry timezone comparison notes need server-owned handling
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Priority Rationale`: This is `P2` because timezone comparison notes are useful booking context but should not block the safer structured enquiry payload. It is not `P1` while explicit state/timezone fields are still captured and sent in enquiry emails.
-- `Status`: `Open`
-- `Detected`: 2026-06-17
-- `Source`: `DEBT-4` implementation planning
-- `Area`: API, Forms, Email, Timezones
-- `Problem`: The old enquiry flow generated a Perth business-hours comparison note in the browser while composing the whole email body. After structured server-side rendering, timezone/state values are trusted fields but the derived comparison note is not yet canonical server-owned output.
-- `Why It Matters`: Booking logistics should use an explicit, testable timezone policy rather than browser-composed prose or automatic timezone guesses.
-- `Preferred Direction`: Generate any Perth business-hours comparison note server-side from explicit submitted state/timezone values, using shared or duplicated canonical timezone helpers with tests for daylight-saving and non-Australian/unsure cases.
-- `Resolution Path`: Decide the canonical state/timezone value model, move comparison-note generation to the API email renderer, and add direct API tests for representative winter/summer timezone outputs.
-- `Next Action`: Define whether timezone payload values should remain abbreviations or move to stable region identifiers before reintroducing the comparison note.
-- `Resolved When`: Enquiry emails include any intended timezone comparison note from server-owned logic, with tests covering accepted timezone/state values and seasonal offset changes.
-- `Related Items`:
-  - `DEBT-4`: Structured enquiry payloads now give this item the server-side field boundary it needs.
-  - `DEBT-5`: Archived generic public error handling is the current boundary for any timezone field problems.
-  - `DEBT-10`: Archived direct API coverage provides the harness for timezone-note rendering tests once the policy is chosen.
-  - `SITE-6`: Form-flow QA may later verify the visible timezone/state choices that feed the email.
-- `Dependencies`:
-  - `DEBT-4`: Keep structured enquiry payload and server-rendered email content in place before adding derived timezone prose.
-- `Notes`:
-  - Do not use server IP geolocation as a source of truth. Browser timezone detection may be a convenience default later, but submitted explicit user-confirmed fields should drive email output.
-- `Links`: `api/enquiry.ts`, `src/pages/Contact.tsx`, `src/utils/timeZones.ts`
-
 ### DEBT-24 - Live Vercel deployment smoke testing is manual
 
 - `Priority`: `P2`
@@ -438,10 +412,10 @@ Each active item should include enough direction that a future session can choos
 - `Source`: Fresh site debt review
 - `Area`: Metadata, Routing, SEO, Accessibility
 - `Problem`: Public pages call `useDocumentMetadata`, which updates only `document.title` and the meta description. The richer generated head state for canonical, OG, Twitter, and robots metadata is owned separately by `scripts/prerender-route-metadata.mjs`, while `NotFound` manages `robots` through its own hook.
-- `Why It Matters`: A visitor or bot that navigates within the hydrated app can see stale canonical/social metadata from the first loaded route, and a `noindex` robots tag can leak from a not-found route if head ownership is not centralized.
+- `Why It Matters`: A visitor or bot that navigates within the hydrated app can see canonical or social metadata from the first loaded route rather than metadata appropriate to the current route. Separately owned runtime head effects also make future route-policy changes easier to drift.
 - `Preferred Direction`: Replace the narrow title/description hook with a route-aware head metadata helper that owns title, description, canonical, OG/Twitter tags, and route-specific robots state in one place.
 - `Resolution Path`: Define the runtime head contract from `routeMetadata.json`, update public routes and `NotFound` to use the shared helper, and add a browser test that navigates between public and not-found routes while checking the live head.
-- `Next Action`: Add a small failing test that starts on a not-found route, navigates to a public route, and verifies `robots` is removed and route metadata matches the destination.
+- `Next Action`: Add a small failing test that navigates from a public route to a not-found path and verifies canonical and social metadata no longer describe the previous public route, then define the shared runtime head contract.
 - `Resolved When`: Hydrated route changes keep title, description, canonical, OG/Twitter tags, and robots policy aligned with the current route.
 - `Related Items`:
   - `DEBT-8`: Route parity coverage can help keep runtime metadata expectations aligned with route metadata data.
@@ -449,7 +423,7 @@ Each active item should include enough direction that a future session can choos
   - `SITE-3`: Public SEO and metadata QA should include live DOM metadata where it matters.
 - `Dependencies`: `None`
 - `Notes`:
-  - `NotFound` currently restores a pre-existing `robots` meta tag to its previous content; when the initial document is the app-powered `404.html`, that previous content can already be `noindex, nofollow`.
+  - `NotFound` now sources its title, description, heading, and robots directive from `routeMetadata.json`, removes its owned robots element on unmount, and has a browser regression check for returning from the generated 404 document to Home. It still owns robots separately from the public-page metadata hook, and public-to-not-found navigation can retain canonical and social tags from the previous route.
 - `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/public-site.spec.ts`
 
 ### DEBT-29 - Route changes lack focus restoration and a skip-link baseline
@@ -499,29 +473,6 @@ Each active item should include enough direction that a future session can choos
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
   - `tests/public-site.spec.ts` now verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
 - `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site.spec.ts`
-
-### DEBT-35 - Working with Joel approach copy depends on JavaScript
-
-- `Priority`: `P2`
-- `Size`: `S`
-- `Priority Rationale`: This is `P2` because Working with Joel is an indexable, trust-building page and two of its three approach explanations are absent from the first response and from JavaScript-disabled visits. Hydrated visitors can use the tabs normally, so this is not a complete page failure.
-- `Status`: `Open`
-- `Detected`: 2026-07-13
-- `Source`: Working with Joel `DEBT-34` test review.
-- `Area`: Rendering, Progressive Enhancement, Accessibility, SEO
-- `Problem`: `BroadTabPanel` renders only the active item's panel. Static rendering therefore includes all three tab buttons but only the initial Psychodynamic copy; the Attachment and Integrative explanations do not exist in raw HTML and cannot be reached without JavaScript.
-- `Why It Matters`: Core practitioner-approach content should remain available to crawlers, assistive workflows, and visitors when the client bundle is delayed or unavailable. A row of inert tabs also implies content that a JavaScript-disabled visitor cannot open.
-- `Preferred Direction`: Preserve the current hydrated tab experience while making every approach explanation available in the first response and without JavaScript. Keep one canonical copy source and retain deterministic server/browser markup, valid tab semantics, and the current visual design.
-- `Resolution Path`: Prototype progressive enhancement in `BroadTabPanel` or a page-scoped wrapper so all panels are represented in static markup, inactive panels become visually hidden only when the tab behaviour is active, and hydration does not add or remove initial nodes.
-- `Next Action`: Design the smallest deterministic all-panel render contract, then add a failing raw/no-JavaScript assertion for Attachment and Integrative copy before changing the component.
-- `Resolved When`: All three approach explanations exist in generated HTML and remain reachable without JavaScript, while hydrated pointer and keyboard tab behaviour passes without recoverable errors.
-- `Related Items`:
-  - `DEBT-34`: The page-level test review exposed this rendering gap and now protects the existing hydrated tab contract.
-- `Dependencies`: `None`
-- `Notes`:
-  - The current hydrated control has connected tab/tabpanel semantics and supports click, Home, End, and wrapping arrow-key selection. The gap is pre-JavaScript content availability, not the normal hydrated interaction.
-  - Avoid duplicating approach prose in a separate fallback block; duplicated content would create maintenance and accessibility ambiguity.
-- `Links`: `src/components/BroadTabPanel.tsx`, `src/pages/WorkingWithJoel.tsx`, `tests/public-site.spec.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 

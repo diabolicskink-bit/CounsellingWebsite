@@ -1,14 +1,19 @@
 ---
-name: improve-codebase
-description: Inspect an existing repository directly to find and complete its strongest source-supported, behaviour-preserving maintainability improvement without minimizing the solution by diff size or file count. Use for cleanup runs or sweeps, open-ended codebase improvement, maintainability cleanup, structural refactoring, CSS cleanup, or a requested architecture, tooling, configuration, or test focus. If the best complete resolution cannot be implemented and verified safely in one pass, record project debt as the outcome instead of substituting a smaller change.
+name: cleanup-sweep
+description: Run an explicitly requested cleanup sweep by inspecting an existing repository directly to find and complete its strongest source-supported, behaviour-preserving maintainability improvement without minimizing the solution by diff size or file count. Use only when the user explicitly asks for a cleanup sweep. Do not use for other reviews, cleanup, refactoring, or maintainability work, including work scoped to a named page, feature, component, file, or stylesheet. If the best complete resolution cannot be implemented and verified safely in one pass, record project debt as the outcome instead of substituting a smaller change.
 ---
 
-# Improve Codebase
+# Cleanup Sweep
 
 Improve one coherent source-discovered maintainability problem at the scope its
 best complete solution requires. Treat a well-supported debt record as a
 completed outcome when implementation cannot be finished safely in the current
 pass.
+
+Use this workflow only for an explicitly requested cleanup sweep. A request to
+review, clean up, or refactor a named surface does not become a cleanup sweep
+merely because it concerns maintainability, CSS, architecture, tooling,
+configuration, or tests.
 
 ## Establish the boundary
 
@@ -21,9 +26,9 @@ pass.
 - Stop after implementing and verifying that end state, or after recording it as
   project debt. Do not select or implement a second independent problem in the
   same run.
-- Treat a cleanup run or sweep as authorization to implement the selected
-  behaviour-preserving improvement. For review-only or diagnosis-only requests,
-  report the finding and resolution direction without editing.
+- Treat an explicitly requested cleanup sweep as authorization to implement the
+  selected behaviour-preserving improvement. For review-only or diagnosis-only
+  requests, report the finding and resolution direction without editing.
 - Keep new features, public-copy changes, route changes, and visual redesign out
   of scope unless the task explicitly includes them.
 - Preserve public behaviour, accessibility, data flow, copy, routes, and visual

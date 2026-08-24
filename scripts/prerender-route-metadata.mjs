@@ -8,11 +8,12 @@ const distDir = path.join(rootDir, "dist");
 const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
-const noindexDirective = "noindex, nofollow";
+const privateRobotsDirective = "noindex, nofollow";
 const privateRoutePaths = [
   "/analytics",
   "/analytics/enquiries",
   "/analytics/excluded",
+  "/analytics/pages",
 ];
 const routeMainClasses = {
   "/": "site-page home-page",
@@ -31,12 +32,6 @@ const faviconTags = [
   '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
   '<link rel="manifest" href="/site.webmanifest" />',
 ];
-const notFoundPage = {
-  title: "Page not found | Vive Counselling",
-  h1: "That page isn't here.",
-  description: "This page could not be found on the Vive Counselling website.",
-};
-
 function escapeHtml(value) {
   return value
     .replaceAll("&", "&amp;")
@@ -461,12 +456,12 @@ function assertRenderedRouteMarkup(renderedMarkup, routePath) {
   }
 }
 
-function getNotFoundTags(siteMetadata) {
+function getNotFoundTags(notFoundMetadata, siteMetadata) {
   return [
     "<!-- SEO metadata generated at build time -->",
-    `<title>${escapeHtml(notFoundPage.title)}</title>`,
-    `<meta name="description" content="${escapeHtml(notFoundPage.description)}" />`,
-    `<meta name="robots" content="${escapeHtml(noindexDirective)}" />`,
+    `<title>${escapeHtml(notFoundMetadata.title)}</title>`,
+    `<meta name="description" content="${escapeHtml(notFoundMetadata.description)}" />`,
+    `<meta name="robots" content="${escapeHtml(notFoundMetadata.robots)}" />`,
     ...faviconTags,
     `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
     "<!-- /SEO metadata generated at build time -->",
@@ -478,7 +473,7 @@ function getPrivateRouteTags(siteMetadata) {
     "<!-- SEO metadata generated at build time -->",
     "<title>Analytics | Vive Counselling</title>",
     '<meta name="description" content="Private first-party visit analytics for Vive Counselling." />',
-    `<meta name="robots" content="${escapeHtml(noindexDirective)}" />`,
+    `<meta name="robots" content="${escapeHtml(privateRobotsDirective)}" />`,
     ...faviconTags,
     `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
     "<!-- /SEO metadata generated at build time -->",
@@ -489,7 +484,7 @@ function assertPrivateRouteShell(html) {
   const expectedFragments = [
     "<title>Analytics | Vive Counselling</title>",
     '<meta name="description" content="Private first-party visit analytics for Vive Counselling." />',
-    `<meta name="robots" content="${noindexDirective}" />`,
+    `<meta name="robots" content="${privateRobotsDirective}" />`,
     '<div id="root"></div>',
     'script type="module"',
     "/assets/",
@@ -505,11 +500,11 @@ function assertPrivateRouteShell(html) {
     throw new Error("Private analytics shell unexpectedly contains public-route metadata.");
   }
 }
-function applyNotFoundFallbackRoot(html, prerenderedAt) {
+function applyNotFoundFallbackRoot(html, notFoundMetadata, prerenderedAt) {
   const fallbackMarkup = [
     '<main data-not-found-fallback="true">',
-    `  <h1>${escapeHtml(notFoundPage.h1)}</h1>`,
-    `  <p>${escapeHtml(notFoundPage.description)}</p>`,
+    `  <h1>${escapeHtml(notFoundMetadata.heading)}</h1>`,
+    `  <p>${escapeHtml(notFoundMetadata.description)}</p>`,
     "</main>",
   ].join("\n      ");
   const fallbackRoot = `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">\n      ${fallbackMarkup}\n    </div>`;
@@ -517,14 +512,14 @@ function applyNotFoundFallbackRoot(html, prerenderedAt) {
   return replaceEmptyRoot(html, fallbackRoot, "adding the generic 404 fallback");
 }
 
-function assertNotFoundFallback(html, prerenderedAt) {
+function assertNotFoundFallback(html, notFoundMetadata, prerenderedAt) {
   const expectedFragments = [
-    `<title>${escapeHtml(notFoundPage.title)}</title>`,
-    `<meta name="robots" content="${noindexDirective}" />`,
+    `<title>${escapeHtml(notFoundMetadata.title)}</title>`,
+    `<meta name="robots" content="${escapeHtml(notFoundMetadata.robots)}" />`,
     `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">`,
     '<main data-not-found-fallback="true">',
-    `<h1>${escapeHtml(notFoundPage.h1)}</h1>`,
-    `<p>${escapeHtml(notFoundPage.description)}</p>`,
+    `<h1>${escapeHtml(notFoundMetadata.heading)}</h1>`,
+    `<p>${escapeHtml(notFoundMetadata.description)}</p>`,
     'script type="module"',
     "/assets/",
   ];
@@ -600,7 +595,7 @@ const [templateHtml, metadataJson] = await Promise.all([
   readFile(metadataPath, "utf8"),
 ]);
 
-const { routes, site } = JSON.parse(metadataJson);
+const { notFound: notFoundMetadata, routes, site } = JSON.parse(metadataJson);
 const prerenderedRoutePaths = getPrerenderedRoutePaths(routes);
 const siteOrigin = getSiteOrigin(site);
 const sitemapEntries = getSitemapEntries(routes, siteOrigin);
@@ -658,12 +653,16 @@ const robotsTxt = [
 ].join("\n");
 
 const notFoundHtml = applyNotFoundFallbackRoot(
-  applySeoTags(templateHtml, getNotFoundTags(site)),
+  applySeoTags(templateHtml, getNotFoundTags(notFoundMetadata, site)),
+  notFoundMetadata,
   prerenderedAt,
 );
-const privateRouteHtml = applySeoTags(templateHtml, getPrivateRouteTags(site));
+const privateRouteHtml = applySeoTags(
+  templateHtml,
+  getPrivateRouteTags(site),
+);
 
-assertNotFoundFallback(notFoundHtml, prerenderedAt);
+assertNotFoundFallback(notFoundHtml, notFoundMetadata, prerenderedAt);
 assertPrivateRouteShell(privateRouteHtml);
 
 await Promise.all([

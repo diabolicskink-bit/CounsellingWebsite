@@ -24,6 +24,25 @@ Curated milestone history for durable project state. This is not a full changelo
 - Removed the dependency-by-dependency maintenance path that repeatedly allowed valid runtime imports to be omitted from deployed functions.
 - Kept one focused configuration contract for the broad packaging guarantee and moved verification of actual function initialization to a deployed Vercel preview.
 
+## 2026-08-19 - Working With Joel Tabs Progressively Enhanced
+
+- Changed the approach component so Psychodynamic, Attachment, and Integrative copy all exist in the generated HTML and remain readable as headed sections without JavaScript.
+- Preserved the hydrated visual design while giving every tab its own retained, labelled panel and keeping pointer, Home, End, and wrapping arrow-key selection.
+- Added focused JavaScript-disabled and hydrated interaction coverage, and archived resolved `DEBT-35`.
+
+## 2026-08-19 - Scoped Code Quality Pass Added
+
+- Added the repository-local `code-quality-pass` skill for holistic review and direct improvement of a user-supplied implementation surface or code change set.
+- Defined named pages, features, files, and diffs as semantic boundaries that may include the relevant code, HTML, CSS, scripts, tests, configuration, callers, and dependencies without becoming repository-wide cleanup sweeps.
+- Made simplicity, current evidence, and the site's small single-developer operating model the quality standard, resisting speculative abstractions, configurability, coordination machinery, dependencies, coverage, and stylistic churn.
+- Required high-impact boundaries to have clear authoritative enforcement and focused behavioural verification, with additional defensive layers only for distinct realistic failure modes rather than hypothetical future maintainer edits.
+
+## 2026-08-19 - Cleanup Sweep Skill Narrowed
+
+- Renamed the repository-local `improve-codebase` skill to `cleanup-sweep` so its name and invocation token communicate the intended workflow.
+- Limited its use to explicit cleanup-sweep requests; other review, cleanup, refactoring, CSS, and maintainability work follows the task's stated scope without invoking source-first problem selection.
+- Preserved the sweep's existing one-problem selection, complete-resolution, verification, and project-debt outcome rules.
+
 ## 2026-08-16 - Visible Page Time Added
 
 - Added cumulative active seconds to each first-party page view, counting only while the page is visible and updating at 30-second intervals plus page-hide and route-exit flushes.

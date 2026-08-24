@@ -101,13 +101,19 @@
     "socialImage": "/og-vive-counselling.png",
     "socialImageAlt": "Vive Counselling social preview card featuring Joel Griffiths."
   },
+  "notFound": {
+    "title": "Page not found | Vive Counselling",
+    "description": "This page could not be found on the Vive Counselling website.",
+    "heading": "That page isn't here.",
+    "robots": "noindex, nofollow"
+  },
   "routes": {
     "/": {
       "title": "Online Therapy Across Australia | Vive Counselling",
       "description": "Online counselling and psychotherapy across Australia. Support for anxiety, depression, relationships and trauma. Kink, ENM and LGBTQIA+ aware."
     },
     "/working-with-joel": {
-      "title": "Joel Griffiths, Psychodynamic Counsellor | Vive Counselling",
+      "title": "About Joel | Vive Counselling",
       "description": "Psychodynamic counselling with Joel Griffiths, an ACA-registered counsellor working online across Australia, based in Perth. Attachment-informed and integrative."
     },
     "/inclusive-counselling": {
@@ -128,11 +134,11 @@
     },
     "/contact": {
       "title": "Counselling Fees & Contact | Vive Counselling",
-      "description": "Request a free 15-minute initial consultation with Joel Griffiths at Vive Counselling. Counselling sessions are $120; view fees and contact details."
+      "description": "Request a free 15-minute initial consultation."
     },
     "/crisis-support": {
       "title": "Crisis Support Numbers Australia | Vive Counselling",
-      "description": "Find Australian crisis support numbers and urgent public mental health services, including Lifeline, 13YARN and state and territory mental health lines.",
+      "description": "Australian crisis support numbers and urgent public mental health services",
       "lastModified": "2026-08-14",
       "lastReviewed": "2026-08-13"
     }

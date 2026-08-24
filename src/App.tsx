@@ -17,42 +17,32 @@ import { devRoutePaths, privateRoutePaths, publicRedirectRoutes, publicRoutePath
 
 const Analytics = lazy(() => import("./pages/Analytics"));
 
-const devPages = import.meta.env.DEV
-  ? {
-      CodexTB: lazy(() => import("./pages/dev/test-beds/CodexTB")),
-      DesignSystem: lazy(() => import("./pages/dev/DesignSystem")),
-      DesignSystemComponents: lazy(() => import("./pages/dev/design-system/DesignSystemComponents")),
-      DesignSystemFoundations: lazy(() => import("./pages/dev/design-system/DesignSystemFoundations")),
-      DesignSystemPatterns: lazy(() => import("./pages/dev/design-system/DesignSystemPatterns")),
-      Documents: lazy(() => import("./pages/dev/Documents")),
-      OpusTB: lazy(() => import("./pages/dev/test-beds/OpusTB")),
-    }
-  : null;
+const analyticsRoutePaths = Object.values(privateRoutePaths);
 
-type DevPages = NonNullable<typeof devPages>;
-type DevPageKey = keyof DevPages;
-
-const standaloneDevRoutes: Array<{ page: DevPageKey; path: (typeof devRoutePaths)[keyof typeof devRoutePaths] }> = [
-  { path: devRoutePaths.codexTestBed, page: "CodexTB" },
-  { path: devRoutePaths.designSystem, page: "DesignSystem" },
-  { path: devRoutePaths.designSystemComponents, page: "DesignSystemComponents" },
-  { path: devRoutePaths.designSystemFoundations, page: "DesignSystemFoundations" },
-  { path: devRoutePaths.designSystemPatterns, page: "DesignSystemPatterns" },
-  { path: devRoutePaths.opusTestBed, page: "OpusTB" },
-  { path: devRoutePaths.documents, page: "Documents" },
-];
+const devRoutes = import.meta.env.DEV
+  ? [
+      { path: devRoutePaths.codexTestBed, Page: lazy(() => import("./pages/dev/test-beds/CodexTB")) },
+      { path: devRoutePaths.designSystem, Page: lazy(() => import("./pages/dev/DesignSystem")) },
+      {
+        path: devRoutePaths.designSystemComponents,
+        Page: lazy(() => import("./pages/dev/design-system/DesignSystemComponents")),
+      },
+      {
+        path: devRoutePaths.designSystemFoundations,
+        Page: lazy(() => import("./pages/dev/design-system/DesignSystemFoundations")),
+      },
+      {
+        path: devRoutePaths.designSystemPatterns,
+        Page: lazy(() => import("./pages/dev/design-system/DesignSystemPatterns")),
+      },
+      { path: devRoutePaths.documents, Page: lazy(() => import("./pages/dev/Documents")) },
+      { path: devRoutePaths.opusTestBed, Page: lazy(() => import("./pages/dev/test-beds/OpusTB")) },
+    ]
+  : [];
 
 export type AppProps = {
   initialRenderAt: string;
 };
-
-function renderDevPage(Page: DevPages[DevPageKey]) {
-  return (
-    <Suspense fallback={null}>
-      <Page />
-    </Suspense>
-  );
-}
 
 function AnalyticsRoute() {
   const requiresPrivateDocument = typeof window !== "undefined" && Boolean(
@@ -85,22 +75,9 @@ export default function App({ initialRenderAt }: AppProps) {
     <>
       <ScrollToTop />
       <Routes>
-        <Route
-          path={privateRoutePaths.analytics}
-          element={<AnalyticsRoute />}
-        />
-        <Route
-          path={privateRoutePaths.analyticsEnquiries}
-          element={<AnalyticsRoute />}
-        />
-        <Route
-          path={privateRoutePaths.analyticsExcluded}
-          element={<AnalyticsRoute />}
-        />
-        <Route
-          path={privateRoutePaths.analyticsPageViews}
-          element={<AnalyticsRoute />}
-        />
+        {analyticsRoutePaths.map((path) => (
+          <Route key={path} path={path} element={<AnalyticsRoute />} />
+        ))}
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           {publicRedirectRoutes.map((route) => (
@@ -112,11 +89,17 @@ export default function App({ initialRenderAt }: AppProps) {
           <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
           <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
           <Route path={publicRoutePaths.crisisSupport} element={<CrisisSupport />} />
-          {devPages
-            ? standaloneDevRoutes.map((route) => (
-                <Route key={route.path} path={route.path} element={renderDevPage(devPages[route.page])} />
-              ))
-            : null}
+          {devRoutes.map(({ Page, path }) => (
+            <Route
+              key={path}
+              path={path}
+              element={(
+                <Suspense fallback={null}>
+                  <Page />
+                </Suspense>
+              )}
+            />
+          ))}
           <Route path={publicRoutePaths.contact} element={<Contact initialRenderAt={initialRenderAt} />} />
           <Route path="*" element={<NotFound />} />
         </Route>

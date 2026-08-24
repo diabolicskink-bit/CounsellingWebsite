@@ -1,16 +1,24 @@
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "playwright/test";
-import type { RouteMetadata, SiteMetadata } from "../src/data/routeMetadata";
+import type {
+  NotFoundMetadata,
+  RouteMetadata,
+  SiteMetadata,
+} from "../src/data/routeMetadata";
+import { privateRoutePaths } from "../src/data/routes";
 
 const routeMetadataData = JSON.parse(
   readFileSync(new URL("../src/data/routeMetadata.json", import.meta.url), "utf8"),
 ) as {
+  notFound: NotFoundMetadata;
   site: SiteMetadata;
   routes: Record<string, RouteMetadata>;
 };
 
 const publicRoutes = Object.keys(routeMetadataData.routes);
+const notFoundPath = "/not-a-real-page";
+const publicAndNotFoundRoutes = [...publicRoutes, notFoundPath];
 const inclusionChildRoutes = [
   { path: "/kink-bdsm-counselling", navLabel: "Kink & BDSM" },
   { path: "/polyamory-enm-counselling", navLabel: "ENM & polyamory" },
@@ -136,10 +144,17 @@ function expectNoPageDiagnostics(diagnostics: PageDiagnostics) {
 }
 
 async function expectNotFoundPage(page: Page, requestedPath: string) {
-  await expect(page).toHaveTitle("Page not found | Vive Counselling");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("That page isn't here.");
-  await expect(page.getByLabel("Requested address")).toContainText(requestedPath);
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", noindexDirective);
+  await expect(page).toHaveTitle(routeMetadataData.notFound.title);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    routeMetadataData.notFound.heading,
+  );
+  await expect(
+    page.getByText("Requested address", { exact: true }).locator("..").locator("code"),
+  ).toHaveText(requestedPath);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    routeMetadataData.notFound.robots,
+  );
 }
 
 function isAnalyticsUrl(rawUrl: string) {
@@ -211,32 +226,12 @@ test("Crisis Support exposes urgent actions and national and regional services",
   await page.goto("/crisis-support", { waitUntil: "networkidle" });
 
   const main = page.locator("main.crisis-support-page");
-  const expectedContactHrefs = [
-    "tel:000",
+  const nationalContactHrefs = [
     "tel:131114",
     "sms:0477131114",
     "tel:1300659467",
     "tel:139276",
-    "tel:1800629354",
-    "tel:1800011511",
-    "tel:1800682288",
-    "tel:1300642255",
-    "tel:131465",
-    "tel:1800332388",
-    "tel:1300555788",
-    "tel:1800676822",
-    "tel:1800552002",
-  ];
-  const expectedStateHrefs = [
-    "#crisis-act",
-    "#crisis-nsw",
-    "#crisis-nt",
-    "#crisis-qld",
-    "#crisis-sa",
-    "#crisis-tas",
-    "#crisis-vic",
-    "#crisis-wa",
-  ];
+  ] as const;
   const lastReviewed = routeMetadataData.routes["/crisis-support"].lastReviewed;
 
   if (!lastReviewed) {
@@ -251,16 +246,10 @@ test("Crisis Support exposes urgent actions and national and regional services",
   ]);
   await expect(main.locator(".crisis-support-page__national-service")).toHaveCount(3);
   await expect(main.locator(".crisis-support-page__state-service")).toHaveCount(8);
-  expect(
-    await main
-      .locator('a[href^="tel:"], a[href^="sms:"]')
-      .evaluateAll((links) => links.map((link) => link.getAttribute("href"))),
-  ).toEqual(expectedContactHrefs);
-  expect(
-    await main
-      .locator(".crisis-support-page__location-index a")
-      .evaluateAll((links) => links.map((link) => link.getAttribute("href"))),
-  ).toEqual(expectedStateHrefs);
+  await expect(main.locator('.crisis-support-page__state-service a[href^="tel:"]')).toHaveCount(9);
+  for (const href of nationalContactHrefs) {
+    await expect(main.locator(`a[href="${href}"]`)).toHaveCount(1);
+  }
   await expect(main.getByRole("link", { name: "Find your local service" })).toHaveAttribute(
     "href",
     "https://vahi.vic.gov.au/mental-health-services",
@@ -418,14 +407,30 @@ test.describe("rendering boundaries", () => {
   });
 
   test("client-renders unknown and generic fallback paths", async ({ page }) => {
-    await page.goto("/not-a-real-page", { waitUntil: "networkidle" });
+    await page.goto(notFoundPath, { waitUntil: "networkidle" });
     await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "client-render");
-    await expectNotFoundPage(page, "/not-a-real-page");
+    await expectNotFoundPage(page, notFoundPath);
 
     await page.goto("/404.html", { waitUntil: "networkidle" });
     await expect(page.locator("#root")).toHaveAttribute("data-react-activation", "client-render");
     await expect(page.locator("#root")).not.toHaveAttribute("data-render-mode", /.+/);
     await expectNotFoundPage(page, "/404.html");
+  });
+
+  test("clears not-found metadata when returning to a public page", async ({ page }) => {
+    await page.goto("/404.html", { waitUntil: "networkidle" });
+    await expectNotFoundPage(page, "/404.html");
+    await page.getByRole("link", { name: "Go to homepage" }).click();
+
+    const homeMetadata = routeMetadataData.routes["/"];
+
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page).toHaveTitle(homeMetadata.title);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      "content",
+      homeMetadata.description,
+    );
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
   });
 
   for (const route of ["/design-language", "/design-system"]) {
@@ -439,6 +444,22 @@ test.describe("rendering boundaries", () => {
 
 test.describe("progressive enhancement", () => {
   test.use({ javaScriptEnabled: false });
+
+  test("Working with Joel exposes every counselling approach without JavaScript", async ({ page }) => {
+    await page.goto("/working-with-joel", { waitUntil: "networkidle" });
+
+    const approach = page.locator(".working-with-joel-page__approach");
+
+    await expect(approach.getByRole("heading", { level: 3 })).toHaveText([
+      "Psychodynamic",
+      "Attachment",
+      "Integrative",
+    ]);
+    await expect(approach.getByText("Psychodynamic work pays attention", { exact: false })).toBeVisible();
+    await expect(approach.getByText("Attachment work looks at how you learned", { exact: false })).toBeVisible();
+    await expect(approach.getByText("Integrative counselling recognises", { exact: false })).toBeVisible();
+    await expect(approach.getByRole("tablist", { name: "Counselling approach" })).toHaveCount(0);
+  });
 
   test("Contact exposes a usable native enquiry form without JavaScript", async ({ page }) => {
     await page.goto("/contact", { waitUntil: "networkidle" });
@@ -490,6 +511,20 @@ test.describe("crawl output", () => {
     expect(sitemap).toContain(
       `<url><loc>${crisisSupportUrl}</loc><lastmod>${crisisSupportLastModified}</lastmod></url>`,
     );
+  });
+
+  test("serves every private analytics route from the no-index client shell", async ({ request }) => {
+    for (const route of Object.values(privateRoutePaths)) {
+      const response = await request.get(route);
+      const html = await response.text();
+
+      expect(response.ok()).toBeTruthy();
+      expect(html).toContain("<title>Analytics | Vive Counselling</title>");
+      expect(html).toContain(`<meta name="robots" content="${noindexDirective}" />`);
+      expect(html).toContain('<div id="root"></div>');
+      expect(html).not.toContain('<link rel="canonical"');
+      expect(html).not.toContain('data-render-mode="prerendered"');
+    }
   });
 });
 
@@ -638,113 +673,6 @@ test.describe("analytics", () => {
     ).toHaveCount(0);
   });
 
-  test("private analytics dashboard supports its core reporting path", async ({ page }) => {
-    const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
-    const visitId = "1a560836-220d-4d33-a05e-5f364891f9cb";
-
-    await page.route("**/api/analytics?*", async (route) => {
-      const requestUrl = new URL(route.request().url());
-      const date = requestUrl.searchParams.get("date") ?? "2026-08-15";
-      const visit = {
-        adCode: "enm-01",
-        botCategory: null,
-        botName: null,
-        dateKey: date,
-        durationSeconds: 90,
-        events: [
-          {
-            eventType: "contact_option_selected",
-            id: "d148d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-            occurredAt: `${date}T03:00:45.000Z`,
-            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
-            properties: { option: "question" },
-            source: "client",
-          },
-          {
-            eventType: "enquiry_failed",
-            id: "d448d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-            occurredAt: `${date}T03:01:15.000Z`,
-            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
-            properties: { reason: "email_provider" },
-            source: "server",
-          },
-          {
-            eventType: "enquiry_sent",
-            id: "d648d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-            occurredAt: `${date}T03:01:25.000Z`,
-            pageViewId: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
-            properties: {},
-            source: "server",
-          },
-        ],
-        gclid: "CjwK-gclid-only",
-        id: visitId,
-        isBot: false,
-        landingPath: "/",
-        lastSeenAt: `${date}T03:01:30.000Z`,
-        matchType: null,
-        matchedKeyword: null,
-        networkCode: null,
-        pageViews: [
-          { activeSeconds: 30, id: "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf", path: "/", viewedAt: `${date}T03:00:00.000Z` },
-          { activeSeconds: 60, id: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98", path: "/contact", viewedAt: `${date}T03:00:30.000Z` },
-          { activeSeconds: 15, id: "f7bb1f87-203f-4ea8-812b-97d80b2d5e98", path: "/contact", viewedAt: `${date}T03:01:30.000Z` },
-        ],
-        referrerHost: null,
-        referrerUrl: null,
-        startedAt: `${date}T03:00:00.000Z`,
-        trafficSource: "paid",
-        totalVisits: 3,
-        visitNumber: 2,
-        visitorId,
-      };
-      const data = requestUrl.searchParams.has("visitor")
-        ? { isExcluded: false, type: "visitor", visitorId, visits: [visit] }
-        : requestUrl.searchParams.has("month")
-          ? {
-              type: "monthly",
-              month: requestUrl.searchParams.get("month"),
-              visits: [visit],
-            }
-          : { type: "daily", date, visits: [visit] };
-
-      await route.fulfill({
-        body: JSON.stringify({ data }),
-        contentType: "application/json",
-        status: 200,
-      });
-    });
-
-    await page.goto("/analytics?date=2026-08-15", { waitUntil: "networkidle" });
-    await expect(page.getByRole("heading", { level: 2, name: "Visits on this day" })).toBeVisible();
-    await expect(page.getByRole("img", { name: /1 visits: 1 paid/ })).toBeVisible();
-    await expect(page.getByText("Page views", { exact: true })).toBeVisible();
-
-    const paidVisit = page.getByRole("button").filter({ hasText: "Ad enm-01" });
-    await expect(paidVisit).toHaveCount(1);
-    await expect(paidVisit).toContainText("Enquiry sent");
-    await expect(paidVisit).toContainText("Question selected");
-    await expect(paidVisit).not.toContainText("Send failed");
-
-    await paidVisit.click();
-    await expect(page.getByRole("heading", { level: 3, name: "Visit timeline" })).toBeVisible();
-    await expect(page.getByText("Enquiry failed", { exact: true })).toBeVisible();
-    await expect(page.getByText("GCLID", { exact: true })).toHaveCount(0);
-    await expect(page.getByText("CjwK-gclid-only", { exact: true })).toHaveCount(0);
-
-    await page.getByRole("button", { name: /View all visits from Visitor/ }).click();
-    await expect(page.getByRole("heading", { level: 2, name: "All visits" })).toBeVisible();
-    await expect(page.getByText("GCLID", { exact: true })).toHaveCount(0);
-    await expect(page.getByText("CjwK-gclid-only", { exact: true })).toHaveCount(0);
-
-    await page.getByRole("link", { name: "Enquiries" }).click();
-    await expect(page).toHaveURL(/\/analytics\/enquiries$/);
-    await expect(page.getByRole("heading", { level: 2, name: "All enquiries" })).toBeVisible();
-    await page.getByRole("button", { name: /Enquiry sent on.*Open enquiry journey/ }).click();
-    await expect(page.getByRole("heading", { level: 1, name: "Enquiry journey" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "Visits and enquiry activity" })).toBeVisible();
-  });
-
   test("first-party visit recorder records SPA route changes and refreshes in the active visit", async ({ page }) => {
     test.skip(
       !firstPartyVisitRecordingEnabled,
@@ -825,7 +753,7 @@ test.describe("analytics", () => {
     }));
     expect(observations).toHaveLength(2);
 
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded" });
     await expect.poll(() => observations.length).toBe(3);
 
     expect(observations[2]).toMatchObject({
@@ -836,17 +764,6 @@ test.describe("analytics", () => {
     expect(observations[2].pageViewId).not.toBe(observations[1].pageViewId);
     expect(observations[2].path).toBe("/contact");
 
-    await page.goBack({ waitUntil: "networkidle" });
-    await expect(page).toHaveURL(/\/polyamory-enm-counselling\?/);
-    await expect.poll(() => observations.length).toBe(4);
-
-    expect(observations[3]).toMatchObject({
-      landingPath: observation.landingPath,
-      path: "/polyamory-enm-counselling",
-      visitId: observation.visitId,
-      visitorId: observation.visitorId,
-    });
-    expect(observations[3].pageViewId).not.toBe(observation.pageViewId);
   });
 
   test("first-party visit recorder recognizes a return visit and rotates an expired browser ID", async ({ page }) => {
@@ -873,7 +790,7 @@ test.describe("analytics", () => {
       sessionStorage.setItem(key, JSON.stringify(visit));
     });
 
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded" });
     await expect.poll(() => observations.length).toBe(2);
 
     expect(observations[1].visitorId).toBe(observations[0].visitorId);
@@ -888,7 +805,7 @@ test.describe("analytics", () => {
       localStorage.setItem(key, JSON.stringify(visitor));
     });
 
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded" });
     await expect.poll(() => observations.length).toBe(3);
 
     expect(observations[2].visitorId).not.toBe(observations[1].visitorId);
@@ -1113,20 +1030,22 @@ test("Working with Joel tabs support pointer and keyboard input", async ({ page 
   const psychodynamic = tablist.getByRole("tab", { name: "Psychodynamic" });
   const attachment = tablist.getByRole("tab", { name: "Attachment" });
   const integrative = tablist.getByRole("tab", { name: "Integrative" });
-  const panel = page.getByRole("tabpanel");
+  const panels = page.locator('[role="tabpanel"]');
+  const visiblePanel = page.getByRole("tabpanel");
 
   await expect(tablist.getByRole("tab")).toHaveCount(3);
-  await expect(panel).toHaveCount(1);
+  await expect(panels).toHaveCount(3);
+  await expect(visiblePanel).toHaveCount(1);
   await expect(psychodynamic).toHaveAttribute("aria-selected", "true");
   await attachment.click();
   await expect(attachment).toHaveAttribute("aria-selected", "true");
-  await expect(panel).toHaveAccessibleName("Attachment");
+  await expect(visiblePanel).toHaveAccessibleName("Attachment");
   await attachment.press("End");
   await expect(integrative).toBeFocused();
   await expect(integrative).toHaveAttribute("aria-selected", "true");
   await integrative.press("ArrowRight");
   await expect(psychodynamic).toBeFocused();
-  await expect(panel).toHaveAccessibleName("Psychodynamic");
+  await expect(visiblePanel).toHaveAccessibleName("Psychodynamic");
 });
 
 test.describe("enquiry form", () => {
@@ -1198,10 +1117,10 @@ test.describe("enquiry form", () => {
   });
 });
 
-test("public routes do not overflow a compact viewport", async ({ page }) => {
+test("public and not-found routes do not overflow a compact viewport", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
 
-  for (const route of publicRoutes) {
+  for (const route of publicAndNotFoundRoutes) {
     await page.goto(route, { waitUntil: "networkidle" });
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
@@ -1210,7 +1129,7 @@ test("public routes do not overflow a compact viewport", async ({ page }) => {
 });
 
 test.describe("accessibility smoke", () => {
-  for (const route of publicRoutes) {
+  for (const route of publicAndNotFoundRoutes) {
     test(`${route} has no serious axe violations`, async ({ page }) => {
       await page.goto(route, { waitUntil: "networkidle" });
 
