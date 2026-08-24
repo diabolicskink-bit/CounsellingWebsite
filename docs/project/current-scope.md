@@ -54,7 +54,7 @@ This is the factual current-state summary of the Vive Counselling website and su
 - The prerender process updates generated route HTML, metadata artifacts, sitemap, robots, and the app-powered `404.html` fallback.
 - The build fails when a metadata-backed route is absent from the component prerender set.
 - TypeScript checking covers the application and the TypeScript serverless API.
-- `vercel.json` defines clean URLs, trailing-slash redirects, and public alias redirects.
+- `vercel.json` defines clean URLs, trailing-slash redirects, and public alias redirects. One `api/**/*.ts` function rule includes the complete `src` tree in every serverless function so new runtime imports cannot be omitted by a route-specific file inventory.
 
 ## Enquiry Flow And API
 

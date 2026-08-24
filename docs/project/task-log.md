@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-24 - Serverless Function Packaging Hardened
+
+- Replaced seven hand-maintained Vercel function file inventories with one `api/**/*.ts` rule that packages the complete `src` tree for every serverless function.
+- Removed the dependency-by-dependency maintenance path that repeatedly allowed valid runtime imports to be omitted from deployed functions.
+- Kept one focused configuration contract for the broad packaging guarantee and moved verification of actual function initialization to a deployed Vercel preview.
+
 ## 2026-08-16 - Visible Page Time Added
 
 - Added cumulative active seconds to each first-party page view, counting only while the page is visible and updating at 30-second intervals plus page-hide and route-exit flushes.
