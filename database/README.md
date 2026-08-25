@@ -35,17 +35,19 @@ fields, `0004` adds visit-linked analytics events, `0005` adds the persistent
 visitor exclusion list used by private reports, and `0006` adds bounded
 cumulative visible-time seconds to each page view. Migration `0007` adds the
 initial bounded user-agent, server-derived device type, and browser-reported
-WebDriver flag to each visit. Its reporting and dashboard presentation are
-intentionally deferred from the capture-and-storage change.
+WebDriver flag to each visit. The protected reporting reader joins those fields
+to the retained visit ledger, while the saved query templates expose exact
+visit diagnostics or grouped device and WebDriver counts as appropriate.
 
 `visit_ledger` is the read-only reporting view created by migration `0002` and
 extended by migration `0003`. It marks the earliest retained visit for an
 anonymous browser ID as `new`, marks later retained visits as `returning`,
 classifies traffic, adds page-view totals, and exposes the nullable BotID
 verdict and verified name/category. The private analytics interfaces read it
-through the Basic Authentication-protected `GET /api/analytics` function. The
-separately protected `GET|PUT /api/analytics/exclusions` function lists and
-updates visitor exclusions; it does not delete visit history.
+through the Basic Authentication-protected `GET /api/analytics` function and
+join the visit-level request diagnostics from `site_visits`. The separately
+protected `GET|PUT /api/analytics/exclusions` function lists and updates visitor
+exclusions; it does not delete visit history.
 
 Repository-owned Neon saved-query templates live in `database/queries/`. The
 queries apply explicit ordering and Australia/Perth reporting dates; a view does

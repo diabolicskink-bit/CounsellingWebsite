@@ -8,14 +8,19 @@ import {
   ChevronDown,
   ChevronRight,
   CircleCheck,
+  CircleHelp,
   CircleX,
   Clock3,
   EyeOff,
   LockKeyhole,
+  Monitor,
   MousePointerClick,
   Radio,
   RefreshCw,
   Route,
+  ScanSearch,
+  Smartphone,
+  Tablet,
 } from "lucide-react";
 import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom";
 import {
@@ -36,6 +41,7 @@ import {
   type PageViewsAnalyticsReport,
   type VisitorAnalyticsReport,
 } from "../data/analyticsContract";
+import type { VisitDeviceType } from "../data/visitClientEnvironment";
 import { privateRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-analytics.css";
@@ -423,6 +429,119 @@ function BotMark({ visit }: { visit: AnalyticsVisit }) {
       {visit.botName ?? "Unknown bot"}
       {visit.botCategory ? <small>{visit.botCategory}</small> : null}
     </span>
+  );
+}
+
+const deviceLabels: Record<VisitDeviceType, string> = {
+  desktop: "Desktop",
+  mobile: "Mobile",
+  tablet: "Tablet",
+  unknown: "Unknown",
+};
+
+function DeviceIcon({ deviceType, size = 13 }: { deviceType: VisitDeviceType; size?: number }) {
+  if (deviceType === "desktop") return <Monitor aria-hidden="true" size={size} />;
+  if (deviceType === "mobile") return <Smartphone aria-hidden="true" size={size} />;
+  if (deviceType === "tablet") return <Tablet aria-hidden="true" size={size} />;
+  return <CircleHelp aria-hidden="true" size={size} />;
+}
+
+function DeviceMark({ visit }: { visit: AnalyticsVisit }) {
+  return (
+    <span className={`signal-device signal-device--${visit.deviceType}`}>
+      <DeviceIcon deviceType={visit.deviceType} />
+      {deviceLabels[visit.deviceType]}
+    </span>
+  );
+}
+
+function WebDriverMark({ visit }: { visit: AnalyticsVisit }) {
+  if (visit.isWebDriver !== true) return null;
+
+  return (
+    <span className="signal-webdriver">
+      <ScanSearch aria-hidden="true" size={13} />
+      WebDriver
+    </span>
+  );
+}
+
+function VisitRequestDetails({ visit }: { visit: AnalyticsVisit }) {
+  return (
+    <div aria-label="Request diagnostics" className="signal-request-details" role="group">
+      <p>Request diagnostics</p>
+      <dl>
+        <div><dt>Device</dt><dd>{deviceLabels[visit.deviceType]}</dd></div>
+        <div>
+          <dt>navigator.webdriver</dt>
+          <dd>{visit.isWebDriver === null ? "Not reported" : String(visit.isWebDriver)}</dd>
+        </div>
+        <div>
+          <dt>User-Agent</dt>
+          <dd><code>{visit.userAgent ?? "Not recorded"}</code></dd>
+        </div>
+      </dl>
+    </div>
+  );
+}
+
+function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
+  const deviceCounts = visits.reduce<Record<VisitDeviceType, number>>(
+    (counts, visit) => ({
+      ...counts,
+      [visit.deviceType]: counts[visit.deviceType] + 1,
+    }),
+    { desktop: 0, mobile: 0, tablet: 0, unknown: 0 },
+  );
+  const webDriverTrue = visits.filter((visit) => visit.isWebDriver === true).length;
+  const webDriverFalse = visits.filter((visit) => visit.isWebDriver === false).length;
+  const webDriverUnreported = visits.length - webDriverTrue - webDriverFalse;
+  const denominator = Math.max(visits.length, 1);
+  const deviceTypes = Object.keys(deviceLabels) as VisitDeviceType[];
+
+  return (
+    <section className="signal-diagnostics" aria-labelledby="traffic-diagnostics-title">
+      <header>
+        <div>
+          <p className="signal-kicker">Traffic signature</p>
+          <h2 id="traffic-diagnostics-title">Device and automation signals</h2>
+        </div>
+        <p>Visit-level request data for the records shown below.</p>
+      </header>
+
+      <div className="signal-diagnostics__body">
+        <div className="signal-device-mix">
+          <h3>Device mix</h3>
+          <dl>
+            {deviceTypes.map((deviceType) => (
+              <div key={deviceType}>
+                <dt><DeviceIcon deviceType={deviceType} size={15} /> {deviceLabels[deviceType]}</dt>
+                <dd>
+                  <strong>{deviceCounts[deviceType]}</strong>
+                  <small>{Math.round((deviceCounts[deviceType] / denominator) * 100)}%</small>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div className={webDriverTrue
+          ? "signal-webdriver-summary signal-webdriver-summary--detected"
+          : "signal-webdriver-summary"}
+        >
+          <ScanSearch aria-hidden="true" size={24} />
+          <div>
+            <span>navigator.webdriver</span>
+            <strong>{webDriverTrue}</strong>
+            <small>reported true</small>
+          </div>
+          <dl>
+            <div><dt>False</dt><dd>{webDriverFalse}</dd></div>
+            <div><dt>No data</dt><dd>{webDriverUnreported}</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -915,6 +1034,8 @@ function DailyObservatory({
         </div>
       </section>
 
+      <TrafficDiagnostics visits={includedVisits} />
+
       <section className="signal-stream" aria-labelledby="signal-stream-title">
         <header className="signal-stream__header">
           <div>
@@ -982,25 +1103,25 @@ function DailyObservatory({
                         <BotMark visit={visit} />
                         <span>{sourceDetail(visit)}</span>
                       </div>
-                      {hasSuccessfulEnquiry || hasFailedEnquiry || selectedContact ? (
-                        <div className="signal-event__signals">
-                          {hasSuccessfulEnquiry ? (
-                            <span className="signal-enquiry-signal signal-enquiry-signal--sent">
-                              <CircleCheck aria-hidden="true" size={15} /> Enquiry sent
-                            </span>
-                          ) : null}
-                          {hasFailedEnquiry ? (
-                            <span className="signal-enquiry-signal signal-enquiry-signal--failed">
-                              <CircleX aria-hidden="true" size={15} /> Send failed
-                            </span>
-                          ) : null}
-                          {selectedContact ? (
-                            <span className="signal-contact-signal">
-                              <MousePointerClick aria-hidden="true" size={14} /> {selectedContact}
-                            </span>
-                          ) : null}
-                        </div>
-                      ) : null}
+                      <div className="signal-event__signals">
+                        <DeviceMark visit={visit} />
+                        <WebDriverMark visit={visit} />
+                        {hasSuccessfulEnquiry ? (
+                          <span className="signal-enquiry-signal signal-enquiry-signal--sent">
+                            <CircleCheck aria-hidden="true" size={15} /> Enquiry sent
+                          </span>
+                        ) : null}
+                        {hasFailedEnquiry ? (
+                          <span className="signal-enquiry-signal signal-enquiry-signal--failed">
+                            <CircleX aria-hidden="true" size={15} /> Send failed
+                          </span>
+                        ) : null}
+                        {selectedContact ? (
+                          <span className="signal-contact-signal">
+                            <MousePointerClick aria-hidden="true" size={14} /> {selectedContact}
+                          </span>
+                        ) : null}
+                      </div>
                       <div className="signal-event__path" aria-label={`Journey preview from ${visit.landingPath}`}>
                         {previewPages.map((pageView, index) => (
                           <span key={pageView.id}>
@@ -1054,6 +1175,7 @@ function DailyObservatory({
                           <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
                           {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
                         </dl>
+                        <VisitRequestDetails visit={visit} />
                         <button onClick={() => onOpenVisitor(visit)} type="button">
                           View all visits from {visitorLabel(visit.visitorId)}
                           <ChevronRight aria-hidden="true" size={17} />
@@ -1401,8 +1523,12 @@ function VisitorHistory({
                       {` · Visit ${visit.visitNumber} of ${visit.totalVisits}`}
                     </p>
                     <h3>{formatDate(visit.dateKey, true)} at {formatTime(visit.startedAt)}</h3>
-                    <SourceMark source={visit.trafficSource} />
-                    <BotMark visit={visit} />
+                    <div className="visitor-visit__markers">
+                      <SourceMark source={visit.trafficSource} />
+                      <BotMark visit={visit} />
+                      <DeviceMark visit={visit} />
+                      <WebDriverMark visit={visit} />
+                    </div>
                   </div>
                   <dl>
                     <div><dt>Landing page</dt><dd>{visit.landingPath}</dd></div>
@@ -1431,6 +1557,7 @@ function VisitorHistory({
                       <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
                       {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
                     </dl>
+                    <VisitRequestDetails visit={visit} />
                   </section>
                 </div>
               </article>

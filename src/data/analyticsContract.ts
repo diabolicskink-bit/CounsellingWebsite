@@ -1,3 +1,5 @@
+import type { VisitDeviceType } from "./visitClientEnvironment";
+
 export type AnalyticsTrafficSource = "direct" | "internal" | "paid" | "referral";
 
 const perthDateFormatter = new Intl.DateTimeFormat("en-CA", {
@@ -62,11 +64,13 @@ export type AnalyticsVisit = {
   botCategory: string | null;
   botName: string | null;
   dateKey: string;
+  deviceType: VisitDeviceType;
   durationSeconds: number;
   events: AnalyticsVisitEvent[];
   gclid: string | null;
   id: string;
   isBot: boolean | null;
+  isWebDriver: boolean | null;
   landingPath: string;
   lastSeenAt: string;
   matchType: string | null;
@@ -78,6 +82,7 @@ export type AnalyticsVisit = {
   startedAt: string;
   trafficSource: AnalyticsTrafficSource;
   totalVisits: number;
+  userAgent: string | null;
   visitNumber: number;
   visitorId: string;
 };

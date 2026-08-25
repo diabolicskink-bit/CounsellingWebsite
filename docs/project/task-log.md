@@ -21,8 +21,9 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-08-25 - Visit Client Environment Capture Added
 
 - Added visit-level capture for a bounded request user-agent, a server-derived desktop/mobile/tablet/unknown device type, and the browser's nullable `navigator.webdriver` value.
-- Kept the three diagnostics immutable after the first visit insert and covered header derivation, payload validation, parameterized persistence, and schema constraints with focused tests.
-- Added migration `0007_add_visit_client_environment.sql`; reporting and private-dashboard presentation remain deliberately deferred, and the migration still requires independent Preview and Production rollout.
+- Kept the three diagnostics immutable after the first visit insert and exposed them through the protected analytics reader and repository-owned Neon reporting queries.
+- Added a daily traffic-signature summary, compact visit cues, and expanded per-visit request diagnostics in daily and retained-history views.
+- Added focused API, SQL, and recorder browser coverage plus migration `0007_add_visit_client_environment.sql`; Preview has been migrated independently, while Production remains pending for release.
 
 ## 2026-08-24 - Serverless Function Packaging Hardened
 

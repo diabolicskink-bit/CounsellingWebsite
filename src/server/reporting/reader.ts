@@ -5,6 +5,7 @@ import type {
   AnalyticsVisit,
   AnalyticsVisitEvent,
 } from "../../data/analyticsContract.ts";
+import type { VisitDeviceType } from "../../data/visitClientEnvironment.ts";
 import {
   getVisitDatabase,
   VisitDatabaseConfigurationError,
@@ -24,6 +25,13 @@ const trafficSources = new Set<AnalyticsTrafficSource>([
 const eventSources = new Set<AnalyticsVisitEvent["source"]>([
   "client",
   "server",
+]);
+
+const deviceTypes = new Set<VisitDeviceType>([
+  "desktop",
+  "mobile",
+  "tablet",
+  "unknown",
 ]);
 
 const analyticsVisitColumns = `
@@ -54,6 +62,9 @@ const analyticsVisitColumns = `
   ledger.is_bot AS "isBot",
   ledger.bot_name AS "botName",
   ledger.bot_category AS "botCategory",
+  visit_record.user_agent AS "userAgent",
+  visit_record.device_type AS "deviceType",
+  visit_record.is_webdriver AS "isWebDriver",
   EXISTS (
     SELECT 1
     FROM analytics_excluded_visitors AS exclusions
@@ -99,6 +110,8 @@ export const dailyAnalyticsSql = `
 SELECT
 ${analyticsVisitColumns}
 FROM visit_ledger AS ledger
+INNER JOIN site_visits AS visit_record
+  ON visit_record.id = ledger.visit_id
 WHERE ledger.started_at >= (
   $1::DATE::TIMESTAMP AT TIME ZONE 'Australia/Perth'
 )
@@ -117,6 +130,8 @@ export const monthlyEnquiryAnalyticsSql = `
 SELECT
 ${analyticsVisitColumns}
 FROM visit_ledger AS ledger
+INNER JOIN site_visits AS visit_record
+  ON visit_record.id = ledger.visit_id
 WHERE EXISTS (
   SELECT 1
   FROM site_visit_events AS monthly_events
@@ -183,6 +198,8 @@ export const visitorAnalyticsSql = `
 SELECT
 ${analyticsVisitColumns}
 FROM visit_ledger AS ledger
+INNER JOIN site_visits AS visit_record
+  ON visit_record.id = ledger.visit_id
 WHERE ledger.visitor_id = $1::UUID
 ORDER BY ledger.started_at DESC, ledger.visit_id DESC;
 `;
@@ -251,6 +268,14 @@ function normalizeTrafficSource(value: unknown) {
   }
 
   throw new TypeError("Analytics row has an invalid traffic source.");
+}
+
+function normalizeDeviceType(value: unknown): VisitDeviceType {
+  if (typeof value === "string" && deviceTypes.has(value as VisitDeviceType)) {
+    return value as VisitDeviceType;
+  }
+
+  throw new TypeError("Analytics row has an invalid device type.");
 }
 
 function normalizeEventSource(value: unknown): AnalyticsVisitEvent["source"] {
@@ -338,11 +363,13 @@ function normalizeVisit(row: AnalyticsVisitRow): AnalyticsVisit {
     botCategory: nullableString(row.botCategory, "bot category"),
     botName: nullableString(row.botName, "bot name"),
     dateKey: requiredString(row.dateKey, "date"),
+    deviceType: normalizeDeviceType(row.deviceType),
     durationSeconds: nonNegativeInteger(row.durationSeconds, "duration"),
     events: normalizeEvents(row.events),
     gclid: nullableString(row.gclid, "GCLID"),
     id: requiredString(row.id, "visit ID"),
     isBot: nullableBoolean(row.isBot, "bot verdict"),
+    isWebDriver: nullableBoolean(row.isWebDriver, "WebDriver flag"),
     landingPath: requiredString(row.landingPath, "landing path"),
     lastSeenAt: timestampString(row.lastSeenAt, "last-seen time"),
     matchType: nullableString(row.matchType, "match type"),
@@ -354,6 +381,7 @@ function normalizeVisit(row: AnalyticsVisitRow): AnalyticsVisit {
     startedAt: timestampString(row.startedAt, "start time"),
     trafficSource: normalizeTrafficSource(row.trafficSource),
     totalVisits,
+    userAgent: nullableString(row.userAgent, "user-agent"),
     visitNumber,
     visitorId: requiredString(row.visitorId, "visitor ID"),
   };

@@ -22,6 +22,7 @@ function createVisitRow(overrides = {}) {
     botCategory: "search engine",
     botName: "googlebot",
     dateKey: "2026-08-15",
+    deviceType: "desktop",
     durationSeconds: "305",
     events: [
       {
@@ -45,6 +46,7 @@ function createVisitRow(overrides = {}) {
     id: "1a560836-220d-4d33-a05e-5f364891f9cb",
     isBot: true,
     isExcluded: false,
+    isWebDriver: true,
     landingPath: "/polyamory-enm-counselling",
     lastSeenAt: "2026-08-15T03:05:00.000Z",
     matchType: "p",
@@ -69,6 +71,7 @@ function createVisitRow(overrides = {}) {
     startedAt: "2026-08-15T03:00:00.000Z",
     trafficSource: "paid",
     totalVisits: "3",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/145.0.0.0",
     visitNumber: "2",
     visitorId: "114ba8f9-96f8-41e1-a301-15112400759e",
     ...overrides,
@@ -108,6 +111,12 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
   assert.equal(result.visits[0].isBot, true);
   assert.equal(result.visits[0].botName, "googlebot");
   assert.equal(result.visits[0].botCategory, "search engine");
+  assert.equal(result.visits[0].deviceType, "desktop");
+  assert.equal(result.visits[0].isWebDriver, true);
+  assert.equal(
+    result.visits[0].userAgent,
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/145.0.0.0",
+  );
   assert.deepEqual(result.visits[0].events, [
     {
       eventType: "contact_option_selected",
@@ -133,6 +142,7 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
   assert.match(calls[0].query, /Australia\/Perth/);
   assert.match(calls[0].query, /ORDER BY ledger\.started_at DESC/);
   assert.match(calls[0].query, /visitor_visits\.visitor_id = ledger\.visitor_id/);
+  assert.match(calls[0].query, /visit_record\.id = ledger\.visit_id/);
   assert.match(
     calls[0].query,
     /ORDER BY visit_events\.occurred_at, visit_events\.id/,
@@ -172,6 +182,15 @@ test("reads complete retained history for one anonymous browser", async () => {
   assert.match(calls[0].query, /analytics_excluded_visitors/);
   assert.deepEqual(result.visits[1].events, []);
   assert.deepEqual(result.visits[1].pageViews, []);
+});
+
+test("rejects invalid stored device diagnostics", async () => {
+  const { database } = createDatabase([createVisitRow({ deviceType: "television" })]);
+
+  await assert.rejects(
+    readAnalytics({ type: "daily", date: "2026-08-15" }, database),
+    /invalid device type/,
+  );
 });
 
 test("reads visits with enquiry outcomes in one Perth calendar month", async () => {
