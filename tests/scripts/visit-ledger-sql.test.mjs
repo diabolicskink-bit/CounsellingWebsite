@@ -204,6 +204,8 @@ test("saved visit ledger queries are read-only and cover each reporting task", a
   assert.match(queries.get("04_traffic_last_30_days.sql"), /matched_keyword/i);
   assert.match(queries.get("04_traffic_last_30_days.sql"), /is_bot IS NOT TRUE/i);
   assert.match(queries.get("03_today_overview.sql"), /webdriver_visit_count/i);
+  assert.match(queries.get("03_today_overview.sql"), /webdriver_false_visit_count/i);
+  assert.match(queries.get("02_visitors.sql"), /webdriver_false_visit_count/i);
   assert.match(queries.get("04_traffic_last_30_days.sql"), /device_type/i);
   for (const filename of ["01_latest_visits.sql", "05_visit_page_sequence.sql"]) {
     assert.match(queries.get(filename), /user_agent/i);

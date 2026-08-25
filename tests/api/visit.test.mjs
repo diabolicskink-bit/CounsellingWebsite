@@ -125,6 +125,7 @@ test("records a valid observation and returns no content", async () => {
 test("derives bounded device and user-agent values from request headers", () => {
   const mobileUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1";
   const tabletUserAgent = "Mozilla/5.0 (Linux; Android 15; Tablet) AppleWebKit/537.36 Chrome/145.0.0.0 Safari/537.36";
+  const desktopModeIpadUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 Version/18.6 Mobile/15E148 Safari/604.1";
 
   assert.deepEqual(
     getVisitRequestEnvironment({ headers: {
@@ -141,6 +142,13 @@ test("derives bounded device and user-agent values from request headers", () => 
     { deviceType: "tablet", userAgent: tabletUserAgent },
   );
   assert.deepEqual(
+    getVisitRequestEnvironment({ headers: {
+      "sec-ch-ua-mobile": "?0",
+      "user-agent": desktopModeIpadUserAgent,
+    } }),
+    { deviceType: "tablet", userAgent: desktopModeIpadUserAgent },
+  );
+  assert.deepEqual(
     getVisitRequestEnvironment({ headers: { "user-agent": desktopUserAgent } }),
     { deviceType: "desktop", userAgent: desktopUserAgent },
   );
@@ -154,7 +162,7 @@ test("derives bounded device and user-agent values from request headers", () => 
   );
   assert.deepEqual(
     getVisitRequestEnvironment({ headers: { "user-agent": "x".repeat(1025) } }),
-    { deviceType: "unknown", userAgent: null },
+    { deviceType: "unknown", userAgent: "x".repeat(1024) },
   );
 });
 

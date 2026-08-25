@@ -143,6 +143,9 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
   assert.match(calls[0].query, /ORDER BY ledger\.started_at DESC/);
   assert.match(calls[0].query, /visitor_visits\.visitor_id = ledger\.visitor_id/);
   assert.match(calls[0].query, /visit_record\.id = ledger\.visit_id/);
+  assert.match(calls[0].query, /visit_record\.user_agent AS "userAgent"/);
+  assert.match(calls[0].query, /visit_record\.device_type AS "deviceType"/);
+  assert.match(calls[0].query, /visit_record\.is_webdriver AS "isWebDriver"/);
   assert.match(
     calls[0].query,
     /ORDER BY visit_events\.occurred_at, visit_events\.id/,

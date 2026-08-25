@@ -665,7 +665,7 @@ body:has(.visit-dashboard) {
 }
 
 .signal-device-mix dd small {
-  color: var(--report-faint);
+  color: var(--report-muted);
   font-size: 0.65rem;
 }
 
@@ -1683,7 +1683,7 @@ body:has(.visit-dashboard) {
 
 .signal-device--mobile { background: #e5f2ff; color: #376b9f; }
 .signal-device--tablet { background: #e7f6ed; color: #377652; }
-.signal-device--unknown { background: #f1f1f5; color: #77798b; }
+.signal-device--unknown { background: #f1f1f5; color: #666879; }
 
 .signal-webdriver {
   background: #fff0e3;

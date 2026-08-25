@@ -26,6 +26,7 @@ SELECT
   COUNT(*) FILTER (WHERE today.device_type = 'tablet')::INTEGER AS tablet_visit_count,
   COUNT(*) FILTER (WHERE today.device_type = 'unknown')::INTEGER AS unknown_device_visit_count,
   COUNT(*) FILTER (WHERE today.is_webdriver IS TRUE)::INTEGER AS webdriver_visit_count,
+  COUNT(*) FILTER (WHERE today.is_webdriver IS FALSE)::INTEGER AS webdriver_false_visit_count,
   COUNT(*) FILTER (WHERE today.is_webdriver IS NULL)::INTEGER AS webdriver_unreported_visit_count,
   COUNT(DISTINCT today.visitor_id)::INTEGER AS browser_count,
   COUNT(*) FILTER (WHERE NOT today.is_returning AND today.is_bot IS NOT TRUE)::INTEGER AS new_visit_count,

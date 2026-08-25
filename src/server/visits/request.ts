@@ -31,7 +31,7 @@ const maxUserAgentLength = 1024;
 const controlCharacterPattern = /[\u0000-\u001f\u007f]/;
 const desktopUserAgentPattern = /windows nt|macintosh|cros|x11|linux x86_64/;
 const mobileUserAgentPattern = /iphone|ipod|mobile|windows phone/;
-const tabletUserAgentPattern = /ipad|tablet|kindle|playbook|silk/;
+const tabletUserAgentPattern = /ipad|tablet|kindle|playbook|silk|macintosh.*mobile/;
 
 function getHeader(request: VisitRequest, name: string) {
   const headers = request.headers ?? {};
@@ -48,15 +48,11 @@ function getHeader(request: VisitRequest, name: string) {
 function getStoredUserAgent(request: VisitRequest) {
   const userAgent = getHeader(request, "user-agent").trim();
 
-  if (
-    !userAgent
-    || userAgent.length > maxUserAgentLength
-    || controlCharacterPattern.test(userAgent)
-  ) {
+  if (!userAgent || controlCharacterPattern.test(userAgent)) {
     return null;
   }
 
-  return userAgent;
+  return userAgent.slice(0, maxUserAgentLength);
 }
 
 function getDeviceType(request: VisitRequest, userAgent: string | null): VisitDeviceType {

@@ -12,6 +12,7 @@ SELECT
   COUNT(*) FILTER (WHERE visit_record.device_type = 'tablet')::INTEGER AS tablet_visit_count,
   COUNT(*) FILTER (WHERE visit_record.device_type = 'unknown')::INTEGER AS unknown_device_visit_count,
   COUNT(*) FILTER (WHERE visit_record.is_webdriver IS TRUE)::INTEGER AS webdriver_visit_count,
+  COUNT(*) FILTER (WHERE visit_record.is_webdriver IS FALSE)::INTEGER AS webdriver_false_visit_count,
   COUNT(*) FILTER (WHERE visit_record.is_webdriver IS NULL)::INTEGER AS webdriver_unreported_visit_count,
   COUNT(*) FILTER (WHERE ledger.is_paid)::INTEGER AS paid_visit_count,
   SUM(ledger.page_view_count)::INTEGER AS total_page_view_count,
