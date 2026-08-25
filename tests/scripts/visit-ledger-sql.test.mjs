@@ -30,6 +30,10 @@ const activeTimeMigration = await readFile(
   new URL("0006_add_page_view_active_time.sql", migrationsUrl),
   "utf8",
 );
+const clientEnvironmentMigration = await readFile(
+  new URL("0007_add_visit_client_environment.sql", migrationsUrl),
+  "utf8",
+);
 const queryFilenames = (await readdir(queriesUrl))
   .filter((filename) => filename.endsWith(".sql"))
   .sort();
@@ -50,6 +54,7 @@ test("visit ledger migrations retain their application order", async () => {
     "0004_create_visit_event_ledger.sql",
     "0005_create_analytics_visitor_exclusions.sql",
     "0006_add_page_view_active_time.sql",
+    "0007_add_visit_client_environment.sql",
   ]);
 });
 
@@ -65,6 +70,7 @@ test("database migration reader returns the ordered ledger migrations", async ()
       "0004_create_visit_event_ledger.sql",
       "0005_create_analytics_visitor_exclusions.sql",
       "0006_add_page_view_active_time.sql",
+      "0007_add_visit_client_environment.sql",
     ],
   );
   assert.ok(migrations.every((migration) => /^[a-f0-9]{64}$/.test(migration.checksum)));
@@ -152,6 +158,17 @@ test("visitor-exclusion migration creates a durable visitor-level filter", () =>
 test("page-view active-time migration stores bounded cumulative seconds", () => {
   assert.match(activeTimeMigration, /ADD COLUMN active_seconds INTEGER NOT NULL DEFAULT 0/i);
   assert.match(activeTimeMigration, /active_seconds BETWEEN 0 AND 43200/i);
+});
+
+test("client-environment migration stores bounded visit-level diagnostics", () => {
+  assert.match(clientEnvironmentMigration, /ADD COLUMN user_agent TEXT/i);
+  assert.match(clientEnvironmentMigration, /ADD COLUMN device_type TEXT NOT NULL DEFAULT 'unknown'/i);
+  assert.match(clientEnvironmentMigration, /ADD COLUMN is_webdriver BOOLEAN/i);
+  assert.match(clientEnvironmentMigration, /char_length\(user_agent\) BETWEEN 1 AND 1024/i);
+  assert.match(
+    clientEnvironmentMigration,
+    /device_type IN \('desktop', 'mobile', 'tablet', 'unknown'\)/i,
+  );
 });
 
 test("saved visit ledger queries are read-only and cover each reporting task", async () => {

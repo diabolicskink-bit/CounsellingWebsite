@@ -28,13 +28,15 @@ browser code.
 
 Production and Preview use separate Vercel-managed Neon resources. Each
 resource and its generated connection variables are scoped only to its matching
-Vercel environment; Development receives neither database. Apply every
-Migration `0006` adds bounded cumulative visible-time seconds to each page view.
-Apply migrations to the database for an environment before deploying code that
-depends on them there.
-Migration `0003` adds nullable BotID verdict and verified-bot identity fields,
-`0004` adds visit-linked analytics events, and `0005` adds the persistent visitor
-exclusion list used by private reports.
+Vercel environment; Development receives neither database. Apply migrations to
+the database for an environment before deploying code that depends on them
+there. Migration `0003` adds nullable BotID verdict and verified-bot identity
+fields, `0004` adds visit-linked analytics events, `0005` adds the persistent
+visitor exclusion list used by private reports, and `0006` adds bounded
+cumulative visible-time seconds to each page view. Migration `0007` adds the
+initial bounded user-agent, server-derived device type, and browser-reported
+WebDriver flag to each visit. Its reporting and dashboard presentation are
+intentionally deferred from the capture-and-storage change.
 
 `visit_ledger` is the read-only reporting view created by migration `0002` and
 extended by migration `0003`. It marks the earliest retained visit for an

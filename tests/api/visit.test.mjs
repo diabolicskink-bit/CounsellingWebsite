@@ -6,6 +6,7 @@ import {
   VisitDatabaseConfigurationError,
   VisitIdentityConflictError,
 } from "../../src/server/visits/repository.ts";
+import { getVisitRequestEnvironment } from "../../src/server/visits/request.ts";
 
 const originalConsoleError = console.error;
 const originalConsoleWarn = console.warn;
@@ -14,6 +15,7 @@ const nonBotClassification = {
   botName: null,
   isBot: false,
 };
+const desktopUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/145.0.0.0 Safari/537.36";
 
 afterEach(() => {
   console.error = originalConsoleError;
@@ -53,6 +55,7 @@ function validPayload(overrides = {}) {
   return {
     adCode: "enm",
     gclid: "CjwK-test-click",
+    isWebDriver: false,
     landingPath: "/polyamory-enm-counselling",
     matchType: "p",
     matchedKeyword: "polyamory therapy",
@@ -69,6 +72,8 @@ function validPayload(overrides = {}) {
 function jsonHeaders(headers = {}) {
   return {
     "content-type": "application/json; charset=utf-8",
+    "sec-ch-ua-mobile": "?0",
+    "user-agent": desktopUserAgent,
     ...headers,
   };
 }
@@ -111,8 +116,70 @@ test("records a valid observation and returns no content", async () => {
   assert.deepEqual(observations[0], {
     ...validPayload(),
     ...nonBotClassification,
+    deviceType: "desktop",
     referrerHost: "www.google.com",
+    userAgent: desktopUserAgent,
   });
+});
+
+test("derives bounded device and user-agent values from request headers", () => {
+  const mobileUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1";
+  const tabletUserAgent = "Mozilla/5.0 (Linux; Android 15; Tablet) AppleWebKit/537.36 Chrome/145.0.0.0 Safari/537.36";
+
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: {
+      "sec-ch-ua-mobile": "?1",
+      "user-agent": mobileUserAgent,
+    } }),
+    { deviceType: "mobile", userAgent: mobileUserAgent },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: {
+      "sec-ch-ua-mobile": "?0",
+      "user-agent": tabletUserAgent,
+    } }),
+    { deviceType: "tablet", userAgent: tabletUserAgent },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: { "user-agent": desktopUserAgent } }),
+    { deviceType: "desktop", userAgent: desktopUserAgent },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: {} }),
+    { deviceType: "unknown", userAgent: null },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: { "user-agent": "curl/8.16.0" } }),
+    { deviceType: "unknown", userAgent: "curl/8.16.0" },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: { "user-agent": "x".repeat(1025) } }),
+    { deviceType: "unknown", userAgent: null },
+  );
+});
+
+test("stores the browser WebDriver flag with the visit observation", async () => {
+  const observations = [];
+  const handler = createTestVisitHandler(async (observation) => observations.push(observation));
+
+  const result = await invoke(handler, {
+    body: validPayload({ isWebDriver: true }),
+  });
+
+  assert.equal(result.statusCode, 204);
+  assert.equal(observations[0].isWebDriver, true);
+});
+
+test("accepts an omitted WebDriver flag from an older browser bundle", async () => {
+  const observations = [];
+  const handler = createTestVisitHandler(async (observation) => observations.push(observation));
+  const payload = validPayload();
+
+  delete payload.isWebDriver;
+  const result = await invoke(handler, { body: payload });
+
+  assert.equal(result.statusCode, 204);
+  assert.equal(observations[0].isWebDriver, null);
 });
 
 test("stores a verified bot verdict and identity without blocking the visit", async () => {
@@ -303,6 +370,7 @@ test("rejects invalid identities, paths, referrers, and oversized attribution", 
     validPayload({ path: "/ANALYTICS/pages" }),
     validPayload({ referrerUrl: "javascript:alert(1)" }),
     validPayload({ matchedKeyword: "x".repeat(1025) }),
+    validPayload({ isWebDriver: "true" }),
   ];
 
   for (const body of payloads) {

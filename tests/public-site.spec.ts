@@ -702,6 +702,7 @@ test.describe("analytics", () => {
     expect(observation).toEqual({
       adCode: "enm",
       gclid: "CjwK-test-click",
+      isWebDriver: true,
       landingPath: "/polyamory-enm-counselling",
       matchType: "p",
       matchedKeyword: "polyamory therapy",

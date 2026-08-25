@@ -1,3 +1,8 @@
+import type {
+  VisitDeviceType,
+  VisitRequestEnvironment,
+} from "../../data/visitClientEnvironment.ts";
+
 export type VisitRequest = {
   body?: unknown;
   headers?: Record<string, string | string[] | undefined>;
@@ -22,6 +27,11 @@ type ParsedHeaderOrigin = {
 };
 
 const maxVisitBodyBytes = 16 * 1024;
+const maxUserAgentLength = 1024;
+const controlCharacterPattern = /[\u0000-\u001f\u007f]/;
+const desktopUserAgentPattern = /windows nt|macintosh|cros|x11|linux x86_64/;
+const mobileUserAgentPattern = /iphone|ipod|mobile|windows phone/;
+const tabletUserAgentPattern = /ipad|tablet|kindle|playbook|silk/;
 
 function getHeader(request: VisitRequest, name: string) {
   const headers = request.headers ?? {};
@@ -33,6 +43,48 @@ function getHeader(request: VisitRequest, name: string) {
   }
 
   return headerValue ?? "";
+}
+
+function getStoredUserAgent(request: VisitRequest) {
+  const userAgent = getHeader(request, "user-agent").trim();
+
+  if (
+    !userAgent
+    || userAgent.length > maxUserAgentLength
+    || controlCharacterPattern.test(userAgent)
+  ) {
+    return null;
+  }
+
+  return userAgent;
+}
+
+function getDeviceType(request: VisitRequest, userAgent: string | null): VisitDeviceType {
+  const normalizedUserAgent = userAgent?.toLowerCase() ?? "";
+  const mobileHint = getHeader(request, "sec-ch-ua-mobile").trim();
+  const isTablet = tabletUserAgentPattern.test(normalizedUserAgent)
+    || (/android/.test(normalizedUserAgent) && !/mobile/.test(normalizedUserAgent));
+
+  if (isTablet) {
+    return "tablet";
+  }
+  if (mobileHint === "?1" || mobileUserAgentPattern.test(normalizedUserAgent)) {
+    return "mobile";
+  }
+  if (mobileHint === "?0" || desktopUserAgentPattern.test(normalizedUserAgent)) {
+    return "desktop";
+  }
+
+  return "unknown";
+}
+
+export function getVisitRequestEnvironment(request: VisitRequest): VisitRequestEnvironment {
+  const userAgent = getStoredUserAgent(request);
+
+  return {
+    deviceType: getDeviceType(request, userAgent),
+    userAgent,
+  };
 }
 
 function getMediaType(contentType: string) {

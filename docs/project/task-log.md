@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-25 - Visit Client Environment Capture Added
+
+- Added visit-level capture for a bounded request user-agent, a server-derived desktop/mobile/tablet/unknown device type, and the browser's nullable `navigator.webdriver` value.
+- Kept the three diagnostics immutable after the first visit insert and covered header derivation, payload validation, parameterized persistence, and schema constraints with focused tests.
+- Added migration `0007_add_visit_client_environment.sql`; reporting and private-dashboard presentation remain deliberately deferred, and the migration still requires independent Preview and Production rollout.
+
 ## 2026-08-24 - Serverless Function Packaging Hardened
 
 - Replaced seven hand-maintained Vercel function file inventories with one `api/**/*.ts` rule that packages the complete `src` tree for every serverless function.

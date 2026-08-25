@@ -2,6 +2,7 @@ import {
   neon,
   type NeonQueryFunction,
 } from "@neondatabase/serverless";
+import type { VisitRequestEnvironment } from "../../data/visitClientEnvironment.ts";
 
 export type VisitBotClassification = {
   botCategory: string | null;
@@ -12,6 +13,7 @@ export type VisitBotClassification = {
 export type VisitObservationPayload = {
   adCode: string | null;
   gclid: string | null;
+  isWebDriver: boolean | null;
   landingPath: string;
   matchType: string | null;
   matchedKeyword: string | null;
@@ -24,7 +26,9 @@ export type VisitObservationPayload = {
   visitorId: string;
 };
 
-export type VisitObservation = VisitObservationPayload & VisitBotClassification;
+export type VisitObservation = VisitObservationPayload
+  & VisitBotClassification
+  & VisitRequestEnvironment;
 
 export type VisitObservationResult = {
   pageViewInserted: boolean;
@@ -98,7 +102,10 @@ inserted_visit AS (
     match_type,
     is_bot,
     bot_name,
-    bot_category
+    bot_category,
+    user_agent,
+    device_type,
+    is_webdriver
   )
   SELECT
     $2::uuid,
@@ -115,7 +122,10 @@ inserted_visit AS (
     $12,
     $13::BOOLEAN,
     $14,
-    $15
+    $15,
+    $16,
+    $17,
+    $18::BOOLEAN
   FROM observation_time
   ON CONFLICT (id) DO NOTHING
   RETURNING id
@@ -211,6 +221,9 @@ export async function recordVisitObservation(
     observation.isBot,
     observation.botName,
     observation.botCategory,
+    observation.userAgent,
+    observation.deviceType,
+    observation.isWebDriver,
   ];
   const readResult = async () => {
     const rows = (await database.query(
