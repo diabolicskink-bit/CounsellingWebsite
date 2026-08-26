@@ -11,6 +11,7 @@ import {
   CircleHelp,
   CircleX,
   Clock3,
+  Copy,
   EyeOff,
   LockKeyhole,
   Monitor,
@@ -466,23 +467,86 @@ function WebDriverMark({ visit }: { visit: AnalyticsVisit }) {
   );
 }
 
-function VisitRequestDetails({ visit }: { visit: AnalyticsVisit }) {
+function VisitRequestDetails({
+  includeGclidCopy = false,
+  visit,
+}: {
+  includeGclidCopy?: boolean;
+  visit: AnalyticsVisit;
+}) {
+  const [gclidCopyState, setGclidCopyState] = useState<"copied" | "error" | "idle">("idle");
+
+  const copyGclid = async () => {
+    if (!visit.gclid) return;
+
+    try {
+      if (!navigator.clipboard) throw new Error("Clipboard access is unavailable.");
+      await navigator.clipboard.writeText(visit.gclid);
+      setGclidCopyState("copied");
+    } catch {
+      setGclidCopyState("error");
+    }
+  };
+
+  const gclidCopyLabel = !visit.gclid
+    ? "No GCLID recorded"
+    : gclidCopyState === "copied"
+      ? "GCLID copied"
+      : gclidCopyState === "error"
+        ? "Try copying again"
+        : "Copy GCLID";
+
   return (
-    <div aria-label="Request diagnostics" className="signal-request-details" role="group">
-      <p>Request diagnostics</p>
-      <dl>
-        <div><dt>Device</dt><dd>{deviceLabels[visit.deviceType]}</dd></div>
-        <div>
-          <dt>navigator.webdriver</dt>
-          <dd>{visit.isWebDriver === null ? "Not reported" : String(visit.isWebDriver)}</dd>
-        </div>
-        <div>
-          <dt>User-Agent</dt>
-          <dd><code>{visit.userAgent ?? "Not recorded"}</code></dd>
-        </div>
-      </dl>
-    </div>
+    <details
+      className="signal-request-details"
+      onToggle={(event) => {
+        if (!event.currentTarget.open) setGclidCopyState("idle");
+      }}
+    >
+      <summary>
+        <span>
+          <ScanSearch aria-hidden="true" size={16} />
+          <span>
+            <strong>Investigation tools</strong>
+            <small>Device and request diagnostics</small>
+          </span>
+        </span>
+        <ChevronDown aria-hidden="true" size={17} />
+      </summary>
+      <div className="signal-request-details__body">
+        <dl>
+          <div><dt>Device</dt><dd>{deviceLabels[visit.deviceType]}</dd></div>
+          <div>
+            <dt>navigator.webdriver</dt>
+            <dd>{visit.isWebDriver === null ? "Not reported" : String(visit.isWebDriver)}</dd>
+          </div>
+          <div className="signal-request-details__agent">
+            <dt>User-Agent</dt>
+            <dd><code>{visit.userAgent ?? "Not recorded"}</code></dd>
+          </div>
+        </dl>
+        {includeGclidCopy ? (
+          <div className="signal-request-details__gclid">
+            <span>
+              <strong>Google click ID</strong>
+              <small>{visit.gclid ? "Copy the stored ID for troubleshooting or lookup." : "This visit has no stored GCLID."}</small>
+            </span>
+            <button disabled={!visit.gclid} onClick={copyGclid} type="button">
+              {gclidCopyState === "copied"
+                ? <CircleCheck aria-hidden="true" size={16} />
+                : <Copy aria-hidden="true" size={16} />}
+              <span aria-live="polite">{gclidCopyLabel}</span>
+            </button>
+          </div>
+        ) : null}
+      </div>
+    </details>
   );
+}
+
+function visitJourneyCount(visit: AnalyticsVisit) {
+  const count = visitJourney(visit).length;
+  return `${count} ${count === 1 ? "moment" : "moments"} in order`;
 }
 
 function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
@@ -1159,28 +1223,39 @@ function DailyObservatory({
                             <p className="signal-kicker">This visit</p>
                             <h3 id={`${detailId}-journey`}>Visit timeline</h3>
                           </div>
-                          <span><Route aria-hidden="true" size={15} /> {visitJourney(visit).length} moments in order</span>
+                          <span><Route aria-hidden="true" size={15} /> {visitJourneyCount(visit)}</span>
                         </header>
                         <JourneyTimeline visit={visit} />
                       </section>
 
-                      <aside className="signal-event-detail__attribution">
+                      <aside
+                        aria-labelledby={`${detailId}-attribution`}
+                        className="signal-event-detail__attribution"
+                      >
                         <header>
-                          <p className="signal-kicker">How they arrived</p>
-                          <h3>Attribution</h3>
+                          <p className="signal-kicker">Arrival context</p>
+                          <h3 id={`${detailId}-attribution`}>How they arrived</h3>
                         </header>
                         <dl>
                           <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
                           <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
                           <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
-                          <div><dt>GCLID</dt><dd>{visit.gclid ?? "None recorded"}</dd></div>
                           {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
                         </dl>
-                        <VisitRequestDetails visit={visit} />
-                        <button onClick={() => onOpenVisitor(visit)} type="button">
-                          View all visits from {visitorLabel(visit.visitorId)}
-                          <ChevronRight aria-hidden="true" size={17} />
-                        </button>
+                        <div className="signal-event-detail__utilities">
+                          <VisitRequestDetails includeGclidCopy visit={visit} />
+                          <button
+                            className="signal-event-detail__visitor-action"
+                            onClick={() => onOpenVisitor(visit)}
+                            type="button"
+                          >
+                            <span>
+                              <small>{visitorLabel(visit.visitorId)}</small>
+                              <strong>View visit history</strong>
+                            </span>
+                            <ChevronRight aria-hidden="true" size={17} />
+                          </button>
+                        </div>
                       </aside>
                     </div>
                   ) : null}
@@ -1542,7 +1617,7 @@ function VisitorHistory({
                   <section className="visitor-visit__journey" aria-labelledby={`${visit.id}-journey`}>
                     <header>
                       <h4 id={`${visit.id}-journey`}>Visit timeline</h4>
-                      <span>{visitJourney(visit).length} moments in order</span>
+                      <span>{visitJourneyCount(visit)}</span>
                     </header>
                     <JourneyTimeline
                       selectedEventId={isFocused ? selectedEvent?.id : null}
