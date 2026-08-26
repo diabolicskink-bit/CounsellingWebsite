@@ -508,10 +508,7 @@ function VisitRequestDetails({
       <summary>
         <span>
           <ScanSearch aria-hidden="true" size={16} />
-          <span>
-            <strong>Investigation tools</strong>
-            <small>Device and request diagnostics</small>
-          </span>
+          <strong>Request details</strong>
         </span>
         <ChevronDown aria-hidden="true" size={17} />
       </summary>
@@ -1219,46 +1216,43 @@ function DailyObservatory({
 
                   {isExpanded ? (
                     <div className="signal-event-detail" id={detailId}>
-                      <section className="signal-event-detail__journey" aria-labelledby={`${detailId}-journey`}>
-                        <header>
-                          <div>
-                            <p className="signal-kicker">This visit</p>
-                            <h3 id={`${detailId}-journey`}>Visit timeline</h3>
-                          </div>
-                          <span><Route aria-hidden="true" size={15} /> {visitJourneyCount(visit)}</span>
-                        </header>
-                        <JourneyTimeline visit={visit} />
-                      </section>
+                      <div className="signal-event-detail__main">
+                        <section className="signal-event-detail__journey" aria-labelledby={`${detailId}-journey`}>
+                          <header>
+                            <h3 id={`${detailId}-journey`}>Timeline</h3>
+                            <span><Route aria-hidden="true" size={15} /> {visitJourneyCount(visit)}</span>
+                          </header>
+                          <JourneyTimeline visit={visit} />
+                        </section>
 
-                      <aside
-                        aria-labelledby={`${detailId}-attribution`}
-                        className="signal-event-detail__attribution"
-                      >
-                        <header>
-                          <p className="signal-kicker">Arrival context</p>
-                          <h3 id={`${detailId}-attribution`}>How they arrived</h3>
-                        </header>
-                        <dl>
-                          <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
-                          <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
-                          <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
-                          {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
-                        </dl>
-                        <div className="signal-event-detail__utilities">
-                          <VisitRequestDetails includeGclidCopy visit={visit} />
-                          <button
-                            className="signal-event-detail__visitor-action"
-                            onClick={() => onOpenVisitor(visit)}
-                            type="button"
-                          >
-                            <span>
-                              <small>{visitorLabel(visit.visitorId)}</small>
-                              <strong>View visit history</strong>
-                            </span>
-                            <ChevronRight aria-hidden="true" size={17} />
-                          </button>
-                        </div>
-                      </aside>
+                        <aside
+                          aria-labelledby={`${detailId}-attribution`}
+                          className="signal-event-detail__attribution"
+                        >
+                          <header>
+                            <h3 id={`${detailId}-attribution`}>Attribution</h3>
+                          </header>
+                          <dl>
+                            <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
+                            <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
+                            <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
+                            {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
+                          </dl>
+                        </aside>
+                      </div>
+
+                      <footer className="signal-event-detail__utilities">
+                        <VisitRequestDetails includeGclidCopy visit={visit} />
+                        <button
+                          aria-label={`View all visits from ${visitorLabel(visit.visitorId)}`}
+                          className="signal-event-detail__visitor-action"
+                          onClick={() => onOpenVisitor(visit)}
+                          type="button"
+                        >
+                          Visitor history
+                          <ChevronRight aria-hidden="true" size={17} />
+                        </button>
+                      </footer>
                     </div>
                   ) : null}
                 </li>
