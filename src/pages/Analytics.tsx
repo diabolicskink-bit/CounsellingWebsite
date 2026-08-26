@@ -467,6 +467,14 @@ function WebDriverMark({ visit }: { visit: AnalyticsVisit }) {
   );
 }
 
+const gclidCopyLabels = {
+  copied: "GCLID copied",
+  error: "Try copying again",
+  idle: "Copy GCLID",
+} as const;
+
+type GclidCopyState = keyof typeof gclidCopyLabels;
+
 function VisitRequestDetails({
   includeGclidCopy = false,
   visit,
@@ -474,7 +482,7 @@ function VisitRequestDetails({
   includeGclidCopy?: boolean;
   visit: AnalyticsVisit;
 }) {
-  const [gclidCopyState, setGclidCopyState] = useState<"copied" | "error" | "idle">("idle");
+  const [gclidCopyState, setGclidCopyState] = useState<GclidCopyState>("idle");
 
   const copyGclid = async () => {
     if (!visit.gclid) return;
@@ -488,13 +496,7 @@ function VisitRequestDetails({
     }
   };
 
-  const gclidCopyLabel = !visit.gclid
-    ? "No GCLID recorded"
-    : gclidCopyState === "copied"
-      ? "GCLID copied"
-      : gclidCopyState === "error"
-        ? "Try copying again"
-        : "Copy GCLID";
+  const gclidCopyLabel = visit.gclid ? gclidCopyLabels[gclidCopyState] : "No GCLID recorded";
 
   return (
     <details
@@ -545,7 +547,7 @@ function VisitRequestDetails({
 }
 
 function visitJourneyCount(visit: AnalyticsVisit) {
-  const count = visitJourney(visit).length;
+  const count = visit.pageViews.length + (visit.events ?? []).length;
   return `${count} ${count === 1 ? "moment" : "moments"} in order`;
 }
 

@@ -3248,7 +3248,8 @@ body:has(.visit-dashboard) {
   .excluded-visitors__list button,
   .enquiry-activity__list button,
   .signal-event,
-  .signal-event__toggle svg {
+  .signal-event__toggle svg,
+  .signal-request-details > summary > svg {
     transition: none;
   }
 
