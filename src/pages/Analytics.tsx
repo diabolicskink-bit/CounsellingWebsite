@@ -475,13 +475,7 @@ const gclidCopyLabels = {
 
 type GclidCopyState = keyof typeof gclidCopyLabels;
 
-function VisitRequestDetails({
-  includeGclidCopy = false,
-  visit,
-}: {
-  includeGclidCopy?: boolean;
-  visit: AnalyticsVisit;
-}) {
+function VisitRequestDetails({ visit }: { visit: AnalyticsVisit }) {
   const [gclidCopyState, setGclidCopyState] = useState<GclidCopyState>("idle");
 
   const copyGclid = async () => {
@@ -524,20 +518,18 @@ function VisitRequestDetails({
             <dd><code>{visit.userAgent ?? "Not recorded"}</code></dd>
           </div>
         </dl>
-        {includeGclidCopy ? (
-          <div className="signal-request-details__gclid">
-            <span>
-              <strong>Google click ID</strong>
-              <small>{visit.gclid ? "Copy the stored ID for troubleshooting or lookup." : "This visit has no stored GCLID."}</small>
-            </span>
-            <button disabled={!visit.gclid} onClick={copyGclid} type="button">
-              {gclidCopyState === "copied"
-                ? <CircleCheck aria-hidden="true" size={16} />
-                : <Copy aria-hidden="true" size={16} />}
-              <span aria-live="polite">{gclidCopyLabel}</span>
-            </button>
-          </div>
-        ) : null}
+        <div className="signal-request-details__gclid">
+          <span>
+            <strong>Google click ID</strong>
+            <small>{visit.gclid ? "Copy the stored ID for troubleshooting or lookup." : "This visit has no stored GCLID."}</small>
+          </span>
+          <button disabled={!visit.gclid} onClick={copyGclid} type="button">
+            {gclidCopyState === "copied"
+              ? <CircleCheck aria-hidden="true" size={16} />
+              : <Copy aria-hidden="true" size={16} />}
+            <span aria-live="polite">{gclidCopyLabel}</span>
+          </button>
+        </div>
       </div>
     </details>
   );
@@ -591,7 +583,7 @@ function VisitDetailPanel({
       </div>
 
       <footer className="signal-event-detail__utilities">
-        <VisitRequestDetails includeGclidCopy visit={visit} />
+        <VisitRequestDetails visit={visit} />
         {onOpenVisitor ? (
           <button
             aria-label={`View all visits from ${visitorLabel(visit.visitorId)}`}
