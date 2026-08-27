@@ -548,6 +548,66 @@ function visitJourneyCount(visit: AnalyticsVisit) {
   return `${count} ${count === 1 ? "moment" : "moments"} in order`;
 }
 
+function VisitDetailPanel({
+  detailId,
+  headingLevel,
+  onOpenVisitor,
+  selectedEventId,
+  visit,
+}: {
+  detailId: string;
+  headingLevel: "h3" | "h4";
+  onOpenVisitor?: (visit: AnalyticsVisit) => void;
+  selectedEventId?: string | null;
+  visit: AnalyticsVisit;
+}) {
+  const Heading = headingLevel;
+
+  return (
+    <div className="signal-event-detail" id={detailId}>
+      <div className="signal-event-detail__main">
+        <section className="signal-event-detail__journey" aria-labelledby={`${detailId}-journey`}>
+          <header>
+            <Heading id={`${detailId}-journey`}>Timeline</Heading>
+            <span><Route aria-hidden="true" size={15} /> {visitJourneyCount(visit)}</span>
+          </header>
+          <JourneyTimeline selectedEventId={selectedEventId} visit={visit} />
+        </section>
+
+        <aside
+          aria-labelledby={`${detailId}-attribution`}
+          className="signal-event-detail__attribution"
+        >
+          <header>
+            <Heading id={`${detailId}-attribution`}>Attribution</Heading>
+          </header>
+          <dl>
+            <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
+            <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
+            <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
+            {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
+          </dl>
+        </aside>
+      </div>
+
+      <footer className="signal-event-detail__utilities">
+        <VisitRequestDetails includeGclidCopy visit={visit} />
+        {onOpenVisitor ? (
+          <button
+            aria-label={`View all visits from ${visitorLabel(visit.visitorId)}`}
+            className="signal-event-detail__visitor-action"
+            onClick={() => onOpenVisitor(visit)}
+            type="button"
+          >
+            Visitor history
+            <ChevronRight aria-hidden="true" size={17} />
+          </button>
+        ) : null}
+      </footer>
+    </div>
+  );
+}
+
 function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
   const deviceCounts = visits.reduce<Record<VisitDeviceType, number>>(
     (counts, visit) => ({
@@ -1215,45 +1275,12 @@ function DailyObservatory({
                   </button>
 
                   {isExpanded ? (
-                    <div className="signal-event-detail" id={detailId}>
-                      <div className="signal-event-detail__main">
-                        <section className="signal-event-detail__journey" aria-labelledby={`${detailId}-journey`}>
-                          <header>
-                            <h3 id={`${detailId}-journey`}>Timeline</h3>
-                            <span><Route aria-hidden="true" size={15} /> {visitJourneyCount(visit)}</span>
-                          </header>
-                          <JourneyTimeline visit={visit} />
-                        </section>
-
-                        <aside
-                          aria-labelledby={`${detailId}-attribution`}
-                          className="signal-event-detail__attribution"
-                        >
-                          <header>
-                            <h3 id={`${detailId}-attribution`}>Attribution</h3>
-                          </header>
-                          <dl>
-                            <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
-                            <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
-                            <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
-                            {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
-                          </dl>
-                        </aside>
-                      </div>
-
-                      <footer className="signal-event-detail__utilities">
-                        <VisitRequestDetails includeGclidCopy visit={visit} />
-                        <button
-                          aria-label={`View all visits from ${visitorLabel(visit.visitorId)}`}
-                          className="signal-event-detail__visitor-action"
-                          onClick={() => onOpenVisitor(visit)}
-                          type="button"
-                        >
-                          Visitor history
-                          <ChevronRight aria-hidden="true" size={17} />
-                        </button>
-                      </footer>
-                    </div>
+                    <VisitDetailPanel
+                      detailId={detailId}
+                      headingLevel="h3"
+                      onOpenVisitor={onOpenVisitor}
+                      visit={visit}
+                    />
                   ) : null}
                 </li>
               );
@@ -1609,29 +1636,12 @@ function VisitorHistory({
                   </dl>
                 </header>
 
-                <div className="visitor-visit__detail">
-                  <section className="visitor-visit__journey" aria-labelledby={`${visit.id}-journey`}>
-                    <header>
-                      <h4 id={`${visit.id}-journey`}>Visit timeline</h4>
-                      <span>{visitJourneyCount(visit)}</span>
-                    </header>
-                    <JourneyTimeline
-                      selectedEventId={isFocused ? selectedEvent?.id : null}
-                      visit={visit}
-                    />
-                  </section>
-
-                  <section className="visitor-visit__attribution" aria-labelledby={`${visit.id}-attribution`}>
-                    <header><h4 id={`${visit.id}-attribution`}>Attribution</h4></header>
-                    <dl>
-                      <div><dt>Referrer</dt><dd>{visit.referrerUrl ?? "None recorded"}</dd></div>
-                      <div><dt>Ad / network</dt><dd>{adNetworkDetail(visit)}</dd></div>
-                      <div><dt>Keyword / match</dt><dd>{keywordMatchDetail(visit)}</dd></div>
-                      {visit.isBot ? <div><dt>Bot classification</dt><dd>{botDetail(visit)}</dd></div> : null}
-                    </dl>
-                    <VisitRequestDetails visit={visit} />
-                  </section>
-                </div>
+                <VisitDetailPanel
+                  detailId={`visitor-visit-detail-${visit.id}`}
+                  headingLevel="h4"
+                  selectedEventId={isFocused ? selectedEvent?.id : null}
+                  visit={visit}
+                />
               </article>
             );
           })}

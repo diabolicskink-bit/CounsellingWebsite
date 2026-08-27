@@ -1352,8 +1352,7 @@ body:has(.visit-dashboard) {
 }
 
 .signal-stream__list,
-.signal-event-detail ol,
-.visitor-visit__journey ol {
+.signal-event-detail ol {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1805,29 +1804,21 @@ body:has(.visit-dashboard) {
 }
 
 .signal-event-detail__journey > header,
-.signal-event-detail__attribution > header,
-.visitor-visit__journey > header,
-.visitor-visit__attribution > header {
+.signal-event-detail__attribution > header {
   display: flex;
   align-items: end;
   justify-content: space-between;
   gap: 16px;
 }
 
-.signal-event-detail h3 {
+.signal-event-detail h3,
+.signal-event-detail h4 {
   margin: 0;
   font-size: 1rem;
   letter-spacing: -0.02em;
 }
 
-.visitor-visit h4 {
-  margin: 4px 0 0;
-  font-size: 1rem;
-  letter-spacing: -0.02em;
-}
-
-.signal-event-detail__journey > header > span,
-.visitor-visit__journey > header > span {
+.signal-event-detail__journey > header > span {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1835,15 +1826,13 @@ body:has(.visit-dashboard) {
   font-size: 0.76rem;
 }
 
-.signal-event-detail__journey ol,
-.visitor-visit__journey ol {
+.signal-event-detail__journey ol {
   display: grid;
   gap: 0;
   margin-top: 18px;
 }
 
-.signal-event-detail__journey li,
-.visitor-visit__journey li {
+.signal-event-detail__journey li {
   display: grid;
   min-width: 0;
   grid-template-columns: 34px 52px minmax(0, 1fr);
@@ -1853,8 +1842,7 @@ body:has(.visit-dashboard) {
   border-top: 1px solid #edecf4;
 }
 
-.signal-event-detail__journey li > span,
-.visitor-visit__journey li > span {
+.signal-event-detail__journey li > span {
   display: grid;
   width: 26px;
   height: 26px;
@@ -1866,15 +1854,13 @@ body:has(.visit-dashboard) {
   font-weight: 750;
 }
 
-.signal-event-detail__journey time,
-.visitor-visit__journey time {
+.signal-event-detail__journey time {
   color: var(--report-purple);
   font-size: 0.75rem;
   font-weight: 700;
 }
 
-.signal-event-detail__journey li strong,
-.visitor-visit__journey li strong {
+.signal-event-detail__journey li strong {
   min-width: 0;
   overflow-wrap: anywhere;
   font-size: 0.79rem;
@@ -1897,8 +1883,7 @@ body:has(.visit-dashboard) {
   background: rgba(238, 235, 255, 0.36);
 }
 
-.signal-event-detail__journey .signal-journey__event > span,
-.visitor-visit__journey .signal-journey__event > span {
+.signal-event-detail__journey .signal-journey__event > span {
   background: var(--report-pink);
   color: #b33e59;
   letter-spacing: 0.03em;
@@ -1924,8 +1909,7 @@ body:has(.visit-dashboard) {
   box-shadow: inset 3px 0 0 #d79835;
 }
 
-.signal-event-detail__journey .signal-journey__event--selected > span,
-.visitor-visit__journey .signal-journey__event--selected > span {
+.signal-event-detail__journey .signal-journey__event--selected > span {
   background: #d79835;
   color: #fff;
 }
@@ -1938,10 +1922,6 @@ body:has(.visit-dashboard) {
 
 .signal-event-detail__attribution > dl {
   margin: 18px 0 0;
-}
-
-.visitor-visit__attribution > dl {
-  margin: 17px 0 0;
 }
 
 .signal-request-details {
@@ -2083,8 +2063,7 @@ body:has(.visit-dashboard) {
   cursor: default;
 }
 
-.signal-event-detail__attribution > dl > div,
-.visitor-visit__attribution > dl > div {
+.signal-event-detail__attribution > dl > div {
   padding: 11px 0;
   border-top: 1px solid rgba(196, 191, 224, 0.5);
 }
@@ -2097,7 +2076,6 @@ body:has(.visit-dashboard) {
 }
 
 .signal-event-detail__attribution > dl dt,
-.visitor-visit__attribution > dl dt,
 .signal-request-details__body dt,
 .visitor-summary dt,
 .visitor-visit__summary dt {
@@ -2107,7 +2085,6 @@ body:has(.visit-dashboard) {
 }
 
 .signal-event-detail__attribution > dl dd,
-.visitor-visit__attribution > dl dd,
 .signal-request-details__body dd,
 .visitor-summary dd,
 .visitor-visit__summary dd {
@@ -2134,10 +2111,6 @@ body:has(.visit-dashboard) {
 
 .signal-event-detail__utilities .signal-request-details > summary {
   width: min(100%, 240px);
-}
-
-.visitor-visit__attribution > .signal-request-details {
-  margin-top: 18px;
 }
 
 .signal-event-detail__visitor-action {
@@ -2484,22 +2457,6 @@ body:has(.visit-dashboard) {
   font-weight: 700;
 }
 
-.visitor-visit__detail {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
-  border-top: 1px solid var(--report-line);
-}
-
-.visitor-visit__journey,
-.visitor-visit__attribution {
-  padding: 24px 28px 28px;
-}
-
-.visitor-visit__attribution {
-  border-left: 1px solid #ded9f6;
-  background: #f7f4ff;
-}
-
 .visitor-history__note {
   max-width: 720px;
   margin: 16px 3px 0;
@@ -2584,16 +2541,11 @@ body:has(.visit-dashboard) {
     height: 19px;
   }
 
-  .visitor-visit__detail {
-    grid-template-columns: 1fr;
-  }
-
   .signal-event-detail__main {
     grid-template-columns: 1fr;
   }
 
-  .signal-event-detail__attribution,
-  .visitor-visit__attribution {
+  .signal-event-detail__attribution {
     border-top: 1px solid #ded9f6;
     border-left: 0;
   }
@@ -2768,9 +2720,7 @@ body:has(.visit-dashboard) {
   }
 
   .signal-event-detail__journey,
-  .signal-event-detail__attribution,
-  .visitor-visit__journey,
-  .visitor-visit__attribution {
+  .signal-event-detail__attribution {
     padding: 22px 20px 24px;
   }
 
@@ -3078,8 +3028,7 @@ body:has(.visit-dashboard) {
     flex-direction: column;
   }
 
-  .signal-event-detail__journey li,
-  .visitor-visit__journey li {
+  .signal-event-detail__journey li {
     grid-template-columns: 28px 45px minmax(0, 1fr);
     gap: 9px;
   }
