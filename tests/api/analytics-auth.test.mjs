@@ -2,13 +2,10 @@ import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
 import protectAnalytics, { config, getAnalyticsAuthState } from "../../middleware.ts";
 
-const originalConsoleError = console.error;
 const originalPassword = process.env.ANALYTICS_PASSWORD;
 const originalUsername = process.env.ANALYTICS_USERNAME;
 
 afterEach(() => {
-  console.error = originalConsoleError;
-
   if (originalPassword === undefined) delete process.env.ANALYTICS_PASSWORD;
   else process.env.ANALYTICS_PASSWORD = originalPassword;
 
@@ -87,10 +84,10 @@ test("middleware challenges unauthorized requests and passes authorized requests
   assert.equal(authorized.headers.get("x-robots-tag"), "noindex, nofollow, noarchive");
 });
 
-test("middleware returns an unavailable response when credentials are not configured", () => {
+test("middleware returns an unavailable response when credentials are not configured", (context) => {
   delete process.env.ANALYTICS_USERNAME;
   delete process.env.ANALYTICS_PASSWORD;
-  console.error = () => {};
+  context.mock.method(console, "error", () => {});
 
   const response = protectAnalytics(new Request("https://example.test/analytics"));
 

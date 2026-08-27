@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { afterEach, test } from "node:test";
+import { test } from "node:test";
 import { createAnalyticsExclusionsHandler } from "../../api/analytics/exclusions.ts";
 import {
   AnalyticsDataUnavailableError,
@@ -8,12 +8,7 @@ import {
   UnknownAnalyticsVisitorError,
 } from "../../src/server/reporting/exclusions.ts";
 
-const originalConsoleError = console.error;
 const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
-
-afterEach(() => {
-  console.error = originalConsoleError;
-});
 
 function createResponse() {
   const result = { body: undefined, headers: {}, statusCode: 200 };
@@ -102,9 +97,13 @@ test("returns not found when an exclusion targets an unknown visitor", async () 
   assert.equal(updateCalls, 1);
 });
 
-test("keeps database failures generic", async () => {
+test("keeps database failures generic", async (context) => {
   const errors = [];
-  console.error = (...args) => errors.push(args.map(String).join(" "));
+  context.mock.method(
+    console,
+    "error",
+    (...args) => errors.push(args.map(String).join(" ")),
+  );
   const unavailable = createAnalyticsExclusionsHandler(
     async () => { throw new AnalyticsDataUnavailableError(); },
     async () => ({ isExcluded: true, visitorId }),

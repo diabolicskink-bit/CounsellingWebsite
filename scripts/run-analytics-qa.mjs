@@ -161,6 +161,12 @@ if (!process.env.npm_execpath) {
   throw new Error("npm_execpath is required. Run this helper through npm run qa:analytics.");
 }
 
+await run(
+  process.execPath,
+  ["--test", "tests/api/analytics*.test.mjs"],
+  process.env,
+);
+
 await run(process.execPath, [process.env.npm_execpath, "run", "build"], blockedHostAnalyticsEnv);
 await runPreviewTests(
   "analytics providers stay blocked on unallowed configured hosts",

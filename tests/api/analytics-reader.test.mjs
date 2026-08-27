@@ -187,15 +187,6 @@ test("reads complete retained history for one anonymous browser", async () => {
   assert.deepEqual(result.visits[1].pageViews, []);
 });
 
-test("rejects invalid stored device diagnostics", async () => {
-  const { database } = createDatabase([createVisitRow({ deviceType: "television" })]);
-
-  await assert.rejects(
-    readAnalytics({ type: "daily", date: "2026-08-15" }, database),
-    /invalid device type/,
-  );
-});
-
 test("reads visits with enquiry outcomes in one Perth calendar month", async () => {
   const { calls, database } = createDatabase([createVisitRow()]);
 

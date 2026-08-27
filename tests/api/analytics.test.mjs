@@ -1,12 +1,6 @@
 import assert from "node:assert/strict";
-import { afterEach, test } from "node:test";
+import { test } from "node:test";
 import { createAnalyticsHandler } from "../../api/analytics.ts";
-
-const originalConsoleError = console.error;
-
-afterEach(() => {
-  console.error = originalConsoleError;
-});
 
 function createResponse() {
   const result = { body: undefined, headers: {}, statusCode: 200 };
@@ -154,8 +148,8 @@ test("rejects writes, ambiguous selections, and oversized ranges before reading"
   assert.equal(readCalls, 0);
 });
 
-test("missing database configuration fails closed with a generic response", async () => {
-  console.error = () => {};
+test("missing database configuration fails closed with a generic response", async (context) => {
+  context.mock.method(console, "error", () => {});
   const handler = createAnalyticsHandler();
 
   const result = await invoke(handler, { method: "GET", query: {} });
