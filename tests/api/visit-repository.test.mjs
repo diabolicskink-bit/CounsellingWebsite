@@ -67,7 +67,7 @@ test("does not initialize Neon until database access is requested", () => {
   assert.throws(() => getVisitDatabase(), VisitDatabaseConfigurationError);
 });
 
-test("records a visit observation through one parameterized statement", async () => {
+test("maps a visit observation to one parameterized statement", async () => {
   const observation = createObservation();
   const { calls, database } = createDatabase({
     pageViewInserted: true,

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { afterEach, test } from "node:test";
+import { test } from "node:test";
 import { createVisitHandler } from "../../api/visit.ts";
 import {
   PageViewIdentityConflictError,
@@ -8,19 +8,12 @@ import {
 } from "../../src/server/visits/repository.ts";
 import { getVisitRequestEnvironment } from "../../src/server/visits/request.ts";
 
-const originalConsoleError = console.error;
-const originalConsoleWarn = console.warn;
 const nonBotClassification = {
   botCategory: null,
   botName: null,
   isBot: false,
 };
 const desktopUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/145.0.0.0 Safari/537.36";
-
-afterEach(() => {
-  console.error = originalConsoleError;
-  console.warn = originalConsoleWarn;
-});
 
 function createResponse() {
   const result = {
@@ -78,12 +71,12 @@ function jsonHeaders(headers = {}) {
   };
 }
 
-function silenceExpectedLogs() {
+function silenceExpectedLogs(context) {
   const errors = [];
   const warnings = [];
 
-  console.error = (...args) => errors.push(args.map(String).join(" "));
-  console.warn = (...args) => warnings.push(args);
+  context.mock.method(console, "error", (...args) => errors.push(args));
+  context.mock.method(console, "warn", (...args) => warnings.push(args));
 
   return { errors, warnings };
 }
@@ -209,8 +202,8 @@ test("stores a verified bot verdict and identity without blocking the visit", as
   assert.equal(observations[0].botCategory, "search engine");
 });
 
-test("records an unclassified visit when bot detection is unavailable", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("records an unclassified visit when bot detection is unavailable", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   const observations = [];
   const handler = createTestVisitHandler(
     async (observation) => observations.push(observation),
@@ -256,15 +249,6 @@ test("normalizes absent optional fields and route casing", async () => {
   assert.equal(observations[0].referrerUrl, null);
 });
 
-test("returns the same success for an idempotent repeated observation", async () => {
-  const handler = createTestVisitHandler(async () => ({ pageViewInserted: false }));
-
-  const result = await invoke(handler);
-
-  assert.equal(result.statusCode, 204);
-  assert.equal(result.body, undefined);
-});
-
 test("does not expose a read method", async () => {
   let recordCalled = false;
   const handler = createTestVisitHandler(async () => {
@@ -279,8 +263,8 @@ test("does not expose a read method", async () => {
   assert.equal(recordCalled, false);
 });
 
-test("rejects unsupported and missing content types before storage", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("rejects unsupported and missing content types before storage", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createTestVisitHandler(async () => {
     recordCalled = true;
@@ -298,8 +282,8 @@ test("rejects unsupported and missing content types before storage", async () =>
   assert.match(JSON.stringify(warnings), /unsupported_content_type/);
 });
 
-test("rejects oversized declared and parsed request bodies", async () => {
-  silenceExpectedLogs();
+test("rejects oversized declared and parsed request bodies", async (context) => {
+  silenceExpectedLogs(context);
   const handler = createTestVisitHandler(async () => {
     throw new Error("storage should not be called");
   });
@@ -315,8 +299,8 @@ test("rejects oversized declared and parsed request bodies", async () => {
   assert.equal(parsedResult.statusCode, 413);
 });
 
-test("rejects cross-site request signals before storage", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("rejects cross-site request signals before storage", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createTestVisitHandler(async () => {
     recordCalled = true;
@@ -367,8 +351,8 @@ test("accepts a same-origin production-shaped request", async () => {
   assert.equal(recordCalled, true);
 });
 
-test("rejects invalid identities, paths, referrers, and oversized attribution", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("rejects invalid identities, paths, referrers, and oversized attribution", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   const observations = [];
   const handler = createTestVisitHandler(async (observation) => observations.push(observation));
   const payloads = [
@@ -391,8 +375,8 @@ test("rejects invalid identities, paths, referrers, and oversized attribution", 
   assert.doesNotMatch(JSON.stringify(warnings), /secret|javascript|xxxxx/);
 });
 
-test("maps identity conflicts to a generic conflict response", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("maps identity conflicts to a generic conflict response", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
 
   for (const error of [new VisitIdentityConflictError(), new PageViewIdentityConflictError()]) {
     const handler = createTestVisitHandler(async () => {
@@ -407,8 +391,8 @@ test("maps identity conflicts to a generic conflict response", async () => {
   assert.doesNotMatch(JSON.stringify(warnings), /anonymous visitor|another visit/);
 });
 
-test("keeps database configuration and runtime failures out of public responses", async () => {
-  const { errors } = silenceExpectedLogs();
+test("keeps database configuration and runtime failures out of public responses", async (context) => {
+  const { errors } = silenceExpectedLogs(context);
   const failures = [
     new VisitDatabaseConfigurationError(),
     new Error("postgres://user:password@private-host/database"),

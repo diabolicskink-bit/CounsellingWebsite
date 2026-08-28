@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-28 - Analytics Test Suite Simplified
+
+- Separated private analytics browser checks from the public-site Playwright suite and made the analytics QA runner select its blocked-host and enabled-host scenarios explicitly.
+- Broadened the fast analytics gate to cover all recording endpoints, enquiry lifecycle events, retention, reporting, exclusions, hostname policy, migrations, and saved SQL contracts.
+- Reorganized dashboard request parsing, endpoint transport, migration-runner, and ledger-schema tests around their distinct responsibilities while keeping detailed dashboard presentation with Preview owner review.
+
 ## 2026-08-25 - Visit Client Environment Capture Added
 
 - Added visit-level capture for a bounded request user-agent, a server-derived desktop/mobile/tablet/unknown device type, and the browser's nullable `navigator.webdriver` value.

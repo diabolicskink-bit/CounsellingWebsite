@@ -78,6 +78,52 @@ test("sets and removes exclusions with the exact JSON contract", async () => {
   assert.deepEqual(restored.body, { data: { isExcluded: false, visitorId } });
 });
 
+test("rejects invalid updates before changing exclusion state", async () => {
+  let updateCalls = 0;
+  const handler = createAnalyticsExclusionsHandler(
+    async () => ({ type: "excluded", visitors: [] }),
+    async () => {
+      updateCalls += 1;
+      return { isExcluded: true, visitorId };
+    },
+  );
+  const cases = [
+    {
+      expectedStatus: 415,
+      request: { body: {}, headers: { "content-type": "text/plain" }, method: "PUT" },
+    },
+    {
+      expectedStatus: 413,
+      request: {
+        body: { excluded: true, visitorId },
+        headers: { "content-length": "2048", "content-type": "application/json" },
+        method: "PUT",
+      },
+    },
+    {
+      expectedStatus: 400,
+      request: {
+        body: { excluded: true, extra: true, visitorId },
+        headers: { "content-type": "application/json" },
+        method: "PUT",
+      },
+    },
+    { expectedStatus: 400, request: { method: "GET", query: { limit: "1" } } },
+    { expectedStatus: 405, request: { method: "DELETE" } },
+  ];
+
+  for (const { expectedStatus, request } of cases) {
+    const result = await invoke(handler, request);
+    assert.equal(result.statusCode, expectedStatus);
+
+    if (expectedStatus === 405) {
+      assert.equal(result.headers.allow, "GET, PUT");
+    }
+  }
+
+  assert.equal(updateCalls, 0);
+});
+
 test("returns not found when an exclusion targets an unknown visitor", async () => {
   let updateCalls = 0;
   const handler = createAnalyticsExclusionsHandler(
@@ -117,6 +163,7 @@ test("keeps database failures generic", async (context) => {
   const failedResult = await invoke(failed, { method: "GET" });
 
   assert.equal(unavailableResult.statusCode, 503);
+  assert.deepEqual(unavailableResult.body, { error: "Analytics exclusions are unavailable." });
   assert.equal(failedResult.statusCode, 500);
   assert.deepEqual(failedResult.body, { error: "Analytics exclusions are unavailable." });
   assert.doesNotMatch(JSON.stringify(errors), /password|private-host/);

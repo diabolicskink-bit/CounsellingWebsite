@@ -5,7 +5,7 @@ import {
   deleteExpiredVisitDataSql,
 } from "../../src/server/visits/retention.ts";
 
-test("deletes expired visits, cascaded page views, and orphaned exclusions", async () => {
+test("emits the bounded cleanup and maps its deletion counts", async () => {
   const calls = [];
   const database = {
     async query(query, parameters) {

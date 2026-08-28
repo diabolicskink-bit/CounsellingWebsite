@@ -3,6 +3,10 @@ import { afterEach, test } from "node:test";
 import { handleEnquiry } from "../../api/enquiry.ts";
 
 const publicFailureMessage = "Sorry, the enquiry could not be sent. Please email joel@vivecounselling.com.au directly.";
+const validAnalyticsContext = {
+  analyticsPageViewId: "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+  analyticsVisitId: "1a560836-220d-4d33-a05e-5f364891f9cb",
+};
 
 function createDependencies() {
   return {
@@ -142,6 +146,24 @@ function mockConsoleWarn() {
   return calls;
 }
 
+function mockVisitEvents() {
+  const events = [];
+
+  dependencies.recordVisitEvent = async (event) => {
+    events.push(event);
+    return { eventInserted: true };
+  };
+
+  return events;
+}
+
+function assertFailedAnalytics(events, reason) {
+  assert.deepEqual(events.map(({ eventType, properties }) => ({ eventType, properties })), [
+    { eventType: "enquiry_submit_attempted", properties: {} },
+    { eventType: "enquiry_failed", properties: { reason } },
+  ]);
+}
+
 function jsonHeaders(headers = {}) {
   return {
     "content-type": "application/json",
@@ -217,15 +239,10 @@ test("accepts a structured general enquiry and builds the Resend email server-si
 test("records authoritative enquiry attempt and sent events against the visit", async () => {
   setDeliveryEnv();
   mockResendSuccess();
-  const events = [];
-  dependencies.recordVisitEvent = async (event) => {
-    events.push(event);
-    return { eventInserted: true };
-  };
+  const events = mockVisitEvents();
 
   const result = await invokeHandler(validGeneralPayload({
-    analyticsPageViewId: "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-    analyticsVisitId: "1a560836-220d-4d33-a05e-5f364891f9cb",
+    ...validAnalyticsContext,
   }));
 
   assert.equal(result.statusCode, 200);
@@ -252,22 +269,14 @@ test("records authoritative enquiry attempt and sent events against the visit", 
 test("records a controlled failed event when delivery rejects an attempted enquiry", async () => {
   setDeliveryEnv();
   mockResendFailure();
-  const events = [];
-  dependencies.recordVisitEvent = async (event) => {
-    events.push(event);
-    return { eventInserted: true };
-  };
+  const events = mockVisitEvents();
 
   const result = await invokeHandler(validGeneralPayload({
-    analyticsPageViewId: "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
-    analyticsVisitId: "1a560836-220d-4d33-a05e-5f364891f9cb",
+    ...validAnalyticsContext,
   }));
 
   assert.equal(result.statusCode, 502);
-  assert.deepEqual(events.map(({ eventType, properties }) => ({ eventType, properties })), [
-    { eventType: "enquiry_submit_attempted", properties: {} },
-    { eventType: "enquiry_failed", properties: { reason: "email_provider" } },
-  ]);
+  assertFailedAnalytics(events, "email_provider");
 });
 
 test("ignores invalid optional analytics context without affecting delivery", async () => {
@@ -285,6 +294,22 @@ test("ignores invalid optional analytics context without affecting delivery", as
 
   assert.equal(result.statusCode, 200);
   assert.equal(eventCalls, 0);
+});
+
+test("keeps valid visit context when page-view context is invalid", async () => {
+  setDeliveryEnv();
+  mockResendSuccess();
+  const events = mockVisitEvents();
+
+  const result = await invokeHandler(validGeneralPayload({
+    analyticsPageViewId: "not-a-page-view",
+    analyticsVisitId: validAnalyticsContext.analyticsVisitId,
+  }));
+
+  assert.equal(result.statusCode, 200);
+  assert.equal(events.length, 2);
+  assert.ok(events.every(({ pageViewId }) => pageViewId === null));
+  assert.ok(events.every(({ visitId }) => visitId === validAnalyticsContext.analyticsVisitId));
 });
 
 test("keeps enquiry delivery successful when event storage is unavailable", async () => {
@@ -552,6 +577,7 @@ test("rejects a mismatched referer when origin is absent safely before delivery"
 
 test("short-circuits honeypot submissions without sending email", async () => {
   clearDeliveryEnv();
+  const events = mockVisitEvents();
   let fetchCalled = false;
   dependencies.fetch = async () => {
     fetchCalled = true;
@@ -559,6 +585,7 @@ test("short-circuits honeypot submissions without sending email", async () => {
   };
 
   const result = await invokeHandler({
+    ...validAnalyticsContext,
     email: "spam@example.com",
     enquiryType: "general",
     message: "Hello",
@@ -569,6 +596,7 @@ test("short-circuits honeypot submissions without sending email", async () => {
   assert.equal(result.statusCode, 200);
   assert.deepEqual(result.body, { ok: true });
   assert.equal(fetchCalled, false);
+  assert.equal(events.length, 0);
 });
 
 test("rejects the old composed subject body replyTo payload", async () => {
@@ -593,7 +621,9 @@ test("rejects the old composed subject body replyTo payload", async () => {
 
 test("returns a generic validation error for missing and invalid base fields", async () => {
   setDeliveryEnv();
+  const events = mockVisitEvents();
   const result = await invokeHandler({
+    ...validAnalyticsContext,
     email: "not-an-email",
     enquiryType: "not-valid",
     message: "",
@@ -604,6 +634,7 @@ test("returns a generic validation error for missing and invalid base fields", a
   assert.equal(result.statusCode, 400);
   assert.equal(result.body.error, "Invalid enquiry submission.");
   assertNoPublicDetails(result);
+  assert.equal(events.length, 0);
 });
 
 test("returns a generic validation error for invalid booking fields", async () => {
@@ -627,19 +658,14 @@ test("returns a generic validation error for invalid booking fields", async () =
 test("returns a generic public error and logs details when delivery env is missing", async () => {
   clearDeliveryEnv();
   const consoleErrors = mockConsoleError();
+  const events = mockVisitEvents();
   let fetchCalled = false;
   dependencies.fetch = async () => {
     fetchCalled = true;
     throw new Error("fetch should not be called without delivery config");
   };
 
-  const result = await invokeHandler({
-    email: "alex@example.com",
-    enquiryType: "general",
-    message: "Hello",
-    name: "Alex Person",
-    website: "",
-  });
+  const result = await invokeHandler(validGeneralPayload(validAnalyticsContext));
 
   assert.equal(result.statusCode, 500);
   assert.equal(result.body.error, publicFailureMessage);
@@ -647,48 +673,41 @@ test("returns a generic public error and logs details when delivery env is missi
   assert.match(consoleErrors.join("\n"), /RESEND_API_KEY/);
   assert.match(consoleErrors.join("\n"), /ENQUIRY_FROM_EMAIL/);
   assert.equal(fetchCalled, false);
+  assertFailedAnalytics(events, "configuration");
 });
 
 test("returns a generic public error and logs details when Resend rejects a valid payload", async () => {
   setDeliveryEnv();
   const consoleErrors = mockConsoleError();
   const fetchCalls = mockResendFailure();
+  const events = mockVisitEvents();
 
-  const result = await invokeHandler({
-    email: "alex@example.com",
-    enquiryType: "general",
-    message: "Hello",
-    name: "Alex Person",
-    website: "",
-  });
+  const result = await invokeHandler(validGeneralPayload(validAnalyticsContext));
 
   assert.equal(fetchCalls.length, 1);
   assert.equal(result.statusCode, 502);
   assert.equal(result.body.error, publicFailureMessage);
   assertNoPublicDetails(result);
   assert.match(consoleErrors.join("\n"), /Resend enquiry send failed: 429 quota exceeded/);
+  assertFailedAnalytics(events, "email_provider");
 });
 
 test("returns a generic public error and logs details when Resend throws unexpectedly", async () => {
   setDeliveryEnv();
   const consoleErrors = mockConsoleError();
+  const events = mockVisitEvents();
 
   dependencies.fetch = async () => {
     throw new Error("network socket reset");
   };
 
-  const result = await invokeHandler({
-    email: "alex@example.com",
-    enquiryType: "general",
-    message: "Hello",
-    name: "Alex Person",
-    website: "",
-  });
+  const result = await invokeHandler(validGeneralPayload(validAnalyticsContext));
 
   assert.equal(result.statusCode, 500);
   assert.equal(result.body.error, publicFailureMessage);
   assertNoPublicDetails(result);
   assert.match(consoleErrors.join("\n"), /Unexpected enquiry send error: network socket reset/);
+  assertFailedAnalytics(events, "network");
 });
 
 test("accepts a URL-encoded native form submission and returns a safe HTML success page", async () => {
