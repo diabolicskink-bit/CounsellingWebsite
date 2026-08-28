@@ -14,7 +14,7 @@
     "build:server": "vite build --ssr src/entry-server.tsx",
     "preview": "vite preview --host 127.0.0.1",
     "preview:qa": "vite preview --host 127.0.0.1 --port 4287 --strictPort",
-    "test:api": "node --test tests/api/*.test.mjs",
+    "test:api": "node --test tests/api/**/*.test.mjs",
     "test:analytics": "npm run test:api && node --test tests/scripts/analytics-hosts.test.mjs tests/scripts/database-migrations.test.mjs tests/scripts/visit-ledger-sql.test.mjs",
     "test:scripts": "node --test tests/scripts/*.test.mjs",
     "test:e2e": "playwright test tests/public-site.spec.ts",

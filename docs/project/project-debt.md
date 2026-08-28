@@ -157,7 +157,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - The current recorder serializes page and client-event fetches within one active document, and the repositories retry conflicts hidden by a concurrent statement snapshot. Those fixes prevent the common rapid-SPA loss but do not create a persisted causal sequence across documents and server-authored outcomes.
-- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/utils/visitEvents.ts`, `src/server/visits/repository.ts`, `src/server/visit-events/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `database/migrations/0004_create_visit_event_ledger.sql`, `tests/api/visit-repository.test.mjs`, `tests/api/visit-event-repository.test.mjs`
+- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/utils/visitEvents.ts`, `src/server/visits/repository.ts`, `src/server/visit-events/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `database/migrations/0004_create_visit_event_ledger.sql`, `tests/api/visits/visit-repository.test.mjs`, `tests/api/visits/visit-event-repository.test.mjs`
 
 ### DEBT-40 - Analytics reporting reads need bounded pagination
 

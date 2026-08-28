@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createVisitRetentionHandler } from "../../api/visit-retention.ts";
-import { VisitDatabaseConfigurationError } from "../../src/server/visits/repository.ts";
+import { createVisitRetentionHandler } from "../../../api/visit-retention.ts";
+import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
 
 function createResponse() {
   const result = {

@@ -7,7 +7,7 @@ import {
   pageViewsAnalyticsSql,
   readAnalytics,
   visitorAnalyticsSql,
-} from "../../src/server/reporting/reader.ts";
+} from "../../../src/server/reporting/reader.ts";
 
 const originalDatabaseUrl = process.env.DATABASE_URL;
 

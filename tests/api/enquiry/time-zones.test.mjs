@@ -4,7 +4,7 @@ import {
   getActiveAustralianPerthBusinessHoursNotes,
   getActiveAustralianTimeZoneOptions,
   getAustralianTimeZoneLabel,
-} from "../../src/utils/timeZones.ts";
+} from "../../../src/utils/timeZones.ts";
 
 test("resolves active and seasonally inactive Australian timezone labels", () => {
   const summer = new Date("2026-01-15T00:00:00.000Z");

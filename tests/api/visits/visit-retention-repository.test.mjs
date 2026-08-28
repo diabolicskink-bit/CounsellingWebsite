@@ -3,7 +3,7 @@ import { test } from "node:test";
 import {
   deleteExpiredVisitData,
   deleteExpiredVisitDataSql,
-} from "../../src/server/visits/retention.ts";
+} from "../../../src/server/visits/retention.ts";
 
 test("emits the bounded cleanup and maps its deletion counts", async () => {
   const calls = [];

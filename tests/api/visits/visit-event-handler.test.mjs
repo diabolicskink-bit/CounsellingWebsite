@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createVisitEventHandler } from "../../api/visit-event.ts";
+import { createVisitEventHandler } from "../../../api/visit-event.ts";
 import {
   VisitEventIdentityConflictError,
   VisitEventPageViewConflictError,
   VisitEventVisitConflictError,
-} from "../../src/server/visit-events/repository.ts";
-import { VisitDatabaseConfigurationError } from "../../src/server/visits/repository.ts";
+} from "../../../src/server/visit-events/repository.ts";
+import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
 
 function createResponse() {
   const result = {

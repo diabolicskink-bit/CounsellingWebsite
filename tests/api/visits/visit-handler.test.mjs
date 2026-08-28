@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createVisitHandler } from "../../api/visit.ts";
+import { createVisitHandler } from "../../../api/visit.ts";
 import {
   PageViewIdentityConflictError,
   VisitDatabaseConfigurationError,
   VisitIdentityConflictError,
-} from "../../src/server/visits/repository.ts";
-import { getVisitRequestEnvironment } from "../../src/server/visits/request.ts";
+} from "../../../src/server/visits/repository.ts";
+import { getVisitRequestEnvironment } from "../../../src/server/visits/request.ts";
 
 const nonBotClassification = {
   botCategory: null,

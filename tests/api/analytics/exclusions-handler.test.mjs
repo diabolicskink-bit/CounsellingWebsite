@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createAnalyticsExclusionsHandler } from "../../api/analytics/exclusions.ts";
+import { createAnalyticsExclusionsHandler } from "../../../api/analytics/exclusions.ts";
 import {
   AnalyticsDataUnavailableError,
-} from "../../src/server/reporting/reader.ts";
+} from "../../../src/server/reporting/reader.ts";
 import {
   UnknownAnalyticsVisitorError,
-} from "../../src/server/reporting/exclusions.ts";
+} from "../../../src/server/reporting/exclusions.ts";
 
 const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
 

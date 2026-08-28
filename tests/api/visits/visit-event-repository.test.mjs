@@ -6,7 +6,7 @@ import {
   VisitEventIdentityConflictError,
   VisitEventPageViewConflictError,
   VisitEventVisitConflictError,
-} from "../../src/server/visit-events/repository.ts";
+} from "../../../src/server/visit-events/repository.ts";
 
 function createObservation(overrides = {}) {
   return {

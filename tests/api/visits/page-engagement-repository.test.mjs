@@ -4,7 +4,7 @@ import {
   PageEngagementIdentityConflictError,
   recordPageEngagement,
   recordPageEngagementSql,
-} from "../../src/server/page-engagement/repository.ts";
+} from "../../../src/server/page-engagement/repository.ts";
 
 const observation = {
   activeSeconds: 47,

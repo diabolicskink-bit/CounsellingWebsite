@@ -8,7 +8,7 @@ import {
   recordVisitObservationSql,
   VisitDatabaseConfigurationError,
   VisitIdentityConflictError,
-} from "../../src/server/visits/repository.ts";
+} from "../../../src/server/visits/repository.ts";
 
 const originalDatabaseUrl = process.env.DATABASE_URL;
 

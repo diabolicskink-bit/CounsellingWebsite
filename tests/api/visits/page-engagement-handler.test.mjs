@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createPageEngagementHandler } from "../../api/page-engagement.ts";
-import { PageEngagementIdentityConflictError } from "../../src/server/page-engagement/repository.ts";
-import { VisitDatabaseConfigurationError } from "../../src/server/visits/repository.ts";
+import { createPageEngagementHandler } from "../../../api/page-engagement.ts";
+import { PageEngagementIdentityConflictError } from "../../../src/server/page-engagement/repository.ts";
+import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
 
 const validPayload = {
   activeSeconds: 47,
