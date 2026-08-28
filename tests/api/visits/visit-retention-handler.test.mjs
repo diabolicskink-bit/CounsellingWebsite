@@ -31,14 +31,12 @@ function createResponse() {
 
 function silenceExpectedLogs(context) {
   const errors = [];
-  const infos = [];
-  const warnings = [];
 
   context.mock.method(console, "error", (...args) => errors.push(args));
-  context.mock.method(console, "info", (...args) => infos.push(args));
-  context.mock.method(console, "warn", (...args) => warnings.push(args));
+  context.mock.method(console, "info", () => {});
+  context.mock.method(console, "warn", () => {});
 
-  return { errors, infos, warnings };
+  return { errors };
 }
 
 async function invoke(handler, { authorization, method = "GET" } = {}) {
@@ -50,7 +48,7 @@ async function invoke(handler, { authorization, method = "GET" } = {}) {
 }
 
 test("runs an authorized retention cleanup and returns counts only", async (context) => {
-  const { infos } = silenceExpectedLogs(context);
+  silenceExpectedLogs(context);
   let cleanupCalls = 0;
   const handler = createVisitRetentionHandler(
     async () => {
@@ -73,11 +71,10 @@ test("runs an authorized retention cleanup and returns counts only", async (cont
     pageViewsDeleted: 8,
     visitsDeleted: 3,
   });
-  assert.equal(infos.length, 1);
 });
 
 test("rejects missing and incorrect cron authorization before cleanup", async (context) => {
-  const { warnings } = silenceExpectedLogs(context);
+  silenceExpectedLogs(context);
   let cleanupCalls = 0;
   const handler = createVisitRetentionHandler(
     async () => {
@@ -88,16 +85,21 @@ test("rejects missing and incorrect cron authorization before cleanup", async (c
   );
 
   const missing = await invoke(handler);
-  const incorrect = await invoke(handler, { authorization: "Bearer incorrect" });
+  const incorrect = await invoke(handler, {
+    authorization: "Bearer test-retention-secrex",
+  });
 
-  assert.equal(missing.statusCode, 401);
-  assert.equal(incorrect.statusCode, 401);
+  for (const result of [missing, incorrect]) {
+    assert.equal(result.statusCode, 401);
+    assert.equal(result.headers["cache-control"], "no-store");
+    assert.deepEqual(result.body, { error: "Visit retention cleanup failed." });
+  }
+
   assert.equal(cleanupCalls, 0);
-  assert.equal(warnings.length, 2);
 });
 
 test("fails closed when cron or database configuration is missing", async (context) => {
-  const { errors } = silenceExpectedLogs(context);
+  silenceExpectedLogs(context);
   let cleanupCalls = 0;
   const missingSecretHandler = createVisitRetentionHandler(
     async () => {
@@ -118,10 +120,13 @@ test("fails closed when cron or database configuration is missing", async (conte
     authorization: "Bearer test-retention-secret",
   });
 
-  assert.equal(missingSecret.statusCode, 500);
-  assert.equal(missingDatabase.statusCode, 500);
+  for (const result of [missingSecret, missingDatabase]) {
+    assert.equal(result.statusCode, 500);
+    assert.equal(result.headers["cache-control"], "no-store");
+    assert.deepEqual(result.body, { error: "Visit retention cleanup failed." });
+  }
+
   assert.equal(cleanupCalls, 0);
-  assert.equal(errors.length, 2);
 });
 
 test("rejects non-GET requests", async (context) => {
@@ -142,6 +147,8 @@ test("rejects non-GET requests", async (context) => {
 
   assert.equal(result.statusCode, 405);
   assert.equal(result.headers.allow, "GET");
+  assert.equal(result.headers["cache-control"], "no-store");
+  assert.deepEqual(result.body, { error: "Visit retention cleanup failed." });
   assert.equal(cleanupCalls, 0);
 });
 

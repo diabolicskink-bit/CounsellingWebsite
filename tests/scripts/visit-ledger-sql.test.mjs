@@ -4,6 +4,10 @@ import { test } from "node:test";
 
 const migrationsUrl = new URL("../../database/migrations/", import.meta.url);
 const queriesUrl = new URL("../../database/queries/", import.meta.url);
+const baseMigration = await readFile(
+  new URL("0001_create_visit_ledger.sql", migrationsUrl),
+  "utf8",
+);
 const viewMigration = await readFile(
   new URL("0002_create_visit_ledger_view.sql", migrationsUrl),
   "utf8",
@@ -35,6 +39,13 @@ const queryFilenames = (await readdir(queriesUrl))
 function removeSqlComments(sql) {
   return sql.replaceAll(/^--.*$/gm, "");
 }
+
+test("base visit schema cascades page views when a visit is deleted", () => {
+  assert.match(
+    baseMigration,
+    /visit_id UUID NOT NULL REFERENCES site_visits\(id\) ON DELETE CASCADE/i,
+  );
+});
 
 test("visit ledger view exposes return status, traffic source, and page totals", () => {
   assert.match(viewMigration, /CREATE VIEW visit_ledger/i);

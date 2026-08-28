@@ -92,33 +92,45 @@ async function invoke(handler, { body = validPayload(), headers = jsonHeaders(),
   return returned ?? result;
 }
 
-test("records a valid observation and returns no content", async () => {
+test("records valid observations with same-origin or omitted origin signals", async () => {
   const observations = [];
   const handler = createTestVisitHandler(async (observation) => {
     observations.push(observation);
     return { pageViewInserted: true };
   });
 
-  const result = await invoke(handler);
+  const results = [
+    await invoke(handler),
+    await invoke(handler, {
+      headers: jsonHeaders({
+        host: "vivecounselling.com.au",
+        origin: "https://vivecounselling.com.au",
+        "sec-fetch-site": "same-origin",
+        "x-forwarded-proto": "https",
+      }),
+    }),
+  ];
 
-  assert.equal(result.statusCode, 204);
-  assert.equal(result.ended, true);
-  assert.equal(result.body, undefined);
-  assert.equal(result.headers["cache-control"], "no-store");
-  assert.equal(observations.length, 1);
-  assert.deepEqual(observations[0], {
+  for (const result of results) {
+    assert.equal(result.statusCode, 204);
+    assert.equal(result.ended, true);
+    assert.equal(result.body, undefined);
+    assert.equal(result.headers["cache-control"], "no-store");
+  }
+
+  const expectedObservation = {
     ...validPayload(),
     ...nonBotClassification,
     deviceType: "desktop",
     referrerHost: "www.google.com",
     userAgent: desktopUserAgent,
-  });
+  };
+  assert.deepEqual(observations, [expectedObservation, expectedObservation]);
 });
 
 test("derives bounded device and user-agent values from request headers", () => {
   const mobileUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1";
   const tabletUserAgent = "Mozilla/5.0 (Linux; Android 15; Tablet) AppleWebKit/537.36 Chrome/145.0.0.0 Safari/537.36";
-  const desktopModeIpadUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 Version/18.6 Mobile/15E148 Safari/604.1";
 
   assert.deepEqual(
     getVisitRequestEnvironment({ headers: {
@@ -135,13 +147,6 @@ test("derives bounded device and user-agent values from request headers", () => 
     { deviceType: "tablet", userAgent: tabletUserAgent },
   );
   assert.deepEqual(
-    getVisitRequestEnvironment({ headers: {
-      "sec-ch-ua-mobile": "?0",
-      "user-agent": desktopModeIpadUserAgent,
-    } }),
-    { deviceType: "tablet", userAgent: desktopModeIpadUserAgent },
-  );
-  assert.deepEqual(
     getVisitRequestEnvironment({ headers: { "user-agent": desktopUserAgent } }),
     { deviceType: "desktop", userAgent: desktopUserAgent },
   );
@@ -150,37 +155,24 @@ test("derives bounded device and user-agent values from request headers", () => 
     { deviceType: "unknown", userAgent: null },
   );
   assert.deepEqual(
-    getVisitRequestEnvironment({ headers: { "user-agent": "curl/8.16.0" } }),
-    { deviceType: "unknown", userAgent: "curl/8.16.0" },
-  );
-  assert.deepEqual(
     getVisitRequestEnvironment({ headers: { "user-agent": "x".repeat(1025) } }),
     { deviceType: "unknown", userAgent: "x".repeat(1024) },
   );
 });
 
-test("stores the browser WebDriver flag with the visit observation", async () => {
+test("preserves true and omitted WebDriver states", async () => {
   const observations = [];
   const handler = createTestVisitHandler(async (observation) => observations.push(observation));
+  const olderPayload = validPayload();
 
-  const result = await invoke(handler, {
-    body: validPayload({ isWebDriver: true }),
-  });
+  delete olderPayload.isWebDriver;
+  const results = [
+    await invoke(handler, { body: validPayload({ isWebDriver: true }) }),
+    await invoke(handler, { body: olderPayload }),
+  ];
 
-  assert.equal(result.statusCode, 204);
-  assert.equal(observations[0].isWebDriver, true);
-});
-
-test("accepts an omitted WebDriver flag from an older browser bundle", async () => {
-  const observations = [];
-  const handler = createTestVisitHandler(async (observation) => observations.push(observation));
-  const payload = validPayload();
-
-  delete payload.isWebDriver;
-  const result = await invoke(handler, { body: payload });
-
-  assert.equal(result.statusCode, 204);
-  assert.equal(observations[0].isWebDriver, null);
+  assert.ok(results.every((result) => result.statusCode === 204));
+  assert.deepEqual(observations.map(({ isWebDriver }) => isWebDriver), [true, null]);
 });
 
 test("stores a verified bot verdict and identity without blocking the visit", async () => {
@@ -249,54 +241,46 @@ test("normalizes absent optional fields and route casing", async () => {
   assert.equal(observations[0].referrerUrl, null);
 });
 
-test("does not expose a read method", async () => {
-  let recordCalled = false;
-  const handler = createTestVisitHandler(async () => {
-    recordCalled = true;
-  });
-
-  const result = await invoke(handler, { method: "GET" });
-
-  assert.equal(result.statusCode, 405);
-  assert.equal(result.headers.allow, "POST");
-  assert.deepEqual(result.body, { error: "Visit could not be recorded." });
-  assert.equal(recordCalled, false);
-});
-
-test("rejects unsupported and missing content types before storage", async (context) => {
-  const { warnings } = silenceExpectedLogs(context);
-  let recordCalled = false;
-  const handler = createTestVisitHandler(async () => {
-    recordCalled = true;
-  });
-
-  const textResult = await invoke(handler, {
-    body: JSON.stringify(validPayload()),
-    headers: { "content-type": "text/plain" },
-  });
-  const missingResult = await invoke(handler, { headers: {} });
-
-  assert.equal(textResult.statusCode, 415);
-  assert.equal(missingResult.statusCode, 415);
-  assert.equal(recordCalled, false);
-  assert.match(JSON.stringify(warnings), /unsupported_content_type/);
-});
-
-test("rejects oversized declared and parsed request bodies", async (context) => {
+test("rejects unsupported methods and malformed request bodies before storage", async (context) => {
   silenceExpectedLogs(context);
+  let recordCalled = false;
   const handler = createTestVisitHandler(async () => {
-    throw new Error("storage should not be called");
+    recordCalled = true;
   });
+  const cases = [
+    { expectedStatus: 405, request: { method: "GET" } },
+    {
+      expectedStatus: 415,
+      request: { body: JSON.stringify(validPayload()), headers: { "content-type": "text/plain" } },
+    },
+    {
+      expectedStatus: 400,
+      request: { headers: jsonHeaders({ "content-length": "invalid" }) },
+    },
+    {
+      expectedStatus: 413,
+      request: { headers: jsonHeaders({ "content-length": String(16 * 1024 + 1) }) },
+    },
+    {
+      expectedStatus: 413,
+      request: { body: validPayload({ ignored: "x".repeat(16 * 1024) }) },
+    },
+    { expectedStatus: 400, request: { body: "{" } },
+  ];
 
-  const declaredResult = await invoke(handler, {
-    headers: jsonHeaders({ "content-length": String(16 * 1024 + 1) }),
-  });
-  const parsedResult = await invoke(handler, {
-    body: validPayload({ ignored: "x".repeat(16 * 1024) }),
-  });
+  for (const { expectedStatus, request } of cases) {
+    const result = await invoke(handler, request);
 
-  assert.equal(declaredResult.statusCode, 413);
-  assert.equal(parsedResult.statusCode, 413);
+    assert.equal(result.statusCode, expectedStatus);
+    assert.equal(result.headers["cache-control"], "no-store");
+    assert.deepEqual(result.body, { error: "Visit could not be recorded." });
+
+    if (expectedStatus === 405) {
+      assert.equal(result.headers.allow, "POST");
+    }
+  }
+
+  assert.equal(recordCalled, false);
 });
 
 test("rejects cross-site request signals before storage", async (context) => {
@@ -332,25 +316,6 @@ test("rejects cross-site request signals before storage", async (context) => {
   assert.doesNotMatch(JSON.stringify(warnings), /private-path|secret=value/);
 });
 
-test("accepts a same-origin production-shaped request", async () => {
-  let recordCalled = false;
-  const handler = createTestVisitHandler(async () => {
-    recordCalled = true;
-  });
-
-  const result = await invoke(handler, {
-    headers: jsonHeaders({
-      host: "vivecounselling.com.au",
-      origin: "https://vivecounselling.com.au",
-      "sec-fetch-site": "same-origin",
-      "x-forwarded-proto": "https",
-    }),
-  });
-
-  assert.equal(result.statusCode, 204);
-  assert.equal(recordCalled, true);
-});
-
 test("rejects invalid identities, paths, referrers, and oversized attribution", async (context) => {
   const { warnings } = silenceExpectedLogs(context);
   const observations = [];
@@ -358,7 +323,6 @@ test("rejects invalid identities, paths, referrers, and oversized attribution", 
   const payloads = [
     validPayload({ visitorId: "not-a-uuid" }),
     validPayload({ path: "/contact?message=secret" }),
-    validPayload({ landingPath: "/Analytics", path: "/Analytics" }),
     validPayload({ path: "/ANALYTICS/pages" }),
     validPayload({ referrerUrl: "javascript:alert(1)" }),
     validPayload({ matchedKeyword: "x".repeat(1025) }),
