@@ -134,18 +134,24 @@ test("updates visit activity and bot classification without rewriting first-touc
   assert.match(updatedVisit, /last_seen_at = CASE[\s\S]*?GREATEST\(/i);
   assert.match(
     updatedVisit,
-    /WHEN site_visits\.is_bot IS TRUE OR \$13::BOOLEAN IS TRUE THEN TRUE/i,
+    /WHEN site_visits\.is_bot IS TRUE OR observation\.is_bot IS TRUE THEN TRUE/i,
   );
-  assert.match(updatedVisit, /bot_name = COALESCE\(site_visits\.bot_name, \$14\)/i);
-  assert.match(updatedVisit, /bot_category = COALESCE\(site_visits\.bot_category, \$15\)/i);
+  assert.match(
+    updatedVisit,
+    /bot_name = COALESCE\(site_visits\.bot_name, observation\.bot_name\)/i,
+  );
+  assert.match(
+    updatedVisit,
+    /bot_category = COALESCE\(site_visits\.bot_category, observation\.bot_category\)/i,
+  );
   assert.match(
     recordVisitObservationSql,
-    /INSERT INTO site_page_views[\s\S]*?FROM matched_visit\s+CROSS JOIN observation_time/i,
+    /INSERT INTO site_page_views[\s\S]*?FROM matched_visit\s+CROSS JOIN observation/i,
     "a newly inserted visit must be able to record its first page view in the same statement",
   );
   assert.match(
     recordVisitObservationSql,
-    /FROM matched_visit\s+LEFT JOIN inserted_page_view ON inserted_page_view\.visit_id = matched_visit\.id/i,
+    /FROM matched_visit\s+CROSS JOIN observation\s+LEFT JOIN inserted_page_view ON inserted_page_view\.visit_id = matched_visit\.id/i,
   );
 });
 
@@ -163,7 +169,7 @@ test("treats a repeated matching page-view ID as an idempotent observation", asy
   assert.equal(calls.length, 1);
   assert.match(
     recordVisitObservationSql,
-    /WHERE id = \$3::uuid\s*AND visit_id = \$2::uuid\s*AND path = \$5/i,
+    /WHERE page_views\.id = observation\.page_view_id\s*AND page_views\.visit_id = observation\.visit_id\s*AND page_views\.path = observation\.path/i,
   );
 });
 

@@ -18,22 +18,24 @@ function normalizeBotIdentity(value: string | undefined) {
     : null;
 }
 
-export async function classifyVisitBot(request: VisitRequest): Promise<VisitBotClassification> {
+export async function classifyVisitBot(
+  request: VisitRequest,
+): Promise<VisitBotClassification> {
   const verification = await checkBotId({
     advancedOptions: {
       checkLevel: "basic",
       headers: request.headers ?? {},
     },
   });
-  const hasVerifiedIdentity = verification.isBot
+  const hasVerifiedBotIdentity = verification.isBot
     && verification.isVerifiedBot
     && "verifiedBotName" in verification;
 
   return {
-    botCategory: hasVerifiedIdentity
+    botCategory: hasVerifiedBotIdentity
       ? normalizeBotIdentity(verification.verifiedBotCategory)
       : null,
-    botName: hasVerifiedIdentity
+    botName: hasVerifiedBotIdentity
       ? normalizeBotIdentity(verification.verifiedBotName)
       : null,
     isBot: verification.isBot,
