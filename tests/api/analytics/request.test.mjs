@@ -29,6 +29,15 @@ test("parses each supported report selection", () => {
         type: "pageViews",
       },
     ],
+    [
+      { end: "2026-08-16", report: "keywords", start: "2026-07-18" },
+      {
+        endDate: "2026-08-16",
+        includeBots: false,
+        startDate: "2026-07-18",
+        type: "keywords",
+      },
+    ],
   ];
 
   for (const [query, selection] of cases) {
@@ -51,6 +60,8 @@ test("rejects malformed, mixed, and out-of-bounds selections", () => {
     { bots: "include" },
     { bots: "exclude", end: "2026-08-16", start: "2026-08-01" },
     { start: "2026-08-01" },
+    { report: "keywords" },
+    { end: "2026-08-14", report: "sources", start: "2026-08-01" },
     { end: "2026-08-01", start: "2026-08-02" },
     { end: "2026-08-17", start: "2026-08-17" },
     { end: "2026-08-16", start: "2025-08-15" },

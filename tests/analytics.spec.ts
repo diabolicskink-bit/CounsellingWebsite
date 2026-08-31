@@ -178,6 +178,108 @@ test.describe("private analytics boundaries", () => {
       ),
     ).toHaveCount(0);
   });
+
+  test("loads matched keyword journeys across route and range changes", async ({ page }) => {
+    let releaseKeywordResponse = () => {};
+    const keywordResponseGate = new Promise<void>((resolve) => {
+      releaseKeywordResponse = resolve;
+    });
+    let delayKeywordResponse = true;
+    let requestedBots = "";
+    let requestedEndDate = "";
+    let requestedReport = "";
+    let requestedStartDate = "";
+
+    await page.route("**/api/analytics?*", async (route) => {
+      const requestUrl = new URL(route.request().url());
+      requestedBots = requestUrl.searchParams.get("bots") ?? "";
+      requestedEndDate = requestUrl.searchParams.get("end") ?? "";
+      requestedReport = requestUrl.searchParams.get("report") ?? "";
+      requestedStartDate = requestUrl.searchParams.get("start") ?? "";
+
+      if (requestedReport !== "keywords") {
+        await route.fulfill({
+          body: JSON.stringify({
+            data: {
+              date: requestUrl.searchParams.get("date"),
+              type: "daily",
+              visits: [],
+            },
+          }),
+          contentType: "application/json",
+          status: 200,
+        });
+        return;
+      }
+
+      if (delayKeywordResponse) {
+        await keywordResponseGate;
+        delayKeywordResponse = false;
+      }
+
+      await route.fulfill({
+        body: JSON.stringify({
+          data: {
+            endDate: requestUrl.searchParams.get("end"),
+            keywords: [{
+              activeSeconds: 300,
+              enquiryVisits: 1,
+              keyword: "kink aware counselling",
+              latestVisitAt: "2026-08-15T03:00:00.000Z",
+              matchTypes: ["e", "p"],
+              pageViews: 7,
+              returningVisits: 1,
+              topLandingPath: "/kink-bdsm-counselling",
+              visits: 3,
+            }],
+            startDate: requestUrl.searchParams.get("start"),
+            taggedEnquiryVisits: 1,
+            taggedVisits: 3,
+            totalActiveSeconds: 390,
+            totalEnquiryVisits: 1,
+            totalPageViews: 9,
+            totalPaidVisits: 4,
+            type: "keywords",
+          },
+        }),
+        contentType: "application/json",
+        status: 200,
+      });
+    });
+
+    await page.goto("/analytics?date=2026-08-15", { waitUntil: "networkidle" });
+    await page.evaluate(() => {
+      history.pushState(
+        {},
+        "",
+        "/Analytics/Keywords?start=2026-07-17&end=2026-08-15&bots=include",
+      );
+      dispatchEvent(new PopStateEvent("popstate"));
+    });
+
+    await expect(page.getByRole("heading", { level: 1, name: "Loading activity" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Activity could not be loaded" })).toHaveCount(0);
+    releaseKeywordResponse();
+
+    expect(requestedReport).toBe("keywords");
+    expect(requestedStartDate).toBe("2026-07-17");
+    expect(requestedEndDate).toBe("2026-08-15");
+    expect(requestedBots).toBe("include");
+    await expect(page.getByRole("heading", { level: 1, name: "Keyword journeys" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Matched keyword ledger" })).toBeVisible();
+    const keywordRow = page.getByRole("row").filter({ hasText: "kink aware counselling" });
+    await expect(keywordRow).toContainText("7 views");
+    await expect(keywordRow).toContainText("1:40");
+    await expect(keywordRow).toContainText("/kink-bdsm-counselling");
+
+    await page.getByLabel("Start date").fill("2026-08-01");
+    await page.getByLabel("End date").fill("2026-08-14");
+    await page.getByRole("button", { name: "Apply range" }).click();
+
+    await expect.poll(() => requestedStartDate).toBe("2026-08-01");
+    expect(requestedEndDate).toBe("2026-08-14");
+    expect(requestedBots).toBe("include");
+  });
 });
 
 test.describe("analytics availability", () => {

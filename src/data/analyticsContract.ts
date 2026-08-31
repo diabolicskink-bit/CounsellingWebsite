@@ -116,6 +116,31 @@ export type PageViewsAnalyticsReport = {
   type: "pageViews";
 };
 
+export type KeywordAnalyticsSummary = {
+  activeSeconds: number;
+  enquiryVisits: number;
+  keyword: string;
+  latestVisitAt: string;
+  matchTypes: string[];
+  pageViews: number;
+  returningVisits: number;
+  topLandingPath: string;
+  visits: number;
+};
+
+export type KeywordAnalyticsReport = {
+  endDate: string;
+  keywords: KeywordAnalyticsSummary[];
+  startDate: string;
+  taggedEnquiryVisits: number;
+  taggedVisits: number;
+  totalActiveSeconds: number;
+  totalEnquiryVisits: number;
+  totalPageViews: number;
+  totalPaidVisits: number;
+  type: "keywords";
+};
+
 export type VisitorAnalyticsReport = {
   isExcluded: boolean;
   type: "visitor";
@@ -139,6 +164,7 @@ export type ExcludedVisitorsReport = {
 export type AnalyticsReport =
   | DailyAnalyticsReport
   | ExcludedVisitorsReport
+  | KeywordAnalyticsReport
   | MonthlyAnalyticsReport
   | PageViewsAnalyticsReport
   | VisitorAnalyticsReport;

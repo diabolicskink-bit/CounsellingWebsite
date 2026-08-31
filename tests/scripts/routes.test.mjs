@@ -44,6 +44,7 @@ test("private routes remain separate from public metadata routes", () => {
     analytics: "/analytics",
     analyticsEnquiries: "/analytics/enquiries",
     analyticsExcluded: "/analytics/excluded",
+    analyticsKeywords: "/analytics/keywords",
     analyticsPageViews: "/analytics/pages",
   });
   for (const privatePath of Object.values(privateRoutePaths)) {
@@ -53,6 +54,7 @@ test("private routes remain separate from public metadata routes", () => {
   assert.equal(isPrivateRoutePath("/analytics"), true);
   assert.equal(isPrivateRoutePath("/analytics/enquiries"), true);
   assert.equal(isPrivateRoutePath("/analytics/excluded"), true);
+  assert.equal(isPrivateRoutePath("/analytics/keywords"), true);
   assert.equal(isPrivateRoutePath("/analytics/pages"), true);
   assert.equal(isPrivateRoutePath("/analytics/visitor"), true);
   assert.equal(isPrivateRoutePath("/Analytics"), true);

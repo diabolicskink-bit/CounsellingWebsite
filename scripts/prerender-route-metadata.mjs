@@ -20,6 +20,7 @@ const privateShellRoutePaths = [
   "/analytics",
   "/analytics/enquiries",
   "/analytics/excluded",
+  "/analytics/keywords",
   "/analytics/pages",
 ];
 const publicRouteContracts = {

@@ -3,6 +3,7 @@ import { afterEach, test } from "node:test";
 import {
   AnalyticsDataUnavailableError,
   dailyAnalyticsSql,
+  keywordAnalyticsSql,
   monthlyEnquiryAnalyticsSql,
   pageViewsAnalyticsSql,
   readAnalytics,
@@ -278,6 +279,112 @@ test("reads an aggregated page-view breakdown in one query", async () => {
   assert.match(calls[0].query, /SUM\(page_views\.active_seconds\)/);
   assert.match(calls[0].query, /ledger\.is_bot IS DISTINCT FROM TRUE/);
   assert.match(calls[0].query, /analytics_excluded_visitors/);
+});
+
+test("reads keyword journeys with visit depth, active time and enquiry outcomes", async () => {
+  const { calls, database } = createDatabase([
+    {
+      activeSeconds: "420",
+      enquiryVisits: "1",
+      keyword: "kink aware therapist",
+      latestVisitAt: new Date("2026-08-15T03:00:00.000Z"),
+      matchTypes: ["e", "p"],
+      pageViews: "7",
+      returningVisits: "1",
+      taggedEnquiryVisits: "1",
+      taggedVisits: "3",
+      topLandingPath: "/kink-bdsm-counselling",
+      totalActiveSeconds: "510",
+      totalEnquiryVisits: "1",
+      totalPageViews: "9",
+      totalPaidVisits: "4",
+      visits: "3",
+    },
+  ]);
+
+  const result = await readAnalytics(
+    {
+      endDate: "2026-08-15",
+      includeBots: false,
+      startDate: "2026-07-17",
+      type: "keywords",
+    },
+    database,
+  );
+
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].query, keywordAnalyticsSql);
+  assert.deepEqual(calls[0].parameters, ["2026-07-17", "2026-08-15", false]);
+  assert.deepEqual(result, {
+    endDate: "2026-08-15",
+    keywords: [{
+      activeSeconds: 420,
+      enquiryVisits: 1,
+      keyword: "kink aware therapist",
+      latestVisitAt: "2026-08-15T03:00:00.000Z",
+      matchTypes: ["e", "p"],
+      pageViews: 7,
+      returningVisits: 1,
+      topLandingPath: "/kink-bdsm-counselling",
+      visits: 3,
+    }],
+    startDate: "2026-07-17",
+    taggedEnquiryVisits: 1,
+    taggedVisits: 3,
+    totalActiveSeconds: 510,
+    totalEnquiryVisits: 1,
+    totalPageViews: 9,
+    totalPaidVisits: 4,
+    type: "keywords",
+  });
+  assert.match(calls[0].query, /ledger\.traffic_source = 'paid'/);
+  assert.match(calls[0].query, /SUM\(page_views\.active_seconds\)/);
+  assert.match(calls[0].query, /visit_events\.event_type = 'enquiry_sent'/);
+  assert.match(calls[0].query, /analytics_excluded_visitors/);
+  assert.match(calls[0].query, /ledger\.is_bot IS DISTINCT FROM TRUE/);
+});
+
+test("keeps paid visits without keyword tags visible in keyword coverage totals", async () => {
+  const { database } = createDatabase([{
+    activeSeconds: null,
+    enquiryVisits: null,
+    keyword: null,
+    latestVisitAt: null,
+    matchTypes: null,
+    pageViews: null,
+    returningVisits: null,
+    taggedEnquiryVisits: "0",
+    taggedVisits: "0",
+    topLandingPath: null,
+    totalActiveSeconds: "180",
+    totalEnquiryVisits: "0",
+    totalPageViews: "3",
+    totalPaidVisits: "2",
+    visits: null,
+  }]);
+
+  const result = await readAnalytics(
+    {
+      endDate: "2026-08-15",
+      includeBots: false,
+      startDate: "2026-08-15",
+      type: "keywords",
+    },
+    database,
+  );
+
+  assert.deepEqual(result, {
+    endDate: "2026-08-15",
+    keywords: [],
+    startDate: "2026-08-15",
+    taggedEnquiryVisits: 0,
+    taggedVisits: 0,
+    totalActiveSeconds: 180,
+    totalEnquiryVisits: 0,
+    totalPageViews: 3,
+    totalPaidVisits: 2,
+    type: "keywords",
+  });
 });
 
 test("returns a complete empty page-view report", async () => {

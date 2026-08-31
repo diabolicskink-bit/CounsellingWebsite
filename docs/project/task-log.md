@@ -56,6 +56,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Limited its use to explicit cleanup-sweep requests; other review, cleanup, refactoring, CSS, and maintainability work follows the task's stated scope without invoking source-first problem selection.
 - Preserved the sweep's existing one-problem selection, complete-resolution, verification, and project-debt outcome rules.
 
+## 2026-08-17 - Keyword Journey Analytics Added
+
+- Added the protected `/analytics/keywords` report with a 30-day default and a bounded date range, matched-keyword coverage, paid-visit totals, page depth, recorded active time, successful-enquiry visits, and a responsive ranked ledger.
+- Added one aggregate read path over the existing visit, page-view, event, exclusion, and BotID data. Keyword rows retain match type, top landing page, returning-visit context, and latest activity without exposing GCLIDs.
+- Included the new route in the private no-index build shell and analytics navigation, with focused API, reader, route, and browser coverage.
+
 ## 2026-08-16 - Visible Page Time Added
 
 - Added cumulative active seconds to each first-party page view, counting only while the page is visible and updating at 30-second intervals plus page-hide and route-exit flushes.

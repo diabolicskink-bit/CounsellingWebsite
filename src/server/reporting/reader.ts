@@ -194,6 +194,126 @@ LEFT JOIN route_counts ON TRUE
 ORDER BY route_counts.page_view_count DESC NULLS LAST, route_counts.path ASC;
 `;
 
+export const keywordAnalyticsSql = `
+WITH included_paid_visits AS (
+  SELECT
+    ledger.visit_id,
+    ledger.visit_number,
+    ledger.started_at,
+    ledger.landing_path,
+    LOWER(BTRIM(ledger.matched_keyword)) AS keyword,
+    ledger.match_type
+  FROM visit_ledger AS ledger
+  WHERE ledger.started_at >= (
+    $1::DATE::TIMESTAMP AT TIME ZONE 'Australia/Perth'
+  )
+  AND ledger.started_at < (
+    (($2::DATE + 1)::TIMESTAMP) AT TIME ZONE 'Australia/Perth'
+  )
+  AND ledger.traffic_source = 'paid'
+  AND ($3::BOOLEAN OR ledger.is_bot IS DISTINCT FROM TRUE)
+  AND NOT EXISTS (
+    SELECT 1
+    FROM analytics_excluded_visitors AS exclusions
+    WHERE exclusions.visitor_id = ledger.visitor_id
+  )
+),
+visit_activity AS (
+  SELECT
+    page_views.visit_id,
+    COUNT(*)::INTEGER AS page_views,
+    SUM(page_views.active_seconds)::INTEGER AS active_seconds
+  FROM site_page_views AS page_views
+  INNER JOIN included_paid_visits
+    ON included_paid_visits.visit_id = page_views.visit_id
+  GROUP BY page_views.visit_id
+),
+visit_outcomes AS (
+  SELECT
+    visit_events.visit_id,
+    TRUE AS has_enquiry
+  FROM site_visit_events AS visit_events
+  INNER JOIN included_paid_visits
+    ON included_paid_visits.visit_id = visit_events.visit_id
+  WHERE visit_events.event_type = 'enquiry_sent'
+  GROUP BY visit_events.visit_id
+),
+tagged_visits AS (
+  SELECT
+    included_paid_visits.*,
+    COALESCE(visit_activity.page_views, 0) AS page_views,
+    COALESCE(visit_activity.active_seconds, 0) AS active_seconds,
+    COALESCE(visit_outcomes.has_enquiry, FALSE) AS has_enquiry
+  FROM included_paid_visits
+  LEFT JOIN visit_activity
+    ON visit_activity.visit_id = included_paid_visits.visit_id
+  LEFT JOIN visit_outcomes
+    ON visit_outcomes.visit_id = included_paid_visits.visit_id
+  WHERE included_paid_visits.keyword IS NOT NULL
+    AND included_paid_visits.keyword <> ''
+),
+keyword_landing_counts AS (
+  SELECT
+    tagged_visits.keyword,
+    tagged_visits.landing_path,
+    COUNT(*)::INTEGER AS landing_visits
+  FROM tagged_visits
+  GROUP BY tagged_visits.keyword, tagged_visits.landing_path
+),
+keyword_landings AS (
+  SELECT DISTINCT ON (keyword)
+    keyword,
+    landing_path
+  FROM keyword_landing_counts
+  ORDER BY keyword, landing_visits DESC, landing_path ASC
+),
+keyword_rows AS (
+  SELECT
+    tagged_visits.keyword,
+    COUNT(*)::INTEGER AS visits,
+    COUNT(*) FILTER (WHERE tagged_visits.visit_number > 1)::INTEGER AS "returningVisits",
+    COUNT(*) FILTER (WHERE tagged_visits.has_enquiry)::INTEGER AS "enquiryVisits",
+    COALESCE(SUM(tagged_visits.page_views), 0)::INTEGER AS "pageViews",
+    COALESCE(SUM(tagged_visits.active_seconds), 0)::INTEGER AS "activeSeconds",
+    MAX(tagged_visits.started_at) AS "latestVisitAt",
+    COALESCE(
+      TO_JSONB(ARRAY_AGG(DISTINCT tagged_visits.match_type ORDER BY tagged_visits.match_type)
+        FILTER (WHERE tagged_visits.match_type IS NOT NULL)),
+      '[]'::JSONB
+    ) AS "matchTypes"
+  FROM tagged_visits
+  GROUP BY tagged_visits.keyword
+)
+SELECT
+  keyword_rows.keyword,
+  keyword_rows.visits,
+  keyword_rows."returningVisits",
+  keyword_rows."enquiryVisits",
+  keyword_rows."pageViews",
+  keyword_rows."activeSeconds",
+  keyword_rows."latestVisitAt",
+  keyword_rows."matchTypes",
+  keyword_landings.landing_path AS "topLandingPath",
+  (SELECT COUNT(*)::INTEGER FROM included_paid_visits) AS "totalPaidVisits",
+  (SELECT COUNT(*)::INTEGER FROM tagged_visits) AS "taggedVisits",
+  (
+    SELECT COUNT(*)::INTEGER
+    FROM included_paid_visits
+    INNER JOIN visit_outcomes
+      ON visit_outcomes.visit_id = included_paid_visits.visit_id
+  ) AS "totalEnquiryVisits",
+  (SELECT COUNT(*) FILTER (WHERE has_enquiry)::INTEGER FROM tagged_visits) AS "taggedEnquiryVisits",
+  COALESCE((SELECT SUM(page_views)::INTEGER FROM visit_activity), 0) AS "totalPageViews",
+  COALESCE((SELECT SUM(active_seconds)::INTEGER FROM visit_activity), 0) AS "totalActiveSeconds"
+FROM (SELECT 1) AS report_row
+LEFT JOIN keyword_rows ON TRUE
+LEFT JOIN keyword_landings
+  ON keyword_landings.keyword = keyword_rows.keyword
+ORDER BY keyword_rows."enquiryVisits" DESC NULLS LAST,
+  keyword_rows.visits DESC NULLS LAST,
+  keyword_rows.keyword ASC;
+`;
+
 export const visitorAnalyticsSql = `
 SELECT
 ${analyticsVisitColumns}
@@ -350,6 +470,16 @@ function normalizePageViews(value: unknown): AnalyticsPageView[] {
   });
 }
 
+function normalizeStringList(value: unknown, field: string): string[] {
+  const values = typeof value === "string" ? JSON.parse(value) : value;
+
+  if (!Array.isArray(values) || values.some((item) => typeof item !== "string" || !item)) {
+    throw new TypeError(`Analytics row has invalid ${field}.`);
+  }
+
+  return values;
+}
+
 function normalizeVisit(row: AnalyticsVisitRow): AnalyticsVisit {
   const visitNumber = nonNegativeInteger(row.visitNumber, "visit number");
   const totalVisits = nonNegativeInteger(row.totalVisits, "total visits");
@@ -406,6 +536,48 @@ export async function readAnalytics(
   database?: VisitDatabase,
 ): Promise<AnalyticsReport> {
   const selectedDatabase = resolveDatabase(database);
+
+  if (selection.type === "keywords") {
+    const rows = await selectedDatabase.query(keywordAnalyticsSql, [
+      selection.startDate,
+      selection.endDate,
+      selection.includeBots,
+    ]) as AnalyticsVisitRow[];
+    const totals = rows[0] ?? {
+      taggedEnquiryVisits: 0,
+      taggedVisits: 0,
+      totalActiveSeconds: 0,
+      totalEnquiryVisits: 0,
+      totalPageViews: 0,
+      totalPaidVisits: 0,
+    };
+    const keywords = rows
+      .filter((row) => row.keyword !== null && row.keyword !== undefined)
+      .map((row) => ({
+        activeSeconds: nonNegativeInteger(row.activeSeconds, "keyword active time"),
+        enquiryVisits: nonNegativeInteger(row.enquiryVisits, "keyword enquiry visits"),
+        keyword: requiredString(row.keyword, "keyword"),
+        latestVisitAt: timestampString(row.latestVisitAt, "keyword latest visit time"),
+        matchTypes: normalizeStringList(row.matchTypes, "keyword match types"),
+        pageViews: nonNegativeInteger(row.pageViews, "keyword page views"),
+        returningVisits: nonNegativeInteger(row.returningVisits, "keyword returning visits"),
+        topLandingPath: requiredString(row.topLandingPath, "keyword landing path"),
+        visits: nonNegativeInteger(row.visits, "keyword visits"),
+      }));
+
+    return {
+      endDate: selection.endDate,
+      keywords,
+      startDate: selection.startDate,
+      taggedEnquiryVisits: nonNegativeInteger(totals.taggedEnquiryVisits, "tagged enquiry visits"),
+      taggedVisits: nonNegativeInteger(totals.taggedVisits, "tagged visits"),
+      totalActiveSeconds: nonNegativeInteger(totals.totalActiveSeconds, "paid visit active time"),
+      totalEnquiryVisits: nonNegativeInteger(totals.totalEnquiryVisits, "paid enquiry visits"),
+      totalPageViews: nonNegativeInteger(totals.totalPageViews, "paid page views"),
+      totalPaidVisits: nonNegativeInteger(totals.totalPaidVisits, "paid visits"),
+      type: "keywords",
+    };
+  }
 
   if (selection.type === "pageViews") {
     const rows = await selectedDatabase.query(pageViewsAnalyticsSql, [
