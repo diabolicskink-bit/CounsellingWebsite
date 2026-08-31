@@ -1556,8 +1556,7 @@ function KeywordAnalytics({
     <>
       <section className="page-view-report__overview keyword-report__overview" aria-labelledby="keyword-report-title">
         <div className="page-view-report__intro keyword-report__intro">
-          <p className="signal-kicker">Paid search</p>
-          <h1 id="keyword-report-title">Keyword journeys</h1>
+          <h1 id="keyword-report-title">Keywords</h1>
           <p>
             {report.startDate === report.endDate
               ? formatDate(report.startDate)
@@ -1611,12 +1610,8 @@ function KeywordAnalytics({
         </div>
       </dl>
 
-      <section className="keyword-report__ledger" aria-labelledby="keyword-ledger-title">
+      <section className="keyword-report__ledger" aria-label="Matched keywords">
         <header>
-          <div>
-            <p className="signal-kicker">Enquiry visits first, then visits</p>
-            <h2 id="keyword-ledger-title">Matched keyword ledger</h2>
-          </div>
           <span>{report.keywords.length} matched {report.keywords.length === 1 ? "keyword" : "keywords"}</span>
         </header>
 
@@ -1633,7 +1628,6 @@ function KeywordAnalytics({
               </caption>
               <thead>
                 <tr>
-                  <th aria-label="Rank" scope="col">#</th>
                   <th scope="col">Keyword</th>
                   <th scope="col">Visits</th>
                   <th scope="col">Page depth</th>
@@ -1643,7 +1637,7 @@ function KeywordAnalytics({
                 </tr>
               </thead>
               <tbody>
-                {report.keywords.map((keyword, index) => {
+                {report.keywords.map((keyword) => {
                   const pagesPerKeywordVisit = keyword.visits
                     ? (keyword.pageViews / keyword.visits).toFixed(1)
                     : "0.0";
@@ -1656,9 +1650,6 @@ function KeywordAnalytics({
 
                   return (
                     <tr key={keyword.keyword}>
-                      <td className="keyword-report__rank">
-                        {String(index + 1).padStart(2, "0")}
-                      </td>
                       <th className="keyword-report__term" scope="row">
                         <strong>{keyword.keyword}</strong>
                         <span>
