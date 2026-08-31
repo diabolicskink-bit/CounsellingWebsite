@@ -98,7 +98,7 @@ function JourneyTimeline({
   const pagePathById = new Map(visit.pageViews.map((pageView) => [pageView.id, pageView.path]));
 
   return (
-    <ol className="signal-journey">
+    <ol>
       {visitJourney(visit).map((item, index) => {
         if (item.kind === "page") {
           return (

@@ -245,8 +245,8 @@ function DailyObservatory({
 
       <TrafficDiagnostics visits={includedVisits} />
 
-      <section className="signal-stream" aria-labelledby="signal-stream-title">
-        <header className="signal-stream__header">
+      <section className="signal-report__section" aria-labelledby="signal-stream-title">
+        <header className="signal-report__section-header">
           <div>
             <p className="signal-kicker">Newest first</p>
             <h2 id="signal-stream-title">Visits on this day</h2>

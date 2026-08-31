@@ -81,7 +81,6 @@ function SignalHeader({
             </button>
           ) : null}
           <button
-            className="signal-header__refresh"
             disabled={status === "loading"}
             onClick={onRefresh}
             type="button"

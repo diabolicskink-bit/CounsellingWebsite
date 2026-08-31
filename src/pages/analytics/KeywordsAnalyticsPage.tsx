@@ -142,10 +142,10 @@ function KeywordReport({
   return (
     <>
       <section
-        className="page-view-report__overview keyword-report__overview"
+        className="signal-report__overview signal-report__overview--range"
         aria-labelledby="keyword-report-title"
       >
-        <div className="page-view-report__intro keyword-report__intro">
+        <div className="signal-report__intro">
           <h1 id="keyword-report-title">Keywords</h1>
           <p>
             {report.startDate === report.endDate
@@ -204,8 +204,8 @@ function KeywordReport({
         </div>
       </dl>
 
-      <section className="keyword-report__ledger" aria-label="Matched keywords">
-        <header>
+      <section className="signal-report__section" aria-label="Matched keywords">
+        <header className="signal-report__section-header">
           <span>
             {report.keywords.length} matched {report.keywords.length === 1 ? "keyword" : "keywords"}
           </span>
@@ -214,11 +214,11 @@ function KeywordReport({
         {report.keywords.length ? (
           <div
             aria-label="Keyword ledger. Scroll horizontally to see every column."
-            className="keyword-report__table-wrap"
+            className="signal-report__table-wrap"
             role="region"
             tabIndex={0}
           >
-            <table className="keyword-report__table">
+            <table className="signal-report__table keyword-report__table">
               <caption className="signal-visually-hidden">
                 Google Ads matched keywords with visits, page depth, active time, enquiries and latest visit
               </caption>
@@ -282,7 +282,7 @@ function KeywordReport({
             </table>
           </div>
         ) : (
-          <div className="signal-stream__empty keyword-report__empty">
+          <div className="signal-stream__empty">
             <Search aria-hidden="true" size={30} />
             <h3>No matched keywords</h3>
             <p>

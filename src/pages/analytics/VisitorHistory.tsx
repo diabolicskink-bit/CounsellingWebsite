@@ -158,7 +158,7 @@ export default function VisitorHistory({
       </section>
 
       <section className="visitor-history" aria-labelledby="all-visits-title">
-        <header className="visitor-history__header">
+        <header className="signal-report__section-header">
           <div>
             <p className="signal-kicker">{isEnquiryJourney ? "Journey to this outcome" : "Complete history"}</p>
             <h2 id="all-visits-title">{isEnquiryJourney ? "Visits and enquiry activity" : "All visits"}</h2>

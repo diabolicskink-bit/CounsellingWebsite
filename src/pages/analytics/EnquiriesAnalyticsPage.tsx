@@ -62,15 +62,18 @@ function MonthlyEnquiries({
 
   return (
     <>
-      <section className="monthly-enquiries__overview" aria-labelledby="monthly-enquiries-title">
-        <div className="monthly-enquiries__intro">
+      <section className="signal-report__overview" aria-labelledby="monthly-enquiries-title">
+        <div className="signal-report__intro">
           <p className="signal-kicker">Calendar month</p>
           <h1 id="monthly-enquiries-title">{formatMonth(monthKey)}</h1>
           <p>Every recorded sent or failed contact-form outcome in Australia/Perth time.</p>
         </div>
         <MonthControls currentMonth={currentMonth} monthKey={monthKey} onMonthChange={onMonthChange} />
 
-        <dl className="monthly-enquiries__summary" aria-label="Monthly enquiry summary">
+        <dl
+          className="signal-report__summary monthly-enquiries__summary"
+          aria-label="Monthly enquiry summary"
+        >
           <div><dt>Enquiries</dt><dd>{String(enquiryOutcomes.length).padStart(2, "0")}</dd></div>
           <div><dt>Sent</dt><dd>{String(sentCount).padStart(2, "0")}</dd></div>
           <div><dt>Failed</dt><dd>{String(failedCount).padStart(2, "0")}</dd></div>
@@ -84,8 +87,8 @@ function MonthlyEnquiries({
         </dl>
       </section>
 
-      <section className="monthly-enquiries__ledger" aria-labelledby="monthly-enquiry-list-title">
-        <header className="monthly-enquiries__ledger-header">
+      <section className="signal-report__section" aria-labelledby="monthly-enquiry-list-title">
+        <header className="signal-report__section-header">
           <div>
             <p className="signal-kicker">Newest first</p>
             <h2 id="monthly-enquiry-list-title">All enquiries</h2>
@@ -94,7 +97,7 @@ function MonthlyEnquiries({
         </header>
 
         {enquiryOutcomes.length ? (
-          <ol className="monthly-enquiries__list">
+          <ol className="signal-report__list monthly-enquiries__list">
             {enquiryOutcomes.map(({ visit, visitEvent }) => {
               const wasSent = visitEvent.eventType === "enquiry_sent";
               const option = enquiryOptionForEvent(visit, visitEvent);
@@ -105,12 +108,13 @@ function MonthlyEnquiries({
                 <li key={visitEvent.id}>
                   <button
                     aria-label={`${eventLabel(visitEvent)} on ${formatDate(dateKey)} at ${formatTime(visitEvent.occurredAt)}. Open enquiry journey for ${visitorLabel(visit.visitorId)}`}
+                    className="signal-report__list-button"
                     onClick={() => onOpenEnquiry(visit, visitEvent)}
                     type="button"
                   >
                     <span className={wasSent
-                      ? "enquiry-activity__status enquiry-activity__status--sent"
-                      : "enquiry-activity__status enquiry-activity__status--failed"}
+                      ? "signal-report__status signal-report__status--sent"
+                      : "signal-report__status signal-report__status--failed"}
                     >
                       {wasSent
                         ? <CircleCheck aria-hidden="true" size={19} />
@@ -120,11 +124,11 @@ function MonthlyEnquiries({
                       <strong>{formatDate(dateKey, true)}</strong>
                       <time dateTime={visitEvent.occurredAt}>{formatTime(visitEvent.occurredAt)}</time>
                     </span>
-                    <span className="enquiry-activity__outcome">
+                    <span className="monthly-enquiries__outcome">
                       <strong>{eventLabel(visitEvent)}</strong>
                       <small>{[option, failure].filter(Boolean).join(" · ") || "Contact form"}</small>
                     </span>
-                    <span className="enquiry-activity__visitor">
+                    <span className="monthly-enquiries__visitor">
                       <strong>{visitorLabel(visit.visitorId)}</strong>
                       <small>Visit {visit.visitNumber} of {visit.totalVisits}</small>
                     </span>
@@ -135,7 +139,7 @@ function MonthlyEnquiries({
             })}
           </ol>
         ) : (
-          <div className="signal-stream__empty monthly-enquiries__empty">
+          <div className="signal-stream__empty">
             <Radio aria-hidden="true" size={30} />
             <h3>No enquiries recorded</h3>
             <p>No sent or failed contact-form outcomes were recorded in {formatMonth(monthKey)}.</p>

@@ -64,8 +64,11 @@ function PageViewsReport({
 
   return (
     <>
-      <section className="page-view-report__overview" aria-labelledby="page-view-report-title">
-        <div className="page-view-report__intro">
+      <section
+        className="signal-report__overview signal-report__overview--range"
+        aria-labelledby="page-view-report-title"
+      >
+        <div className="signal-report__intro">
           <Link className="page-view-report__back" to={dailyPath}>
             <ArrowLeft aria-hidden="true" size={16} /> Back to daily
           </Link>
@@ -86,15 +89,18 @@ function PageViewsReport({
         />
       </section>
 
-      <section className="page-view-report__summary" aria-label="Page-view totals">
+      <section
+        className="signal-report__summary page-view-report__summary"
+        aria-label="Page-view totals"
+      >
         <div><span>Page views</span><strong>{report.totalPageViews}</strong></div>
         <div><span>Visits</span><strong>{report.totalVisits}</strong></div>
         <div><span>Avg per visit</span><strong>{averagePages}</strong></div>
         <div><span>Active time</span><strong>{formatActiveTime(report.totalActiveSeconds)}</strong></div>
       </section>
 
-      <section className="page-view-report__routes" aria-labelledby="page-view-routes-title">
-        <header>
+      <section className="signal-report__section" aria-labelledby="page-view-routes-title">
+        <header className="signal-report__section-header">
           <div>
             <p className="signal-kicker">Most viewed first</p>
             <h2 id="page-view-routes-title">All viewed routes</h2>
@@ -105,11 +111,11 @@ function PageViewsReport({
         {report.routes.length ? (
           <div
             aria-label="Page-view routes. Scroll horizontally to see every column."
-            className="page-view-report__table-wrap"
+            className="signal-report__table-wrap"
             role="region"
             tabIndex={0}
           >
-            <table className="page-view-report__table">
+            <table className="signal-report__table page-view-report__table">
               <caption className="signal-visually-hidden">
                 Routes ranked by page views, including share of views, visits and average active time
               </caption>
@@ -156,7 +162,7 @@ function PageViewsReport({
             </table>
           </div>
         ) : (
-          <div className="signal-stream__empty page-view-report__empty">
+          <div className="signal-stream__empty">
             <Radio aria-hidden="true" size={30} />
             <h3>No page views recorded</h3>
             <p>No routes were viewed in this date range.</p>

@@ -28,8 +28,8 @@ function ExcludedVisitors({
 }) {
   return (
     <>
-      <section className="excluded-visitors__overview" aria-labelledby="excluded-visitors-title">
-        <div>
+      <section className="signal-report__overview" aria-labelledby="excluded-visitors-title">
+        <div className="signal-report__intro">
           <p className="signal-kicker">Report filter</p>
           <h1 id="excluded-visitors-title">Excluded visitors</h1>
           <p>
@@ -46,8 +46,8 @@ function ExcludedVisitors({
         </div>
       </section>
 
-      <section className="excluded-visitors__directory" aria-labelledby="excluded-visitors-list-title">
-        <header>
+      <section className="signal-report__section" aria-labelledby="excluded-visitors-list-title">
+        <header className="signal-report__section-header">
           <div>
             <p className="signal-kicker">Newest exclusion first</p>
             <h2 id="excluded-visitors-list-title">Manage exclusions</h2>
@@ -56,7 +56,7 @@ function ExcludedVisitors({
         </header>
 
         {visitors.length ? (
-          <ol className="excluded-visitors__list">
+          <ol className="signal-report__list excluded-visitors__list">
             {visitors.map((visitor) => {
               const excludedDate = getPerthDateKey(new Date(visitor.excludedAt));
               const firstSeenDate = getPerthDateKey(new Date(visitor.firstSeenAt));
@@ -66,10 +66,11 @@ function ExcludedVisitors({
                 <li key={visitor.visitorId}>
                   <button
                     aria-label={`Open ${visitorLabel(visitor.visitorId)}, excluded ${formatDate(excludedDate, true)}`}
+                    className="signal-report__list-button"
                     onClick={() => onOpenVisitor(visitor.visitorId)}
                     type="button"
                   >
-                    <span className="excluded-visitors__mark">
+                    <span className="signal-report__status signal-report__status--excluded">
                       <EyeOff aria-hidden="true" size={18} />
                     </span>
                     <span className="excluded-visitors__identity">
@@ -97,7 +98,7 @@ function ExcludedVisitors({
             })}
           </ol>
         ) : (
-          <div className="signal-stream__empty excluded-visitors__empty">
+          <div className="signal-stream__empty">
             <CircleCheck aria-hidden="true" size={30} />
             <h3>No excluded visitors</h3>
             <p>Visitors excluded from their history page will appear here.</p>
