@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { getAnalyticsSelection } from "../../src/server/reporting/request.ts";
+import { getAnalyticsSelection } from "../../../src/server/reporting/request.ts";
 
 const now = new Date("2026-08-16T04:00:00.000Z");
 const visitorId = "7a2f0000-0000-4000-8000-000000000004";

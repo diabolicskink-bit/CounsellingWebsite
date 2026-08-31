@@ -16,14 +16,17 @@ export type VisitResponse = {
   status(statusCode: number): VisitResponse;
 };
 
-export type VisitRequestShapeBlock = {
-  reason: string;
-  status: number;
-};
+type VisitRequestBlockReason =
+  | "body_too_large"
+  | "cross_site_fetch_site"
+  | "invalid_content_length"
+  | "mismatched_origin"
+  | "mismatched_referer"
+  | "unsupported_content_type";
 
-type ParsedHeaderOrigin = {
-  origin: string;
-  valid: boolean;
+export type VisitRequestShapeBlock = {
+  reason: VisitRequestBlockReason;
+  status: 400 | 403 | 413 | 415;
 };
 
 const maxVisitBodyBytes = 16 * 1024;
@@ -32,10 +35,12 @@ const controlCharacterPattern = /[\u0000-\u001f\u007f]/;
 const desktopUserAgentPattern = /windows nt|macintosh|cros|x11|linux x86_64/;
 const mobileUserAgentPattern = /iphone|ipod|mobile|windows phone/;
 const tabletUserAgentPattern = /ipad|tablet|kindle|playbook|silk|macintosh.*mobile/;
+const localHostnames = new Set(["localhost", "127.0.0.1", "[::1]"]);
 
 function getHeader(request: VisitRequest, name: string) {
   const headers = request.headers ?? {};
-  const headerName = Object.keys(headers).find((key) => key.toLowerCase() === name.toLowerCase());
+  const normalizedName = name.toLowerCase();
+  const headerName = Object.keys(headers).find((key) => key.toLowerCase() === normalizedName);
   const headerValue = headerName ? headers[headerName] : undefined;
 
   if (Array.isArray(headerValue)) {
@@ -87,34 +92,52 @@ function getMediaType(contentType: string) {
   return contentType.split(";")[0].trim().toLowerCase();
 }
 
-function getNormalizedOrigin(value: string) {
+function parseHttpUrl(value: string) {
   const candidate = value.trim();
 
   if (!candidate || candidate.toLowerCase() === "null") {
-    return "";
+    return null;
   }
 
   try {
-    const url = new URL(candidate.includes("://") ? candidate : `https://${candidate}`);
+    const url = new URL(candidate);
 
-    return url.origin.toLowerCase();
+    return (
+      (url.protocol === "http:" || url.protocol === "https:")
+      && !url.username
+      && !url.password
+    )
+      ? url
+      : null;
   } catch {
-    return "";
+    return null;
   }
 }
 
-function addAllowedOrigin(origins: Set<string>, value: string | undefined) {
-  const origin = getNormalizedOrigin(value ?? "");
+function parseHttpOrigin(value: string) {
+  return parseHttpUrl(value)?.origin.toLowerCase() ?? null;
+}
 
+function parseConfiguredOrigin(value: string | undefined) {
+  const candidate = value?.trim() ?? "";
+
+  if (!candidate || candidate.toLowerCase() === "null") {
+    return null;
+  }
+
+  return parseHttpOrigin(candidate.includes("://") ? candidate : `https://${candidate}`);
+}
+
+function addAllowedOrigin(origins: Set<string>, origin: string | null) {
   if (origin) {
     origins.add(origin);
   }
 }
 
 function isLocalHost(host: string) {
-  const hostname = host.split(":")[0].toLowerCase();
+  const hostname = parseHttpUrl(`http://${host}`)?.hostname.toLowerCase();
 
-  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1" || hostname === "[::1]";
+  return Boolean(hostname && localHostnames.has(hostname));
 }
 
 function getAllowedOrigins(request: VisitRequest) {
@@ -124,35 +147,33 @@ function getAllowedOrigins(request: VisitRequest) {
   const requestProto = forwardedProto === "http" ? "http" : "https";
 
   if (host) {
-    addAllowedOrigin(origins, `${requestProto}://${host}`);
+    addAllowedOrigin(origins, parseHttpOrigin(`${requestProto}://${host}`));
 
     if (isLocalHost(host)) {
-      addAllowedOrigin(origins, `http://${host}`);
-      addAllowedOrigin(origins, `https://${host}`);
+      addAllowedOrigin(origins, parseHttpOrigin(`http://${host}`));
+      addAllowedOrigin(origins, parseHttpOrigin(`https://${host}`));
     }
   }
 
-  addAllowedOrigin(origins, process.env.SITE_URL);
-  addAllowedOrigin(origins, process.env.VERCEL_URL);
-  addAllowedOrigin(origins, process.env.VERCEL_BRANCH_URL);
+  addAllowedOrigin(origins, parseConfiguredOrigin(process.env.SITE_URL));
+  addAllowedOrigin(origins, parseConfiguredOrigin(process.env.VERCEL_URL));
+  addAllowedOrigin(origins, parseConfiguredOrigin(process.env.VERCEL_BRANCH_URL));
 
   return origins;
 }
 
-function getHeaderOrigin(headerValue: string): ParsedHeaderOrigin {
-  if (!headerValue.trim()) {
-    return { origin: "", valid: true };
+function parseOriginHeader(headerValue: string) {
+  const url = parseHttpUrl(headerValue);
+
+  if (!url || url.pathname !== "/" || url.search || url.hash) {
+    return null;
   }
 
-  const origin = getNormalizedOrigin(headerValue);
-
-  return { origin, valid: Boolean(origin) };
+  return url.origin.toLowerCase();
 }
 
-function isAllowedHeaderOrigin(headerValue: string, allowedOrigins: Set<string>) {
-  const parsedOrigin = getHeaderOrigin(headerValue);
-
-  return parsedOrigin.valid && Boolean(parsedOrigin.origin) && allowedOrigins.has(parsedOrigin.origin);
+function isAllowedOrigin(origin: string | null, allowedOrigins: Set<string>) {
+  return origin !== null && allowedOrigins.has(origin);
 }
 
 function getDeclaredContentLength(request: VisitRequest) {
@@ -185,7 +206,7 @@ function getBodyByteLength(request: VisitRequest) {
   }
 }
 
-function getCrossSiteBlockReason(request: VisitRequest) {
+function getCrossSiteBlockReason(request: VisitRequest): VisitRequestBlockReason | null {
   const fetchSite = getHeader(request, "sec-fetch-site").trim().toLowerCase();
 
   if (fetchSite === "cross-site") {
@@ -196,20 +217,23 @@ function getCrossSiteBlockReason(request: VisitRequest) {
   const originHeader = getHeader(request, "origin");
 
   if (originHeader.trim()) {
-    if (!isAllowedHeaderOrigin(originHeader, allowedOrigins)) {
+    if (!isAllowedOrigin(parseOriginHeader(originHeader), allowedOrigins)) {
       return "mismatched_origin";
     }
 
-    return "";
+    return null;
   }
 
   const refererHeader = getHeader(request, "referer");
 
-  if (refererHeader.trim() && !isAllowedHeaderOrigin(refererHeader, allowedOrigins)) {
+  if (
+    refererHeader.trim()
+    && !isAllowedOrigin(parseHttpOrigin(refererHeader), allowedOrigins)
+  ) {
     return "mismatched_referer";
   }
 
-  return "";
+  return null;
 }
 
 export function getVisitRequestShapeBlock(request: VisitRequest): VisitRequestShapeBlock | null {
@@ -240,13 +264,11 @@ export function getVisitRequestShapeBlock(request: VisitRequest): VisitRequestSh
 }
 
 function getSafeOriginForLog(headerValue: string) {
-  const parsedOrigin = getHeaderOrigin(headerValue);
-
   if (!headerValue.trim()) {
     return "";
   }
 
-  return parsedOrigin.valid ? parsedOrigin.origin : "invalid";
+  return parseHttpOrigin(headerValue) ?? "invalid";
 }
 
 export function logBlockedVisitRequest(request: VisitRequest, block: VisitRequestShapeBlock) {
@@ -263,22 +285,20 @@ export function logBlockedVisitRequest(request: VisitRequest, block: VisitReques
   });
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
 export function getVisitPayloadBody(request: VisitRequest): Record<string, unknown> {
-  const { body } = request;
+  let { body } = request;
 
   if (typeof body === "string") {
     try {
-      const parsedBody = JSON.parse(body);
-
-      return parsedBody && typeof parsedBody === "object" && !Array.isArray(parsedBody)
-        ? (parsedBody as Record<string, unknown>)
-        : {};
+      body = JSON.parse(body);
     } catch {
       return {};
     }
   }
 
-  return body && typeof body === "object" && !Array.isArray(body)
-    ? (body as Record<string, unknown>)
-    : {};
+  return isRecord(body) ? body : {};
 }

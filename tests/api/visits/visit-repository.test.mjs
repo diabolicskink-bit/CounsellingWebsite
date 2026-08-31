@@ -8,7 +8,7 @@ import {
   recordVisitObservationSql,
   VisitDatabaseConfigurationError,
   VisitIdentityConflictError,
-} from "../../src/server/visits/repository.ts";
+} from "../../../src/server/visits/repository.ts";
 
 const originalDatabaseUrl = process.env.DATABASE_URL;
 
@@ -61,13 +61,13 @@ function createDatabase(...results) {
   };
 }
 
-test("does not initialize Neon until database access is requested", () => {
+test("requires DATABASE_URL when the default database is requested", () => {
   delete process.env.DATABASE_URL;
 
   assert.throws(() => getVisitDatabase(), VisitDatabaseConfigurationError);
 });
 
-test("maps a visit observation to one parameterized statement", async () => {
+test("passes the complete observation to the visit upsert", async () => {
   const observation = createObservation();
   const { calls, database } = createDatabase({
     pageViewInserted: true,
@@ -104,16 +104,59 @@ test("maps a visit observation to one parameterized statement", async () => {
   assert.doesNotMatch(calls[0].query, /private-test-value|polyamory therapy|CjwK-test-click/);
 });
 
-test("keeps client-environment fields immutable after the visit insert", () => {
-  for (const column of ["user_agent", "device_type", "is_webdriver"]) {
-    const occurrences = recordVisitObservationSql.match(new RegExp(`\\b${column}\\b`, "g"));
+test("updates visit activity and bot classification without rewriting first-touch data", () => {
+  const visitUpdateAssignments = [...recordVisitObservationSql.matchAll(
+    /UPDATE site_visits\s*SET(?<assignments>[\s\S]*?)\s*FROM/gi,
+  )].map((match) => match.groups?.assignments ?? "");
+  const [updatedVisit] = visitUpdateAssignments;
 
-    assert.equal(occurrences?.length, 1, `${column} must appear only in the insert`);
+  assert.equal(visitUpdateAssignments.length, 1);
+
+  for (const column of [
+    "landing_path",
+    "referrer_url",
+    "referrer_host",
+    "gclid",
+    "ad_code",
+    "network_code",
+    "matched_keyword",
+    "match_type",
+    "user_agent",
+    "device_type",
+    "is_webdriver",
+  ]) {
+    assert.doesNotMatch(
+      visitUpdateAssignments.join("\n"),
+      new RegExp(`\\b${column}\\s*=`),
+    );
   }
+
+  assert.match(updatedVisit, /last_seen_at = CASE[\s\S]*?GREATEST\(/i);
+  assert.match(
+    updatedVisit,
+    /WHEN site_visits\.is_bot IS TRUE OR observation\.is_bot IS TRUE THEN TRUE/i,
+  );
+  assert.match(
+    updatedVisit,
+    /bot_name = COALESCE\(site_visits\.bot_name, observation\.bot_name\)/i,
+  );
+  assert.match(
+    updatedVisit,
+    /bot_category = COALESCE\(site_visits\.bot_category, observation\.bot_category\)/i,
+  );
+  assert.match(
+    recordVisitObservationSql,
+    /INSERT INTO site_page_views[\s\S]*?FROM matched_visit\s+CROSS JOIN observation/i,
+    "a newly inserted visit must be able to record its first page view in the same statement",
+  );
+  assert.match(
+    recordVisitObservationSql,
+    /FROM matched_visit\s+CROSS JOIN observation\s+LEFT JOIN inserted_page_view ON inserted_page_view\.visit_id = matched_visit\.id/i,
+  );
 });
 
 test("treats a repeated matching page-view ID as an idempotent observation", async () => {
-  const { database } = createDatabase({
+  const { calls, database } = createDatabase({
     pageViewInserted: false,
     pageViewMatched: true,
     visitInserted: false,
@@ -123,6 +166,11 @@ test("treats a repeated matching page-view ID as an idempotent observation", asy
   const result = await recordVisitObservation(createObservation(), database);
 
   assert.deepEqual(result, { pageViewInserted: false });
+  assert.equal(calls.length, 1);
+  assert.match(
+    recordVisitObservationSql,
+    /WHERE page_views\.id = observation\.page_view_id\s*AND page_views\.visit_id = observation\.visit_id\s*AND page_views\.path = observation\.path/i,
+  );
 });
 
 test("retries when a concurrent insert is not visible to the first statement snapshot", async () => {
@@ -186,6 +234,12 @@ test("removes a newly inserted empty visit before rejecting a page-view identity
   assert.equal(calls.length, 3);
   assert.equal(calls[2].query, deleteEmptyVisitSql);
   assert.deepEqual(calls[2].parameters, [observation.visitorId, observation.visitId]);
+  assert.match(deleteEmptyVisitSql, /visits\.id = \$2::UUID/i);
+  assert.match(deleteEmptyVisitSql, /visits\.visitor_id = \$1::UUID/i);
+  assert.match(
+    deleteEmptyVisitSql,
+    /NOT EXISTS \([\s\S]*?FROM site_page_views AS page_views[\s\S]*?page_views\.visit_id = visits\.id[\s\S]*?\)/i,
+  );
 });
 
 test("does not delete an established visit after a page-view identity conflict", async () => {

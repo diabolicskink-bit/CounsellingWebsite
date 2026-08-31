@@ -4,6 +4,10 @@ import { test } from "node:test";
 
 const migrationsUrl = new URL("../../database/migrations/", import.meta.url);
 const queriesUrl = new URL("../../database/queries/", import.meta.url);
+const baseMigration = await readFile(
+  new URL("0001_create_visit_ledger.sql", migrationsUrl),
+  "utf8",
+);
 const viewMigration = await readFile(
   new URL("0002_create_visit_ledger_view.sql", migrationsUrl),
   "utf8",
@@ -36,6 +40,13 @@ function removeSqlComments(sql) {
   return sql.replaceAll(/^--.*$/gm, "");
 }
 
+test("base visit schema cascades page views when a visit is deleted", () => {
+  assert.match(
+    baseMigration,
+    /visit_id UUID NOT NULL REFERENCES site_visits\(id\) ON DELETE CASCADE/i,
+  );
+});
+
 test("visit ledger view exposes return status, traffic source, and page totals", () => {
   assert.match(viewMigration, /CREATE VIEW visit_ledger/i);
   assert.match(viewMigration, /ROW_NUMBER\(\) OVER \(\s*PARTITION BY visits\.visitor_id/is);
@@ -57,8 +68,14 @@ test("bot classification migration preserves nullable verdicts and verified iden
 test("visit-event migration enforces controlled event and page ownership data", () => {
   assert.match(eventMigration, /CREATE TABLE site_visit_events/i);
   assert.match(eventMigration, /id UUID PRIMARY KEY/i);
-  assert.match(eventMigration, /visit_id UUID NOT NULL REFERENCES site_visits/i);
-  assert.match(eventMigration, /FOREIGN KEY \(page_view_id, visit_id\)/i);
+  assert.match(
+    eventMigration,
+    /visit_id UUID NOT NULL REFERENCES site_visits\(id\) ON DELETE CASCADE/i,
+  );
+  assert.match(
+    eventMigration,
+    /FOREIGN KEY \(page_view_id, visit_id\)[\s\S]*?REFERENCES site_page_views\(id, visit_id\)[\s\S]*?ON DELETE CASCADE/i,
+  );
   assert.match(eventMigration, /occurred_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP/i);
   assert.match(eventMigration, /source IN \('client', 'server'\)/i);
   assert.match(eventMigration, /properties JSONB NOT NULL/i);

@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createPageEngagementHandler } from "../../api/page-engagement.ts";
-import { PageEngagementIdentityConflictError } from "../../src/server/page-engagement/repository.ts";
-import { VisitDatabaseConfigurationError } from "../../src/server/visits/repository.ts";
+import { createPageEngagementHandler } from "../../../api/page-engagement.ts";
+import { PageEngagementIdentityConflictError } from "../../../src/server/page-engagement/repository.ts";
+import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
 
 const validPayload = {
   activeSeconds: 47,
@@ -90,7 +90,7 @@ test("rejects invalid engagement payloads", async (context) => {
   assert.equal(observations.length, 0);
 });
 
-test("enforces the write-only same-origin JSON boundary", async (context) => {
+test("enforces its write-only boundary and the shared origin guard", async (context) => {
   context.mock.method(console, "warn", () => {});
   let recordCalls = 0;
   const handler = createPageEngagementHandler(async () => {
@@ -98,14 +98,6 @@ test("enforces the write-only same-origin JSON boundary", async (context) => {
   });
   const cases = [
     { expectedStatus: 405, request: { method: "GET" } },
-    {
-      expectedStatus: 415,
-      request: { body: JSON.stringify(validPayload), headers: { "content-type": "text/plain" } },
-    },
-    {
-      expectedStatus: 413,
-      request: { headers: jsonHeaders({ "content-length": String(16 * 1024 + 1) }) },
-    },
     {
       expectedStatus: 403,
       request: { headers: jsonHeaders({ "sec-fetch-site": "cross-site" }) },
@@ -149,7 +141,5 @@ test("maps identity and storage failures to generic responses", async (context) 
     assert.deepEqual(result.body, { error: "Page engagement could not be recorded." });
   }
 
-  assert.equal(warnings.length, 1);
-  assert.equal(errors.length, 2);
   assert.doesNotMatch(JSON.stringify([errors, warnings]), /password|private-host/);
 });

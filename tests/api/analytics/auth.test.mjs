@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
-import protectAnalytics, { config, getAnalyticsAuthState } from "../../middleware.ts";
+import protectAnalytics, { config, getAnalyticsAuthState } from "../../../middleware.ts";
 
 const originalPassword = process.env.ANALYTICS_PASSWORD;
 const originalUsername = process.env.ANALYTICS_USERNAME;

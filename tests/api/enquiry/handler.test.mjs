@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
-import { handleEnquiry } from "../../api/enquiry.ts";
+import { handleEnquiry } from "../../../api/enquiry.ts";
 
 const publicFailureMessage = "Sorry, the enquiry could not be sent. Please email joel@vivecounselling.com.au directly.";
 const validAnalyticsContext = {

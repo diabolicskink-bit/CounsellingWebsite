@@ -6,7 +6,7 @@ import {
   setVisitorExclusion,
   setVisitorExclusionSql,
   UnknownAnalyticsVisitorError,
-} from "../../src/server/reporting/exclusions.ts";
+} from "../../../src/server/reporting/exclusions.ts";
 
 const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
 

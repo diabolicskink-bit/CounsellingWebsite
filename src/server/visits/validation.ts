@@ -12,12 +12,22 @@ export type VisitValidationResult =
 
 const uuidV4Pattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const controlCharacterPattern = /[\u0000-\u001f\u007f]/;
+const optionalTextMaxLength = {
+  adCode: 128,
+  gclid: 2048,
+  matchType: 32,
+  matchedKeyword: 1024,
+  networkCode: 32,
+} as const;
+const maxPathLength = 2048;
+const maxReferrerHostLength = 253;
+const maxReferrerUrlLength = 4096;
 
 function addIssue(issues: ValidationIssue[], field: string, code: ValidationIssue["code"]) {
   issues.push({ code, field });
 }
 
-function getUuid(payload: Record<string, unknown>, field: string, issues: ValidationIssue[]) {
+function parseUuidField(payload: Record<string, unknown>, field: string, issues: ValidationIssue[]) {
   const value = payload[field];
 
   if (typeof value !== "string" || !value.trim()) {
@@ -35,7 +45,7 @@ function getUuid(payload: Record<string, unknown>, field: string, issues: Valida
   return normalizedValue;
 }
 
-function getPath(payload: Record<string, unknown>, field: string, issues: ValidationIssue[]) {
+function parsePathField(payload: Record<string, unknown>, field: string, issues: ValidationIssue[]) {
   const value = payload[field];
 
   if (typeof value !== "string" || !value) {
@@ -43,7 +53,7 @@ function getPath(payload: Record<string, unknown>, field: string, issues: Valida
     return "";
   }
 
-  if (value.length > 2048) {
+  if (value.length > maxPathLength) {
     addIssue(issues, field, "too_long");
     return "";
   }
@@ -71,10 +81,9 @@ function getPath(payload: Record<string, unknown>, field: string, issues: Valida
   return normalizedValue;
 }
 
-function getOptionalText(
+function parseOptionalTextField(
   payload: Record<string, unknown>,
-  field: string,
-  maxLength: number,
+  field: keyof typeof optionalTextMaxLength,
   issues: ValidationIssue[],
 ) {
   const value = payload[field];
@@ -95,7 +104,7 @@ function getOptionalText(
     return null;
   }
 
-  if (normalizedValue.length > maxLength) {
+  if (normalizedValue.length > optionalTextMaxLength[field]) {
     addIssue(issues, field, "too_long");
     return null;
   }
@@ -103,7 +112,7 @@ function getOptionalText(
   return normalizedValue;
 }
 
-function getOptionalBoolean(
+function parseOptionalBooleanField(
   payload: Record<string, unknown>,
   field: string,
   issues: ValidationIssue[],
@@ -122,21 +131,26 @@ function getOptionalBoolean(
   return value;
 }
 
-function getReferrer(payload: Record<string, unknown>, issues: ValidationIssue[]) {
+function parseReferrer(payload: Record<string, unknown>, issues: ValidationIssue[]) {
   const value = payload.referrerUrl;
 
   if (typeof value === "undefined" || value === null || value === "") {
-    return { host: null, url: null };
+    return { referrerHost: null, referrerUrl: null };
   }
 
   if (typeof value !== "string") {
     addIssue(issues, "referrerUrl", "invalid_type");
-    return { host: null, url: null };
+    return { referrerHost: null, referrerUrl: null };
   }
 
-  if (value !== value.trim() || value.length > 4096 || controlCharacterPattern.test(value)) {
-    addIssue(issues, "referrerUrl", value.length > 4096 ? "too_long" : "invalid_format");
-    return { host: null, url: null };
+  if (value.length > maxReferrerUrlLength) {
+    addIssue(issues, "referrerUrl", "too_long");
+    return { referrerHost: null, referrerUrl: null };
+  }
+
+  if (value !== value.trim() || controlCharacterPattern.test(value)) {
+    addIssue(issues, "referrerUrl", "invalid_format");
+    return { referrerHost: null, referrerUrl: null };
   }
 
   try {
@@ -147,38 +161,38 @@ function getReferrer(payload: Record<string, unknown>, issues: ValidationIssue[]
       || !parsedUrl.hostname
       || parsedUrl.username
       || parsedUrl.password
-      || parsedUrl.hostname.length > 253
+      || parsedUrl.hostname.length > maxReferrerHostLength
     ) {
       addIssue(issues, "referrerUrl", "invalid_format");
-      return { host: null, url: null };
+      return { referrerHost: null, referrerUrl: null };
     }
 
     return {
-      host: parsedUrl.hostname.toLowerCase(),
-      url: value,
+      referrerHost: parsedUrl.hostname.toLowerCase(),
+      referrerUrl: value,
     };
   } catch {
     addIssue(issues, "referrerUrl", "invalid_format");
-    return { host: null, url: null };
+    return { referrerHost: null, referrerUrl: null };
   }
 }
 
 export function validateVisitPayload(payload: Record<string, unknown>): VisitValidationResult {
   const issues: ValidationIssue[] = [];
-  const visitorId = getUuid(payload, "visitorId", issues);
-  const visitId = getUuid(payload, "visitId", issues);
-  const pageViewId = getUuid(payload, "pageViewId", issues);
-  const landingPath = getPath(payload, "landingPath", issues);
-  const path = getPath(payload, "path", issues);
-  const referrer = getReferrer(payload, issues);
-  const gclid = getOptionalText(payload, "gclid", 2048, issues);
-  const adCode = getOptionalText(payload, "adCode", 128, issues);
-  const networkCode = getOptionalText(payload, "networkCode", 32, issues);
-  const matchedKeyword = getOptionalText(payload, "matchedKeyword", 1024, issues);
-  const matchType = getOptionalText(payload, "matchType", 32, issues);
-  const isWebDriver = getOptionalBoolean(payload, "isWebDriver", issues);
+  const visitorId = parseUuidField(payload, "visitorId", issues);
+  const visitId = parseUuidField(payload, "visitId", issues);
+  const pageViewId = parseUuidField(payload, "pageViewId", issues);
+  const landingPath = parsePathField(payload, "landingPath", issues);
+  const path = parsePathField(payload, "path", issues);
+  const referrer = parseReferrer(payload, issues);
+  const gclid = parseOptionalTextField(payload, "gclid", issues);
+  const adCode = parseOptionalTextField(payload, "adCode", issues);
+  const networkCode = parseOptionalTextField(payload, "networkCode", issues);
+  const matchedKeyword = parseOptionalTextField(payload, "matchedKeyword", issues);
+  const matchType = parseOptionalTextField(payload, "matchType", issues);
+  const isWebDriver = parseOptionalBooleanField(payload, "isWebDriver", issues);
 
-  if (issues.length) {
+  if (issues.length > 0) {
     return { issues, type: "invalid" };
   }
 
@@ -193,8 +207,7 @@ export function validateVisitPayload(payload: Record<string, unknown>): VisitVal
       networkCode,
       pageViewId,
       path,
-      referrerHost: referrer.host,
-      referrerUrl: referrer.url,
+      ...referrer,
       visitId,
       visitorId,
     },

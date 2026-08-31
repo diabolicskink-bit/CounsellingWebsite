@@ -6,7 +6,7 @@ import {
   VisitEventIdentityConflictError,
   VisitEventPageViewConflictError,
   VisitEventVisitConflictError,
-} from "../../src/server/visit-events/repository.ts";
+} from "../../../src/server/visit-events/repository.ts";
 
 function createObservation(overrides = {}) {
   return {
@@ -62,22 +62,33 @@ test("records an event through one parameterized statement", async () => {
   assert.doesNotMatch(calls[0].query, /appointment/);
 });
 
-test("records an event without page context", async () => {
-  const observation = createObservation({ pageViewId: null });
-  const { calls, database } = createDatabase({
-    eventInserted: true,
-    eventMatched: true,
-    pageViewMatched: true,
-    visitMatched: true,
-  });
+test("binds page ownership and repeated event identity in SQL", () => {
+  const matchedPageView = recordVisitEventSql.match(
+    /matched_page_view AS \((?<body>[\s\S]*?)\),\s*inserted_event AS/i,
+  )?.groups?.body;
+  const matchedEvent = recordVisitEventSql.match(
+    /matched_event AS \((?<body>[\s\S]*?)\)\s*SELECT/i,
+  )?.groups?.body;
 
-  await recordVisitEvent(observation, database);
+  assert.ok(matchedPageView, "matched_page_view CTE must remain present");
+  assert.match(matchedPageView, /id = \$3::UUID/i);
+  assert.match(matchedPageView, /visit_id = \$2::UUID/i);
+  assert.match(
+    recordVisitEventSql,
+    /WHERE \$3::UUID IS NULL\s*OR EXISTS \(SELECT 1 FROM matched_page_view\)/i,
+  );
 
-  assert.equal(calls[0].parameters[2], null);
+  assert.ok(matchedEvent, "matched_event CTE must remain present");
+  assert.match(matchedEvent, /id = \$1::UUID/i);
+  assert.match(matchedEvent, /visit_id = \$2::UUID/i);
+  assert.match(matchedEvent, /page_view_id IS NOT DISTINCT FROM \$3::UUID/i);
+  assert.match(matchedEvent, /event_type = \$4/i);
+  assert.match(matchedEvent, /source = \$5/i);
+  assert.match(matchedEvent, /properties = \$6::JSONB/i);
 });
 
 test("treats a repeated matching event ID as idempotent", async () => {
-  const { database } = createDatabase({
+  const { calls, database } = createDatabase({
     eventInserted: false,
     eventMatched: true,
     pageViewMatched: true,
@@ -87,6 +98,7 @@ test("treats a repeated matching event ID as idempotent", async () => {
   const result = await recordVisitEvent(createObservation(), database);
 
   assert.deepEqual(result, { eventInserted: false });
+  assert.equal(calls.length, 1);
 });
 
 test("retries an event hidden by a concurrent statement snapshot", async () => {

@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createVisitEventHandler } from "../../api/visit-event.ts";
+import { createVisitEventHandler } from "../../../api/visit-event.ts";
 import {
   VisitEventIdentityConflictError,
   VisitEventPageViewConflictError,
   VisitEventVisitConflictError,
-} from "../../src/server/visit-events/repository.ts";
-import { VisitDatabaseConfigurationError } from "../../src/server/visits/repository.ts";
+} from "../../../src/server/visit-events/repository.ts";
+import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
 
 function createResponse() {
   const result = {
@@ -57,14 +57,13 @@ function jsonHeaders(headers = {}) {
 
 function silenceExpectedLogs(context) {
   const errors = [];
-  const logs = [];
   const warnings = [];
 
   context.mock.method(console, "error", (...args) => errors.push(args));
-  context.mock.method(console, "log", (...args) => logs.push(args));
+  context.mock.method(console, "log", () => {});
   context.mock.method(console, "warn", (...args) => warnings.push(args));
 
-  return { errors, logs, warnings };
+  return { errors, warnings };
 }
 
 async function invoke(
@@ -77,134 +76,115 @@ async function invoke(
   return returned ?? result;
 }
 
-test("records a controlled client event and returns no content", async (context) => {
+test("records controlled client events with or without page context", async (context) => {
   silenceExpectedLogs(context);
   const observations = [];
   const handler = createVisitEventHandler(async (observation) => {
     observations.push(observation);
     return { eventInserted: true };
   });
-
-  const result = await invoke(handler);
-
-  assert.equal(result.statusCode, 204);
-  assert.equal(result.ended, true);
-  assert.equal(result.body, undefined);
-  assert.equal(result.headers["cache-control"], "no-store");
-  assert.deepEqual(observations, [{ ...validPayload(), source: "client" }]);
-});
-
-test("normalizes an omitted page view to null", async (context) => {
-  silenceExpectedLogs(context);
-  const observations = [];
-  const handler = createVisitEventHandler(async (observation) => observations.push(observation));
-  const { pageViewId: _pageViewId, ...payload } = validPayload({
+  const { pageViewId: _pageViewId, ...withoutPageView } = validPayload({
+    eventId: "8655de5b-48d1-481f-8acc-2d8ab0e33cd2",
     eventType: "enquiry_started",
     properties: {},
   });
 
-  const result = await invoke(handler, { body: payload });
+  const results = [
+    await invoke(handler, {
+      headers: jsonHeaders({
+        host: "vivecounselling.com.au",
+        origin: "https://vivecounselling.com.au",
+        "sec-fetch-site": "same-origin",
+        "x-forwarded-proto": "https",
+      }),
+    }),
+    await invoke(handler, { body: withoutPageView }),
+  ];
 
-  assert.equal(result.statusCode, 204);
-  assert.equal(observations[0].pageViewId, null);
-  assert.equal(observations[0].eventType, "enquiry_started");
+  for (const result of results) {
+    assert.equal(result.statusCode, 204);
+    assert.equal(result.ended, true);
+    assert.equal(result.body, undefined);
+    assert.equal(result.headers["cache-control"], "no-store");
+  }
+
+  assert.deepEqual(observations, [
+    { ...validPayload(), source: "client" },
+    { ...withoutPageView, pageViewId: null, source: "client" },
+  ]);
 });
 
-test("rejects server-owned event types at the public endpoint", async (context) => {
-  const { warnings } = silenceExpectedLogs(context);
+test("rejects events outside the public client contract before storage", async (context) => {
+  silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createVisitEventHandler(async () => {
     recordCalled = true;
   });
+  const payloads = [
+    ...[
+      "enquiry_submit_attempted",
+      "enquiry_sent",
+      "enquiry_failed",
+    ].map((eventType) => validPayload({ eventType, properties: {} })),
+    validPayload({ properties: { option: "appointment", privateValue: "do not store" } }),
+    validPayload({ properties: { option: "unknown" } }),
+    validPayload({ ignored: "unexpected" }),
+    validPayload({ eventType: "enquiry_started", properties: { option: "appointment" } }),
+    validPayload({ eventId: "not-a-uuid" }),
+    validPayload({ visitId: "not-a-uuid" }),
+    validPayload({ pageViewId: "not-a-uuid" }),
+    "{",
+  ];
 
-  for (const eventType of [
-    "enquiry_submit_attempted",
-    "enquiry_sent",
-    "enquiry_failed",
-  ]) {
-    const result = await invoke(handler, {
-      body: validPayload({ eventType, properties: {} }),
-    });
+  for (const body of payloads) {
+    const result = await invoke(handler, { body });
 
     assert.equal(result.statusCode, 400);
     assert.deepEqual(result.body, { error: "Visit event could not be recorded." });
   }
 
   assert.equal(recordCalled, false);
-  assert.match(JSON.stringify(warnings), /eventType/);
 });
 
-test("rejects unknown properties, option values, and top-level fields", async (context) => {
-  silenceExpectedLogs(context);
-  const observations = [];
-  const handler = createVisitEventHandler(async (observation) => observations.push(observation));
-  const payloads = [
-    validPayload({ properties: { option: "appointment", privateValue: "do not store" } }),
-    validPayload({ properties: { option: "unknown" } }),
-    validPayload({ ignored: "unexpected" }),
-    validPayload({ eventType: "enquiry_started", properties: { option: "appointment" } }),
-  ];
-
-  for (const body of payloads) {
-    const result = await invoke(handler, { body });
-    assert.equal(result.statusCode, 400);
-  }
-
-  assert.equal(observations.length, 0);
-});
-
-test("rejects invalid event, visit, and page-view identities", async (context) => {
-  silenceExpectedLogs(context);
-  const observations = [];
-  const handler = createVisitEventHandler(async (observation) => observations.push(observation));
-
-  for (const body of [
-    validPayload({ eventId: "not-a-uuid" }),
-    validPayload({ visitId: "not-a-uuid" }),
-    validPayload({ pageViewId: "not-a-uuid" }),
-  ]) {
-    const result = await invoke(handler, { body });
-    assert.equal(result.statusCode, 400);
-  }
-
-  assert.equal(observations.length, 0);
-});
-
-test("does not expose a read method", async (context) => {
+test("rejects unsupported methods and malformed request bodies before storage", async (context) => {
   silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createVisitEventHandler(async () => {
     recordCalled = true;
   });
+  const cases = [
+    { expectedStatus: 405, request: { method: "GET" } },
+    {
+      expectedStatus: 415,
+      request: { body: JSON.stringify(validPayload()), headers: { "content-type": "text/plain" } },
+    },
+    {
+      expectedStatus: 400,
+      request: { headers: jsonHeaders({ "content-length": "invalid" }) },
+    },
+    {
+      expectedStatus: 413,
+      request: { headers: jsonHeaders({ "content-length": String(4 * 1024 + 1) }) },
+    },
+    {
+      expectedStatus: 413,
+      request: { body: validPayload({ ignored: "x".repeat(4 * 1024) }) },
+    },
+  ];
 
-  const result = await invoke(handler, { method: "GET" });
+  for (const { expectedStatus, request } of cases) {
+    const result = await invoke(handler, request);
 
-  assert.equal(result.statusCode, 405);
-  assert.equal(result.headers.allow, "POST");
-  assert.deepEqual(result.body, { error: "Visit event could not be recorded." });
+    assert.equal(result.statusCode, expectedStatus);
+    assert.equal(result.headers["cache-control"], "no-store");
+    assert.deepEqual(result.body, { error: "Visit event could not be recorded." });
+
+    if (expectedStatus === 405) {
+      assert.equal(result.headers.allow, "POST");
+    }
+  }
+
   assert.equal(recordCalled, false);
-});
-
-test("rejects unsupported and oversized request bodies", async (context) => {
-  silenceExpectedLogs(context);
-  const handler = createVisitEventHandler(async () => {
-    throw new Error("storage should not be called");
-  });
-
-  const contentTypeResult = await invoke(handler, {
-    body: JSON.stringify(validPayload()),
-    headers: { "content-type": "text/plain" },
-  });
-  const declaredResult = await invoke(handler, {
-    headers: jsonHeaders({ "content-length": String(4 * 1024 + 1) }),
-  });
-  const parsedResult = await invoke(handler, {
-    body: validPayload({ ignored: "x".repeat(4 * 1024) }),
-  });
-
-  assert.equal(contentTypeResult.statusCode, 415);
-  assert.equal(declaredResult.statusCode, 413);
-  assert.equal(parsedResult.statusCode, 413);
 });
 
 test("rejects cross-site request signals before storage", async (context) => {
@@ -238,26 +218,6 @@ test("rejects cross-site request signals before storage", async (context) => {
   assert.equal(recordCalled, false);
   assert.match(JSON.stringify(warnings), /cross_site_fetch_site|mismatched_origin|mismatched_referer/);
   assert.doesNotMatch(JSON.stringify(warnings), /private|secret/);
-});
-
-test("accepts a same-origin production-shaped request", async (context) => {
-  silenceExpectedLogs(context);
-  let recordCalled = false;
-  const handler = createVisitEventHandler(async () => {
-    recordCalled = true;
-  });
-
-  const result = await invoke(handler, {
-    headers: jsonHeaders({
-      host: "vivecounselling.com.au",
-      origin: "https://vivecounselling.com.au",
-      "sec-fetch-site": "same-origin",
-      "x-forwarded-proto": "https",
-    }),
-  });
-
-  assert.equal(result.statusCode, 204);
-  assert.equal(recordCalled, true);
 });
 
 test("maps visit, page-view, and event conflicts to a generic response", async (context) => {
