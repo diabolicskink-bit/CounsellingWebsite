@@ -218,7 +218,6 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
   const enquiryStartTrackedRef = useRef(false);
   const [selectedPath, setSelectedPath] = useState<EnquiryPath | "">("");
   const [hasHydrated, setHasHydrated] = useState(false);
-  const [hasRestoredDetails, setHasRestoredDetails] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const timeZoneOptions = getActiveAustralianTimeZoneOptions(
     hasHydrated ? new Date() : new Date(initialRenderAt),
@@ -230,15 +229,10 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
     if (formElement) {
       const formData = new FormData(formElement);
       const restoredPath = formData.get("contactPath");
-      const hasBrowserRestoredDetails = ["name", "email", "message"].some(
-        (fieldName) => getFormText(formData, fieldName).length > 0,
-      );
 
       if (isEnquiryPath(restoredPath)) {
         setSelectedPath(restoredPath);
       }
-
-      setHasRestoredDetails(hasBrowserRestoredDetails);
     }
 
     setHasHydrated(true);
@@ -266,7 +260,6 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
       trackSuccessfulEnquirySubmission("contact");
       formElement.reset();
       setSelectedPath("");
-      setHasRestoredDetails(false);
       setSubmitStatus("success");
     } catch {
       setSubmitStatus("error");
@@ -292,7 +285,6 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
     trackContactOptionSelected(value);
     recordVisitEvent("contact_option_selected", { option: value });
     setSelectedPath(value);
-    setHasRestoredDetails(false);
     setSubmitStatus("idle");
   };
 
@@ -305,8 +297,6 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
   );
   const isAppointment = selectedPath === "appointment";
   const isConsult = selectedPath === "consult";
-  const isQuestion = selectedPath === "question";
-  const showDetails = Boolean(selectedOption) || !hasHydrated || hasRestoredDetails;
   const showAppointmentFields = isAppointment || !hasHydrated;
   const showConsultFields = isConsult || !hasHydrated;
 
@@ -333,68 +323,88 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
         <h2>Get in touch</h2>
       </header>
 
-      <fieldset className="contact-page__enquiry-options">
-        <legend className="contact-page__sr-only">Choose an enquiry type</legend>
-        <div className="contact-page__enquiry-option-list">
-          {enquiryPathOptions.map((option) => (
-            <label className="contact-page__enquiry-option" key={option.id}>
-              <strong>{option.title}</strong>
-              <input
-                checked={selectedPath === option.id}
-                name="contactPath"
-                onChange={() => handleEnquiryPathChange(option.id)}
-                required
-                type="radio"
-                value={option.id}
-              />
-            </label>
-          ))}
+      <div className="contact-page__form-details">
+        <div className="contact-page__form-details-heading">
+          <h3>A few details</h3>
+          <p>Fields marked * are required.</p>
         </div>
-      </fieldset>
 
-      {showDetails ? (
-        <div className="contact-page__form-details">
-          <div className="contact-page__form-details-heading">
-            <h3>A few details</h3>
-            <p>Fields marked * are required.</p>
-          </div>
-
+        <input
+          name="enquiryType"
+          type="hidden"
+          value={selectedOption?.enquiryType ?? ""}
+        />
+        {selectedOption?.bookingType ? (
           <input
-            name="enquiryType"
+            name="bookingType"
             type="hidden"
-            value={selectedOption?.enquiryType ?? ""}
+            value={selectedOption.bookingType}
           />
-          {selectedOption?.bookingType ? (
+        ) : null}
+
+        <div className="contact-page__form-fields">
+          <RequiredField id="contact-name" label="Name">
             <input
-              name="bookingType"
-              type="hidden"
-              value={selectedOption.bookingType}
+              autoComplete="name"
+              id="contact-name"
+              name="name"
+              placeholder="Your name"
+              required
+              type="text"
             />
-          ) : null}
+          </RequiredField>
 
-          <div className="contact-page__form-fields">
-            <RequiredField id="contact-name" label="Name">
-              <input
-                autoComplete="name"
-                id="contact-name"
-                name="name"
-                placeholder="Your name"
-                required={Boolean(selectedOption)}
-                type="text"
-              />
-            </RequiredField>
+          <RequiredField id="contact-email" label="Email">
+            <input
+              autoComplete="email"
+              id="contact-email"
+              name="email"
+              placeholder="you@example.com"
+              required
+              type="email"
+            />
+          </RequiredField>
 
-            <RequiredField id="contact-email" label="Email">
-              <input
-                autoComplete="email"
-                id="contact-email"
-                name="email"
-                placeholder="you@example.com"
-                required={Boolean(selectedOption)}
-                type="email"
-              />
-            </RequiredField>
+          <RequiredField id="contact-message" label="Your message" wide>
+            <textarea
+              id="contact-message"
+              name="message"
+              required
+              rows={4}
+            />
+          </RequiredField>
+        </div>
 
+        <fieldset
+          aria-describedby="contact-path-hint"
+          className="contact-page__enquiry-options"
+        >
+          <legend className="contact-page__enquiry-options-heading">
+            What would you like to do next?
+            <RequiredMark />
+          </legend>
+          <p className="contact-page__enquiry-options-hint" id="contact-path-hint">
+            Choose one option.
+          </p>
+          <div className="contact-page__enquiry-option-list">
+            {enquiryPathOptions.map((option) => (
+              <label className="contact-page__enquiry-option" key={option.id}>
+                <strong>{option.title}</strong>
+                <input
+                  checked={selectedPath === option.id}
+                  name="contactPath"
+                  onChange={() => handleEnquiryPathChange(option.id)}
+                  required
+                  type="radio"
+                  value={option.id}
+                />
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        {showAppointmentFields || showConsultFields ? (
+          <div className="contact-page__form-fields contact-page__form-fields--conditional">
             {showAppointmentFields ? (
               <>
                 <RequiredField id="contact-timing" label="Preferred timing">
@@ -453,42 +463,29 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
                 </RequiredField>
               </>
             ) : null}
-
-            <RequiredField
-              id="contact-message"
-              label={isQuestion ? "Your enquiry" : "Your message"}
-              wide
-            >
-              <textarea
-                id="contact-message"
-                name="message"
-                required={Boolean(selectedOption)}
-                rows={4}
-              />
-            </RequiredField>
           </div>
+        ) : null}
 
-          <div className="contact-page__form-actions">
-            <Button disabled={submitStatus === "sending"} type="submit">
-              {submitStatus === "sending"
-                ? "Sending..."
-                : selectedOption?.submitLabel ?? "Send enquiry"}
-            </Button>
-          </div>
-
-          {submitStatus === "error" ? (
-            <div className="contact-page__form-error" role="alert">
-              <p>
-                {enquiryFailureContent.messageBeforeEmail}{" "}
-                <a href={`mailto:${enquiryFailureContent.email}`}>
-                  {enquiryFailureContent.email}
-                </a>{" "}
-                {enquiryFailureContent.messageAfterEmail}
-              </p>
-            </div>
-          ) : null}
+        <div className="contact-page__form-actions">
+          <Button disabled={submitStatus === "sending"} type="submit">
+            {submitStatus === "sending"
+              ? "Sending..."
+              : selectedOption?.submitLabel ?? "Send enquiry"}
+          </Button>
         </div>
-      ) : null}
+
+        {submitStatus === "error" ? (
+          <div className="contact-page__form-error" role="alert">
+            <p>
+              {enquiryFailureContent.messageBeforeEmail}{" "}
+              <a href={`mailto:${enquiryFailureContent.email}`}>
+                {enquiryFailureContent.email}
+              </a>{" "}
+              {enquiryFailureContent.messageAfterEmail}
+            </p>
+          </div>
+        ) : null}
+      </div>
 
       <p className="contact-page__crisis-note">
         If you’re in crisis, <Link to={crisisSupportHref}>find support now</Link>.

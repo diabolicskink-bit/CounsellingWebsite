@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-31 - Enquiry Form Opens With Shared Details
+
+- Reordered the Contact form so name, email, and message are available immediately instead of being hidden behind an enquiry-path choice.
+- Moved the appointment, consult, and general-enquiry decision after the shared message and limited conditional disclosure to the scheduling questions required for appointment and consult requests.
+- Preserved the complete server-rendered form for visitors without JavaScript and kept the existing structured enquiry paths and submission handling.
+
 ## 2026-08-28 - Analytics Test Suite Simplified
 
 - Separated private analytics browser checks from the public-site Playwright suite and made the analytics QA runner select its blocked-host and enabled-host scenarios explicitly.

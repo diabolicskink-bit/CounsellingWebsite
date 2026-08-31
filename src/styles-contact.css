@@ -116,8 +116,23 @@
 .contact-page__enquiry-options {
   min-inline-size: 0;
   margin: 0;
-  padding: 0 44px 42px;
+  padding: 0;
   border: 0;
+}
+
+.contact-page__enquiry-options-heading {
+  padding: 0;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 720;
+  line-height: 1.35;
+}
+
+.contact-page__enquiry-options-hint {
+  margin: 8px 0 14px;
+  color: var(--muted);
+  font-size: var(--type-small);
+  line-height: 1.5;
 }
 
 .contact-page__enquiry-option-list {
@@ -169,6 +184,9 @@
   padding: 38px 44px 44px;
   border-top: 1px solid var(--contact-page-rule);
   background: var(--surface-muted);
+}
+
+.contact-page__form-fields--conditional {
   animation: contact-form-details-in 220ms ease both;
 }
 
@@ -623,7 +641,7 @@
   }
 
   .contact-page__enquiry-options {
-    padding: 0 20px 30px;
+    padding: 0;
   }
 
   .contact-page__enquiry-option {
@@ -721,7 +739,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .contact-page__form-details {
+  .contact-page__form-fields--conditional {
     animation: none;
   }
 
