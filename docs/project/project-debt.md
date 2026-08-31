@@ -228,7 +228,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-16`: Runtime/package-manager pinning helps keep expanded tooling checks stable across environments.
 - `Dependencies`: `None`
 - `Notes`:
-  - 2026-07-23: Added `tests/tsconfig.json` and `npm run typecheck:tests`; `qa`, `qa:site`, and `qa:analytics` now typecheck `tests/public-site.spec.ts` before browser testing.
+  - 2026-07-23: Added `tests/tsconfig.json` and `npm run typecheck:tests`; `qa`, `qa:site`, and `qa:analytics` now typecheck the public-site Playwright specs before browser testing.
   - 2026-08-28: The dedicated test config now typechecks both the public-site and isolated analytics Playwright specs.
 - `Links`: `tsconfig.json`, `tsconfig.node.json`, `tests/`, `scripts/`, `api/enquiry.ts`
 
@@ -401,7 +401,7 @@ Each active item should include enough direction that a future session can choos
   - Do not make this smoke script deploy or promote by itself. Deployment should remain an explicit operator action unless a future CI/CD item decides otherwise.
   - Account for Vercel Deployment Protection: protected preview URLs may require MCP access, a bypass token, or a trusted automation source.
   - 2026-07-13 manual baseline: the canonical host returned the generated generic fallback with HTTP 404 for an arbitrary path; `/404.html` returned a permanent clean-URL redirect to `/404`; both activated pages displayed the resulting browser pathname without console or page errors. The deployed bundle predates the prerendering branch's activation marker, so that exact observable contract remains pending deployment.
-- `Links`: `vercel.json`, `tests/public-site.spec.ts`, `scripts/prerender-route-metadata.mjs`
+- `Links`: `vercel.json`, `tests/public-site/routes.spec.ts`, `scripts/prerender-route-metadata.mjs`
 
 ### DEBT-27 - Runtime head metadata can drift after client-side navigation
 
@@ -425,7 +425,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - `NotFound` now sources its title, description, heading, and robots directive from `routeMetadata.json`, removes its owned robots element on unmount, and has a browser regression check for returning from the generated 404 document to Home. It still owns robots separately from the public-page metadata hook, and public-to-not-found navigation can retain canonical and social tags from the previous route.
-- `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/public-site.spec.ts`
+- `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/public-site/routes.spec.ts`
 
 ### DEBT-29 - Route changes lack focus restoration and a skip-link baseline
 
@@ -448,7 +448,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - Current public-site tests assert one main landmark, but they do not check focus movement or bypass navigation.
-- `Links`: `src/components/Layout.tsx`, `src/components/ScrollToTop.tsx`, `src/pages/`, `tests/public-site.spec.ts`
+- `Links`: `src/components/Layout.tsx`, `src/components/ScrollToTop.tsx`, `src/pages/`, `tests/public-site/routes.spec.ts`
 
 ### DEBT-30 - Shared navigation disclosure semantics remain incomplete
 
@@ -472,8 +472,8 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
-  - `tests/public-site.spec.ts` now verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
-- `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site.spec.ts`
+  - `tests/public-site/navigation.spec.ts` verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
+- `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site/navigation.spec.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
