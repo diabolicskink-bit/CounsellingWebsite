@@ -77,7 +77,9 @@ body:has(.visit-dashboard) {
   padding: 0;
   border: 0;
   background: transparent;
+  color: inherit;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .signal-header__brand > span {
@@ -96,7 +98,7 @@ body:has(.visit-dashboard) {
 
 .signal-header__brand strong {
   font-size: 1.02rem;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .signal-header__title {
@@ -235,7 +237,7 @@ body:has(.visit-dashboard) {
   font-size: clamp(2.5rem, 5vw, 4.4rem);
   font-weight: 760;
   line-height: 0.98;
-  letter-spacing: -0.06em;
+  letter-spacing: 0;
 }
 
 .signal-overview__intro > p:last-of-type,
@@ -412,7 +414,7 @@ body:has(.visit-dashboard) {
 .signal-returning__summary strong {
   font-size: 2.25rem;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
 }
 
 .signal-returning__orbit {
@@ -584,7 +586,7 @@ body:has(.visit-dashboard) {
   margin: 5px 0 0;
   font-size: 1.35rem;
   line-height: 1.08;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 .signal-diagnostics > header > p {
@@ -748,7 +750,7 @@ body:has(.visit-dashboard) {
   margin: 3px 0 5px;
   font-size: clamp(2.6rem, 5vw, 4.3rem);
   line-height: 0.98;
-  letter-spacing: -0.06em;
+  letter-spacing: 0;
 }
 
 .page-view-report__intro > p:last-child {
@@ -864,7 +866,7 @@ body:has(.visit-dashboard) {
   margin-top: 9px;
   font-size: 2rem;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
 }
 
 .page-view-report__routes {
@@ -883,7 +885,7 @@ body:has(.visit-dashboard) {
   margin: 4px 0 0;
   font-size: 1.65rem;
   line-height: 1.1;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 .page-view-report__routes > header > span {
@@ -1099,7 +1101,8 @@ body:has(.visit-dashboard) {
   box-shadow: 0 8px 24px rgba(53, 52, 92, 0.05);
 }
 
-.keyword-report__table-wrap:focus-visible {
+.keyword-report__table-wrap:focus-visible,
+.page-view-report__table-wrap:focus-visible {
   outline: 3px solid rgba(98, 92, 243, 0.38);
   outline-offset: 3px;
 }
@@ -1243,7 +1246,7 @@ body:has(.visit-dashboard) {
   margin: 3px 0 5px;
   font-size: clamp(2.6rem, 5vw, 4.3rem);
   line-height: 0.98;
-  letter-spacing: -0.06em;
+  letter-spacing: 0;
 }
 
 .monthly-enquiries__intro > p:last-child {
@@ -1287,7 +1290,7 @@ body:has(.visit-dashboard) {
   font-size: 2.25rem;
   font-weight: 760;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
 }
 
 .monthly-enquiries__summary small {
@@ -1316,7 +1319,7 @@ body:has(.visit-dashboard) {
   margin: 4px 0 0;
   font-size: 1.65rem;
   line-height: 1.1;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 .monthly-enquiries__ledger-header > span {
@@ -1391,7 +1394,7 @@ body:has(.visit-dashboard) {
   margin: 3px 0 5px;
   font-size: clamp(2.6rem, 5vw, 4.3rem);
   line-height: 0.98;
-  letter-spacing: -0.06em;
+  letter-spacing: 0;
 }
 
 .excluded-visitors__overview > div:first-child > p:last-child {
@@ -1423,7 +1426,7 @@ body:has(.visit-dashboard) {
 .excluded-visitors__count strong {
   font-size: 2.25rem;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
 }
 
 .excluded-visitors__count span {
@@ -1447,7 +1450,7 @@ body:has(.visit-dashboard) {
   margin: 4px 0 0;
   font-size: 1.65rem;
   line-height: 1.1;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 .excluded-visitors__directory > header > p {
@@ -1575,7 +1578,7 @@ body:has(.visit-dashboard) {
   font-family: var(--font-sans);
   font-size: 1.65rem;
   line-height: 1.1;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 .signal-stream__header > span,
@@ -1655,7 +1658,7 @@ body:has(.visit-dashboard) {
 .signal-event__time {
   font-size: 1rem;
   font-weight: 770;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .signal-event__identity {
@@ -2049,7 +2052,7 @@ body:has(.visit-dashboard) {
 .signal-event-detail h4 {
   margin: 0;
   font-size: 1rem;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .signal-event-detail__journey > header > span {
@@ -2400,7 +2403,7 @@ body:has(.visit-dashboard) {
 .signal-report-state h1 {
   margin: 0;
   font-size: clamp(1.5rem, 3vw, 2.25rem);
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 .signal-report-state button {
@@ -2665,7 +2668,7 @@ body:has(.visit-dashboard) {
 .visitor-visit__summary h3 {
   margin: 0 0 6px;
   font-size: 0.92rem;
-  letter-spacing: -0.015em;
+  letter-spacing: 0;
 }
 
 .visitor-visit__markers {
@@ -2829,7 +2832,9 @@ body:has(.visit-dashboard) {
 
   .signal-header__views a {
     flex: 1;
+    min-width: 0;
     justify-content: center;
+    padding-inline: 4px;
   }
 
   .visit-signal__field {
@@ -2968,6 +2973,15 @@ body:has(.visit-dashboard) {
 }
 
 @media (max-width: 540px) {
+  .signal-header__views {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .signal-header__views a {
+    width: 100%;
+  }
+
   .signal-header__brand strong {
     display: none;
   }

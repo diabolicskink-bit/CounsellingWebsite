@@ -179,7 +179,7 @@ test.describe("private analytics boundaries", () => {
     ).toHaveCount(0);
   });
 
-  test("loads matched keyword journeys across route and range changes", async ({ page }) => {
+  test("loads and sorts matched keywords across route and range changes", async ({ page }) => {
     let releaseKeywordResponse = () => {};
     const keywordResponseGate = new Promise<void>((resolve) => {
       releaseKeywordResponse = resolve;
@@ -221,23 +221,45 @@ test.describe("private analytics boundaries", () => {
         body: JSON.stringify({
           data: {
             endDate: requestUrl.searchParams.get("end"),
-            keywords: [{
-              activeSeconds: 300,
-              enquiryVisits: 1,
-              keyword: "kink aware counselling",
-              latestVisitAt: "2026-08-15T03:00:00.000Z",
-              matchTypes: ["e", "p"],
-              pageViews: 7,
-              returningVisits: 1,
-              visits: 3,
-            }],
+            keywords: [
+              {
+                activeSeconds: 300,
+                enquiryVisits: 1,
+                keyword: "kink aware counselling",
+                latestVisitAt: "2026-08-15T03:00:00.000Z",
+                matchTypes: ["e", "p"],
+                pageViews: 7,
+                returningVisits: 1,
+                visits: 3,
+              },
+              {
+                activeSeconds: 90,
+                enquiryVisits: 0,
+                keyword: "inclusive relationship counselling",
+                latestVisitAt: "2026-08-11T04:30:00.000Z",
+                matchTypes: ["b"],
+                pageViews: 5,
+                returningVisits: 2,
+                visits: 4,
+              },
+              {
+                activeSeconds: 480,
+                enquiryVisits: 3,
+                keyword: "perth bdsm therapist",
+                latestVisitAt: "2026-08-14T06:15:00.000Z",
+                matchTypes: ["p"],
+                pageViews: 8,
+                returningVisits: 1,
+                visits: 4,
+              },
+            ],
             startDate: requestUrl.searchParams.get("start"),
-            taggedEnquiryVisits: 1,
-            taggedVisits: 3,
-            totalActiveSeconds: 390,
-            totalEnquiryVisits: 1,
-            totalPageViews: 9,
-            totalPaidVisits: 4,
+            taggedEnquiryVisits: 4,
+            taggedVisits: 11,
+            totalActiveSeconds: 1020,
+            totalEnquiryVisits: 5,
+            totalPageViews: 23,
+            totalPaidVisits: 12,
             type: "keywords",
           },
         }),
@@ -264,11 +286,25 @@ test.describe("private analytics boundaries", () => {
     expect(requestedStartDate).toBe("2026-07-17");
     expect(requestedEndDate).toBe("2026-08-15");
     expect(requestedBots).toBe("include");
-    await expect(page.getByRole("heading", { level: 1, name: "Keyword journeys" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "Matched keyword ledger" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: "Keywords" })).toBeVisible();
+    const matchedKeywords = page.getByRole("region", { name: "Matched keywords" });
+    await expect(matchedKeywords).toBeVisible();
     const keywordRow = page.getByRole("row").filter({ hasText: "kink aware counselling" });
     await expect(keywordRow).toContainText("7 views");
     await expect(keywordRow).toContainText("1:40");
+
+    const keywordRows = matchedKeywords.locator("tbody tr");
+    const enquiriesHeader = matchedKeywords.getByRole("columnheader", { name: "Enquiries" });
+    await expect(enquiriesHeader).toHaveAttribute("aria-sort", "descending");
+    await expect(keywordRows.nth(0)).toContainText("perth bdsm therapist");
+    await expect(keywordRows.nth(1)).toContainText("kink aware counselling");
+    await expect(keywordRows.nth(2)).toContainText("inclusive relationship counselling");
+
+    await enquiriesHeader.getByRole("button", { name: "Enquiries" }).click();
+    await expect(enquiriesHeader).toHaveAttribute("aria-sort", "ascending");
+    await expect(keywordRows.nth(0)).toContainText("inclusive relationship counselling");
+    await expect(keywordRows.nth(1)).toContainText("kink aware counselling");
+    await expect(keywordRows.nth(2)).toContainText("perth bdsm therapist");
 
     await page.getByLabel("Start date").fill("2026-08-01");
     await page.getByLabel("End date").fill("2026-08-14");
