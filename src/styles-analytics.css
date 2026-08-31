@@ -1136,6 +1136,37 @@ body:has(.visit-dashboard) {
 .keyword-report__table thead th:nth-child(5) { width: 88px; }
 .keyword-report__table thead th:nth-child(6) { width: 106px; }
 
+.keyword-report__sort {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+}
+
+.keyword-report__sort svg {
+  flex: 0 0 auto;
+  opacity: 0.72;
+}
+
+.keyword-report__sort:hover {
+  color: var(--report-ink);
+}
+
+.keyword-report__sort:focus-visible {
+  outline: 2px solid var(--report-purple);
+  outline-offset: 4px;
+}
+
 .keyword-report__table tbody tr:last-child > * {
   border-bottom: 0;
 }

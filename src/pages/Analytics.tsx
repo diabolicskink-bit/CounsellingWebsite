@@ -1,8 +1,11 @@
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useState } from "react";
 import {
+  ArrowDown,
   ArrowLeft,
   ArrowRight,
+  ArrowUp,
+  ArrowUpDown,
   Bot,
   CalendarDays,
   ChevronDown,
@@ -53,6 +56,13 @@ import "../styles-analytics.css";
 type AnalyticsLoadState =
   | { report: null; requestUrl: string; status: "error" | "loading" }
   | { report: AnalyticsReport; requestUrl: string; status: "ready" };
+
+type KeywordSortKey = "activeTime" | "enquiries" | "latest" | "pageDepth" | "visits";
+
+type KeywordSortState = {
+  direction: "ascending" | "descending";
+  key: KeywordSortKey;
+};
 
 type VisitJourneyItem =
   | {
@@ -1541,6 +1551,10 @@ function KeywordAnalytics({
   report: KeywordAnalyticsReport;
   todayKey: string;
 }) {
+  const [sort, setSort] = useState<KeywordSortState>({
+    direction: "descending",
+    key: "enquiries",
+  });
   const attributionCoverage = report.totalPaidVisits
     ? Math.round((report.taggedVisits / report.totalPaidVisits) * 100)
     : 0;
@@ -1551,6 +1565,62 @@ function KeywordAnalytics({
     ? Math.round(report.totalActiveSeconds / report.totalPaidVisits)
     : 0;
   const untaggedVisits = report.totalPaidVisits - report.taggedVisits;
+  const sortedKeywords = useMemo(() => {
+    const sortValue = (keyword: KeywordAnalyticsSummary) => {
+      switch (sort.key) {
+        case "activeTime":
+          return keyword.visits ? keyword.activeSeconds / keyword.visits : 0;
+        case "enquiries":
+          return keyword.enquiryVisits;
+        case "latest":
+          return Date.parse(keyword.latestVisitAt);
+        case "pageDepth":
+          return keyword.visits ? keyword.pageViews / keyword.visits : 0;
+        case "visits":
+          return keyword.visits;
+      }
+    };
+    const multiplier = sort.direction === "ascending" ? 1 : -1;
+
+    return report.keywords
+      .map((keyword, originalIndex) => ({ keyword, originalIndex }))
+      .sort((left, right) => {
+        const difference = sortValue(left.keyword) - sortValue(right.keyword);
+        return difference ? difference * multiplier : left.originalIndex - right.originalIndex;
+      })
+      .map(({ keyword }) => keyword);
+  }, [report.keywords, sort]);
+
+  const changeSort = (key: KeywordSortKey) => {
+    setSort((current) => ({
+      direction: current.key === key && current.direction === "descending"
+        ? "ascending"
+        : "descending",
+      key,
+    }));
+  };
+
+  const sortableHeader = (key: KeywordSortKey, label: string) => {
+    const isActive = sort.key === key;
+    const SortIcon = !isActive
+      ? ArrowUpDown
+      : sort.direction === "ascending"
+        ? ArrowUp
+        : ArrowDown;
+
+    return (
+      <th aria-sort={isActive ? sort.direction : "none"} scope="col">
+        <button
+          className="keyword-report__sort"
+          onClick={() => changeSort(key)}
+          type="button"
+        >
+          <span>{label}</span>
+          <SortIcon aria-hidden="true" size={13} strokeWidth={2} />
+        </button>
+      </th>
+    );
+  };
 
   return (
     <>
@@ -1629,15 +1699,15 @@ function KeywordAnalytics({
               <thead>
                 <tr>
                   <th scope="col">Keyword</th>
-                  <th scope="col">Visits</th>
-                  <th scope="col">Page depth</th>
-                  <th scope="col">Active / visit</th>
-                  <th scope="col">Enquiries</th>
-                  <th scope="col">Latest</th>
+                  {sortableHeader("visits", "Visits")}
+                  {sortableHeader("pageDepth", "Page depth")}
+                  {sortableHeader("activeTime", "Active / visit")}
+                  {sortableHeader("enquiries", "Enquiries")}
+                  {sortableHeader("latest", "Latest")}
                 </tr>
               </thead>
               <tbody>
-                {report.keywords.map((keyword) => {
+                {sortedKeywords.map((keyword) => {
                   const pagesPerKeywordVisit = keyword.visits
                     ? (keyword.pageViews / keyword.visits).toFixed(1)
                     : "0.0";
