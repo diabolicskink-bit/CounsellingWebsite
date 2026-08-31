@@ -473,21 +473,14 @@ test.describe("first-party analytics", () => {
     await expect.poll(() => visitObservations.length).toBe(1);
 
     const form = page.getByRole("form", { name: "Your enquiry" });
-    await form.getByLabel("How would you like to start?").selectOption("question");
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your message").fill("Hello");
+    await form.getByLabel("How would you like to start?").selectOption("question");
     await expect.poll(() => eventObservations.length).toBe(2);
 
     const visitObservation = visitObservations[0];
     expect(eventObservations).toEqual([
-      {
-        eventId: expect.stringMatching(uuidV4),
-        eventType: "contact_option_selected",
-        pageViewId: visitObservation.pageViewId,
-        properties: { option: "question" },
-        visitId: visitObservation.visitId,
-      },
       {
         eventId: expect.stringMatching(uuidV4),
         eventType: "enquiry_started",
@@ -495,9 +488,16 @@ test.describe("first-party analytics", () => {
         properties: {},
         visitId: visitObservation.visitId,
       },
+      {
+        eventId: expect.stringMatching(uuidV4),
+        eventType: "contact_option_selected",
+        pageViewId: visitObservation.pageViewId,
+        properties: { option: "question" },
+        visitId: visitObservation.visitId,
+      },
     ]);
 
-    await form.getByRole("button", { name: "Send enquiry" }).click();
+    await form.getByRole("button", { name: "Send message" }).click();
     await expect(page.getByRole("status")).toBeVisible();
     await expect.poll(() => enquirySubmissions.length).toBe(1);
     expect(enquirySubmissions[0]).toMatchObject({
@@ -505,8 +505,8 @@ test.describe("first-party analytics", () => {
       analyticsVisitId: visitObservation.visitId,
     });
     expect(eventObservations.map((observation) => observation.eventType)).toEqual([
-      "contact_option_selected",
       "enquiry_started",
+      "contact_option_selected",
     ]);
   });
 });
