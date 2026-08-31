@@ -100,11 +100,11 @@
   display: none;
 }
 
-.contact-page__enquiry-path-control {
+.contact-page__enquiry-path {
   position: relative;
 }
 
-.contact-page__enquiry-path-control::after {
+.contact-page__enquiry-path::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -170,7 +170,7 @@
     box-shadow 160ms ease;
 }
 
-.contact-page__enquiry-path-control select {
+.contact-page__enquiry-path select {
   appearance: none;
   padding-right: 3.25rem;
   cursor: pointer;
@@ -199,7 +199,6 @@
 }
 
 .contact-page__form-actions .button {
-  width: auto;
   min-width: min(100%, 260px);
 }
 
@@ -395,7 +394,6 @@
 }
 
 .contact-page__practice-heading {
-  display: grid;
   margin-bottom: 42px;
 }
 
@@ -510,7 +508,6 @@
 
 @media (max-width: 700px) {
   .contact-page__hero .contact-page__hero-title {
-    max-width: none;
     font-size: clamp(3.15rem, 14.5vw, 4.2rem);
     line-height: 0.92;
   }
@@ -575,16 +572,6 @@
 
   .contact-page__form-field--wide {
     grid-column: auto;
-  }
-
-  .contact-page__form-actions {
-    display: grid;
-    gap: 12px;
-    justify-content: start;
-  }
-
-  .contact-page__form-actions .button {
-    width: 100%;
   }
 
   .contact-page__success {

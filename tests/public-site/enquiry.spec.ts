@@ -27,10 +27,10 @@ test.describe("progressive enhancement", () => {
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your message").fill("I would like an initial consult.");
     await form.getByLabel("How would you like to start?").selectOption("consult");
-    await form.getByLabel("Mobile number (required for a consult)").fill("0412 345 678");
     await form
       .getByLabel("Availability (required for an appointment or consult)")
       .fill("Weekday afternoons");
+    await form.getByLabel("Mobile number (required for a consult)").fill("0412 345 678");
     await form
       .getByLabel("Timezone (required for an appointment or consult)")
       .selectOption("AWST");

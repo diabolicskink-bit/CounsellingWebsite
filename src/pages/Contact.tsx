@@ -381,31 +381,29 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
         </div>
 
         <div className="contact-page__form-field contact-page__enquiry-path">
-          <div className="contact-page__enquiry-path-control">
-            <select
-              aria-label="How would you like to start?"
-              id="contact-path"
-              name="contactPath"
-              onChange={(event) => {
-                const value = event.currentTarget.value;
+          <select
+            aria-label="How would you like to start?"
+            id="contact-path"
+            name="contactPath"
+            onChange={(event) => {
+              const value = event.currentTarget.value;
 
-                if (isEnquiryPath(value)) {
-                  handleEnquiryPathChange(value);
-                }
-              }}
-              required
-              value={selectedPath}
-            >
-              <option disabled value="">
-                Choose an option
+              if (isEnquiryPath(value)) {
+                handleEnquiryPathChange(value);
+              }
+            }}
+            required
+            value={selectedPath}
+          >
+            <option disabled value="">
+              Choose an option
+            </option>
+            {enquiryPathOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.title}
               </option>
-              {enquiryPathOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.title}
-                </option>
-              ))}
-            </select>
-          </div>
+            ))}
+          </select>
         </div>
 
         {showBookingFields ? (
@@ -522,12 +520,14 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
         </Container>
       </section>
 
-      <section className="contact-page__enquiry site-section-warm" id="contact-start" tabIndex={-1}>
+      <section
+        aria-labelledby="contact-enquiry-intro-title"
+        className="contact-page__enquiry site-section-warm"
+        id="contact-start"
+        tabIndex={-1}
+      >
         <Container className="contact-page__enquiry-layout">
-          <aside
-            aria-labelledby="contact-enquiry-intro-title"
-            className="contact-page__enquiry-intro"
-          >
+          <header className="contact-page__enquiry-intro">
             <h2 id="contact-enquiry-intro-title">
               Choosing a counsellor can be hard.
             </h2>
@@ -537,7 +537,7 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
               question, you can send one through the form or{" "}
               <a href={`mailto:${enquiryEmail}`}>by email</a>.
             </p>
-          </aside>
+          </header>
 
           <EnquiryForm initialRenderAt={initialRenderAt} />
         </Container>
@@ -588,14 +588,14 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
       </section>
 
       <section
-        aria-label="Contact details"
+        aria-labelledby="contact-details-title"
         className="contact-page__practice-details"
         id="contact-details"
       >
         <Container>
-          <header className="contact-page__practice-heading">
+          <h2 className="contact-page__practice-heading" id="contact-details-title">
             <span className="contact-page__eyebrow">Practical details</span>
-          </header>
+          </h2>
 
           <dl className="contact-page__practice-list">
             <div>
