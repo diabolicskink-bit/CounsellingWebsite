@@ -56,6 +56,10 @@ const publicRouteContracts = {
     expectedMainClass: "site-page contact-page",
     structuredDataType: null,
   },
+  "/privacy-policy": {
+    expectedMainClass: "site-page privacy-policy-page",
+    structuredDataType: null,
+  },
 };
 const faviconTags = [
   '<link rel="icon" href="/favicon.ico" sizes="any" />',
