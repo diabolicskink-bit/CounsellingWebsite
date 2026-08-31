@@ -68,8 +68,14 @@ test("bot classification migration preserves nullable verdicts and verified iden
 test("visit-event migration enforces controlled event and page ownership data", () => {
   assert.match(eventMigration, /CREATE TABLE site_visit_events/i);
   assert.match(eventMigration, /id UUID PRIMARY KEY/i);
-  assert.match(eventMigration, /visit_id UUID NOT NULL REFERENCES site_visits/i);
-  assert.match(eventMigration, /FOREIGN KEY \(page_view_id, visit_id\)/i);
+  assert.match(
+    eventMigration,
+    /visit_id UUID NOT NULL REFERENCES site_visits\(id\) ON DELETE CASCADE/i,
+  );
+  assert.match(
+    eventMigration,
+    /FOREIGN KEY \(page_view_id, visit_id\)[\s\S]*?REFERENCES site_page_views\(id, visit_id\)[\s\S]*?ON DELETE CASCADE/i,
+  );
   assert.match(eventMigration, /occurred_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP/i);
   assert.match(eventMigration, /source IN \('client', 'server'\)/i);
   assert.match(eventMigration, /properties JSONB NOT NULL/i);

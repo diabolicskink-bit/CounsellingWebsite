@@ -104,14 +104,13 @@ test("passes the complete observation to the visit upsert", async () => {
   assert.doesNotMatch(calls[0].query, /private-test-value|polyamory therapy|CjwK-test-click/);
 });
 
-test("keeps first-touch fields immutable while enriching bot classification", () => {
+test("updates visit activity and bot classification without rewriting first-touch data", () => {
   const visitUpdateAssignments = [...recordVisitObservationSql.matchAll(
     /UPDATE site_visits\s*SET(?<assignments>[\s\S]*?)\s*FROM/gi,
   )].map((match) => match.groups?.assignments ?? "");
-  const classifiedVisit = visitUpdateAssignments.find((assignments) => /\bis_bot\s*=/.test(assignments));
+  const [updatedVisit] = visitUpdateAssignments;
 
-  assert.equal(visitUpdateAssignments.length, 2);
-  assert.ok(classifiedVisit, "classified_visit update must remain present");
+  assert.equal(visitUpdateAssignments.length, 1);
 
   for (const column of [
     "landing_path",
@@ -132,12 +131,22 @@ test("keeps first-touch fields immutable while enriching bot classification", ()
     );
   }
 
+  assert.match(updatedVisit, /last_seen_at = CASE[\s\S]*?GREATEST\(/i);
   assert.match(
-    classifiedVisit,
+    updatedVisit,
     /WHEN site_visits\.is_bot IS TRUE OR \$13::BOOLEAN IS TRUE THEN TRUE/i,
   );
-  assert.match(classifiedVisit, /bot_name = COALESCE\(site_visits\.bot_name, \$14\)/i);
-  assert.match(classifiedVisit, /bot_category = COALESCE\(site_visits\.bot_category, \$15\)/i);
+  assert.match(updatedVisit, /bot_name = COALESCE\(site_visits\.bot_name, \$14\)/i);
+  assert.match(updatedVisit, /bot_category = COALESCE\(site_visits\.bot_category, \$15\)/i);
+  assert.match(
+    recordVisitObservationSql,
+    /INSERT INTO site_page_views[\s\S]*?FROM matched_visit\s+CROSS JOIN observation_time/i,
+    "a newly inserted visit must be able to record its first page view in the same statement",
+  );
+  assert.match(
+    recordVisitObservationSql,
+    /FROM matched_visit\s+LEFT JOIN inserted_page_view ON inserted_page_view\.visit_id = matched_visit\.id/i,
+  );
 });
 
 test("treats a repeated matching page-view ID as an idempotent observation", async () => {
@@ -152,6 +161,10 @@ test("treats a repeated matching page-view ID as an idempotent observation", asy
 
   assert.deepEqual(result, { pageViewInserted: false });
   assert.equal(calls.length, 1);
+  assert.match(
+    recordVisitObservationSql,
+    /WHERE id = \$3::uuid\s*AND visit_id = \$2::uuid\s*AND path = \$5/i,
+  );
 });
 
 test("retries when a concurrent insert is not visible to the first statement snapshot", async () => {

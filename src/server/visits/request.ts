@@ -87,7 +87,7 @@ function getMediaType(contentType: string) {
   return contentType.split(";")[0].trim().toLowerCase();
 }
 
-function getNormalizedOrigin(value: string) {
+function getNormalizedOrigin(value: string, allowBareHost = false) {
   const candidate = value.trim();
 
   if (!candidate || candidate.toLowerCase() === "null") {
@@ -95,16 +95,24 @@ function getNormalizedOrigin(value: string) {
   }
 
   try {
-    const url = new URL(candidate.includes("://") ? candidate : `https://${candidate}`);
+    const url = new URL(allowBareHost && !candidate.includes("://")
+      ? `https://${candidate}`
+      : candidate);
 
-    return url.origin.toLowerCase();
+    return (
+      (url.protocol === "http:" || url.protocol === "https:")
+      && !url.username
+      && !url.password
+    )
+      ? url.origin.toLowerCase()
+      : "";
   } catch {
     return "";
   }
 }
 
 function addAllowedOrigin(origins: Set<string>, value: string | undefined) {
-  const origin = getNormalizedOrigin(value ?? "");
+  const origin = getNormalizedOrigin(value ?? "", true);
 
   if (origin) {
     origins.add(origin);
@@ -139,18 +147,32 @@ function getAllowedOrigins(request: VisitRequest) {
   return origins;
 }
 
-function getHeaderOrigin(headerValue: string): ParsedHeaderOrigin {
-  if (!headerValue.trim()) {
+function getHeaderOrigin(headerValue: string, requireOriginOnly = false): ParsedHeaderOrigin {
+  const candidate = headerValue.trim();
+
+  if (!candidate) {
     return { origin: "", valid: true };
   }
 
-  const origin = getNormalizedOrigin(headerValue);
+  const origin = getNormalizedOrigin(candidate);
+
+  if (origin && requireOriginOnly) {
+    const url = new URL(candidate);
+
+    if (url.pathname !== "/" || url.search || url.hash) {
+      return { origin: "", valid: false };
+    }
+  }
 
   return { origin, valid: Boolean(origin) };
 }
 
-function isAllowedHeaderOrigin(headerValue: string, allowedOrigins: Set<string>) {
-  const parsedOrigin = getHeaderOrigin(headerValue);
+function isAllowedHeaderOrigin(
+  headerValue: string,
+  allowedOrigins: Set<string>,
+  requireOriginOnly = false,
+) {
+  const parsedOrigin = getHeaderOrigin(headerValue, requireOriginOnly);
 
   return parsedOrigin.valid && Boolean(parsedOrigin.origin) && allowedOrigins.has(parsedOrigin.origin);
 }
@@ -196,7 +218,7 @@ function getCrossSiteBlockReason(request: VisitRequest) {
   const originHeader = getHeader(request, "origin");
 
   if (originHeader.trim()) {
-    if (!isAllowedHeaderOrigin(originHeader, allowedOrigins)) {
+    if (!isAllowedHeaderOrigin(originHeader, allowedOrigins, true)) {
       return "mismatched_origin";
     }
 

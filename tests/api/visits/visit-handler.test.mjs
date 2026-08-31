@@ -300,6 +300,16 @@ test("rejects cross-site request signals before storage", async (context) => {
       "x-forwarded-proto": "https",
     }),
   });
+  const malformedOriginResults = await Promise.all([
+    "vivecounselling.com.au",
+    "https://vivecounselling.com.au/not-an-origin",
+  ].map((origin) => invoke(handler, {
+    headers: jsonHeaders({
+      host: "vivecounselling.com.au",
+      origin,
+      "x-forwarded-proto": "https",
+    }),
+  })));
   const refererResult = await invoke(handler, {
     headers: jsonHeaders({
       host: "vivecounselling.com.au",
@@ -311,6 +321,7 @@ test("rejects cross-site request signals before storage", async (context) => {
   assert.equal(fetchSiteResult.statusCode, 403);
   assert.equal(originResult.statusCode, 403);
   assert.equal(refererResult.statusCode, 403);
+  assert.ok(malformedOriginResults.every((result) => result.statusCode === 403));
   assert.equal(recordCalled, false);
   assert.match(JSON.stringify(warnings), /cross_site_fetch_site|mismatched_origin|mismatched_referer/);
   assert.doesNotMatch(JSON.stringify(warnings), /private-path|secret=value/);

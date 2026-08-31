@@ -59,7 +59,7 @@ export class VisitIdentityConflictError extends Error {
 
 export class PageViewIdentityConflictError extends Error {
   constructor() {
-    super("The page-view ID is already associated with another visit.");
+    super("The page-view ID is already associated with a different page-view observation.");
     this.name = "PageViewIdentityConflictError";
   }
 }
@@ -137,28 +137,14 @@ matched_visit AS (
   FROM site_visits
   WHERE id = $2::uuid AND visitor_id = $1::uuid
 ),
-classified_visit AS (
-  UPDATE site_visits
-  SET
-    is_bot = CASE
-      WHEN site_visits.is_bot IS TRUE OR $13::BOOLEAN IS TRUE THEN TRUE
-      WHEN site_visits.is_bot IS FALSE OR $13::BOOLEAN IS FALSE THEN FALSE
-      ELSE NULL
-    END,
-    bot_name = COALESCE(site_visits.bot_name, $14),
-    bot_category = COALESCE(site_visits.bot_category, $15)
-  FROM matched_visit
-  WHERE site_visits.id = matched_visit.id
-  RETURNING site_visits.id
-),
 inserted_page_view AS (
   INSERT INTO site_page_views (id, visit_id, viewed_at, path)
   SELECT
     $3::uuid,
-    classified_visit.id,
+    matched_visit.id,
     observation_time.recorded_at,
     $5
-  FROM classified_visit
+  FROM matched_visit
   CROSS JOIN observation_time
   ON CONFLICT (id) DO NOTHING
   RETURNING id, visit_id, viewed_at
@@ -168,17 +154,31 @@ matched_page_view AS (
   UNION
   SELECT id
   FROM site_page_views
-  WHERE id = $3::uuid AND visit_id = $2::uuid
+  WHERE id = $3::uuid
+    AND visit_id = $2::uuid
+    AND path = $5
 ),
 updated_visit AS (
   UPDATE site_visits
-  SET last_seen_at = GREATEST(site_visits.last_seen_at, inserted_page_view.viewed_at)
-  FROM inserted_page_view
-  WHERE site_visits.id = inserted_page_view.visit_id
+  SET
+    last_seen_at = CASE
+      WHEN inserted_page_view.viewed_at IS NULL THEN site_visits.last_seen_at
+      ELSE GREATEST(site_visits.last_seen_at, inserted_page_view.viewed_at)
+    END,
+    is_bot = CASE
+      WHEN site_visits.is_bot IS TRUE OR $13::BOOLEAN IS TRUE THEN TRUE
+      WHEN site_visits.is_bot IS FALSE OR $13::BOOLEAN IS FALSE THEN FALSE
+      ELSE NULL
+    END,
+    bot_name = COALESCE(site_visits.bot_name, $14),
+    bot_category = COALESCE(site_visits.bot_category, $15)
+  FROM matched_visit
+  LEFT JOIN inserted_page_view ON inserted_page_view.visit_id = matched_visit.id
+  WHERE site_visits.id = matched_visit.id
     AND NOT EXISTS (
       SELECT 1
       FROM inserted_visit
-      WHERE inserted_visit.id = inserted_page_view.visit_id
+      WHERE inserted_visit.id = matched_visit.id
     )
   RETURNING site_visits.id
 )
@@ -186,8 +186,7 @@ SELECT
   EXISTS (SELECT 1 FROM inserted_visit) AS "visitInserted",
   EXISTS (SELECT 1 FROM matched_visit) AS "visitMatched",
   EXISTS (SELECT 1 FROM matched_page_view) AS "pageViewMatched",
-  EXISTS (SELECT 1 FROM inserted_page_view) AS "pageViewInserted",
-  EXISTS (SELECT 1 FROM updated_visit) AS "visitActivityUpdated";
+  EXISTS (SELECT 1 FROM inserted_page_view) AS "pageViewInserted";
 `;
 
 export const deleteEmptyVisitSql = `
