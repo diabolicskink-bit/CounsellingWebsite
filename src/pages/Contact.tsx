@@ -60,7 +60,7 @@ const enquiryPathOptions: readonly EnquiryPathOption[] = [
   },
   {
     ...contactPaths.consult,
-    submitLabel: "Request the 15-minute consult",
+    submitLabel: "Request Consult",
     title: "Schedule a free consult",
   },
   {
@@ -381,12 +381,9 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
         </div>
 
         <div className="contact-page__form-field contact-page__enquiry-path">
-          <label htmlFor="contact-path">
-            How would you like to start?
-            <RequiredMark />
-          </label>
           <div className="contact-page__enquiry-path-control">
             <select
+              aria-label="How would you like to start?"
               id="contact-path"
               name="contactPath"
               onChange={(event) => {
@@ -413,6 +410,26 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
 
         {showBookingFields ? (
           <div className="contact-page__form-fields contact-page__form-fields--conditional">
+            <FormField
+              id="contact-availability"
+              label={
+                hasHydrated
+                  ? "Availability"
+                  : "Availability (required for an appointment or consult)"
+              }
+              required={isBooking}
+              wide
+            >
+              <input
+                id="contact-availability"
+                maxLength={enquiryFieldLimits.availability}
+                name="availability"
+                placeholder="For example: Tuesday after 3pm"
+                required={isBooking}
+                type="text"
+              />
+            </FormField>
+
             {showConsultMobile ? (
               <FormField
                 id="contact-mobile"
@@ -422,7 +439,6 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
                     : "Mobile number (required for a consult)"
                 }
                 required={isConsult}
-                wide
               >
                 <input
                   autoComplete="tel"
@@ -436,25 +452,6 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
                 />
               </FormField>
             ) : null}
-
-            <FormField
-              id="contact-availability"
-              label={
-                hasHydrated
-                  ? "Availability"
-                  : "Availability (required for an appointment or consult)"
-              }
-              required={isBooking}
-            >
-              <input
-                id="contact-availability"
-                maxLength={enquiryFieldLimits.availability}
-                name="availability"
-                placeholder="For example: Tuesday after 3pm"
-                required={isBooking}
-                type="text"
-              />
-            </FormField>
 
             <FormField
               id="contact-timezone"

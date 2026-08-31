@@ -82,10 +82,10 @@ test.describe("enquiry form", () => {
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your message").fill("I would like an initial consult.");
     await form.getByLabel("How would you like to start?").selectOption("consult");
-    await form.getByLabel("Mobile number").fill("0412 345 678");
     await form.getByLabel("Availability").fill("Weekday afternoons");
+    await form.getByLabel("Mobile number").fill("0412 345 678");
     await form.getByLabel("Timezone").selectOption("AEDT");
-    await form.getByRole("button", { name: "Request the 15-minute consult" }).click();
+    await form.getByRole("button", { name: "Request Consult" }).click();
 
     await expect(form).toHaveAttribute("aria-busy", "true");
     await expect(form.getByRole("button", { name: "Sending..." })).toBeDisabled();
