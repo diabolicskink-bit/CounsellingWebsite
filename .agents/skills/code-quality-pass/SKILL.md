@@ -1,6 +1,6 @@
 ---
 name: code-quality-pass
-description: Holistically review and improve the structure, readability, maintainability, simplicity, and behaviour of a user-specified implementation surface or code change set using senior engineering judgment. Use when the user asks to review, improve, simplify, clean up, or give a quality pass to named files, pages, components, features, HTML or templates, stylesheets, scripts, tests, configuration, or a working-tree, commit, branch, or pull-request diff. Unless the user explicitly asks for review-only findings, implement all justified in-scope improvements and verify the result. Do not use for repository-wide cleanup sweeps.
+description: Holistically review and improve the structure, naming, line-level craftsmanship, readability, maintainability, simplicity, and behaviour of a user-specified implementation surface or code change set using senior engineering judgment calibrated to the product's real context. Use when the user asks to review, improve, simplify, clean up, or give a quality pass to named files, pages, components, features, HTML or templates, stylesheets, scripts, tests, configuration, or a working-tree, commit, branch, or pull-request diff. Unless the user explicitly asks for review-only findings, implement all justified in-scope improvements and verify the result. Do not use for repository-wide cleanup sweeps.
 ---
 
 # Code Quality Pass
@@ -42,6 +42,40 @@ Unless the user explicitly requests review-only findings, implement supported
 improvements within that boundary. For review-only work, make no edits and
 report only material findings.
 
+## Calibrate the quality bar to the product
+
+Establish what good code means for the selected surface before recommending
+changes. Read the governing repository guidance and the minimum current product
+context needed to identify:
+
+- who uses, operates, and maintains the code;
+- which failures have meaningful user, data, privacy, security, operational, or
+  commercial consequences;
+- which changes the surface is realistically likely to receive; and
+- which qualities and future scenarios should deliberately not drive the
+  design.
+
+Use that profile to weight the rest of the review. Do not apply an abstract
+enterprise, framework, test-coverage, extensibility, or architectural ideal when
+it does not serve the actual product.
+
+For this repository, preserve the distinction established in `AGENTS.md` and
+the current project guidance:
+
+- The public counselling site is a visitor-facing service surface. Give
+  appropriate weight to trust, accessibility, semantic content, enquiry and
+  route reliability, metadata, performance, and restrained implementation.
+- Private analytics is an owner-only, single-user product. Prioritize data
+  correctness, authentication and privacy boundaries, clear contracts, and
+  simple maintenance. Do not generalize it into multi-user administration,
+  enterprise architecture, or exhaustive visual coverage.
+- Shared infrastructure should serve its real cross-surface contract without
+  eroding the public-site and analytics implementation boundaries.
+
+Treat the repository guidance as authority if these summaries become stale.
+For another repository, derive the corresponding profile from that project's
+own evidence rather than carrying these product assumptions across.
+
 ## Review the implementation as a whole
 
 Use the following as connected lenses, not a box-ticking sequence:
@@ -82,6 +116,55 @@ primary programming language.
 A functional defect does not end the pass: correct it, then continue assessing
 the internal design. Conversely, do not rewrite clear working code merely to
 express a subjective preference or fashionable pattern.
+
+## Review at both design and code-craft resolution
+
+Assess the broad design first, then perform a deliberate line-by-line
+craftsmanship sweep once the intended structure is clear. The second pass is
+required even when the architecture and behaviour are already sound, and must
+be repeated over materially rewritten code before completion.
+
+At code-craft resolution, examine whether:
+
+- names express domain meaning, role, units, and lifecycle clearly rather than
+  implementation mechanics or vague categories;
+- functions, components, queries, selectors, and tests have a coherent shape
+  and operate at an understandable level of abstraction;
+- control flow, conditions, data transformations, mutation, and side effects
+  are direct and easy to follow;
+- parameters, return values, errors, comments, and intermediate values reveal
+  the contract without redundant ceremony;
+- duplication, indirection, defensive branches, wrappers, comments, helpers,
+  or configuration are excessive for the responsibility they serve; and
+- local conventions are used consistently where they improve comprehension,
+  without creating style-only churn.
+
+Do not judge craftsmanship by brevity alone. A longer explicit name, branch, or
+intermediate value can be better when it makes meaning or failure behaviour
+clearer. Equally, do not leave awkward minutiae untouched merely because the
+code works or the surrounding architecture is acceptable.
+
+## Use independent lenses when they add value
+
+When delegation is available and authorized, use independent review agents for
+a substantial, complex, high-risk, or explicitly multi-angle pass when their
+different readings would materially improve confidence. Do not make delegation
+routine overhead for a small or straightforward surface; apply the same lenses
+yourself instead.
+
+Prefer giving reviewers the same coherent surface and relevant context, with
+different primary lenses such as:
+
+- behaviour, contracts, and failure modes;
+- structure, ownership, and proportionality; and
+- naming, readability, and line-level craftsmanship.
+
+Adapt or combine the lenses to the medium and risk. Ask subagents for
+evidence-backed findings rather than overlapping edits unless file ownership is
+unambiguous. The primary agent owns the integrated judgment and implementation.
+Synthesize agreements and disagreements by checking the source, product
+context, failure impact, and verification evidence; do not decide by vote or by
+the number of reviewers who prefer a style.
 
 ## Keep improvements proportionate
 
