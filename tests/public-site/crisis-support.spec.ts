@@ -88,3 +88,27 @@ test("keeps keyboard focus visible and respects reduced motion", async ({ page }
   await expectVisibleFocusIndicator(main.getByRole("link", { name: "Lifeline" }));
   await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
 });
+
+test("aligns state and territory contact numbers consistently", async ({ page }) => {
+  await page.setViewportSize({ width: 602, height: 700 });
+  await page.goto("/crisis-support");
+  await page.evaluate(() => document.fonts.ready);
+
+  const numberOffsets = await page
+    .locator(
+      ".crisis-support-page__service-actions--state .crisis-support-page__contact-number",
+    )
+    .evaluateAll((numbers) =>
+      numbers.map((number) => {
+        const action = number.closest(".crisis-support-page__contact-action");
+
+        if (!action) {
+          throw new Error("State contact number is missing its action link.");
+        }
+
+        return number.getBoundingClientRect().left - action.getBoundingClientRect().left;
+      }),
+    );
+
+  expect(Math.max(...numberOffsets) - Math.min(...numberOffsets)).toBeLessThan(0.5);
+});

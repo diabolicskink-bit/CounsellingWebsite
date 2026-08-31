@@ -211,8 +211,9 @@
 }
 
 .crisis-support-page__contact-action {
+  --crisis-contact-text-width: 8rem;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 18px minmax(0, 1fr);
   grid-template-areas:
     "icon label"
     "icon number";
@@ -241,6 +242,12 @@
 
 .crisis-support-page__contact-action svg {
   grid-area: icon;
+}
+
+.crisis-support-page__contact-label,
+.crisis-support-page__contact-number {
+  justify-self: center;
+  width: var(--crisis-contact-text-width);
 }
 
 .crisis-support-page__contact-label {
@@ -342,6 +349,7 @@
 }
 
 .crisis-support-page__service-actions--state .crisis-support-page__contact-action {
+  --crisis-contact-text-width: 12rem;
   min-width: 0;
   width: 100%;
 }
