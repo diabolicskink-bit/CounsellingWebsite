@@ -79,7 +79,7 @@ const homePageContent: HomePageContent = {
     },
     inclusionLink: {
       href: publicRoutePaths.inclusion,
-      label: "Explore inclusive counselling",
+      label: "Inclusive counselling",
     },
   },
   portrait: {
