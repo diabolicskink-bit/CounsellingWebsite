@@ -28,7 +28,7 @@ export type AnalyticsSelectionResult =
   | { type: "invalid" };
 
 const allowedQueryKeys = new Set(["bots", "date", "end", "month", "report", "start", "visitor"]);
-const maximumPageViewRangeDays = 366;
+const maximumReportRangeDays = 366;
 function getSingleQueryValue(value: string | string[] | undefined) {
   return typeof value === "string" ? value.trim() : "";
 }
@@ -89,7 +89,7 @@ export function getAnalyticsSelection(
       && !month
       && !visitorId
       && rangeLength >= 0
-      && rangeLength < maximumPageViewRangeDays
+      && rangeLength < maximumReportRangeDays
       && endDate <= today
       ? {
           type: "valid",

@@ -58,7 +58,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 ## 2026-08-17 - Keyword Journey Analytics Added
 
-- Added the protected `/analytics/keywords` report with a 30-day default and a bounded date range, keyword attribution coverage, paid-visit totals, page depth, recorded active time, successful-enquiry visits, and a responsive ranked ledger.
+- Added the protected `/analytics/keywords` report with a 30-day default and a bounded date range, matched-keyword coverage, paid-visit totals, page depth, recorded active time, successful-enquiry visits, and a responsive ranked ledger.
 - Added one aggregate read path over the existing visit, page-view, event, exclusion, and BotID data. Keyword rows retain match type, top landing page, returning-visit context, and latest activity without exposing GCLIDs.
 - Included the new route in the private no-index build shell and analytics navigation, with focused API, reader, route, and browser coverage.
 

@@ -40,6 +40,7 @@ import {
   type ExcludedVisitorSummary,
   type ExcludedVisitorsReport,
   type KeywordAnalyticsReport,
+  type KeywordAnalyticsSummary,
   type MonthlyAnalyticsReport,
   type PageViewsAnalyticsReport,
   type VisitorAnalyticsReport,
@@ -50,8 +51,8 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-analytics.css";
 
 type AnalyticsLoadState =
-  | { report: null; status: "error" | "loading" }
-  | { report: AnalyticsReport; status: "ready" };
+  | { report: null; requestUrl: string; status: "error" | "loading" }
+  | { report: AnalyticsReport; requestUrl: string; status: "ready" };
 
 type VisitJourneyItem =
   | {
@@ -361,6 +362,29 @@ function botDetail(visit: AnalyticsVisit) {
     .join(" · ");
 }
 
+function isNonNegativeNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0;
+}
+
+function isKeywordAnalyticsSummary(value: unknown): value is KeywordAnalyticsSummary {
+  if (!value || typeof value !== "object") return false;
+  const summary = value as Partial<KeywordAnalyticsSummary>;
+
+  return isNonNegativeNumber(summary.activeSeconds)
+    && isNonNegativeNumber(summary.enquiryVisits)
+    && typeof summary.keyword === "string"
+    && summary.keyword.length > 0
+    && typeof summary.latestVisitAt === "string"
+    && !Number.isNaN(Date.parse(summary.latestVisitAt))
+    && Array.isArray(summary.matchTypes)
+    && summary.matchTypes.every((matchType) => typeof matchType === "string")
+    && isNonNegativeNumber(summary.pageViews)
+    && isNonNegativeNumber(summary.returningVisits)
+    && typeof summary.topLandingPath === "string"
+    && summary.topLandingPath.length > 0
+    && isNonNegativeNumber(summary.visits);
+}
+
 function isAnalyticsReport(value: unknown): value is AnalyticsReport {
   if (!value || typeof value !== "object") return false;
   const report = value as Partial<AnalyticsReport>;
@@ -380,14 +404,17 @@ function isAnalyticsReport(value: unknown): value is AnalyticsReport {
 
   if (report.type === "keywords") {
     return Array.isArray(report.keywords)
+      && report.keywords.every(isKeywordAnalyticsSummary)
       && typeof report.startDate === "string"
+      && isAnalyticsDateKey(report.startDate)
       && typeof report.endDate === "string"
-      && typeof report.taggedEnquiryVisits === "number"
-      && typeof report.taggedVisits === "number"
-      && typeof report.totalActiveSeconds === "number"
-      && typeof report.totalEnquiryVisits === "number"
-      && typeof report.totalPageViews === "number"
-      && typeof report.totalPaidVisits === "number";
+      && isAnalyticsDateKey(report.endDate)
+      && isNonNegativeNumber(report.taggedEnquiryVisits)
+      && isNonNegativeNumber(report.taggedVisits)
+      && isNonNegativeNumber(report.totalActiveSeconds)
+      && isNonNegativeNumber(report.totalEnquiryVisits)
+      && isNonNegativeNumber(report.totalPageViews)
+      && isNonNegativeNumber(report.totalPaidVisits);
   }
 
   return (report.type === "daily" || report.type === "monthly" || report.type === "visitor")
@@ -397,11 +424,15 @@ function isAnalyticsReport(value: unknown): value is AnalyticsReport {
 
 function useAnalyticsReport(requestUrl: string) {
   const [requestVersion, setRequestVersion] = useState(0);
-  const [state, setState] = useState<AnalyticsLoadState>({ report: null, status: "loading" });
+  const [state, setState] = useState<AnalyticsLoadState>({
+    report: null,
+    requestUrl,
+    status: "loading",
+  });
 
   useEffect(() => {
     const controller = new AbortController();
-    setState({ report: null, status: "loading" });
+    setState({ report: null, requestUrl, status: "loading" });
 
     async function loadReport() {
       try {
@@ -416,11 +447,11 @@ function useAnalyticsReport(requestUrl: string) {
           throw new Error("Analytics request failed.");
         }
 
-        setState({ report: body.data, status: "ready" });
+        setState({ report: body.data, requestUrl, status: "ready" });
       } catch (error) {
         if (controller.signal.aborted) return;
         console.error("Analytics request failed:", error instanceof Error ? error.name : "UnknownError");
-        setState({ report: null, status: "error" });
+        setState({ report: null, requestUrl, status: "error" });
       }
     }
 
@@ -428,8 +459,12 @@ function useAnalyticsReport(requestUrl: string) {
     return () => controller.abort();
   }, [requestUrl, requestVersion]);
 
+  const currentState: AnalyticsLoadState = state.requestUrl === requestUrl
+    ? state
+    : { report: null, requestUrl, status: "loading" };
+
   return {
-    ...state,
+    ...currentState,
     retry: () => setRequestVersion((version) => version + 1),
   };
 }
@@ -1317,6 +1352,66 @@ function DailyObservatory({
   );
 }
 
+function ReportDateRangeForm({
+  endDate,
+  onRangeChange,
+  startDate,
+  todayKey,
+}: {
+  endDate: string;
+  onRangeChange: (startDate: string, endDate: string) => void;
+  startDate: string;
+  todayKey: string;
+}) {
+  const [draftStartDate, setDraftStartDate] = useState(startDate);
+  const [draftEndDate, setDraftEndDate] = useState(endDate);
+  const hasDateKeys = isAnalyticsDateKey(draftStartDate) && isAnalyticsDateKey(draftEndDate);
+  const rangeLength = hasDateKeys
+    ? Math.round((parseDateKey(draftEndDate).getTime() - parseDateKey(draftStartDate).getTime()) / 86_400_000)
+    : -1;
+  const isRangeValid = hasDateKeys
+    && rangeLength >= 0
+    && rangeLength < 366
+    && draftEndDate <= todayKey;
+
+  useEffect(() => {
+    setDraftStartDate(startDate);
+    setDraftEndDate(endDate);
+  }, [endDate, startDate]);
+
+  return (
+    <form
+      className="page-view-report__range"
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (isRangeValid) onRangeChange(draftStartDate, draftEndDate);
+      }}
+    >
+      <label>
+        <span>Start date</span>
+        <input
+          max={draftEndDate < todayKey ? draftEndDate : todayKey}
+          onChange={(event) => setDraftStartDate(event.target.value)}
+          type="date"
+          value={draftStartDate}
+        />
+      </label>
+      <label>
+        <span>End date</span>
+        <input
+          max={todayKey}
+          min={draftStartDate}
+          onChange={(event) => setDraftEndDate(event.target.value)}
+          type="date"
+          value={draftEndDate}
+        />
+      </label>
+      <button disabled={!isRangeValid} type="submit">Apply range</button>
+      <small>Select up to 366 days.</small>
+    </form>
+  );
+}
+
 function PageViewsBreakdown({
   includeBots,
   onRangeChange,
@@ -1328,16 +1423,6 @@ function PageViewsBreakdown({
   report: PageViewsAnalyticsReport;
   todayKey: string;
 }) {
-  const [draftStartDate, setDraftStartDate] = useState(report.startDate);
-  const [draftEndDate, setDraftEndDate] = useState(report.endDate);
-  const hasDateKeys = isAnalyticsDateKey(draftStartDate) && isAnalyticsDateKey(draftEndDate);
-  const rangeLength = hasDateKeys
-    ? Math.round((parseDateKey(draftEndDate).getTime() - parseDateKey(draftStartDate).getTime()) / 86_400_000)
-    : -1;
-  const isRangeValid = hasDateKeys
-    && rangeLength >= 0
-    && rangeLength < 366
-    && draftEndDate <= todayKey;
   const routePeak = Math.max(...report.routes.map((route) => route.pageViews), 1);
   const averagePages = report.totalVisits
     ? (report.totalPageViews / report.totalVisits).toFixed(1)
@@ -1347,11 +1432,6 @@ function PageViewsBreakdown({
   if (includeBots) dailyParams.set("bots", "include");
   const dailyQuery = dailyParams.toString();
   const dailyPath = `${privateRoutePaths.analytics}${dailyQuery ? `?${dailyQuery}` : ""}`;
-
-  useEffect(() => {
-    setDraftStartDate(report.startDate);
-    setDraftEndDate(report.endDate);
-  }, [report.endDate, report.startDate]);
 
   return (
     <>
@@ -1369,35 +1449,12 @@ function PageViewsBreakdown({
           </p>
         </div>
 
-        <form
-          className="page-view-report__range"
-          onSubmit={(event) => {
-            event.preventDefault();
-            if (isRangeValid) onRangeChange(draftStartDate, draftEndDate);
-          }}
-        >
-          <label>
-            <span>Start date</span>
-            <input
-              max={draftEndDate < todayKey ? draftEndDate : todayKey}
-              onChange={(event) => setDraftStartDate(event.target.value)}
-              type="date"
-              value={draftStartDate}
-            />
-          </label>
-          <label>
-            <span>End date</span>
-            <input
-              max={todayKey}
-              min={draftStartDate}
-              onChange={(event) => setDraftEndDate(event.target.value)}
-              type="date"
-              value={draftEndDate}
-            />
-          </label>
-          <button disabled={!isRangeValid} type="submit">Apply range</button>
-          <small>Select up to 366 days.</small>
-        </form>
+        <ReportDateRangeForm
+          endDate={report.endDate}
+          onRangeChange={onRangeChange}
+          startDate={report.startDate}
+          todayKey={todayKey}
+        />
       </section>
 
       <section className="page-view-report__summary" aria-label="Page-view totals">
@@ -1487,16 +1544,6 @@ function KeywordAnalytics({
   report: KeywordAnalyticsReport;
   todayKey: string;
 }) {
-  const [draftStartDate, setDraftStartDate] = useState(report.startDate);
-  const [draftEndDate, setDraftEndDate] = useState(report.endDate);
-  const hasDateKeys = isAnalyticsDateKey(draftStartDate) && isAnalyticsDateKey(draftEndDate);
-  const rangeLength = hasDateKeys
-    ? Math.round((parseDateKey(draftEndDate).getTime() - parseDateKey(draftStartDate).getTime()) / 86_400_000)
-    : -1;
-  const isRangeValid = hasDateKeys
-    && rangeLength >= 0
-    && rangeLength < 366
-    && draftEndDate <= todayKey;
   const attributionCoverage = report.totalPaidVisits
     ? Math.round((report.taggedVisits / report.totalPaidVisits) * 100)
     : 0;
@@ -1508,109 +1555,72 @@ function KeywordAnalytics({
     : 0;
   const untaggedVisits = report.totalPaidVisits - report.taggedVisits;
 
-  useEffect(() => {
-    setDraftStartDate(report.startDate);
-    setDraftEndDate(report.endDate);
-  }, [report.endDate, report.startDate]);
-
   return (
     <>
-      <section className="keyword-report__masthead" aria-labelledby="keyword-report-title">
-        <div className="keyword-report__intro">
-          <p className="signal-kicker">Paid search intelligence</p>
+      <section className="page-view-report__overview keyword-report__overview" aria-labelledby="keyword-report-title">
+        <div className="page-view-report__intro keyword-report__intro">
+          <p className="signal-kicker">Paid search</p>
           <h1 id="keyword-report-title">Keyword journeys</h1>
           <p>
-            See which captured search terms led to actual reading time, deeper page journeys and enquiries.
-          </p>
-          <p className="keyword-report__period">
             {report.startDate === report.endDate
               ? formatDate(report.startDate)
               : `${formatDate(report.startDate, true)} to ${formatDate(report.endDate, true)}`}
           </p>
         </div>
 
-        <form
-          className="keyword-report__range"
-          onSubmit={(event) => {
-            event.preventDefault();
-            if (isRangeValid) onRangeChange(draftStartDate, draftEndDate);
-          }}
-        >
-          <div className="keyword-report__range-heading">
-            <CalendarDays aria-hidden="true" size={16} />
-            <strong>Observation window</strong>
-          </div>
-          <label>
-            <span>Start</span>
-            <input
-              max={draftEndDate < todayKey ? draftEndDate : todayKey}
-              onChange={(event) => setDraftStartDate(event.target.value)}
-              type="date"
-              value={draftStartDate}
-            />
-          </label>
-          <label>
-            <span>End</span>
-            <input
-              max={todayKey}
-              min={draftStartDate}
-              onChange={(event) => setDraftEndDate(event.target.value)}
-              type="date"
-              value={draftEndDate}
-            />
-          </label>
-          <button disabled={!isRangeValid} type="submit">Update report</button>
-          <small>Up to 366 days, based on when each paid visit began.</small>
-        </form>
+        <ReportDateRangeForm
+          endDate={report.endDate}
+          onRangeChange={onRangeChange}
+          startDate={report.startDate}
+          todayKey={todayKey}
+        />
       </section>
 
-      <section className="keyword-report__pulse" aria-label="Paid keyword overview">
+      <dl className="keyword-report__summary" aria-label="Paid keyword overview">
         <div className="keyword-report__coverage">
-          <span className="keyword-report__coverage-value">{attributionCoverage}%</span>
-          <div>
-            <strong>Keyword coverage</strong>
-            <p>{report.taggedVisits} of {report.totalPaidVisits} paid visits carried a keyword tag.</p>
-          </div>
-          <progress max="100" value={attributionCoverage}>{attributionCoverage}%</progress>
-          <small>{untaggedVisits ? `${untaggedVisits} paid ${untaggedVisits === 1 ? "visit has" : "visits have"} no keyword tag.` : "Every paid visit in this range is keyword-tagged."}</small>
+          <dt>Matched keyword coverage</dt>
+          <dd>
+            <strong>{attributionCoverage}%</strong>
+            <progress aria-label="Matched keyword coverage" max="100" value={attributionCoverage}>
+              {attributionCoverage}%
+            </progress>
+            <small>
+              {report.taggedVisits} of {report.totalPaidVisits} paid visits had matched keyword data
+              {untaggedVisits ? `; ${untaggedVisits} had none.` : "."}
+            </small>
+          </dd>
         </div>
-
-        <dl className="keyword-report__metrics">
-          <div>
-            <dt>Paid visits</dt>
-            <dd>{report.totalPaidVisits}</dd>
-          </div>
-          <div>
-            <dt>Page views</dt>
-            <dd>
-              {report.totalPageViews}
-              <small>{pagesPerVisit} per visit</small>
-            </dd>
-          </div>
-          <div>
-            <dt>Recorded attention</dt>
-            <dd>
-              {formatLongActiveTime(report.totalActiveSeconds)}
-              <small>{activeTimePerVisit ? `${formatActiveTime(activeTimePerVisit)} per visit` : "No active time"}</small>
-            </dd>
-          </div>
-          <div>
-            <dt>Enquiry visits</dt>
-            <dd>
-              {report.totalEnquiryVisits}
-              <small>{report.taggedEnquiryVisits} keyword-attributed</small>
-            </dd>
-          </div>
-        </dl>
-      </section>
+        <div>
+          <dt>Paid visits</dt>
+          <dd><strong>{report.totalPaidVisits}</strong></dd>
+        </div>
+        <div>
+          <dt>Page views</dt>
+          <dd><strong>{report.totalPageViews}</strong><small>{pagesPerVisit} per visit</small></dd>
+        </div>
+        <div>
+          <dt>Recorded active time</dt>
+          <dd>
+            <strong>{formatLongActiveTime(report.totalActiveSeconds)}</strong>
+            <small>{activeTimePerVisit ? `${formatActiveTime(activeTimePerVisit)} per visit` : "No active time"}</small>
+          </dd>
+        </div>
+        <div>
+          <dt>Enquiry visits</dt>
+          <dd>
+            <strong>{report.totalEnquiryVisits}</strong>
+            <small>{report.taggedEnquiryVisits} with matched keyword data</small>
+          </dd>
+        </div>
+      </dl>
 
       <section className="keyword-report__ledger" aria-labelledby="keyword-ledger-title">
         <header>
           <div>
-            <p className="signal-kicker">Ranked by enquiry signal, then visits</p>
-            <h2 id="keyword-ledger-title">Search intent ledger</h2>
+            <p className="signal-kicker">Enquiry visits first, then visits</p>
+            <h2 id="keyword-ledger-title">Matched keyword ledger</h2>
           </div>
-          <span>{report.keywords.length} captured {report.keywords.length === 1 ? "term" : "terms"}</span>
+          <span>{report.keywords.length} matched {report.keywords.length === 1 ? "keyword" : "keywords"}</span>
         </header>
 
         {report.keywords.length ? (
@@ -1622,7 +1632,7 @@ function KeywordAnalytics({
           >
             <table className="keyword-report__table">
               <caption className="signal-visually-hidden">
-                Paid search keywords with visits, page depth, active time, enquiries, landing page and latest visit
+                Google Ads matched keywords with visits, page depth, active time, enquiries, landing page and latest visit
               </caption>
               <thead>
                 <tr>
@@ -1650,10 +1660,10 @@ function KeywordAnalytics({
 
                   return (
                     <tr key={keyword.keyword}>
-                      <td className="keyword-report__rank" data-label="Rank">
+                      <td className="keyword-report__rank">
                         {String(index + 1).padStart(2, "0")}
                       </td>
-                      <th className="keyword-report__term" data-label="Keyword" scope="row">
+                      <th className="keyword-report__term" scope="row">
                         <strong>{keyword.keyword}</strong>
                         <span>
                           {keyword.matchTypes.length
@@ -1661,26 +1671,26 @@ function KeywordAnalytics({
                             : "Match unavailable"}
                         </span>
                       </th>
-                      <td className="keyword-report__number" data-label="Visits">
+                      <td className="keyword-report__number">
                         <strong>{keyword.visits}</strong>
                         <small>{keyword.returningVisits} returning</small>
                       </td>
-                      <td className="keyword-report__number" data-label="Page depth">
+                      <td className="keyword-report__number">
                         <strong>{pagesPerKeywordVisit}</strong>
                         <small>{keyword.pageViews} views</small>
                       </td>
-                      <td className="keyword-report__number" data-label="Active / visit">
+                      <td className="keyword-report__number">
                         <strong>{averageActiveTime ? formatActiveTime(averageActiveTime) : "—"}</strong>
                         <small>{formatLongActiveTime(keyword.activeSeconds)} total</small>
                       </td>
-                      <td className="keyword-report__number keyword-report__number--enquiries" data-label="Enquiries">
+                      <td className="keyword-report__number keyword-report__number--enquiries">
                         <strong>{keyword.enquiryVisits}</strong>
                         <small>{enquiryRate}% of visits</small>
                       </td>
-                      <td className="keyword-report__landing" data-label="Top landing page">
+                      <td className="keyword-report__landing">
                         <span>{keyword.topLandingPath}</span>
                       </td>
-                      <td className="keyword-report__latest" data-label="Latest">
+                      <td className="keyword-report__latest">
                         {formatDate(getPerthDateKey(new Date(keyword.latestVisitAt)), true)}
                       </td>
                     </tr>
@@ -1692,7 +1702,7 @@ function KeywordAnalytics({
         ) : (
           <div className="signal-stream__empty keyword-report__empty">
             <Search aria-hidden="true" size={30} />
-            <h3>No captured keywords</h3>
+            <h3>No matched keywords</h3>
             <p>
               {report.totalPaidVisits
                 ? `There ${report.totalPaidVisits === 1 ? "was" : "were"} ${report.totalPaidVisits} paid ${report.totalPaidVisits === 1 ? "visit" : "visits"}, but none carried a keyword tag.`
@@ -1703,7 +1713,7 @@ function KeywordAnalytics({
       </section>
 
       <p className="signal-footnote keyword-report__footnote">
-        A visit is counted once per captured keyword. Page depth and active time include the complete visit, not only its landing page. Enquiries count visits containing at least one successful send. {includeBots ? "Bot visits are included." : "Identified bot visits are excluded."}
+        Google Ads matched keywords are not visitors' search queries. A visit is counted once per matched keyword. Page depth and active time include the complete visit, not only its landing page. Enquiries count visits containing at least one successful send. {includeBots ? "Bot visits are included." : "Identified bot visits are excluded."}
       </p>
     </>
   );
@@ -1919,10 +1929,11 @@ export default function Analytics() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [todayKey, setTodayKey] = useState(getPerthDateKey);
   const currentMonth = todayKey.slice(0, 7);
-  const isMonthlyView = pathname === privateRoutePaths.analyticsEnquiries;
-  const isExcludedView = pathname === privateRoutePaths.analyticsExcluded;
-  const isKeywordView = pathname === privateRoutePaths.analyticsKeywords;
-  const isPageViewsView = pathname === privateRoutePaths.analyticsPageViews;
+  const normalizedPathname = pathname.toLowerCase();
+  const isMonthlyView = normalizedPathname === privateRoutePaths.analyticsEnquiries;
+  const isExcludedView = normalizedPathname === privateRoutePaths.analyticsExcluded;
+  const isKeywordView = normalizedPathname === privateRoutePaths.analyticsKeywords;
+  const isPageViewsView = normalizedPathname === privateRoutePaths.analyticsPageViews;
   const requestedDate = searchParams.get("date");
   const dateKey = isAnalyticsDateKey(requestedDate) && requestedDate <= todayKey ? requestedDate : todayKey;
   const requestedMonth = searchParams.get("month");
