@@ -40,6 +40,7 @@ type ValidatedConsultEnquiry = ValidatedEnquiryBase & {
   bookingTypeLabel: typeof bookingTypes.consult.label;
   enquiryType: typeof enquiryTypes.booking.value;
   enquiryTypeLabel: typeof enquiryTypes.booking.label;
+  mobile: string;
   timeZone: string;
   timeZoneLabel: string;
 };
@@ -138,6 +139,7 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
   const message = getRequiredTextField(enquiryPayload, "message", 5000, issues, "Message");
   let bookingType: BookingTypeOption | undefined;
   let availability = "";
+  let mobile = "";
   let timeZone = "";
   let timeZoneLabel = "";
 
@@ -183,6 +185,16 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
 
       if (timeZone && !timeZoneLabel) {
         addIssue(issues, "timeZone", "invalid_value", "Choose a valid timezone.");
+      }
+
+      if (bookingType.value === bookingTypes.consult.value) {
+        mobile = getRequiredTextField(
+          enquiryPayload,
+          "mobile",
+          40,
+          issues,
+          "Mobile number",
+        );
       }
     }
   }
@@ -237,6 +249,7 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
       bookingTypeLabel: bookingType.label,
       enquiryType: enquiryType.value,
       enquiryTypeLabel: enquiryType.label,
+      mobile,
       timeZone,
       timeZoneLabel,
     },

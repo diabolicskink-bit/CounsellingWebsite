@@ -95,6 +95,10 @@ function getEnquiryDetails(enquiry: ValidatedEnquiry) {
   rows.push(["Name", enquiry.name], ["Email", enquiry.email]);
 
   if (enquiry.enquiryType === enquiryTypes.booking.value) {
+    if (enquiry.bookingType === bookingTypes.consult.value) {
+      rows.push(["Mobile number", enquiry.mobile]);
+    }
+
     rows.push(["Availability", enquiry.availability], ["Timezone", enquiry.timeZoneLabel]);
   }
 
@@ -177,10 +181,16 @@ function getEmailTheme(emailHeading: string): EmailTheme {
 
 function getSummaryRows(enquiry: ValidatedEnquiry) {
   if (enquiry.enquiryType === enquiryTypes.booking.value) {
-    return [
+    const rows: Array<[string, string]> = [
       ["Availability", enquiry.availability],
       ["Timezone", enquiry.timeZoneLabel],
-    ] satisfies Array<[string, string]>;
+    ];
+
+    if (enquiry.bookingType === bookingTypes.consult.value) {
+      rows.unshift(["Mobile", enquiry.mobile]);
+    }
+
+    return rows;
   }
 
   return [];

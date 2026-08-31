@@ -99,6 +99,7 @@ function buildEnquiryPayload(formData: FormData) {
     email: getFormText(formData, "email"),
     enquiryType: getFormText(formData, "enquiryType"),
     message: getFormText(formData, "message"),
+    mobile: getFormText(formData, "mobile"),
     name: getFormText(formData, "name"),
     timeZone: getFormText(formData, "timeZone"),
     website: getFormText(formData, "website"),
@@ -293,13 +294,15 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
   const selectedOption = enquiryPathOptions.find(
     (option) => option.id === selectedPath,
   );
+  const isConsult = selectedPath === "consult";
   const isBooking = selectedPath === "appointment" || selectedPath === "consult";
   const showBookingFields = isBooking || !hasHydrated;
+  const showConsultMobile = isConsult || !hasHydrated;
 
   return (
     <form
       action="/api/enquiry"
-      aria-label="Enquiry"
+      aria-labelledby="contact-form-title"
       className="contact-page__form"
       data-clarity-mask="true"
       method="post"
@@ -314,17 +317,7 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
         tabIndex={-1}
       />
 
-      <header className="contact-page__form-heading">
-        <span className="contact-page__form-eyebrow">Your enquiry</span>
-        <h2>Get in touch</h2>
-      </header>
-
       <div className="contact-page__form-details">
-        <div className="contact-page__form-details-heading">
-          <h3>A few details</h3>
-          <p>Fields marked * are required.</p>
-        </div>
-
         <input
           name="enquiryType"
           type="hidden"
@@ -338,37 +331,43 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
           />
         ) : null}
 
-        <div className="contact-page__form-fields">
-          <RequiredField id="contact-name" label="Name">
-            <input
-              autoComplete="name"
-              id="contact-name"
-              name="name"
-              placeholder="Your name"
-              required
-              type="text"
-            />
-          </RequiredField>
+        <div className="contact-page__form-start">
+          <h2 className="contact-page__form-eyebrow" id="contact-form-title">
+            Your enquiry
+          </h2>
 
-          <RequiredField id="contact-email" label="Email">
-            <input
-              autoComplete="email"
-              id="contact-email"
-              name="email"
-              placeholder="you@example.com"
-              required
-              type="email"
-            />
-          </RequiredField>
+          <div className="contact-page__form-fields">
+            <RequiredField id="contact-name" label="Name">
+              <input
+                autoComplete="name"
+                id="contact-name"
+                name="name"
+                placeholder="Your name"
+                required
+                type="text"
+              />
+            </RequiredField>
 
-          <RequiredField id="contact-message" label="Your message" wide>
-            <textarea
-              id="contact-message"
-              name="message"
-              required
-              rows={4}
-            />
-          </RequiredField>
+            <RequiredField id="contact-email" label="Email">
+              <input
+                autoComplete="email"
+                id="contact-email"
+                name="email"
+                placeholder="you@example.com"
+                required
+                type="email"
+              />
+            </RequiredField>
+
+            <RequiredField id="contact-message" label="Your message" wide>
+              <textarea
+                id="contact-message"
+                name="message"
+                required
+                rows={4}
+              />
+            </RequiredField>
+          </div>
         </div>
 
         <div className="contact-page__form-field contact-page__enquiry-path">
@@ -401,6 +400,21 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
 
         {showBookingFields ? (
           <div className="contact-page__form-fields contact-page__form-fields--conditional">
+            {showConsultMobile ? (
+              <RequiredField id="contact-mobile" label="Mobile number" wide>
+                <input
+                  autoComplete="tel"
+                  id="contact-mobile"
+                  inputMode="tel"
+                  maxLength={40}
+                  name="mobile"
+                  placeholder="For example: 0412 345 678"
+                  required={isConsult}
+                  type="tel"
+                />
+              </RequiredField>
+            ) : null}
+
             <RequiredField id="contact-availability" label="Availability">
               <input
                 id="contact-availability"
