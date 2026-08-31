@@ -5,7 +5,6 @@ export type RouteMetadata = {
   description: string;
   lastModified?: string;
   lastReviewed?: string;
-  robots?: string;
 };
 
 export type NotFoundMetadata = Pick<RouteMetadata, "description" | "title"> & {

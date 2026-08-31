@@ -2,28 +2,59 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { getSiteOrigin } from "./route-metadata-origin.mjs";
+import {
+  getAbsoluteUrl,
+  getAssetUrl,
+  renderRouteStructuredDataTag,
+  validateIsoDate,
+} from "./route-structured-data.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(rootDir, "dist");
 const indexPath = path.join(distDir, "index.html");
 const metadataPath = path.join(rootDir, "src", "data", "routeMetadata.json");
 const serverEntryPath = path.join(rootDir, ".prerender", "server", "entry-server.js");
-const privateRobotsDirective = "noindex, nofollow";
-const privateRoutePaths = [
+const metadataBlockStart = "<!-- Document metadata -->";
+const metadataBlockEnd = "<!-- /Document metadata -->";
+const privateShellRoutePaths = [
   "/analytics",
   "/analytics/enquiries",
   "/analytics/excluded",
   "/analytics/pages",
 ];
-const routeMainClasses = {
-  "/": "site-page home-page",
-  "/working-with-joel": "site-page working-with-joel-page",
-  "/inclusive-counselling": "site-page inclusion-hub-page",
-  "/kink-bdsm-counselling": "site-page kink-page",
-  "/polyamory-enm-counselling": "site-page enm-page",
-  "/lgbtqia-affirming-counselling": "site-page lgbtqia-page",
-  "/crisis-support": "site-page crisis-support-page",
-  "/contact": "site-page contact-page",
+const publicRouteContracts = {
+  "/": {
+    expectedMainClass: "site-page home-page",
+    structuredDataType: "home",
+  },
+  "/working-with-joel": {
+    expectedMainClass: "site-page working-with-joel-page",
+    structuredDataType: "profile",
+  },
+  "/inclusive-counselling": {
+    expectedMainClass: "site-page inclusion-hub-page",
+    structuredDataType: null,
+  },
+  "/kink-bdsm-counselling": {
+    expectedMainClass: "site-page kink-page",
+    structuredDataType: "specialist-service",
+  },
+  "/polyamory-enm-counselling": {
+    expectedMainClass: "site-page enm-page",
+    structuredDataType: "specialist-service",
+  },
+  "/lgbtqia-affirming-counselling": {
+    expectedMainClass: "site-page lgbtqia-page",
+    structuredDataType: "specialist-service",
+  },
+  "/crisis-support": {
+    expectedMainClass: "site-page crisis-support-page",
+    structuredDataType: "crisis-support",
+  },
+  "/contact": {
+    expectedMainClass: "site-page contact-page",
+    structuredDataType: null,
+  },
 };
 const faviconTags = [
   '<link rel="icon" href="/favicon.ico" sizes="any" />',
@@ -32,6 +63,7 @@ const faviconTags = [
   '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
   '<link rel="manifest" href="/site.webmanifest" />',
 ];
+
 function escapeHtml(value) {
   return value
     .replaceAll("&", "&amp;")
@@ -44,358 +76,75 @@ function escapeXml(value) {
   return escapeHtml(value).replaceAll("'", "&apos;");
 }
 
-function escapeJsonForHtml(value) {
-  return value.replaceAll("<", "\\u003c");
-}
-
-function getAbsoluteUrl(siteOrigin, routePath) {
-  return routePath === "/" ? `${siteOrigin}/` : `${siteOrigin}${routePath}`;
-}
-
-function getAssetUrl(siteOrigin, assetPath) {
-  return `${siteOrigin}${assetPath.startsWith("/") ? assetPath : `/${assetPath}`}`;
-}
-
-function getValidIsoDate(value, label) {
-  if (typeof value !== "string") {
-    throw new Error(`${label} must be an ISO date.`);
-  }
-
-  const parsedDate = new Date(`${value}T00:00:00.000Z`);
-  const normalizedDate = Number.isNaN(parsedDate.valueOf())
-    ? ""
-    : parsedDate.toISOString().slice(0, 10);
-
-  if (normalizedDate !== value) {
-    throw new Error(`${label} must be an ISO date.`);
-  }
-
-  return value;
-}
-function getStructuredDataIds(siteMetadata, siteOrigin) {
-  const homepageUrl = getAbsoluteUrl(siteOrigin, "/");
-  const profileUrl = getAbsoluteUrl(siteOrigin, siteMetadata.person.url);
-
-  return {
-    homepageUrl,
-    organizationId: `${homepageUrl}#organization`,
-    personId: `${profileUrl}#joel-griffiths`,
-    profilePageId: `${profileUrl}#profile-page`,
-    profileUrl,
-    serviceId: `${homepageUrl}#counselling-service`,
-    websiteId: `${homepageUrl}#website`,
-  };
-}
-
-function getPersonNode(
-  siteMetadata,
-  siteOrigin,
-  ids,
-  { includeCredentials = false, mainEntityOfPage } = {},
-) {
-  const person = siteMetadata.person;
-
-  return {
-    "@type": "Person",
-    "@id": ids.personId,
-    name: person.name,
-    url: ids.profileUrl,
-    image: getAssetUrl(siteOrigin, person.image),
-    description: person.description,
-    jobTitle: person.jobTitle,
-    worksFor: { "@id": ids.organizationId },
-    sameAs: person.sameAs,
-    knowsAbout: person.knowsAbout,
-    ...(mainEntityOfPage ? { mainEntityOfPage: { "@id": mainEntityOfPage } } : {}),
-    ...(includeCredentials
-      ? {
-          hasCredential: person.credentials.map((credential) => ({
-            "@type": "EducationalOccupationalCredential",
-            name: credential.name,
-            credentialCategory: credential.credentialCategory,
-            ...(credential.url ? { url: credential.url } : {}),
-            recognizedBy: {
-              "@type": credential.recognizedBy.type,
-              name: credential.recognizedBy.name,
-              url: credential.recognizedBy.url,
-            },
-          })),
-        }
-      : {}),
-  };
-}
-
-function getStructuredDataTag(structuredData) {
-  return `<script type="application/ld+json">${escapeJsonForHtml(JSON.stringify(structuredData))}</script>`;
-}
-
-function getServiceNode({
-  description,
-  id,
-  isRelatedTo,
-  mainEntityOfPage,
-  name,
-  organizationId,
-  service,
-  serviceType,
-  siteOrigin,
-  url,
-}) {
-  return {
-    "@type": "Service",
-    "@id": id,
-    name,
-    serviceType,
-    url,
-    description,
-    provider: { "@id": organizationId },
-    audience: {
-      "@type": "PeopleAudience",
-      audienceType: service.audience,
-    },
-    areaServed: {
-      "@type": "Country",
-      name: service.areaServed,
-    },
-    availableChannel: {
-      "@type": "ServiceChannel",
-      name: service.deliveryChannel.name,
-      serviceUrl: getAbsoluteUrl(siteOrigin, service.deliveryChannel.url),
-    },
-    offers: {
-      "@type": "Offer",
-      name: service.offer.name,
-      price: service.offer.price,
-      priceCurrency: service.offer.priceCurrency,
-      url: getAbsoluteUrl(siteOrigin, service.offer.url),
-    },
-    ...(mainEntityOfPage ? { mainEntityOfPage: { "@id": mainEntityOfPage } } : {}),
-    ...(isRelatedTo ? { isRelatedTo: { "@id": isRelatedTo } } : {}),
-  };
-}
-
-function getHomeStructuredDataTag(siteMetadata, siteOrigin) {
-  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
-  const organization = siteMetadata.organization;
-  const service = siteMetadata.service;
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": ids.websiteId,
-        name: siteMetadata.name,
-        url: ids.homepageUrl,
-        publisher: { "@id": ids.organizationId },
-      },
-      {
-        "@type": "Organization",
-        "@id": ids.organizationId,
-        name: siteMetadata.name,
-        url: ids.homepageUrl,
-        email: organization.email,
-        description: organization.description,
-        sameAs: organization.sameAs,
-        founder: { "@id": ids.personId },
-        contactPoint: {
-          "@type": "ContactPoint",
-          contactType: "enquiries",
-          email: organization.email,
-          availableLanguage: "English",
-        },
-        logo: {
-          "@type": "ImageObject",
-          url: getAssetUrl(siteOrigin, organization.logo),
-          width: organization.logoWidth,
-          height: organization.logoHeight,
-        },
-      },
-      getPersonNode(siteMetadata, siteOrigin, ids),
-      getServiceNode({
-        description: service.description,
-        id: ids.serviceId,
-        name: service.name,
-        organizationId: ids.organizationId,
-        service,
-        serviceType: service.serviceType,
-        siteOrigin,
-        url: getAbsoluteUrl(siteOrigin, service.url),
-      }),
-    ],
-  };
-
-  return getStructuredDataTag(structuredData);
-}
-
-function getProfileStructuredDataTag(routeMetadata, siteMetadata, siteOrigin) {
-  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "ProfilePage",
-        "@id": ids.profilePageId,
-        url: ids.profileUrl,
-        name: routeMetadata.title,
-        isPartOf: { "@id": ids.websiteId },
-        mainEntity: { "@id": ids.personId },
-      },
-      getPersonNode(siteMetadata, siteOrigin, ids, {
-        includeCredentials: true,
-        mainEntityOfPage: ids.profilePageId,
-      }),
-    ],
-  };
-
-  return getStructuredDataTag(structuredData);
-}
-
-function getSpecialistServiceStructuredDataTag(routePath, routeMetadata, siteMetadata, siteOrigin) {
-  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
-  const service = siteMetadata.service;
-  const specialistService = siteMetadata.specialistServices[routePath];
-  const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
-  const pageId = `${pageUrl}#webpage`;
-  const specialistServiceId = `${pageUrl}#service`;
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebPage",
-        "@id": pageId,
-        url: pageUrl,
-        name: routeMetadata.title,
-        description: routeMetadata.description,
-        isPartOf: { "@id": ids.websiteId },
-        mainEntity: { "@id": specialistServiceId },
-      },
-      getServiceNode({
-        description: routeMetadata.description,
-        id: specialistServiceId,
-        isRelatedTo: ids.serviceId,
-        mainEntityOfPage: pageId,
-        name: specialistService.name,
-        organizationId: ids.organizationId,
-        service,
-        serviceType: specialistService.serviceType,
-        siteOrigin,
-        url: pageUrl,
-      }),
-    ],
-  };
-
-  return getStructuredDataTag(structuredData);
-}
-
-function getCrisisSupportStructuredDataTag(routeMetadata, siteMetadata, siteOrigin) {
-  const ids = getStructuredDataIds(siteMetadata, siteOrigin);
-  const pageUrl = getAbsoluteUrl(siteOrigin, "/crisis-support");
-  const pageId = `${pageUrl}#webpage`;
-  const breadcrumbId = `${pageUrl}#breadcrumb`;
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "MedicalWebPage",
-        "@id": pageId,
-        url: pageUrl,
-        name: routeMetadata.title,
-        description: routeMetadata.description,
-        inLanguage: "en-AU",
-        lastReviewed: getValidIsoDate(
-          routeMetadata.lastReviewed,
-          "Crisis Support lastReviewed",
-        ),
-        isPartOf: { "@id": ids.websiteId },
-        publisher: { "@id": ids.organizationId },
-        breadcrumb: { "@id": breadcrumbId },
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": breadcrumbId,
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: ids.homepageUrl,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Crisis support",
-          },
-        ],
-      },
-    ],
-  };
-
-  return getStructuredDataTag(structuredData);
-}
-
-function getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
-  if (routePath === "/") {
-    return [getHomeStructuredDataTag(siteMetadata, siteOrigin)];
-  }
-
-  if (routePath === "/working-with-joel") {
-    return [getProfileStructuredDataTag(routeMetadata, siteMetadata, siteOrigin)];
-  }
-
-  if (routePath === "/crisis-support") {
-    return [getCrisisSupportStructuredDataTag(routeMetadata, siteMetadata, siteOrigin)];
-  }
-
-  if (siteMetadata.specialistServices[routePath]) {
-    return [getSpecialistServiceStructuredDataTag(routePath, routeMetadata, siteMetadata, siteOrigin)];
-  }
-
-  return [];
-}
-
-function getSeoTags(routePath, routeMetadata, siteMetadata, siteOrigin) {
-  const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
-  const imageUrl = getAssetUrl(siteOrigin, siteMetadata.socialImage);
-  const title = `<title>${escapeHtml(routeMetadata.title)}</title>`;
-  const description = `<meta name="description" content="${escapeHtml(routeMetadata.description)}" />`;
-  const robots = routeMetadata.robots
-    ? [`<meta name="robots" content="${escapeHtml(routeMetadata.robots)}" />`]
-    : [];
-  const structuredData = getRouteStructuredDataTags(routePath, routeMetadata, siteMetadata, siteOrigin);
-
+function renderDocumentMetadata(tags, siteMetadata) {
   return [
-    "<!-- SEO metadata generated at build time -->",
-    title,
-    description,
-    ...robots,
-    `<link rel="canonical" href="${escapeHtml(pageUrl)}" />`,
-    `<meta property="og:site_name" content="${escapeHtml(siteMetadata.name)}" />`,
-    '<meta property="og:type" content="website" />',
-    `<meta property="og:url" content="${escapeHtml(pageUrl)}" />`,
-    `<meta property="og:title" content="${escapeHtml(routeMetadata.title)}" />`,
-    `<meta property="og:description" content="${escapeHtml(routeMetadata.description)}" />`,
-    `<meta property="og:image" content="${escapeHtml(imageUrl)}" />`,
-    '<meta property="og:image:width" content="1200" />',
-    '<meta property="og:image:height" content="630" />',
-    `<meta property="og:image:alt" content="${escapeHtml(siteMetadata.socialImageAlt)}" />`,
-    '<meta name="twitter:card" content="summary_large_image" />',
-    `<meta name="twitter:title" content="${escapeHtml(routeMetadata.title)}" />`,
-    `<meta name="twitter:description" content="${escapeHtml(routeMetadata.description)}" />`,
-    `<meta name="twitter:image" content="${escapeHtml(imageUrl)}" />`,
-    `<meta name="twitter:image:alt" content="${escapeHtml(siteMetadata.socialImageAlt)}" />`,
-    ...structuredData,
+    metadataBlockStart,
+    ...tags,
     ...faviconTags,
     `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
-    "<!-- /SEO metadata generated at build time -->",
+    metadataBlockEnd,
   ].join("\n    ");
 }
 
-function applySeoTags(html, seoTags) {
-  return html
-    .replace(/\s*<!-- SEO metadata generated at build time -->.*?<!-- \/SEO metadata generated at build time -->/s, "")
-    .replace(/\s*<title>.*?<\/title>/s, "")
-    .replace(/\s*<meta\s+name="description"\s+content="[^"]*"\s*\/?>/s, "")
-    .replace("</head>", `    ${seoTags}\n  </head>`);
+function renderPublicDocumentMetadata(
+  routePath,
+  routeMetadata,
+  routeContract,
+  siteMetadata,
+  siteOrigin,
+) {
+  const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
+  const imageUrl = getAssetUrl(siteOrigin, siteMetadata.socialImage);
+  const structuredDataTag = renderRouteStructuredDataTag({
+    routeMetadata,
+    routePath,
+    siteMetadata,
+    siteOrigin,
+    structuredDataType: routeContract.structuredDataType,
+  });
+
+  return renderDocumentMetadata(
+    [
+      `<title>${escapeHtml(routeMetadata.title)}</title>`,
+      `<meta name="description" content="${escapeHtml(routeMetadata.description)}" />`,
+      `<link rel="canonical" href="${escapeHtml(pageUrl)}" />`,
+      `<meta property="og:site_name" content="${escapeHtml(siteMetadata.name)}" />`,
+      '<meta property="og:type" content="website" />',
+      `<meta property="og:url" content="${escapeHtml(pageUrl)}" />`,
+      `<meta property="og:title" content="${escapeHtml(routeMetadata.title)}" />`,
+      `<meta property="og:description" content="${escapeHtml(routeMetadata.description)}" />`,
+      `<meta property="og:image" content="${escapeHtml(imageUrl)}" />`,
+      '<meta property="og:image:width" content="1200" />',
+      '<meta property="og:image:height" content="630" />',
+      `<meta property="og:image:alt" content="${escapeHtml(siteMetadata.socialImageAlt)}" />`,
+      '<meta name="twitter:card" content="summary_large_image" />',
+      `<meta name="twitter:title" content="${escapeHtml(routeMetadata.title)}" />`,
+      `<meta name="twitter:description" content="${escapeHtml(routeMetadata.description)}" />`,
+      `<meta name="twitter:image" content="${escapeHtml(imageUrl)}" />`,
+      `<meta name="twitter:image:alt" content="${escapeHtml(siteMetadata.socialImageAlt)}" />`,
+      ...(structuredDataTag ? [structuredDataTag] : []),
+    ],
+    siteMetadata,
+  );
+}
+
+function replaceDocumentMetadata(html, documentMetadata) {
+  const startCount = html.split(metadataBlockStart).length - 1;
+  const endCount = html.split(metadataBlockEnd).length - 1;
+  const blockStartIndex = html.indexOf(metadataBlockStart);
+  const blockEndIndex = html.indexOf(metadataBlockEnd, blockStartIndex);
+
+  if (startCount !== 1 || endCount !== 1 || blockEndIndex < blockStartIndex) {
+    throw new Error(
+      "HTML template must contain exactly one complete document metadata block.",
+    );
+  }
+
+  return [
+    html.slice(0, blockStartIndex),
+    documentMetadata,
+    html.slice(blockEndIndex + metadataBlockEnd.length),
+  ].join("");
 }
 
 function replaceEmptyRoot(html, replacement, purpose) {
@@ -413,35 +162,36 @@ function applyRenderedRouteRoot(html, renderedMarkup, routePath, prerenderedAt) 
     routePath,
   )}" data-prerendered-at="${escapeHtml(prerenderedAt)}">${renderedMarkup}</div>`;
 
-  return replaceEmptyRoot(html, renderedRoot, "validating the static render entry");
+  return replaceEmptyRoot(html, renderedRoot, "inserting the prerendered route markup");
 }
 
-function assertRenderedRouteMarkup(renderedMarkup, routePath) {
-  const mainClass = routeMainClasses[routePath];
-
-  if (!mainClass) {
-    throw new Error(`Prerendered route is missing its main-element contract: ${routePath}`);
-  }
-
+function assertRenderedRouteMarkup(renderedMarkup, routePath, routeContract) {
   const expectedFragments = [
     '<header class="site-header">',
-    `<main class="${mainClass}">`,
+    `<main class="${routeContract.expectedMainClass}">`,
     '<footer class="site-footer">',
   ];
 
   for (const fragment of expectedFragments) {
     if (!renderedMarkup.includes(fragment)) {
-      throw new Error(`Static render smoke check for ${routePath} is missing expected content: ${fragment}`);
+      throw new Error(
+        `Static render smoke check for ${routePath} is missing expected content: ${fragment}`,
+      );
     }
   }
 
   const headings = [...renderedMarkup.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
 
   if (headings.length !== 1) {
-    throw new Error(`Static render smoke check for ${routePath} expected one h1, found ${headings.length}.`);
+    throw new Error(
+      `Static render smoke check for ${routePath} expected one h1, found ${headings.length}.`,
+    );
   }
 
-  const headingText = headings[0][1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const headingText = headings[0][1]
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
   if (!headingText) {
     throw new Error(`Static render smoke check for ${routePath} found an empty h1.`);
@@ -452,39 +202,47 @@ function assertRenderedRouteMarkup(renderedMarkup, routePath) {
     renderedMarkup.includes("data-not-found-fallback") ||
     renderedMarkup.includes("data-static-route-shell")
   ) {
-    throw new Error(`Static render smoke check for ${routePath} unexpectedly contains fallback markup.`);
+    throw new Error(
+      `Static render smoke check for ${routePath} unexpectedly contains fallback markup.`,
+    );
   }
 }
 
-function getNotFoundTags(notFoundMetadata, siteMetadata) {
-  return [
-    "<!-- SEO metadata generated at build time -->",
-    `<title>${escapeHtml(notFoundMetadata.title)}</title>`,
-    `<meta name="description" content="${escapeHtml(notFoundMetadata.description)}" />`,
-    `<meta name="robots" content="${escapeHtml(notFoundMetadata.robots)}" />`,
-    ...faviconTags,
-    `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
-    "<!-- /SEO metadata generated at build time -->",
-  ].join("\n    ");
+function renderNotFoundDocumentMetadata(notFoundMetadata, siteMetadata) {
+  return renderDocumentMetadata(
+    [
+      `<title>${escapeHtml(notFoundMetadata.title)}</title>`,
+      `<meta name="description" content="${escapeHtml(notFoundMetadata.description)}" />`,
+      `<meta name="robots" content="${escapeHtml(notFoundMetadata.robots)}" />`,
+    ],
+    siteMetadata,
+  );
 }
 
-function getPrivateRouteTags(siteMetadata) {
-  return [
-    "<!-- SEO metadata generated at build time -->",
-    "<title>Analytics | Vive Counselling</title>",
-    '<meta name="description" content="Private first-party visit analytics for Vive Counselling." />',
-    `<meta name="robots" content="${escapeHtml(privateRobotsDirective)}" />`,
-    ...faviconTags,
-    `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
-    "<!-- /SEO metadata generated at build time -->",
-  ].join("\n    ");
+function getPrivateShellMetadata(siteMetadata) {
+  return {
+    title: `Analytics | ${siteMetadata.name}`,
+    description: `Private first-party visit analytics for ${siteMetadata.name}.`,
+    robots: "noindex, nofollow",
+  };
 }
 
-function assertPrivateRouteShell(html) {
+function renderPrivateDocumentMetadata(privateMetadata, siteMetadata) {
+  return renderDocumentMetadata(
+    [
+      `<title>${escapeHtml(privateMetadata.title)}</title>`,
+      `<meta name="description" content="${escapeHtml(privateMetadata.description)}" />`,
+      `<meta name="robots" content="${escapeHtml(privateMetadata.robots)}" />`,
+    ],
+    siteMetadata,
+  );
+}
+
+function assertPrivateRouteShell(html, privateMetadata) {
   const expectedFragments = [
-    "<title>Analytics | Vive Counselling</title>",
-    '<meta name="description" content="Private first-party visit analytics for Vive Counselling." />',
-    `<meta name="robots" content="${privateRobotsDirective}" />`,
+    `<title>${escapeHtml(privateMetadata.title)}</title>`,
+    `<meta name="description" content="${escapeHtml(privateMetadata.description)}" />`,
+    `<meta name="robots" content="${escapeHtml(privateMetadata.robots)}" />`,
     '<div id="root"></div>',
     'script type="module"',
     "/assets/",
@@ -496,10 +254,14 @@ function assertPrivateRouteShell(html) {
     }
   }
 
-  if (html.includes('<link rel="canonical"') || html.includes('data-render-mode="prerendered"')) {
+  if (
+    html.includes('<link rel="canonical"')
+    || html.includes('data-render-mode="prerendered"')
+  ) {
     throw new Error("Private analytics shell unexpectedly contains public-route metadata.");
   }
 }
+
 function applyNotFoundFallbackRoot(html, notFoundMetadata, prerenderedAt) {
   const fallbackMarkup = [
     '<main data-not-found-fallback="true">',
@@ -507,7 +269,9 @@ function applyNotFoundFallbackRoot(html, notFoundMetadata, prerenderedAt) {
     `  <p>${escapeHtml(notFoundMetadata.description)}</p>`,
     "</main>",
   ].join("\n      ");
-  const fallbackRoot = `<div id="root" data-prerendered-at="${escapeHtml(prerenderedAt)}">\n      ${fallbackMarkup}\n    </div>`;
+  const fallbackRoot = `<div id="root" data-prerendered-at="${escapeHtml(
+    prerenderedAt,
+  )}">\n      ${fallbackMarkup}\n    </div>`;
 
   return replaceEmptyRoot(html, fallbackRoot, "adding the generic 404 fallback");
 }
@@ -537,7 +301,9 @@ function assertNotFoundFallback(html, notFoundMetadata, prerenderedAt) {
     html.includes("data-static-route-shell") ||
     html.includes("Static route shell generated at build time")
   ) {
-    throw new Error("404 fallback smoke check found prerender metadata or retired public-shell markup.");
+    throw new Error(
+      "404 fallback smoke check found prerender metadata or retired public-shell markup.",
+    );
   }
 }
 
@@ -552,42 +318,55 @@ function getRouteOutputPaths(routePath) {
   return [routeFilePath, routeIndexPath];
 }
 
-function getPrerenderedRoutePaths(routes) {
-  const metadataPaths = Object.keys(routes);
+function getPublicRouteEntries(routes) {
+  const routeEntries = Object.entries(routes);
 
-  for (const routePath of metadataPaths) {
-    if (!routeMainClasses[routePath]) {
-      throw new Error(`Metadata route is missing its main-element contract: ${routePath}`);
+  for (const [routePath, routeMetadata] of routeEntries) {
+    if (!Object.hasOwn(publicRouteContracts, routePath)) {
+      throw new Error(`Metadata route is missing its prerender contract: ${routePath}`);
+    }
+
+    if (Object.hasOwn(routeMetadata, "robots")) {
+      throw new Error(
+        `Public metadata routes are indexable and cannot set robots: ${routePath}`,
+      );
     }
   }
 
-  for (const routePath of Object.keys(routeMainClasses)) {
-    if (!routes[routePath]) {
+  for (const routePath of Object.keys(publicRouteContracts)) {
+    if (!Object.hasOwn(routes, routePath)) {
       throw new Error(`Prerendered route is missing from route metadata: ${routePath}`);
     }
   }
 
-  return metadataPaths;
+  return routeEntries.map(([routePath, routeMetadata]) => ({
+    routeContract: publicRouteContracts[routePath],
+    routeMetadata,
+    routePath,
+  }));
 }
 
-function getSitemapEntries(routes, siteOrigin) {
-  return Object.entries(routes).map(([routePath, routeMetadata]) => {
-    if (routeMetadata.robots) {
-      throw new Error(`Indexable route has robots metadata: ${routePath}`);
-    }
-
+function renderSitemapEntries(publicRoutes, siteOrigin) {
+  return publicRoutes.map(({ routeMetadata, routePath }) => {
     const lastModified = routeMetadata.lastModified;
 
     if (lastModified) {
-      getValidIsoDate(lastModified, `Indexable route lastModified (${routePath})`);
+      validateIsoDate(lastModified, `Indexable route lastModified (${routePath})`);
     }
 
     const lastModifiedElement = lastModified
       ? `<lastmod>${escapeXml(lastModified)}</lastmod>`
       : "";
 
-    return `  <url><loc>${escapeXml(getAbsoluteUrl(siteOrigin, routePath))}</loc>${lastModifiedElement}</url>`;
+    const routeUrl = escapeXml(getAbsoluteUrl(siteOrigin, routePath));
+
+    return `  <url><loc>${routeUrl}</loc>${lastModifiedElement}</url>`;
   });
+}
+
+async function writeOutputFile(outputPath, contents) {
+  await mkdir(path.dirname(outputPath), { recursive: true });
+  await writeFile(outputPath, contents);
 }
 
 const [templateHtml, metadataJson] = await Promise.all([
@@ -596,9 +375,9 @@ const [templateHtml, metadataJson] = await Promise.all([
 ]);
 
 const { notFound: notFoundMetadata, routes, site } = JSON.parse(metadataJson);
-const prerenderedRoutePaths = getPrerenderedRoutePaths(routes);
+const publicRoutes = getPublicRouteEntries(routes);
 const siteOrigin = getSiteOrigin(site);
-const sitemapEntries = getSitemapEntries(routes, siteOrigin);
+const sitemapEntries = renderSitemapEntries(publicRoutes, siteOrigin);
 const prerenderedAt = new Date().toISOString();
 
 process.env.NODE_ENV = "production";
@@ -608,33 +387,39 @@ if (typeof serverEntry.renderRoute !== "function") {
   throw new Error(`Server render bundle does not export renderRoute: ${serverEntryPath}`);
 }
 
-const renderedRouteMarkup = new Map(
-  prerenderedRoutePaths.map((routePath) => [
-    routePath,
-    serverEntry.renderRoute(routePath, { initialRenderAt: prerenderedAt }),
-  ]),
-);
+const publicRouteOutputs = publicRoutes.flatMap(({
+  routeContract,
+  routeMetadata,
+  routePath,
+}) => {
+  const renderedMarkup = serverEntry.renderRoute(routePath, {
+    initialRenderAt: prerenderedAt,
+  });
 
-for (const [routePath, routeMetadata] of Object.entries(routes)) {
-  const renderedMarkup = renderedRouteMarkup.get(routePath);
+  assertRenderedRouteMarkup(renderedMarkup, routePath, routeContract);
 
-  if (!renderedMarkup) {
-    throw new Error(`Metadata route is missing from the component prerender set: ${routePath}`);
-  }
-
-  assertRenderedRouteMarkup(renderedMarkup, routePath);
-
-  const routeTemplate = applySeoTags(
+  const routeTemplate = replaceDocumentMetadata(
     templateHtml,
-    getSeoTags(routePath, routeMetadata, site, siteOrigin),
+    renderPublicDocumentMetadata(
+      routePath,
+      routeMetadata,
+      routeContract,
+      site,
+      siteOrigin,
+    ),
   );
-  const routeHtml = applyRenderedRouteRoot(routeTemplate, renderedMarkup, routePath, prerenderedAt);
+  const routeHtml = applyRenderedRouteRoot(
+    routeTemplate,
+    renderedMarkup,
+    routePath,
+    prerenderedAt,
+  );
 
-  for (const outputPath of getRouteOutputPaths(routePath)) {
-    await mkdir(path.dirname(outputPath), { recursive: true });
-    await writeFile(outputPath, routeHtml);
-  }
-}
+  return getRouteOutputPaths(routePath).map((outputPath) => ({
+    contents: routeHtml,
+    outputPath,
+  }));
+});
 
 const sitemapXml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
@@ -652,31 +437,41 @@ const robotsTxt = [
   "",
 ].join("\n");
 
+const privateMetadata = getPrivateShellMetadata(site);
 const notFoundHtml = applyNotFoundFallbackRoot(
-  applySeoTags(templateHtml, getNotFoundTags(notFoundMetadata, site)),
+  replaceDocumentMetadata(
+    templateHtml,
+    renderNotFoundDocumentMetadata(notFoundMetadata, site),
+  ),
   notFoundMetadata,
   prerenderedAt,
 );
-const privateRouteHtml = applySeoTags(
+const privateRouteHtml = replaceDocumentMetadata(
   templateHtml,
-  getPrivateRouteTags(site),
+  renderPrivateDocumentMetadata(privateMetadata, site),
 );
 
 assertNotFoundFallback(notFoundHtml, notFoundMetadata, prerenderedAt);
-assertPrivateRouteShell(privateRouteHtml);
+assertPrivateRouteShell(privateRouteHtml, privateMetadata);
 
-await Promise.all([
-  writeFile(path.join(distDir, "404.html"), notFoundHtml),
-  writeFile(path.join(distDir, "sitemap.xml"), sitemapXml),
-  writeFile(path.join(distDir, "robots.txt"), robotsTxt),
-  ...privateRoutePaths.flatMap((privateRoutePath) => (
-    getRouteOutputPaths(privateRoutePath).map(async (outputPath) => {
-      await mkdir(path.dirname(outputPath), { recursive: true });
-      await writeFile(outputPath, privateRouteHtml);
-    })
+const outputFiles = [
+  ...publicRouteOutputs,
+  { contents: notFoundHtml, outputPath: path.join(distDir, "404.html") },
+  { contents: sitemapXml, outputPath: path.join(distDir, "sitemap.xml") },
+  { contents: robotsTxt, outputPath: path.join(distDir, "robots.txt") },
+  ...privateShellRoutePaths.flatMap((privateRoutePath) => (
+    getRouteOutputPaths(privateRoutePath).map((outputPath) => ({
+      contents: privateRouteHtml,
+      outputPath,
+    }))
   )),
-]);
+];
 
-console.log(
-  `Prerendered ${prerenderedRoutePaths.length} routes and validated metadata for ${Object.keys(routes).length} public routes.`,
+await Promise.all(
+  outputFiles.map(({ contents, outputPath }) => writeOutputFile(outputPath, contents)),
 );
+
+const buildSummary = `Prerendered ${publicRoutes.length} public routes`
+  + ` and generated ${privateShellRoutePaths.length} private route shells.`;
+
+console.log(buildSummary);
