@@ -1,14 +1,16 @@
 import {
   bookingTypes,
+  enquiryFieldLimits,
   enquiryTypes,
   findBookingType,
+  findContactPath,
   findEnquiryType,
   type BookingTypeOption,
 } from "../../data/enquiryContract.ts";
 import { getAustralianTimeZoneLabel } from "../../utils/timeZones.ts";
 
 type ValidationIssue = {
-  code: "invalid_format" | "invalid_value" | "required";
+  code: "invalid_format" | "invalid_value" | "required" | "too_long";
   field: string;
   message: string;
 };
@@ -55,13 +57,13 @@ type ValidationResult =
   | { issues: ValidationIssue[]; type: "invalid" }
   | { enquiry: ValidatedEnquiry; type: "valid" };
 
-function getText(value: unknown, maxLength = 5000) {
+function getText(value: unknown) {
   if (typeof value === "string") {
-    return value.trim().slice(0, maxLength);
+    return value.trim();
   }
 
   if (Array.isArray(value) && typeof value[0] === "string") {
-    return value[0].trim().slice(0, maxLength);
+    return value[0].trim();
   }
 
   return "";
@@ -78,10 +80,12 @@ function getRequiredTextField(
   issues: ValidationIssue[],
   label: string,
 ) {
-  const value = getText(payload[field], maxLength);
+  const value = getText(payload[field]);
 
   if (!value) {
     addIssue(issues, field, "required", `${label} is required.`);
+  } else if (value.length > maxLength) {
+    addIssue(issues, field, "too_long", `${label} is too long.`);
   }
 
   return value;
@@ -92,35 +96,25 @@ function isValidEmailAddress(email: string) {
 }
 
 function applyContactPathFallback(payload: Record<string, unknown>) {
-  if (getText(payload.enquiryType, 60)) {
+  if (getText(payload.enquiryType)) {
     return payload;
   }
 
-  switch (getText(payload.contactPath, 60)) {
-    case "appointment":
-      return {
-        ...payload,
-        bookingType: bookingTypes.appointment.value,
-        enquiryType: enquiryTypes.booking.value,
-      };
-    case "consult":
-      return {
-        ...payload,
-        bookingType: bookingTypes.consult.value,
-        enquiryType: enquiryTypes.booking.value,
-      };
-    case "question":
-      return {
-        ...payload,
-        enquiryType: enquiryTypes.general.value,
-      };
-    default:
-      return payload;
+  const contactPath = findContactPath(getText(payload.contactPath));
+
+  if (!contactPath) {
+    return payload;
   }
+
+  return {
+    ...payload,
+    ...("bookingType" in contactPath ? { bookingType: contactPath.bookingType } : {}),
+    enquiryType: contactPath.enquiryType,
+  };
 }
 
 export function validateEnquiryPayload(payload: Record<string, unknown>): ValidationResult {
-  if (getText(payload.website, 320)) {
+  if (getText(payload.website)) {
     return { type: "honeypot" };
   }
 
@@ -129,14 +123,32 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
   const enquiryTypeValue = getRequiredTextField(
     enquiryPayload,
     "enquiryType",
-    60,
+    enquiryFieldLimits.enquiryType,
     issues,
     "Enquiry type",
   );
   const enquiryType = findEnquiryType(enquiryTypeValue);
-  const name = getRequiredTextField(enquiryPayload, "name", 160, issues, "Name");
-  const email = getRequiredTextField(enquiryPayload, "email", 320, issues, "Email");
-  const message = getRequiredTextField(enquiryPayload, "message", 5000, issues, "Message");
+  const name = getRequiredTextField(
+    enquiryPayload,
+    "name",
+    enquiryFieldLimits.name,
+    issues,
+    "Name",
+  );
+  const email = getRequiredTextField(
+    enquiryPayload,
+    "email",
+    enquiryFieldLimits.email,
+    issues,
+    "Email",
+  );
+  const message = getRequiredTextField(
+    enquiryPayload,
+    "message",
+    enquiryFieldLimits.message,
+    issues,
+    "Message",
+  );
   let bookingType: BookingTypeOption | undefined;
   let availability = "";
   let mobile = "";
@@ -155,7 +167,7 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
     const bookingTypeValue = getRequiredTextField(
       enquiryPayload,
       "bookingType",
-      60,
+      enquiryFieldLimits.bookingType,
       issues,
       "Booking request",
     );
@@ -170,14 +182,14 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
       availability = getRequiredTextField(
         enquiryPayload,
         "availability",
-        500,
+        enquiryFieldLimits.availability,
         issues,
         "Availability",
       );
       timeZone = getRequiredTextField(
         enquiryPayload,
         "timeZone",
-        60,
+        enquiryFieldLimits.timeZone,
         issues,
         "Timezone",
       );
@@ -191,7 +203,7 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
         mobile = getRequiredTextField(
           enquiryPayload,
           "mobile",
-          40,
+          enquiryFieldLimits.mobile,
           issues,
           "Mobile number",
         );

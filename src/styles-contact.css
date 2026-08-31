@@ -100,12 +100,11 @@
   display: none;
 }
 
-.contact-page__enquiry-path {
+.contact-page__enquiry-path-control {
   position: relative;
-  grid-template-columns: minmax(0, 1fr);
 }
 
-.contact-page__enquiry-path::after {
+.contact-page__enquiry-path-control::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -171,7 +170,7 @@
     box-shadow 160ms ease;
 }
 
-.contact-page__enquiry-path select {
+.contact-page__enquiry-path-control select {
   appearance: none;
   padding-right: 3.25rem;
   cursor: pointer;

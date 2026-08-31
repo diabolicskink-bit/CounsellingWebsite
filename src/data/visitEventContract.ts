@@ -1,3 +1,8 @@
+import {
+  contactPathOptions,
+  type ContactPath,
+} from "./enquiryContract.ts";
+
 type ValueOf<T> = T[keyof T];
 
 export const visitEventTypes = {
@@ -13,7 +18,9 @@ export const visitEventSources = {
   server: "server",
 } as const;
 
-export const contactOptionValues = ["appointment", "consult", "question"] as const;
+export const contactOptionValues: readonly ContactPath[] = contactPathOptions.map(
+  (option) => option.value,
+);
 export const enquiryFailureReasons = [
   "configuration",
   "email_provider",
@@ -27,5 +34,5 @@ export type ClientVisitEventType =
   | typeof visitEventTypes.enquiryStarted;
 export type VisitEventSource = ValueOf<typeof visitEventSources>;
 export type VisitEventProperties = Record<string, string>;
-export type ContactOptionValue = (typeof contactOptionValues)[number];
+export type ContactOptionValue = ContactPath;
 export type EnquiryFailureReason = (typeof enquiryFailureReasons)[number];

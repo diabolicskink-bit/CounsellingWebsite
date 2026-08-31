@@ -1,3 +1,4 @@
+import type { ContactPath } from "../data/enquiryContract";
 import { createAnalyticsHostAllowlist, isCurrentHostnameAllowed } from "./analyticsHosts";
 
 export const analyticsEnabled = import.meta.env.VITE_ANALYTICS_ENABLED === "true";
@@ -42,9 +43,7 @@ export function trackEmailLinkClicked() {
   trackGoogleAnalyticsEvent("email_link_clicked");
 }
 
-export function trackContactOptionSelected(
-  option: "appointment" | "consult" | "question",
-) {
+export function trackContactOptionSelected(option: ContactPath) {
   trackGoogleAnalyticsEvent("contact_option_selected", {
     contact_option: option,
   });

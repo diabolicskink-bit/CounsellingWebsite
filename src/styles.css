@@ -1193,6 +1193,7 @@ h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .button,
   .header-button__icon,
   .menu-toggle,
   .mobile-nav,

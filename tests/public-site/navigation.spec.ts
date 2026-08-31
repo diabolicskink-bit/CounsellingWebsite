@@ -89,4 +89,22 @@ test.describe("shared navigation", () => {
     await expect(page.getByRole("navigation", { name: "Mobile navigation" })).toHaveCount(0);
     await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("clip");
   });
+
+  test("removes non-essential shared motion when requested", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+
+    const header = page.getByRole("banner");
+    await expect(header.getByRole("link", { name: "Get in touch" })).toHaveCSS(
+      "transition-duration",
+      "0s",
+    );
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.getByRole("button", { name: "Open navigation" }).click();
+    await expect(page.getByRole("navigation", { name: "Mobile navigation" })).toHaveCSS(
+      "animation-name",
+      "none",
+    );
+  });
 });

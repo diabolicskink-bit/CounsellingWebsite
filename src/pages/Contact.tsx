@@ -14,9 +14,12 @@ import {
   enquirySuccessContent,
 } from "../data/enquiry";
 import {
-  bookingTypes,
+  contactPaths,
+  enquiryFieldLimits,
   enquiryTypes,
+  findContactPath,
   type BookingType,
+  type ContactPath,
   type EnquiryType,
 } from "../data/enquiryContract";
 import { getRouteMetadata } from "../data/routeMetadata";
@@ -35,15 +38,14 @@ import { recordVisitEvent } from "../utils/visitEvents";
 import { getCurrentVisitEventContext } from "../utils/visitSession";
 import "../styles-contact.css";
 
-type EnquiryPath = BookingType | "question";
 type SubmitStatus = "idle" | "sending" | "success" | "error";
 
 type EnquiryPathOption = {
   bookingType?: BookingType;
   enquiryType: EnquiryType;
-  id: EnquiryPath;
   submitLabel: string;
   title: string;
+  value: ContactPath;
 };
 
 type ContactPageProps = {
@@ -52,22 +54,17 @@ type ContactPageProps = {
 
 const enquiryPathOptions: readonly EnquiryPathOption[] = [
   {
-    enquiryType: enquiryTypes.general.value,
-    id: "question",
+    ...contactPaths.question,
     submitLabel: "Send message",
     title: "General Enquiry / Ask a Question",
   },
   {
-    bookingType: bookingTypes.consult.value,
-    enquiryType: enquiryTypes.booking.value,
-    id: "consult",
+    ...contactPaths.consult,
     submitLabel: "Request the 15-minute consult",
     title: "Schedule a free consult",
   },
   {
-    bookingType: bookingTypes.appointment.value,
-    enquiryType: enquiryTypes.booking.value,
-    id: "appointment",
+    ...contactPaths.appointment,
     submitLabel: "Send session enquiry",
     title: "Make an appointment",
   },
@@ -76,11 +73,8 @@ const enquiryPathOptions: readonly EnquiryPathOption[] = [
 const contactMetadata = getRouteMetadata(publicRoutePaths.contact);
 const crisisSupportHref = publicRoutePaths.crisisSupport;
 
-function isEnquiryPath(value: FormDataEntryValue | null): value is EnquiryPath {
-  return (
-    typeof value === "string" &&
-    enquiryPathOptions.some((option) => option.id === value)
-  );
+function isEnquiryPath(value: FormDataEntryValue | null): value is ContactPath {
+  return typeof value === "string" && Boolean(findContactPath(value));
 }
 
 function getFormText(formData: FormData, fieldName: string) {
@@ -115,15 +109,17 @@ function RequiredMark() {
   );
 }
 
-function RequiredField({
+function FormField({
   children,
   id,
   label,
+  required = false,
   wide = false,
 }: {
   children: ReactNode;
   id: string;
   label: string;
+  required?: boolean;
   wide?: boolean;
 }) {
   return (
@@ -135,7 +131,7 @@ function RequiredField({
     >
       <label htmlFor={id}>
         {label}
-        <RequiredMark />
+        {required ? <RequiredMark /> : null}
       </label>
       {children}
     </div>
@@ -214,7 +210,8 @@ function EnquirySuccess() {
 function EnquiryForm({ initialRenderAt }: ContactPageProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const enquiryStartTrackedRef = useRef(false);
-  const [selectedPath, setSelectedPath] = useState<EnquiryPath | "">("");
+  const submissionInProgressRef = useRef(false);
+  const [selectedPath, setSelectedPath] = useState<ContactPath | "">("");
   const [hasHydrated, setHasHydrated] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const timeZoneOptions = getActiveAustralianTimeZoneOptions(
@@ -238,8 +235,14 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (submissionInProgressRef.current) {
+      return;
+    }
+
     const formElement = event.currentTarget;
 
+    submissionInProgressRef.current = true;
     setSubmitStatus("sending");
 
     try {
@@ -261,6 +264,8 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
       setSubmitStatus("success");
     } catch {
       setSubmitStatus("error");
+    } finally {
+      submissionInProgressRef.current = false;
     }
   };
 
@@ -280,7 +285,7 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
     recordVisitEvent("enquiry_started", {});
   };
 
-  const handleEnquiryPathChange = (value: EnquiryPath) => {
+  const handleEnquiryPathChange = (value: ContactPath) => {
     trackContactOptionSelected(value);
     recordVisitEvent("contact_option_selected", { option: value });
     setSelectedPath(value);
@@ -292,16 +297,17 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
   }
 
   const selectedOption = enquiryPathOptions.find(
-    (option) => option.id === selectedPath,
+    (option) => option.value === selectedPath,
   );
-  const isConsult = selectedPath === "consult";
-  const isBooking = selectedPath === "appointment" || selectedPath === "consult";
+  const isConsult = selectedPath === contactPaths.consult.value;
+  const isBooking = selectedOption?.enquiryType === enquiryTypes.booking.value;
   const showBookingFields = isBooking || !hasHydrated;
   const showConsultMobile = isConsult || !hasHydrated;
 
   return (
     <form
       action="/api/enquiry"
+      aria-busy={submitStatus === "sending"}
       aria-labelledby="contact-form-title"
       className="contact-page__form"
       data-clarity-mask="true"
@@ -313,6 +319,7 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
       <input
         aria-hidden="true"
         autoComplete="off"
+        maxLength={enquiryFieldLimits.website}
         name="website"
         tabIndex={-1}
       />
@@ -337,95 +344,127 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
           </h2>
 
           <div className="contact-page__form-fields">
-            <RequiredField id="contact-name" label="Name">
+            <FormField id="contact-name" label="Name" required>
               <input
                 autoComplete="name"
                 id="contact-name"
+                maxLength={enquiryFieldLimits.name}
                 name="name"
                 placeholder="Your name"
                 required
                 type="text"
               />
-            </RequiredField>
+            </FormField>
 
-            <RequiredField id="contact-email" label="Email">
+            <FormField id="contact-email" label="Email" required>
               <input
                 autoComplete="email"
                 id="contact-email"
+                maxLength={enquiryFieldLimits.email}
                 name="email"
                 placeholder="you@example.com"
                 required
                 type="email"
               />
-            </RequiredField>
+            </FormField>
 
-            <RequiredField id="contact-message" label="Your message" wide>
+            <FormField id="contact-message" label="Your message" required wide>
               <textarea
                 id="contact-message"
+                maxLength={enquiryFieldLimits.message}
                 name="message"
                 required
                 rows={4}
               />
-            </RequiredField>
+            </FormField>
           </div>
         </div>
 
         <div className="contact-page__form-field contact-page__enquiry-path">
-          <label className="contact-page__sr-only" htmlFor="contact-path">
-            Enquiry type (required)
+          <label htmlFor="contact-path">
+            How would you like to start?
+            <RequiredMark />
           </label>
-          <select
-            id="contact-path"
-            name="contactPath"
-            onChange={(event) => {
-              const value = event.currentTarget.value;
+          <div className="contact-page__enquiry-path-control">
+            <select
+              id="contact-path"
+              name="contactPath"
+              onChange={(event) => {
+                const value = event.currentTarget.value;
 
-              if (isEnquiryPath(value)) {
-                handleEnquiryPathChange(value);
-              }
-            }}
-            required
-            value={selectedPath}
-          >
-            <option disabled value="">
-              Choose an option
-            </option>
-            {enquiryPathOptions.map((option) => (
-              <option key={option.id} value={option.id}>
-                {option.title}
+                if (isEnquiryPath(value)) {
+                  handleEnquiryPathChange(value);
+                }
+              }}
+              required
+              value={selectedPath}
+            >
+              <option disabled value="">
+                Choose an option
               </option>
-            ))}
-          </select>
+              {enquiryPathOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.title}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {showBookingFields ? (
           <div className="contact-page__form-fields contact-page__form-fields--conditional">
             {showConsultMobile ? (
-              <RequiredField id="contact-mobile" label="Mobile number" wide>
+              <FormField
+                id="contact-mobile"
+                label={
+                  hasHydrated
+                    ? "Mobile number"
+                    : "Mobile number (required for a consult)"
+                }
+                required={isConsult}
+                wide
+              >
                 <input
                   autoComplete="tel"
                   id="contact-mobile"
                   inputMode="tel"
-                  maxLength={40}
+                  maxLength={enquiryFieldLimits.mobile}
                   name="mobile"
                   placeholder="For example: 0412 345 678"
                   required={isConsult}
                   type="tel"
                 />
-              </RequiredField>
+              </FormField>
             ) : null}
 
-            <RequiredField id="contact-availability" label="Availability">
+            <FormField
+              id="contact-availability"
+              label={
+                hasHydrated
+                  ? "Availability"
+                  : "Availability (required for an appointment or consult)"
+              }
+              required={isBooking}
+            >
               <input
                 id="contact-availability"
+                maxLength={enquiryFieldLimits.availability}
                 name="availability"
                 placeholder="For example: Tuesday after 3pm"
                 required={isBooking}
                 type="text"
               />
-            </RequiredField>
+            </FormField>
 
-            <RequiredField id="contact-timezone" label="Timezone">
+            <FormField
+              id="contact-timezone"
+              label={
+                hasHydrated
+                  ? "Timezone"
+                  : "Timezone (required for an appointment or consult)"
+              }
+              required={isBooking}
+            >
               <select
                 defaultValue=""
                 id="contact-timezone"
@@ -438,7 +477,7 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
                   </option>
                 ))}
               </select>
-            </RequiredField>
+            </FormField>
           </div>
         ) : null}
 
