@@ -1183,15 +1183,14 @@ function DailyObservatory({
         <div className="signal-pages" aria-label={`${summary.pages} page views, ${summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"} average pages per visit`}>
           <div className="signal-pages__summary">
             <span>Page views</span>
-            <strong>{String(summary.pages).padStart(2, "0")}</strong>
-            <small>{summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"} avg per visit</small>
             <Link
               aria-label={`View full page-view breakdown for ${formatDate(dateKey, true)}`}
-              className="signal-pages__open"
+              className="signal-pages__count"
               to={pageViewReportPath}
             >
-              Full breakdown <ArrowRight aria-hidden="true" size={14} />
+              <strong>{String(summary.pages).padStart(2, "0")}</strong>
             </Link>
+            <small>{summary.visits ? (summary.pages / summary.visits).toFixed(1) : "0.0"} avg per visit</small>
           </div>
           <div className="signal-pages__ranking" aria-label="Most-viewed routes">
             {topPages.length ? topPages.map((page) => (
