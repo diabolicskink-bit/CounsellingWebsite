@@ -14,7 +14,6 @@ import {
   enquirySuccessContent,
 } from "../data/enquiry";
 import {
-  australianStateOptions,
   bookingTypes,
   enquiryTypes,
   type BookingType,
@@ -53,24 +52,24 @@ type ContactPageProps = {
 
 const enquiryPathOptions: readonly EnquiryPathOption[] = [
   {
-    bookingType: bookingTypes.appointment.value,
-    enquiryType: enquiryTypes.booking.value,
-    id: "appointment",
-    submitLabel: "Send session enquiry",
-    title: "Make an appointment",
+    enquiryType: enquiryTypes.general.value,
+    id: "question",
+    submitLabel: "Send message",
+    title: "General Enquiry / Ask a Question",
   },
   {
     bookingType: bookingTypes.consult.value,
     enquiryType: enquiryTypes.booking.value,
     id: "consult",
     submitLabel: "Request the 15-minute consult",
-    title: "Request a consult",
+    title: "Schedule a free consult",
   },
   {
-    enquiryType: enquiryTypes.general.value,
-    id: "question",
-    submitLabel: "Send enquiry",
-    title: "General enquiry",
+    bookingType: bookingTypes.appointment.value,
+    enquiryType: enquiryTypes.booking.value,
+    id: "appointment",
+    submitLabel: "Send session enquiry",
+    title: "Make an appointment",
   },
 ];
 
@@ -101,8 +100,6 @@ function buildEnquiryPayload(formData: FormData) {
     enquiryType: getFormText(formData, "enquiryType"),
     message: getFormText(formData, "message"),
     name: getFormText(formData, "name"),
-    state: getFormText(formData, "state"),
-    timing: getFormText(formData, "timing"),
     timeZone: getFormText(formData, "timeZone"),
     website: getFormText(formData, "website"),
   };
@@ -271,7 +268,8 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
 
     if (
       enquiryStartTrackedRef.current ||
-      (target instanceof HTMLInputElement && ["contactPath", "website"].includes(target.name))
+      ((target instanceof HTMLInputElement || target instanceof HTMLSelectElement) &&
+        ["contactPath", "website"].includes(target.name))
     ) {
       return;
     }
@@ -295,10 +293,8 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
   const selectedOption = enquiryPathOptions.find(
     (option) => option.id === selectedPath,
   );
-  const isAppointment = selectedPath === "appointment";
-  const isConsult = selectedPath === "consult";
-  const showAppointmentFields = isAppointment || !hasHydrated;
-  const showConsultFields = isConsult || !hasHydrated;
+  const isBooking = selectedPath === "appointment" || selectedPath === "consult";
+  const showBookingFields = isBooking || !hasHydrated;
 
   return (
     <form
@@ -375,94 +371,60 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
           </RequiredField>
         </div>
 
-        <fieldset
-          aria-describedby="contact-path-hint"
-          className="contact-page__enquiry-options"
-        >
-          <legend className="contact-page__enquiry-options-heading">
-            What would you like to do next?
-            <RequiredMark />
-          </legend>
-          <p className="contact-page__enquiry-options-hint" id="contact-path-hint">
-            Choose one option.
-          </p>
-          <div className="contact-page__enquiry-option-list">
+        <div className="contact-page__form-field contact-page__enquiry-path">
+          <label className="contact-page__sr-only" htmlFor="contact-path">
+            Enquiry type (required)
+          </label>
+          <select
+            id="contact-path"
+            name="contactPath"
+            onChange={(event) => {
+              const value = event.currentTarget.value;
+
+              if (isEnquiryPath(value)) {
+                handleEnquiryPathChange(value);
+              }
+            }}
+            required
+            value={selectedPath}
+          >
+            <option disabled value="">
+              Choose an option
+            </option>
             {enquiryPathOptions.map((option) => (
-              <label className="contact-page__enquiry-option" key={option.id}>
-                <strong>{option.title}</strong>
-                <input
-                  checked={selectedPath === option.id}
-                  name="contactPath"
-                  onChange={() => handleEnquiryPathChange(option.id)}
-                  required
-                  type="radio"
-                  value={option.id}
-                />
-              </label>
+              <option key={option.id} value={option.id}>
+                {option.title}
+              </option>
             ))}
-          </div>
-        </fieldset>
+          </select>
+        </div>
 
-        {showAppointmentFields || showConsultFields ? (
+        {showBookingFields ? (
           <div className="contact-page__form-fields contact-page__form-fields--conditional">
-            {showAppointmentFields ? (
-              <>
-                <RequiredField id="contact-timing" label="Preferred timing">
-                  <input
-                    id="contact-timing"
-                    name="timing"
-                    placeholder="For example: weekday afternoons"
-                    required={isAppointment}
-                    type="text"
-                  />
-                </RequiredField>
+            <RequiredField id="contact-availability" label="Availability">
+              <input
+                id="contact-availability"
+                name="availability"
+                placeholder="For example: Tuesday after 3pm"
+                required={isBooking}
+                type="text"
+              />
+            </RequiredField>
 
-                <RequiredField id="contact-state" label="State or territory">
-                  <select
-                    defaultValue=""
-                    id="contact-state"
-                    name="state"
-                    required={isAppointment}
-                  >
-                    <option value="">Select your state or territory</option>
-                    {australianStateOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </RequiredField>
-              </>
-            ) : null}
-
-            {showConsultFields ? (
-              <>
-                <RequiredField id="contact-availability" label="Availability">
-                  <input
-                    id="contact-availability"
-                    name="availability"
-                    placeholder="For example: Tuesday after 3pm"
-                    required={isConsult}
-                    type="text"
-                  />
-                </RequiredField>
-
-                <RequiredField id="contact-timezone" label="Timezone">
-                  <select
-                    defaultValue=""
-                    id="contact-timezone"
-                    name="timeZone"
-                    required={isConsult}
-                  >
-                    {timeZoneOptions.map((option) => (
-                      <option key={option.value || "default"} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </RequiredField>
-              </>
-            ) : null}
+            <RequiredField id="contact-timezone" label="Timezone">
+              <select
+                defaultValue=""
+                id="contact-timezone"
+                name="timeZone"
+                required={isBooking}
+              >
+                {timeZoneOptions.map((option) => (
+                  <option key={option.value || "default"} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </RequiredField>
           </div>
         ) : null}
 

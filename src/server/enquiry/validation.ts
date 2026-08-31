@@ -1,10 +1,8 @@
 import {
   bookingTypes,
   enquiryTypes,
-  findAustralianState,
   findBookingType,
   findEnquiryType,
-  type AustralianStateOption,
   type BookingTypeOption,
 } from "../../data/enquiryContract.ts";
 import { getAustralianTimeZoneLabel } from "../../utils/timeZones.ts";
@@ -27,13 +25,13 @@ type ValidatedGeneralEnquiry = ValidatedEnquiryBase & {
 };
 
 type ValidatedAppointmentEnquiry = ValidatedEnquiryBase & {
+  availability: string;
   bookingType: typeof bookingTypes.appointment.value;
   bookingTypeLabel: typeof bookingTypes.appointment.label;
   enquiryType: typeof enquiryTypes.booking.value;
   enquiryTypeLabel: typeof enquiryTypes.booking.label;
-  state: AustralianStateOption["value"];
-  stateLabel: AustralianStateOption["label"];
-  timing: string;
+  timeZone: string;
+  timeZoneLabel: string;
 };
 
 type ValidatedConsultEnquiry = ValidatedEnquiryBase & {
@@ -139,8 +137,6 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
   const email = getRequiredTextField(enquiryPayload, "email", 320, issues, "Email");
   const message = getRequiredTextField(enquiryPayload, "message", 5000, issues, "Message");
   let bookingType: BookingTypeOption | undefined;
-  let timing = "";
-  let state: AustralianStateOption | undefined;
   let availability = "";
   let timeZone = "";
   let timeZoneLabel = "";
@@ -168,30 +164,7 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
       addIssue(issues, "bookingType", "invalid_value", "Choose a valid booking request.");
     }
 
-    if (bookingType?.value === bookingTypes.appointment.value) {
-      timing = getRequiredTextField(
-        enquiryPayload,
-        "timing",
-        500,
-        issues,
-        "Preferred timing",
-      );
-      const stateValue = getRequiredTextField(
-        enquiryPayload,
-        "state",
-        60,
-        issues,
-        "State or territory",
-      );
-
-      state = findAustralianState(stateValue);
-
-      if (stateValue && !state) {
-        addIssue(issues, "state", "invalid_value", "Choose a valid state or territory.");
-      }
-    }
-
-    if (bookingType?.value === bookingTypes.consult.value) {
+    if (bookingType) {
       availability = getRequiredTextField(
         enquiryPayload,
         "availability",
@@ -241,21 +214,16 @@ export function validateEnquiryPayload(payload: Record<string, unknown>): Valida
   }
 
   if (bookingType.value === bookingTypes.appointment.value) {
-    if (!state) {
-      addIssue(issues, "state", "required", "State or territory is required.");
-      return { issues, type: "invalid" };
-    }
-
     return {
       enquiry: {
         ...baseEnquiry,
+        availability,
         bookingType: bookingType.value,
         bookingTypeLabel: bookingType.label,
         enquiryType: enquiryType.value,
         enquiryTypeLabel: enquiryType.label,
-        state: state.value,
-        stateLabel: state.label,
-        timing,
+        timeZone,
+        timeZoneLabel,
       },
       type: "valid",
     };

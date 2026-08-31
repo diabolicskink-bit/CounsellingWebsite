@@ -95,11 +95,7 @@ function getEnquiryDetails(enquiry: ValidatedEnquiry) {
   rows.push(["Name", enquiry.name], ["Email", enquiry.email]);
 
   if (enquiry.enquiryType === enquiryTypes.booking.value) {
-    if (enquiry.bookingType === bookingTypes.appointment.value) {
-      rows.push(["Preferred timing", enquiry.timing], ["State or territory", enquiry.stateLabel]);
-    } else {
-      rows.push(["Availability", enquiry.availability], ["Timezone", enquiry.timeZoneLabel]);
-    }
+    rows.push(["Availability", enquiry.availability], ["Timezone", enquiry.timeZoneLabel]);
   }
 
   return rows;
@@ -180,22 +176,9 @@ function getEmailTheme(emailHeading: string): EmailTheme {
 }
 
 function getSummaryRows(enquiry: ValidatedEnquiry) {
-  if (
-    enquiry.enquiryType === enquiryTypes.booking.value &&
-    enquiry.bookingType === bookingTypes.appointment.value
-  ) {
+  if (enquiry.enquiryType === enquiryTypes.booking.value) {
     return [
-      ["Timing", enquiry.timing],
-      ["State", enquiry.stateLabel],
-    ] satisfies Array<[string, string]>;
-  }
-
-  if (
-    enquiry.enquiryType === enquiryTypes.booking.value &&
-    enquiry.bookingType === bookingTypes.consult.value
-  ) {
-    return [
-      ["Timing", enquiry.availability],
+      ["Availability", enquiry.availability],
       ["Timezone", enquiry.timeZoneLabel],
     ] satisfies Array<[string, string]>;
   }

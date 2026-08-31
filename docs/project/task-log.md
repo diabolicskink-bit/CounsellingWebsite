@@ -21,7 +21,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-08-31 - Enquiry Form Opens With Shared Details
 
 - Reordered the Contact form so name, email, and message are available immediately instead of being hidden behind an enquiry-path choice.
-- Moved the appointment, consult, and general-enquiry decision after the shared message and limited conditional disclosure to the scheduling questions required for appointment and consult requests.
+- Moved the appointment, consult, and general-enquiry decision after the shared message; appointment and consult requests now share the same availability and timezone questions.
 - Preserved the complete server-rendered form for visitors without JavaScript and kept the existing structured enquiry paths and submission handling.
 
 ## 2026-08-28 - Analytics Test Suite Simplified

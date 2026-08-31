@@ -113,69 +113,22 @@
   line-height: 0.98;
 }
 
-.contact-page__enquiry-options {
-  min-inline-size: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
+.contact-page__enquiry-path {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr);
 }
 
-.contact-page__enquiry-options-heading {
-  padding: 0;
-  color: var(--ink);
-  font-size: 1rem;
-  font-weight: 720;
-  line-height: 1.35;
-}
-
-.contact-page__enquiry-options-hint {
-  margin: 8px 0 14px;
-  color: var(--muted);
-  font-size: var(--type-small);
-  line-height: 1.5;
-}
-
-.contact-page__enquiry-option-list {
-  border-top: 1px solid var(--contact-page-rule);
-}
-
-.contact-page__enquiry-option {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 20px;
-  align-items: center;
-  min-height: 72px;
-  padding: 14px 12px;
-  border-bottom: 1px solid var(--contact-page-rule);
-  color: var(--ink);
-  cursor: pointer;
-  transition: background-color 160ms ease;
-}
-
-.contact-page__enquiry-option:hover {
-  background: var(--surface-muted);
-}
-
-.contact-page__enquiry-option:has(input:checked) {
-  background: var(--cedar-soft);
-}
-
-.contact-page__enquiry-option:focus-within {
-  outline: 3px solid rgba(35, 75, 61, 0.18);
-  outline-offset: -3px;
-}
-
-.contact-page__enquiry-option > strong {
-  min-width: 0;
-  font-size: clamp(1.04rem, 1.6vw, 1.22rem);
-  line-height: 1.3;
-}
-
-.contact-page__enquiry-option input {
-  width: 21px;
-  height: 21px;
-  margin: 0 2px 0 0;
-  accent-color: var(--cedar);
+.contact-page__enquiry-path::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 19px;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--cedar);
+  border-bottom: 2px solid var(--cedar);
+  pointer-events: none;
+  transform: translateY(-68%) rotate(45deg);
 }
 
 .contact-page__form-details {
@@ -245,6 +198,12 @@
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease;
+}
+
+.contact-page__enquiry-path select {
+  appearance: none;
+  padding-right: 3.25rem;
+  cursor: pointer;
 }
 
 .contact-page__form-field textarea {
@@ -640,20 +599,6 @@
     font-size: clamp(2.35rem, 10.5vw, 3rem);
   }
 
-  .contact-page__enquiry-options {
-    padding: 0;
-  }
-
-  .contact-page__enquiry-option {
-    gap: 12px;
-    min-height: 68px;
-    padding: 12px 8px;
-  }
-
-  .contact-page__enquiry-option > strong {
-    font-size: 1rem;
-  }
-
   .contact-page__form-details {
     gap: 26px;
     padding: 28px 20px 32px;
@@ -732,18 +677,10 @@
   .contact-page__fee-list span {
     font-size: 0.8rem;
   }
-
-  .contact-page__enquiry-option {
-    gap: 10px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .contact-page__form-fields--conditional {
     animation: none;
-  }
-
-  .contact-page__enquiry-option {
-    transition: none;
   }
 }
