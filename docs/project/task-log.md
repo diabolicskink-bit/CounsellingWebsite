@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-31 - Private Analytics Split Into Report Pages
+
+- Replaced the single analytics page module with explicit lazy-loaded Daily, Pages, Enquiries, Keywords, and Excluded report pages behind one small owner-only shell.
+- Centralized report loading, date controls, formatting, visit details, and visitor history while keeping each report's URL-backed state and workflow within its route.
+- Added exhaustive runtime validation for every protected analytics report response shape and focused contract and keyword-sort coverage.
+
 ## 2026-08-28 - Analytics Test Suite Simplified
 
 - Separated private analytics browser checks from the public-site Playwright suite and made the analytics QA runner select its blocked-host and enabled-host scenarios explicitly.

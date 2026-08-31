@@ -180,7 +180,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - The protected Basic-auth boundary limits who can request reports but does not bound the amount of data a valid request can serialize.
-- `Links`: `api/analytics.ts`, `src/server/reporting/request.ts`, `src/server/reporting/reader.ts`, `src/data/analyticsContract.ts`, `src/pages/Analytics.tsx`
+- `Links`: `api/analytics.ts`, `src/server/reporting/request.ts`, `src/server/reporting/reader.ts`, `src/data/analyticsContract.ts`, `src/pages/analytics/useAnalyticsReport.ts`, `src/pages/analytics/DailyAnalyticsPage.tsx`, `src/pages/analytics/EnquiriesAnalyticsPage.tsx`, `src/pages/analytics/ExcludedVisitorsPage.tsx`
 
 ### DEBT-41 - Private analytics presentation still depends on public styling
 
@@ -204,7 +204,7 @@ Each active item should include enough direction that a future session can choos
   - The repository-wide analytics instructions define the required direction now; this tracker item records the existing implementation gap and does not authorize the refactor by itself.
   - Keep the eventual solution proportionate to a single-owner internal tool. Do not introduce a generalized dashboard design system or multi-user administration architecture to resolve the CSS boundary.
   - Database-backed verification remains a Preview-and-owner workflow because no local analytics database is configured.
-- `Links`: `src/main.tsx`, `src/App.tsx`, `src/pages/Analytics.tsx`, `src/styles-analytics.css`
+- `Links`: `src/main.tsx`, `src/App.tsx`, `src/pages/analytics/AnalyticsShell.tsx`, `src/styles-analytics.css`
 
 ### DEBT-9 - Type checking does not cover tests, scripts, or most config code
 
