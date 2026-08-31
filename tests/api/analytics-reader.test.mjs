@@ -23,6 +23,7 @@ function createVisitRow(overrides = {}) {
     botCategory: "search engine",
     botName: "googlebot",
     dateKey: "2026-08-15",
+    deviceType: "desktop",
     durationSeconds: "305",
     events: [
       {
@@ -46,6 +47,7 @@ function createVisitRow(overrides = {}) {
     id: "1a560836-220d-4d33-a05e-5f364891f9cb",
     isBot: true,
     isExcluded: false,
+    isWebDriver: true,
     landingPath: "/polyamory-enm-counselling",
     lastSeenAt: "2026-08-15T03:05:00.000Z",
     matchType: "p",
@@ -70,6 +72,7 @@ function createVisitRow(overrides = {}) {
     startedAt: "2026-08-15T03:00:00.000Z",
     trafficSource: "paid",
     totalVisits: "3",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/145.0.0.0",
     visitNumber: "2",
     visitorId: "114ba8f9-96f8-41e1-a301-15112400759e",
     ...overrides,
@@ -103,12 +106,42 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
   assert.deepEqual(calls[0].parameters, ["2026-08-15"]);
   assert.equal(result.type, "daily");
   assert.equal(result.date, "2026-08-15");
-  assert.equal(result.visits[0].visitNumber, 2);
-  assert.equal(result.visits[0].totalVisits, 3);
-  assert.equal(result.visits[0].durationSeconds, 305);
-  assert.equal(result.visits[0].isBot, true);
-  assert.equal(result.visits[0].botName, "googlebot");
-  assert.equal(result.visits[0].botCategory, "search engine");
+  assert.deepEqual(
+    {
+      adCode: result.visits[0].adCode,
+      botCategory: result.visits[0].botCategory,
+      botName: result.visits[0].botName,
+      deviceType: result.visits[0].deviceType,
+      durationSeconds: result.visits[0].durationSeconds,
+      gclid: result.visits[0].gclid,
+      isBot: result.visits[0].isBot,
+      isWebDriver: result.visits[0].isWebDriver,
+      matchType: result.visits[0].matchType,
+      matchedKeyword: result.visits[0].matchedKeyword,
+      networkCode: result.visits[0].networkCode,
+      referrerUrl: result.visits[0].referrerUrl,
+      totalVisits: result.visits[0].totalVisits,
+      userAgent: result.visits[0].userAgent,
+      visitNumber: result.visits[0].visitNumber,
+    },
+    {
+      adCode: "enm",
+      botCategory: "search engine",
+      botName: "googlebot",
+      deviceType: "desktop",
+      durationSeconds: 305,
+      gclid: "CjwK-test",
+      isBot: true,
+      isWebDriver: true,
+      matchType: "p",
+      matchedKeyword: "polyamory therapy",
+      networkCode: "g",
+      referrerUrl: "https://www.google.com/",
+      totalVisits: 3,
+      userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/145.0.0.0",
+      visitNumber: 2,
+    },
+  );
   assert.deepEqual(result.visits[0].events, [
     {
       eventType: "contact_option_selected",
@@ -127,13 +160,27 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
       source: "server",
     },
   ]);
-  assert.deepEqual(
-    result.visits[0].pageViews.map((pageView) => pageView.path),
-    ["/polyamory-enm-counselling", "/contact"],
-  );
+  assert.deepEqual(result.visits[0].pageViews, [
+    {
+      activeSeconds: 90,
+      id: "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf",
+      path: "/polyamory-enm-counselling",
+      viewedAt: "2026-08-15T03:00:00.000Z",
+    },
+    {
+      activeSeconds: 35,
+      id: "e6bb1f87-203f-4ea8-812b-97d80b2d5e98",
+      path: "/contact",
+      viewedAt: "2026-08-15T03:05:00.000Z",
+    },
+  ]);
   assert.match(calls[0].query, /Australia\/Perth/);
   assert.match(calls[0].query, /ORDER BY ledger\.started_at DESC/);
   assert.match(calls[0].query, /visitor_visits\.visitor_id = ledger\.visitor_id/);
+  assert.match(calls[0].query, /visit_record\.id = ledger\.visit_id/);
+  assert.match(calls[0].query, /visit_record\.user_agent AS "userAgent"/);
+  assert.match(calls[0].query, /visit_record\.device_type AS "deviceType"/);
+  assert.match(calls[0].query, /visit_record\.is_webdriver AS "isWebDriver"/);
   assert.match(
     calls[0].query,
     /ORDER BY visit_events\.occurred_at, visit_events\.id/,
@@ -171,6 +218,7 @@ test("reads complete retained history for one anonymous browser", async () => {
   });
   assert.equal(result.visits.length, 2);
   assert.match(calls[0].query, /analytics_excluded_visitors/);
+  assert.doesNotMatch(calls[0].query, /AND NOT EXISTS\s*\(/);
   assert.deepEqual(result.visits[1].events, []);
   assert.deepEqual(result.visits[1].pageViews, []);
 });
@@ -339,7 +387,31 @@ test("keeps paid visits without keyword tags visible in keyword coverage totals"
   });
 });
 
-test("normalizes serialized event collections and rejects unsafe event shapes", async () => {
+test("returns a complete empty page-view report", async () => {
+  const { database } = createDatabase([]);
+
+  const result = await readAnalytics(
+    {
+      endDate: "2026-08-15",
+      includeBots: false,
+      startDate: "2026-08-15",
+      type: "pageViews",
+    },
+    database,
+  );
+
+  assert.deepEqual(result, {
+    endDate: "2026-08-15",
+    routes: [],
+    startDate: "2026-08-15",
+    totalActiveSeconds: 0,
+    totalPageViews: 0,
+    totalVisits: 0,
+    type: "pageViews",
+  });
+});
+
+test("normalizes serialized event collections", async () => {
   const { database } = createDatabase([
     createVisitRow({
       events: JSON.stringify([
@@ -363,7 +435,9 @@ test("normalizes serialized event collections and rejects unsafe event shapes", 
   assert.deepEqual(result.visits[0].events[0].properties, {
     reason: "email_provider",
   });
+});
 
+test("rejects unsafe stored event shapes", async () => {
   const invalidSource = createDatabase([
     createVisitRow({
       events: [{

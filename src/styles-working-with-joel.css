@@ -298,12 +298,26 @@
 }
 
 .working-with-joel-page .site-broad-tabs__tab,
+.working-with-joel-page .site-broad-tabs__fallback-title,
 .working-with-joel-page .working-topics__item-title {
   font-family: var(--font-serif);
   font-size: var(--working-subheading);
   font-weight: var(--working-heading-weight);
   letter-spacing: 0;
   line-height: var(--working-subheading-leading);
+}
+
+.working-with-joel-page .site-broad-tabs[data-enhanced="false"] .site-broad-tabs__panels {
+  gap: 0;
+}
+
+.working-with-joel-page .site-broad-tabs[data-enhanced="false"] .site-broad-tabs__content +
+  .site-broad-tabs__content {
+  border-top: 1px solid var(--section-rule);
+}
+
+.working-with-joel-page .site-broad-tabs__fallback-title {
+  color: var(--section-dark);
 }
 
 .working-with-joel-page .site-broad-tabs__tab {

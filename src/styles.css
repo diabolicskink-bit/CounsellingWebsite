@@ -122,8 +122,8 @@ h3 {
   /* CSS-1.2.1.7
      Used: Yes.
      Consumers: BroadTabPanel on Working with Joel.
-     Maintenance: Review the generic panel contract against its single route consumer,
-     whose page stylesheet replaces much of the base surface and responsive treatment. */
+     Maintenance: Revisit ownership only in explicit shared-system or cleanup scope;
+     the single route consumer deliberately owns its visual composition. */
   .site-broad-tabs__content,
   .site-broad-tabs__content p,
   /* CSS-1.2.1.10
@@ -745,6 +745,22 @@ h3 {
   background: rgba(238, 242, 236, 0.78);
 }
 
+.site-broad-tabs .site-broad-tabs__tabs[hidden],
+.site-broad-tabs .site-broad-tabs__content[hidden],
+.site-broad-tabs .site-broad-tabs__fallback-title[hidden] {
+  display: none;
+}
+
+.site-broad-tabs__panels {
+  min-width: 0;
+}
+
+.site-broad-tabs[data-enhanced="false"] .site-broad-tabs__panels {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 18px;
+}
+
 .site-broad-tabs__tab {
   position: relative;
   display: flex;
@@ -811,6 +827,11 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 0 10px 10px 10px;
   background: var(--surface-strong);
+}
+
+.site-broad-tabs__fallback-title {
+  margin: 0;
+  color: var(--cedar-dark);
 }
 
 .site-broad-tabs__content p {

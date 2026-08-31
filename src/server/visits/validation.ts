@@ -103,6 +103,25 @@ function getOptionalText(
   return normalizedValue;
 }
 
+function getOptionalBoolean(
+  payload: Record<string, unknown>,
+  field: string,
+  issues: ValidationIssue[],
+) {
+  const value = payload[field];
+
+  if (typeof value === "undefined" || value === null) {
+    return null;
+  }
+
+  if (typeof value !== "boolean") {
+    addIssue(issues, field, "invalid_type");
+    return null;
+  }
+
+  return value;
+}
+
 function getReferrer(payload: Record<string, unknown>, issues: ValidationIssue[]) {
   const value = payload.referrerUrl;
 
@@ -157,6 +176,7 @@ export function validateVisitPayload(payload: Record<string, unknown>): VisitVal
   const networkCode = getOptionalText(payload, "networkCode", 32, issues);
   const matchedKeyword = getOptionalText(payload, "matchedKeyword", 1024, issues);
   const matchType = getOptionalText(payload, "matchType", 32, issues);
+  const isWebDriver = getOptionalBoolean(payload, "isWebDriver", issues);
 
   if (issues.length) {
     return { issues, type: "invalid" };
@@ -166,6 +186,7 @@ export function validateVisitPayload(payload: Record<string, unknown>): VisitVal
     observation: {
       adCode,
       gclid,
+      isWebDriver,
       landingPath,
       matchType,
       matchedKeyword,

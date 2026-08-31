@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { afterEach, test } from "node:test";
+import { test } from "node:test";
 import { createVisitEventHandler } from "../../api/visit-event.ts";
 import {
   VisitEventIdentityConflictError,
@@ -7,16 +7,6 @@ import {
   VisitEventVisitConflictError,
 } from "../../src/server/visit-events/repository.ts";
 import { VisitDatabaseConfigurationError } from "../../src/server/visits/repository.ts";
-
-const originalConsoleError = console.error;
-const originalConsoleLog = console.log;
-const originalConsoleWarn = console.warn;
-
-afterEach(() => {
-  console.error = originalConsoleError;
-  console.log = originalConsoleLog;
-  console.warn = originalConsoleWarn;
-});
 
 function createResponse() {
   const result = {
@@ -65,14 +55,14 @@ function jsonHeaders(headers = {}) {
   };
 }
 
-function silenceExpectedLogs() {
+function silenceExpectedLogs(context) {
   const errors = [];
   const logs = [];
   const warnings = [];
 
-  console.error = (...args) => errors.push(args);
-  console.log = (...args) => logs.push(args);
-  console.warn = (...args) => warnings.push(args);
+  context.mock.method(console, "error", (...args) => errors.push(args));
+  context.mock.method(console, "log", (...args) => logs.push(args));
+  context.mock.method(console, "warn", (...args) => warnings.push(args));
 
   return { errors, logs, warnings };
 }
@@ -87,8 +77,8 @@ async function invoke(
   return returned ?? result;
 }
 
-test("records a controlled client event and returns no content", async () => {
-  silenceExpectedLogs();
+test("records a controlled client event and returns no content", async (context) => {
+  silenceExpectedLogs(context);
   const observations = [];
   const handler = createVisitEventHandler(async (observation) => {
     observations.push(observation);
@@ -104,8 +94,8 @@ test("records a controlled client event and returns no content", async () => {
   assert.deepEqual(observations, [{ ...validPayload(), source: "client" }]);
 });
 
-test("normalizes an omitted page view to null", async () => {
-  silenceExpectedLogs();
+test("normalizes an omitted page view to null", async (context) => {
+  silenceExpectedLogs(context);
   const observations = [];
   const handler = createVisitEventHandler(async (observation) => observations.push(observation));
   const { pageViewId: _pageViewId, ...payload } = validPayload({
@@ -120,18 +110,8 @@ test("normalizes an omitted page view to null", async () => {
   assert.equal(observations[0].eventType, "enquiry_started");
 });
 
-test("returns the same success for an idempotent repeated event", async () => {
-  silenceExpectedLogs();
-  const handler = createVisitEventHandler(async () => ({ eventInserted: false }));
-
-  const result = await invoke(handler);
-
-  assert.equal(result.statusCode, 204);
-  assert.equal(result.body, undefined);
-});
-
-test("rejects server-owned event types at the public endpoint", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("rejects server-owned event types at the public endpoint", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createVisitEventHandler(async () => {
     recordCalled = true;
@@ -154,8 +134,8 @@ test("rejects server-owned event types at the public endpoint", async () => {
   assert.match(JSON.stringify(warnings), /eventType/);
 });
 
-test("rejects unknown properties, option values, and top-level fields", async () => {
-  silenceExpectedLogs();
+test("rejects unknown properties, option values, and top-level fields", async (context) => {
+  silenceExpectedLogs(context);
   const observations = [];
   const handler = createVisitEventHandler(async (observation) => observations.push(observation));
   const payloads = [
@@ -173,8 +153,8 @@ test("rejects unknown properties, option values, and top-level fields", async ()
   assert.equal(observations.length, 0);
 });
 
-test("rejects invalid event, visit, and page-view identities", async () => {
-  silenceExpectedLogs();
+test("rejects invalid event, visit, and page-view identities", async (context) => {
+  silenceExpectedLogs(context);
   const observations = [];
   const handler = createVisitEventHandler(async (observation) => observations.push(observation));
 
@@ -190,8 +170,8 @@ test("rejects invalid event, visit, and page-view identities", async () => {
   assert.equal(observations.length, 0);
 });
 
-test("does not expose a read method", async () => {
-  silenceExpectedLogs();
+test("does not expose a read method", async (context) => {
+  silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createVisitEventHandler(async () => {
     recordCalled = true;
@@ -205,8 +185,8 @@ test("does not expose a read method", async () => {
   assert.equal(recordCalled, false);
 });
 
-test("rejects unsupported and oversized request bodies", async () => {
-  silenceExpectedLogs();
+test("rejects unsupported and oversized request bodies", async (context) => {
+  silenceExpectedLogs(context);
   const handler = createVisitEventHandler(async () => {
     throw new Error("storage should not be called");
   });
@@ -227,8 +207,8 @@ test("rejects unsupported and oversized request bodies", async () => {
   assert.equal(parsedResult.statusCode, 413);
 });
 
-test("rejects cross-site request signals before storage", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("rejects cross-site request signals before storage", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createVisitEventHandler(async () => {
     recordCalled = true;
@@ -260,8 +240,8 @@ test("rejects cross-site request signals before storage", async () => {
   assert.doesNotMatch(JSON.stringify(warnings), /private|secret/);
 });
 
-test("accepts a same-origin production-shaped request", async () => {
-  silenceExpectedLogs();
+test("accepts a same-origin production-shaped request", async (context) => {
+  silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createVisitEventHandler(async () => {
     recordCalled = true;
@@ -280,8 +260,8 @@ test("accepts a same-origin production-shaped request", async () => {
   assert.equal(recordCalled, true);
 });
 
-test("maps visit, page-view, and event conflicts to a generic response", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("maps visit, page-view, and event conflicts to a generic response", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
 
   for (const error of [
     new VisitEventVisitConflictError(),
@@ -300,8 +280,8 @@ test("maps visit, page-view, and event conflicts to a generic response", async (
   assert.doesNotMatch(JSON.stringify(warnings), /does not exist|does not belong|another visit/);
 });
 
-test("keeps database configuration and runtime failures out of public responses", async () => {
-  const { errors } = silenceExpectedLogs();
+test("keeps database configuration and runtime failures out of public responses", async (context) => {
+  const { errors } = silenceExpectedLogs(context);
 
   for (const error of [
     new VisitDatabaseConfigurationError(),

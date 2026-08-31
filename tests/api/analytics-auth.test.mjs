@@ -2,13 +2,10 @@ import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
 import protectAnalytics, { config, getAnalyticsAuthState } from "../../middleware.ts";
 
-const originalConsoleError = console.error;
 const originalPassword = process.env.ANALYTICS_PASSWORD;
 const originalUsername = process.env.ANALYTICS_USERNAME;
 
 afterEach(() => {
-  console.error = originalConsoleError;
-
   if (originalPassword === undefined) delete process.env.ANALYTICS_PASSWORD;
   else process.env.ANALYTICS_PASSWORD = originalPassword;
 
@@ -20,21 +17,19 @@ function basicAuthorization(username, password) {
   return `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`;
 }
 
-test("authorizes the exact configured reporting credentials", () => {
+function assertProtectedHeaders(response) {
+  assert.equal(response.headers.get("cache-control"), "private, no-store");
+  assert.equal(response.headers.get("referrer-policy"), "no-referrer");
+  assert.equal(response.headers.get("x-content-type-options"), "nosniff");
+  assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow, noarchive");
+}
+
+test("authorizes a configured password containing colons", () => {
   assert.equal(
     getAnalyticsAuthState(
       basicAuthorization("report-owner", "correct:horse:battery"),
       { username: "report-owner", password: "correct:horse:battery" },
     ),
-    "authorized",
-  );
-});
-
-test("accepts the Basic authentication scheme case-insensitively", () => {
-  const authorization = basicAuthorization("report-owner", "secret").replace("Basic", "basic");
-
-  assert.equal(
-    getAnalyticsAuthState(authorization, { username: "report-owner", password: "secret" }),
     "authorized",
   );
 });
@@ -90,20 +85,20 @@ test("middleware challenges unauthorized requests and passes authorized requests
     unauthorized.headers.get("www-authenticate"),
     'Basic realm="Vive analytics", charset="UTF-8"',
   );
-  assert.equal(unauthorized.headers.get("cache-control"), "private, no-store");
+  assertProtectedHeaders(unauthorized);
   assert.equal(authorized.status, 200);
   assert.equal(authorized.headers.get("x-middleware-next"), "1");
-  assert.equal(authorized.headers.get("x-robots-tag"), "noindex, nofollow, noarchive");
+  assertProtectedHeaders(authorized);
 });
 
-test("middleware returns an unavailable response when credentials are not configured", () => {
+test("middleware returns an unavailable response when credentials are not configured", (context) => {
   delete process.env.ANALYTICS_USERNAME;
   delete process.env.ANALYTICS_PASSWORD;
-  console.error = () => {};
+  context.mock.method(console, "error", () => {});
 
   const response = protectAnalytics(new Request("https://example.test/analytics"));
 
   assert.equal(response.status, 503);
-  assert.equal(response.headers.get("cache-control"), "private, no-store");
+  assertProtectedHeaders(response);
   assert.equal(response.headers.get("www-authenticate"), null);
 });

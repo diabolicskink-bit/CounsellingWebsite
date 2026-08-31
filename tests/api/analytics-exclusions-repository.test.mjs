@@ -41,7 +41,7 @@ test("reads excluded visitor summaries newest first", async () => {
   assert.match(listExcludedVisitorsSql, /ORDER BY exclusions\.excluded_at DESC/i);
 });
 
-test("sets and removes a visitor exclusion idempotently", async () => {
+test("maps set and remove results through idempotent SQL operations", async () => {
   const calls = [];
   const database = {
     async query(query, parameters) {

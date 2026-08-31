@@ -25,8 +25,10 @@ function createObservation(overrides = {}) {
     adCode: "enm",
     botCategory: null,
     botName: null,
+    deviceType: "desktop",
     gclid: "CjwK-test-click",
     isBot: false,
+    isWebDriver: false,
     landingPath: "/polyamory-enm-counselling",
     matchType: "p",
     matchedKeyword: "polyamory therapy",
@@ -37,6 +39,7 @@ function createObservation(overrides = {}) {
     referrerUrl: "https://www.google.com/search?q=private-test-value",
     visitId: "1a560836-220d-4d33-a05e-5f364891f9cb",
     visitorId: "114ba8f9-96f8-41e1-a301-15112400759e",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/145.0.0.0",
     ...overrides,
   };
 }
@@ -64,7 +67,7 @@ test("does not initialize Neon until database access is requested", () => {
   assert.throws(() => getVisitDatabase(), VisitDatabaseConfigurationError);
 });
 
-test("records a visit observation through one parameterized statement", async () => {
+test("maps a visit observation to one parameterized statement", async () => {
   const observation = createObservation();
   const { calls, database } = createDatabase({
     pageViewInserted: true,
@@ -94,8 +97,19 @@ test("records a visit observation through one parameterized statement", async ()
     observation.isBot,
     observation.botName,
     observation.botCategory,
+    observation.userAgent,
+    observation.deviceType,
+    observation.isWebDriver,
   ]);
   assert.doesNotMatch(calls[0].query, /private-test-value|polyamory therapy|CjwK-test-click/);
+});
+
+test("keeps client-environment fields immutable after the visit insert", () => {
+  for (const column of ["user_agent", "device_type", "is_webdriver"]) {
+    const occurrences = recordVisitObservationSql.match(new RegExp(`\\b${column}\\b`, "g"));
+
+    assert.equal(occurrences?.length, 1, `${column} must appear only in the insert`);
+  }
 });
 
 test("treats a repeated matching page-view ID as an idempotent observation", async () => {

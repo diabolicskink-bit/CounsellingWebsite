@@ -25,7 +25,7 @@ Public pages consume parts of this family and layer page-specific composition on
 ## Navigation, Footer, And Broad-Tab Families
 
 - `.site-header*`, navigation classes, and `.site-footer*` support the current `Layout` shell.
-- `.site-broad-tabs*` supports `BroadTabPanel` on Working with Joel.
+- `.site-broad-tabs*` supports `BroadTabPanel` on Working with Joel, including its initial all-panel reading layout and hydrated tab presentation.
 
 These functional surfaces require focused source and behaviour review before promotion or cleanup.
 
@@ -35,4 +35,4 @@ The second source-level selector review batch covers `.site-shell`, `.container`
 
 Contact owns the current enquiry form through `Contact.tsx` and `src/styles-contact.css`; there is no promoted form component or shared form pattern. Other page-prefixed selectors remain owned by their pages unless an authorized task promotes a repeated semantic contract.
 
-Last consolidated from current source: 2026-08-14 — redundant inherited copy and panel wrappers removed in source-first cleanup.
+Last consolidated from current source: 2026-08-19 — BroadTabPanel progressive-enhancement behaviour verified during focused component review.

@@ -213,14 +213,16 @@ function EnquirySuccess() {
   );
 }
 
-function EnquiryForm() {
+function EnquiryForm({ initialRenderAt }: ContactPageProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const enquiryStartTrackedRef = useRef(false);
   const [selectedPath, setSelectedPath] = useState<EnquiryPath | "">("");
   const [hasHydrated, setHasHydrated] = useState(false);
   const [hasRestoredDetails, setHasRestoredDetails] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
-  const timeZoneOptions = getActiveAustralianTimeZoneOptions();
+  const timeZoneOptions = getActiveAustralianTimeZoneOptions(
+    hasHydrated ? new Date() : new Date(initialRenderAt),
+  );
 
   useEffect(() => {
     const formElement = formRef.current;
@@ -528,7 +530,7 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
             </p>
           </aside>
 
-          <EnquiryForm />
+          <EnquiryForm initialRenderAt={initialRenderAt} />
         </Container>
       </section>
 

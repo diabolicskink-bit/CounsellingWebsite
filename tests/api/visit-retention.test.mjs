@@ -1,17 +1,7 @@
 import assert from "node:assert/strict";
-import { afterEach, test } from "node:test";
+import { test } from "node:test";
 import { createVisitRetentionHandler } from "../../api/visit-retention.ts";
 import { VisitDatabaseConfigurationError } from "../../src/server/visits/repository.ts";
-
-const originalConsoleError = console.error;
-const originalConsoleInfo = console.info;
-const originalConsoleWarn = console.warn;
-
-afterEach(() => {
-  console.error = originalConsoleError;
-  console.info = originalConsoleInfo;
-  console.warn = originalConsoleWarn;
-});
 
 function createResponse() {
   const result = {
@@ -39,14 +29,14 @@ function createResponse() {
   return { response, result };
 }
 
-function silenceExpectedLogs() {
+function silenceExpectedLogs(context) {
   const errors = [];
   const infos = [];
   const warnings = [];
 
-  console.error = (...args) => errors.push(args.map(String).join(" "));
-  console.info = (...args) => infos.push(args);
-  console.warn = (...args) => warnings.push(args.map(String).join(" "));
+  context.mock.method(console, "error", (...args) => errors.push(args));
+  context.mock.method(console, "info", (...args) => infos.push(args));
+  context.mock.method(console, "warn", (...args) => warnings.push(args));
 
   return { errors, infos, warnings };
 }
@@ -59,8 +49,8 @@ async function invoke(handler, { authorization, method = "GET" } = {}) {
   return returned ?? result;
 }
 
-test("runs an authorized retention cleanup and returns counts only", async () => {
-  const { infos } = silenceExpectedLogs();
+test("runs an authorized retention cleanup and returns counts only", async (context) => {
+  const { infos } = silenceExpectedLogs(context);
   let cleanupCalls = 0;
   const handler = createVisitRetentionHandler(
     async () => {
@@ -86,8 +76,8 @@ test("runs an authorized retention cleanup and returns counts only", async () =>
   assert.equal(infos.length, 1);
 });
 
-test("rejects missing and incorrect cron authorization before cleanup", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("rejects missing and incorrect cron authorization before cleanup", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   let cleanupCalls = 0;
   const handler = createVisitRetentionHandler(
     async () => {
@@ -106,8 +96,8 @@ test("rejects missing and incorrect cron authorization before cleanup", async ()
   assert.equal(warnings.length, 2);
 });
 
-test("fails closed when cron or database configuration is missing", async () => {
-  const { errors } = silenceExpectedLogs();
+test("fails closed when cron or database configuration is missing", async (context) => {
+  const { errors } = silenceExpectedLogs(context);
   let cleanupCalls = 0;
   const missingSecretHandler = createVisitRetentionHandler(
     async () => {
@@ -134,8 +124,8 @@ test("fails closed when cron or database configuration is missing", async () => 
   assert.equal(errors.length, 2);
 });
 
-test("rejects non-GET requests", async () => {
-  silenceExpectedLogs();
+test("rejects non-GET requests", async (context) => {
+  silenceExpectedLogs(context);
   let cleanupCalls = 0;
   const handler = createVisitRetentionHandler(
     async () => {
@@ -155,8 +145,8 @@ test("rejects non-GET requests", async () => {
   assert.equal(cleanupCalls, 0);
 });
 
-test("keeps cleanup runtime details out of public failures", async () => {
-  const { errors } = silenceExpectedLogs();
+test("keeps cleanup runtime details out of public failures", async (context) => {
+  const { errors } = silenceExpectedLogs(context);
   const handler = createVisitRetentionHandler(
     async () => {
       throw new Error("postgres://user:password@private-host/database");

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { afterEach, test } from "node:test";
+import { test } from "node:test";
 import { createAnalyticsExclusionsHandler } from "../../api/analytics/exclusions.ts";
 import {
   AnalyticsDataUnavailableError,
@@ -8,12 +8,7 @@ import {
   UnknownAnalyticsVisitorError,
 } from "../../src/server/reporting/exclusions.ts";
 
-const originalConsoleError = console.error;
 const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
-
-afterEach(() => {
-  console.error = originalConsoleError;
-});
 
 function createResponse() {
   const result = { body: undefined, headers: {}, statusCode: 200 };
@@ -83,7 +78,53 @@ test("sets and removes exclusions with the exact JSON contract", async () => {
   assert.deepEqual(restored.body, { data: { isExcluded: false, visitorId } });
 });
 
-test("rejects malformed, unsupported, oversized, and unknown updates", async () => {
+test("rejects invalid updates before changing exclusion state", async () => {
+  let updateCalls = 0;
+  const handler = createAnalyticsExclusionsHandler(
+    async () => ({ type: "excluded", visitors: [] }),
+    async () => {
+      updateCalls += 1;
+      return { isExcluded: true, visitorId };
+    },
+  );
+  const cases = [
+    {
+      expectedStatus: 415,
+      request: { body: {}, headers: { "content-type": "text/plain" }, method: "PUT" },
+    },
+    {
+      expectedStatus: 413,
+      request: {
+        body: { excluded: true, visitorId },
+        headers: { "content-length": "2048", "content-type": "application/json" },
+        method: "PUT",
+      },
+    },
+    {
+      expectedStatus: 400,
+      request: {
+        body: { excluded: true, extra: true, visitorId },
+        headers: { "content-type": "application/json" },
+        method: "PUT",
+      },
+    },
+    { expectedStatus: 400, request: { method: "GET", query: { limit: "1" } } },
+    { expectedStatus: 405, request: { method: "DELETE" } },
+  ];
+
+  for (const { expectedStatus, request } of cases) {
+    const result = await invoke(handler, request);
+    assert.equal(result.statusCode, expectedStatus);
+
+    if (expectedStatus === 405) {
+      assert.equal(result.headers.allow, "GET, PUT");
+    }
+  }
+
+  assert.equal(updateCalls, 0);
+});
+
+test("returns not found when an exclusion targets an unknown visitor", async () => {
   let updateCalls = 0;
   const handler = createAnalyticsExclusionsHandler(
     async () => ({ type: "excluded", visitors: [] }),
@@ -92,53 +133,23 @@ test("rejects malformed, unsupported, oversized, and unknown updates", async () 
       throw new UnknownAnalyticsVisitorError();
     },
   );
-  const invalid = await invoke(handler, {
-    body: { excluded: true, extra: true, visitorId },
-    headers: { "content-type": "application/json" },
-    method: "PUT",
-  });
-  const unsupported = await invoke(handler, {
-    body: "visitor",
-    headers: { "content-type": "text/plain" },
-    method: "PUT",
-  });
-  const oversized = await invoke(handler, {
-    body: { excluded: true, visitorId },
-    headers: { "content-length": "2048", "content-type": "application/json" },
-    method: "PUT",
-  });
   const unknown = await invoke(handler, {
     body: { excluded: true, visitorId },
     headers: { "content-type": "application/json" },
     method: "PUT",
   });
 
-  assert.equal(invalid.statusCode, 400);
-  assert.equal(unsupported.statusCode, 415);
-  assert.equal(oversized.statusCode, 413);
   assert.equal(unknown.statusCode, 404);
   assert.equal(updateCalls, 1);
 });
 
-test("rejects query parameters and unsupported methods before storage", async () => {
-  let calls = 0;
-  const handler = createAnalyticsExclusionsHandler(
-    async () => { calls += 1; return { type: "excluded", visitors: [] }; },
-    async () => { calls += 1; return { isExcluded: true, visitorId }; },
-  );
-
-  const query = await invoke(handler, { method: "GET", query: { limit: "1" } });
-  const method = await invoke(handler, { method: "DELETE", query: {} });
-
-  assert.equal(query.statusCode, 400);
-  assert.equal(method.statusCode, 405);
-  assert.equal(method.headers.allow, "GET, PUT");
-  assert.equal(calls, 0);
-});
-
-test("keeps database failures generic", async () => {
+test("keeps database failures generic", async (context) => {
   const errors = [];
-  console.error = (...args) => errors.push(args.map(String).join(" "));
+  context.mock.method(
+    console,
+    "error",
+    (...args) => errors.push(args.map(String).join(" ")),
+  );
   const unavailable = createAnalyticsExclusionsHandler(
     async () => { throw new AnalyticsDataUnavailableError(); },
     async () => ({ isExcluded: true, visitorId }),
@@ -152,6 +163,7 @@ test("keeps database failures generic", async () => {
   const failedResult = await invoke(failed, { method: "GET" });
 
   assert.equal(unavailableResult.statusCode, 503);
+  assert.deepEqual(unavailableResult.body, { error: "Analytics exclusions are unavailable." });
   assert.equal(failedResult.statusCode, 500);
   assert.deepEqual(failedResult.body, { error: "Analytics exclusions are unavailable." });
   assert.doesNotMatch(JSON.stringify(errors), /password|private-host/);

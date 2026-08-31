@@ -8,6 +8,11 @@ export type RouteMetadata = {
   robots?: string;
 };
 
+export type NotFoundMetadata = Pick<RouteMetadata, "description" | "title"> & {
+  heading: string;
+  robots: string;
+};
+
 export type SiteMetadata = {
   name: string;
   defaultOrigin: string;
@@ -94,6 +99,7 @@ export const siteMetadata = {
     })),
   },
 } satisfies SiteMetadata;
+export const notFoundMetadata = metadata.notFound satisfies NotFoundMetadata;
 export const routeMetadata = metadata.routes satisfies Record<string, RouteMetadata>;
 
 export function getRouteMetadata<Path extends PublicRoutePath>(path: Path): (typeof routeMetadata)[Path] {

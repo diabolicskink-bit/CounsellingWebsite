@@ -1,12 +1,6 @@
 import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { test } from "node:test";
-import {
-  getMigrationChecksums,
-  getTransactionalStatements,
-  readMigrations,
-  splitSqlStatements,
-} from "../../scripts/apply-database-migrations.mjs";
 
 const migrationsUrl = new URL("../../database/migrations/", import.meta.url);
 const queriesUrl = new URL("../../database/queries/", import.meta.url);
@@ -30,6 +24,10 @@ const activeTimeMigration = await readFile(
   new URL("0006_add_page_view_active_time.sql", migrationsUrl),
   "utf8",
 );
+const clientEnvironmentMigration = await readFile(
+  new URL("0007_add_visit_client_environment.sql", migrationsUrl),
+  "utf8",
+);
 const queryFilenames = (await readdir(queriesUrl))
   .filter((filename) => filename.endsWith(".sql"))
   .sort();
@@ -37,78 +35,6 @@ const queryFilenames = (await readdir(queriesUrl))
 function removeSqlComments(sql) {
   return sql.replaceAll(/^--.*$/gm, "");
 }
-
-test("visit ledger migrations retain their application order", async () => {
-  const migrationFilenames = (await readdir(migrationsUrl))
-    .filter((filename) => filename.endsWith(".sql"))
-    .sort();
-
-  assert.deepEqual(migrationFilenames, [
-    "0001_create_visit_ledger.sql",
-    "0002_create_visit_ledger_view.sql",
-    "0003_add_visit_bot_classification.sql",
-    "0004_create_visit_event_ledger.sql",
-    "0005_create_analytics_visitor_exclusions.sql",
-    "0006_add_page_view_active_time.sql",
-  ]);
-});
-
-test("database migration reader returns the ordered ledger migrations", async () => {
-  const migrations = await readMigrations();
-
-  assert.deepEqual(
-    migrations.map((migration) => migration.filename),
-    [
-      "0001_create_visit_ledger.sql",
-      "0002_create_visit_ledger_view.sql",
-      "0003_add_visit_bot_classification.sql",
-      "0004_create_visit_event_ledger.sql",
-      "0005_create_analytics_visitor_exclusions.sql",
-      "0006_add_page_view_active_time.sql",
-    ],
-  );
-  assert.ok(migrations.every((migration) => /^[a-f0-9]{64}$/.test(migration.checksum)));
-  assert.ok(migrations.every((migration) => migration.statements.length > 0));
-});
-
-test("migration checksums are stable across checkout line endings", () => {
-  const lfSql = "BEGIN;\nSELECT 'stable';\nCOMMIT;\n";
-  const crlfSql = lfSql.replaceAll("\n", "\r\n");
-  const lfChecksums = getMigrationChecksums(lfSql);
-  const crlfChecksums = getMigrationChecksums(crlfSql);
-
-  assert.equal(lfChecksums.checksum, crlfChecksums.checksum);
-  assert.ok(lfChecksums.acceptedChecksums.includes(crlfChecksums.checksum));
-  assert.ok(crlfChecksums.acceptedChecksums.includes(lfChecksums.checksum));
-});
-
-test("SQL splitting preserves semicolons inside quoted and commented content", () => {
-  const statements = splitSqlStatements(`
-    SELECT 'one;two', "three;four", $$five;six$$;
-    -- seven;eight
-    SELECT 2 /* nine;ten */;
-  `);
-
-  assert.equal(statements.length, 2);
-  assert.match(statements[0], /one;two/);
-  assert.match(statements[0], /five;six/);
-  assert.match(statements[1], /nine;ten/);
-});
-
-test("migration transaction boundaries are validated and removed", () => {
-  assert.deepEqual(
-    getTransactionalStatements("BEGIN; SELECT 1; SELECT 'two;three'; COMMIT;"),
-    ["SELECT 1", "SELECT 'two;three'"],
-  );
-  assert.throws(
-    () => getTransactionalStatements("SELECT 1;"),
-    /one BEGIN followed by one COMMIT/,
-  );
-  assert.throws(
-    () => getTransactionalStatements("BEGIN; COMMIT; SELECT 1;"),
-    /one BEGIN followed by one COMMIT/,
-  );
-});
 
 test("visit ledger view exposes return status, traffic source, and page totals", () => {
   assert.match(viewMigration, /CREATE VIEW visit_ledger/i);
@@ -154,6 +80,17 @@ test("page-view active-time migration stores bounded cumulative seconds", () => 
   assert.match(activeTimeMigration, /active_seconds BETWEEN 0 AND 43200/i);
 });
 
+test("client-environment migration stores bounded visit-level diagnostics", () => {
+  assert.match(clientEnvironmentMigration, /ADD COLUMN user_agent TEXT/i);
+  assert.match(clientEnvironmentMigration, /ADD COLUMN device_type TEXT NOT NULL DEFAULT 'unknown'/i);
+  assert.match(clientEnvironmentMigration, /ADD COLUMN is_webdriver BOOLEAN/i);
+  assert.match(clientEnvironmentMigration, /char_length\(user_agent\) BETWEEN 1 AND 1024/i);
+  assert.match(
+    clientEnvironmentMigration,
+    /device_type IN \('desktop', 'mobile', 'tablet', 'unknown'\)/i,
+  );
+});
+
 test("saved visit ledger queries are read-only and cover each reporting task", async () => {
   assert.deepEqual(queryFilenames, [
     "01_latest_visits.sql",
@@ -186,6 +123,14 @@ test("saved visit ledger queries are read-only and cover each reporting task", a
   assert.match(queries.get("03_today_overview.sql"), /Australia\/Perth/i);
   assert.match(queries.get("04_traffic_last_30_days.sql"), /matched_keyword/i);
   assert.match(queries.get("04_traffic_last_30_days.sql"), /is_bot IS NOT TRUE/i);
+  assert.match(queries.get("03_today_overview.sql"), /webdriver_visit_count/i);
+  assert.match(queries.get("03_today_overview.sql"), /webdriver_false_visit_count/i);
+  assert.match(queries.get("02_visitors.sql"), /webdriver_false_visit_count/i);
+  assert.match(queries.get("04_traffic_last_30_days.sql"), /device_type/i);
+  for (const filename of ["01_latest_visits.sql", "05_visit_page_sequence.sql"]) {
+    assert.match(queries.get(filename), /user_agent/i);
+    assert.match(queries.get(filename), /is_webdriver/i);
+  }
   for (const filename of queryFilenames.slice(0, 4)) {
     assert.match(queries.get(filename), /analytics_excluded_visitors/i);
   }

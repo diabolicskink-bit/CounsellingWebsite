@@ -18,28 +18,10 @@ test("Vercel config does not use a blanket SPA catch-all rewrite", () => {
   assert.equal(hasBlanketSpaRewrite, false);
 });
 
-test("Vercel packages each serverless function's external TypeScript modules", () => {
+test("Vercel packages the complete source tree with every serverless function", () => {
   assert.deepEqual(vercelConfig.functions, {
-    "api/enquiry.ts": {
-      includeFiles: "src/{data/enquiryContract.ts,data/visitEventContract.ts,server/enquiry/**,server/visit-events/**,server/visits/repository.ts,utils/timeZones.ts}",
-    },
-    "api/visit-retention.ts": {
-      includeFiles: "src/server/visits/**",
-    },
-    "api/analytics.ts": {
-      includeFiles: "src/{data/analyticsContract.ts,server/reporting/**,server/visits/repository.ts}",
-    },
-    "api/analytics/exclusions.ts": {
-      includeFiles: "src/{data/analyticsContract.ts,server/reporting/**,server/visits/repository.ts}",
-    },
-    "api/visit.ts": {
-      includeFiles: "src/{data/routes.ts,server/visits/**}",
-    },
-    "api/visit-event.ts": {
-      includeFiles: "src/{data/visitEventContract.ts,server/visit-events/**,server/visits/repository.ts}",
-    },
-    "api/page-engagement.ts": {
-      includeFiles: "src/{server/page-engagement/**,server/visits/repository.ts,server/visits/request.ts}",
+    "api/**/*.ts": {
+      includeFiles: "src/**",
     },
   });
 });

@@ -13,7 +13,7 @@ const observation = {
   visitorId: "114ba8f9-96f8-41e1-a301-15112400759e",
 };
 
-test("updates cumulative active time against the owned page view", async () => {
+test("emits an ownership-checked cumulative active-time update", async () => {
   const calls = [];
   const database = {
     async query(query, parameters) {

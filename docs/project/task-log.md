@@ -18,6 +18,44 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-28 - Analytics Test Suite Simplified
+
+- Separated private analytics browser checks from the public-site Playwright suite and made the analytics QA runner select its blocked-host and enabled-host scenarios explicitly.
+- Broadened the fast analytics gate to cover all recording endpoints, enquiry lifecycle events, retention, reporting, exclusions, hostname policy, migrations, and saved SQL contracts.
+- Reorganized dashboard request parsing, endpoint transport, migration-runner, and ledger-schema tests around their distinct responsibilities while keeping detailed dashboard presentation with Preview owner review.
+
+## 2026-08-25 - Visit Client Environment Capture Added
+
+- Added visit-level capture for a bounded request user-agent, a server-derived desktop/mobile/tablet/unknown device type, and the browser's nullable `navigator.webdriver` value.
+- Kept the three diagnostics immutable after the first visit insert and exposed them through the protected analytics reader and repository-owned Neon reporting queries.
+- Added a daily traffic-signature summary, compact visit cues, and expanded per-visit request diagnostics in daily and retained-history views.
+- Added focused API, SQL, and recorder browser coverage plus migration `0007_add_visit_client_environment.sql`; Preview and Production have each been migrated independently through the new schema.
+
+## 2026-08-24 - Serverless Function Packaging Hardened
+
+- Replaced seven hand-maintained Vercel function file inventories with one `api/**/*.ts` rule that packages the complete `src` tree for every serverless function.
+- Removed the dependency-by-dependency maintenance path that repeatedly allowed valid runtime imports to be omitted from deployed functions.
+- Kept one focused configuration contract for the broad packaging guarantee and moved verification of actual function initialization to a deployed Vercel preview.
+
+## 2026-08-19 - Working With Joel Tabs Progressively Enhanced
+
+- Changed the approach component so Psychodynamic, Attachment, and Integrative copy all exist in the generated HTML and remain readable as headed sections without JavaScript.
+- Preserved the hydrated visual design while giving every tab its own retained, labelled panel and keeping pointer, Home, End, and wrapping arrow-key selection.
+- Added focused JavaScript-disabled and hydrated interaction coverage, and archived resolved `DEBT-35`.
+
+## 2026-08-19 - Scoped Code Quality Pass Added
+
+- Added the repository-local `code-quality-pass` skill for holistic review and direct improvement of a user-supplied implementation surface or code change set.
+- Defined named pages, features, files, and diffs as semantic boundaries that may include the relevant code, HTML, CSS, scripts, tests, configuration, callers, and dependencies without becoming repository-wide cleanup sweeps.
+- Made simplicity, current evidence, and the site's small single-developer operating model the quality standard, resisting speculative abstractions, configurability, coordination machinery, dependencies, coverage, and stylistic churn.
+- Required high-impact boundaries to have clear authoritative enforcement and focused behavioural verification, with additional defensive layers only for distinct realistic failure modes rather than hypothetical future maintainer edits.
+
+## 2026-08-19 - Cleanup Sweep Skill Narrowed
+
+- Renamed the repository-local `improve-codebase` skill to `cleanup-sweep` so its name and invocation token communicate the intended workflow.
+- Limited its use to explicit cleanup-sweep requests; other review, cleanup, refactoring, CSS, and maintainability work follows the task's stated scope without invoking source-first problem selection.
+- Preserved the sweep's existing one-problem selection, complete-resolution, verification, and project-debt outcome rules.
+
 ## 2026-08-17 - Keyword Journey Analytics Added
 
 - Added the protected `/analytics/keywords` report with a 30-day default and a bounded date range, keyword attribution coverage, paid-visit totals, page depth, recorded active time, successful-enquiry visits, and a responsive ranked ledger.

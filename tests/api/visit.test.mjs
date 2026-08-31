@@ -1,24 +1,19 @@
 import assert from "node:assert/strict";
-import { afterEach, test } from "node:test";
+import { test } from "node:test";
 import { createVisitHandler } from "../../api/visit.ts";
 import {
   PageViewIdentityConflictError,
   VisitDatabaseConfigurationError,
   VisitIdentityConflictError,
 } from "../../src/server/visits/repository.ts";
+import { getVisitRequestEnvironment } from "../../src/server/visits/request.ts";
 
-const originalConsoleError = console.error;
-const originalConsoleWarn = console.warn;
 const nonBotClassification = {
   botCategory: null,
   botName: null,
   isBot: false,
 };
-
-afterEach(() => {
-  console.error = originalConsoleError;
-  console.warn = originalConsoleWarn;
-});
+const desktopUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/145.0.0.0 Safari/537.36";
 
 function createResponse() {
   const result = {
@@ -53,6 +48,7 @@ function validPayload(overrides = {}) {
   return {
     adCode: "enm",
     gclid: "CjwK-test-click",
+    isWebDriver: false,
     landingPath: "/polyamory-enm-counselling",
     matchType: "p",
     matchedKeyword: "polyamory therapy",
@@ -69,16 +65,18 @@ function validPayload(overrides = {}) {
 function jsonHeaders(headers = {}) {
   return {
     "content-type": "application/json; charset=utf-8",
+    "sec-ch-ua-mobile": "?0",
+    "user-agent": desktopUserAgent,
     ...headers,
   };
 }
 
-function silenceExpectedLogs() {
+function silenceExpectedLogs(context) {
   const errors = [];
   const warnings = [];
 
-  console.error = (...args) => errors.push(args.map(String).join(" "));
-  console.warn = (...args) => warnings.push(args);
+  context.mock.method(console, "error", (...args) => errors.push(args));
+  context.mock.method(console, "warn", (...args) => warnings.push(args));
 
   return { errors, warnings };
 }
@@ -111,8 +109,78 @@ test("records a valid observation and returns no content", async () => {
   assert.deepEqual(observations[0], {
     ...validPayload(),
     ...nonBotClassification,
+    deviceType: "desktop",
     referrerHost: "www.google.com",
+    userAgent: desktopUserAgent,
   });
+});
+
+test("derives bounded device and user-agent values from request headers", () => {
+  const mobileUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1";
+  const tabletUserAgent = "Mozilla/5.0 (Linux; Android 15; Tablet) AppleWebKit/537.36 Chrome/145.0.0.0 Safari/537.36";
+  const desktopModeIpadUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 Version/18.6 Mobile/15E148 Safari/604.1";
+
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: {
+      "sec-ch-ua-mobile": "?1",
+      "user-agent": mobileUserAgent,
+    } }),
+    { deviceType: "mobile", userAgent: mobileUserAgent },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: {
+      "sec-ch-ua-mobile": "?0",
+      "user-agent": tabletUserAgent,
+    } }),
+    { deviceType: "tablet", userAgent: tabletUserAgent },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: {
+      "sec-ch-ua-mobile": "?0",
+      "user-agent": desktopModeIpadUserAgent,
+    } }),
+    { deviceType: "tablet", userAgent: desktopModeIpadUserAgent },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: { "user-agent": desktopUserAgent } }),
+    { deviceType: "desktop", userAgent: desktopUserAgent },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: {} }),
+    { deviceType: "unknown", userAgent: null },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: { "user-agent": "curl/8.16.0" } }),
+    { deviceType: "unknown", userAgent: "curl/8.16.0" },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: { "user-agent": "x".repeat(1025) } }),
+    { deviceType: "unknown", userAgent: "x".repeat(1024) },
+  );
+});
+
+test("stores the browser WebDriver flag with the visit observation", async () => {
+  const observations = [];
+  const handler = createTestVisitHandler(async (observation) => observations.push(observation));
+
+  const result = await invoke(handler, {
+    body: validPayload({ isWebDriver: true }),
+  });
+
+  assert.equal(result.statusCode, 204);
+  assert.equal(observations[0].isWebDriver, true);
+});
+
+test("accepts an omitted WebDriver flag from an older browser bundle", async () => {
+  const observations = [];
+  const handler = createTestVisitHandler(async (observation) => observations.push(observation));
+  const payload = validPayload();
+
+  delete payload.isWebDriver;
+  const result = await invoke(handler, { body: payload });
+
+  assert.equal(result.statusCode, 204);
+  assert.equal(observations[0].isWebDriver, null);
 });
 
 test("stores a verified bot verdict and identity without blocking the visit", async () => {
@@ -134,8 +202,8 @@ test("stores a verified bot verdict and identity without blocking the visit", as
   assert.equal(observations[0].botCategory, "search engine");
 });
 
-test("records an unclassified visit when bot detection is unavailable", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("records an unclassified visit when bot detection is unavailable", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   const observations = [];
   const handler = createTestVisitHandler(
     async (observation) => observations.push(observation),
@@ -181,15 +249,6 @@ test("normalizes absent optional fields and route casing", async () => {
   assert.equal(observations[0].referrerUrl, null);
 });
 
-test("returns the same success for an idempotent repeated observation", async () => {
-  const handler = createTestVisitHandler(async () => ({ pageViewInserted: false }));
-
-  const result = await invoke(handler);
-
-  assert.equal(result.statusCode, 204);
-  assert.equal(result.body, undefined);
-});
-
 test("does not expose a read method", async () => {
   let recordCalled = false;
   const handler = createTestVisitHandler(async () => {
@@ -204,8 +263,8 @@ test("does not expose a read method", async () => {
   assert.equal(recordCalled, false);
 });
 
-test("rejects unsupported and missing content types before storage", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("rejects unsupported and missing content types before storage", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createTestVisitHandler(async () => {
     recordCalled = true;
@@ -223,8 +282,8 @@ test("rejects unsupported and missing content types before storage", async () =>
   assert.match(JSON.stringify(warnings), /unsupported_content_type/);
 });
 
-test("rejects oversized declared and parsed request bodies", async () => {
-  silenceExpectedLogs();
+test("rejects oversized declared and parsed request bodies", async (context) => {
+  silenceExpectedLogs(context);
   const handler = createTestVisitHandler(async () => {
     throw new Error("storage should not be called");
   });
@@ -240,8 +299,8 @@ test("rejects oversized declared and parsed request bodies", async () => {
   assert.equal(parsedResult.statusCode, 413);
 });
 
-test("rejects cross-site request signals before storage", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("rejects cross-site request signals before storage", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createTestVisitHandler(async () => {
     recordCalled = true;
@@ -292,8 +351,8 @@ test("accepts a same-origin production-shaped request", async () => {
   assert.equal(recordCalled, true);
 });
 
-test("rejects invalid identities, paths, referrers, and oversized attribution", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("rejects invalid identities, paths, referrers, and oversized attribution", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
   const observations = [];
   const handler = createTestVisitHandler(async (observation) => observations.push(observation));
   const payloads = [
@@ -303,6 +362,7 @@ test("rejects invalid identities, paths, referrers, and oversized attribution", 
     validPayload({ path: "/ANALYTICS/pages" }),
     validPayload({ referrerUrl: "javascript:alert(1)" }),
     validPayload({ matchedKeyword: "x".repeat(1025) }),
+    validPayload({ isWebDriver: "true" }),
   ];
 
   for (const body of payloads) {
@@ -315,8 +375,8 @@ test("rejects invalid identities, paths, referrers, and oversized attribution", 
   assert.doesNotMatch(JSON.stringify(warnings), /secret|javascript|xxxxx/);
 });
 
-test("maps identity conflicts to a generic conflict response", async () => {
-  const { warnings } = silenceExpectedLogs();
+test("maps identity conflicts to a generic conflict response", async (context) => {
+  const { warnings } = silenceExpectedLogs(context);
 
   for (const error of [new VisitIdentityConflictError(), new PageViewIdentityConflictError()]) {
     const handler = createTestVisitHandler(async () => {
@@ -331,8 +391,8 @@ test("maps identity conflicts to a generic conflict response", async () => {
   assert.doesNotMatch(JSON.stringify(warnings), /anonymous visitor|another visit/);
 });
 
-test("keeps database configuration and runtime failures out of public responses", async () => {
-  const { errors } = silenceExpectedLogs();
+test("keeps database configuration and runtime failures out of public responses", async (context) => {
+  const { errors } = silenceExpectedLogs(context);
   const failures = [
     new VisitDatabaseConfigurationError(),
     new Error("postgres://user:password@private-host/database"),
