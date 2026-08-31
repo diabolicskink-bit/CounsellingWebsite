@@ -1,8 +1,11 @@
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useState } from "react";
 import {
+  ArrowDown,
   ArrowLeft,
   ArrowRight,
+  ArrowUp,
+  ArrowUpDown,
   Bot,
   CalendarDays,
   ChevronDown,
@@ -53,6 +56,13 @@ import "../styles-analytics.css";
 type AnalyticsLoadState =
   | { report: null; requestUrl: string; status: "error" | "loading" }
   | { report: AnalyticsReport; requestUrl: string; status: "ready" };
+
+type KeywordSortKey = "activeTime" | "enquiries" | "latest" | "pageDepth" | "visits";
+
+type KeywordSortState = {
+  direction: "ascending" | "descending";
+  key: KeywordSortKey;
+};
 
 type VisitJourneyItem =
   | {
@@ -380,8 +390,6 @@ function isKeywordAnalyticsSummary(value: unknown): value is KeywordAnalyticsSum
     && summary.matchTypes.every((matchType) => typeof matchType === "string")
     && isNonNegativeNumber(summary.pageViews)
     && isNonNegativeNumber(summary.returningVisits)
-    && typeof summary.topLandingPath === "string"
-    && summary.topLandingPath.length > 0
     && isNonNegativeNumber(summary.visits);
 }
 
@@ -1543,6 +1551,10 @@ function KeywordAnalytics({
   report: KeywordAnalyticsReport;
   todayKey: string;
 }) {
+  const [sort, setSort] = useState<KeywordSortState>({
+    direction: "descending",
+    key: "enquiries",
+  });
   const attributionCoverage = report.totalPaidVisits
     ? Math.round((report.taggedVisits / report.totalPaidVisits) * 100)
     : 0;
@@ -1553,13 +1565,68 @@ function KeywordAnalytics({
     ? Math.round(report.totalActiveSeconds / report.totalPaidVisits)
     : 0;
   const untaggedVisits = report.totalPaidVisits - report.taggedVisits;
+  const sortedKeywords = useMemo(() => {
+    const sortValue = (keyword: KeywordAnalyticsSummary) => {
+      switch (sort.key) {
+        case "activeTime":
+          return keyword.visits ? keyword.activeSeconds / keyword.visits : 0;
+        case "enquiries":
+          return keyword.enquiryVisits;
+        case "latest":
+          return Date.parse(keyword.latestVisitAt);
+        case "pageDepth":
+          return keyword.visits ? keyword.pageViews / keyword.visits : 0;
+        case "visits":
+          return keyword.visits;
+      }
+    };
+    const multiplier = sort.direction === "ascending" ? 1 : -1;
+
+    return report.keywords
+      .map((keyword, originalIndex) => ({ keyword, originalIndex }))
+      .sort((left, right) => {
+        const difference = sortValue(left.keyword) - sortValue(right.keyword);
+        return difference ? difference * multiplier : left.originalIndex - right.originalIndex;
+      })
+      .map(({ keyword }) => keyword);
+  }, [report.keywords, sort]);
+
+  const changeSort = (key: KeywordSortKey) => {
+    setSort((current) => ({
+      direction: current.key === key && current.direction === "descending"
+        ? "ascending"
+        : "descending",
+      key,
+    }));
+  };
+
+  const sortableHeader = (key: KeywordSortKey, label: string) => {
+    const isActive = sort.key === key;
+    const SortIcon = !isActive
+      ? ArrowUpDown
+      : sort.direction === "ascending"
+        ? ArrowUp
+        : ArrowDown;
+
+    return (
+      <th aria-sort={isActive ? sort.direction : "none"} scope="col">
+        <button
+          className="keyword-report__sort"
+          onClick={() => changeSort(key)}
+          type="button"
+        >
+          <span>{label}</span>
+          <SortIcon aria-hidden="true" size={13} strokeWidth={2} />
+        </button>
+      </th>
+    );
+  };
 
   return (
     <>
       <section className="page-view-report__overview keyword-report__overview" aria-labelledby="keyword-report-title">
         <div className="page-view-report__intro keyword-report__intro">
-          <p className="signal-kicker">Paid search</p>
-          <h1 id="keyword-report-title">Keyword journeys</h1>
+          <h1 id="keyword-report-title">Keywords</h1>
           <p>
             {report.startDate === report.endDate
               ? formatDate(report.startDate)
@@ -1613,12 +1680,8 @@ function KeywordAnalytics({
         </div>
       </dl>
 
-      <section className="keyword-report__ledger" aria-labelledby="keyword-ledger-title">
+      <section className="keyword-report__ledger" aria-label="Matched keywords">
         <header>
-          <div>
-            <p className="signal-kicker">Enquiry visits first, then visits</p>
-            <h2 id="keyword-ledger-title">Matched keyword ledger</h2>
-          </div>
           <span>{report.keywords.length} matched {report.keywords.length === 1 ? "keyword" : "keywords"}</span>
         </header>
 
@@ -1631,22 +1694,20 @@ function KeywordAnalytics({
           >
             <table className="keyword-report__table">
               <caption className="signal-visually-hidden">
-                Google Ads matched keywords with visits, page depth, active time, enquiries, landing page and latest visit
+                Google Ads matched keywords with visits, page depth, active time, enquiries and latest visit
               </caption>
               <thead>
                 <tr>
-                  <th aria-label="Rank" scope="col">#</th>
                   <th scope="col">Keyword</th>
-                  <th scope="col">Visits</th>
-                  <th scope="col">Page depth</th>
-                  <th scope="col">Active / visit</th>
-                  <th scope="col">Enquiries</th>
-                  <th scope="col">Top landing page</th>
-                  <th scope="col">Latest</th>
+                  {sortableHeader("visits", "Visits")}
+                  {sortableHeader("pageDepth", "Page depth")}
+                  {sortableHeader("activeTime", "Active / visit")}
+                  {sortableHeader("enquiries", "Enquiries")}
+                  {sortableHeader("latest", "Latest")}
                 </tr>
               </thead>
               <tbody>
-                {report.keywords.map((keyword, index) => {
+                {sortedKeywords.map((keyword) => {
                   const pagesPerKeywordVisit = keyword.visits
                     ? (keyword.pageViews / keyword.visits).toFixed(1)
                     : "0.0";
@@ -1659,9 +1720,6 @@ function KeywordAnalytics({
 
                   return (
                     <tr key={keyword.keyword}>
-                      <td className="keyword-report__rank">
-                        {String(index + 1).padStart(2, "0")}
-                      </td>
                       <th className="keyword-report__term" scope="row">
                         <strong>{keyword.keyword}</strong>
                         <span>
@@ -1685,9 +1743,6 @@ function KeywordAnalytics({
                       <td className="keyword-report__number keyword-report__number--enquiries">
                         <strong>{keyword.enquiryVisits}</strong>
                         <small>{enquiryRate}% of visits</small>
-                      </td>
-                      <td className="keyword-report__landing">
-                        <span>{keyword.topLandingPath}</span>
                       </td>
                       <td className="keyword-report__latest">
                         {formatDate(getPerthDateKey(new Date(keyword.latestVisitAt)), true)}

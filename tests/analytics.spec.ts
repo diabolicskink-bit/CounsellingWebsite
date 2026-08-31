@@ -229,7 +229,6 @@ test.describe("private analytics boundaries", () => {
               matchTypes: ["e", "p"],
               pageViews: 7,
               returningVisits: 1,
-              topLandingPath: "/kink-bdsm-counselling",
               visits: 3,
             }],
             startDate: requestUrl.searchParams.get("start"),
@@ -270,7 +269,6 @@ test.describe("private analytics boundaries", () => {
     const keywordRow = page.getByRole("row").filter({ hasText: "kink aware counselling" });
     await expect(keywordRow).toContainText("7 views");
     await expect(keywordRow).toContainText("1:40");
-    await expect(keywordRow).toContainText("/kink-bdsm-counselling");
 
     await page.getByLabel("Start date").fill("2026-08-01");
     await page.getByLabel("End date").fill("2026-08-14");

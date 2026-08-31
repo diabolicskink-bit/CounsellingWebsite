@@ -1086,13 +1086,6 @@ body:has(.visit-dashboard) {
   padding: 0 3px 14px;
 }
 
-.keyword-report__ledger h2 {
-  margin: 4px 0 0;
-  font-size: 1.7rem;
-  line-height: 1.1;
-  letter-spacing: 0;
-}
-
 .keyword-report__ledger > header > span {
   color: var(--report-muted);
   font-size: 0.78rem;
@@ -1113,7 +1106,7 @@ body:has(.visit-dashboard) {
 
 .keyword-report__table {
   width: 100%;
-  min-width: 980px;
+  min-width: 720px;
   border-collapse: collapse;
   table-layout: fixed;
 }
@@ -1136,14 +1129,43 @@ body:has(.visit-dashboard) {
   text-transform: uppercase;
 }
 
-.keyword-report__table thead th:first-child { width: 52px; }
-.keyword-report__table thead th:nth-child(2) { width: 23%; }
-.keyword-report__table thead th:nth-child(3) { width: 82px; }
-.keyword-report__table thead th:nth-child(4) { width: 92px; }
-.keyword-report__table thead th:nth-child(5) { width: 106px; }
-.keyword-report__table thead th:nth-child(6) { width: 88px; }
-.keyword-report__table thead th:nth-child(7) { width: 20%; }
-.keyword-report__table thead th:nth-child(8) { width: 106px; }
+.keyword-report__table thead th:first-child { width: 35%; }
+.keyword-report__table thead th:nth-child(2) { width: 82px; }
+.keyword-report__table thead th:nth-child(3) { width: 92px; }
+.keyword-report__table thead th:nth-child(4) { width: 106px; }
+.keyword-report__table thead th:nth-child(5) { width: 88px; }
+.keyword-report__table thead th:nth-child(6) { width: 106px; }
+
+.keyword-report__sort {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+}
+
+.keyword-report__sort svg {
+  flex: 0 0 auto;
+  opacity: 0.72;
+}
+
+.keyword-report__sort:hover {
+  color: var(--report-ink);
+}
+
+.keyword-report__sort:focus-visible {
+  outline: 2px solid var(--report-purple);
+  outline-offset: 4px;
+}
 
 .keyword-report__table tbody tr:last-child > * {
   border-bottom: 0;
@@ -1151,13 +1173,6 @@ body:has(.visit-dashboard) {
 
 .keyword-report__table tbody tr:hover {
   background: rgba(98, 92, 243, 0.035);
-}
-
-.keyword-report__rank {
-  color: var(--report-purple);
-  font-size: 0.74rem;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
 }
 
 .keyword-report__term {
@@ -1201,13 +1216,6 @@ body:has(.visit-dashboard) {
 
 .keyword-report__number--enquiries strong {
   color: #267a4a;
-}
-
-.keyword-report__landing span {
-  display: block;
-  overflow-wrap: anywhere;
-  color: var(--report-muted);
-  font-size: 0.72rem;
 }
 
 .keyword-report__latest {
