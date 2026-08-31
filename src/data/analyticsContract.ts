@@ -124,7 +124,6 @@ export type KeywordAnalyticsSummary = {
   matchTypes: string[];
   pageViews: number;
   returningVisits: number;
-  topLandingPath: string;
   visits: number;
 };
 

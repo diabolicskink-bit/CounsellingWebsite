@@ -380,8 +380,6 @@ function isKeywordAnalyticsSummary(value: unknown): value is KeywordAnalyticsSum
     && summary.matchTypes.every((matchType) => typeof matchType === "string")
     && isNonNegativeNumber(summary.pageViews)
     && isNonNegativeNumber(summary.returningVisits)
-    && typeof summary.topLandingPath === "string"
-    && summary.topLandingPath.length > 0
     && isNonNegativeNumber(summary.visits);
 }
 
@@ -1631,7 +1629,7 @@ function KeywordAnalytics({
           >
             <table className="keyword-report__table">
               <caption className="signal-visually-hidden">
-                Google Ads matched keywords with visits, page depth, active time, enquiries, landing page and latest visit
+                Google Ads matched keywords with visits, page depth, active time, enquiries and latest visit
               </caption>
               <thead>
                 <tr>
@@ -1641,7 +1639,6 @@ function KeywordAnalytics({
                   <th scope="col">Page depth</th>
                   <th scope="col">Active / visit</th>
                   <th scope="col">Enquiries</th>
-                  <th scope="col">Top landing page</th>
                   <th scope="col">Latest</th>
                 </tr>
               </thead>
@@ -1685,9 +1682,6 @@ function KeywordAnalytics({
                       <td className="keyword-report__number keyword-report__number--enquiries">
                         <strong>{keyword.enquiryVisits}</strong>
                         <small>{enquiryRate}% of visits</small>
-                      </td>
-                      <td className="keyword-report__landing">
-                        <span>{keyword.topLandingPath}</span>
                       </td>
                       <td className="keyword-report__latest">
                         {formatDate(getPerthDateKey(new Date(keyword.latestVisitAt)), true)}
