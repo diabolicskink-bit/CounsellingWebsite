@@ -253,10 +253,10 @@ export default function CrisisSupport() {
         className="hero-section site-hero-background crisis-support-page__hero"
       >
         <Container>
-          <h1 className="hero-badge" id="crisis-support-title">
-            Crisis support services
+          <p className="hero-badge">Crisis support services</p>
+          <h1 className="hero-display" id="crisis-support-title">
+            Australian urgent mental health support services.
           </h1>
-          <p className="hero-display">Find urgent mental health support.</p>
         </Container>
       </section>
 
@@ -276,6 +276,41 @@ export default function CrisisSupport() {
             <Phone aria-hidden="true" size={21} strokeWidth={1.9} />
             <span>Call 000</span>
           </a>
+        </Container>
+      </section>
+
+      <section
+        aria-labelledby="crisis-support-guide-title"
+        className="crisis-support-page__guide"
+      >
+        <Container>
+          <header className="crisis-support-page__section-heading">
+            <h2 id="crisis-support-guide-title">Which service should I contact?</h2>
+            <p className="site-reading">
+              National crisis lines provide immediate telephone support. State and territory
+              services can assess the need for an urgent public mental health response.
+            </p>
+          </header>
+
+          <div className="crisis-support-page__guide-options">
+            <article className="crisis-support-page__guide-option">
+              <h3>Talk with a crisis supporter</h3>
+              <p>
+                Use a national service when you need someone to talk with now, or when you are
+                worried about someone else.
+              </p>
+              <a href="#national-crisis-support-title">View national crisis services</a>
+            </article>
+
+            <article className="crisis-support-page__guide-option">
+              <h3>Seek urgent mental health assessment</h3>
+              <p>
+                Contact your state or territory service for urgent mental health assessment,
+                triage, advice or referral.
+              </p>
+              <a href="#state-crisis-support-title">View state and territory services</a>
+            </article>
+          </div>
         </Container>
       </section>
 
@@ -333,10 +368,14 @@ export default function CrisisSupport() {
             <StateServiceItem key={service.id} service={service} />
           ))}
 
-          <p className="crisis-support-page__information-note">
-            Information current as of{" "}
-            <time dateTime={crisisSupportMetadata.lastReviewed}>{informationCurrentDate}</time>.
-          </p>
+          <div className="crisis-support-page__information-note">
+            <p>Published by Vive Counselling.</p>
+            <p>
+              Contact details and service information were checked against the official sources
+              linked on this page on{" "}
+              <time dateTime={crisisSupportMetadata.lastReviewed}>{informationCurrentDate}</time>.
+            </p>
+          </div>
         </Container>
       </section>
     </main>

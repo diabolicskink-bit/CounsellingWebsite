@@ -265,11 +265,16 @@ function renderCrisisSupportStructuredData(routeMetadata, siteMetadata, siteOrig
         name: routeMetadata.title,
         description: routeMetadata.description,
         inLanguage: "en-AU",
+        dateModified: validateIsoDate(
+          routeMetadata.lastModified,
+          "Crisis Support lastModified",
+        ),
         lastReviewed: validateIsoDate(
           routeMetadata.lastReviewed,
           "Crisis Support lastReviewed",
         ),
         isPartOf: { "@id": ids.websiteId },
+        author: { "@id": ids.organizationId },
         publisher: { "@id": ids.organizationId },
         breadcrumb: { "@id": breadcrumbId },
       },

@@ -89,6 +89,50 @@
   background: #36110f;
 }
 
+.crisis-support-page__guide {
+  padding-block: var(--crisis-section-padding);
+  border-bottom: 1px solid var(--section-rule);
+  background: var(--paper);
+}
+
+.crisis-support-page__guide-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: clamp(36px, 5vw, 58px);
+  border-block: 1px solid var(--section-rule);
+}
+
+.crisis-support-page__guide-option {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: clamp(26px, 3.5vw, 42px);
+}
+
+.crisis-support-page__guide-option + .crisis-support-page__guide-option {
+  border-left: 1px solid var(--section-rule);
+}
+
+.crisis-support-page__guide-option p {
+  max-width: 54ch;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.crisis-support-page__guide-option a {
+  justify-self: start;
+  color: var(--cedar-dark);
+  font-weight: 720;
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 75, 61, 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+.crisis-support-page__guide-option a:hover {
+  text-decoration-color: currentColor;
+}
+
 .crisis-support-page__national.site-section-warm,
 .crisis-support-page__states {
   padding-block: var(--crisis-section-padding);
@@ -103,6 +147,7 @@
 
 .crisis-support-page__section-heading h2 {
   max-width: 13ch;
+  scroll-margin-top: 92px;
 }
 
 .crisis-support-page__section-heading .site-reading {
@@ -319,6 +364,8 @@
 }
 
 .crisis-support-page .crisis-support-page__information-note {
+  display: grid;
+  gap: 4px;
   padding: 18px 0 0;
   color: var(--muted);
   font-size: var(--type-caption);
@@ -360,9 +407,15 @@
   .crisis-support-page__emergency-layout,
   .crisis-support-page__emergency-copy,
   .crisis-support-page__section-heading,
+  .crisis-support-page__guide-options,
   .crisis-support-page__national-service,
   .crisis-support-page__state-service {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .crisis-support-page__guide-option + .crisis-support-page__guide-option {
+    border-top: 1px solid var(--section-rule);
+    border-left: 0;
   }
 
   .crisis-support-page__emergency-call {

@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-31 - Crisis Support Search And Source Signals Strengthened
+
+- Aligned the page's prominent H1 and search description with urgent Australian mental health and crisis-support intent while keeping immediate-danger guidance first.
+- Added a compact decision guide that distinguishes national crisis-line support from state or territory public mental health assessment without turning the page into generic long-form SEO copy.
+- Made Vive Counselling's publishing role, official-source checking, review date, authorship, and modification date explicit in visible content and structured data.
+
 ## 2026-08-31 - Private Analytics Split Into Report Pages
 
 - Replaced the single analytics page module with explicit lazy-loaded Daily, Pages, Enquiries, Keywords, and Excluded report pages behind one small owner-only shell.
