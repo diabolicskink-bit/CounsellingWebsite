@@ -72,7 +72,6 @@ const enquiryPathOptions: readonly EnquiryPathOption[] = [
 
 const contactMetadata = getRouteMetadata(publicRoutePaths.contact);
 const crisisSupportHref = publicRoutePaths.crisisSupport;
-const privacyPolicyHref = publicRoutePaths.privacyPolicy;
 
 function isEnquiryPath(value: FormDataEntryValue | null): value is ContactPath {
   return typeof value === "string" && Boolean(findContactPath(value));
@@ -478,11 +477,6 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
         ) : null}
 
         <div className="contact-page__form-actions">
-          <p className="contact-page__privacy-note">
-            Please share only what is needed for an initial reply. Read how enquiry and
-            website information is handled in the{" "}
-            <Link to={privacyPolicyHref}>privacy policy</Link>.
-          </p>
           <Button disabled={submitStatus === "sending"} type="submit">
             {submitStatus === "sending"
               ? "Sending..."

@@ -196,33 +196,7 @@
 
 .contact-page__form-actions {
   display: grid;
-  gap: 18px;
   padding-top: 4px;
-}
-
-.contact-page__privacy-note {
-  max-width: 62ch;
-  color: var(--muted);
-  font-size: var(--type-small);
-  line-height: 1.6;
-}
-
-.contact-page__privacy-note a {
-  color: var(--cedar-dark);
-  font-weight: 700;
-  text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.32);
-  text-underline-offset: 3px;
-}
-
-.contact-page__privacy-note a:hover {
-  text-decoration-color: currentColor;
-}
-
-.contact-page__privacy-note a:focus-visible {
-  border-radius: 2px;
-  outline: 2px solid var(--cedar);
-  outline-offset: 4px;
 }
 
 .contact-page__form-actions .button {

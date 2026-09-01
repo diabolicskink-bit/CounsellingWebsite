@@ -36,7 +36,7 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 - Home, Working with Joel, and all three Inclusion topic routes end with the canonical Contact invitation.
 - Contact combines fees and practical details with the enquiry paths described below.
 - Crisis Support provides immediate-danger guidance, national crisis services, and state or territory public mental-health assessment contacts. It links to official sources and publishes its service review date in visible content and structured data.
-- Privacy Policy covers website analytics, enquiries, counselling and health information, browser storage, service providers and overseas processing, retention, access and correction, and complaints. It is linked from the shared footer and beside the enquiry submission action.
+- Privacy Policy covers website analytics, enquiries, counselling and health information, browser storage, service providers and overseas processing, retention, access and correction, and complaints. It is linked from the shared footer.
 
 ## Discoverability And Metadata
 
@@ -97,7 +97,7 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 
 ## Testing And QA
 
-- `tests/public-site/` is the single-Chromium public browser suite. It applies route-level rendering, accessibility, and compact-viewport baselines, with focused coverage for shared navigation, Crisis Support, Working with Joel tabs, the enhanced and native enquiry flows, metadata and crawl output, redirects, and Not Found behaviour. Privacy Policy receives the shared route baseline, while its footer and enquiry-form entry points are covered by their owning journeys.
+- `tests/public-site/` is the single-Chromium public browser suite. It applies route-level rendering, accessibility, and compact-viewport baselines, with focused coverage for shared navigation, Crisis Support, Working with Joel tabs, the enhanced and native enquiry flows, metadata and crawl output, redirects, and Not Found behaviour. Privacy Policy receives the shared route baseline, while its footer entry point is covered by shared-navigation testing.
 - `tests/analytics.spec.ts` is the separate private-analytics browser boundary. It covers host gating, private-route isolation, first-party collection, Fees attribution, visitor-ID rotation, GA4 and Clarity behaviour, and a focused keyword-report journey.
 - Direct Node tests under `tests/api/` cover analytics, enquiry, and visit endpoints and repositories. Tests under `tests/scripts/` cover route and metadata contracts, structured data, Vercel configuration, analytics hosts, migrations, reporting SQL, and the visual-session helper.
 - `tests/tsconfig.json` typechecks both Playwright spec trees. `npm run qa:site` runs encoding, test typechecking, the build, and the public browser suite. `npm run qa` additionally runs direct script and API tests, but does not run the private analytics browser suite.

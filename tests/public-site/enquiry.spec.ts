@@ -21,10 +21,6 @@ test.describe("progressive enhancement", () => {
     const form = page.getByRole("form", { name: "Your enquiry" });
 
     await expect(form).toBeVisible();
-    await expect(form.getByRole("link", { name: "privacy policy" })).toHaveAttribute(
-      "href",
-      "/privacy-policy",
-    );
     await expect(form).toHaveAttribute("action", "/api/enquiry");
     await expect(form).toHaveAttribute("method", "post");
     await form.getByLabel("Name").fill("Alex Person");
