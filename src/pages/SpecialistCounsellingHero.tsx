@@ -25,7 +25,7 @@ export default function SpecialistCounsellingHero({
   secondaryAction,
 }: SpecialistCounsellingHeroProps) {
   return (
-    <section className={`site-hero site-hero-background specialist-counselling-hero ${className}`}>
+    <section className={`site-hero site-hero-surface specialist-counselling-hero ${className}`}>
       <Container>
         <div className="specialist-counselling-hero__copy">
           <h1 className="site-hero__eyebrow">{eyebrow}</h1>

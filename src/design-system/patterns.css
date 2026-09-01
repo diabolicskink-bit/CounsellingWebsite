@@ -10,7 +10,7 @@
 }
 
 .site-hero {
-  --site-hero-eyebrow-statement-gap: 16px;
+  --site-hero-eyebrow-gap: 16px;
   --site-hero-statement-max-width: 18ch;
   --site-hero-foreground: #fcfcfa;
   --site-hero-eyebrow-foreground: #c8d9cc;
@@ -41,7 +41,7 @@
 }
 
 .site-hero__eyebrow + .site-hero__statement {
-  margin-top: var(--site-hero-eyebrow-statement-gap);
+  margin-top: var(--site-hero-eyebrow-gap);
 }
 
 .site-hero .site-hero__statement em {
@@ -64,7 +64,7 @@
   color: var(--site-hero-eyebrow-foreground);
 }
 
-.site-hero-background {
+.site-hero-surface {
   position: relative;
   isolation: isolate;
   overflow: clip;

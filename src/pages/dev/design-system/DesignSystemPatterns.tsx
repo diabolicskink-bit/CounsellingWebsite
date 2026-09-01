@@ -24,14 +24,14 @@ export default function DesignSystemPatterns() {
           consumers={[
             "Home, Working with Joel, and Inclusion heroes",
             "Specialist counselling heroes and Crisis Support",
-            "Articles index, article mastheads, and development heroes",
+            "Articles index, article heroes, and development heroes",
           ]}
           identifier=".site-hero, .site-hero__eyebrow, .site-hero__statement"
           recordPath="docs/design-system/patterns.md"
           role="Established hero frame, opening type roles, spacing, and dark-surface foreground roles; statement scale, layout, actions, supporting-content structure, and responsive composition remain consumer-owned."
           title="Shared hero structure"
         >
-          <section className="site-hero site-hero-background system-hero-frame-pattern">
+          <section className="site-hero site-hero-surface system-hero-frame-pattern">
             <Container>
               <p className="site-hero__eyebrow">Shared opening role</p>
               <p className="site-hero__statement">A consistent frame that still follows the page.</p>
@@ -43,17 +43,17 @@ export default function DesignSystemPatterns() {
           consumers={[
             "Home, Working with Joel, and Inclusion heroes",
             "Kink and BDSM, ENM and polyamory, and LGBTQIA+ heroes",
-            "Articles index, article mastheads, Crisis Support, and Contact opening",
+            "Articles index, article heroes, Crisis Support, and Contact opening",
           ]}
-          identifier=".site-hero-background"
+          identifier=".site-hero-surface"
           recordPath="docs/design-system/patterns.md"
           role="Shared dark-green hero surface with one restrained sage highlight and a quiet lower boundary; hero content and composition remain consumer-owned."
-          title="Shared hero background"
+          title="Shared hero surface"
         >
-          <section className="site-hero-background system-hero-background-pattern">
-            <div className="system-hero-background-pattern__inner">
+          <section className="site-hero-surface system-hero-surface-pattern">
+            <div className="system-hero-surface-pattern__inner">
               <p>Shared public surface</p>
-              <h4>One background. Content-shaped heroes.</h4>
+              <h4>One surface. Content-shaped heroes.</h4>
               <p>
                 The shared layer owns the surface and boundary. Each route retains its own structure, copy, actions,
                 and responsive composition.

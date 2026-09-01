@@ -198,7 +198,7 @@ const pageContent: WorkingWithJoelPageContent = {
 
 function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
   return (
-    <section className="site-hero site-hero-background working-with-joel-page__hero">
+    <section className="site-hero site-hero-surface working-with-joel-page__hero">
       <Container>
         <div className="working-with-joel-page__hero-layout">
           <h1 className="site-hero__eyebrow">{hero.badge}</h1>

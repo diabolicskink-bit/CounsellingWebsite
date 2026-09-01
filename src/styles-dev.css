@@ -17,7 +17,7 @@
 
 .documents-page__hero-heading {
   display: grid;
-  gap: var(--site-hero-eyebrow-statement-gap);
+  gap: var(--site-hero-eyebrow-gap);
 }
 
 .documents-page__hero-heading h1 {

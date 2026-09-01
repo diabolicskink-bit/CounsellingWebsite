@@ -54,6 +54,15 @@ Add usage constraints or migration notes only when they are part of the current 
 - Keep the rendered catalogue presentation in `src/styles-design-system-workspace.css`; its location and selectors do not make it production design-system API.
 - Source location improves inspection but never replaces a current catalogue contract as reuse authority.
 
+## Public Naming Convention
+
+- Use the `site-` namespace for site-wide CSS foundations and patterns. Use a block name for the contract, `__part` for an owned element, and `--modifier` only for a genuine variant.
+- Name reusable React components in PascalCase by their semantic role. Give component-owned CSS a matching kebab-case root: `<ArticleHero />` owns `.article-hero*`, and `<ContactInvitation />` owns `.contact-invitation*`.
+- Prefix public custom properties with the contract that owns them, such as `--site-hero-*` or `--contact-invitation-*`. Keep genuinely global semantic foundations concise, such as `--cedar`, `--section-*`, and `--portrait-*`.
+- Prefer names that describe a stable role or material over an implementation technique, a historical route, or a visual accident. A shared hero material is a `surface`, for example, rather than a `background`.
+- Name component source files in PascalCase and CSS files in kebab-case. Feature-local shared styles use their feature namespace and remain outside the public design-system API unless explicitly promoted.
+- Preserve content-shaped page selectors outside these namespaces. Similar spelling does not make a page-local selector part of the shared system.
+
 ## Implementation Outside The System
 
 Production contains inherited global CSS, shared-looking selectors, React components, and page-scoped styling that are not active design-system API.

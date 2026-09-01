@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import Container from "../components/Container";
 import { formatBlogDate, getBlogPostPath } from "../content/blog/manifest";
-import { blogPosts, getBlogReadingMinutes } from "../content/blog/posts";
+import { blogPosts } from "../content/blog/posts";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import "../content/blog/blog-shared.css";
+import "../content/blog/article-shared.css";
 import "../styles-blog.css";
 
 const blogMetadata = getRouteMetadata("/blog");
@@ -16,7 +16,7 @@ export default function BlogIndex() {
   return (
     <main className="site-page blog-index">
       <header
-        className="site-hero site-hero-background blog-index__hero"
+        className="site-hero site-hero-surface blog-index__hero"
         aria-labelledby="blog-index-title"
       >
         <Container className="blog-index__header-grid">
@@ -40,33 +40,28 @@ export default function BlogIndex() {
 
           {blogPosts.length > 0 ? (
             <ol className="blog-index__list" aria-label="Published articles">
-              {blogPosts.map((post) => {
-                const readingMinutes = getBlogReadingMinutes(post.body);
+              {blogPosts.map((post) => (
+                <li key={post.slug}>
+                  <article className="blog-index__entry">
+                    <div className="blog-index__entry-meta">
+                      <span>{post.topic}</span>
+                      {post.isSample ? <span className="article-sample-label">Sample</span> : null}
+                    </div>
 
-                return (
-                  <li key={post.slug}>
-                    <article className="blog-index__entry">
-                      <div className="blog-index__entry-meta">
-                        <span>{post.topic}</span>
-                        {post.isSample ? <span className="blog-sample-label">Sample</span> : null}
-                      </div>
+                    <div className="blog-index__entry-copy">
+                      <h3>
+                        <Link to={getBlogPostPath(post.slug)}>{post.title}</Link>
+                      </h3>
+                      <p className="site-reading">{post.abstract}</p>
+                    </div>
 
-                      <div className="blog-index__entry-copy">
-                        <h3>
-                          <Link to={getBlogPostPath(post.slug)}>{post.title}</Link>
-                        </h3>
-                        <p className="site-reading">{post.abstract}</p>
-                      </div>
-
-                      <footer className="blog-index__entry-details">
-                        <time dateTime={post.publishedAt}>{formatBlogDate(post.publishedAt)}</time>
-                        <span>{readingMinutes} min read</span>
-                        <Link to={getBlogPostPath(post.slug)}>Read article</Link>
-                      </footer>
-                    </article>
-                  </li>
-                );
-              })}
+                    <footer className="blog-index__entry-details">
+                      <time dateTime={post.publishedAt}>{formatBlogDate(post.publishedAt)}</time>
+                      <Link to={getBlogPostPath(post.slug)}>Read article</Link>
+                    </footer>
+                  </article>
+                </li>
+              ))}
             </ol>
           ) : (
             <p className="blog-index__empty">No articles have been published yet.</p>

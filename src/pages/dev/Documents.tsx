@@ -246,7 +246,7 @@ export default function Documents() {
 
   return (
     <main className="site-page documents-page">
-      <section className="site-hero site-hero-background documents-page__hero">
+      <section className="site-hero site-hero-surface documents-page__hero">
         <Container className="documents-page__hero-layout">
           <div className="documents-page__hero-heading">
             <p className="site-hero__eyebrow">Dev documents</p>

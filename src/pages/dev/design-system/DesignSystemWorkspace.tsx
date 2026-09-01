@@ -70,7 +70,7 @@ export default function DesignSystemWorkspace({ children, description, section, 
       data-design-system-section={section}
       data-design-system-workspace="source-backed"
     >
-      <header className="system-workspace__cover site-hero-background">
+      <header className="system-workspace__cover site-hero-surface">
         <div className="system-workspace__container system-workspace__cover-layout">
           <div className="system-workspace__title">
             <p className="system-workspace__eyebrow">

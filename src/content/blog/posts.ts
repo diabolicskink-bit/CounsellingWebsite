@@ -74,9 +74,3 @@ export const blogPosts: readonly BlogPost[] = blogPostMetadata.map((post) => ({
 export function getBlogPostBySlug(slug: string | undefined) {
   return blogPosts.find((post) => post.slug === slug);
 }
-
-export function getBlogReadingMinutes(body: string) {
-  const wordCount = body.trim().split(/\s+/).filter(Boolean).length;
-
-  return Math.max(1, Math.ceil(wordCount / 210));
-}

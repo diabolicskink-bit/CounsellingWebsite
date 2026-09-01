@@ -76,7 +76,7 @@ export default function InclusivePractice() {
 
   return (
     <main className="site-page inclusion-hub-page">
-      <section className="site-hero site-hero-background">
+      <section className="site-hero site-hero-surface">
         <Container>
           <h1 className="site-hero__eyebrow">{hero.heading}</h1>
 

@@ -5,7 +5,7 @@
 }
 
 .site-page.test-bed-page .site-hero__statement {
-  margin: var(--site-hero-eyebrow-statement-gap) 0 0;
+  margin: var(--site-hero-eyebrow-gap) 0 0;
   font-size: clamp(3.25rem, 4.65vw, 4.45rem);
   letter-spacing: -0.045em;
   line-height: 0.96;

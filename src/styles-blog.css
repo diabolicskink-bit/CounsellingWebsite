@@ -23,7 +23,7 @@
 
 .blog-index .blog-index__hero .site-hero__statement {
   max-width: 10ch;
-  margin: var(--site-hero-eyebrow-statement-gap) 0 0;
+  margin: var(--site-hero-eyebrow-gap) 0 0;
   font-size: clamp(3.7rem, 5.5vw, 5.1rem);
   letter-spacing: -0.045em;
   line-height: 0.93;

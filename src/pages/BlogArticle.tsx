@@ -2,7 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import Container from "../components/Container";
 import ArticleMarkdown from "../content/blog/ArticleMarkdown";
-import BlogArticleHero from "../content/blog/BlogArticleHero";
+import ArticleHero from "../content/blog/ArticleHero";
 import { getBlogPostBySlug, type BlogPost } from "../content/blog/posts";
 import { getBlogArticlePresentation } from "../content/blog/presentations";
 import { publicRoutePaths } from "../data/routes";
@@ -25,7 +25,7 @@ function PublishedBlogArticle({ post }: { post: BlogPost }) {
   return (
     <main className="site-page blog-article">
       <article className={documentClassName}>
-        <BlogArticleHero post={post} />
+        <ArticleHero post={post} />
 
         <div className="blog-article__reading-area">
           <Container className="blog-article__reading-inner">

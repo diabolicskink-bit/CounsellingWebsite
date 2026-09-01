@@ -1,6 +1,6 @@
 import ContactInvitation from "../../../components/ContactInvitation";
 import DesignSystemSpecimen from "../../../components/DesignSystemSpecimen";
-import BlogArticleHero from "../../../content/blog/BlogArticleHero";
+import ArticleHero from "../../../content/blog/ArticleHero";
 import { blogPostMetadata } from "../../../content/blog/manifest";
 import DesignSystemWorkspace from "./DesignSystemWorkspace";
 
@@ -28,12 +28,12 @@ export default function DesignSystemComponents() {
             "Standard Markdown articles",
             "Articles with registered subject-specific body presentations",
           ]}
-          identifier="<BlogArticleHero />"
+          identifier="<ArticleHero />"
           recordPath="docs/design-system/components.md"
-          role="Canonical article masthead for orientation, classification, abstract, authorship, and publication dates; article bodies and their presentations remain separate."
-          title="Article masthead"
+          role="Canonical article hero for orientation, classification, abstract, authorship, and publication dates; article bodies and their presentations remain separate."
+          title="Article hero"
         >
-          <BlogArticleHero post={blogPostMetadata[0]} />
+          <ArticleHero post={blogPostMetadata[0]} />
         </DesignSystemSpecimen>
 
         <DesignSystemSpecimen

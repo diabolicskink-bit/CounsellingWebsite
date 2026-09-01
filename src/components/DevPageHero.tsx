@@ -10,7 +10,7 @@ type Props = {
 
 export default function DevPageHero({ badge, title, description, children }: Props) {
   return (
-    <section className="site-hero site-hero-background">
+    <section className="site-hero site-hero-surface">
       <Container>
         <div className="hero-top">
           <div>

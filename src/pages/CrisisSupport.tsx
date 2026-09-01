@@ -250,7 +250,7 @@ export default function CrisisSupport() {
     <main className="site-page crisis-support-page">
       <section
         aria-labelledby="crisis-support-title"
-        className="site-hero site-hero-background crisis-support-page__hero"
+        className="site-hero site-hero-surface crisis-support-page__hero"
       >
         <Container>
           <p className="site-hero__eyebrow">Crisis support services</p>

@@ -18,11 +18,17 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-01 - Design-System Naming Convention Formalized
+
+- Established one public naming scheme: site-wide CSS uses `site-*`, component CSS roots match role-based PascalCase component names, owned custom properties carry their contract prefix, and feature-local styles retain their feature namespace outside the public API.
+- Renamed `<BlogArticleHero />` to `<ArticleHero />`, `.site-hero-background` to `.site-hero-surface`, and the hero spacing property to `--site-hero-eyebrow-gap`; moved `.article-hero*` into the supported Components stylesheet without changing the approved visual treatment.
+- Removed the remaining reading-time estimate and its unused calculator from the Articles index.
+
 ## 2026-09-01 - Approved Hero Structure Promoted
 
 - Replaced the ambiguous `.hero-section`, `.hero-badge`, and `.hero-display` names with the supported `.site-hero`, `.site-hero__eyebrow`, and `.site-hero__statement` contract after verifying every current public and development hero consumer.
 - Consolidated the shared frame, eyebrow styling, opening-statement styling, spacing, and four dark-hero foreground roles while keeping the approved Home, Working with Joel, specialist, Articles, Contact, and other page compositions authoritative.
-- Promoted the self-styled `<BlogArticleHero />` as the canonical masthead for every article route and kept all subject-specific presentation below that boundary.
+- Promoted the self-styled article hero, now named `<ArticleHero />`, as the canonical opening for every article route and kept all subject-specific presentation below that boundary.
 - Removed the promoted primitives from the legacy source/register and added source-backed rendered pattern and component specimens; the remaining inherited hero helpers stay outside the active system.
 
 ## 2026-09-01 - Article Publishing Foundation Strengthened
@@ -325,9 +331,9 @@ Curated milestone history for durable project state. This is not a full changelo
 - Scoped: Home is the only verified production consumer today. Rollout to the other non-Contact public pages remains separate work.
 - Rendered: The Components catalogue and `/design-system` workspace now expose the real production component.
 
-## 2026-08-05 - Shared Hero Background Promoted
+## 2026-08-05 - Shared Hero Surface Promoted
 
-- Promoted: `.site-hero-background` now owns the dark-green gradient, clipping, isolation, and lower boundary used by every public-route hero while leaving hero layout, content, typography, actions, and responsive composition page-owned.
+- Promoted: The shared hero surface, now named `.site-hero-surface`, owns the dark-green gradient, clipping, isolation, and lower boundary used by every public-route hero while leaving hero layout, content, typography, actions, and responsive composition page-owned.
 - Migrated: Home, Working with Joel, Inclusion, all three specialist routes, Contact, the Design System cover, Documents hero, and shared development test-bed hero now use the supported surface.
 - Removed: Deleted the obsolete light `.hero-bg--default` helper, its unused noise asset, and repeated page-level hero background declarations after migrating all consumers.
 - Rendered: Patterns now shows the real supported hero surface alongside the warm editorial-section contract.

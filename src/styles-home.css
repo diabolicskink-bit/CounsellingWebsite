@@ -24,7 +24,7 @@
 
 .home-page .home-page__hero .site-hero__statement {
   max-width: 20ch;
-  margin: var(--site-hero-eyebrow-statement-gap) 0 0;
+  margin: var(--site-hero-eyebrow-gap) 0 0;
   font-size: clamp(2.9rem, 4.2vw, 4rem);
   letter-spacing: -0.04em;
   line-height: 0.94;
