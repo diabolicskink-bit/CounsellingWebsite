@@ -47,10 +47,9 @@ export default function PrivacyPolicy() {
               <div>
                 <h2 id="scope-title">1. About this privacy policy</h2>
                 <p>
-                  Vive Counselling is a private counselling practice operated by Joel Griffiths. This
-                  policy explains how personal information is collected, used, stored and disclosed
-                  through the public website, initial enquiries, counselling administration and
-                  counselling services.
+                  This policy explains how personal information is collected, used, stored and disclosed
+                  through the public website, initial enquiries, counselling administration and counselling
+                  services.
                 </p>
                 <p>
                   Counselling may involve{" "}
@@ -65,12 +64,6 @@ export default function PrivacyPolicy() {
                   <a href="https://www.oaic.gov.au/privacy/australian-privacy-principles">
                     Australian Privacy Principles
                   </a>.
-                </p>
-                <p>
-                  Website privacy and confidentiality within a counselling relationship are related,
-                  but they are not the same. An initial website or email enquiry is not a counselling
-                  session. The confidentiality arrangements for counselling begin when they are agreed
-                  with you as part of informed consent.
                 </p>
               </div>
             </section>
