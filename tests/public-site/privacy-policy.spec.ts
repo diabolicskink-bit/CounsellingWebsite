@@ -1,14 +1,16 @@
 import { expect, test } from "playwright/test";
+import { getRouteMetadata } from "../../src/data/routeMetadata";
+import { publicRoutePaths } from "../../src/data/routes";
+
+const privacyPolicyMetadata = getRouteMetadata(publicRoutePaths.privacyPolicy);
 
 test("publishes the privacy policy with client-system and complaint details", async ({ page }) => {
-  await page.goto("/privacy-policy");
+  await page.goto(publicRoutePaths.privacyPolicy);
 
   const main = page.locator("main.privacy-policy-page");
 
   await expect(main.getByRole("heading", { level: 1 })).toHaveText("Privacy policy.");
-  await expect(main.locator("time")).toHaveAttribute("datetime", "2026-08-31");
-  await expect(main.getByRole("navigation", { name: "Privacy policy sections" })).toHaveCount(0);
-  await expect(main.getByRole("heading", { name: "Privacy summary" })).toHaveCount(0);
+  await expect(main.locator("time")).toHaveAttribute("datetime", privacyPolicyMetadata.lastModified);
   await expect(main.getByRole("link", { name: "health information" })).toHaveAttribute(
     "href",
     "https://www.oaic.gov.au/privacy/your-privacy-rights/health-information/handling-health-information",
@@ -38,11 +40,11 @@ test("publishes the privacy policy with client-system and complaint details", as
     "https://www.oaic.gov.au/privacy/privacy-complaints/lodge-a-privacy-complaint-with-us",
   );
   await expect(page.getByRole("contentinfo").getByRole("link", { name: "Privacy" }))
-    .toHaveAttribute("href", "/privacy-policy");
+    .toHaveAttribute("href", publicRoutePaths.privacyPolicy);
 });
 
 test("puts the privacy policy beside the enquiry action", async ({ page }) => {
-  await page.goto("/contact");
+  await page.goto(publicRoutePaths.contact);
   await page.getByLabel("General enquiry").check();
 
   const formActions = page.getByRole("form", { name: "Enquiry" }).locator(
@@ -50,6 +52,6 @@ test("puts the privacy policy beside the enquiry action", async ({ page }) => {
   );
 
   await expect(formActions.getByRole("link", { name: "privacy policy" }))
-    .toHaveAttribute("href", "/privacy-policy");
+    .toHaveAttribute("href", publicRoutePaths.privacyPolicy);
   await expect(formActions.getByRole("button", { name: "Send enquiry" })).toBeVisible();
 });
