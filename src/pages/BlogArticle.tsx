@@ -2,6 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import Container from "../components/Container";
 import ArticleMarkdown from "../content/blog/ArticleMarkdown";
+import ArticleReferences from "../content/blog/ArticleReferences";
 import ArticleHero from "../content/blog/ArticleHero";
 import { getBlogPostBySlug, type BlogPost } from "../content/blog/posts";
 import { getBlogArticlePresentation } from "../content/blog/presentations";
@@ -47,6 +48,7 @@ function PublishedBlogArticle({ post }: { post: BlogPost }) {
             ) : (
               <ArticleMarkdown body={post.body} sectioned />
             )}
+            <ArticleReferences references={post.references} />
           </Container>
         </div>
       </article>

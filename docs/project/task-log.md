@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-01 - Per-Article Content Templates Added
+
+- Moved every Markdown body into its own typed module under `src/content/blog/postTemplates/`, leaving `posts.ts` as the small compile-time checked pairing registry between templates and the lightweight publication manifest.
+- Made references an ordered first-class field on each article template and introduced one dedicated renderer for source count, Markdown citation content, numbering and responsive source-ledger presentation.
+
 ## 2026-09-01 - Standard Article Reading System Established
 
 - Kept the approved shared `<ArticleHero />` while giving standard Markdown article bodies their own centred reading composition, paragraph typography, heading rhythm, lists, quotations and tables instead of inheriting the public `.site-reading` role.

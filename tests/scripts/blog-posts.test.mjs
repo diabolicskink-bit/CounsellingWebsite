@@ -24,6 +24,15 @@ test("keeps every published manifest entry paired with a non-empty article body"
 
   for (const post of blogPosts) {
     assert.ok(post.body.trim(), post.slug);
+    assert.ok(Array.isArray(post.references), post.slug);
+
+    for (const reference of post.references) {
+      assert.ok(reference.citation.trim(), `${post.slug} has an empty reference`);
+
+      if (reference.href) {
+        assert.doesNotThrow(() => new URL(reference.href));
+      }
+    }
   }
 });
 

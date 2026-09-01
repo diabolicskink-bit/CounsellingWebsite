@@ -100,6 +100,7 @@
 .blog-index__entry-details a,
 .blog-index__site-links a,
 .blog-article__prose a,
+.blog-article__reference-copy a,
 .blog-article__return a {
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, var(--article-accent) 38%, transparent);
@@ -110,6 +111,7 @@
 .blog-index__entry-details a:hover,
 .blog-index__site-links a:hover,
 .blog-article__prose a:hover,
+.blog-article__reference-copy a:hover,
 .blog-article__return a:hover {
   color: var(--article-accent);
   text-decoration-color: currentColor;
@@ -119,6 +121,7 @@
 .blog-index__entry-details a:focus-visible,
 .blog-index__site-links a:focus-visible,
 .blog-article__prose a:focus-visible,
+.blog-article__reference-copy a:focus-visible,
 .blog-article__return a:focus-visible {
   border-radius: 2px;
   outline: 3px solid color-mix(in srgb, var(--article-accent) 36%, transparent);
@@ -350,7 +353,7 @@
   text-transform: uppercase;
 }
 
-.blog-article__references ul {
+.blog-article__reference-list {
   counter-reset: article-reference;
   gap: 0;
   margin: 0;
@@ -395,6 +398,17 @@
   line-height: inherit;
 }
 
+.blog-article__reference-link {
+  display: inline-flex;
+  margin-top: 7px;
+  color: var(--article-accent);
+  font-size: 0.68rem;
+  font-weight: 760;
+  letter-spacing: 0.045em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
 .blog-article__prose blockquote {
   margin: 2em 0;
   padding: 2px 0 2px 24px;
@@ -408,7 +422,8 @@
   line-height: 1.4;
 }
 
-.blog-article__prose a {
+.blog-article__prose a,
+.blog-article__reference-copy a {
   color: var(--article-accent);
 }
 

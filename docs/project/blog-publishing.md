@@ -18,11 +18,34 @@ Add one object to `publishedBlogPostMetadata` in `src/content/blog/manifest.ts`:
 }
 ```
 
-Add the matching Markdown body to `blogPostBodies` in `src/content/blog/posts.ts`, keyed by the same slug. The manifest stays deliberately lightweight because shared metadata and analytics use it on every public route; article bodies and Markdown rendering load only when someone enters the Articles section.
+Create one matching content template at `src/content/blog/postTemplates/<slug>.ts`:
+
+```ts
+import { defineBlogPostTemplate } from "../postTemplate.ts";
+
+export default defineBlogPostTemplate({
+  slug: "the-same-manifest-slug",
+  body: `The article introduction begins here.
+
+## The first section
+
+The article continues in Markdown.`,
+  references: [
+    {
+      citation: `One complete reference, with *Markdown emphasis* when useful.`,
+      href: "https://example.com/source",
+    },
+  ],
+});
+```
+
+Import that template in `src/content/blog/posts.ts` and add it to `blogPostTemplates`. The typed registry must contain exactly one template for every manifest slug. The manifest stays deliberately lightweight because shared metadata and analytics use it on every public route; article bodies and Markdown rendering load only when someone enters the Articles section.
+
+Keep the public title in the manifest rather than repeating it as a Markdown H1. Put only the article body in `body`. Put each complete bibliography entry in the optional ordered `references` array rather than adding a References heading to the body. Store its display text in `citation` and its DOI or source destination separately in `href` when one is available.
 
 Use `updatedAt` only after a substantive published revision. Keep the original `publishedAt` value.
 
-Use `sourceNote` when readers should know where the article came from or how it was adapted. Graduate Diploma coursework is one possible source, not the organising identity of the section. State the note narrowly, for example: `Adapted from Graduate Diploma coursework and revised for a general audience.` Keep citations and a `## References` section in the Markdown body when sources materially support the article.
+Use `sourceNote` when readers should know where the article came from or how it was adapted. Graduate Diploma coursework is one possible source, not the organising identity of the section. State the note narrowly, for example: `Adapted from Graduate Diploma coursework and revised for a general audience.` Keep inline citations in the body and add the corresponding entries to the template's `references` array when sources materially support the article.
 
 Set `isSample: true` only for temporary demonstration content. Samples are visible from the index but receive `noindex, nofollow` metadata and are excluded from the sitemap.
 
@@ -30,7 +53,7 @@ Set `isSample: true` only for temporary demonstration content. Samples are visib
 
 The default presentation renders ordinary Markdown, including headings, lists, quotations, tables, emphasis, and links. Its article-owned reading layout uses a centred continuous column, compact paragraph leading, and level-two headings directly above their sections with a controlled transition rather than the public site's general reading and section rhythm. Use site-root paths such as `/working-with-joel` for internal links and complete `https://` URLs for external sources.
 
-An exact `## References` section receives the standard source-ledger presentation: a source count, compact typography, numbered visual markers, and a ruled list that remains fully visible. Keep each reference as one Markdown list item. This treatment is presentational only; authors should still choose a consistent citation style and order references deliberately.
+When a template supplies `references`, the dedicated references component renders the ordered set as a wider source ledger with a source count, compact typography, numbered visual markers, ruled entries, and consistent source links that remain readable at narrow widths. Each citation accepts inline Markdown, including emphasis. The component controls structure and presentation only; authors should still keep each citation complete, choose a consistent citation style, and order references deliberately.
 
 An article may instead select a custom body presentation without changing the publication shell:
 
@@ -53,7 +76,7 @@ Do not add a custom presentation merely to decorate an otherwise standard articl
 - generates article metadata for the prerenderer and analytics; and
 - adds indexable articles and their publication or revision date to the sitemap.
 
-`src/content/blog/posts.ts` pairs each manifest entry with its Markdown body and supplies reading-time data to the article pages. Type checking fails when a manifest slug has no matching body. Browser builds lazy-load the Articles pages, while the server build keeps their synchronous components available so every article body remains present in the prerendered first response.
+`src/content/blog/posts.ts` pairs each manifest entry with its typed content template. Type checking fails when a manifest slug has no matching template or a template declares an unknown slug. Browser builds lazy-load the Articles pages, while the server build keeps their synchronous components available so every article body and reference set remain present in the prerendered first response.
 
 `npm run build` fails if a generated article route cannot be rendered or if its expected article structure is missing. The route and article browser specs under `tests/public-site/` derive the article route list from the same registry and cover hydration, metadata, sitemap and sample noindex behaviour, navigation, article wayfinding, custom sample presentations, and unknown-slug handling. Direct script tests cover the generated `Blog` and `BlogPosting` structured data.
 

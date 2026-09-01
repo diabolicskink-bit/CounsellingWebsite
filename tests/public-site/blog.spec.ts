@@ -58,19 +58,21 @@ test.describe("article publishing", () => {
       } else {
         await expect(articleDocument).toHaveClass("blog-article__document");
         await expect(articleDocument.locator(".blog-article__prose--sectioned")).toBeVisible();
+      }
 
-        const referenceBody = post.body.split("\n## References\n")[1];
+      if (post.references.length > 0) {
+        const referenceLedger = articleDocument.locator(".blog-article__references");
+        const linkedReferenceCount = post.references.filter((reference) => reference.href).length;
 
-        if (referenceBody) {
-          const referenceCount = referenceBody.match(/^[-*+]\s+/gm)?.length ?? 0;
-          const referenceLedger = articleDocument.locator(".blog-article__references");
-
-          await expect(referenceLedger.getByRole("heading", { level: 2, name: "References" }))
-            .toBeVisible();
-          await expect(referenceLedger.locator("li")).toHaveCount(referenceCount);
-          await expect(referenceLedger.locator(".blog-article__reference-count"))
-            .toHaveText(`${referenceCount} ${referenceCount === 1 ? "source" : "sources"}`);
-        }
+        await expect(referenceLedger.getByRole("heading", { level: 2, name: "References" }))
+          .toBeVisible();
+        await expect(referenceLedger.locator("li")).toHaveCount(post.references.length);
+        await expect(referenceLedger.locator(".blog-article__reference-link"))
+          .toHaveCount(linkedReferenceCount);
+        await expect(referenceLedger.locator(".blog-article__reference-count"))
+          .toHaveText(
+            `${post.references.length} ${post.references.length === 1 ? "source" : "sources"}`,
+          );
       }
     });
   }

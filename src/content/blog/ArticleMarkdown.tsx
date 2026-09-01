@@ -67,10 +67,6 @@ function createSectionId(heading: string, index: number) {
   return `article-section-${index + 1}-${slug || "section"}`;
 }
 
-function countReferenceEntries(body: string) {
-  return (body.match(/^[-*+]\s+/gm) ?? []).length;
-}
-
 function MarkdownContent({
   body,
   components,
@@ -127,17 +123,11 @@ export default function ArticleMarkdown({
 
         {sections.map((section, index) => {
           const sectionId = createSectionId(section.heading, index);
-          const isReferences = section.heading.toLowerCase() === "references";
-          const referenceCount = isReferences ? countReferenceEntries(section.body) : 0;
-          const sectionClassName = [
-            "blog-article__section",
-            isReferences ? "blog-article__references" : null,
-          ].filter(Boolean).join(" ");
 
           return (
             <section
               aria-labelledby={sectionId}
-              className={sectionClassName}
+              className="blog-article__section"
               key={`${section.heading}-${index}`}
             >
               <header className="blog-article__section-heading">
@@ -146,11 +136,6 @@ export default function ArticleMarkdown({
                   heading={section.heading}
                   id={sectionId}
                 />
-                {referenceCount > 0 ? (
-                  <p className="blog-article__reference-count">
-                    {referenceCount} {referenceCount === 1 ? "source" : "sources"}
-                  </p>
-                ) : null}
               </header>
               <div className="blog-article__section-copy">
                 <MarkdownContent body={section.body} components={components} />

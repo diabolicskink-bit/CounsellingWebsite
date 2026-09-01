@@ -44,7 +44,7 @@ const publishedBlogPostMetadata = [
       "What kink-affirming therapy means in practice, including therapist knowledge, trauma, consent, stigma and the difference between acceptance and competence.",
     publishedAt: "2026-09-01",
     slug: "what-is-kink-affirming-therapy",
-    title: "What is kink-affirming therapy?",
+    title: "What Is Kink-Affirming Therapy?",
     topic: "Kink and BDSM",
   },
   {
