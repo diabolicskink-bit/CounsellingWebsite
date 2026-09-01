@@ -14,11 +14,14 @@ export default function BlogIndex() {
 
   return (
     <main className="site-page blog-index">
-      <header className="blog-index__header" aria-labelledby="blog-index-title">
+      <header
+        className="hero-section site-hero-background blog-index__hero"
+        aria-labelledby="blog-index-title"
+      >
         <Container className="blog-index__header-grid">
-          <div>
-            <p className="blog-index__section-label">Vive Counselling</p>
-            <h1 id="blog-index-title">Articles</h1>
+          <div className="blog-index__hero-heading">
+            <p className="hero-badge">Vive Counselling</p>
+            <h1 className="hero-display" id="blog-index-title">Articles</h1>
           </div>
           <p className="blog-index__introduction site-reading">
             Essays and explanatory articles. Topics and formats vary; sources and
