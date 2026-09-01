@@ -1,9 +1,5 @@
 /* A restrained document layout for the public privacy policy. */
 
-.privacy-policy-page {
-  --privacy-rule: rgba(35, 75, 61, 0.2);
-}
-
 .privacy-policy-page__hero-content {
   display: grid;
   gap: 16px;
@@ -11,21 +7,17 @@
   padding-block: 40px;
 }
 
-.privacy-policy-page__title {
+.privacy-policy-page .privacy-policy-page__title {
   color: #fcfcfa;
   font-size: clamp(4.2rem, 7vw, 6rem);
   letter-spacing: -0.045em;
   line-height: 0.9;
 }
 
-.privacy-policy-page__updated {
+.privacy-policy-page .privacy-policy-page__updated {
   color: rgba(232, 239, 233, 0.74);
   font-size: var(--type-small);
   line-height: 1.5;
-}
-
-.privacy-policy-page__body {
-  padding-block: clamp(48px, 7vw, 82px) clamp(72px, 9vw, 110px);
 }
 
 .privacy-policy-page__layout {
@@ -37,7 +29,7 @@
   gap: 18px;
   scroll-margin-top: 96px;
   padding-block: 42px;
-  border-top: 1px solid var(--privacy-rule);
+  border-top: 1px solid var(--section-rule);
 }
 
 .privacy-policy-page__section h2 {
@@ -49,11 +41,11 @@
   line-height: 1.18;
 }
 
-.privacy-policy-page__section p,
 .privacy-policy-page__section li {
   color: var(--body);
-  font-size: 1rem;
-  line-height: 1.72;
+  font-size: clamp(1.005rem, calc(0.5rem + 0.56vw), 1.04rem);
+  font-weight: 400;
+  line-height: 1.63;
 }
 
 .privacy-policy-page__section ul {
@@ -73,7 +65,7 @@
 }
 
 .privacy-policy-page__content a {
-  color: var(--cedar-dark);
+  color: var(--cedar);
   font-weight: 700;
   text-decoration: underline;
   text-decoration-color: rgba(35, 75, 61, 0.35);
@@ -94,10 +86,6 @@
   .privacy-policy-page__title {
     font-size: clamp(3.15rem, 14.5vw, 4.2rem);
     line-height: 0.92;
-  }
-
-  .privacy-policy-page__body {
-    padding-block: 42px 76px;
   }
 
   .privacy-policy-page__section {

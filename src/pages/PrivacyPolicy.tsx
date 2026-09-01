@@ -36,17 +36,17 @@ export default function PrivacyPolicy() {
         </Container>
       </section>
 
-      <div className="privacy-policy-page__body">
+      <div className="privacy-policy-page__body site-section-warm">
         <Container className="privacy-policy-page__layout">
           <article aria-labelledby="privacy-policy-title" className="privacy-policy-page__content">
             <section className="privacy-policy-page__section" id="scope">
               <h2>1. About this privacy policy</h2>
-              <p>
+              <p className="site-reading">
                 This policy explains how personal information is collected, used, stored and disclosed
                 through the public website, initial enquiries, counselling administration and counselling
                 services.
               </p>
-              <p>
+              <p className="site-reading">
                 Counselling may involve{" "}
                 <a href="https://www.oaic.gov.au/privacy/your-privacy-rights/health-information/handling-health-information">
                   health information
@@ -64,7 +64,9 @@ export default function PrivacyPolicy() {
 
             <section className="privacy-policy-page__section" id="information">
               <h2>2. Personal information we may collect</h2>
-              <p>The information depends on how you interact with the practice. It may include:</p>
+              <p className="site-reading">
+                The information depends on how you interact with the practice. It may include:
+              </p>
               <ul>
                 <li>
                   <strong>Contact and enquiry details</strong>, such as your name, email address,
@@ -93,14 +95,14 @@ export default function PrivacyPolicy() {
 
             <section className="privacy-policy-page__section" id="collection-and-use">
               <h2>3. How we collect and use personal information</h2>
-              <p>
+              <p className="site-reading">
                 Most personal information comes directly from you: through the website enquiry form,
                 by email, during appointments or through other contact with the practice. Information
                 may also come from someone you have authorised to contact Vive Counselling, or be
                 collected where authorised or required by law. The website automatically records
                 limited visit information for analytics.
               </p>
-              <p>Vive Counselling may use personal information to:</p>
+              <p className="site-reading">Vive Counselling may use personal information to:</p>
               <ul>
                 <li>respond to enquiries and arrange an initial consult or counselling session;</li>
                 <li>consider availability and whether the service appears suitable for the enquiry;</li>
@@ -114,24 +116,24 @@ export default function PrivacyPolicy() {
 
             <section className="privacy-policy-page__section" id="enquiries-and-counselling">
               <h2>4. Enquiries, client records and online counselling</h2>
-              <p>
+              <p className="site-reading">
                 Form submissions pass through Vercel, the website host, and Resend, the email delivery
                 provider, before reaching Vive Counselling&apos;s Australian Zoho Mail inbox. Email and online
                 forms cannot be guaranteed to be completely secure.
               </p>
-              <p>
+              <p className="site-reading">
                 If you become a client, Vive Counselling creates and maintains your main client record
                 in Zanda. This may include contact and demographic details, appointments, consent forms,
                 clinical notes, files, correspondence and billing records. Contact Vive Counselling,
                 rather than Zanda, if you want to access or correct your client record.
               </p>
-              <p>
+              <p className="site-reading">
                 Online counselling uses the Zoom-powered telehealth service integrated with Zanda.
                 Zanda holds the appointment and client link information, while Zoom processes the
                 connection and live audio and video needed to run the session. Vive Counselling does
                 not record telehealth sessions.
               </p>
-              <p>
+              <p className="site-reading">
                 The confidentiality arrangements and their limits are explained as part of informed
                 consent before counselling begins. Personal information may be used or disclosed with
                 your consent, where authorised or required by law, or where Australian privacy law
@@ -141,20 +143,20 @@ export default function PrivacyPolicy() {
 
             <section className="privacy-policy-page__section" id="website-analytics">
               <h2>5. Website analytics and browser storage</h2>
-              <p>
+              <p className="site-reading">
                 Vive Counselling keeps its own website visit records to understand visits, page use and
                 enquiry outcomes. A random visitor ID is stored in your browser&apos;s local storage,
                 and the current visit is kept in session storage. A new visit starts after 30 minutes
                 of inactivity or when you arrive from a new external or tagged link. The visitor ID
                 changes after 12 months, and Vive&apos;s stored visit records are deleted after 12 months.
               </p>
-              <p>
+              <p className="site-reading">
                 The website may also use Google Analytics to record public page views and actions.
                 Microsoft Clarity may record interactions to help identify website usability problems.
                 Google and Microsoft may use cookies or similar technologies and process technical
                 information under their own privacy terms.
               </p>
-              <p>
+              <p className="site-reading">
                 You can remove or block cookies and clear local or session storage through your browser
                 settings. Doing so may reset the identifiers used to distinguish visits. You can read
                 more in the{" "}
@@ -167,7 +169,7 @@ export default function PrivacyPolicy() {
 
             <section className="privacy-policy-page__section" id="sharing">
               <h2>6. Who we share information with</h2>
-              <p>
+              <p className="site-reading">
                 Personal information is shared only where needed to operate the practice, provide the
                 service, meet professional or legal obligations, or where you have consented. The main
                 providers are:
@@ -198,23 +200,23 @@ export default function PrivacyPolicy() {
                   Google for Google Analytics and Microsoft for Clarity on public website pages.
                 </li>
               </ul>
-              <p>
+              <p className="site-reading">
                 Zanda stores and backs up Australian account data in Australian AWS data centres.
                 Limited, authorised support access may occur from Zanda staff in the United Kingdom or
                 United States, and some Zanda features use overseas providers. Zoom&apos;s telehealth
                 processing can occur in selected regions including Australia, Europe and the United States.
               </p>
-              <p>
+              <p className="site-reading">
                 Zoho Mail service data is stored in Australia. Website enquiry messages also pass
                 through Resend, which stores customer data in the United States. Website hosting,
                 database and analytics providers may process data in the United States and other
                 countries in which they operate. Provider locations can change.
               </p>
-              <p>
+              <p className="site-reading">
                 Where personal information may be processed overseas, Vive Counselling takes reasonable
                 steps to use providers with appropriate privacy and security safeguards.
               </p>
-              <p>
+              <p className="site-reading">
                 Information may also be disclosed when you authorise it, when disclosure is authorised
                 or required by law, or when another permitted privacy exception applies.
               </p>
@@ -222,13 +224,13 @@ export default function PrivacyPolicy() {
 
             <section className="privacy-policy-page__section" id="security-and-retention">
               <h2>7. How we protect and retain information</h2>
-              <p>
+              <p className="site-reading">
                 Vive Counselling takes reasonable steps to protect personal information from misuse,
                 interference, loss, unauthorised access, modification and disclosure. This includes
                 restricting access and using service providers with security controls. No internet,
                 email or electronic storage system can be guaranteed completely secure.
               </p>
-              <p>
+              <p className="site-reading">
                 Zanda&apos;s practice-management and electronic health record system is independently
                 certified to ISO/IEC 27001:2022. The certification covers the platform and the supporting
                 engineering, infrastructure, data handling, security, migration, support and people
@@ -240,7 +242,7 @@ export default function PrivacyPolicy() {
                   current ISO/IEC 27001 certificate
                 </a>.
               </p>
-              <p>
+              <p className="site-reading">
                 First-party website visit data is retained for 12 months. Zanda does not automatically
                 delete archived client records; Vive Counselling manages their retention. Enquiry
                 correspondence, administrative information and counselling records are kept only for
@@ -248,7 +250,7 @@ export default function PrivacyPolicy() {
                 applicable legal, professional, insurance and record-keeping requirements. This can
                 mean some records cannot be deleted immediately after a request.
               </p>
-              <p>
+              <p className="site-reading">
                 Suspected data breaches are assessed and managed. Vive Counselling will notify affected
                 people and the Office of the Australian Information Commissioner when the Notifiable
                 Data Breaches scheme requires it.
@@ -257,13 +259,13 @@ export default function PrivacyPolicy() {
 
             <section className="privacy-policy-page__section" id="access-and-complaints">
               <h2>8. Access, correction and complaints</h2>
-              <p>
+              <p className="site-reading">
                 You can ask to access personal information Vive Counselling holds about you, or ask for
                 inaccurate, out-of-date, incomplete, irrelevant or misleading information to be corrected.
                 Email <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a>. Identity may need to be
                 verified before information is released, and any legal exception will be explained.
               </p>
-              <p>
+              <p className="site-reading">
                 To make a privacy complaint, use the same email address, put &ldquo;Privacy complaint&rdquo;
                 in the subject line and explain what happened. Vive Counselling will consider the complaint
                 and aims to respond within 30 days. If you are not satisfied, or no response is received
@@ -276,7 +278,7 @@ export default function PrivacyPolicy() {
 
             <section className="privacy-policy-page__section" id="contact-and-changes">
               <h2>9. Contact and policy changes</h2>
-              <p>
+              <p className="site-reading">
                 Email <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a> or use the{" "}
                 <Link to={publicRoutePaths.contact}>Contact page</Link>. This policy may be updated when
                 the practice, providers or privacy obligations change. The current version will always

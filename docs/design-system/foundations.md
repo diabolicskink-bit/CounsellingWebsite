@@ -9,7 +9,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Default long-form reading role for public-page prose: the Inter-first `--font-sans` stack, responsive `1.005–1.04rem` size, weight `400`, line-height `1.63`, and `--body` as the supported light-surface foreground.
 - `Boundary`: Use for substantive paragraphs that need comfortable continuous reading, not headings, labels, navigation, buttons, captions, metadata, form controls, or compact supporting text. A consumer on a dark or otherwise incompatible surface may override only the foreground colour with a contrast-appropriate contextual value; the family, size, weight, and line-height remain part of the role. The underlying `--font-sans` token is not separately promoted by this contract.
 - `Implementation`: `.site-reading` in `src/design-system/foundations.css`.
-- `Verified consumers`: Home About narrative, inclusive copy, and `<ContactInvitation />` copy; Working with Joel introduction, approach overview, and active tab copy; Inclusion hub hero support and chapter overviews; Kink and BDSM chapter prose; ENM and polyamory reasons, focus, and position prose; LGBTQIA+ recognition, assumptions, and disclosure prose; Crisis Support emergency guidance and section introductions; Contact first-message and crisis-support prose.
+- `Verified consumers`: Home About narrative, inclusive copy, and `<ContactInvitation />` copy; Working with Joel introduction, approach overview, and active tab copy; Inclusion hub hero support and chapter overviews; Kink and BDSM chapter prose; ENM and polyamory reasons, focus, and position prose; LGBTQIA+ recognition, assumptions, and disclosure prose; Crisis Support emergency guidance and section introductions; Privacy Policy body copy; Contact first-message and crisis-support prose.
 - `Promoted`: 2026-08-05 — owner-authorized reading-role promotion under `DEBT-20` and `DEBT-21`.
 
 ### `.site-reading--lead`
@@ -27,7 +27,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Primary brand accent (`#234b3d`) for action surfaces, strong interactive or editorial emphasis, and focus or boundary cues on verified light site surfaces.
 - `Boundary`: Light text `#fcfcfa` on cedar has a 9.53:1 contrast ratio, cedar on `--paper` has a 9.05:1 ratio, and cedar on `--surface` has an 8.65:1 ratio. Do not assume the same contrast on photographs or dark-green surfaces. This contract does not include `--cedar-dark`, `--cedar-soft`, or adjacent colour tokens.
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
-- `Verified consumers`: `.site-header .header-button`, `.button--primary`, `.site-footer a:focus-visible`, `.contact-invitation__action`, Working with Joel's active-tab rule, and Contact form labels, controls, links, and focus states.
+- `Verified consumers`: `.site-header .header-button`, `.button--primary`, `.site-footer a:focus-visible`, `.contact-invitation__action`, Working with Joel's active-tab rule, Privacy Policy content links, list markers, and focus states, and Contact form labels, controls, links, and focus states.
 - `Promoted`: 2026-08-03 — first colour promotion under `DEBT-37`.
 
 ### `--portrait-panel`
@@ -59,7 +59,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Flat warm paper (`#f2efe8`) for public editorial page backings, sections, and content materials.
 - `Boundary`: It is distinct from the lighter root `--paper` canvas and is not authority for the shared header, navigation, or footer merely because they currently share its literal value. Dark `#1f231f` ink has a 13.87:1 contrast ratio and `#3f493f` body text has an 8.18:1 ratio on the surface. Use `.site-section-warm` when the complete supported section pattern is intended.
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css`; consumers may use the token as a material or `.site-section-warm` for the complete pattern.
-- `Verified consumers`: Documents workspace; Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+ page backings or editorial sections; Contact enquiry task; and the shared closing invitation.
+- `Verified consumers`: Documents workspace; Home, Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, LGBTQIA+, and Privacy Policy page backings or editorial sections; Contact enquiry task; and the shared closing invitation.
 - `Promoted`: 2026-08-05 — shared warm-section promotion under `DEBT-37`.
 
 ### `--section-sage`
@@ -91,7 +91,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Cedar-derived boundary (`rgba(35, 75, 61, 0.22)`) for quiet separators on supported light editorial materials.
 - `Boundary`: It is not a general site-chrome or form-control border token and must not be the sole cue to content structure. The Contact form's stronger and quieter rules retain their page-owned opacities.
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css` and used by `.site-section-warm` and verified editorial consumers.
-- `Verified consumers`: Supported warm sections and closing invitations; Documents boundaries and Markdown content; Crisis Support service and region separators; and editorial rules across Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+.
+- `Verified consumers`: Supported warm sections and closing invitations; Documents boundaries and Markdown content; Crisis Support service and region separators; Privacy Policy section separators; and editorial rules across Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+.
 - `Promoted`: 2026-08-05 — shared warm-section pattern promotion under `DEBT-37`.
 
 ### `--section-dark-rule`
