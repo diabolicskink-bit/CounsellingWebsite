@@ -1,0 +1,103 @@
+/* A restrained document layout for the public privacy policy. */
+
+.privacy-policy-page__hero-content {
+  display: grid;
+  gap: 16px;
+  max-width: 780px;
+  padding-block: 40px;
+}
+
+.privacy-policy-page .privacy-policy-page__title {
+  color: #fcfcfa;
+  font-size: clamp(4.2rem, 7vw, 6rem);
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+}
+
+.privacy-policy-page .privacy-policy-page__updated {
+  color: rgba(232, 239, 233, 0.74);
+  font-size: var(--type-small);
+  line-height: 1.5;
+}
+
+.privacy-policy-page__layout {
+  max-width: 880px;
+}
+
+.privacy-policy-page__section {
+  display: grid;
+  gap: 18px;
+  scroll-margin-top: 96px;
+  padding-block: 42px;
+  border-top: 1px solid var(--section-rule);
+}
+
+.privacy-policy-page__section h2 {
+  max-width: 31ch;
+  margin-bottom: 4px;
+  color: var(--ink);
+  font-size: clamp(1.75rem, 3.4vw, 2.2rem);
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+}
+
+.privacy-policy-page__section li {
+  color: var(--body);
+  font-size: clamp(1.005rem, calc(0.5rem + 0.56vw), 1.04rem);
+  font-weight: 400;
+  line-height: 1.63;
+}
+
+.privacy-policy-page__section ul {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding-left: 1.35rem;
+}
+
+.privacy-policy-page__section li::marker {
+  color: var(--cedar);
+}
+
+.privacy-policy-page__section strong {
+  color: var(--ink);
+  font-weight: 720;
+}
+
+.privacy-policy-page__content a {
+  color: var(--cedar);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 75, 61, 0.35);
+  text-underline-offset: 3px;
+}
+
+.privacy-policy-page__content a:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid var(--cedar);
+  outline-offset: 3px;
+}
+
+.privacy-policy-page__content a:hover {
+  text-decoration-color: currentColor;
+}
+
+@media (max-width: 680px) {
+  .privacy-policy-page__title {
+    font-size: clamp(3.15rem, 14.5vw, 4.2rem);
+    line-height: 0.92;
+  }
+
+  .privacy-policy-page__section {
+    padding-block: 36px;
+  }
+}
+
+.privacy-policy-page__content > .privacy-policy-page__section:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.privacy-policy-page__content > .privacy-policy-page__section:last-child {
+  padding-bottom: 0;
+}

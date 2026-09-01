@@ -184,26 +184,25 @@ test.describe("crawl output", () => {
     expect(sitemapResponse.ok()).toBeTruthy();
 
     for (const route of publicRoutes) {
+      const metadata = routeMetadataData.routes[route];
       const routeUrl = route === "/" ? `${siteOrigin}/` : `${siteOrigin}${route}`;
       const routeResponse = await request.get(route);
       const routeHtml = await routeResponse.text();
 
       expect(routeResponse.ok()).toBeTruthy();
-      expect(routeHtml).toContain(`<title>${escapeHtml(routeMetadataData.routes[route].title)}</title>`);
+      expect(routeHtml).toContain(`<title>${escapeHtml(metadata.title)}</title>`);
       expect(routeHtml).toContain(
-        `<meta name="description" content="${escapeHtml(routeMetadataData.routes[route].description)}" />`,
+        `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
       );
       expect(routeHtml).toContain(`<link rel="canonical" href="${routeUrl}" />`);
       expect(sitemap).toContain(`<loc>${routeUrl}</loc>`);
+
+      if (metadata.lastModified) {
+        expect(sitemap).toContain(
+          `<url><loc>${routeUrl}</loc><lastmod>${metadata.lastModified}</lastmod></url>`,
+        );
+      }
     }
-
-    const crisisSupportUrl = `${siteOrigin}/crisis-support`;
-    const crisisSupportLastModified = routeMetadataData.routes["/crisis-support"].lastModified;
-
-    expect(crisisSupportLastModified).toBeTruthy();
-    expect(sitemap).toContain(
-      `<url><loc>${crisisSupportUrl}</loc><lastmod>${crisisSupportLastModified}</lastmod></url>`,
-    );
   });
 });
 

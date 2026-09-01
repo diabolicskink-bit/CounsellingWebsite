@@ -2,6 +2,10 @@
 
 This file preserves implemented and superseded `SITE-*` items moved out of the [active site backlog](../site-backlog.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### SITE-11 - Website privacy and counselling-boundaries note
+
+Implemented on 2026-08-31. The public `/privacy-policy` route now distinguishes website analytics, initial-enquiry handling and counselling confidentiality; documents Zoho Mail, Zanda client records, Zoom-powered telehealth, first-party and optional third-party analytics, the 12-month visit-data retention rule, and service-provider and overseas processing; and gives direct access, correction and complaint routes. It is linked from the shared footer and immediately before the Contact form submission action. The policy records the owner's confirmation that current telehealth sessions are not recorded.
+
 ### SITE-7 - Global reduced-motion baseline
 
 Implemented on 2026-08-31. Smooth scrolling now falls back to immediate scrolling when reduced motion is requested. An audit of every public stylesheet confirmed that page-owned and shared spatial transitions and reveal animations have reduced-motion overrides; the remaining generic button lift was added to the shared fallback. Focused browser coverage checks the root scrolling behaviour, shared button transitions, and mobile-navigation reveal.

@@ -154,11 +154,6 @@
 }
 
 @media (max-width: 700px) {
-  .kink-page__fluency,
-  .kink-page__more {
-    padding: 60px 0;
-  }
-
   .kink-page__fluency-title,
   .kink-page__misread-title,
   .kink-page .kink-page__more-title {

@@ -12,6 +12,7 @@ import InclusivePractice from "./pages/InclusivePractice";
 import KinkBdsmCounselling from "./pages/KinkBdsmCounselling";
 import LgbtqiaCounselling from "./pages/LgbtqiaCounselling";
 import NotFound from "./pages/NotFound";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import WorkingWithJoel from "./pages/WorkingWithJoel";
 import { devRoutePaths, privateRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/routes";
 
@@ -110,6 +111,7 @@ export default function App({ initialRenderAt }: AppProps) {
           <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
           <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
           <Route path={publicRoutePaths.crisisSupport} element={<CrisisSupport />} />
+          <Route path={publicRoutePaths.privacyPolicy} element={<PrivacyPolicy />} />
           {devRoutes.map(({ Page, path }) => (
             <Route
               key={path}

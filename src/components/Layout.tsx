@@ -27,6 +27,7 @@ const workingWithJoelHref = publicRoutePaths.workingWithJoel;
 const inclusionHref = publicRoutePaths.inclusion;
 const contactHref = publicRoutePaths.contact;
 const crisisSupportHref = publicRoutePaths.crisisSupport;
+const privacyPolicyHref = publicRoutePaths.privacyPolicy;
 
 export default function Layout() {
   const [isMobileNavigationOpen, setIsMobileNavigationOpen] = useState(false);
@@ -159,6 +160,9 @@ export default function Layout() {
                 </li>
                 <li>
                   <Link to={crisisSupportHref}>Crisis support</Link>
+                </li>
+                <li>
+                  <Link to={privacyPolicyHref}>Privacy</Link>
                 </li>
               </ul>
             </nav>
