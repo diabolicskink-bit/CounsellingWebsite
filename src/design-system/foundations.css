@@ -4,6 +4,7 @@
  */
 
 :root {
+  --action-radius: 2px;
   --cedar: #234b3d;
   --portrait-panel: #6b5146;
   --portrait-frame: #e4d9cc;

@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-01 - Public Action System Unified
+
+- Established a site-wide action grammar: closed primary and secondary controls for decisions and submissions, with open editorial rows and text links retained for exploratory navigation.
+- Promoted `<Button />` and the shared `--action-radius` foundation, moved the reusable styles into the active design-system layer, and migrated the Working with Joel, specialist counselling, and closing-invitation actions onto the contract.
+- Preserved purpose-specific Crisis Support phone and service controls while aligning their action edges, and verified representative desktop, compact, focus, and reduced-motion states across the public site.
+
 ## 2026-09-01 - Private Analytics Visual Boundary Clarified
 
 - Closed `DEBT-41` without a source change after the owner clarified that the private dashboard may have its own CSS and visual language but does not require isolated browser, bundle, or stylesheet architecture.

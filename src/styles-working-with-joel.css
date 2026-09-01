@@ -54,43 +54,25 @@
   display: none;
 }
 
-.working-with-joel-page__hero-action {
+.working-with-joel-page__hero-action.button {
   grid-area: action;
-  display: inline-flex;
-  align-items: center;
   justify-content: space-between;
   justify-self: start;
-  width: min(100%, 300px);
-  min-height: 52px;
-  gap: 20px;
-  padding: 11px 2px;
-  border-top: 1px solid var(--section-dark-rule);
-  border-bottom: 1px solid var(--section-dark-rule);
-  color: #f2f6f2;
+  width: min(100%, 250px);
+  min-width: 0;
+  min-height: 54px;
+  gap: 28px;
+  padding: 13px 17px 12px 19px;
   font-family: var(--font-serif);
   font-size: var(--working-subheading);
   font-weight: 500;
   line-height: 1.25;
-  transition:
-    background-color 180ms ease,
-    color 180ms ease;
-}
-
-.working-with-joel-page__hero-action:hover,
-.working-with-joel-page__hero-action:focus-visible {
-  background: rgba(252, 252, 250, 0.07);
-  color: #fff;
-}
-
-.working-with-joel-page__hero-action:focus-visible {
-  outline: 3px solid rgba(232, 239, 233, 0.64);
-  outline-offset: 3px;
+  text-align: left;
 }
 
 .working-with-joel-page__hero-action svg {
-  flex: 0 0 auto;
-  color: #c8d9cc;
-  transition: transform 180ms ease;
+  color: currentColor;
+  opacity: 0.78;
 }
 
 .working-with-joel-page__hero-action:hover svg,
@@ -565,7 +547,7 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .working-with-joel-page__hero-action {
+  .working-with-joel-page__hero-action.button {
     width: 100%;
   }
 
@@ -633,26 +615,12 @@
 }
 
 @media (hover: none), (pointer: coarse) {
-  .working-with-joel-page__hero-action > span {
-    text-decoration-line: underline;
-    text-decoration-thickness: 0.06em;
-    text-underline-offset: 0.22em;
-    text-decoration-skip-ink: auto;
-  }
-
-  .working-with-joel-page__hero-action:active {
-    background: rgba(252, 252, 250, 0.1);
-    color: #fff;
-  }
-
   .working-with-joel-page__hero-action:active svg {
     transform: translateX(4px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .working-with-joel-page__hero-action,
-  .working-with-joel-page__hero-action svg,
   .working-with-joel-page .site-broad-tabs__tab,
   .working-with-joel-page .site-broad-tabs__tab::before {
     transition: none;

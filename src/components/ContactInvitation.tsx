@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import { publicRoutePaths } from "../data/routes";
+import Button from "./Button";
 import Container from "./Container";
 
 const contactHref = publicRoutePaths.contact;
@@ -28,10 +28,10 @@ export default function ContactInvitation() {
             Make an appointment if you’re ready, or request a free 15-minute consult if you’d rather speak first. You
             can also send me a message with any questions. I’m happy to answer them.
           </p>
-          <Link className="contact-invitation__action" to={contactHref}>
+          <Button className="contact-invitation__action" href={contactHref}>
             <span>See contact options</span>
             <ArrowRight aria-hidden="true" size={18} />
-          </Link>
+          </Button>
         </div>
       </Container>
     </section>

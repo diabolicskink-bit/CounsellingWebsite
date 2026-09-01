@@ -443,6 +443,13 @@
   background: #fffdf8;
 }
 
+.system-button-specimen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
 .system-specimen__evidence {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

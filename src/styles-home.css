@@ -44,62 +44,33 @@
 }
 
 .home-page__hero-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  max-width: 640px;
-  margin-top: 16px;
-  border-top: 1px solid var(--section-dark-rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: stretch;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 24px;
 }
 
 .home-page .home-page__hero-action.button {
   justify-content: space-between;
-  width: 100%;
-  min-width: 0;
-  min-height: 52px;
-  gap: 20px;
-  padding: 11px 18px 11px 2px;
-  border: 0;
-  border-right: 1px solid var(--section-dark-rule);
-  border-bottom: 1px solid var(--section-dark-rule);
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  color: #eef4ef;
+  width: auto;
+  min-width: 218px;
+  min-height: 54px;
+  gap: 28px;
+  padding: 13px 17px 12px 19px;
+  border-radius: var(--action-radius);
   font-family: var(--font-serif);
   font-size: var(--home-type-action);
   font-weight: 500;
   line-height: 1.25;
   text-align: left;
-  transition:
-    background-color 180ms ease,
-    color 180ms ease;
-}
-
-.home-page .home-page__hero-action.button:last-child {
-  border-right: 0;
-  padding-left: 22px;
-}
-
-.home-page .home-page__hero-action.button--primary {
-  color: #fcfcfa;
-}
-
-.home-page .home-page__hero-action.button:hover,
-.home-page .home-page__hero-action.button:focus-visible {
-  background: rgba(252, 252, 250, 0.07);
-  color: #fff;
-  transform: none;
-}
-
-.home-page .home-page__hero-action.button:focus-visible {
-  outline: 3px solid rgba(232, 239, 233, 0.64);
-  outline-offset: -3px;
 }
 
 .home-page__hero-action svg {
-  flex: 0 0 auto;
-  color: #c8d9cc;
-  transition: transform 180ms ease;
+  color: currentColor;
+  opacity: 0.78;
 }
 
 .home-page__hero-action:hover svg,
@@ -480,19 +451,13 @@
   }
 
   .home-page__hero-actions {
-    max-width: none;
+    max-width: 100%;
   }
 
-  .home-page .home-page__hero-action.button,
-  .home-page .home-page__hero-action.button:last-child {
+  .home-page .home-page__hero-action.button {
+    width: auto;
     min-height: 54px;
-    padding: 12px 16px 12px 2px;
-    border-right: 1px solid var(--section-dark-rule);
-  }
-
-  .home-page .home-page__hero-action.button:last-child {
-    padding-left: 20px;
-    border-right: 0;
+    padding: 13px 17px 12px 19px;
   }
 
   .home-about > .container {
@@ -586,14 +551,16 @@
   }
 
   .home-page__hero-actions {
-    grid-template-columns: 1fr;
+    display: grid;
+    width: 100%;
+    max-width: 420px;
+    gap: 10px;
   }
 
-  .home-page .home-page__hero-action.button,
-  .home-page .home-page__hero-action.button:last-child {
+  .home-page .home-page__hero-action.button {
+    width: 100%;
     min-height: 54px;
-    padding: 11px 4px;
-    border-right: 0;
+    padding: 12px 16px 12px 18px;
   }
 
   .home-about__masthead {
@@ -718,7 +685,6 @@
 }
 
 @media (hover: none), (pointer: coarse) {
-  .home-page .home-page__hero-action.button > span,
   .home-about__portrait-link > span,
   .home-inclusive__topic h3,
   .home-inclusive__hub-link > span {
@@ -726,11 +692,6 @@
     text-decoration-thickness: 0.06em;
     text-underline-offset: 0.22em;
     text-decoration-skip-ink: auto;
-  }
-
-  .home-page .home-page__hero-action.button:active {
-    background: rgba(252, 252, 250, 0.1);
-    color: #fff;
   }
 
   .home-about__portrait-link:active {
@@ -753,8 +714,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-page .home-page__hero-action.button,
-  .home-page__hero-action svg,
   .home-about__portrait-link,
   .home-about__portrait-link svg,
   .home-inclusive__topic,

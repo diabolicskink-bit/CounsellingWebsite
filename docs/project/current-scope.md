@@ -12,6 +12,7 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 - Vercel permanently redirects `/about` to `/working-with-joel`, `/fees` to `/contact`, and `/inclusion` to `/inclusive-counselling`.
 - Desktop navigation exposes Home, Working with Joel, Inclusion and its three topic pages, and Fees, with a separate Get in touch action. Mobile navigation exposes Fees and Contact separately.
 - Shared Fees links target `/contact` without a fee anchor but carry a virtual `/fees` analytics path; ordinary Contact and enquiry links report `/contact`. Navigation current-page indicators follow the tracked page path so direct Contact and Fees-intent visits remain distinct. The shared footer includes Crisis Support and Privacy alongside contact details, hours, social profiles, and copyright.
+- Public actions use one role-based visual grammar: closed primary and secondary controls for decisions and submissions, and open rows or text links for exploratory navigation. Hero contexts adapt the closed controls for dark surfaces, while Crisis Support phone and service controls retain their purpose-specific presentation.
 
 ### Development-Only Routes
 

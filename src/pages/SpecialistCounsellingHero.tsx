@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import Button from "../components/Button";
 import Container from "../components/Container";
 import "../styles-specialist-counselling-hero.css";
 
@@ -32,14 +32,18 @@ export default function SpecialistCounsellingHero({
           <p className="hero-display">{title}</p>
 
           <nav className="specialist-counselling-hero__actions" aria-label="Page actions">
-            <Link className="specialist-counselling-hero__action" to={primaryAction.href}>
+            <Button className="specialist-counselling-hero__action" href={primaryAction.href}>
               <span>{primaryAction.label}</span>
               <ArrowRight size={18} aria-hidden="true" />
-            </Link>
-            <Link className="specialist-counselling-hero__action" to={secondaryAction.href}>
+            </Button>
+            <Button
+              className="specialist-counselling-hero__action"
+              href={secondaryAction.href}
+              variant="secondary"
+            >
               <ArrowLeft size={18} aria-hidden="true" />
               <span>{secondaryAction.label}</span>
-            </Link>
+            </Button>
           </nav>
         </div>
       </Container>

@@ -61,7 +61,7 @@
   gap: 10px;
   padding: 0.8rem 1.1rem;
   border: 1px solid;
-  border-radius: 2px;
+  border-radius: var(--action-radius);
   color: #fffaf8;
   font-weight: 760;
   line-height: 1.2;
@@ -223,7 +223,7 @@
   min-height: 60px;
   padding: 9px 14px;
   border: 1px solid rgba(35, 75, 61, 0.38);
-  border-radius: 2px;
+  border-radius: var(--action-radius);
   background: rgba(252, 252, 250, 0.72);
   color: var(--cedar-dark);
   transition:

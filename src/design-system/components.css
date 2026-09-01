@@ -3,6 +3,127 @@
  * Authority: docs/design-system/components.md
  */
 
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: min(100%, 210px);
+  min-height: 48px;
+  max-width: 100%;
+  padding: 0.78rem 1.08rem;
+  border: 1px solid transparent;
+  border-radius: var(--action-radius);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.button:focus-visible {
+  outline: 3px solid rgba(35, 75, 61, 0.5);
+  outline-offset: 3px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.68;
+}
+
+.button:disabled:hover {
+  transform: none;
+}
+
+.button--primary {
+  border-color: var(--cedar);
+  background: var(--cedar);
+  box-shadow: 0 8px 18px rgba(35, 75, 61, 0.14);
+  color: #fcfcfa;
+}
+
+.button--primary:not(:disabled):hover {
+  border-color: var(--cedar-dark);
+  background: var(--cedar-dark);
+  color: #fff;
+}
+
+.button--primary:not(:disabled):active {
+  box-shadow: 0 3px 8px rgba(35, 75, 61, 0.16);
+}
+
+.button--secondary {
+  border-color: var(--line);
+  background: var(--surface-strong);
+  box-shadow: none;
+  color: var(--ink);
+}
+
+.button--secondary:not(:disabled):hover {
+  border-color: var(--cedar);
+  background: var(--paper);
+  color: var(--cedar-dark);
+}
+
+.site-hero-background .button--primary {
+  border-color: #eef4ef;
+  background: #eef4ef;
+  box-shadow: 0 8px 18px rgba(4, 20, 15, 0.16);
+  color: var(--section-dark);
+}
+
+.site-hero-background .button--primary:not(:disabled):hover {
+  border-color: #fff;
+  background: #fff;
+  color: #10271f;
+}
+
+.site-hero-background .button--secondary {
+  border-color: rgba(232, 239, 233, 0.62);
+  background: rgba(252, 252, 250, 0.055);
+  color: #eef4ef;
+}
+
+.site-hero-background .button--secondary:not(:disabled):hover {
+  border-color: rgba(238, 244, 239, 0.92);
+  background: rgba(252, 252, 250, 0.11);
+  color: #fff;
+}
+
+.site-hero-background .button:focus-visible {
+  outline-color: rgba(217, 229, 217, 0.8);
+}
+
+.site-hero-background .button--primary:not(:disabled):active {
+  background: #e5ede6;
+  box-shadow: 0 3px 8px rgba(4, 20, 15, 0.16);
+}
+
+.site-hero-background .button--secondary:not(:disabled):active {
+  background: rgba(252, 252, 250, 0.16);
+}
+
+.button > svg {
+  flex: 0 0 auto;
+  transition: transform 180ms ease;
+}
+
 .contact-invitation {
   --contact-invitation-title-size: clamp(3.3rem, 4.5vw, 4.2rem);
   --contact-invitation-action-size: clamp(1.12rem, 1.45vw, 1.25rem);
@@ -51,18 +172,10 @@
   width: min(100%, 430px);
   min-height: 68px;
   padding: 16px 20px;
-  border: 1px solid var(--cedar);
-  border-radius: 2px;
-  background: var(--cedar);
-  color: #fcfcfa;
   font-family: var(--font-serif);
   font-size: var(--contact-invitation-action-size);
   font-weight: 500;
   line-height: 1.25;
-  text-decoration: none;
-  transition:
-    border-color 180ms ease,
-    background-color 180ms ease;
 }
 
 .contact-invitation__action svg {
@@ -70,21 +183,9 @@
   transition: transform 180ms ease;
 }
 
-.contact-invitation__action:hover,
-.contact-invitation__action:focus-visible {
-  border-color: var(--cedar-dark);
-  background: var(--cedar-dark);
-  color: #fcfcfa;
-}
-
 .contact-invitation__action:hover svg,
 .contact-invitation__action:focus-visible svg {
   transform: translateX(4px);
-}
-
-.contact-invitation__action:focus-visible {
-  outline: 3px solid rgba(35, 75, 61, 0.5);
-  outline-offset: 4px;
 }
 
 @media (max-width: 900px) {
@@ -139,18 +240,14 @@
 }
 
 @media (hover: none), (pointer: coarse) {
-  .contact-invitation__action:active {
-    border-color: var(--cedar-dark);
-    background: var(--cedar-dark);
-    color: #fcfcfa;
-  }
-
   .contact-invitation__action:active svg {
     transform: translateX(4px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .button,
+  .button > svg,
   .contact-invitation__action,
   .contact-invitation__action svg {
     transition: none;

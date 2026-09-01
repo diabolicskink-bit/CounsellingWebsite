@@ -2,6 +2,16 @@
 
 This catalogue contains every foundation currently approved for deliberate reuse. Absence from this file means a token or global rule is not part of the design system.
 
+## Interaction Foundations
+
+### `--action-radius`
+
+- `Contract`: Restrained `2px` corner radius for closed public action surfaces, giving controls a definite edge without turning them into pills or soft cards.
+- `Boundary`: Use only for closed interactive actions whose component or page contract already establishes the surface, target size, hierarchy, and states. It is not a general radius for inputs, cards, editorial rows, menus, imagery, or the private analytics interface.
+- `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
+- `Verified consumers`: Supported `<Button />`; shared header action; `<ContactInvitation />`; and Crisis Support emergency, directory, call, and text controls.
+- `Promoted`: 2026-09-01 — owner-authorized site-wide action-system pass.
+
 ## Typography Foundations
 
 ### `.site-reading`

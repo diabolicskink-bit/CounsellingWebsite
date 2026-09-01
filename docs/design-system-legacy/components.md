@@ -11,13 +11,6 @@ This is source-backed working evidence about React components outside the active
 - `Legacy note`: Widely used current containment implementation; the header now composes it instead of duplicating its width and responsive gutters, but it is not yet promoted as a supported layout primitive or component contract.
 - `Checked`: 2026-08-06 — second inherited selector review batch under `DEBT-13`.
 
-### `Button`
-
-- `Implementation`: `src/components/Button.tsx` with inherited `.button*` styling in `src/styles.css`.
-- `Known consumers`: `Layout`, Home, Contact, and Not Found.
-- `Legacy note`: Current variants are `primary` and `secondary`; props, states, styling boundary, and accessibility evidence have not completed promotion.
-- `Checked`: 2026-08-13 — dormant inherited presentation cleanup under `DEBT-13`.
-
 ### `Layout`
 
 - `Implementation`: `src/components/Layout.tsx` with navigation and footer support in `src/styles.css`.

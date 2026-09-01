@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import BroadTabPanel from "../components/BroadTabPanel";
+import Button from "../components/Button";
 import ContactInvitation from "../components/ContactInvitation";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
@@ -210,10 +210,10 @@ function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
             {hero.title.after}
           </p>
 
-          <Link className="working-with-joel-page__hero-action" to={hero.contactLink.href}>
+          <Button className="working-with-joel-page__hero-action" href={hero.contactLink.href}>
             <span>{hero.contactLink.label}</span>
             <ArrowRight aria-hidden="true" size={18} />
-          </Link>
+          </Button>
 
           <CredentialsList items={hero.credentials} ariaLabel={hero.credentialsAriaLabel} />
         </div>
