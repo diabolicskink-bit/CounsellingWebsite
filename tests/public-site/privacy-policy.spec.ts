@@ -22,10 +22,9 @@ test("publishes the privacy policy with client-system and complaint details", as
     "https://www.oaic.gov.au/privacy/australian-privacy-principles",
   );
   await expect(main).toContainText("creates and maintains your main client record in Zanda");
-  await expect(main).toContainText("does not currently record telehealth sessions");
+  await expect(main).toContainText("does not record telehealth sessions");
   await expect(main).toContainText("Zoho Mail service data is stored in Australia");
   await expect(main).toContainText("stored visit records are deleted after 12 months");
-  await expect(main).toContainText("not your name, email address or message text");
   await expect(main.getByRole("link", { name: "Zanda" }))
     .toHaveAttribute("href", "https://zandahealth.com/privacy-policy/");
   await expect(main.getByRole("link", { name: "Zoom" }))
@@ -38,7 +37,7 @@ test("publishes the privacy policy with client-system and complaint details", as
     "href",
     "https://www.oaic.gov.au/privacy/privacy-complaints/lodge-a-privacy-complaint-with-us",
   );
-  await expect(page.getByRole("contentinfo").getByRole("link", { name: "Privacy policy" }))
+  await expect(page.getByRole("contentinfo").getByRole("link", { name: "Privacy" }))
     .toHaveAttribute("href", "/privacy-policy");
 });
 

@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-01 - Private Analytics Visual Boundary Clarified
+
+- Closed `DEBT-41` without a source change after the owner clarified that the private dashboard may have its own CSS and visual language but does not require isolated browser, bundle, or stylesheet architecture.
+- Updated repository guidance so analytics remains visually independent in direction without treating shared global styles or generic foundations as debt by themselves.
+
 ## 2026-08-31 - Crisis Support Search And Source Signals Strengthened
 
 - Aligned the page's prominent H1 and search description with urgent Australian mental health and crisis-support intent while keeping immediate-danger guidance first.

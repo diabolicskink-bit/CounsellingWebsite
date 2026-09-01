@@ -20,13 +20,6 @@
   line-height: 0.9;
 }
 
-.privacy-policy-page__hero .privacy-policy-page__hero-copy {
-  max-width: 63ch;
-  color: #e8efe9;
-  font-size: clamp(1rem, 1.5vw, 1.12rem);
-  line-height: 1.65;
-}
-
 .privacy-policy-page__hero .privacy-policy-page__updated {
   color: rgba(232, 239, 233, 0.74);
   font-size: var(--type-small);
@@ -123,10 +116,6 @@
   display: grid;
   gap: 18px;
   padding-bottom: 0;
-}
-
-.privacy-policy-page__closing p {
-  max-width: 68ch;
 }
 
 @media (max-width: 680px) {

@@ -138,7 +138,7 @@ export default function Layout() {
                   <Link to={crisisSupportHref}>Crisis support</Link>
                 </li>
                 <li>
-                  <Link to={privacyPolicyHref}>Privacy policy</Link>
+                  <Link to={privacyPolicyHref}>Privacy</Link>
                 </li>
               </ul>
             </nav>

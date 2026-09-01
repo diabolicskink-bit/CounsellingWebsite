@@ -8,7 +8,6 @@ import "../styles-privacy-policy.css";
 
 const privacyPolicyMetadata = getRouteMetadata(publicRoutePaths.privacyPolicy);
 const contactHref = publicRoutePaths.contact;
-const crisisSupportHref = publicRoutePaths.crisisSupport;
 
 const updatedDate = new Intl.DateTimeFormat("en-AU", {
   day: "numeric",
@@ -29,10 +28,6 @@ export default function PrivacyPolicy() {
         <Container>
           <header className="privacy-policy-page__hero-content">
             <h1 id="privacy-policy-title">Privacy policy.</h1>
-            <p className="privacy-policy-page__hero-copy">
-              How Vive Counselling handles personal information from this website,
-              enquiries and counselling services.
-            </p>
             <p className="privacy-policy-page__updated">
               Last updated <time dateTime={privacyPolicyMetadata.lastModified}>{updatedDate}</time>
             </p>
@@ -79,7 +74,7 @@ export default function PrivacyPolicy() {
                 <ul>
                   <li>
                     <strong>Contact and enquiry details</strong>, such as your name, email address,
-                    state, time zone, availability, preferred timing and the message you choose to send.
+                    state, time zone, availability and the messages you send.
                   </li>
                   <li>
                     <strong>Health and counselling information</strong> that you provide in an enquiry,
@@ -87,13 +82,12 @@ export default function PrivacyPolicy() {
                   </li>
                   <li>
                     <strong>Service and administrative records</strong>, such as appointments,
-                    consent records, correspondence, invoices and counselling notes. Most client
-                    records are kept in Zanda, the practice-management system used by Vive Counselling.
+                    consent records, correspondence, invoices and counselling notes.
                   </li>
                   <li>
                     <strong>Website-use information</strong>, such as a pseudonymous visitor ID,
-                    visit and page-view IDs, routes viewed, landing page, referral address, visit timing,
-                    active time, selected contact option and limited advertising-attribution codes.
+                    visit and page-view IDs, routes viewed, landing page, referral address and limited
+                    advertising-attribution codes.
                   </li>
                   <li>
                     <strong>Technical information</strong>, such as browser user-agent, device category,
@@ -101,11 +95,6 @@ export default function PrivacyPolicy() {
                     received by hosting and analytics providers.
                   </li>
                 </ul>
-                <p>
-                  You can browse without giving Vive Counselling your name. The website may still assign
-                  a random visitor ID for analytics. If you make an enquiry, you can limit your first
-                  message to the information Joel needs to respond.
-                </p>
               </div>
             </section>
 
@@ -118,10 +107,10 @@ export default function PrivacyPolicy() {
                 <h2 id="collection-and-use-title">3. How we collect and use personal information</h2>
                 <p>
                   Most personal information comes directly from you: through the website enquiry form,
-                  by email, through Zanda&apos;s client forms or portal, during appointments or through
-                  other contact with the practice. Information may also come from a person you have
-                  authorised to contact Vive Counselling, or where collection is authorised or required
-                  by law. The website automatically records limited visit information for analytics.
+                  by email, during appointments or through other contact with the practice. Information
+                  may also come from someone you have authorised to contact Vive Counselling, or be
+                  collected where authorised or required by law. The website automatically records
+                  limited visit information for analytics.
                 </p>
                 <p>Vive Counselling may use personal information to:</p>
                 <ul>
@@ -131,7 +120,7 @@ export default function PrivacyPolicy() {
                   <li>communicate about appointments, invoices and other practical matters;</li>
                   <li>meet legal, professional, insurance and record-keeping obligations;</li>
                   <li>protect the website, identify automated traffic and investigate technical problems; and</li>
-                  <li>understand how the website is used and improve its content and enquiry flow.</li>
+                  <li>understand how the website is used and improve its content and user experience.</li>
                 </ul>
               </div>
             </section>
@@ -144,17 +133,9 @@ export default function PrivacyPolicy() {
               <div>
                 <h2 id="enquiries-and-counselling-title">4. Enquiries, client records and online counselling</h2>
                 <p>
-                  The enquiry form is a way to start a conversation. It is not a counselling session,
-                  and it is not an emergency service. Please include only the detail Joel needs to
-                  understand your enquiry and reply. If you need urgent help, use the{" "}
-                  <Link to={crisisSupportHref}>Crisis Support page</Link>.
-                </p>
-                <p>
                   Form submissions pass through Vercel, the website host, and Resend, the email delivery
                   provider, before reaching Vive Counselling&apos;s Australian Zoho Mail inbox. Email and online
-                  forms cannot be guaranteed to be completely secure. The enquiry form is masked from
-                  Microsoft Clarity. Website analytics may record whether an enquiry was started, sent
-                  or failed, but not your name, email address or message.
+                  forms cannot be guaranteed to be completely secure.
                 </p>
                 <p>
                   If you become a client, Vive Counselling creates and maintains your main client record
@@ -166,9 +147,7 @@ export default function PrivacyPolicy() {
                   Online counselling uses the Zoom-powered telehealth service integrated with Zanda.
                   Zanda holds the appointment and client link information, while Zoom processes the
                   connection and live audio and video needed to run the session. Vive Counselling does
-                  not currently record telehealth sessions. Recording, transcription, file-sharing and
-                  AI features will not be used to create or retain additional session content without
-                  first explaining the change and obtaining any consent that is required.
+                  not record telehealth sessions.
                 </p>
                 <p>
                   The confidentiality arrangements and their limits are explained as part of informed
@@ -194,11 +173,10 @@ export default function PrivacyPolicy() {
                   changes after 12 months, and Vive&apos;s stored visit records are deleted after 12 months.
                 </p>
                 <p>
-                  The website may also use Google Analytics to record public page views and actions such
-                  as selecting an enquiry type or completing an enquiry. Microsoft Clarity may record
-                  interactions outside the masked form and produce session replays and heatmaps to help
-                  identify usability problems. Google and Microsoft may use cookies or similar
-                  technologies and process technical information under their own privacy terms.
+                  The website may also use Google Analytics to record public page views and actions.
+                  Microsoft Clarity may record interactions to help identify website usability problems.
+                  Google and Microsoft may use cookies or similar technologies and process technical
+                  information under their own privacy terms.
                 </p>
                 <p>
                   You can remove or block cookies and clear local or session storage through your browser
@@ -234,7 +212,7 @@ export default function PrivacyPolicy() {
                   <li>
                     <a href="https://www.zoho.com/privacy.html"><strong>Zoho Mail</strong></a> for
                     email correspondence and the practice inbox. Vive Counselling uses an Australian
-                    zoho.com.au account, so Zoho stores its service data in its Australian data centre.
+                    Zoho account, so Zoho stores its service data in its Australian data centre.
                   </li>
                   <li>
                     <a href="https://vercel.com/legal/privacy-policy"><strong>Vercel</strong></a> for
@@ -253,16 +231,14 @@ export default function PrivacyPolicy() {
                   processing can occur in selected regions including Australia, Europe and the United States.
                 </p>
                 <p>
-                  Zoho Mail service data is stored in Australia for the practice&apos;s zoho.com.au
-                  account. Website enquiry messages also pass through Resend, which stores customer data
-                  in the United States. Website hosting, database and analytics providers may process data
-                  in the United States and other countries in which they operate. Provider locations can
-                  change.
+                  Zoho Mail service data is stored in Australia. Website enquiry messages also pass
+                  through Resend, which stores customer data in the United States. Website hosting,
+                  database and analytics providers may process data in the United States and other
+                  countries in which they operate. Provider locations can change.
                 </p>
                 <p>
                   Where personal information may be processed overseas, Vive Counselling takes reasonable
-                  steps to use providers with appropriate privacy and security safeguards. Overseas
-                  recipients may still be subject to different privacy laws.
+                  steps to use providers with appropriate privacy and security safeguards.
                 </p>
                 <p>
                   Information may also be disclosed when you authorise it, when disclosure is authorised
