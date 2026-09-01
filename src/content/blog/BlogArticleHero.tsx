@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
 import Container from "../../components/Container";
 import { publicRoutePaths } from "../../data/routes";
-import { formatBlogDate } from "./manifest";
-import type { BlogPost } from "./posts";
+import { formatBlogDate, type BlogPostMetadata } from "./manifest";
+import "./blog-shared.css";
+import "./blog-article-hero.css";
 
 type BlogArticleHeroProps = Readonly<{
-  post: BlogPost;
+  post: BlogPostMetadata;
 }>;
 
 export default function BlogArticleHero({ post }: BlogArticleHeroProps) {
   return (
     <header
-      className="hero-section site-hero-background blog-article-hero"
+      className="site-hero site-hero-background blog-article-hero"
       aria-labelledby="blog-article-title"
     >
       <Container className="blog-article-hero__inner">
@@ -23,13 +24,13 @@ export default function BlogArticleHero({ post }: BlogArticleHeroProps) {
 
         <div className="blog-article-hero__layout">
           <div className="blog-article-hero__heading">
-            <div className="blog-article-hero__classification">
+            <div className="site-hero__eyebrow blog-article-hero__classification">
               <span>{post.topic}</span>
               {post.isSample ? (
-                <span className="blog-article-hero__sample">Sample article</span>
+                <span className="blog-sample-label blog-article-hero__sample">Sample article</span>
               ) : null}
             </div>
-            <h1 className="hero-display" id="blog-article-title">
+            <h1 className="site-hero__statement" id="blog-article-title">
               {post.title}
             </h1>
           </div>

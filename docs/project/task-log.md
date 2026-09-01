@@ -18,6 +18,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-01 - Approved Hero Structure Promoted
+
+- Replaced the ambiguous `.hero-section`, `.hero-badge`, and `.hero-display` names with the supported `.site-hero`, `.site-hero__eyebrow`, and `.site-hero__statement` contract after verifying every current public and development hero consumer.
+- Consolidated the shared frame, eyebrow styling, opening-statement styling, spacing, and four dark-hero foreground roles while keeping the approved Home, Working with Joel, specialist, Articles, Contact, and other page compositions authoritative.
+- Promoted the self-styled `<BlogArticleHero />` as the canonical masthead for every article route and kept all subject-specific presentation below that boundary.
+- Removed the promoted primitives from the legacy source/register and added source-backed rendered pattern and component specimens; the remaining inherited hero helpers stay outside the active system.
+
 ## 2026-09-01 - Article Publishing Foundation Strengthened
 
 - Separated the lightweight article manifest from Markdown bodies and lazy-loaded the public Articles pages in browser builds while preserving complete synchronous server prerendering.

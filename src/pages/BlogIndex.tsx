@@ -5,6 +5,7 @@ import { blogPosts, getBlogReadingMinutes } from "../content/blog/posts";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
+import "../content/blog/blog-shared.css";
 import "../styles-blog.css";
 
 const blogMetadata = getRouteMetadata("/blog");
@@ -15,13 +16,13 @@ export default function BlogIndex() {
   return (
     <main className="site-page blog-index">
       <header
-        className="hero-section site-hero-background blog-index__hero"
+        className="site-hero site-hero-background blog-index__hero"
         aria-labelledby="blog-index-title"
       >
         <Container className="blog-index__header-grid">
           <div className="blog-index__hero-heading">
-            <p className="hero-badge">Vive Counselling</p>
-            <h1 className="hero-display" id="blog-index-title">Articles</h1>
+            <p className="site-hero__eyebrow">Vive Counselling</p>
+            <h1 className="site-hero__statement" id="blog-index-title">Articles</h1>
           </div>
           <p className="blog-index__introduction site-reading">
             Essays and explanatory articles. Topics and formats vary; sources and
@@ -47,7 +48,7 @@ export default function BlogIndex() {
                     <article className="blog-index__entry">
                       <div className="blog-index__entry-meta">
                         <span>{post.topic}</span>
-                        {post.isSample ? <span className="blog-index__sample">Sample</span> : null}
+                        {post.isSample ? <span className="blog-sample-label">Sample</span> : null}
                       </div>
 
                       <div className="blog-index__entry-copy">

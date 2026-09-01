@@ -10,7 +10,7 @@
   gap: 16px;
   align-content: center;
   max-width: 780px;
-  padding: 40px 0;
+  padding: 0;
 }
 
 .contact-page__eyebrow,
@@ -26,14 +26,14 @@
 
 .contact-page__hero .contact-page__hero-title {
   max-width: none;
-  color: #fcfcfa;
+  color: var(--site-hero-foreground);
   font-size: clamp(4.2rem, 7vw, 6rem);
   letter-spacing: -0.045em;
   line-height: 0.9;
 }
 
 .contact-page__hero .contact-page__eyebrow {
-  color: #c8d9cc;
+  color: var(--site-hero-eyebrow-foreground);
 }
 
 /* Enquiry */

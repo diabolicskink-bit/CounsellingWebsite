@@ -25,11 +25,11 @@ export default function SpecialistCounsellingHero({
   secondaryAction,
 }: SpecialistCounsellingHeroProps) {
   return (
-    <section className={`hero-section site-hero-background specialist-counselling-hero ${className}`}>
+    <section className={`site-hero site-hero-background specialist-counselling-hero ${className}`}>
       <Container>
         <div className="specialist-counselling-hero__copy">
-          <h1 className="hero-badge">{eyebrow}</h1>
-          <p className="hero-display">{title}</p>
+          <h1 className="site-hero__eyebrow">{eyebrow}</h1>
+          <p className="site-hero__statement">{title}</p>
 
           <nav className="specialist-counselling-hero__actions" aria-label="Page actions">
             <Link className="specialist-counselling-hero__action" to={primaryAction.href}>

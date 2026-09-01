@@ -18,9 +18,9 @@ These patterns remain implemented and may have current consumers. None is part o
 
 ## Hero Family
 
-Current inherited source includes `.hero-section`, `.hero-top`, `.hero-badge`, `.hero-display`, `.hero-copy-panel`, `.hero-support-tagline`, and the mounted `.hero-media-note*` portrait subset.
+Current inherited source includes `.hero-top`, `.hero-copy-panel`, `.hero-support-tagline`, and the mounted `.hero-media-note*` portrait subset.
 
-Public pages consume parts of this family and layer page-specific composition on top. The family remains inherited implementation rather than an approved hero system. The former light `.hero-bg--default` helper, its unused noise asset, and duplicated public and development dark backgrounds were removed when `.site-hero-background` became the supported shared hero-surface contract.
+The former `.hero-section`, `.hero-badge`, and `.hero-display` roles were replaced by the semantically named `.site-hero`, `.site-hero__eyebrow`, and `.site-hero__statement` active pattern on 2026-09-01 after their approved visuals and current consumers were verified. The remaining inherited family supports development-page copy structure, the Working with Joel credential and portrait compositions, and related page-local presentation; it is not an approved complete hero system. The former light `.hero-bg--default` helper, its unused noise asset, and duplicated public and development dark backgrounds were removed when `.site-hero-background` became the supported shared hero-surface contract.
 
 ## Navigation, Footer, And Broad-Tab Families
 

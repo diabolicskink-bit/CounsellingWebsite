@@ -20,12 +20,12 @@ const cataloguePages = [
     path: devRoutePaths.designSystemFoundations,
   },
   {
-    count: "01",
+    count: "02",
     label: "Components",
     path: devRoutePaths.designSystemComponents,
   },
   {
-    count: "02",
+    count: "03",
     label: "Patterns",
     path: devRoutePaths.designSystemPatterns,
   },
@@ -105,7 +105,7 @@ export default function DesignSystemWorkspace({ children, description, section, 
           <aside className="system-workspace__rail">
             <div className="system-workspace__state">
               <p>Current state</p>
-              <strong>11 supported specimens</strong>
+              <strong>13 supported specimens</strong>
               <span>Foundations, Components, and Patterns contain the verified shared system.</span>
             </div>
 
@@ -113,7 +113,7 @@ export default function DesignSystemWorkspace({ children, description, section, 
               <p>Workspace pages</p>
               <NavLink end to={devRoutePaths.designSystem}>
                 <strong>Overview</strong>
-                <span>11</span>
+                <span>13</span>
               </NavLink>
               {cataloguePages.map((page) => (
                 <NavLink key={page.path} to={page.path}>

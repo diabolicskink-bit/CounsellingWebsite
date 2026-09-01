@@ -2,6 +2,16 @@
 
 This catalogue contains every React component currently approved for deliberate reuse.
 
+## Article Mastheads
+
+### `<BlogArticleHero />`
+
+- `Contract`: Canonical masthead for every published article. A `BlogPostMetadata` value supplies the breadcrumb topic, classification, optional sample label, title, abstract, author, publication date, and optional revision date. The component owns their semantics, order, dark hero composition, responsive recomposition, and presentation.
+- `Boundary`: Use exactly once at the start of a `/blog/:slug` article. It does not render the article body, source note, return navigation, metadata tags, or subject-specific presentation. It composes the supported site-hero structure and surface; article-body presentations must not restyle or replace it.
+- `Implementation`: `BlogArticleHero` in `src/content/blog/BlogArticleHero.tsx`, with self-owned presentation in `src/content/blog/blog-article-hero.css` and the shared Articles sample label in `src/content/blog/blog-shared.css`.
+- `Verified consumers`: Every article route generated from `src/content/blog/manifest.ts`; the current ant and dinosaur samples exercise the same component with different body presentations.
+- `Promoted`: 2026-09-01 — owner-authorized article-template consolidation and design-system review.
+
 ## Contact Invitations
 
 ### `<ContactInvitation />`

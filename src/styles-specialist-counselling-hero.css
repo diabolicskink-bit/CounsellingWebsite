@@ -4,32 +4,16 @@
   min-width: 0;
 }
 
-.specialist-counselling-hero .hero-badge {
-  max-width: none;
-  color: #c8d9cc;
-  font-size: var(--type-label);
-  font-weight: 760;
-  letter-spacing: 0.065em;
-  line-height: 1.35;
-}
-
-.specialist-counselling-hero .hero-display {
+.site-page .specialist-counselling-hero .site-hero__statement {
   max-width: 16ch;
-  margin: var(--hero-badge-display-gap) 0 0;
-  color: #fcfcfa;
+  margin: var(--site-hero-eyebrow-statement-gap) 0 0;
   font-size: clamp(3.25rem, 4.65vw, 4.45rem);
   letter-spacing: -0.045em;
   line-height: 0.96;
 }
 
-.specialist-counselling-hero .hero-display > span {
+.specialist-counselling-hero .site-hero__statement > span {
   display: block;
-}
-
-.specialist-counselling-hero .hero-display em {
-  color: #d9e5d9;
-  font-style: normal;
-  font-weight: 600;
 }
 
 .specialist-counselling-hero__actions {
@@ -72,7 +56,7 @@
 }
 
 .specialist-counselling-hero__action:hover {
-  color: #d9e5d9;
+  color: var(--site-hero-emphasis-foreground);
   background: rgba(252, 252, 250, 0.035);
 }
 
@@ -90,7 +74,7 @@
 }
 
 @media (max-width: 700px) {
-  .specialist-counselling-hero .hero-display {
+  .site-page .specialist-counselling-hero .site-hero__statement {
     max-width: 12ch;
     font-size: clamp(2.65rem, 10.7vw, 3rem);
     line-height: 0.96;

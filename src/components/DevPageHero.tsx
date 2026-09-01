@@ -10,12 +10,12 @@ type Props = {
 
 export default function DevPageHero({ badge, title, description, children }: Props) {
   return (
-    <section className="hero-section site-hero-background">
+    <section className="site-hero site-hero-background">
       <Container>
         <div className="hero-top">
           <div>
-            <h1 className="hero-badge">{badge}</h1>
-            <p className="hero-display">{title}</p>
+            <h1 className="site-hero__eyebrow">{badge}</h1>
+            <p className="site-hero__statement">{title}</p>
           </div>
           <div className="hero-copy-panel">
             <p>{description}</p>

@@ -133,6 +133,7 @@ Each active item should include enough direction that a future session can choos
   - 2026-08-11: Added the canonical `<ContactInvitation />` to all three Inclusion child routes as their final sections. Home and those three pages are now verified production consumers; any further non-Contact page rollout remains separate work.
   - 2026-08-05: Promoted `.site-reading` and `.site-reading--lead` after verifying the same prose and lead-paragraph jobs across Home and Working with Joel. Both routes and `<ContactInvitation />` now consume the shared classes; broader inherited type-token and raw-size reconciliation remains open.
   - 2026-08-05: Moved every currently promoted CSS implementation into the current-only `src/design-system/` source entry, split by Foundations, Components, and Patterns. Vite imports that entry once for production bundling; inherited CSS remains in `src/styles.css`, and the development catalogue stylesheet is explicitly named as workspace-only.
+  - 2026-09-01: Replaced the ambiguous `.hero-section`, `.hero-badge`, and `.hero-display` names with the supported `.site-hero`, `.site-hero__eyebrow`, and `.site-hero__statement` contract after verifying the approved Home, Working with Joel, specialist, Articles, Contact, Crisis Support, and development consumers. The pattern now owns the common frame, opening type roles, spacing, and dark-hero foreground roles; page-owned statement scales, grids, actions, content structures, media, and responsive composition remain intact, while `.hero-top`, `.hero-copy-panel`, `.hero-support-tagline`, and `.hero-media-note*` remain inherited.
   - Keep public pages and their current visual treatment unchanged during reconciliation unless a separate task explicitly authorizes visitor-facing work.
   - Do not remove dormant CSS or promote a pattern merely to make the catalogue tidy. Record those as separately authorized implementation decisions.
 - `Links`: `docs/design-system/`, `src/design-system/`, `src/styles.css`, `src/components/`
@@ -316,7 +317,7 @@ Each active item should include enough direction that a future session can choos
   - `DEBT-20`: Page-specific typography overrides are one concrete way global page CSS can drift from shared design-system roles.
 - `Dependencies`: `None`
 - `Notes`:
-  - 2026-08-15: The Crisis Support review confirmed a concrete cascade-order failure: the production bundle placed page CSS before equal-specificity shared rules, leaving several colour and hero-spacing declarations inert. The route now uses deliberate higher specificity only for page-level semantic colour variables; redundant declarations were removed, and its hero retains the inherited `.hero-section` spacing. The broader bundling and scoping decision remains open.
+  - 2026-08-15: The Crisis Support review confirmed a concrete cascade-order failure: the production bundle placed page CSS before equal-specificity shared rules, leaving several colour and hero-spacing declarations inert. The route now uses deliberate higher specificity for its compact eyebrow exception and otherwise consumes the supported site-hero spacing and foreground roles. The broader bundling and scoping decision remains open.
 - `Links`: `src/App.tsx`, `src/pages/`, `src/styles-*.css`
 
 ### DEBT-20 - Page-specific typography overrides need role audit

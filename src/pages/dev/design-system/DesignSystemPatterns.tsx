@@ -1,3 +1,4 @@
+import Container from "../../../components/Container";
 import DesignSystemSpecimen from "../../../components/DesignSystemSpecimen";
 import DesignSystemWorkspace from "./DesignSystemWorkspace";
 
@@ -12,7 +13,7 @@ export default function DesignSystemPatterns() {
         className="system-workspace__supported"
         id="patterns"
         aria-labelledby="patterns-heading"
-        data-supported-specimen-count="2"
+        data-supported-specimen-count="3"
       >
         <div className="system-workspace__section-heading">
           <p>Supported pattern</p>
@@ -22,8 +23,27 @@ export default function DesignSystemPatterns() {
         <DesignSystemSpecimen
           consumers={[
             "Home, Working with Joel, and Inclusion heroes",
+            "Specialist counselling heroes and Crisis Support",
+            "Articles index, article mastheads, and development heroes",
+          ]}
+          identifier=".site-hero, .site-hero__eyebrow, .site-hero__statement"
+          recordPath="docs/design-system/patterns.md"
+          role="Established hero frame, opening type roles, spacing, and dark-surface foreground roles; statement scale, layout, actions, supporting-content structure, and responsive composition remain consumer-owned."
+          title="Shared hero structure"
+        >
+          <section className="site-hero site-hero-background system-hero-frame-pattern">
+            <Container>
+              <p className="site-hero__eyebrow">Shared opening role</p>
+              <p className="site-hero__statement">A consistent frame that still follows the page.</p>
+            </Container>
+          </section>
+        </DesignSystemSpecimen>
+
+        <DesignSystemSpecimen
+          consumers={[
+            "Home, Working with Joel, and Inclusion heroes",
             "Kink and BDSM, ENM and polyamory, and LGBTQIA+ heroes",
-            "Articles index, article mastheads, and Contact opening",
+            "Articles index, article mastheads, Crisis Support, and Contact opening",
           ]}
           identifier=".site-hero-background"
           recordPath="docs/design-system/patterns.md"
