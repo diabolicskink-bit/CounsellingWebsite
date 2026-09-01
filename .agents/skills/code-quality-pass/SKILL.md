@@ -139,6 +139,15 @@ At code-craft resolution, examine whether:
 - local conventions are used consistently where they improve comprehension,
   without creating style-only churn.
 
+Treat comments as part of the reviewed implementation rather than as incidental
+text. Add a concise comment when it preserves important intent, a non-obvious
+constraint, deliberate coupling, compatibility reason, side-effect boundary, or
+workaround that clear code alone cannot communicate. Prefer improving names and
+structure when they can make the behaviour self-explanatory. Do not add comments
+that merely narrate syntax, repeat the code, compensate for avoidable complexity,
+or create a maintenance burden. Update or remove comments that are stale,
+misleading, redundant, or no longer attached to the decision they explain.
+
 Do not judge craftsmanship by brevity alone. A longer explicit name, branch, or
 intermediate value can be better when it makes meaning or failure behaviour
 clearer. Equally, do not leave awkward minutiae untouched merely because the

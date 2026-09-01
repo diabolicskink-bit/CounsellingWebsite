@@ -82,9 +82,15 @@ function addAllowedOrigin(origins: Set<string>, value: string | undefined) {
 }
 
 function isLocalHost(host: string) {
-  const hostname = host.split(":")[0].toLowerCase();
+  let hostname = "";
 
-  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1" || hostname === "[::1]";
+  try {
+    hostname = new URL(`http://${host}`).hostname.replace(/^\[|\]$/g, "").toLowerCase();
+  } catch {
+    return false;
+  }
+
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
 }
 
 function getAllowedOrigins(

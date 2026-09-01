@@ -23,6 +23,24 @@ Curated milestone history for durable project state. This is not a full changelo
 - Closed `DEBT-41` without a source change after the owner clarified that the private dashboard may have its own CSS and visual language but does not require isolated browser, bundle, or stylesheet architecture.
 - Updated repository guidance so analytics remains visually independent in direction without treating shared global styles or generic foundations as debt by themselves.
 
+## 2026-08-31 - Public Reduced-Motion Baseline Completed
+
+- Audited every public stylesheet, confirmed the page-owned and shared motion overrides, and added the remaining generic button lift to the reduced-motion fallback.
+- Extended focused browser coverage for shared button and navigation motion, updated the accessibility monitor to `Pass`, and resolved and archived `SITE-7`.
+
+## 2026-08-31 - Enquiry Contract And Reliability Pass
+
+- Consolidated Contact-path values and field limits into the shared enquiry contract, removed the retired state-and-territory API, and made server validation reject overlong content instead of silently truncating it.
+- Added visible required cues for the path choice and active fields, truthful native-form conditional labels, matching browser limits, and duplicate-submission protection.
+- Moved best-effort enquiry analytics persistence off the delivery-critical path and repaired API, public-flow, native-form, analytics, origin, and email-safety coverage around the current form.
+- Resolved and archived `SITE-21` after updating the Contact accessibility monitor.
+
+## 2026-08-31 - Enquiry Form Opens With Shared Details
+
+- Reordered the Contact form so name, email, and message are available immediately instead of being hidden behind an enquiry-path choice.
+- Moved the appointment, consult, and general-enquiry decision after the shared message; appointment and consult requests now share the same availability and timezone questions, with a mobile number also collected for consults.
+- Preserved the complete server-rendered form for visitors without JavaScript and kept the existing structured enquiry paths and submission handling.
+
 ## 2026-08-31 - Crisis Support Search And Source Signals Strengthened
 
 - Aligned the page's prominent H1 and search description with urgent Australian mental health and crisis-support intent while keeping immediate-danger guidance first.

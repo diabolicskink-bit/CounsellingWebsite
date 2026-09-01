@@ -7,10 +7,11 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 ## Application And Routes
 
 - Vite, React, and TypeScript power the application.
+- When a visitor requests reduced motion, smooth in-page scrolling falls back to immediate scrolling and public spatial transitions and reveal animations are disabled without removing interaction-state cues.
 - Nine metadata-backed public routes are implemented: `/`, `/working-with-joel`, `/inclusive-counselling`, `/kink-bdsm-counselling`, `/polyamory-enm-counselling`, `/lgbtqia-affirming-counselling`, `/contact`, `/crisis-support`, and `/privacy-policy`. Unknown paths render the public Not Found page.
 - Vercel permanently redirects `/about` to `/working-with-joel`, `/fees` to `/contact`, and `/inclusion` to `/inclusive-counselling`.
 - Desktop navigation exposes Home, Working with Joel, Inclusion and its three topic pages, and Fees, with a separate Get in touch action. Mobile navigation exposes Fees and Contact separately.
-- Shared Fees links target `/contact` without a fee anchor but carry a virtual `/fees` analytics path; ordinary Contact and enquiry links report `/contact`. The shared footer includes Crisis Support and Privacy alongside contact details, hours, social profiles, and copyright.
+- Shared Fees links target `/contact` without a fee anchor but carry a virtual `/fees` analytics path; ordinary Contact and enquiry links report `/contact`. Navigation current-page indicators follow the tracked page path so direct Contact and Fees-intent visits remain distinct. The shared footer includes Crisis Support and Privacy alongside contact details, hours, social profiles, and copyright.
 
 ### Development-Only Routes
 
@@ -57,11 +58,11 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 
 ## Enquiry Flow And API
 
-- Contact offers three paths: make an appointment, request a free 15-minute consult, or make a general enquiry. After hydration it reveals only fields relevant to the selected path; the server-rendered form exposes the complete field set for JavaScript-disabled use.
-- Practical details show fixed Perth business hours in AWST and browser-refreshed interstate comparisons. Consult timezone choices come from the current Australian timezone set when needed.
-- Successful JavaScript submissions replace the form with a focused confirmation that Joel usually replies within 24 hours. Native submissions return equivalent success or failure HTML.
+- Contact offers three paths: make an appointment, request a free 15-minute consult, or make a general enquiry. Name, email, and message appear first, followed by a required path select. After hydration, appointment and consult paths reveal required availability and timezone fields, consults also require a mobile number, and a general enquiry adds no further fields. The server-rendered form exposes the complete conditional field set with labels that state when each booking detail is required.
+- Practical details show fixed Perth business hours in AWST and browser-refreshed interstate comparisons. Booking timezone choices come from the current Australian timezone set when needed.
+- Successful JavaScript submissions replace the form with a focused confirmation that Joel usually replies within 24 hours. Native submissions return equivalent success or failure HTML, and the enhanced form prevents duplicate submissions while a request is in flight.
 - Public contact and fallback messaging use `joel@vivecounselling.com.au`.
-- The form submits JSON or URL-encoded native posts to `POST /api/enquiry`. The endpoint validates structured enquiry and booking fields, builds the email server-side, and sends through Resend when configured.
+- The form submits JSON or URL-encoded native posts to `POST /api/enquiry`. Browser constraints and server validation share field-length limits; overlong content is rejected rather than truncated. The endpoint validates structured enquiry and booking fields, builds the email server-side, and sends through Resend when configured.
 - The endpoint rejects unsupported content types, multipart posts, declared bodies above 25 KB, and explicit cross-site fetch, origin, or referrer signals before validation or delivery. A honeypot provides basic spam filtering.
 - Public failures remain generic while configuration, provider, and runtime diagnostics stay in server logs.
 
@@ -91,7 +92,7 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 
 - `VITE_ANALYTICS_ENABLED`, the shared analytics hostname allowlist, and provider IDs gate Google Analytics and Microsoft Clarity. Vercel Web Analytics is not installed.
 - GA4 sends manual public-route page views plus controlled enquiry-started, contact-option, email-link, and successful-lead events. Failed enquiries do not emit the conversion event.
-- First-party events record contact-option selection, enquiry start, server-side submission attempt, successful delivery, and controlled failure outcomes. Event storage is best-effort and never changes the public delivery result.
+- First-party events record contact-option selection, enquiry start, server-side submission attempt, successful delivery, and controlled failure outcomes. Event storage is best-effort and never delays or changes the public delivery result.
 - The enquiry request carries only optional active visit and page-view IDs as analytics context. The form is masked from Clarity with `data-clarity-mask="true"`.
 
 ## Testing And QA

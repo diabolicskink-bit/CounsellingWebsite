@@ -6,6 +6,14 @@ This file preserves implemented and superseded `SITE-*` items moved out of the [
 
 Implemented on 2026-08-31. The public `/privacy-policy` route now distinguishes website analytics, initial-enquiry handling and counselling confidentiality; documents Zoho Mail, Zanda client records, Zoom-powered telehealth, first-party and optional third-party analytics, the 12-month visit-data retention rule, and service-provider and overseas processing; and gives direct access, correction and complaint routes. It is linked from the shared footer and immediately before the Contact form submission action. The policy records the owner's confirmation that current telehealth sessions are not recorded.
 
+### SITE-7 - Global reduced-motion baseline
+
+Implemented on 2026-08-31. Smooth scrolling now falls back to immediate scrolling when reduced motion is requested. An audit of every public stylesheet confirmed that page-owned and shared spatial transitions and reveal animations have reduced-motion overrides; the remaining generic button lift was added to the shared fallback. Focused browser coverage checks the root scrolling behaviour, shared button transitions, and mobile-navigation reveal.
+
+### SITE-21 - Contact form required-field clarity
+
+Implemented on 2026-08-31. Always-required fields and the enquiry-path select now have visible required marks with screen-reader text. Hydrated booking fields show the same cue only when required by the selected path, while the complete native form states the appointment/consult conditions directly in its labels. Focused browser coverage submits the native consult path and verifies the current progressive form contract.
+
 ### SITE-9 - ENM and polyamory page copy completion
 
 Implemented on 2026-07-18. The ENM/polyamory page now contains deliberately written public copy with no Latin placeholder paragraphs or visible encoding artifacts. The route passed the repository encoding check and was published with the other Inclusion child pages. Copy refinement continues through the owner-led writing process and concrete `SITE-*` work.
