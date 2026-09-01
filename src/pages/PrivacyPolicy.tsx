@@ -8,12 +8,38 @@ import "../styles-privacy-policy.css";
 
 const privacyPolicyMetadata = getRouteMetadata(publicRoutePaths.privacyPolicy);
 
+const policyUpdatedDate = new Date(`${privacyPolicyMetadata.lastModified}T00:00:00.000Z`);
+
+function getOrdinalSuffix(day: number) {
+  const lastTwoDigits = day % 100;
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+    return "th";
+  }
+
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+}
+
 const formattedPolicyUpdatedDate = new Intl.DateTimeFormat("en-AU", {
   day: "numeric",
   month: "long",
   timeZone: "UTC",
   year: "numeric",
-}).format(new Date(`${privacyPolicyMetadata.lastModified}T00:00:00.000Z`));
+})
+  .formatToParts(policyUpdatedDate)
+  .map((part) =>
+    part.type === "day" ? `${part.value}${getOrdinalSuffix(Number(part.value))}` : part.value,
+  )
+  .join("");
 
 export default function PrivacyPolicy() {
   useDocumentMetadata(privacyPolicyMetadata.title, privacyPolicyMetadata.description);
