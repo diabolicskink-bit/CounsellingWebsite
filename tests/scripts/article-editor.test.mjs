@@ -107,7 +107,7 @@ test("adds a missing references property without rewriting other fields", () => 
   assert.match(updatedSource, /body: `Keep this body\.`,\n  references:/u);
 });
 
-test("writes allowlisted updates and validates the final article before saving", async (context) => {
+test("writes allowlisted article fields without touching other templates", async (context) => {
   const temporaryRoot = await mkdtemp(path.join(tmpdir(), "vive-article-editor-"));
   context.after(() => rm(temporaryRoot, { force: true, recursive: true }));
 
@@ -142,12 +142,6 @@ test("writes allowlisted updates and validates the final article before saving",
   await assert.rejects(
     updateArticleTemplateContent(temporaryRoot, "../outside", { body: "Unsafe body." }),
     /Invalid article slug/u,
-  );
-  await assert.rejects(
-    updateArticleTemplateContent(temporaryRoot, "safe-article", {
-      references: [{ citation: "Not APA.", href: "http://example.com" }],
-    }),
-    /Invalid blog references/u,
   );
 });
 

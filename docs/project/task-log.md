@@ -18,11 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
-## 2026-09-01 - Local Article Editor And APA Reference Gate Added
+## 2026-09-01 - Local Article Editor Added
 
 - Added a development-only `/article-editor` that turns existing Markdown bodies into wrapped, auto-height editing blocks and provides separate structured fields for APA citations and DOI or stable source URLs.
-- The editor can add, remove, and alphabetise references, warns about mechanical reference problems, and sends only changed body and/or reference fields through its localhost-only Vite save path; metadata remains source-only and the editor is absent from production.
-- Made APA 7 the standing article reference style and added a build gate for author/date structure, alphabetical order, source-link hygiene, canonical DOI form, duplicates, and common in-text year mismatches, alongside a documented manual publishing checklist.
+- The editor can add, remove, and alphabetise references and sends only changed body and/or reference fields through its localhost-only Vite save path; metadata remains source-only and the editor is absent from production.
+- Recorded APA 7 as the standing editorial convention without adding an automated compliance or build-validation layer.
 
 ## 2026-09-01 - Academic References Standardised
 

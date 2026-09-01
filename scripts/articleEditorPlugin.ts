@@ -4,7 +4,6 @@ import path from "node:path";
 import ts from "typescript";
 import type { Plugin } from "vite";
 import type { BlogPostReference } from "../src/content/blog/postTemplate.ts";
-import { assertValidBlogReferences } from "../src/content/blog/referenceValidation.ts";
 
 const articleEditorApiPrefix = "/__dev/article-editor/";
 const articleSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -352,8 +351,6 @@ export async function updateArticleTemplateContent(
     references: update.references ?? currentContent.references,
   };
 
-  assertValidBlogReferences([{ slug, ...nextContent }]);
-
   const updatedSource = replaceArticleTemplateContent(source, update);
   await writeFile(templatePath, updatedSource, "utf8");
 
@@ -505,10 +502,7 @@ export function articleEditorPlugin(): Plugin {
             slug,
           });
         } catch (error) {
-          if (
-            error instanceof ArticleEditorInputError
-            || (error instanceof Error && error.message.startsWith("Invalid blog references:"))
-          ) {
+          if (error instanceof ArticleEditorInputError) {
             sendJson(response, 400, { error: error.message });
             return;
           }

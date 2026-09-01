@@ -20,10 +20,6 @@ import Container from "../../components/Container";
 import { getBlogPostPath } from "../../content/blog/manifest";
 import type { BlogPostReference } from "../../content/blog/postTemplate";
 import { blogPosts, type BlogPost } from "../../content/blog/posts";
-import {
-  getBlogReferenceIssues,
-  sortBlogPostReferences,
-} from "../../content/blog/referenceValidation";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import {
   getArticleEditorBlockLabel,
@@ -135,7 +131,6 @@ export default function ArticleEditor() {
   const initialPost = blogPosts[0] ?? null;
   const referenceIdCounter = useRef(initialPost?.references.length ?? 0);
   const editorRef = useRef<HTMLFormElement>(null);
-  const referencesSectionRef = useRef<HTMLElement>(null);
   const [selectedSlug, setSelectedSlug] = useState(initialPost?.slug ?? "");
   const [blocks, setBlocks] = useState<ArticleEditorBlock[]>(
     initialPost ? parseArticleMarkdown(initialPost.body) : [],
@@ -159,16 +154,6 @@ export default function ArticleEditor() {
   const bodyHasChanges = markdown !== savedBody;
   const referencesHaveChanges = JSON.stringify(references) !== JSON.stringify(savedReferences);
   const hasChanges = bodyHasChanges || referencesHaveChanges;
-  const referenceIssues = useMemo(
-    () => selectedPost
-      ? getBlogReferenceIssues([{
-        body: markdown,
-        references,
-        slug: selectedPost.slug,
-      }])
-      : [],
-    [markdown, references, selectedPost],
-  );
 
   useDocumentMetadata(
     "Article editor | Vive Counselling",
@@ -279,7 +264,11 @@ export default function ArticleEditor() {
   };
 
   const handleSortReferences = () => {
-    setReferenceDrafts((currentDrafts) => sortBlogPostReferences(currentDrafts));
+    setReferenceDrafts((currentDrafts) => [...currentDrafts].sort(
+      (left, right) => left.citation.localeCompare(right.citation, "en-AU", {
+        sensitivity: "base",
+      }),
+    ));
     setSaveStatus(idleStatus);
   };
 
@@ -295,15 +284,6 @@ export default function ArticleEditor() {
     event.preventDefault();
 
     if (!hasChanges || saveStatus.kind === "saving") {
-      return;
-    }
-
-    if (referenceIssues.length > 0) {
-      setSaveStatus({
-        kind: "error",
-        message: "Fix the reference checks before saving.",
-      });
-      referencesSectionRef.current?.focus();
       return;
     }
 
@@ -445,8 +425,6 @@ export default function ArticleEditor() {
               <section
                 aria-labelledby="article-editor-references-heading"
                 className="article-editor-references"
-                ref={referencesSectionRef}
-                tabIndex={-1}
               >
                 <div className="article-editor-references__heading">
                   <div>
@@ -475,15 +453,6 @@ export default function ArticleEditor() {
                   hanging indent and visible link.
                 </p>
 
-                {referenceIssues.length > 0 ? (
-                  <div className="article-editor-reference-issues" role="alert">
-                    <p>Reference checks to fix</p>
-                    <ul>
-                      {referenceIssues.map((issue) => <li key={issue}>{issue}</li>)}
-                    </ul>
-                  </div>
-                ) : null}
-
                 {referenceDrafts.length > 0 ? (
                   <ol className="article-editor-reference-list">
                     {referenceDrafts.map((reference, index) => (
@@ -499,6 +468,7 @@ export default function ArticleEditor() {
                                 "citation",
                                 value,
                               )}
+                              required
                               value={reference.citation}
                             />
                           </label>
@@ -512,6 +482,7 @@ export default function ArticleEditor() {
                                 event.target.value,
                               )}
                               spellCheck={false}
+                              required
                               type="url"
                               value={reference.href}
                             />

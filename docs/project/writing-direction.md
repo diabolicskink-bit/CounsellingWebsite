@@ -77,13 +77,10 @@ Name online delivery where it answers a practical question or search intent.
 
 ## Article citations and references
 
-Use APA 7 for every article reference list. Keep author and publication-year
-details consistent between in-text citations and the bibliography, arrange the
-reference list alphabetically, and use a canonical DOI URL when one exists.
-Otherwise link a stable primary source or publisher page. Do not repeat the DOI
-or URL inside the formatted citation when the article template stores it in the
-separate source-link field. Verify bibliographic details against the source;
-automated structure checks support this review but do not replace it.
+Use APA 7 for every article reference list. Keep entries alphabetical, keep
+in-text author and year details consistent with the bibliography, and store the
+DOI or stable source page in the template's separate link field. Verify the
+bibliographic details against the source before publishing.
 
 ## Collaboration and review
 

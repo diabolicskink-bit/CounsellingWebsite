@@ -47,22 +47,11 @@ Keep the public title in the manifest rather than repeating it as a Markdown H1.
 
 During local Vite development, `/article-editor` provides a deliberately simple content editor for existing templates. It presents paragraphs, headings, lists, quotations, tables and code as wrapped auto-height editing blocks, so ordinary Markdown paragraph separators do not appear as empty source lines. Inline Markdown remains visible. Its References section edits the structured citation and source URL separately and can add, remove, or alphabetise entries. Saving writes only the body and/or reference fields that actually changed.
 
-The editor does not change titles, metadata, template registration or custom presentations. Those remain typed source changes. Its save endpoint exists only in the Vite development server, accepts allowlisted article slugs, validates the complete resulting reference set, and refuses non-localhost requests; production builds contain neither the route nor a write endpoint.
+The editor does not change titles, metadata, template registration or custom presentations. Those remain typed source changes. Its save endpoint exists only in the Vite development server, accepts allowlisted article slugs, and refuses non-localhost requests; production builds contain neither the route nor a write endpoint.
 
-## APA 7 Reference Standard
+## Reference Convention
 
-APA 7 is the standing reference style for every article, not a per-article choice. The citation text should contain the complete APA reference without repeating its DOI or URL. The separate `href` must use `https://`; use the canonical `https://doi.org/...` form whenever a DOI exists, otherwise use a stable publisher, journal, organisation, or source page. Keep body citations and bibliography dates aligned.
-
-The editor and `npm run check:blog-references` automate the mechanical checks that can be judged safely from the template: an APA-like author/date boundary, terminal punctuation, alphabetical order, source-link presence and hygiene, canonical DOI form, duplicate sources, and common in-text author/year mismatches. The build runs this check for every article template.
-
-Before publishing, manually confirm the details that require editorial judgement or source inspection:
-
-- author names, initials, group authors, publication date, and any `a`/`b` year suffixes;
-- sentence case for article, book, report, and webpage titles;
-- italics and punctuation for journal title, volume, issue, page range, or article number;
-- the correct APA 7 format for books, reports, webpages, datasets, diagnostic manuals, and other non-journal sources;
-- whether a retrieval date is genuinely required; and
-- that every material in-text citation has a reference and every listed source is intentionally used.
+Use APA 7 for every article reference list. Keep entries alphabetical, put the formatted citation and any Markdown italics in `citation`, and put the canonical DOI URL or a stable source page in `href` rather than repeating it inside the citation. Before publishing, check the bibliographic details against the source and make sure in-text author and year details agree with the reference list.
 
 Use `updatedAt` only after a substantive published revision. Keep the original `publishedAt` value.
 
@@ -99,7 +88,7 @@ Do not add a custom presentation merely to decorate an otherwise standard articl
 
 `src/content/blog/posts.ts` pairs each manifest entry with its typed content template. Type checking fails when a manifest slug has no matching template or a template declares an unknown slug. Browser builds lazy-load the Articles pages, while the server build keeps their synchronous components available so every article body and reference set remain present in the prerendered first response.
 
-`npm run build` first validates every article's structured reference set, then fails if a generated article route cannot be rendered or if its expected article structure is missing. The route and article browser specs under `tests/public-site/` derive the article route list from the same registry and cover hydration, metadata, sitemap and sample noindex behaviour, navigation, article wayfinding, custom sample presentations, and unknown-slug handling. Direct script tests cover reference validation, editor-safe template updates, and the generated `Blog` and `BlogPosting` structured data.
+`npm run build` fails if a generated article route cannot be rendered or if its expected article structure is missing. The route and article browser specs under `tests/public-site/` derive the article route list from the same registry and cover hydration, metadata, sitemap and sample noindex behaviour, navigation, article wayfinding, custom sample presentations, and unknown-slug handling. Direct script tests cover editor-safe template updates and the generated `Blog` and `BlogPosting` structured data.
 
 ## Publishing Boundaries
 
