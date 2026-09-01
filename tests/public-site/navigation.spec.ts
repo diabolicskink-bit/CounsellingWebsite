@@ -27,6 +27,10 @@ test.describe("shared navigation", () => {
       "href",
       "/crisis-support",
     );
+    await expect(footer.getByRole("link", { name: "Privacy" })).toHaveAttribute(
+      "href",
+      "/privacy-policy",
+    );
 
     for (const profile of expectedSocialProfileLinks) {
       const link = footer.getByRole("link", { name: profile.name, exact: true });
