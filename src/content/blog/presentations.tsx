@@ -1,6 +1,10 @@
 import type { ComponentType } from "react";
 import AntRouteArticle from "./articles/AntRouteArticle";
 import DinosaurFossilArticle from "./articles/DinosaurFossilArticle";
+import {
+  blogArticlePresentationDefinitions,
+  type BlogArticlePresentationKey,
+} from "./presentationDefinitions";
 import type { BlogPost } from "./posts";
 
 export type BlogArticleBodyProps = Readonly<{
@@ -13,20 +17,20 @@ type BlogArticlePresentation = Readonly<{
 }>;
 
 const blogArticlePresentations = {
-  "ant-trail": {
+  [blogArticlePresentationDefinitions.antTrail.key]: {
     Body: AntRouteArticle,
-    className: "blog-article--ant-trail",
+    className: blogArticlePresentationDefinitions.antTrail.documentClassName,
   },
-  "fossil-record": {
+  [blogArticlePresentationDefinitions.fossilRecord.key]: {
     Body: DinosaurFossilArticle,
-    className: "blog-article--fossil-record",
+    className: blogArticlePresentationDefinitions.fossilRecord.documentClassName,
   },
-} satisfies Record<string, BlogArticlePresentation>;
+} satisfies Record<BlogArticlePresentationKey, BlogArticlePresentation>;
 
-export function getBlogArticlePresentation(key: string | undefined) {
+export function getBlogArticlePresentation(key: BlogArticlePresentationKey | undefined) {
   if (!key) {
     return undefined;
   }
 
-  return blogArticlePresentations[key as keyof typeof blogArticlePresentations];
+  return blogArticlePresentations[key];
 }

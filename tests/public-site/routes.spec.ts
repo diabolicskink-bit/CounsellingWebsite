@@ -2,10 +2,10 @@ import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "playwright/test";
 import {
-  blogPosts,
+  blogPostMetadata,
   getBlogPostPath,
   getBlogRouteMetadata,
-} from "../../src/content/blog/posts";
+} from "../../src/content/blog/manifest";
 import type {
   NotFoundMetadata,
   RouteMetadata,
@@ -221,7 +221,7 @@ test.describe("crawl output", () => {
       `<url><loc>${crisisSupportUrl}</loc><lastmod>${crisisSupportLastModified}</lastmod></url>`,
     );
 
-    for (const post of blogPosts) {
+    for (const post of blogPostMetadata) {
       const route = getBlogPostPath(post.slug);
       const routeUrl = `${siteOrigin}${route}`;
 

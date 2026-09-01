@@ -1,11 +1,9 @@
-import { lazy, Suspense, useLayoutEffect } from "react";
+import { lazy, Suspense, useLayoutEffect, type ComponentType } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
 import SiteAnalytics from "./components/SiteAnalytics";
 import VisitRecorder from "./components/VisitRecorder";
-import BlogArticle from "./pages/BlogArticle";
-import BlogIndex from "./pages/BlogIndex";
 import Contact from "./pages/Contact";
 import CrisisSupport from "./pages/CrisisSupport";
 import EnmPolyamoryCounselling from "./pages/EnmPolyamoryCounselling";
@@ -61,7 +59,13 @@ const devRoutes = import.meta.env.DEV
     ]
   : [];
 
+export type BlogPageComponents = Readonly<{
+  Article: ComponentType;
+  Index: ComponentType;
+}>;
+
 export type AppProps = {
+  blogPages: BlogPageComponents;
   initialRenderAt: string;
 };
 
@@ -91,7 +95,9 @@ function AnalyticsRoute() {
   );
 }
 
-export default function App({ initialRenderAt }: AppProps) {
+export default function App({ blogPages, initialRenderAt }: AppProps) {
+  const { Article: BlogArticle, Index: BlogIndex } = blogPages;
+
   return (
     <>
       <ScrollToTop />
@@ -111,8 +117,22 @@ export default function App({ initialRenderAt }: AppProps) {
           <Route path={publicRoutePaths.kinkBdsm} element={<KinkBdsmCounselling />} />
           <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
           <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
-          <Route path={publicRoutePaths.blog} element={<BlogIndex />} />
-          <Route path={`${publicRoutePaths.blog}/:slug`} element={<BlogArticle />} />
+          <Route
+            path={publicRoutePaths.blog}
+            element={(
+              <Suspense fallback={null}>
+                <BlogIndex />
+              </Suspense>
+            )}
+          />
+          <Route
+            path={`${publicRoutePaths.blog}/:slug`}
+            element={(
+              <Suspense fallback={null}>
+                <BlogArticle />
+              </Suspense>
+            )}
+          />
           <Route path={publicRoutePaths.crisisSupport} element={<CrisisSupport />} />
           {devRoutes.map(({ Page, path }) => (
             <Route

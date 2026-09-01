@@ -1,5 +1,5 @@
 import { renderToString } from "react-dom/server";
-import { getBlogRouteMetadata } from "./content/blog/posts";
+import { getBlogRouteMetadata } from "./content/blog/manifest";
 import { StaticApp } from "./StaticApp";
 
 export type RenderRouteOptions = {

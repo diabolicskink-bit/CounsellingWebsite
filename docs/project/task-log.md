@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-01 - Article Publishing Foundation Strengthened
+
+- Separated the lightweight article manifest from Markdown bodies and lazy-loaded the public Articles pages in browser builds while preserving complete synchronous server prerendering.
+- Closed the publishing contract around required metadata, real and ordered publication dates, typed custom presentations, matching bodies, and article sitemap `lastmod` output, with focused script and browser coverage.
+
 ## 2026-08-31 - Public Reduced-Motion Baseline Completed
 
 - Audited every public stylesheet, confirmed the page-owned and shared motion overrides, and added the remaining generic button lift to the reduced-motion fallback.

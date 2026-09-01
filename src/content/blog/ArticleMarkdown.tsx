@@ -9,13 +9,23 @@ type ArticleMarkdownProps = Readonly<{
 }>;
 
 const defaultComponents: Components = {
-  a: ({ children, href = "" }) =>
-    href.startsWith("/") ? (
-      <Link to={href}>{children}</Link>
+  a: ({ children, href = "", node: _node, ...anchorProps }) =>
+    href.startsWith("/") && !href.startsWith("//") ? (
+      <Link to={href} {...anchorProps}>{children}</Link>
     ) : (
-      <a href={href}>{children}</a>
+      <a href={href} {...anchorProps}>{children}</a>
     ),
   p: ({ children }) => <p className="site-reading">{children}</p>,
+  table: ({ children, node: _node, ...tableProps }) => (
+    <div
+      aria-label="Article table. Scroll horizontally to see every column."
+      className="blog-article__table-region"
+      role="region"
+      tabIndex={0}
+    >
+      <table {...tableProps}>{children}</table>
+    </div>
+  ),
 };
 
 export default function ArticleMarkdown({

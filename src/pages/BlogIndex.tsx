@@ -1,11 +1,7 @@
 import { Link } from "react-router-dom";
 import Container from "../components/Container";
-import {
-  blogPosts,
-  formatBlogDate,
-  getBlogPostPath,
-  getBlogReadingMinutes,
-} from "../content/blog/posts";
+import { formatBlogDate, getBlogPostPath } from "../content/blog/manifest";
+import { blogPosts, getBlogReadingMinutes } from "../content/blog/posts";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";

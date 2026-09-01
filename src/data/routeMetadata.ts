@@ -1,4 +1,4 @@
-import { getBlogRouteMetadata } from "../content/blog/posts";
+import { getBlogRouteMetadata } from "../content/blog/manifest";
 import metadata from "./routeMetadata.json";
 
 export type RouteMetadata = {

@@ -4,13 +4,12 @@ The Vive Articles section is a code-managed, statically prerendered publishing s
 
 ## Add An Article
 
-Add one object to `publishedBlogPosts` in `src/content/blog/posts.ts`:
+Add one object to `publishedBlogPostMetadata` in `src/content/blog/manifest.ts`:
 
 ```ts
 {
   abstract: "A concise account of the article's question and argument.",
   author: "Joel Griffiths",
-  body: `Write the article in Markdown.`,
   description: "A specific search and social description for the article.",
   publishedAt: "YYYY-MM-DD",
   slug: "lowercase-url-safe-slug",
@@ -18,6 +17,8 @@ Add one object to `publishedBlogPosts` in `src/content/blog/posts.ts`:
   topic: "A short subject classification",
 }
 ```
+
+Add the matching Markdown body to `blogPostBodies` in `src/content/blog/posts.ts`, keyed by the same slug. The manifest stays deliberately lightweight because shared metadata and analytics use it on every public route; article bodies and Markdown rendering load only when someone enters the Articles section.
 
 Use `updatedAt` only after a substantive published revision. Keep the original `publishedAt` value.
 
@@ -32,8 +33,9 @@ The default presentation renders ordinary Markdown, including headings, lists, q
 An article may instead select a custom body presentation without changing the publication shell:
 
 1. Add a page-scoped React body component and stylesheet under `src/content/blog/articles/`.
-2. Register the component and its scoped document class in `src/content/blog/presentations.tsx`.
-3. Set the article object's `presentation` field to that registry key.
+2. Add its key and scoped document class to `src/content/blog/presentationDefinitions.ts`.
+3. Register the component against that definition in `src/content/blog/presentations.tsx`.
+4. Set the manifest object's `presentation` field to the typed definition key.
 
 The shared shell continues to own the breadcrumb, classification, sample label, title, abstract, author, dates, reading time, publication note, and return navigation. The registered component owns only the article body. This keeps the index consistent while allowing structure and visual treatment to follow the subject of an individual article.
 
@@ -41,20 +43,21 @@ Do not add a custom presentation merely to decorate an otherwise standard articl
 
 ## What The Build Does
 
-`src/content/blog/posts.ts` is the single article registry. Its helpers:
+`src/content/blog/manifest.ts` is the authoritative publication manifest. It:
 
-- validate URL-safe, unique slugs and valid publication dates;
-- sort entries newest first;
-- supply the `/blog/:slug` route;
-- generate article metadata for the prerenderer and analytics;
-- add indexable articles to the sitemap; and
-- provide publication date and reading-time display.
+- validates required metadata, URL-safe unique slugs, real ISO dates, revision ordering, and presentation keys;
+- sorts entries newest first;
+- supplies the `/blog/:slug` route;
+- generates article metadata for the prerenderer and analytics; and
+- adds indexable articles and their publication or revision date to the sitemap.
+
+`src/content/blog/posts.ts` pairs each manifest entry with its Markdown body and supplies reading-time data to the article pages. Type checking fails when a manifest slug has no matching body. Browser builds lazy-load the Articles pages, while the server build keeps their synchronous components available so every article body remains present in the prerendered first response.
 
 `npm run build` fails if a generated article route cannot be rendered or if its expected article structure is missing. The route and article browser specs under `tests/public-site/` derive the article route list from the same registry and cover hydration, metadata, sitemap and sample noindex behaviour, navigation, article wayfinding, custom sample presentations, and unknown-slug handling. Direct script tests cover the generated `Blog` and `BlogPosting` structured data.
 
 ## Publishing Boundaries
 
-- Treat every object in `publishedBlogPosts` as publicly viewable. There is no draft flag or scheduled-release state.
+- Treat every object in `publishedBlogPostMetadata` as publicly viewable. There is no draft flag or scheduled-release state.
 - Do not use client material, even when names or surface details are changed.
 - Verify factual, clinical, legal, and research claims before publication and link primary sources where a source materially supports the article.
 - Follow `practice-direction.md`, `writing-direction.md`, and the repository `copywriter` skill for public wording.

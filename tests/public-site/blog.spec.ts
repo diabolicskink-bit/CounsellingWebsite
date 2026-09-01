@@ -1,10 +1,17 @@
 import { expect, test } from "playwright/test";
+import { blogPosts } from "../../src/content/blog/posts";
+import { getBlogPostPath } from "../../src/content/blog/manifest";
 import {
-  blogPosts,
-  getBlogPostPath,
-} from "../../src/content/blog/posts";
+  blogArticlePresentationDefinitions,
+  getBlogArticlePresentationDefinition,
+  type BlogArticlePresentationKey,
+} from "../../src/content/blog/presentationDefinitions";
 
 const noindexDirective = "noindex, nofollow";
+const customPresentationBodySelectors = {
+  [blogArticlePresentationDefinitions.antTrail.key]: ".ant-article__model",
+  [blogArticlePresentationDefinitions.fossilRecord.key]: ".fossil-article__evidence-key",
+} satisfies Record<BlogArticlePresentationKey, string>;
 
 test.describe("article publishing", () => {
   test("moves from the index into an article and back", async ({ page }) => {
@@ -29,10 +36,13 @@ test.describe("article publishing", () => {
   });
 
   for (const post of blogPosts) {
-    test(`${post.slug} uses its registered article presentation`, async ({ page }) => {
+    test(`${post.slug} uses its intended article presentation`, async ({ page }) => {
       await page.goto(getBlogPostPath(post.slug));
 
-      await expect(page.locator("main.blog-article .blog-article__prose")).toBeVisible();
+      const articleDocument = page.locator("main.blog-article .blog-article__document");
+      const presentation = getBlogArticlePresentationDefinition(post.presentation);
+
+      await expect(articleDocument.locator(".blog-article__prose")).toBeVisible();
       await expect(page.getByRole("link", { name: "All articles" })).toHaveAttribute("href", "/blog");
       if (post.isSample) {
         await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", noindexDirective);
@@ -40,12 +50,12 @@ test.describe("article publishing", () => {
         await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
       }
 
-      if (post.presentation === "ant-trail") {
-        await expect(page.locator(".blog-article--ant-trail .ant-article__model")).toBeVisible();
-      }
-
-      if (post.presentation === "fossil-record") {
-        await expect(page.locator(".blog-article--fossil-record .fossil-article__evidence-key")).toBeVisible();
+      if (presentation) {
+        await expect(articleDocument).toHaveClass(new RegExp(presentation.documentClassName));
+        await expect(articleDocument.locator(customPresentationBodySelectors[presentation.key]))
+          .toBeVisible();
+      } else {
+        await expect(articleDocument).toHaveClass("blog-article__document");
       }
     });
   }

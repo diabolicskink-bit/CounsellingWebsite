@@ -434,9 +434,21 @@
   color: var(--article-accent);
 }
 
+.blog-article__table-region {
+  max-width: 100%;
+  margin: 1.7em 0;
+  overflow-x: auto;
+}
+
+.blog-article__table-region:focus-visible {
+  border-radius: 2px;
+  outline: 3px solid color-mix(in srgb, var(--article-accent) 36%, transparent);
+  outline-offset: 4px;
+}
+
 .blog-article__prose table {
   width: 100%;
-  margin: 1.7em 0;
+  margin: 0;
   border-collapse: collapse;
   font-size: 0.92rem;
   line-height: 1.5;
@@ -453,6 +465,26 @@
 .blog-article__prose th {
   color: var(--ink);
   font-weight: 720;
+}
+
+.blog-article__prose th,
+.blog-article__prose td {
+  overflow-wrap: anywhere;
+}
+
+.blog-article__prose pre {
+  max-width: 100%;
+  margin: 1.7em 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  background: var(--article-paper-deep);
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.blog-article__prose pre code {
+  padding: 0;
+  background: transparent;
 }
 
 .blog-article__prose code {

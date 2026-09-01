@@ -2,10 +2,10 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import {
-  blogPosts,
+  blogPostMetadata,
   getBlogPostPath,
   getBlogRouteMetadata,
-} from "../../src/content/blog/posts.ts";
+} from "../../src/content/blog/manifest.ts";
 import { renderRouteStructuredDataTag } from "../../scripts/route-structured-data.mjs";
 
 const metadata = JSON.parse(
@@ -100,7 +100,7 @@ test("renders Blog structured data for the article index", () => {
 });
 
 test("renders article dates and authorship in BlogPosting structured data", () => {
-  const post = blogPosts[0];
+  const post = blogPostMetadata[0];
   const routePath = getBlogPostPath(post.slug);
   const routeMetadata = getBlogRouteMetadata()[routePath];
   const structuredData = parseStructuredDataTag(renderRouteStructuredDataTag({
@@ -117,4 +117,5 @@ test("renders article dates and authorship in BlogPosting structured data", () =
   assert.equal(article.datePublished, post.publishedAt);
   assert.equal(article.dateModified, post.updatedAt ?? post.publishedAt);
   assert.equal(article.author.name, post.author);
+  assert.equal(routeMetadata.lastModified, post.updatedAt ?? post.publishedAt);
 });

@@ -2,8 +2,8 @@ import { ArrowLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import Container from "../components/Container";
 import ArticleMarkdown from "../content/blog/ArticleMarkdown";
+import { formatBlogDate } from "../content/blog/manifest";
 import {
-  formatBlogDate,
   getBlogPostBySlug,
   getBlogReadingMinutes,
   type BlogPost,
