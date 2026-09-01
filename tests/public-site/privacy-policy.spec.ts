@@ -7,9 +7,21 @@ test("publishes the privacy policy with client-system and complaint details", as
 
   await expect(main.getByRole("heading", { level: 1 })).toHaveText("Privacy policy.");
   await expect(main.locator("time")).toHaveAttribute("datetime", "2026-08-31");
-  await expect(main.getByRole("navigation", { name: "Privacy policy sections" }).getByRole("link"))
-    .toHaveCount(8);
-  await expect(main).toContainText("Most client information and counselling records are kept in Zanda");
+  await expect(main.getByRole("navigation", { name: "Privacy policy sections" })).toHaveCount(0);
+  await expect(main.getByRole("heading", { name: "Privacy summary" })).toHaveCount(0);
+  await expect(main.getByRole("link", { name: "health information" })).toHaveAttribute(
+    "href",
+    "https://www.oaic.gov.au/privacy/your-privacy-rights/health-information/handling-health-information",
+  );
+  await expect(main.getByRole("link", { name: "Privacy Act 1988 (Cth)" })).toHaveAttribute(
+    "href",
+    "https://www.legislation.gov.au/C2004A03712/latest/text",
+  );
+  await expect(main.getByRole("link", { name: "Australian Privacy Principles" })).toHaveAttribute(
+    "href",
+    "https://www.oaic.gov.au/privacy/australian-privacy-principles",
+  );
+  await expect(main).toContainText("creates and maintains your main client record in Zanda");
   await expect(main).toContainText("does not currently record telehealth sessions");
   await expect(main).toContainText("Zoho Mail service data is stored in Australia");
   await expect(main).toContainText("stored visit records are deleted after 12 months");

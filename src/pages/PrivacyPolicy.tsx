@@ -10,17 +10,6 @@ const privacyPolicyMetadata = getRouteMetadata(publicRoutePaths.privacyPolicy);
 const contactHref = publicRoutePaths.contact;
 const crisisSupportHref = publicRoutePaths.crisisSupport;
 
-const policySections = [
-  { href: "#scope", label: "About this policy" },
-  { href: "#information", label: "Personal information collected" },
-  { href: "#collection-and-use", label: "Collection and use" },
-  { href: "#enquiries-and-counselling", label: "Enquiries and counselling records" },
-  { href: "#website-analytics", label: "Website analytics" },
-  { href: "#sharing", label: "Sharing and overseas processing" },
-  { href: "#security-and-retention", label: "Security and retention" },
-  { href: "#access-and-complaints", label: "Access, correction and complaints" },
-] as const;
-
 const updatedDate = new Intl.DateTimeFormat("en-AU", {
   day: "numeric",
   month: "long",
@@ -37,78 +26,26 @@ export default function PrivacyPolicy() {
         aria-labelledby="privacy-policy-title"
         className="privacy-policy-page__hero site-hero-background"
       >
-        <Container className="privacy-policy-page__hero-inner">
-          <p className="privacy-policy-page__eyebrow">Privacy at Vive</p>
-          <h1 id="privacy-policy-title">Privacy policy.</h1>
-          <p className="privacy-policy-page__hero-copy">
-            How Vive Counselling handles personal information from this website,
-            enquiries and counselling services.
-          </p>
-          <p className="privacy-policy-page__updated">
-            Last updated <time dateTime={privacyPolicyMetadata.lastModified}>{updatedDate}</time>
-          </p>
+        <Container>
+          <header className="privacy-policy-page__hero-content">
+            <h1 id="privacy-policy-title">Privacy policy.</h1>
+            <p className="privacy-policy-page__hero-copy">
+              How Vive Counselling handles personal information from this website,
+              enquiries and counselling services.
+            </p>
+            <p className="privacy-policy-page__updated">
+              Last updated <time dateTime={privacyPolicyMetadata.lastModified}>{updatedDate}</time>
+            </p>
+          </header>
         </Container>
       </section>
 
       <section className="privacy-policy-page__body">
         <Container className="privacy-policy-page__layout">
-          <aside className="privacy-policy-page__index">
-            <nav aria-label="Privacy policy sections">
-              <p className="privacy-policy-page__index-title">On this page</p>
-              <ol>
-                {policySections.map((section, index) => (
-                  <li key={section.href}>
-                    <a href={section.href}>
-                      <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                      {section.label}
-                    </a>
-                  </li>
-                ))}
-              </ol>
-            </nav>
-            <div className="privacy-policy-page__index-contact">
-              <p>Privacy questions</p>
-              <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a>
-            </div>
-          </aside>
-
           <article className="privacy-policy-page__content">
-            <section aria-labelledby="privacy-summary-title" className="privacy-policy-page__summary">
-              <header>
-                <p className="privacy-policy-page__section-label">At a glance</p>
-                <h2 id="privacy-summary-title">What happens to your information.</h2>
-              </header>
-              <dl className="privacy-policy-page__stages">
-                <div>
-                  <dt>Browsing</dt>
-                  <dd>
-                    You can browse without entering your name. The website records limited information
-                    about visits and page use and may also use Google Analytics and Microsoft Clarity.
-                  </dd>
-                </div>
-                <div>
-                  <dt>Enquiring</dt>
-                  <dd>
-                    Your form message is delivered to Vive Counselling&apos;s Australian Zoho Mail
-                    account so Joel can reply. The form is masked from Clarity, and your name, email
-                    address and message are not added to Vive&apos;s website analytics records.
-                  </dd>
-                </div>
-                <div>
-                  <dt>Counselling</dt>
-                  <dd>
-                    Most client information and counselling records are kept in Zanda&apos;s
-                    Australian-hosted system. Online sessions use Zanda&apos;s Zoom-powered telehealth
-                    service. Vive Counselling does not currently record them.
-                  </dd>
-                </div>
-              </dl>
-            </section>
-
             <section aria-labelledby="scope-title" className="privacy-policy-page__section" id="scope">
-              <p className="privacy-policy-page__section-number" aria-hidden="true">01</p>
               <div>
-                <h2 id="scope-title">About this privacy policy</h2>
+                <h2 id="scope-title">1. About this privacy policy</h2>
                 <p>
                   Vive Counselling is a private counselling practice operated by Joel Griffiths. This
                   policy explains how personal information is collected, used, stored and disclosed
@@ -116,9 +53,18 @@ export default function PrivacyPolicy() {
                   counselling services.
                 </p>
                 <p>
-                  Counselling may involve health information, which is sensitive information under
-                  Australian privacy law. Vive Counselling handles personal information in line with
-                  the Privacy Act 1988 (Cth) and the Australian Privacy Principles.
+                  Counselling may involve{" "}
+                  <a href="https://www.oaic.gov.au/privacy/your-privacy-rights/health-information/handling-health-information">
+                    health information
+                  </a>, which is sensitive information under Australian privacy law. Vive Counselling
+                  handles personal information in line with the{" "}
+                  <a href="https://www.legislation.gov.au/C2004A03712/latest/text">
+                    Privacy Act 1988 (Cth)
+                  </a>{" "}
+                  and the{" "}
+                  <a href="https://www.oaic.gov.au/privacy/australian-privacy-principles">
+                    Australian Privacy Principles
+                  </a>.
                 </p>
                 <p>
                   Website privacy and confidentiality within a counselling relationship are related,
@@ -134,9 +80,8 @@ export default function PrivacyPolicy() {
               className="privacy-policy-page__section"
               id="information"
             >
-              <p className="privacy-policy-page__section-number" aria-hidden="true">02</p>
               <div>
-                <h2 id="information-title">Personal information we may collect</h2>
+                <h2 id="information-title">2. Personal information we may collect</h2>
                 <p>The information depends on how you interact with the practice. It may include:</p>
                 <ul>
                   <li>
@@ -176,9 +121,8 @@ export default function PrivacyPolicy() {
               className="privacy-policy-page__section"
               id="collection-and-use"
             >
-              <p className="privacy-policy-page__section-number" aria-hidden="true">03</p>
               <div>
-                <h2 id="collection-and-use-title">How we collect and use personal information</h2>
+                <h2 id="collection-and-use-title">3. How we collect and use personal information</h2>
                 <p>
                   Most personal information comes directly from you: through the website enquiry form,
                   by email, through Zanda&apos;s client forms or portal, during appointments or through
@@ -204,9 +148,8 @@ export default function PrivacyPolicy() {
               className="privacy-policy-page__section"
               id="enquiries-and-counselling"
             >
-              <p className="privacy-policy-page__section-number" aria-hidden="true">04</p>
               <div>
-                <h2 id="enquiries-and-counselling-title">Enquiries, client records and online counselling</h2>
+                <h2 id="enquiries-and-counselling-title">4. Enquiries, client records and online counselling</h2>
                 <p>
                   The enquiry form is a way to start a conversation. It is not a counselling session,
                   and it is not an emergency service. Please include only the detail Joel needs to
@@ -248,9 +191,8 @@ export default function PrivacyPolicy() {
               className="privacy-policy-page__section"
               id="website-analytics"
             >
-              <p className="privacy-policy-page__section-number" aria-hidden="true">05</p>
               <div>
-                <h2 id="website-analytics-title">Website analytics and browser storage</h2>
+                <h2 id="website-analytics-title">5. Website analytics and browser storage</h2>
                 <p>
                   Vive Counselling keeps its own website visit records to understand visits, page use and
                   enquiry outcomes. A random visitor ID is stored in your browser&apos;s local storage,
@@ -278,9 +220,8 @@ export default function PrivacyPolicy() {
             </section>
 
             <section aria-labelledby="sharing-title" className="privacy-policy-page__section" id="sharing">
-              <p className="privacy-policy-page__section-number" aria-hidden="true">06</p>
               <div>
-                <h2 id="sharing-title">Who we share information with</h2>
+                <h2 id="sharing-title">6. Who we share information with</h2>
                 <p>
                   Personal information is shared only where needed to operate the practice, provide the
                   service, meet professional or legal obligations, or where you have consented. The main
@@ -342,9 +283,8 @@ export default function PrivacyPolicy() {
               className="privacy-policy-page__section"
               id="security-and-retention"
             >
-              <p className="privacy-policy-page__section-number" aria-hidden="true">07</p>
               <div>
-                <h2 id="security-and-retention-title">How we protect and retain information</h2>
+                <h2 id="security-and-retention-title">7. How we protect and retain information</h2>
                 <p>
                   Vive Counselling takes reasonable steps to protect personal information from misuse,
                   interference, loss, unauthorised access, modification and disclosure. This includes
@@ -384,9 +324,8 @@ export default function PrivacyPolicy() {
               className="privacy-policy-page__section"
               id="access-and-complaints"
             >
-              <p className="privacy-policy-page__section-number" aria-hidden="true">08</p>
               <div>
-                <h2 id="access-and-complaints-title">Access, correction and complaints</h2>
+                <h2 id="access-and-complaints-title">8. Access, correction and complaints</h2>
                 <p>
                   You can ask to access personal information Vive Counselling holds about you, or ask for
                   inaccurate, out-of-date, incomplete, irrelevant or misleading information to be corrected.
@@ -405,9 +344,12 @@ export default function PrivacyPolicy() {
               </div>
             </section>
 
-            <section aria-labelledby="contact-title" className="privacy-policy-page__closing">
-              <p className="privacy-policy-page__section-label">Contact and changes</p>
-              <h2 id="contact-title">Privacy contact details.</h2>
+            <section
+              aria-labelledby="contact-title"
+              className="privacy-policy-page__closing"
+              id="contact-and-changes"
+            >
+              <h2 id="contact-title">9. Contact and policy changes</h2>
               <p>
                 Email <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a> or use the{" "}
                 <Link to={contactHref}>Contact page</Link>. This policy may be updated when the practice,
