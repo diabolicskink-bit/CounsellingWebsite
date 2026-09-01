@@ -37,7 +37,7 @@ An article may instead select a custom body presentation without changing the pu
 3. Register the component against that definition in `src/content/blog/presentations.tsx`.
 4. Set the manifest object's `presentation` field to the typed definition key.
 
-The shared shell continues to own the breadcrumb, classification, sample label, title, abstract, author, dates, reading time, publication note, and return navigation. The registered component owns only the article body. This keeps the index consistent while allowing structure and visual treatment to follow the subject of an individual article.
+`src/content/blog/BlogArticleHero.tsx` is the reusable masthead template for every published article. It owns the breadcrumb, classification, sample label, title, abstract, author, and dates; `BlogArticle.tsx` owns the publication note and return navigation around the body. The registered presentation component owns only the article body. This keeps article orientation and publication details consistent while allowing structure and visual treatment below the hero to follow the subject of an individual article.
 
 Do not add a custom presentation merely to decorate an otherwise standard article. Use one when the subject benefits from a different information form, such as a process, comparison, annotated sequence, evidence key, or visual essay.
 

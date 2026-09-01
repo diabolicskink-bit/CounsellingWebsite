@@ -23,7 +23,7 @@ export default function DesignSystemPatterns() {
           consumers={[
             "Home, Working with Joel, and Inclusion heroes",
             "Kink and BDSM, ENM and polyamory, and LGBTQIA+ heroes",
-            "Articles and Contact openings",
+            "Articles index, article mastheads, and Contact opening",
           ]}
           identifier=".site-hero-background"
           recordPath="docs/design-system/patterns.md"

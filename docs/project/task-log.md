@@ -23,6 +23,7 @@ Curated milestone history for durable project state. This is not a full changelo
 - Separated the lightweight article manifest from Markdown bodies and lazy-loaded the public Articles pages in browser builds while preserving complete synchronous server prerendering.
 - Closed the publishing contract around required metadata, real and ordered publication dates, typed custom presentations, matching bodies, and article sitemap `lastmod` output, with focused script and browser coverage.
 - Aligned the Articles index opening with the supported public hero surface while retaining its page-specific editorial composition and responsive introduction.
+- Extracted one reusable article-masthead component and aligned every article hero with the supported public surface while keeping subject-specific design inside article bodies.
 
 ## 2026-08-31 - Public Reduced-Motion Baseline Completed
 
