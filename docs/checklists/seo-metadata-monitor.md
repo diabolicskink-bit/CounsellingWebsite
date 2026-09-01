@@ -369,6 +369,46 @@ Use the relevant combination of metadata source, generated HTML, served route re
 
 - `Pass` Search and social wording is factual, distinguishes crisis support from public mental health assessment, cites official sources, and avoids therapeutic claims or promised outcomes.
 
+## `/privacy-policy` - Privacy Policy
+
+- **Last checked:** `2026-09-01`
+
+- `Pass` The first-response H1 is present and matches the route purpose.
+  - **Data:** `Privacy policy.`
+
+- `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
+  - **Data:** `Privacy Policy | Vive Counselling`
+
+- `Pass` Meta description is present, human-readable, and matches visible page content.
+  - **Data:** `How Vive Counselling handles personal information from website visits, enquiries and counselling, including access, correction and privacy complaints.`
+
+- `Pass` Canonical URL resolves to this route on the intended public origin.
+  - **Data:** `https://vivecounselling.com.au/privacy-policy`
+
+- `Pass` Canonical public URL returns a `200` response.
+
+- `Pass` Indexability is not blocked by robots metadata or response headers.
+  - **Data:** No route-level robots directive or `X-Robots-Tag`; indexable.
+
+- `Pass` Sitemap output includes this route exactly once with an accurate significant-change date.
+  - **Data:** `<lastmod>2026-09-01</lastmod>`
+
+- `Pass` Open Graph and Twitter metadata are complete and aligned with the route.
+  - **Data:** `og:title` / `twitter:title` use the page title; `og:description` / `twitter:description` use the meta description; `og:url` is `https://vivecounselling.com.au/privacy-policy`; `og:type` is `website`; `twitter:card` is `summary_large_image`.
+
+- `Pass` The configured social image and alt metadata are appropriate for the route.
+  - **Data:** `https://vivecounselling.com.au/og-vive-counselling.png`; `Vive Counselling social preview card featuring Joel Griffiths.`
+
+- `N/A` No route-specific structured data is needed for the page.
+  - **Note:** Google does not support a Privacy Policy rich-result type; adding generic markup would not create a search feature worth maintaining for this route.
+
+- `Pass` Generated initial HTML/head metadata matches expected route metadata and contains the complete policy content.
+
+- `Partial` Hydrated and client-side navigation metadata remains correct for title and description.
+  - **Note:** Runtime canonical, Open Graph, Twitter, and robots metadata ownership remains tracked under `DEBT-27`.
+
+- `Pass` Search and social wording accurately describes the policy without adding counselling keywords or claims unrelated to the route.
+
 ## Redirects
 
 - **Last checked:** `Not recorded`
