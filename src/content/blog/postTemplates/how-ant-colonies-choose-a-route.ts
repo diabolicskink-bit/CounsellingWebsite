@@ -23,12 +23,12 @@ Reinforcement is fast, but speed can make a colony inflexible. A well-establishe
 Calling the colony intelligent does not mean imagining a hidden commander. The useful explanation sits across two scales: workers follow limited rules and signals; repeated interactions produce an organised result. The route is not selected in one decisive moment. It is continually made and revised.`,
   references: [
     {
-      citation: `Negative Feedback Enables Fast and Flexible Collective Decision-Making in Ants, *PLOS ONE*.`,
-      href: "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0044501",
+      citation: `Gordon Lab. (n.d.). *Evolution and ecology of collective behavior*. Stanford University.`,
+      href: "https://web.stanford.edu/~dmgordon/old2/",
     },
     {
-      citation: `The Gordon Lab: ant colonies and systems without central control, Stanford University.`,
-      href: "https://web.stanford.edu/~dmgordon/old2/",
+      citation: `Grüter, C., Schürch, R., Czaczkes, T. J., Taylor, K., Durance, T., Jones, S. M., & Ratnieks, F. L. W. (2012). Negative feedback enables fast and flexible collective decision-making in ants. *PLOS ONE, 7*(9), e44501.`,
+      href: "https://doi.org/10.1371/journal.pone.0044501",
     },
   ],
 });

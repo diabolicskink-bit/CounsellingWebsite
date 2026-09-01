@@ -29,16 +29,16 @@ Fossilisation is rare and selective. Hard tissues preserve more readily than sof
 The distinction is useful: fossils can provide strong physical evidence, but the confidence of a claim depends on what was preserved, how it was found and how much comparison is required.`,
   references: [
     {
-      citation: `What is a fossil?, Natural History Museum.`,
-      href: "https://www.nhm.ac.uk/discover/what-is-a-fossil.html",
+      citation: `Australian Museum. (n.d.). *How are dinosaur fossils formed?*`,
+      href: "https://australian.museum/learn/teachers/learning/dinosaur-fossils/",
     },
     {
-      citation: `How palaeontologists learn about dinosaurs, Natural History Museum.`,
+      citation: `Barrett, P., & Hendry, L. (n.d.). *Beyond Jurassic World: What we really know about dinosaurs and how*. Natural History Museum.`,
       href: "https://www.nhm.ac.uk/discover/what-can-scientists-learn-about-dinosaurs-and-how.html",
     },
     {
-      citation: `How are dinosaur fossils formed?, Australian Museum.`,
-      href: "https://australian.museum/learn/teachers/learning/dinosaur-fossils/",
+      citation: `Osterloff, E., & Hendry, L. (n.d.). *What is a fossil?*`,
+      href: "https://www.nhm.ac.uk/discover/what-is-a-fossil.html",
     },
   ],
 });

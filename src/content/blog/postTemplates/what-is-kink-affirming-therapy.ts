@@ -16,7 +16,7 @@ The result is a fairly simple clinical starting point: before deciding what some
 
 Psychology and psychiatry have a complicated history with unconventional sexuality. Sadism, masochism and fetish interests have all been interpreted at various times through theories of psychopathology, developmental disturbance, trauma and dysfunctional relationships. Some of those ideas continue to shape popular assumptions about BDSM even though the research literature has moved considerably.
 
-One of the largest studies in this area was conducted in Australia. Richters and colleagues (2008) analysed data from a nationally representative sample of 19,307 Australians aged 16 to 59. Among sexually active respondents, 1.8% reported participating in BDSM during the previous year. BDSM participation was not associated with greater sexual difficulties or a greater likelihood of having experienced sexual coercion. Participants were also not more likely to report anxiety or unhappiness; among men, BDSM participation was associated with lower levels of psychological distress.
+Research over the past two decades provides little support for treating consensual BDSM as a general indicator of poor psychological health. BDSM interests and behaviours are also considerably more common than older clinical accounts might suggest. Population studies have found BDSM-related interests in around a quarter to more than a third of adults, depending on how kink is defined and measured, with smaller proportions identifying specifically as BDSM practitioners (Holvoet et al., 2017; Paarnio et al., 2023). BDSM participation was not associated with greater sexual difficulties or a greater likelihood of having experienced sexual coercion. Participants were also not more likely to report anxiety or unhappiness; among men, BDSM participation was associated with lower levels of psychological distress.
 
 Wismeijer and van Assen (2013) later compared 902 BDSM practitioners with 434 people who did not practise BDSM, examining personality, attachment, rejection sensitivity and subjective wellbeing. Their findings likewise provided little support for the idea that BDSM practitioners were broadly less psychologically healthy. On several measures the BDSM group reported more favourable outcomes.
 
@@ -167,7 +167,8 @@ If concerns around consent, relationships, attachment, trauma, identity or bound
 The aim is to understand the person first, and allow the meaning of kink — whether psychologically complex, relatively straightforward, or somewhere in between — to emerge from there.`,
   references: [
     {
-      citation: `American Psychiatric Association. (2022). *Diagnostic and statistical manual of mental disorders* (5th ed., text rev.). American Psychiatric Association Publishing.`,
+      citation: `American Psychiatric Association. (2022). *Diagnostic and statistical manual of mental disorders* (5th ed., text rev.).`,
+      href: "https://doi.org/10.1176/appi.books.9780890425787",
     },
     {
       citation: `De Neef, N., Coppens, V., Huys, W., & Morrens, M. (2019). Bondage-discipline, dominance-submission and sadomasochism (BDSM) from an integrative biopsychosocial perspective: A systematic review. *Sexual Medicine, 7*(2), 129–144.`,
@@ -178,12 +179,20 @@ The aim is to understand the person first, and allow the meaning of kink — whe
       href: "https://doi.org/10.1177/1079063219842847",
     },
     {
-      citation: `Kelsey, K., Stiles, B. L., Spiller, L., & Diekhoff, G. M. (2013). Assessment of therapists' attitudes towards BDSM. *Psychology & Sexuality, 4*(3), 255–267.`,
+      citation: `Holvoet, L., Huys, W., Coppens, V., Seeuws, J., Goethals, K., & Morrens, M. (2017). Fifty shades of Belgian gray: The prevalence of BDSM-related fantasies and activities in the general population. *The Journal of Sexual Medicine, 14*(9), 1152–1159.`,
+      href: "https://doi.org/10.1016/j.jsxm.2017.07.003",
+    },
+    {
+      citation: `Kelsey, K., Stiles, B. L., Spiller, L., & Diekhoff, G. M. (2013). Assessment of therapists’ attitudes towards BDSM. *Psychology & Sexuality, 4*(3), 255–267.`,
       href: "https://doi.org/10.1080/19419899.2012.655255",
     },
     {
       citation: `Kolmes, K., Stock, W., & Moser, C. (2006). Investigating bias in psychotherapy with BDSM clients. *Journal of Homosexuality, 50*(2–3), 301–324.`,
       href: "https://doi.org/10.1300/J082v50n02_15",
+    },
+    {
+      citation: `Paarnio, M., Sandman, N., Källström, M., Johansson, A., & Jern, P. (2023). The prevalence of BDSM in Finland and the association between BDSM interest and personality traits. *The Journal of Sex Research, 60*(4), 443–451.`,
+      href: "https://doi.org/10.1080/00224499.2021.2015745",
     },
     {
       citation: `Reynish, T. D., Hoang, H., Bridgman, H., & Nic Giolla Easpaig, B. (2023). Kink-oriented people and exogenous oppressions: Understanding mental health and related service use in a rural context. *Journal of Homosexuality, 70*(8), 1479–1502.`,

@@ -2,7 +2,7 @@ import type { BlogPostSlug } from "./manifest.ts";
 
 export type BlogPostReference = Readonly<{
   citation: string;
-  href?: string;
+  href: string;
 }>;
 
 export type BlogPostTemplate<Slug extends BlogPostSlug = BlogPostSlug> = Readonly<{

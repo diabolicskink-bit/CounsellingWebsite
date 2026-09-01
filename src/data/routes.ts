@@ -53,6 +53,7 @@ export function isPrivateRoutePath(pathname: string) {
 }
 
 export const devRoutePaths = {
+  articleEditor: "/article-editor",
   codexTestBed: "/codex-tb",
   designSystem: "/design-system",
   designSystemComponents: "/design-system/components",

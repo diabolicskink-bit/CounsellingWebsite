@@ -26,7 +26,7 @@ const publicRouteMetadata: Record<string, RouteMetadata> = {
 };
 const publicRoutes = Object.keys(publicRouteMetadata);
 const notFoundPath = "/not-a-real-page";
-const unavailableProductionRoutes = ["/design-language", "/design-system"] as const;
+const unavailableProductionRoutes = ["/article-editor", "/design-language", "/design-system"] as const;
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 
 function escapeHtml(value: string) {

@@ -51,6 +51,7 @@ export const navItems: readonly NavItem[] = [
           label: "Dev",
           href: devRoutePaths.designSystem,
           children: [
+            { label: "Article editor", href: devRoutePaths.articleEditor },
             { label: "Design system", href: devRoutePaths.designSystem },
             { label: "Documents", href: devRoutePaths.documents },
             {

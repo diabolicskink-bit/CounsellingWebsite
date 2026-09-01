@@ -41,6 +41,7 @@ const analyticsRoutes = [
 
 const devRoutes = import.meta.env.DEV
   ? [
+      { path: devRoutePaths.articleEditor, Page: lazy(() => import("./pages/dev/ArticleEditor")) },
       { path: devRoutePaths.codexTestBed, Page: lazy(() => import("./pages/dev/test-beds/CodexTB")) },
       { path: devRoutePaths.designSystem, Page: lazy(() => import("./pages/dev/DesignSystem")) },
       {

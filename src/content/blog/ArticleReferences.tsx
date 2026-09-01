@@ -22,25 +22,22 @@ export default function ArticleReferences({ references }: ArticleReferencesProps
         </p>
       </header>
 
-      <ol className="blog-article__reference-list">
+      <ul className="blog-article__reference-list">
         {references.map((reference, index) => (
           <li key={`${index}-${reference.citation}`}>
             <ArticleMarkdown
               body={reference.citation}
               className="blog-article__reference-copy"
             />
-            {reference.href ? (
-              <a
-                aria-label={`Open source ${index + 1}`}
-                className="blog-article__reference-link"
-                href={reference.href}
-              >
-                Open source
-              </a>
-            ) : null}
+            <a
+              className="blog-article__reference-link"
+              href={reference.href}
+            >
+              {reference.href}
+            </a>
           </li>
         ))}
-      </ol>
+      </ul>
     </section>
   );
 }
