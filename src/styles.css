@@ -269,7 +269,7 @@ h3 {
   font-weight: 680;
 }
 
-.nav-link--active::after {
+.nav-link--active::before {
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -294,6 +294,7 @@ h3 {
   height: 0;
   border-inline: 4px solid transparent;
   border-top: 5px solid currentColor;
+  font-size: 0;
   vertical-align: middle;
 }
 
@@ -383,16 +384,6 @@ h3 {
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
   border-left: 5px solid currentColor;
-  content: "";
-}
-
-.nav-link--parent::after {
-  width: 0;
-  height: 0;
-  border-top: 5px solid currentColor;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-  font-size: 0;
   content: "";
 }
 
@@ -929,18 +920,8 @@ h3 {
   min-width: 210px;
 }
 
-.site-shell--shared .site-header .nav-link {
-  color: var(--muted);
-}
-
-.site-shell--shared .site-header .nav-link:hover,
-.site-shell--shared .site-header .nav-link--active {
+.site-shell--shared .site-header .nav-link:hover {
   color: var(--cedar-dark);
-}
-
-.site-shell--shared .site-footer {
-  background: var(--site-footer-bg);
-  border-top-color: rgba(35, 75, 61, 0.22);
 }
 
 .home-page {
