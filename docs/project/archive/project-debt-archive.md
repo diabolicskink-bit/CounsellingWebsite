@@ -2,6 +2,12 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-41 - Private analytics presentation still depends on public styling
+
+Closed on 2026-09-01 after the owner clarified that visual independence means the private dashboard is not coupled to looking or feeling like the public website and is free to own its CSS and visual language. It does not require a separate browser entry, isolated bundles, or complete separation from shared global styles and generic foundations.
+
+The shared application entry and current style dependencies are therefore not debt by themselves, and no source change was required. Analytics remains an owner-only surface whose presentation should not dictate the public site's visual direction or become public design-system API without explicit scope.
+
 ### DEBT-35 - Working with Joel approach copy depends on JavaScript
 
 Resolved on 2026-08-19 by rendering every approach explanation once in the generated page HTML, with ordinary headings and no inert tab semantics before JavaScript. After hydration, the same content nodes become three connected tab panels and only the selected panel remains visible, preserving the existing visual interaction without duplicating copy.

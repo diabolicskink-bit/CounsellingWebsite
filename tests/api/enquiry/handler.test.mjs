@@ -17,6 +17,7 @@ function createDependencies() {
     logError: () => {},
     logWarning: () => {},
     recordVisitEvent: async () => ({ eventInserted: true }),
+    waitUntil: () => {},
   };
 }
 
@@ -331,6 +332,40 @@ test("keeps enquiry delivery successful when event storage is unavailable", asyn
   assert.doesNotMatch(JSON.stringify(warnings), /private analytics database detail/);
 });
 
+test("does not wait for analytics storage and preserves enquiry event order", async () => {
+  setDeliveryEnv();
+  const fetchCalls = mockResendSuccess();
+  const recordedEventTypes = [];
+  const scheduledWork = [];
+  let releaseAttemptedEvent;
+  dependencies.recordVisitEvent = (event) => {
+    recordedEventTypes.push(event.eventType);
+
+    if (event.eventType === "enquiry_submit_attempted") {
+      return new Promise((resolve) => {
+        releaseAttemptedEvent = resolve;
+      });
+    }
+
+    return Promise.resolve({ eventInserted: true });
+  };
+  dependencies.waitUntil = (work) => {
+    scheduledWork.push(work);
+  };
+
+  const result = await invokeHandler(validGeneralPayload(validAnalyticsContext));
+
+  assert.equal(result.statusCode, 200);
+  assert.equal(fetchCalls.length, 1);
+  assert.equal(scheduledWork.length, 2);
+  assert.deepEqual(recordedEventTypes, ["enquiry_submit_attempted"]);
+
+  releaseAttemptedEvent({ eventInserted: true });
+  await scheduledWork[1];
+
+  assert.deepEqual(recordedEventTypes, ["enquiry_submit_attempted", "enquiry_sent"]);
+});
+
 test("uses the visitor name with the configured sender address", async () => {
   setDeliveryEnv();
   dependencies.environment.ENQUIRY_FROM_EMAIL = "Vive Counselling <no-reply@vivecounselling.com.au>";
@@ -348,6 +383,21 @@ test("uses the visitor name with the configured sender address", async () => {
 
   assert.equal(email.from, '"Alex \\"The Great\\" Person script" <no-reply@vivecounselling.com.au>');
   assert.equal(email.reply_to, "alex@example.com");
+  assert.doesNotMatch(email.html, /<script>/);
+  assert.match(email.html, /&lt;script&gt;/);
+});
+
+test("escapes visitor message markup in the HTML email", async () => {
+  setDeliveryEnv();
+  const fetchCalls = mockResendSuccess();
+
+  const result = await invokeHandler(validGeneralPayload({
+    message: '<img src="x" onerror="alert(1)">',
+  }));
+
+  assert.equal(result.statusCode, 200);
+  assert.doesNotMatch(fetchCalls[0].body.html, /<img src="x"/);
+  assert.match(fetchCalls[0].body.html, /&lt;img src=&quot;x&quot;/);
 });
 
 test("accepts a structured appointment booking payload", async () => {
@@ -355,13 +405,13 @@ test("accepts a structured appointment booking payload", async () => {
   const fetchCalls = mockResendSuccess();
 
   const result = await invokeHandler({
+    availability: "Tuesday afternoons",
     bookingType: "appointment",
     email: "sam@example.com",
     enquiryType: "booking",
     message: "I would like an appointment.",
     name: "Sam River",
-    state: "wa",
-    timing: "Tuesday afternoons",
+    timeZone: "AWST",
     website: "",
   });
 
@@ -373,8 +423,9 @@ test("accepts a structured appointment booking payload", async () => {
   assert.equal(email.subject, "App Request - Sam R");
   assert.equal(email.reply_to, "sam@example.com");
   assert.match(email.text, /Booking request: Make an appointment/);
-  assert.match(email.text, /Preferred timing: Tuesday afternoons/);
-  assert.match(email.text, /State or territory: Western Australia/);
+  assert.match(email.text, /Availability: Tuesday afternoons/);
+  assert.match(email.text, /Timezone: AWST \(WA\)/);
+  assert.doesNotMatch(email.text, /Mobile/);
   assert.match(email.html, /Appointment Enquiry/);
   assert.match(email.html, /Tuesday afternoons/);
 });
@@ -389,6 +440,7 @@ test("accepts a structured consult booking payload", async () => {
     email: "taylor@example.com",
     enquiryType: "booking",
     message: "Could we book a consult?",
+    mobile: "0412 345 678",
     name: "Taylor Green",
     timeZone: "AWST",
     website: "",
@@ -402,10 +454,37 @@ test("accepts a structured consult booking payload", async () => {
   assert.equal(email.subject, "Consult Request - Taylor G");
   assert.equal(email.reply_to, "taylor@example.com");
   assert.match(email.text, /Booking request: Request a 15-minute consult/);
+  assert.match(email.text, /Mobile number: 0412 345 678/);
   assert.match(email.text, /Availability: Thursday morning/);
   assert.match(email.text, /Timezone: AWST \(WA\)/);
   assert.match(email.html, /Consult Enquiry/);
   assert.match(email.html, /Thursday morning/);
+  assert.match(email.html, /0412 345 678/);
+});
+
+test("rejects a consult without a mobile number before delivery", async () => {
+  setDeliveryEnv();
+  let fetchCalled = false;
+  dependencies.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("fetch should not be called for an incomplete consult");
+  };
+
+  const result = await invokeHandler({
+    availability: "Thursday morning",
+    bookingType: "consult",
+    email: "taylor@example.com",
+    enquiryType: "booking",
+    message: "Could we book a consult?",
+    mobile: "",
+    name: "Taylor Green",
+    timeZone: "AWST",
+    website: "",
+  });
+
+  assert.equal(result.statusCode, 400);
+  assert.equal(result.body.error, "Invalid enquiry submission.");
+  assert.equal(fetchCalled, false);
 });
 
 test("accepts a valid JSON submission when origin, referer, and fetch-site headers are absent", async () => {
@@ -416,6 +495,37 @@ test("accepts a valid JSON submission when origin, referer, and fetch-site heade
 
   assert.equal(result.statusCode, 200);
   assert.deepEqual(result.body, { ok: true });
+  assert.equal(fetchCalls.length, 1);
+});
+
+test("accepts a local IPv6 origin when forwarded protocol metadata is absent", async () => {
+  setDeliveryEnv();
+  const fetchCalls = mockResendSuccess();
+
+  const result = await invokeHandler(validGeneralPayload(), {
+    headers: jsonHeaders({
+      host: "[::1]:4287",
+      origin: "http://[::1]:4287",
+    }),
+  });
+
+  assert.equal(result.statusCode, 200);
+  assert.equal(fetchCalls.length, 1);
+});
+
+test("accepts a matching production origin", async () => {
+  setDeliveryEnv();
+  const fetchCalls = mockResendSuccess();
+
+  const result = await invokeHandler(validGeneralPayload(), {
+    headers: jsonHeaders({
+      host: "vivecounselling.com.au",
+      origin: "https://vivecounselling.com.au",
+      "x-forwarded-proto": "https",
+    }),
+  });
+
+  assert.equal(result.statusCode, 200);
   assert.equal(fetchCalls.length, 1);
 });
 
@@ -637,16 +747,33 @@ test("returns a generic validation error for missing and invalid base fields", a
   assert.equal(events.length, 0);
 });
 
+test("rejects overlong enquiry fields instead of silently truncating them", async () => {
+  setDeliveryEnv();
+  let fetchCalled = false;
+  dependencies.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("fetch should not be called for overlong fields");
+  };
+
+  const result = await invokeHandler(validGeneralPayload({
+    name: "A".repeat(161),
+  }));
+
+  assert.equal(result.statusCode, 400);
+  assert.equal(result.body.error, "Invalid enquiry submission.");
+  assert.equal(fetchCalled, false);
+});
+
 test("returns a generic validation error for invalid booking fields", async () => {
   setDeliveryEnv();
   const result = await invokeHandler({
+    availability: "Tuesday afternoons",
     bookingType: "appointment",
     email: "sam@example.com",
     enquiryType: "booking",
     message: "Hello",
     name: "Sam River",
-    state: "moon",
-    timing: "",
+    timeZone: "GMT+8",
     website: "",
   });
 
@@ -716,8 +843,9 @@ test("accepts a URL-encoded native form submission and returns a safe HTML succe
 
   const result = await invokeHandler(
     encodeForm({
+      contactPath: "question",
       email: "alex@example.com",
-      enquiryType: "general",
+      enquiryType: "",
       message: "I would like to ask a question.",
       name: "Alex Person",
       website: "",
@@ -745,13 +873,13 @@ test("derives a structured booking from the Contact form path in a native submis
 
   const result = await invokeHandler(
     encodeForm({
+      availability: "Tuesday afternoons",
       contactPath: "appointment",
       email: "sam@example.com",
       enquiryType: "",
       message: "I would like an appointment.",
       name: "Sam River",
-      state: "wa",
-      timing: "Tuesday afternoons",
+      timeZone: "AWST",
       website: "",
     }),
     {
@@ -766,6 +894,36 @@ test("derives a structured booking from the Contact form path in a native submis
   assert.equal(fetchCalls.length, 1);
   assert.equal(fetchCalls[0].body.subject, "App Request - Sam R");
   assert.match(fetchCalls[0].body.text, /Booking request: Make an appointment/);
+});
+
+test("derives a consult with mobile details from the Contact form path", async () => {
+  setDeliveryEnv();
+  const fetchCalls = mockResendSuccess();
+
+  const result = await invokeHandler(
+    encodeForm({
+      availability: "Thursday mornings",
+      contactPath: "consult",
+      email: "taylor@example.com",
+      enquiryType: "",
+      message: "I would like a consult.",
+      mobile: "0412 345 678",
+      name: "Taylor Green",
+      timeZone: "AWST",
+      website: "",
+    }),
+    {
+      headers: {
+        accept: "text/html",
+        "content-type": "application/x-www-form-urlencoded",
+      },
+    },
+  );
+
+  assert.equal(result.statusCode, 200);
+  assert.equal(fetchCalls.length, 1);
+  assert.equal(fetchCalls[0].body.subject, "Consult Request - Taylor G");
+  assert.match(fetchCalls[0].body.text, /Mobile number: 0412 345 678/);
 });
 
 test("returns a safe HTML failure page for a URL-encoded native form submission failure", async () => {

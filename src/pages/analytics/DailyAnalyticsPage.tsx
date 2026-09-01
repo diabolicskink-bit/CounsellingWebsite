@@ -4,10 +4,12 @@ import {
   ChevronDown,
   CircleCheck,
   CircleX,
+  Clock3,
   MousePointerClick,
   Radio,
   RefreshCw,
   ScanSearch,
+  TextCursorInput,
 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
@@ -40,6 +42,11 @@ import {
 } from "./VisitDetails";
 import VisitorHistory from "./VisitorHistory";
 import useAnalyticsReport from "./useAnalyticsReport";
+
+type VisitContactProgress = {
+  kind: "attempted" | "failed" | "selected" | "sent" | "started";
+  label: string;
+};
 
 function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
   const deviceCounts = visits.reduce<Record<VisitDeviceType, number>>(
@@ -99,6 +106,60 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
       </div>
     </section>
   );
+}
+
+function visitContactProgress(events: AnalyticsVisit["events"]): VisitContactProgress | null {
+  if (events.some((visitEvent) => visitEvent.eventType === "enquiry_sent")) {
+    return { kind: "sent", label: "Enquiry sent" };
+  }
+
+  if (events.some((visitEvent) => visitEvent.eventType === "enquiry_failed")) {
+    return { kind: "failed", label: "Send failed" };
+  }
+
+  if (events.some((visitEvent) => visitEvent.eventType === "enquiry_submit_attempted")) {
+    return { kind: "attempted", label: "Submission attempted" };
+  }
+
+  const selectedContactEvent = [...events]
+    .filter((visitEvent) => visitEvent.eventType === "contact_option_selected")
+    .sort((left, right) =>
+      new Date(right.occurredAt).getTime() - new Date(left.occurredAt).getTime()
+    )[0];
+  const selectedContact = selectedContactEvent
+    ? contactSelectionLabel(selectedContactEvent)
+    : null;
+
+  if (selectedContact) {
+    return { kind: "selected", label: selectedContact };
+  }
+
+  if (events.some((visitEvent) => visitEvent.eventType === "enquiry_started")) {
+    return { kind: "started", label: "Enquiry started" };
+  }
+
+  return null;
+}
+
+function ContactProgressSignal({ progress }: { progress: VisitContactProgress | null }) {
+  if (!progress) return null;
+
+  let className = "signal-contact-signal";
+  let icon = <Clock3 aria-hidden="true" size={14} />;
+
+  if (progress.kind === "sent") {
+    className = "signal-enquiry-signal signal-enquiry-signal--sent";
+    icon = <CircleCheck aria-hidden="true" size={15} />;
+  } else if (progress.kind === "failed") {
+    className = "signal-enquiry-signal signal-enquiry-signal--failed";
+    icon = <CircleX aria-hidden="true" size={15} />;
+  } else if (progress.kind === "selected") {
+    icon = <MousePointerClick aria-hidden="true" size={14} />;
+  } else if (progress.kind === "started") {
+    icon = <TextCursorInput aria-hidden="true" size={14} />;
+  }
+
+  return <span className={className}>{icon} {progress.label}</span>;
 }
 
 function DailyObservatory({
@@ -261,19 +322,13 @@ function DailyObservatory({
               const detailId = `visit-detail-${visit.id}`;
               const previewPages = visit.pageViews.slice(0, 2);
               const events = visit.events;
-              const hasSuccessfulEnquiry = events.some((visitEvent) => visitEvent.eventType === "enquiry_sent");
-              const hasFailedEnquiry = !hasSuccessfulEnquiry
-                && events.some((visitEvent) => visitEvent.eventType === "enquiry_failed");
-              const selectedContactEvent = [...events]
-                .filter((visitEvent) => visitEvent.eventType === "contact_option_selected")
-                .sort((left, right) => new Date(right.occurredAt).getTime() - new Date(left.occurredAt).getTime())[0];
-              const selectedContact = selectedContactEvent ? contactSelectionLabel(selectedContactEvent) : null;
+              const contactProgress = visitContactProgress(events);
               const activeSeconds = visitActiveSeconds(visit);
               const cardClassName = [
                 "signal-visit-card",
                 isExpanded ? "signal-visit-card--expanded" : null,
-                hasSuccessfulEnquiry ? "signal-visit-card--enquiry-sent" : null,
-                hasFailedEnquiry ? "signal-visit-card--enquiry-failed" : null,
+                contactProgress?.kind === "sent" ? "signal-visit-card--enquiry-sent" : null,
+                contactProgress?.kind === "failed" ? "signal-visit-card--enquiry-failed" : null,
               ].filter(Boolean).join(" ");
 
               return (
@@ -315,21 +370,7 @@ function DailyObservatory({
                       <div className="signal-event__signals">
                         <DeviceMark visit={visit} />
                         <WebDriverMark visit={visit} />
-                        {hasSuccessfulEnquiry ? (
-                          <span className="signal-enquiry-signal signal-enquiry-signal--sent">
-                            <CircleCheck aria-hidden="true" size={15} /> Enquiry sent
-                          </span>
-                        ) : null}
-                        {hasFailedEnquiry ? (
-                          <span className="signal-enquiry-signal signal-enquiry-signal--failed">
-                            <CircleX aria-hidden="true" size={15} /> Send failed
-                          </span>
-                        ) : null}
-                        {selectedContact ? (
-                          <span className="signal-contact-signal">
-                            <MousePointerClick aria-hidden="true" size={14} /> {selectedContact}
-                          </span>
-                        ) : null}
+                        <ContactProgressSignal progress={contactProgress} />
                       </div>
                       <div className="signal-event__path" aria-label={`Journey preview from ${visit.landingPath}`}>
                         {previewPages.map((pageView, index) => (

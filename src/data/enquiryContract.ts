@@ -5,6 +5,18 @@ type EnquiryOption = Readonly<{
 
 type ValueOf<T> = T[keyof T];
 
+export const enquiryFieldLimits = {
+  availability: 500,
+  bookingType: 60,
+  email: 320,
+  enquiryType: 60,
+  message: 5000,
+  mobile: 40,
+  name: 160,
+  timeZone: 60,
+  website: 320,
+} as const;
+
 export const enquiryTypes = {
   booking: {
     label: "Booking enquiry",
@@ -27,57 +39,38 @@ export const bookingTypes = {
   },
 } as const satisfies Record<string, EnquiryOption>;
 
-export const australianStates = {
-  westernAustralia: {
-    label: "Western Australia",
-    value: "wa",
+export const contactPaths = {
+  appointment: {
+    bookingType: bookingTypes.appointment.value,
+    enquiryType: enquiryTypes.booking.value,
+    value: bookingTypes.appointment.value,
   },
-  newSouthWales: {
-    label: "New South Wales",
-    value: "nsw",
+  consult: {
+    bookingType: bookingTypes.consult.value,
+    enquiryType: enquiryTypes.booking.value,
+    value: bookingTypes.consult.value,
   },
-  victoria: {
-    label: "Victoria",
-    value: "vic",
+  question: {
+    enquiryType: enquiryTypes.general.value,
+    value: "question",
   },
-  queensland: {
-    label: "Queensland",
-    value: "qld",
-  },
-  southAustralia: {
-    label: "South Australia",
-    value: "sa",
-  },
-  tasmania: {
-    label: "Tasmania",
-    value: "tas",
-  },
-  australianCapitalTerritory: {
-    label: "Australian Capital Territory",
-    value: "act",
-  },
-  northernTerritory: {
-    label: "Northern Territory",
-    value: "nt",
-  },
-  other: {
-    label: "Outside Australia or unsure",
-    value: "other",
-  },
-} as const satisfies Record<string, EnquiryOption>;
+} as const;
 
 export type EnquiryTypeOption = ValueOf<typeof enquiryTypes>;
 export type EnquiryType = EnquiryTypeOption["value"];
 export type BookingTypeOption = ValueOf<typeof bookingTypes>;
 export type BookingType = BookingTypeOption["value"];
-export type AustralianStateOption = ValueOf<typeof australianStates>;
-export type AustralianState = AustralianStateOption["value"];
+export type ContactPathOption = ValueOf<typeof contactPaths>;
+export type ContactPath = ContactPathOption["value"];
 
 export const enquiryTypeOptions: readonly EnquiryTypeOption[] = Object.values(enquiryTypes);
 export const bookingTypeOptions: readonly BookingTypeOption[] = Object.values(bookingTypes);
-export const australianStateOptions: readonly AustralianStateOption[] = Object.values(australianStates);
+export const contactPathOptions: readonly ContactPathOption[] = Object.values(contactPaths);
 
-function findOption<TOption extends EnquiryOption>(options: readonly TOption[], value: string) {
+function findOption<TOption extends Readonly<{ value: string }>>(
+  options: readonly TOption[],
+  value: string,
+) {
   return options.find((option) => option.value === value);
 }
 
@@ -89,6 +82,6 @@ export function findBookingType(value: string) {
   return findOption(bookingTypeOptions, value);
 }
 
-export function findAustralianState(value: string) {
-  return findOption(australianStateOptions, value);
+export function findContactPath(value: string) {
+  return findOption(contactPathOptions, value);
 }

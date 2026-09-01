@@ -31,8 +31,16 @@ const subjectLabels: Record<BookingType | typeof enquiryTypes.general.value, str
   [enquiryTypes.general.value]: "General Enq",
 };
 
+function getSafeEmailDisplayName(name: string) {
+  return name
+    .replace(/[\u0000-\u001f\u007f<>]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 120);
+}
+
 function getSubjectName(name: string) {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
+  const parts = getSafeEmailDisplayName(name).split(" ").filter(Boolean);
   const firstName = parts[0] ?? "";
   const lastInitial = parts.length > 1 ? parts[parts.length - 1][0].toUpperCase() : "";
 
@@ -54,14 +62,6 @@ function getSenderAddress(configuredSender: string) {
   const addressMatch = sender.match(/<([^<>]+)>$/);
 
   return (addressMatch?.[1] ?? sender).trim();
-}
-
-function getSafeEmailDisplayName(name: string) {
-  return name
-    .replace(/[\u0000-\u001f\u007f<>]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 120);
 }
 
 function quoteEmailDisplayName(name: string) {
@@ -95,11 +95,11 @@ function getEnquiryDetails(enquiry: ValidatedEnquiry) {
   rows.push(["Name", enquiry.name], ["Email", enquiry.email]);
 
   if (enquiry.enquiryType === enquiryTypes.booking.value) {
-    if (enquiry.bookingType === bookingTypes.appointment.value) {
-      rows.push(["Preferred timing", enquiry.timing], ["State or territory", enquiry.stateLabel]);
-    } else {
-      rows.push(["Availability", enquiry.availability], ["Timezone", enquiry.timeZoneLabel]);
+    if (enquiry.bookingType === bookingTypes.consult.value) {
+      rows.push(["Mobile number", enquiry.mobile]);
     }
+
+    rows.push(["Availability", enquiry.availability], ["Timezone", enquiry.timeZoneLabel]);
   }
 
   return rows;
@@ -131,8 +131,11 @@ function getEmailHeading(enquiry: ValidatedEnquiry) {
   return "General Enquiry";
 }
 
-function getEmailTheme(emailHeading: string): EmailTheme {
-  if (emailHeading === "Appointment Enquiry") {
+function getEmailTheme(enquiry: ValidatedEnquiry): EmailTheme {
+  if (
+    enquiry.enquiryType === enquiryTypes.booking.value &&
+    enquiry.bookingType === bookingTypes.appointment.value
+  ) {
     return {
       accent: "#8fb7c0",
       background: "#eef4f3",
@@ -148,7 +151,10 @@ function getEmailTheme(emailHeading: string): EmailTheme {
     };
   }
 
-  if (emailHeading === "Consult Enquiry") {
+  if (
+    enquiry.enquiryType === enquiryTypes.booking.value &&
+    enquiry.bookingType === bookingTypes.consult.value
+  ) {
     return {
       accent: "#d8a85f",
       background: "#f7efe2",
@@ -180,24 +186,17 @@ function getEmailTheme(emailHeading: string): EmailTheme {
 }
 
 function getSummaryRows(enquiry: ValidatedEnquiry) {
-  if (
-    enquiry.enquiryType === enquiryTypes.booking.value &&
-    enquiry.bookingType === bookingTypes.appointment.value
-  ) {
-    return [
-      ["Timing", enquiry.timing],
-      ["State", enquiry.stateLabel],
-    ] satisfies Array<[string, string]>;
-  }
-
-  if (
-    enquiry.enquiryType === enquiryTypes.booking.value &&
-    enquiry.bookingType === bookingTypes.consult.value
-  ) {
-    return [
-      ["Timing", enquiry.availability],
+  if (enquiry.enquiryType === enquiryTypes.booking.value) {
+    const rows: Array<[string, string]> = [
+      ["Availability", enquiry.availability],
       ["Timezone", enquiry.timeZoneLabel],
-    ] satisfies Array<[string, string]>;
+    ];
+
+    if (enquiry.bookingType === bookingTypes.consult.value) {
+      rows.unshift(["Mobile", enquiry.mobile]);
+    }
+
+    return rows;
   }
 
   return [];
@@ -240,7 +239,7 @@ function renderDetailPanel(rows: Array<[string, string]>, theme: EmailTheme) {
 
 function getEnquiryHtml(enquiry: ValidatedEnquiry) {
   const emailHeading = getEmailHeading(enquiry);
-  const theme = getEmailTheme(emailHeading);
+  const theme = getEmailTheme(enquiry);
   const safeEmailHeading = escapeHtml(emailHeading);
   const safeName = escapeHtml(enquiry.name || "Website visitor");
   const safeMessage = escapeHtml(enquiry.message || "No message supplied.").replace(/\n/g, "<br />");

@@ -8,6 +8,7 @@ export const publicRoutePaths = {
   inclusion: "/inclusive-counselling",
   kinkBdsm: "/kink-bdsm-counselling",
   lgbtqia: "/lgbtqia-affirming-counselling",
+  privacyPolicy: "/privacy-policy",
   workingWithJoel: "/working-with-joel",
 } as const satisfies Record<string, PublicRoutePath>;
 
@@ -19,8 +20,13 @@ export const publicRedirectRoutes = [
   { path: "/inclusion", to: publicRoutePaths.inclusion },
 ] as const;
 
+export function normalizeRoutePath(pathname: string) {
+  const normalizedPath = pathname.toLowerCase().replace(/\/+$/, "");
+  return normalizedPath || "/";
+}
+
 export function getTrackedPagePath(pathname: string, state: unknown) {
-  if (pathname.toLowerCase() !== publicRoutePaths.contact || !state || typeof state !== "object") {
+  if (normalizeRoutePath(pathname) !== publicRoutePaths.contact || !state || typeof state !== "object") {
     return pathname;
   }
 
@@ -62,5 +68,5 @@ const sharedChromePaths = new Set<string>([
 ]);
 
 export function usesSharedChromePath(pathname: string) {
-  return sharedChromePaths.has(pathname);
+  return sharedChromePaths.has(normalizeRoutePath(pathname));
 }

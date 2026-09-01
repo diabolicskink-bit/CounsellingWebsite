@@ -44,53 +44,6 @@ Statuses:
 
 ## Active Items
 
-### SITE-11 - Website privacy and counselling-boundaries note
-
-- `Priority`: `P1`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `Content`
-- `Source`: `Fresh site review, src/pages/Contact.tsx`
-- `Visitor-Facing Goal`: Give visitors enough practical trust information to understand website tracking, enquiry-message handling, and the basic boundaries around online counselling.
-- `Current State`: The site explains fees, format, referral, and crisis limits, but it does not yet give a concise public note on website privacy/analytics, enquiry message handling, records, or online-session platform/privacy setup. Microsoft Clarity can load when configured, the enquiry form is explicitly Clarity-masked, and first-party visit recording now initializes Vercel BotID Basic so stored visits can carry a bot verdict and verified bot identity; there is no public analytics/cookie notice yet.
-- `Why Deferred`: The wording needs owner confirmation so the site does not overpromise privacy, confidentiality, security, platform behaviour, or legal limits.
-- `First Useful Slice`: Add a compact Contact FAQ, practical-details note, or footer-linked privacy note that separates website privacy/analytics from counselling confidentiality, explains how enquiry messages are handled, and states what online session setup visitors should expect.
-- `Implemented When`: A visitor can find a clear, accurate website privacy and counselling-boundaries note before submitting the enquiry form.
-- `Notes`:
-  - Keep "confidentiality" language tied to counselling sessions, records, and professional boundaries rather than using it as shorthand for website cookies or analytics.
-- `Links`: `src/pages/Contact.tsx`, `src/components/SiteAnalytics.tsx`
-
-### SITE-21 - Contact form required-field clarity
-
-- `Priority`: `P1`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Accessibility`
-- `Source`: Former accessibility assessment, now preserved in `docs/checklists/accessibility-monitor.md`
-- `Visitor-Facing Goal`: Let visitors know which enquiry form fields and choices are required before they try to submit.
-- `Current State`: The Contact form uses native `required` attributes and browser validation, but the visible labels do not mark required fields or explain required choices before submission.
-- `Why Deferred`: This was identified during checklist assessment; the right fix should be small but deliberate so the form stays calm and readable.
-- `First Useful Slice`: Add a concise required-field cue near the form and/or required labels, covering the always-required fields and the required radio choice groups without making the form feel noisy.
-- `Implemented When`: Visitors can see what is required before submitting, native validation still works, and the Contact checklist required-field clarity item can move from `Partial` to `Pass`.
-- `Notes`:
-- `Links`: `src/pages/Contact.tsx`, `src/data/enquiry.ts`, `docs/checklists/accessibility-monitor.md`
-
-### SITE-7 - Global reduced-motion baseline
-
-- `Priority`: `P2`
-- `Size`: `S`
-- `Status`: `Open`
-- `Classification`: `Accessibility`
-- `Source`: `docs/reports/2026-06-17-technical-code-review.md`
-- `Visitor-Facing Goal`: Respect reduced-motion preferences consistently across scrolling, transitions, and interactive shared components.
-- `Current State`: Global smooth scrolling now falls back to immediate scrolling when reduced motion is requested. Transition and animation handling remains localised around specific shared and page-owned components.
-- `Why Deferred`: The scrolling slice is complete; the remaining shared-transition audit should be made carefully so existing interaction state changes remain clear.
-- `First Useful Slice`: Audit the remaining shared transitions and animations against the existing component-level reduced-motion rules, then disable only non-essential motion that is not already covered.
-- `Implemented When`: Reduced-motion preference disables smooth scrolling and avoids non-essential shared motion without breaking component states.
-- `Notes`:
-  - 2026-08-15: Added the root reduced-motion scroll override and browser coverage from the Crisis Support state-directory review. Broader transition coverage remains open.
-- `Links`: `src/styles.css`, `docs/design-system/foundations.md`, `docs/design-system/governance.md`
-
 ### SITE-14 - Contact availability and reply-time expectations
 
 - `Priority`: `P2`

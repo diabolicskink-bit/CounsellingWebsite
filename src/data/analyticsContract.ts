@@ -186,10 +186,6 @@ export type AnalyticsApiResponse = {
   data: AnalyticsReport;
 };
 
-export type AnalyticsApiError = {
-  error: string;
-};
-
 export type AnalyticsExclusionsApiResponse = {
   data: ExcludedVisitorsReport;
 };
