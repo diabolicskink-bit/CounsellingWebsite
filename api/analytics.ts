@@ -1,3 +1,4 @@
+import type { AnalyticsReport } from "../src/data/analyticsContract.ts";
 import {
   getAnalyticsSelection,
   type AnalyticsRequest,
@@ -9,7 +10,7 @@ import {
   readAnalytics,
 } from "../src/server/reporting/reader.ts";
 
-type ReadAnalytics = (selection: AnalyticsSelection) => Promise<unknown>;
+type ReadAnalytics = (selection: AnalyticsSelection) => Promise<AnalyticsReport>;
 type GetNow = () => Date;
 
 const publicFailureMessage = "Analytics data is unavailable.";
@@ -19,7 +20,7 @@ function sendFailure(response: AnalyticsResponse, status: number) {
   return response.status(status).json({ error: publicFailureMessage });
 }
 
-function sendSuccess(response: AnalyticsResponse, data: unknown) {
+function sendSuccess(response: AnalyticsResponse, data: AnalyticsReport) {
   response.setHeader("Cache-Control", "private, no-store");
   return response.status(200).json({ data });
 }

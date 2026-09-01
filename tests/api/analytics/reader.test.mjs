@@ -293,7 +293,6 @@ test("reads keyword journeys with visit depth, active time and enquiry outcomes"
       returningVisits: "1",
       taggedEnquiryVisits: "1",
       taggedVisits: "3",
-      topLandingPath: "/kink-bdsm-counselling",
       totalActiveSeconds: "510",
       totalEnquiryVisits: "1",
       totalPageViews: "9",
@@ -325,7 +324,6 @@ test("reads keyword journeys with visit depth, active time and enquiry outcomes"
       matchTypes: ["e", "p"],
       pageViews: 7,
       returningVisits: 1,
-      topLandingPath: "/kink-bdsm-counselling",
       visits: 3,
     }],
     startDate: "2026-07-17",
@@ -342,6 +340,7 @@ test("reads keyword journeys with visit depth, active time and enquiry outcomes"
   assert.match(calls[0].query, /visit_events\.event_type = 'enquiry_sent'/);
   assert.match(calls[0].query, /analytics_excluded_visitors/);
   assert.match(calls[0].query, /ledger\.is_bot IS DISTINCT FROM TRUE/);
+  assert.doesNotMatch(calls[0].query, /landing_path|topLandingPath/);
 });
 
 test("keeps paid visits without keyword tags visible in keyword coverage totals", async () => {
@@ -355,7 +354,6 @@ test("keeps paid visits without keyword tags visible in keyword coverage totals"
     returningVisits: null,
     taggedEnquiryVisits: "0",
     taggedVisits: "0",
-    topLandingPath: null,
     totalActiveSeconds: "180",
     totalEnquiryVisits: "0",
     totalPageViews: "3",

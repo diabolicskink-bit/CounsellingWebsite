@@ -36,6 +36,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Moved the appointment, consult, and general-enquiry decision after the shared message; appointment and consult requests now share the same availability and timezone questions, with a mobile number also collected for consults.
 - Preserved the complete server-rendered form for visitors without JavaScript and kept the existing structured enquiry paths and submission handling.
 
+## 2026-08-31 - Crisis Support Search And Source Signals Strengthened
+
+- Aligned the page's prominent H1 and search description with urgent Australian mental health and crisis-support intent while keeping immediate-danger guidance first.
+- Added a compact decision guide that distinguishes national crisis-line support from state or territory public mental health assessment without turning the page into generic long-form SEO copy.
+- Made Vive Counselling's publishing role, official-source checking, review date, authorship, and modification date explicit in visible content and structured data.
+
+## 2026-08-31 - Private Analytics Split Into Report Pages
+
+- Replaced the single analytics page module with explicit lazy-loaded Daily, Pages, Enquiries, Keywords, and Excluded report pages behind one small owner-only shell.
+- Centralized report loading, date controls, formatting, visit details, and visitor history while keeping each report's URL-backed state and workflow within its route.
+- Added exhaustive runtime validation for every protected analytics report response shape and focused contract and keyword-sort coverage.
+
 ## 2026-08-28 - Analytics Test Suite Simplified
 
 - Separated private analytics browser checks from the public-site Playwright suite and made the analytics QA runner select its blocked-host and enabled-host scenarios explicitly.
@@ -77,7 +89,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-08-17 - Keyword Journey Analytics Added
 
 - Added the protected `/analytics/keywords` report with a 30-day default and a bounded date range, matched-keyword coverage, paid-visit totals, page depth, recorded active time, successful-enquiry visits, and a responsive ranked ledger.
-- Added one aggregate read path over the existing visit, page-view, event, exclusion, and BotID data. Keyword rows retain match type, top landing page, returning-visit context, and latest activity without exposing GCLIDs.
+- Added one aggregate read path over the existing visit, page-view, event, exclusion, and BotID data. Keyword rows retain match type, returning-visit context, and latest activity without exposing GCLIDs.
 - Included the new route in the private no-index build shell and analytics navigation, with focused API, reader, route, and browser coverage.
 
 ## 2026-08-16 - Visible Page Time Added

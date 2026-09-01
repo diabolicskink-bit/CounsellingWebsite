@@ -200,7 +200,6 @@ WITH included_paid_visits AS (
     ledger.visit_id,
     ledger.visit_number,
     ledger.started_at,
-    ledger.landing_path,
     LOWER(BTRIM(ledger.matched_keyword)) AS keyword,
     ledger.match_type
   FROM visit_ledger AS ledger
@@ -252,21 +251,6 @@ tagged_visits AS (
   WHERE included_paid_visits.keyword IS NOT NULL
     AND included_paid_visits.keyword <> ''
 ),
-keyword_landing_counts AS (
-  SELECT
-    tagged_visits.keyword,
-    tagged_visits.landing_path,
-    COUNT(*)::INTEGER AS landing_visits
-  FROM tagged_visits
-  GROUP BY tagged_visits.keyword, tagged_visits.landing_path
-),
-keyword_landings AS (
-  SELECT DISTINCT ON (keyword)
-    keyword,
-    landing_path
-  FROM keyword_landing_counts
-  ORDER BY keyword, landing_visits DESC, landing_path ASC
-),
 keyword_rows AS (
   SELECT
     tagged_visits.keyword,
@@ -293,7 +277,6 @@ SELECT
   keyword_rows."activeSeconds",
   keyword_rows."latestVisitAt",
   keyword_rows."matchTypes",
-  keyword_landings.landing_path AS "topLandingPath",
   (SELECT COUNT(*)::INTEGER FROM included_paid_visits) AS "totalPaidVisits",
   (SELECT COUNT(*)::INTEGER FROM tagged_visits) AS "taggedVisits",
   (
@@ -307,8 +290,6 @@ SELECT
   COALESCE((SELECT SUM(active_seconds)::INTEGER FROM visit_activity), 0) AS "totalActiveSeconds"
 FROM (SELECT 1) AS report_row
 LEFT JOIN keyword_rows ON TRUE
-LEFT JOIN keyword_landings
-  ON keyword_landings.keyword = keyword_rows.keyword
 ORDER BY keyword_rows."enquiryVisits" DESC NULLS LAST,
   keyword_rows.visits DESC NULLS LAST,
   keyword_rows.keyword ASC;
@@ -561,7 +542,6 @@ export async function readAnalytics(
         matchTypes: normalizeStringList(row.matchTypes, "keyword match types"),
         pageViews: nonNegativeInteger(row.pageViews, "keyword page views"),
         returningVisits: nonNegativeInteger(row.returningVisits, "keyword returning visits"),
-        topLandingPath: requiredString(row.topLandingPath, "keyword landing path"),
         visits: nonNegativeInteger(row.visits, "keyword visits"),
       }));
 

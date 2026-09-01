@@ -61,3 +61,21 @@ test("fails clearly when a specialist route loses its service metadata", () => {
     /Specialist route is missing service metadata/,
   );
 });
+
+test("publishes the visible Crisis Support review and authorship details", () => {
+  const routePath = "/crisis-support";
+  const structuredData = parseStructuredDataTag(renderRouteStructuredDataTag({
+    routeMetadata: metadata.routes[routePath],
+    routePath,
+    siteMetadata: metadata.site,
+    siteOrigin: metadata.site.defaultOrigin,
+    structuredDataType: "crisis-support",
+  }));
+  const page = structuredData["@graph"].find((node) => node["@type"] === "MedicalWebPage");
+
+  assert.ok(page);
+  assert.equal(page.dateModified, metadata.routes[routePath].lastModified);
+  assert.equal(page.lastReviewed, metadata.routes[routePath].lastReviewed);
+  assert.deepEqual(page.author, { "@id": `${metadata.site.defaultOrigin}/#organization` });
+  assert.deepEqual(page.publisher, { "@id": `${metadata.site.defaultOrigin}/#organization` });
+});

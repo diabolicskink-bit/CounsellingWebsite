@@ -1,5 +1,5 @@
 import { lazy, Suspense, useLayoutEffect } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
 import SiteAnalytics from "./components/SiteAnalytics";
@@ -15,9 +15,28 @@ import NotFound from "./pages/NotFound";
 import WorkingWithJoel from "./pages/WorkingWithJoel";
 import { devRoutePaths, privateRoutePaths, publicRedirectRoutes, publicRoutePaths } from "./data/routes";
 
-const Analytics = lazy(() => import("./pages/Analytics"));
-
-const analyticsRoutePaths = Object.values(privateRoutePaths);
+const analyticsRoutes = [
+  {
+    Page: lazy(() => import("./pages/analytics/DailyAnalyticsPage")),
+    path: privateRoutePaths.analytics,
+  },
+  {
+    Page: lazy(() => import("./pages/analytics/PageViewsAnalyticsPage")),
+    path: privateRoutePaths.analyticsPageViews,
+  },
+  {
+    Page: lazy(() => import("./pages/analytics/EnquiriesAnalyticsPage")),
+    path: privateRoutePaths.analyticsEnquiries,
+  },
+  {
+    Page: lazy(() => import("./pages/analytics/KeywordsAnalyticsPage")),
+    path: privateRoutePaths.analyticsKeywords,
+  },
+  {
+    Page: lazy(() => import("./pages/analytics/ExcludedVisitorsPage")),
+    path: privateRoutePaths.analyticsExcluded,
+  },
+] as const;
 
 const devRoutes = import.meta.env.DEV
   ? [
@@ -65,7 +84,7 @@ function AnalyticsRoute() {
 
   return (
     <Suspense fallback={null}>
-      <Analytics />
+      <Outlet />
     </Suspense>
   );
 }
@@ -75,9 +94,11 @@ export default function App({ initialRenderAt }: AppProps) {
     <>
       <ScrollToTop />
       <Routes>
-        {analyticsRoutePaths.map((path) => (
-          <Route key={path} path={path} element={<AnalyticsRoute />} />
-        ))}
+        <Route element={<AnalyticsRoute />}>
+          {analyticsRoutes.map(({ Page, path }) => (
+            <Route key={path} path={path} element={<Page />} />
+          ))}
+        </Route>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           {publicRedirectRoutes.map((route) => (
