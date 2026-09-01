@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { routeMetadata, type RouteMetadata } from "../data/routeMetadata";
+import { getTrackedPagePath, isPrivateRoutePath } from "../data/routes";
 import {
   analyticsEnabled,
   clarityProjectId,
@@ -24,6 +25,7 @@ type MicrosoftClarityProps = {
 
 function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
   const location = useLocation();
+  const trackedPagePath = getTrackedPagePath(location.pathname, location.state);
 
   useEffect(() => {
     if (!measurementId) {
@@ -65,7 +67,9 @@ function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
       return;
     }
 
-    const pagePath = `${location.pathname}${location.search}`;
+    const pagePath = trackedPagePath === location.pathname
+      ? `${location.pathname}${location.search}`
+      : trackedPagePath;
 
     window.gtag("event", "page_view", {
       page_location: `${window.location.origin}${pagePath}`,
@@ -73,7 +77,7 @@ function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
       page_title: metadata.title,
       send_to: measurementId,
     });
-  }, [location.pathname, location.search, measurementId]);
+  }, [location.pathname, location.search, measurementId, trackedPagePath]);
 
   return null;
 }
@@ -127,7 +131,9 @@ function EmailLinkAnalytics() {
 }
 
 export default function SiteAnalytics() {
-  if (!analyticsEnabled || !isAnalyticsHostAllowed()) {
+  const { pathname } = useLocation();
+
+  if (!analyticsEnabled || !isAnalyticsHostAllowed() || isPrivateRoutePath(pathname)) {
     return null;
   }
 

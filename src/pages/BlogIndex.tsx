@@ -7,7 +7,7 @@ import {
   getBlogReadingMinutes,
 } from "../content/blog/posts";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-blog.css";
 
@@ -78,8 +78,8 @@ export default function BlogIndex() {
         <Container className="blog-index__site-links-inner">
           <h2 id="blog-site-links-title">Counselling information</h2>
           <nav aria-label="Counselling information">
-            <Link to={routeHref(publicRoutePaths.workingWithJoel)}>Working with Joel</Link>
-            <Link to={routeHref(publicRoutePaths.contact)}>Contact and fees</Link>
+            <Link to={publicRoutePaths.workingWithJoel}>Working with Joel</Link>
+            <Link to={publicRoutePaths.contact}>Contact and fees</Link>
           </nav>
         </Container>
       </section>

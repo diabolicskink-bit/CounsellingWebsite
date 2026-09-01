@@ -1,3 +1,9 @@
+import {
+  enquiryEmail,
+  enquiryFailureContent,
+  enquirySuccessContent,
+  getEnquiryFailureMessage,
+} from "../../data/enquiry.ts";
 import { escapeHtml } from "./html.ts";
 import type { ResponseMode } from "./request.ts";
 
@@ -8,10 +14,8 @@ export type EnquiryResponse = {
   status(statusCode: number): EnquiryResponse;
 };
 
-export const fallbackRecipient = "joel@vivecounselling.com.au";
-
 const invalidSubmissionMessage = "Invalid enquiry submission.";
-const publicFailureMessage = `Sorry, the enquiry could not be sent. Please email ${fallbackRecipient} directly.`;
+const publicFailureMessage = getEnquiryFailureMessage();
 
 function sendJsonError(response: EnquiryResponse, status: number, error: string) {
   return response.status(status).json({ error });
@@ -20,7 +24,7 @@ function sendJsonError(response: EnquiryResponse, status: number, error: string)
 function renderNativeResponseHtml(title: string, message: string) {
   const safeTitle = escapeHtml(title);
   const safeMessage = escapeHtml(message);
-  const safeEmail = escapeHtml(fallbackRecipient);
+  const safeEmail = escapeHtml(enquiryEmail);
 
   return `<!doctype html>
 <html lang="en">
@@ -94,8 +98,8 @@ export function sendSuccess(response: EnquiryResponse, mode: ResponseMode) {
     return sendNativeHtml(
       response,
       200,
-      "Your enquiry has been sent.",
-      "I’ll reply as soon as I can, usually within 24 hours.",
+      enquirySuccessContent.title,
+      enquirySuccessContent.note,
     );
   }
 
@@ -104,7 +108,7 @@ export function sendSuccess(response: EnquiryResponse, mode: ResponseMode) {
 
 export function sendPublicFailure(response: EnquiryResponse, status: number, mode: ResponseMode) {
   if (mode === "html") {
-    return sendNativeHtml(response, status, "The enquiry could not be sent.", publicFailureMessage);
+    return sendNativeHtml(response, status, enquiryFailureContent.title, publicFailureMessage);
   }
 
   return sendJsonError(response, status, publicFailureMessage);
@@ -112,7 +116,7 @@ export function sendPublicFailure(response: EnquiryResponse, status: number, mod
 
 export function sendValidationError(response: EnquiryResponse, mode: ResponseMode) {
   if (mode === "html") {
-    return sendNativeHtml(response, 400, "The enquiry could not be sent.", publicFailureMessage);
+    return sendNativeHtml(response, 400, enquiryFailureContent.title, publicFailureMessage);
   }
 
   return sendJsonError(response, 400, invalidSubmissionMessage);

@@ -12,6 +12,13 @@ export type RouteMetadata = {
   authorName?: string;
   articleSection?: string;
   headline?: string;
+  lastModified?: string;
+  lastReviewed?: string;
+};
+
+export type NotFoundMetadata = Pick<RouteMetadata, "description" | "title"> & {
+  heading: string;
+  robots: string;
 };
 
 export type SiteMetadata = {
@@ -108,6 +115,7 @@ export const siteMetadata = {
     })),
   },
 } satisfies SiteMetadata;
+export const notFoundMetadata = metadata.notFound satisfies NotFoundMetadata;
 const rawRouteMetadata = metadata.routes as Record<
   string,
   Omit<RouteMetadata, "pageType"> & { pageType?: string }
@@ -127,6 +135,6 @@ export const routeMetadata: Record<string, RouteMetadata> = {
   ...getBlogRouteMetadata(),
 };
 
-export function getRouteMetadata(path: PublicRoutePath): RouteMetadata {
+export function getRouteMetadata<Path extends PublicRoutePath>(path: Path): (typeof routeMetadata)[Path] {
   return routeMetadata[path];
 }

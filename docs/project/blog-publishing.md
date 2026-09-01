@@ -50,7 +50,7 @@ Do not add a custom presentation merely to decorate an otherwise standard articl
 - add indexable articles to the sitemap; and
 - provide publication date and reading-time display.
 
-`npm run build` fails if a generated article route cannot be rendered or if its expected article structure is missing. `tests/public-site.spec.ts` derives the article route list from the same registry and covers hydration, JavaScript-disabled output, metadata, sitemap and sample noindex behaviour, navigation, article wayfinding, custom sample presentations, and unknown-slug handling.
+`npm run build` fails if a generated article route cannot be rendered or if its expected article structure is missing. The route and article browser specs under `tests/public-site/` derive the article route list from the same registry and cover hydration, metadata, sitemap and sample noindex behaviour, navigation, article wayfinding, custom sample presentations, and unknown-slug handling. Direct script tests cover the generated `Blog` and `BlogPosting` structured data.
 
 ## Publishing Boundaries
 

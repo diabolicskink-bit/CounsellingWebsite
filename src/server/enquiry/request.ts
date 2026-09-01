@@ -1,7 +1,3 @@
-declare const process: {
-  env: Record<string, string | undefined>;
-};
-
 export type EnquiryRequest = {
   body?: unknown;
   headers?: Record<string, string | string[] | undefined>;
@@ -86,12 +82,21 @@ function addAllowedOrigin(origins: Set<string>, value: string | undefined) {
 }
 
 function isLocalHost(host: string) {
-  const hostname = host.split(":")[0].toLowerCase();
+  let hostname = "";
 
-  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1" || hostname === "[::1]";
+  try {
+    hostname = new URL(`http://${host}`).hostname.replace(/^\[|\]$/g, "").toLowerCase();
+  } catch {
+    return false;
+  }
+
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
 }
 
-function getAllowedOrigins(request: EnquiryRequest) {
+function getAllowedOrigins(
+  request: EnquiryRequest,
+  environment: Readonly<Record<string, string | undefined>>,
+) {
   const origins = new Set<string>();
   const host = getHeader(request, "host").trim();
   const forwardedProto = getHeader(request, "x-forwarded-proto").split(",")[0].trim().toLowerCase();
@@ -106,9 +111,9 @@ function getAllowedOrigins(request: EnquiryRequest) {
     }
   }
 
-  addAllowedOrigin(origins, process.env.SITE_URL);
-  addAllowedOrigin(origins, process.env.VERCEL_URL);
-  addAllowedOrigin(origins, process.env.VERCEL_BRANCH_URL);
+  addAllowedOrigin(origins, environment.SITE_URL);
+  addAllowedOrigin(origins, environment.VERCEL_URL);
+  addAllowedOrigin(origins, environment.VERCEL_BRANCH_URL);
 
   return origins;
 }
@@ -153,14 +158,17 @@ function getBodyByteLength(request: EnquiryRequest) {
   return undefined;
 }
 
-function getCrossSiteBlockReason(request: EnquiryRequest) {
+function getCrossSiteBlockReason(
+  request: EnquiryRequest,
+  environment: Readonly<Record<string, string | undefined>>,
+) {
   const fetchSite = getHeader(request, "sec-fetch-site").trim().toLowerCase();
 
   if (fetchSite === "cross-site") {
     return "cross_site_fetch_site";
   }
 
-  const allowedOrigins = getAllowedOrigins(request);
+  const allowedOrigins = getAllowedOrigins(request, environment);
   const originHeader = getHeader(request, "origin");
 
   if (originHeader.trim()) {
@@ -180,7 +188,10 @@ function getCrossSiteBlockReason(request: EnquiryRequest) {
   return "";
 }
 
-export function getRequestShapeBlock(request: EnquiryRequest): RequestShapeBlock | null {
+export function getRequestShapeBlock(
+  request: EnquiryRequest,
+  environment: Readonly<Record<string, string | undefined>>,
+): RequestShapeBlock | null {
   const contentType = getHeader(request, "content-type");
 
   if (!isJsonContentType(contentType) && !isFormContentType(contentType)) {
@@ -197,7 +208,7 @@ export function getRequestShapeBlock(request: EnquiryRequest): RequestShapeBlock
     return { reason: "body_too_large", status: 413 };
   }
 
-  const crossSiteBlockReason = getCrossSiteBlockReason(request);
+  const crossSiteBlockReason = getCrossSiteBlockReason(request, environment);
 
   if (crossSiteBlockReason) {
     return { reason: crossSiteBlockReason, status: 403 };
@@ -216,8 +227,12 @@ function getSafeOriginForLog(headerValue: string) {
   return parsedOrigin.valid ? parsedOrigin.origin : "invalid";
 }
 
-export function logBlockedEnquiryRequest(request: EnquiryRequest, block: RequestShapeBlock) {
-  console.warn("Enquiry request blocked:", {
+export function logBlockedEnquiryRequest(
+  request: EnquiryRequest,
+  block: RequestShapeBlock,
+  logWarning: (...data: unknown[]) => void,
+) {
+  logWarning("Enquiry request blocked:", {
     contentLength: getHeader(request, "content-length"),
     contentType: getHeader(request, "content-type"),
     fetchSite: getHeader(request, "sec-fetch-site"),

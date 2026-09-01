@@ -11,14 +11,20 @@ const baseAnalyticsEnv = {
   VITE_ANALYTICS_ENABLED: "true",
   VITE_CLARITY_PROJECT_ID: "testclarity1",
   VITE_GA_MEASUREMENT_ID: "G-TEST12345",
+  VITE_VISIT_ANALYTICS_ENABLED: "true",
+  VITE_VISIT_BOT_DETECTION_ENABLED: "false",
 };
 const blockedHostAnalyticsEnv = {
   ...baseAnalyticsEnv,
+  ANALYTICS_QA_SCENARIO: "blocked",
   VITE_ANALYTICS_ALLOWED_HOSTS: "",
+  VITE_VISIT_ANALYTICS_ALLOWED_HOSTS: "",
 };
 const allowedHostAnalyticsEnv = {
   ...baseAnalyticsEnv,
+  ANALYTICS_QA_SCENARIO: "enabled",
   VITE_ANALYTICS_ALLOWED_HOSTS: "127.0.0.1",
+  VITE_VISIT_ANALYTICS_ALLOWED_HOSTS: "127.0.0.1",
 };
 const playwrightCli = path.join("node_modules", "playwright", "cli.js");
 const viteCli = path.join("node_modules", "vite", "bin", "vite.js");
@@ -119,7 +125,7 @@ async function stopPreview(previewProcess) {
   }
 }
 
-async function runPreviewTests(testPattern, env) {
+async function runPreviewTests(env) {
   if (await previewIsReady()) {
     throw new Error(`${previewUrl} is already in use.`);
   }
@@ -145,7 +151,7 @@ async function runPreviewTests(testPattern, env) {
     await waitForPreview(previewProcess);
     await run(
       process.execPath,
-      [playwrightCli, "test", "--grep", testPattern],
+      [playwrightCli, "test", "tests/analytics.spec.ts"],
       env,
     );
   } finally {
@@ -157,14 +163,14 @@ if (!process.env.npm_execpath) {
   throw new Error("npm_execpath is required. Run this helper through npm run qa:analytics.");
 }
 
-await run(process.execPath, [process.env.npm_execpath, "run", "build"], blockedHostAnalyticsEnv);
-await runPreviewTests(
-  "analytics providers stay blocked on unallowed configured hosts",
-  blockedHostAnalyticsEnv,
+await run(
+  process.execPath,
+  [process.env.npm_execpath, "run", "test:analytics"],
+  process.env,
 );
 
+await run(process.execPath, [process.env.npm_execpath, "run", "build"], blockedHostAnalyticsEnv);
+await runPreviewTests(blockedHostAnalyticsEnv);
+
 await run(process.execPath, [process.env.npm_execpath, "run", "build"], allowedHostAnalyticsEnv);
-await runPreviewTests(
-  "Google Analytics sends route-change page views when enabled|confirmed enquiry submissions emit conversion analytics|Google Analytics contact-intent events contain no visitor data|Microsoft Clarity loads when configured",
-  allowedHostAnalyticsEnv,
-);
+await runPreviewTests(allowedHostAnalyticsEnv);

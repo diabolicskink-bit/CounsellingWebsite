@@ -2,6 +2,30 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-35 - Working with Joel approach copy depends on JavaScript
+
+Resolved on 2026-08-19 by rendering every approach explanation once in the generated page HTML, with ordinary headings and no inert tab semantics before JavaScript. After hydration, the same content nodes become three connected tab panels and only the selected panel remains visible, preserving the existing visual interaction without duplicating copy.
+
+Focused coverage now protects the complete JavaScript-disabled reading experience as well as the hydrated pointer, Home, End, and wrapping arrow-key behaviour. The production build and system-Chrome verification confirmed deterministic hydration without recoverable errors.
+
+### DEBT-22 - Enquiry timezone comparison notes need server-owned handling
+
+Closed on 2026-08-19 after the owner confirmed that the current timezone behaviour is complete and personalized Perth-hours comparison notes should not be restored to enquiry emails. Consult submissions continue to include the visitor-selected timezone and its human-readable label; the Contact page separately retains its visitor-facing interstate business-hours notes.
+
+No email-comparison helper or active implementation remains. The earlier split from `DEBT-4` is retained only as historical context; adding personalized comparison prose to emails in future would be new scope rather than unresolved debt.
+
+### DEBT-34 - Public-page tests need opportunistic maintenance
+
+Resolved on 2026-08-14 by replacing the page-markup and generated-artifact mirror in `tests/public-site.spec.ts` with a durable visitor-behaviour suite. Browser cases fell from 262 across two Chromium profiles to 37 in one Chromium project; targeted mobile viewport, route hydration, navigation, progressive-enhancement, analytics, form, responsive, and accessibility checks remain.
+
+Core first-response title, description, canonical, robots, and sitemap checks remain. Detailed raw prerender structure, structured/social metadata construction, duplicate output forms, asset bytes, and the controlled 404 artifact stay with build generation and the manual metadata monitor instead of being restated in Playwright. This explicit test strategy supersedes the page-by-page maintenance checklist; focused tests should still be reviewed when their owned visitor behaviour changes.
+
+### DEBT-8 - Route parity coverage needs explicit enforcement
+
+Resolved on 2026-08-13 by normalizing public and development route constants to their actual absolute hrefs, removing the repeated `routeHref()` conversion layer, and using those constants for page metadata lookups as well as navigation and registration. A focused direct test now fails when the public constants and metadata-backed route set diverge or a redirect leaves the canonical route set.
+
+Prerendering and browser tests now derive their public-route inventories from their existing route contract maps instead of maintaining additional manual lists. The production build continues to fail when metadata, component rendering, or a prerender smoke contract is missing, without introducing the shared manifest rejected under `DEBT-25`.
+
 ### DEBT-36 - Legacy spotlight CSS needed usage audit
 
 Resolved on 2026-07-13 after a focused source audit found no runtime, development-page, test, or HTML call sites for `.site-spotlight`, `.site-spotlight__grid`, `.site-spotlight__eyebrow`, or `.site-spotlight__stats`. The complete base, descendant, and responsive selector family was removed from `src/styles.css`.
@@ -54,7 +78,7 @@ Blocked requests reuse the archived `DEBT-5` generic public error contract and l
 
 Resolved on 2026-06-17 by changing enquiry submissions to structured JSON fields and making the API validate those fields before building the email subject, reply-to, plain text, and HTML output server-side.
 
-The old composed `{ subject, body, replyTo }` payload is now rejected by validation, and direct Node API tests cover successful submissions, invalid payloads, honeypot handling, missing delivery config, and provider failure. The derived Perth business-hours comparison note was intentionally split into `DEBT-22` so timezone policy can be cleaned up separately.
+The old composed `{ subject, body, replyTo }` payload is now rejected by validation, and direct Node API tests cover successful submissions, invalid payloads, honeypot handling, missing delivery config, and provider failure. The derived Perth business-hours comparison note was intentionally split into `DEBT-22`, which was later closed when the owner confirmed that personalized comparison prose should not return to enquiry emails.
 
 ### DEBT-5 - Enquiry error handling and no-JavaScript fallback are inconsistent
 
@@ -123,3 +147,9 @@ Default QA builds still keep analytics disabled and assert that no analytics scr
 Resolved on 2026-06-18 by replacing the active public favicon, touch, and web-app icon assets with the approved folded-paper `v07` source. The active PNG set lives in `public/` at the referenced browser/device sizes, and `public/favicon.svg` has been replaced with a compact vector sibling so SVG-capable browsers do not keep showing the old mark. The historical icon candidate exports were removed on 2026-07-08 after the active public assets were confirmed.
 
 The icon references were confirmed in generated head metadata and `public/site.webmanifest`, and public-site tests now verify the served PNG icon dimensions in addition to existence.
+
+### DEBT-38 - Analytics data needs deployment-environment isolation
+
+Resolved on 2026-08-15 by retargeting every Vercel-managed Neon project identifier, host, username, password, connection string, and private-report Basic-auth credential to Production only. Development and Preview now receive no path to the private ledger, the obsolete `work/local-analytics` recorder overrides were removed, and the local non-production env snapshots were scrubbed of their stale Production values.
+
+Twenty Preview deployments created after the Production connection string was introduced were removed so their immutable runtime snapshots could not retain access; Production deployments and ledger data were left untouched. The obsolete Preview migration and live-ledger verifier commands were removed, while future migrations now require an intentional Production env pull into `.env.production.local`. Persisted journey ordering and bounded report reads remain tracked separately under `DEBT-39` and `DEBT-40`.

@@ -4,10 +4,12 @@ import Button from "../components/Button";
 import ContactInvitation from "../components/ContactInvitation";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-home.css";
 
+/* React 18 does not recognise `fetchPriority`, so it is spread in lowercase to
+   reach the DOM as a passthrough attribute without a development warning. */
 const highPriorityImageAttributes = { fetchpriority: "high" } as const;
 
 type EmphasisCopy = {
@@ -60,8 +62,8 @@ type HomePageContent = {
   inclusive: HomeInclusiveContent;
 };
 
-const homeMetadata = getRouteMetadata("/");
-const contactHref = routeHref(publicRoutePaths.contact);
+const homeMetadata = getRouteMetadata(publicRoutePaths.home);
+const contactHref = publicRoutePaths.contact;
 
 const homePageContent: HomePageContent = {
   hero: {
@@ -76,8 +78,8 @@ const homePageContent: HomePageContent = {
       label: "Get in touch",
     },
     inclusionLink: {
-      href: routeHref(publicRoutePaths.inclusion),
-      label: "Explore inclusive counselling",
+      href: publicRoutePaths.inclusion,
+      label: "Inclusive counselling",
     },
   },
   portrait: {
@@ -99,7 +101,7 @@ const homePageContent: HomePageContent = {
     ],
     links: [
       {
-        href: routeHref(publicRoutePaths.workingWithJoel),
+        href: publicRoutePaths.workingWithJoel,
         label: "Working with Joel",
       },
     ],
@@ -114,26 +116,26 @@ const homePageContent: HomePageContent = {
     topicsAriaLabel: "Inclusive practice topics",
     hub: {
       label: "Read about inclusive practice",
-      href: routeHref(publicRoutePaths.inclusion),
+      href: publicRoutePaths.inclusion,
     },
     topics: [
       {
         title: "Kink & BDSM-aware counselling",
         description:
           "I bring significant expertise in kink and BDSM, including an understanding of why it may matter in a person’s life and the different meanings it can carry. You can talk about power, consent, desire and relationships without awkwardness or automatic judgement, including when things have gone seriously wrong.",
-        href: routeHref(publicRoutePaths.kinkBdsm),
+        href: publicRoutePaths.kinkBdsm,
       },
       {
         title: "Ethical non-monogamy & polyamory counselling",
         description:
           "I bring specialist knowledge of ENM and polyamory, including the different ways people build relationships, commitments and families. You can talk about agreements, jealousy, changing relationships, different needs and difficult decisions without monogamy being treated as the inevitable answer.",
-        href: routeHref(publicRoutePaths.enmPolyamory),
+        href: publicRoutePaths.enmPolyamory,
       },
       {
         title: "LGBTQIA+ affirming counselling",
         description:
           "I offer LGBTQIA+ affirming counselling that takes sexuality, gender, identity and relationships seriously. You can talk about what is difficult, what is changing and what matters to you without your identity being treated as the problem or used to explain everything.",
-        href: routeHref(publicRoutePaths.lgbtqia),
+        href: publicRoutePaths.lgbtqia,
       },
     ],
   },
@@ -181,47 +183,43 @@ function AboutViveSection({
   return (
     <section className="home-about site-section-warm" aria-labelledby="home-about-title">
       <Container>
-        <div className="home-about__profile">
-          <header className="home-about__masthead">
-            <h2 className="home-about__heading" id="home-about-title">
-              {about.heading.before}
-              <em className="site-emphasis">{about.heading.emphasis}</em>
-              {about.heading.after}
-            </h2>
-          </header>
+        <header className="home-about__masthead">
+          <h2 className="home-about__heading" id="home-about-title">
+            {about.heading.before}
+            <em className="site-emphasis">{about.heading.emphasis}</em>
+            {about.heading.after}
+          </h2>
+        </header>
 
-          <div className="home-about__narrative">
-            <div className="home-about__story">
-              {about.narrative.map((paragraph, index) => (
-                <p
-                  className={index === 0 ? "site-reading site-reading--lead" : "site-reading"}
-                  key={paragraph}
-                >
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          <figure className="home-about__portrait">
-            <div className="home-about__portrait-frame">
-              <img
-                src={portrait.imageSrc}
-                alt={portrait.alt}
-                width="744"
-                height="1122"
-                decoding="async"
-                {...highPriorityImageAttributes}
-              />
-            </div>
-            {about.links.map((link) => (
-              <Link className="home-about__portrait-link" to={link.href} key={link.href}>
-                <span>{link.label}</span>
-                <ArrowRight aria-hidden="true" size={18} />
-              </Link>
-            ))}
-          </figure>
+        <div className="home-about__narrative">
+          {about.narrative.map((paragraph, index) => (
+            <p
+              className={index === 0 ? "site-reading site-reading--lead" : "site-reading"}
+              key={paragraph}
+            >
+              {paragraph}
+            </p>
+          ))}
         </div>
+
+        <figure className="home-about__portrait">
+          <div className="home-about__portrait-frame">
+            <img
+              src={portrait.imageSrc}
+              alt={portrait.alt}
+              width="744"
+              height="1122"
+              decoding="async"
+              {...highPriorityImageAttributes}
+            />
+          </div>
+          {about.links.map((link) => (
+            <Link className="home-about__portrait-link" to={link.href} key={link.href}>
+              <span>{link.label}</span>
+              <ArrowRight aria-hidden="true" size={18} />
+            </Link>
+          ))}
+        </figure>
       </Container>
     </section>
   );
@@ -230,7 +228,7 @@ function AboutViveSection({
 function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
   return (
     <section className="home-inclusive" aria-labelledby="home-inclusive-title">
-      <Container className="home-inclusive__inner">
+      <Container>
         <header className="home-inclusive__header">
           <h2 className="home-inclusive__heading" id="home-inclusive-title">
             {inclusive.heading.before}

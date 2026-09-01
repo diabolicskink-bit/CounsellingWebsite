@@ -1,48 +1,75 @@
-export const publicRoutePaths = {
-  blog: "blog",
-  contact: "contact",
-  enmPolyamory: "polyamory-enm-counselling",
-  home: "",
-  inclusion: "inclusive-counselling",
-  kinkBdsm: "kink-bdsm-counselling",
-  lgbtqia: "lgbtqia-affirming-counselling",
-  workingWithJoel: "working-with-joel",
-} as const;
+import type { PublicRoutePath } from "./routeMetadata";
 
-export function routeHref(path: string) {
-  return path.startsWith("/") ? path : `/${path}`;
-}
+export const publicRoutePaths = {
+  blog: "/blog",
+  contact: "/contact",
+  crisisSupport: "/crisis-support",
+  enmPolyamory: "/polyamory-enm-counselling",
+  home: "/",
+  inclusion: "/inclusive-counselling",
+  kinkBdsm: "/kink-bdsm-counselling",
+  lgbtqia: "/lgbtqia-affirming-counselling",
+  workingWithJoel: "/working-with-joel",
+} as const satisfies Record<string, PublicRoutePath>;
+
+export const feesRoutePath = "/fees";
 
 export const publicRedirectRoutes = [
-  { path: "about", to: routeHref(publicRoutePaths.workingWithJoel) },
-  { path: "fees", to: routeHref(publicRoutePaths.contact) },
-  { path: "inclusion", to: routeHref(publicRoutePaths.inclusion) },
+  { path: "/about", to: publicRoutePaths.workingWithJoel },
+  { path: feesRoutePath, to: publicRoutePaths.contact },
+  { path: "/inclusion", to: publicRoutePaths.inclusion },
 ] as const;
 
-export const devRoutePaths = {
-  codexTestBed: "codex-tb",
-  designSystem: "design-system",
-  designSystemComponents: "design-system/components",
-  designSystemFoundations: "design-system/foundations",
-  designSystemPatterns: "design-system/patterns",
-  documents: "documents",
-  opusTestBed: "opus-tb",
+export function normalizeRoutePath(pathname: string) {
+  const normalizedPath = pathname.toLowerCase().replace(/\/+$/, "");
+  return normalizedPath || "/";
+}
+
+export function getTrackedPagePath(pathname: string, state: unknown) {
+  if (normalizeRoutePath(pathname) !== publicRoutePaths.contact || !state || typeof state !== "object") {
+    return pathname;
+  }
+
+  return (state as Record<string, unknown>).trackedPagePath === feesRoutePath
+    ? feesRoutePath
+    : pathname;
+}
+
+export const privateRoutePaths = {
+  analytics: "/analytics",
+  analyticsEnquiries: "/analytics/enquiries",
+  analyticsExcluded: "/analytics/excluded",
+  analyticsKeywords: "/analytics/keywords",
+  analyticsPageViews: "/analytics/pages",
 } as const;
 
-const sharedChromePaths = new Set([
-  routeHref(publicRoutePaths.blog),
-  routeHref(publicRoutePaths.contact),
-  routeHref(publicRoutePaths.enmPolyamory),
-  routeHref(publicRoutePaths.inclusion),
-  routeHref(publicRoutePaths.kinkBdsm),
-  routeHref(publicRoutePaths.lgbtqia),
-  routeHref(publicRoutePaths.workingWithJoel),
-  ...publicRedirectRoutes.map((route) => routeHref(route.path)),
-  ...(import.meta.env.DEV ? Object.values(devRoutePaths).map((path) => routeHref(path)) : []),
+export function isPrivateRoutePath(pathname: string) {
+  const normalizedPathname = pathname.toLowerCase();
+  const analyticsRoot = privateRoutePaths.analytics;
+
+  return normalizedPathname === analyticsRoot
+    || normalizedPathname.startsWith(`${analyticsRoot}/`);
+}
+
+export const devRoutePaths = {
+  codexTestBed: "/codex-tb",
+  designSystem: "/design-system",
+  designSystemComponents: "/design-system/components",
+  designSystemFoundations: "/design-system/foundations",
+  designSystemPatterns: "/design-system/patterns",
+  documents: "/documents",
+  opusTestBed: "/opus-tb",
+} as const;
+
+const sharedChromePaths = new Set<string>([
+  ...Object.values(publicRoutePaths).filter((path) => path !== publicRoutePaths.home),
+  ...publicRedirectRoutes.map((route) => route.path),
+  ...(import.meta.env?.DEV ? Object.values(devRoutePaths) : []),
 ]);
 
 export function usesSharedChromePath(pathname: string) {
-  const blogHref = routeHref(publicRoutePaths.blog);
+  const normalizedPath = normalizeRoutePath(pathname);
 
-  return sharedChromePaths.has(pathname) || pathname.startsWith(`${blogHref}/`);
+  return sharedChromePaths.has(normalizedPath)
+    || normalizedPath.startsWith(`${publicRoutePaths.blog}/`);
 }

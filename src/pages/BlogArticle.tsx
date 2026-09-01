@@ -9,7 +9,7 @@ import {
   type BlogPost,
 } from "../content/blog/posts";
 import { getBlogArticlePresentation } from "../content/blog/presentations";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-blog.css";
 import NotFound from "./NotFound";
@@ -33,7 +33,7 @@ function PublishedBlogArticle({ post }: { post: BlogPost }) {
         <header className="blog-article__header">
           <Container className="blog-article__header-inner">
             <nav className="blog-article__breadcrumb" aria-label="Breadcrumb">
-              <Link to={routeHref(publicRoutePaths.blog)}>Articles</Link>
+              <Link to={publicRoutePaths.blog}>Articles</Link>
               <span aria-hidden="true">/</span>
               <span>{post.topic}</span>
             </nav>
@@ -98,7 +98,7 @@ function PublishedBlogArticle({ post }: { post: BlogPost }) {
 
       <div className="blog-article__return">
         <Container>
-          <Link to={routeHref(publicRoutePaths.blog)}>
+          <Link to={publicRoutePaths.blog}>
             <ArrowLeft size={18} aria-hidden="true" /> All articles
           </Link>
         </Container>

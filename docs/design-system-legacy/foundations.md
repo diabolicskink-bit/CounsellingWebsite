@@ -21,11 +21,11 @@ The following root tokens are implemented but not promoted:
 - `--faint`: quiet labels and metadata
 - `--cedar-dark`: darker cedar interaction state
 - `--cedar-soft`: cedar-related soft emphasis
-- `--accent`, `--accent-deep`, `--accent-soft`: inherited secondary green accent roles
+- `--accent`: inherited secondary green accent role
 
 `--surface` and `--cedar-soft` currently share a literal value but have different recorded roles. That similarity is not evidence for consolidation or promotion.
 
-The promoted `--cedar`, `--portrait-*`, `--section-warm`, and `--section-rule` contracts are intentionally absent; they live in `docs/design-system/foundations.md`.
+The promoted `--cedar`, `--portrait-*`, and `--section-*` contracts are intentionally absent; they live in `docs/design-system/foundations.md`.
 
 ## Layout And Material Tokens
 
@@ -33,7 +33,6 @@ The following root tokens are implemented but not promoted:
 
 - `--max`: inherited main-content width
 - `--radius`: inherited general radius
-- `--shadow`: inherited floating-surface shadow
 
 Existing pages and the `Container` component consume parts of this implementation. Confirm exact consumers before changing or removing any token.
 
@@ -43,11 +42,10 @@ The following root tokens are implemented but not promoted:
 
 - `--font-serif`, `--font-sans`, `--font-mono`
 - `--type-display`, `--type-page-title`, `--type-section`, `--type-section-compact`
-- `--type-card-title`, `--type-topic-title`
-- `--type-body`, `--type-body-rich`, `--type-support`, `--type-small`
+- `--type-card-title`
+- `--type-body`, `--type-small`
 - `--type-label`, `--type-caption`
-- `--type-hero-deck-lead`, `--type-hero-detail`, `--type-fee-display`
-- `--leading-display`, `--leading-heading`, `--leading-card`, `--leading-body`, `--leading-rich`, `--leading-loose`
+- `--leading-display`, `--leading-heading`, `--leading-card`, `--leading-body`
 
 The type-size tokens adjust at the current `900px` breakpoint. Public source widely consumes these values, but their exact roles, exceptions, and raw-size overlap remain under `DEBT-20` and `DEBT-21` rather than active design-system authority.
 
@@ -55,6 +53,6 @@ The promoted `.site-reading` and `.site-reading--lead` semantic roles are intent
 
 ## Global Baseline
 
-`src/styles.css` also owns inherited global box sizing, root scrolling, body typography, heading defaults, paragraph defaults, link behaviour, focus treatment, and reduced-motion rules. These rules affect production but have not been promoted as one supported baseline contract.
+`src/styles.css` also owns inherited global box sizing, root scrolling, body typography, heading defaults, paragraph defaults, link behaviour, focus treatment, and reduced-motion rules. Root scrolling is smooth by default and immediate when reduced motion is requested. These rules affect production but have not been promoted as one supported baseline contract.
 
-Last consolidated from current source: 2026-08-05 — reading-role promotion under `DEBT-20`, `DEBT-21`, and `DEBT-37`.
+Last consolidated from current source: 2026-08-15 — reduced-motion root scrolling review.

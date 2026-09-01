@@ -3,48 +3,47 @@ import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { notFoundMetadata } from "../data/routeMetadata";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-not-found.css";
 
-function useNoIndex() {
+function useNoIndex(directive: string) {
   useEffect(() => {
-    const existingMeta = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
-    const robotsMeta = existingMeta ?? document.createElement("meta");
-    const previousContent = existingMeta?.content;
+    const robotsMeta =
+      document.querySelector<HTMLMetaElement>('meta[name="robots"]')
+      ?? document.createElement("meta");
 
-    if (!existingMeta) {
+    if (!robotsMeta.isConnected) {
       robotsMeta.name = "robots";
       document.head.append(robotsMeta);
     }
 
-    robotsMeta.content = "noindex, nofollow";
+    robotsMeta.content = directive;
 
     return () => {
-      if (existingMeta) {
-        existingMeta.content = previousContent ?? "";
-      } else {
+      if (robotsMeta.content === directive) {
         robotsMeta.remove();
       }
     };
-  }, []);
+  }, [directive]);
 }
 
 const notFoundRoutes = [
   {
     title: "Working with Joel",
     copy: "How sessions work, Joel's background, and the shape of the work.",
-    href: routeHref(publicRoutePaths.workingWithJoel),
+    href: publicRoutePaths.workingWithJoel,
   },
   {
     title: "Inclusive practice",
     copy: "Kink, ENM, polyamory, LGBTQIA+ lives, and other misunderstood parts of life.",
-    href: routeHref(publicRoutePaths.inclusion),
+    href: publicRoutePaths.inclusion,
   },
   {
     title: "Fees and contact",
     copy: "Session fee, availability, and the enquiry form.",
-    href: routeHref(publicRoutePaths.contact),
+    href: publicRoutePaths.contact,
   },
 ] as const;
 
@@ -57,14 +56,14 @@ function getReadablePath(pathname: string) {
 }
 
 export default function NotFound() {
-  useDocumentMetadata("Page not found | Vive Counselling");
-  useNoIndex();
+  useDocumentMetadata(notFoundMetadata.title, notFoundMetadata.description);
+  useNoIndex(notFoundMetadata.robots);
   const location = useLocation();
   const requestedPath = getReadablePath(location.pathname);
 
   return (
     <main className="site-page not-found-page">
-      <Container className="not-found-page__shell">
+      <Container>
         <div className="not-found-page__mark" aria-hidden="true">
           <span>4</span>
           <span>0</span>
@@ -73,20 +72,22 @@ export default function NotFound() {
 
         <div className="not-found-page__content">
           <p className="not-found-page__label">Page not found</p>
-          <h1>That page isn't here.</h1>
+          <h1>{notFoundMetadata.heading}</h1>
           <p className="not-found-page__lead">
             The address you used does not lead to a page on this site. It may
             be an old link, a mistyped URL, or something that has moved.
           </p>
 
-          <div className="not-found-page__address" aria-label="Requested address">
-            <span>Requested address</span>
-            <code>{requestedPath}</code>
-          </div>
+          <dl className="not-found-page__address">
+            <dt>Requested address</dt>
+            <dd>
+              <code>{requestedPath}</code>
+            </dd>
+          </dl>
 
           <div className="not-found-page__actions">
-            <Button href={routeHref(publicRoutePaths.home)}>Go to homepage</Button>
-            <Button href={routeHref(publicRoutePaths.contact)} variant="secondary">
+            <Button href={publicRoutePaths.home}>Go to homepage</Button>
+            <Button href={publicRoutePaths.contact} variant="secondary">
               Make an enquiry <ArrowRight size={16} aria-hidden="true" />
             </Button>
           </div>

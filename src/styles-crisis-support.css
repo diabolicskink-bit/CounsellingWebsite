@@ -1,0 +1,496 @@
+.crisis-support-page {
+  --crisis-ink: #17231f;
+  --crisis-emergency-deep: #60221d;
+  --crisis-section-padding: 60px;
+  --crisis-soft-green: rgba(35, 75, 61, 0.045);
+}
+
+.site-page.crisis-support-page {
+  --color-heading: var(--crisis-ink);
+}
+
+.crisis-support-page__hero {
+  --hero-display-max-width: 14ch;
+}
+
+.crisis-support-page__hero .hero-badge {
+  color: #d9e5d9;
+}
+
+.crisis-support-page__hero .hero-display {
+  margin: 0;
+  color: #fcfcfa;
+}
+
+.crisis-support-page__emergency {
+  --color-heading: var(--crisis-emergency-deep);
+  --color-text: #47201c;
+
+  border-bottom: 1px solid rgba(96, 34, 29, 0.4);
+  background: #f1dfda;
+}
+
+.crisis-support-page__emergency-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(28px, 4vw, 58px);
+  padding-block: var(--crisis-section-padding);
+}
+
+.crisis-support-page__emergency-copy {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.85fr) minmax(280px, 1fr);
+  align-items: baseline;
+  gap: 18px clamp(24px, 4vw, 56px);
+}
+
+.crisis-support-page__emergency h2 {
+  max-width: 12ch;
+}
+
+.crisis-support-page__emergency p {
+  max-width: 52ch;
+}
+
+.crisis-support-page__emergency-call,
+.crisis-support-page__directory-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0.8rem 1.1rem;
+  border: 1px solid;
+  border-radius: 2px;
+  color: #fffaf8;
+  font-weight: 760;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.crisis-support-page__emergency-call {
+  min-width: 132px;
+  min-height: 58px;
+  padding-inline: 1.3rem;
+  border-color: var(--crisis-emergency-deep);
+  background: var(--crisis-emergency-deep);
+}
+
+.crisis-support-page__emergency-call:hover {
+  border-color: #481815;
+  background: #481815;
+}
+
+.crisis-support-page__emergency-call:active {
+  border-color: #36110f;
+  background: #36110f;
+}
+
+.crisis-support-page__guide {
+  padding-block: var(--crisis-section-padding);
+  border-bottom: 1px solid var(--section-rule);
+  background: var(--paper);
+}
+
+.crisis-support-page__guide-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: clamp(36px, 5vw, 58px);
+  border-block: 1px solid var(--section-rule);
+}
+
+.crisis-support-page__guide-option {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: clamp(26px, 3.5vw, 42px);
+}
+
+.crisis-support-page__guide-option + .crisis-support-page__guide-option {
+  border-left: 1px solid var(--section-rule);
+}
+
+.crisis-support-page__guide-option p {
+  max-width: 54ch;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.crisis-support-page__guide-option a {
+  justify-self: start;
+  color: var(--cedar-dark);
+  font-weight: 720;
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 75, 61, 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+.crisis-support-page__guide-option a:hover {
+  text-decoration-color: currentColor;
+}
+
+.crisis-support-page__national.site-section-warm,
+.crisis-support-page__states {
+  padding-block: var(--crisis-section-padding);
+}
+
+.crisis-support-page__section-heading {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.85fr) minmax(300px, 1fr);
+  align-items: start;
+  gap: 18px clamp(24px, 4vw, 56px);
+}
+
+.crisis-support-page__section-heading h2 {
+  max-width: 13ch;
+  scroll-margin-top: 92px;
+}
+
+.crisis-support-page__section-heading .site-reading {
+  max-width: 54ch;
+}
+
+.crisis-support-page__national-list {
+  margin: clamp(42px, 6vw, 72px) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--section-rule);
+  list-style: none;
+}
+
+.crisis-support-page__national-service {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(310px, auto);
+  align-items: center;
+  gap: 30px 52px;
+  padding-block: 30px;
+  border-bottom: 1px solid var(--section-rule);
+}
+
+.crisis-support-page__service-copy,
+.crisis-support-page__state-service-main {
+  display: grid;
+  gap: 10px;
+}
+
+.crisis-support-page__service-copy p,
+.crisis-support-page__state-service-main > p {
+  max-width: 62ch;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.crisis-support-page__service-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 75, 61, 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+.crisis-support-page__service-link svg {
+  flex: 0 0 auto;
+  transform: translateY(2px);
+}
+
+.crisis-support-page__service-link:hover {
+  color: var(--cedar-dark);
+  text-decoration-color: currentColor;
+}
+
+.crisis-support-page__service-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.crisis-support-page__contact-action {
+  --crisis-contact-text-width: 8rem;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  grid-template-areas:
+    "icon label"
+    "icon number";
+  align-items: center;
+  gap: 0 9px;
+  min-width: 205px;
+  min-height: 60px;
+  padding: 9px 14px;
+  border: 1px solid rgba(35, 75, 61, 0.38);
+  border-radius: 2px;
+  background: rgba(252, 252, 250, 0.72);
+  color: var(--cedar-dark);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.crisis-support-page__contact-action:hover {
+  border-color: var(--cedar-dark);
+  background: #fcfcfa;
+}
+
+.crisis-support-page__contact-action:active {
+  background: var(--crisis-soft-green);
+}
+
+.crisis-support-page__contact-action svg {
+  grid-area: icon;
+}
+
+.crisis-support-page__contact-label,
+.crisis-support-page__contact-number {
+  justify-self: center;
+  width: var(--crisis-contact-text-width);
+}
+
+.crisis-support-page__contact-label {
+  grid-area: label;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 720;
+  letter-spacing: 0.035em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.crisis-support-page__contact-number {
+  grid-area: number;
+  font-family: var(--font-mono);
+  font-size: 0.93rem;
+  font-weight: 720;
+  line-height: 1.35;
+}
+
+.crisis-support-page__states {
+  border-bottom: 1px solid var(--section-rule);
+  background: var(--paper);
+}
+
+.crisis-support-page__location-index {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: clamp(36px, 5vw, 58px);
+  padding: 12px 10px;
+  border-block: 1px solid var(--section-rule);
+  background: rgba(35, 75, 61, 0.025);
+  color: var(--muted);
+  font-size: var(--type-small);
+  font-weight: 650;
+}
+
+.crisis-support-page__location-index ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.crisis-support-page__location-index a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 8px;
+  color: var(--cedar-dark);
+  text-align: center;
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 75, 61, 0.3);
+  text-underline-offset: 0.2em;
+}
+
+.crisis-support-page__location-index a:hover {
+  background: rgba(35, 75, 61, 0.06);
+  text-decoration-color: currentColor;
+}
+
+.crisis-support-page__state-service {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.32fr) minmax(320px, 1fr) minmax(260px, 0.76fr);
+  align-items: start;
+  gap: 24px clamp(24px, 4vw, 56px);
+  scroll-margin-top: 92px;
+  padding-block: 30px;
+  border-bottom: 1px solid var(--section-rule);
+  transition: background-color 160ms ease;
+}
+
+.crisis-support-page__state-service:target {
+  background: var(--crisis-soft-green);
+  box-shadow: inset 3px 0 0 var(--cedar);
+}
+
+.crisis-support-page__region {
+  --color-text: var(--cedar-dark);
+
+  font-size: var(--type-small);
+  font-weight: 730;
+  line-height: 1.45;
+}
+
+.crisis-support-page__state-service-main > .crisis-support-page__state-note {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.crisis-support-page__service-actions--state {
+  display: grid;
+  justify-content: stretch;
+}
+
+.crisis-support-page__service-actions--state .crisis-support-page__contact-action {
+  --crisis-contact-text-width: 12rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.crisis-support-page__directory-link {
+  min-height: 52px;
+  border-color: var(--cedar);
+  background: var(--cedar);
+  font-size: 0.9rem;
+}
+
+.crisis-support-page__directory-link:hover {
+  border-color: var(--cedar-dark);
+  background: var(--cedar-dark);
+}
+
+.crisis-support-page__directory-link:active {
+  border-color: #183d31;
+  background: #183d31;
+}
+
+.crisis-support-page .crisis-support-page__information-note {
+  display: grid;
+  gap: 4px;
+  padding: 18px 0 0;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  line-height: 1.5;
+}
+
+.crisis-support-page a:focus-visible {
+  outline: 3px solid var(--cedar);
+  outline-offset: 3px;
+}
+
+.crisis-support-page__emergency a:focus-visible {
+  outline-color: var(--crisis-emergency-deep);
+}
+
+@media (max-width: 1060px) {
+  .crisis-support-page__section-heading,
+  .crisis-support-page__emergency-copy {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .crisis-support-page__state-service {
+    grid-template-columns: minmax(130px, 0.28fr) minmax(280px, 1fr);
+  }
+
+  .crisis-support-page__service-actions--state {
+    grid-column: 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .crisis-support-page {
+    --crisis-section-padding: 56px;
+  }
+}
+
+@media (max-width: 760px) {
+  .crisis-support-page__emergency-layout,
+  .crisis-support-page__emergency-copy,
+  .crisis-support-page__section-heading,
+  .crisis-support-page__guide-options,
+  .crisis-support-page__national-service,
+  .crisis-support-page__state-service {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .crisis-support-page__guide-option + .crisis-support-page__guide-option {
+    border-top: 1px solid var(--section-rule);
+    border-left: 0;
+  }
+
+  .crisis-support-page__emergency-call {
+    justify-self: stretch;
+  }
+
+  .crisis-support-page__national-service {
+    align-items: start;
+  }
+
+  .crisis-support-page__service-actions {
+    justify-content: flex-start;
+  }
+
+  .crisis-support-page__state-service {
+    gap: 12px;
+  }
+
+  .crisis-support-page__state-service-main {
+    margin-bottom: 10px;
+  }
+
+  .crisis-support-page__service-actions--state {
+    grid-column: auto;
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 660px) {
+  .crisis-support-page {
+    --crisis-section-padding: 48px;
+  }
+
+  .crisis-support-page .crisis-support-page__information-note {
+    padding-top: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .crisis-support-page__contact-action {
+    width: 100%;
+  }
+
+  .crisis-support-page__location-index {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .crisis-support-page__location-index ul {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+    width: 100%;
+  }
+
+  .crisis-support-page__location-index a {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crisis-support-page__emergency-call,
+  .crisis-support-page__directory-link,
+  .crisis-support-page__contact-action,
+  .crisis-support-page__state-service {
+    transition: none;
+  }
+}

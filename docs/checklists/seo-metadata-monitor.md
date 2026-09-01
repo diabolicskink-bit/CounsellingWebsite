@@ -57,7 +57,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `1200x630`; `Vive Counselling social preview card featuring Joel Griffiths.`
 
 - `Partial` Structured data is valid in shape and aligned with confirmed public claims.
-  - **Data:** Home emits linked `WebSite`, `Organization`, `Person`, and `Service` entities; Working with Joel emits `ProfilePage` and the credential-bearing `Person`; each specialist route emits `WebPage` and a route-specific `Service`; Inclusion, Kink/BDSM, and Contact/Fees also emit their visible `FAQPage` data.
+  - **Data:** Home emits linked `WebSite`, `Organization`, `Person`, and `Service` entities; Working with Joel emits `ProfilePage` and the credential-bearing `Person`; each specialist route emits `WebPage` and a route-specific `Service`; Crisis Support emits `MedicalWebPage` with visible review, modification, author and publisher details plus `BreadcrumbList`; Inclusion, Kink/BDSM, and Contact/Fees also emit their visible `FAQPage` data.
   - **Note:** A private or inferred address and address-dependent `LocalBusiness` data remain intentionally absent. Add the approved Google Business Profile to `Organization.sameAs` only when its exact public URL is confirmed.
 
 - `Partial` Hydrated client-side navigation keeps the complete runtime head aligned with the current route.
@@ -328,6 +328,46 @@ Use the relevant combination of metadata source, generated HTML, served route re
 - `Not checked` Hydrated and client-side navigation metadata remains correct.
 
 - `Not checked` Search and social wording avoids misleading therapeutic claims, overpromising outcomes, and pathologising language.
+
+## `/crisis-support` - Crisis Support
+
+- **Last checked:** `2026-08-31`
+
+- `Pass` The first-response H1 is present and matches the route purpose.
+  - **Data:** `Australian urgent mental health support services.`
+
+- `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
+  - **Data:** `Crisis Support Numbers Australia | Vive Counselling`
+
+- `Pass` Meta description is present, human-readable, and matches visible page content.
+  - **Data:** `Call 000 for immediate danger. Find 24/7 Australian crisis lines and state or territory urgent mental health services, with official contact details.`
+
+- `Pass` Canonical URL resolves to this route on the intended public origin.
+  - **Data:** `https://vivecounselling.com.au/crisis-support`
+
+- `Pass` Canonical public URL returns a `200` response.
+
+- `Pass` Indexability is not blocked by robots metadata or response headers.
+  - **Data:** No route-level robots directive or `X-Robots-Tag`; indexable.
+
+- `Pass` Sitemap output includes this route exactly once with an accurate significant-change date.
+  - **Data:** `<lastmod>2026-08-31</lastmod>`
+
+- `Pass` Open Graph and Twitter metadata are complete and aligned with the route.
+  - **Data:** `og:title` / `twitter:title` use the page title; `og:description` / `twitter:description` use the meta description; `og:url` is `https://vivecounselling.com.au/crisis-support`; `og:type` is `website`; `twitter:card` is `summary_large_image`.
+
+- `Partial` The configured social image and alt metadata are valid but use the shared practice preview rather than a Crisis Support-specific asset.
+  - **Data:** `https://vivecounselling.com.au/og-vive-counselling.png`; `Vive Counselling social preview card featuring Joel Griffiths.`
+
+- `Pass` Structured data is valid and aligned with visible page content.
+  - **Data:** `MedicalWebPage` with `dateModified`, `lastReviewed`, Vive Counselling author and publisher references, and a `BreadcrumbList`.
+
+- `Pass` Generated initial HTML/head metadata matches expected route metadata and contains the complete Crisis Support content.
+
+- `Partial` Hydrated and client-side navigation metadata remains correct for title and description.
+  - **Note:** Runtime canonical, Open Graph, Twitter, and robots metadata ownership remains tracked under `DEBT-27`.
+
+- `Pass` Search and social wording is factual, distinguishes crisis support from public mental health assessment, cites official sources, and avoids therapeutic claims or promised outcomes.
 
 ## Redirects
 

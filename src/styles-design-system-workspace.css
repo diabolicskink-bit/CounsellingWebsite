@@ -1,8 +1,6 @@
 ﻿.system-workspace {
   /* Development-only rendered-catalogue workspace, not production API. */
   --system-dark: #142b23;
-  --system-paper: #f2efe8;
-  --system-sage: #dfe8dc;
   --system-body: #3f493f;
   --system-muted: #505a51;
   --system-cedar: var(--cedar);
@@ -15,7 +13,7 @@
   --system-caption: 0.78rem;
 
   min-height: 100vh;
-  background: var(--system-paper);
+  background: var(--section-warm);
   color: var(--system-body);
   font-family: var(--system-sans);
 }
@@ -126,8 +124,8 @@
 .system-workspace__ledger {
   border-bottom: 1px solid var(--system-rule);
   background:
-    linear-gradient(90deg, var(--system-sage) 0, var(--system-sage) calc((100% - min(100% - 40px, var(--system-max))) / 2 + 286px), transparent calc((100% - min(100% - 40px, var(--system-max))) / 2 + 286px)),
-    var(--system-paper);
+    linear-gradient(90deg, var(--section-sage) 0, var(--section-sage) calc((100% - min(100% - 40px, var(--system-max))) / 2 + 286px), transparent calc((100% - min(100% - 40px, var(--system-max))) / 2 + 286px)),
+    var(--section-warm);
 }
 
 .system-workspace__ledger-layout {
@@ -502,6 +500,19 @@
   color: var(--system-dark);
 }
 
+.system-colour-specimen__swatch--section-sage {
+  background: var(--section-sage);
+  color: var(--system-dark);
+}
+
+.system-colour-specimen__swatch--section-dark {
+  background: var(--section-dark);
+}
+
+.system-colour-specimen__swatch--section-dark-soft {
+  background: var(--section-dark-soft);
+}
+
 .system-colour-specimen__swatch--section-rule {
   background:
     linear-gradient(
@@ -513,6 +524,18 @@
     ),
     var(--section-warm);
   color: var(--system-dark);
+}
+
+.system-colour-specimen__swatch--section-dark-rule {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent calc(50% - 1px),
+      var(--section-dark-rule) calc(50% - 1px),
+      var(--section-dark-rule) 50%,
+      transparent 50%
+    ),
+    var(--section-dark);
 }
 
 .system-colour-specimen__swatch--portrait-panel {
@@ -551,7 +574,7 @@
   align-content: space-between;
   gap: 28px;
   padding: clamp(28px, 5vw, 48px);
-  background: var(--system-sage);
+  background: var(--section-sage);
 }
 
 .system-colour-specimen__facts > div {
@@ -730,7 +753,7 @@
   }
 
   .system-workspace__ledger {
-    background: var(--system-paper);
+    background: var(--section-warm);
   }
 
   .system-workspace__ledger-layout {
@@ -741,8 +764,8 @@
   .system-workspace__rail {
     position: static;
     padding: 44px 0 48px;
-    background: var(--system-sage);
-    box-shadow: 0 0 0 100vmax var(--system-sage);
+    background: var(--section-sage);
+    box-shadow: 0 0 0 100vmax var(--section-sage);
     clip-path: inset(0 -100vmax);
   }
 

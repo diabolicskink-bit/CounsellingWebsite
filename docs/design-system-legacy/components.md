@@ -15,8 +15,8 @@ This is source-backed working evidence about React components outside the active
 
 - `Implementation`: `src/components/Button.tsx` with inherited `.button*` styling in `src/styles.css`.
 - `Known consumers`: `Layout`, Home, Contact, and Not Found.
-- `Legacy note`: Current variants are `primary`, `secondary`, and `tertiary`; props, states, styling boundary, and accessibility evidence have not completed promotion.
-- `Checked`: 2026-08-05 — active/legacy catalogue separation under `DEBT-37`.
+- `Legacy note`: Current variants are `primary` and `secondary`; props, states, styling boundary, and accessibility evidence have not completed promotion.
+- `Checked`: 2026-08-13 — dormant inherited presentation cleanup under `DEBT-13`.
 
 ### `Layout`
 
@@ -29,15 +29,8 @@ This is source-backed working evidence about React components outside the active
 
 - `Implementation`: `src/components/BroadTabPanel.tsx` with inherited `.site-broad-tabs*` styling in `src/styles.css`.
 - `Known consumers`: Working with Joel.
-- `Legacy note`: Owns ARIA tab semantics, roving focus, responsive stacking, and reduced-motion handling, but currently has one verified page consumer.
-- `Checked`: 2026-08-05 — active/legacy catalogue separation under `DEBT-37`.
-
-### `SectionHeading`
-
-- `Implementation`: `src/components/SectionHeading.tsx` with inherited `.section-heading*` styling in `src/styles.css`.
-- `Known consumers`: No current import outside its own source was found in the 2026-08-05 source search.
-- `Legacy note`: Consumer absence is a cleanup lead, not removal authority.
-- `Checked`: 2026-08-05 — active/legacy catalogue separation under `DEBT-37`.
+- `Legacy note`: Renders every panel as a headed reading section before JavaScript, then progressively applies connected ARIA tab semantics, inactive-panel hiding, roving focus, responsive stacking, and reduced-motion handling after hydration. It still has one verified page consumer and is not promoted reusable API.
+- `Checked`: 2026-08-19 — holistic component review and `DEBT-35` progressive-enhancement resolution.
 
 ## Development Support
 

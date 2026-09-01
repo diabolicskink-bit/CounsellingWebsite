@@ -1,7 +1,7 @@
 import Container from "../components/Container";
 import ContactInvitation from "../components/ContactInvitation";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-enm-polyamory.css";
 import SpecialistCounsellingHero from "./SpecialistCounsellingHero";
@@ -11,7 +11,7 @@ type ReasonItem = {
   body: string;
 };
 
-const pageMetadata = getRouteMetadata("/polyamory-enm-counselling");
+const pageMetadata = getRouteMetadata(publicRoutePaths.enmPolyamory);
 
 const pageContent = {
   title: pageMetadata.title,
@@ -25,9 +25,9 @@ const pageContent = {
     },
     actions: {
       enquiryLabel: "Make an enquiry",
-      enquiryHref: routeHref(publicRoutePaths.contact),
+      enquiryHref: publicRoutePaths.contact,
       inclusionLabel: "Back to inclusive counselling",
-      inclusionHref: routeHref(publicRoutePaths.inclusion),
+      inclusionHref: publicRoutePaths.inclusion,
     },
   },
 
@@ -97,7 +97,7 @@ export default function EnmPolyamoryCounselling() {
       />
 
       <section className="enm-page__reasons site-section-warm" aria-labelledby="enm-reasons-heading">
-        <Container className="enm-page__reasons-layout">
+        <Container className="enm-page__section-layout">
           <h2 className="enm-page__reasons-title" id="enm-reasons-heading">
             {reasons.heading}
           </h2>
@@ -114,7 +114,7 @@ export default function EnmPolyamoryCounselling() {
       </section>
 
       <section className="enm-page__focus" aria-labelledby="enm-focus-heading">
-        <Container className="enm-page__focus-layout">
+        <Container className="enm-page__section-layout">
           <h2 className="enm-page__focus-title" id="enm-focus-heading">
             {focus.heading}
           </h2>
@@ -123,7 +123,7 @@ export default function EnmPolyamoryCounselling() {
       </section>
 
       <section className="enm-page__position" aria-labelledby="enm-position-heading">
-        <Container className="enm-page__position-layout">
+        <Container className="enm-page__section-layout">
           <h2 className="enm-page__position-title" id="enm-position-heading">
             {position.heading}
           </h2>

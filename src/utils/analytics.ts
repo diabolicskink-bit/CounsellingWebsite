@@ -1,59 +1,15 @@
-import { siteMetadata } from "../data/routeMetadata";
+import type { ContactPath } from "../data/enquiryContract";
+import { createAnalyticsHostAllowlist, isCurrentHostnameAllowed } from "./analyticsHosts";
 
 export const analyticsEnabled = import.meta.env.VITE_ANALYTICS_ENABLED === "true";
 export const gaMeasurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 export const clarityProjectId = import.meta.env.VITE_CLARITY_PROJECT_ID?.trim();
 
 const analyticsAllowedHosts = import.meta.env.VITE_ANALYTICS_ALLOWED_HOSTS;
-
-function normalizeHostname(value: string) {
-  const trimmedValue = value.trim();
-
-  if (!trimmedValue) {
-    return undefined;
-  }
-
-  try {
-    const withProtocol = trimmedValue.includes("://") ? trimmedValue : `https://${trimmedValue}`;
-
-    return new URL(withProtocol).hostname.toLowerCase();
-  } catch {
-    return trimmedValue.toLowerCase();
-  }
-}
-
-function getDefaultAllowedHostnames() {
-  const defaultHostname = normalizeHostname(siteMetadata.defaultOrigin);
-
-  if (!defaultHostname) {
-    return [];
-  }
-
-  const hostnames = [defaultHostname];
-
-  if (!defaultHostname.startsWith("www.")) {
-    hostnames.push(`www.${defaultHostname}`);
-  }
-
-  return hostnames;
-}
-
-const allowedAnalyticsHostnames = new Set(
-  [
-    ...getDefaultAllowedHostnames(),
-    ...(analyticsAllowedHosts ?? "")
-      .split(",")
-      .map((hostname) => normalizeHostname(hostname))
-      .filter((hostname): hostname is string => Boolean(hostname)),
-  ].map((hostname) => hostname.toLowerCase()),
-);
+const allowedAnalyticsHostnames = createAnalyticsHostAllowlist(analyticsAllowedHosts);
 
 export function isAnalyticsHostAllowed() {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  return allowedAnalyticsHostnames.has(window.location.hostname.toLowerCase());
+  return isCurrentHostnameAllowed(allowedAnalyticsHostnames);
 }
 
 function trackGoogleAnalyticsEvent(
@@ -87,9 +43,7 @@ export function trackEmailLinkClicked() {
   trackGoogleAnalyticsEvent("email_link_clicked");
 }
 
-export function trackContactOptionSelected(
-  option: "appointment" | "consult" | "question",
-) {
+export function trackContactOptionSelected(option: ContactPath) {
   trackGoogleAnalyticsEvent("contact_option_selected", {
     contact_option: option,
   });

@@ -23,6 +23,7 @@ export default function DesignSystemComponents() {
         <DesignSystemSpecimen
           consumers={[
             "Home closing invitation",
+            "Working with Joel closing invitation",
             "Kink and BDSM closing invitation",
             "ENM and polyamory closing invitation",
             "LGBTQIA+ closing invitation",

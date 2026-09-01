@@ -1,7 +1,7 @@
 import Container from "../components/Container";
 import ContactInvitation from "../components/ContactInvitation";
 import { getRouteMetadata } from "../data/routeMetadata";
-import { publicRoutePaths, routeHref } from "../data/routes";
+import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-lgbtqia.css";
 import SpecialistCounsellingHero from "./SpecialistCounsellingHero";
@@ -11,7 +11,7 @@ type RecognitionItem = {
   body: string;
 };
 
-const pageMetadata = getRouteMetadata("/lgbtqia-affirming-counselling");
+const pageMetadata = getRouteMetadata(publicRoutePaths.lgbtqia);
 
 const pageContent = {
   title: pageMetadata.title,
@@ -21,13 +21,16 @@ const pageContent = {
     eyebrow: "LGBTQIA+ affirming counselling and therapy",
     title: {
       lineOne: "Who you are",
-      lineTwo: "not up for debate.",
+      lineTwo: {
+        before: "is ",
+        emphasis: "not up for debate.",
+      },
     },
     actions: {
       enquiryLabel: "Make an enquiry",
-      enquiryHref: routeHref(publicRoutePaths.contact),
+      enquiryHref: publicRoutePaths.contact,
       inclusionLabel: "Back to inclusive counselling",
-      inclusionHref: routeHref(publicRoutePaths.inclusion),
+      inclusionHref: publicRoutePaths.inclusion,
     },
   },
 
@@ -80,7 +83,7 @@ export default function LgbtqiaCounselling() {
   const { hero, recognition, assumptions, disclosure } = pageContent;
 
   return (
-    <main className="site-page inclusion-page lgbtqia-page">
+    <main className="site-page lgbtqia-page">
       <SpecialistCounsellingHero
         className="lgbtqia-page__hero"
         eyebrow={hero.eyebrow}
@@ -96,7 +99,8 @@ export default function LgbtqiaCounselling() {
           <>
             <span>{hero.title.lineOne}</span>
             <span>
-              is <em>{hero.title.lineTwo}</em>
+              {hero.title.lineTwo.before}
+              <em>{hero.title.lineTwo.emphasis}</em>
             </span>
           </>
         }
@@ -136,8 +140,14 @@ export default function LgbtqiaCounselling() {
             </p>
           </div>
 
-          <aside className="lgbtqia-page__assumptions-examples" aria-label="Examples">
-            <p className="lgbtqia-page__assumptions-label">
+          <aside
+            className="lgbtqia-page__assumptions-examples"
+            aria-labelledby="lgbtqia-assumptions-examples-label"
+          >
+            <p
+              className="lgbtqia-page__assumptions-label"
+              id="lgbtqia-assumptions-examples-label"
+            >
               {assumptions.examplesIntroduction}
             </p>
             <ul className="lgbtqia-page__assumptions-list">

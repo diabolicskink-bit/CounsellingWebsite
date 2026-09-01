@@ -1,10 +1,16 @@
 import { ArrowRight, Menu, X } from "lucide-react";
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
 import {
+  feesRoutePath,
+  getTrackedPagePath,
   publicRoutePaths,
-  routeHref,
   usesSharedChromePath,
 } from "../data/routes";
 import { navItems, socialProfileLinks } from "../data/site";
@@ -12,108 +18,120 @@ import Button from "./Button";
 import Container from "./Container";
 import { DesktopNavigation, MobileNavigation } from "./SiteNavigation";
 
+// A fixed publication year keeps prerendered and hydrated footer markup deterministic.
 const copyrightPublicationYear = 2026;
+// Mirrors the CSS breakpoint where desktop navigation replaces the mobile menu.
 const desktopNavigationMediaQuery = "(min-width: 1081px)";
-const homeHref = routeHref(publicRoutePaths.home);
-const workingWithJoelHref = routeHref(publicRoutePaths.workingWithJoel);
-const inclusionHref = routeHref(publicRoutePaths.inclusion);
-const blogHref = routeHref(publicRoutePaths.blog);
-const contactHref = routeHref(publicRoutePaths.contact);
+const homeHref = publicRoutePaths.home;
+const workingWithJoelHref = publicRoutePaths.workingWithJoel;
+const inclusionHref = publicRoutePaths.inclusion;
+const blogHref = publicRoutePaths.blog;
+const contactHref = publicRoutePaths.contact;
+const crisisSupportHref = publicRoutePaths.crisisSupport;
 
 export default function Layout() {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuToggleRef = useRef<HTMLButtonElement>(null);
+  const [isMobileNavigationOpen, setIsMobileNavigationOpen] = useState(false);
+  const mobileNavigationToggleRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
-  const usesSiteChrome = usesSharedChromePath(location.pathname);
+  const activeNavigationPath = getTrackedPagePath(location.pathname, location.state);
+  const usesSharedChrome = usesSharedChromePath(location.pathname);
+  const shellClassName = usesSharedChrome ? "site-shell site-shell--shared" : "site-shell";
 
-  const closeMenu = () => setIsOpen(false);
+  const closeMobileNavigation = () => setIsMobileNavigationOpen(false);
   const blurDesktopNavLinkAfterPointerClick = (event: ReactPointerEvent<HTMLAnchorElement>) => {
-    // Keep keyboard focus support for submenu access, but let pointer clicks dismiss on mouse-out.
+    // Blurring pointer-activated links prevents :focus-within from holding a submenu open.
     event.currentTarget.blur();
   };
 
   useEffect(() => {
-    setIsOpen(false);
+    setIsMobileNavigationOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
-    const desktopNavigation = window.matchMedia(desktopNavigationMediaQuery);
-    const closeMenuAtDesktopBreakpoint = (event: MediaQueryListEvent) => {
+    const desktopNavigationQuery = window.matchMedia(desktopNavigationMediaQuery);
+    const closeMobileNavigationAtDesktopBreakpoint = (event: MediaQueryListEvent) => {
       if (event.matches) {
-        setIsOpen(false);
+        setIsMobileNavigationOpen(false);
       }
     };
 
-    desktopNavigation.addEventListener("change", closeMenuAtDesktopBreakpoint);
+    desktopNavigationQuery.addEventListener("change", closeMobileNavigationAtDesktopBreakpoint);
 
     return () => {
-      desktopNavigation.removeEventListener("change", closeMenuAtDesktopBreakpoint);
+      desktopNavigationQuery.removeEventListener("change", closeMobileNavigationAtDesktopBreakpoint);
     };
   }, []);
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!isMobileNavigationOpen) {
       return;
     }
 
+    // Preserve any page-owned inline overflow policy while the full-screen menu locks scrolling.
     const previousBodyOverflow = document.body.style.overflow;
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleMobileNavigationKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setIsOpen(false);
-        menuToggleRef.current?.focus();
+        setIsMobileNavigationOpen(false);
+        mobileNavigationToggleRef.current?.focus();
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleMobileNavigationKeyDown);
     document.body.style.overflow = "hidden";
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleMobileNavigationKeyDown);
       document.body.style.overflow = previousBodyOverflow;
     };
-  }, [isOpen]);
+  }, [isMobileNavigationOpen]);
 
   return (
-    <div className={`site-shell ${usesSiteChrome ? "site-shell--shared" : ""}`}>
+    <div className={shellClassName}>
       <header className="site-header">
         <Container className="site-header__inner">
-          <Link className="brand brand--header" to={homeHref} onClick={closeMenu}>
+          <Link className="brand brand--header" to={homeHref} onClick={closeMobileNavigation}>
             <span className="brand__name brand__name--header">Vive Counselling</span>
           </Link>
 
           <div className="site-header__cluster">
             <DesktopNavigation
+              activePath={activeNavigationPath}
               items={navItems}
               onLinkPointerUp={blurDesktopNavLinkAfterPointerClick}
-              pathname={location.pathname}
             />
           </div>
 
           <div className="site-header__actions">
-            <Button href={contactHref} className="header-button" onClick={closeMenu}>
+            <Button href={contactHref} className="header-button" onClick={closeMobileNavigation}>
               Get in touch
               <ArrowRight aria-hidden="true" className="header-button__icon" size={16} />
             </Button>
             <button
-              ref={menuToggleRef}
+              ref={mobileNavigationToggleRef}
               aria-controls="mobile-navigation"
-              aria-expanded={isOpen}
-              aria-label={isOpen ? "Close navigation" : "Open navigation"}
+              aria-expanded={isMobileNavigationOpen}
+              aria-label={isMobileNavigationOpen ? "Close navigation" : "Open navigation"}
               className="menu-toggle"
               type="button"
-              onClick={() => setIsOpen((value) => !value)}
+              onClick={() => setIsMobileNavigationOpen((isOpen) => !isOpen)}
             >
-              <span className="menu-toggle__label">{isOpen ? "Close" : "Menu"}</span>
-              {isOpen ? <X size={21} /> : <Menu size={21} />}
+              <span className="menu-toggle__label">
+                {isMobileNavigationOpen ? "Close" : "Menu"}
+              </span>
+              {isMobileNavigationOpen ? (
+                <X aria-hidden="true" size={21} />
+              ) : (
+                <Menu aria-hidden="true" size={21} />
+              )}
             </button>
           </div>
         </Container>
 
-        {isOpen ? (
+        {isMobileNavigationOpen ? (
           <MobileNavigation
+            activePath={activeNavigationPath}
             items={navItems}
-            onNavigate={closeMenu}
-            pathname={location.pathname}
+            onNavigate={closeMobileNavigation}
           />
         ) : null}
       </header>
@@ -138,7 +156,13 @@ export default function Layout() {
                   <Link to={blogHref}>Articles</Link>
                 </li>
                 <li>
-                  <Link to={contactHref}>Fees</Link>
+                  {/* Contact stays visible while analytics records the visitor's Fees intent. */}
+                  <Link state={{ trackedPagePath: feesRoutePath }} to={contactHref}>
+                    Fees
+                  </Link>
+                </li>
+                <li>
+                  <Link to={crisisSupportHref}>Crisis support</Link>
                 </li>
               </ul>
             </nav>

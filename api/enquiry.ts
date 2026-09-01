@@ -1,4 +1,6 @@
-import { buildEnquiryEmail } from "../src/server/enquiry/email.ts";
+import { randomUUID } from "node:crypto";
+import { waitUntil } from "@vercel/functions";
+import { deliverEnquiry } from "../src/server/enquiry/delivery.ts";
 import {
   getPayloadBody,
   getRequestShapeBlock,
@@ -7,27 +9,119 @@ import {
   type EnquiryRequest,
 } from "../src/server/enquiry/request.ts";
 import {
-  fallbackRecipient,
   sendPublicFailure,
   sendSuccess,
   sendValidationError,
   type EnquiryResponse,
 } from "../src/server/enquiry/response.ts";
 import { validateEnquiryPayload } from "../src/server/enquiry/validation.ts";
+import type {
+  VisitEventProperties,
+  VisitEventSource,
+  VisitEventType,
+} from "../src/data/visitEventContract.ts";
+import {
+  recordVisitEvent as persistVisitEvent,
+} from "../src/server/visit-events/repository.ts";
 
 declare const process: {
   env: Record<string, string | undefined>;
 };
 
-const resendEndpoint = "https://api.resend.com/emails";
+type EnquiryHandlerDependencies = {
+  environment: Readonly<Record<string, string | undefined>>;
+  fetch: typeof globalThis.fetch;
+  logError: (...data: unknown[]) => void;
+  logWarning: (...data: unknown[]) => void;
+  recordVisitEvent: (observation: {
+    eventId: string;
+    eventType: VisitEventType;
+    pageViewId: string | null;
+    properties: VisitEventProperties;
+    source: VisitEventSource;
+    visitId: string;
+  }) => Promise<unknown>;
+  waitUntil: (promise: Promise<unknown>) => void | undefined;
+};
 
-function getMissingItems(items: Record<string, unknown>) {
-  return Object.entries(items)
-    .filter(([, value]) => !value)
-    .map(([label]) => label);
+type EnquiryAnalyticsContext = {
+  pageViewId: string | null;
+  visitId: string;
+};
+
+type EnquiryVisitEventType = Extract<
+  VisitEventType,
+  "enquiry_submit_attempted" | "enquiry_sent" | "enquiry_failed"
+>;
+
+const uuidV4Pattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function getUuid(value: unknown) {
+  if (typeof value !== "string") return null;
+  const normalizedValue = value.trim().toLowerCase();
+  return uuidV4Pattern.test(normalizedValue) ? normalizedValue : null;
 }
 
-export default async function handler(request: EnquiryRequest, response: EnquiryResponse) {
+function getEnquiryAnalyticsContext(payload: Record<string, unknown>): EnquiryAnalyticsContext | null {
+  const visitId = getUuid(payload.analyticsVisitId);
+
+  if (!visitId) return null;
+
+  return {
+    pageViewId: getUuid(payload.analyticsPageViewId),
+    visitId,
+  };
+}
+
+async function recordEnquiryEvent(
+  context: EnquiryAnalyticsContext,
+  eventType: EnquiryVisitEventType,
+  properties: VisitEventProperties,
+  dependencies: EnquiryHandlerDependencies,
+) {
+  try {
+    await dependencies.recordVisitEvent({
+      eventId: randomUUID(),
+      eventType,
+      pageViewId: context.pageViewId,
+      properties,
+      source: "server",
+      visitId: context.visitId,
+    });
+  } catch (error) {
+    dependencies.logWarning(
+      "Enquiry analytics event could not be recorded:",
+      eventType,
+      error instanceof Error ? error.name : "UnknownError",
+    );
+  }
+}
+
+function scheduleEnquiryEvent(
+  context: EnquiryAnalyticsContext | null,
+  eventType: EnquiryVisitEventType,
+  properties: VisitEventProperties,
+  dependencies: EnquiryHandlerDependencies,
+  precedingWork?: Promise<unknown> | null,
+) {
+  if (!context) return null;
+
+  const work = precedingWork
+    ? precedingWork.then(() =>
+        recordEnquiryEvent(context, eventType, properties, dependencies),
+      )
+    : recordEnquiryEvent(context, eventType, properties, dependencies);
+
+  dependencies.waitUntil(work);
+
+  return work;
+}
+
+export async function handleEnquiry(
+  request: EnquiryRequest,
+  response: EnquiryResponse,
+  dependencies: EnquiryHandlerDependencies,
+) {
   const responseMode = getResponseMode(request);
 
   if (request.method !== "POST") {
@@ -35,15 +129,16 @@ export default async function handler(request: EnquiryRequest, response: Enquiry
     return sendPublicFailure(response, 405, responseMode);
   }
 
-  const requestShapeBlock = getRequestShapeBlock(request);
+  const requestShapeBlock = getRequestShapeBlock(request, dependencies.environment);
 
   if (requestShapeBlock) {
-    logBlockedEnquiryRequest(request, requestShapeBlock);
+    logBlockedEnquiryRequest(request, requestShapeBlock, dependencies.logWarning);
 
     return sendPublicFailure(response, requestShapeBlock.status, responseMode);
   }
 
   const payload = getPayloadBody(request);
+  const analyticsContext = getEnquiryAnalyticsContext(payload);
   const validation = validateEnquiryPayload(payload);
 
   if (validation.type === "honeypot") {
@@ -54,46 +149,44 @@ export default async function handler(request: EnquiryRequest, response: Enquiry
     return sendValidationError(response, responseMode);
   }
 
-  const { enquiry } = validation;
-  const to = process.env.ENQUIRY_TO_EMAIL || fallbackRecipient;
-  const from = process.env.ENQUIRY_FROM_EMAIL;
-  const apiKey = process.env.RESEND_API_KEY;
+  const attemptedEventWork = scheduleEnquiryEvent(
+    analyticsContext,
+    "enquiry_submit_attempted",
+    {},
+    dependencies,
+  );
 
-  if (!apiKey || !from) {
-    const missingEnvironment = getMissingItems({
-      RESEND_API_KEY: apiKey,
-      ENQUIRY_FROM_EMAIL: from,
-    });
+  const delivery = await deliverEnquiry(validation.enquiry, dependencies);
 
-    console.error("Enquiry delivery configuration missing:", missingEnvironment.join(", "));
-
-    return sendPublicFailure(response, 500, responseMode);
+  if (delivery.type === "failed") {
+    scheduleEnquiryEvent(
+      analyticsContext,
+      "enquiry_failed",
+      { reason: delivery.reason },
+      dependencies,
+      attemptedEventWork,
+    );
+    return sendPublicFailure(response, delivery.status, responseMode);
   }
 
-  try {
-    const resendResponse = await fetch(resendEndpoint, {
-      body: JSON.stringify(buildEnquiryEmail(enquiry, { from, to })),
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    });
-
-    if (!resendResponse.ok) {
-      const resendError = await resendResponse.text();
-
-      console.error("Resend enquiry send failed:", resendResponse.status, resendError);
-
-      return sendPublicFailure(response, 502, responseMode);
-    }
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-
-    console.error("Unexpected enquiry send error:", message);
-
-    return sendPublicFailure(response, 500, responseMode);
-  }
+  scheduleEnquiryEvent(
+    analyticsContext,
+    "enquiry_sent",
+    {},
+    dependencies,
+    attemptedEventWork,
+  );
 
   return sendSuccess(response, responseMode);
+}
+
+export default function handler(request: EnquiryRequest, response: EnquiryResponse) {
+  return handleEnquiry(request, response, {
+    environment: process.env,
+    fetch: globalThis.fetch,
+    logError: console.error,
+    logWarning: console.warn,
+    recordVisitEvent: persistVisitEvent,
+    waitUntil,
+  });
 }

@@ -18,12 +18,236 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-08-31 - Public Reduced-Motion Baseline Completed
+
+- Audited every public stylesheet, confirmed the page-owned and shared motion overrides, and added the remaining generic button lift to the reduced-motion fallback.
+- Extended focused browser coverage for shared button and navigation motion, updated the accessibility monitor to `Pass`, and resolved and archived `SITE-7`.
+
+## 2026-08-31 - Enquiry Contract And Reliability Pass
+
+- Consolidated Contact-path values and field limits into the shared enquiry contract, removed the retired state-and-territory API, and made server validation reject overlong content instead of silently truncating it.
+- Added visible required cues for the path choice and active fields, truthful native-form conditional labels, matching browser limits, and duplicate-submission protection.
+- Moved best-effort enquiry analytics persistence off the delivery-critical path and repaired API, public-flow, native-form, analytics, origin, and email-safety coverage around the current form.
+- Resolved and archived `SITE-21` after updating the Contact accessibility monitor.
+
+## 2026-08-31 - Enquiry Form Opens With Shared Details
+
+- Reordered the Contact form so name, email, and message are available immediately instead of being hidden behind an enquiry-path choice.
+- Moved the appointment, consult, and general-enquiry decision after the shared message; appointment and consult requests now share the same availability and timezone questions, with a mobile number also collected for consults.
+- Preserved the complete server-rendered form for visitors without JavaScript and kept the existing structured enquiry paths and submission handling.
+
+## 2026-08-31 - Crisis Support Search And Source Signals Strengthened
+
+- Aligned the page's prominent H1 and search description with urgent Australian mental health and crisis-support intent while keeping immediate-danger guidance first.
+- Added a compact decision guide that distinguishes national crisis-line support from state or territory public mental health assessment without turning the page into generic long-form SEO copy.
+- Made Vive Counselling's publishing role, official-source checking, review date, authorship, and modification date explicit in visible content and structured data.
+
+## 2026-08-31 - Private Analytics Split Into Report Pages
+
+- Replaced the single analytics page module with explicit lazy-loaded Daily, Pages, Enquiries, Keywords, and Excluded report pages behind one small owner-only shell.
+- Centralized report loading, date controls, formatting, visit details, and visitor history while keeping each report's URL-backed state and workflow within its route.
+- Added exhaustive runtime validation for every protected analytics report response shape and focused contract and keyword-sort coverage.
+
+## 2026-08-28 - Analytics Test Suite Simplified
+
+- Separated private analytics browser checks from the public-site Playwright suite and made the analytics QA runner select its blocked-host and enabled-host scenarios explicitly.
+- Broadened the fast analytics gate to cover all recording endpoints, enquiry lifecycle events, retention, reporting, exclusions, hostname policy, migrations, and saved SQL contracts.
+- Reorganized dashboard request parsing, endpoint transport, migration-runner, and ledger-schema tests around their distinct responsibilities while keeping detailed dashboard presentation with Preview owner review.
+
+## 2026-08-25 - Visit Client Environment Capture Added
+
+- Added visit-level capture for a bounded request user-agent, a server-derived desktop/mobile/tablet/unknown device type, and the browser's nullable `navigator.webdriver` value.
+- Kept the three diagnostics immutable after the first visit insert and exposed them through the protected analytics reader and repository-owned Neon reporting queries.
+- Added a daily traffic-signature summary, compact visit cues, and expanded per-visit request diagnostics in daily and retained-history views.
+- Added focused API, SQL, and recorder browser coverage plus migration `0007_add_visit_client_environment.sql`; Preview and Production have each been migrated independently through the new schema.
+
+## 2026-08-24 - Serverless Function Packaging Hardened
+
+- Replaced seven hand-maintained Vercel function file inventories with one `api/**/*.ts` rule that packages the complete `src` tree for every serverless function.
+- Removed the dependency-by-dependency maintenance path that repeatedly allowed valid runtime imports to be omitted from deployed functions.
+- Kept one focused configuration contract for the broad packaging guarantee and moved verification of actual function initialization to a deployed Vercel preview.
+
+## 2026-08-19 - Working With Joel Tabs Progressively Enhanced
+
+- Changed the approach component so Psychodynamic, Attachment, and Integrative copy all exist in the generated HTML and remain readable as headed sections without JavaScript.
+- Preserved the hydrated visual design while giving every tab its own retained, labelled panel and keeping pointer, Home, End, and wrapping arrow-key selection.
+- Added focused JavaScript-disabled and hydrated interaction coverage, and archived resolved `DEBT-35`.
+
+## 2026-08-19 - Scoped Code Quality Pass Added
+
+- Added the repository-local `code-quality-pass` skill for holistic review and direct improvement of a user-supplied implementation surface or code change set.
+- Defined named pages, features, files, and diffs as semantic boundaries that may include the relevant code, HTML, CSS, scripts, tests, configuration, callers, and dependencies without becoming repository-wide cleanup sweeps.
+- Made simplicity, current evidence, and the site's small single-developer operating model the quality standard, resisting speculative abstractions, configurability, coordination machinery, dependencies, coverage, and stylistic churn.
+- Required high-impact boundaries to have clear authoritative enforcement and focused behavioural verification, with additional defensive layers only for distinct realistic failure modes rather than hypothetical future maintainer edits.
+
+## 2026-08-19 - Cleanup Sweep Skill Narrowed
+
+- Renamed the repository-local `improve-codebase` skill to `cleanup-sweep` so its name and invocation token communicate the intended workflow.
+- Limited its use to explicit cleanup-sweep requests; other review, cleanup, refactoring, CSS, and maintainability work follows the task's stated scope without invoking source-first problem selection.
+- Preserved the sweep's existing one-problem selection, complete-resolution, verification, and project-debt outcome rules.
+
+## 2026-08-17 - Keyword Journey Analytics Added
+
+- Added the protected `/analytics/keywords` report with a 30-day default and a bounded date range, matched-keyword coverage, paid-visit totals, page depth, recorded active time, successful-enquiry visits, and a responsive ranked ledger.
+- Added one aggregate read path over the existing visit, page-view, event, exclusion, and BotID data. Keyword rows retain match type, returning-visit context, and latest activity without exposing GCLIDs.
+- Included the new route in the private no-index build shell and analytics navigation, with focused API, reader, route, and browser coverage.
+
+## 2026-08-16 - Visible Page Time Added
+
+- Added cumulative active seconds to each first-party page view, counting only while the page is visible and updating at 30-second intervals plus page-hide and route-exit flushes.
+- Kept engagement writes bounded, identity-checked, and idempotent so later cumulative updates replace earlier measurements without creating heartbeat rows.
+- Added active time to daily visit rows, page timelines, visitor history, and the compact route breakdown with total and average active-time reporting.
+- Applied the sixth migration independently to Preview and Production as part of the staged release.
+
+## 2026-08-16 - Fees Visit Attribution Added
+
+- Kept Fees-labelled navigation and footer links on the Contact route while recording those arrivals under the virtual `/fees` page path in first-party analytics and GA.
+- Left ordinary Contact, enquiry, and invitation links recorded as `/contact`, with the accepted virtual path constrained to the existing Fees alias.
+
+## 2026-08-16 - Page-View Range Report Added
+
+- Added a complete protected route breakdown linked from the daily page-view widget, defaulting to the dashboard's selected day.
+- Added an inclusive date-range selector of up to 366 days with total views, visits, average pages per visit, and one compact ranked table for route share and per-route visit counts.
+- Kept range reads to one aggregate database query with existing visitor exclusions and server-side bot filtering, while canonicalizing route casing before storage.
+- Made the private analytics boundary case-insensitive in the browser and visit API so the complete subtree cannot create new first-party records under casing variants, and removed the existing private rows from Preview data.
+
+## 2026-08-16 - Daily Analytics Signals Refined
+
+- Reworked the private daily dashboard around visit-source composition, total and average page views, a four-route view ranking, and a compact returning-visits measure.
+- Moved enquiry outcomes and contact-choice cues onto their visit rows, with successful retries taking precedence while expanded timelines retain every event.
+- Exposed existing paid-ad codes on collapsed visit rows and removed stored GCLIDs from daily and visitor-history display without changing collection or reporting contracts.
+- Reduced private-dashboard browser coverage to its core report and drill-down path while leaving data contracts, exclusions, and reporting queries with the existing API and repository tests.
+
+## 2026-08-16 - Analytics Journeys And Exclusions Released
+
+- Released the calendar-month enquiry ledger, visit-linked enquiry journeys, and reversible visitor exclusions from the verified `staging` candidate to Production.
+- Applied migrations `0004_create_visit_event_ledger.sql` and `0005_create_analytics_visitor_exclusions.sql` to the separate Production database before deployment; Preview and Production are now independently current through migration `0005`.
+- Confirmed the live protected analytics page and API accept the configured Production login and return successful responses.
+
+## 2026-08-16 - Reversible Visitor Exclusions Added
+
+- Added a persistent visitor-level exclusion list that omits all retained and future visits for selected IDs from daily and monthly reports without deleting their data.
+- Added the protected Excluded visitors page and a visitor-history toggle for excluding or restoring IDs, with server-side filtering and environment-specific state in the existing Preview and Production databases.
+- Renamed dashboard-facing browser labels to visitors, removed the browser-versus-person note, and extended retention cleanup to remove exclusion markers after their final retained visit expires.
+
+## 2026-08-16 - Monthly Enquiry Ledger Added
+
+- Added the protected `/analytics/enquiries` view with Australia/Perth calendar-month navigation, sent and failed totals, send rate, and a newest-first row for every recorded enquiry outcome.
+- Connected each monthly outcome to the existing anonymous-browser journey, preserving its selected visit and event so the complete context remains available without creating a separate enquiry record.
+- Kept explicit bots excluded by default and covered monthly request validation, report reads, route behaviour, navigation, summary figures, outcome rows, and journey drill-down.
+
+## 2026-08-16 - Enquiry Journeys Added To First-Party Analytics
+
+- Added a generic visit-event ledger and controlled write endpoint, with client-authored contact selection/form-start events and server-authored submit-attempt, sent, and failed outcomes tied to the existing visit and optional page view.
+- Kept event recording best-effort around the existing enquiry delivery path: a sent event is recorded only after Resend accepts delivery, while analytics storage failures never change the visitor-facing enquiry outcome.
+- Extended protected reports with daily enquiry activity and selectable, multi-visit browser histories that interleave page views and enquiry events; Preview carries the fourth migration while Production remains unchanged until release.
+
+## 2026-08-16 - Separate Preview Analytics Restored
+
+- Reused the existing fully migrated Preview Neon database and broadened Preview report authentication and recorder configuration from the `staging` branch to the Preview environment without changing Production resources.
+- Added wildcard hostname support so Vercel-generated Preview URLs can record to the Preview ledger without a per-branch hostname override; Development remains disconnected from both deployed databases.
+- Added a dedicated Preview migration command and documented the straightforward two-database model: one database for Production and one for Preview.
+
+## 2026-08-15 - Bot Visibility Made Optional In Private Analytics
+
+- Excluded visits explicitly identified by BotID as bots from dashboard figures, daily activity, and anonymous-browser history by default, while treating nullable unclassified verdicts as ordinary visits.
+- Added an accessible, URL-backed `Include bots` toggle that applies consistently to figures and both report views without adding bot commentary beneath the headline numbers.
+- Extended private-dashboard browser coverage for the default filter, the included-bot state, and the setting carried into visitor history.
+
+## 2026-08-15 - Visit Bot Classification Prepared
+
+- Added Vercel BotID Basic to the first-party visit recorder and write endpoint without blocking classified bots; failures remain best-effort and store an unclassified verdict.
+- Added a third ledger migration for nullable bot verdict, verified name and category, with positive verdicts winning across later page observations and legacy rows remaining unclassified.
+- Extended the protected report, dashboard and saved queries so explicit bots remain inspectable but are separated from headline visit, returning, page and source figures. The migration and deployed BotID flow remain pending Production application and live verification because testing was unavailable during this task.
+
+## 2026-08-15 - Working With Joel Contact Paths Added
+
+- Added a direct Get in touch action to the Working with Joel hero, with page-scoped responsive, focus, pointer, and reduced-motion treatment.
+- Added the canonical Contact invitation as the page's closing section, making appointment, free consult, and general-enquiry options available after the issues index.
+- Extended public-route coverage and the supported-component records to include both new contact paths.
+
+## 2026-08-15 - Production Visit Ledger Isolated
+
+- Retargeted every Vercel-managed Neon identifier, connection variable, and private-report Basic-auth credential to Production only; Development and Preview no longer receive a path capable of reading or writing the private visit ledger.
+- Removed the obsolete `work/local-analytics` Preview recorder overrides and deleted the 20 Preview deployments created after the Production database credential was introduced, invalidating their retained runtime snapshots without touching Production or ledger data.
+- Removed the retired Preview migration/verifier workflow, made future migration access an explicit Production env pull, scrubbed stale local non-production env snapshots, and archived `DEBT-38` as resolved.
+
+## 2026-08-15 - Private Visit Analytics Connected
+
+- Added the unlisted `/analytics` interface and protected `GET /api/analytics` function, with HTTP Basic Authentication applied to both through Vercel Routing Middleware.
+- Connected daily Australia/Perth activity and complete anonymous-browser history to the retained Neon visit ledger, including stored page journeys, full stored referrers, repeat-visit sequence, and recognized ad attribution.
+- Replaced the fictional dashboard fixtures with live API loading, failure, retry, empty-day, expandable-visit, and visitor-history states while keeping database credentials and read access server-side.
+- Hardened the connected feature after whole-slice review: same-document writes are serialized and retry concurrent visibility, rejected page collisions no longer retain empty visits, preview verification cleans up its records, migration hashes are line-ending stable, and private reports receive a clean document boundary from third-party analytics.
+
+## 2026-08-14 - First-Party Visit Ledger Released
+
+- Released the reviewed `staging` candidate to Production with first-party visit recording enabled only on `vivecounselling.com.au` and `www.vivecounselling.com.au`; failures remain isolated from the visitor experience.
+- Activated the protected daily 12-month retention schedule against the migrated Neon database while keeping all reporting server-side and outside the public API.
+- Confirmed the live site responds successfully, the visit endpoint rejects reads, the deployed client contains the canonical-host recorder configuration, and Vercel reported no runtime errors immediately after release. Natural production records were subsequently confirmed in the ledger.
+
+## 2026-08-14 - Editorial Material Palette Promoted
+
+- Promoted: Warm paper, sage, deep and softened green, and matching light- and dark-surface rules now form one six-token `--section-*` foundation palette with documented semantic and contrast boundaries.
+- Consolidated: Public editorial pages, shared specialist heroes, and the development Documents and Design System workspaces consume the shared foundations directly instead of carrying route-prefixed copies.
+- Preserved: The lighter root page canvas, shared chrome and footer roles, Contact-specific rule opacities, and nearby page-owned dark greens remain distinct rather than being merged by literal colour alone.
+
+## 2026-08-14 - First-Party Visit Ledger Production Configuration Prepared
+
+- Connected the existing Vercel-managed Neon resource to Production while preserving Development and Preview, and confirmed the shared database remains current at two migrations.
+- Added a separate sensitive Production retention secret and configured the future Production build to record only on the apex and `www` Vive hostnames.
+- Removed the two synthetic Slice 7 visits and their three cascading page views from the shared database. No production deployment was made, so live visit collection has not started.
+
+## 2026-08-14 - Public Browser Suite Simplified
+
+- Reduced: The Playwright suite now has 37 focused cases in one Chromium project instead of 262 cases duplicated across desktop and mobile Chromium profiles.
+- Removed: Broad copy, class-count, pixel-alignment, asset-byte, raw-markup, generated-metadata, and duplicate-artifact assertions no longer mirror page source and build implementation inside browser tests.
+- Preserved: Route hydration and diagnostics, navigation and mobile focus/scroll behaviour, progressive enhancement, core first-response metadata, redirects, analytics privacy and events, enquiry success/error behaviour, responsive overflow, and axe coverage remain automated; detailed generated artifacts stay with the build generator and manual metadata monitor.
+- Resolved: `DEBT-34` is archived under the new durable testing strategy.
+
+## 2026-08-13 - First-Party Visit Ledger Preview Connected
+
+- Connected a Vercel-managed Neon resource to Development and Preview only, added checksum-tracked transactional migrations, and applied the two visit-ledger migrations outside production.
+- Enabled recording only on the protected `work/local-analytics` preview and confirmed browser-to-function-to-Neon storage with an exact referrer, paid attribution, ordered page views, and a second visit recognized as returning for the same anonymous browser.
+- Confirmed the protected retention function runs against Preview with no eligible deletions. Production has no Neon connection and visit recording remains disabled until explicit owner approval.
+
+## 2026-08-13 - First-Party Visit Ledger Reporting And Retention Defined
+
+- Added: The repository now defines a read-only Postgres visit ledger that identifies the earliest retained browser visit as new, later visits as returning, classifies traffic, and totals page views.
+- Added: Five Neon query templates cover newest-first inspection, anonymous-browser grouping, today's Australia/Perth overview, 30-day source/ad reporting, and one visit's ordered page sequence.
+- Added: Anonymous browser IDs rotate after 12 calendar months, and a protected daily Vercel job removes visits older than 12 months with their related page views.
+- Preserved: Reporting has no public read endpoint, no Neon resource has been provisioned, and production collection remains disabled pending preview testing and owner approval.
+
+## 2026-08-13 - Public Route Parity Enforced
+
+- Simplified: Public and development route constants now store final absolute hrefs, removing the repeated `routeHref()` conversion layer from navigation, pages, metadata lookups, redirects, and development tools.
+- Consolidated: Prerendering and browser tests derive their route inventories from existing route contract maps rather than maintaining separate seven-route lists.
+- Guarded: Direct script tests compare public route constants with metadata and validate redirect destinations; the production build continues to enforce metadata, rendered-route, and prerender-contract parity.
+- Resolved: `DEBT-8` moved to the project debt archive without introducing a shared route manifest.
+
+## 2026-08-13 - Dormant Inherited Presentation Layer Removed
+
+- Removed: Unmounted global card, topic, checklist, fee, detail, CTA, list, and hero selector families plus their responsive rules and orphaned tokens no longer ship in production CSS.
+- Simplified: The unused `SectionHeading` component and unconsumed tertiary `Button` variant were removed; live Working with Joel layout, tabs, portrait, and shared-shell styles remain intact.
+- Reconciled: The active cedar evidence, development specimen, and living legacy registers now describe only current source and verified consumers.
+
+## 2026-08-13 - Shared Reading Typography Tightened
+
+- Updated: `.site-reading` now splits the difference between its previous scale and the Crisis Support emergency paragraph, using a restrained responsive `1.005–1.04rem` size and `1.63` line-height across its verified public-page consumers.
+- Aligned: Crisis Support emergency guidance now consumes the shared reading role directly while retaining its page-owned emergency foreground colour.
+
+## 2026-08-12 - Australian Crisis Support Route Added
+
+- Added: `/crisis-support` now puts immediate-danger guidance and a direct `000` action before verified national crisis lines and state or territory public mental health services.
+- Covered: The route includes Lifeline, Suicide Call Back Service, 13YARN, all eight state and territory locations, Victoria's area-based directory, and RuralLink for regional and remote Western Australia; every service name links to an official source and the verification date is public.
+- Connected: Contact now directs urgent visitors away from the enquiry form to the dedicated route, and the shared footer gives Crisis Support a permanent site-wide entry point.
+- Published: Route metadata, server prerendering, sitemap output, raw-output contracts, phone destinations, service counts, and accessibility smoke coverage now include the eighth public content route.
+
 ## 2026-08-12 - Public Article Publishing System Added
 
 - Added: A public `/blog` article index and statically prerendered `/blog/:slug` article routes, linked as Articles from shared desktop, mobile, and footer navigation.
 - Added: A typed, code-managed article registry with slug and date validation, chronological ordering, Markdown article rendering, reading-time display, abstracts and source notes, generated route metadata, canonical sitemap handling, article Open Graph metadata, and `Blog` / `BlogPosting` structured data.
 - Added and documented: Optional registered React presentations allow a subject-specific article body and scoped stylesheet while preserving the shared publication shell. Ant and dinosaur articles demonstrate two distinct presentations and are explicitly labelled as samples, marked `noindex, nofollow`, and omitted from the sitemap.
-- Verified: Production build prerendered all core and article routes; focused TypeScript and browser coverage includes index/article navigation, no-JavaScript output, unknown slugs, metadata, and sitemap behaviour.
+- Verified: Production build prerendered all core and article routes; focused TypeScript, script, and browser coverage includes index/article navigation, no-JavaScript output, unknown slugs, metadata, and sitemap behaviour.
 
 ## 2026-08-11 - Homepage Specialist-Practice Section Rebuilt
 

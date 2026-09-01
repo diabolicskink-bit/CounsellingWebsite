@@ -6,6 +6,10 @@ Use this checklist to expand, review, and record decisions about CSS in manageab
 
 > **Rendered-catalogue retirement:** The `/design-language/*` routes and their source modules were removed on 2026-08-03. Earlier `Used By`, `Evidence`, or architecture notes that mention rendered design-system examples are dated review history, not current consumers or reusable-API evidence. Re-run source usage before acting on any affected item.
 
+> **Dormant presentation cleanup:** The 2026-08-13 source-first cleanup actioned the unmounted selector families and tokens previously recorded here, including the dormant body-copy aliases, rich-text descendants, tertiary button variant, card/topic/check/fee/detail/CTA/list systems, unused hero subsets, and uncalled `SectionHeading` component. Earlier leaf evidence remains dated review history; the living current-source inventory is `docs/design-system-legacy/`.
+
+> **Residual copy-wrapper cleanup:** The 2026-08-14 source-first cleanup actioned the remaining `.site-copy-panel`, `.rich-text`, `.section-heading`, `.section-heading__copy`, and `.site-copy-flow` records after page-owned layout and the promoted `.site-reading` role were confirmed to supply their mounted outcomes. The corresponding leaf records below are retained as dated audit history, not current source or reusable API.
+
 ## Status Labels
 
 - `Bucket`: A high-level area exists, but has not been expanded into reviewable children.
@@ -120,16 +124,16 @@ Use this structure when a region is expanded to class-token leaves:
 
 ##### CSS-1.2.1.2 - `.site-copy-flow`
 
-- `Status`: `Consolidate candidate`
-- `Layer`: BroadTabPanel content fallback typography
-- `Selectors Covered`: `.site-copy-flow` and `.site-copy-flow :where(p, li)` in the grouped body-copy rule.
-- `Naming/Structure Check`: The name implies a reusable flow primitive, but its only emitter is the more specific `BroadTabPanel` component.
-- `Declaration Review`: The wrapper and paragraph/list descendants inherit the legacy body role. Every current Working with Joel tab paragraph also carries `.site-reading`, whose later, more specific promoted declarations win; only the component's string/number fallback still depends directly on `.site-copy-flow`.
-- `Architecture Check`: The generic fallback and the promoted reading role currently split typography ownership inside one component.
-- `Used By`: `BroadTabPanel`, mounted once on Working with Joel.
-- `Decision`: Retain pending a focused BroadTabPanel content-contract review; consolidation is plausible but not safe from current markup alone.
-- `Evidence`: `BroadTabPanel.tsx` always emits the wrapper class, converts string/number content to an unclassed paragraph, and otherwise accepts arbitrary `ReactNode`; Working with Joel supplies only `.site-reading` paragraphs.
-- `Follow-up`: Decide whether BroadTabPanel should apply the supported reading role to its fallback content or continue owning a separate generic flow contract.
+- `Status`: `Actioned`
+- `Layer`: Removed inherited content fallback typography
+- `Selectors Covered`: The former `.site-copy-flow` wrapper and paragraph/list descendants.
+- `Naming/Structure Check`: The broad flow name did not represent a supported role and duplicated the promoted `.site-reading` contract used by every real tab paragraph.
+- `Declaration Review`: The wrapper selectors were removed on 2026-08-14 after their declarations were confirmed redundant for the mounted consumer.
+- `Architecture Check`: BroadTabPanel now renders its supplied `ReactNode` directly; prose semantics and typography remain explicit at the page consumer rather than being inferred from primitive content.
+- `Used By`: No current source. Working with Joel supplies `.site-reading` paragraphs directly to `BroadTabPanel`.
+- `Decision`: Actioned; the redundant wrapper and its string/number paragraph fallback are removed.
+- `Evidence`: Current source search finds `.site-copy-flow` only in historical project-debt notes and this completed checklist record. The 2026-08-19 BroadTabPanel review removed the remaining primitive-content branch.
+- `Follow-up`: None.
 
 ##### CSS-1.2.1.3 - `.section-heading__copy`
 
@@ -186,15 +190,15 @@ Use this structure when a region is expanded to class-token leaves:
 ##### CSS-1.2.1.7 - `.site-broad-tabs__content`
 
 - `Status`: `Keep, document`
-- `Layer`: BroadTabPanel tabpanel shell
-- `Selectors Covered`: The grouped body role, base panel and paragraph rules, focus state, `900px` responsive panel rule, and Working with Joel desktop/tablet/mobile contextual overrides.
-- `Naming/Structure Check`: Clear element name under `.site-broad-tabs` and aligned with the component's tabpanel markup.
-- `Declaration Review`: The base owns grid, gap, minimum height, padding, border, radius, surface, paragraph measure, focus outline, and responsive recomposition. Working with Joel replaces the gap, minimum height, padding, border, radius, surface, paragraph measure, focus treatment, and small-screen presentation; current paragraph typography comes from `.site-reading`.
-- `Architecture Check`: A generic component shell with one route consumer and extensive page-level replacement has an unclear reusable boundary, though the accessibility and interaction structure remains component-owned.
+- `Layer`: BroadTabPanel progressive-enhancement and tabpanel shell
+- `Selectors Covered`: The panel wrapper, non-enhanced all-panel layout, fallback heading, grouped body role, hidden states, base panel and paragraph rules, focus state, `900px` responsive panel rule, and Working with Joel desktop/tablet/mobile contextual overrides.
+- `Naming/Structure Check`: The element names align with the component's panel collection, individual panel, and pre-enhancement heading markup without presenting the family as promoted reusable API.
+- `Declaration Review`: The base now keeps the panel collection shrink-safe, spans the full component grid and stacks every panel before enhancement, explicitly honours hidden controls and panels, and retains the established panel surface, measure, focus, and responsive rules. Working with Joel supplies the fallback-heading type role, removes the pre-enhancement gap in favour of section rules, and continues to replace the panel surface and responsive presentation; paragraph typography remains owned by `.site-reading`.
+- `Architecture Check`: Interaction and progressive enhancement remain component-owned while the only consumer supplies substantial page-scoped visual composition. That split is proportionate for the current single consumer; it does not justify promotion or a CSS migration during ordinary component maintenance.
 - `Used By`: `BroadTabPanel`, mounted once on Working with Joel.
-- `Decision`: Keep current behavior; perform a family-level ownership review before consolidating the base or page override.
-- `Evidence`: Component tracing found one mounted consumer. `styles-working-with-joel.css` overrides the panel at the base route scope and again at `1000px` and `600px`, on top of the inherited `900px` rule.
-- `Follow-up`: Review the complete `.site-broad-tabs*` family and decide whether it is genuinely generic or page-owned.
+- `Decision`: Keep the current component/page boundary and the progressive-enhancement selectors. Do not promote, generalise, or migrate the family solely because it has one consumer.
+- `Evidence`: The 2026-08-19 component review traced one mounted consumer, confirmed all three panels in prerendered HTML, and verified the no-JavaScript reading layout plus hydrated desktop/mobile interaction in system Chrome. `styles-working-with-joel.css` remains the owner of the route's visual treatment over the inherited component base.
+- `Follow-up`: Revisit ownership only within explicit shared-system or cleanup scope, or if a second genuine consumer establishes a reusable visual contract.
 
 ##### CSS-1.2.1.8 - `.site-cta-block`
 

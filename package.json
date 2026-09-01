@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
+    "db:migrate:production": "node --env-file=.env.production.local scripts/apply-database-migrations.mjs",
+    "db:migrate:preview": "node --env-file=.env.preview.local scripts/apply-database-migrations.mjs",
     "check:encoding": "node scripts/check-encoding.mjs",
     "typecheck:tests": "tsc -p tests/tsconfig.json",
     "build": "node scripts/validate-analytics-env.mjs && tsc -b && npm run build:client && npm run build:server && node scripts/prerender-route-metadata.mjs",
@@ -12,10 +14,11 @@
     "build:server": "vite build --ssr src/entry-server.tsx",
     "preview": "vite preview --host 127.0.0.1",
     "preview:qa": "vite preview --host 127.0.0.1 --port 4287 --strictPort",
-    "test:api": "node --test tests/api/*.test.mjs",
+    "test:api": "node --test tests/api/**/*.test.mjs",
+    "test:analytics": "npm run test:api && node --test tests/scripts/analytics-hosts.test.mjs tests/scripts/database-migrations.test.mjs tests/scripts/visit-ledger-sql.test.mjs",
     "test:scripts": "node --test tests/scripts/*.test.mjs",
-    "test:e2e": "playwright test",
-    "test:e2e:headed": "playwright test --headed",
+    "test:e2e": "playwright test tests/public-site",
+    "test:e2e:headed": "playwright test tests/public-site --headed",
     "qa": "npm run check:encoding && npm run typecheck:tests && npm run test:scripts && npm run build && npm run test:api && start-server-and-test preview:qa http://127.0.0.1:4287 test:e2e",
     "qa:site": "npm run check:encoding && npm run typecheck:tests && npm run build && start-server-and-test preview:qa http://127.0.0.1:4287 test:e2e",
     "qa:analytics": "npm run typecheck:tests && node scripts/run-analytics-qa.mjs",
@@ -23,6 +26,9 @@
     "audit:lighthouse:run": "node scripts/run-lighthouse.mjs http://127.0.0.1:4287"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@vercel/functions": "^3.9.3",
+    "botid": "^1.5.11",
     "lucide-react": "^0.468.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

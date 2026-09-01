@@ -10,15 +10,29 @@ test("Vercel config keeps clean URLs and extensionless trailing-slash policy", (
 });
 
 test("Vercel config does not use a blanket SPA catch-all rewrite", () => {
-  assert.equal(Object.hasOwn(vercelConfig, "rewrites"), false);
+  const hasBlanketSpaRewrite = (vercelConfig.rewrites ?? []).some(({ source, destination }) => (
+    ["/(.*)", "/:path*"].includes(source)
+    || destination === "/index.html"
+  ));
+
+  assert.equal(hasBlanketSpaRewrite, false);
 });
 
-test("Vercel packages the enquiry function's external TypeScript modules", () => {
+test("Vercel packages the complete source tree with every serverless function", () => {
   assert.deepEqual(vercelConfig.functions, {
-    "api/enquiry.ts": {
-      includeFiles: "src/{data/enquiryContract.ts,server/enquiry/**,utils/timeZones.ts}",
+    "api/**/*.ts": {
+      includeFiles: "src/**",
     },
   });
+});
+
+test("Vercel schedules one daily visit retention cleanup", () => {
+  assert.deepEqual(vercelConfig.crons, [
+    {
+      path: "/api/visit-retention",
+      schedule: "15 18 * * *",
+    },
+  ]);
 });
 
 test("Vercel config keeps public alias redirects", () => {

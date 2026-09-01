@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { devRoutePaths, routeHref } from "../../../data/routes";
+import { devRoutePaths } from "../../../data/routes";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
 import "../../../styles-design-system-workspace.css";
 
@@ -17,17 +17,17 @@ const cataloguePages = [
   {
     count: "08",
     label: "Foundations",
-    path: routeHref(devRoutePaths.designSystemFoundations),
+    path: devRoutePaths.designSystemFoundations,
   },
   {
     count: "01",
     label: "Components",
-    path: routeHref(devRoutePaths.designSystemComponents),
+    path: devRoutePaths.designSystemComponents,
   },
   {
     count: "02",
     label: "Patterns",
-    path: routeHref(devRoutePaths.designSystemPatterns),
+    path: devRoutePaths.designSystemPatterns,
   },
 ] as const;
 
@@ -111,7 +111,7 @@ export default function DesignSystemWorkspace({ children, description, section, 
 
             <nav className="system-workspace__section-nav" aria-label="Design-system pages">
               <p>Workspace pages</p>
-              <NavLink end to={routeHref(devRoutePaths.designSystem)}>
+              <NavLink end to={devRoutePaths.designSystem}>
                 <strong>Overview</strong>
                 <span>11</span>
               </NavLink>
