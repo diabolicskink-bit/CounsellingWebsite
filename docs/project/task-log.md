@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-01 - Standard Article Reading System Established
+
+- Kept the approved shared `<ArticleHero />` while giving standard Markdown article bodies their own centred reading composition, paragraph typography, heading rhythm, lists, quotations and tables instead of inheriting the public `.site-reading` role.
+- Tightened continuous prose leading and section transitions, widened the desktop reading measure, and kept headings directly above their sections after rejecting a marginal-heading exploration.
+- Made an exact `## References` section render as a wider source ledger with a visible source count, compact citations, ruled entries and visual numbering; registered custom article presentations retain their own body compositions.
+
 ## 2026-09-01 - Design-System Naming Convention Formalized
 
 - Established one public naming scheme: site-wide CSS uses `site-*`, component CSS roots match role-based PascalCase component names, owned custom properties carry their contract prefix, and feature-local styles retain their feature namespace outside the public API.

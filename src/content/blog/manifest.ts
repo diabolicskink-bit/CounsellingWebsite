@@ -38,6 +38,17 @@ const requiredTextFields = [
 const publishedBlogPostMetadata = [
   {
     abstract:
+      "Kink-affirming therapy asks what kink means in a person's life without treating it as either the problem or beyond question. That requires knowledge, not just tolerance.",
+    author: "Joel Griffiths",
+    description:
+      "What kink-affirming therapy means in practice, including therapist knowledge, trauma, consent, stigma and the difference between acceptance and competence.",
+    publishedAt: "2026-09-01",
+    slug: "what-is-kink-affirming-therapy",
+    title: "What is kink-affirming therapy?",
+    topic: "Kink and BDSM",
+  },
+  {
+    abstract:
       "Ant colonies can concentrate their foraging on one route without a leader choosing it. The result emerges from local signals, reinforcement and correction.",
     author: "Joel Griffiths",
     description:

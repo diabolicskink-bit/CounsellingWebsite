@@ -28,7 +28,9 @@ Set `isSample: true` only for temporary demonstration content. Samples are visib
 
 ## Standard And Custom Presentation
 
-The default presentation renders ordinary Markdown, including headings, lists, quotations, tables, emphasis, and links. Use site-root paths such as `/working-with-joel` for internal links and complete `https://` URLs for external sources.
+The default presentation renders ordinary Markdown, including headings, lists, quotations, tables, emphasis, and links. Its article-owned reading layout uses a centred continuous column, compact paragraph leading, and level-two headings directly above their sections with a controlled transition rather than the public site's general reading and section rhythm. Use site-root paths such as `/working-with-joel` for internal links and complete `https://` URLs for external sources.
+
+An exact `## References` section receives the standard source-ledger presentation: a source count, compact typography, numbered visual markers, and a ruled list that remains fully visible. Keep each reference as one Markdown list item. This treatment is presentational only; authors should still choose a consistent citation style and order references deliberately.
 
 An article may instead select a custom body presentation without changing the publication shell:
 

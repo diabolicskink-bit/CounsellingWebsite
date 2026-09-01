@@ -43,6 +43,7 @@ test.describe("article publishing", () => {
       const presentation = getBlogArticlePresentationDefinition(post.presentation);
 
       await expect(articleDocument.locator(".blog-article__prose")).toBeVisible();
+      await expect(articleDocument.locator(".blog-article__prose .site-reading")).toHaveCount(0);
       await expect(page.getByRole("link", { name: "All articles" })).toHaveAttribute("href", "/blog");
       if (post.isSample) {
         await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", noindexDirective);
@@ -56,6 +57,20 @@ test.describe("article publishing", () => {
           .toBeVisible();
       } else {
         await expect(articleDocument).toHaveClass("blog-article__document");
+        await expect(articleDocument.locator(".blog-article__prose--sectioned")).toBeVisible();
+
+        const referenceBody = post.body.split("\n## References\n")[1];
+
+        if (referenceBody) {
+          const referenceCount = referenceBody.match(/^[-*+]\s+/gm)?.length ?? 0;
+          const referenceLedger = articleDocument.locator(".blog-article__references");
+
+          await expect(referenceLedger.getByRole("heading", { level: 2, name: "References" }))
+            .toBeVisible();
+          await expect(referenceLedger.locator("li")).toHaveCount(referenceCount);
+          await expect(referenceLedger.locator(".blog-article__reference-count"))
+            .toHaveText(`${referenceCount} ${referenceCount === 1 ? "source" : "sources"}`);
+        }
       }
     });
   }

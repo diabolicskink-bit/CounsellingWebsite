@@ -13,6 +13,7 @@ import NotFound from "./NotFound";
 function PublishedBlogArticle({ post }: { post: BlogPost }) {
   const presentation = getBlogArticlePresentation(post.presentation);
   const ArticleBody = presentation?.Body;
+  const isStandardArticle = !ArticleBody;
   const documentClassName = ["blog-article__document", presentation?.className]
     .filter(Boolean)
     .join(" ");
@@ -28,7 +29,12 @@ function PublishedBlogArticle({ post }: { post: BlogPost }) {
         <ArticleHero post={post} />
 
         <div className="blog-article__reading-area">
-          <Container className="blog-article__reading-inner">
+          <Container
+            className={[
+              "blog-article__reading-inner",
+              isStandardArticle ? "blog-article__reading-inner--standard" : null,
+            ].filter(Boolean).join(" ")}
+          >
             {post.sourceNote ? (
               <aside className="blog-article__source-note" aria-labelledby="article-source-note-title">
                 <h2 id="article-source-note-title">Publication note</h2>
@@ -39,7 +45,7 @@ function PublishedBlogArticle({ post }: { post: BlogPost }) {
             {ArticleBody ? (
               <ArticleBody post={post} />
             ) : (
-              <ArticleMarkdown body={post.body} />
+              <ArticleMarkdown body={post.body} sectioned />
             )}
           </Container>
         </div>
