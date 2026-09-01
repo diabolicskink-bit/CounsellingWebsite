@@ -9,6 +9,7 @@ export const publicRoutePaths = {
   inclusion: "/inclusive-counselling",
   kinkBdsm: "/kink-bdsm-counselling",
   lgbtqia: "/lgbtqia-affirming-counselling",
+  privacyPolicy: "/privacy-policy",
   workingWithJoel: "/working-with-joel",
 } as const satisfies Record<string, PublicRoutePath>;
 

@@ -69,8 +69,8 @@ const homePageContent: HomePageContent = {
   hero: {
     eyebrow: "Online Counselling and Therapy Across Australia",
     title: {
-      before: "Counselling for when life feels ",
-      emphasis: "hard to untangle",
+      before: "Counselling for the ",
+      emphasis: "life you live",
       after: ".",
     },
     contactLink: {

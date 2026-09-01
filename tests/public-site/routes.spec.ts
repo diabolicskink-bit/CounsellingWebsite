@@ -210,6 +210,12 @@ test.describe("crawl output", () => {
       } else {
         expect(routeHtml).not.toContain('<meta name="robots"');
         expect(sitemap).toContain(`<loc>${routeUrl}</loc>`);
+
+        if (metadata.lastModified) {
+          expect(sitemap).toContain(
+            `<url><loc>${routeUrl}</loc><lastmod>${metadata.lastModified}</lastmod></url>`,
+          );
+        }
       }
     }
 

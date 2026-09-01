@@ -38,6 +38,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Aligned the Articles index opening with the supported public hero surface while retaining its page-specific editorial composition and responsive introduction.
 - Extracted one reusable article-masthead component and aligned every article hero with the supported public surface while keeping subject-specific design inside article bodies.
 
+## 2026-09-01 - Private Analytics Visual Boundary Clarified
+
+- Closed `DEBT-41` without a source change after the owner clarified that the private dashboard may have its own CSS and visual language but does not require isolated browser, bundle, or stylesheet architecture.
+- Updated repository guidance so analytics remains visually independent in direction without treating shared global styles or generic foundations as debt by themselves.
+
 ## 2026-08-31 - Public Reduced-Motion Baseline Completed
 
 - Audited every public stylesheet, confirmed the page-owned and shared motion overrides, and added the remaining generic button lift to the reduced-motion fallback.

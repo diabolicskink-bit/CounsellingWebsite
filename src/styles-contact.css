@@ -195,6 +195,7 @@
 }
 
 .contact-page__form-actions {
+  display: grid;
   padding-top: 4px;
 }
 

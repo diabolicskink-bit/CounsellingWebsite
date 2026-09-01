@@ -44,22 +44,6 @@ Statuses:
 
 ## Active Items
 
-### SITE-11 - Website privacy and counselling-boundaries note
-
-- `Priority`: `P1`
-- `Size`: `M`
-- `Status`: `Open`
-- `Classification`: `Content`
-- `Source`: `Fresh site review, src/pages/Contact.tsx`
-- `Visitor-Facing Goal`: Give visitors enough practical trust information to understand website tracking, enquiry-message handling, and the basic boundaries around online counselling.
-- `Current State`: The site explains fees, format, referral, and crisis limits, but it does not yet give a concise public note on website privacy/analytics, enquiry message handling, records, or online-session platform/privacy setup. Microsoft Clarity can load when configured, the enquiry form is explicitly Clarity-masked, and first-party visit recording now initializes Vercel BotID Basic so stored visits can carry a bot verdict and verified bot identity; there is no public analytics/cookie notice yet.
-- `Why Deferred`: The wording needs owner confirmation so the site does not overpromise privacy, confidentiality, security, platform behaviour, or legal limits.
-- `First Useful Slice`: Add a compact Contact FAQ, practical-details note, or footer-linked privacy note that separates website privacy/analytics from counselling confidentiality, explains how enquiry messages are handled, and states what online session setup visitors should expect.
-- `Implemented When`: A visitor can find a clear, accurate website privacy and counselling-boundaries note before submitting the enquiry form.
-- `Notes`:
-  - Keep "confidentiality" language tied to counselling sessions, records, and professional boundaries rather than using it as shorthand for website cookies or analytics.
-- `Links`: `src/pages/Contact.tsx`, `src/components/SiteAnalytics.tsx`
-
 ### SITE-14 - Contact availability and reply-time expectations
 
 - `Priority`: `P2`
