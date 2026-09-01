@@ -67,6 +67,39 @@ test.describe("shared navigation", () => {
     await expect(page).toHaveURL(/\/polyamory-enm-counselling$/);
   });
 
+  test("distinguishes direct Contact visits from virtual Fees navigation", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/contact");
+    await page.getByRole("button", { name: "Open navigation" }).click();
+
+    let mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+    await expect(mobileNavigation.getByRole("link", { name: "Contact", exact: true })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+    await expect(mobileNavigation.getByRole("link", { name: "Fees", exact: true })).not.toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+
+    await page.goto("/");
+    await page.getByRole("button", { name: "Open navigation" }).click();
+    mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+    await mobileNavigation.getByRole("link", { name: "Fees", exact: true }).click();
+    await expect(page).toHaveURL(/\/contact$/);
+    await page.getByRole("button", { name: "Open navigation" }).click();
+
+    mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+    await expect(mobileNavigation.getByRole("link", { name: "Fees", exact: true })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+    await expect(mobileNavigation.getByRole("link", { name: "Contact", exact: true })).not.toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+  });
+
   test("restores mobile menu focus and scroll state", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
@@ -88,5 +121,23 @@ test.describe("shared navigation", () => {
     await page.setViewportSize({ width: 1200, height: 844 });
     await expect(page.getByRole("navigation", { name: "Mobile navigation" })).toHaveCount(0);
     await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("clip");
+  });
+
+  test("removes non-essential shared motion when requested", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+
+    const header = page.getByRole("banner");
+    await expect(header.getByRole("link", { name: "Get in touch" })).toHaveCSS(
+      "transition-duration",
+      "0s",
+    );
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.getByRole("button", { name: "Open navigation" }).click();
+    await expect(page.getByRole("navigation", { name: "Mobile navigation" })).toHaveCSS(
+      "animation-name",
+      "none",
+    );
   });
 });

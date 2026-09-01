@@ -16,6 +16,7 @@
 .contact-page__eyebrow,
 .contact-page__form-eyebrow {
   color: var(--cedar);
+  font-family: var(--font-sans);
   font-size: var(--type-label);
   font-weight: 760;
   letter-spacing: 0.06em;
@@ -99,97 +100,37 @@
   display: none;
 }
 
-.contact-page__form-heading {
-  display: grid;
-  gap: 13px;
-  padding: 42px 44px 30px;
+.contact-page__enquiry-path {
+  position: relative;
 }
 
-.contact-page__form-heading h2 {
-  max-width: 14ch;
-  color: var(--ink);
-  font-size: clamp(2.5rem, 4.7vw, 4rem);
-  letter-spacing: -0.035em;
-  line-height: 0.98;
-}
-
-.contact-page__enquiry-options {
-  min-inline-size: 0;
-  margin: 0;
-  padding: 0 44px 42px;
-  border: 0;
-}
-
-.contact-page__enquiry-option-list {
-  border-top: 1px solid var(--contact-page-rule);
-}
-
-.contact-page__enquiry-option {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 20px;
-  align-items: center;
-  min-height: 72px;
-  padding: 14px 12px;
-  border-bottom: 1px solid var(--contact-page-rule);
-  color: var(--ink);
-  cursor: pointer;
-  transition: background-color 160ms ease;
-}
-
-.contact-page__enquiry-option:hover {
-  background: var(--surface-muted);
-}
-
-.contact-page__enquiry-option:has(input:checked) {
-  background: var(--cedar-soft);
-}
-
-.contact-page__enquiry-option:focus-within {
-  outline: 3px solid rgba(35, 75, 61, 0.18);
-  outline-offset: -3px;
-}
-
-.contact-page__enquiry-option > strong {
-  min-width: 0;
-  font-size: clamp(1.04rem, 1.6vw, 1.22rem);
-  line-height: 1.3;
-}
-
-.contact-page__enquiry-option input {
-  width: 21px;
-  height: 21px;
-  margin: 0 2px 0 0;
-  accent-color: var(--cedar);
+.contact-page__enquiry-path::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 19px;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--cedar);
+  border-bottom: 2px solid var(--cedar);
+  pointer-events: none;
+  transform: translateY(-68%) rotate(45deg);
 }
 
 .contact-page__form-details {
   display: grid;
   gap: 30px;
   padding: 38px 44px 44px;
-  border-top: 1px solid var(--contact-page-rule);
   background: var(--surface-muted);
+}
+
+.contact-page__form-fields--conditional {
   animation: contact-form-details-in 220ms ease both;
 }
 
-.contact-page__form-details-heading {
+.contact-page__form-start {
   display: grid;
-  gap: 8px;
-}
-
-.contact-page__form-details-heading h3 {
-  color: var(--ink);
-  font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 3.1vw, 2.5rem);
-  font-weight: 500;
-  line-height: 1;
-}
-
-.contact-page__form-details-heading p {
-  max-width: 55ch;
-  color: var(--muted);
-  font-size: var(--type-small);
-  line-height: 1.55;
+  gap: 18px;
 }
 
 .contact-page__form-fields {
@@ -229,6 +170,12 @@
     box-shadow 160ms ease;
 }
 
+.contact-page__enquiry-path select {
+  appearance: none;
+  padding-right: 3.25rem;
+  cursor: pointer;
+}
+
 .contact-page__form-field textarea {
   min-height: 128px;
   resize: vertical;
@@ -252,7 +199,6 @@
 }
 
 .contact-page__form-actions .button {
-  width: auto;
   min-width: min(100%, 260px);
 }
 
@@ -448,7 +394,6 @@
 }
 
 .contact-page__practice-heading {
-  display: grid;
   margin-bottom: 42px;
 }
 
@@ -563,7 +508,6 @@
 
 @media (max-width: 700px) {
   .contact-page__hero .contact-page__hero-title {
-    max-width: none;
     font-size: clamp(3.15rem, 14.5vw, 4.2rem);
     line-height: 0.92;
   }
@@ -612,30 +556,6 @@
     box-shadow: none;
   }
 
-  .contact-page__form-heading {
-    gap: 11px;
-    padding: 30px 20px 24px;
-  }
-
-  .contact-page__form-heading h2 {
-    max-width: 13ch;
-    font-size: clamp(2.35rem, 10.5vw, 3rem);
-  }
-
-  .contact-page__enquiry-options {
-    padding: 0 20px 30px;
-  }
-
-  .contact-page__enquiry-option {
-    gap: 12px;
-    min-height: 68px;
-    padding: 12px 8px;
-  }
-
-  .contact-page__enquiry-option > strong {
-    font-size: 1rem;
-  }
-
   .contact-page__form-details {
     gap: 26px;
     padding: 28px 20px 32px;
@@ -652,16 +572,6 @@
 
   .contact-page__form-field--wide {
     grid-column: auto;
-  }
-
-  .contact-page__form-actions {
-    display: grid;
-    gap: 12px;
-    justify-content: start;
-  }
-
-  .contact-page__form-actions .button {
-    width: 100%;
   }
 
   .contact-page__success {
@@ -714,18 +624,10 @@
   .contact-page__fee-list span {
     font-size: 0.8rem;
   }
-
-  .contact-page__enquiry-option {
-    gap: 10px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .contact-page__form-details {
+  .contact-page__form-fields--conditional {
     animation: none;
-  }
-
-  .contact-page__enquiry-option {
-    transition: none;
   }
 }
