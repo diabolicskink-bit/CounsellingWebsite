@@ -19,15 +19,11 @@ export default function BlogIndex() {
         className="site-hero site-hero-surface blog-index__hero"
         aria-labelledby="blog-index-title"
       >
-        <Container className="blog-index__header-grid">
+        <Container>
           <div className="blog-index__hero-heading">
             <p className="site-hero__eyebrow">Vive Counselling</p>
             <h1 className="site-hero__statement" id="blog-index-title">Articles</h1>
           </div>
-          <p className="blog-index__introduction site-reading">
-            Essays and explanatory articles. Topics and formats vary; sources and
-            adaptation notes are included where relevant.
-          </p>
         </Container>
       </header>
 
