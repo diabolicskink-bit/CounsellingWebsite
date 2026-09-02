@@ -509,7 +509,7 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
 
   return (
     <main className="site-page contact-page">
-      <section className="contact-page__hero site-hero-background" aria-labelledby="contact-title">
+      <section className="site-hero contact-page__hero site-hero-surface" aria-labelledby="contact-title">
         <Container>
           <header className="contact-page__hero-content">
             <span className="contact-page__eyebrow">Contact and fees</span>

@@ -25,6 +25,7 @@ const desktopNavigationMediaQuery = "(min-width: 1081px)";
 const homeHref = publicRoutePaths.home;
 const workingWithJoelHref = publicRoutePaths.workingWithJoel;
 const inclusionHref = publicRoutePaths.inclusion;
+const articlesHref = publicRoutePaths.articles;
 const contactHref = publicRoutePaths.contact;
 const crisisSupportHref = publicRoutePaths.crisisSupport;
 const privacyPolicyHref = publicRoutePaths.privacyPolicy;
@@ -151,6 +152,9 @@ export default function Layout() {
                 </li>
                 <li>
                   <Link to={inclusionHref}>Inclusive practice</Link>
+                </li>
+                <li>
+                  <Link to={articlesHref}>Articles</Link>
                 </li>
                 <li>
                   {/* Contact stays visible while analytics records the visitor's Fees intent. */}

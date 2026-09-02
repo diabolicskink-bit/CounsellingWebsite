@@ -48,7 +48,7 @@ export default function PrivacyPolicy() {
     <main className="site-page privacy-policy-page">
       <section
         aria-labelledby="privacy-policy-title"
-        className="privacy-policy-page__hero site-hero-background"
+        className="site-hero site-hero-surface privacy-policy-page__hero"
       >
         <Container>
           <header className="privacy-policy-page__hero-content">

@@ -10,13 +10,13 @@ const cataloguePages = [
     path: devRoutePaths.designSystemFoundations,
   },
   {
-    count: "1 supported component",
+    count: "2 supported components",
     description: "Reusable React contracts with explicit ownership, accessibility, and consumer boundaries.",
     label: "Components",
     path: devRoutePaths.designSystemComponents,
   },
   {
-    count: "2 supported patterns",
+    count: "3 supported patterns",
     description: "Repeated semantic arrangements that coordinate supported implementation without fixing page layout.",
     label: "Patterns",
     path: devRoutePaths.designSystemPatterns,

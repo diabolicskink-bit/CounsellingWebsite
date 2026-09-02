@@ -10,16 +10,19 @@
 }
 
 .crisis-support-page__hero {
-  --hero-display-max-width: 14ch;
+  --site-hero-statement-max-width: 14ch;
 }
 
-.crisis-support-page__hero .hero-badge {
-  color: #d9e5d9;
+.crisis-support-page .crisis-support-page__hero .site-hero__eyebrow {
+  color: var(--site-hero-emphasis-foreground);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.3;
 }
 
-.crisis-support-page__hero .hero-display {
+.crisis-support-page .crisis-support-page__hero .site-hero__statement {
   margin: 0;
-  color: #fcfcfa;
 }
 
 .crisis-support-page__emergency {

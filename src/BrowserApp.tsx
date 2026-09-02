@@ -1,13 +1,15 @@
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
-import type { AppProps } from "./App";
+import App, { type AppProps } from "./App";
 import { AppRoot } from "./AppRoot";
+import { browserArticlePages } from "./content/articles/browserPages";
 
-export function BrowserApp({ initialRenderAt }: AppProps) {
+type BrowserAppProps = Pick<AppProps, "initialRenderAt">;
+
+export function BrowserApp({ initialRenderAt }: BrowserAppProps) {
   return (
     <AppRoot>
       <BrowserRouter>
-        <App initialRenderAt={initialRenderAt} />
+        <App articlePages={browserArticlePages} initialRenderAt={initialRenderAt} />
       </BrowserRouter>
     </AppRoot>
   );

@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
+import {
+  articleMetadata,
+  getArticlePath,
+  getArticleRouteMetadata,
+} from "../../src/content/articles/manifest.ts";
 import { renderRouteStructuredDataTag } from "../../scripts/route-structured-data.mjs";
 
 const metadata = JSON.parse(
@@ -78,4 +83,66 @@ test("publishes the visible Crisis Support review and authorship details", () =>
   assert.equal(page.lastReviewed, metadata.routes[routePath].lastReviewed);
   assert.deepEqual(page.author, { "@id": `${metadata.site.defaultOrigin}/#organization` });
   assert.deepEqual(page.publisher, { "@id": `${metadata.site.defaultOrigin}/#organization` });
+});
+
+test("renders CollectionPage structured data for the article index", () => {
+  const routePath = "/articles";
+  const structuredData = parseStructuredDataTag(renderRouteStructuredDataTag({
+    routeMetadata: metadata.routes[routePath],
+    routePath,
+    siteMetadata: metadata.site,
+    siteOrigin: metadata.site.defaultOrigin,
+    structuredDataType: "collection",
+  }));
+
+  assert.equal(structuredData["@type"], "CollectionPage");
+  assert.equal(structuredData.url, `${metadata.site.defaultOrigin}${routePath}`);
+});
+
+test("renders article dates, authorship, and visible breadcrumb hierarchy", () => {
+  for (const articleMetadataEntry of articleMetadata) {
+    const routePath = getArticlePath(articleMetadataEntry.slug);
+    const routeMetadata = getArticleRouteMetadata()[routePath];
+    const structuredData = parseStructuredDataTag(renderRouteStructuredDataTag({
+      routeMetadata,
+      routePath,
+      siteMetadata: metadata.site,
+      siteOrigin: metadata.site.defaultOrigin,
+      structuredDataType: "article",
+    }));
+    const page = structuredData["@graph"].find((node) => node["@type"] === "WebPage");
+    const article = structuredData["@graph"].find((node) => node["@type"] === "Article");
+    const breadcrumb = structuredData["@graph"]
+      .find((node) => node["@type"] === "BreadcrumbList");
+    const pageUrl = `${metadata.site.defaultOrigin}${routePath}`;
+
+    assert.ok(page);
+    assert.ok(article);
+    assert.ok(breadcrumb);
+    assert.deepEqual(page.breadcrumb, { "@id": `${pageUrl}#breadcrumb` });
+    assert.deepEqual(breadcrumb.itemListElement, [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Articles",
+        item: `${metadata.site.defaultOrigin}/articles`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: articleMetadataEntry.topic,
+      },
+    ]);
+    assert.equal(article.headline, articleMetadataEntry.title);
+    assert.equal(article.datePublished, articleMetadataEntry.publishedAt);
+    assert.equal(
+      article.dateModified,
+      articleMetadataEntry.updatedAt ?? articleMetadataEntry.publishedAt,
+    );
+    assert.equal(article.author.name, articleMetadataEntry.author);
+    assert.equal(
+      routeMetadata.lastModified,
+      articleMetadataEntry.updatedAt ?? articleMetadataEntry.publishedAt,
+    );
+  }
 });

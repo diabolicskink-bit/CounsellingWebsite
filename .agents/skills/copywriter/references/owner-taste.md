@@ -26,6 +26,8 @@ owner feedback or approved public wording.
 - Some development is useful in the first substantial section, but length must
   come from something worth saying rather than category expansion.
 - Avoid em dashes in public copy.
+- Use APA 7 for every article reference list, with in-text author/year details
+  kept consistent and DOI or stable source links stored separately.
 
 These are ingredients and priorities. They are not a prescribed sentence or
 one-paragraph-per-topic structure.

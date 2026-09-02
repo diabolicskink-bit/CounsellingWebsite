@@ -1190,27 +1190,16 @@ h3 {
   }
 }
 
+.site-emphasis {
+  color: var(--cedar);
+  font-style: normal;
+  font-weight: 600;
+}
+
 /* ---------------------------------------------------------------------------
-   HISTORICAL SHARED HERO PRIMITIVES
-   Shared hero classes retained for existing consumers and catalogue reconciliation.
-   Their presence does not make them canonical guidance for new or redesigned pages.
+   REMAINING HISTORICAL HERO PRIMITIVES
+   These mounted selectors remain outside the supported design system.
    --------------------------------------------------------------------------- */
-
-/* Wrapper ------------------------------------------------------------------ */
-
-.hero-section {
-  --hero-badge-display-gap: 16px;
-
-  position: relative;
-  isolation: isolate;
-  width: 100%;
-  padding: 40px 0;
-}
-
-.hero-section > .container {
-  position: relative;
-  z-index: 1;
-}
 
 /* Top zone: heading + copy column ------------------------------------------ */
 
@@ -1220,34 +1209,6 @@ h3 {
   gap: 72px;
   align-items: center;
   padding-bottom: 0;
-}
-
-/* Display statement -------------------------------------------------------- */
-/* .hero-display is the authoritative page-opening display statement for production heroes.
-   If a page only needs a different title measure, set --hero-display-max-width on the
-   page scope instead of introducing another page-specific display class. */
-
-.hero-display {
-  max-width: var(--hero-display-max-width, 18ch);
-  font-family: var(--font-serif);
-  font-size: var(--type-display);
-  font-weight: 500;
-  line-height: var(--leading-display);
-  letter-spacing: 0;
-  color: var(--color-heading, var(--ink));
-  margin: 0 0 32px;
-  text-wrap: balance;
-}
-
-.hero-badge + .hero-display {
-  margin-top: var(--hero-badge-display-gap, 16px);
-}
-
-.site-emphasis,
-.hero-display em {
-  font-style: normal;
-  color: var(--cedar);
-  font-weight: 600;
 }
 
 /* Right-column copy panel -------------------------------------------------- */
@@ -1292,21 +1253,6 @@ h3 {
   margin-inline: 12px;
   border-radius: 999px;
   background: rgba(35, 75, 61, 0.56);
-}
-
-.hero-badge,
-h1.hero-badge {
-  display: block;
-  width: fit-content;
-  max-width: none;
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: var(--type-caption);
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.3;
-  text-transform: uppercase;
-  color: var(--cedar);
 }
 
 /* DS page demo wrappers ---------------------------------------------------- */

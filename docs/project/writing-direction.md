@@ -75,6 +75,13 @@ identification or retrieval. Keep visible wording, metadata, structured data,
 links, and service facts aligned without making the prose carry every term.
 Name online delivery where it answers a practical question or search intent.
 
+## Article citations and references
+
+Use APA 7 for every article reference list. Keep entries alphabetical, keep
+in-text author and year details consistent with the bibliography, and store the
+DOI or stable source page in the template's separate link field. Verify the
+bibliographic details against the source before publishing.
+
 ## Collaboration and review
 
 Match the requested scope. Review and analysis do not authorise file changes;

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useLayoutEffect } from "react";
+import { lazy, Suspense, useLayoutEffect, type ComponentType } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
@@ -41,6 +41,7 @@ const analyticsRoutes = [
 
 const devRoutes = import.meta.env.DEV
   ? [
+      { path: devRoutePaths.articleEditor, Page: lazy(() => import("./pages/dev/ArticleEditor")) },
       { path: devRoutePaths.codexTestBed, Page: lazy(() => import("./pages/dev/test-beds/CodexTB")) },
       { path: devRoutePaths.designSystem, Page: lazy(() => import("./pages/dev/DesignSystem")) },
       {
@@ -60,7 +61,13 @@ const devRoutes = import.meta.env.DEV
     ]
   : [];
 
+export type ArticlePageComponents = Readonly<{
+  Page: ComponentType;
+  Index: ComponentType;
+}>;
+
 export type AppProps = {
+  articlePages: ArticlePageComponents;
   initialRenderAt: string;
 };
 
@@ -90,7 +97,9 @@ function AnalyticsRoute() {
   );
 }
 
-export default function App({ initialRenderAt }: AppProps) {
+export default function App({ articlePages, initialRenderAt }: AppProps) {
+  const { Index: ArticleIndex, Page: ArticlePage } = articlePages;
+
   return (
     <>
       <ScrollToTop />
@@ -110,6 +119,22 @@ export default function App({ initialRenderAt }: AppProps) {
           <Route path={publicRoutePaths.kinkBdsm} element={<KinkBdsmCounselling />} />
           <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
           <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
+          <Route
+            path={publicRoutePaths.articles}
+            element={(
+              <Suspense fallback={null}>
+                <ArticleIndex />
+              </Suspense>
+            )}
+          />
+          <Route
+            path={`${publicRoutePaths.articles}/:slug`}
+            element={(
+              <Suspense fallback={null}>
+                <ArticlePage />
+              </Suspense>
+            )}
+          />
           <Route path={publicRoutePaths.crisisSupport} element={<CrisisSupport />} />
           <Route path={publicRoutePaths.privacyPolicy} element={<PrivacyPolicy />} />
           {devRoutes.map(({ Page, path }) => (

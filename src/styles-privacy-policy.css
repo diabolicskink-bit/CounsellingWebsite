@@ -4,7 +4,6 @@
   display: grid;
   gap: 16px;
   max-width: 780px;
-  padding-block: 40px;
 }
 
 .privacy-policy-page .privacy-policy-page__title {

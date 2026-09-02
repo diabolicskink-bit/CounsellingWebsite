@@ -1,6 +1,7 @@
 import type { PublicRoutePath } from "./routeMetadata";
 
 export const publicRoutePaths = {
+  articles: "/articles",
   contact: "/contact",
   crisisSupport: "/crisis-support",
   enmPolyamory: "/polyamory-enm-counselling",
@@ -52,6 +53,7 @@ export function isPrivateRoutePath(pathname: string) {
 }
 
 export const devRoutePaths = {
+  articleEditor: "/article-editor",
   codexTestBed: "/codex-tb",
   designSystem: "/design-system",
   designSystemComponents: "/design-system/components",
@@ -68,5 +70,8 @@ const sharedChromePaths = new Set<string>([
 ]);
 
 export function usesSharedChromePath(pathname: string) {
-  return sharedChromePaths.has(normalizeRoutePath(pathname));
+  const normalizedPath = normalizeRoutePath(pathname);
+
+  return sharedChromePaths.has(normalizedPath)
+    || normalizedPath.startsWith(`${publicRoutePaths.articles}/`);
 }

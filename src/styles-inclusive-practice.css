@@ -2,19 +2,10 @@
   background: var(--section-warm);
 }
 
-.inclusion-hub-page .hero-badge {
-  max-width: none;
-  color: #c8d9cc;
-  font-size: var(--type-label);
-  font-weight: 760;
-  letter-spacing: 0.065em;
-  line-height: 1.35;
-}
-
 .inclusion-hub-page__hero-promise {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: var(--hero-badge-display-gap);
+  margin-top: var(--site-hero-eyebrow-gap);
   border-top: 1px solid var(--section-dark-rule);
 }
 
@@ -26,7 +17,7 @@
   max-width: 12ch;
   margin: 0;
   padding: 24px clamp(32px, 4.4vw, 68px) 0 0;
-  color: #fcfcfa;
+  color: var(--site-hero-foreground);
   font-family: var(--font-serif);
   font-size: clamp(3rem, 3.8vw, 3.8rem);
   font-weight: 500;
@@ -37,7 +28,7 @@
 
 .inclusion-hub-page .inclusion-hub-page__hero-promise-line + .inclusion-hub-page__hero-promise-line {
   padding-left: 0;
-  color: #d9e5d9;
+  color: var(--site-hero-emphasis-foreground);
 }
 
 .inclusion-hub-page .inclusion-hub-page__hero-support {
@@ -46,7 +37,7 @@
   margin: 22px 0 0;
   padding: 22px 0 0;
   border-top: 1px solid var(--section-dark-rule);
-  color: rgba(239, 244, 240, 0.86);
+  color: var(--site-hero-supporting-foreground);
   text-wrap: pretty;
 }
 

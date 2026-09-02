@@ -299,6 +299,94 @@ function renderCrisisSupportStructuredData(routeMetadata, siteMetadata, siteOrig
   });
 }
 
+function renderCollectionStructuredData(routePath, routeMetadata, siteMetadata, siteOrigin) {
+  const ids = createStructuredDataIds(siteMetadata, siteOrigin);
+  const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
+
+  return renderStructuredDataTag({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${pageUrl}#articles`,
+    url: pageUrl,
+    name: routeMetadata.title,
+    description: routeMetadata.description,
+    isPartOf: { "@id": ids.websiteId },
+    publisher: { "@id": ids.organizationId },
+    author: { "@id": ids.personId },
+  });
+}
+
+function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, siteOrigin) {
+  const ids = createStructuredDataIds(siteMetadata, siteOrigin);
+  const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
+  const pageId = `${pageUrl}#webpage`;
+  const articleId = `${pageUrl}#article`;
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
+  const publishedAt = validateIsoDate(routeMetadata.publishedAt, `Article publishedAt (${routePath})`);
+  const modifiedAt = validateIsoDate(
+    routeMetadata.modifiedAt ?? publishedAt,
+    `Article modifiedAt (${routePath})`,
+  );
+
+  return renderStructuredDataTag({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": pageId,
+        url: pageUrl,
+        name: routeMetadata.title,
+        description: routeMetadata.description,
+        isPartOf: { "@id": ids.websiteId },
+        mainEntity: { "@id": articleId },
+        breadcrumb: { "@id": breadcrumbId },
+      },
+      {
+        "@type": "Article",
+        "@id": articleId,
+        url: pageUrl,
+        headline: routeMetadata.headline ?? routeMetadata.title,
+        ...(routeMetadata.abstract ? { abstract: routeMetadata.abstract } : {}),
+        description: routeMetadata.description,
+        datePublished: publishedAt,
+        dateModified: modifiedAt,
+        articleSection: routeMetadata.articleSection,
+        author: {
+          "@type": "Person",
+          "@id": ids.personId,
+          name: routeMetadata.authorName ?? siteMetadata.person.name,
+          url: ids.profileUrl,
+        },
+        publisher: {
+          "@type": "Organization",
+          "@id": ids.organizationId,
+          name: siteMetadata.name,
+          url: ids.homepageUrl,
+        },
+        image: getAssetUrl(siteOrigin, siteMetadata.socialImage),
+        mainEntityOfPage: { "@id": pageId },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Articles",
+            item: getAbsoluteUrl(siteOrigin, "/articles"),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: routeMetadata.articleSection,
+          },
+        ],
+      },
+    ],
+  });
+}
+
 export function renderRouteStructuredDataTag({
   routeMetadata,
   routePath,
@@ -322,6 +410,10 @@ export function renderRouteStructuredDataTag({
       );
     case "crisis-support":
       return renderCrisisSupportStructuredData(routeMetadata, siteMetadata, siteOrigin);
+    case "collection":
+      return renderCollectionStructuredData(routePath, routeMetadata, siteMetadata, siteOrigin);
+    case "article":
+      return renderArticleStructuredData(routePath, routeMetadata, siteMetadata, siteOrigin);
     default:
       throw new Error(
         `Unsupported structured-data type for ${routePath}: ${structuredDataType}`,

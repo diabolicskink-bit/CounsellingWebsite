@@ -45,6 +45,7 @@ test("route matching normalizes case and trailing slashes", () => {
   assert.equal(normalizeRoutePath("/"), "/");
   assert.equal(normalizeRoutePath("/CONTACT/"), "/contact");
   assert.equal(usesSharedChromePath("/CONTACT/"), true);
+  assert.equal(usesSharedChromePath("/ARTICLES/AN-ARTICLE/"), true);
   assert.equal(usesSharedChromePath("/"), false);
   assert.equal(
     getTrackedPagePath("/CONTACT/", { trackedPagePath: feesRoutePath }),

@@ -18,6 +18,73 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-02 - Perfectionism Article Given A Subject-Specific Reading Treatment
+
+- Added a restrained custom body presentation for the self-critical perfectionism article while preserving the shared article hero, publication shell, continuous prose measure, and references ledger.
+- Turned the article's existing internal equation, less-visible signs, and maintenance cycle into distinct responsive information forms using the established palette and typography.
+- Limited copy changes to one emphasised thesis, compact phrasing within the two list treatments, and a Contact link; the article's argument remains unchanged.
+
+## 2026-09-02 - Sample Articles Removed
+
+- Removed the ant-colony and dinosaur-fossil sample publications from the public article manifest and typed content registry.
+- Deleted their sample-only templates, React body presentations, and scoped styles; both former article URLs now use the ordinary Not Found boundary.
+- Kept the generic sample and custom-presentation publishing capabilities available for future deliberate use, with no current article using either.
+
+## 2026-09-02 - Self-Critical Perfectionism Article Published
+
+- Added the standard article `Self-Critical Perfectionism: When Nothing Feels Good Enough` with its supplied title, excerpt, description, publication copy, and 17-source reference set.
+- Reconstructed the pasted document's section hierarchy, example list, maintenance cycle, displayed internal equation, and structured APA-style reference ledger without rewriting its wording.
+- Added an optional article metadata-title override so a concise search title can coexist with the longer visible publication title and structured-data headline.
+
+## 2026-09-02 - Article Publishing Language Standardised
+
+- Standardised the publication domain on article language across routes, source paths, types, components, styles, tests, and project documentation.
+- Established `/articles` and `/articles/:slug` as the canonical public routes, with matching metadata, analytics, prerender, sitemap, and navigation contracts.
+- Aligned structured data with the section's role: `CollectionPage` for the Articles index and `Article` for each published article.
+- Added an article-level `BreadcrumbList` that matches the visible `Articles` and topic navigation while preserving the existing collection, article, author, and publisher types.
+
+## 2026-09-01 - Local Article Editor Added
+
+- Added a development-only `/article-editor` that turns existing Markdown bodies into wrapped, auto-height editing blocks and provides separate structured fields for APA citations and DOI or stable source URLs.
+- The editor can add, remove, and alphabetise references and rewrites only the selected article's small body-and-reference template through its localhost-only Vite save path; metadata remains source-only and the editor is absent from production.
+- Recorded APA 7 as the standing editorial convention without adding an automated compliance or build-validation layer.
+
+## 2026-09-01 - Academic References Standardised
+
+- Standardised the kink-affirming therapy article's 12 academic references to APA 7 bibliographic form, including visible DOI URLs, the DSM-5-TR DOI, and the Finland study's 2023 issue year in both the reference and in-text citation.
+- Changed the shared reference ledger from visual numbering and generic source actions to an unnumbered hanging-indent presentation with the stored DOI or source URL shown directly.
+
+## 2026-09-01 - Per-Article Content Templates Added
+
+- Moved every Markdown body into its own typed module under `src/content/articles/articleTemplates/`, leaving `articles.ts` as the small compile-time checked pairing registry between templates and the lightweight publication manifest.
+- Made references an ordered first-class field on each article template and introduced one dedicated renderer for source count, Markdown citation content, numbering and responsive source-ledger presentation.
+
+## 2026-09-01 - Standard Article Reading System Established
+
+- Kept the approved shared `<ArticleHero />` while giving standard Markdown article bodies their own centred reading composition, paragraph typography, heading rhythm, lists, quotations and tables instead of inheriting the public `.site-reading` role.
+- Tightened continuous prose leading and section transitions, widened the desktop reading measure, and kept headings directly above their sections after rejecting a marginal-heading exploration.
+- Made an exact `## References` section render as a wider source ledger with a visible source count, compact citations, ruled entries and visual numbering; registered custom article presentations retain their own body compositions.
+
+## 2026-09-01 - Design-System Naming Convention Formalized
+
+- Established one public naming scheme: site-wide CSS uses `site-*`, component CSS roots match role-based PascalCase component names, owned custom properties carry their contract prefix, and feature-local styles retain their feature namespace outside the public API.
+- Standardised the earlier article-hero component as `<ArticleHero />`, renamed `.site-hero-background` to `.site-hero-surface`, and renamed the hero spacing property to `--site-hero-eyebrow-gap`; moved `.article-hero*` into the supported Components stylesheet without changing the approved visual treatment.
+- Removed the remaining reading-time estimate and its unused calculator from the Articles index.
+
+## 2026-09-01 - Approved Hero Structure Promoted
+
+- Replaced the ambiguous `.hero-section`, `.hero-badge`, and `.hero-display` names with the supported `.site-hero`, `.site-hero__eyebrow`, and `.site-hero__statement` contract after verifying every current public and development hero consumer.
+- Consolidated the shared frame, eyebrow styling, opening-statement styling, spacing, and four dark-hero foreground roles while keeping the approved Home, Working with Joel, specialist, Articles, Contact, and other page compositions authoritative.
+- Promoted the self-styled article hero, now named `<ArticleHero />`, as the canonical opening for every article route and kept all subject-specific presentation below that boundary.
+- Removed the promoted primitives from the legacy source/register and added source-backed rendered pattern and component specimens; the remaining inherited hero helpers stay outside the active system.
+
+## 2026-09-01 - Article Publishing Foundation Strengthened
+
+- Separated the lightweight article manifest from Markdown bodies and lazy-loaded the public Articles pages in browser builds while preserving complete synchronous server prerendering.
+- Closed the publishing contract around required metadata, real and ordered publication dates, typed custom presentations, matching bodies, and article sitemap `lastmod` output, with focused script and browser coverage.
+- Aligned the Articles index opening with the supported public hero surface while retaining its page-specific editorial composition and responsive introduction.
+- Extracted one reusable article-masthead component and aligned every article hero with the supported public surface while keeping subject-specific design inside article bodies.
+
 ## 2026-09-02 - First-Party Analytics Collection Expanded
 
 - Added controlled `instagram_link_clicked`, `linkedin_link_clicked`, and `email_link_clicked` events for configured public social profiles and React-rendered email links, retaining each event's active visit and page-view association independently of GA and Clarity.
@@ -259,6 +326,13 @@ Curated milestone history for durable project state. This is not a full changelo
 - Connected: Contact now directs urgent visitors away from the enquiry form to the dedicated route, and the shared footer gives Crisis Support a permanent site-wide entry point.
 - Published: Route metadata, server prerendering, sitemap output, raw-output contracts, phone destinations, service counts, and accessibility smoke coverage now include the eighth public content route.
 
+## 2026-08-12 - Public Article Publishing System Added
+
+- Added: A public `/articles` index and statically prerendered `/articles/:slug` article routes, linked as Articles from shared desktop, mobile, and footer navigation.
+- Added: A typed, code-managed article registry with slug and date validation, chronological ordering, Markdown article rendering, reading-time display, abstracts and source notes, generated route metadata, canonical sitemap handling, article Open Graph metadata, and `CollectionPage` / `Article` structured data.
+- Added and documented: Optional registered React presentations allow a subject-specific article body and scoped stylesheet while preserving the shared publication shell. Ant and dinosaur articles demonstrate two distinct presentations and are explicitly labelled as samples, marked `noindex, nofollow`, and omitted from the sitemap.
+- Verified: Production build prerendered all core and article routes; focused TypeScript, script, and browser coverage includes index/article navigation, no-JavaScript output, unknown slugs, metadata, and sitemap behaviour.
+
 ## 2026-08-11 - Homepage Specialist-Practice Section Rebuilt
 
 - Replaced: The generic `Bring all of yourself` split section is now a direct `Inclusive practice` section centred on what Joel already knows before counselling begins.
@@ -321,9 +395,9 @@ Curated milestone history for durable project state. This is not a full changelo
 - Scoped: Home is the only verified production consumer today. Rollout to the other non-Contact public pages remains separate work.
 - Rendered: The Components catalogue and `/design-system` workspace now expose the real production component.
 
-## 2026-08-05 - Shared Hero Background Promoted
+## 2026-08-05 - Shared Hero Surface Promoted
 
-- Promoted: `.site-hero-background` now owns the dark-green gradient, clipping, isolation, and lower boundary used by every public-route hero while leaving hero layout, content, typography, actions, and responsive composition page-owned.
+- Promoted: The shared hero surface, now named `.site-hero-surface`, owns the dark-green gradient, clipping, isolation, and lower boundary used by every public-route hero while leaving hero layout, content, typography, actions, and responsive composition page-owned.
 - Migrated: Home, Working with Joel, Inclusion, all three specialist routes, Contact, the Design System cover, Documents hero, and shared development test-bed hero now use the supported surface.
 - Removed: Deleted the obsolete light `.hero-bg--default` helper, its unused noise asset, and repeated page-level hero background declarations after migrating all consumers.
 - Rendered: Patterns now shows the real supported hero surface alongside the warm editorial-section contract.

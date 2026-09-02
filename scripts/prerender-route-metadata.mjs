@@ -48,6 +48,10 @@ const publicRouteContracts = {
     expectedMainClass: "site-page lgbtqia-page",
     structuredDataType: "specialist-service",
   },
+  "/articles": {
+    expectedMainClass: "site-page article-index",
+    structuredDataType: "collection",
+  },
   "/crisis-support": {
     expectedMainClass: "site-page crisis-support-page",
     structuredDataType: "crisis-support",
@@ -107,14 +111,27 @@ function renderPublicDocumentMetadata(
     siteOrigin,
     structuredDataType: routeContract.structuredDataType,
   });
+  const isArticle = routeMetadata.pageType === "article";
+  const articleMetadataTags = isArticle
+    ? [
+        `<meta property="article:published_time" content="${escapeHtml(routeMetadata.publishedAt)}" />`,
+        `<meta property="article:modified_time" content="${escapeHtml(
+          routeMetadata.modifiedAt ?? routeMetadata.publishedAt,
+        )}" />`,
+        `<meta property="article:section" content="${escapeHtml(routeMetadata.articleSection)}" />`,
+      ]
+    : [];
 
   return renderDocumentMetadata(
     [
       `<title>${escapeHtml(routeMetadata.title)}</title>`,
       `<meta name="description" content="${escapeHtml(routeMetadata.description)}" />`,
+      ...(routeMetadata.robots
+        ? [`<meta name="robots" content="${escapeHtml(routeMetadata.robots)}" />`]
+        : []),
       `<link rel="canonical" href="${escapeHtml(pageUrl)}" />`,
       `<meta property="og:site_name" content="${escapeHtml(siteMetadata.name)}" />`,
-      '<meta property="og:type" content="website" />',
+      `<meta property="og:type" content="${isArticle ? "article" : "website"}" />`,
       `<meta property="og:url" content="${escapeHtml(pageUrl)}" />`,
       `<meta property="og:title" content="${escapeHtml(routeMetadata.title)}" />`,
       `<meta property="og:description" content="${escapeHtml(routeMetadata.description)}" />`,
@@ -122,6 +139,7 @@ function renderPublicDocumentMetadata(
       '<meta property="og:image:width" content="1200" />',
       '<meta property="og:image:height" content="630" />',
       `<meta property="og:image:alt" content="${escapeHtml(siteMetadata.socialImageAlt)}" />`,
+      ...articleMetadataTags,
       '<meta name="twitter:card" content="summary_large_image" />',
       `<meta name="twitter:title" content="${escapeHtml(routeMetadata.title)}" />`,
       `<meta name="twitter:description" content="${escapeHtml(routeMetadata.description)}" />`,
@@ -327,14 +345,11 @@ function getPublicRouteEntries(routes) {
   const routeEntries = Object.entries(routes);
 
   for (const [routePath, routeMetadata] of routeEntries) {
-    if (!Object.hasOwn(publicRouteContracts, routePath)) {
-      throw new Error(`Metadata route is missing its prerender contract: ${routePath}`);
-    }
+    const isArticleRoute = routePath.startsWith("/articles/")
+      && routeMetadata.pageType === "article";
 
-    if (Object.hasOwn(routeMetadata, "robots")) {
-      throw new Error(
-        `Public metadata routes are indexable and cannot set robots: ${routePath}`,
-      );
+    if (!Object.hasOwn(publicRouteContracts, routePath) && !isArticleRoute) {
+      throw new Error(`Metadata route is missing its prerender contract: ${routePath}`);
     }
   }
 
@@ -344,29 +359,35 @@ function getPublicRouteEntries(routes) {
     }
   }
 
-  return routeEntries.map(([routePath, routeMetadata]) => ({
-    routeContract: publicRouteContracts[routePath],
-    routeMetadata,
-    routePath,
-  }));
+  return routeEntries.map(([routePath, routeMetadata]) => {
+    const routeContract = publicRouteContracts[routePath]
+      ?? {
+        expectedMainClass: "site-page article-page",
+        structuredDataType: "article",
+      };
+
+    return { routeContract, routeMetadata, routePath };
+  });
 }
 
 function renderSitemapEntries(publicRoutes, siteOrigin) {
-  return publicRoutes.map(({ routeMetadata, routePath }) => {
-    const lastModified = routeMetadata.lastModified;
+  return publicRoutes
+    .filter(({ routeMetadata }) => !routeMetadata.robots)
+    .map(({ routeMetadata, routePath }) => {
+      const lastModified = routeMetadata.lastModified;
 
-    if (lastModified) {
-      validateIsoDate(lastModified, `Indexable route lastModified (${routePath})`);
-    }
+      if (lastModified) {
+        validateIsoDate(lastModified, `Indexable route lastModified (${routePath})`);
+      }
 
-    const lastModifiedElement = lastModified
-      ? `<lastmod>${escapeXml(lastModified)}</lastmod>`
-      : "";
+      const lastModifiedElement = lastModified
+        ? `<lastmod>${escapeXml(lastModified)}</lastmod>`
+        : "";
 
-    const routeUrl = escapeXml(getAbsoluteUrl(siteOrigin, routePath));
+      const routeUrl = escapeXml(getAbsoluteUrl(siteOrigin, routePath));
 
-    return `  <url><loc>${routeUrl}</loc>${lastModifiedElement}</url>`;
-  });
+      return `  <url><loc>${routeUrl}</loc>${lastModifiedElement}</url>`;
+    });
 }
 
 async function writeOutputFile(outputPath, contents) {
@@ -379,10 +400,8 @@ const [templateHtml, metadataJson] = await Promise.all([
   readFile(metadataPath, "utf8"),
 ]);
 
-const { notFound: notFoundMetadata, routes, site } = JSON.parse(metadataJson);
-const publicRoutes = getPublicRouteEntries(routes);
+const { notFound: notFoundMetadata, routes: baseRoutes, site } = JSON.parse(metadataJson);
 const siteOrigin = getSiteOrigin(site);
-const sitemapEntries = renderSitemapEntries(publicRoutes, siteOrigin);
 const prerenderedAt = new Date().toISOString();
 
 process.env.NODE_ENV = "production";
@@ -391,6 +410,13 @@ const serverEntry = await import(pathToFileURL(serverEntryPath).href);
 if (typeof serverEntry.renderRoute !== "function") {
   throw new Error(`Server render bundle does not export renderRoute: ${serverEntryPath}`);
 }
+
+const additionalRoutes = typeof serverEntry.getAdditionalPrerenderRouteMetadata === "function"
+  ? serverEntry.getAdditionalPrerenderRouteMetadata()
+  : {};
+const routes = { ...baseRoutes, ...additionalRoutes };
+const publicRoutes = getPublicRouteEntries(routes);
+const sitemapEntries = renderSitemapEntries(publicRoutes, siteOrigin);
 
 const publicRouteOutputs = publicRoutes.flatMap(({
   routeContract,

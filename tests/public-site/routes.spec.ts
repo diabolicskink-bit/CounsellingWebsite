@@ -1,6 +1,11 @@
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "playwright/test";
+import {
+  articleMetadata,
+  getArticlePath,
+  getArticleRouteMetadata,
+} from "../../src/content/articles/manifest";
 import type {
   NotFoundMetadata,
   RouteMetadata,
@@ -15,9 +20,13 @@ const routeMetadataData = JSON.parse(
   routes: Record<string, RouteMetadata>;
 };
 
-const publicRoutes = Object.keys(routeMetadataData.routes);
+const publicRouteMetadata: Record<string, RouteMetadata> = {
+  ...routeMetadataData.routes,
+  ...getArticleRouteMetadata(),
+};
+const publicRoutes = Object.keys(publicRouteMetadata);
 const notFoundPath = "/not-a-real-page";
-const unavailableProductionRoutes = ["/design-language", "/design-system"] as const;
+const unavailableProductionRoutes = ["/article-editor", "/design-language", "/design-system"] as const;
 const siteOrigin = (process.env.SITE_URL ?? routeMetadataData.site.defaultOrigin).replace(/\/$/, "");
 
 function escapeHtml(value: string) {
@@ -112,7 +121,7 @@ test.describe("route health", () => {
 
       await page.goto(route);
 
-      await expect(page).toHaveTitle(routeMetadataData.routes[route].title);
+      await expect(page).toHaveTitle(publicRouteMetadata[route].title);
       await expect(page.getByRole("main")).toHaveCount(1);
       await expect(page.getByRole("main")).toBeVisible();
       await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
@@ -150,7 +159,7 @@ test.describe("rendering boundaries", () => {
     await expectNotFoundPage(page, "/404.html");
     await page.getByRole("link", { name: "Go to homepage" }).click();
 
-    const homeMetadata = routeMetadataData.routes["/"];
+    const homeMetadata = publicRouteMetadata["/"];
 
     await expect(page).toHaveURL(/\/$/);
     await expect(page).toHaveTitle(homeMetadata.title);
@@ -184,8 +193,8 @@ test.describe("crawl output", () => {
     expect(sitemapResponse.ok()).toBeTruthy();
 
     for (const route of publicRoutes) {
-      const metadata = routeMetadataData.routes[route];
       const routeUrl = route === "/" ? `${siteOrigin}/` : `${siteOrigin}${route}`;
+      const metadata = publicRouteMetadata[route];
       const routeResponse = await request.get(route);
       const routeHtml = await routeResponse.text();
 
@@ -195,13 +204,34 @@ test.describe("crawl output", () => {
         `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
       );
       expect(routeHtml).toContain(`<link rel="canonical" href="${routeUrl}" />`);
-      expect(sitemap).toContain(`<loc>${routeUrl}</loc>`);
+      if (metadata.robots) {
+        expect(routeHtml).toContain(`<meta name="robots" content="${metadata.robots}" />`);
+        expect(sitemap).not.toContain(`<loc>${routeUrl}</loc>`);
+      } else {
+        expect(routeHtml).not.toContain('<meta name="robots"');
+        expect(sitemap).toContain(`<loc>${routeUrl}</loc>`);
 
-      if (metadata.lastModified) {
-        expect(sitemap).toContain(
-          `<url><loc>${routeUrl}</loc><lastmod>${metadata.lastModified}</lastmod></url>`,
-        );
+        if (metadata.lastModified) {
+          expect(sitemap).toContain(
+            `<url><loc>${routeUrl}</loc><lastmod>${metadata.lastModified}</lastmod></url>`,
+          );
+        }
       }
+    }
+
+    const crisisSupportUrl = `${siteOrigin}/crisis-support`;
+    const crisisSupportLastModified = routeMetadataData.routes["/crisis-support"].lastModified;
+
+    expect(crisisSupportLastModified).toBeTruthy();
+    expect(sitemap).toContain(
+      `<url><loc>${crisisSupportUrl}</loc><lastmod>${crisisSupportLastModified}</lastmod></url>`,
+    );
+
+    for (const article of articleMetadata) {
+      const route = getArticlePath(article.slug);
+      const routeUrl = `${siteOrigin}${route}`;
+
+      expect(sitemap.includes(`<loc>${routeUrl}</loc>`)).toBe(!article.isSample);
     }
   });
 });

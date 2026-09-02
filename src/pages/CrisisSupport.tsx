@@ -250,11 +250,11 @@ export default function CrisisSupport() {
     <main className="site-page crisis-support-page">
       <section
         aria-labelledby="crisis-support-title"
-        className="hero-section site-hero-background crisis-support-page__hero"
+        className="site-hero site-hero-surface crisis-support-page__hero"
       >
         <Container>
-          <p className="hero-badge">Crisis support services</p>
-          <h1 className="hero-display" id="crisis-support-title">
+          <p className="site-hero__eyebrow">Crisis support services</p>
+          <h1 className="site-hero__statement" id="crisis-support-title">
             Australian urgent mental health support services.
           </h1>
         </Container>
