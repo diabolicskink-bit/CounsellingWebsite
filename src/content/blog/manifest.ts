@@ -34,7 +34,7 @@ const requiredTextFields = [
 const publishedBlogPostMetadata = [
   {
     abstract:
-      "Kink-affirming therapy asks what kink means in a person's life without treating it as either the problem or beyond question. That requires knowledge, not just tolerance.",
+      "Good intentions are not enough for kink-affirming therapy. A therapist needs to understand BDSM well enough to explore what it means without mistaking consensual power for pathology or overlooking genuine harm.",
     author: "Joel Griffiths",
     description:
       "What kink-affirming therapy means in practice, including therapist knowledge, trauma, consent, stigma and the difference between acceptance and competence.",

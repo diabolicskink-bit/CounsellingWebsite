@@ -2,7 +2,9 @@ import { defineBlogPostTemplate } from "../postTemplate.ts";
 
 export default defineBlogPostTemplate({
   slug: "what-is-kink-affirming-therapy",
-  body: `If you are looking for a kink-affirming therapist or counsellor, you may already have some idea of what you do not want. You probably do not want to spend a session explaining basic BDSM terminology, reassuring a therapist that consensual power exchange is not inherently abusive, or wondering whether disclosing a fetish will suddenly become the explanation for everything else happening in your life.
+  body: `## Kink is not an explanation by itself
+
+If you are looking for a kink-affirming therapist or counsellor, you may already have some idea of what you do not want. You probably do not want to spend a session explaining basic BDSM terminology, reassuring a therapist that consensual power exchange is not inherently abusive, or wondering whether disclosing a fetish will suddenly become the explanation for everything else happening in your life.
 
 Kink-affirming therapy goes further than simply being comfortable hearing about BDSM. It involves enough knowledge of kink, fetish, BDSM and consensual power exchange to work with them competently, without treating unconventional sexuality as evidence of trauma, dysfunction or mental illness simply because it is unconventional.
 
