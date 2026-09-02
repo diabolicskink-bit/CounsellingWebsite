@@ -77,12 +77,20 @@ test("publishes the visible Crisis Support review and authorship details", () =>
     structuredDataType: "crisis-support",
   }));
   const page = structuredData["@graph"].find((node) => node["@type"] === "MedicalWebPage");
+  const breadcrumb = structuredData["@graph"]
+    .find((node) => node["@type"] === "BreadcrumbList");
 
   assert.ok(page);
+  assert.ok(breadcrumb);
   assert.equal(page.dateModified, metadata.routes[routePath].lastModified);
   assert.equal(page.lastReviewed, metadata.routes[routePath].lastReviewed);
   assert.deepEqual(page.author, { "@id": `${metadata.site.defaultOrigin}/#organization` });
   assert.deepEqual(page.publisher, { "@id": `${metadata.site.defaultOrigin}/#organization` });
+  assert.equal(breadcrumb.name, "Crisis support breadcrumb trail");
+  assert.equal(
+    breadcrumb.itemListElement.at(-1).item,
+    `${metadata.site.defaultOrigin}${routePath}`,
+  );
 });
 
 test("renders CollectionPage structured data for the article index", () => {
@@ -120,6 +128,10 @@ test("renders article dates, authorship, and visible breadcrumb hierarchy", () =
     assert.ok(article);
     assert.ok(breadcrumb);
     assert.deepEqual(page.breadcrumb, { "@id": `${pageUrl}#breadcrumb` });
+    assert.equal(
+      breadcrumb.name,
+      `${articleMetadataEntry.title} breadcrumb trail`,
+    );
     assert.deepEqual(breadcrumb.itemListElement, [
       {
         "@type": "ListItem",
@@ -131,6 +143,7 @@ test("renders article dates, authorship, and visible breadcrumb hierarchy", () =
         "@type": "ListItem",
         position: 2,
         name: articleMetadataEntry.topic,
+        item: pageUrl,
       },
     ]);
     assert.equal(article.headline, articleMetadataEntry.title);
