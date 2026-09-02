@@ -79,15 +79,7 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
     .reduce((total, location) => total + location.count, 0);
 
   return (
-    <section className="signal-diagnostics" aria-labelledby="traffic-diagnostics-title">
-      <header>
-        <div>
-          <p className="signal-kicker">Traffic signature</p>
-          <h2 id="traffic-diagnostics-title">Location and device mix</h2>
-        </div>
-        <p>Visit-level request data for the records shown below.</p>
-      </header>
-
+    <section className="signal-diagnostics" aria-label="Location and device mix">
       <div className="signal-diagnostics__body">
         <div className="signal-location-mix">
           <h3><MapPin aria-hidden="true" size={15} /> Location mix</h3>
