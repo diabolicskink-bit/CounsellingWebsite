@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-02 - First-Party Analytics Collection Expanded
+
+- Added controlled `instagram_link_clicked`, `linkedin_link_clicked`, and `email_link_clicked` events for configured public social profiles and React-rendered email links, retaining each event's active visit and page-view association independently of GA and Clarity.
+- Added request-derived coarse location to new visits: Australian traffic retains a validated state or territory code, overseas traffic retains only the country code, and the ledger stores no city, postcode, coordinates or raw IP address.
+- Added migrations `0008_add_contact_link_events.sql` and `0009_add_visit_location.sql` plus focused API, migration and browser contracts. Preview is migrated; Production migration and combined Preview verification remain pending.
+
 ## 2026-09-01 - Private Analytics Visual Boundary Clarified
 
 - Closed `DEBT-41` without a source change after the owner clarified that the private dashboard may have its own CSS and visual language but does not require isolated browser, bundle, or stylesheet architecture.

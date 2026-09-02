@@ -480,6 +480,51 @@ test.describe("first-party analytics", () => {
     expect(observations[2].pageViewId).not.toBe(observations[1].pageViewId);
   });
 
+  test("records configured social and email clicks against the active page view", async ({ page }) => {
+    const eventObservations: Array<Record<string, unknown>> = [];
+    const visitObservations: Array<Record<string, unknown>> = [];
+
+    await stubAnalyticsRequests(page);
+    await page.route("**/api/visit", async (route) => {
+      visitObservations.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({ status: 204 });
+    });
+    await page.route("**/api/visit-event", async (route) => {
+      eventObservations.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({ status: 204 });
+    });
+
+    await page.goto("/", { waitUntil: "networkidle" });
+    await expect.poll(() => visitObservations.length).toBe(1);
+
+    const footer = page.getByRole("contentinfo");
+    const clickWithoutNavigation = async (name: string) => {
+      const link = footer.getByRole("link", { name, exact: true });
+      await link.evaluate((element) => {
+        element.addEventListener("click", (event) => event.preventDefault(), { once: true });
+      });
+      await link.click();
+    };
+
+    await clickWithoutNavigation("Instagram");
+    await clickWithoutNavigation("LinkedIn");
+    await clickWithoutNavigation("joel@vivecounselling.com.au");
+    await expect.poll(() => eventObservations.length).toBe(3);
+
+    const visitObservation = visitObservations[0];
+    expect(eventObservations).toEqual([
+      "instagram_link_clicked",
+      "linkedin_link_clicked",
+      "email_link_clicked",
+    ].map((eventType) => ({
+      eventId: expect.stringMatching(uuidV4),
+      eventType,
+      pageViewId: visitObservation.pageViewId,
+      properties: {},
+      visitId: visitObservation.visitId,
+    })));
+  });
+
   test("keeps enquiry events visit-linked and server-owned", async ({ page }) => {
     const visitObservations: Array<Record<string, unknown>> = [];
     const eventObservations: Array<Record<string, unknown>> = [];

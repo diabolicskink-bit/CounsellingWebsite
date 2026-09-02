@@ -75,12 +75,12 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 - A versioned anonymous visitor ID in `localStorage` rotates after 12 months. A session-scoped visit restarts after 30 minutes of inactivity, a new external arrival, or changed tagged attribution.
 - Initial documents, restored documents, and distinct React pathnames receive duplicate-safe page views; query-only and hash-only changes do not. Stored paths are canonicalized to lower case, and Fees links record `/fees` without changing the visible `/contact` URL.
 - Engagement updates are cumulative, ownership-checked, and idempotent, and count only time while the page is visible.
-- `POST /api/visit`, `POST /api/page-engagement`, and `POST /api/visit-event` are write-only public endpoints with bounded validation, cross-site signal checks, generic failures, and idempotent storage. Visit recording also derives device type and bounded User-Agent data and records Vercel BotID Basic observations without blocking visitors.
+- `POST /api/visit`, `POST /api/page-engagement`, and `POST /api/visit-event` are write-only public endpoints with bounded validation, cross-site signal checks, generic failures, and idempotent storage. Visit recording also derives device type, bounded User-Agent data, and coarse Vercel IP location: Australian visits retain a validated state or territory code, overseas visits retain only the country code, and incomplete or invalid location is stored as unknown. City, postcode, coordinates, and raw IP addresses are not stored in the visit ledger. Vercel BotID Basic observations are recorded without blocking visitors.
 - The private analytics subtree is excluded case-insensitively from first-party, GA4, and Clarity collection. The visit endpoint rejects private paths as a backstop.
 
 ### Reporting And Retention
 
-- The schema has seven ordered migrations through `0007_add_visit_client_environment.sql`. Production and Preview are recorded as current through that migration; Development receives no database configuration.
+- The schema has nine ordered migrations through `0009_add_visit_location.sql`. Preview is recorded as current through that migration; Production remains current through `0007_add_visit_client_environment.sql`. Development receives no database configuration.
 - Protected `GET /api/analytics` supports a Perth calendar day, calendar month, anonymous visitor history, page-view date range, or paid-keyword date range. Date ranges are inclusive and limited to 366 days. `GET` and `PUT` `/api/analytics/exclusions` list and change visitor exclusions without deleting retained data.
 - The five private views cover daily traffic, route totals, paid matched-keyword journeys, monthly enquiry outcomes, and excluded visitors. Daily, enquiry, and exclusion records can open the visitor's complete retained history with interleaved page views and events.
 - Reports cover source, page depth, active time, new or returning status, enquiry outcomes, ad attribution, bot and device observations, and retained visitor history. The keyword report treats the stored Google Ads matched keyword as attribution, not as the visitor's search query, and keeps paid visits without keyword data visible in coverage totals.
@@ -92,7 +92,7 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 
 - `VITE_ANALYTICS_ENABLED`, the shared analytics hostname allowlist, and provider IDs gate Google Analytics and Microsoft Clarity. Vercel Web Analytics is not installed.
 - GA4 sends manual public-route page views plus controlled enquiry-started, contact-option, email-link, and successful-lead events. Failed enquiries do not emit the conversion event.
-- First-party events record contact-option selection, enquiry start, server-side submission attempt, successful delivery, and controlled failure outcomes. Event storage is best-effort and never delays or changes the public delivery result.
+- First-party events record contact-option selection, enquiry start, Instagram, LinkedIn, and email-link clicks, server-side submission attempt, successful delivery, and controlled failure outcomes. Client events retain their active page-view association, and event storage is best-effort so it never delays or changes the visitor interaction or public delivery result.
 - The enquiry request carries only optional active visit and page-view IDs as analytics context. The form is masked from Clarity with `data-clarity-mask="true"`.
 
 ## Testing And QA
