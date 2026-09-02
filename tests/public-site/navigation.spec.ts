@@ -24,8 +24,8 @@ test.describe("shared navigation", () => {
     ).toHaveAttribute("href", "/contact");
     await expect(
       header.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Articles" }),
-    ).toHaveAttribute("href", "/blog");
-    await expect(footer.getByRole("link", { name: "Articles" })).toHaveAttribute("href", "/blog");
+    ).toHaveAttribute("href", "/articles");
+    await expect(footer.getByRole("link", { name: "Articles" })).toHaveAttribute("href", "/articles");
     await expect(footer.getByRole("link", { name: "Fees" })).toHaveAttribute("href", "/contact");
     await expect(footer.getByRole("link", { name: "Crisis support" })).toHaveAttribute(
       "href",

@@ -17,9 +17,9 @@ import {
   Trash2,
 } from "lucide-react";
 import Container from "../../components/Container";
-import { getBlogPostPath } from "../../content/blog/manifest";
-import type { BlogPostReference } from "../../content/blog/postTemplate";
-import { blogPosts, type BlogPost } from "../../content/blog/posts";
+import { getArticlePath } from "../../content/articles/manifest";
+import type { ArticleReference } from "../../content/articles/articleTemplate";
+import { articles, type Article } from "../../content/articles/articles";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import {
   getArticleEditorBlockLabel,
@@ -43,7 +43,7 @@ const idleStatus: SaveStatus = {
   kind: "idle",
   message: "Changes are saved to the article template file.",
 };
-const initialPost = blogPosts[0] ?? null;
+const initialArticle = articles[0] ?? null;
 const referenceCollator = new Intl.Collator("en-AU", { sensitivity: "base" });
 
 function resizeTextarea(textarea: HTMLTextAreaElement) {
@@ -79,8 +79,8 @@ function AutoGrowingTextarea({
   );
 }
 
-function findPost(slug: string) {
-  return blogPosts.find((post) => post.slug === slug) ?? initialPost;
+function findArticle(slug: string) {
+  return articles.find((article) => article.slug === slug) ?? initialArticle;
 }
 
 function parseSaveError(payload: unknown) {
@@ -90,8 +90,8 @@ function parseSaveError(payload: unknown) {
 }
 
 function referencesMatch(
-  left: readonly BlogPostReference[],
-  right: readonly BlogPostReference[],
+  left: readonly ArticleReference[],
+  right: readonly ArticleReference[],
 ) {
   return left.length === right.length && left.every((reference, index) => (
     reference.citation === right[index].citation && reference.href === right[index].href
@@ -100,19 +100,19 @@ function referencesMatch(
 
 export default function ArticleEditor() {
   const editorRef = useRef<HTMLFormElement>(null);
-  const [selectedSlug, setSelectedSlug] = useState(initialPost?.slug ?? "");
+  const [selectedSlug, setSelectedSlug] = useState(initialArticle?.slug ?? "");
   const [blocks, setBlocks] = useState<ArticleEditorBlock[]>(
-    () => initialPost ? parseArticleMarkdown(initialPost.body) : [],
+    () => initialArticle ? parseArticleMarkdown(initialArticle.body) : [],
   );
-  const [references, setReferences] = useState<BlogPostReference[]>(
-    () => initialPost ? [...initialPost.references] : [],
+  const [references, setReferences] = useState<ArticleReference[]>(
+    () => initialArticle ? [...initialArticle.references] : [],
   );
-  const [savedBody, setSavedBody] = useState(initialPost?.body ?? "");
-  const [savedReferences, setSavedReferences] = useState<readonly BlogPostReference[]>(
-    initialPost?.references ?? [],
+  const [savedBody, setSavedBody] = useState(initialArticle?.body ?? "");
+  const [savedReferences, setSavedReferences] = useState<readonly ArticleReference[]>(
+    initialArticle?.references ?? [],
   );
   const [saveStatus, setSaveStatus] = useState<SaveStatus>(idleStatus);
-  const selectedPost = findPost(selectedSlug);
+  const selectedArticle = findArticle(selectedSlug);
   const markdown = useMemo(() => serializeArticleMarkdown(blocks), [blocks]);
   const hasChanges = markdown !== savedBody
     || !referencesMatch(references, savedReferences);
@@ -145,7 +145,7 @@ export default function ArticleEditor() {
     return () => window.removeEventListener("resize", resizeEditorTextareas);
   }, []);
 
-  if (!selectedPost) {
+  if (!selectedArticle) {
     return (
       <main className="site-page article-editor-page">
         <Container className="article-editor-page__empty">
@@ -155,19 +155,19 @@ export default function ArticleEditor() {
     );
   }
 
-  const loadPost = (post: BlogPost) => {
-    setSelectedSlug(post.slug);
-    setBlocks(parseArticleMarkdown(post.body));
-    setReferences([...post.references]);
-    setSavedBody(post.body);
-    setSavedReferences(post.references);
+  const loadArticle = (article: Article) => {
+    setSelectedSlug(article.slug);
+    setBlocks(parseArticleMarkdown(article.body));
+    setReferences([...article.references]);
+    setSavedBody(article.body);
+    setSavedReferences(article.references);
     setSaveStatus(idleStatus);
   };
 
   const handleArticleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const nextPost = findPost(event.target.value);
+    const nextArticle = findArticle(event.target.value);
 
-    if (!nextPost || nextPost.slug === selectedPost.slug) {
+    if (!nextArticle || nextArticle.slug === selectedArticle.slug) {
       return;
     }
 
@@ -175,7 +175,7 @@ export default function ArticleEditor() {
       return;
     }
 
-    loadPost(nextPost);
+    loadArticle(nextArticle);
   };
 
   const handleBlockChange = (index: number, value: string) => {
@@ -243,7 +243,7 @@ export default function ArticleEditor() {
     setSaveStatus({ kind: "saving", message: "Saving article..." });
 
     try {
-      const response = await fetch(`/__dev/article-editor/${encodeURIComponent(selectedPost.slug)}`, {
+      const response = await fetch(`/__dev/article-editor/${encodeURIComponent(selectedArticle.slug)}`, {
         body: JSON.stringify({ body: markdown, references }),
         headers: { "Content-Type": "application/json" },
         method: "PUT",
@@ -285,10 +285,10 @@ export default function ArticleEditor() {
           <header className="article-editor-toolbar">
             <label>
               <span>Article</span>
-              <select onChange={handleArticleChange} value={selectedPost.slug}>
-                {blogPosts.map((post) => (
-                  <option key={post.slug} value={post.slug}>
-                    {post.title}{post.isSample ? " - sample" : ""}
+              <select onChange={handleArticleChange} value={selectedArticle.slug}>
+                {articles.map((article) => (
+                  <option key={article.slug} value={article.slug}>
+                    {article.title}{article.isSample ? " - sample" : ""}
                   </option>
                 ))}
               </select>
@@ -319,8 +319,8 @@ export default function ArticleEditor() {
 
           <div className="article-editor-layout">
             <aside className="article-editor-context">
-              <p>{selectedPost.topic}</p>
-              <h2>{selectedPost.title}</h2>
+              <p>{selectedArticle.topic}</p>
+              <h2>{selectedArticle.title}</h2>
               <dl>
                 <div>
                   <dt>Blocks</dt>
@@ -331,7 +331,7 @@ export default function ArticleEditor() {
                   <dd>{references.length}</dd>
                 </div>
               </dl>
-              <a href={getBlogPostPath(selectedPost.slug)} rel="noreferrer" target="_blank">
+              <a href={getArticlePath(selectedArticle.slug)} rel="noreferrer" target="_blank">
                 View published layout
                 <ExternalLink aria-hidden="true" size={14} />
               </a>

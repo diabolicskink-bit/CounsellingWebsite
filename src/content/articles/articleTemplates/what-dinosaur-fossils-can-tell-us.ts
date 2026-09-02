@@ -1,6 +1,6 @@
-import { defineBlogPostTemplate } from "../postTemplate.ts";
+import { defineArticleTemplate } from "../articleTemplate.ts";
 
-export default defineBlogPostTemplate({
+export default defineArticleTemplate({
   slug: "what-dinosaur-fossils-can-tell-us",
   body: `A mounted dinosaur skeleton can appear complete and self-explanatory. Fossil evidence is usually less complete than the display. Palaeontologists build an account by combining different kinds of remains, their geological context and comparisons with living animals.
 

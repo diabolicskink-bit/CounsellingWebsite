@@ -24,7 +24,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 - [current-scope.md](current-scope.md) is the factual inventory of public and development routes, content status, rendering, metadata, enquiry behaviour, analytics, deployment, tests, known gaps, and excluded project scope.
 - [visual-verification.md](visual-verification.md) owns the supported access mechanism for ad-hoc visual inspection by Codex in the VS Code extension without defining task-specific review criteria.
-- [blog-publishing.md](blog-publishing.md) owns the code-managed article publishing workflow, article schema, optional custom-presentation mechanism, verification expectations, and boundary for considering a future CMS.
+- [article-publishing.md](article-publishing.md) owns the code-managed article publishing workflow, article schema, optional custom-presentation mechanism, verification expectations, and boundary for considering a future CMS.
 - [../design-system/governance.md](../design-system/governance.md) owns design-system authority, promotion, withdrawal, removal, verification, and update duties.
 - [../design-system/foundations.md](../design-system/foundations.md), [components.md](../design-system/components.md), and [patterns.md](../design-system/patterns.md) are the complete current reusable API.
 

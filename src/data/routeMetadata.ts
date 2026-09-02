@@ -1,4 +1,4 @@
-import { getBlogRouteMetadata } from "../content/blog/manifest";
+import { getArticleRouteMetadata } from "../content/articles/manifest";
 import metadata from "./routeMetadata.json";
 
 export type RouteMetadata = {
@@ -132,7 +132,7 @@ const baseRouteMetadata = Object.fromEntries(
 
 export const routeMetadata: Record<string, RouteMetadata> = {
   ...baseRouteMetadata,
-  ...getBlogRouteMetadata(),
+  ...getArticleRouteMetadata(),
 };
 
 export function getRouteMetadata<Path extends PublicRoutePath>(path: Path): (typeof routeMetadata)[Path] {

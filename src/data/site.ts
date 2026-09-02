@@ -33,7 +33,7 @@ export const navItems: readonly NavItem[] = [
   },
   {
     label: "Articles",
-    href: publicRoutePaths.blog,
+    href: publicRoutePaths.articles,
   },
   {
     label: "Fees",

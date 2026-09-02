@@ -2,10 +2,10 @@ import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "playwright/test";
 import {
-  blogPostMetadata,
-  getBlogPostPath,
-  getBlogRouteMetadata,
-} from "../../src/content/blog/manifest";
+  articleMetadata,
+  getArticlePath,
+  getArticleRouteMetadata,
+} from "../../src/content/articles/manifest";
 import type {
   NotFoundMetadata,
   RouteMetadata,
@@ -22,7 +22,7 @@ const routeMetadataData = JSON.parse(
 
 const publicRouteMetadata: Record<string, RouteMetadata> = {
   ...routeMetadataData.routes,
-  ...getBlogRouteMetadata(),
+  ...getArticleRouteMetadata(),
 };
 const publicRoutes = Object.keys(publicRouteMetadata);
 const notFoundPath = "/not-a-real-page";
@@ -227,11 +227,11 @@ test.describe("crawl output", () => {
       `<url><loc>${crisisSupportUrl}</loc><lastmod>${crisisSupportLastModified}</lastmod></url>`,
     );
 
-    for (const post of blogPostMetadata) {
-      const route = getBlogPostPath(post.slug);
+    for (const article of articleMetadata) {
+      const route = getArticlePath(article.slug);
       const routeUrl = `${siteOrigin}${route}`;
 
-      expect(sitemap.includes(`<loc>${routeUrl}</loc>`)).toBe(!post.isSample);
+      expect(sitemap.includes(`<loc>${routeUrl}</loc>`)).toBe(!article.isSample);
     }
   });
 });

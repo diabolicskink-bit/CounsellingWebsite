@@ -1,13 +1,13 @@
 import { StaticRouter } from "react-router-dom/server";
-import App, { type AppProps, type BlogPageComponents } from "./App";
+import App, { type AppProps, type ArticlePageComponents } from "./App";
 import { AppRoot } from "./AppRoot";
-import BlogArticle from "./pages/BlogArticle";
-import BlogIndex from "./pages/BlogIndex";
+import ArticlePage from "./pages/ArticlePage";
+import ArticleIndex from "./pages/ArticleIndex";
 
-const staticBlogPages = {
-  Article: BlogArticle,
-  Index: BlogIndex,
-} satisfies BlogPageComponents;
+const staticArticlePages = {
+  Index: ArticleIndex,
+  Page: ArticlePage,
+} satisfies ArticlePageComponents;
 
 export type StaticAppProps = Pick<AppProps, "initialRenderAt"> & {
   location: string;
@@ -17,7 +17,7 @@ export function StaticApp({ initialRenderAt, location }: StaticAppProps) {
   return (
     <AppRoot>
       <StaticRouter location={location}>
-        <App blogPages={staticBlogPages} initialRenderAt={initialRenderAt} />
+        <App articlePages={staticArticlePages} initialRenderAt={initialRenderAt} />
       </StaticRouter>
     </AppRoot>
   );

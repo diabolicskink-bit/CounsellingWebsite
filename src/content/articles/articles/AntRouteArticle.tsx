@@ -29,7 +29,7 @@ export default function AntRouteArticle({ body }: Readonly<{ body: string }>) {
         </ol>
       </section>
 
-      <ArticleMarkdown body={body} className="blog-article__prose ant-article__prose" />
+      <ArticleMarkdown body={body} className="article-page__prose ant-article__prose" />
     </div>
   );
 }

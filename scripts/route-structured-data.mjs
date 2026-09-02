@@ -305,8 +305,8 @@ function renderCollectionStructuredData(routePath, routeMetadata, siteMetadata, 
 
   return renderStructuredDataTag({
     "@context": "https://schema.org",
-    "@type": "Blog",
-    "@id": `${pageUrl}#blog`,
+    "@type": "CollectionPage",
+    "@id": `${pageUrl}#articles`,
     url: pageUrl,
     name: routeMetadata.title,
     description: routeMetadata.description,
@@ -340,7 +340,7 @@ function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, sit
         mainEntity: { "@id": articleId },
       },
       {
-        "@type": "BlogPosting",
+        "@type": "Article",
         "@id": articleId,
         url: pageUrl,
         headline: routeMetadata.headline ?? routeMetadata.title,

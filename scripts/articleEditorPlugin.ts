@@ -2,18 +2,18 @@ import { writeFile } from "node:fs/promises";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import path from "node:path";
 import type { Plugin } from "vite";
-import { blogPostMetadata, type BlogPostSlug } from "../src/content/blog/manifest.ts";
-import type { BlogPostReference } from "../src/content/blog/postTemplate.ts";
+import { articleMetadata, type ArticleSlug } from "../src/content/articles/manifest.ts";
+import type { ArticleReference } from "../src/content/articles/articleTemplate.ts";
 
 const articleEditorApiPrefix = "/__dev/article-editor/";
 const maximumRequestBytes = 256 * 1024;
-const publishedBlogSlugs = new Set<string>(blogPostMetadata.map((post) => post.slug));
+const publishedArticleSlugs = new Set<string>(articleMetadata.map((article) => article.slug));
 
 class ArticleEditorInputError extends Error {}
 
 type ArticleTemplateContent = Readonly<{
   body: string;
-  references: readonly BlogPostReference[];
+  references: readonly ArticleReference[];
 }>;
 
 function sendJson(
@@ -27,12 +27,12 @@ function sendJson(
   response.end(JSON.stringify(payload));
 }
 
-function resolveTemplatePath(projectRoot: string, slug: BlogPostSlug) {
-  return path.join(projectRoot, "src", "content", "blog", "postTemplates", `${slug}.ts`);
+function resolveTemplatePath(projectRoot: string, slug: ArticleSlug) {
+  return path.join(projectRoot, "src", "content", "articles", "articleTemplates", `${slug}.ts`);
 }
 
-function isPublishedBlogSlug(slug: string): slug is BlogPostSlug {
-  return publishedBlogSlugs.has(slug);
+function isPublishedArticleSlug(slug: string): slug is ArticleSlug {
+  return publishedArticleSlugs.has(slug);
 }
 
 function escapeTemplateLiteral(value: string) {
@@ -57,7 +57,7 @@ function validateArticleContent(content: ArticleTemplateContent) {
   });
 }
 
-function renderReferences(references: readonly BlogPostReference[]) {
+function renderReferences(references: readonly ArticleReference[]) {
   if (references.length === 0) {
     return "[]";
   }
@@ -75,14 +75,14 @@ function renderReferences(references: readonly BlogPostReference[]) {
 }
 
 export function renderArticleTemplateSource(
-  slug: BlogPostSlug,
+  slug: ArticleSlug,
   content: ArticleTemplateContent,
 ) {
   validateArticleContent(content);
 
-  return `import { defineBlogPostTemplate } from "../postTemplate.ts";
+  return `import { defineArticleTemplate } from "../articleTemplate.ts";
 
-export default defineBlogPostTemplate({
+export default defineArticleTemplate({
   slug: ${JSON.stringify(slug)},
   body: \`${escapeTemplateLiteral(content.body)}\`,
   references: ${renderReferences(content.references)},
@@ -95,7 +95,7 @@ export async function updateArticleTemplateContent(
   slug: string,
   content: ArticleTemplateContent,
 ) {
-  if (!isPublishedBlogSlug(slug)) {
+  if (!isPublishedArticleSlug(slug)) {
     throw new ArticleEditorInputError("Invalid article slug.");
   }
 
@@ -146,7 +146,7 @@ function parseArticleContent(payload: unknown): ArticleTemplateContent {
     references: unknown[];
   };
   const references = unparsedReferences.map(
-    (reference, index): BlogPostReference => {
+    (reference, index): ArticleReference => {
       if (
         !reference
         || typeof reference !== "object"

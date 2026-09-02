@@ -1,7 +1,7 @@
 import ContactInvitation from "../../../components/ContactInvitation";
 import DesignSystemSpecimen from "../../../components/DesignSystemSpecimen";
-import ArticleHero from "../../../content/blog/ArticleHero";
-import { blogPostMetadata } from "../../../content/blog/manifest";
+import ArticleHero from "../../../content/articles/ArticleHero";
+import { articleMetadata } from "../../../content/articles/manifest";
 import DesignSystemWorkspace from "./DesignSystemWorkspace";
 
 export default function DesignSystemComponents() {
@@ -33,7 +33,7 @@ export default function DesignSystemComponents() {
           role="Canonical article hero for orientation, classification, abstract, authorship, and publication dates; article bodies and their presentations remain separate."
           title="Article hero"
         >
-          <ArticleHero post={blogPostMetadata[0]} />
+          <ArticleHero article={articleMetadata[0]} />
         </DesignSystemSpecimen>
 
         <DesignSystemSpecimen

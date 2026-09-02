@@ -1,6 +1,6 @@
-import { defineBlogPostTemplate } from "../postTemplate.ts";
+import { defineArticleTemplate } from "../articleTemplate.ts";
 
-export default defineBlogPostTemplate({
+export default defineArticleTemplate({
   slug: "what-is-kink-affirming-therapy",
   body: `## Kink is not an explanation by itself
 

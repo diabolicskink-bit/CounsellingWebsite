@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import Container from "../../components/Container";
 import { publicRoutePaths } from "../../data/routes";
-import { formatBlogDate, type BlogPostMetadata } from "./manifest";
+import { formatArticleDate, type ArticleMetadata } from "./manifest";
 
 type ArticleHeroProps = Readonly<{
-  post: BlogPostMetadata;
+  article: ArticleMetadata;
 }>;
 
-export default function ArticleHero({ post }: ArticleHeroProps) {
+export default function ArticleHero({ article }: ArticleHeroProps) {
   return (
     <header
       className="site-hero site-hero-surface article-hero"
@@ -18,15 +18,15 @@ export default function ArticleHero({ post }: ArticleHeroProps) {
           className="site-hero__eyebrow article-hero__breadcrumb"
           aria-label="Breadcrumb"
         >
-          <Link to={publicRoutePaths.blog}>Articles</Link>
+          <Link to={publicRoutePaths.articles}>Articles</Link>
           <span aria-hidden="true">/</span>
-          <span aria-current="page">{post.topic}</span>
+          <span aria-current="page">{article.topic}</span>
         </nav>
 
         <div className="article-hero__layout">
           <div className="article-hero__heading">
             <h1 className="site-hero__statement" id="article-hero-title">
-              {post.title}
+              {article.title}
             </h1>
           </div>
 
@@ -35,28 +35,28 @@ export default function ArticleHero({ post }: ArticleHeroProps) {
             aria-labelledby="article-abstract-title"
           >
             <h2 id="article-abstract-title">Abstract</h2>
-            <p className="site-reading">{post.abstract}</p>
+            <p className="site-reading">{article.abstract}</p>
           </section>
 
           <dl className="article-hero__details" aria-label="Article details">
             <div>
               <dt>Author</dt>
-              <dd>{post.author}</dd>
+              <dd>{article.author}</dd>
             </div>
             <div>
               <dt>Published</dt>
               <dd>
-                <time dateTime={post.publishedAt}>
-                  {formatBlogDate(post.publishedAt)}
+                <time dateTime={article.publishedAt}>
+                  {formatArticleDate(article.publishedAt)}
                 </time>
               </dd>
             </div>
-            {post.updatedAt ? (
+            {article.updatedAt ? (
               <div>
                 <dt>Updated</dt>
                 <dd>
-                  <time dateTime={post.updatedAt}>
-                    {formatBlogDate(post.updatedAt)}
+                  <time dateTime={article.updatedAt}>
+                    {formatArticleDate(article.updatedAt)}
                   </time>
                 </dd>
               </div>

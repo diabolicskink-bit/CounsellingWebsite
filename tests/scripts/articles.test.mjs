@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
-  blogPostMetadata,
-  validateBlogPostManifest,
-} from "../../src/content/blog/manifest.ts";
-import { blogPosts } from "../../src/content/blog/posts.ts";
+  articleMetadata,
+  validateArticleManifest,
+} from "../../src/content/articles/manifest.ts";
+import { articles } from "../../src/content/articles/articles.ts";
 
-const validPost = {
+const validArticle = {
   abstract: "A useful summary.",
   author: "Joel Griffiths",
   description: "A useful search description.",
@@ -18,16 +18,16 @@ const validPost = {
 
 test("keeps every published manifest entry paired with a non-empty article body", () => {
   assert.deepEqual(
-    blogPosts.map((post) => post.slug),
-    blogPostMetadata.map((post) => post.slug),
+    articles.map((article) => article.slug),
+    articleMetadata.map((article) => article.slug),
   );
 
-  for (const post of blogPosts) {
-    assert.ok(post.body.trim(), post.slug);
-    assert.ok(Array.isArray(post.references), post.slug);
+  for (const article of articles) {
+    assert.ok(article.body.trim(), article.slug);
+    assert.ok(Array.isArray(article.references), article.slug);
 
-    for (const reference of post.references) {
-      assert.ok(reference.citation.trim(), `${post.slug} has an empty reference`);
+    for (const reference of article.references) {
+      assert.ok(reference.citation.trim(), `${article.slug} has an empty reference`);
       assert.doesNotThrow(() => new URL(reference.href));
     }
   }
@@ -35,28 +35,28 @@ test("keeps every published manifest entry paired with a non-empty article body"
 
 test("rejects publication dates that are not real ISO calendar dates", () => {
   assert.throws(
-    () => validateBlogPostManifest([{ ...validPost, publishedAt: "2026-02-30" }]),
+    () => validateArticleManifest([{ ...validArticle, publishedAt: "2026-02-30" }]),
     /invalid publication date/,
   );
 });
 
 test("rejects revisions dated before publication", () => {
   assert.throws(
-    () => validateBlogPostManifest([{ ...validPost, updatedAt: "2026-08-11" }]),
+    () => validateArticleManifest([{ ...validArticle, updatedAt: "2026-08-11" }]),
     /updated date precedes/,
   );
 });
 
 test("rejects duplicate slugs", () => {
   assert.throws(
-    () => validateBlogPostManifest([validPost, validPost]),
-    /Duplicate blog post slug/,
+    () => validateArticleManifest([validArticle, validArticle]),
+    /Duplicate article slug/,
   );
 });
 
 test("rejects empty publication metadata", () => {
   assert.throws(
-    () => validateBlogPostManifest([{ ...validPost, title: " " }]),
+    () => validateArticleManifest([{ ...validArticle, title: " " }]),
     /empty title/,
   );
 });

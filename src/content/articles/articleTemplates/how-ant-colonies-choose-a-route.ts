@@ -1,6 +1,6 @@
-import { defineBlogPostTemplate } from "../postTemplate.ts";
+import { defineArticleTemplate } from "../articleTemplate.ts";
 
-export default defineBlogPostTemplate({
+export default defineArticleTemplate({
   slug: "how-ant-colonies-choose-a-route",
   body: `A line of ants moving between a nest and food can look coordinated enough to have been planned. It was not. Each worker responds to local information, while the route becomes a property of the colony.
 

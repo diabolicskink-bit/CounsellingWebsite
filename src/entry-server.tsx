@@ -1,5 +1,5 @@
 import { renderToString } from "react-dom/server";
-import { getBlogRouteMetadata } from "./content/blog/manifest";
+import { getArticleRouteMetadata } from "./content/articles/manifest";
 import { StaticApp } from "./StaticApp";
 
 export type RenderRouteOptions = {
@@ -11,5 +11,5 @@ export function renderRoute(pathname: string, { initialRenderAt }: RenderRouteOp
 }
 
 export function getAdditionalPrerenderRouteMetadata() {
-  return getBlogRouteMetadata();
+  return getArticleRouteMetadata();
 }

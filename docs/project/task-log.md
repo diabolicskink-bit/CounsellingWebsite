@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-02 - Article Publishing Language Standardised
+
+- Standardised the publication domain on article language across routes, source paths, types, components, styles, tests, and project documentation.
+- Established `/articles` and `/articles/:slug` as the canonical public routes, with matching metadata, analytics, prerender, sitemap, and navigation contracts.
+- Aligned structured data with the section's role: `CollectionPage` for the Articles index and `Article` for each published article.
+
 ## 2026-09-01 - Local Article Editor Added
 
 - Added a development-only `/article-editor` that turns existing Markdown bodies into wrapped, auto-height editing blocks and provides separate structured fields for APA citations and DOI or stable source URLs.
@@ -31,7 +37,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 ## 2026-09-01 - Per-Article Content Templates Added
 
-- Moved every Markdown body into its own typed module under `src/content/blog/postTemplates/`, leaving `posts.ts` as the small compile-time checked pairing registry between templates and the lightweight publication manifest.
+- Moved every Markdown body into its own typed module under `src/content/articles/articleTemplates/`, leaving `articles.ts` as the small compile-time checked pairing registry between templates and the lightweight publication manifest.
 - Made references an ordered first-class field on each article template and introduced one dedicated renderer for source count, Markdown citation content, numbering and responsive source-ledger presentation.
 
 ## 2026-09-01 - Standard Article Reading System Established
@@ -43,7 +49,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-09-01 - Design-System Naming Convention Formalized
 
 - Established one public naming scheme: site-wide CSS uses `site-*`, component CSS roots match role-based PascalCase component names, owned custom properties carry their contract prefix, and feature-local styles retain their feature namespace outside the public API.
-- Renamed `<BlogArticleHero />` to `<ArticleHero />`, `.site-hero-background` to `.site-hero-surface`, and the hero spacing property to `--site-hero-eyebrow-gap`; moved `.article-hero*` into the supported Components stylesheet without changing the approved visual treatment.
+- Standardised the earlier article-hero component as `<ArticleHero />`, renamed `.site-hero-background` to `.site-hero-surface`, and renamed the hero spacing property to `--site-hero-eyebrow-gap`; moved `.article-hero*` into the supported Components stylesheet without changing the approved visual treatment.
 - Removed the remaining reading-time estimate and its unused calculator from the Articles index.
 
 ## 2026-09-01 - Approved Hero Structure Promoted
@@ -291,8 +297,8 @@ Curated milestone history for durable project state. This is not a full changelo
 
 ## 2026-08-12 - Public Article Publishing System Added
 
-- Added: A public `/blog` article index and statically prerendered `/blog/:slug` article routes, linked as Articles from shared desktop, mobile, and footer navigation.
-- Added: A typed, code-managed article registry with slug and date validation, chronological ordering, Markdown article rendering, reading-time display, abstracts and source notes, generated route metadata, canonical sitemap handling, article Open Graph metadata, and `Blog` / `BlogPosting` structured data.
+- Added: A public `/articles` index and statically prerendered `/articles/:slug` article routes, linked as Articles from shared desktop, mobile, and footer navigation.
+- Added: A typed, code-managed article registry with slug and date validation, chronological ordering, Markdown article rendering, reading-time display, abstracts and source notes, generated route metadata, canonical sitemap handling, article Open Graph metadata, and `CollectionPage` / `Article` structured data.
 - Added and documented: Optional registered React presentations allow a subject-specific article body and scoped stylesheet while preserving the shared publication shell. Ant and dinosaur articles demonstrate two distinct presentations and are explicitly labelled as samples, marked `noindex, nofollow`, and omitted from the sitemap.
 - Verified: Production build prerendered all core and article routes; focused TypeScript, script, and browser coverage includes index/article navigation, no-JavaScript output, unknown slugs, metadata, and sitemap behaviour.
 

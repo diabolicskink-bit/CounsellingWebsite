@@ -30,7 +30,7 @@ export default function DinosaurFossilArticle({ body }: Readonly<{ body: string 
 
       <ArticleMarkdown
         body={body}
-        className="blog-article__prose fossil-article__prose"
+        className="article-page__prose fossil-article__prose"
       />
     </div>
   );

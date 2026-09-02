@@ -1,8 +1,8 @@
 import ArticleMarkdown from "./ArticleMarkdown.tsx";
-import type { BlogPostReference } from "./postTemplate.ts";
+import type { ArticleReference } from "./articleTemplate.ts";
 
 type ArticleReferencesProps = Readonly<{
-  references: readonly BlogPostReference[];
+  references: readonly ArticleReference[];
 }>;
 
 export default function ArticleReferences({ references }: ArticleReferencesProps) {
@@ -13,24 +13,24 @@ export default function ArticleReferences({ references }: ArticleReferencesProps
   return (
     <section
       aria-labelledby="article-references-title"
-      className="blog-article__references"
+      className="article-page__references"
     >
-      <header className="blog-article__references-heading">
+      <header className="article-page__references-heading">
         <h2 id="article-references-title">References</h2>
-        <p className="blog-article__reference-count">
+        <p className="article-page__reference-count">
           {references.length} {references.length === 1 ? "source" : "sources"}
         </p>
       </header>
 
-      <ul className="blog-article__reference-list">
+      <ul className="article-page__reference-list">
         {references.map((reference) => (
           <li key={reference.citation}>
             <ArticleMarkdown
               body={reference.citation}
-              className="blog-article__reference-copy"
+              className="article-page__reference-copy"
             />
             <a
-              className="blog-article__reference-link"
+              className="article-page__reference-link"
               href={reference.href}
             >
               {reference.href}

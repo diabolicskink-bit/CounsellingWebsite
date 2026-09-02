@@ -2,10 +2,10 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import {
-  blogPostMetadata,
-  getBlogPostPath,
-  getBlogRouteMetadata,
-} from "../../src/content/blog/manifest.ts";
+  articleMetadata,
+  getArticlePath,
+  getArticleRouteMetadata,
+} from "../../src/content/articles/manifest.ts";
 import { renderRouteStructuredDataTag } from "../../scripts/route-structured-data.mjs";
 
 const metadata = JSON.parse(
@@ -85,8 +85,8 @@ test("publishes the visible Crisis Support review and authorship details", () =>
   assert.deepEqual(page.publisher, { "@id": `${metadata.site.defaultOrigin}/#organization` });
 });
 
-test("renders Blog structured data for the article index", () => {
-  const routePath = "/blog";
+test("renders CollectionPage structured data for the article index", () => {
+  const routePath = "/articles";
   const structuredData = parseStructuredDataTag(renderRouteStructuredDataTag({
     routeMetadata: metadata.routes[routePath],
     routePath,
@@ -95,14 +95,14 @@ test("renders Blog structured data for the article index", () => {
     structuredDataType: "collection",
   }));
 
-  assert.equal(structuredData["@type"], "Blog");
+  assert.equal(structuredData["@type"], "CollectionPage");
   assert.equal(structuredData.url, `${metadata.site.defaultOrigin}${routePath}`);
 });
 
-test("renders article dates and authorship in BlogPosting structured data", () => {
-  const post = blogPostMetadata[0];
-  const routePath = getBlogPostPath(post.slug);
-  const routeMetadata = getBlogRouteMetadata()[routePath];
+test("renders article dates and authorship in Article structured data", () => {
+  const articleMetadataEntry = articleMetadata[0];
+  const routePath = getArticlePath(articleMetadataEntry.slug);
+  const routeMetadata = getArticleRouteMetadata()[routePath];
   const structuredData = parseStructuredDataTag(renderRouteStructuredDataTag({
     routeMetadata,
     routePath,
@@ -110,12 +110,18 @@ test("renders article dates and authorship in BlogPosting structured data", () =
     siteOrigin: metadata.site.defaultOrigin,
     structuredDataType: "article",
   }));
-  const article = structuredData["@graph"].find((node) => node["@type"] === "BlogPosting");
+  const article = structuredData["@graph"].find((node) => node["@type"] === "Article");
 
   assert.ok(article);
-  assert.equal(article.headline, post.title);
-  assert.equal(article.datePublished, post.publishedAt);
-  assert.equal(article.dateModified, post.updatedAt ?? post.publishedAt);
-  assert.equal(article.author.name, post.author);
-  assert.equal(routeMetadata.lastModified, post.updatedAt ?? post.publishedAt);
+  assert.equal(article.headline, articleMetadataEntry.title);
+  assert.equal(article.datePublished, articleMetadataEntry.publishedAt);
+  assert.equal(
+    article.dateModified,
+    articleMetadataEntry.updatedAt ?? articleMetadataEntry.publishedAt,
+  );
+  assert.equal(article.author.name, articleMetadataEntry.author);
+  assert.equal(
+    routeMetadata.lastModified,
+    articleMetadataEntry.updatedAt ?? articleMetadataEntry.publishedAt,
+  );
 });

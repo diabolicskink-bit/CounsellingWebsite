@@ -1,7 +1,7 @@
 import type { PublicRoutePath } from "./routeMetadata";
 
 export const publicRoutePaths = {
-  blog: "/blog",
+  articles: "/articles",
   contact: "/contact",
   crisisSupport: "/crisis-support",
   enmPolyamory: "/polyamory-enm-counselling",
@@ -73,5 +73,5 @@ export function usesSharedChromePath(pathname: string) {
   const normalizedPath = normalizeRoutePath(pathname);
 
   return sharedChromePaths.has(normalizedPath)
-    || normalizedPath.startsWith(`${publicRoutePaths.blog}/`);
+    || normalizedPath.startsWith(`${publicRoutePaths.articles}/`);
 }

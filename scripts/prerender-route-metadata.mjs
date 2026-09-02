@@ -48,8 +48,8 @@ const publicRouteContracts = {
     expectedMainClass: "site-page lgbtqia-page",
     structuredDataType: "specialist-service",
   },
-  "/blog": {
-    expectedMainClass: "site-page blog-index",
+  "/articles": {
+    expectedMainClass: "site-page article-index",
     structuredDataType: "collection",
   },
   "/crisis-support": {
@@ -345,10 +345,10 @@ function getPublicRouteEntries(routes) {
   const routeEntries = Object.entries(routes);
 
   for (const [routePath, routeMetadata] of routeEntries) {
-    const isBlogArticle = routePath.startsWith("/blog/")
+    const isArticleRoute = routePath.startsWith("/articles/")
       && routeMetadata.pageType === "article";
 
-    if (!Object.hasOwn(publicRouteContracts, routePath) && !isBlogArticle) {
+    if (!Object.hasOwn(publicRouteContracts, routePath) && !isArticleRoute) {
       throw new Error(`Metadata route is missing its prerender contract: ${routePath}`);
     }
   }
@@ -362,7 +362,7 @@ function getPublicRouteEntries(routes) {
   return routeEntries.map(([routePath, routeMetadata]) => {
     const routeContract = publicRouteContracts[routePath]
       ?? {
-        expectedMainClass: "site-page blog-article",
+        expectedMainClass: "site-page article-page",
         structuredDataType: "article",
       };
 

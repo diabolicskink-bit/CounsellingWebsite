@@ -61,13 +61,13 @@ const devRoutes = import.meta.env.DEV
     ]
   : [];
 
-export type BlogPageComponents = Readonly<{
-  Article: ComponentType;
+export type ArticlePageComponents = Readonly<{
+  Page: ComponentType;
   Index: ComponentType;
 }>;
 
 export type AppProps = {
-  blogPages: BlogPageComponents;
+  articlePages: ArticlePageComponents;
   initialRenderAt: string;
 };
 
@@ -97,8 +97,8 @@ function AnalyticsRoute() {
   );
 }
 
-export default function App({ blogPages, initialRenderAt }: AppProps) {
-  const { Article: BlogArticle, Index: BlogIndex } = blogPages;
+export default function App({ articlePages, initialRenderAt }: AppProps) {
+  const { Index: ArticleIndex, Page: ArticlePage } = articlePages;
 
   return (
     <>
@@ -120,18 +120,18 @@ export default function App({ blogPages, initialRenderAt }: AppProps) {
           <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
           <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
           <Route
-            path={publicRoutePaths.blog}
+            path={publicRoutePaths.articles}
             element={(
               <Suspense fallback={null}>
-                <BlogIndex />
+                <ArticleIndex />
               </Suspense>
             )}
           />
           <Route
-            path={`${publicRoutePaths.blog}/:slug`}
+            path={`${publicRoutePaths.articles}/:slug`}
             element={(
               <Suspense fallback={null}>
-                <BlogArticle />
+                <ArticlePage />
               </Suspense>
             )}
           />

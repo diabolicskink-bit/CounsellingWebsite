@@ -1,11 +1,11 @@
-export type BlogArticlePresentationKey = "ant-trail" | "fossil-record";
+export type ArticlePresentationKey = "ant-trail" | "fossil-record";
 
-export type BlogPostMetadata = Readonly<{
+export type ArticleMetadata = Readonly<{
   abstract: string;
   author: string;
   description: string;
   isSample?: boolean;
-  presentation?: BlogArticlePresentationKey;
+  presentation?: ArticlePresentationKey;
   publishedAt: string;
   slug: string;
   sourceNote?: string;
@@ -14,9 +14,9 @@ export type BlogPostMetadata = Readonly<{
   updatedAt?: string;
 }>;
 
-const blogSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const blogDatePattern = /^\d{4}-\d{2}-\d{2}$/;
-const blogDateFormatter = new Intl.DateTimeFormat("en-AU", {
+const articleSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const articleDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+const articleDateFormatter = new Intl.DateTimeFormat("en-AU", {
   day: "numeric",
   month: "long",
   timeZone: "UTC",
@@ -29,9 +29,9 @@ const requiredTextFields = [
   "slug",
   "title",
   "topic",
-] as const satisfies readonly (keyof BlogPostMetadata)[];
+] as const satisfies readonly (keyof ArticleMetadata)[];
 
-const publishedBlogPostMetadata = [
+const publishedArticleMetadata = [
   {
     abstract:
       "Good intentions are not enough for kink-affirming therapy. A therapist needs to understand BDSM well enough to explore what it means without mistaking consensual power for pathology or overlooking genuine harm.",
@@ -71,12 +71,12 @@ const publishedBlogPostMetadata = [
     title: "What dinosaur fossils can and cannot tell us",
     topic: "Palaeontology",
   },
-] as const satisfies readonly BlogPostMetadata[];
+] as const satisfies readonly ArticleMetadata[];
 
-export type BlogPostSlug = (typeof publishedBlogPostMetadata)[number]["slug"];
+export type ArticleSlug = (typeof publishedArticleMetadata)[number]["slug"];
 
 function isIsoDate(value: string) {
-  if (!blogDatePattern.test(value)) {
+  if (!articleDatePattern.test(value)) {
     return false;
   }
 
@@ -86,76 +86,76 @@ function isIsoDate(value: string) {
     && parsedDate.toISOString().slice(0, 10) === value;
 }
 
-export function validateBlogPostManifest(posts: readonly BlogPostMetadata[]) {
+export function validateArticleManifest(articles: readonly ArticleMetadata[]) {
   const seenSlugs = new Set<string>();
 
-  for (const post of posts) {
+  for (const article of articles) {
     for (const field of requiredTextFields) {
-      const value = post[field];
+      const value = article[field];
 
       if (typeof value !== "string" || !value.trim()) {
-        throw new Error(`Blog post ${post.slug || "without a slug"} has an empty ${field}.`);
+        throw new Error(`Article ${article.slug || "without a slug"} has an empty ${field}.`);
       }
     }
 
-    if (!blogSlugPattern.test(post.slug)) {
-      throw new Error(`Blog post slug must be URL-safe: ${post.slug}`);
+    if (!articleSlugPattern.test(article.slug)) {
+      throw new Error(`Article slug must be URL-safe: ${article.slug}`);
     }
 
-    if (seenSlugs.has(post.slug)) {
-      throw new Error(`Duplicate blog post slug: ${post.slug}`);
+    if (seenSlugs.has(article.slug)) {
+      throw new Error(`Duplicate article slug: ${article.slug}`);
     }
 
-    if (!isIsoDate(post.publishedAt)) {
-      throw new Error(`Blog post has an invalid publication date: ${post.slug}`);
+    if (!isIsoDate(article.publishedAt)) {
+      throw new Error(`Article has an invalid publication date: ${article.slug}`);
     }
 
-    if (post.updatedAt && !isIsoDate(post.updatedAt)) {
-      throw new Error(`Blog post has an invalid updated date: ${post.slug}`);
+    if (article.updatedAt && !isIsoDate(article.updatedAt)) {
+      throw new Error(`Article has an invalid updated date: ${article.slug}`);
     }
 
-    if (post.updatedAt && post.updatedAt < post.publishedAt) {
-      throw new Error(`Blog post updated date precedes its publication date: ${post.slug}`);
+    if (article.updatedAt && article.updatedAt < article.publishedAt) {
+      throw new Error(`Article updated date precedes its publication date: ${article.slug}`);
     }
 
-    if (post.sourceNote !== undefined && !post.sourceNote.trim()) {
-      throw new Error(`Blog post has an empty source note: ${post.slug}`);
+    if (article.sourceNote !== undefined && !article.sourceNote.trim()) {
+      throw new Error(`Article has an empty source note: ${article.slug}`);
     }
 
-    seenSlugs.add(post.slug);
+    seenSlugs.add(article.slug);
   }
 }
 
-validateBlogPostManifest(publishedBlogPostMetadata);
+validateArticleManifest(publishedArticleMetadata);
 
-export const blogPostMetadata: readonly (BlogPostMetadata & { slug: BlogPostSlug })[] = [
-  ...publishedBlogPostMetadata,
+export const articleMetadata: readonly (ArticleMetadata & { slug: ArticleSlug })[] = [
+  ...publishedArticleMetadata,
 ].sort((left, right) => right.publishedAt.localeCompare(left.publishedAt));
 
-export function getBlogPostPath(slug: string) {
-  return `/blog/${slug}`;
+export function getArticlePath(slug: string) {
+  return `/articles/${slug}`;
 }
 
-export function formatBlogDate(date: string) {
-  return blogDateFormatter.format(new Date(`${date}T00:00:00Z`));
+export function formatArticleDate(date: string) {
+  return articleDateFormatter.format(new Date(`${date}T00:00:00Z`));
 }
 
-export function getBlogRouteMetadata() {
+export function getArticleRouteMetadata() {
   return Object.fromEntries(
-    blogPostMetadata.map((post) => [
-      getBlogPostPath(post.slug),
+    articleMetadata.map((article) => [
+      getArticlePath(article.slug),
       {
-        abstract: post.abstract,
-        articleSection: post.topic,
-        authorName: post.author,
-        description: post.description,
-        headline: post.title,
-        lastModified: post.updatedAt ?? post.publishedAt,
-        modifiedAt: post.updatedAt ?? post.publishedAt,
+        abstract: article.abstract,
+        articleSection: article.topic,
+        authorName: article.author,
+        description: article.description,
+        headline: article.title,
+        lastModified: article.updatedAt ?? article.publishedAt,
+        modifiedAt: article.updatedAt ?? article.publishedAt,
         pageType: "article" as const,
-        publishedAt: post.publishedAt,
-        robots: post.isSample ? "noindex, nofollow" : undefined,
-        title: `${post.title} | Vive Counselling`,
+        publishedAt: article.publishedAt,
+        robots: article.isSample ? "noindex, nofollow" : undefined,
+        title: `${article.title} | Vive Counselling`,
       },
     ]),
   );
