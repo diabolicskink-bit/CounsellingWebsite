@@ -281,6 +281,7 @@ function renderCrisisSupportStructuredData(routeMetadata, siteMetadata, siteOrig
       {
         "@type": "BreadcrumbList",
         "@id": breadcrumbId,
+        name: "Crisis support breadcrumb trail",
         itemListElement: [
           {
             "@type": "ListItem",
@@ -292,6 +293,7 @@ function renderCrisisSupportStructuredData(routeMetadata, siteMetadata, siteOrig
             "@type": "ListItem",
             position: 2,
             name: "Crisis support",
+            item: pageUrl,
           },
         ],
       },
@@ -369,6 +371,7 @@ function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, sit
       {
         "@type": "BreadcrumbList",
         "@id": breadcrumbId,
+        name: `${routeMetadata.headline ?? routeMetadata.title} breadcrumb trail`,
         itemListElement: [
           {
             "@type": "ListItem",
@@ -380,6 +383,7 @@ function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, sit
             "@type": "ListItem",
             position: 2,
             name: routeMetadata.articleSection,
+            item: pageUrl,
           },
         ],
       },
