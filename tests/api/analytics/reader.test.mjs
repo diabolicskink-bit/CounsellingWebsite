@@ -256,34 +256,18 @@ test("reads an aggregated page-view breakdown in one query", async () => {
   const { calls, database } = createDatabase([
     {
       activeSeconds: "250",
-      emailClicks: "2",
-      instagramClicks: "1",
-      linkedinClicks: "0",
-      outboundClicks: "3",
       pageViews: "5",
       path: "/contact",
       totalActiveSeconds: "370",
-      totalEmailClicks: "2",
-      totalInstagramClicks: "1",
-      totalLinkedinClicks: "1",
-      totalOutboundClicks: "4",
       totalPageViews: "8",
       totalVisits: "4",
       visits: "3",
     },
     {
       activeSeconds: "120",
-      emailClicks: "0",
-      instagramClicks: "0",
-      linkedinClicks: "1",
-      outboundClicks: "1",
       pageViews: "3",
       path: "/",
       totalActiveSeconds: "370",
-      totalEmailClicks: "2",
-      totalInstagramClicks: "1",
-      totalLinkedinClicks: "1",
-      totalOutboundClicks: "4",
       totalPageViews: "8",
       totalVisits: "4",
       visits: "2",
@@ -308,20 +292,12 @@ test("reads an aggregated page-view breakdown in one query", async () => {
     routes: [
       {
         activeSeconds: 250,
-        emailClicks: 2,
-        instagramClicks: 1,
-        linkedinClicks: 0,
-        outboundClicks: 3,
         pageViews: 5,
         path: "/contact",
         visits: 3,
       },
       {
         activeSeconds: 120,
-        emailClicks: 0,
-        instagramClicks: 0,
-        linkedinClicks: 1,
-        outboundClicks: 1,
         pageViews: 3,
         path: "/",
         visits: 2,
@@ -329,10 +305,6 @@ test("reads an aggregated page-view breakdown in one query", async () => {
     ],
     startDate: "2026-08-01",
     totalActiveSeconds: 370,
-    totalEmailClicks: 2,
-    totalInstagramClicks: 1,
-    totalLinkedinClicks: 1,
-    totalOutboundClicks: 4,
     totalPageViews: 8,
     totalVisits: 4,
     type: "pageViews",
@@ -341,10 +313,7 @@ test("reads an aggregated page-view breakdown in one query", async () => {
   assert.match(calls[0].query, /SUM\(page_views\.active_seconds\)/);
   assert.match(calls[0].query, /ledger\.is_bot IS DISTINCT FROM TRUE/);
   assert.match(calls[0].query, /analytics_excluded_visitors/);
-  assert.match(calls[0].query, /visit_events\.event_type = 'email_link_clicked'/);
-  assert.match(calls[0].query, /visit_events\.event_type = 'instagram_link_clicked'/);
-  assert.match(calls[0].query, /visit_events\.event_type = 'linkedin_link_clicked'/);
-  assert.match(calls[0].query, /page_views\.id = visit_events\.page_view_id/);
+  assert.doesNotMatch(calls[0].query, /site_visit_events|outbound|_clicks/);
 });
 
 test("reads keyword journeys with visit depth, active time and enquiry outcomes", async () => {
@@ -469,10 +438,6 @@ test("returns a complete empty page-view report", async () => {
     routes: [],
     startDate: "2026-08-15",
     totalActiveSeconds: 0,
-    totalEmailClicks: 0,
-    totalInstagramClicks: 0,
-    totalLinkedinClicks: 0,
-    totalOutboundClicks: 0,
     totalPageViews: 0,
     totalVisits: 0,
     type: "pageViews",

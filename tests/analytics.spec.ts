@@ -179,7 +179,7 @@ test.describe("private analytics boundaries", () => {
     ).toHaveCount(0);
   });
 
-  test("integrates outbound actions and coarse location across daily and route reports", async ({ page }) => {
+  test("reports outbound actions in daily view and coarse location across reports", async ({ page }) => {
     const date = "2026-08-15";
     const pageViewId = "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf";
     const visit = {
@@ -244,20 +244,12 @@ test.describe("private analytics boundaries", () => {
               endDate: requestUrl.searchParams.get("end"),
               routes: [{
                 activeSeconds: 75,
-                emailClicks: 1,
-                instagramClicks: 1,
-                linkedinClicks: 0,
-                outboundClicks: 2,
                 pageViews: 1,
                 path: "/contact",
                 visits: 1,
               }],
               startDate: requestUrl.searchParams.get("start"),
               totalActiveSeconds: 75,
-              totalEmailClicks: 1,
-              totalInstagramClicks: 1,
-              totalLinkedinClicks: 0,
-              totalOutboundClicks: 2,
               totalPageViews: 1,
               totalVisits: 1,
               type: "pageViews",
@@ -303,12 +295,11 @@ test.describe("private analytics boundaries", () => {
     }).click();
 
     await expect(page).toHaveURL(/\/analytics\/pages\?/);
-    const routeActions = page.getByRole("region", { name: "Outbound actions" });
-    await expect(routeActions).toContainText("2");
-    await expect(routeActions).toContainText("Email1");
-    await expect(routeActions).toContainText("Instagram1");
+    await expect(page.getByRole("heading", { level: 1, name: "Page views" })).toBeVisible();
+    await expect(page.getByText("Attributed intent", { exact: true })).toHaveCount(0);
+    await expect(page.getByRole("columnheader", { name: "Outbound" })).toHaveCount(0);
     const contactRoute = page.getByRole("row").filter({ hasText: "/contact" });
-    await expect(contactRoute).toContainText("1 email · 1 IG");
+    await expect(contactRoute).toBeVisible();
   });
 
   test("loads and sorts matched keywords across route and range changes", async ({ page }) => {

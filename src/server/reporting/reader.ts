@@ -188,56 +188,17 @@ route_counts AS (
   INNER JOIN included_visits
     ON included_visits.visit_id = page_views.visit_id
   GROUP BY page_views.path
-),
-route_actions AS (
-  SELECT
-    page_views.path,
-    COUNT(*) FILTER (
-      WHERE visit_events.event_type = 'email_link_clicked'
-    )::INTEGER AS email_clicks,
-    COUNT(*) FILTER (
-      WHERE visit_events.event_type = 'instagram_link_clicked'
-    )::INTEGER AS instagram_clicks,
-    COUNT(*) FILTER (
-      WHERE visit_events.event_type = 'linkedin_link_clicked'
-    )::INTEGER AS linkedin_clicks
-  FROM site_visit_events AS visit_events
-  INNER JOIN included_visits
-    ON included_visits.visit_id = visit_events.visit_id
-  INNER JOIN site_page_views AS page_views
-    ON page_views.id = visit_events.page_view_id
-    AND page_views.visit_id = visit_events.visit_id
-  WHERE visit_events.event_type IN (
-    'email_link_clicked',
-    'instagram_link_clicked',
-    'linkedin_link_clicked'
-  )
-  GROUP BY page_views.path
 )
 SELECT
   route_counts.path,
   route_counts.active_seconds AS "activeSeconds",
-  COALESCE(route_actions.email_clicks, 0) AS "emailClicks",
-  COALESCE(route_actions.instagram_clicks, 0) AS "instagramClicks",
-  COALESCE(route_actions.linkedin_clicks, 0) AS "linkedinClicks",
-  COALESCE(route_actions.email_clicks, 0)
-    + COALESCE(route_actions.instagram_clicks, 0)
-    + COALESCE(route_actions.linkedin_clicks, 0) AS "outboundClicks",
   route_counts.page_view_count AS "pageViews",
   route_counts.visit_count AS "visits",
   (SELECT COUNT(*)::INTEGER FROM included_visits) AS "totalVisits",
   COALESCE((SELECT SUM(active_seconds)::INTEGER FROM route_counts), 0) AS "totalActiveSeconds",
-  COALESCE((SELECT SUM(email_clicks)::INTEGER FROM route_actions), 0) AS "totalEmailClicks",
-  COALESCE((SELECT SUM(instagram_clicks)::INTEGER FROM route_actions), 0) AS "totalInstagramClicks",
-  COALESCE((SELECT SUM(linkedin_clicks)::INTEGER FROM route_actions), 0) AS "totalLinkedinClicks",
-  COALESCE((
-    SELECT SUM(email_clicks + instagram_clicks + linkedin_clicks)::INTEGER
-    FROM route_actions
-  ), 0) AS "totalOutboundClicks",
   COALESCE((SELECT SUM(page_view_count)::INTEGER FROM route_counts), 0) AS "totalPageViews"
 FROM (SELECT 1) AS report_row
 LEFT JOIN route_counts ON TRUE
-LEFT JOIN route_actions ON route_actions.path = route_counts.path
 ORDER BY route_counts.page_view_count DESC NULLS LAST, route_counts.path ASC;
 `;
 
@@ -645,10 +606,6 @@ export async function readAnalytics(
     ]) as AnalyticsVisitRow[];
     const totals = rows[0] ?? {
       totalActiveSeconds: 0,
-      totalEmailClicks: 0,
-      totalInstagramClicks: 0,
-      totalLinkedinClicks: 0,
-      totalOutboundClicks: 0,
       totalPageViews: 0,
       totalVisits: 0,
     };
@@ -656,10 +613,6 @@ export async function readAnalytics(
       .filter((row) => row.path !== null && row.path !== undefined)
       .map((row) => ({
         activeSeconds: nonNegativeInteger(row.activeSeconds, "route active time"),
-        emailClicks: nonNegativeInteger(row.emailClicks, "route email clicks"),
-        instagramClicks: nonNegativeInteger(row.instagramClicks, "route Instagram clicks"),
-        linkedinClicks: nonNegativeInteger(row.linkedinClicks, "route LinkedIn clicks"),
-        outboundClicks: nonNegativeInteger(row.outboundClicks, "route outbound clicks"),
         pageViews: nonNegativeInteger(row.pageViews, "route page views"),
         path: requiredString(row.path, "route path"),
         visits: nonNegativeInteger(row.visits, "route visits"),
@@ -670,19 +623,6 @@ export async function readAnalytics(
       routes,
       startDate: selection.startDate,
       totalActiveSeconds: nonNegativeInteger(totals.totalActiveSeconds, "total active time"),
-      totalEmailClicks: nonNegativeInteger(totals.totalEmailClicks, "total email clicks"),
-      totalInstagramClicks: nonNegativeInteger(
-        totals.totalInstagramClicks,
-        "total Instagram clicks",
-      ),
-      totalLinkedinClicks: nonNegativeInteger(
-        totals.totalLinkedinClicks,
-        "total LinkedIn clicks",
-      ),
-      totalOutboundClicks: nonNegativeInteger(
-        totals.totalOutboundClicks,
-        "total outbound clicks",
-      ),
       totalPageViews: nonNegativeInteger(totals.totalPageViews, "total page views"),
       totalVisits: nonNegativeInteger(totals.totalVisits, "total visits"),
       type: "pageViews",

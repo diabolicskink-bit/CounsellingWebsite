@@ -2,10 +2,6 @@ import type { CSSProperties } from "react";
 import { useState } from "react";
 import {
   ArrowLeft,
-  ExternalLink,
-  Instagram,
-  Linkedin,
-  Mail,
   Radio,
 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -106,32 +102,6 @@ function PageViewsReport({
         <div><span>Active time</span><strong>{formatActiveTime(report.totalActiveSeconds)}</strong></div>
       </section>
 
-      <section className="page-view-actions" aria-labelledby="page-view-actions-title">
-        <div className="page-view-actions__total">
-          <ExternalLink aria-hidden="true" size={22} />
-          <div>
-            <p className="signal-kicker">Attributed intent</p>
-            <h2 id="page-view-actions-title">Outbound actions</h2>
-          </div>
-          <strong>{report.totalOutboundClicks}</strong>
-          <span>clicks linked to a viewed route</span>
-        </div>
-        <dl>
-          <div>
-            <dt><Mail aria-hidden="true" size={15} /> Email</dt>
-            <dd>{report.totalEmailClicks}</dd>
-          </div>
-          <div>
-            <dt><Instagram aria-hidden="true" size={15} /> Instagram</dt>
-            <dd>{report.totalInstagramClicks}</dd>
-          </div>
-          <div>
-            <dt><Linkedin aria-hidden="true" size={15} /> LinkedIn</dt>
-            <dd>{report.totalLinkedinClicks}</dd>
-          </div>
-        </dl>
-      </section>
-
       <section className="signal-report__section" aria-labelledby="page-view-routes-title">
         <header className="signal-report__section-header">
           <div>
@@ -150,7 +120,7 @@ function PageViewsReport({
           >
             <table className="signal-report__table page-view-report__table">
               <caption className="signal-visually-hidden">
-                Routes ranked by page views, including share of views, visits, average active time and outbound actions
+                Routes ranked by page views, including share of views, visits and average active time
               </caption>
               <thead>
                 <tr>
@@ -160,7 +130,6 @@ function PageViewsReport({
                   <th scope="col">Views</th>
                   <th scope="col">Visits</th>
                   <th scope="col">Avg active</th>
-                  <th scope="col">Outbound</th>
                 </tr>
               </thead>
               <tbody>
@@ -189,18 +158,6 @@ function PageViewsReport({
                           ? formatActiveTime(Math.round(route.activeSeconds / route.pageViews))
                           : "\u2014"}
                       </td>
-                      <td className="page-view-report__actions">
-                        <strong>{route.outboundClicks}</strong>
-                        {route.outboundClicks ? (
-                          <small>
-                            {[
-                              route.emailClicks ? `${route.emailClicks} email` : null,
-                              route.instagramClicks ? `${route.instagramClicks} IG` : null,
-                              route.linkedinClicks ? `${route.linkedinClicks} LI` : null,
-                            ].filter(Boolean).join(" \u00b7 ")}
-                          </small>
-                        ) : null}
-                      </td>
                     </tr>
                   );
                 })}
@@ -218,8 +175,7 @@ function PageViewsReport({
 
       <p className="signal-footnote">
         Totals use visits that began in the selected Australia/Perth date range. Active time counts
-        seconds while a page is visible. Outbound actions count tracked email, Instagram and
-        LinkedIn clicks associated with each page view. {includeBots
+        seconds while a page is visible. {includeBots
           ? "Bot visits are included."
           : "Identified bot visits are excluded."}
       </p>
