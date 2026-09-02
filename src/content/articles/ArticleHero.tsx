@@ -41,7 +41,9 @@ export default function ArticleHero({ article }: ArticleHeroProps) {
           <dl className="article-hero__details" aria-label="Article details">
             <div>
               <dt>Author</dt>
-              <dd>{article.author}</dd>
+              <dd>
+                <Link to={publicRoutePaths.workingWithJoel}>{article.author}</Link>
+              </dd>
             </div>
             <div>
               <dt>Published</dt>

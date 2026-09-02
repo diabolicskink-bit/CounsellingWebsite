@@ -13,6 +13,12 @@ export type ArticleEditorBlock = Readonly<{
   value: string;
 }>;
 
+export type MarkdownTextEdit = Readonly<{
+  selectionEnd: number;
+  selectionStart: number;
+  value: string;
+}>;
+
 const blockLabels = {
   code: "Code",
   list: "List",
@@ -84,6 +90,44 @@ export function serializeArticleMarkdown(blocks: readonly ArticleEditorBlock[]) 
     })
     .filter(Boolean)
     .join("\n\n");
+}
+
+export function toggleMarkdownBold(
+  value: string,
+  selectionStart: number,
+  selectionEnd: number,
+): MarkdownTextEdit {
+  const start = Math.max(0, Math.min(selectionStart, selectionEnd, value.length));
+  const end = Math.max(start, Math.min(Math.max(selectionStart, selectionEnd), value.length));
+  const selectedText = value.slice(start, end);
+  const selectionIncludesMarkers = selectedText.length >= 4
+    && selectedText.startsWith("**")
+    && selectedText.endsWith("**");
+  const selectionHasSurroundingMarkers = start >= 2
+    && value.slice(start - 2, start) === "**"
+    && value.slice(end, end + 2) === "**";
+
+  if (selectionIncludesMarkers) {
+    return {
+      selectionEnd: end - 4,
+      selectionStart: start,
+      value: `${value.slice(0, start)}${selectedText.slice(2, -2)}${value.slice(end)}`,
+    };
+  }
+
+  if (selectionHasSurroundingMarkers) {
+    return {
+      selectionEnd: end - 2,
+      selectionStart: start - 2,
+      value: `${value.slice(0, start - 2)}${selectedText}${value.slice(end + 2)}`,
+    };
+  }
+
+  return {
+    selectionEnd: end + 2,
+    selectionStart: start + 2,
+    value: `${value.slice(0, start)}**${selectedText}**${value.slice(end)}`,
+  };
 }
 
 export function getArticleEditorBlockLabel(block: ArticleEditorBlock) {

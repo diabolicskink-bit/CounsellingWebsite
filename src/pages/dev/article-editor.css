@@ -261,20 +261,63 @@
 .article-editor-document__heading {
   display: flex;
   gap: 20px;
-  align-items: baseline;
+  align-items: start;
   justify-content: space-between;
   margin-bottom: 26px;
   padding-bottom: 12px;
   border-bottom: 1px solid color-mix(in srgb, var(--cedar) 20%, transparent);
 }
 
-.article-editor-document__heading p {
+.article-editor-document__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.article-editor-document__controls p {
   max-width: 48ch;
   margin: 0;
   color: var(--muted);
   font-size: 0.74rem;
   line-height: 1.45;
   text-align: right;
+}
+
+.article-editor-formatting {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.article-editor-formatting button {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  min-height: 40px;
+  padding: 7px 10px;
+  border: 1px solid color-mix(in srgb, var(--cedar) 32%, transparent);
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 760;
+}
+
+.article-editor-formatting button:hover {
+  border-color: var(--cedar);
+  color: var(--cedar);
+}
+
+.article-editor-formatting button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--cedar) 30%, transparent);
+  outline-offset: 3px;
+}
+
+.article-editor-formatting kbd {
+  color: var(--muted);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.62rem;
+  font-weight: 500;
 }
 
 .article-editor-block {
@@ -654,6 +697,11 @@
 
   .article-editor-document__heading p {
     text-align: left;
+  }
+
+  .article-editor-document__controls {
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   .article-editor-references__heading {

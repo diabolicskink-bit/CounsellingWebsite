@@ -301,6 +301,12 @@
   text-wrap: balance;
 }
 
+.article-page__prose--standard > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
 .article-page__prose--standard h3 {
   margin-top: 1.55em;
 }

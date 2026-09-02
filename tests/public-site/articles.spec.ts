@@ -53,6 +53,8 @@ test.describe("article publishing", () => {
       await expect(breadcrumb.getByRole("link", { name: "Articles" }))
         .toHaveAttribute("href", "/articles");
       await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(article.topic);
+      await expect(page.getByRole("link", { name: article.author, exact: true }))
+        .toHaveAttribute("href", "/working-with-joel");
       if (article.isSample) {
         await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", noindexDirective);
       } else {

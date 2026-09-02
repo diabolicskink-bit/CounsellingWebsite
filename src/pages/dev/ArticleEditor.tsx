@@ -9,6 +9,7 @@ import {
   type TextareaHTMLAttributes,
 } from "react";
 import {
+  Bold as BoldIcon,
   ExternalLink,
   Plus,
   RotateCcw,
@@ -25,6 +26,7 @@ import {
   getArticleEditorBlockLabel,
   parseArticleMarkdown,
   serializeArticleMarkdown,
+  toggleMarkdownBold,
   type ArticleEditorBlock,
 } from "./articleEditorMarkdown";
 import "./article-editor.css";
@@ -100,6 +102,7 @@ function referencesMatch(
 
 export default function ArticleEditor() {
   const editorRef = useRef<HTMLFormElement>(null);
+  const activeBodyTextareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [selectedSlug, setSelectedSlug] = useState(initialArticle?.slug ?? "");
   const [blocks, setBlocks] = useState<ArticleEditorBlock[]>(
     () => initialArticle ? parseArticleMarkdown(initialArticle.body) : [],
@@ -183,6 +186,41 @@ export default function ArticleEditor() {
       blockIndex === index ? { ...block, value } : block
     )));
     setSaveStatus(idleStatus);
+  };
+
+  const applyBoldFormatting = (
+    textarea: HTMLTextAreaElement,
+    blockIndex: number,
+  ) => {
+    const block = blocks[blockIndex];
+
+    if (!block) {
+      return;
+    }
+
+    const edit = toggleMarkdownBold(
+      block.value,
+      textarea.selectionStart,
+      textarea.selectionEnd,
+    );
+    handleBlockChange(blockIndex, edit.value);
+
+    window.requestAnimationFrame(() => {
+      textarea.focus();
+      textarea.setSelectionRange(edit.selectionStart, edit.selectionEnd);
+      resizeTextarea(textarea);
+    });
+  };
+
+  const handleBold = () => {
+    const textarea = activeBodyTextareaRef.current
+      ?? editorRef.current?.querySelector<HTMLTextAreaElement>("[data-article-editor-block]");
+    const blockIndex = Number(textarea?.dataset.articleEditorBlock);
+
+    if (textarea && Number.isInteger(blockIndex)) {
+      activeBodyTextareaRef.current = textarea;
+      applyBoldFormatting(textarea, blockIndex);
+    }
   };
 
   const handleReferenceChange = (
@@ -348,7 +386,22 @@ export default function ArticleEditor() {
             >
               <div className="article-editor-document__heading">
                 <span>Body</span>
-                <p>Blank Markdown lines are represented by the spacing between blocks.</p>
+                <div className="article-editor-document__controls">
+                  <p>Blank Markdown lines are represented by the spacing between blocks.</p>
+                  <div aria-label="Text formatting" className="article-editor-formatting" role="toolbar">
+                    <button
+                      aria-keyshortcuts="Control+B Meta+B"
+                      onClick={handleBold}
+                      onMouseDown={(event) => event.preventDefault()}
+                      title="Bold selected text (Ctrl/Cmd+B)"
+                      type="button"
+                    >
+                      <BoldIcon aria-hidden="true" size={16} strokeWidth={2.4} />
+                      Bold
+                      <kbd>Ctrl/⌘B</kbd>
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div className="article-editor-blocks">
@@ -362,6 +415,16 @@ export default function ArticleEditor() {
                     </span>
                     <AutoGrowingTextarea
                       aria-label={`${getArticleEditorBlockLabel(block)} block ${index + 1}`}
+                      data-article-editor-block={index}
+                      onFocus={(event) => {
+                        activeBodyTextareaRef.current = event.currentTarget;
+                      }}
+                      onKeyDown={(event) => {
+                        if ((event.ctrlKey || event.metaKey) && !event.altKey && event.key.toLowerCase() === "b") {
+                          event.preventDefault();
+                          applyBoldFormatting(event.currentTarget, index);
+                        }
+                      }}
                       onValueChange={(value) => handleBlockChange(index, value)}
                       value={block.value}
                     />
