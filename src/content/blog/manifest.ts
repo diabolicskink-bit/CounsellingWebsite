@@ -1,8 +1,4 @@
-import {
-  blogArticlePresentationDefinitions,
-  isBlogArticlePresentationKey,
-  type BlogArticlePresentationKey,
-} from "./presentationDefinitions.ts";
+export type BlogArticlePresentationKey = "ant-trail" | "fossil-record";
 
 export type BlogPostMetadata = Readonly<{
   abstract: string;
@@ -54,7 +50,7 @@ const publishedBlogPostMetadata = [
     description:
       "A sample article explaining how ant colonies use local signals, positive feedback and correction to organise a foraging route.",
     isSample: true,
-    presentation: blogArticlePresentationDefinitions.antTrail.key,
+    presentation: "ant-trail",
     publishedAt: "2026-08-12",
     slug: "how-ant-colonies-choose-a-route",
     sourceNote: "Sample article created to demonstrate a subject-specific presentation.",
@@ -68,7 +64,7 @@ const publishedBlogPostMetadata = [
     description:
       "A sample article distinguishing the evidence provided by dinosaur body fossils, trace fossils and geological context from later inference.",
     isSample: true,
-    presentation: blogArticlePresentationDefinitions.fossilRecord.key,
+    presentation: "fossil-record",
     publishedAt: "2026-08-12",
     slug: "what-dinosaur-fossils-can-tell-us",
     sourceNote: "Sample article created to demonstrate a subject-specific presentation.",
@@ -124,10 +120,6 @@ export function validateBlogPostManifest(posts: readonly BlogPostMetadata[]) {
 
     if (post.sourceNote !== undefined && !post.sourceNote.trim()) {
       throw new Error(`Blog post has an empty source note: ${post.slug}`);
-    }
-
-    if (post.presentation && !isBlogArticlePresentationKey(post.presentation)) {
-      throw new Error(`Blog post has an unknown presentation: ${post.slug}`);
     }
 
     seenSlugs.add(post.slug);

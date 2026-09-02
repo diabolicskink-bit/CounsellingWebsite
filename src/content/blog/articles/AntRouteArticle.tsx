@@ -1,8 +1,7 @@
 import ArticleMarkdown from "../ArticleMarkdown";
-import type { BlogPost } from "../posts";
 import "./ant-route.css";
 
-export default function AntRouteArticle({ post }: { post: BlogPost }) {
+export default function AntRouteArticle({ body }: Readonly<{ body: string }>) {
   return (
     <div className="ant-article">
       <section className="ant-article__model" aria-labelledby="ant-route-model-title">
@@ -30,7 +29,7 @@ export default function AntRouteArticle({ post }: { post: BlogPost }) {
         </ol>
       </section>
 
-      <ArticleMarkdown body={post.body} className="blog-article__prose ant-article__prose" />
+      <ArticleMarkdown body={body} className="blog-article__prose ant-article__prose" />
     </div>
   );
 }

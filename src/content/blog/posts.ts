@@ -25,7 +25,7 @@ const blogPostTemplates = {
 export const blogPosts: readonly BlogPost[] = blogPostMetadata.map((post) => ({
   ...post,
   body: blogPostTemplates[post.slug].body,
-  references: blogPostTemplates[post.slug].references ?? [],
+  references: blogPostTemplates[post.slug].references,
 }));
 
 export function getBlogPostBySlug(slug: string | undefined) {

@@ -28,10 +28,7 @@ test("keeps every published manifest entry paired with a non-empty article body"
 
     for (const reference of post.references) {
       assert.ok(reference.citation.trim(), `${post.slug} has an empty reference`);
-
-      if (reference.href) {
-        assert.doesNotThrow(() => new URL(reference.href));
-      }
+      assert.doesNotThrow(() => new URL(reference.href));
     }
   }
 });
@@ -50,14 +47,10 @@ test("rejects revisions dated before publication", () => {
   );
 });
 
-test("rejects duplicate slugs and unknown custom presentations", () => {
+test("rejects duplicate slugs", () => {
   assert.throws(
     () => validateBlogPostManifest([validPost, validPost]),
     /Duplicate blog post slug/,
-  );
-  assert.throws(
-    () => validateBlogPostManifest([{ ...validPost, presentation: "missing-presentation" }]),
-    /unknown presentation/,
   );
 });
 

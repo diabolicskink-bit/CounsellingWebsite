@@ -7,7 +7,7 @@ export type BlogPostReference = Readonly<{
 
 export type BlogPostTemplate<Slug extends BlogPostSlug = BlogPostSlug> = Readonly<{
   body: string;
-  references?: readonly BlogPostReference[];
+  references: readonly BlogPostReference[];
   slug: Slug;
 }>;
 

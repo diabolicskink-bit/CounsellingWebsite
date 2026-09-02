@@ -1,8 +1,7 @@
 import ArticleMarkdown from "../ArticleMarkdown";
-import type { BlogPost } from "../posts";
 import "./dinosaur-fossil.css";
 
-export default function DinosaurFossilArticle({ post }: { post: BlogPost }) {
+export default function DinosaurFossilArticle({ body }: Readonly<{ body: string }>) {
   return (
     <div className="fossil-article">
       <aside className="fossil-article__evidence-key" aria-label="Fossil evidence categories">
@@ -30,7 +29,7 @@ export default function DinosaurFossilArticle({ post }: { post: BlogPost }) {
       </aside>
 
       <ArticleMarkdown
-        body={post.body}
+        body={body}
         className="blog-article__prose fossil-article__prose"
       />
     </div>

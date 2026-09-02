@@ -1,17 +1,21 @@
 import { expect, test } from "playwright/test";
 import { blogPosts } from "../../src/content/blog/posts";
-import { getBlogPostPath } from "../../src/content/blog/manifest";
 import {
-  blogArticlePresentationDefinitions,
-  getBlogArticlePresentationDefinition,
+  getBlogPostPath,
   type BlogArticlePresentationKey,
-} from "../../src/content/blog/presentationDefinitions";
+} from "../../src/content/blog/manifest";
 
 const noindexDirective = "noindex, nofollow";
-const customPresentationBodySelectors = {
-  [blogArticlePresentationDefinitions.antTrail.key]: ".ant-article__model",
-  [blogArticlePresentationDefinitions.fossilRecord.key]: ".fossil-article__evidence-key",
-} satisfies Record<BlogArticlePresentationKey, string>;
+const customPresentationExpectations = {
+  "ant-trail": {
+    bodySelector: ".ant-article__model",
+    className: "blog-article--ant-trail",
+  },
+  "fossil-record": {
+    bodySelector: ".fossil-article__evidence-key",
+    className: "blog-article--fossil-record",
+  },
+} satisfies Record<BlogArticlePresentationKey, { bodySelector: string; className: string }>;
 
 test.describe("article publishing", () => {
   test("moves from the index into an article and back", async ({ page }) => {
@@ -40,7 +44,7 @@ test.describe("article publishing", () => {
       await page.goto(getBlogPostPath(post.slug));
 
       const articleDocument = page.locator("main.blog-article .blog-article__document");
-      const presentation = getBlogArticlePresentationDefinition(post.presentation);
+      const presentationKey = post.presentation;
 
       await expect(articleDocument.locator(".blog-article__prose")).toBeVisible();
       await expect(articleDocument.locator(".blog-article__prose .site-reading")).toHaveCount(0);
@@ -51,24 +55,25 @@ test.describe("article publishing", () => {
         await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
       }
 
-      if (presentation) {
-        await expect(articleDocument).toHaveClass(new RegExp(presentation.documentClassName));
-        await expect(articleDocument.locator(customPresentationBodySelectors[presentation.key]))
+      if (presentationKey) {
+        const expectedPresentation = customPresentationExpectations[presentationKey];
+
+        await expect(articleDocument).toHaveClass(new RegExp(expectedPresentation.className));
+        await expect(articleDocument.locator(expectedPresentation.bodySelector))
           .toBeVisible();
       } else {
         await expect(articleDocument).toHaveClass("blog-article__document");
-        await expect(articleDocument.locator(".blog-article__prose--sectioned")).toBeVisible();
+        await expect(articleDocument.locator(".blog-article__prose--standard")).toBeVisible();
       }
 
       if (post.references.length > 0) {
         const referenceLedger = articleDocument.locator(".blog-article__references");
-        const linkedReferenceCount = post.references.filter((reference) => reference.href).length;
 
         await expect(referenceLedger.getByRole("heading", { level: 2, name: "References" }))
           .toBeVisible();
         await expect(referenceLedger.locator("li")).toHaveCount(post.references.length);
         await expect(referenceLedger.locator(".blog-article__reference-link"))
-          .toHaveCount(linkedReferenceCount);
+          .toHaveCount(post.references.length);
         await expect(referenceLedger.locator(".blog-article__reference-count"))
           .toHaveText(
             `${post.references.length} ${post.references.length === 1 ? "source" : "sources"}`,

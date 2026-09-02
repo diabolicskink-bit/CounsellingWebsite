@@ -5,10 +5,9 @@ import { blogPosts } from "../content/blog/posts";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import "../content/blog/article-shared.css";
 import "../styles-blog.css";
 
-const blogMetadata = getRouteMetadata("/blog");
+const blogMetadata = getRouteMetadata(publicRoutePaths.blog);
 
 export default function BlogIndex() {
   useDocumentMetadata(blogMetadata.title, blogMetadata.description);

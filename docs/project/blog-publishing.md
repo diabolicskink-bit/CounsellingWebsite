@@ -41,11 +41,11 @@ The article continues in Markdown.`,
 
 Import that template in `src/content/blog/posts.ts` and add it to `blogPostTemplates`. The typed registry must contain exactly one template for every manifest slug. The manifest stays deliberately lightweight because shared metadata and analytics use it on every public route; article bodies and Markdown rendering load only when someone enters the Articles section.
 
-Keep the public title in the manifest rather than repeating it as a Markdown H1. Put only the article body in `body`. Put each complete bibliography entry in the optional ordered `references` array rather than adding a References heading to the body. Format every source in APA 7 style, order entries alphabetically, store the formatted reference text and Markdown italics in `citation`, and store the canonical DOI URL or a stable source destination separately in `href`.
+Keep the public title in the manifest rather than repeating it as a Markdown H1. Put only the article body in `body`. Put each complete bibliography entry in the ordered `references` array rather than adding a References heading to the body; use an empty array when an article has no sources. Format every source in APA 7 style, order entries alphabetically, store the formatted reference text and Markdown italics in `citation`, and store the canonical DOI URL or a stable source destination separately in `href`.
 
 ## Development Editor
 
-During local Vite development, `/article-editor` provides a deliberately simple content editor for existing templates. It presents paragraphs, headings, lists, quotations, tables and code as wrapped auto-height editing blocks, so ordinary Markdown paragraph separators do not appear as empty source lines. Inline Markdown remains visible. Its References section edits the structured citation and source URL separately and can add, remove, or alphabetise entries. Saving writes only the body and/or reference fields that actually changed.
+During local Vite development, `/article-editor` provides a deliberately simple content editor for existing templates. It presents paragraphs, headings, lists, quotations, tables and code as wrapped auto-height editing blocks, so ordinary Markdown paragraph separators do not appear as empty source lines. Inline Markdown remains visible. Its References section edits the structured citation and source URL separately and can add, remove, or alphabetise entries. Saving rewrites that article's small content template from its body and complete reference list in one consistent format.
 
 The editor does not change titles, metadata, template registration or custom presentations. Those remain typed source changes. Its save endpoint exists only in the Vite development server, accepts allowlisted article slugs, and refuses non-localhost requests; production builds contain neither the route nor a write endpoint.
 
@@ -63,13 +63,13 @@ Set `isSample: true` only for temporary demonstration content. Samples are visib
 
 The default presentation renders ordinary Markdown, including headings, lists, quotations, tables, emphasis, and links. Its article-owned reading layout uses a centred continuous column, compact paragraph leading, and level-two headings directly above their sections with a controlled transition rather than the public site's general reading and section rhythm. Use site-root paths such as `/working-with-joel` for internal links and complete `https://` URLs for external sources.
 
-When a template supplies `references`, the dedicated references component renders the ordered set as a wider source ledger with a source count, compact typography, ruled entries, APA-style hanging indents, and visible DOI or source URLs that remain readable at narrow widths. Each citation accepts inline Markdown, including emphasis. The component controls structure and presentation only; authors should keep academic citations complete and APA 7 formatted, with entries ordered alphabetically.
+When a template's `references` array is non-empty, the dedicated references component renders the ordered set as a wider source ledger with a source count, compact typography, ruled entries, APA-style hanging indents, and visible DOI or source URLs that remain readable at narrow widths. Each citation accepts inline Markdown, including emphasis. The component controls structure and presentation only; authors should keep academic citations complete and APA 7 formatted, with entries ordered alphabetically.
 
 An article may instead select a custom body presentation without changing the publication shell:
 
 1. Add a page-scoped React body component and stylesheet under `src/content/blog/articles/`.
-2. Add its key and scoped document class to `src/content/blog/presentationDefinitions.ts`.
-3. Register the component against that definition in `src/content/blog/presentations.tsx`.
+2. Add its key to `BlogArticlePresentationKey` in `src/content/blog/manifest.ts`.
+3. Register the component and its scoped document class in `src/content/blog/presentations.tsx`.
 4. Set the manifest object's `presentation` field to the typed definition key.
 
 `src/content/blog/ArticleHero.tsx` is the supported reusable hero template for every published article. It owns the single eyebrow-styled breadcrumb, title, abstract, author, dates, and responsive composition; its `.article-hero*` presentation lives with the other supported component styles in `src/design-system/components.css`. `BlogArticle.tsx` owns the publication note and return navigation around the body. The hero composes the supported `.site-hero`, `.site-hero__eyebrow`, `.site-hero__statement`, and `.site-hero-surface` roles while retaining its article-specific grid and metadata presentation. The registered presentation component owns only the article body. This keeps article orientation and publication details consistent while allowing structure and visual treatment below the hero to follow the subject of an individual article.

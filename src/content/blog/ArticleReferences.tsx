@@ -13,9 +13,9 @@ export default function ArticleReferences({ references }: ArticleReferencesProps
   return (
     <section
       aria-labelledby="article-references-title"
-      className="blog-article__section blog-article__references"
+      className="blog-article__references"
     >
-      <header className="blog-article__section-heading">
+      <header className="blog-article__references-heading">
         <h2 id="article-references-title">References</h2>
         <p className="blog-article__reference-count">
           {references.length} {references.length === 1 ? "source" : "sources"}
@@ -23,8 +23,8 @@ export default function ArticleReferences({ references }: ArticleReferencesProps
       </header>
 
       <ul className="blog-article__reference-list">
-        {references.map((reference, index) => (
-          <li key={`${index}-${reference.citation}`}>
+        {references.map((reference) => (
+          <li key={reference.citation}>
             <ArticleMarkdown
               body={reference.citation}
               className="blog-article__reference-copy"

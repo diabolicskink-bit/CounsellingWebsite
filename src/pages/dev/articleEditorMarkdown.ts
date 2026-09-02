@@ -13,6 +13,32 @@ export type ArticleEditorBlock = Readonly<{
   value: string;
 }>;
 
+const blockLabels = {
+  code: "Code",
+  list: "List",
+  paragraph: "Paragraph",
+  quote: "Quote",
+  table: "Table",
+} as const;
+
+function classifyBlockKind(source: string, lines: readonly string[]): ArticleEditorBlockKind {
+  if (source.startsWith("```") || source.startsWith("~~~")) {
+    return "code";
+  }
+
+  const nonEmptyLines = lines.filter((line) => line.trim());
+
+  if (nonEmptyLines.every((line) => /^\s*(?:[-*+] |\d+[.)] )/.test(line))) {
+    return "list";
+  }
+
+  if (nonEmptyLines.every((line) => /^\s*>/.test(line))) {
+    return "quote";
+  }
+
+  return lines.length > 1 && /^\s*\|/.test(lines[0]) ? "table" : "paragraph";
+}
+
 function classifyBlock(source: string, index: number): ArticleEditorBlock {
   const headingMatch = source.match(/^(#{2,6})\s+([\s\S]*)$/);
 
@@ -26,20 +52,10 @@ function classifyBlock(source: string, index: number): ArticleEditorBlock {
   }
 
   const lines = source.split("\n");
-  const nonEmptyLines = lines.filter((line) => line.trim());
-  const kind: ArticleEditorBlockKind = source.startsWith("```") || source.startsWith("~~~")
-    ? "code"
-    : nonEmptyLines.every((line) => /^\s*(?:[-*+] |\d+[.)] )/.test(line))
-      ? "list"
-      : nonEmptyLines.every((line) => /^\s*>/.test(line))
-        ? "quote"
-        : lines.length > 1 && /^\s*\|/.test(lines[0])
-          ? "table"
-          : "paragraph";
 
   return {
     id: `article-editor-block-${index + 1}`,
-    kind,
+    kind: classifyBlockKind(source, lines),
     value: source,
   };
 }
@@ -75,11 +91,5 @@ export function getArticleEditorBlockLabel(block: ArticleEditorBlock) {
     return block.marker?.toUpperCase() ?? "Heading";
   }
 
-  return {
-    code: "Code",
-    list: "List",
-    paragraph: "Paragraph",
-    quote: "Quote",
-    table: "Table",
-  }[block.kind];
+  return blockLabels[block.kind];
 }

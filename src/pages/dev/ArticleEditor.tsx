@@ -39,19 +39,12 @@ type AutoGrowingTextareaProps = Readonly<{
   value: string;
 }> & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange" | "value">;
 
-type ReferenceDraft = BlogPostReference & Readonly<{
-  id: string;
-}>;
-
-type SavedArticlePayload = Readonly<{
-  body: string;
-  references: readonly BlogPostReference[];
-}>;
-
 const idleStatus: SaveStatus = {
   kind: "idle",
   message: "Changes are saved to the article template file.",
 };
+const initialPost = blogPosts[0] ?? null;
+const referenceCollator = new Intl.Collator("en-AU", { sensitivity: "base" });
 
 function resizeTextarea(textarea: HTMLTextAreaElement) {
   textarea.style.height = "0";
@@ -87,7 +80,7 @@ function AutoGrowingTextarea({
 }
 
 function findPost(slug: string) {
-  return blogPosts.find((post) => post.slug === slug) ?? blogPosts[0] ?? null;
+  return blogPosts.find((post) => post.slug === slug) ?? initialPost;
 }
 
 function parseSaveError(payload: unknown) {
@@ -96,52 +89,23 @@ function parseSaveError(payload: unknown) {
     : "The article could not be saved.";
 }
 
-function parseSavedArticle(payload: unknown): SavedArticlePayload {
-  if (
-    !payload
-    || typeof payload !== "object"
-    || typeof (payload as { body?: unknown }).body !== "string"
-    || !Array.isArray((payload as { references?: unknown }).references)
-  ) {
-    throw new Error("The article was saved, but the editor received an invalid response.");
-  }
-
-  const references = (payload as { references: unknown[] }).references;
-
-  if (references.some((reference) => (
-    !reference
-    || typeof reference !== "object"
-    || typeof (reference as { citation?: unknown }).citation !== "string"
-    || typeof (reference as { href?: unknown }).href !== "string"
-  ))) {
-    throw new Error("The article was saved, but the editor received invalid references.");
-  }
-
-  return {
-    body: (payload as { body: string }).body,
-    references: references as BlogPostReference[],
-  };
-}
-
-function toReferences(drafts: readonly ReferenceDraft[]): BlogPostReference[] {
-  return drafts.map(({ citation, href }) => ({ citation, href }));
+function referencesMatch(
+  left: readonly BlogPostReference[],
+  right: readonly BlogPostReference[],
+) {
+  return left.length === right.length && left.every((reference, index) => (
+    reference.citation === right[index].citation && reference.href === right[index].href
+  ));
 }
 
 export default function ArticleEditor() {
-  const initialPost = blogPosts[0] ?? null;
-  const referenceIdCounter = useRef(initialPost?.references.length ?? 0);
   const editorRef = useRef<HTMLFormElement>(null);
   const [selectedSlug, setSelectedSlug] = useState(initialPost?.slug ?? "");
   const [blocks, setBlocks] = useState<ArticleEditorBlock[]>(
-    initialPost ? parseArticleMarkdown(initialPost.body) : [],
+    () => initialPost ? parseArticleMarkdown(initialPost.body) : [],
   );
-  const [referenceDrafts, setReferenceDrafts] = useState<ReferenceDraft[]>(
-    initialPost
-      ? initialPost.references.map((reference, index) => ({
-        ...reference,
-        id: `reference-${index}`,
-      }))
-      : [],
+  const [references, setReferences] = useState<BlogPostReference[]>(
+    () => initialPost ? [...initialPost.references] : [],
   );
   const [savedBody, setSavedBody] = useState(initialPost?.body ?? "");
   const [savedReferences, setSavedReferences] = useState<readonly BlogPostReference[]>(
@@ -150,10 +114,8 @@ export default function ArticleEditor() {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>(idleStatus);
   const selectedPost = findPost(selectedSlug);
   const markdown = useMemo(() => serializeArticleMarkdown(blocks), [blocks]);
-  const references = useMemo(() => toReferences(referenceDrafts), [referenceDrafts]);
-  const bodyHasChanges = markdown !== savedBody;
-  const referencesHaveChanges = JSON.stringify(references) !== JSON.stringify(savedReferences);
-  const hasChanges = bodyHasChanges || referencesHaveChanges;
+  const hasChanges = markdown !== savedBody
+    || !referencesMatch(references, savedReferences);
 
   useDocumentMetadata(
     "Article editor | Vive Counselling",
@@ -193,15 +155,10 @@ export default function ArticleEditor() {
     );
   }
 
-  const createReferenceDrafts = (items: readonly BlogPostReference[]) => items.map((reference) => ({
-    ...reference,
-    id: `reference-${referenceIdCounter.current++}`,
-  }));
-
   const loadPost = (post: BlogPost) => {
     setSelectedSlug(post.slug);
     setBlocks(parseArticleMarkdown(post.body));
-    setReferenceDrafts(createReferenceDrafts(post.references));
+    setReferences([...post.references]);
     setSavedBody(post.body);
     setSavedReferences(post.references);
     setSaveStatus(idleStatus);
@@ -229,45 +186,41 @@ export default function ArticleEditor() {
   };
 
   const handleReferenceChange = (
-    id: string,
+    index: number,
     field: "citation" | "href",
     value: string,
   ) => {
-    setReferenceDrafts((currentDrafts) => currentDrafts.map((reference) => (
-      reference.id === id ? { ...reference, [field]: value } : reference
+    setReferences((currentReferences) => currentReferences.map((reference, referenceIndex) => (
+      referenceIndex === index ? { ...reference, [field]: value } : reference
     )));
     setSaveStatus(idleStatus);
   };
 
   const handleAddReference = () => {
-    const newReference: ReferenceDraft = {
-      citation: "",
-      href: "",
-      id: `reference-${referenceIdCounter.current++}`,
-    };
-    setReferenceDrafts((currentDrafts) => [...currentDrafts, newReference]);
+    setReferences((currentReferences) => [
+      ...currentReferences,
+      { citation: "", href: "" },
+    ]);
     setSaveStatus(idleStatus);
 
     window.requestAnimationFrame(() => {
-      const citationField = editorRef.current?.querySelector<HTMLTextAreaElement>(
-        `[data-reference-id="${newReference.id}"]`,
+      const citationFields = editorRef.current?.querySelectorAll<HTMLTextAreaElement>(
+        "[data-reference-citation]",
       );
-      citationField?.focus();
+      citationFields?.item(citationFields.length - 1)?.focus();
     });
   };
 
-  const handleRemoveReference = (id: string) => {
-    setReferenceDrafts((currentDrafts) => currentDrafts.filter(
-      (reference) => reference.id !== id,
+  const handleRemoveReference = (index: number) => {
+    setReferences((currentReferences) => currentReferences.filter(
+      (_reference, referenceIndex) => referenceIndex !== index,
     ));
     setSaveStatus(idleStatus);
   };
 
   const handleSortReferences = () => {
-    setReferenceDrafts((currentDrafts) => [...currentDrafts].sort(
-      (left, right) => left.citation.localeCompare(right.citation, "en-AU", {
-        sensitivity: "base",
-      }),
+    setReferences((currentReferences) => [...currentReferences].sort(
+      (left, right) => referenceCollator.compare(left.citation, right.citation),
     ));
     setSaveStatus(idleStatus);
   };
@@ -275,7 +228,7 @@ export default function ArticleEditor() {
   const handleReset = () => {
     if (!hasChanges || window.confirm("Discard all unsaved changes to this article?")) {
       setBlocks(parseArticleMarkdown(savedBody));
-      setReferenceDrafts(createReferenceDrafts(savedReferences));
+      setReferences([...savedReferences]);
       setSaveStatus(idleStatus);
     }
   };
@@ -291,10 +244,7 @@ export default function ArticleEditor() {
 
     try {
       const response = await fetch(`/__dev/article-editor/${encodeURIComponent(selectedPost.slug)}`, {
-        body: JSON.stringify({
-          ...(bodyHasChanges ? { body: markdown } : {}),
-          ...(referencesHaveChanges ? { references } : {}),
-        }),
+        body: JSON.stringify({ body: markdown, references }),
         headers: { "Content-Type": "application/json" },
         method: "PUT",
       });
@@ -304,11 +254,8 @@ export default function ArticleEditor() {
         throw new Error(parseSaveError(payload));
       }
 
-      const savedArticle = parseSavedArticle(payload);
-      setBlocks(parseArticleMarkdown(savedArticle.body));
-      setReferenceDrafts(createReferenceDrafts(savedArticle.references));
-      setSavedBody(savedArticle.body);
-      setSavedReferences(savedArticle.references);
+      setSavedBody(markdown);
+      setSavedReferences([...references]);
       setSaveStatus({ kind: "saved", message: "Saved to the article template." });
     } catch (error) {
       setSaveStatus({
@@ -381,7 +328,7 @@ export default function ArticleEditor() {
                 </div>
                 <div>
                   <dt>References</dt>
-                  <dd>{referenceDrafts.length}</dd>
+                  <dd>{references.length}</dd>
                 </div>
               </dl>
               <a href={getBlogPostPath(selectedPost.slug)} rel="noreferrer" target="_blank">
@@ -433,7 +380,7 @@ export default function ArticleEditor() {
                   </div>
                   <div className="article-editor-references__actions">
                     <button
-                      disabled={referenceDrafts.length < 2}
+                      disabled={references.length < 2}
                       onClick={handleSortReferences}
                       type="button"
                     >
@@ -453,18 +400,18 @@ export default function ArticleEditor() {
                   hanging indent and visible link.
                 </p>
 
-                {referenceDrafts.length > 0 ? (
+                {references.length > 0 ? (
                   <ol className="article-editor-reference-list">
-                    {referenceDrafts.map((reference, index) => (
-                      <li key={reference.id}>
+                    {references.map((reference, index) => (
+                      <li key={index}>
                         <fieldset>
                           <legend>Reference {index + 1}</legend>
                           <label>
                             <span>APA 7 citation</span>
                             <AutoGrowingTextarea
-                              data-reference-id={reference.id}
+                              data-reference-citation
                               onValueChange={(value) => handleReferenceChange(
-                                reference.id,
+                                index,
                                 "citation",
                                 value,
                               )}
@@ -477,7 +424,7 @@ export default function ArticleEditor() {
                             <input
                               inputMode="url"
                               onChange={(event) => handleReferenceChange(
-                                reference.id,
+                                index,
                                 "href",
                                 event.target.value,
                               )}
@@ -490,7 +437,7 @@ export default function ArticleEditor() {
                           <button
                             aria-label={`Remove reference ${index + 1}`}
                             className="article-editor-reference__remove"
-                            onClick={() => handleRemoveReference(reference.id)}
+                            onClick={() => handleRemoveReference(index)}
                             type="button"
                           >
                             <Trash2 aria-hidden="true" size={15} />

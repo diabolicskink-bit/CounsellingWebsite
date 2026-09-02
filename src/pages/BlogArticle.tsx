@@ -44,9 +44,12 @@ function PublishedBlogArticle({ post }: { post: BlogPost }) {
             ) : null}
 
             {ArticleBody ? (
-              <ArticleBody post={post} />
+              <ArticleBody body={post.body} />
             ) : (
-              <ArticleMarkdown body={post.body} sectioned />
+              <ArticleMarkdown
+                body={post.body}
+                className="blog-article__prose blog-article__prose--standard"
+              />
             )}
             <ArticleReferences references={post.references} />
           </Container>

@@ -1,14 +1,10 @@
 import type { ComponentType } from "react";
 import AntRouteArticle from "./articles/AntRouteArticle";
 import DinosaurFossilArticle from "./articles/DinosaurFossilArticle";
-import {
-  blogArticlePresentationDefinitions,
-  type BlogArticlePresentationKey,
-} from "./presentationDefinitions";
-import type { BlogPost } from "./posts";
+import type { BlogArticlePresentationKey } from "./manifest";
 
-export type BlogArticleBodyProps = Readonly<{
-  post: BlogPost;
+type BlogArticleBodyProps = Readonly<{
+  body: string;
 }>;
 
 type BlogArticlePresentation = Readonly<{
@@ -17,13 +13,13 @@ type BlogArticlePresentation = Readonly<{
 }>;
 
 const blogArticlePresentations = {
-  [blogArticlePresentationDefinitions.antTrail.key]: {
+  "ant-trail": {
     Body: AntRouteArticle,
-    className: blogArticlePresentationDefinitions.antTrail.documentClassName,
+    className: "blog-article--ant-trail",
   },
-  [blogArticlePresentationDefinitions.fossilRecord.key]: {
+  "fossil-record": {
     Body: DinosaurFossilArticle,
-    className: blogArticlePresentationDefinitions.fossilRecord.documentClassName,
+    className: "blog-article--fossil-record",
   },
 } satisfies Record<BlogArticlePresentationKey, BlogArticlePresentation>;
 
