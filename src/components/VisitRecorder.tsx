@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { getTrackedPagePath, isPrivateRoutePath } from "../data/routes";
+import { socialProfileLinks } from "../data/site";
+import { visitEventTypes, type ClientVisitEventType } from "../data/visitEventContract";
 import {
   isVisitAnalyticsHostAllowed,
   visitAnalyticsEnabled,
@@ -11,9 +13,33 @@ import {
 } from "../utils/visitSession";
 import { enqueueVisitAnalyticsRecord } from "../utils/visitAnalyticsQueue";
 import { startPageEngagement, stopPageEngagement } from "../utils/pageEngagement";
+import { recordVisitEvent } from "../utils/visitEvents";
 
 let hasRecordedPageView = false;
 let lastObservedPath: string | undefined;
+const socialClickEventTypeByHref = new Map<string, ClientVisitEventType>(
+  socialProfileLinks.map((profile) => [profile.href, profile.clickEventType]),
+);
+
+function getClickedLinkEventType(target: EventTarget | null) {
+  if (!(target instanceof Element)) {
+    return null;
+  }
+
+  const link = target.closest<HTMLAnchorElement>("a[href]");
+  const href = link?.getAttribute("href")?.trim();
+
+  if (!href) {
+    return null;
+  }
+
+  if (href.toLowerCase().startsWith("mailto:")) {
+    return visitEventTypes.emailLinkClicked;
+  }
+
+  return socialClickEventTypeByHref.get(href) ?? null;
+}
+
 function recordPageView(path: string, force = false) {
   if (!force && lastObservedPath === path) {
     return;
@@ -82,6 +108,27 @@ export default function VisitRecorder() {
 
     window.addEventListener("pageshow", handlePageShow);
     return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
+
+  useEffect(() => {
+    if (!visitAnalyticsEnabled || !isVisitAnalyticsHostAllowed()) {
+      return;
+    }
+
+    const handleLinkClick = (event: MouseEvent) => {
+      if (isPrivateRoutePath(window.location.pathname)) {
+        return;
+      }
+
+      const eventType = getClickedLinkEventType(event.target);
+
+      if (eventType) {
+        recordVisitEvent(eventType, {});
+      }
+    };
+
+    document.addEventListener("click", handleLinkClick);
+    return () => document.removeEventListener("click", handleLinkClick);
   }, []);
 
   return null;

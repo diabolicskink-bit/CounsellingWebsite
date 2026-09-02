@@ -16,6 +16,8 @@ const migrationFilenames = [
   "0005_create_analytics_visitor_exclusions.sql",
   "0006_add_page_view_active_time.sql",
   "0007_add_visit_client_environment.sql",
+  "0008_add_contact_link_events.sql",
+  "0009_add_visit_location.sql",
 ];
 
 test("migration reader returns the complete ordered migration set", async () => {

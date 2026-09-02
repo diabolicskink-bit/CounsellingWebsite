@@ -122,6 +122,8 @@ test("records valid observations with same-origin or omitted origin signals", as
     ...validPayload(),
     ...nonBotClassification,
     deviceType: "desktop",
+    locationCountryCode: null,
+    locationRegionCode: null,
     referrerHost: "www.google.com",
     userAgent: desktopUserAgent,
   };
@@ -137,27 +139,100 @@ test("derives bounded device and user-agent values from request headers", () => 
       "sec-ch-ua-mobile": "?1",
       "user-agent": mobileUserAgent,
     } }),
-    { deviceType: "mobile", userAgent: mobileUserAgent },
+    {
+      deviceType: "mobile",
+      locationCountryCode: null,
+      locationRegionCode: null,
+      userAgent: mobileUserAgent,
+    },
   );
   assert.deepEqual(
     getVisitRequestEnvironment({ headers: {
       "sec-ch-ua-mobile": "?0",
       "user-agent": tabletUserAgent,
     } }),
-    { deviceType: "tablet", userAgent: tabletUserAgent },
+    {
+      deviceType: "tablet",
+      locationCountryCode: null,
+      locationRegionCode: null,
+      userAgent: tabletUserAgent,
+    },
   );
   assert.deepEqual(
     getVisitRequestEnvironment({ headers: { "user-agent": desktopUserAgent } }),
-    { deviceType: "desktop", userAgent: desktopUserAgent },
+    {
+      deviceType: "desktop",
+      locationCountryCode: null,
+      locationRegionCode: null,
+      userAgent: desktopUserAgent,
+    },
   );
   assert.deepEqual(
     getVisitRequestEnvironment({ headers: {} }),
-    { deviceType: "unknown", userAgent: null },
+    {
+      deviceType: "unknown",
+      locationCountryCode: null,
+      locationRegionCode: null,
+      userAgent: null,
+    },
   );
   assert.deepEqual(
     getVisitRequestEnvironment({ headers: { "user-agent": "x".repeat(1025) } }),
-    { deviceType: "unknown", userAgent: "x".repeat(1024) },
+    {
+      deviceType: "unknown",
+      locationCountryCode: null,
+      locationRegionCode: null,
+      userAgent: "x".repeat(1024),
+    },
   );
+});
+
+test("keeps Australian state, overseas country, and unknown request locations", () => {
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: {
+      "x-vercel-ip-city": "Perth",
+      "x-vercel-ip-country": "au",
+      "x-vercel-ip-country-region": "wa",
+      "x-vercel-ip-latitude": "-31.9523",
+      "x-vercel-ip-longitude": "115.8613",
+      "x-vercel-ip-postal-code": "6000",
+    } }),
+    {
+      deviceType: "unknown",
+      locationCountryCode: "AU",
+      locationRegionCode: "WA",
+      userAgent: null,
+    },
+  );
+  assert.deepEqual(
+    getVisitRequestEnvironment({ headers: {
+      "x-vercel-ip-country": "nz",
+      "x-vercel-ip-country-region": "auk",
+    } }),
+    {
+      deviceType: "unknown",
+      locationCountryCode: "NZ",
+      locationRegionCode: null,
+      userAgent: null,
+    },
+  );
+
+  for (const headers of [
+    {},
+    { "x-vercel-ip-country": "Australia", "x-vercel-ip-country-region": "WA" },
+    { "x-vercel-ip-country": "AU" },
+    { "x-vercel-ip-country": "AU", "x-vercel-ip-country-region": "Western Australia" },
+  ]) {
+    assert.deepEqual(
+      getVisitRequestEnvironment({ headers }),
+      {
+        deviceType: "unknown",
+        locationCountryCode: null,
+        locationRegionCode: null,
+        userAgent: null,
+      },
+    );
+  }
 });
 
 test("preserves true and omitted WebDriver states", async () => {

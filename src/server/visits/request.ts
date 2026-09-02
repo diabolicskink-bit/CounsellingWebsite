@@ -1,6 +1,8 @@
-import type {
-  VisitDeviceType,
-  VisitRequestEnvironment,
+import {
+  australianVisitRegionCodes,
+  type AustralianVisitRegionCode,
+  type VisitDeviceType,
+  type VisitRequestEnvironment,
 } from "../../data/visitClientEnvironment.ts";
 
 export type VisitRequest = {
@@ -36,6 +38,12 @@ const desktopUserAgentPattern = /windows nt|macintosh|cros|x11|linux x86_64/;
 const mobileUserAgentPattern = /iphone|ipod|mobile|windows phone/;
 const tabletUserAgentPattern = /ipad|tablet|kindle|playbook|silk|macintosh.*mobile/;
 const localHostnames = new Set(["localhost", "127.0.0.1", "[::1]"]);
+const countryCodePattern = /^[A-Z]{2}$/;
+const australianRegionCodes = new Set<string>(australianVisitRegionCodes);
+
+function isAustralianVisitRegionCode(value: string): value is AustralianVisitRegionCode {
+  return australianRegionCodes.has(value);
+}
 
 function getHeader(request: VisitRequest, name: string) {
   const headers = request.headers ?? {};
@@ -79,11 +87,34 @@ function getDeviceType(request: VisitRequest, userAgent: string | null): VisitDe
   return "unknown";
 }
 
+function getVisitLocation(
+  request: VisitRequest,
+): Pick<VisitRequestEnvironment, "locationCountryCode" | "locationRegionCode"> {
+  const countryCode = getHeader(request, "x-vercel-ip-country").trim().toUpperCase();
+
+  if (!countryCodePattern.test(countryCode)) {
+    return { locationCountryCode: null, locationRegionCode: null };
+  }
+
+  if (countryCode !== "AU") {
+    return { locationCountryCode: countryCode, locationRegionCode: null };
+  }
+
+  const regionCode = getHeader(request, "x-vercel-ip-country-region").trim().toUpperCase();
+
+  if (!isAustralianVisitRegionCode(regionCode)) {
+    return { locationCountryCode: null, locationRegionCode: null };
+  }
+
+  return { locationCountryCode: countryCode, locationRegionCode: regionCode };
+}
+
 export function getVisitRequestEnvironment(request: VisitRequest): VisitRequestEnvironment {
   const userAgent = getStoredUserAgent(request);
 
   return {
     deviceType: getDeviceType(request, userAgent),
+    ...getVisitLocation(request),
     userAgent,
   };
 }

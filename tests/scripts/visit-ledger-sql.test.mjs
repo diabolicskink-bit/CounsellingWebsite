@@ -32,6 +32,14 @@ const clientEnvironmentMigration = await readFile(
   new URL("0007_add_visit_client_environment.sql", migrationsUrl),
   "utf8",
 );
+const contactLinkEventsMigration = await readFile(
+  new URL("0008_add_contact_link_events.sql", migrationsUrl),
+  "utf8",
+);
+const visitLocationMigration = await readFile(
+  new URL("0009_add_visit_location.sql", migrationsUrl),
+  "utf8",
+);
 const queryFilenames = (await readdir(queriesUrl))
   .filter((filename) => filename.endsWith(".sql"))
   .sort();
@@ -86,6 +94,22 @@ test("visit-event migration enforces controlled event and page ownership data", 
   assert.match(eventMigration, /enquiry_failed/i);
 });
 
+test("contact-link migration permits controlled client events with empty properties", () => {
+  for (const eventType of [
+    "email_link_clicked",
+    "instagram_link_clicked",
+    "linkedin_link_clicked",
+  ]) {
+    assert.match(contactLinkEventsMigration, new RegExp(eventType, "i"));
+  }
+
+  assert.match(
+    contactLinkEventsMigration,
+    /source = 'server'[\s\S]*?email_link_clicked[\s\S]*?instagram_link_clicked[\s\S]*?linkedin_link_clicked/i,
+  );
+  assert.match(contactLinkEventsMigration, /ELSE properties = '\{\}'::JSONB/i);
+});
+
 test("visitor-exclusion migration creates a durable visitor-level filter", () => {
   assert.match(exclusionMigration, /CREATE TABLE analytics_excluded_visitors/i);
   assert.match(exclusionMigration, /visitor_id UUID PRIMARY KEY/i);
@@ -106,6 +130,20 @@ test("client-environment migration stores bounded visit-level diagnostics", () =
     clientEnvironmentMigration,
     /device_type IN \('desktop', 'mobile', 'tablet', 'unknown'\)/i,
   );
+});
+
+test("visit-location migration stores only Australian regions or overseas countries", () => {
+  assert.match(visitLocationMigration, /ADD COLUMN location_country_code TEXT/i);
+  assert.match(visitLocationMigration, /ADD COLUMN location_region_code TEXT/i);
+  assert.match(
+    visitLocationMigration,
+    /location_country_code = 'AU'[\s\S]*?location_region_code IN \('ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'\)/i,
+  );
+  assert.match(
+    visitLocationMigration,
+    /location_country_code <> 'AU'[\s\S]*?location_country_code ~ '\^\[A-Z\]\{2\}\$'[\s\S]*?location_region_code IS NULL/i,
+  );
+  assert.doesNotMatch(visitLocationMigration, /city|latitude|longitude|postal|ip_address/i);
 });
 
 test("saved visit ledger queries are read-only and cover each reporting task", async () => {
