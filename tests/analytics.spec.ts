@@ -281,8 +281,11 @@ test.describe("private analytics boundaries", () => {
     const diagnostics = page.getByRole("region", {
       name: "Location and device mix",
     });
-    await expect(diagnostics).toContainText("Western Australia");
-    await expect(diagnostics).toContainText("100%");
+    await expect(diagnostics.locator(".signal-location-mix dl > div")).toHaveCount(8);
+    const westernAustralia = diagnostics
+      .locator(".signal-location-mix dl > div")
+      .filter({ hasText: "WA" });
+    await expect(westernAustralia.locator("dd")).toHaveText("1");
 
     const visitRow = page.locator(".signal-event");
     await expect(visitRow).toContainText("WA");

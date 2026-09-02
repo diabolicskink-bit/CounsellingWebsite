@@ -799,65 +799,35 @@ body:has(.visit-dashboard) {
   gap: 6px;
 }
 
-.signal-location-mix > p {
-  margin: 0;
-  color: var(--report-muted);
-  font-size: 0.7rem;
-}
-
 .signal-location-mix dl {
   display: grid;
-  gap: 7px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
   margin: 0;
 }
 
 .signal-location-mix dl > div {
-  display: grid;
+  display: flex;
   min-width: 0;
-  grid-template-columns: minmax(120px, 0.6fr) minmax(100px, 1fr) 58px;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 34px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.58);
 }
 
 .signal-location-mix dt {
-  overflow: hidden;
   color: var(--report-muted);
   font-size: 0.68rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.signal-location-mix dl i {
-  display: block;
-  height: 7px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(61, 121, 87, 0.12);
-}
-
-.signal-location-mix dl i > b {
-  display: block;
-  width: var(--signal-location-width);
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #3fab6e, #7cc79d);
+  font-weight: 650;
 }
 
 .signal-location-mix dd {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  gap: 5px;
   margin: 0;
-}
-
-.signal-location-mix dd strong {
-  font-size: 0.82rem;
-}
-
-.signal-location-mix dd small {
-  color: var(--report-faint);
-  font-size: 0.62rem;
+  font-size: 0.86rem;
+  font-weight: 700;
 }
 
 .signal-device-mix {
@@ -2792,20 +2762,6 @@ body:has(.visit-dashboard) {
 
   .signal-diagnostics {
     padding: 17px;
-  }
-
-  .signal-location-mix dl {
-    gap: 11px;
-  }
-
-  .signal-location-mix dl > div {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 5px 10px;
-  }
-
-  .signal-location-mix dl i {
-    grid-column: 1 / -1;
-    grid-row: 2;
   }
 
   .signal-visits,
