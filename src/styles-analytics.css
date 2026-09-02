@@ -758,116 +758,24 @@ body:has(.visit-dashboard) {
 .signal-spectrum__legend .signal-spectrum__internal { color: var(--report-purple); }
 .signal-spectrum__legend .signal-spectrum__direct { color: var(--report-green); }
 
-.signal-outbound-overview {
-  display: grid;
-  grid-template-columns: minmax(230px, 0.72fr) minmax(165px, 0.42fr) minmax(0, 1fr);
-  align-items: center;
-  gap: 28px;
-  margin-top: 14px;
-  padding: 22px 24px;
-  border-radius: 16px;
-  background: linear-gradient(125deg, #22243f, #33365c);
-  box-shadow: 0 12px 34px rgba(36, 38, 70, 0.18);
-  color: #fff;
-}
-
-.signal-outbound-overview > header h2 {
-  margin: 5px 0 0;
-  color: #fff;
-  font-size: 1.35rem;
-  line-height: 1.08;
-  letter-spacing: 0;
-}
-
-.signal-outbound-overview > header .signal-kicker {
-  color: #9ee2b8;
-}
-
-.signal-outbound-overview > header > p {
-  max-width: 250px;
-  margin: 9px 0 0;
-  color: rgba(236, 237, 249, 0.68);
-  font-size: 0.76rem;
-  line-height: 1.45;
-}
-
-.signal-outbound-overview__total {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  padding-left: 24px;
-  border-left: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.signal-outbound-overview__total > span {
-  color: rgba(236, 237, 249, 0.68);
-  font-size: 0.7rem;
-}
-
-.signal-outbound-overview__total > strong {
-  margin-top: 5px;
-  font-size: 2.45rem;
-  line-height: 1;
-  letter-spacing: 0;
-}
-
-.signal-outbound-overview__total > small {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 7px;
-  color: rgba(236, 237, 249, 0.68);
-  font-size: 0.68rem;
-}
-
-.signal-outbound-overview__total > small b {
-  color: #9ee2b8;
-}
-
-.signal-outbound-overview__channels {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin: 0;
-}
-
-.signal-outbound-overview__channels > div {
-  min-width: 0;
-  padding: 13px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 11px;
-  background: rgba(255, 255, 255, 0.075);
-}
-
-.signal-outbound-overview__channels dt {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  overflow: hidden;
-  color: rgba(236, 237, 249, 0.7);
-  font-size: 0.67rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.signal-outbound-overview__channels dd {
-  margin: 9px 0 0;
-  font-size: 1.35rem;
-  font-weight: 760;
-  line-height: 1;
-}
-
 .signal-diagnostics {
   display: grid;
-  grid-template-columns: minmax(220px, 0.58fr) minmax(0, 1.42fr);
-  align-items: center;
-  gap: 28px;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  gap: 16px;
   margin-top: 14px;
   padding: 22px 24px;
   border: 1px solid rgba(218, 219, 232, 0.9);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.76);
   box-shadow: 0 10px 30px rgba(53, 52, 92, 0.055);
+}
+
+.signal-diagnostics > header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
 }
 
 .signal-diagnostics > header h2 {
@@ -878,23 +786,23 @@ body:has(.visit-dashboard) {
 }
 
 .signal-diagnostics > header > p {
-  max-width: 240px;
-  margin: 9px 0 0;
+  max-width: 360px;
+  margin: 0;
   color: var(--report-muted);
   font-size: 0.76rem;
   line-height: 1.45;
+  text-align: right;
 }
 
 .signal-diagnostics__body {
   display: grid;
   min-width: 0;
-  grid-template-columns: minmax(175px, 0.75fr) minmax(290px, 1.25fr) minmax(190px, 0.65fr);
+  grid-template-columns: minmax(0, 3fr) minmax(190px, 1fr);
   gap: 12px;
 }
 
 .signal-location-mix,
-.signal-device-mix,
-.signal-webdriver-summary {
+.signal-device-mix {
   min-width: 0;
   border-radius: 13px;
 }
@@ -933,9 +841,9 @@ body:has(.visit-dashboard) {
 .signal-location-mix dl > div {
   display: grid;
   min-width: 0;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: baseline;
-  gap: 10px;
+  grid-template-columns: minmax(120px, 0.6fr) minmax(100px, 1fr) 58px;
+  align-items: center;
+  gap: 12px;
 }
 
 .signal-location-mix dt {
@@ -946,9 +854,26 @@ body:has(.visit-dashboard) {
   white-space: nowrap;
 }
 
+.signal-location-mix dl i {
+  display: block;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(61, 121, 87, 0.12);
+}
+
+.signal-location-mix dl i > b {
+  display: block;
+  width: var(--signal-location-width);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3fab6e, #7cc79d);
+}
+
 .signal-location-mix dd {
   display: flex;
   align-items: baseline;
+  justify-content: flex-end;
   gap: 5px;
   margin: 0;
 }
@@ -969,20 +894,16 @@ body:has(.visit-dashboard) {
 
 .signal-device-mix dl {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
   margin: 0;
 }
 
 .signal-device-mix dl > div {
   min-width: 0;
-  padding-inline: 12px;
-  border-left: 1px solid rgba(179, 176, 214, 0.42);
-}
-
-.signal-device-mix dl > div:first-child {
-  padding-left: 0;
-  border-left: 0;
+  padding: 9px 10px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.58);
 }
 
 .signal-device-mix dt {
@@ -1012,76 +933,6 @@ body:has(.visit-dashboard) {
 .signal-device-mix dd small {
   color: var(--report-muted);
   font-size: 0.65rem;
-}
-
-.signal-webdriver-summary {
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
-  align-items: center;
-  gap: 10px;
-  padding: 15px 16px;
-  background: #f1f2f8;
-  color: var(--report-muted);
-}
-
-.signal-webdriver-summary--detected {
-  background: #fff0e3;
-  color: #9a4a18;
-}
-
-.signal-webdriver-summary > svg {
-  width: 36px;
-  height: 36px;
-  padding: 8px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.72);
-}
-
-.signal-webdriver-summary > div {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: end;
-  gap: 2px 7px;
-}
-
-.signal-webdriver-summary > div span {
-  grid-column: 1 / -1;
-  font-size: 0.68rem;
-  font-weight: 720;
-}
-
-.signal-webdriver-summary > div strong {
-  color: var(--report-ink);
-  font-size: 1.55rem;
-  line-height: 1;
-}
-
-.signal-webdriver-summary > div small {
-  font-size: 0.66rem;
-}
-
-.signal-webdriver-summary dl {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin: 10px 0 0;
-  padding-top: 9px;
-  border-top: 1px solid rgba(120, 120, 148, 0.18);
-}
-
-.signal-webdriver-summary dl > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 0.67rem;
-}
-
-.signal-webdriver-summary dd {
-  margin: 0;
-  color: var(--report-ink);
-  font-weight: 780;
 }
 
 .page-view-report__back {
@@ -2671,24 +2522,6 @@ body:has(.visit-dashboard) {
     grid-template-columns: 1fr 1fr;
   }
 
-  .signal-diagnostics {
-    grid-template-columns: 1fr;
-    align-items: stretch;
-    gap: 16px;
-  }
-
-  .signal-diagnostics > header {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 24px;
-  }
-
-  .signal-diagnostics > header > p {
-    margin: 0;
-    text-align: right;
-  }
-
   .monthly-enquiries__list .signal-report__list-button {
     grid-template-columns: 38px 118px minmax(180px, 1fr) minmax(150px, 0.8fr) 22px;
     gap: 13px;
@@ -2831,29 +2664,6 @@ body:has(.visit-dashboard) {
 
   .signal-diagnostics__body {
     grid-template-columns: 1fr;
-  }
-
-  .signal-outbound-overview {
-    grid-template-columns: 1fr;
-    gap: 17px;
-  }
-
-  .signal-outbound-overview > header {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 24px;
-  }
-
-  .signal-outbound-overview > header > p {
-    margin: 0;
-    text-align: right;
-  }
-
-  .signal-outbound-overview__total {
-    padding: 16px 0 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
-    border-left: 0;
   }
 
   .page-view-actions {
@@ -3011,25 +2821,6 @@ body:has(.visit-dashboard) {
     padding: 17px;
   }
 
-  .signal-outbound-overview {
-    padding: 17px;
-  }
-
-  .signal-outbound-overview > header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 7px;
-  }
-
-  .signal-outbound-overview > header > p {
-    max-width: 100%;
-    text-align: left;
-  }
-
-  .signal-outbound-overview__channels > div {
-    padding: 11px;
-  }
-
   .signal-diagnostics > header {
     align-items: flex-start;
     flex-direction: column;
@@ -3041,14 +2832,18 @@ body:has(.visit-dashboard) {
     text-align: left;
   }
 
-  .signal-device-mix dl {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px 0;
+  .signal-location-mix dl {
+    gap: 11px;
   }
 
-  .signal-device-mix dl > div:nth-child(3) {
-    padding-left: 0;
-    border-left: 0;
+  .signal-location-mix dl > div {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px 10px;
+  }
+
+  .signal-location-mix dl i {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 
   .signal-visits,

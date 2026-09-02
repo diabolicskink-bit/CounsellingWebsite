@@ -26,7 +26,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 ## 2026-09-02 - Analytics Reporting Expanded
 
-- Added a decision-first daily outbound-actions summary for Email, Instagram and LinkedIn clicks, plus coarse-location distribution alongside the existing device and automation context.
+- Added a location-led daily diagnostic with a compact device mix, plus outbound-action and location signals on individual visit rows.
 - Added route-attributed outbound counts to the Pages report and carried compact location and outbound signals through daily rows, enquiry context, visitor history, request details and chronological event timelines without treating social clicks as enquiries.
 - Extended protected report contracts, reporting SQL, focused API coverage and private-dashboard browser coverage for the new data while preserving the owner-only analytics boundary.
 

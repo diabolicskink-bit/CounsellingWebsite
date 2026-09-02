@@ -278,15 +278,8 @@ test.describe("private analytics boundaries", () => {
 
     await page.goto(`/analytics?date=${date}`, { waitUntil: "networkidle" });
 
-    const outboundOverview = page.getByRole("region", { name: "Outbound actions" });
-    await expect(outboundOverview).toContainText("02");
-    await expect(outboundOverview).toContainText("1 visit with a click");
-    await expect(outboundOverview).toContainText("Email1");
-    await expect(outboundOverview).toContainText("Instagram1");
-    await expect(outboundOverview).toContainText("LinkedIn0");
-
     const diagnostics = page.getByRole("region", {
-      name: "Location, device and automation",
+      name: "Location and device mix",
     });
     await expect(diagnostics).toContainText("Western Australia");
     await expect(diagnostics).toContainText("100%");

@@ -5,14 +5,10 @@ import {
   CircleCheck,
   CircleX,
   Clock3,
-  Instagram,
-  Linkedin,
-  Mail,
   MapPin,
   MousePointerClick,
   Radio,
   RefreshCw,
-  ScanSearch,
   TextCursorInput,
 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -30,7 +26,6 @@ import {
   formatActiveTime,
   formatDate,
   formatTime,
-  outboundActionCounts,
   sourceDetail,
   visitActiveSeconds,
   visitLocationCompactLabel,
@@ -65,9 +60,6 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
     }),
     { desktop: 0, mobile: 0, tablet: 0, unknown: 0 },
   );
-  const webDriverTrue = visits.filter((visit) => visit.isWebDriver === true).length;
-  const webDriverFalse = visits.filter((visit) => visit.isWebDriver === false).length;
-  const webDriverUnreported = visits.length - webDriverTrue - webDriverFalse;
   const denominator = Math.max(visits.length, 1);
   const deviceTypes = Object.keys(deviceLabels) as VisitDeviceType[];
   const locationCounts = [...visits.reduce((counts, visit) => {
@@ -91,7 +83,7 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
       <header>
         <div>
           <p className="signal-kicker">Traffic signature</p>
-          <h2 id="traffic-diagnostics-title">Location, device and automation</h2>
+          <h2 id="traffic-diagnostics-title">Location and device mix</h2>
         </div>
         <p>Visit-level request data for the records shown below.</p>
       </header>
@@ -104,6 +96,13 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
               {displayedLocations.map((location) => (
                 <div key={location.key}>
                   <dt title={location.label}>{location.label}</dt>
+                  <i aria-hidden="true">
+                    <b
+                      style={{
+                        "--signal-location-width": `${(location.count / denominator) * 100}%`,
+                      } as CSSProperties}
+                    />
+                  </i>
                   <dd>
                     <strong>{location.count}</strong>
                     <small>{Math.round((location.count / denominator) * 100)}%</small>
@@ -113,6 +112,13 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
               {otherLocationCount ? (
                 <div>
                   <dt>Other locations</dt>
+                  <i aria-hidden="true">
+                    <b
+                      style={{
+                        "--signal-location-width": `${(otherLocationCount / denominator) * 100}%`,
+                      } as CSSProperties}
+                    />
+                  </i>
                   <dd>
                     <strong>{otherLocationCount}</strong>
                     <small>{Math.round((otherLocationCount / denominator) * 100)}%</small>
@@ -138,72 +144,7 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
           </dl>
         </div>
 
-        <div className={webDriverTrue
-          ? "signal-webdriver-summary signal-webdriver-summary--detected"
-          : "signal-webdriver-summary"}
-        >
-          <ScanSearch aria-hidden="true" size={24} />
-          <div>
-            <span>navigator.webdriver</span>
-            <strong>{webDriverTrue}</strong>
-            <small>reported true</small>
-          </div>
-          <dl>
-            <div><dt>False</dt><dd>{webDriverFalse}</dd></div>
-            <div><dt>No data</dt><dd>{webDriverUnreported}</dd></div>
-          </dl>
-        </div>
       </div>
-    </section>
-  );
-}
-
-function OutboundActivity({ visits }: { visits: AnalyticsVisit[] }) {
-  const summary = visits.reduce((total, visit) => {
-    const counts = outboundActionCounts(visit.events);
-    return {
-      email: total.email + counts.email,
-      instagram: total.instagram + counts.instagram,
-      linkedin: total.linkedin + counts.linkedin,
-      total: total.total + counts.total,
-      visits: total.visits + (counts.total ? 1 : 0),
-    };
-  }, { email: 0, instagram: 0, linkedin: 0, total: 0, visits: 0 });
-  const visitShare = visits.length ? Math.round((summary.visits / visits.length) * 100) : 0;
-
-  return (
-    <section className="signal-outbound-overview" aria-labelledby="outbound-activity-title">
-      <header>
-        <div>
-          <p className="signal-kicker">Intent signals</p>
-          <h2 id="outbound-activity-title">Outbound actions</h2>
-        </div>
-        <p>Recorded email and social-profile link clicks from visits shown on this day.</p>
-      </header>
-
-      <div className="signal-outbound-overview__total">
-        <span>All clicks</span>
-        <strong>{String(summary.total).padStart(2, "0")}</strong>
-        <small>
-          {summary.visits} {summary.visits === 1 ? "visit" : "visits"} with a click
-          <b>{visitShare}%</b>
-        </small>
-      </div>
-
-      <dl className="signal-outbound-overview__channels">
-        <div>
-          <dt><Mail aria-hidden="true" size={16} /> Email</dt>
-          <dd>{summary.email}</dd>
-        </div>
-        <div>
-          <dt><Instagram aria-hidden="true" size={16} /> Instagram</dt>
-          <dd>{summary.instagram}</dd>
-        </div>
-        <div>
-          <dt><Linkedin aria-hidden="true" size={16} /> LinkedIn</dt>
-          <dd>{summary.linkedin}</dd>
-        </div>
-      </dl>
     </section>
   );
 }
@@ -403,8 +344,6 @@ function DailyObservatory({
           </div>
         </div>
       </section>
-
-      <OutboundActivity visits={includedVisits} />
 
       <TrafficDiagnostics visits={includedVisits} />
 
