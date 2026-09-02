@@ -19,7 +19,7 @@ function PublishedArticlePage({ article }: { article: Article }) {
     .filter(Boolean)
     .join(" ");
   useDocumentMetadata(
-    `${article.title} | Vive Counselling`,
+    article.metaTitle ?? `${article.title} | Vive Counselling`,
     article.description,
     article.isSample ? "noindex, nofollow" : undefined,
   );

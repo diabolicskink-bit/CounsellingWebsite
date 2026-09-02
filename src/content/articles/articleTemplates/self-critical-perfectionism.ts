@@ -14,11 +14,13 @@ Perfectionism is not one single quality. Researchers have repeatedly distinguish
 
 The distinction matters because high standards do not tell us, by themselves, whether a person is struggling. Two people might care equally about doing excellent work. One can recognise when something is good enough, learn from an error and remain fundamentally intact. The other experiences the same error as evidence that they are failing as a person.
 
-The difference is not just the standard. It is the relationship between performance and self-worth.
+**The difference is not just the standard. It is the relationship between performance and self-worth.**
 
 In self-critical perfectionism, the internal equation can become brutally simple:
 
-> If I do well, I may be acceptable. If I fall short, it shows what I really am.
+> If I do well, I may be acceptable.
+>
+> If I fall short, it shows what I really am.
 
 Because success only establishes worth temporarily, it rarely brings lasting satisfaction. Achievements are discounted as easy, overdue, lucky or insufficient. Praise is explained away. The standard moves upwards, and the next performance begins carrying the same emotional weight as the last.
 
@@ -58,13 +60,13 @@ At other times, you may delay starting altogether. If the imagined result must b
 
 The pattern can also appear in less visible ways. You may:
 
-- replay minor social moments and search for what you did wrong;
-- experience constructive feedback as exposure rather than information;
-- avoid activities you cannot be immediately good at;
-- minimise achievements while remembering failures in exact detail;
-- feel guilty when resting, receiving help or doing something without a productive purpose;
-- hide uncertainty, distress or mistakes from people who might support you; or
-- hold yourself responsible for outcomes no one person could fully control.
+- replay minor social moments, searching for what you did wrong
+- experience constructive feedback as exposure, not information
+- avoid activities you cannot be immediately good at
+- minimise achievements while remembering failures in detail
+- feel guilty resting, receiving help or doing something without a productive purpose
+- hide uncertainty, distress or mistakes from people who might support you
+- hold yourself responsible for outcomes no one person could control
 
 None of these experiences proves that somebody is a perfectionist. What matters is the broader pattern: how rigid the demands are, what happens internally when you fall short, and how much of your life has become organised around preventing that experience.
 
@@ -92,11 +94,11 @@ Over time, an external atmosphere can become an internal relationship. Even when
 
 Self-critical perfectionism tends to maintain itself through a closed loop:
 
-1. A rigid standard or rule is set: I must not make a mistake. I should already know how to do this. I cannot disappoint anyone.
-2. The task begins to feel threatening because the outcome now carries a judgement about the self.
-3. The person responds by overworking, checking, controlling, delaying, avoiding or seeking certainty.
-4. If the outcome goes well, success is attributed to excessive effort, luck or a standard that was too easy. The bar is raised.
-5. If anything goes badly, it is treated as confirmation of inadequacy. Shame and self-attack intensify.
+1. A rigid rule is set: I must not make a mistake. I should already know this. I cannot disappoint anyone.
+2. The outcome begins to feel like a judgement about the self.
+3. The person overworks, checks, controls, delays, avoids or seeks certainty.
+4. If it goes well, success is credited to excessive effort, luck or an easy standard. The bar rises.
+5. If it goes badly, it confirms inadequacy. Shame and self-attack intensify.
 6. Greater control and higher standards are then prescribed as the solution.
 
 The strategy therefore seems to prove its own necessity. When you succeed, the critic claims its pressure was responsible. When you struggle, it claims it did not pressure you enough.
@@ -133,7 +135,7 @@ And eventually, doing well may become something you value—not something you mu
 
 If much of your life is spent trying to get things right, it can be difficult to recognise how punishing the process has become. Counselling can help you understand what your perfectionism has been doing for you, what it now costs, and how to build a less conditional relationship with yourself without giving up the parts of your ambition that genuinely matter.
 
-I offer online counselling for adults across Australia. You can get in touch to make an appointment or request a free 15-minute consultation.`,
+I offer online counselling for adults across Australia. You can [get in touch](/contact) to make an appointment or request a free 15-minute consultation.`,
   references: [
     {
       citation: `Blatt, S. J., Quinlan, D. M., Pilkonis, P. A., & Shea, M. T. (1995). Impact of perfectionism and need for approval on the brief treatment of depression: The National Institute of Mental Health Treatment of Depression Collaborative Research Program revisited. *Journal of Consulting and Clinical Psychology, 63*(1), 125–132.`,

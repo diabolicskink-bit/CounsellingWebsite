@@ -1,4 +1,4 @@
-export type ArticlePresentationKey = never;
+export type ArticlePresentationKey = "self-critical-perfectionism";
 
 export type ArticleMetadata = Readonly<{
   abstract: string;
@@ -40,6 +40,7 @@ const publishedArticleMetadata = [
     description:
       "Self-critical perfectionism is more than high standards. Learn how fear of mistakes and harsh self-judgement develop, persist and can change.",
     metaTitle: "Self-Critical Perfectionism | Vive Counselling",
+    presentation: "self-critical-perfectionism",
     publishedAt: "2026-09-02",
     slug: "self-critical-perfectionism",
     title: "Self-Critical Perfectionism: When Nothing Feels Good Enough",

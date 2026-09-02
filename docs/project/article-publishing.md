@@ -91,7 +91,7 @@ Do not add a custom presentation merely to decorate an otherwise standard articl
 
 `src/content/articles/articles.ts` pairs each manifest entry with its typed content template. Type checking fails when a manifest slug has no matching template or a template declares an unknown slug. Browser builds lazy-load the Articles pages, while the server build keeps their synchronous components available so every article body and reference set remain present in the prerendered first response.
 
-`npm run build` fails if a generated article route cannot be rendered or if its expected article structure is missing. The route and article browser specs under `tests/public-site/` derive the article route list from the same registry and cover hydration, metadata, sitemap and sample noindex behaviour, navigation, article wayfinding, custom sample presentations, and unknown-slug handling. Direct script tests cover editor-safe template updates, the generated `CollectionPage` and `Article` structured data, and each article's `BreadcrumbList` alignment with its visible `Articles` and topic navigation.
+`npm run build` fails if a generated article route cannot be rendered or if its expected article structure is missing. The route and article browser specs under `tests/public-site/` derive the article route list from the same registry and cover hydration, metadata, sitemap and sample noindex behaviour, navigation, article wayfinding, custom presentations, and unknown-slug handling. Direct script tests cover editor-safe template updates, the generated `CollectionPage` and `Article` structured data, and each article's `BreadcrumbList` alignment with its visible `Articles` and topic navigation.
 
 ## Publishing Boundaries
 

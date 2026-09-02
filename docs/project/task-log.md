@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-02 - Perfectionism Article Given A Subject-Specific Reading Treatment
+
+- Added a restrained custom body presentation for the self-critical perfectionism article while preserving the shared article hero, publication shell, continuous prose measure, and references ledger.
+- Turned the article's existing internal equation, less-visible signs, and maintenance cycle into distinct responsive information forms using the established palette and typography.
+- Limited copy changes to one emphasised thesis, compact phrasing within the two list treatments, and a Contact link; the article's argument remains unchanged.
+
 ## 2026-09-02 - Sample Articles Removed
 
 - Removed the ant-colony and dinosaur-fossil sample publications from the public article manifest and typed content registry.

@@ -1,8 +1,17 @@
 import { expect, test } from "playwright/test";
 import { articles } from "../../src/content/articles/articles";
-import { getArticlePath } from "../../src/content/articles/manifest";
+import {
+  getArticlePath,
+  type ArticlePresentationKey,
+} from "../../src/content/articles/manifest";
 
 const noindexDirective = "noindex, nofollow";
+const customPresentationExpectations = {
+  "self-critical-perfectionism": {
+    bodySelector: ".perfectionism-article__equation",
+    className: "article-page--self-critical-perfectionism",
+  },
+} satisfies Record<ArticlePresentationKey, { bodySelector: string; className: string }>;
 
 test.describe("article publishing", () => {
   test("moves from the index into an article and back", async ({ page }) => {
@@ -31,7 +40,11 @@ test.describe("article publishing", () => {
       await page.goto(getArticlePath(article.slug));
 
       const articleDocument = page.locator("main.article-page .article-page__document");
+      const presentationKey = article.presentation;
 
+      await expect(page).toHaveTitle(
+        article.metaTitle ?? `${article.title} | Vive Counselling`,
+      );
       await expect(articleDocument.locator(".article-page__prose")).toBeVisible();
       await expect(articleDocument.locator(".article-page__prose .site-reading")).toHaveCount(0);
       await expect(page.getByRole("link", { name: "All articles" })).toHaveAttribute("href", "/articles");
@@ -46,8 +59,15 @@ test.describe("article publishing", () => {
         await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
       }
 
-      await expect(articleDocument).toHaveClass("article-page__document");
-      await expect(articleDocument.locator(".article-page__prose--standard")).toBeVisible();
+      if (presentationKey) {
+        const expectedPresentation = customPresentationExpectations[presentationKey];
+
+        await expect(articleDocument).toHaveClass(new RegExp(expectedPresentation.className));
+        await expect(articleDocument.locator(expectedPresentation.bodySelector)).toBeVisible();
+      } else {
+        await expect(articleDocument).toHaveClass("article-page__document");
+        await expect(articleDocument.locator(".article-page__prose--standard")).toBeVisible();
+      }
 
       if (article.references.length > 0) {
         const referenceLedger = articleDocument.locator(".article-page__references");

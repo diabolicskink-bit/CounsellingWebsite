@@ -9,7 +9,7 @@ This catalogue contains every React component currently approved for deliberate 
 - `Contract`: Canonical hero for every published article. An `ArticleMetadata` value supplies the breadcrumb topic, title, abstract, author, publication date, and optional revision date. The component owns their semantics, order, dark hero composition, responsive recomposition, and presentation. Its single breadcrumb doubles as the shared site-eyebrow role.
 - `Boundary`: Use exactly once at the start of an `/articles/:slug` article. It does not render the article body, source note, return navigation, metadata tags, or subject-specific presentation. It composes the supported site-hero structure and surface; article-body presentations must not restyle or replace it.
 - `Implementation`: `ArticleHero` in `src/content/articles/ArticleHero.tsx`, with component-owned `.article-hero*` presentation in `src/design-system/components.css`.
-- `Verified consumers`: Every article route generated from `src/content/articles/manifest.ts`; the current ant and dinosaur samples exercise the same component with different body presentations.
+- `Verified consumers`: Every article route generated from `src/content/articles/manifest.ts`; the current standard and subject-specific article bodies use the same component without changing its presentation.
 - `Promoted`: 2026-09-01 — owner-authorized article-template consolidation and design-system review.
 
 ## Contact Invitations
