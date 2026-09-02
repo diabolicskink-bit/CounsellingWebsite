@@ -11,12 +11,15 @@ Add one `ArticleMetadata`-compatible object to `publishedArticleMetadata` in `sr
   abstract: "A concise account of the article's question and argument.",
   author: "Joel Griffiths",
   description: "A specific search and social description for the article.",
+  metaTitle: "An optional shorter browser and search title | Vive Counselling",
   publishedAt: "YYYY-MM-DD",
   slug: "lowercase-url-safe-slug",
   title: "The public article title",
   topic: "A short subject classification",
 }
 ```
+
+Omit `metaTitle` when the public article title plus `| Vive Counselling` is also the intended browser and search title. Supply it only when that metadata needs a shorter version; the visible article title and structured-data headline continue to use `title`.
 
 Create one matching `ArticleTemplate` module at `src/content/articles/articleTemplates/<slug>.ts`:
 

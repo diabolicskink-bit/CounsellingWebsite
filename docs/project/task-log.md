@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-02 - Self-Critical Perfectionism Article Published
+
+- Added the standard article `Self-Critical Perfectionism: When Nothing Feels Good Enough` with its supplied title, excerpt, description, publication copy, and 17-source reference set.
+- Reconstructed the pasted document's section hierarchy, example list, maintenance cycle, displayed internal equation, and structured APA-style reference ledger without rewriting its wording.
+- Added an optional article metadata-title override so a concise search title can coexist with the longer visible publication title and structured-data headline.
+
 ## 2026-09-02 - Article Publishing Language Standardised
 
 - Standardised the publication domain on article language across routes, source paths, types, components, styles, tests, and project documentation.

@@ -5,6 +5,7 @@ export type ArticleMetadata = Readonly<{
   author: string;
   description: string;
   isSample?: boolean;
+  metaTitle?: string;
   presentation?: ArticlePresentationKey;
   publishedAt: string;
   slug: string;
@@ -32,6 +33,18 @@ const requiredTextFields = [
 ] as const satisfies readonly (keyof ArticleMetadata)[];
 
 const publishedArticleMetadata = [
+  {
+    abstract:
+      "Self-critical perfectionism turns ordinary standards into tests of personal worth. Understanding what the pattern is protecting you from can make change possible.",
+    author: "Joel Griffiths",
+    description:
+      "Self-critical perfectionism is more than high standards. Learn how fear of mistakes and harsh self-judgement develop, persist and can change.",
+    metaTitle: "Self-Critical Perfectionism | Vive Counselling",
+    publishedAt: "2026-09-02",
+    slug: "self-critical-perfectionism",
+    title: "Self-Critical Perfectionism: When Nothing Feels Good Enough",
+    topic: "Perfectionism",
+  },
   {
     abstract:
       "Good intentions are not enough for kink-affirming therapy. A therapist needs to understand BDSM well enough to explore what it means without mistaking consensual power for pathology or overlooking genuine harm.",
@@ -122,6 +135,10 @@ export function validateArticleManifest(articles: readonly ArticleMetadata[]) {
       throw new Error(`Article has an empty source note: ${article.slug}`);
     }
 
+    if (article.metaTitle !== undefined && !article.metaTitle.trim()) {
+      throw new Error(`Article has an empty meta title: ${article.slug}`);
+    }
+
     seenSlugs.add(article.slug);
   }
 }
@@ -155,7 +172,7 @@ export function getArticleRouteMetadata() {
         pageType: "article" as const,
         publishedAt: article.publishedAt,
         robots: article.isSample ? "noindex, nofollow" : undefined,
-        title: `${article.title} | Vive Counselling`,
+        title: article.metaTitle ?? `${article.title} | Vive Counselling`,
       },
     ]),
   );
