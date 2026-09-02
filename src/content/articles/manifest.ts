@@ -54,7 +54,7 @@ const publishedArticleMetadata = [
       "Looking for a kink-affirming therapist? Learn the difference between acceptance and the knowledge needed to discuss BDSM, consent, trauma and power.",
     metaTitle: "Kink-Affirming Therapy | Vive Counselling",
     publishedAt: "2026-08-26",
-    slug: "what-is-kink-affirming-therapy",
+    slug: "kink-affirming-therapy",
     title: "What Is Kink-Affirming Therapy?",
     topic: "Kink and BDSM",
   },

@@ -1,7 +1,7 @@
 import { defineArticleTemplate } from "../articleTemplate.ts";
 
 export default defineArticleTemplate({
-  slug: "what-is-kink-affirming-therapy",
+  slug: "kink-affirming-therapy",
   body: `## Kink-affirming therapy
 
 If you are looking for a kink-affirming therapist or counsellor, you may already have some idea of what you do not want. You probably do not want to spend a session explaining basic BDSM terminology, reassuring a therapist that consensual power exchange is not inherently abusive, or wondering whether disclosing a fetish will suddenly become the explanation for everything else happening in your life.
