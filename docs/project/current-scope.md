@@ -80,7 +80,7 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 
 ### Reporting And Retention
 
-- The schema has nine ordered migrations through `0009_add_visit_location.sql`. Preview is recorded as current through that migration; Production remains current through `0007_add_visit_client_environment.sql`. Development receives no database configuration.
+- The schema has nine ordered migrations through `0009_add_visit_location.sql`. Preview and Production are recorded as current through that migration; Development receives no database configuration.
 - Protected `GET /api/analytics` supports a Perth calendar day, calendar month, anonymous visitor history, page-view date range, or paid-keyword date range. Date ranges are inclusive and limited to 366 days. `GET` and `PUT` `/api/analytics/exclusions` list and change visitor exclusions without deleting retained data.
 - The five private views cover daily traffic, route totals, paid matched-keyword journeys, monthly enquiry outcomes, and excluded visitors. Daily, enquiry, and exclusion records can open the visitor's complete retained history with interleaved page views and events.
 - Reports cover source, page depth, active time, new or returning status, enquiry outcomes, ad attribution, bot and device observations, and retained visitor history. The keyword report treats the stored Google Ads matched keyword as attribution, not as the visitor's search query, and keeps paid visits without keyword data visible in coverage totals.

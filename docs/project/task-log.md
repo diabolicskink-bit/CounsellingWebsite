@@ -22,7 +22,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Added controlled `instagram_link_clicked`, `linkedin_link_clicked`, and `email_link_clicked` events for configured public social profiles and React-rendered email links, retaining each event's active visit and page-view association independently of GA and Clarity.
 - Added request-derived coarse location to new visits: Australian traffic retains a validated state or territory code, overseas traffic retains only the country code, and the ledger stores no city, postcode, coordinates or raw IP address.
-- Added migrations `0008_add_contact_link_events.sql` and `0009_add_visit_location.sql` plus focused API, migration and browser contracts. Preview is migrated; Production migration and combined Preview verification remain pending.
+- Added migrations `0008_add_contact_link_events.sql` and `0009_add_visit_location.sql` plus focused API, migration and browser contracts. Preview and Production are independently migrated through `0009`, and the combined `staging` deployment reached Vercel `READY` before release.
 
 ## 2026-09-01 - Private Analytics Visual Boundary Clarified
 
