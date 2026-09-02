@@ -52,13 +52,9 @@ A relationship can appear extremely unequal from the outside while containing a 
 
 ## Being kink-friendly and being kink-aware or knowledgeable are not quite the same thing
 
-A therapist can have completely accepting attitudes towards BDSM and still have very little knowledge of it. Good intentions are valuable, but they do not automatically produce competence.
+A therapist can have completely accepting attitudes towards BDSM and still have very little knowledge of it. Good intentions are valuable, but they do not automatically produce competence. Kelsey and colleagues (2013) surveyed 766 therapists in the United States. Seventy-six per cent had worked with at least one client who engaged in BDSM, yet fewer than half considered themselves competent to work in the area.
 
-Kelsey and colleagues (2013) surveyed 766 therapists in the United States. Seventy-six per cent had worked with at least one client who engaged in BDSM, yet fewer than half considered themselves competent to work in the area.
-
-Lack of familiarity can subtly change the therapy. A client may spend considerable time explaining terminology, community norms or relationship structures before they can reach the issue that brought them to counselling.
-
-There is an important difference between asking someone what being collared means within *their* relationship and asking what a collar is. The first question is about the client's experience. The second reveals a gap in the therapist's basic cultural knowledge.
+Lack of familiarity can subtly change the therapy. A client may spend considerable time explaining terminology, community norms or relationship structures before they can reach the issue that brought them to counselling. There is an important difference between asking someone what being collared means within *their* relationship and asking what a collar is. The first question is about the client's experience. The second reveals a gap in the therapist's basic cultural knowledge.
 
 Power exchange is another example. Someone voluntarily giving substantial authority to a partner can look troubling if it is assessed only through the norms of an egalitarian relationship. Within an established D/s relationship, choosing to hand over particular forms of control may itself be an important exercise of agency.
 
@@ -72,9 +68,9 @@ Some people come to therapy troubled by a kink itself. Others are far more distr
 
 Research into the experiences of kink-involved people suggests that concern about judgement from health professionals is not unfounded. Kolmes, Stock and Moser (2006) examined BDSM clients' experiences in psychotherapy and found a wide range of experiences. Some described knowledgeable and accepting therapists. Others reported prejudicial comments, unnecessary focus on BDSM, therapists expecting them to provide basic education, or kink being treated as something that should be stopped.
 
-Waldura and colleagues (2016) found similar concerns in healthcare more broadly. Fewer than half of the kink-oriented participants in their study had disclosed their kink to their current healthcare provider. Anticipated stigma was the most common reason for nondisclosure, and participants were particularly concerned that consensual BDSM could be mistaken for intimate partner violence.
+Waldura and colleagues (2016) found similar concerns in healthcare more broadly. **Fewer than half** of the kink-oriented participants in their study had disclosed their kink to their current healthcare provider. Anticipated stigma was the most common reason for nondisclosure, and participants were particularly concerned that consensual BDSM could be mistaken for intimate partner violence.
 
-There is also Australian research on this issue. Reynish and colleagues (2023) studied kink-oriented people with pre-existing mental-health difficulties living in rural Tasmania. The sample was small, so the findings cannot be assumed to represent kink-involved Australians generally, but approximately 83% reported having withheld their kink from a mental-health professional because they feared stigma or discrimination.
+There is also Australian research on this issue. Reynish and colleagues (2023) studied kink-oriented people with pre-existing mental-health difficulties living in rural Tasmania. The sample was small, so the findings cannot be assumed to represent kink-involved Australians generally, but approximately **83% reported having withheld their kink from a mental-health professional** because they feared stigma or discrimination.
 
 A client does not need to have experienced overt hostility for this to affect therapy. Uncertainty about a therapist's reaction can be enough. People may soften their language, omit important details, refer to a Dominant simply as a partner, or leave out experiences that were emotionally important because they are unsure what the disclosure will do to the therapist's view of them.
 
