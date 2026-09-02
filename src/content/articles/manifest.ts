@@ -51,8 +51,9 @@ const publishedArticleMetadata = [
       "Good intentions are not enough for kink-affirming therapy. A therapist needs to understand BDSM well enough to explore what it means without mistaking consensual power for pathology or overlooking genuine harm.",
     author: "Joel Griffiths",
     description:
-      "What kink-affirming therapy means in practice, including therapist knowledge, trauma, consent, stigma and the difference between acceptance and competence.",
-    publishedAt: "2026-09-01",
+      "Looking for a kink-affirming therapist? Learn the difference between acceptance and the knowledge needed to discuss BDSM, consent, trauma and power.",
+    metaTitle: "Kink-Affirming Therapy | Vive Counselling",
+    publishedAt: "2026-08-26",
     slug: "what-is-kink-affirming-therapy",
     title: "What Is Kink-Affirming Therapy?",
     topic: "Kink and BDSM",
