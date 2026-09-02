@@ -49,6 +49,11 @@ test.describe("article publishing", () => {
       await expect(articleDocument.locator(".article-page__prose")).toBeVisible();
       await expect(articleDocument.locator(".article-page__prose .site-reading")).toHaveCount(0);
       await expect(page.getByRole("link", { name: "All articles" })).toHaveAttribute("href", "/articles");
+      const breadcrumb = page.getByRole("navigation", { name: "Breadcrumb" });
+
+      await expect(breadcrumb.getByRole("link", { name: "Articles" }))
+        .toHaveAttribute("href", "/articles");
+      await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText(article.topic);
       if (article.isSample) {
         await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", noindexDirective);
       } else {

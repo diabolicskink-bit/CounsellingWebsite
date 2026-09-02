@@ -23,6 +23,7 @@ Curated milestone history for durable project state. This is not a full changelo
 - Standardised the publication domain on article language across routes, source paths, types, components, styles, tests, and project documentation.
 - Established `/articles` and `/articles/:slug` as the canonical public routes, with matching metadata, analytics, prerender, sitemap, and navigation contracts.
 - Aligned structured data with the section's role: `CollectionPage` for the Articles index and `Article` for each published article.
+- Added an article-level `BreadcrumbList` that matches the visible `Articles` and topic navigation while preserving the existing collection, article, author, and publisher types.
 
 ## 2026-09-01 - Local Article Editor Added
 

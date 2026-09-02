@@ -321,6 +321,7 @@ function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, sit
   const pageUrl = getAbsoluteUrl(siteOrigin, routePath);
   const pageId = `${pageUrl}#webpage`;
   const articleId = `${pageUrl}#article`;
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
   const publishedAt = validateIsoDate(routeMetadata.publishedAt, `Article publishedAt (${routePath})`);
   const modifiedAt = validateIsoDate(
     routeMetadata.modifiedAt ?? publishedAt,
@@ -338,6 +339,7 @@ function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, sit
         description: routeMetadata.description,
         isPartOf: { "@id": ids.websiteId },
         mainEntity: { "@id": articleId },
+        breadcrumb: { "@id": breadcrumbId },
       },
       {
         "@type": "Article",
@@ -363,6 +365,23 @@ function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, sit
         },
         image: getAssetUrl(siteOrigin, siteMetadata.socialImage),
         mainEntityOfPage: { "@id": pageId },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Articles",
+            item: getAbsoluteUrl(siteOrigin, "/articles"),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: routeMetadata.articleSection,
+          },
+        ],
       },
     ],
   });
