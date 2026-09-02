@@ -17,7 +17,10 @@ import {
   isAnalyticsDateKey,
   type AnalyticsVisit,
 } from "../../data/analyticsContract";
-import type { VisitDeviceType } from "../../data/visitClientEnvironment";
+import type {
+  AustralianVisitRegionCode,
+  VisitDeviceType,
+} from "../../data/visitClientEnvironment";
 import { privateRoutePaths } from "../../data/routes";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import { DateControls } from "./AnalyticsControls";
@@ -29,7 +32,6 @@ import {
   sourceDetail,
   visitActiveSeconds,
   visitLocationCompactLabel,
-  visitLocationLabel,
   visitorLabel,
 } from "./analyticsFormatters";
 import { AnalyticsShell, ReportState } from "./AnalyticsShell";
@@ -52,6 +54,17 @@ type VisitContactProgress = {
   label: string;
 };
 
+const australianRegionOrder = [
+  "NSW",
+  "VIC",
+  "QLD",
+  "WA",
+  "SA",
+  "TAS",
+  "ACT",
+  "NT",
+] as const satisfies readonly AustralianVisitRegionCode[];
+
 function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
   const deviceCounts = visits.reduce<Record<VisitDeviceType, number>>(
     (counts, visit) => ({
@@ -62,63 +75,29 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
   );
   const denominator = Math.max(visits.length, 1);
   const deviceTypes = Object.keys(deviceLabels) as VisitDeviceType[];
-  const locationCounts = [...visits.reduce((counts, visit) => {
-    const key = visitLocationCompactLabel(visit);
-    const current = counts.get(key);
-    counts.set(key, {
-      count: (current?.count ?? 0) + 1,
-      key,
-      label: visitLocationLabel(visit),
-    });
-    return counts;
-  }, new Map<string, { count: number; key: string; label: string }>()).values()]
-    .sort((left, right) => right.count - left.count || left.label.localeCompare(right.label));
-  const displayedLocations = locationCounts.slice(0, 4);
-  const otherLocationCount = locationCounts
-    .slice(displayedLocations.length)
-    .reduce((total, location) => total + location.count, 0);
+  const locationCounts = visits.reduce<Record<AustralianVisitRegionCode, number>>(
+    (counts, visit) => {
+      if (visit.locationCountryCode === "AU" && visit.locationRegionCode) {
+        counts[visit.locationRegionCode] += 1;
+      }
+      return counts;
+    },
+    { ACT: 0, NSW: 0, NT: 0, QLD: 0, SA: 0, TAS: 0, VIC: 0, WA: 0 },
+  );
 
   return (
     <section className="signal-diagnostics" aria-label="Location and device mix">
       <div className="signal-diagnostics__body">
         <div className="signal-location-mix">
           <h3><MapPin aria-hidden="true" size={15} /> Location mix</h3>
-          {displayedLocations.length ? (
-            <dl>
-              {displayedLocations.map((location) => (
-                <div key={location.key}>
-                  <dt title={location.label}>{location.label}</dt>
-                  <i aria-hidden="true">
-                    <b
-                      style={{
-                        "--signal-location-width": `${(location.count / denominator) * 100}%`,
-                      } as CSSProperties}
-                    />
-                  </i>
-                  <dd>
-                    <strong>{location.count}</strong>
-                    <small>{Math.round((location.count / denominator) * 100)}%</small>
-                  </dd>
-                </div>
-              ))}
-              {otherLocationCount ? (
-                <div>
-                  <dt>Other locations</dt>
-                  <i aria-hidden="true">
-                    <b
-                      style={{
-                        "--signal-location-width": `${(otherLocationCount / denominator) * 100}%`,
-                      } as CSSProperties}
-                    />
-                  </i>
-                  <dd>
-                    <strong>{otherLocationCount}</strong>
-                    <small>{Math.round((otherLocationCount / denominator) * 100)}%</small>
-                  </dd>
-                </div>
-              ) : null}
-            </dl>
-          ) : <p>No location data</p>}
+          <dl>
+            {australianRegionOrder.map((regionCode) => (
+              <div key={regionCode}>
+                <dt>{regionCode}</dt>
+                <dd>{locationCounts[regionCode]}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         <div className="signal-device-mix">

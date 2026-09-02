@@ -114,10 +114,6 @@ export type MonthlyAnalyticsReport = {
 
 export type PageViewRouteSummary = {
   activeSeconds: number;
-  emailClicks: number;
-  instagramClicks: number;
-  linkedinClicks: number;
-  outboundClicks: number;
   pageViews: number;
   path: string;
   visits: number;
@@ -128,10 +124,6 @@ export type PageViewsAnalyticsReport = {
   routes: PageViewRouteSummary[];
   startDate: string;
   totalActiveSeconds: number;
-  totalEmailClicks: number;
-  totalInstagramClicks: number;
-  totalLinkedinClicks: number;
-  totalOutboundClicks: number;
   totalPageViews: number;
   totalVisits: number;
   type: "pageViews";
@@ -337,11 +329,6 @@ export function isPageViewRouteSummary(value: unknown): value is PageViewRouteSu
   if (!isRecord(value)) return false;
 
   return isNonNegativeInteger(value.activeSeconds)
-    && isNonNegativeInteger(value.emailClicks)
-    && isNonNegativeInteger(value.instagramClicks)
-    && isNonNegativeInteger(value.linkedinClicks)
-    && isNonNegativeInteger(value.outboundClicks)
-    && value.outboundClicks === value.emailClicks + value.instagramClicks + value.linkedinClicks
     && isPositiveInteger(value.pageViews)
     && isNonEmptyString(value.path)
     && isPositiveInteger(value.visits);
@@ -419,10 +406,6 @@ export function isAnalyticsReport(value: unknown): value is AnalyticsReport {
       || !Array.isArray(value.routes)
       || !value.routes.every(isPageViewRouteSummary)
       || !isNonNegativeInteger(value.totalActiveSeconds)
-      || !isNonNegativeInteger(value.totalEmailClicks)
-      || !isNonNegativeInteger(value.totalInstagramClicks)
-      || !isNonNegativeInteger(value.totalLinkedinClicks)
-      || !isNonNegativeInteger(value.totalOutboundClicks)
       || !isNonNegativeInteger(value.totalPageViews)
       || !isNonNegativeInteger(value.totalVisits)
     ) {
@@ -430,30 +413,11 @@ export function isAnalyticsReport(value: unknown): value is AnalyticsReport {
     }
 
     const totalVisits = value.totalVisits;
-    const routeEmailClicks = value.routes.reduce((total, route) => total + route.emailClicks, 0);
-    const routeInstagramClicks = value.routes.reduce(
-      (total, route) => total + route.instagramClicks,
-      0,
-    );
-    const routeLinkedinClicks = value.routes.reduce(
-      (total, route) => total + route.linkedinClicks,
-      0,
-    );
-    const routeOutboundClicks = value.routes.reduce(
-      (total, route) => total + route.outboundClicks,
-      0,
-    );
 
     return value.routes.reduce((total, route) => total + route.activeSeconds, 0)
       === value.totalActiveSeconds
       && value.routes.reduce((total, route) => total + route.pageViews, 0)
         === value.totalPageViews
-      && routeEmailClicks === value.totalEmailClicks
-      && routeInstagramClicks === value.totalInstagramClicks
-      && routeLinkedinClicks === value.totalLinkedinClicks
-      && routeOutboundClicks === value.totalOutboundClicks
-      && value.totalOutboundClicks
-        === value.totalEmailClicks + value.totalInstagramClicks + value.totalLinkedinClicks
       && value.routes.every((route) => route.visits <= totalVisits);
   }
 
