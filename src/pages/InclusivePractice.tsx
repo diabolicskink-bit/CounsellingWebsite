@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import "../styles-inclusive-practice.css";
+import Button from "../components/Button";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths } from "../data/routes";
@@ -115,10 +115,10 @@ function InclusionChapterSection({ chapter }: { chapter: InclusionChapter }) {
 
         <div className="inclusion-hub-page__chapter-overview">
           <p className="site-reading">{chapter.overview}</p>
-          <Link className="inclusion-hub-page__chapter-link" to={chapter.href}>
+          <Button className="inclusion-hub-page__chapter-link" href={chapter.href}>
             <span>{chapter.linkLabel}</span>
             <ArrowRight size={18} aria-hidden="true" />
-          </Link>
+          </Button>
         </div>
       </Container>
     </section>
