@@ -5,10 +5,10 @@ import {
   CircleCheck,
   CircleX,
   Clock3,
+  MapPin,
   MousePointerClick,
   Radio,
   RefreshCw,
-  ScanSearch,
   TextCursorInput,
 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -28,6 +28,8 @@ import {
   formatTime,
   sourceDetail,
   visitActiveSeconds,
+  visitLocationCompactLabel,
+  visitLocationLabel,
   visitorLabel,
 } from "./analyticsFormatters";
 import { AnalyticsShell, ReportState } from "./AnalyticsShell";
@@ -36,6 +38,8 @@ import {
   DeviceIcon,
   DeviceMark,
   deviceLabels,
+  LocationMark,
+  OutboundActionMark,
   SourceMark,
   VisitDetailPanel,
   WebDriverMark,
@@ -56,23 +60,67 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
     }),
     { desktop: 0, mobile: 0, tablet: 0, unknown: 0 },
   );
-  const webDriverTrue = visits.filter((visit) => visit.isWebDriver === true).length;
-  const webDriverFalse = visits.filter((visit) => visit.isWebDriver === false).length;
-  const webDriverUnreported = visits.length - webDriverTrue - webDriverFalse;
   const denominator = Math.max(visits.length, 1);
   const deviceTypes = Object.keys(deviceLabels) as VisitDeviceType[];
+  const locationCounts = [...visits.reduce((counts, visit) => {
+    const key = visitLocationCompactLabel(visit);
+    const current = counts.get(key);
+    counts.set(key, {
+      count: (current?.count ?? 0) + 1,
+      key,
+      label: visitLocationLabel(visit),
+    });
+    return counts;
+  }, new Map<string, { count: number; key: string; label: string }>()).values()]
+    .sort((left, right) => right.count - left.count || left.label.localeCompare(right.label));
+  const displayedLocations = locationCounts.slice(0, 4);
+  const otherLocationCount = locationCounts
+    .slice(displayedLocations.length)
+    .reduce((total, location) => total + location.count, 0);
 
   return (
-    <section className="signal-diagnostics" aria-labelledby="traffic-diagnostics-title">
-      <header>
-        <div>
-          <p className="signal-kicker">Traffic signature</p>
-          <h2 id="traffic-diagnostics-title">Device and automation signals</h2>
-        </div>
-        <p>Visit-level request data for the records shown below.</p>
-      </header>
-
+    <section className="signal-diagnostics" aria-label="Location and device mix">
       <div className="signal-diagnostics__body">
+        <div className="signal-location-mix">
+          <h3><MapPin aria-hidden="true" size={15} /> Location mix</h3>
+          {displayedLocations.length ? (
+            <dl>
+              {displayedLocations.map((location) => (
+                <div key={location.key}>
+                  <dt title={location.label}>{location.label}</dt>
+                  <i aria-hidden="true">
+                    <b
+                      style={{
+                        "--signal-location-width": `${(location.count / denominator) * 100}%`,
+                      } as CSSProperties}
+                    />
+                  </i>
+                  <dd>
+                    <strong>{location.count}</strong>
+                    <small>{Math.round((location.count / denominator) * 100)}%</small>
+                  </dd>
+                </div>
+              ))}
+              {otherLocationCount ? (
+                <div>
+                  <dt>Other locations</dt>
+                  <i aria-hidden="true">
+                    <b
+                      style={{
+                        "--signal-location-width": `${(otherLocationCount / denominator) * 100}%`,
+                      } as CSSProperties}
+                    />
+                  </i>
+                  <dd>
+                    <strong>{otherLocationCount}</strong>
+                    <small>{Math.round((otherLocationCount / denominator) * 100)}%</small>
+                  </dd>
+                </div>
+              ) : null}
+            </dl>
+          ) : <p>No location data</p>}
+        </div>
+
         <div className="signal-device-mix">
           <h3>Device mix</h3>
           <dl>
@@ -88,21 +136,6 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
           </dl>
         </div>
 
-        <div className={webDriverTrue
-          ? "signal-webdriver-summary signal-webdriver-summary--detected"
-          : "signal-webdriver-summary"}
-        >
-          <ScanSearch aria-hidden="true" size={24} />
-          <div>
-            <span>navigator.webdriver</span>
-            <strong>{webDriverTrue}</strong>
-            <small>reported true</small>
-          </div>
-          <dl>
-            <div><dt>False</dt><dd>{webDriverFalse}</dd></div>
-            <div><dt>No data</dt><dd>{webDriverUnreported}</dd></div>
-          </dl>
-        </div>
       </div>
     </section>
   );
@@ -369,7 +402,9 @@ function DailyObservatory({
                       </div>
                       <div className="signal-event__signals">
                         <DeviceMark visit={visit} />
+                        <LocationMark visit={visit} />
                         <WebDriverMark visit={visit} />
+                        <OutboundActionMark visit={visit} />
                         <ContactProgressSignal progress={contactProgress} />
                       </div>
                       <div className="signal-event__path" aria-label={`Journey preview from ${visit.landingPath}`}>
@@ -423,7 +458,7 @@ function DailyObservatory({
       </section>
 
       <p className="signal-footnote">
-        Records page loads, visible active time and the five enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Form contents are not included in this report.
+        Records page loads, visible active time, outbound link clicks and enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Form contents are not included in this report.
       </p>
     </>
   );

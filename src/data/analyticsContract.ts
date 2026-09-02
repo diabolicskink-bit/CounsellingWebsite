@@ -1,4 +1,8 @@
-import type { VisitDeviceType } from "./visitClientEnvironment";
+import {
+  australianVisitRegionCodes,
+  type AustralianVisitRegionCode,
+  type VisitDeviceType,
+} from "./visitClientEnvironment.ts";
 
 export type AnalyticsTrafficSource = "direct" | "internal" | "paid" | "referral";
 
@@ -80,6 +84,8 @@ export type AnalyticsVisit = {
   isWebDriver: boolean | null;
   landingPath: string;
   lastSeenAt: string;
+  locationCountryCode: string | null;
+  locationRegionCode: AustralianVisitRegionCode | null;
   matchType: string | null;
   matchedKeyword: string | null;
   networkCode: string | null;
@@ -108,6 +114,10 @@ export type MonthlyAnalyticsReport = {
 
 export type PageViewRouteSummary = {
   activeSeconds: number;
+  emailClicks: number;
+  instagramClicks: number;
+  linkedinClicks: number;
+  outboundClicks: number;
   pageViews: number;
   path: string;
   visits: number;
@@ -118,6 +128,10 @@ export type PageViewsAnalyticsReport = {
   routes: PageViewRouteSummary[];
   startDate: string;
   totalActiveSeconds: number;
+  totalEmailClicks: number;
+  totalInstagramClicks: number;
+  totalLinkedinClicks: number;
+  totalOutboundClicks: number;
   totalPageViews: number;
   totalVisits: number;
   type: "pageViews";
@@ -211,6 +225,8 @@ const visitDeviceTypes = new Set<VisitDeviceType>([
   "unknown",
 ]);
 
+const visitRegionCodes = new Set<AustralianVisitRegionCode>(australianVisitRegionCodes);
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
@@ -225,6 +241,18 @@ function isNullableString(value: unknown): value is string | null {
 
 function isNullableBoolean(value: unknown): value is boolean | null {
   return value === null || typeof value === "boolean";
+}
+
+function isVisitLocation(
+  countryCode: unknown,
+  regionCode: unknown,
+): countryCode is string | null {
+  if (countryCode === null) return regionCode === null;
+  if (typeof countryCode !== "string" || !/^[A-Z]{2}$/.test(countryCode)) return false;
+
+  if (countryCode !== "AU") return regionCode === null;
+  return typeof regionCode === "string"
+    && visitRegionCodes.has(regionCode as AustralianVisitRegionCode);
 }
 
 function isNonNegativeInteger(value: unknown): value is number {
@@ -290,6 +318,7 @@ export function isAnalyticsVisit(value: unknown): value is AnalyticsVisit {
     && isNullableBoolean(value.isWebDriver)
     && isNonEmptyString(value.landingPath)
     && isTimestamp(value.lastSeenAt)
+    && isVisitLocation(value.locationCountryCode, value.locationRegionCode)
     && isNullableString(value.matchType)
     && isNullableString(value.matchedKeyword)
     && isNullableString(value.networkCode)
@@ -308,6 +337,11 @@ export function isPageViewRouteSummary(value: unknown): value is PageViewRouteSu
   if (!isRecord(value)) return false;
 
   return isNonNegativeInteger(value.activeSeconds)
+    && isNonNegativeInteger(value.emailClicks)
+    && isNonNegativeInteger(value.instagramClicks)
+    && isNonNegativeInteger(value.linkedinClicks)
+    && isNonNegativeInteger(value.outboundClicks)
+    && value.outboundClicks === value.emailClicks + value.instagramClicks + value.linkedinClicks
     && isPositiveInteger(value.pageViews)
     && isNonEmptyString(value.path)
     && isPositiveInteger(value.visits);
@@ -385,6 +419,10 @@ export function isAnalyticsReport(value: unknown): value is AnalyticsReport {
       || !Array.isArray(value.routes)
       || !value.routes.every(isPageViewRouteSummary)
       || !isNonNegativeInteger(value.totalActiveSeconds)
+      || !isNonNegativeInteger(value.totalEmailClicks)
+      || !isNonNegativeInteger(value.totalInstagramClicks)
+      || !isNonNegativeInteger(value.totalLinkedinClicks)
+      || !isNonNegativeInteger(value.totalOutboundClicks)
       || !isNonNegativeInteger(value.totalPageViews)
       || !isNonNegativeInteger(value.totalVisits)
     ) {
@@ -392,11 +430,30 @@ export function isAnalyticsReport(value: unknown): value is AnalyticsReport {
     }
 
     const totalVisits = value.totalVisits;
+    const routeEmailClicks = value.routes.reduce((total, route) => total + route.emailClicks, 0);
+    const routeInstagramClicks = value.routes.reduce(
+      (total, route) => total + route.instagramClicks,
+      0,
+    );
+    const routeLinkedinClicks = value.routes.reduce(
+      (total, route) => total + route.linkedinClicks,
+      0,
+    );
+    const routeOutboundClicks = value.routes.reduce(
+      (total, route) => total + route.outboundClicks,
+      0,
+    );
 
     return value.routes.reduce((total, route) => total + route.activeSeconds, 0)
       === value.totalActiveSeconds
       && value.routes.reduce((total, route) => total + route.pageViews, 0)
         === value.totalPageViews
+      && routeEmailClicks === value.totalEmailClicks
+      && routeInstagramClicks === value.totalInstagramClicks
+      && routeLinkedinClicks === value.totalLinkedinClicks
+      && routeOutboundClicks === value.totalOutboundClicks
+      && value.totalOutboundClicks
+        === value.totalEmailClicks + value.totalInstagramClicks + value.totalLinkedinClicks
       && value.routes.every((route) => route.visits <= totalVisits);
   }
 
