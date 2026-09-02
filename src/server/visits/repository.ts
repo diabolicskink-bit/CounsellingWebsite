@@ -103,7 +103,9 @@ WITH observation AS (
     $15::TEXT AS bot_category,
     $16::TEXT AS user_agent,
     $17::TEXT AS device_type,
-    $18::BOOLEAN AS is_webdriver
+    $18::BOOLEAN AS is_webdriver,
+    $19::TEXT AS location_country_code,
+    $20::TEXT AS location_region_code
 ),
 inserted_visit AS (
   INSERT INTO site_visits (
@@ -124,7 +126,9 @@ inserted_visit AS (
     bot_category,
     user_agent,
     device_type,
-    is_webdriver
+    is_webdriver,
+    location_country_code,
+    location_region_code
   )
   SELECT
     observation.visit_id,
@@ -144,7 +148,9 @@ inserted_visit AS (
     observation.bot_category,
     observation.user_agent,
     observation.device_type,
-    observation.is_webdriver
+    observation.is_webdriver,
+    observation.location_country_code,
+    observation.location_region_code
   FROM observation
   ON CONFLICT (id) DO NOTHING
   RETURNING id
@@ -251,6 +257,8 @@ export async function recordVisitObservation(
     observation.userAgent,
     observation.deviceType,
     observation.isWebDriver,
+    observation.locationCountryCode,
+    observation.locationRegionCode,
   ];
   const executeObservationWrite = async () => {
     const rows = (await database.query(

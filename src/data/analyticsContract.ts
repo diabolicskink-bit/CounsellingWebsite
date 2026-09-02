@@ -1,4 +1,8 @@
-import type { VisitDeviceType } from "./visitClientEnvironment";
+import {
+  australianVisitRegionCodes,
+  type AustralianVisitRegionCode,
+  type VisitDeviceType,
+} from "./visitClientEnvironment.ts";
 
 export type AnalyticsTrafficSource = "direct" | "internal" | "paid" | "referral";
 
@@ -80,6 +84,8 @@ export type AnalyticsVisit = {
   isWebDriver: boolean | null;
   landingPath: string;
   lastSeenAt: string;
+  locationCountryCode: string | null;
+  locationRegionCode: AustralianVisitRegionCode | null;
   matchType: string | null;
   matchedKeyword: string | null;
   networkCode: string | null;
@@ -211,6 +217,8 @@ const visitDeviceTypes = new Set<VisitDeviceType>([
   "unknown",
 ]);
 
+const visitRegionCodes = new Set<AustralianVisitRegionCode>(australianVisitRegionCodes);
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
@@ -225,6 +233,18 @@ function isNullableString(value: unknown): value is string | null {
 
 function isNullableBoolean(value: unknown): value is boolean | null {
   return value === null || typeof value === "boolean";
+}
+
+function isVisitLocation(
+  countryCode: unknown,
+  regionCode: unknown,
+): countryCode is string | null {
+  if (countryCode === null) return regionCode === null;
+  if (typeof countryCode !== "string" || !/^[A-Z]{2}$/.test(countryCode)) return false;
+
+  if (countryCode !== "AU") return regionCode === null;
+  return typeof regionCode === "string"
+    && visitRegionCodes.has(regionCode as AustralianVisitRegionCode);
 }
 
 function isNonNegativeInteger(value: unknown): value is number {
@@ -290,6 +310,7 @@ export function isAnalyticsVisit(value: unknown): value is AnalyticsVisit {
     && isNullableBoolean(value.isWebDriver)
     && isNonEmptyString(value.landingPath)
     && isTimestamp(value.lastSeenAt)
+    && isVisitLocation(value.locationCountryCode, value.locationRegionCode)
     && isNullableString(value.matchType)
     && isNullableString(value.matchedKeyword)
     && isNullableString(value.networkCode)

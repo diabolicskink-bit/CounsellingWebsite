@@ -3,6 +3,8 @@ import type {
   AnalyticsVisit,
   AnalyticsVisitEvent,
 } from "../../data/analyticsContract";
+import type { AustralianVisitRegionCode } from "../../data/visitClientEnvironment";
+import { visitEventTypes } from "../../data/visitEventContract";
 
 type VisitJourneyItem =
   | {
@@ -49,11 +51,27 @@ const monthFormatter = new Intl.DateTimeFormat("en-AU", {
 
 const eventLabels: Record<string, string> = {
   contact_option_selected: "Contact option selected",
+  email_link_clicked: "Email link clicked",
   enquiry_failed: "Enquiry failed",
   enquiry_sent: "Enquiry sent",
   enquiry_started: "Enquiry started",
   enquiry_submit_attempted: "Enquiry submit attempted",
+  instagram_link_clicked: "Instagram link clicked",
+  linkedin_link_clicked: "LinkedIn link clicked",
 };
+
+const australianRegionLabels: Record<AustralianVisitRegionCode, string> = {
+  ACT: "Australian Capital Territory",
+  NSW: "New South Wales",
+  NT: "Northern Territory",
+  QLD: "Queensland",
+  SA: "South Australia",
+  TAS: "Tasmania",
+  VIC: "Victoria",
+  WA: "Western Australia",
+};
+
+const countryNameFormatter = new Intl.DisplayNames(["en-AU"], { type: "region" });
 
 const contactOptionLabels: Record<string, string> = {
   appointment: "Make an appointment",
@@ -109,6 +127,46 @@ export function formatLongActiveTime(seconds: number) {
 
 export function visitActiveSeconds(visit: AnalyticsVisit) {
   return visit.pageViews.reduce((total, pageView) => total + pageView.activeSeconds, 0);
+}
+
+export type OutboundActionCounts = {
+  email: number;
+  instagram: number;
+  linkedin: number;
+  total: number;
+};
+
+export function outboundActionCounts(
+  events: AnalyticsVisitEvent[],
+): OutboundActionCounts {
+  const counts = events.reduce(
+    (result, visitEvent) => {
+      if (visitEvent.eventType === visitEventTypes.emailLinkClicked) result.email += 1;
+      if (visitEvent.eventType === visitEventTypes.instagramLinkClicked) result.instagram += 1;
+      if (visitEvent.eventType === visitEventTypes.linkedinLinkClicked) result.linkedin += 1;
+      return result;
+    },
+    { email: 0, instagram: 0, linkedin: 0 },
+  );
+
+  return { ...counts, total: counts.email + counts.instagram + counts.linkedin };
+}
+
+export function visitLocationCompactLabel(visit: AnalyticsVisit) {
+  if (visit.locationCountryCode === "AU") return visit.locationRegionCode ?? "AU";
+  return visit.locationCountryCode ?? "Unknown";
+}
+
+export function visitLocationLabel(visit: AnalyticsVisit) {
+  if (!visit.locationCountryCode) return "Location unknown";
+
+  if (visit.locationCountryCode === "AU") {
+    return visit.locationRegionCode
+      ? `${australianRegionLabels[visit.locationRegionCode]}, Australia`
+      : "Australia";
+  }
+
+  return countryNameFormatter.of(visit.locationCountryCode) ?? visit.locationCountryCode;
 }
 
 export function visitorLabel(visitorId: string) {

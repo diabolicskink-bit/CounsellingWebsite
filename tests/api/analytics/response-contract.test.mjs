@@ -46,6 +46,8 @@ function createVisit(overrides = {}) {
     isWebDriver: false,
     landingPath: "/polyamory-enm-counselling",
     lastSeenAt: "2026-08-15T03:05:00.000Z",
+    locationCountryCode: "AU",
+    locationRegionCode: "WA",
     matchType: "p",
     matchedKeyword: "polyamory therapy",
     networkCode: "g",
@@ -84,7 +86,12 @@ function createReports() {
     },
     {
       endDate: "2026-08-15",
-      routes: [{ activeSeconds: 90, pageViews: 2, path: "/contact", visits: 1 }],
+      routes: [{
+        activeSeconds: 90,
+        pageViews: 2,
+        path: "/contact",
+        visits: 1,
+      }],
       startDate: "2026-08-01",
       totalActiveSeconds: 90,
       totalPageViews: 2,
@@ -154,6 +161,16 @@ test("rejects malformed nested visits, page views, and events", () => {
       visits: [createVisit({ startedAt: "1" })],
     },
     {
+      date: "2026-08-15",
+      type: "daily",
+      visits: [createVisit({ locationCountryCode: "AU", locationRegionCode: null })],
+    },
+    {
+      date: "2026-08-15",
+      type: "daily",
+      visits: [createVisit({ locationCountryCode: "NZ", locationRegionCode: "WA" })],
+    },
+    {
       isExcluded: false,
       type: "visitor",
       visitorId,
@@ -179,7 +196,12 @@ test("rejects malformed aggregate rows and report context", () => {
     },
     {
       endDate: "2026-08-15",
-      routes: [{ activeSeconds: 1, pageViews: 1, path: "", visits: 1 }],
+      routes: [{
+        activeSeconds: 1,
+        pageViews: 1,
+        path: "",
+        visits: 1,
+      }],
       startDate: "2026-08-01",
       totalActiveSeconds: 1,
       totalPageViews: 1,
@@ -188,7 +210,12 @@ test("rejects malformed aggregate rows and report context", () => {
     },
     {
       endDate: "2026-08-15",
-      routes: [{ activeSeconds: 1, pageViews: 0, path: "/contact", visits: 1 }],
+      routes: [{
+        activeSeconds: 1,
+        pageViews: 0,
+        path: "/contact",
+        visits: 1,
+      }],
       startDate: "2026-08-01",
       totalActiveSeconds: 1,
       totalPageViews: 0,
@@ -197,7 +224,12 @@ test("rejects malformed aggregate rows and report context", () => {
     },
     {
       endDate: "2026-08-15",
-      routes: [{ activeSeconds: 12, pageViews: 5, path: "/contact", visits: 1 }],
+      routes: [{
+        activeSeconds: 12,
+        pageViews: 5,
+        path: "/contact",
+        visits: 1,
+      }],
       startDate: "2026-08-01",
       totalActiveSeconds: 12,
       totalPageViews: 0,

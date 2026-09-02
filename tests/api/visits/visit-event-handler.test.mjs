@@ -88,6 +88,23 @@ test("records controlled client events with or without page context", async (con
     eventType: "enquiry_started",
     properties: {},
   });
+  const linkPayloads = [
+    validPayload({
+      eventId: "10000000-0000-4000-8000-000000000001",
+      eventType: "email_link_clicked",
+      properties: {},
+    }),
+    validPayload({
+      eventId: "10000000-0000-4000-8000-000000000002",
+      eventType: "instagram_link_clicked",
+      properties: {},
+    }),
+    validPayload({
+      eventId: "10000000-0000-4000-8000-000000000003",
+      eventType: "linkedin_link_clicked",
+      properties: {},
+    }),
+  ];
 
   const results = [
     await invoke(handler, {
@@ -101,6 +118,10 @@ test("records controlled client events with or without page context", async (con
     await invoke(handler, { body: withoutPageView }),
   ];
 
+  for (const payload of linkPayloads) {
+    results.push(await invoke(handler, { body: payload }));
+  }
+
   for (const result of results) {
     assert.equal(result.statusCode, 204);
     assert.equal(result.ended, true);
@@ -111,6 +132,7 @@ test("records controlled client events with or without page context", async (con
   assert.deepEqual(observations, [
     { ...validPayload(), source: "client" },
     { ...withoutPageView, pageViewId: null, source: "client" },
+    ...linkPayloads.map((payload) => ({ ...payload, source: "client" })),
   ]);
 });
 
@@ -126,6 +148,15 @@ test("rejects events outside the public client contract before storage", async (
       "enquiry_sent",
       "enquiry_failed",
     ].map((eventType) => validPayload({ eventType, properties: {} })),
+    ...[
+      "email_link_clicked",
+      "instagram_link_clicked",
+      "linkedin_link_clicked",
+    ].map((eventType) => validPayload({
+      eventType,
+      properties: { unexpected: "value" },
+    })),
+    validPayload({ eventType: "uncontrolled_event", properties: {} }),
     validPayload({ properties: { option: "appointment", privateValue: "do not store" } }),
     validPayload({ properties: { option: "unknown" } }),
     validPayload({ ignored: "unexpected" }),

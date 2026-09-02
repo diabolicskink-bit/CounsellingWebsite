@@ -15,6 +15,7 @@ import {
 import {
   BotMark,
   DeviceMark,
+  LocationMark,
   SourceMark,
   VisitDetailPanel,
   WebDriverMark,
@@ -163,7 +164,7 @@ export default function VisitorHistory({
             <p className="signal-kicker">{isEnquiryJourney ? "Journey to this outcome" : "Complete history"}</p>
             <h2 id="all-visits-title">{isEnquiryJourney ? "Visits and enquiry activity" : "All visits"}</h2>
           </div>
-          <p>Every retained page load and enquiry event, with the attribution stored when each visit began.</p>
+          <p>Every retained page load and recorded action, with the attribution and coarse location stored when each visit began.</p>
         </header>
 
         <div className="visitor-history__list">
@@ -191,6 +192,7 @@ export default function VisitorHistory({
                       <SourceMark source={visit.trafficSource} />
                       <BotMark visit={visit} />
                       <DeviceMark visit={visit} />
+                      <LocationMark visit={visit} />
                       <WebDriverMark visit={visit} />
                     </div>
                   </div>

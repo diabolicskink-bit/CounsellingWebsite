@@ -5,7 +5,11 @@ import type {
   AnalyticsVisit,
   AnalyticsVisitEvent,
 } from "../../data/analyticsContract.ts";
-import type { VisitDeviceType } from "../../data/visitClientEnvironment.ts";
+import {
+  australianVisitRegionCodes,
+  type AustralianVisitRegionCode,
+  type VisitDeviceType,
+} from "../../data/visitClientEnvironment.ts";
 import {
   getVisitDatabase,
   VisitDatabaseConfigurationError,
@@ -33,6 +37,8 @@ const deviceTypes = new Set<VisitDeviceType>([
   "tablet",
   "unknown",
 ]);
+
+const australianRegionCodes = new Set<AustralianVisitRegionCode>(australianVisitRegionCodes);
 
 const analyticsVisitColumns = `
   ledger.visit_id::TEXT AS "id",
@@ -65,6 +71,8 @@ const analyticsVisitColumns = `
   visit_record.user_agent AS "userAgent",
   visit_record.device_type AS "deviceType",
   visit_record.is_webdriver AS "isWebDriver",
+  visit_record.location_country_code AS "locationCountryCode",
+  visit_record.location_region_code AS "locationRegionCode",
   EXISTS (
     SELECT 1
     FROM analytics_excluded_visitors AS exclusions
@@ -379,6 +387,34 @@ function normalizeDeviceType(value: unknown): VisitDeviceType {
   throw new TypeError("Analytics row has an invalid device type.");
 }
 
+function normalizeVisitLocation(countryValue: unknown, regionValue: unknown) {
+  const countryCode = nullableString(countryValue, "location country code");
+  const regionCode = nullableString(regionValue, "location region code");
+
+  if (countryCode === null) {
+    if (regionCode !== null) throw new TypeError("Analytics row has an invalid visit location.");
+    return { locationCountryCode: null, locationRegionCode: null };
+  }
+
+  if (!/^[A-Z]{2}$/.test(countryCode)) {
+    throw new TypeError("Analytics row has an invalid visit location.");
+  }
+
+  if (countryCode !== "AU") {
+    if (regionCode !== null) throw new TypeError("Analytics row has an invalid visit location.");
+    return { locationCountryCode: countryCode, locationRegionCode: null };
+  }
+
+  if (!regionCode || !australianRegionCodes.has(regionCode as AustralianVisitRegionCode)) {
+    throw new TypeError("Analytics row has an invalid visit location.");
+  }
+
+  return {
+    locationCountryCode: countryCode,
+    locationRegionCode: regionCode as AustralianVisitRegionCode,
+  };
+}
+
 function normalizeEventSource(value: unknown): AnalyticsVisitEvent["source"] {
   if (
     typeof value === "string"
@@ -469,6 +505,8 @@ function normalizeVisit(row: AnalyticsVisitRow): AnalyticsVisit {
     throw new TypeError("Analytics row has an invalid visit sequence.");
   }
 
+  const location = normalizeVisitLocation(row.locationCountryCode, row.locationRegionCode);
+
   return {
     adCode: nullableString(row.adCode, "ad code"),
     botCategory: nullableString(row.botCategory, "bot category"),
@@ -483,6 +521,7 @@ function normalizeVisit(row: AnalyticsVisitRow): AnalyticsVisit {
     isWebDriver: nullableBoolean(row.isWebDriver, "WebDriver flag"),
     landingPath: requiredString(row.landingPath, "landing path"),
     lastSeenAt: timestampString(row.lastSeenAt, "last-seen time"),
+    ...location,
     matchType: nullableString(row.matchType, "match type"),
     matchedKeyword: nullableString(row.matchedKeyword, "matched keyword"),
     networkCode: nullableString(row.networkCode, "network code"),
@@ -565,7 +604,11 @@ export async function readAnalytics(
       selection.endDate,
       selection.includeBots,
     ]) as AnalyticsVisitRow[];
-    const totals = rows[0] ?? { totalActiveSeconds: 0, totalPageViews: 0, totalVisits: 0 };
+    const totals = rows[0] ?? {
+      totalActiveSeconds: 0,
+      totalPageViews: 0,
+      totalVisits: 0,
+    };
     const routes = rows
       .filter((row) => row.path !== null && row.path !== undefined)
       .map((row) => ({

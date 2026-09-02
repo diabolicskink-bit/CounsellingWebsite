@@ -5,10 +5,10 @@ import {
   CircleCheck,
   CircleX,
   Clock3,
+  MapPin,
   MousePointerClick,
   Radio,
   RefreshCw,
-  ScanSearch,
   TextCursorInput,
 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -17,7 +17,10 @@ import {
   isAnalyticsDateKey,
   type AnalyticsVisit,
 } from "../../data/analyticsContract";
-import type { VisitDeviceType } from "../../data/visitClientEnvironment";
+import type {
+  AustralianVisitRegionCode,
+  VisitDeviceType,
+} from "../../data/visitClientEnvironment";
 import { privateRoutePaths } from "../../data/routes";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import { DateControls } from "./AnalyticsControls";
@@ -28,6 +31,7 @@ import {
   formatTime,
   sourceDetail,
   visitActiveSeconds,
+  visitLocationCompactLabel,
   visitorLabel,
 } from "./analyticsFormatters";
 import { AnalyticsShell, ReportState } from "./AnalyticsShell";
@@ -36,6 +40,8 @@ import {
   DeviceIcon,
   DeviceMark,
   deviceLabels,
+  LocationMark,
+  OutboundActionMark,
   SourceMark,
   VisitDetailPanel,
   WebDriverMark,
@@ -48,6 +54,17 @@ type VisitContactProgress = {
   label: string;
 };
 
+const australianRegionOrder = [
+  "NSW",
+  "VIC",
+  "QLD",
+  "WA",
+  "SA",
+  "TAS",
+  "ACT",
+  "NT",
+] as const satisfies readonly AustralianVisitRegionCode[];
+
 function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
   const deviceCounts = visits.reduce<Record<VisitDeviceType, number>>(
     (counts, visit) => ({
@@ -56,23 +73,33 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
     }),
     { desktop: 0, mobile: 0, tablet: 0, unknown: 0 },
   );
-  const webDriverTrue = visits.filter((visit) => visit.isWebDriver === true).length;
-  const webDriverFalse = visits.filter((visit) => visit.isWebDriver === false).length;
-  const webDriverUnreported = visits.length - webDriverTrue - webDriverFalse;
   const denominator = Math.max(visits.length, 1);
   const deviceTypes = Object.keys(deviceLabels) as VisitDeviceType[];
+  const locationCounts = visits.reduce<Record<AustralianVisitRegionCode, number>>(
+    (counts, visit) => {
+      if (visit.locationCountryCode === "AU" && visit.locationRegionCode) {
+        counts[visit.locationRegionCode] += 1;
+      }
+      return counts;
+    },
+    { ACT: 0, NSW: 0, NT: 0, QLD: 0, SA: 0, TAS: 0, VIC: 0, WA: 0 },
+  );
 
   return (
-    <section className="signal-diagnostics" aria-labelledby="traffic-diagnostics-title">
-      <header>
-        <div>
-          <p className="signal-kicker">Traffic signature</p>
-          <h2 id="traffic-diagnostics-title">Device and automation signals</h2>
-        </div>
-        <p>Visit-level request data for the records shown below.</p>
-      </header>
-
+    <section className="signal-diagnostics" aria-label="Location and device mix">
       <div className="signal-diagnostics__body">
+        <div className="signal-location-mix">
+          <h3><MapPin aria-hidden="true" size={15} /> Location mix</h3>
+          <dl>
+            {australianRegionOrder.map((regionCode) => (
+              <div key={regionCode}>
+                <dt>{regionCode}</dt>
+                <dd>{locationCounts[regionCode]}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
         <div className="signal-device-mix">
           <h3>Device mix</h3>
           <dl>
@@ -88,21 +115,6 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
           </dl>
         </div>
 
-        <div className={webDriverTrue
-          ? "signal-webdriver-summary signal-webdriver-summary--detected"
-          : "signal-webdriver-summary"}
-        >
-          <ScanSearch aria-hidden="true" size={24} />
-          <div>
-            <span>navigator.webdriver</span>
-            <strong>{webDriverTrue}</strong>
-            <small>reported true</small>
-          </div>
-          <dl>
-            <div><dt>False</dt><dd>{webDriverFalse}</dd></div>
-            <div><dt>No data</dt><dd>{webDriverUnreported}</dd></div>
-          </dl>
-        </div>
       </div>
     </section>
   );
@@ -369,7 +381,9 @@ function DailyObservatory({
                       </div>
                       <div className="signal-event__signals">
                         <DeviceMark visit={visit} />
+                        <LocationMark visit={visit} />
                         <WebDriverMark visit={visit} />
+                        <OutboundActionMark visit={visit} />
                         <ContactProgressSignal progress={contactProgress} />
                       </div>
                       <div className="signal-event__path" aria-label={`Journey preview from ${visit.landingPath}`}>
@@ -423,7 +437,7 @@ function DailyObservatory({
       </section>
 
       <p className="signal-footnote">
-        Records page loads, visible active time and the five enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Form contents are not included in this report.
+        Records page loads, visible active time, outbound link clicks and enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Form contents are not included in this report.
       </p>
     </>
   );

@@ -85,6 +85,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Aligned the Articles index opening with the supported public hero surface while retaining its page-specific editorial composition and responsive introduction.
 - Extracted one reusable article-masthead component and aligned every article hero with the supported public surface while keeping subject-specific design inside article bodies.
 
+## 2026-09-02 - First-Party Analytics Collection Expanded
+
+- Added controlled `instagram_link_clicked`, `linkedin_link_clicked`, and `email_link_clicked` events for configured public social profiles and React-rendered email links, retaining each event's active visit and page-view association independently of GA and Clarity.
+- Added request-derived coarse location to new visits: Australian traffic retains a validated state or territory code, overseas traffic retains only the country code, and the ledger stores no city, postcode, coordinates or raw IP address.
+- Added migrations `0008_add_contact_link_events.sql` and `0009_add_visit_location.sql` plus focused API, migration and browser contracts. Preview and Production are independently migrated through `0009`, and the combined `staging` deployment reached Vercel `READY` before release.
+
+## 2026-09-02 - Analytics Reporting Expanded
+
+- Added a location-led daily diagnostic with a compact device mix, plus outbound-action and location signals on individual visit rows.
+- Added route-attributed outbound counts to the Pages report and carried compact location and outbound signals through daily rows, enquiry context, visitor history, request details and chronological event timelines without treating social clicks as enquiries.
+- Extended protected report contracts, reporting SQL, focused API coverage and private-dashboard browser coverage for the new data while preserving the owner-only analytics boundary.
+
 ## 2026-09-01 - Private Analytics Visual Boundary Clarified
 
 - Closed `DEBT-41` without a source change after the owner clarified that the private dashboard may have its own CSS and visual language but does not require isolated browser, bundle, or stylesheet architecture.

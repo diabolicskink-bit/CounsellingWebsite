@@ -30,6 +30,8 @@ function createObservation(overrides = {}) {
     isBot: false,
     isWebDriver: false,
     landingPath: "/polyamory-enm-counselling",
+    locationCountryCode: "AU",
+    locationRegionCode: "WA",
     matchType: "p",
     matchedKeyword: "polyamory therapy",
     networkCode: "g",
@@ -100,6 +102,8 @@ test("passes the complete observation to the visit upsert", async () => {
     observation.userAgent,
     observation.deviceType,
     observation.isWebDriver,
+    observation.locationCountryCode,
+    observation.locationRegionCode,
   ]);
   assert.doesNotMatch(calls[0].query, /private-test-value|polyamory therapy|CjwK-test-click/);
 });
@@ -124,6 +128,8 @@ test("updates visit activity and bot classification without rewriting first-touc
     "user_agent",
     "device_type",
     "is_webdriver",
+    "location_country_code",
+    "location_region_code",
   ]) {
     assert.doesNotMatch(
       visitUpdateAssignments.join("\n"),
