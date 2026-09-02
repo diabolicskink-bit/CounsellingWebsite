@@ -1,4 +1,4 @@
-export type ArticlePresentationKey = "ant-trail" | "fossil-record";
+export type ArticlePresentationKey = never;
 
 export type ArticleMetadata = Readonly<{
   abstract: string;
@@ -55,34 +55,6 @@ const publishedArticleMetadata = [
     slug: "what-is-kink-affirming-therapy",
     title: "What Is Kink-Affirming Therapy?",
     topic: "Kink and BDSM",
-  },
-  {
-    abstract:
-      "Ant colonies can concentrate their foraging on one route without a leader choosing it. The result emerges from local signals, reinforcement and correction.",
-    author: "Joel Griffiths",
-    description:
-      "A sample article explaining how ant colonies use local signals, positive feedback and correction to organise a foraging route.",
-    isSample: true,
-    presentation: "ant-trail",
-    publishedAt: "2026-08-12",
-    slug: "how-ant-colonies-choose-a-route",
-    sourceNote: "Sample article created to demonstrate a subject-specific presentation.",
-    title: "How an ant colony chooses a route",
-    topic: "Collective behaviour",
-  },
-  {
-    abstract:
-      "Bones are only one part of the fossil record. Tracks, nests, skin impressions and surrounding rock can support different claims, while gaps in preservation limit what can be known.",
-    author: "Joel Griffiths",
-    description:
-      "A sample article distinguishing the evidence provided by dinosaur body fossils, trace fossils and geological context from later inference.",
-    isSample: true,
-    presentation: "fossil-record",
-    publishedAt: "2026-08-12",
-    slug: "what-dinosaur-fossils-can-tell-us",
-    sourceNote: "Sample article created to demonstrate a subject-specific presentation.",
-    title: "What dinosaur fossils can and cannot tell us",
-    topic: "Palaeontology",
   },
 ] as const satisfies readonly ArticleMetadata[];
 

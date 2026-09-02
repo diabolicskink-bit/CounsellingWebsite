@@ -1,6 +1,4 @@
 import type { ComponentType } from "react";
-import AntRouteArticle from "./articles/AntRouteArticle";
-import DinosaurFossilArticle from "./articles/DinosaurFossilArticle";
 import type { ArticlePresentationKey } from "./manifest";
 
 type ArticleBodyProps = Readonly<{
@@ -12,21 +10,12 @@ type ArticlePresentation = Readonly<{
   className: string;
 }>;
 
-const articlePresentations = {
-  "ant-trail": {
-    Body: AntRouteArticle,
-    className: "article-page--ant-trail",
-  },
-  "fossil-record": {
-    Body: DinosaurFossilArticle,
-    className: "article-page--fossil-record",
-  },
-} satisfies Record<ArticlePresentationKey, ArticlePresentation>;
+const articlePresentations: Readonly<Record<string, ArticlePresentation>> = {};
 
 export function getArticlePresentation(key: ArticlePresentationKey | undefined) {
   if (!key) {
     return undefined;
   }
 
-  return articlePresentations[key];
+  return articlePresentations[key as string];
 }

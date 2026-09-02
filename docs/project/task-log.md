@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-02 - Sample Articles Removed
+
+- Removed the ant-colony and dinosaur-fossil sample publications from the public article manifest and typed content registry.
+- Deleted their sample-only templates, React body presentations, and scoped styles; both former article URLs now use the ordinary Not Found boundary.
+- Kept the generic sample and custom-presentation publishing capabilities available for future deliberate use, with no current article using either.
+
 ## 2026-09-02 - Self-Critical Perfectionism Article Published
 
 - Added the standard article `Self-Critical Perfectionism: When Nothing Feels Good Enough` with its supplied title, excerpt, description, publication copy, and 17-source reference set.
