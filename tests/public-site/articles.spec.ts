@@ -6,6 +6,9 @@ import {
 } from "../../src/content/articles/manifest";
 
 const noindexDirective = "noindex, nofollow";
+const indexedArticles = articles.filter(
+  (article) => article.slug !== "self-critical-perfectionism",
+);
 const customPresentationExpectations = {
   "self-critical-perfectionism": {
     bodySelector: ".perfectionism-article__equation",
@@ -15,11 +18,16 @@ const customPresentationExpectations = {
 
 test.describe("article publishing", () => {
   test("moves from the index into an article and back", async ({ page }) => {
-    const firstArticle = articles[0];
+    const firstArticle = indexedArticles[0];
     const firstArticlePath = getArticlePath(firstArticle.slug);
 
     await page.goto("/articles");
-    await expect(page.locator(".article-index__list > li")).toHaveCount(articles.length);
+    await expect(page.locator(".article-index__list > li")).toHaveCount(indexedArticles.length);
+    await expect(
+      page.getByRole("link", {
+        name: "Self-Critical Perfectionism: When Nothing Feels Good Enough",
+      }),
+    ).toHaveCount(0);
     await page.getByRole("link", { name: firstArticle.title }).click();
 
     await expect(page).toHaveURL(new RegExp(`${firstArticlePath}$`));
