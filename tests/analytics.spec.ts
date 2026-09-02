@@ -179,6 +179,142 @@ test.describe("private analytics boundaries", () => {
     ).toHaveCount(0);
   });
 
+  test("integrates outbound actions and coarse location across daily and route reports", async ({ page }) => {
+    const date = "2026-08-15";
+    const pageViewId = "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf";
+    const visit = {
+      adCode: null,
+      botCategory: null,
+      botName: null,
+      dateKey: date,
+      deviceType: "mobile",
+      durationSeconds: 130,
+      events: [
+        {
+          eventType: "email_link_clicked",
+          id: "21ed6eca-8270-461e-bf7a-ea3a63e4d3ac",
+          occurredAt: "2026-08-15T03:01:00.000Z",
+          pageViewId,
+          properties: {},
+          source: "client",
+        },
+        {
+          eventType: "instagram_link_clicked",
+          id: "4dfa3ea2-a11a-49ba-9398-03e380502240",
+          occurredAt: "2026-08-15T03:02:00.000Z",
+          pageViewId,
+          properties: {},
+          source: "client",
+        },
+      ],
+      gclid: null,
+      id: "1a560836-220d-4d33-a05e-5f364891f9cb",
+      isBot: false,
+      isWebDriver: false,
+      landingPath: "/contact",
+      lastSeenAt: "2026-08-15T03:03:00.000Z",
+      locationCountryCode: "AU",
+      locationRegionCode: "WA",
+      matchType: null,
+      matchedKeyword: null,
+      networkCode: null,
+      pageViews: [{
+        activeSeconds: 75,
+        id: pageViewId,
+        path: "/contact",
+        viewedAt: "2026-08-15T03:00:00.000Z",
+      }],
+      referrerHost: null,
+      referrerUrl: null,
+      startedAt: "2026-08-15T03:00:00.000Z",
+      totalVisits: 1,
+      trafficSource: "direct",
+      userAgent: "Mozilla/5.0",
+      visitNumber: 1,
+      visitorId: "114ba8f9-96f8-41e1-a301-15112400759e",
+    };
+
+    await page.route("**/api/analytics?*", async (route) => {
+      const requestUrl = new URL(route.request().url());
+
+      if (requestUrl.searchParams.has("start")) {
+        await route.fulfill({
+          body: JSON.stringify({
+            data: {
+              endDate: requestUrl.searchParams.get("end"),
+              routes: [{
+                activeSeconds: 75,
+                emailClicks: 1,
+                instagramClicks: 1,
+                linkedinClicks: 0,
+                outboundClicks: 2,
+                pageViews: 1,
+                path: "/contact",
+                visits: 1,
+              }],
+              startDate: requestUrl.searchParams.get("start"),
+              totalActiveSeconds: 75,
+              totalEmailClicks: 1,
+              totalInstagramClicks: 1,
+              totalLinkedinClicks: 0,
+              totalOutboundClicks: 2,
+              totalPageViews: 1,
+              totalVisits: 1,
+              type: "pageViews",
+            },
+          }),
+          contentType: "application/json",
+          status: 200,
+        });
+        return;
+      }
+
+      await route.fulfill({
+        body: JSON.stringify({ data: { date, type: "daily", visits: [visit] } }),
+        contentType: "application/json",
+        status: 200,
+      });
+    });
+
+    await page.goto(`/analytics?date=${date}`, { waitUntil: "networkidle" });
+
+    const outboundOverview = page.getByRole("region", { name: "Outbound actions" });
+    await expect(outboundOverview).toContainText("02");
+    await expect(outboundOverview).toContainText("1 visit with a click");
+    await expect(outboundOverview).toContainText("Email1");
+    await expect(outboundOverview).toContainText("Instagram1");
+    await expect(outboundOverview).toContainText("LinkedIn0");
+
+    const diagnostics = page.getByRole("region", {
+      name: "Location, device and automation",
+    });
+    await expect(diagnostics).toContainText("Western Australia");
+    await expect(diagnostics).toContainText("100%");
+
+    const visitRow = page.locator(".signal-event");
+    await expect(visitRow).toContainText("WA");
+    await expect(visitRow).toContainText("2 outbound clicks");
+    await visitRow.click();
+    await expect(page.getByText("Email link clicked", { exact: true })).toBeVisible();
+    await expect(page.getByText("Instagram link clicked", { exact: true })).toBeVisible();
+    await page.getByText("Request details", { exact: true }).click();
+    await expect(page.locator(".signal-request-details__body")).toContainText(
+      "Western Australia, Australia",
+    );
+
+    await page.getByRole("link", {
+      name: `View full page-view breakdown for 15 Aug 2026`,
+    }).click();
+
+    await expect(page).toHaveURL(/\/analytics\/pages\?/);
+    const routeActions = page.getByRole("region", { name: "Outbound actions" });
+    await expect(routeActions).toContainText("2");
+    await expect(routeActions).toContainText("Email1");
+    await expect(routeActions).toContainText("Instagram1");
+    const contactRoute = page.getByRole("row").filter({ hasText: "/contact" });
+    await expect(contactRoute).toContainText("1 email · 1 IG");
+  });
+
   test("loads and sorts matched keywords across route and range changes", async ({ page }) => {
     let releaseKeywordResponse = () => {};
     const keywordResponseGate = new Promise<void>((resolve) => {

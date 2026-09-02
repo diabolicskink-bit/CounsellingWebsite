@@ -6,6 +6,8 @@ import {
   CircleCheck,
   CircleHelp,
   Copy,
+  ExternalLink,
+  MapPin,
   Monitor,
   Route,
   ScanSearch,
@@ -22,8 +24,11 @@ import {
   formatActiveTime,
   formatTime,
   keywordMatchDetail,
+  outboundActionCounts,
   sourceLabel,
   visitJourney,
+  visitLocationCompactLabel,
+  visitLocationLabel,
   visitorLabel,
 } from "./analyticsFormatters";
 
@@ -84,6 +89,40 @@ export function WebDriverMark({ visit }: { visit: AnalyticsVisit }) {
     <span className="signal-webdriver">
       <ScanSearch aria-hidden="true" size={13} />
       WebDriver
+    </span>
+  );
+}
+
+export function LocationMark({ visit }: { visit: AnalyticsVisit }) {
+  const isUnknown = visit.locationCountryCode === null;
+
+  return (
+    <span
+      className={isUnknown ? "signal-location signal-location--unknown" : "signal-location"}
+      title={visitLocationLabel(visit)}
+    >
+      <MapPin aria-hidden="true" size={13} />
+      {visitLocationCompactLabel(visit)}
+    </span>
+  );
+}
+
+export function OutboundActionMark({ visit }: { visit: AnalyticsVisit }) {
+  const counts = outboundActionCounts(visit.events);
+  if (!counts.total) return null;
+
+  const label = counts.total === 1
+    ? counts.email
+      ? "Email click"
+      : counts.instagram
+        ? "Instagram click"
+        : "LinkedIn click"
+    : `${counts.total} outbound clicks`;
+
+  return (
+    <span className="signal-outbound">
+      <ExternalLink aria-hidden="true" size={13} />
+      {label}
     </span>
   );
 }
@@ -184,6 +223,7 @@ function VisitRequestDetails({ visit }: { visit: AnalyticsVisit }) {
       </summary>
       <div className="signal-request-details__body">
         <dl>
+          <div><dt>Coarse location</dt><dd>{visitLocationLabel(visit)}</dd></div>
           <div><dt>Device</dt><dd>{deviceLabels[visit.deviceType]}</dd></div>
           <div>
             <dt>navigator.webdriver</dt>

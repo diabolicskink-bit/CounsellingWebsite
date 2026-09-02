@@ -22,6 +22,7 @@ import {
   formatDate,
   formatMonth,
   formatTime,
+  visitLocationCompactLabel,
   visitorLabel,
 } from "./analyticsFormatters";
 import { AnalyticsShell, ReportState } from "./AnalyticsShell";
@@ -130,7 +131,9 @@ function MonthlyEnquiries({
                     </span>
                     <span className="monthly-enquiries__visitor">
                       <strong>{visitorLabel(visit.visitorId)}</strong>
-                      <small>Visit {visit.visitNumber} of {visit.totalVisits}</small>
+                      <small>
+                        {visitLocationCompactLabel(visit)} {"\u00b7"} Visit {visit.visitNumber} of {visit.totalVisits}
+                      </small>
                     </span>
                     <ChevronRight aria-hidden="true" size={18} />
                   </button>

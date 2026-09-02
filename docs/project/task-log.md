@@ -24,6 +24,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Added request-derived coarse location to new visits: Australian traffic retains a validated state or territory code, overseas traffic retains only the country code, and the ledger stores no city, postcode, coordinates or raw IP address.
 - Added migrations `0008_add_contact_link_events.sql` and `0009_add_visit_location.sql` plus focused API, migration and browser contracts. Preview and Production are independently migrated through `0009`, and the combined `staging` deployment reached Vercel `READY` before release.
 
+## 2026-09-02 - Analytics Reporting Expanded
+
+- Added a decision-first daily outbound-actions summary for Email, Instagram and LinkedIn clicks, plus coarse-location distribution alongside the existing device and automation context.
+- Added route-attributed outbound counts to the Pages report and carried compact location and outbound signals through daily rows, enquiry context, visitor history, request details and chronological event timelines without treating social clicks as enquiries.
+- Extended protected report contracts, reporting SQL, focused API coverage and private-dashboard browser coverage for the new data while preserving the owner-only analytics boundary.
+
 ## 2026-09-01 - Private Analytics Visual Boundary Clarified
 
 - Closed `DEBT-41` without a source change after the owner clarified that the private dashboard may have its own CSS and visual language but does not require isolated browser, bundle, or stylesheet architecture.

@@ -50,6 +50,8 @@ function createVisitRow(overrides = {}) {
     isWebDriver: true,
     landingPath: "/polyamory-enm-counselling",
     lastSeenAt: "2026-08-15T03:05:00.000Z",
+    locationCountryCode: "AU",
+    locationRegionCode: "WA",
     matchType: "p",
     matchedKeyword: "polyamory therapy",
     networkCode: "g",
@@ -116,6 +118,8 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
       gclid: result.visits[0].gclid,
       isBot: result.visits[0].isBot,
       isWebDriver: result.visits[0].isWebDriver,
+      locationCountryCode: result.visits[0].locationCountryCode,
+      locationRegionCode: result.visits[0].locationRegionCode,
       matchType: result.visits[0].matchType,
       matchedKeyword: result.visits[0].matchedKeyword,
       networkCode: result.visits[0].networkCode,
@@ -133,6 +137,8 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
       gclid: "CjwK-test",
       isBot: true,
       isWebDriver: true,
+      locationCountryCode: "AU",
+      locationRegionCode: "WA",
       matchType: "p",
       matchedKeyword: "polyamory therapy",
       networkCode: "g",
@@ -181,6 +187,8 @@ test("reads one Perth calendar day with ordered page journeys", async () => {
   assert.match(calls[0].query, /visit_record\.user_agent AS "userAgent"/);
   assert.match(calls[0].query, /visit_record\.device_type AS "deviceType"/);
   assert.match(calls[0].query, /visit_record\.is_webdriver AS "isWebDriver"/);
+  assert.match(calls[0].query, /visit_record\.location_country_code AS "locationCountryCode"/);
+  assert.match(calls[0].query, /visit_record\.location_region_code AS "locationRegionCode"/);
   assert.match(
     calls[0].query,
     /ORDER BY visit_events\.occurred_at, visit_events\.id/,
@@ -246,8 +254,40 @@ test("reads visits with enquiry outcomes in one Perth calendar month", async () 
 
 test("reads an aggregated page-view breakdown in one query", async () => {
   const { calls, database } = createDatabase([
-    { activeSeconds: "250", pageViews: "5", path: "/contact", totalActiveSeconds: "370", totalPageViews: "8", totalVisits: "4", visits: "3" },
-    { activeSeconds: "120", pageViews: "3", path: "/", totalActiveSeconds: "370", totalPageViews: "8", totalVisits: "4", visits: "2" },
+    {
+      activeSeconds: "250",
+      emailClicks: "2",
+      instagramClicks: "1",
+      linkedinClicks: "0",
+      outboundClicks: "3",
+      pageViews: "5",
+      path: "/contact",
+      totalActiveSeconds: "370",
+      totalEmailClicks: "2",
+      totalInstagramClicks: "1",
+      totalLinkedinClicks: "1",
+      totalOutboundClicks: "4",
+      totalPageViews: "8",
+      totalVisits: "4",
+      visits: "3",
+    },
+    {
+      activeSeconds: "120",
+      emailClicks: "0",
+      instagramClicks: "0",
+      linkedinClicks: "1",
+      outboundClicks: "1",
+      pageViews: "3",
+      path: "/",
+      totalActiveSeconds: "370",
+      totalEmailClicks: "2",
+      totalInstagramClicks: "1",
+      totalLinkedinClicks: "1",
+      totalOutboundClicks: "4",
+      totalPageViews: "8",
+      totalVisits: "4",
+      visits: "2",
+    },
   ]);
 
   const result = await readAnalytics(
@@ -266,11 +306,33 @@ test("reads an aggregated page-view breakdown in one query", async () => {
   assert.deepEqual(result, {
     endDate: "2026-08-15",
     routes: [
-      { activeSeconds: 250, pageViews: 5, path: "/contact", visits: 3 },
-      { activeSeconds: 120, pageViews: 3, path: "/", visits: 2 },
+      {
+        activeSeconds: 250,
+        emailClicks: 2,
+        instagramClicks: 1,
+        linkedinClicks: 0,
+        outboundClicks: 3,
+        pageViews: 5,
+        path: "/contact",
+        visits: 3,
+      },
+      {
+        activeSeconds: 120,
+        emailClicks: 0,
+        instagramClicks: 0,
+        linkedinClicks: 1,
+        outboundClicks: 1,
+        pageViews: 3,
+        path: "/",
+        visits: 2,
+      },
     ],
     startDate: "2026-08-01",
     totalActiveSeconds: 370,
+    totalEmailClicks: 2,
+    totalInstagramClicks: 1,
+    totalLinkedinClicks: 1,
+    totalOutboundClicks: 4,
     totalPageViews: 8,
     totalVisits: 4,
     type: "pageViews",
@@ -279,6 +341,10 @@ test("reads an aggregated page-view breakdown in one query", async () => {
   assert.match(calls[0].query, /SUM\(page_views\.active_seconds\)/);
   assert.match(calls[0].query, /ledger\.is_bot IS DISTINCT FROM TRUE/);
   assert.match(calls[0].query, /analytics_excluded_visitors/);
+  assert.match(calls[0].query, /visit_events\.event_type = 'email_link_clicked'/);
+  assert.match(calls[0].query, /visit_events\.event_type = 'instagram_link_clicked'/);
+  assert.match(calls[0].query, /visit_events\.event_type = 'linkedin_link_clicked'/);
+  assert.match(calls[0].query, /page_views\.id = visit_events\.page_view_id/);
 });
 
 test("reads keyword journeys with visit depth, active time and enquiry outcomes", async () => {
@@ -403,6 +469,10 @@ test("returns a complete empty page-view report", async () => {
     routes: [],
     startDate: "2026-08-15",
     totalActiveSeconds: 0,
+    totalEmailClicks: 0,
+    totalInstagramClicks: 0,
+    totalLinkedinClicks: 0,
+    totalOutboundClicks: 0,
     totalPageViews: 0,
     totalVisits: 0,
     type: "pageViews",
@@ -474,6 +544,30 @@ test("rejects unsafe stored event shapes", async () => {
       invalidProperties.database,
     ),
     /invalid event properties/,
+  );
+});
+
+test("rejects inconsistent stored visit locations", async () => {
+  const overseasRegion = createDatabase([
+    createVisitRow({ locationCountryCode: "NZ", locationRegionCode: "WA" }),
+  ]);
+  await assert.rejects(
+    readAnalytics(
+      { type: "daily", date: "2026-08-15" },
+      overseasRegion.database,
+    ),
+    /invalid visit location/,
+  );
+
+  const invalidAustralianRegion = createDatabase([
+    createVisitRow({ locationCountryCode: "AU", locationRegionCode: "XX" }),
+  ]);
+  await assert.rejects(
+    readAnalytics(
+      { type: "daily", date: "2026-08-15" },
+      invalidAustralianRegion.database,
+    ),
+    /invalid visit location/,
   );
 });
 

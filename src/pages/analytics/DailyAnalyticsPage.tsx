@@ -5,6 +5,10 @@ import {
   CircleCheck,
   CircleX,
   Clock3,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
   MousePointerClick,
   Radio,
   RefreshCw,
@@ -26,8 +30,11 @@ import {
   formatActiveTime,
   formatDate,
   formatTime,
+  outboundActionCounts,
   sourceDetail,
   visitActiveSeconds,
+  visitLocationCompactLabel,
+  visitLocationLabel,
   visitorLabel,
 } from "./analyticsFormatters";
 import { AnalyticsShell, ReportState } from "./AnalyticsShell";
@@ -36,6 +43,8 @@ import {
   DeviceIcon,
   DeviceMark,
   deviceLabels,
+  LocationMark,
+  OutboundActionMark,
   SourceMark,
   VisitDetailPanel,
   WebDriverMark,
@@ -61,18 +70,59 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
   const webDriverUnreported = visits.length - webDriverTrue - webDriverFalse;
   const denominator = Math.max(visits.length, 1);
   const deviceTypes = Object.keys(deviceLabels) as VisitDeviceType[];
+  const locationCounts = [...visits.reduce((counts, visit) => {
+    const key = visitLocationCompactLabel(visit);
+    const current = counts.get(key);
+    counts.set(key, {
+      count: (current?.count ?? 0) + 1,
+      key,
+      label: visitLocationLabel(visit),
+    });
+    return counts;
+  }, new Map<string, { count: number; key: string; label: string }>()).values()]
+    .sort((left, right) => right.count - left.count || left.label.localeCompare(right.label));
+  const displayedLocations = locationCounts.slice(0, 4);
+  const otherLocationCount = locationCounts
+    .slice(displayedLocations.length)
+    .reduce((total, location) => total + location.count, 0);
 
   return (
     <section className="signal-diagnostics" aria-labelledby="traffic-diagnostics-title">
       <header>
         <div>
           <p className="signal-kicker">Traffic signature</p>
-          <h2 id="traffic-diagnostics-title">Device and automation signals</h2>
+          <h2 id="traffic-diagnostics-title">Location, device and automation</h2>
         </div>
         <p>Visit-level request data for the records shown below.</p>
       </header>
 
       <div className="signal-diagnostics__body">
+        <div className="signal-location-mix">
+          <h3><MapPin aria-hidden="true" size={15} /> Location mix</h3>
+          {displayedLocations.length ? (
+            <dl>
+              {displayedLocations.map((location) => (
+                <div key={location.key}>
+                  <dt title={location.label}>{location.label}</dt>
+                  <dd>
+                    <strong>{location.count}</strong>
+                    <small>{Math.round((location.count / denominator) * 100)}%</small>
+                  </dd>
+                </div>
+              ))}
+              {otherLocationCount ? (
+                <div>
+                  <dt>Other locations</dt>
+                  <dd>
+                    <strong>{otherLocationCount}</strong>
+                    <small>{Math.round((otherLocationCount / denominator) * 100)}%</small>
+                  </dd>
+                </div>
+              ) : null}
+            </dl>
+          ) : <p>No location data</p>}
+        </div>
+
         <div className="signal-device-mix">
           <h3>Device mix</h3>
           <dl>
@@ -104,6 +154,56 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
           </dl>
         </div>
       </div>
+    </section>
+  );
+}
+
+function OutboundActivity({ visits }: { visits: AnalyticsVisit[] }) {
+  const summary = visits.reduce((total, visit) => {
+    const counts = outboundActionCounts(visit.events);
+    return {
+      email: total.email + counts.email,
+      instagram: total.instagram + counts.instagram,
+      linkedin: total.linkedin + counts.linkedin,
+      total: total.total + counts.total,
+      visits: total.visits + (counts.total ? 1 : 0),
+    };
+  }, { email: 0, instagram: 0, linkedin: 0, total: 0, visits: 0 });
+  const visitShare = visits.length ? Math.round((summary.visits / visits.length) * 100) : 0;
+
+  return (
+    <section className="signal-outbound-overview" aria-labelledby="outbound-activity-title">
+      <header>
+        <div>
+          <p className="signal-kicker">Intent signals</p>
+          <h2 id="outbound-activity-title">Outbound actions</h2>
+        </div>
+        <p>Recorded email and social-profile link clicks from visits shown on this day.</p>
+      </header>
+
+      <div className="signal-outbound-overview__total">
+        <span>All clicks</span>
+        <strong>{String(summary.total).padStart(2, "0")}</strong>
+        <small>
+          {summary.visits} {summary.visits === 1 ? "visit" : "visits"} with a click
+          <b>{visitShare}%</b>
+        </small>
+      </div>
+
+      <dl className="signal-outbound-overview__channels">
+        <div>
+          <dt><Mail aria-hidden="true" size={16} /> Email</dt>
+          <dd>{summary.email}</dd>
+        </div>
+        <div>
+          <dt><Instagram aria-hidden="true" size={16} /> Instagram</dt>
+          <dd>{summary.instagram}</dd>
+        </div>
+        <div>
+          <dt><Linkedin aria-hidden="true" size={16} /> LinkedIn</dt>
+          <dd>{summary.linkedin}</dd>
+        </div>
+      </dl>
     </section>
   );
 }
@@ -304,6 +404,8 @@ function DailyObservatory({
         </div>
       </section>
 
+      <OutboundActivity visits={includedVisits} />
+
       <TrafficDiagnostics visits={includedVisits} />
 
       <section className="signal-report__section" aria-labelledby="signal-stream-title">
@@ -369,7 +471,9 @@ function DailyObservatory({
                       </div>
                       <div className="signal-event__signals">
                         <DeviceMark visit={visit} />
+                        <LocationMark visit={visit} />
                         <WebDriverMark visit={visit} />
+                        <OutboundActionMark visit={visit} />
                         <ContactProgressSignal progress={contactProgress} />
                       </div>
                       <div className="signal-event__path" aria-label={`Journey preview from ${visit.landingPath}`}>
@@ -423,7 +527,7 @@ function DailyObservatory({
       </section>
 
       <p className="signal-footnote">
-        Records page loads, visible active time and the five enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Form contents are not included in this report.
+        Records page loads, visible active time, outbound link clicks and enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Form contents are not included in this report.
       </p>
     </>
   );
