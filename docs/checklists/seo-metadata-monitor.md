@@ -47,8 +47,8 @@ Use the relevant combination of metadata source, generated HTML, served route re
 - `Not checked` Site HTML includes the intended language and viewport metadata.
   - **Data:** `lang="en"`; viewport `width=device-width, initial-scale=1.0`.
 
-- `Not checked` Theme, manifest, favicon, touch-icon, and app-icon metadata use the configured public values.
-  - **Data:** Theme colour `#234b3d`; manifest background `#f7f6f2`; `/site.webmanifest`; `/favicon.ico`; `/favicon.svg`; `/icon-192.png`; `/icon-512.png`; `/apple-touch-icon.png`.
+- `Not checked` Theme, favicon, touch-icon, and device-icon metadata use the configured public values without advertising the site as an installable web app.
+  - **Data:** Theme colour `#234b3d`; `/favicon.ico`; `/favicon.svg`; `/icon-192.png`; `/icon-512.png`; `/apple-touch-icon.png`; no web app manifest.
 
 - `Pass` The shared social image exists at the configured path and is publicly served.
   - **Data:** `https://vivecounselling.com.au/og-vive-counselling.png`

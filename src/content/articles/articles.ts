@@ -7,7 +7,7 @@ import type {
   ArticleReference,
   ArticleTemplate,
 } from "./articleTemplate.ts";
-import kinkAffirmingTherapyTemplate from "./articleTemplates/kink-affirming-therapy.ts";
+import kinkAwareTherapyTemplate from "./articleTemplates/kink-aware-therapy.ts";
 import selfCriticalPerfectionismTemplate from "./articleTemplates/self-critical-perfectionism.ts";
 
 export type Article = Readonly<ArticleMetadata & {
@@ -16,7 +16,7 @@ export type Article = Readonly<ArticleMetadata & {
 }>;
 
 const articleTemplates = {
-  [kinkAffirmingTherapyTemplate.slug]: kinkAffirmingTherapyTemplate,
+  [kinkAwareTherapyTemplate.slug]: kinkAwareTherapyTemplate,
   [selfCriticalPerfectionismTemplate.slug]: selfCriticalPerfectionismTemplate,
 } as const satisfies Record<ArticleSlug, ArticleTemplate>;
 

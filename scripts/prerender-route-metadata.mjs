@@ -65,12 +65,11 @@ const publicRouteContracts = {
     structuredDataType: null,
   },
 };
-const faviconTags = [
+const siteIconTags = [
   '<link rel="icon" href="/favicon.ico" sizes="any" />',
   '<link rel="icon" href="/favicon.svg" type="image/svg+xml" />',
   '<link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />',
   '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
-  '<link rel="manifest" href="/site.webmanifest" />',
 ];
 
 function escapeHtml(value) {
@@ -89,7 +88,7 @@ function renderDocumentMetadata(tags, siteMetadata) {
   return [
     metadataBlockStart,
     ...tags,
-    ...faviconTags,
+    ...siteIconTags,
     `<meta name="theme-color" content="${escapeHtml(siteMetadata.themeColor)}" />`,
     metadataBlockEnd,
   ].join("\n    ");
