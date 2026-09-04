@@ -35,6 +35,7 @@ export default defineArticleTemplate({
 The article continues in Markdown.`,
   references: [
     {
+      anchorId: "author-2026",
       citation: `One complete reference, with *Markdown emphasis* when useful.`,
       href: "https://example.com/source",
     },
@@ -44,17 +45,17 @@ The article continues in Markdown.`,
 
 Import that template in `src/content/articles/articles.ts` and add it to `articleTemplates`. The typed registry must contain exactly one template for every manifest slug. The manifest stays deliberately lightweight because shared metadata and analytics use it on every public route; article bodies and Markdown rendering load only when someone enters the Articles section.
 
-Keep the public title in the manifest rather than repeating it as a Markdown H1. Put only the article body in `body`. Put each complete bibliography entry in the ordered `references` array rather than adding a References heading to the body; use an empty array when an article has no sources. Format every source in APA 7 style, order entries alphabetically, store the formatted reference text and Markdown italics in `citation`, and store the canonical DOI URL or a stable source destination separately in `href`.
+Keep the public title in the manifest rather than repeating it as a Markdown H1. Put only the article body in `body`. Put each complete bibliography entry in the ordered `references` array rather than adding a References heading to the body; use an empty array when an article has no sources. Format every source in APA 7 style, order entries alphabetically, store the formatted reference text and Markdown italics in `citation`, and store the canonical DOI URL or a stable source destination separately in `href`. Add an optional stable lowercase `anchorId` when the body links an in-text citation to that source, then link to `#article-reference-<anchorId>` from the body Markdown.
 
 ## Development Editor
 
-During local Vite development, `/article-editor` provides a deliberately simple content editor for existing templates. It presents paragraphs, headings, lists, quotations, tables and code as wrapped auto-height editing blocks, so ordinary Markdown paragraph separators do not appear as empty source lines. Inline Markdown remains visible. Select body text and use the Bold control or `Ctrl/Cmd+B` to add or remove Markdown bold markers; using the control without a selection inserts an empty bold pair ready for typing. Its References section edits the structured citation and source URL separately and can add, remove, or alphabetise entries. Saving rewrites that article's small content template from its body and complete reference list in one consistent format.
+During local Vite development, `/article-editor` provides a deliberately simple content editor for existing templates. It presents paragraphs, headings, lists, quotations, tables and code as wrapped auto-height editing blocks, so ordinary Markdown paragraph separators do not appear as empty source lines. Inline Markdown remains visible. Select body text and use the Bold control or `Ctrl/Cmd+B` to add or remove Markdown bold markers; using the control without a selection inserts an empty bold pair ready for typing. Its References section edits the structured citation and source URL separately and can add, remove, or alphabetise entries. Existing citation anchor IDs remain attached to their references when the editor saves or reorders them. Saving rewrites that article's small content template from its body and complete reference list in one consistent format.
 
 The editor does not change titles, metadata, template registration or custom presentations. Those remain typed source changes. Its save endpoint exists only in the Vite development server, accepts allowlisted article slugs, and refuses non-localhost requests; production builds contain neither the route nor a write endpoint.
 
 ## Reference Convention
 
-Use APA 7 for every article reference list. Keep entries alphabetical, put the formatted citation and any Markdown italics in `citation`, and put the canonical DOI URL or a stable source page in `href` rather than repeating it inside the citation. Before publishing, check the bibliographic details against the source and make sure in-text author and year details agree with the reference list.
+Use APA 7 for every article reference list. Keep entries alphabetical, put the formatted citation and any Markdown italics in `citation`, and put the canonical DOI URL or a stable source page in `href` rather than repeating it inside the citation. When in-text citations link to the reference ledger, give each referenced source a unique, URL-safe `anchorId` based on its author and year rather than its list position. Before publishing, check the bibliographic details against the source, make sure in-text author and year details agree with the reference list, and verify that every citation link resolves to its intended source.
 
 Use `updatedAt` only after a substantive published revision. Keep the original `publishedAt` value.
 

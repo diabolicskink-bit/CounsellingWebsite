@@ -81,6 +81,7 @@ test.describe("article publishing", () => {
 
       if (article.references.length > 0) {
         const referenceLedger = articleDocument.locator(".article-page__references");
+        const anchoredReferences = article.references.filter((reference) => reference.anchorId);
 
         await expect(referenceLedger.getByRole("heading", { level: 2, name: "References" }))
           .toBeVisible();
@@ -91,9 +92,42 @@ test.describe("article publishing", () => {
           .toHaveText(
             `${article.references.length} ${article.references.length === 1 ? "source" : "sources"}`,
           );
+        await expect(referenceLedger.locator("li[id^='article-reference-']"))
+          .toHaveCount(anchoredReferences.length);
       }
     });
   }
+
+  test("links kink article citations to their reference entries", async ({ page }) => {
+    await page.goto("/articles/kink-aware-therapy");
+
+    const citationLinks = page.locator(
+      ".article-page__prose a[href^='#article-reference-']",
+    );
+    const targets = await citationLinks.evaluateAll((links) => (
+      [...new Set(links.flatMap((link) => {
+        const href = link.getAttribute("href");
+        return href ? [href] : [];
+      }))]
+    ));
+
+    expect(targets.length).toBeGreaterThan(0);
+    for (const target of targets) {
+      await expect(page.locator(target)).toHaveCount(1);
+    }
+
+    const firstCitation = citationLinks.first();
+    const firstTarget = await firstCitation.getAttribute("href");
+    expect(firstTarget).not.toBeNull();
+    if (!firstTarget) {
+      throw new Error("Expected the first citation to have a reference target.");
+    }
+    await firstCitation.click();
+
+    await expect(page).toHaveURL(new RegExp(`${firstTarget}$`));
+    await expect(page.locator(firstTarget)).toBeFocused();
+    await expect(page.locator(firstTarget)).toBeInViewport();
+  });
 
   test("uses the ordinary not-found boundary for an unpublished slug", async ({ page }) => {
     await page.goto("/articles/not-published");
