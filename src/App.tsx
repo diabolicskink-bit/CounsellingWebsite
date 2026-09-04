@@ -4,6 +4,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
 import SiteAnalytics from "./components/SiteAnalytics";
 import VisitRecorder from "./components/VisitRecorder";
+import { articleRedirects, getArticlePath } from "./content/articles/manifest";
 import Contact from "./pages/Contact";
 import CrisisSupport from "./pages/CrisisSupport";
 import EnmPolyamoryCounselling from "./pages/EnmPolyamoryCounselling";
@@ -113,6 +114,13 @@ export default function App({ articlePages, initialRenderAt }: AppProps) {
           <Route index element={<Home />} />
           {publicRedirectRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={<Navigate to={route.to} replace />} />
+          ))}
+          {articleRedirects.map(({ fromSlug, toSlug }) => (
+            <Route
+              key={fromSlug}
+              path={getArticlePath(fromSlug)}
+              element={<Navigate to={getArticlePath(toSlug)} replace />}
+            />
           ))}
           <Route path={publicRoutePaths.workingWithJoel} element={<WorkingWithJoel />} />
           <Route path={publicRoutePaths.inclusion} element={<InclusivePractice />} />

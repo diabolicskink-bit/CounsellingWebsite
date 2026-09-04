@@ -48,19 +48,30 @@ const publishedArticleMetadata = [
   },
   {
     abstract:
-      "Good intentions are not enough for kink-affirming therapy. A therapist needs to understand BDSM well enough to explore what it means without mistaking consensual power for pathology or overlooking genuine harm.",
+      "Kink-aware therapy requires more than accepting attitudes. A therapist needs to understand BDSM well enough to explore what it means without mistaking consensual power for pathology or overlooking genuine harm.",
     author: "Joel Griffiths",
     description:
-      "Looking for a kink-affirming therapist? Learn the difference between acceptance and the knowledge needed to discuss BDSM, consent, trauma and power.",
-    metaTitle: "Kink-Affirming Therapy | Vive Counselling",
+      "What is kink-aware therapy? Learn how informed counselling approaches BDSM, consent, trauma, power exchange and relationships without pathologising kink.",
+    metaTitle: "Kink-Aware Therapy & Counselling | Vive Counselling",
     publishedAt: "2026-08-26",
-    slug: "kink-affirming-therapy",
-    title: "What Is Kink-Affirming Therapy?",
+    slug: "kink-aware-therapy",
+    title: "What Is Kink-Aware Therapy?",
     topic: "Kink and BDSM",
+    updatedAt: "2026-09-04",
   },
 ] as const satisfies readonly ArticleMetadata[];
 
 export type ArticleSlug = (typeof publishedArticleMetadata)[number]["slug"];
+
+export const articleRedirects = [
+  {
+    fromSlug: "kink-affirming-therapy",
+    toSlug: "kink-aware-therapy",
+  },
+] as const satisfies readonly Readonly<{
+  fromSlug: string;
+  toSlug: ArticleSlug;
+}>[];
 
 function isIsoDate(value: string) {
   if (!articleDatePattern.test(value)) {

@@ -1,12 +1,12 @@
 import { defineArticleTemplate } from "../articleTemplate.ts";
 
 export default defineArticleTemplate({
-  slug: "kink-affirming-therapy",
-  body: `## Kink-affirming therapy
+  slug: "kink-aware-therapy",
+  body: `## Kink-aware therapy
 
-If you are looking for a kink-affirming therapist or counsellor, you may already have some idea of what you do not want. You probably do not want to spend a session explaining basic BDSM terminology, reassuring a therapist that consensual power exchange is not inherently abusive, or wondering whether disclosing a fetish will suddenly become the explanation for everything else happening in your life.
+If you are looking for a kink-aware therapist or counsellor, you may already have some idea of what you do not want. You probably do not want to spend a session explaining basic BDSM terminology, reassuring a therapist that consensual power exchange is not inherently abusive, or wondering whether disclosing a fetish will suddenly become the explanation for everything else happening in your life.
 
-Kink-affirming therapy goes further than simply being comfortable hearing about BDSM. It involves enough knowledge of kink, fetish, BDSM and consensual power exchange to work with them competently, without treating unconventional sexuality as evidence of trauma, dysfunction or mental illness simply because it is unconventional.
+Kink-aware therapy goes further than simply being kink-friendly or comfortable hearing about BDSM. It involves enough knowledge of kink, fetish, BDSM and consensual power exchange to work with them competently. At its best, the work is also kink-affirming: unconventional sexuality is not treated as evidence of trauma, dysfunction or mental illness simply because it is unconventional.
 
 This does not require a therapist to regard every kink relationship or behaviour as healthy. Problems with consent, coercion, boundaries, compulsivity, shame and relationship functioning can occur in kink just as they can elsewhere. The point is that these things need to be assessed on their own terms rather than inferred from the presence of BDSM.
 
@@ -40,7 +40,7 @@ There is plenty of room in therapy to explore where someone's desires came from 
 
 ## Consent and power in kink relationships
 
-Any discussion of kink-affirming practice also has to take seriously the possibility of harm within kink relationships. Consent occupies an unusually explicit place in BDSM culture. Negotiation, limits, safewords, aftercare and discussions of risk form part of how many people within kink communities think about ethical practice. Dunkley and Brotto (2020), in their review of consent within BDSM, describe mutual informed consent as one of the central features separating consensual BDSM from abuse.
+Any discussion of kink-aware practice also has to take seriously the possibility of harm within kink relationships. Consent occupies an unusually explicit place in BDSM culture. Negotiation, limits, safewords, aftercare and discussions of risk form part of how many people within kink communities think about ethical practice. Dunkley and Brotto (2020), in their review of consent within BDSM, describe mutual informed consent as one of the central features separating consensual BDSM from abuse.
 
 None of this makes kink communities immune to coercion or abuse. People can be pressured into activities they do not really want. Safewords can be ignored. Boundaries can be crossed. Someone may continue agreeing to things because they are frightened of losing a relationship, because they have become emotionally dependent on a partner, or because an initially negotiated power dynamic has gradually become difficult to challenge.
 
@@ -50,9 +50,9 @@ What becomes more useful is looking closely at how the relationship works. Can s
 
 A relationship can appear extremely unequal from the outside while containing a great deal of deliberate choice and negotiation. A conventional-looking relationship can contain very little of either. A therapist unfamiliar with kink can misread the first situation. A therapist too invested in appearing kink-positive can miss the second.
 
-## Being kink-friendly and being kink-aware or knowledgeable are not quite the same thing
+## Kink-friendly is not the same as kink-aware
 
-A therapist can have completely accepting attitudes towards BDSM and still have very little knowledge of it. Good intentions are valuable, but they do not automatically produce competence. Kelsey and colleagues (2013) surveyed 766 therapists in the United States. Seventy-six per cent had worked with at least one client who engaged in BDSM, yet fewer than half considered themselves competent to work in the area.
+A kink-friendly therapist can have completely accepting attitudes towards BDSM and still have very little knowledge of it. Good intentions are valuable, but they do not automatically produce competence. Kelsey and colleagues (2013) surveyed 766 therapists in the United States. Seventy-six per cent had worked with at least one client who engaged in BDSM, yet fewer than half considered themselves competent to work in the area.
 
 Lack of familiarity can subtly change the therapy. A client may spend considerable time explaining terminology, community norms or relationship structures before they can reach the issue that brought them to counselling. There is an important difference between asking someone what being collared means within *their* relationship and asking what a collar is. The first question is about the client's experience. The second reveals a gap in the therapist's basic cultural knowledge.
 
@@ -84,13 +84,13 @@ The clinical guidelines developed by Sprott and colleagues (2023) specifically c
 
 Someone who spends much of their life carrying responsibility may experience surrender as especially powerful. A person who finds depending on other people difficult may encounter that difficulty very directly through submission. Someone accustomed to hiding their needs may find it unexpectedly emotional to have those needs noticed and anticipated. A Dominant may discover that being trusted with another person's vulnerability activates their own fears about responsibility, competence or failure.
 
-These meanings should should emerge from the work rather than being imposed upon it. Sometimes a fetish or kink has a rich personal history and considerable psychological meaning. Sometimes it is simply something somebody finds very arousing. Therapy does not need to manufacture complexity where the person themselves experiences none.
+These meanings should emerge from the work rather than being imposed upon it. Sometimes a fetish or kink has a rich personal history and considerable psychological meaning. Sometimes it is simply something somebody finds very arousing. Therapy does not need to manufacture complexity where the person themselves experiences none.
 
-## What might kink-affirming therapy look like?
+## What does kink-aware therapy look like?
 
-Kink-affirming therapy is not a separate school of psychotherapy. A therapist might work psychodynamically, relationally, with attachment theory, CBT, schema therapy or from another therapeutic orientation. The difference is largely in the knowledge and assumptions brought to the work.
+Kink-aware therapy is not a separate school of psychotherapy. A therapist might work psychodynamically, relationally, with attachment theory, CBT, schema therapy or from another therapeutic orientation. The difference is largely in the knowledge and assumptions brought to the work.
 
-A therapist should be able to hear somebody describe enjoying submission without assuming that they are powerless, and hear somebody describe dominance without treating the desire for control as inherently pathological, or hear details of kink activities without being visibiliy uncomfortable. They should be comfortable exploring trauma where it is relevant without treating trauma as the default explanation for kink.
+A therapist should be able to hear somebody describe enjoying submission without assuming that they are powerless, and hear somebody describe dominance without treating the desire for control as inherently pathological, or hear details of kink activities without being visibly uncomfortable. They should be comfortable exploring trauma where it is relevant without treating trauma as the default explanation for kink.
 
 They should also know enough about BDSM that ordinary references to a scene, a collar, aftercare, a play partner or a D/s relationship do not derail the conversation into a basic lesson about kink. For the client, much of this may feel quite ordinary. Kink can enter the conversation when it is relevant and remain in the background when it is not. An experience can be explored because it was emotionally important rather than because it was sexually unconventional.
 
@@ -112,9 +112,9 @@ Acknowledging those limitations is important. The evidence does not justify repl
 
 The more defensible conclusion is also the more clinically useful one. Consensual kink appears to fall within the diversity of human sexuality, and knowing that someone is kinky tells us relatively little, by itself, about their psychological health or about what their sexuality means to them. The rest has to be understood person by person.
 
-## Kink-affirming counselling at Vive
+## Kink-aware counselling at Vive
 
-At Vive Counselling, kink, BDSM, fetish interests and consensual power-exchange relationships can be discussed without having to first establish that they are acceptable.
+At Vive Counselling, I offer [kink-aware counselling](/kink-bdsm-counselling) for adults online across Australia. Kink, BDSM, fetish interests and consensual power-exchange relationships can be discussed without having to first establish that they are acceptable.
 
 If concerns around consent, relationships, attachment, trauma, identity or boundaries are relevant, we can look at them carefully. If kink has very little to do with why you have come to counselling, it can simply remain one part of your life rather than becoming the subject of therapy.
 

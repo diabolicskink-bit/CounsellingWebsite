@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-04 - Kink Article Search Language Refined
+
+- Made `kink-aware therapy` the article's primary visible and metadata search phrase while retaining `kink-affirming` and `kink-friendly` where they clarify the article's distinctions.
+- Moved the article to `/articles/kink-aware-therapy`, permanently redirected its two-day-old former URL, and updated its canonical, sitemap, structured-data, and internal route sources.
+- Added a direct internal link to the Kink and BDSM counselling page and recorded the substantive revision date.
+
 ## 2026-09-04 - Unintended Web-App Installation Removed
 
 - Removed the web app manifest and its generated discovery link so mobile browsers no longer receive metadata that promotes Vive as an installable standalone app.

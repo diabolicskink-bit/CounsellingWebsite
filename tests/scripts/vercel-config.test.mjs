@@ -52,5 +52,10 @@ test("Vercel config keeps public alias redirects", () => {
       destination: "/inclusive-counselling",
       permanent: true,
     },
+    {
+      source: "/articles/kink-affirming-therapy",
+      destination: "/articles/kink-aware-therapy",
+      permanent: true,
+    },
   ]);
 });
