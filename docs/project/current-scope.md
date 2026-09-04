@@ -49,7 +49,7 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 - Routes with `lastModified` values feed sitemap dates, and Privacy Policy also displays its last-modified date.
 - The Articles index adds `CollectionPage` structured data. Each published article adds `WebPage` and `Article` structured data with its headline, abstract, publication and modification dates, section, Joel as author, Vive as publisher, and the shared social image, plus a named `BreadcrumbList` matching its visible `Articles` and topic navigation with explicit destination URLs; article Open Graph output uses the `article` type and publication metadata.
 - A private or inferred street address and address-dependent `LocalBusiness` structured data are not included. The approved Google Business Profile can be added to the Organization's `sameAs` links once its exact public profile URL is confirmed.
-- Public assets include favicons, app icons, a web manifest, a shared social preview image, and portrait/media assets under `public/`.
+- Public assets include favicons, device icons, a shared social preview image, and portrait/media assets under `public/`. The site deliberately does not publish a web app manifest, register a service worker, or provide custom installation UI; it remains a conventional website rather than an installable web app.
 
 ## Rendering, Build, And Deployment
 
@@ -139,6 +139,7 @@ The current application does not include:
 - A client portal, admin editing, general administration UI, or public visitor accounts.
 - A first-party cookie banner or local Microsoft Clarity Consent API flow.
 - Dark mode, Storybook or another external component explorer, or visual-regression testing.
+- Installable web-app behaviour or browser app-install promotion.
 
 The following require a task that explicitly expands scope:
 

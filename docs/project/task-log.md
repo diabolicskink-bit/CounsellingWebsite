@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-04 - Unintended Web-App Installation Removed
+
+- Removed the web app manifest and its generated discovery link so mobile browsers no longer receive metadata that promotes Vive as an installable standalone app.
+- Retained the site's favicon, touch-icon, device-icon, and browser theme metadata.
+
 ## 2026-09-02 - Perfectionism Article Given A Subject-Specific Reading Treatment
 
 - Added a restrained custom body presentation for the self-critical perfectionism article while preserving the shared article hero, publication shell, continuous prose measure, and references ledger.

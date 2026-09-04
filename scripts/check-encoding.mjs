@@ -29,7 +29,6 @@ const textExtensions = new Set([
   ".ts",
   ".tsx",
   ".txt",
-  ".webmanifest",
   ".xml",
   ".yaml",
   ".yml",
