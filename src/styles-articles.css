@@ -362,6 +362,16 @@
   overflow-wrap: anywhere;
 }
 
+.article-page__references li[id] {
+  scroll-margin-top: 96px;
+}
+
+.article-page__references li:target {
+  border-radius: 2px;
+  outline: 2px solid color-mix(in srgb, var(--article-accent) 42%, transparent);
+  outline-offset: 7px;
+}
+
 .article-page__references li:first-child {
   padding-top: 0;
   border-top: 0;

@@ -24,7 +24,11 @@ export default function ArticleReferences({ references }: ArticleReferencesProps
 
       <ul className="article-page__reference-list">
         {references.map((reference) => (
-          <li key={reference.citation}>
+          <li
+            id={reference.anchorId ? `article-reference-${reference.anchorId}` : undefined}
+            key={reference.anchorId ?? reference.citation}
+            tabIndex={reference.anchorId ? -1 : undefined}
+          >
             <ArticleMarkdown
               body={reference.citation}
               className="article-page__reference-copy"

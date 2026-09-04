@@ -1,6 +1,7 @@
 import type { ArticleSlug } from "./manifest.ts";
 
 export type ArticleReference = Readonly<{
+  anchorId?: string;
   citation: string;
   href: string;
 }>;
