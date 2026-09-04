@@ -65,10 +65,10 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 
 ## Enquiry Flow And API
 
-- Contact offers three paths: make an appointment, request a free 15-minute consult, or make a general enquiry. Name, email, and message appear first, followed by a required path select. After hydration, appointment and consult paths reveal required availability and timezone fields, consults also require a mobile number, and a general enquiry adds no further fields. The server-rendered form exposes the complete conditional field set with labels that state when each booking detail is required.
+- Contact presents Joel's direct phone and email details beside three form paths: make an appointment, request a free 15-minute consult, or make a general enquiry. Name, email, and message appear first, followed by a required path select. After hydration, appointment and consult paths reveal required availability and timezone fields, consults also require a mobile number, and a general enquiry adds no further fields. The server-rendered form exposes the complete conditional field set with labels that state when each booking detail is required.
 - Practical details show fixed Perth business hours in AWST and browser-refreshed interstate comparisons. Booking timezone choices come from the current Australian timezone set when needed.
 - Successful JavaScript submissions replace the form with a focused confirmation that Joel usually replies within 24 hours. Native submissions return equivalent success or failure HTML, and the enhanced form prevents duplicate submissions while a request is in flight.
-- Public contact and fallback messaging use `joel@vivecounselling.com.au`.
+- Public contact details use `0416 205 175` and `joel@vivecounselling.com.au`; enquiry fallback messaging uses email.
 - The form submits JSON or URL-encoded native posts to `POST /api/enquiry`. Browser constraints and server validation share field-length limits; overlong content is rejected rather than truncated. The endpoint validates structured enquiry and booking fields, builds the email server-side, and sends through Resend when configured.
 - The endpoint rejects unsupported content types, multipart posts, declared bodies above 25 KB, and explicit cross-site fetch, origin, or referrer signals before validation or delivery. A honeypot provides basic spam filtering.
 - Public failures remain generic while configuration, provider, and runtime diagnostics stay in server logs.

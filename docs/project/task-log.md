@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-04 - Direct Phone Contact Added
+
+- Added Joel's public phone number to the Contact page as an accessible `tel:` link alongside the existing email address.
+- Introduced a page-scoped ruled contact ledger that keeps direct contact prominent beside the enquiry form and recomposes from paired links to a vertical mobile layout.
+
 ## 2026-09-04 - Kink Article Search Language Refined
 
 - Made `kink-aware therapy` the article's primary visible and metadata search phrase while retaining `kink-affirming` and `kink-friendly` where they clarify the article's distinctions.

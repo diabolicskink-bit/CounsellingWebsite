@@ -11,6 +11,7 @@ import Container from "../components/Container";
 import {
   enquiryEmail,
   enquiryFailureContent,
+  enquiryPhone,
   enquirySuccessContent,
 } from "../data/enquiry";
 import {
@@ -533,10 +534,33 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
             </h2>
             <p className="site-reading">
               I offer a free 15-minute consult so you can speak with me before
-              deciding whether to book. If you would rather start with a
-              question, you can send one through the form or{" "}
-              <a href={`mailto:${enquiryEmail}`}>by email</a>.
+              deciding whether to book. Call or email me directly, or use the
+              form to send a question or request a time.
             </p>
+
+            <address
+              aria-label="Contact Joel directly"
+              className="contact-page__direct-contact"
+            >
+              <a
+                className="contact-page__direct-contact-link"
+                href={enquiryPhone.href}
+              >
+                <span className="contact-page__direct-contact-label">Call</span>
+                <span className="contact-page__direct-contact-value contact-page__direct-contact-value--phone">
+                  {enquiryPhone.label}
+                </span>
+              </a>
+              <a
+                className="contact-page__direct-contact-link"
+                href={`mailto:${enquiryEmail}`}
+              >
+                <span className="contact-page__direct-contact-label">Email</span>
+                <span className="contact-page__direct-contact-value contact-page__direct-contact-value--email">
+                  {enquiryEmail}
+                </span>
+              </a>
+            </address>
           </header>
 
           <EnquiryForm initialRenderAt={initialRenderAt} />

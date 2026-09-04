@@ -1,5 +1,10 @@
 export const enquiryEmail = "joel@vivecounselling.com.au";
 
+export const enquiryPhone = {
+  href: "tel:+61416205175",
+  label: "0416 205 175",
+} as const;
+
 export const enquirySuccessContent = {
   title: "Your enquiry has been sent.",
   note: "I’ll reply as soon as I can, usually within 24 hours.",
