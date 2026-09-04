@@ -10,7 +10,7 @@ Kink-aware therapy goes further than simply being kink-friendly or comfortable h
 
 This does not require a therapist to regard every kink relationship or behaviour as healthy. Problems with consent, coercion, boundaries, compulsivity, shame and relationship functioning can occur in kink just as they can elsewhere. The point is that these things need to be assessed on their own terms rather than inferred from the presence of BDSM.
 
-Contemporary research broadly supports this approach. Studies have not found consensual BDSM involvement, in itself, to be a useful marker of psychological dysfunction, and recent clinical guidelines advise therapists against automatically pathologising kink or assuming that it has developed from trauma (Sprott et al., 2023).
+Contemporary research broadly supports this approach. Studies have not found consensual BDSM involvement, in itself, to be a useful marker of psychological dysfunction, and recent clinical guidelines advise therapists against automatically pathologising kink or assuming that it has developed from trauma ([Sprott et al., 2023](#article-reference-sprott-2023)).
 
 The result is a fairly simple clinical starting point. Before deciding what someone's kink says about them, find out what it actually means in their life.
 
@@ -18,17 +18,17 @@ The result is a fairly simple clinical starting point. Before deciding what some
 
 Psychology and psychiatry have a complicated history with unconventional sexuality. Sadism, masochism and fetish interests have all been interpreted at various times through theories of psychopathology, developmental disturbance, trauma and dysfunctional relationships. Some of those ideas continue to shape popular assumptions about BDSM even though the research literature has moved considerably.
 
-Research over the past two decades provides little support for treating consensual BDSM as a general indicator of poor psychological health. BDSM interests and behaviours are also considerably more common than older clinical accounts might suggest. Population studies have found BDSM-related interests in around a quarter to more than a third of adults (Holvoet et al., 2017; Paarnio et al., 2023). BDSM participation was not associated with greater sexual difficulties or a greater likelihood of having experienced sexual coercion. Participants were also not more likely to report anxiety or unhappiness and among men, BDSM participation was associated with lower levels of psychological distress.
+Research over the past two decades provides little support for treating consensual BDSM as a general indicator of poor psychological health. BDSM interests and behaviours are also considerably more common than older clinical accounts might suggest. Population studies have found BDSM-related interests in around a quarter to more than a third of adults ([Holvoet et al., 2017](#article-reference-holvoet-2017); [Paarnio et al., 2023](#article-reference-paarnio-2023)). BDSM participation was not associated with greater sexual difficulties or a greater likelihood of having experienced sexual coercion. Participants were also not more likely to report anxiety or unhappiness and among men, BDSM participation was associated with lower levels of psychological distress.
 
-Wismeijer and van Assen (2013) compared 902 BDSM practitioners with 434 people who did not practise BDSM, examining personality, attachment, rejection sensitivity and subjective wellbeing. Their findings likewise provided little support for the idea that BDSM practitioners were broadly less psychologically healthy. On several measures the BDSM group reported more favourable outcomes. The evidence indicates there is little justification for treating consensual kink itself as evidence of psychopathology.
+[Wismeijer and van Assen (2013)](#article-reference-wismeijer-2013) compared 902 BDSM practitioners with 434 people who did not practise BDSM, examining personality, attachment, rejection sensitivity and subjective wellbeing. Their findings likewise provided little support for the idea that BDSM practitioners were broadly less psychologically healthy. On several measures the BDSM group reported more favourable outcomes. The evidence indicates there is little justification for treating consensual kink itself as evidence of psychopathology.
 
-Modern psychiatric diagnosis also makes an important distinction between an atypical sexual interest and a mental disorder. Under the DSM-5-TR, an unusual sexual interest is not automatically a paraphilic disorder. Clinically significant distress, impairment, harm and the involvement of non-consenting people are important parts of that distinction (American Psychiatric Association, 2022).
+Modern psychiatric diagnosis also makes an important distinction between an atypical sexual interest and a mental disorder. Under the DSM-5-TR, an unusual sexual interest is not automatically a paraphilic disorder. Clinically significant distress, impairment, harm and the involvement of non-consenting people are important parts of that distinction ([American Psychiatric Association, 2022](#article-reference-american-psychiatric-association-2022)).
 
 For a therapist, this changes the focus. Whether an interest is statistically unusual tells us much less than whether it is consensual, how it fits within someone's life and relationships, what meaning it has for them, and whether it is associated with distress or harm.
 
 ## Does kink come from trauma?
 
-The relationship between kink and trauma tends to attract overly simple explanations. There is no good evidence that BDSM interests, as a group, can be explained as the result of trauma. The Australian population study found no greater history of sexual coercion among BDSM participants than among non-participants (Richters et al., 2008), while reviews of the broader literature have found insufficient evidence for trauma as a general explanation of BDSM interests (De Neef et al., 2019). Current clinical guidelines specifically caution therapists against assuming that kink is necessarily a trauma response (Sprott et al., 2023).
+The relationship between kink and trauma tends to attract overly simple explanations. There is no good evidence that BDSM interests, as a group, can be explained as the result of trauma. The Australian population study found no greater history of sexual coercion among BDSM participants than among non-participants ([Richters et al., 2008](#article-reference-richters-2008)), while reviews of the broader literature have found insufficient evidence for trauma as a general explanation of BDSM interests ([De Neef et al., 2019](#article-reference-de-neef-2019)). Current clinical guidelines specifically caution therapists against assuming that kink is necessarily a trauma response ([Sprott et al., 2023](#article-reference-sprott-2023)).
 
 However that does not mean personal history has nothing to do with sexuality. Sexuality develops as part of a person's wider psychological life. Attachment, relationships, learning, shame, fantasy, emotional regulation and formative experiences can all become woven into what someone eventually finds erotic. Trauma may be relevant for a particular person without being a general explanation for kink.
 
@@ -40,7 +40,7 @@ There is plenty of room in therapy to explore where someone's desires came from 
 
 ## Consent and power in kink relationships
 
-Any discussion of kink-aware practice also has to take seriously the possibility of harm within kink relationships. Consent occupies an unusually explicit place in BDSM culture. Negotiation, limits, safewords, aftercare and discussions of risk form part of how many people within kink communities think about ethical practice. Dunkley and Brotto (2020), in their review of consent within BDSM, describe mutual informed consent as one of the central features separating consensual BDSM from abuse.
+Any discussion of kink-aware practice also has to take seriously the possibility of harm within kink relationships. Consent occupies an unusually explicit place in BDSM culture. Negotiation, limits, safewords, aftercare and discussions of risk form part of how many people within kink communities think about ethical practice. [Dunkley and Brotto (2020)](#article-reference-dunkley-brotto-2020), in their review of consent within BDSM, describe mutual informed consent as one of the central features separating consensual BDSM from abuse.
 
 None of this makes kink communities immune to coercion or abuse. People can be pressured into activities they do not really want. Safewords can be ignored. Boundaries can be crossed. Someone may continue agreeing to things because they are frightened of losing a relationship, because they have become emotionally dependent on a partner, or because an initially negotiated power dynamic has gradually become difficult to challenge.
 
@@ -52,7 +52,7 @@ A relationship can appear extremely unequal from the outside while containing a 
 
 ## Kink-friendly is not the same as kink-aware
 
-A kink-friendly therapist can have completely accepting attitudes towards BDSM and still have very little knowledge of it. Good intentions are valuable, but they do not automatically produce competence. Kelsey and colleagues (2013) surveyed 766 therapists in the United States. Seventy-six per cent had worked with at least one client who engaged in BDSM, yet fewer than half considered themselves competent to work in the area.
+A kink-friendly therapist can have completely accepting attitudes towards BDSM and still have very little knowledge of it. Good intentions are valuable, but they do not automatically produce competence. [Kelsey and colleagues (2013)](#article-reference-kelsey-2013) surveyed 766 therapists in the United States. Seventy-six per cent had worked with at least one client who engaged in BDSM, yet fewer than half considered themselves competent to work in the area.
 
 Lack of familiarity can subtly change the therapy. A client may spend considerable time explaining terminology, community norms or relationship structures before they can reach the issue that brought them to counselling. There is an important difference between asking someone what being collared means within *their* relationship and asking what a collar is. The first question is about the client's experience. The second reveals a gap in the therapist's basic cultural knowledge.
 
@@ -60,17 +60,17 @@ Power exchange is another example. Someone voluntarily giving substantial author
 
 That does not mean the therapist stops asking about power. It gives them better questions to ask. How was the arrangement negotiated? Why does each person want it? Where does the Dominant's authority begin and end? How does the relationship adapt when circumstances change? What responsibilities accompany the authority being given? Can the submissive meaningfully withdraw or renegotiate that authority?
 
-Sprott and colleagues (2023) describe different levels of competence, from broadly kink-friendly practice through to greater levels of knowledge and specialisation. A therapist does not need comprehensive knowledge of every fetish and subculture. They should, however, have enough foundational knowledge to recognise what they do not know and seek further education, consultation or supervision rather than filling those gaps with assumptions.
+[Sprott and colleagues (2023)](#article-reference-sprott-2023) describe different levels of competence, from broadly kink-friendly practice through to greater levels of knowledge and specialisation. A therapist does not need comprehensive knowledge of every fetish and subculture. They should, however, have enough foundational knowledge to recognise what they do not know and seek further education, consultation or supervision rather than filling those gaps with assumptions.
 
 ## Shame, stigma and disclosure
 
 Some people come to therapy troubled by a kink itself. Others are far more distressed by what they think having that kink says about them. A person may have spent years wondering whether their desires make them damaged, abnormal, disgusting or incapable of having a healthy relationship. They may be frightened of telling a partner what they actually want, or have kept part of their sexuality separate from the rest of their life because disclosure feels too risky.
 
-Research into the experiences of kink-involved people suggests that concern about judgement from health professionals is not unfounded. Kolmes, Stock and Moser (2006) examined BDSM clients' experiences in psychotherapy and found a wide range of experiences. Some described knowledgeable and accepting therapists. Others reported prejudicial comments, unnecessary focus on BDSM, therapists expecting them to provide basic education, or kink being treated as something that should be stopped.
+Research into the experiences of kink-involved people suggests that concern about judgement from health professionals is not unfounded. [Kolmes, Stock and Moser (2006)](#article-reference-kolmes-2006) examined BDSM clients' experiences in psychotherapy and found a wide range of experiences. Some described knowledgeable and accepting therapists. Others reported prejudicial comments, unnecessary focus on BDSM, therapists expecting them to provide basic education, or kink being treated as something that should be stopped.
 
-Waldura and colleagues (2016) found similar concerns in healthcare more broadly. **Fewer than half** of the kink-oriented participants in their study had disclosed their kink to their current healthcare provider. Anticipated stigma was the most common reason for nondisclosure, and participants were particularly concerned that consensual BDSM could be mistaken for intimate partner violence.
+[Waldura and colleagues (2016)](#article-reference-waldura-2016) found similar concerns in healthcare more broadly. **Fewer than half** of the kink-oriented participants in their study had disclosed their kink to their current healthcare provider. Anticipated stigma was the most common reason for nondisclosure, and participants were particularly concerned that consensual BDSM could be mistaken for intimate partner violence.
 
-There is also Australian research on this issue. Reynish and colleagues (2023) studied kink-oriented people with pre-existing mental-health difficulties living in rural Tasmania. The sample was small, so the findings cannot be assumed to represent kink-involved Australians generally, but approximately **83% reported having withheld their kink from a mental-health professional** because they feared stigma or discrimination.
+There is also Australian research on this issue. [Reynish and colleagues (2023)](#article-reference-reynish-2023) studied kink-oriented people with pre-existing mental-health difficulties living in rural Tasmania. The sample was small, so the findings cannot be assumed to represent kink-involved Australians generally, but approximately **83% reported having withheld their kink from a mental-health professional** because they feared stigma or discrimination.
 
 A client does not need to have experienced overt hostility for this to affect therapy. Uncertainty about a therapist's reaction can be enough. People may soften their language, omit important details, refer to a Dominant simply as a partner, or leave out experiences that were emotionally important because they are unsure what the disclosure will do to the therapist's view of them.
 
@@ -80,7 +80,7 @@ Competence with kink also involves knowing when it has little to do with the rea
 
 Historically, one of the problems described by some kink clients is that once BDSM is disclosed, it begins to organise the therapist's understanding of everything else. Trauma becomes the presumed explanation for kink. Relationship difficulties become evidence that power exchange is unhealthy. Anxiety or low self-worth gets interpreted through unconventional sexuality despite little evidence that the two are connected.
 
-The clinical guidelines developed by Sprott and colleagues (2023) specifically caution against assuming that a presenting problem has been caused by kink. At other times, kink may turn out to be highly relevant. It can bring themes of control, dependency, responsibility, shame, trust and vulnerability into unusually sharp focus.
+The clinical guidelines developed by [Sprott and colleagues (2023)](#article-reference-sprott-2023) specifically caution against assuming that a presenting problem has been caused by kink. At other times, kink may turn out to be highly relevant. It can bring themes of control, dependency, responsibility, shame, trust and vulnerability into unusually sharp focus.
 
 Someone who spends much of their life carrying responsibility may experience surrender as especially powerful. A person who finds depending on other people difficult may encounter that difficulty very directly through submission. Someone accustomed to hiding their needs may find it unexpectedly emotional to have those needs noticed and anticipated. A Dominant may discover that being trusted with another person's vulnerability activates their own fears about responsibility, competence or failure.
 
@@ -122,50 +122,62 @@ The aim is to understand the person first, and allow the meaning of kink, whethe
   references: [
     {
       citation: `American Psychiatric Association. (2022). *Diagnostic and statistical manual of mental disorders* (5th ed., text rev.).`,
+      anchorId: "american-psychiatric-association-2022",
       href: "https://doi.org/10.1176/appi.books.9780890425787",
     },
     {
       citation: `De Neef, N., Coppens, V., Huys, W., & Morrens, M. (2019). Bondage-discipline, dominance-submission and sadomasochism (BDSM) from an integrative biopsychosocial perspective: A systematic review. *Sexual Medicine, 7*(2), 129–144.`,
+      anchorId: "de-neef-2019",
       href: "https://doi.org/10.1016/j.esxm.2019.02.002",
     },
     {
       citation: `Dunkley, C. R., & Brotto, L. A. (2020). The role of consent in the context of BDSM. *Sexual Abuse, 32*(6), 657–678.`,
+      anchorId: "dunkley-brotto-2020",
       href: "https://doi.org/10.1177/1079063219842847",
     },
     {
       citation: `Holvoet, L., Huys, W., Coppens, V., Seeuws, J., Goethals, K., & Morrens, M. (2017). Fifty shades of Belgian gray: The prevalence of BDSM-related fantasies and activities in the general population. *The Journal of Sexual Medicine, 14*(9), 1152–1159.`,
+      anchorId: "holvoet-2017",
       href: "https://doi.org/10.1016/j.jsxm.2017.07.003",
     },
     {
       citation: `Kelsey, K., Stiles, B. L., Spiller, L., & Diekhoff, G. M. (2013). Assessment of therapists’ attitudes towards BDSM. *Psychology & Sexuality, 4*(3), 255–267.`,
+      anchorId: "kelsey-2013",
       href: "https://doi.org/10.1080/19419899.2012.655255",
     },
     {
       citation: `Kolmes, K., Stock, W., & Moser, C. (2006). Investigating bias in psychotherapy with BDSM clients. *Journal of Homosexuality, 50*(2–3), 301–324.`,
+      anchorId: "kolmes-2006",
       href: "https://doi.org/10.1300/J082v50n02_15",
     },
     {
       citation: `Paarnio, M., Sandman, N., Källström, M., Johansson, A., & Jern, P. (2023). The prevalence of BDSM in Finland and the association between BDSM interest and personality traits. *The Journal of Sex Research, 60*(4), 443–451.`,
+      anchorId: "paarnio-2023",
       href: "https://doi.org/10.1080/00224499.2021.2015745",
     },
     {
       citation: `Reynish, T. D., Hoang, H., Bridgman, H., & Nic Giolla Easpaig, B. (2023). Kink-oriented people and exogenous oppressions: Understanding mental health and related service use in a rural context. *Journal of Homosexuality, 70*(8), 1479–1502.`,
+      anchorId: "reynish-2023",
       href: "https://doi.org/10.1080/00918369.2022.2036531",
     },
     {
       citation: `Richters, J., de Visser, R. O., Rissel, C. E., Grulich, A. E., & Smith, A. M. A. (2008). Demographic and psychosocial features of participants in bondage and discipline, “sadomasochism” or dominance and submission (BDSM): Data from a national survey. *The Journal of Sexual Medicine, 5*(7), 1660–1668.`,
+      anchorId: "richters-2008",
       href: "https://doi.org/10.1111/j.1743-6109.2008.00795.x",
     },
     {
       citation: `Sprott, R. A., Herbitter, C., Grant, P., Moser, C., & Kleinplatz, P. J. (2023). Clinical guidelines for working with clients involved in kink. *Journal of Sex & Marital Therapy, 49*(8), 978–995.`,
+      anchorId: "sprott-2023",
       href: "https://doi.org/10.1080/0092623X.2023.2232801",
     },
     {
       citation: `Waldura, J. F., Arora, I., Randall, A. M., Farala, J. P., & Sprott, R. A. (2016). Fifty shades of stigma: Exploring the health care experiences of kink-oriented patients. *The Journal of Sexual Medicine, 13*(12), 1918–1929.`,
+      anchorId: "waldura-2016",
       href: "https://doi.org/10.1016/j.jsxm.2016.09.019",
     },
     {
       citation: `Wismeijer, A. A. J., & van Assen, M. A. L. M. (2013). Psychological characteristics of BDSM practitioners. *The Journal of Sexual Medicine, 10*(8), 1943–1952.`,
+      anchorId: "wismeijer-2013",
       href: "https://doi.org/10.1111/jsm.12192",
     },
   ],
