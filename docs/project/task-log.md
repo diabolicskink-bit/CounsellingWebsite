@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-08 - Kink Counselling Page Rebuilt
+
+- Rewrote the Kink and BDSM service page around the emotional and relational work of counselling, with specific experiences, pleasure and personal meaning, and support around harm or trauma.
+- Used the shared hero surface and type roles for a stacked opening, and built a continuous editorial reading layout with a practitioner sidebar and a page-owned closing invitation with online delivery and individual or partner attendance details. Links lead to Contact, Working with Joel and the kink-aware therapy article.
+- Kept the visual composition page-local, reconciled design-system consumer references and archived the obsolete terminology-table backlog item after verifying that the table is absent.
+
 ## 2026-09-04 - Kink Article Citations Linked
 
 - Linked every in-text citation in the kink-aware therapy article to its corresponding entry in the reference ledger.

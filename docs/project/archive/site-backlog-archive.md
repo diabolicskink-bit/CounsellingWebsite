@@ -2,6 +2,10 @@
 
 This file preserves implemented and superseded `SITE-*` items moved out of the [active site backlog](../site-backlog.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### SITE-19 - Kink language table cell colour distinction
+
+Superseded, verified on 2026-09-08. The terminology table and its four cell-colour groups were already absent from the current Kink page before its full rebuild. The rebuilt page has no terminology table, so the recorded cell-colour issue has no remaining consumer.
+
 ### SITE-11 - Website privacy and counselling-boundaries note
 
 Implemented on 2026-08-31. The public `/privacy-policy` route now distinguishes website analytics, initial-enquiry handling and counselling confidentiality; documents Zoho Mail, Zanda client records, Zoom-powered telehealth, first-party and optional third-party analytics, the 12-month visit-data retention rule, and service-provider and overseas processing; and gives direct access, correction and complaint routes. It is linked from the shared footer and immediately before the Contact form submission action. The policy records the owner's confirmation that current telehealth sessions are not recorded.

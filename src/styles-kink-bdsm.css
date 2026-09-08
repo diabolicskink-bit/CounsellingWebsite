@@ -1,186 +1,428 @@
-.kink-page {
-  --kink-dark: #163229;
-
-  background: var(--section-warm);
+﻿/* An editorial page about the emotional and relational work of counselling.
+   The practitioner sits alongside the essay on desktop and within its reading
+   order on mobile. The opening uses shared hero primitives; its content
+   arrangement and the editorial composition stay page-local. */
+.site-page.kink-page {
+  --color-bg-main: var(--section-warm);
 }
 
-.kink-page__fluency {
-  padding: 60px 0;
-  border-bottom: 1px solid var(--section-rule);
-  background:
-    radial-gradient(circle at 8% 12%, rgba(252, 252, 250, 0.48), transparent 28%),
-    var(--section-sage);
+.kink-page .kink-page__label {
+  color: var(--cedar);
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.5;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
-.kink-page__fluency-layout {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(64px, 8vw, 120px);
-  align-items: start;
-}
-
-.kink-page__fluency-layout > * {
-  min-width: 0;
-}
-
-.kink-page__fluency-title,
-.kink-page__misread-title,
-.kink-page__more-title {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 0.96;
+.kink-page h1,
+.kink-page h2 {
   text-wrap: balance;
+  letter-spacing: -0.035em;
 }
 
-.kink-page__fluency-title {
-  max-width: 10ch;
-  color: var(--kink-dark);
-  font-size: clamp(3.05rem, 4.2vw, 4rem);
+.kink-page h1 em,
+.kink-page h2 em {
+  font-weight: inherit;
 }
 
-.kink-page__fluency-copy {
-  display: grid;
-  gap: 20px;
+.kink-invitation {
+  --color-heading: #fcfcfa;
+  --color-text: #e3ebe3;
+
+  background: var(--section-dark);
+}
+
+.kink-cover {
+  --color-heading: var(--site-hero-foreground);
+  --color-text: var(--site-hero-supporting-foreground);
+}
+
+.kink-invitation .kink-page__label,
+.kink-invitation h2 em {
+  color: var(--section-sage);
+}
+
+.kink-cover.site-hero .site-hero__statement {
+  max-width: 16ch;
+  margin: var(--site-hero-eyebrow-gap) 0 0;
+  font-size: clamp(3.25rem, 4.65vw, 4.45rem);
+  letter-spacing: -0.045em;
+  line-height: 0.96;
+}
+
+.kink-cover__introduction {
   max-width: 64ch;
-  padding: 4px 0 4px 30px;
-  border-left: 1px solid rgba(35, 75, 61, 0.34);
+  margin-top: 24px;
 }
 
-.kink-page .kink-page__fluency-copy p {
-  margin: 0;
-  text-wrap: pretty;
+.kink-cover__action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: min(100%, 410px);
+  min-height: 62px;
+  margin-top: 28px;
+  padding: 16px 20px 16px 0;
+  border-block: 1px solid var(--section-dark-rule);
+  color: var(--site-hero-foreground);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.02rem, 1.25vw, 1.14rem);
+  font-weight: 500;
+  line-height: 1.3;
+  transition: background-color 160ms ease, color 160ms ease;
 }
 
-.kink-page__misread-layout {
+.kink-cover__action:is(:hover, :active) {
+  background: rgba(252, 252, 250, 0.035);
+  color: var(--site-hero-emphasis-foreground);
+}
+
+.kink-cover__action:focus-visible {
+  outline: 3px solid var(--site-hero-emphasis-foreground);
+  outline-offset: 4px;
+}
+
+.kink-page__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 46px;
+  min-height: 54px;
+  padding: 15px 22px;
+  border: 1px solid var(--section-sage);
+  border-radius: 3px;
+  background: var(--section-sage);
+  color: var(--cedar);
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.45;
+  transition: background-color 160ms ease;
+}
+
+.kink-invitation .kink-page__button {
+  margin-top: 28px;
+}
+
+.kink-page__button:is(:hover, :active) {
+  background: #fcfcfa;
+}
+
+.kink-page__button:focus-visible {
+  outline: 3px solid var(--section-sage);
+  outline-offset: 6px;
+}
+
+.kink-cover__action svg,
+.kink-page__button svg,
+.kink-page__link svg {
+  flex: 0 0 auto;
+  transition: transform 160ms ease;
+}
+
+.kink-cover__action:is(:hover, :focus-visible) svg,
+.kink-page__button:is(:hover, :focus-visible) svg,
+.kink-page__link:is(:hover, :focus-visible) svg {
+  transform: translateX(4px);
+}
+
+.kink-cover__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin-top: 22px;
+}
+
+.kink-page .kink-cover__details p {
+  color: var(--site-hero-eyebrow-foreground);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.kink-essay {
   display: grid;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(64px, 8vw, 120px);
+  grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.8fr);
+  gap: 64px clamp(64px, 8vw, 120px);
   align-items: start;
+  padding-block: 76px 84px;
 }
 
-.kink-page__misread-layout > * {
+.kink-discussion,
+.kink-pleasure {
+  grid-column: 1;
   min-width: 0;
 }
 
-.kink-page__misread-title {
-  max-width: 12ch;
-  color: var(--ink);
-  font-size: clamp(3.05rem, 4.2vw, 4rem);
+.kink-discussion h2,
+.kink-pleasure h2 {
+  max-width: 20ch;
+  margin-bottom: 28px;
+  font-size: clamp(2.55rem, 3.3vw, 3.25rem);
+  line-height: 1.08;
 }
 
-.kink-page__misread-copy {
-  display: grid;
-  gap: 20px;
-  max-width: 64ch;
-  margin-top: 4px;
-  padding: 4px 0 4px 30px;
-  border-left: 1px solid var(--section-rule);
+.kink-discussion h2 em,
+.kink-pleasure h2 em {
+  color: var(--cedar);
 }
 
-.kink-page .kink-page__misread-copy p {
-  margin: 0;
-  padding: 0;
-  text-wrap: pretty;
+.kink-discussion > .kink-page__label {
+  margin-bottom: 20px;
 }
 
-.kink-page .kink-page__misread-copy p + p {
-  padding-top: 20px;
+.kink-discussion > .site-reading,
+.kink-pleasure > .site-reading {
+  max-width: 65ch;
+}
+
+.kink-discussion .site-reading + .site-reading,
+.kink-pleasure .site-reading + .site-reading,
+.kink-invitation .site-reading + .site-reading {
+  margin-top: 22px;
+}
+
+.kink-practitioner {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  min-width: 0;
+  margin-top: 40px;
+}
+
+.kink-practitioner__portrait {
+  overflow: hidden;
+  width: 100%;
+  max-width: 270px;
+  aspect-ratio: 1 / 1.13;
+  padding: 8px;
+  background: var(--portrait-panel);
+}
+
+.kink-practitioner__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 32%;
+}
+
+.kink-practitioner__introduction {
+  margin-top: 30px;
+}
+
+.kink-practitioner h2 {
+  margin: 12px 0 20px;
+  font-size: 2.35rem;
+  line-height: 1.1;
+}
+
+.kink-page__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 44px;
+  margin-top: 22px;
+  color: var(--cedar);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.kink-page__link span {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+}
+
+.kink-page__link:focus-visible {
+  outline: 3px solid var(--cedar);
+  outline-offset: 5px;
+}
+
+.kink-page__link:active span {
+  text-decoration-thickness: 2px;
+}
+
+.kink-practitioner__broader-work {
+  margin-top: 26px;
+  padding-top: 26px;
   border-top: 1px solid var(--section-rule);
 }
 
-.kink-page__more {
-  padding: 60px 0;
-  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
-  background:
-    radial-gradient(ellipse at 82% 16%, rgba(110, 159, 128, 0.22), transparent 42%),
-    linear-gradient(132deg, #132b23 0%, var(--kink-dark) 58%, #21473a 100%);
+.kink-pleasure {
+  margin-left: -14px;
+  padding: 38px 36px 42px 14px;
+  background: var(--section-sage);
 }
 
-.kink-page__more-layout {
+.kink-invitation {
+  padding: 62px 0 70px;
+}
+
+.kink-invitation__layout {
   display: grid;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(64px, 8vw, 120px);
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 76px;
 }
 
-.kink-page__more-layout > * {
-  min-width: 0;
+.kink-invitation h2 {
+  margin-top: 22px;
+  font-size: clamp(2.9rem, 4.3vw, 4rem);
+  line-height: 1.04;
 }
 
-.kink-page .kink-page__more-title {
-  max-width: 9ch;
-  color: #fcfcfa;
-  font-size: clamp(3.05rem, 4.2vw, 4rem);
+.kink-invitation__copy {
+  padding-top: 6px;
 }
 
-.kink-page__more-copy {
-  display: grid;
-  gap: 20px;
-  max-width: 64ch;
-  padding: 4px 0 4px 30px;
-  border-left: 1px solid var(--section-dark-rule);
+@media (max-width: 1000px) {
+  .kink-essay {
+    grid-template-columns: minmax(0, 1.65fr) minmax(230px, 0.85fr);
+    column-gap: 48px;
+  }
+
+  .kink-pleasure {
+    margin-left: -14px;
+    padding: 32px 24px 36px 14px;
+  }
 }
 
-.kink-page .kink-page__more-copy p {
-  margin: 0;
-  color: rgba(239, 244, 240, 0.86);
-  text-wrap: pretty;
-}
+@media (max-width: 760px) {
+  .kink-cover__details {
+    display: grid;
+  }
 
-@media (max-width: 980px) {
-  .kink-page__fluency-layout,
-  .kink-page__more-layout {
+  .kink-essay {
     grid-template-columns: minmax(0, 1fr);
-    gap: 36px;
+    gap: 46px;
+    padding-block: 48px 52px;
   }
 
-  .kink-page__fluency-title,
-  .kink-page .kink-page__more-title {
-    max-width: 14ch;
+  .kink-discussion h2,
+  .kink-pleasure h2 {
+    font-size: clamp(2.4rem, 6.4vw, 3rem);
+    margin-bottom: 24px;
   }
 
-  .kink-page__fluency-copy,
-  .kink-page__misread-copy,
-  .kink-page__more-copy {
-    max-width: 70ch;
+  .kink-practitioner {
+    grid-column: 1;
+    grid-row: auto;
+    display: grid;
+    grid-template-columns: minmax(100px, 0.6fr) minmax(0, 1.4fr);
+    gap: 24px;
+    margin-top: 0;
+    padding-block: 30px;
+    border-block: 1px solid var(--section-rule);
   }
 
-  .kink-page__misread-layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 36px;
+  .kink-practitioner__introduction {
+    margin-top: 0;
+  }
+
+  .kink-practitioner h2 {
+    margin-top: 8px;
+  }
+
+  .kink-practitioner__broader-work {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .kink-pleasure {
+    margin-inline: -14px;
+    padding: 34px 14px 38px;
+  }
+
+  .kink-invitation {
+    padding: 44px 0 50px;
+  }
+
+  .kink-invitation__layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .kink-invitation h2 {
+    margin-top: 18px;
+  }
+
+  .kink-invitation__copy {
+    padding: 0;
   }
 }
 
 @media (max-width: 700px) {
-  .kink-page__fluency-title,
-  .kink-page__misread-title,
-  .kink-page .kink-page__more-title {
-    max-width: 13ch;
-    font-size: clamp(2.45rem, 10.7vw, 2.95rem);
-    line-height: 0.96;
+  .kink-cover.site-hero .site-hero__statement {
+    max-width: 12ch;
+    font-size: clamp(2.65rem, 10.7vw, 3rem);
   }
 
-  .kink-page__fluency-copy,
-  .kink-page__more-copy {
-    gap: 18px;
-    padding: 0 0 0 20px;
+  .kink-cover__action {
+    min-height: 58px;
+    padding-block: 15px;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .kink-cover__action span {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kink-practitioner {
+    grid-template-columns: 104px minmax(0, 1fr);
+    column-gap: 22px;
   }
 
-  .kink-page__misread-copy {
-    gap: 18px;
-    margin-top: 0;
-    padding: 0 0 0 20px;
+  .kink-practitioner__portrait {
+    aspect-ratio: 1 / 1.2;
+    padding: 4px;
   }
 
-  .kink-page .kink-page__misread-copy p,
-  .kink-page .kink-page__misread-copy p + p {
-    padding: 0;
+  .kink-practitioner__introduction {
+    display: contents;
   }
 
-  .kink-page .kink-page__misread-copy p + p {
-    padding-top: 18px;
-    border-top: 1px solid var(--section-rule);
+  .kink-practitioner__introduction > .kink-page__label {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    margin-top: 22px;
+  }
+
+  .kink-practitioner h2 {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    margin: 24px 0 0;
+    font-size: 2.1rem;
+  }
+
+  .kink-practitioner__introduction > .site-reading,
+  .kink-practitioner__introduction > .kink-page__link {
+    grid-column: 1 / -1;
+  }
+
+  .kink-practitioner__introduction > .kink-page__link {
+    justify-self: start;
+    margin-top: -12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kink-cover__action,
+  .kink-cover__action svg,
+  .kink-page__button,
+  .kink-page__button svg,
+  .kink-page__link svg {
+    transition: none;
+  }
+
+  .kink-cover__action:is(:hover, :focus-visible) svg,
+  .kink-page__button:is(:hover, :focus-visible) svg,
+  .kink-page__link:is(:hover, :focus-visible) svg {
+    transform: none;
   }
 }

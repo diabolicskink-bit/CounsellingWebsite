@@ -40,7 +40,6 @@ export default function DesignSystemComponents() {
           consumers={[
             "Home closing invitation",
             "Working with Joel closing invitation",
-            "Kink and BDSM closing invitation",
             "ENM and polyamory closing invitation",
             "LGBTQIA+ closing invitation",
           ]}

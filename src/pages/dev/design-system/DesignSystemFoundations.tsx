@@ -125,7 +125,7 @@ const colourFoundations: readonly ColourFoundation[] = [
       ["Dark on warm paper", "12.27:1"],
     ],
     identifier: "--section-dark",
-    note: "The nearby Kink page dark remains local because it is a different colour.",
+    note: "Supports light text on dark editorial surfaces and dark headings on warm paper or sage.",
     role: "Deep green for dark editorial surfaces and strong foregrounds on supported warm or sage materials.",
     swatchLabel: "Editorial contrast",
     swatchModifier: "section-dark",

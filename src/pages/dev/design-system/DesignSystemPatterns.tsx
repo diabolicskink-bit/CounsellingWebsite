@@ -66,7 +66,7 @@ export default function DesignSystemPatterns() {
           consumers={[
             "Home About Vive and closing invitation",
             "Working with Joel introduction and Inclusion chapters",
-            "Contact enquiry task, Kink misread, ENM reasons, and LGBTQIA+ recognition sections",
+            "Contact enquiry task, ENM reasons, and LGBTQIA+ recognition sections",
           ]}
           identifier=".site-section-warm"
           recordPath="docs/design-system/patterns.md"

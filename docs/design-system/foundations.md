@@ -9,7 +9,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Default long-form reading role for public-page prose: the Inter-first `--font-sans` stack, responsive `1.005–1.04rem` size, weight `400`, line-height `1.63`, and `--body` as the supported light-surface foreground.
 - `Boundary`: Use for substantive paragraphs that need comfortable continuous reading, not headings, labels, navigation, buttons, captions, metadata, form controls, or compact supporting text. A consumer on a dark or otherwise incompatible surface may override only the foreground colour with a contrast-appropriate contextual value; the family, size, weight, and line-height remain part of the role. The underlying `--font-sans` token is not separately promoted by this contract.
 - `Implementation`: `.site-reading` in `src/design-system/foundations.css`.
-- `Verified consumers`: Home About narrative, inclusive copy, and `<ContactInvitation />` copy; Working with Joel introduction, approach overview, and active tab copy; Inclusion hub hero support and chapter overviews; Kink and BDSM chapter prose; ENM and polyamory reasons, focus, and position prose; LGBTQIA+ recognition, assumptions, and disclosure prose; article index support and article prose; Crisis Support emergency guidance and section introductions; Privacy Policy body copy; Contact first-message and crisis-support prose.
+- `Verified consumers`: Home About narrative, inclusive copy, and `<ContactInvitation />` copy; Working with Joel introduction, approach overview, and active tab copy; Inclusion hub hero support and chapter overviews; Kink and BDSM service-page prose; ENM and polyamory reasons, focus, and position prose; LGBTQIA+ recognition, assumptions, and disclosure prose; article index support and article prose; Crisis Support emergency guidance and section introductions; Privacy Policy body copy; Contact first-message and crisis-support prose.
 - `Promoted`: 2026-08-05 — owner-authorized reading-role promotion under `DEBT-20` and `DEBT-21`.
 
 ### `.site-reading--lead`
@@ -35,7 +35,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Dark chocolate portrait material (`#6b5146`) for the outer frame around identified-person media.
 - `Boundary`: It is not a generic brown surface, action colour, or substitute for the site's green action tokens. Light text `#fcfcfa` on the panel has a 7.07:1 contrast ratio.
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
-- `Verified consumers`: Home `.home-about__portrait` and Working with Joel `.working-with-joel-page__intro-note`.
+- `Verified consumers`: Home `.home-about__portrait`, Working with Joel `.working-with-joel-page__intro-note`, and Kink `.kink-practitioner__portrait`.
 - `Promoted`: 2026-08-05 — shared portrait-colour promotion under `DEBT-37`.
 
 ### `--portrait-frame`
@@ -73,9 +73,9 @@ This catalogue contains every foundation currently approved for deliberate reuse
 ### `--section-dark`
 
 - `Contract`: Deep green (`#173028`) for dark editorial surfaces and strong foregrounds on supported warm or sage materials.
-- `Boundary`: It is not the primary action colour, an interaction-state replacement for `--cedar` or `--cedar-dark`, or authority for nearby dark greens such as the Kink page's `#163229`. Light `#fcfcfa` text has a 13.72:1 contrast ratio on the surface; the token has 12.27:1 contrast on `--section-warm` and 11.22:1 on `--section-sage`.
+- `Boundary`: It is not the primary action colour, an interaction-state replacement for `--cedar` or `--cedar-dark`, or authority for other dark-green values. Light `#fcfcfa` text has a 13.72:1 contrast ratio on the surface; the token has 12.27:1 contrast on `--section-warm` and 11.22:1 on `--section-sage`.
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
-- `Verified consumers`: Documents navigation; Home inclusive-practice foregrounds; Working with Joel method and topic treatments; Inclusion, ENM and polyamory, and LGBTQIA+ editorial surfaces or foregrounds; and the Contact first-message heading.
+- `Verified consumers`: Documents navigation; Home inclusive-practice foregrounds; Working with Joel method and topic treatments; Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+ editorial surfaces or foregrounds; and the Contact first-message heading.
 - `Promoted`: 2026-08-14 — owner-authorized editorial-material consolidation under `DEBT-37`.
 
 ### `--section-dark-soft`
