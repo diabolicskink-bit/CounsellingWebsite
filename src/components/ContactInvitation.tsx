@@ -4,9 +4,7 @@ import { enquiryEmail } from "../data/enquiry";
 import { publicRoutePaths } from "../data/routes";
 import Container from "./Container";
 
-const contactHref = publicRoutePaths.contact;
-const contactStartHref = `${contactHref}#contact-start`;
-const detailsHref = `${contactHref}#contact-details`;
+const contactStartHref = `${publicRoutePaths.contact}#contact-start`;
 
 /**
  * Canonical closing invitation for public pages that lead naturally into the
@@ -31,50 +29,42 @@ export default function ContactInvitation() {
             deciding whether to book. We can talk briefly about what brings you
             here, and you can ask questions about how I work.
           </p>
+        </div>
 
+        <div className="contact-invitation__details">
+          <h3
+            className="contact-invitation__fees-heading"
+            id="contact-invitation-fees-heading"
+          >
+            Online session fees
+          </h3>
+
+          <dl
+            className="contact-invitation__fees"
+            aria-labelledby="contact-invitation-fees-heading"
+          >
+            <div>
+              <dt>Individual counselling</dt>
+              <dd>$120</dd>
+            </div>
+            <div>
+              <dt>Couples counselling</dt>
+              <dd>$150</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div className="contact-invitation__actions">
           <Link className="contact-invitation__action" to={contactStartHref}>
             <span>Request a free consult</span>
             <ArrowUpRight aria-hidden="true" size={18} />
           </Link>
 
           <p className="contact-invitation__alternative">
-            Have a question first?{" "}
+            <span>Have a question first?</span>{" "}
             <Link to={contactStartHref}>Send a general enquiry</Link> or{" "}
             <a href={`mailto:${enquiryEmail}`}>email me</a>.
           </p>
-        </div>
-
-        <div className="contact-invitation__details">
-          <p className="contact-invitation__eyebrow">
-            Online sessions <span aria-hidden="true">·</span> Adults across Australia
-          </p>
-
-          <dl className="contact-invitation__fees">
-            <div>
-              <dt>
-                <strong>Individual counselling</strong>
-                <span>50-minute session</span>
-              </dt>
-              <dd>$120</dd>
-            </div>
-            <div>
-              <dt>
-                <strong>Couples counselling</strong>
-                <span>50-minute session</span>
-              </dt>
-              <dd>$150</dd>
-            </div>
-          </dl>
-
-          <p className="contact-invitation__note site-reading">
-            A short message is enough. You don’t need to explain everything
-            before we speak.
-          </p>
-
-          <Link className="contact-invitation__details-link" to={detailsHref}>
-            <span>Contact and session details</span>
-            <ArrowUpRight aria-hidden="true" size={16} />
-          </Link>
         </div>
       </Container>
     </section>

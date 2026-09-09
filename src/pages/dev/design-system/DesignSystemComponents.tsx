@@ -26,11 +26,10 @@ export default function DesignSystemComponents() {
           consumers={[
             "Every manifest-backed article route",
             "Standard Markdown articles",
-            "Articles with registered subject-specific body presentations",
           ]}
           identifier="<ArticleHero />"
           recordPath="docs/design-system/components.md"
-          role="Canonical article hero for orientation, classification, abstract, authorship, and publication dates; article bodies and their presentations remain separate."
+          role="Canonical article hero for orientation, classification, abstract, authorship, and publication dates; the article body remains separate."
           title="Article hero"
         >
           <ArticleHero article={articleMetadata[0]} />

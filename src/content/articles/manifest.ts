@@ -1,12 +1,8 @@
-export type ArticlePresentationKey = never;
-
 export type ArticleMetadata = Readonly<{
   abstract: string;
   author: string;
   description: string;
-  isSample?: boolean;
   metaTitle?: string;
-  presentation?: ArticlePresentationKey;
   publishedAt: string;
   slug: string;
   sourceNote?: string;
@@ -15,7 +11,7 @@ export type ArticleMetadata = Readonly<{
   updatedAt?: string;
 }>;
 
-const articleSlugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+export const urlSafeArticleTokenPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/u;
 const articleDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 const articleDateFormatter = new Intl.DateTimeFormat("en-AU", {
   day: "numeric",
@@ -95,7 +91,7 @@ export function validateArticleManifest(articles: readonly ArticleMetadata[]) {
       }
     }
 
-    if (!articleSlugPattern.test(article.slug)) {
+    if (!urlSafeArticleTokenPattern.test(article.slug)) {
       throw new Error(`Article slug must be URL-safe: ${article.slug}`);
     }
 
@@ -141,23 +137,36 @@ export function formatArticleDate(date: string) {
   return articleDateFormatter.format(new Date(`${date}T00:00:00Z`));
 }
 
+// Shared by the prerendered route metadata and the client-side article route so a
+// direct visit and an in-app navigation always agree on the same title.
+export function getArticleDocumentMetadata(article: ArticleMetadata) {
+  return {
+    description: article.description,
+    title: article.metaTitle ?? `${article.title} | Vive Counselling`,
+  };
+}
+
 export function getArticleRouteMetadata() {
   return Object.fromEntries(
-    articleMetadata.map((article) => [
-      getArticlePath(article.slug),
-      {
-        abstract: article.abstract,
-        articleSection: article.topic,
-        authorName: article.author,
-        description: article.description,
-        headline: article.title,
-        lastModified: article.updatedAt ?? article.publishedAt,
-        modifiedAt: article.updatedAt ?? article.publishedAt,
-        pageType: "article" as const,
-        publishedAt: article.publishedAt,
-        robots: article.isSample ? "noindex, nofollow" : undefined,
-        title: article.metaTitle ?? `${article.title} | Vive Counselling`,
-      },
-    ]),
+    articleMetadata.map((article) => {
+      const { description, title } = getArticleDocumentMetadata(article);
+      const lastModifiedAt = article.updatedAt ?? article.publishedAt;
+
+      return [
+        getArticlePath(article.slug),
+        {
+          abstract: article.abstract,
+          articleSection: article.topic,
+          authorName: article.author,
+          description,
+          headline: article.title,
+          lastModified: lastModifiedAt,
+          modifiedAt: lastModifiedAt,
+          pageType: "article" as const,
+          publishedAt: article.publishedAt,
+          title,
+        },
+      ];
+    }),
   );
 }

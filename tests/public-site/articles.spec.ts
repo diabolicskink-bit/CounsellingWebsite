@@ -3,6 +3,7 @@ import { articles } from "../../src/content/articles/articles";
 import { getArticlePath } from "../../src/content/articles/manifest";
 
 const noindexDirective = "noindex, nofollow";
+
 test.describe("article publishing", () => {
   test("moves from the index into an article and back", async ({ page }) => {
     const firstArticle = articles[0];
@@ -24,11 +25,7 @@ test.describe("article publishing", () => {
       await expect(page.locator(".article-page__references li"))
         .toHaveCount(firstArticle.references.length);
     }
-    if (firstArticle.isSample) {
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", noindexDirective);
-    } else {
-      await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
-    }
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
     await page.getByRole("link", { name: "All articles" }).click();
 
     await expect(page).toHaveURL(/\/articles$/);
