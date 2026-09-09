@@ -19,7 +19,7 @@ Add one `ArticleMetadata`-compatible object to `publishedArticleMetadata` in `sr
 }
 ```
 
-Omit `metaTitle` when the public article title plus `| Vive Counselling` is also the intended browser and search title. Supply it only when that metadata needs a shorter version; the visible article title and structured-data headline continue to use `title`.
+
 
 Create one matching `ArticleTemplate` module at `src/content/articles/articleTemplates/<slug>.ts`:
 

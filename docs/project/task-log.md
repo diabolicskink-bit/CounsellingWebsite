@@ -27,7 +27,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Replaced the kink-aware therapy publication with the supplied revised draft, broadening its account of disclosure, therapist competence, wellbeing, relationships, trauma, consent and counselling.
 - Expanded the supporting reference ledger from eight to 22 sources and linked every in-text citation to its stable author-and-year reference anchor.
-- Set the visible title to `Kink-Aware Therapy and the Psychology of BDSM` and replaced the abstract while preserving the canonical route, hidden metadata, substantive revision date and standard article presentation.
+- Set the visible and metadata titles to `Kink-Aware Therapy and the Psychology of BDSM`, replaced the abstract and search description, and preserved the canonical route, substantive revision date and standard article presentation.
 
 ## 2026-09-09 - Self-Critical Perfectionism Article Published
 
