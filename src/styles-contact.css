@@ -88,84 +88,104 @@
 
 .contact-page__direct-contact {
   display: grid;
+  gap: 3px;
   margin-top: 8px;
+  padding-top: 14px;
   border-top: 1px solid var(--contact-page-rule);
-  border-bottom: 1px solid var(--contact-page-rule);
   font-style: normal;
 }
 
-.contact-page__enquiry-intro .contact-page__direct-contact-link {
-  position: relative;
+.contact-page__direct-contact-option {
   display: grid;
-  gap: 5px;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
   min-width: 0;
-  min-height: 78px;
-  align-content: center;
-  padding: 14px 36px 14px 0;
-  color: var(--ink);
-  text-decoration: none;
-  transition: color 160ms ease;
-}
-
-.contact-page__direct-contact-link + .contact-page__direct-contact-link {
-  border-top: 1px solid var(--contact-page-rule);
-}
-
-.contact-page__direct-contact-link::after {
-  position: absolute;
-  top: 50%;
-  right: 3px;
-  color: var(--cedar);
-  content: "\2192";
-  font-family: var(--font-sans);
-  font-size: 1.15rem;
-  font-weight: 720;
-  line-height: 1;
-  transform: translateY(-50%);
-  transition: transform 160ms ease;
+  padding: 4px 0;
 }
 
 .contact-page__direct-contact-label {
-  color: var(--cedar);
+  color: var(--muted);
   font-family: var(--font-sans);
   font-size: var(--type-caption);
-  font-weight: 760;
-  letter-spacing: 0.055em;
-  line-height: 1.25;
-  text-transform: uppercase;
+  font-weight: 650;
+  line-height: 1.4;
 }
 
-.contact-page__direct-contact-value {
+.contact-page__direct-contact-option--hours > .contact-page__direct-contact-label {
+  padding-top: 7px;
+}
+
+.contact-page__enquiry-intro .contact-page__direct-contact-link {
+  justify-self: start;
   min-width: 0;
-  color: inherit;
-  line-height: 1.25;
-}
-
-.contact-page__direct-contact-value--phone {
-  font-family: var(--font-serif);
-  font-size: clamp(1.45rem, 2.2vw, 1.8rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-}
-
-.contact-page__direct-contact-value--email {
+  max-width: 100%;
   overflow-wrap: anywhere;
-  font-size: 0.9rem;
-  font-weight: 720;
-}
-
-.contact-page__enquiry-intro .contact-page__direct-contact-link:hover {
   color: var(--cedar-dark);
-  text-decoration: none;
+  font-size: 0.94rem;
+  font-weight: 650;
+  line-height: 1.4;
+  text-decoration-color: rgba(35, 75, 61, 0.38);
+  transition:
+    color 160ms ease,
+    text-decoration-color 160ms ease;
 }
 
-.contact-page__direct-contact-link:hover::after {
-  transform: translate(4px, -50%);
+.contact-page__direct-contact-hours {
+  min-width: 0;
+  color: var(--body);
+  font-size: 0.94rem;
+  line-height: 1.4;
 }
 
-.contact-page__enquiry-intro .contact-page__direct-contact-link:focus-visible {
-  border-radius: 0;
-  outline-offset: 5px;
+.contact-page__business-hours {
+  width: min(100%, 250px);
+  border: 1px solid rgba(35, 75, 61, 0.2);
+  border-collapse: separate;
+  border-radius: 0 0 3px 3px;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.28);
+  color: var(--body);
+  font-size: inherit;
+  font-variant-numeric: tabular-nums;
+  line-height: inherit;
+}
+
+.contact-page__business-hours caption {
+  padding: 7px 10px;
+  border: 1px solid rgba(35, 75, 61, 0.2);
+  border-bottom: 0;
+  border-radius: 3px 3px 0 0;
+  background: rgba(35, 75, 61, 0.07);
+  color: var(--cedar-dark);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.contact-page__business-hours th,
+.contact-page__business-hours td {
+  padding: 5px 9px 4px;
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.contact-page__business-hours tr + tr th,
+.contact-page__business-hours tr + tr td {
+  border-top: 1px solid rgba(35, 75, 61, 0.14);
+}
+
+.contact-page__business-hours th {
+  width: 58px;
+  border-right: 1px solid rgba(35, 75, 61, 0.12);
+  color: var(--muted);
+  font-weight: 650;
+}
+
+.contact-page__business-hours td {
+  padding-left: 11px;
 }
 
 .contact-page__form,
@@ -468,72 +488,6 @@
   outline-offset: 4px;
 }
 
-/* Practice details */
-
-.contact-page__practice-details {
-  padding: 60px 0;
-  border-bottom: 1px solid var(--line);
-  background: var(--paper);
-}
-
-.contact-page__practice-heading {
-  margin-bottom: 42px;
-}
-
-.contact-page__practice-list {
-  margin: 0;
-  border-top: 1px solid var(--contact-page-rule);
-}
-
-.contact-page__practice-list > div {
-  display: grid;
-  grid-template-columns: minmax(170px, 0.58fr) minmax(0, 1.42fr);
-  gap: 34px;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--contact-page-rule);
-}
-
-.contact-page__practice-list dt {
-  color: var(--ink);
-  font-weight: 740;
-}
-
-.contact-page__practice-list dd {
-  max-width: 68ch;
-  margin: 0;
-  color: var(--body);
-  line-height: 1.58;
-}
-
-.contact-page__crisis-support a {
-  color: var(--cedar);
-  font-weight: 700;
-  text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.3);
-  text-underline-offset: 3px;
-}
-
-.contact-page__crisis-support a:hover {
-  color: var(--cedar-dark);
-  text-decoration-color: currentColor;
-}
-
-.contact-page__practice-list dd > span:first-child {
-  display: block;
-}
-
-.contact-page__time-zone-notes {
-  display: grid;
-  gap: 4px;
-  margin-top: 7px;
-}
-
-.contact-page__time-zone-notes small {
-  color: var(--muted);
-  font-size: var(--type-caption);
-  line-height: 1.45;
-}
-
 .contact-page__sr-only {
   position: absolute;
   width: 1px;
@@ -588,15 +542,6 @@
     padding-top: 0;
   }
 
-  .contact-page__direct-contact {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .contact-page__direct-contact-link + .contact-page__direct-contact-link {
-    border-top: 0;
-    border-left: 1px solid var(--contact-page-rule);
-    padding-left: 24px;
-  }
 }
 
 @media (max-width: 700px) {
@@ -642,14 +587,8 @@
   }
 
   .contact-page__direct-contact {
-    grid-template-columns: 1fr;
+    gap: 4px;
     margin-top: 6px;
-  }
-
-  .contact-page__direct-contact-link + .contact-page__direct-contact-link {
-    border-top: 1px solid var(--contact-page-rule);
-    border-left: 0;
-    padding-left: 0;
   }
 
   .contact-page__form,
@@ -701,19 +640,6 @@
     line-height: 1.03;
   }
 
-  .contact-page__practice-details {
-    padding: 58px 0 64px;
-  }
-
-  .contact-page__practice-heading {
-    margin-bottom: 30px;
-  }
-
-  .contact-page__practice-list > div {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 18px 0;
-  }
 }
 
 @media (max-width: 390px) {
@@ -731,8 +657,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .contact-page__enquiry-intro .contact-page__direct-contact-link,
-  .contact-page__direct-contact-link::after {
+  .contact-page__enquiry-intro .contact-page__direct-contact-link {
     transition: none;
   }
 

@@ -97,7 +97,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-09-04 - Direct Phone Contact Added
 
 - Added Joel's public phone number to the Contact page as an accessible `tel:` link alongside the existing email address.
-- Introduced a page-scoped ruled contact ledger that keeps direct contact prominent beside the enquiry form and recomposes from paired links to a vertical mobile layout.
+- Added compact, email-first direct contact details and practice hours beneath the enquiry introduction while keeping the form as the page's primary contact route.
 
 ## 2026-09-04 - Kink Article Search Language Refined
 
