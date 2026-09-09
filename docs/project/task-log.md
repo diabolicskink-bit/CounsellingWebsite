@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-09 - Kink Article Rewritten
+
+- Rebuilt the kink-aware therapy article around what informed counselling means in practice, with developed sections on consent, harm, shame, differences in desire, and choosing a therapist.
+- Corrected research attribution, retained six source-checked references with stable citation anchors, and aligned the abstract, search description and revision date with the revised article.
+
 ## 2026-09-04 - Kink Article Citations Linked
 
 - Linked every in-text citation in the kink-aware therapy article to its corresponding entry in the reference ledger.

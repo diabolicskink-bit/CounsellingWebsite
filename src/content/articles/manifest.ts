@@ -48,16 +48,16 @@ const publishedArticleMetadata = [
   },
   {
     abstract:
-      "Kink-aware therapy requires more than accepting attitudes. A therapist needs to understand BDSM well enough to explore what it means without mistaking consensual power for pathology or overlooking genuine harm.",
+      "Understanding kink changes the questions a therapist asks. How informed counselling approaches desire, trauma, consent and relationship difficulties, and what to look for when choosing a therapist.",
     author: "Joel Griffiths",
     description:
-      "What is kink-aware therapy? Learn how informed counselling approaches BDSM, consent, trauma, power exchange and relationships without pathologising kink.",
+      "What should kink-aware therapy offer? Explore BDSM, trauma, consent and relationship difficulties, with practical questions to help you choose a counsellor.",
     metaTitle: "Kink-Aware Therapy & Counselling | Vive Counselling",
     publishedAt: "2026-08-26",
     slug: "kink-aware-therapy",
     title: "What Is Kink-Aware Therapy?",
     topic: "Kink and BDSM",
-    updatedAt: "2026-09-04",
+    updatedAt: "2026-09-09",
   },
 ] as const satisfies readonly ArticleMetadata[];
 
