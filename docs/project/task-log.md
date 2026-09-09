@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-09 - Inclusion CSS And Heading Surfaces Refined
+
+- Simplified the Inclusion stylesheet's selectors and removed redundant declarations while preserving its normal-size presentation.
+- Stacked chapter backgrounds follow their headings as text grows; links share hover and keyboard-focus feedback, with arrow movement disabled for reduced motion.
+
 ## 2026-09-09 - Copywriter Rebuilt Around Natural Writing
 
 - Rebuilt the copywriter method around idiomatic wording, connected prose, functional context and proportionate expression; ordinary useful ideas no longer have to demonstrate originality or memorability.
@@ -88,6 +93,11 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Linked every in-text citation in the kink-aware therapy article to its corresponding entry in the reference ledger.
 - Added stable author-and-year reference anchors that survive bibliography reordering, remain intact through the development editor, and visibly identify the selected source after an in-page jump.
+
+## 2026-09-04 - Direct Phone Contact Added
+
+- Added Joel's public phone number to the Contact page as an accessible `tel:` link alongside the existing email address.
+- Added compact, email-first direct contact details and practice hours beneath the enquiry introduction while keeping the form as the page's primary contact route.
 
 ## 2026-09-04 - Kink Article Search Language Refined
 

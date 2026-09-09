@@ -11,6 +11,7 @@ import Container from "../components/Container";
 import {
   enquiryEmail,
   enquiryFailureContent,
+  enquiryPhone,
   enquirySuccessContent,
 } from "../data/enquiry";
 import {
@@ -159,14 +160,24 @@ function BusinessHoursTimeZoneNotes({ initialRenderAt }: ContactPageProps) {
   }, [initialRenderAt]);
 
   return (
-    <span
-      className="contact-page__time-zone-notes"
+    <table
+      className="contact-page__business-hours"
       data-timezone-notes-source={comparison.source}
     >
-      {comparison.notes.map((note) => (
-        <small key={note}>{note}</small>
-      ))}
-    </span>
+      <caption>Mon to Fri</caption>
+      <tbody>
+        <tr>
+          <th scope="row">AWST</th>
+          <td>9.30am to 5.00pm</td>
+        </tr>
+        {comparison.notes.map((note) => (
+          <tr key={note}>
+            <th scope="row">{note.slice(0, note.indexOf(":"))}</th>
+            <td>{note.slice(note.indexOf(":") + 2)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
@@ -529,14 +540,47 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
         <Container className="contact-page__enquiry-layout">
           <header className="contact-page__enquiry-intro">
             <h2 id="contact-enquiry-intro-title">
-              Choosing a counsellor can be hard.
+              Get in touch
             </h2>
             <p className="site-reading">
-              I offer a free 15-minute consult so you can speak with me before
-              deciding whether to book. If you would rather start with a
-              question, you can send one through the form or{" "}
-              <a href={`mailto:${enquiryEmail}`}>by email</a>.
+              Send me a message to ask a question or arrange a session.
             </p>
+            <p className="site-reading">
+              If you’d like to talk first, I offer a free 15-minute consultation
+              so you can tell me a little about what you’d like help with and see
+              how you feel talking with me. There’s no obligation to book a
+              session afterwards.
+            </p>
+
+            <address
+              aria-label="Contact Joel directly"
+              className="contact-page__direct-contact"
+            >
+              <div className="contact-page__direct-contact-option">
+                <span className="contact-page__direct-contact-label">Email</span>
+                <a
+                  className="contact-page__direct-contact-link"
+                  href={`mailto:${enquiryEmail}`}
+                >
+                  {enquiryEmail}
+                </a>
+              </div>
+              <div className="contact-page__direct-contact-option">
+                <span className="contact-page__direct-contact-label">Phone</span>
+                <a
+                  className="contact-page__direct-contact-link"
+                  href={enquiryPhone.href}
+                >
+                  {enquiryPhone.label}
+                </a>
+              </div>
+              <div className="contact-page__direct-contact-option contact-page__direct-contact-option--hours">
+                <span className="contact-page__direct-contact-label">Hours</span>
+                <div className="contact-page__direct-contact-hours">
+                  <BusinessHoursTimeZoneNotes initialRenderAt={initialRenderAt} />
+                </div>
+              </div>
+            </address>
           </header>
 
           <EnquiryForm initialRenderAt={initialRenderAt} />
@@ -587,41 +631,6 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
         </Container>
       </section>
 
-      <section
-        aria-labelledby="contact-details-title"
-        className="contact-page__practice-details"
-        id="contact-details"
-        tabIndex={-1}
-      >
-        <Container>
-          <h2 className="contact-page__practice-heading" id="contact-details-title">
-            <span className="contact-page__eyebrow">Practical details</span>
-          </h2>
-
-          <dl className="contact-page__practice-list">
-            <div>
-              <dt>Practice hours</dt>
-              <dd>
-                <span>Mon to Fri, 9.30am to 5.00pm AWST.</span>
-                <BusinessHoursTimeZoneNotes initialRenderAt={initialRenderAt} />
-              </dd>
-            </div>
-            <div
-              className="contact-page__crisis-support"
-              id="contact-crisis-support"
-            >
-              <dt>Crisis support</dt>
-              <dd>
-                <p className="site-reading">
-                  Vive Counselling is not an emergency service. Call 000 if you or
-                  someone else is in immediate danger. If you’re in crisis,{" "}
-                  <Link to={crisisSupportHref}>find support now</Link>.
-                </p>
-              </dd>
-            </div>
-          </dl>
-        </Container>
-      </section>
     </main>
   );
 }
