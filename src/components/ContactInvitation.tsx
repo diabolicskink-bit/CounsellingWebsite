@@ -5,7 +5,7 @@ import { publicRoutePaths } from "../data/routes";
 import Container from "./Container";
 
 const contactHref = publicRoutePaths.contact;
-const consultHref = `${contactHref}#contact-start`;
+const contactStartHref = `${contactHref}#contact-start`;
 const detailsHref = `${contactHref}#contact-details`;
 
 /**
@@ -21,8 +21,6 @@ export default function ContactInvitation() {
     >
       <Container className="contact-invitation__inner">
         <div className="contact-invitation__primary">
-          <p className="contact-invitation__eyebrow">Taking the first step</p>
-
           <h2 id="contact-invitation-heading">
             <span>Let’s start with</span>
             <em>a conversation.</em>
@@ -34,14 +32,15 @@ export default function ContactInvitation() {
             here, and you can ask questions about how I work.
           </p>
 
-          <Link className="contact-invitation__action" to={consultHref}>
+          <Link className="contact-invitation__action" to={contactStartHref}>
             <span>Request a free consult</span>
             <ArrowUpRight aria-hidden="true" size={18} />
           </Link>
 
-          <p className="contact-invitation__email">
-            Prefer to write first?{" "}
-            <a href={`mailto:${enquiryEmail}`}>Send me an email.</a>
+          <p className="contact-invitation__alternative">
+            Have a question first?{" "}
+            <Link to={contactStartHref}>Send a general enquiry</Link> or{" "}
+            <a href={`mailto:${enquiryEmail}`}>email me</a>.
           </p>
         </div>
 
@@ -68,9 +67,8 @@ export default function ContactInvitation() {
           </dl>
 
           <p className="contact-invitation__note site-reading">
-            You can come with a specific concern or simply a sense that
-            something needs attention. A few lines about what you are looking
-            for is enough to make an enquiry.
+            A short message is enough. You don’t need to explain everything
+            before we speak.
           </p>
 
           <Link className="contact-invitation__details-link" to={detailsHref}>

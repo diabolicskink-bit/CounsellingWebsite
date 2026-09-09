@@ -21,7 +21,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-09-09 - Contact Invitation Redesigned
 
 - Replaced the compact warm closing invitation with the owner-selected two-part composition across all five existing consumers.
-- Preserved the supplied consult, email, fee, and practical-details content while translating its presentation into Vive’s deep-green editorial surface, warm and sage action states, established serif and sans roles, flat rules, and responsive spacing.
+- Preserved the supplied consult, general-enquiry, email, fee, and practical-details content while translating its presentation into Vive’s deep-green editorial surface, warm and sage action states, established serif and sans roles, flat rules, and responsive spacing.
 - Added anchored routes to the Contact enquiry and practical-details sections while keeping the direct email path available.
 
 ## 2026-09-09 - Public Route Metadata Refined
