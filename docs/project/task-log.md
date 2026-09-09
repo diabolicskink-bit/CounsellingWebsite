@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-09 - Inclusion CSS And Heading Surfaces Refined
+
+- Simplified the Inclusion stylesheet's selectors and removed redundant declarations while preserving its normal-size presentation.
+- Stacked chapter backgrounds follow their headings as text grows; links share hover and keyboard-focus feedback, with arrow movement disabled for reduced motion.
+
 ## 2026-09-09 - Copywriter Rebuilt Around Natural Writing
 
 - Rebuilt the copywriter method around idiomatic wording, connected prose, functional context and proportionate expression; ordinary useful ideas no longer have to demonstrate originality or memorability.
