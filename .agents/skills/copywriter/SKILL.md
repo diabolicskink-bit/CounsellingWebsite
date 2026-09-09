@@ -1,137 +1,137 @@
 ---
 name: copywriter
 description: >
-  Write, revise, review, and implement visitor-facing counselling and adjacent
-  professional-service copy. Use for page or section copy, headings, metadata,
-  calls to action, positioning, copy strategy, substantial rewrites, line
-  editing, and repairing generic, awkward, over-written, or AI-sounding prose.
-  Do not use for typo-only fixes, meta-review of this skill, or technical
-  insertion of exact approved wording that needs no editorial judgement.
+  Write, revise, review, and implement public-facing copy. Use automatically
+  only when the task calls for editorial judgement about wording intended for
+  a public audience, regardless of its format or length. Other work requires
+  explicit user invocation, including internal documentation, private product
+  interfaces, technical work, and auditing or editing this skill. Typo-only
+  fixes and insertion of exact approved wording do not trigger automatic use.
 ---
 
-# Professional website copywriting
+# Public-facing copywriting
 
-Write clear, persuasive, memorable copy that helps a suitable visitor recognise
-what is being offered and why this practitioner may be worth choosing. Factual
-accuracy sets the boundary. Editorial judgement supplies the emphasis,
-structure, character, and language.
+Write clear, natural, well-constructed copy that does its job for the reader.
+A familiar idea expressed well is a successful result. Use editorial judgement
+to make the wording accurate, useful, fluent and appropriate to its setting.
+Persuasion, warmth, elegance and originality can strengthen the work when the
+material supports them; none needs to be demonstrated in every passage.
 
-## Get the right material
+## Establish the job and the freedom to edit
 
-Match the requested scope: review, strategy, drafting, revision, or
-implementation.
+Understand where the copy will appear, who will read it, what surrounds it, and
+what the reader should understand or be able to do. Let that functional context
+guide the tone, detail, structure and length. A heading may simply identify a
+section. A paragraph may need explanation. A practical instruction may already
+be complete in a few words. Make these judgements within the task, without
+imposing a workflow for each format.
 
-For Vive Counselling, read only what the task needs, in this order:
+Take substantial editorial freedom by default within the requested scope. You
+may change wording, emphasis, order and structure, remove weak material, or
+start again when that would improve the copy. Keep the intended message and
+factual commitments; freedom to write does not authorise changing the offer.
+Preserve good sentences rather than rewriting them to demonstrate effort.
 
-1. the current request and exact owner decisions;
-2. `docs/project/practice-direction.md`;
-3. `docs/project/writing-direction.md`;
-4. the target page and immediately surrounding copy; and
-5. current scope or source when an exact operational fact is needed.
+Follow narrower instructions precisely. If asked to refine expression while
+preserving meaning, keep the claims, qualifications, emphasis and relationships
+between ideas intact. If structure or exact wording is protected, retain it.
+Do not silently turn a bounded edit into a new argument. Raise a consequential
+problem outside the permitted scope briefly and separately. Ask only when an
+ambiguity or missing fact would materially change the result.
 
-Read `references/owner-taste.md` for every Vive public-copy task. Use audience
-or market research only when the owner explicitly requests research-informed
-work.
+## Use the right material
 
-Owner messages provide facts, decisions, and taste feedback; they are not prose
-to imitate. Existing site copy provides facts, layout, and adjacency. Only
-wording explicitly approved for publication is a positive voice example.
+For Vive, read the current request and explicit owner decisions, then
+`docs/project/practice-direction.md`, `docs/project/writing-direction.md`, and
+the target copy with its immediate page context. These repository paths are
+relative to the project root. Check source or current scope for operational
+facts needed by the wording. Audience and market research are opt-in, as set
+out in writing direction.
 
-## Decide what the copy should earn
+Never invent credentials, expertise, service arrangements, testimonials,
+statistics, client experiences or promised outcomes. Check implications as well
+as literal claims; personal experience does not establish a clinical outcome
+or guarantee that the practitioner will suit every reader.
 
-Before drafting, decide:
+Existing copy supplies context and facts to verify, not an ideal voice. Earlier
+publication approval does not make a passage a style model. Owner messages
+supply intent and feedback; do not imitate their conversational spelling or
+syntax. Consult `references/owner-taste.md` when recorded owner preferences are
+relevant. It is scoped evidence, not a compulsory brief for every page.
 
-- what a suitable visitor should recognise, understand, or be able to decide;
-- the strongest honest reason this material gives them to consider Joel or the
-  service;
-- the thought, relationship, contrast, or sequence that can carry the passage;
-- what the surrounding page already says; and
-- where the passage has made its point and should stop.
+When explicitly invoked outside Vive public copy, use the actual audience,
+facts and constraints of that task. Do not import Joel's identity or practice
+policy into unrelated work.
 
-Topics are raw material, not a structure. A request to mention Joel, anxiety,
-depression, trauma, relationships, kink, ENM, and LGBTQIA+ still needs a point
-of view about what connects them and what matters most.
+## Compose a useful passage
 
-For prominent or substantial copy, explore genuinely different premises or
-organising moves in private until one is clearly stronger. Change the thought,
-focus, or shape rather than swapping adjectives. Choose the direction with the
-most truthful persuasive force; there is no novelty quota to satisfy.
+Decide what needs saying and put it in an order the reader can follow. Start
+where the useful information begins. Connect sentences through meaning: a
+later sentence can explain, develop, qualify or answer something introduced
+earlier. Give paragraphs enough continuity to read as prose, rather than a
+series of statements assembled to cover a brief.
 
-Earn length by developing the concern, its consequences, the practice's
-relevant difference, or the decision facing the visitor. A longer passage
-needs more useful thought, not more categories, symptoms, caveats, or generic
-benefits of counselling.
+Choose details that help the reader understand the offer, recognise a concern,
+judge fit or take a next step. Use genuine practice strengths where they help.
+An ordinary service fact can be exactly what the reader needs. If the material
+is thin, write the useful point at its natural length or seek a consequential
+missing detail. Do not inflate it into a bigger promise or invent a difference.
 
-## Write to a person without inventing them
+Develop an angle when it helps organise substantial material. Keep a
+straightforward treatment when it works. Lists, contrasts, examples and
+summaries are available tools; judge their contribution in this passage.
 
-Name recognisable concerns, situations, pressures, and consequences in human
-terms. Direct address is useful when it helps the reader see the problem or
-judge fit. Leave room for individual variation, but do not become vague merely
-to avoid claiming certainty.
+## Work the sentences
 
-Do not manufacture a private history, tell the reader exactly how they feel,
-or assign them a desired outcome. That boundary still permits specific,
-client-facing writing: anxiety can be exhausting, trauma can continue to
-affect the present, and relationships can become painful or stuck.
+Use idiomatic phrasing: words that sit naturally together in polished writing.
+Prefer precise, familiar words and direct verbs. Make clear who or what a
+sentence refers to. Use specialist terms when the reader needs them, explaining
+them where necessary. Do not replace accurate language merely because it is
+common, or choose a grander synonym to make a sentence sound important.
 
-Keep the client concern or useful proposition in the foreground. State what
-Joel offers and what distinguishes the practice where it advances that
-proposition. Provider identity, location, online delivery, credentials, and
-method are supporting facts unless one is the subject.
+Let the sentence carry its meaning at a comfortable pace. Split a sentence
+when its clauses compete; join short sentences when the connection matters.
+Use contractions where they suit the speaker and context. Vary rhythm through
+the thought being expressed, without manufacturing fragments, symmetry or
+conversational tics. Natural public writing can be assured, thoughtful and
+elegant without mimicking casual speech.
 
-For Vive, keep general counselling central on broad pages. State specialist
-knowledge confidently where it helps someone judge fit. Present kink,
-sexuality, gender, neurodivergence, and relationship structure as parts of
-people's lives, not diagnoses or a parallel list of problems.
+Keep the emotional register proportionate. Name recognisable experiences
+without assigning the reader a private history, a feeling or a desired outcome.
+Warmth can come from attention, respect and a useful explanation. Reassurance
+should answer an actual concern. Images and evocative language should clarify
+something rather than lend ordinary statements a sense of depth.
 
-## Make the prose feel authored
+Watch for abstract wording that obscures a simple point, qualifications that
+cover every possible case, repeated rhetorical contrasts, and endings that
+add a promise or emotional resolution the passage has not earned. These are
+diagnostic clues, not banned constructions. Repair the actual problem. Retain
+useful nuance, detail and personality; shortening everything is not the goal.
 
-Use plain, polished Australian English and first-person singular when Joel is
-the speaker. Prefer concrete subjects, verbs, and consequences to abstract
-therapy language. Vary sentence shape with the thought and read the result
-aloud.
+## Review and revise
 
-Character usually comes from what the copy notices, selects, and says plainly.
-A sharp contrast, image, unusual rhythm, or structural move can help when it
-belongs to the idea. It is not required, and decoration cannot rescue an empty
-proposition.
+Read the copy continuously in context, attending to meaning, phrasing and flow.
+For substantial work or feedback that the writing still feels artificial, use
+`references/craft-review.md` for diagnostic checks and worked examples. For a
+small edit, make the same judgement directly without expanding the task.
 
-Avoid provider-side caseload summaries, published audience classifications,
-clinical or research-report framing, and balanced sequences that account for
-every possible case. Planning tools may change a decision; they should not be
-visible in the finished copy.
+Identify why a passage is weak before revising it. Fix wording when the thought
+is sound; change the organisation when the order is the problem; reconsider
+the premise when it cannot support useful copy. Work within the user's editing
+limits. Check that revision has not lost meaning or strengthened a claim.
 
-Let importance determine paragraph shape and emphasis. Stop once the useful
-point has landed; a summary, reassurance, or emotional resolution is not
-automatically needed.
+Judge the clean result, not the explanation of your choices. Stop when it reads
+well, fulfils its purpose and respects the brief. Do not keep rewriting merely
+to make it more distinctive or visibly different from the starting point.
 
-## Review the words, not the rationale
+## Deliver the requested work
 
-For substantial, high-prominence, or stubbornly generic work, complete one
-sincere draft and then read `references/craft-review.md`.
+Lead with the copy or, for a review, the most consequential finding supported
+by the actual wording. Keep explanation proportionate. Give one considered
+recommendation unless alternatives would help a real decision or are requested.
+Do not label a draft owner-approved.
 
-Rebuild the draft when it:
-
-- covers the requested topics without developing a thought;
-- speaks about an anonymous caseload instead of bringing the concern nearer;
-- could be published unchanged by another counsellor despite useful
-  practice-specific material being available;
-- describes the service without giving a suitable visitor a reason to prefer,
-  trust, remember, or act on it;
-- depends on explanatory commentary to sound worthwhile; or
-- fills the requested length rather than earning it.
-
-Repair the earliest cause: premise, emphasis, relationship to the reader,
-structure, then line construction. Do not preserve a weak idea through serial
-rewrites or warmer synonyms.
-
-## Deliver proportionately
-
-Lead with the recommended copy or the most consequential review finding. Keep
-rationale brief and specific. Show process or alternatives only when they help
-the user make a real decision.
-
-For review-only work, do not edit files. For implementation, preserve approved
-wording and limit adjacent changes to what the page needs. Never invent
-credentials, service arrangements, testimonials, statistics, client reports,
-expertise, or promised outcomes.
+Review and drafting alone do not authorise file changes. When implementation
+is requested, preserve wording the user has protected and limit adjacent edits
+to what the task needs. Verify that the intended copy is present and any
+affected links, labels or metadata still agree with the implemented behaviour.

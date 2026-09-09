@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `SITE-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `SITE-24`
+- `Next ID`: `SITE-25`
 
 ## How To Maintain This Backlog
 
@@ -136,6 +136,20 @@ Statuses:
 - `Notes`:
   - Keep the work page-scoped unless the treatment clearly belongs in the shared hero system.
 - `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system-legacy/patterns.md`
+
+### SITE-24 - Shared header overflow with enlarged text
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Status`: `Open`
+- `Classification`: `Accessibility`
+- `Source`: 2026-09-09 Home CSS review, local system Chrome inspection.
+- `Visitor-Facing Goal`: Keep the shared navigation and Contact action reachable with enlarged text.
+- `Current State`: Setting the root font size to 200% produces horizontal header overflow at 390px and 768px viewport widths. The brand and action group compete for space in the shared header grid.
+- `Why Deferred`: The selected review covers Home CSS; the shared header affects every public route.
+- `First Useful Slice`: Recompose the shared header at enlarged text sizes while preserving navigation, Contact access, and menu behaviour.
+- `Implemented When`: The header fits at compact and tablet widths with 200% text sizing and its controls remain usable by keyboard and touch.
+- `Links`: `src/styles.css`, `src/components/Layout.tsx`
 
 ## Resolved Item Archive
 
