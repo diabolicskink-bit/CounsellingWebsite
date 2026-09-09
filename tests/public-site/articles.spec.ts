@@ -1,33 +1,15 @@
 import { expect, test } from "playwright/test";
 import { articles } from "../../src/content/articles/articles";
-import {
-  getArticlePath,
-  type ArticlePresentationKey,
-} from "../../src/content/articles/manifest";
+import { getArticlePath } from "../../src/content/articles/manifest";
 
 const noindexDirective = "noindex, nofollow";
-const indexedArticles = articles.filter(
-  (article) => article.slug !== "self-critical-perfectionism",
-);
-const customPresentationExpectations = {
-  "self-critical-perfectionism": {
-    bodySelector: ".perfectionism-article__equation",
-    className: "article-page--self-critical-perfectionism",
-  },
-} satisfies Record<ArticlePresentationKey, { bodySelector: string; className: string }>;
-
 test.describe("article publishing", () => {
   test("moves from the index into an article and back", async ({ page }) => {
-    const firstArticle = indexedArticles[0];
+    const firstArticle = articles[0];
     const firstArticlePath = getArticlePath(firstArticle.slug);
 
     await page.goto("/articles");
-    await expect(page.locator(".article-index__list > li")).toHaveCount(indexedArticles.length);
-    await expect(
-      page.getByRole("link", {
-        name: "Self-Critical Perfectionism: When Nothing Feels Good Enough",
-      }),
-    ).toHaveCount(0);
+    await expect(page.locator(".article-index__list > li")).toHaveCount(articles.length);
     await page.getByRole("link", { name: firstArticle.title }).click();
 
     await expect(page).toHaveURL(new RegExp(`${firstArticlePath}$`));
@@ -48,8 +30,6 @@ test.describe("article publishing", () => {
       await page.goto(getArticlePath(article.slug));
 
       const articleDocument = page.locator("main.article-page .article-page__document");
-      const presentationKey = article.presentation;
-
       await expect(page).toHaveTitle(
         article.metaTitle ?? `${article.title} | Vive Counselling`,
       );
@@ -69,15 +49,8 @@ test.describe("article publishing", () => {
         await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
       }
 
-      if (presentationKey) {
-        const expectedPresentation = customPresentationExpectations[presentationKey];
-
-        await expect(articleDocument).toHaveClass(new RegExp(expectedPresentation.className));
-        await expect(articleDocument.locator(expectedPresentation.bodySelector)).toBeVisible();
-      } else {
-        await expect(articleDocument).toHaveClass("article-page__document");
-        await expect(articleDocument.locator(".article-page__prose--standard")).toBeVisible();
-      }
+      await expect(articleDocument).toHaveClass("article-page__document");
+      await expect(articleDocument.locator(".article-page__prose--standard")).toBeVisible();
 
       if (article.references.length > 0) {
         const referenceLedger = articleDocument.locator(".article-page__references");

@@ -1,4 +1,4 @@
-export type ArticlePresentationKey = "self-critical-perfectionism";
+export type ArticlePresentationKey = never;
 
 export type ArticleMetadata = Readonly<{
   abstract: string;
@@ -35,29 +35,28 @@ const requiredTextFields = [
 const publishedArticleMetadata = [
   {
     abstract:
-      "Self-critical perfectionism turns ordinary standards into tests of personal worth. Understanding what the pattern is protecting you from can make change possible.",
+      "Self-critical perfectionism makes achievement a test of personal worth, so even success may do little to resolve a sense of inadequacy. This article examines the research on its emotional and relational costs, its connection with depression, and how therapy can help change the conditions people place on their worth.",
     author: "Joel Griffiths",
     description:
-      "Self-critical perfectionism is more than high standards. Learn how fear of mistakes and harsh self-judgement develop, persist and can change.",
+      "Research on self-critical perfectionism, depression and relationships, including why achievement may never feel enough and how therapy can help.",
     metaTitle: "Self-Critical Perfectionism | Vive Counselling",
-    presentation: "self-critical-perfectionism",
-    publishedAt: "2026-09-02",
+    publishedAt: "2026-09-09",
     slug: "self-critical-perfectionism",
-    title: "Self-Critical Perfectionism: When Nothing Feels Good Enough",
+    title: "Self-critical perfectionism and the cost of conditional self-worth",
     topic: "Perfectionism",
   },
   {
     abstract:
-      "Kink-aware therapy requires more than accepting attitudes. A therapist needs to understand BDSM well enough to explore what it means without mistaking consensual power for pathology or overlooking genuine harm.",
+      "Discussing kink in therapy takes more than an accepting response. Informed counselling can help when shame, consent, trauma or changing desires are difficult to talk about. Knowing what that involves can help you choose a therapist.",
     author: "Joel Griffiths",
     description:
-      "What is kink-aware therapy? Learn how informed counselling approaches BDSM, consent, trauma, power exchange and relationships without pathologising kink.",
+      "What kink-aware therapy involves, how counselling approaches BDSM, consent, trauma and shame, and questions to ask when choosing a therapist.",
     metaTitle: "Kink-Aware Therapy & Counselling | Vive Counselling",
     publishedAt: "2026-08-26",
     slug: "kink-aware-therapy",
     title: "What Is Kink-Aware Therapy?",
     topic: "Kink and BDSM",
-    updatedAt: "2026-09-04",
+    updatedAt: "2026-09-09",
   },
 ] as const satisfies readonly ArticleMetadata[];
 

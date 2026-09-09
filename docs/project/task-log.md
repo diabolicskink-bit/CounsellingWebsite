@@ -18,6 +18,18 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-09 - Self-Critical Perfectionism Article Published
+
+- Replaced the self-critical perfectionism publication with the supplied TEMP article, including its new title, expanded argument and 20-source reference set.
+- Returned the article to the standard centred Markdown presentation and removed its unused page-specific React body and stylesheet while retaining the optional custom-presentation capability.
+- Restored the article to the public Articles index, retained its canonical route and concise metadata title, and set its publication date to 9 September 2026.
+
+## 2026-09-09 - Kink Article Rewritten
+
+- Rebuilt the kink-aware therapy article around what informed counselling makes possible, with practical discussion of disclosure, consent, mismatched desires, changing power dynamics and choosing a therapist.
+- Qualified the mental-health and trauma findings beside the claims they support, removed the broad prevalence and disclosure statistics, and retained eight verified sources in an alphabetical APA 7 reference list with linked citations.
+- Updated the article abstract, search description and substantive revision date while preserving its title, canonical route and standard article presentation.
+
 ## 2026-09-04 - Kink Article Citations Linked
 
 - Linked every in-text citation in the kink-aware therapy article to its corresponding entry in the reference ledger.

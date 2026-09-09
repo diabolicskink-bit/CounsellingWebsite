@@ -2,128 +2,134 @@ import { defineArticleTemplate } from "../articleTemplate.ts";
 
 export default defineArticleTemplate({
   slug: "kink-aware-therapy",
-  body: `## Kink-aware therapy
+  body: `Kink-aware therapy brings an understanding of kink, BDSM, fetish interests and consensual power exchange into counselling or psychotherapy. That knowledge matters because a therapist's assumptions about your sexuality can shape what they hear in everything else you say.
 
-If you are looking for a kink-aware therapist or counsellor, you may already have some idea of what you do not want. You probably do not want to spend a session explaining basic BDSM terminology, reassuring a therapist that consensual power exchange is not inherently abusive, or wondering whether disclosing a fetish will suddenly become the explanation for everything else happening in your life.
+If you mention a dominant/submissive relationship while talking about grief, the conversation should still have room for the person you have lost. If you are worried about something a partner has done, you need to be able to describe it honestly, including the parts of the relationship you enjoy. Having to defend BDSM before you can explain what happened makes both conversations harder.
 
-Kink-aware therapy goes further than simply being kink-friendly or comfortable hearing about BDSM. It involves enough knowledge of kink, fetish, BDSM and consensual power exchange to work with them competently. At its best, the work is also kink-affirming: unconventional sexuality is not treated as evidence of trauma, dysfunction or mental illness simply because it is unconventional.
+For me, the value of kink-aware therapy is in being able to have those conversations properly. Knowing about BDSM helps me ask better questions about what an experience means to you, including what you enjoy and what you find difficult.
 
-This does not require a therapist to regard every kink relationship or behaviour as healthy. Problems with consent, coercion, boundaries, compulsivity, shame and relationship functioning can occur in kink just as they can elsewhere. The point is that these things need to be assessed on their own terms rather than inferred from the presence of BDSM.
+## What makes a therapist kink-aware?
 
-Contemporary research broadly supports this approach. Studies have not found consensual BDSM involvement, in itself, to be a useful marker of psychological dysfunction, and recent clinical guidelines advise therapists against automatically pathologising kink or assuming that it has developed from trauma ([Sprott et al., 2023](#article-reference-sprott-2023)).
+BDSM encompasses bondage and discipline, dominance and submission, and sadism and masochism. Kink is a broader term that can also include fetish interests and other unconventional forms of eroticism or play. People use these words differently, and involvement does not always centre on sex.
 
-The result is a fairly simple clinical starting point. Before deciding what someone's kink says about them, find out what it actually means in their life.
+You may encounter therapists describing themselves as *kink-friendly*, *kink-aware* or *kink-affirming*. The terms overlap. Kink-friendly generally signals an accepting attitude. Kink-aware suggests some knowledge of the practices, relationships and communities involved. Kink-affirming describes an approach that respects consensual kink as a valid part of someone's life. A label alone tells you little about the depth of a practitioner's experience.
 
-## Kink and mental health
+That difference becomes apparent in ordinary conversation. A therapist who understands what a collar can signify can ask what yours means to you. Does it express commitment? Does wearing it feel different now that the relationship has changed? Those questions begin somewhere useful.
 
-Psychology and psychiatry have a complicated history with unconventional sexuality. Sadism, masochism and fetish interests have all been interpreted at various times through theories of psychopathology, developmental disturbance, trauma and dysfunctional relationships. Some of those ideas continue to shape popular assumptions about BDSM even though the research literature has moved considerably.
+Knowing the vocabulary is only a beginning, though. Two people can use the same word for arrangements with very different expectations. A therapist still needs to listen closely, recognise the limits of their knowledge, and seek education or supervision when needed. The clinical guidelines developed by [Sprott et al. (2023)](#article-reference-sprott-2023) place competence and awareness of personal bias among the foundations of this work.
 
-Research over the past two decades provides little support for treating consensual BDSM as a general indicator of poor psychological health. BDSM interests and behaviours are also considerably more common than older clinical accounts might suggest. Population studies have found BDSM-related interests in around a quarter to more than a third of adults ([Holvoet et al., 2017](#article-reference-holvoet-2017); [Paarnio et al., 2023](#article-reference-paarnio-2023)). BDSM participation was not associated with greater sexual difficulties or a greater likelihood of having experienced sexual coercion. Participants were also not more likely to report anxiety or unhappiness and among men, BDSM participation was associated with lower levels of psychological distress.
+## What does the research say about kink and mental health?
 
-[Wismeijer and van Assen (2013)](#article-reference-wismeijer-2013) compared 902 BDSM practitioners with 434 people who did not practise BDSM, examining personality, attachment, rejection sensitivity and subjective wellbeing. Their findings likewise provided little support for the idea that BDSM practitioners were broadly less psychologically healthy. On several measures the BDSM group reported more favourable outcomes. The evidence indicates there is little justification for treating consensual kink itself as evidence of psychopathology.
+The idea that BDSM reveals psychological damage has a long history. Research gives us good reasons to question that assumption.
 
-Modern psychiatric diagnosis also makes an important distinction between an atypical sexual interest and a mental disorder. Under the DSM-5-TR, an unusual sexual interest is not automatically a paraphilic disorder. Clinically significant distress, impairment, harm and the involvement of non-consenting people are important parts of that distinction ([American Psychiatric Association, 2022](#article-reference-american-psychiatric-association-2022)).
+In a national Australian survey of more than 19,000 people, those who reported BDSM participation in the previous year were no more likely to report having been coerced into sexual activity. They were also not significantly more likely to report anxiety or unhappiness, and participation was not significantly associated with sexual difficulties ([Richters et al., 2008](#article-reference-richters-2008)).
 
-For a therapist, this changes the focus. Whether an interest is statistically unusual tells us much less than whether it is consensual, how it fits within someone's life and relationships, what meaning it has for them, and whether it is associated with distress or harm.
+A separate study compared 902 BDSM practitioners with 434 non-practitioners on personality, attachment, rejection sensitivity and wellbeing. The BDSM group reported more favourable results on several measures, including subjective wellbeing and rejection sensitivity ([Wismeijer & van Assen, 2013](#article-reference-wismeijer-2013)).
+
+These findings challenge a stereotype. They do not show that practising BDSM improves mental health, or tell us whether a particular relationship is healthy. Both studies measured associations rather than cause and effect. The comparison study also relied on volunteers, who may differ from people who keep their interests private.
+
+Psychiatric diagnosis draws a related distinction: an atypical sexual interest does not, by itself, establish a mental disorder. The American Psychiatric Association's explanation of this distinction also separates distress about an interest from distress arising solely from social disapproval ([American Psychiatric Association, 2013](#article-reference-american-psychiatric-association-2013)).
+
+There is no requirement to have excellent mental health to justify being kinky. Someone can experience depression, anxiety or trauma and also have a satisfying kink life. In counselling, the useful questions concern what is causing difficulty, how it affects everyday life, and what the person wants help with.
 
 ## Does kink come from trauma?
 
-The relationship between kink and trauma tends to attract overly simple explanations. There is no good evidence that BDSM interests, as a group, can be explained as the result of trauma. The Australian population study found no greater history of sexual coercion among BDSM participants than among non-participants ([Richters et al., 2008](#article-reference-richters-2008)), while reviews of the broader literature have found insufficient evidence for trauma as a general explanation of BDSM interests ([De Neef et al., 2019](#article-reference-de-neef-2019)). Current clinical guidelines specifically caution therapists against assuming that kink is necessarily a trauma response ([Sprott et al., 2023](#article-reference-sprott-2023)).
+Research has not established trauma as a general cause of BDSM interests. A systematic review found that some studies suggested associations between adverse experiences and particular interests, but the evidence could not establish a causal relationship ([De Neef et al., 2019](#article-reference-de-neef-2019)). The kink clinical guidelines likewise caution against assuming that kink is a response to trauma ([Sprott et al., 2023](#article-reference-sprott-2023)).
 
-However that does not mean personal history has nothing to do with sexuality. Sexuality develops as part of a person's wider psychological life. Attachment, relationships, learning, shame, fantasy, emotional regulation and formative experiences can all become woven into what someone eventually finds erotic. Trauma may be relevant for a particular person without being a general explanation for kink.
+An individual's history may still matter. The mistake is deciding in advance what that history must mean.
 
-The difficulty begins when a plausible psychological interpretation is treated as though it were established fact. Suppose, for example, that someone enjoys submission and also grew up in a controlling environment. It is easy to construct a story in which adult submission is a repetition of childhood powerlessness. For that particular person, there may even be some truth in it. But consensually deciding when, where and with whom to surrender control can also be psychologically very different from having control taken away.
+Consider a hypothetical example: someone enjoys submission and grew up with a controlling parent. A therapist might interpret the submission as a repetition of childhood powerlessness. It is a possible question to explore, but it leaves a great deal unexamined. What does the person enjoy? How do they choose a partner? Can they stop? Is being able to choose the surrender of control part of its appeal?
 
-Submission can involve eroticism, trust, intimacy, relief from responsibility or the deliberate experience of placing oneself in another person's hands. Dominance might involve authority, responsibility, protection, control, performance or the experience of being trusted with somebody else's vulnerability. Pain may be erotic, cathartic, grounding or playful. Humiliation can intersect with shame in complicated ways, or it may simply be sexually exciting. People can engage in apparently similar practices for very different reasons.
+Those answers could lead somewhere quite different from the therapist's first theory. They could also reveal a painful pattern that deserves attention. Either possibility needs room to emerge.
 
-There is plenty of room in therapy to explore where someone's desires came from and why particular experiences carry the emotional weight they do. The useful part is discovering those connections with the client, rather than fitting them into a theory that was already there.
+In my work, I am interested in the meaning an experience has for the person describing it. That might involve the trust required to depend on someone, the relief of setting responsibility down, or the vulnerability of asking for something you want. It might also be a pleasure that needs very little explanation.
 
-## Consent and power in kink relationships
+If a past trauma is affecting intimacy now, that can become a focus of counselling. You do not need to settle where a desire came from before attending to what is distressing in the present. Equally, an experience that feels meaningful or restorative should not be presented as evidence that BDSM is a treatment for trauma.
 
-Any discussion of kink-aware practice also has to take seriously the possibility of harm within kink relationships. Consent occupies an unusually explicit place in BDSM culture. Negotiation, limits, safewords, aftercare and discussions of risk form part of how many people within kink communities think about ethical practice. [Dunkley and Brotto (2020)](#article-reference-dunkley-brotto-2020), in their review of consent within BDSM, describe mutual informed consent as one of the central features separating consensual BDSM from abuse.
+## When shame makes it difficult to talk
 
-None of this makes kink communities immune to coercion or abuse. People can be pressured into activities they do not really want. Safewords can be ignored. Boundaries can be crossed. Someone may continue agreeing to things because they are frightened of losing a relationship, because they have become emotionally dependent on a partner, or because an initially negotiated power dynamic has gradually become difficult to challenge.
+Knowing intellectually that a desire is acceptable does not always change how it feels to have it. You might be comfortable with other people's kink while judging your own much more harshly. Telling a partner can feel especially exposing when what you want seems at odds with how they know you.
 
-Assessing these situations requires an understanding of kink because many of the usual markers of an abusive relationship are unreliable in BDSM. Pain, restraint, humiliation, obedience or ownership language cannot, by themselves, tell us whether somebody is being abused. A consensual relationship may deliberately contain all of them. At the same time, the language of BDSM does not turn coercion into consent simply because somebody calls themselves a Dominant or describes the relationship as power exchange.
+There can be several concerns tangled together: the interest itself, a fear of rejection, and the belief that wanting it says something bad about you. Counselling can help examine those concerns carefully. It also needs to take the practical consequences of disclosure seriously.
 
-What becomes more useful is looking closely at how the relationship works. Can somebody refuse without fearing punishment outside the boundaries they have agreed upon? Can agreements be revisited? What happens when somebody no longer wants something they previously enjoyed? Are limits respected consistently? Can either person raise uncertainty or discomfort without feeling that the relationship itself is under threat? Has the authority in the relationship remained within the scope that was actually negotiated?
+Research has documented reasons for caution. In a study of BDSM clients' experiences of psychotherapy, participants described both sensitive care and biased responses, including unwanted attention to BDSM and pressure to give it up ([Kolmes et al., 2006](#article-reference-kolmes-2006)). A separate healthcare study found that anticipated stigma affected decisions about whether to disclose kink to a provider ([Waldura et al., 2016](#article-reference-waldura-2016)). These studies describe particular samples and settings, rather than how every practitioner responds.
 
-A relationship can appear extremely unequal from the outside while containing a great deal of deliberate choice and negotiation. A conventional-looking relationship can contain very little of either. A therapist unfamiliar with kink can misread the first situation. A therapist too invested in appearing kink-positive can miss the second.
+You can ask about a therapist's experience before sharing intimate details. You can also ask what will be recorded, how information is protected, and the limits of confidentiality.
 
-## Kink-friendly is not the same as kink-aware
+The same care belongs in conversations about disclosure outside therapy. Being more comfortable with your sexuality does not oblige you to tell family, colleagues or a community. A useful decision takes account of who needs to know, what you hope the conversation will make possible, and what privacy you want to retain.
 
-A kink-friendly therapist can have completely accepting attitudes towards BDSM and still have very little knowledge of it. Good intentions are valuable, but they do not automatically produce competence. [Kelsey and colleagues (2013)](#article-reference-kelsey-2013) surveyed 766 therapists in the United States. Seventy-six per cent had worked with at least one client who engaged in BDSM, yet fewer than half considered themselves competent to work in the area.
+## Consent, power and the possibility of harm
 
-Lack of familiarity can subtly change the therapy. A client may spend considerable time explaining terminology, community norms or relationship structures before they can reach the issue that brought them to counselling. There is an important difference between asking someone what being collared means within *their* relationship and asking what a collar is. The first question is about the client's experience. The second reveals a gap in the therapist's basic cultural knowledge.
+Power exchange makes questions about choice especially important. A relationship may deliberately give one person authority over parts of another person's life. To understand it, a therapist needs to ask how that authority was agreed, what it covers, and what happens when someone wants it to change.
 
-Power exchange is another example. Someone voluntarily giving substantial authority to a partner can look troubling if it is assessed only through the norms of an egalitarian relationship. Within an established D/s relationship, choosing to hand over particular forms of control may itself be an important exercise of agency.
+The presence of restraint, pain or ownership language does not settle whether an experience was consensual. Nor does calling a relationship BDSM settle whether it is safe. [Dunkley and Brotto (2020)](#article-reference-dunkley-brotto-2020) describe mutual informed consent as central to distinguishing consensual BDSM from abuse, while examining how consent violations occur within kink settings.
 
-That does not mean the therapist stops asking about power. It gives them better questions to ask. How was the arrangement negotiated? Why does each person want it? Where does the Dominant's authority begin and end? How does the relationship adapt when circumstances change? What responsibilities accompany the authority being given? Can the submissive meaningfully withdraw or renegotiate that authority?
+Negotiation and safewords can help people communicate limits, but their existence is not proof that those limits are respected. A person may be unable to speak or find it difficult to use a safeword. Not using one does not establish consent. An earlier agreement also does not remove the need to respond when someone withdraws consent.
 
-[Sprott and colleagues (2023)](#article-reference-sprott-2023) describe different levels of competence, from broadly kink-friendly practice through to greater levels of knowledge and specialisation. A therapist does not need comprehensive knowledge of every fetish and subculture. They should, however, have enough foundational knowledge to recognise what they do not know and seek further education, consultation or supervision rather than filling those gaps with assumptions.
+In counselling, I would want to understand the moments when the arrangement becomes difficult. For example:
 
-## Shame, stigma and disclosure
+- What happens if you decline an activity or want to stop?
+- Can you question a rule without being shamed for failing in your role?
+- When a limit is crossed, how does the other person respond?
+- Can you seek support or talk privately with someone outside the relationship?
 
-Some people come to therapy troubled by a kink itself. Others are far more distressed by what they think having that kink says about them. A person may have spent years wondering whether their desires make them damaged, abnormal, disgusting or incapable of having a healthy relationship. They may be frightened of telling a partner what they actually want, or have kept part of their sexuality separate from the rest of their life because disclosure feels too risky.
+These questions concern what happens between people, beyond the terms they use for it. Threatening to expose someone's kink, using their dependence to pressure them, or dismissing an objection because they are “the submissive” deserves serious attention. A dominant partner also has limits and can experience pressure, manipulation or harm.
 
-Research into the experiences of kink-involved people suggests that concern about judgement from health professionals is not unfounded. [Kolmes, Stock and Moser (2006)](#article-reference-kolmes-2006) examined BDSM clients' experiences in psychotherapy and found a wide range of experiences. Some described knowledgeable and accepting therapists. Others reported prejudicial comments, unnecessary focus on BDSM, therapists expecting them to provide basic education, or kink being treated as something that should be stopped.
+Consent is essential, but it does not remove physical risk or guarantee that an experience will feel emotionally manageable afterward. Agreeing to an activity and later finding it upsetting calls for care and understanding. So does uncertainty about whether there was a meaningful choice in the first place.
 
-[Waldura and colleagues (2016)](#article-reference-waldura-2016) found similar concerns in healthcare more broadly. **Fewer than half** of the kink-oriented participants in their study had disclosed their kink to their current healthcare provider. Anticipated stigma was the most common reason for nondisclosure, and participants were particularly concerned that consensual BDSM could be mistaken for intimate partner violence.
+You can seek help while you are still unsure what to call an experience. You should be able to talk about a relationship you value and the ways it has hurt you in the same conversation.
 
-There is also Australian research on this issue. [Reynish and colleagues (2023)](#article-reference-reynish-2023) studied kink-oriented people with pre-existing mental-health difficulties living in rural Tasmania. The sample was small, so the findings cannot be assumed to represent kink-involved Australians generally, but approximately **83% reported having withheld their kink from a mental-health professional** because they feared stigma or discrimination.
+## What can you work on in kink-aware counselling?
 
-A client does not need to have experienced overt hostility for this to affect therapy. Uncertainty about a therapist's reaction can be enough. People may soften their language, omit important details, refer to a Dominant simply as a partner, or leave out experiences that were emotionally important because they are unsure what the disclosure will do to the therapist's view of them.
+Kink-aware therapists work within established approaches to counselling and psychotherapy. The work still needs to address what brought you to counselling. That could be depression, grief or a difficulty at work. A therapist's familiarity with kink can matter even when it takes up very little of the session.
 
-## Sometimes kink is simply part of the background
+When kink is part of the difficulty, the work needs more detail than reassurance that it is acceptable.
 
-Competence with kink also involves knowing when it has little to do with the reason somebody is seeking counselling. A person can be in a 24/7 D/s relationship and be grieving. A Dominant can become depressed. A submissive can struggle with social anxiety. Someone who attends BDSM events can have difficulties with work, family or relationships that would look familiar in almost any therapy room.
+### Different desires in a relationship
 
-Historically, one of the problems described by some kink clients is that once BDSM is disclosed, it begins to organise the therapist's understanding of everything else. Trauma becomes the presumed explanation for kink. Relationship difficulties become evidence that power exchange is unhealthy. Anxiety or low self-worth gets interpreted through unconventional sexuality despite little evidence that the two are connected.
+A partner may respond kindly to a disclosure and still have no wish to participate. That can be painful for both people: one feels exposed or deprived, while the other worries that saying no will cost them the relationship.
 
-The clinical guidelines developed by [Sprott and colleagues (2023)](#article-reference-sprott-2023) specifically caution against assuming that a presenting problem has been caused by kink. At other times, kink may turn out to be highly relevant. It can bring themes of control, dependency, responsibility, shame, trust and vulnerability into unusually sharp focus.
+Counselling can help clarify what the interest means, how much its expression matters, and whether there are possibilities both people want. Acceptance does not create an obligation to take part. The person with the interest also needs to be able to speak honestly about its importance, without being expected to dismiss it as trivial.
 
-Someone who spends much of their life carrying responsibility may experience surrender as especially powerful. A person who finds depending on other people difficult may encounter that difficulty very directly through submission. Someone accustomed to hiding their needs may find it unexpectedly emotional to have those needs noticed and anticipated. A Dominant may discover that being trusted with another person's vulnerability activates their own fears about responsibility, competence or failure.
+Sometimes the difficulty is a lack of language for a conversation neither person has had before. Sometimes there is a substantial incompatibility. Therapy needs to allow an honest assessment of that difference, without promising a compromise.
 
-These meanings should emerge from the work rather than being imposed upon it. Sometimes a fetish or kink has a rich personal history and considerable psychological meaning. Sometimes it is simply something somebody finds very arousing. Therapy does not need to manufacture complexity where the person themselves experiences none.
+### When an established dynamic changes
 
-## What does kink-aware therapy look like?
+An arrangement that once suited both people may become difficult after illness, burnout, a change in responsibilities or a shift in desire. Changing it can feel like questioning the relationship itself, especially when a role has become closely connected to identity or commitment.
 
-Kink-aware therapy is not a separate school of psychotherapy. A therapist might work psychodynamically, relationally, with attachment theory, CBT, schema therapy or from another therapeutic orientation. The difference is largely in the knowledge and assumptions brought to the work.
+For a dominant partner, admitting exhaustion may feel like failing to provide the steadiness the relationship depends on. For a submissive partner, asking for more say may feel disloyal to something they freely chose.
 
-A therapist should be able to hear somebody describe enjoying submission without assuming that they are powerless, and hear somebody describe dominance without treating the desire for control as inherently pathological, or hear details of kink activities without being visibly uncomfortable. They should be comfortable exploring trauma where it is relevant without treating trauma as the default explanation for kink.
+The work may involve finding language for needs that the existing arrangement makes difficult to express. It may also involve recognising a loss: something can have been important and wanted, and still no longer fit.
 
-They should also know enough about BDSM that ordinary references to a scene, a collar, aftercare, a play partner or a D/s relationship do not derail the conversation into a basic lesson about kink. For the client, much of this may feel quite ordinary. Kink can enter the conversation when it is relevant and remain in the background when it is not. An experience can be explored because it was emotionally important rather than because it was sexually unconventional.
+## Choosing a kink-aware therapist
 
-Difficult questions remain part of the work. If somebody is uncertain about whether they really consented to something, if a relationship is becoming controlling, if boundaries repeatedly disappear under pressure, or if a sexual behaviour is creating distress or interfering with the rest of their life, those issues deserve careful attention.
+A useful first conversation should tell you more than whether the therapist is comfortable with BDSM. You need some sense of how they work and whether they have experience relevant to the difficulty you want help with.
 
-Kink-affirming practice does not require a favourable interpretation of every situation. It requires an informed one.
+You could ask:
 
-## Where the research currently leaves us
+- What training or clinical experience informs your work with kink and power exchange?
+- How would you approach concerns about consent within a D/s relationship?
+- How do you decide whether kink is relevant to the issue someone brings?
+- What happens if something I raise is outside your experience?
 
-The research base on BDSM is much larger than it was several decades ago, although it remains uneven.
+Look for answers with substance. A practitioner should be able to explain their approach, acknowledge uncertainty and describe how they seek appropriate support. Competence also includes being able to hear that an interpretation does not fit your experience.
 
-There is reasonably good evidence against treating consensual BDSM involvement as a general indicator of psychopathology. Research also documents stigma and reluctance to disclose kink in healthcare and psychotherapy, while the clinical literature increasingly supports culturally competent and consent-informed practice.
+Shared community knowledge or lived experience may make some conversations easier. It does not replace professional skill, clear boundaries or a working relationship that suits you. If overlapping communities raise privacy concerns, that is something you can discuss before deciding to proceed.
 
-We know much less about why particular people develop particular interests, why those interests change for some people and remain stable for others, or how kink interacts with attachment, personality and relationships across the lifespan.
+You do not need to arrive with a settled identity, extensive experience or certainty about what you want. Questions about a fantasy you have never acted on are a legitimate starting point.
 
-Methodological problems are common. Many studies rely on convenience samples recruited through kink communities. Researchers define BDSM differently. Cross-sectional studies can tell us that two things are associated but usually cannot establish why that association exists. People who are comfortable joining kink organisations or participating in research may also differ meaningfully from people who keep their interests entirely private.
+## Kink-aware counselling with me
 
-Acknowledging those limitations is important. The evidence does not justify replacing the older idea that kink must be pathological with an equally sweeping claim that kink is inherently healthy, therapeutic or unrelated to someone's history.
+I am Joel Griffiths, and I offer [kink-aware counselling at Vive](/kink-bdsm-counselling) for adults online across Australia. I bring significant expertise in kink and BDSM, alongside extensive lived experience within these communities. My wider counselling work includes anxiety, depression, trauma and relationship difficulties.
 
-The more defensible conclusion is also the more clinically useful one. Consensual kink appears to fall within the diversity of human sexuality, and knowing that someone is kinky tells us relatively little, by itself, about their psychological health or about what their sexuality means to them. The rest has to be understood person by person.
+That knowledge lets us spend less time establishing the basics and more time on what is happening for you. We can discuss desire and power openly, examine a relationship carefully, or concentrate on another part of life that needs attention.
 
-## Kink-aware counselling at Vive
-
-At Vive Counselling, I offer [kink-aware counselling](/kink-bdsm-counselling) for adults online across Australia. Kink, BDSM, fetish interests and consensual power-exchange relationships can be discussed without having to first establish that they are acceptable.
-
-If concerns around consent, relationships, attachment, trauma, identity or boundaries are relevant, we can look at them carefully. If kink has very little to do with why you have come to counselling, it can simply remain one part of your life rather than becoming the subject of therapy.
-
-The aim is to understand the person first, and allow the meaning of kink, whether psychologically complex, relatively straightforward, or somewhere in between, to emerge from there.`,
+You can read more about [working with me](/working-with-joel), or [get in touch](/contact) to discuss counselling or a free 15-minute initial consult.`,
   references: [
     {
-      citation: `American Psychiatric Association. (2022). *Diagnostic and statistical manual of mental disorders* (5th ed., text rev.).`,
-      anchorId: "american-psychiatric-association-2022",
-      href: "https://doi.org/10.1176/appi.books.9780890425787",
+      citation: `American Psychiatric Association. (2013). *Paraphilic disorders* [Fact sheet].`,
+      anchorId: "american-psychiatric-association-2013",
+      href: "https://www.psychiatry.org/File%20Library/Psychiatrists/Practice/DSM/APA_DSM-5-Paraphilic-Disorders.pdf",
     },
     {
       citation: `De Neef, N., Coppens, V., Huys, W., & Morrens, M. (2019). Bondage-discipline, dominance-submission and sadomasochism (BDSM) from an integrative biopsychosocial perspective: A systematic review. *Sexual Medicine, 7*(2), 129–144.`,
@@ -136,29 +142,9 @@ The aim is to understand the person first, and allow the meaning of kink, whethe
       href: "https://doi.org/10.1177/1079063219842847",
     },
     {
-      citation: `Holvoet, L., Huys, W., Coppens, V., Seeuws, J., Goethals, K., & Morrens, M. (2017). Fifty shades of Belgian gray: The prevalence of BDSM-related fantasies and activities in the general population. *The Journal of Sexual Medicine, 14*(9), 1152–1159.`,
-      anchorId: "holvoet-2017",
-      href: "https://doi.org/10.1016/j.jsxm.2017.07.003",
-    },
-    {
-      citation: `Kelsey, K., Stiles, B. L., Spiller, L., & Diekhoff, G. M. (2013). Assessment of therapists’ attitudes towards BDSM. *Psychology & Sexuality, 4*(3), 255–267.`,
-      anchorId: "kelsey-2013",
-      href: "https://doi.org/10.1080/19419899.2012.655255",
-    },
-    {
       citation: `Kolmes, K., Stock, W., & Moser, C. (2006). Investigating bias in psychotherapy with BDSM clients. *Journal of Homosexuality, 50*(2–3), 301–324.`,
       anchorId: "kolmes-2006",
       href: "https://doi.org/10.1300/J082v50n02_15",
-    },
-    {
-      citation: `Paarnio, M., Sandman, N., Källström, M., Johansson, A., & Jern, P. (2023). The prevalence of BDSM in Finland and the association between BDSM interest and personality traits. *The Journal of Sex Research, 60*(4), 443–451.`,
-      anchorId: "paarnio-2023",
-      href: "https://doi.org/10.1080/00224499.2021.2015745",
-    },
-    {
-      citation: `Reynish, T. D., Hoang, H., Bridgman, H., & Nic Giolla Easpaig, B. (2023). Kink-oriented people and exogenous oppressions: Understanding mental health and related service use in a rural context. *Journal of Homosexuality, 70*(8), 1479–1502.`,
-      anchorId: "reynish-2023",
-      href: "https://doi.org/10.1080/00918369.2022.2036531",
     },
     {
       citation: `Richters, J., de Visser, R. O., Rissel, C. E., Grulich, A. E., & Smith, A. M. A. (2008). Demographic and psychosocial features of participants in bondage and discipline, “sadomasochism” or dominance and submission (BDSM): Data from a national survey. *The Journal of Sexual Medicine, 5*(7), 1660–1668.`,

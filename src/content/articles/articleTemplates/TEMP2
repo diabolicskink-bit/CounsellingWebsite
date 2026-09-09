@@ -1,8 +1,6 @@
-import { defineArticleTemplate } from "../articleTemplate.ts";
+# Self-critical perfectionism and the feeling of never being good enough
 
-export default defineArticleTemplate({
-  slug: "self-critical-perfectionism",
-  body: `For some people, doing well brings surprisingly little satisfaction. A difficult piece of work is finished, somebody expresses appreciation, or a long-held goal is reached, yet attention settles on what could have been better. Relief lasts until the next demand appears. Over time, even a life containing considerable achievement can feel like a succession of narrowly avoided failures.
+For some people, doing well brings surprisingly little satisfaction. A difficult piece of work is finished, somebody expresses appreciation, or a long-held goal is reached, yet attention settles on what could have been better. Relief lasts until the next demand appears. Over time, even a life containing considerable achievement can feel like a succession of narrowly avoided failures.
 
 Self-critical perfectionism helps explain this experience. Mistakes seem to reveal something about you, perhaps that you are inadequate, irresponsible, disappointing or less capable than other people believe. Success offers temporary reassurance, but rarely changes the terms on which you judge yourself. You still have to prove yourself next time.
 
@@ -112,87 +110,46 @@ In my work, I pay attention to when standards become rigid, what falling short s
 
 Progress may be quite ordinary. You finish a task and leave it finished. You recognise an achievement without immediately qualifying it. You make a mistake, repair what needs repairing and remain able to participate in the rest of your day. Gradually, there is more room for work, relationships and enjoyment that do not depend on continually proving your adequacy.
 
-I offer online counselling for adults across Australia. If self-critical perfectionism is affecting your mood, work or relationships, you can [get in touch](/contact) to arrange an appointment or a free 15-minute consultation.`,
-  references: [
-    {
-      citation: `Bellam, A., & Curran, T. (2025). Perfectionism and work performance. A meta-analysis. *Journal of Occupational and Organizational Psychology, 98*(3), e70050.`,
-      href: "https://doi.org/10.1111/joop.70050",
-    },
-    {
-      citation: `Blatt, S. J., Quinlan, D. M., Pilkonis, P. A., & Shea, M. T. (1995). Impact of perfectionism and need for approval on the brief treatment of depression. The National Institute of Mental Health Treatment of Depression Collaborative Research Program revisited. *Journal of Consulting and Clinical Psychology, 63*(1), 125–132.`,
-      href: "https://doi.org/10.1037/0022-006X.63.1.125",
-    },
-    {
-      citation: `Blatt, S. J., Zuroff, D. C., Bondi, C. M., Sanislow, C. A., III, & Pilkonis, P. A. (1998). When and how perfectionism impedes the brief treatment of depression. Further analyses of the National Institute of Mental Health Treatment of Depression Collaborative Research Program. *Journal of Consulting and Clinical Psychology, 66*(2), 423–428.`,
-      href: "https://doi.org/10.1037/0022-006X.66.2.423",
-    },
-    {
-      citation: `Breines, J. G., & Chen, S. (2012). Self-compassion increases self-improvement motivation. *Personality and Social Psychology Bulletin, 38*(9), 1133–1143.`,
-      href: "https://doi.org/10.1177/0146167212445599",
-    },
-    {
-      citation: `Callaghan, T., Greene, D., Shafran, R., Lunn, J., & Egan, S. J. (2024). The relationships between perfectionism and symptoms of depression, anxiety and obsessive-compulsive disorder in adults. A systematic review and meta-analysis. *Cognitive Behaviour Therapy, 53*(2), 121–132.`,
-      href: "https://doi.org/10.1080/16506073.2023.2277121",
-    },
-    {
-      citation: `Dunkley, D. M., Zuroff, D. C., & Blankstein, K. R. (2003). Self-critical perfectionism and daily affect. Dispositional and situational influences on stress and coping. *Journal of Personality and Social Psychology, 84*(1), 234–252.`,
-      href: "https://doi.org/10.1037/0022-3514.84.1.234",
-    },
-    {
-      citation: `Galloway, R., Watson, H., Greene, D., Shafran, R., & Egan, S. J. (2022). The efficacy of randomised controlled trials of cognitive behaviour therapy for perfectionism. A systematic review and meta-analysis. *Cognitive Behaviour Therapy, 51*(2), 170–184.`,
-      href: "https://doi.org/10.1080/16506073.2021.1952302",
-    },
-    {
-      citation: `Hawley, L. L., Ho, M.-H. R., Zuroff, D. C., & Blatt, S. J. (2006). The relationship of perfectionism, depression, and therapeutic alliance during treatment for depression. Latent difference score analysis. *Journal of Consulting and Clinical Psychology, 74*(5), 930–942.`,
-      href: "https://doi.org/10.1037/0022-006X.74.5.930",
-    },
-    {
-      citation: `Hewitt, P. L., Kealy, D., Mikail, S. F., Smith, M. M., Ge, S., Chen, C., Sochting, I., Tasca, G. A., Flett, G. L., & Ko, A. (2023). The efficacy of group psychotherapy for adults with perfectionism. A randomized controlled trial of dynamic-relational therapy versus psychodynamic supportive therapy. *Journal of Consulting and Clinical Psychology, 91*(1), 29–42.`,
-      href: "https://doi.org/10.1037/ccp0000787",
-    },
-    {
-      citation: `Hill, A. P., & Curran, T. (2016). Multidimensional perfectionism and burnout. A meta-analysis. *Personality and Social Psychology Review, 20*(3), 269–288.`,
-      href: "https://doi.org/10.1177/1088868315596286",
-    },
-    {
-      citation: `Jacobs, R. H., Silva, S. G., Reinecke, M. A., Curry, J. F., Ginsburg, G. S., Kratochvil, C. J., & March, J. S. (2009). Dysfunctional Attitudes Scale perfectionism. A predictor and partial mediator of acute treatment outcome among clinically depressed adolescents. *Journal of Clinical Child & Adolescent Psychology, 38*(6), 803–813.`,
-      href: "https://doi.org/10.1080/15374410903259031",
-    },
-    {
-      citation: `Jiang, Z., Egan, S. J., Greene, D., Frost, M., Ma, Y., & Shafran, R. (2025). The impact of perfectionism on treatment outcomes of mental health disorders. A systematic review of randomised controlled trials. *Cognitive Behaviour Therapy*. Advance online publication.`,
-      href: "https://doi.org/10.1080/16506073.2025.2547199",
-    },
-    {
-      citation: `Moroz, M., & Dunkley, D. M. (2019). Self-critical perfectionism, experiential avoidance, and depressive and anxious symptoms over two years. A three-wave longitudinal study. *Behaviour Research and Therapy, 112*, 18–27.`,
-      href: "https://doi.org/10.1016/j.brat.2018.11.006",
-    },
-    {
-      citation: `Richardson, C. M. E., & Rice, K. G. (2015). Self-critical perfectionism, daily stress, and disclosure of daily emotional events. *Journal of Counseling Psychology, 62*(4), 694–702.`,
-      href: "https://doi.org/10.1037/cou0000100",
-    },
-    {
-      citation: `Shafran, R., Cooper, Z., & Fairburn, C. G. (2002). Clinical perfectionism. A cognitive–behavioural analysis. *Behaviour Research and Therapy, 40*(7), 773–791.`,
-      href: "https://doi.org/10.1016/S0005-7967(01)00059-6",
-    },
-    {
-      citation: `Sirois, F. M., Molnar, D. S., & Hirsch, J. K. (2017). A meta-analytic and conceptual update on the associations between procrastination and multidimensional perfectionism. *European Journal of Personality, 31*(2), 137–159.`,
-      href: "https://doi.org/10.1002/per.2098",
-    },
-    {
-      citation: `Smith, M. M., Hewitt, P. L., Sherry, S. B., Flett, G. L., & Ray, C. (2022). Parenting behaviors and trait perfectionism. A meta-analytic test of the social expectations and social learning models. *Journal of Research in Personality, 96*, 104180.`,
-      href: "https://doi.org/10.1016/j.jrp.2021.104180",
-    },
-    {
-      citation: `Smith, M. M., Sherry, S. B., Ray, C., Hewitt, P. L., & Flett, G. L. (2021). Is perfectionism a vulnerability factor for depressive symptoms, a complication of depressive symptoms, or both? A meta-analytic test of 67 longitudinal studies. *Clinical Psychology Review, 84*, 101982.`,
-      href: "https://doi.org/10.1016/j.cpr.2021.101982",
-    },
-    {
-      citation: `Smith, M. M., Sherry, S. B., Vidovic, V., Hewitt, P. L., & Flett, G. L. (2020). Why does perfectionism confer risk for depressive symptoms? A meta-analytic test of the mediating role of stress and social disconnection. *Journal of Research in Personality, 86*, 103954.`,
-      href: "https://doi.org/10.1016/j.jrp.2020.103954",
-    },
-    {
-      citation: `Woodfin, V., Molde, H., Dundas, I., & Binder, P.-E. (2021). A randomized control trial of a brief self-compassion intervention for perfectionism, anxiety, depression, and body image. *Frontiers in Psychology, 12*, 751294.`,
-      href: "https://doi.org/10.3389/fpsyg.2021.751294",
-    },
-  ],
-});
+I offer online counselling for adults across Australia. If self-critical perfectionism is affecting your mood, work or relationships, you can [get in touch](https://vivecounselling.com.au/contact) to arrange an appointment or a free 15-minute consultation.
+
+## References
+
+Bellam, A., & Curran, T. (2025). [Perfectionism and work performance. A meta-analysis](https://doi.org/10.1111/joop.70050). *Journal of Occupational and Organizational Psychology, 98*(3), e70050.
+
+Blatt, S. J., Quinlan, D. M., Pilkonis, P. A., & Shea, M. T. (1995). [Impact of perfectionism and need for approval on the brief treatment of depression. The National Institute of Mental Health Treatment of Depression Collaborative Research Program revisited](https://doi.org/10.1037/0022-006X.63.1.125). *Journal of Consulting and Clinical Psychology, 63*(1), 125–132.
+
+Blatt, S. J., Zuroff, D. C., Bondi, C. M., Sanislow, C. A., III, & Pilkonis, P. A. (1998). [When and how perfectionism impedes the brief treatment of depression. Further analyses of the National Institute of Mental Health Treatment of Depression Collaborative Research Program](https://doi.org/10.1037/0022-006X.66.2.423). *Journal of Consulting and Clinical Psychology, 66*(2), 423–428.
+
+Breines, J. G., & Chen, S. (2012). [Self-compassion increases self-improvement motivation](https://doi.org/10.1177/0146167212445599). *Personality and Social Psychology Bulletin, 38*(9), 1133–1143.
+
+Callaghan, T., Greene, D., Shafran, R., Lunn, J., & Egan, S. J. (2024). [The relationships between perfectionism and symptoms of depression, anxiety and obsessive-compulsive disorder in adults. A systematic review and meta-analysis](https://doi.org/10.1080/16506073.2023.2277121). *Cognitive Behaviour Therapy, 53*(2), 121–132.
+
+Dunkley, D. M., Zuroff, D. C., & Blankstein, K. R. (2003). [Self-critical perfectionism and daily affect. Dispositional and situational influences on stress and coping](https://doi.org/10.1037/0022-3514.84.1.234). *Journal of Personality and Social Psychology, 84*(1), 234–252.
+
+Galloway, R., Watson, H., Greene, D., Shafran, R., & Egan, S. J. (2022). [The efficacy of randomised controlled trials of cognitive behaviour therapy for perfectionism. A systematic review and meta-analysis](https://doi.org/10.1080/16506073.2021.1952302). *Cognitive Behaviour Therapy, 51*(2), 170–184.
+
+Hawley, L. L., Ho, M.-H. R., Zuroff, D. C., & Blatt, S. J. (2006). [The relationship of perfectionism, depression, and therapeutic alliance during treatment for depression. Latent difference score analysis](https://doi.org/10.1037/0022-006X.74.5.930). *Journal of Consulting and Clinical Psychology, 74*(5), 930–942.
+
+Hewitt, P. L., Kealy, D., Mikail, S. F., Smith, M. M., Ge, S., Chen, C., Sochting, I., Tasca, G. A., Flett, G. L., & Ko, A. (2023). [The efficacy of group psychotherapy for adults with perfectionism. A randomized controlled trial of dynamic-relational therapy versus psychodynamic supportive therapy](https://doi.org/10.1037/ccp0000787). *Journal of Consulting and Clinical Psychology, 91*(1), 29–42.
+
+Hill, A. P., & Curran, T. (2016). [Multidimensional perfectionism and burnout. A meta-analysis](https://doi.org/10.1177/1088868315596286). *Personality and Social Psychology Review, 20*(3), 269–288.
+
+Jacobs, R. H., Silva, S. G., Reinecke, M. A., Curry, J. F., Ginsburg, G. S., Kratochvil, C. J., & March, J. S. (2009). [Dysfunctional Attitudes Scale perfectionism. A predictor and partial mediator of acute treatment outcome among clinically depressed adolescents](https://doi.org/10.1080/15374410903259031). *Journal of Clinical Child & Adolescent Psychology, 38*(6), 803–813.
+
+Jiang, Z., Egan, S. J., Greene, D., Frost, M., Ma, Y., & Shafran, R. (2025). [The impact of perfectionism on treatment outcomes of mental health disorders. A systematic review of randomised controlled trials](https://doi.org/10.1080/16506073.2025.2547199). *Cognitive Behaviour Therapy*. Advance online publication.
+
+Moroz, M., & Dunkley, D. M. (2019). [Self-critical perfectionism, experiential avoidance, and depressive and anxious symptoms over two years. A three-wave longitudinal study](https://doi.org/10.1016/j.brat.2018.11.006). *Behaviour Research and Therapy, 112*, 18–27.
+
+Richardson, C. M. E., & Rice, K. G. (2015). [Self-critical perfectionism, daily stress, and disclosure of daily emotional events](https://doi.org/10.1037/cou0000100). *Journal of Counseling Psychology, 62*(4), 694–702.
+
+Shafran, R., Cooper, Z., & Fairburn, C. G. (2002). [Clinical perfectionism. A cognitive–behavioural analysis](https://doi.org/10.1016/S0005-7967(01)00059-6). *Behaviour Research and Therapy, 40*(7), 773–791.
+
+Sirois, F. M., Molnar, D. S., & Hirsch, J. K. (2017). [A meta-analytic and conceptual update on the associations between procrastination and multidimensional perfectionism](https://doi.org/10.1002/per.2098). *European Journal of Personality, 31*(2), 137–159.
+
+Smith, M. M., Hewitt, P. L., Sherry, S. B., Flett, G. L., & Ray, C. (2022). [Parenting behaviors and trait perfectionism. A meta-analytic test of the social expectations and social learning models](https://doi.org/10.1016/j.jrp.2021.104180). *Journal of Research in Personality, 96*, 104180.
+
+Smith, M. M., Sherry, S. B., Ray, C., Hewitt, P. L., & Flett, G. L. (2021). [Is perfectionism a vulnerability factor for depressive symptoms, a complication of depressive symptoms, or both? A meta-analytic test of 67 longitudinal studies](https://doi.org/10.1016/j.cpr.2021.101982). *Clinical Psychology Review, 84*, 101982.
+
+Smith, M. M., Sherry, S. B., Vidovic, V., Hewitt, P. L., & Flett, G. L. (2020). [Why does perfectionism confer risk for depressive symptoms? A meta-analytic test of the mediating role of stress and social disconnection](https://doi.org/10.1016/j.jrp.2020.103954). *Journal of Research in Personality, 86*, 103954.
+
+Woodfin, V., Molde, H., Dundas, I., & Binder, P.-E. (2021). [A randomized control trial of a brief self-compassion intervention for perfectionism, anxiety, depression, and body image](https://doi.org/10.3389/fpsyg.2021.751294). *Frontiers in Psychology, 12*, 751294.

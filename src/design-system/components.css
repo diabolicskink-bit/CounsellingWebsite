@@ -59,7 +59,7 @@
 }
 
 .article-hero.site-hero .site-hero__statement {
-  max-width: 13ch;
+  max-width: 100%;
   margin: 0;
   font-size: clamp(3.15rem, 5vw, 4.75rem);
   letter-spacing: -0.045em;
@@ -85,7 +85,7 @@
 }
 
 .article-hero .article-hero__abstract p {
-  max-width: 66ch;
+  max-width: 100%;
   color: var(--site-hero-supporting-foreground);
 }
 
