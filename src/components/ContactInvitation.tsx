@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
 import { publicRoutePaths } from "../data/routes";
@@ -19,7 +19,10 @@ export default function ContactInvitation() {
     >
       <Container className="contact-invitation__inner">
         <div className="contact-invitation__primary">
-          <h2 id="contact-invitation-heading">
+          <h2
+            className="contact-invitation__heading"
+            id="contact-invitation-heading"
+          >
             <span>Let’s start with</span>
             <em>a conversation.</em>
           </h2>
@@ -57,7 +60,11 @@ export default function ContactInvitation() {
         <div className="contact-invitation__actions">
           <Link className="contact-invitation__action" to={contactStartHref}>
             <span>Request a free consult</span>
-            <ArrowUpRight aria-hidden="true" size={18} />
+            <ArrowRight
+              aria-hidden="true"
+              className="contact-invitation__action-icon"
+              size={18}
+            />
           </Link>
 
           <p className="contact-invitation__alternative">
