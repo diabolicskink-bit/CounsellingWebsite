@@ -18,6 +18,29 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-09 - Copywriter Rebuilt Around Natural Writing
+
+- Rebuilt the copywriter method around idiomatic wording, connected prose, functional context and proportionate expression; ordinary useful ideas no longer have to demonstrate originality or memorability.
+- Established broad editorial freedom within the brief and explicit fidelity requirements for narrower edits. Added diagnostic review examples that distinguish wording, structure, meaning and unnecessary revision.
+- Recast owner-taste notes as feedback useful across tasks, removed old Home composition instructions and draft-rejection lists, and removed the use of previously published copy as ideal voice evidence. Aligned writing policy and page-copy delegation with the revised skill and its public-copy invocation boundary.
+
+## 2026-09-09 - Copywriter Invocation And Context Clarified
+
+- Limited automatic copywriter use to editorial work on public-facing wording; other work requires explicit user invocation, with repository routing aligned to that boundary.
+- Made functional context govern drafting and review expectations, including when persuasion or memorability serves the copy, without adding separate task workflows.
+
+## 2026-09-09 - Working With Joel CSS Consolidated
+
+- Working with Joel now owns its credential list, portrait frame, and BroadTabPanel presentation directly. Removed their single-consumer global CSS layers, redundant resets, and the permanently hidden hero line break.
+- Corrected the tablet credential alignment and active-tab underline cascade, preserved the established portrait crop and section layout, and added enlarged-text wrapping and reduced-motion hero feedback.
+- Replaced the portrait's nested complementary landmark with a figure and caption; the page passes the local axe scan with enhanced tabs and keeps every approach readable without JavaScript.
+
+## 2026-09-09 - Home CSS Ownership And Accessibility Improved
+
+- Home hero links now own their page-local presentation without resetting the inherited Button styles; redundant declarations and repeated interaction rules were removed.
+- Inclusive topic copy stacks within tablet cards, oversized text can wrap, focused cards rise above their neighbours, and reduced-motion mode disables card and arrow movement.
+- Recorded shared-header overflow at 200% text size separately as `SITE-24`.
+
 ## 2026-09-04 - Direct Phone Contact Added
 
 - Added Joel's public phone number to the Contact page as an accessible `tel:` link alongside the existing email address.

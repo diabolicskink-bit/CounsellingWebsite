@@ -1,6 +1,5 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
 import ContactInvitation from "../components/ContactInvitation";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
@@ -144,7 +143,7 @@ const homePageContent: HomePageContent = {
 function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
   return (
     <section className="site-hero site-hero-surface home-page__hero">
-      <Container className="home-page__hero-shell">
+      <Container>
         <div className="home-page__hero-copy">
           <h1 className="site-hero__eyebrow">{hero.eyebrow}</h1>
           <p className="site-hero__statement">
@@ -154,18 +153,20 @@ function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
           </p>
 
           <nav className="home-page__hero-actions" aria-label="Page actions">
-            <Button href={hero.contactLink.href} className="home-page__hero-action">
+            <Link
+              to={hero.contactLink.href}
+              className="home-page__hero-action home-page__hero-action--primary"
+            >
               <span>{hero.contactLink.label}</span>
               <ArrowRight aria-hidden="true" size={18} />
-            </Button>
-            <Button
-              href={hero.inclusionLink.href}
+            </Link>
+            <Link
+              to={hero.inclusionLink.href}
               className="home-page__hero-action"
-              variant="secondary"
             >
               <span>{hero.inclusionLink.label}</span>
               <ArrowRight aria-hidden="true" size={18} />
-            </Button>
+            </Link>
           </nav>
         </div>
       </Container>

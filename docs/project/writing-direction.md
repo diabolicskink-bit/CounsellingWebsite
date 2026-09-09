@@ -12,45 +12,59 @@ Use the current task and explicit owner decisions first, then
 `practice-direction.md`, the target page and its immediate context, and current
 operational facts when needed.
 
-Public copy is under active owner-led revision. Existing page source is not an
-approved voice model or editorial precedent. Reports, research, competitor
-pages, SEO material, plans, and current-scope descriptions may inform a
-decision but do not supply ready-made public wording or page structure.
+Public copy is under active owner-led revision. None of the current site's
+copy is an ideal voice model, including passages previously approved for
+publication. Existing source supplies factual and page context to assess.
+Reports, research, competitor pages, SEO material, plans, and current-scope
+descriptions may inform a decision but do not supply ready-made wording or
+mandatory page structure.
 
 Ordinary owner messages provide direction, facts, corrections, and taste
-guidance. Do not imitate conversational spelling or syntax. Preserve wording
-only when the owner identifies it as approved or requests exact implementation.
-Treat explicit rejection of a construction or mechanism as binding direction
-for later drafts.
+guidance. Do not imitate conversational spelling or syntax. Honour exact
+implementation requests and wording protected by the current brief. Earlier
+publication approval remains relevant outside the selected editing scope; it
+does not prevent revision when the owner asks to revise that passage.
+
+Respect explicit rejections within their stated scope. Do not expand a rejected
+sentence into a ban on related words or ordinary constructions. The copywriter's
+[owner feedback](../../.agents/skills/copywriter/references/owner-taste.md)
+records feedback useful across tasks; it is supporting context, not a universal
+voice specification. Keep page composition decisions with the relevant task
+or page brief. Distinguish owner decisions from an agent's interpretation when
+maintaining that record.
 
 Audience and market research are opt-in for public-copy work. When the owner
 explicitly requests research-informed drafting, use the material to consider
-content and blind spots, then write from the practice direction and selected
-editorial idea.
+content and blind spots, then write for the task from the verified facts and
+practice direction.
 
 ## Writing standard
 
-The website has a commercial and creative job. Make a selective, confident,
-honest case for Joel and the practice. A suitable visitor should gain a reason
-to prefer, trust, remember, or act on the offer.
+The central standard is good, natural public writing: clear meaning, idiomatic
+phrasing, well-constructed sentences and connected prose. Familiar ideas and
+ordinary service information are welcome when useful. Distinctiveness,
+memorable phrasing and an original editorial premise are not requirements.
+
+The website should make an honest case for Joel and the practice, helping
+visitors understand the offer, judge fit and take a next step. Let each piece
+of copy perform its particular function. Clear identification, explanation or
+instruction may fully do that job. Use persuasion and creative treatment where
+they help the reader.
 
 Speak to client problems in concrete, recognisable terms. It is acceptable to
 name a common pressure, consequence, or tension while leaving room for
-variation. The copy becomes presumptuous when it claims certainty about this
-particular reader's private history, feelings, or goal—not when it is specific.
+variation. Keep the emotional register proportionate and avoid inventing the
+reader's private history, feelings or goal.
 
-Use natural, polished Australian English and `I` when Joel is genuinely the
-speaker. Prefer ordinary phrasing and concrete consequences to clinical,
-corporate, intake, or generic therapeutic language.
+Use polished Australian English and `I` when Joel is the speaker. Contractions
+are welcome when natural in context. Retain accurate specialist language where
+it helps, while keeping explanations accessible. Avoid em dashes in public
+copy, as explicitly requested by the owner.
 
-Give substantial copy a real editorial idea or relationship between its facts.
-Creative strength may come from an exact observation, selective emphasis,
-compression, rhythm, a sharp contrast, or a less obvious structure. None is a
-required device. Strong writing is the goal, not visible cleverness.
-
-Let useful thought determine length. Topic lists, search phrases, planning
-categories, and audience classifications can inform a decision but cannot
-serve as the finished composition.
+Avoid inflated language, strained imagery, generic therapeutic promises and
+overworked rhetorical patterns. Naturalness does not require casual speech,
+uniformly short sentences or the removal of warmth, nuance and personality.
+Let useful content and the reader's needs determine length and organisation.
 
 ## Home and service copy
 
@@ -59,10 +73,10 @@ a concrete practice strength, or another useful proposition. Practitioner
 identity, location, online delivery, credentials, and approach are supporting
 information unless one is the actual subject.
 
-Keep general counselling visible on broad pages. State specialist knowledge
-directly where it helps someone judge fit. Kink, sexuality, gender, identity,
-diagnosis, and relationship structure are not diagnoses or a parallel list of
-client problems.
+Keep general counselling visible on broad pages and state specialist knowledge
+where it helps someone judge fit, following practice direction. Present kink,
+sexuality, gender and relationship structure as parts of people's lives, not
+as diagnoses or a parallel list of client problems.
 
 Use approach information when it helps someone understand or evaluate how Joel
 works. Detailed psychodynamic, attachment-informed, and integrative material
@@ -84,10 +98,16 @@ bibliographic details against the source before publishing.
 
 ## Collaboration and review
 
-Match the requested scope. Review and analysis do not authorise file changes;
-implementation does. Work section by section while direction is still being
-developed, preserve wording explicitly approved for publication, and prefer
-one considered recommendation over near-identical variants.
+Allow substantial editorial freedom by default within the requested scope,
+including rewriting and restructuring. Respect narrower instructions to refine
+expression while preserving meaning, structure, emphasis or particular words.
+Freedom over the prose does not authorise changing practice facts or making
+unsupported claims.
+
+Review, analysis and drafting do not authorise file changes; implementation
+does. Work section by section while direction is still being developed, and
+prefer one considered recommendation over near-identical variants unless the
+owner requests alternatives.
 
 Review the clean copy in its actual page context. When the explanation is more
 compelling than the passage, revise the passage rather than defending it.

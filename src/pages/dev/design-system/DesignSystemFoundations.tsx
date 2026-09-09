@@ -169,7 +169,7 @@ const colourFoundations: readonly ColourFoundation[] = [
     ariaLabel: "Portrait frame colour swatch, hexadecimal e4d9cc",
     consumers: [
       ".home-about__portrait-frame",
-      ".working-with-joel-page__intro-note .hero-media-note__image",
+      ".working-with-joel-page__portrait-frame",
     ],
     facts: [
       ["Dark text on frame", "11.45:1"],

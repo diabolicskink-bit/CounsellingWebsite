@@ -43,7 +43,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Contract`: Pale warm backing (`#e4d9cc`) immediately around identified-person imagery inside `--portrait-panel`.
 - `Boundary`: It is a non-text media material rather than a general page, card, or content surface.
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
-- `Verified consumers`: Home `.home-about__portrait-frame` and Working with Joel portrait `.hero-media-note__image`.
+- `Verified consumers`: Home `.home-about__portrait-frame` and Working with Joel `.working-with-joel-page__portrait-frame`.
 - `Promoted`: 2026-08-05 — shared portrait-colour promotion under `DEBT-37`.
 
 ### `--portrait-footer-tint`
