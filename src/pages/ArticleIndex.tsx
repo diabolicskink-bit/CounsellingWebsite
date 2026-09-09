@@ -20,7 +20,9 @@ export default function ArticleIndex() {
         <Container>
           <div className="article-index__hero-heading">
             <p className="site-hero__eyebrow">Vive Counselling</p>
-            <h1 className="site-hero__statement" id="article-index-title">Articles</h1>
+            <h1 className="site-hero__statement" id="article-index-title">
+              Psychology and counselling articles
+            </h1>
           </div>
         </Container>
       </header>

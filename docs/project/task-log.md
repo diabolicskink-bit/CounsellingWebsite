@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-09 - Public Route Metadata Refined
+
+- Updated the Home, Working with Joel, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, Articles, Contact and Crisis Support search and social wording from the owner-selected metadata review.
+- Kept the already approved specialist titles, Articles title, Contact title, Crisis Support description and Privacy Policy metadata unchanged, while making online Australia-wide delivery and each route's distinct purpose clearer.
+- Expanded the structured `Organization`, `Person`, umbrella `Service` and individual-session `Offer` descriptions to represent the practice's broad counselling work, approach, client formats and specialist knowledge more completely.
+
 ## 2026-09-09 - Article Breadcrumb Semantics Corrected
 
 - Standardised every current and future article on an ordered `Articles` to current article title breadcrumb generated from the shared article manifest and hero.

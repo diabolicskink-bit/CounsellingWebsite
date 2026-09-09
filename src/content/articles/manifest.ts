@@ -40,7 +40,7 @@ const publishedArticleMetadata = [
     description:
       "Research on self-critical perfectionism, depression and relationships, including why achievement may never feel enough and how therapy can help.",
     metaTitle: "Self-Critical Perfectionism | Vive Counselling",
-    publishedAt: "2026-09-09",
+    publishedAt: "2026-09-02",
     slug: "self-critical-perfectionism",
     title: "Self-critical perfectionism and the cost of conditional self-worth",
     topic: "Perfectionism",
