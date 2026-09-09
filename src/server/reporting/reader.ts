@@ -144,7 +144,11 @@ WHERE EXISTS (
   SELECT 1
   FROM site_visit_events AS monthly_events
   WHERE monthly_events.visit_id = ledger.visit_id
-    AND monthly_events.event_type IN ('enquiry_sent', 'enquiry_failed')
+    AND monthly_events.event_type IN (
+      'enquiry_sent',
+      'enquiry_failed',
+      'phone_link_clicked'
+    )
     AND monthly_events.occurred_at >= (
       (($1 || '-01')::DATE::TIMESTAMP) AT TIME ZONE 'Australia/Perth'
     )
@@ -242,7 +246,7 @@ visit_outcomes AS (
   FROM site_visit_events AS visit_events
   INNER JOIN included_paid_visits
     ON included_paid_visits.visit_id = visit_events.visit_id
-  WHERE visit_events.event_type = 'enquiry_sent'
+  WHERE visit_events.event_type IN ('enquiry_sent', 'phone_link_clicked')
   GROUP BY visit_events.visit_id
 ),
 tagged_visits AS (

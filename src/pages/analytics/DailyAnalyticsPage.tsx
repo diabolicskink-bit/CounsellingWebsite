@@ -7,6 +7,7 @@ import {
   Clock3,
   MapPin,
   MousePointerClick,
+  PhoneCall,
   Radio,
   RefreshCw,
   TextCursorInput,
@@ -50,7 +51,7 @@ import VisitorHistory from "./VisitorHistory";
 import useAnalyticsReport from "./useAnalyticsReport";
 
 type VisitContactProgress = {
-  kind: "attempted" | "failed" | "selected" | "sent" | "started";
+  kind: "attempted" | "failed" | "phone" | "selected" | "sent" | "started";
   label: string;
 };
 
@@ -125,6 +126,10 @@ function visitContactProgress(events: AnalyticsVisit["events"]): VisitContactPro
     return { kind: "sent", label: "Enquiry sent" };
   }
 
+  if (events.some((visitEvent) => visitEvent.eventType === "phone_link_clicked")) {
+    return { kind: "phone", label: "Phone enquiry" };
+  }
+
   if (events.some((visitEvent) => visitEvent.eventType === "enquiry_failed")) {
     return { kind: "failed", label: "Send failed" };
   }
@@ -165,6 +170,8 @@ function ContactProgressSignal({ progress }: { progress: VisitContactProgress | 
   } else if (progress.kind === "failed") {
     className = "signal-enquiry-signal signal-enquiry-signal--failed";
     icon = <CircleX aria-hidden="true" size={15} />;
+  } else if (progress.kind === "phone") {
+    icon = <PhoneCall aria-hidden="true" size={14} />;
   } else if (progress.kind === "selected") {
     icon = <MousePointerClick aria-hidden="true" size={14} />;
   } else if (progress.kind === "started") {

@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-10 - Phone Enquiries Added To Private Reporting
+
+- Classified Contact-page phone-number clicks as enquiry signals in daily visit rows, monthly enquiry reporting, visitor timelines, and paid-keyword enquiry attribution while retaining the precise `phone_link_clicked` event in stored data.
+- The monthly summary now separates successful form sends, phone enquiries, failed form outcomes, and form send rate; its explanatory note makes clear that a number click does not prove a call was placed or answered.
+
 ## 2026-09-09 - Contact Phone Analytics Added
 
 - Added a controlled `phone_link_clicked` event to GA4 and the first-party visit-event ledger for Joel's direct phone number on the Contact page; crisis-support phone links remain outside this event.

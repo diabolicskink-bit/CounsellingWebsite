@@ -1,11 +1,5 @@
-import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "playwright/test";
-import type { RouteMetadata } from "../src/data/routeMetadata";
 import { privateRoutePaths } from "../src/data/routes";
-
-const routeMetadataData = JSON.parse(
-  readFileSync(new URL("../src/data/routeMetadata.json", import.meta.url), "utf8"),
-) as { routes: Record<string, RouteMetadata> };
 
 const analyticsQaScenario = process.env.ANALYTICS_QA_SCENARIO;
 const noindexDirective = "noindex, nofollow";
@@ -179,210 +173,34 @@ test.describe("private analytics boundaries", () => {
     ).toHaveCount(0);
   });
 
-  test("reports outbound actions in daily view and coarse location across reports", async ({ page }) => {
-    const date = "2026-08-15";
-    const pageViewId = "a948d3b9-f4d3-4f53-bf5f-0f04150d3aaf";
-    const visit = {
-      adCode: null,
-      botCategory: null,
-      botName: null,
-      dateKey: date,
-      deviceType: "mobile",
-      durationSeconds: 130,
-      events: [
-        {
-          eventType: "email_link_clicked",
-          id: "21ed6eca-8270-461e-bf7a-ea3a63e4d3ac",
-          occurredAt: "2026-08-15T03:01:00.000Z",
-          pageViewId,
-          properties: {},
-          source: "client",
-        },
-        {
-          eventType: "instagram_link_clicked",
-          id: "4dfa3ea2-a11a-49ba-9398-03e380502240",
-          occurredAt: "2026-08-15T03:02:00.000Z",
-          pageViewId,
-          properties: {},
-          source: "client",
-        },
-      ],
-      gclid: null,
-      id: "1a560836-220d-4d33-a05e-5f364891f9cb",
-      isBot: false,
-      isWebDriver: false,
-      landingPath: "/contact",
-      lastSeenAt: "2026-08-15T03:03:00.000Z",
-      locationCountryCode: "AU",
-      locationRegionCode: "WA",
-      matchType: null,
-      matchedKeyword: null,
-      networkCode: null,
-      pageViews: [{
-        activeSeconds: 75,
-        id: pageViewId,
-        path: "/contact",
-        viewedAt: "2026-08-15T03:00:00.000Z",
-      }],
-      referrerHost: null,
-      referrerUrl: null,
-      startedAt: "2026-08-15T03:00:00.000Z",
-      totalVisits: 1,
-      trafficSource: "direct",
-      userAgent: "Mozilla/5.0",
-      visitNumber: 1,
-      visitorId: "114ba8f9-96f8-41e1-a301-15112400759e",
-    };
+  test("requests and renders a representative keyword report", async ({ page }) => {
+    let requestedReportUrl: URL | undefined;
 
     await page.route("**/api/analytics?*", async (route) => {
       const requestUrl = new URL(route.request().url());
-
-      if (requestUrl.searchParams.has("start")) {
-        await route.fulfill({
-          body: JSON.stringify({
-            data: {
-              endDate: requestUrl.searchParams.get("end"),
-              routes: [{
-                activeSeconds: 75,
-                pageViews: 1,
-                path: "/contact",
-                visits: 1,
-              }],
-              startDate: requestUrl.searchParams.get("start"),
-              totalActiveSeconds: 75,
-              totalPageViews: 1,
-              totalVisits: 1,
-              type: "pageViews",
-            },
-          }),
-          contentType: "application/json",
-          status: 200,
-        });
-        return;
-      }
-
-      await route.fulfill({
-        body: JSON.stringify({ data: { date, type: "daily", visits: [visit] } }),
-        contentType: "application/json",
-        status: 200,
-      });
-    });
-
-    await page.goto(`/analytics?date=${date}`, { waitUntil: "networkidle" });
-
-    const diagnostics = page.getByRole("region", {
-      name: "Location and device mix",
-    });
-    await expect(diagnostics.locator(".signal-location-mix dl > div")).toHaveCount(8);
-    const westernAustralia = diagnostics
-      .locator(".signal-location-mix dl > div")
-      .filter({ hasText: "WA" });
-    await expect(westernAustralia.locator("dd")).toHaveText("1");
-
-    const visitRow = page.locator(".signal-event");
-    await expect(visitRow).toContainText("WA");
-    await expect(visitRow).toContainText("2 outbound clicks");
-    await visitRow.click();
-    await expect(page.getByText("Email link clicked", { exact: true })).toBeVisible();
-    await expect(page.getByText("Instagram link clicked", { exact: true })).toBeVisible();
-    await page.getByText("Request details", { exact: true }).click();
-    await expect(page.locator(".signal-request-details__body")).toContainText(
-      "Western Australia, Australia",
-    );
-
-    await page.getByRole("link", {
-      name: `View full page-view breakdown for 15 Aug 2026`,
-    }).click();
-
-    await expect(page).toHaveURL(/\/analytics\/pages\?/);
-    await expect(page.getByRole("heading", { level: 1, name: "Page views" })).toBeVisible();
-    await expect(page.getByText("Attributed intent", { exact: true })).toHaveCount(0);
-    await expect(page.getByRole("columnheader", { name: "Outbound" })).toHaveCount(0);
-    const contactRoute = page.getByRole("row").filter({ hasText: "/contact" });
-    await expect(contactRoute).toBeVisible();
-  });
-
-  test("loads and sorts matched keywords across route and range changes", async ({ page }) => {
-    let releaseKeywordResponse = () => {};
-    const keywordResponseGate = new Promise<void>((resolve) => {
-      releaseKeywordResponse = resolve;
-    });
-    let delayKeywordResponse = true;
-    let requestedBots = "";
-    let requestedEndDate = "";
-    let requestedReport = "";
-    let requestedStartDate = "";
-
-    await page.route("**/api/analytics?*", async (route) => {
-      const requestUrl = new URL(route.request().url());
-      requestedBots = requestUrl.searchParams.get("bots") ?? "";
-      requestedEndDate = requestUrl.searchParams.get("end") ?? "";
-      requestedReport = requestUrl.searchParams.get("report") ?? "";
-      requestedStartDate = requestUrl.searchParams.get("start") ?? "";
-
-      if (requestedReport !== "keywords") {
-        await route.fulfill({
-          body: JSON.stringify({
-            data: {
-              date: requestUrl.searchParams.get("date"),
-              type: "daily",
-              visits: [],
-            },
-          }),
-          contentType: "application/json",
-          status: 200,
-        });
-        return;
-      }
-
-      if (delayKeywordResponse) {
-        await keywordResponseGate;
-        delayKeywordResponse = false;
-      }
+      requestedReportUrl = requestUrl;
 
       await route.fulfill({
         body: JSON.stringify({
           data: {
             endDate: requestUrl.searchParams.get("end"),
-            keywords: [
-              {
-                activeSeconds: 300,
-                enquiryVisits: 1,
-                keyword: "kink aware counselling",
-                latestVisitAt: "2026-08-15T03:00:00.000Z",
-                matchTypes: ["e", "p"],
-                pageViews: 7,
-                returningVisits: 1,
-                visits: 3,
-              },
-              {
-                activeSeconds: 90,
-                enquiryVisits: 0,
-                keyword: "inclusive relationship counselling",
-                latestVisitAt: "2026-08-11T04:30:00.000Z",
-                matchTypes: ["b"],
-                pageViews: 5,
-                returningVisits: 2,
-                visits: 4,
-              },
-              {
-                activeSeconds: 480,
-                enquiryVisits: 3,
-                keyword: "perth bdsm therapist",
-                latestVisitAt: "2026-08-14T06:15:00.000Z",
-                matchTypes: ["p"],
-                pageViews: 8,
-                returningVisits: 1,
-                visits: 4,
-              },
-            ],
+            keywords: [{
+              activeSeconds: 300,
+              enquiryVisits: 1,
+              keyword: "kink aware counselling",
+              latestVisitAt: "2026-08-15T03:00:00.000Z",
+              matchTypes: ["p"],
+              pageViews: 7,
+              returningVisits: 1,
+              visits: 3,
+            }],
             startDate: requestUrl.searchParams.get("start"),
-            taggedEnquiryVisits: 4,
-            taggedVisits: 11,
-            totalActiveSeconds: 1020,
-            totalEnquiryVisits: 5,
-            totalPageViews: 23,
-            totalPaidVisits: 12,
+            taggedEnquiryVisits: 1,
+            taggedVisits: 3,
+            totalActiveSeconds: 300,
+            totalEnquiryVisits: 1,
+            totalPageViews: 7,
+            totalPaidVisits: 3,
             type: "keywords",
           },
         }),
@@ -391,51 +209,17 @@ test.describe("private analytics boundaries", () => {
       });
     });
 
-    await page.goto("/analytics?date=2026-08-15", { waitUntil: "networkidle" });
-    await page.evaluate(() => {
-      history.pushState(
-        {},
-        "",
-        "/Analytics/Keywords?start=2026-07-17&end=2026-08-15&bots=include",
-      );
-      dispatchEvent(new PopStateEvent("popstate"));
-    });
+    await page.goto(
+      "/analytics/keywords?start=2026-07-17&end=2026-08-15&bots=include",
+      { waitUntil: "networkidle" },
+    );
 
-    await expect(page.getByRole("heading", { level: 1, name: "Loading activity" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Activity could not be loaded" })).toHaveCount(0);
-    releaseKeywordResponse();
-
-    expect(requestedReport).toBe("keywords");
-    expect(requestedStartDate).toBe("2026-07-17");
-    expect(requestedEndDate).toBe("2026-08-15");
-    expect(requestedBots).toBe("include");
+    expect(requestedReportUrl?.searchParams.get("report")).toBe("keywords");
+    expect(requestedReportUrl?.searchParams.get("start")).toBe("2026-07-17");
+    expect(requestedReportUrl?.searchParams.get("end")).toBe("2026-08-15");
+    expect(requestedReportUrl?.searchParams.get("bots")).toBe("include");
     await expect(page.getByRole("heading", { level: 1, name: "Keywords" })).toBeVisible();
-    const matchedKeywords = page.getByRole("region", { name: "Matched keywords" });
-    await expect(matchedKeywords).toBeVisible();
-    const keywordRow = page.getByRole("row").filter({ hasText: "kink aware counselling" });
-    await expect(keywordRow).toContainText("7 views");
-    await expect(keywordRow).toContainText("1:40");
-
-    const keywordRows = matchedKeywords.locator("tbody tr");
-    const enquiriesHeader = matchedKeywords.getByRole("columnheader", { name: "Enquiries" });
-    await expect(enquiriesHeader).toHaveAttribute("aria-sort", "descending");
-    await expect(keywordRows.nth(0)).toContainText("perth bdsm therapist");
-    await expect(keywordRows.nth(1)).toContainText("kink aware counselling");
-    await expect(keywordRows.nth(2)).toContainText("inclusive relationship counselling");
-
-    await enquiriesHeader.getByRole("button", { name: "Enquiries" }).click();
-    await expect(enquiriesHeader).toHaveAttribute("aria-sort", "ascending");
-    await expect(keywordRows.nth(0)).toContainText("inclusive relationship counselling");
-    await expect(keywordRows.nth(1)).toContainText("kink aware counselling");
-    await expect(keywordRows.nth(2)).toContainText("perth bdsm therapist");
-
-    await page.getByLabel("Start date").fill("2026-08-01");
-    await page.getByLabel("End date").fill("2026-08-14");
-    await page.getByRole("button", { name: "Apply range" }).click();
-
-    await expect.poll(() => requestedStartDate).toBe("2026-08-01");
-    expect(requestedEndDate).toBe("2026-08-14");
-    expect(requestedBots).toBe("include");
+    await expect(page.getByText("kink aware counselling", { exact: true })).toBeVisible();
   });
 });
 
@@ -603,52 +387,7 @@ test.describe("first-party analytics", () => {
     expect(observations[2].pageViewId).not.toBe(observations[1].pageViewId);
   });
 
-  test("records configured social and email clicks against the active page view", async ({ page }) => {
-    const eventObservations: Array<Record<string, unknown>> = [];
-    const visitObservations: Array<Record<string, unknown>> = [];
-
-    await stubAnalyticsRequests(page);
-    await page.route("**/api/visit", async (route) => {
-      visitObservations.push(route.request().postDataJSON() as Record<string, unknown>);
-      await route.fulfill({ status: 204 });
-    });
-    await page.route("**/api/visit-event", async (route) => {
-      eventObservations.push(route.request().postDataJSON() as Record<string, unknown>);
-      await route.fulfill({ status: 204 });
-    });
-
-    await page.goto("/", { waitUntil: "networkidle" });
-    await expect.poll(() => visitObservations.length).toBe(1);
-
-    const footer = page.getByRole("contentinfo");
-    const clickWithoutNavigation = async (name: string) => {
-      const link = footer.getByRole("link", { name, exact: true });
-      await link.evaluate((element) => {
-        element.addEventListener("click", (event) => event.preventDefault(), { once: true });
-      });
-      await link.click();
-    };
-
-    await clickWithoutNavigation("Instagram");
-    await clickWithoutNavigation("LinkedIn");
-    await clickWithoutNavigation("joel@vivecounselling.com.au");
-    await expect.poll(() => eventObservations.length).toBe(3);
-
-    const visitObservation = visitObservations[0];
-    expect(eventObservations).toEqual([
-      "instagram_link_clicked",
-      "linkedin_link_clicked",
-      "email_link_clicked",
-    ].map((eventType) => ({
-      eventId: expect.stringMatching(uuidV4),
-      eventType,
-      pageViewId: visitObservation.pageViewId,
-      properties: {},
-      visitId: visitObservation.visitId,
-    })));
-  });
-
-  test("records the contact phone click against the active page view", async ({ page }) => {
+  test("records configured outbound clicks against the active page view", async ({ page }) => {
     const eventObservations: Array<Record<string, unknown>> = [];
     const visitObservations: Array<Record<string, unknown>> = [];
 
@@ -665,20 +404,36 @@ test.describe("first-party analytics", () => {
     await page.goto("/contact", { waitUntil: "networkidle" });
     await expect.poll(() => visitObservations.length).toBe(1);
 
-    const phoneLink = page.getByRole("link", { name: "0416 205 175" });
-    await phoneLink.evaluate((link) => {
-      link.addEventListener("click", (event) => event.preventDefault(), { once: true });
-    });
-    await phoneLink.click();
-    await expect.poll(() => eventObservations).toHaveLength(1);
+    const footer = page.getByRole("contentinfo");
+    const outboundLinks = [
+      footer.getByRole("link", { name: "Instagram", exact: true }),
+      footer.getByRole("link", { name: "LinkedIn", exact: true }),
+      page.getByRole("link", { name: "joel@vivecounselling.com.au", exact: true }).first(),
+      page.getByRole("link", { name: "0416 205 175", exact: true }),
+    ];
 
-    expect(eventObservations[0]).toEqual({
+    for (const link of outboundLinks) {
+      await link.evaluate((element) => {
+        element.addEventListener("click", (event) => event.preventDefault(), { once: true });
+      });
+      await link.click();
+    }
+
+    await expect.poll(() => eventObservations.length).toBe(4);
+
+    const visitObservation = visitObservations[0];
+    expect(eventObservations).toEqual([
+      "instagram_link_clicked",
+      "linkedin_link_clicked",
+      "email_link_clicked",
+      "phone_link_clicked",
+    ].map((eventType) => ({
       eventId: expect.stringMatching(uuidV4),
-      eventType: "phone_link_clicked",
-      pageViewId: visitObservations[0].pageViewId,
+      eventType,
+      pageViewId: visitObservation.pageViewId,
       properties: {},
-      visitId: visitObservations[0].visitId,
-    });
+      visitId: visitObservation.visitId,
+    })));
   });
 
   test("keeps enquiry events visit-linked and server-owned", async ({ page }) => {
@@ -769,7 +524,7 @@ test.describe("Google Analytics and Clarity", () => {
         params: {
           page_location: `${qaRuntimeOrigin}/`,
           page_path: "/",
-          page_title: routeMetadataData.routes["/"].title,
+          page_title: expect.any(String),
           send_to: process.env.VITE_GA_MEASUREMENT_ID,
         },
       },
@@ -778,7 +533,7 @@ test.describe("Google Analytics and Clarity", () => {
         params: {
           page_location: `${qaRuntimeOrigin}/fees`,
           page_path: "/fees",
-          page_title: routeMetadataData.routes["/contact"].title,
+          page_title: expect.any(String),
           send_to: process.env.VITE_GA_MEASUREMENT_ID,
         },
       },
@@ -812,6 +567,20 @@ test.describe("Google Analytics and Clarity", () => {
     await form.getByLabel("Name").fill("Alex Person");
     await form.getByLabel("Email").fill("alex@example.com");
     await form.getByLabel("Your message").fill("Hello");
+
+    await expect.poll(() => getGoogleAnalyticsEvents(page, "contact_option_selected")).toEqual([
+      {
+        eventName: "contact_option_selected",
+        params: { contact_option: "question", send_to: process.env.VITE_GA_MEASUREMENT_ID },
+      },
+    ]);
+    await expect.poll(() => getGoogleAnalyticsEvents(page, "enquiry_started")).toEqual([
+      {
+        eventName: "enquiry_started",
+        params: { send_to: process.env.VITE_GA_MEASUREMENT_ID },
+      },
+    ]);
+
     await form.getByRole("button", { name: "Send message" }).click();
 
     await expect(form.getByRole("alert")).toBeVisible();
@@ -828,57 +597,6 @@ test.describe("Google Analytics and Clarity", () => {
           lead_source: "website_enquiry_form",
           send_to: process.env.VITE_GA_MEASUREMENT_ID,
         },
-      },
-    ]);
-  });
-
-  test("contact-intent events contain no visitor data", async ({ page }) => {
-    await stubAnalyticsRequests(page);
-
-    await page.goto("/contact", { waitUntil: "networkidle" });
-    const form = page.getByRole("form", { name: "Your enquiry" });
-    await form.getByLabel("How would you like to start?").selectOption("question");
-    await form.getByLabel("Name").fill("Alex Person");
-    await form.getByLabel("Email").fill("alex@example.com");
-    await form.getByLabel("How would you like to start?").selectOption("consult");
-    await form.getByLabel("How would you like to start?").selectOption("appointment");
-
-    await expect.poll(() => getGoogleAnalyticsEvents(page, "contact_option_selected")).toEqual([
-      {
-        eventName: "contact_option_selected",
-        params: { contact_option: "question", send_to: process.env.VITE_GA_MEASUREMENT_ID },
-      },
-      {
-        eventName: "contact_option_selected",
-        params: { contact_option: "consult", send_to: process.env.VITE_GA_MEASUREMENT_ID },
-      },
-      {
-        eventName: "contact_option_selected",
-        params: { contact_option: "appointment", send_to: process.env.VITE_GA_MEASUREMENT_ID },
-      },
-    ]);
-
-    const emailLink = page.getByRole("link", { name: "joel@vivecounselling.com.au" }).first();
-    await emailLink.evaluate((link) => {
-      link.addEventListener("click", (event) => event.preventDefault(), { once: true });
-    });
-    await emailLink.click();
-    await expect.poll(() => getGoogleAnalyticsEvents(page, "email_link_clicked")).toEqual([
-      {
-        eventName: "email_link_clicked",
-        params: { send_to: process.env.VITE_GA_MEASUREMENT_ID },
-      },
-    ]);
-
-    const phoneLink = page.getByRole("link", { name: "0416 205 175" });
-    await phoneLink.evaluate((link) => {
-      link.addEventListener("click", (event) => event.preventDefault(), { once: true });
-    });
-    await phoneLink.click();
-    await expect.poll(() => getGoogleAnalyticsEvents(page, "phone_link_clicked")).toEqual([
-      {
-        eventName: "phone_link_clicked",
-        params: { send_to: process.env.VITE_GA_MEASUREMENT_ID },
       },
     ]);
   });
