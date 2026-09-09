@@ -18,9 +18,17 @@ export default function ArticleHero({ article }: ArticleHeroProps) {
           className="site-hero__eyebrow article-hero__breadcrumb"
           aria-label="Breadcrumb"
         >
-          <Link to={publicRoutePaths.articles}>Articles</Link>
-          <span aria-hidden="true">/</span>
-          <span aria-current="page">{article.topic}</span>
+          <ol>
+            <li>
+              <Link to={publicRoutePaths.articles}>Articles</Link>
+            </li>
+            <li>
+              <span className="article-hero__breadcrumb-separator" aria-hidden="true">
+                /
+              </span>
+              <span aria-current="page">{article.title}</span>
+            </li>
+          </ol>
         </nav>
 
         <div className="article-hero__layout">
