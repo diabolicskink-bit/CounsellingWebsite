@@ -297,7 +297,8 @@ function KeywordReport({
       <p className="signal-footnote keyword-report__footnote">
         Google Ads matched keywords are not visitors' search queries. A visit is counted once per
         matched keyword. Page depth and active time include the complete visit, not only its landing
-        page. Enquiries count visits containing at least one successful send. {includeBots
+        page. Enquiries count visits containing at least one successful form send or phone-number
+        click. {includeBots
           ? "Bot visits are included."
           : "Identified bot visits are excluded."}
       </p>

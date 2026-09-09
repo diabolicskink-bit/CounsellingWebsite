@@ -339,6 +339,11 @@ body:has(.visit-dashboard) {
   color: #267a4a;
 }
 
+.signal-report__status--phone {
+  background: var(--report-purple-soft);
+  color: var(--report-purple-dark);
+}
+
 .signal-report__status--failed,
 .signal-report__status--excluded {
   background: var(--report-pink);
@@ -1188,8 +1193,8 @@ body:has(.visit-dashboard) {
 
 .monthly-enquiries__summary > div:first-child { background: var(--report-lilac); }
 .monthly-enquiries__summary > div:nth-child(2) { background: var(--report-mint); }
-.monthly-enquiries__summary > div:nth-child(3) { background: var(--report-pink); }
-.monthly-enquiries__summary > div:last-child { background: var(--report-cream); }
+.monthly-enquiries__summary > div:nth-child(3) { background: var(--report-cream); }
+.monthly-enquiries__summary > div:last-child { background: var(--report-pink); }
 
 .monthly-enquiries__summary small {
   display: block;

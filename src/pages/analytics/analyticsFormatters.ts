@@ -58,6 +58,7 @@ const eventLabels: Record<string, string> = {
   enquiry_submit_attempted: "Enquiry submit attempted",
   instagram_link_clicked: "Instagram link clicked",
   linkedin_link_clicked: "LinkedIn link clicked",
+  phone_link_clicked: "Phone number clicked",
 };
 
 const australianRegionLabels: Record<AustralianVisitRegionCode, string> = {

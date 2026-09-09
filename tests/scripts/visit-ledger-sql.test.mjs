@@ -40,6 +40,10 @@ const visitLocationMigration = await readFile(
   new URL("0009_add_visit_location.sql", migrationsUrl),
   "utf8",
 );
+const phoneLinkEventMigration = await readFile(
+  new URL("0010_add_phone_link_event.sql", migrationsUrl),
+  "utf8",
+);
 const queryFilenames = (await readdir(queriesUrl))
   .filter((filename) => filename.endsWith(".sql"))
   .sort();
@@ -108,6 +112,15 @@ test("contact-link migration permits controlled client events with empty propert
     /source = 'server'[\s\S]*?email_link_clicked[\s\S]*?instagram_link_clicked[\s\S]*?linkedin_link_clicked/i,
   );
   assert.match(contactLinkEventsMigration, /ELSE properties = '\{\}'::JSONB/i);
+});
+
+test("phone-link migration permits a controlled client event with empty properties", () => {
+  assert.match(phoneLinkEventMigration, /phone_link_clicked/i);
+  assert.match(
+    phoneLinkEventMigration,
+    /source = 'server'[\s\S]*?phone_link_clicked/i,
+  );
+  assert.match(phoneLinkEventMigration, /ELSE properties = '\{\}'::JSONB/i);
 });
 
 test("visitor-exclusion migration creates a durable visitor-level filter", () => {
