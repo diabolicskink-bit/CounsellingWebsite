@@ -46,6 +46,19 @@ Curated milestone history for durable project state. This is not a full changelo
 - Inclusive topic copy stacks within tablet cards, oversized text can wrap, focused cards rise above their neighbours, and reduced-motion mode disables card and arrow movement.
 - Recorded shared-header overflow at 200% text size separately as `SITE-24`.
 
+## 2026-09-09 - Article Presentation And Sample States Removed
+
+- Removed the never-used custom article-presentation registry, its `ArticlePresentationKey` type and manifest `presentation` field; every article now uses the one shared publication shell, and the article stylesheet folds the previously unreachable base rules into their former `--standard` modifiers.
+- Removed the `isSample` publishing state left over from the pre-publication sample articles, along with its index label, editor suffix, and article `noindex, nofollow` path; every published article route is now indexable and appears in the sitemap.
+- Made `getArticleDocumentMetadata` in the manifest the single source of the article title and robots rule, so the prerendered response and in-app navigation can no longer drift.
+- Updated `article-publishing.md`, `current-scope.md`, the project README, the `<ArticleHero />` catalogue record, and the design-system workspace specimen to describe the single presentation and the removed sample state.
+
+## 2026-09-09 - Contact Invitation Redesigned
+
+- Replaced the compact warm closing invitation with the owner-selected two-part composition across all five existing consumers.
+- Preserved the full consult explanation, general-enquiry and email choices, and individual and couples fees while translating the composition into a warm earth-tan surface with ink and deep-green text and action treatment, established serif and sans roles, flat rules, and site section spacing.
+- On wide screens, the invitation and fees sit in a split field above one closing action row; narrower screens recompose them into invitation, fees, and contact choices in reading order.
+
 ## 2026-09-09 - Public Route Metadata Refined
 
 - Updated the Home, Working with Joel, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, Articles, Contact and Crisis Support search and social wording from the owner-selected metadata review.

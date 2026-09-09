@@ -26,11 +26,10 @@ export default function DesignSystemComponents() {
           consumers={[
             "Every manifest-backed article route",
             "Standard Markdown articles",
-            "Articles with registered subject-specific body presentations",
           ]}
           identifier="<ArticleHero />"
           recordPath="docs/design-system/components.md"
-          role="Canonical article hero for orientation, classification, abstract, authorship, and publication dates; article bodies and their presentations remain separate."
+          role="Canonical article hero for orientation, classification, abstract, authorship, and publication dates; the article body remains separate."
           title="Article hero"
         >
           <ArticleHero article={articleMetadata[0]} />
@@ -46,7 +45,7 @@ export default function DesignSystemComponents() {
           ]}
           identifier="<ContactInvitation />"
           recordPath="docs/design-system/components.md"
-          role="Canonical final invitation from a public content page into the Contact journey; copy, destination, accessibility, and responsive presentation are component-owned."
+          role="Canonical final invitation from a public content page into a consult, email, or practical Contact path; copy, fees, destinations, accessibility, and responsive presentation are component-owned."
           title="Contact invitation"
         >
           <ContactInvitation />
