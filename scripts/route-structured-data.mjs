@@ -324,6 +324,7 @@ function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, sit
   const pageId = `${pageUrl}#webpage`;
   const articleId = `${pageUrl}#article`;
   const breadcrumbId = `${pageUrl}#breadcrumb`;
+  const articleTitle = routeMetadata.headline ?? routeMetadata.title;
   const publishedAt = validateIsoDate(routeMetadata.publishedAt, `Article publishedAt (${routePath})`);
   const modifiedAt = validateIsoDate(
     routeMetadata.modifiedAt ?? publishedAt,
@@ -347,7 +348,7 @@ function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, sit
         "@type": "Article",
         "@id": articleId,
         url: pageUrl,
-        headline: routeMetadata.headline ?? routeMetadata.title,
+        headline: articleTitle,
         ...(routeMetadata.abstract ? { abstract: routeMetadata.abstract } : {}),
         description: routeMetadata.description,
         datePublished: publishedAt,
@@ -371,7 +372,7 @@ function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, sit
       {
         "@type": "BreadcrumbList",
         "@id": breadcrumbId,
-        name: `${routeMetadata.headline ?? routeMetadata.title} breadcrumb trail`,
+        name: `${articleTitle} breadcrumb trail`,
         itemListElement: [
           {
             "@type": "ListItem",
@@ -382,8 +383,7 @@ function renderArticleStructuredData(routePath, routeMetadata, siteMetadata, sit
           {
             "@type": "ListItem",
             position: 2,
-            name: routeMetadata.articleSection,
-            item: pageUrl,
+            name: articleTitle,
           },
         ],
       },

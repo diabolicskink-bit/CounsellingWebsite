@@ -18,6 +18,30 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-09 - Article Breadcrumb Semantics Corrected
+
+- Standardised every current and future article on an ordered `Articles` to current article title breadcrumb generated from the shared article manifest and hero.
+- Kept subject classifications in article and Open Graph metadata instead of presenting them as navigable hierarchy without matching subject archive routes, and aligned the JSON-LD trail with the visible navigation.
+
+## 2026-09-09 - Kink-Aware Therapy Article Expanded
+
+- Replaced the kink-aware therapy publication with the supplied revised draft, broadening its account of disclosure, therapist competence, wellbeing, relationships, trauma, consent and counselling.
+- Expanded the supporting reference ledger from eight to 22 sources and linked every in-text citation to its stable author-and-year reference anchor.
+- Set the visible and metadata titles to `Kink-Aware Therapy and the Psychology of BDSM`, replaced the abstract and search description, and preserved the canonical route, substantive revision date and standard article presentation.
+
+## 2026-09-09 - Self-Critical Perfectionism Article Published
+
+- Replaced the self-critical perfectionism publication with the supplied TEMP article, including its new title, expanded argument and 20-source reference set.
+- Linked every in-text citation to its corresponding stable anchor in the reference ledger while keeping each source destination on the ledger entry.
+- Returned the article to the standard centred Markdown presentation and removed its unused page-specific React body and stylesheet while retaining the optional custom-presentation capability.
+- Restored the article to the public Articles index, retained its canonical route and concise metadata title, and set its publication date to 9 September 2026.
+
+## 2026-09-09 - Kink Article Rewritten
+
+- Rebuilt the kink-aware therapy article around what informed counselling makes possible, with practical discussion of disclosure, consent, mismatched desires, changing power dynamics and choosing a therapist.
+- Qualified the mental-health and trauma findings beside the claims they support, removed the broad prevalence and disclosure statistics, and retained eight verified sources in an alphabetical APA 7 reference list with linked citations.
+- Updated the article abstract, search description and substantive revision date while preserving its title, canonical route and standard article presentation.
+
 ## 2026-09-04 - Kink Article Citations Linked
 
 - Linked every in-text citation in the kink-aware therapy article to its corresponding entry in the reference ledger.

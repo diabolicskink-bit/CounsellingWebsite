@@ -142,8 +142,7 @@ test("renders article dates, authorship, and visible breadcrumb hierarchy", () =
       {
         "@type": "ListItem",
         position: 2,
-        name: articleMetadataEntry.topic,
-        item: pageUrl,
+        name: articleMetadataEntry.title,
       },
     ]);
     assert.equal(article.headline, articleMetadataEntry.title);
