@@ -109,40 +109,40 @@
   },
   "routes": {
     "/": {
-      "title": "Online Therapy Across Australia | Vive Counselling",
-      "description": "Online counselling and psychotherapy across Australia. Support for anxiety, depression, relationships and trauma. Kink, ENM and LGBTQIA+ aware."
+      "title": "Online Counselling & Therapy | Vive Counselling",
+      "description": "Online counselling for individuals and couples across Australia. Support with anxiety, depression and relationships. Kink, ENM and LGBTQIA+ inclusive."
     },
     "/working-with-joel": {
-      "title": "About Joel | Vive Counselling",
-      "description": "Psychodynamic counselling with Joel Griffiths, an ACA-registered counsellor working online across Australia, based in Perth. Attachment-informed and integrative."
+      "title": "Joel Griffiths, Psychodynamic Counsellor | Vive Counselling",
+      "description": "Meet Joel Griffiths, an ACA-registered counsellor based in Perth and working online across Australia. Learn about his approach to therapy."
     },
     "/inclusive-counselling": {
       "title": "Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling",
-      "description": "Inclusive counselling for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives. Perth-based and non-shaming."
+      "description": "Online counselling across Australia with an understanding of kink, ENM and LGBTQIA+ lives. You can talk openly about your mental health and relationships."
     },
     "/kink-bdsm-counselling": {
       "title": "Kink & BDSM-Aware Counselling | Vive Counselling",
-      "description": "Kink-aware counselling and therapy with Joel Griffiths, an ACA-registered counsellor based in Perth and working with adults across Australia."
+      "description": "Online kink-aware therapy across Australia with a counsellor who understands BDSM. Talk about kink, relationships or whatever brings you to counselling."
     },
     "/polyamory-enm-counselling": {
-      "title": "Counselling for Polyamory, Open Relationships and ENM | Vive Counselling",
-      "description": "Counselling for polyamory, open relationships and ENM across Australia, without assuming monogamy is the answer or treating relationship structure as the problem."
+      "title": "Polyamory & Open Relationship Counselling | Vive Counselling",
+      "description": "Online counselling for polyamory and ENM across Australia. Support with jealousy, agreements and change, without assuming monogamy is the answer."
     },
     "/lgbtqia-affirming-counselling": {
       "title": "LGBTQIA+ Affirming Counselling | Vive Counselling",
-      "description": "LGBTQIA+ affirming counselling with Joel Griffiths for adults across Australia. Perth-based online counselling for sexuality, gender, relationships and other concerns."
+      "description": "LGBTQIA+ affirming online counselling across Australia. Talk about anxiety, relationships, sexuality or gender without having to justify who you are."
     },
     "/articles": {
       "title": "Psychology and Counselling Articles | Vive Counselling",
-      "description": "Read articles on mental health, relationships and sexuality that connect psychological research with the questions people bring to counselling.",
+      "description": "In-depth articles on mental health, relationships and sexuality, examining the research on why we struggle and how therapy can help.",
       "pageType": "collection"
     },
     "/contact": {
       "title": "Counselling Fees & Contact | Vive Counselling",
-      "description": "Request a free 15-minute initial consultation."
+      "description": "50-minute online counselling sessions at $120 for individuals and $150 for couples. Ask a question or request a free 15-minute consultation with Joel."
     },
     "/crisis-support": {
-      "title": "Crisis Support Numbers Australia | Vive Counselling",
+      "title": "Crisis Support Numbers in Australia | Vive Counselling",
       "description": "Call 000 for immediate danger. Find 24/7 Australian crisis lines and state or territory urgent mental health services, with official contact details.",
       "lastModified": "2026-08-31",
       "lastReviewed": "2026-08-31"

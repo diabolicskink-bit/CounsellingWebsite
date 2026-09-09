@@ -71,10 +71,10 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Online Counselling and Therapy Across Australia`
 
 - `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
-  - **Data:** `Online Therapy Across Australia | Vive Counselling`
+  - **Data:** `Online Counselling & Therapy | Vive Counselling`
 
 - `Pass` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Online counselling and psychotherapy across Australia. Support for anxiety, depression, relationships and trauma. Kink, ENM and LGBTQIA+ aware.`
+  - **Data:** `Online counselling for individuals and couples across Australia. Support with anxiety, depression and relationships. Kink, ENM and LGBTQIA+ inclusive.`
 
 - `Pass` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/`
@@ -112,7 +112,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Joel Griffiths, Psychodynamic Counsellor | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Psychodynamic counselling with Joel Griffiths, an ACA-registered counsellor working online across Australia, based in Perth. Attachment-informed and integrative.`
+  - **Data:** `Meet Joel Griffiths, an ACA-registered counsellor based in Perth and working online across Australia. Learn about his approach to therapy.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/working-with-joel`
@@ -150,7 +150,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Inclusive counselling for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives. Perth-based and non-shaming.`
+  - **Data:** `Online counselling across Australia with an understanding of kink, ENM and LGBTQIA+ lives. You can talk openly about your mental health and relationships.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/inclusive-counselling`
@@ -188,7 +188,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Kink & BDSM-Aware Counselling | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Kink-aware counselling and therapy with Joel Griffiths, an ACA-registered counsellor based in Perth and working with adults across Australia.`
+  - **Data:** `Online kink-aware therapy across Australia with a counsellor who understands BDSM. Talk about kink, relationships or whatever brings you to counselling.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/kink-bdsm-counselling`
@@ -223,10 +223,10 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Polyamory and ethical non-monogamy counselling and therapy`
 
 - `Not checked` Page title is non-empty, unique among public routes, and accurate to the route purpose.
-  - **Data:** `Counselling for Polyamory, Open Relationships and ENM | Vive Counselling`
+  - **Data:** `Polyamory & Open Relationship Counselling | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Counselling for polyamory, open relationships and ENM across Australia, without assuming monogamy is the answer or treating relationship structure as the problem.`
+  - **Data:** `Online counselling for polyamory and ENM across Australia. Support with jealousy, agreements and change, without assuming monogamy is the answer.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/polyamory-enm-counselling`
@@ -264,7 +264,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `LGBTQIA+ Affirming Counselling | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `LGBTQIA+ affirming counselling with Joel Griffiths for adults across Australia. Perth-based online counselling for sexuality, gender, relationships and other concerns.`
+  - **Data:** `LGBTQIA+ affirming online counselling across Australia. Talk about anxiety, relationships, sexuality or gender without having to justify who you are.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/lgbtqia-affirming-counselling`
@@ -302,7 +302,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Counselling Fees & Contact | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Request a free 15-minute initial consultation with Joel Griffiths at Vive Counselling. Counselling sessions are $120; view fees and contact details.`
+  - **Data:** `50-minute online counselling sessions at $120 for individuals and $150 for couples. Ask a question or request a free 15-minute consultation with Joel.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/contact`
@@ -337,7 +337,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Australian urgent mental health support services.`
 
 - `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
-  - **Data:** `Crisis Support Numbers Australia | Vive Counselling`
+  - **Data:** `Crisis Support Numbers in Australia | Vive Counselling`
 
 - `Pass` Meta description is present, human-readable, and matches visible page content.
   - **Data:** `Call 000 for immediate danger. Find 24/7 Australian crisis lines and state or territory urgent mental health services, with official contact details.`
