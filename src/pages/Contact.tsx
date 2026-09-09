@@ -591,6 +591,7 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
         aria-labelledby="contact-details-title"
         className="contact-page__practice-details"
         id="contact-details"
+        tabIndex={-1}
       >
         <Container>
           <h2 className="contact-page__practice-heading" id="contact-details-title">

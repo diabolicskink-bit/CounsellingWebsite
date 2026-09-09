@@ -64,7 +64,7 @@ export default function DesignSystemPatterns() {
 
         <DesignSystemSpecimen
           consumers={[
-            "Home About Vive and closing invitation",
+            "Home About Vive",
             "Working with Joel introduction and Inclusion chapters",
             "Contact enquiry task, Kink misread, ENM reasons, and LGBTQIA+ recognition sections",
           ]}

@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-09 - Contact Invitation Redesigned
+
+- Replaced the compact warm closing invitation with the owner-selected two-part composition across all five existing consumers.
+- Preserved the supplied consult, email, fee, and practical-details content while translating its presentation into Vive’s deep-green editorial surface, warm and sage action states, established serif and sans roles, flat rules, and responsive spacing.
+- Added anchored routes to the Contact enquiry and practical-details sections while keeping the direct email path available.
+
 ## 2026-09-09 - Public Route Metadata Refined
 
 - Updated the Home, Working with Joel, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, Articles, Contact and Crisis Support search and social wording from the owner-selected metadata review.
