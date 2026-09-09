@@ -74,7 +74,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Online Counselling & Therapy | Vive Counselling`
 
 - `Pass` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Online counselling for individuals and couples across Australia. Support with anxiety, depression and relationships. Kink, ENM and LGBTQIA+ inclusive.`
+  - **Data:** `Online counselling for individuals and couples across Australia. Support with anxiety, depression, trauma and relationships. Kink, ENM and LGBTQIA+ inclusive.`
 
 - `Pass` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/`

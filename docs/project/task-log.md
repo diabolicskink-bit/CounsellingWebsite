@@ -22,6 +22,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Updated the Home, Working with Joel, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, Articles, Contact and Crisis Support search and social wording from the owner-selected metadata review.
 - Kept the already approved specialist titles, Articles title, Contact title, Crisis Support description and Privacy Policy metadata unchanged, while making online Australia-wide delivery and each route's distinct purpose clearer.
+- Expanded the structured `Organization`, `Person`, umbrella `Service` and individual-session `Offer` descriptions to represent the practice's broad counselling work, approach, client formats and specialist knowledge more completely.
 
 ## 2026-09-09 - Article Breadcrumb Semantics Corrected
 

@@ -9,7 +9,7 @@
       "logo": "/icon-512.png",
       "logoWidth": 512,
       "logoHeight": 512,
-      "description": "Counselling and therapy for adults across Australia.",
+      "description": "Vive Counselling is Joel Griffiths' online counselling and psychotherapy practice, based in Perth and working with adults across Australia. It offers individual and couples counselling and is kink-aware, ENM-inclusive and LGBTQIA+ affirming.",
       "sameAs": [
         "https://www.kapprofessionals.org/kap_directory/40049/vive-counselling/",
         "https://www.linkedin.com/company/vivecounselling/"
@@ -20,16 +20,23 @@
       "jobTitle": "Counsellor",
       "url": "/working-with-joel",
       "image": "/joel-griffiths-working-with-joel-portrait.jpg",
-      "description": "ACA-registered counsellor based in Perth.",
+      "description": "Joel Griffiths is an ACA-registered counsellor based in Perth, providing online counselling and psychotherapy for adults across Australia. He works with individuals and couples using a psychodynamic, attachment-informed and integrative approach.",
       "sameAs": [
         "https://theaca.net.au/profile?UserKey=f20cee37-672b-4d3a-8a80-019df18a0826",
         "https://www.instagram.com/joel.ropes/"
       ],
       "knowsAbout": [
+        "Psychodynamic and attachment-informed counselling",
+        "Anxiety and depression",
+        "Trauma and complex PTSD (CPTSD)",
+        "Shame, self-worth and self-critical perfectionism",
+        "Couples and relationship counselling",
         "Kink-aware counselling and therapy, including BDSM",
         "Ethical non-monogamy (ENM), polyamory and open relationships",
         "LGBTQIA+ affirming counselling and therapy",
-        "Sexuality, intimacy and diverse relationships"
+        "Sexuality, intimacy and diverse relationships",
+        "Sexual trauma and sexual assault",
+        "Consent, sexual coercion and abuse in intimate relationships"
       ],
       "credentials": [
         {
@@ -54,15 +61,16 @@
       ]
     },
     "service": {
-      "name": "Counselling and psychotherapy for adults",
+      "name": "Online counselling and psychotherapy for adults",
       "serviceType": [
-        "Counselling and psychotherapy",
+        "Individual counselling and psychotherapy",
+        "Couples and relationship counselling",
         "Kink-aware counselling and therapy, including BDSM",
         "Counselling and therapy for ethical non-monogamy (ENM), polyamory and open relationships",
         "LGBTQIA+ affirming counselling and therapy"
       ],
       "url": "/",
-      "description": "Counselling and therapy for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives.",
+      "description": "Online counselling and psychotherapy for adults across Australia, with sessions for individuals and couples. The service supports people experiencing anxiety, depression, trauma, shame, self-criticism, perfectionism and relationship difficulties. The approach is psychodynamic, attachment-informed and integrative, and the service is kink-aware, ENM-inclusive and LGBTQIA+ affirming.",
       "audience": "Adults",
       "areaServed": "Australia",
       "deliveryChannel": {
@@ -70,7 +78,7 @@
         "url": "/contact"
       },
       "offer": {
-        "name": "Standard 50-minute counselling session",
+        "name": "50-minute individual counselling session",
         "price": "120",
         "priceCurrency": "AUD",
         "url": "/contact"
@@ -110,7 +118,7 @@
   "routes": {
     "/": {
       "title": "Online Counselling & Therapy | Vive Counselling",
-      "description": "Online counselling for individuals and couples across Australia. Support with anxiety, depression and relationships. Kink, ENM and LGBTQIA+ inclusive."
+      "description": "Online counselling for individuals and couples across Australia. Support with anxiety, depression, trauma and relationships. Kink, ENM and LGBTQIA+ inclusive."
     },
     "/working-with-joel": {
       "title": "Joel Griffiths, Psychodynamic Counsellor | Vive Counselling",
