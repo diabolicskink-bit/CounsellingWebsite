@@ -8,6 +8,7 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-articles.css";
 
 const articlesMetadata = getRouteMetadata(publicRoutePaths.articles);
+
 export default function ArticleIndex() {
   useDocumentMetadata(articlesMetadata.title, articlesMetadata.description);
 
@@ -20,7 +21,9 @@ export default function ArticleIndex() {
         <Container>
           <div className="article-index__hero-heading">
             <p className="site-hero__eyebrow">Vive Counselling</p>
-            <h1 className="site-hero__statement" id="article-index-title">Articles</h1>
+            <h1 className="site-hero__statement" id="article-index-title">
+              Psychology and counselling articles
+            </h1>
           </div>
         </Container>
       </header>
@@ -41,10 +44,7 @@ export default function ArticleIndex() {
               {articles.map((article) => (
                 <li key={article.slug}>
                   <article className="article-index__entry">
-                    <div className="article-index__entry-meta">
-                      <span>{article.topic}</span>
-                      {article.isSample ? <span className="article-sample-label">Sample</span> : null}
-                    </div>
+                    <span className="article-index__entry-meta">{article.topic}</span>
 
                     <div className="article-index__entry-copy">
                       <h3>

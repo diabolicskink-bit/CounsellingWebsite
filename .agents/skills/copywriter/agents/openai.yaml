@@ -1,7 +1,7 @@
 interface:
-  display_name: "Professional Website Copywriter"
-  short_description: "Write persuasive, natural website copy"
-  default_prompt: "Use $copywriter to make a strong creative commitment and turn the known practice into persuasive, memorable website copy without analytical or coverage-only prose."
+  display_name: "Public Copywriter"
+  short_description: "Write clear, natural public-facing copy"
+  default_prompt: "Use $copywriter for the requested task. Write clear, natural copy suited to its purpose, with editorial freedom within the brief and careful respect for any limits on revision."
 
 policy:
   allow_implicit_invocation: true

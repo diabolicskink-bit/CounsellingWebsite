@@ -18,6 +18,48 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-09 - Copywriter Rebuilt Around Natural Writing
+
+- Rebuilt the copywriter method around idiomatic wording, connected prose, functional context and proportionate expression; ordinary useful ideas no longer have to demonstrate originality or memorability.
+- Established broad editorial freedom within the brief and explicit fidelity requirements for narrower edits. Added diagnostic review examples that distinguish wording, structure, meaning and unnecessary revision.
+- Recast owner-taste notes as feedback useful across tasks, removed old Home composition instructions and draft-rejection lists, and removed the use of previously published copy as ideal voice evidence. Aligned writing policy and page-copy delegation with the revised skill and its public-copy invocation boundary.
+
+## 2026-09-09 - Copywriter Invocation And Context Clarified
+
+- Limited automatic copywriter use to editorial work on public-facing wording; other work requires explicit user invocation, with repository routing aligned to that boundary.
+- Made functional context govern drafting and review expectations, including when persuasion or memorability serves the copy, without adding separate task workflows.
+
+## 2026-09-09 - Working With Joel CSS Consolidated
+
+- Working with Joel now owns its credential list, portrait frame, and BroadTabPanel presentation directly. Removed their single-consumer global CSS layers, redundant resets, and the permanently hidden hero line break.
+- Corrected the tablet credential alignment and active-tab underline cascade, preserved the established portrait crop and section layout, and added enlarged-text wrapping and reduced-motion hero feedback.
+- Replaced the portrait's nested complementary landmark with a figure and caption; the page passes the local axe scan with enhanced tabs and keeps every approach readable without JavaScript.
+
+## 2026-09-09 - Home CSS Ownership And Accessibility Improved
+
+- Home hero links now own their page-local presentation without resetting the inherited Button styles; redundant declarations and repeated interaction rules were removed.
+- Inclusive topic copy stacks within tablet cards, oversized text can wrap, focused cards rise above their neighbours, and reduced-motion mode disables card and arrow movement.
+- Recorded shared-header overflow at 200% text size separately as `SITE-24`.
+
+## 2026-09-09 - Article Presentation And Sample States Removed
+
+- Removed the never-used custom article-presentation registry, its `ArticlePresentationKey` type and manifest `presentation` field; every article now uses the one shared publication shell, and the article stylesheet folds the previously unreachable base rules into their former `--standard` modifiers.
+- Removed the `isSample` publishing state left over from the pre-publication sample articles, along with its index label, editor suffix, and article `noindex, nofollow` path; every published article route is now indexable and appears in the sitemap.
+- Made `getArticleDocumentMetadata` in the manifest the single source of the article title and robots rule, so the prerendered response and in-app navigation can no longer drift.
+- Updated `article-publishing.md`, `current-scope.md`, the project README, the `<ArticleHero />` catalogue record, and the design-system workspace specimen to describe the single presentation and the removed sample state.
+
+## 2026-09-09 - Contact Invitation Redesigned
+
+- Replaced the compact warm closing invitation with the owner-selected two-part composition across all five existing consumers.
+- Preserved the full consult explanation, general-enquiry and email choices, and individual and couples fees while translating the composition into a warm earth-tan surface with ink and deep-green text and action treatment, established serif and sans roles, flat rules, and site section spacing.
+- On wide screens, the invitation and fees sit in a split field above one closing action row; narrower screens recompose them into invitation, fees, and contact choices in reading order.
+
+## 2026-09-09 - Public Route Metadata Refined
+
+- Updated the Home, Working with Joel, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, Articles, Contact and Crisis Support search and social wording from the owner-selected metadata review.
+- Kept the already approved specialist titles, Articles title, Contact title, Crisis Support description and Privacy Policy metadata unchanged, while making online Australia-wide delivery and each route's distinct purpose clearer.
+- Expanded the structured `Organization`, `Person`, umbrella `Service` and individual-session `Offer` descriptions to represent the practice's broad counselling work, approach, client formats and specialist knowledge more completely.
+
 ## 2026-09-09 - Article Breadcrumb Semantics Corrected
 
 - Standardised every current and future article on an ordered `Articles` to current article title breadcrumb generated from the shared article manifest and hero.

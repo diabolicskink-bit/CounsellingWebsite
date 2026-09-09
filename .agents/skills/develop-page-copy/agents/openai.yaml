@@ -1,7 +1,7 @@
 interface:
   display_name: "Page Copy Development"
   short_description: "Plan pages and create durable copy handoffs"
-  default_prompt: "Use $develop-page-copy to plan or write a complete page with $copywriter, keeping the artifact proportional and useful."
+  default_prompt: "Use $develop-page-copy for the requested page direction, copy or handoff, keeping the artifact proportionate and useful."
 
 policy:
   allow_implicit_invocation: true
