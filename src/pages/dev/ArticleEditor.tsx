@@ -20,7 +20,7 @@ import {
 import Container from "../../components/Container";
 import { getArticlePath } from "../../content/articles/manifest";
 import type { ArticleReference } from "../../content/articles/articleTemplate";
-import { articles, type Article } from "../../content/articles/articles";
+import { articles, getArticleBySlug, type Article } from "../../content/articles/articles";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import {
   getArticleEditorBlockLabel,
@@ -45,6 +45,7 @@ const idleStatus: SaveStatus = {
   kind: "idle",
   message: "Changes are saved to the article template file.",
 };
+const saveFailureMessage = "The article could not be saved.";
 const initialArticle = articles[0] ?? null;
 const referenceCollator = new Intl.Collator("en-AU", { sensitivity: "base" });
 
@@ -81,14 +82,10 @@ function AutoGrowingTextarea({
   );
 }
 
-function findArticle(slug: string) {
-  return articles.find((article) => article.slug === slug) ?? initialArticle;
-}
-
-function parseSaveError(payload: unknown) {
+function readSaveErrorMessage(payload: unknown) {
   return payload && typeof payload === "object" && typeof (payload as { error?: unknown }).error === "string"
     ? (payload as { error: string }).error
-    : "The article could not be saved.";
+    : saveFailureMessage;
 }
 
 function referencesMatch(
@@ -117,7 +114,7 @@ export default function ArticleEditor() {
     initialArticle?.references ?? [],
   );
   const [saveStatus, setSaveStatus] = useState<SaveStatus>(idleStatus);
-  const selectedArticle = findArticle(selectedSlug);
+  const selectedArticle = getArticleBySlug(selectedSlug);
   const markdown = useMemo(() => serializeArticleMarkdown(blocks), [blocks]);
   const hasChanges = markdown !== savedBody
     || !referencesMatch(references, savedReferences);
@@ -140,12 +137,13 @@ export default function ArticleEditor() {
     return () => window.removeEventListener("beforeunload", warnBeforeLeaving);
   }, [hasChanges]);
 
+  // Each AutoGrowingTextarea sizes itself on mount and on edit; only a viewport change
+  // rewraps text without either happening.
   useLayoutEffect(() => {
     const resizeEditorTextareas = () => {
       editorRef.current?.querySelectorAll("textarea").forEach(resizeTextarea);
     };
 
-    resizeEditorTextareas();
     window.addEventListener("resize", resizeEditorTextareas);
     return () => window.removeEventListener("resize", resizeEditorTextareas);
   }, []);
@@ -170,7 +168,7 @@ export default function ArticleEditor() {
   };
 
   const handleArticleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const nextArticle = findArticle(event.target.value);
+    const nextArticle = getArticleBySlug(event.target.value);
 
     if (!nextArticle || nextArticle.slug === selectedArticle.slug) {
       return;
@@ -291,7 +289,7 @@ export default function ArticleEditor() {
       const payload = await response.json().catch(() => null) as unknown;
 
       if (!response.ok) {
-        throw new Error(parseSaveError(payload));
+        throw new Error(readSaveErrorMessage(payload));
       }
 
       setSavedBody(markdown);
@@ -300,7 +298,7 @@ export default function ArticleEditor() {
     } catch (error) {
       setSaveStatus({
         kind: "error",
-        message: error instanceof Error ? error.message : "The article could not be saved.",
+        message: error instanceof Error ? error.message : saveFailureMessage,
       });
     }
   };
@@ -328,7 +326,7 @@ export default function ArticleEditor() {
               <select onChange={handleArticleChange} value={selectedArticle.slug}>
                 {articles.map((article) => (
                   <option key={article.slug} value={article.slug}>
-                    {article.title}{article.isSample ? " - sample" : ""}
+                    {article.title}
                   </option>
                 ))}
               </select>

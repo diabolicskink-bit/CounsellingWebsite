@@ -2,7 +2,11 @@ import { writeFile } from "node:fs/promises";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import path from "node:path";
 import type { Plugin } from "vite";
-import { articleMetadata, type ArticleSlug } from "../src/content/articles/manifest.ts";
+import {
+  articleMetadata,
+  urlSafeArticleTokenPattern,
+  type ArticleSlug,
+} from "../src/content/articles/manifest.ts";
 import type { ArticleReference } from "../src/content/articles/articleTemplate.ts";
 
 const articleEditorApiPrefix = "/__dev/article-editor/";
@@ -58,7 +62,7 @@ function validateArticleContent(content: ArticleTemplateContent) {
     }
 
     if (reference.anchorId !== undefined) {
-      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(reference.anchorId)) {
+      if (!urlSafeArticleTokenPattern.test(reference.anchorId)) {
         throw new ArticleEditorInputError(
           `Reference ${index + 1} has an invalid anchor ID.`,
         );

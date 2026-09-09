@@ -5,7 +5,6 @@ import remarkGfm from "remark-gfm";
 type ArticleMarkdownProps = Readonly<{
   body: string;
   className?: string;
-  components?: Components;
 }>;
 
 const markdownPlugins = [remarkGfm];
@@ -34,14 +33,10 @@ const articleMarkdownComponents: Components = {
 export default function ArticleMarkdown({
   body,
   className = "article-page__prose",
-  components,
 }: ArticleMarkdownProps) {
   return (
     <div className={className}>
-      <ReactMarkdown
-        components={{ ...articleMarkdownComponents, ...components }}
-        remarkPlugins={markdownPlugins}
-      >
+      <ReactMarkdown components={articleMarkdownComponents} remarkPlugins={markdownPlugins}>
         {body}
       </ReactMarkdown>
     </div>
