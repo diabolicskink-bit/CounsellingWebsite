@@ -86,6 +86,108 @@
   outline-offset: 4px;
 }
 
+.contact-page__direct-contact {
+  display: grid;
+  gap: 3px;
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--contact-page-rule);
+  font-style: normal;
+}
+
+.contact-page__direct-contact-option {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  min-width: 0;
+  padding: 4px 0;
+}
+
+.contact-page__direct-contact-label {
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.contact-page__direct-contact-option--hours > .contact-page__direct-contact-label {
+  padding-top: 7px;
+}
+
+.contact-page__enquiry-intro .contact-page__direct-contact-link {
+  justify-self: start;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: var(--cedar-dark);
+  font-size: 0.94rem;
+  font-weight: 650;
+  line-height: 1.4;
+  text-decoration-color: rgba(35, 75, 61, 0.38);
+  transition:
+    color 160ms ease,
+    text-decoration-color 160ms ease;
+}
+
+.contact-page__direct-contact-hours {
+  min-width: 0;
+  color: var(--body);
+  font-size: 0.94rem;
+  line-height: 1.4;
+}
+
+.contact-page__business-hours {
+  width: min(100%, 250px);
+  border: 1px solid rgba(35, 75, 61, 0.2);
+  border-collapse: separate;
+  border-radius: 0 0 3px 3px;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.28);
+  color: var(--body);
+  font-size: inherit;
+  font-variant-numeric: tabular-nums;
+  line-height: inherit;
+}
+
+.contact-page__business-hours caption {
+  padding: 7px 10px;
+  border: 1px solid rgba(35, 75, 61, 0.2);
+  border-bottom: 0;
+  border-radius: 3px 3px 0 0;
+  background: rgba(35, 75, 61, 0.07);
+  color: var(--cedar-dark);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.contact-page__business-hours th,
+.contact-page__business-hours td {
+  padding: 5px 9px 4px;
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.contact-page__business-hours tr + tr th,
+.contact-page__business-hours tr + tr td {
+  border-top: 1px solid rgba(35, 75, 61, 0.14);
+}
+
+.contact-page__business-hours th {
+  width: 58px;
+  border-right: 1px solid rgba(35, 75, 61, 0.12);
+  color: var(--muted);
+  font-weight: 650;
+}
+
+.contact-page__business-hours td {
+  padding-left: 11px;
+}
+
 .contact-page__form,
 .contact-page__success {
   display: grid;
@@ -386,72 +488,6 @@
   outline-offset: 4px;
 }
 
-/* Practice details */
-
-.contact-page__practice-details {
-  padding: 60px 0;
-  border-bottom: 1px solid var(--line);
-  background: var(--paper);
-}
-
-.contact-page__practice-heading {
-  margin-bottom: 42px;
-}
-
-.contact-page__practice-list {
-  margin: 0;
-  border-top: 1px solid var(--contact-page-rule);
-}
-
-.contact-page__practice-list > div {
-  display: grid;
-  grid-template-columns: minmax(170px, 0.58fr) minmax(0, 1.42fr);
-  gap: 34px;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--contact-page-rule);
-}
-
-.contact-page__practice-list dt {
-  color: var(--ink);
-  font-weight: 740;
-}
-
-.contact-page__practice-list dd {
-  max-width: 68ch;
-  margin: 0;
-  color: var(--body);
-  line-height: 1.58;
-}
-
-.contact-page__crisis-support a {
-  color: var(--cedar);
-  font-weight: 700;
-  text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.3);
-  text-underline-offset: 3px;
-}
-
-.contact-page__crisis-support a:hover {
-  color: var(--cedar-dark);
-  text-decoration-color: currentColor;
-}
-
-.contact-page__practice-list dd > span:first-child {
-  display: block;
-}
-
-.contact-page__time-zone-notes {
-  display: grid;
-  gap: 4px;
-  margin-top: 7px;
-}
-
-.contact-page__time-zone-notes small {
-  color: var(--muted);
-  font-size: var(--type-caption);
-  line-height: 1.45;
-}
-
 .contact-page__sr-only {
   position: absolute;
   width: 1px;
@@ -505,6 +541,7 @@
     max-width: 720px;
     padding-top: 0;
   }
+
 }
 
 @media (max-width: 700px) {
@@ -547,6 +584,11 @@
 
   .contact-page__enquiry-intro p {
     max-width: 48ch;
+  }
+
+  .contact-page__direct-contact {
+    gap: 4px;
+    margin-top: 6px;
   }
 
   .contact-page__form,
@@ -598,19 +640,6 @@
     line-height: 1.03;
   }
 
-  .contact-page__practice-details {
-    padding: 58px 0 64px;
-  }
-
-  .contact-page__practice-heading {
-    margin-bottom: 30px;
-  }
-
-  .contact-page__practice-list > div {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 18px 0;
-  }
 }
 
 @media (max-width: 390px) {
@@ -628,6 +657,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .contact-page__enquiry-intro .contact-page__direct-contact-link {
+    transition: none;
+  }
+
   .contact-page__form-fields--conditional {
     animation: none;
   }
