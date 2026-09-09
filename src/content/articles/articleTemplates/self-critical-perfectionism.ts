@@ -10,29 +10,29 @@ This pattern can be difficult to recognise when its outward results are valued. 
 
 ## What makes perfectionism self-critical?
 
-Perfectionism researchers commonly distinguish between *perfectionistic strivings* and *perfectionistic concerns*. Strivings involve setting and pursuing exceptionally demanding standards. Concerns include fear of mistakes, persistent doubts about performance, harsh self-evaluation and the perception that others require perfection. Self-critical perfectionism overlaps substantially with this second dimension, although the terms come from different research traditions and are not interchangeable in every study. Dunkley and colleagues’ work, for example, places particular emphasis on the combination of self-criticism, perceived demands and responses to everyday stress. ([Dunkley et al., 2003](https://doi.org/10.1037/0022-3514.84.1.234))
+Perfectionism researchers commonly distinguish between *perfectionistic strivings* and *perfectionistic concerns*. Strivings involve setting and pursuing exceptionally demanding standards. Concerns include fear of mistakes, persistent doubts about performance, harsh self-evaluation and the perception that others require perfection. Self-critical perfectionism overlaps substantially with this second dimension, although the terms come from different research traditions and are not interchangeable in every study. Dunkley and colleagues’ work, for example, places particular emphasis on the combination of self-criticism, perceived demands and responses to everyday stress. ([Dunkley et al., 2003](#article-reference-dunkley-2003))
 
-In clinical work, a central question is how much a person’s self-worth depends on meeting their standards. Shafran and colleagues’ cognitive model describes a pattern in which self-evaluation becomes excessively dependent on pursuing and achieving demanding standards, despite harmful consequences. A disappointing result then becomes evidence about the person’s worth, while a successful result may prompt the conclusion that the standard was too easy to meet. ([Shafran et al., 2002](https://doi.org/10.1016/S0005-7967(01)00059-6))
+In clinical work, a central question is how much a person’s self-worth depends on meeting their standards. Shafran and colleagues’ cognitive model describes a pattern in which self-evaluation becomes excessively dependent on pursuing and achieving demanding standards, despite harmful consequences. A disappointing result then becomes evidence about the person’s worth, while a successful result may prompt the conclusion that the standard was too easy to meet. ([Shafran et al., 2002](#article-reference-shafran-2002))
 
 This dependence need not extend to every area of life. Someone may tolerate an untidy home while finding a minor error at work unbearable. Another person may be relatively relaxed about achievement but feel compelled to be an unfailingly attentive partner or a parent who never becomes impatient. What matters is the significance attached to falling short in the areas through which they judge themselves.
 
-The distinction between strivings and concerns is useful, but a simple division into “healthy” and “unhealthy” perfectionism goes too far. A meta-analysis of 416 studies, involving 113,118 participants, found that perfectionistic concerns had moderate associations with symptoms of depression, anxiety and obsessive-compulsive disorder. Strivings generally had smaller positive associations with these symptoms, although they were unrelated to social anxiety in the pooled results. High strivings therefore cannot automatically be assumed to be harmless. The more consistent association with distress, however, lay in the fear and self-evaluation surrounding achievement. ([Callaghan et al., 2024](https://doi.org/10.1080/16506073.2023.2277121))
+The distinction between strivings and concerns is useful, but a simple division into “healthy” and “unhealthy” perfectionism goes too far. A meta-analysis of 416 studies, involving 113,118 participants, found that perfectionistic concerns had moderate associations with symptoms of depression, anxiety and obsessive-compulsive disorder. Strivings generally had smaller positive associations with these symptoms, although they were unrelated to social anxiety in the pooled results. High strivings therefore cannot automatically be assumed to be harmless. The more consistent association with distress, however, lay in the fear and self-evaluation surrounding achievement. ([Callaghan et al., 2024](#article-reference-callaghan-2024))
 
 ## The emotional and relational cost
 
 Living under continual evaluation leaves little room for satisfaction. You notice what remains unfinished, where somebody else seems further ahead and what you should already have understood. Rest may feel difficult to justify while you are still questioning whether you have done enough. Even enjoyable activities can become things you judge yourself on.
 
-Across 43 studies involving 9,838 participants in work, education and sport, perfectionistic concerns showed medium to large positive relationships with burnout. The relationships for strivings were smaller and often negative or non-significant, particularly when their overlap with concerns was taken into account. The fear of falling short appears to add to the burden of sustained effort. ([Hill & Curran, 2016](https://doi.org/10.1177/1088868315596286))
+Across 43 studies involving 9,838 participants in work, education and sport, perfectionistic concerns showed medium to large positive relationships with burnout. The relationships for strivings were smaller and often negative or non-significant, particularly when their overlap with concerns was taken into account. The fear of falling short appears to add to the burden of sustained effort. ([Hill & Curran, 2016](#article-reference-hill-curran-2016))
 
-A meta-analysis of 67 longitudinal studies, involving 20,583 participants, found that perfectionism and depression predicted changes in one another over time. Perfectionistic concerns predicted subsequent increases in depressive symptoms, and depressive symptoms predicted subsequent increases in perfectionistic concerns. Strivings also predicted later depressive symptoms, although the reverse relationship was not supported. This strengthens the case that perfectionism can contribute to vulnerability over time, without establishing causation. ([Smith et al., 2021](https://doi.org/10.1016/j.cpr.2021.101982))
+A meta-analysis of 67 longitudinal studies, involving 20,583 participants, found that perfectionism and depression predicted changes in one another over time. Perfectionistic concerns predicted subsequent increases in depressive symptoms, and depressive symptoms predicted subsequent increases in perfectionistic concerns. Strivings also predicted later depressive symptoms, although the reverse relationship was not supported. This strengthens the case that perfectionism can contribute to vulnerability over time, without establishing causation. ([Smith et al., 2021](#article-reference-smith-2021))
 
 For someone caught in this pattern, depression can become another reason to judge themselves. Reduced energy makes it harder to meet familiar expectations. Difficulty concentrating is interpreted as incompetence, while withdrawing from friends becomes evidence of being a poor friend. A person may understand that depression affects their functioning and still feel ashamed of being affected. The standards remain demanding while the capacity to meet them has diminished.
 
 Relationships can also become organised around avoiding disappointment. You may conceal uncertainty, apologise excessively, anticipate criticism in ordinary feedback, or find it hard to ask for help. Someone close to you may experience you as capable and self-sufficient when you are privately wishing they would recognise how much you are struggling. Their reassurance may be difficult to trust if you believe it depends on their not knowing the whole story.
 
-Social disconnection may help explain how perfectionism contributes to depression. A synthesis of 18 longitudinal studies, involving 5,568 participants, found that stress and social disconnection statistically mediated the relationship between perfectionistic concerns and later depressive symptoms. This supports a model in which the strain surrounding achievement and difficulties feeling connected to others help sustain distress. Because most studies did not measure every stage of this proposed sequence at separate time points, the precise causal pathway remains uncertain. ([Smith et al., 2020](https://doi.org/10.1016/j.jrp.2020.103954))
+Social disconnection may help explain how perfectionism contributes to depression. A synthesis of 18 longitudinal studies, involving 5,568 participants, found that stress and social disconnection statistically mediated the relationship between perfectionistic concerns and later depressive symptoms. This supports a model in which the strain surrounding achievement and difficulties feeling connected to others help sustain distress. Because most studies did not measure every stage of this proposed sequence at separate time points, the precise causal pathway remains uncertain. ([Smith et al., 2020](#article-reference-smith-2020))
 
-A daily diary study offers a more immediate example. Among 396 university students, those higher in self-critical perfectionism were less likely to disclose emotional experiences under high stress. The inhibition appeared precisely when sharing what had happened might have made support more available. ([Richardson & Rice, 2015](https://doi.org/10.1037/cou0000100))
+A daily diary study offers a more immediate example. Among 396 university students, those higher in self-critical perfectionism were less likely to disclose emotional experiences under high stress. The inhibition appeared precisely when sharing what had happened might have made support more available. ([Richardson & Rice, 2015](#article-reference-richardson-rice-2015))
 
 This can leave someone struggling privately while others assume they are coping well. The effort to avoid disappointing people may make it harder for those people to recognise when support is needed.
 
@@ -40,11 +40,11 @@ This can leave someone struggling privately while others assume they are coping 
 
 One reason self-critical perfectionism persists is that its benefits can seem obvious. You worked hard, checked carefully and obtained a good result. It is understandable to attribute that result to the pressure you put yourself under. The difficulty is knowing how much of that pressure was necessary, and how much competent work might have been possible without it.
 
-A 2025 meta-analysis examined perfectionism, working hours and job performance across 28 samples involving 9,560 participants. Both strivings and concerns were associated with longer working hours. Strivings showed a small positive association with performance, while concerns showed no significant overall association. Although results varied across studies, the overall pattern challenges the assumption that the most punishing aspects of perfectionism reliably produce better work. ([Bellam & Curran, 2025](https://doi.org/10.1111/joop.70050))
+A 2025 meta-analysis examined perfectionism, working hours and job performance across 28 samples involving 9,560 participants. Both strivings and concerns were associated with longer working hours. Strivings showed a small positive association with performance, while concerns showed no significant overall association. Although results varied across studies, the overall pattern challenges the assumption that the most punishing aspects of perfectionism reliably produce better work. ([Bellam & Curran, 2025](#article-reference-bellam-curran-2025))
 
 Care, preparation and persistence may contribute substantially to your work. Whether the fear of being unacceptable improves that work is a separate question. It can be difficult to separate the two when they have operated together for years.
 
-Perfectionism can also interfere with getting things done. A meta-analysis found that perfectionistic concerns were positively associated with procrastination, whereas strivings were negatively associated with it. The analysis of concerns included 43 samples and approximately 10,000 participants. This helps explain why someone can care intensely about the outcome while repeatedly delaying the task. ([Sirois et al., 2017](https://doi.org/10.1002/per.2098))
+Perfectionism can also interfere with getting things done. A meta-analysis found that perfectionistic concerns were positively associated with procrastination, whereas strivings were negatively associated with it. The analysis of concerns included 43 samples and approximately 10,000 participants. This helps explain why someone can care intensely about the outcome while repeatedly delaying the task. ([Sirois et al., 2017](#article-reference-sirois-2017))
 
 Beginning creates the possibility of an imperfect result. Finishing exposes that result to judgement. Repeated preparation, checking or postponement can temporarily relieve the discomfort of those moments, while making the task more difficult to complete. A person may move between working excessively and avoiding work altogether, then criticise themselves for both.
 
@@ -52,9 +52,9 @@ Beginning creates the possibility of an imperfect result. Finishing exposes that
 
 Self-critical perfectionism can survive both success and failure because the two are judged differently. If something goes wrong, the mistake is treated as a fair reflection of your ability. If it goes well, the result is attributed to luck, an easy task, other people’s low expectations or the excessive effort required to prevent failure. Neither outcome allows a more secure view of yourself to develop.
 
-The cognitive model of perfectionism describes how perceived failure intensifies self-criticism, while success can lead to raising the standard. Achievement may therefore do little to change the underlying view of yourself, and the demand returns. Reassurance about a particular performance may offer some relief without altering the wider requirement to keep proving yourself. ([Shafran et al., 2002](https://doi.org/10.1016/S0005-7967(01)00059-6))
+The cognitive model of perfectionism describes how perceived failure intensifies self-criticism, while success can lead to raising the standard. Achievement may therefore do little to change the underlying view of yourself, and the demand returns. Reassurance about a particular performance may offer some relief without altering the wider requirement to keep proving yourself. ([Shafran et al., 2002](#article-reference-shafran-2002))
 
-Avoidance can help sustain this pattern. In a three-wave study following 173 community adults over two years, self-critical perfectionism predicted increases in *experiential avoidance*, meaning efforts to escape or control unwanted internal experiences. This avoidance, in turn, predicted increases in anxiety and depressive symptoms. The indirect associations remained after accounting for initial symptoms and neuroticism, a broader tendency towards negative emotion. ([Moroz & Dunkley, 2019](https://doi.org/10.1016/j.brat.2018.11.006))
+Avoidance can help sustain this pattern. In a three-wave study following 173 community adults over two years, self-critical perfectionism predicted increases in *experiential avoidance*, meaning efforts to escape or control unwanted internal experiences. This avoidance, in turn, predicted increases in anxiety and depressive symptoms. The indirect associations remained after accounting for initial symptoms and neuroticism, a broader tendency towards negative emotion. ([Moroz & Dunkley, 2019](#article-reference-moroz-dunkley-2019))
 
 In everyday life, avoiding an internal experience may look quite productive. You can keep revising a piece of work to avoid feeling exposed, rehearse a conversation to avoid uncertainty, or take responsibility for everything to avoid guilt. These strategies may solve an immediate problem. They can also leave little opportunity to discover whether the feared feeling is tolerable, whether other people would respond differently, or whether less control would have been sufficient.
 
@@ -62,7 +62,7 @@ In everyday life, avoiding an internal experience may look quite productive. You
 
 There is no single developmental history behind self-critical perfectionism. It can emerge through different combinations of temperament, learning and relationships. Childhood experience is relevant, but it is best explored without assuming that every perfectionistic adult had overtly demanding or rejecting parents.
 
-A meta-analysis of 46 studies, involving 13,364 participants, found that perceived parental expectations were associated with several dimensions of perfectionism. After accounting for expectations, parental criticism was specifically associated with socially prescribed perfectionism, the sense that other people require you to be perfect. Parents’ own perfectionism also showed smaller associations with corresponding patterns in their children. Much of the evidence was cross-sectional, so these findings identify relationships rather than establish a developmental sequence. ([Smith et al., 2022](https://doi.org/10.1016/j.jrp.2021.104180))
+A meta-analysis of 46 studies, involving 13,364 participants, found that perceived parental expectations were associated with several dimensions of perfectionism. After accounting for expectations, parental criticism was specifically associated with socially prescribed perfectionism, the sense that other people require you to be perfect. Parents’ own perfectionism also showed smaller associations with corresponding patterns in their children. Much of the evidence was cross-sectional, so these findings identify relationships rather than establish a developmental sequence. ([Smith et al., 2022](#article-reference-smith-2022))
 
 From a psychodynamic and attachment-informed perspective, it is useful to consider what a person learned to expect from meeting their standards. For one person, achievement may have been the most reliable route to warmth or attention. For another, being capable and undemanding may have helped preserve stability in an anxious household. Someone who was repeatedly humiliated may have learned to scrutinise themselves before anybody else could. Each possibility needs to be understood within the person’s own history.
 
@@ -74,13 +74,13 @@ Current circumstances matter too. A workplace may reward chronic overwork, or a 
 
 In depression treatment, it matters whether perfectionism eases as mood improves or continues to make recovery more difficult.
 
-Some influential evidence comes from the US National Institute of Mental Health’s Treatment of Depression Collaborative Research Program. Adults with depression received cognitive behavioural therapy, interpersonal therapy, antidepressant medication with clinical management, or placebo with clinical management. A self-critical perfectionism factor measured before treatment predicted less improvement across the four conditions. Subsequent analyses found that its association with poorer outcomes remained evident 18 months after the 16-week treatment had ended. ([Blatt et al., 1995](https://doi.org/10.1037/0022-006X.63.1.125), [Blatt et al., 1998](https://doi.org/10.1037/0022-006X.66.2.423))
+Some influential evidence comes from the US National Institute of Mental Health’s Treatment of Depression Collaborative Research Program. Adults with depression received cognitive behavioural therapy, interpersonal therapy, antidepressant medication with clinical management, or placebo with clinical management. A self-critical perfectionism factor measured before treatment predicted less improvement across the four conditions. Subsequent analyses found that its association with poorer outcomes remained evident 18 months after the 16-week treatment had ended. ([Blatt et al., 1995](#article-reference-blatt-1995), [Blatt et al., 1998](#article-reference-blatt-1998))
 
-A later analysis examined measurements taken at five points during the same trial. Perfectionism predicted the subsequent rate of improvement in depression, while a stronger early therapeutic alliance predicted change in perfectionism. This raises the possibility that the therapeutic relationship helps recovery partly by making the person’s self-critical expectations more open to change. The analysis suggests this interpretation without demonstrating the mechanism. These publications also draw on the same underlying trial. ([Hawley et al., 2006](https://doi.org/10.1037/0022-006X.74.5.930))
+A later analysis examined measurements taken at five points during the same trial. Perfectionism predicted the subsequent rate of improvement in depression, while a stronger early therapeutic alliance predicted change in perfectionism. This raises the possibility that the therapeutic relationship helps recovery partly by making the person’s self-critical expectations more open to change. The analysis suggests this interpretation without demonstrating the mechanism. These publications also draw on the same underlying trial. ([Hawley et al., 2006](#article-reference-hawley-2006))
 
-Related findings emerged in a separate trial involving 439 adolescents with depression. Higher initial perfectionism was associated with persistently higher depression scores over 12 weeks, regardless of whether participants received CBT, fluoxetine, their combination or placebo. Reductions in perfectionism partially mediated treatment outcomes, statistically accounting for some of the improvement. This extends the evidence to younger people and adds support for attending to perfectionism during depression treatment. ([Jacobs et al., 2009](https://doi.org/10.1080/15374410903259031))
+Related findings emerged in a separate trial involving 439 adolescents with depression. Higher initial perfectionism was associated with persistently higher depression scores over 12 weeks, regardless of whether participants received CBT, fluoxetine, their combination or placebo. Reductions in perfectionism partially mediated treatment outcomes, statistically accounting for some of the improvement. This extends the evidence to younger people and adds support for attending to perfectionism during depression treatment. ([Jacobs et al., 2009](#article-reference-jacobs-2009))
 
-The wider literature is less uniform. A 2025 systematic review included 16 randomised trials across several mental health conditions. Of the 15 examining baseline perfectionism, nine associated higher perfectionism with poorer treatment outcomes, five found no significant association and one reported mixed findings. Differences in conditions, measures and study quality limit how precisely this evidence can guide an individual treatment plan. ([Jiang et al., 2025](https://doi.org/10.1080/16506073.2025.2547199))
+The wider literature is less uniform. A 2025 systematic review included 16 randomised trials across several mental health conditions. Of the 15 examining baseline perfectionism, nine associated higher perfectionism with poorer treatment outcomes, five found no significant association and one reported mixed findings. Differences in conditions, measures and study quality limit how precisely this evidence can guide an individual treatment plan. ([Jiang et al., 2025](#article-reference-jiang-2025))
 
 These studies concern prognosis and processes of change. They do not establish that treating perfectionism first is superior to treating it alongside depression. Participants were assigned to treatments, not to different levels of perfectionism, and statistical mediation does not by itself demonstrate a causal mechanism. It would therefore be too strong to conclude that medication or depression-focused therapy cannot produce lasting improvement until perfectionism has been resolved.
 
@@ -90,17 +90,17 @@ Self-critical perfectionism warrants assessment and direct attention when it is 
 
 Change means having more choice about how to pursue what matters, how much effort a situation warrants and how to respond when the outcome is disappointing. This can be uncomfortable even when a person wants relief. The habits that exhaust them may also feel protective, familiar and closely tied to their identity.
 
-There is direct evidence that perfectionism can respond to psychological treatment. A meta-analysis of 15 randomised controlled trials, involving 912 participants, found that CBT specifically targeting perfectionism produced large average effects on concern over mistakes and clinical perfectionism. Effects on depressive symptoms were moderate (Hedges’ g = 0.60), with a smaller to moderate effect on anxiety (g = 0.42). Most participants were young adults, and comparisons with other active treatments were lacking. The findings support targeting perfectionism directly, while leaving open which approach works best for different people. ([Galloway et al., 2022](https://doi.org/10.1080/16506073.2021.1952302))
+There is direct evidence that perfectionism can respond to psychological treatment. A meta-analysis of 15 randomised controlled trials, involving 912 participants, found that CBT specifically targeting perfectionism produced large average effects on concern over mistakes and clinical perfectionism. Effects on depressive symptoms were moderate (Hedges’ g = 0.60), with a smaller to moderate effect on anxiety (g = 0.42). Most participants were young adults, and comparisons with other active treatments were lacking. The findings support targeting perfectionism directly, while leaving open which approach works best for different people. ([Galloway et al., 2022](#article-reference-galloway-2022))
 
 Practical work can include examining the rules behind everyday pressure and testing what happens when a response changes. For example, someone who repeatedly checks routine emails might decide to check a message once before sending it, then observe the outcome and the urge to check again. They can consider whether the feared consequence occurred, how they managed the uncertainty and how much the extra checking had helped. The experiment needs to suit the person and the actual consequences of the situation.
 
-Relational approaches also have emerging evidence. In a randomised trial, 80 adults with high perfectionism received 12 sessions of either dynamic-relational group therapy or psychodynamic supportive group therapy. Both groups improved in perfectionism and functioning over the period from before treatment to six-month follow-up. Dynamic-relational therapy produced greater improvements on several perfectionism measures, including concealing imperfections, and in work and social adjustment. ([Hewitt et al., 2023](https://doi.org/10.1037/ccp0000787))
+Relational approaches also have emerging evidence. In a randomised trial, 80 adults with high perfectionism received 12 sessions of either dynamic-relational group therapy or psychodynamic supportive group therapy. Both groups improved in perfectionism and functioning over the period from before treatment to six-month follow-up. Dynamic-relational therapy produced greater improvements on several perfectionism measures, including concealing imperfections, and in work and social adjustment. ([Hewitt et al., 2023](#article-reference-hewitt-2023))
 
 Treatment addressed how perfectionism operated between people, including the ways participants presented themselves and concealed difficulty. Although this was a small trial of a specific group treatment, it supports further investigation of approaches that work directly with these interpersonal patterns.
 
-For someone who believes easing self-criticism will make them complacent, the research on self-compassion is relevant. In four experiments, Breines and Chen found that responding compassionately to a weakness or mistake could increase motivation to improve. In one experiment, participants spent longer studying after an initial test failure. In another, they reported greater motivation to make amends for a moral transgression. These experiments did not test a treatment for entrenched perfectionism, but they challenge the assumption that a less punitive response necessarily weakens accountability. ([Breines & Chen, 2012](https://doi.org/10.1177/0146167212445599))
+For someone who believes easing self-criticism will make them complacent, the research on self-compassion is relevant. In four experiments, Breines and Chen found that responding compassionately to a weakness or mistake could increase motivation to improve. In one experiment, participants spent longer studying after an initial test failure. In another, they reported greater motivation to make amends for a moral transgression. These experiments did not test a treatment for entrenched perfectionism, but they challenge the assumption that a less punitive response necessarily weakens accountability. ([Breines & Chen, 2012](#article-reference-breines-chen-2012))
 
-In a university-based randomised trial, a brief intervention combining mindfulness and self-compassion reduced evaluative concerns, anxiety and depressive symptoms relative to a waitlist, without a significant between-group reduction in perfectionistic strivings. Substantial attrition limits confidence in the results, and a separate analysis found a small change in strivings over time. The pattern suggests that reducing fear and self-criticism around achievement need not require an equally large change in the standards a person wants to pursue. ([Woodfin et al., 2021](https://doi.org/10.3389/fpsyg.2021.751294))
+In a university-based randomised trial, a brief intervention combining mindfulness and self-compassion reduced evaluative concerns, anxiety and depressive symptoms relative to a waitlist, without a significant between-group reduction in perfectionistic strivings. Substantial attrition limits confidence in the results, and a separate analysis found a small change in strivings over time. The pattern suggests that reducing fear and self-criticism around achievement need not require an equally large change in the standards a person wants to pursue. ([Woodfin et al., 2021](#article-reference-woodfin-2021))
 
 In practice, a more compassionate response may begin with accuracy. A missed deadline can be acknowledged, its consequences addressed and a different plan made, without turning it into a verdict on your character. This is often more credible than trying to replace every critical thought with praise. It also allows responsibility to remain specific enough to act on.
 
@@ -116,82 +116,102 @@ I offer online counselling for adults across Australia. If self-critical perfect
   references: [
     {
       citation: `Bellam, A., & Curran, T. (2025). Perfectionism and work performance. A meta-analysis. *Journal of Occupational and Organizational Psychology, 98*(3), e70050.`,
+      anchorId: "bellam-curran-2025",
       href: "https://doi.org/10.1111/joop.70050",
     },
     {
       citation: `Blatt, S. J., Quinlan, D. M., Pilkonis, P. A., & Shea, M. T. (1995). Impact of perfectionism and need for approval on the brief treatment of depression. The National Institute of Mental Health Treatment of Depression Collaborative Research Program revisited. *Journal of Consulting and Clinical Psychology, 63*(1), 125–132.`,
+      anchorId: "blatt-1995",
       href: "https://doi.org/10.1037/0022-006X.63.1.125",
     },
     {
       citation: `Blatt, S. J., Zuroff, D. C., Bondi, C. M., Sanislow, C. A., III, & Pilkonis, P. A. (1998). When and how perfectionism impedes the brief treatment of depression. Further analyses of the National Institute of Mental Health Treatment of Depression Collaborative Research Program. *Journal of Consulting and Clinical Psychology, 66*(2), 423–428.`,
+      anchorId: "blatt-1998",
       href: "https://doi.org/10.1037/0022-006X.66.2.423",
     },
     {
       citation: `Breines, J. G., & Chen, S. (2012). Self-compassion increases self-improvement motivation. *Personality and Social Psychology Bulletin, 38*(9), 1133–1143.`,
+      anchorId: "breines-chen-2012",
       href: "https://doi.org/10.1177/0146167212445599",
     },
     {
       citation: `Callaghan, T., Greene, D., Shafran, R., Lunn, J., & Egan, S. J. (2024). The relationships between perfectionism and symptoms of depression, anxiety and obsessive-compulsive disorder in adults. A systematic review and meta-analysis. *Cognitive Behaviour Therapy, 53*(2), 121–132.`,
+      anchorId: "callaghan-2024",
       href: "https://doi.org/10.1080/16506073.2023.2277121",
     },
     {
       citation: `Dunkley, D. M., Zuroff, D. C., & Blankstein, K. R. (2003). Self-critical perfectionism and daily affect. Dispositional and situational influences on stress and coping. *Journal of Personality and Social Psychology, 84*(1), 234–252.`,
+      anchorId: "dunkley-2003",
       href: "https://doi.org/10.1037/0022-3514.84.1.234",
     },
     {
       citation: `Galloway, R., Watson, H., Greene, D., Shafran, R., & Egan, S. J. (2022). The efficacy of randomised controlled trials of cognitive behaviour therapy for perfectionism. A systematic review and meta-analysis. *Cognitive Behaviour Therapy, 51*(2), 170–184.`,
+      anchorId: "galloway-2022",
       href: "https://doi.org/10.1080/16506073.2021.1952302",
     },
     {
       citation: `Hawley, L. L., Ho, M.-H. R., Zuroff, D. C., & Blatt, S. J. (2006). The relationship of perfectionism, depression, and therapeutic alliance during treatment for depression. Latent difference score analysis. *Journal of Consulting and Clinical Psychology, 74*(5), 930–942.`,
+      anchorId: "hawley-2006",
       href: "https://doi.org/10.1037/0022-006X.74.5.930",
     },
     {
       citation: `Hewitt, P. L., Kealy, D., Mikail, S. F., Smith, M. M., Ge, S., Chen, C., Sochting, I., Tasca, G. A., Flett, G. L., & Ko, A. (2023). The efficacy of group psychotherapy for adults with perfectionism. A randomized controlled trial of dynamic-relational therapy versus psychodynamic supportive therapy. *Journal of Consulting and Clinical Psychology, 91*(1), 29–42.`,
+      anchorId: "hewitt-2023",
       href: "https://doi.org/10.1037/ccp0000787",
     },
     {
       citation: `Hill, A. P., & Curran, T. (2016). Multidimensional perfectionism and burnout. A meta-analysis. *Personality and Social Psychology Review, 20*(3), 269–288.`,
+      anchorId: "hill-curran-2016",
       href: "https://doi.org/10.1177/1088868315596286",
     },
     {
       citation: `Jacobs, R. H., Silva, S. G., Reinecke, M. A., Curry, J. F., Ginsburg, G. S., Kratochvil, C. J., & March, J. S. (2009). Dysfunctional Attitudes Scale perfectionism. A predictor and partial mediator of acute treatment outcome among clinically depressed adolescents. *Journal of Clinical Child & Adolescent Psychology, 38*(6), 803–813.`,
+      anchorId: "jacobs-2009",
       href: "https://doi.org/10.1080/15374410903259031",
     },
     {
       citation: `Jiang, Z., Egan, S. J., Greene, D., Frost, M., Ma, Y., & Shafran, R. (2025). The impact of perfectionism on treatment outcomes of mental health disorders. A systematic review of randomised controlled trials. *Cognitive Behaviour Therapy*. Advance online publication.`,
+      anchorId: "jiang-2025",
       href: "https://doi.org/10.1080/16506073.2025.2547199",
     },
     {
       citation: `Moroz, M., & Dunkley, D. M. (2019). Self-critical perfectionism, experiential avoidance, and depressive and anxious symptoms over two years. A three-wave longitudinal study. *Behaviour Research and Therapy, 112*, 18–27.`,
+      anchorId: "moroz-dunkley-2019",
       href: "https://doi.org/10.1016/j.brat.2018.11.006",
     },
     {
       citation: `Richardson, C. M. E., & Rice, K. G. (2015). Self-critical perfectionism, daily stress, and disclosure of daily emotional events. *Journal of Counseling Psychology, 62*(4), 694–702.`,
+      anchorId: "richardson-rice-2015",
       href: "https://doi.org/10.1037/cou0000100",
     },
     {
       citation: `Shafran, R., Cooper, Z., & Fairburn, C. G. (2002). Clinical perfectionism. A cognitive–behavioural analysis. *Behaviour Research and Therapy, 40*(7), 773–791.`,
+      anchorId: "shafran-2002",
       href: "https://doi.org/10.1016/S0005-7967(01)00059-6",
     },
     {
       citation: `Sirois, F. M., Molnar, D. S., & Hirsch, J. K. (2017). A meta-analytic and conceptual update on the associations between procrastination and multidimensional perfectionism. *European Journal of Personality, 31*(2), 137–159.`,
+      anchorId: "sirois-2017",
       href: "https://doi.org/10.1002/per.2098",
     },
     {
       citation: `Smith, M. M., Hewitt, P. L., Sherry, S. B., Flett, G. L., & Ray, C. (2022). Parenting behaviors and trait perfectionism. A meta-analytic test of the social expectations and social learning models. *Journal of Research in Personality, 96*, 104180.`,
+      anchorId: "smith-2022",
       href: "https://doi.org/10.1016/j.jrp.2021.104180",
     },
     {
       citation: `Smith, M. M., Sherry, S. B., Ray, C., Hewitt, P. L., & Flett, G. L. (2021). Is perfectionism a vulnerability factor for depressive symptoms, a complication of depressive symptoms, or both? A meta-analytic test of 67 longitudinal studies. *Clinical Psychology Review, 84*, 101982.`,
+      anchorId: "smith-2021",
       href: "https://doi.org/10.1016/j.cpr.2021.101982",
     },
     {
       citation: `Smith, M. M., Sherry, S. B., Vidovic, V., Hewitt, P. L., & Flett, G. L. (2020). Why does perfectionism confer risk for depressive symptoms? A meta-analytic test of the mediating role of stress and social disconnection. *Journal of Research in Personality, 86*, 103954.`,
+      anchorId: "smith-2020",
       href: "https://doi.org/10.1016/j.jrp.2020.103954",
     },
     {
       citation: `Woodfin, V., Molde, H., Dundas, I., & Binder, P.-E. (2021). A randomized control trial of a brief self-compassion intervention for perfectionism, anxiety, depression, and body image. *Frontiers in Psychology, 12*, 751294.`,
+      anchorId: "woodfin-2021",
       href: "https://doi.org/10.3389/fpsyg.2021.751294",
     },
   ],

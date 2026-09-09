@@ -47,14 +47,14 @@ const publishedArticleMetadata = [
   },
   {
     abstract:
-      "Discussing kink in therapy takes more than an accepting response. Informed counselling can help when shame, consent, trauma or changing desires are difficult to talk about. Knowing what that involves can help you choose a therapist.",
+      "Kink-aware therapy brings an understanding of BDSM and consensual power exchange to counselling. Drawing on research into mental health, attachment and sexual trauma, this article examines what people find rewarding about kink, how shame and stigma affect access to therapy, and why abuse within kink relationships can be difficult to disclose. It considers how therapists can address these concerns without assuming that a person’s sexual interests are the source of their difficulties.",
     author: "Joel Griffiths",
     description:
       "What kink-aware therapy involves, how counselling approaches BDSM, consent, trauma and shame, and questions to ask when choosing a therapist.",
     metaTitle: "Kink-Aware Therapy & Counselling | Vive Counselling",
     publishedAt: "2026-08-26",
     slug: "kink-aware-therapy",
-    title: "What Is Kink-Aware Therapy?",
+    title: "Kink-Aware Therapy and the Psychology of BDSM",
     topic: "Kink and BDSM",
     updatedAt: "2026-09-09",
   },

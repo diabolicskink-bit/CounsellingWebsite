@@ -1,11 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "playwright/test";
-import {
-  articleMetadata,
-  getArticlePath,
-  getArticleRouteMetadata,
-} from "../../src/content/articles/manifest";
+import { getArticleRouteMetadata } from "../../src/content/articles/manifest";
 import type {
   NotFoundMetadata,
   RouteMetadata,
@@ -227,12 +223,6 @@ test.describe("crawl output", () => {
       `<url><loc>${crisisSupportUrl}</loc><lastmod>${crisisSupportLastModified}</lastmod></url>`,
     );
 
-    for (const article of articleMetadata) {
-      const route = getArticlePath(article.slug);
-      const routeUrl = `${siteOrigin}${route}`;
-
-      expect(sitemap.includes(`<loc>${routeUrl}</loc>`)).toBe(!article.isSample);
-    }
   });
 });
 

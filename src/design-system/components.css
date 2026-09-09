@@ -8,9 +8,18 @@
   container-type: inline-size;
 }
 
-.article-hero.site-hero .article-hero__breadcrumb {
+.article-hero.site-hero .article-hero__breadcrumb ol {
   display: flex;
   flex-wrap: wrap;
+  gap: 9px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-hero__breadcrumb li {
+  display: flex;
   gap: 9px;
   align-items: center;
 }
