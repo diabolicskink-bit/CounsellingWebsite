@@ -25,7 +25,7 @@
 }
 
 .article-index .article-index__hero .site-hero__statement {
-  max-width: 10ch;
+  max-width: 15ch;
   margin: var(--site-hero-eyebrow-gap) 0 0;
   font-size: clamp(3.7rem, 5.5vw, 5.1rem);
   letter-spacing: -0.045em;
@@ -362,6 +362,16 @@
   overflow-wrap: anywhere;
 }
 
+.article-page__references li[id] {
+  scroll-margin-top: 96px;
+}
+
+.article-page__references li:target {
+  border-radius: 2px;
+  outline: 2px solid color-mix(in srgb, var(--article-accent) 42%, transparent);
+  outline-offset: 7px;
+}
+
 .article-page__references li:first-child {
   padding-top: 0;
   border-top: 0;
@@ -527,7 +537,7 @@
 
 @media (max-width: 700px) {
   .article-index .article-index__hero .site-hero__statement {
-    max-width: 9ch;
+    max-width: 100%;
     font-size: clamp(3rem, 14vw, 3.65rem);
   }
 

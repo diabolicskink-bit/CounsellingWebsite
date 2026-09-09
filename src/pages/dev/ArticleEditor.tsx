@@ -96,7 +96,9 @@ function referencesMatch(
   right: readonly ArticleReference[],
 ) {
   return left.length === right.length && left.every((reference, index) => (
-    reference.citation === right[index].citation && reference.href === right[index].href
+    reference.anchorId === right[index].anchorId
+    && reference.citation === right[index].citation
+    && reference.href === right[index].href
   ));
 }
 

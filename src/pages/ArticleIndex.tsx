@@ -8,10 +8,6 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-articles.css";
 
 const articlesMetadata = getRouteMetadata(publicRoutePaths.articles);
-const indexedArticles = articles.filter(
-  (article) => article.slug !== "self-critical-perfectionism",
-);
-
 export default function ArticleIndex() {
   useDocumentMetadata(articlesMetadata.title, articlesMetadata.description);
 
@@ -24,7 +20,9 @@ export default function ArticleIndex() {
         <Container>
           <div className="article-index__hero-heading">
             <p className="site-hero__eyebrow">Vive Counselling</p>
-            <h1 className="site-hero__statement" id="article-index-title">Articles</h1>
+            <h1 className="site-hero__statement" id="article-index-title">
+              Psychology and counselling articles
+            </h1>
           </div>
         </Container>
       </header>
@@ -34,15 +32,15 @@ export default function ArticleIndex() {
           <header className="article-index__entries-heading">
             <h2 id="article-entries-title">Published articles</h2>
             <p>
-              {indexedArticles.length === 1
+              {articles.length === 1
                 ? "1 article"
-                : `${indexedArticles.length} articles`}
+                : `${articles.length} articles`}
             </p>
           </header>
 
-          {indexedArticles.length > 0 ? (
+          {articles.length > 0 ? (
             <ol className="article-index__list" aria-label="Published articles">
-              {indexedArticles.map((article) => (
+              {articles.map((article) => (
                 <li key={article.slug}>
                   <article className="article-index__entry">
                     <div className="article-index__entry-meta">

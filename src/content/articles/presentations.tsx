@@ -1,5 +1,4 @@
 import type { ComponentType } from "react";
-import SelfCriticalPerfectionismArticle from "./articles/SelfCriticalPerfectionismArticle";
 import type { ArticlePresentationKey } from "./manifest";
 
 type ArticleBodyProps = Readonly<{
@@ -11,17 +10,12 @@ type ArticlePresentation = Readonly<{
   className: string;
 }>;
 
-const articlePresentations = {
-  "self-critical-perfectionism": {
-    Body: SelfCriticalPerfectionismArticle,
-    className: "article-page--self-critical-perfectionism",
-  },
-} satisfies Record<ArticlePresentationKey, ArticlePresentation>;
+const articlePresentations: Readonly<Record<string, ArticlePresentation>> = {};
 
 export function getArticlePresentation(key: ArticlePresentationKey | undefined) {
   if (!key) {
     return undefined;
   }
 
-  return articlePresentations[key];
+  return articlePresentations[key as string];
 }

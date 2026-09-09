@@ -48,11 +48,29 @@ function validateArticleContent(content: ArticleTemplateContent) {
     throw new ArticleEditorInputError("Article body cannot be empty.");
   }
 
+  const anchorIds = new Set<string>();
+
   content.references.forEach((reference, index) => {
     if (!reference.citation.trim() || !reference.href.trim()) {
       throw new ArticleEditorInputError(
         `Reference ${index + 1} must contain a citation and source URL.`,
       );
+    }
+
+    if (reference.anchorId !== undefined) {
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(reference.anchorId)) {
+        throw new ArticleEditorInputError(
+          `Reference ${index + 1} has an invalid anchor ID.`,
+        );
+      }
+
+      if (anchorIds.has(reference.anchorId)) {
+        throw new ArticleEditorInputError(
+          `Reference ${index + 1} has a duplicate anchor ID.`,
+        );
+      }
+
+      anchorIds.add(reference.anchorId);
     }
   });
 }
@@ -67,6 +85,9 @@ function renderReferences(references: readonly ArticleReference[]) {
     ...references.map((reference) => [
       "    {",
       `      citation: \`${escapeTemplateLiteral(reference.citation)}\`,`,
+      ...(reference.anchorId
+        ? [`      anchorId: ${JSON.stringify(reference.anchorId)},`]
+        : []),
       `      href: ${JSON.stringify(reference.href)},`,
       "    },",
     ].join("\n")),
@@ -147,19 +168,23 @@ function parseArticleContent(payload: unknown): ArticleTemplateContent {
   };
   const references = unparsedReferences.map(
     (reference, index): ArticleReference => {
+      const anchorId = (reference as { anchorId?: unknown } | null)?.anchorId;
+
       if (
         !reference
         || typeof reference !== "object"
         || Array.isArray(reference)
         || typeof (reference as { citation?: unknown }).citation !== "string"
         || typeof (reference as { href?: unknown }).href !== "string"
+        || (anchorId !== undefined && typeof anchorId !== "string")
       ) {
         throw new ArticleEditorInputError(
-          `Reference ${index + 1} must contain citation and href strings.`,
+          `Reference ${index + 1} must contain citation and href strings and an optional anchor ID string.`,
         );
       }
 
       return {
+        ...(anchorId === undefined ? {} : { anchorId }),
         citation: (reference as { citation: string }).citation,
         href: (reference as { href: string }).href,
       };

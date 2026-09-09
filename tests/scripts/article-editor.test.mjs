@@ -28,6 +28,7 @@ const articleContent = {
   body: "A backslash: \\\n\nA template marker: ${value}\n\nA backtick: `",
   references: [
     {
+      anchorId: "author-2024",
       citation: "Author, A. (2024). A `source` with ${Markdown} and a backslash \\.",
       href: "https://doi.org/10.1000/example",
     },
@@ -93,6 +94,17 @@ test("rejects empty article and reference fields", () => {
       references: [{ citation: "", href: "https://example.com" }],
     }),
     /must contain a citation and source URL/u,
+  );
+  assert.throws(
+    () => renderArticleTemplateSource(slug, {
+      body: "Body.",
+      references: [{
+        anchorId: "Invalid anchor",
+        citation: "Author, A. (2024). Source.",
+        href: "https://example.com",
+      }],
+    }),
+    /invalid anchor ID/u,
   );
 });
 
