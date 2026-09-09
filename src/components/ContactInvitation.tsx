@@ -55,6 +55,11 @@ export default function ContactInvitation() {
               <dd>$150</dd>
             </div>
           </dl>
+
+          <p className="contact-invitation__fees-note">
+            For relationship counselling involving more than two people,
+            please <Link to={contactStartHref}>send an enquiry</Link>.
+          </p>
         </div>
 
         <div className="contact-invitation__actions">

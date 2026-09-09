@@ -297,7 +297,8 @@
   line-height: 1.5;
 }
 
-.contact-invitation__alternative a {
+.contact-invitation__alternative a,
+.contact-invitation__fees-note a {
   display: inline-block;
   color: var(--ink);
   text-decoration: underline;
@@ -341,14 +342,27 @@
   line-height: 1;
 }
 
+.contact-invitation .contact-invitation__fees-note {
+  max-width: 42ch;
+  margin: 14px 0 0;
+  color: var(--ink);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
 .contact-invitation__alternative a:hover,
 .contact-invitation__alternative a:focus-visible,
-.contact-invitation__alternative a:active {
+.contact-invitation__alternative a:active,
+.contact-invitation__fees-note a:hover,
+.contact-invitation__fees-note a:focus-visible,
+.contact-invitation__fees-note a:active {
   color: var(--cedar);
   text-decoration-color: currentColor;
 }
 
-.contact-invitation__alternative a:focus-visible {
+.contact-invitation__alternative a:focus-visible,
+.contact-invitation__fees-note a:focus-visible {
   outline: 2px solid var(--cedar);
   outline-offset: 4px;
 }
@@ -407,7 +421,8 @@
 @media (prefers-reduced-motion: reduce) {
   .contact-invitation__action,
   .contact-invitation__action-icon,
-  .contact-invitation__alternative a {
+  .contact-invitation__alternative a,
+  .contact-invitation__fees-note a {
     transition: none;
   }
 }
