@@ -87,7 +87,7 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 
 ### Reporting And Retention
 
-- The schema has nine ordered migrations through `0009_add_visit_location.sql`. Preview and Production are recorded as current through that migration; Development receives no database configuration.
+- The schema has ten ordered migrations through `0010_add_phone_link_event.sql`. Preview is recorded as current through that migration, while Production remains current through `0009_add_visit_location.sql`; Development receives no database configuration.
 - Protected `GET /api/analytics` supports a Perth calendar day, calendar month, anonymous visitor history, page-view date range, or paid-keyword date range. Date ranges are inclusive and limited to 366 days. `GET` and `PUT` `/api/analytics/exclusions` list and change visitor exclusions without deleting retained data.
 - The five private views cover daily traffic, route totals, paid matched-keyword journeys, monthly enquiry outcomes, and excluded visitors. Daily reporting gives coarse location the primary diagnostic space alongside a compact device mix, keeps outbound email and social-profile clicks distinct from enquiry outcomes on visit rows, and includes the events in each visit timeline. The Pages view ranks routes by page views and reports their share, visit count, and average active time.
 - Daily, enquiry, and exclusion records can open the visitor's complete retained history with interleaved page views and events. Visit rows and histories carry compact coarse-location context, while expanded request details show the corresponding country or Australian state or territory label.
@@ -99,8 +99,8 @@ Approved reusable UI is maintained separately in the current-only catalogues und
 ### GA4 And Clarity
 
 - `VITE_ANALYTICS_ENABLED`, the shared analytics hostname allowlist, and provider IDs gate Google Analytics and Microsoft Clarity. Vercel Web Analytics is not installed.
-- GA4 sends manual public-route page views plus controlled enquiry-started, contact-option, email-link, and successful-lead events. Failed enquiries do not emit the conversion event.
-- First-party events record contact-option selection, enquiry start, Instagram, LinkedIn, and email-link clicks, server-side submission attempt, successful delivery, and controlled failure outcomes. Client events retain their active page-view association, and event storage is best-effort so it never delays or changes the visitor interaction or public delivery result.
+- GA4 sends manual public-route page views plus controlled enquiry-started, contact-option, email-link, Contact-page phone-link, and successful-lead events. Failed enquiries do not emit the conversion event.
+- First-party events record contact-option selection, enquiry start, Instagram, LinkedIn, email-link, and Contact-page phone-link clicks, server-side submission attempt, successful delivery, and controlled failure outcomes. Client events retain their active page-view association, and event storage is best-effort so it never delays or changes the visitor interaction or public delivery result.
 - The enquiry request carries only optional active visit and page-view IDs as analytics context. The form is masked from Clarity with `data-clarity-mask="true"`.
 
 ## Testing And QA

@@ -648,6 +648,39 @@ test.describe("first-party analytics", () => {
     })));
   });
 
+  test("records the contact phone click against the active page view", async ({ page }) => {
+    const eventObservations: Array<Record<string, unknown>> = [];
+    const visitObservations: Array<Record<string, unknown>> = [];
+
+    await stubAnalyticsRequests(page);
+    await page.route("**/api/visit", async (route) => {
+      visitObservations.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({ status: 204 });
+    });
+    await page.route("**/api/visit-event", async (route) => {
+      eventObservations.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({ status: 204 });
+    });
+
+    await page.goto("/contact", { waitUntil: "networkidle" });
+    await expect.poll(() => visitObservations.length).toBe(1);
+
+    const phoneLink = page.getByRole("link", { name: "0416 205 175" });
+    await phoneLink.evaluate((link) => {
+      link.addEventListener("click", (event) => event.preventDefault(), { once: true });
+    });
+    await phoneLink.click();
+    await expect.poll(() => eventObservations).toHaveLength(1);
+
+    expect(eventObservations[0]).toEqual({
+      eventId: expect.stringMatching(uuidV4),
+      eventType: "phone_link_clicked",
+      pageViewId: visitObservations[0].pageViewId,
+      properties: {},
+      visitId: visitObservations[0].visitId,
+    });
+  });
+
   test("keeps enquiry events visit-linked and server-owned", async ({ page }) => {
     const visitObservations: Array<Record<string, unknown>> = [];
     const eventObservations: Array<Record<string, unknown>> = [];
@@ -833,6 +866,18 @@ test.describe("Google Analytics and Clarity", () => {
     await expect.poll(() => getGoogleAnalyticsEvents(page, "email_link_clicked")).toEqual([
       {
         eventName: "email_link_clicked",
+        params: { send_to: process.env.VITE_GA_MEASUREMENT_ID },
+      },
+    ]);
+
+    const phoneLink = page.getByRole("link", { name: "0416 205 175" });
+    await phoneLink.evaluate((link) => {
+      link.addEventListener("click", (event) => event.preventDefault(), { once: true });
+    });
+    await phoneLink.click();
+    await expect.poll(() => getGoogleAnalyticsEvents(page, "phone_link_clicked")).toEqual([
+      {
+        eventName: "phone_link_clicked",
         params: { send_to: process.env.VITE_GA_MEASUREMENT_ID },
       },
     ]);

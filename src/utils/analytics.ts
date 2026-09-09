@@ -43,6 +43,10 @@ export function trackEmailLinkClicked() {
   trackGoogleAnalyticsEvent("email_link_clicked");
 }
 
+export function trackPhoneLinkClicked() {
+  trackGoogleAnalyticsEvent("phone_link_clicked");
+}
+
 export function trackContactOptionSelected(option: ContactPath) {
   trackGoogleAnalyticsEvent("contact_option_selected", {
     contact_option: option,

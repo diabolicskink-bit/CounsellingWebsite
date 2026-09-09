@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-09 - Contact Phone Analytics Added
+
+- Added a controlled `phone_link_clicked` event to GA4 and the first-party visit-event ledger for Joel's direct phone number on the Contact page; crisis-support phone links remain outside this event.
+- Added the forward-only `0010_add_phone_link_event.sql` migration and focused API, migration, and browser contracts without changing private analytics reporting; Preview is migrated through `0010`, while Production remains at `0009` until release.
+
 ## 2026-09-09 - Inclusion CSS And Heading Surfaces Refined
 
 - Simplified the Inclusion stylesheet's selectors and removed redundant declarations while preserving its normal-size presentation.
