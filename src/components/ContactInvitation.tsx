@@ -2,9 +2,15 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
 import { publicRoutePaths } from "../data/routes";
+import { visitEventTypes } from "../data/visitEventContract";
+import { recordVisitEvent } from "../utils/visitEvents";
 import Container from "./Container";
 
 const contactStartHref = `${publicRoutePaths.contact}#contact-start`;
+
+function recordConsultCtaClick() {
+  recordVisitEvent(visitEventTypes.consultCtaClicked, {});
+}
 
 /**
  * Canonical closing invitation for public pages that lead naturally into the
@@ -63,7 +69,11 @@ export default function ContactInvitation() {
         </div>
 
         <div className="contact-invitation__actions">
-          <Link className="contact-invitation__action" to={contactStartHref}>
+          <Link
+            className="contact-invitation__action"
+            to={contactStartHref}
+            onClick={recordConsultCtaClick}
+          >
             <span>Request a free consult</span>
             <ArrowRight
               aria-hidden="true"

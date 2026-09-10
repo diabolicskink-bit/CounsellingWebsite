@@ -18,6 +18,11 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-10 - Consult CTA First-Party Event Added
+
+- Added a property-free `consult_cta_clicked` event when visitors activate the primary “Request a free consult” action in the shared Contact invitation; its existing page-view association identifies the source page without adding CTA metadata.
+- Added the forward-only `0011_add_consult_cta_event.sql` migration and focused API, migration, browser, and private-timeline labelling coverage. The event remains first-party only; Preview and Production have not yet applied `0011`.
+
 ## 2026-09-10 - Phone Enquiries Added To Private Reporting
 
 - Classified Contact-page phone-number clicks as enquiry signals in daily visit rows, monthly enquiry reporting, visitor timelines, and paid-keyword enquiry attribution while retaining the precise `phone_link_clicked` event in stored data.

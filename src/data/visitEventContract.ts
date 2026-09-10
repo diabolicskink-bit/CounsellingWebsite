@@ -7,6 +7,7 @@ type ValueOf<T> = T[keyof T];
 
 export const visitEventTypes = {
   contactOptionSelected: "contact_option_selected",
+  consultCtaClicked: "consult_cta_clicked",
   emailLinkClicked: "email_link_clicked",
   enquiryStarted: "enquiry_started",
   enquirySubmitAttempted: "enquiry_submit_attempted",
@@ -24,6 +25,7 @@ export const visitEventSources = {
 
 export const clientVisitEventTypes = [
   visitEventTypes.contactOptionSelected,
+  visitEventTypes.consultCtaClicked,
   visitEventTypes.emailLinkClicked,
   visitEventTypes.enquiryStarted,
   visitEventTypes.instagramLinkClicked,

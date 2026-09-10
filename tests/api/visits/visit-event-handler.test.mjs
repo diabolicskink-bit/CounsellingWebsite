@@ -90,6 +90,11 @@ test("records controlled client events with or without page context", async (con
   });
   const linkPayloads = [
     validPayload({
+      eventId: "10000000-0000-4000-8000-000000000000",
+      eventType: "consult_cta_clicked",
+      properties: {},
+    }),
+    validPayload({
       eventId: "10000000-0000-4000-8000-000000000001",
       eventType: "email_link_clicked",
       properties: {},
@@ -154,6 +159,7 @@ test("rejects events outside the public client contract before storage", async (
       "enquiry_failed",
     ].map((eventType) => validPayload({ eventType, properties: {} })),
     ...[
+      "consult_cta_clicked",
       "email_link_clicked",
       "instagram_link_clicked",
       "linkedin_link_clicked",

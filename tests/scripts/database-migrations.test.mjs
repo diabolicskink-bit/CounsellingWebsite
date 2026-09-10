@@ -19,6 +19,7 @@ const migrationFilenames = [
   "0008_add_contact_link_events.sql",
   "0009_add_visit_location.sql",
   "0010_add_phone_link_event.sql",
+  "0011_add_consult_cta_event.sql",
 ];
 
 test("migration reader returns the complete ordered migration set", async () => {
