@@ -18,6 +18,12 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-10 - IDE Browser Workflow Aligned
+
+- Made persistent Node, repository Playwright and installed Chrome the explicit IDE route. Project Codex configuration disables four competing Vercel browser/verification skills by name while retaining the other Vercel capabilities.
+- Aligned automated Playwright tests with the same installed Chrome channel, removing their dependency on a managed Chromium download. The IDE helper retains its finite callback and automatic cleanup, with bounded action waits, launch diagnostics and error collection from before navigation.
+- Rebuilt the visual-verification guide around working examples, content/font/transition readiness, grouped captures and cause-based troubleshooting. Verification scope remains with the task and AGENTS.md.
+
 ## 2026-09-10 - Agent Working Rules Reorganized
 
 - Reorganized `AGENTS.md` around task modes, relevant reading, engineering, verification, Git flow and maintenance. Code reviews include justified fixes by default; findings-only requests and copy/documentation assessments remain read-only unless changes are requested.

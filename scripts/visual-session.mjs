@@ -129,6 +129,7 @@ async function closeSessionResources({ context, browser, server }) {
  *   route?: string;
  *   viewport?: { width: number; height: number };
  *   navigationTimeout?: number;
+ *   actionTimeout?: number;
  * }} options
  * @param {(session: {
  *   page: import("playwright").Page;
@@ -138,12 +139,16 @@ async function closeSessionResources({ context, browser, server }) {
  *   origin: string;
  *   url: string;
  *   response: import("playwright").Response | null;
+ *   consoleErrors: string[];
+ *   pageErrors: string[];
  * }) => Result | Promise<Result>} run
  * @returns {Promise<Result>}
  *
  * @example
  * await withVisualSession({ route: "/" }, async ({ page }) => {
- *   await nodeRepl.emitImage(await page.screenshot({ fullPage: true }));
+ *   await page.getByRole("heading", { level: 1 }).waitFor();
+ *   await page.waitForFunction(() => document.fonts.status === "loaded");
+ *   await nodeRepl.emitImage(await page.screenshot({ animations: "disabled" }));
  * });
  */
 export async function withVisualSession(
@@ -151,6 +156,7 @@ export async function withVisualSession(
     route = "/",
     viewport,
     navigationTimeout = 30_000,
+    actionTimeout = 10_000,
   } = {},
   run,
 ) {
@@ -168,7 +174,16 @@ export async function withVisualSession(
 
   try {
     // Launch before Vite so a missing system browser does not start its watchers or server.
-    browser = await chromium.launch({ channel: "chrome", headless: true });
+    try {
+      browser = await chromium.launch({ channel: "chrome", headless: true });
+    } catch (error) {
+      throw new Error(
+        "Could not launch installed Google Chrome for visual verification. " +
+          "This workflow uses channel: 'chrome' and needs no Playwright Chromium download. " +
+          "Check the cause for missing Chrome or a process-permission failure.",
+        { cause: error },
+      );
+    }
 
     const requestedPort = await findAvailablePort();
     server = await createViteServer({
@@ -189,6 +204,16 @@ export async function withVisualSession(
     context = await browser.newContext(viewport ? { viewport } : {});
     const page = await context.newPage();
     page.setDefaultNavigationTimeout(navigationTimeout);
+    page.setDefaultTimeout(actionTimeout);
+    /** @type {string[]} */
+    const consoleErrors = [];
+    /** @type {string[]} */
+    const pageErrors = [];
+    // Attach before navigation so startup failures remain available to the callback.
+    page.on("console", (message) => {
+      if (message.type() === "error") consoleErrors.push(message.text());
+    });
+    page.on("pageerror", (error) => pageErrors.push(error.message));
     const response = await page.goto(url, { waitUntil: "domcontentloaded" });
 
     return await run({
@@ -199,6 +224,8 @@ export async function withVisualSession(
       origin,
       url,
       response,
+      consoleErrors,
+      pageErrors,
     });
   } catch (error) {
     sessionFailed = true;

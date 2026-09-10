@@ -1,2 +1,20 @@
 [plugins."browser@openai-bundled"]
 enabled = false
+
+# These skills require agent-browser and impose a competing verification workflow.
+# Use the repository's IDE visual-verification guide. Names survive plugin updates.
+[[skills.config]]
+name = "vercel:agent-browser"
+enabled = false
+
+[[skills.config]]
+name = "vercel:agent-browser-verify"
+enabled = false
+
+[[skills.config]]
+name = "vercel:verification"
+enabled = false
+
+[[skills.config]]
+name = "vercel:investigation-mode"
+enabled = false
