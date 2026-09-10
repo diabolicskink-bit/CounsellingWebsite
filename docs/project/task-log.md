@@ -5,7 +5,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## How To Use This Log
 
 - Read this for important project milestones and durable context.
-- Use `current-scope.md` for exact current scope.
+- Use `current-scope.md` for current system understanding and links to authoritative implementation.
 - Use `project-debt.md` for technical pressure.
 - Use `site-backlog.md` for concrete deferred visitor-facing change work.
 - Use `docs/design-system/` for the complete current reusable API and `docs/design-system-legacy/` only when inherited implementation evidence matters.
@@ -22,6 +22,36 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Added a property-free `consult_cta_clicked` event when visitors activate the primary “Request a free consult” action in the shared Contact invitation; its existing page-view association identifies the source page without adding CTA metadata.
 - Added the forward-only `0011_add_consult_cta_event.sql` migration and focused API, migration, browser, and private-timeline labelling coverage. The event remains first-party only; Preview and Production have not yet applied `0011`.
+
+## 2026-09-10 - IDE Browser Workflow Aligned
+
+- Made persistent Node, repository Playwright and installed Chrome the explicit IDE route. Project Codex configuration disables four competing Vercel browser/verification skills by name while retaining the other Vercel capabilities.
+- Aligned automated Playwright tests with the same installed Chrome channel, removing their dependency on a managed Chromium download. The IDE helper retains its finite callback and automatic cleanup, with bounded action waits, launch diagnostics and error collection from before navigation.
+- Rebuilt the visual-verification guide around working examples, content/font/transition readiness, grouped captures and cause-based troubleshooting. Verification scope remains with the task and AGENTS.md.
+
+## 2026-09-10 - Agent Working Rules Reorganized
+
+- Reorganized `AGENTS.md` around task modes, relevant reading, engineering, verification, Git flow and maintenance. Code reviews include justified fixes by default; findings-only requests and copy/documentation assessments remain read-only unless changes are requested.
+- Made focused, proportionate verification the general default, with no routine full-suite requirement or repeated checks after relevant evidence passes. Dashboard browser verification belongs to the owner through a working-branch Preview when needed; agents retain focused local checks and verification of affected public tracking/privacy boundaries.
+- Removed mandatory site-backlog consultation, consolidated specialist procedures under their owners, and clarified the normal working-branch to `staging` to `master` flow while retaining design-system instructions.
+
+## 2026-09-10 - Public Writing Policy Rebuilt
+
+- Rebuilt `writing-direction.md` around natural writing, attracting clients through service/practice copy, proportionate factual checks and editorial freedom. Removed standing Home/service content hierarchies, page-placement instructions and the section-by-section workflow.
+- Added `article-writing.md` for article authoring, evidence and APA reference conventions, with technical storage and release procedures retained in `article-publishing.md`.
+- Recorded the owner's article style as a blend of postgraduate research paper writing and a compelling blog article, informed by a review of the current perfectionism and kink-aware therapy articles without making them fixed templates.
+- Aligned repository routing, documentation ownership and the copywriter skill with the shared policy, removing duplicated accuracy cautions and the assumption that all public writing serves the same sales purpose.
+
+## 2026-09-10 - Practice Reference Made Factual
+
+- Replaced `practice-direction.md` with `practice-context.md`, a background reference about Vive and Joel. Preserved practice details, areas of work, expertise, lived experience, commitments and approach while removing messaging priorities and page-placement instructions.
+- Updated active documentation and skill references to the new name and factual role. Existing writing-policy content rules remain for a separate owner-requested review.
+
+## 2026-09-10 - Agent System Guide Rebuilt
+
+- Rebuilt `current-scope.md` around capabilities, system flows, source ownership, runtime boundaries and verification, replacing granular page-presentation descriptions with an orientation and task-relevant reference sections.
+- Added source-verified context about local versus deployed runtimes, route/build contracts, enquiry delivery and analytics independence, report date semantics, configuration, migrations and the limits of automated checks. Retained the outstanding Production migration difference as a dated observation requiring rechecking.
+- Updated repository routing and maintenance guidance to keep the guide useful for incoming agents without a length target or updates for ordinary visual/copy changes.
 
 ## 2026-09-10 - Phone Enquiries Added To Private Reporting
 

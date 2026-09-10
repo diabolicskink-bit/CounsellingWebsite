@@ -22,7 +22,8 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      // Use installed Chrome, as the IDE helper does; no managed Chromium download.
+      use: { ...devices["Desktop Chrome"], channel: "chrome" },
     },
   ],
 });

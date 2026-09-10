@@ -21,7 +21,7 @@ into a page-governance exercise.
 
 For Vive Counselling, read:
 
-1. `docs/project/practice-direction.md`;
+1. `docs/project/practice-context.md`;
 2. `docs/project/writing-direction.md`;
 3. the relevant page and its immediate surrounding copy.
 

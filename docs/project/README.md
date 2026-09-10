@@ -1,28 +1,31 @@
 # Project Documentation
 
-This directory is the whole-project memory for Vive Counselling. [../../AGENTS.md](../../AGENTS.md) owns agent task routing and repository-wide update triggers; this file maps document ownership and artifact authority.
+This directory is the whole-project memory for Vive Counselling. [../../AGENTS.md](../../AGENTS.md) owns task modes, routing, proportionate verification, Git workflow and repository-wide update triggers; this file maps document ownership and artifact authority.
 
 Project documentation sits beside, not inside, the design-system documentation. `docs/design-system/` is a current-only catalogue: every listed foundation, component, or pattern is approved for deliberate reuse. `docs/design-system-legacy/` separately records source-backed facts about inherited implementation without granting reuse authority or making removal safe. The outdated `/design-language/*` rendered catalogue has been removed; the development-only `/design-system` workspace visualises only the current promoted catalogue. During the temporary open-design period, the design system does not supply mandatory visual direction for fresh creation or redesign unless the current task explicitly adopts a supported pattern.
 
 ## Authority And Artifact Types
 
-- `practice-direction.md` owns stable practice scope, expertise, positioning, and public-site purpose without supplying ready-made public wording.
+- `practice-context.md` records background facts about Vive and Joel. It does not set copy or design priorities or require those facts to appear in a particular task.
 - `writing-direction.md` owns public-writing policy.
-- Current-scope documents summarize current state. When exact details disagree, verify executable behaviour, tests, configuration, and source, then reconcile stale documentation when the task changes durable state.
+- `article-writing.md` owns article-specific tone, authoring, evidence and citation guidance; `article-publishing.md` owns implementation and publication procedures.
+- `current-scope.md` gives agents a working understanding of the current system: capabilities, connected flows, source ownership, runtime boundaries and verification. It describes the checked-out implementation and deployment model; dated remote-state observations require rechecking when consequential. When exact details disagree, verify executable behaviour, tests, configuration and source, then reconcile the relevant explanation.
 - Audience research dossiers are opt-in decision support for explicitly research-informed work. They do not override owner decisions, current service information, or writing direction, make public claims approved, or authorize implementation.
 - Market-research dossiers are opt-in, dated decision support about search visibility, demand signals, provider supply, offers, directories and market structure. They do not set SEO, pricing, positioning or content strategy or assess provider quality.
 - `DEBT-*` and `SITE-*` trackers are scoped memory and triage. Consult only the tracker relevant to the task; an item does not authorize unrelated work.
 - Reports, plans, checklists, archives, and the task log are supporting evidence or history. They do not override active guidance or become requirements unless the current task explicitly adopts them.
 
-## Writing Direction
+## Practice and Writing
 
-- [practice-direction.md](practice-direction.md) owns stable practice facts and positioning used by copy, design, research, and implementation.
-- [writing-direction.md](writing-direction.md) owns public-copy source use, writing standards, page roles, search language, collaboration, and implementation rules.
+- [practice-context.md](practice-context.md) provides practice facts for use when relevant to the task.
+- [writing-direction.md](writing-direction.md) owns the shared public-writing policy: business purpose, natural writing, factual judgement, source use and editing boundaries. Each task determines its content, emphasis and structure.
+- [article-writing.md](article-writing.md) adds article-specific guidance for tone, subject treatment, evidence, attribution and references. Drafting does not require loading the publishing procedure.
 - [../design-system/README.md](../design-system/README.md) is the entry point for approved reusable UI and design-system maintenance. [The legacy register](../design-system-legacy/README.md) is optional working evidence when inherited implementation is being assessed; neither is a required source of visual direction for fresh design work during the temporary open-design period.
 
 ## Current State
 
-- [current-scope.md](current-scope.md) is the factual inventory of public and development routes, content status, rendering, metadata, enquiry behaviour, analytics, deployment, tests, known gaps, and excluded project scope.
+- [current-scope.md](current-scope.md) is the agent system guide. Start with its orientation, then use the relevant capability, rendering, enquiry, analytics, environment or verification section and source links. Maintain functional understanding and consequential connections rather than page presentation descriptions or a running changelog.
+- [../../database/README.md](../../database/README.md) owns environment selection and database migration procedure; current-scope explains where that workflow fits into collection, reporting and deployment.
 - [visual-verification.md](visual-verification.md) owns the supported access mechanism for ad-hoc visual inspection by Codex in the VS Code extension without defining task-specific review criteria.
 - [article-publishing.md](article-publishing.md) owns the code-managed article publishing workflow, article schema, verification expectations, and boundary for considering a future CMS.
 - [../design-system/governance.md](../design-system/governance.md) owns design-system authority, promotion, withdrawal, removal, verification, and update duties.

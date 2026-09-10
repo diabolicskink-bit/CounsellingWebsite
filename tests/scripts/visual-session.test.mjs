@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
+import { chromium } from "playwright";
+
 import { withVisualSession } from "../../scripts/visual-session.mjs";
 
 test("requires a callback before starting managed resources", async () => {
@@ -8,6 +10,23 @@ test("requires a callback before starting managed resources", async () => {
     name: "TypeError",
     message: "withVisualSession requires a callback.",
   });
+});
+
+test("explains Chrome launch failures and preserves the diagnostic cause", async (t) => {
+  const launchError = new Error("spawn EPERM");
+  t.mock.method(chromium, "launch", async () => {
+    throw launchError;
+  });
+
+  await assert.rejects(
+    withVisualSession({}, () => assert.fail("A failed launch must not run the callback.")),
+    (error) => {
+      assert.match(error.message, /Could not launch installed Google Chrome/);
+      assert.match(error.message, /needs no Playwright Chromium download/);
+      assert.equal(error.cause, launchError);
+      return true;
+    },
+  );
 });
 
 test("rejects routes that can escape or misrepresent the local URL path", async () => {

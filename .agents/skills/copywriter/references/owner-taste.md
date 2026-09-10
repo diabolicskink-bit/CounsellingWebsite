@@ -2,8 +2,8 @@
 
 This reference preserves feedback that may help with a relevant task. It does
 not define a house voice or supply a brief for every page. Current writing
-policy lives in `docs/project/writing-direction.md`; stable practice facts and
-positioning live in `docs/project/practice-direction.md` at the project root.
+policy lives in `docs/project/writing-direction.md`; practice facts live in
+`docs/project/practice-context.md` at the project root.
 
 ## September 2026 clarification
 
