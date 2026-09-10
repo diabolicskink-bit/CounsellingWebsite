@@ -3,6 +3,7 @@ import {
   ChevronRight,
   CircleCheck,
   CircleX,
+  PhoneCall,
   Radio,
 } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
@@ -44,22 +45,30 @@ function MonthlyEnquiries({
   onOpenEnquiry: (visit: AnalyticsVisit, visitEvent: AnalyticsVisitEvent) => void;
   visits: AnalyticsVisit[];
 }) {
-  const enquiryOutcomes = useMemo(() => visits
+  const enquiryEvents = useMemo(() => visits
     .filter((visit) => includeBots || visit.isBot !== true)
     .flatMap((visit) => visit.events
       .filter((visitEvent) => (
         visitEvent.eventType === "enquiry_sent"
         || visitEvent.eventType === "enquiry_failed"
+        || visitEvent.eventType === "phone_link_clicked"
       ) && getPerthMonthKey(new Date(visitEvent.occurredAt)) === monthKey)
       .map((visitEvent) => ({ visit, visitEvent })))
     .sort((left, right) => new Date(right.visitEvent.occurredAt).getTime()
       - new Date(left.visitEvent.occurredAt).getTime()), [includeBots, monthKey, visits]);
-  const sentCount = enquiryOutcomes.filter(({ visitEvent }) => visitEvent.eventType === "enquiry_sent").length;
-  const failedCount = enquiryOutcomes.length - sentCount;
-  const visitorCount = new Set(enquiryOutcomes.map(({ visit }) => visit.visitorId)).size;
-  const successRate = enquiryOutcomes.length
-    ? Math.round((sentCount / enquiryOutcomes.length) * 100)
-    : 0;
+  const sentCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "enquiry_sent").length;
+  const phoneCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "phone_link_clicked").length;
+  const failedCount = enquiryEvents.length - sentCount - phoneCount;
+  const completedEnquiries = enquiryEvents.filter(({ visitEvent }) => (
+    visitEvent.eventType === "enquiry_sent"
+    || visitEvent.eventType === "phone_link_clicked"
+  ));
+  const enquiryCount = completedEnquiries.length;
+  const visitorCount = new Set(completedEnquiries.map(({ visit }) => visit.visitorId)).size;
+  const formAttemptCount = sentCount + failedCount;
+  const sendRate = formAttemptCount
+    ? Math.round((sentCount / formAttemptCount) * 100)
+    : null;
 
   return (
     <>
@@ -67,7 +76,7 @@ function MonthlyEnquiries({
         <div className="signal-report__intro">
           <p className="signal-kicker">Calendar month</p>
           <h1 id="monthly-enquiries-title">{formatMonth(monthKey)}</h1>
-          <p>Every recorded sent or failed contact-form outcome in Australia/Perth time.</p>
+          <p>Recorded phone enquiries and sent or failed contact-form outcomes in Australia/Perth time.</p>
         </div>
         <MonthControls currentMonth={currentMonth} monthKey={monthKey} onMonthChange={onMonthChange} />
 
@@ -75,14 +84,26 @@ function MonthlyEnquiries({
           className="signal-report__summary monthly-enquiries__summary"
           aria-label="Monthly enquiry summary"
         >
-          <div><dt>Enquiries</dt><dd>{String(enquiryOutcomes.length).padStart(2, "0")}</dd></div>
-          <div><dt>Sent</dt><dd>{String(sentCount).padStart(2, "0")}</dd></div>
-          <div><dt>Failed</dt><dd>{String(failedCount).padStart(2, "0")}</dd></div>
           <div>
-            <dt>Send rate</dt>
+            <dt>Enquiries</dt>
             <dd>
-              {successRate}%
+              {String(enquiryCount).padStart(2, "0")}
               <small>{`${visitorCount} ${visitorCount === 1 ? "visitor" : "visitors"}`}</small>
+            </dd>
+          </div>
+          <div><dt>Form sent</dt><dd>{String(sentCount).padStart(2, "0")}</dd></div>
+          <div>
+            <dt>Phone</dt>
+            <dd>
+              {String(phoneCount).padStart(2, "0")}
+              <small>number clicks</small>
+            </dd>
+          </div>
+          <div>
+            <dt>Form send rate</dt>
+            <dd>
+              {sendRate === null ? "—" : `${sendRate}%`}
+              <small>{`${failedCount} failed`}</small>
             </dd>
           </div>
         </dl>
@@ -94,40 +115,46 @@ function MonthlyEnquiries({
             <p className="signal-kicker">Newest first</p>
             <h2 id="monthly-enquiry-list-title">All enquiries</h2>
           </div>
-          <span>{enquiryOutcomes.length} {enquiryOutcomes.length === 1 ? "outcome" : "outcomes"}</span>
+          <span>{enquiryEvents.length} {enquiryEvents.length === 1 ? "record" : "records"}</span>
         </header>
 
-        {enquiryOutcomes.length ? (
+        {enquiryEvents.length ? (
           <ol className="signal-report__list monthly-enquiries__list">
-            {enquiryOutcomes.map(({ visit, visitEvent }) => {
+            {enquiryEvents.map(({ visit, visitEvent }) => {
               const wasSent = visitEvent.eventType === "enquiry_sent";
-              const option = enquiryOptionForEvent(visit, visitEvent);
-              const failure = eventDetail(visitEvent);
+              const wasPhone = visitEvent.eventType === "phone_link_clicked";
+              const option = wasPhone ? null : enquiryOptionForEvent(visit, visitEvent);
+              const detail = wasPhone ? "Phone number clicked" : eventDetail(visitEvent);
               const dateKey = getPerthDateKey(new Date(visitEvent.occurredAt));
+              const label = wasPhone ? "Phone enquiry" : eventLabel(visitEvent);
 
               return (
                 <li key={visitEvent.id}>
                   <button
-                    aria-label={`${eventLabel(visitEvent)} on ${formatDate(dateKey)} at ${formatTime(visitEvent.occurredAt)}. Open enquiry journey for ${visitorLabel(visit.visitorId)}`}
+                    aria-label={`${label} on ${formatDate(dateKey)} at ${formatTime(visitEvent.occurredAt)}. Open enquiry journey for ${visitorLabel(visit.visitorId)}`}
                     className="signal-report__list-button"
                     onClick={() => onOpenEnquiry(visit, visitEvent)}
                     type="button"
                   >
                     <span className={wasSent
                       ? "signal-report__status signal-report__status--sent"
-                      : "signal-report__status signal-report__status--failed"}
+                      : wasPhone
+                        ? "signal-report__status signal-report__status--phone"
+                        : "signal-report__status signal-report__status--failed"}
                     >
                       {wasSent
                         ? <CircleCheck aria-hidden="true" size={19} />
-                        : <CircleX aria-hidden="true" size={19} />}
+                        : wasPhone
+                          ? <PhoneCall aria-hidden="true" size={18} />
+                          : <CircleX aria-hidden="true" size={19} />}
                     </span>
                     <span className="monthly-enquiries__date">
                       <strong>{formatDate(dateKey, true)}</strong>
                       <time dateTime={visitEvent.occurredAt}>{formatTime(visitEvent.occurredAt)}</time>
                     </span>
                     <span className="monthly-enquiries__outcome">
-                      <strong>{eventLabel(visitEvent)}</strong>
-                      <small>{[option, failure].filter(Boolean).join(" · ") || "Contact form"}</small>
+                      <strong>{label}</strong>
+                      <small>{[option, detail].filter(Boolean).join(" · ") || "Contact form"}</small>
                     </span>
                     <span className="monthly-enquiries__visitor">
                       <strong>{visitorLabel(visit.visitorId)}</strong>
@@ -145,13 +172,13 @@ function MonthlyEnquiries({
           <div className="signal-stream__empty">
             <Radio aria-hidden="true" size={30} />
             <h3>No enquiries recorded</h3>
-            <p>No sent or failed contact-form outcomes were recorded in {formatMonth(monthKey)}.</p>
+            <p>No phone enquiries or contact-form outcomes were recorded in {formatMonth(monthKey)}.</p>
           </div>
         )}
       </section>
 
       <p className="signal-footnote">
-        Each sent or failed submission outcome appears as one row, so a failed submission followed by a retry appears twice. {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
+        A phone enquiry is recorded when the phone number is clicked; this does not confirm that a call was placed or answered. Each form outcome appears as one row, so a failed submission followed by a retry appears twice. {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
       </p>
     </>
   );

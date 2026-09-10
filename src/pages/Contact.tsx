@@ -29,6 +29,7 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
   trackContactOptionSelected,
   trackEnquiryStarted,
+  trackPhoneLinkClicked,
   trackSuccessfulEnquirySubmission,
 } from "../utils/analytics";
 import {
@@ -570,6 +571,10 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
                 <a
                   className="contact-page__direct-contact-link"
                   href={enquiryPhone.href}
+                  onClick={() => {
+                    trackPhoneLinkClicked();
+                    recordVisitEvent("phone_link_clicked", {});
+                  }}
                 >
                   {enquiryPhone.label}
                 </a>

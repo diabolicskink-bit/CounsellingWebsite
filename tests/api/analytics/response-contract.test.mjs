@@ -65,16 +65,9 @@ function createVisit(overrides = {}) {
 }
 
 function createReports() {
-  return [
-    { date: "2026-08-15", type: "daily", visits: [createVisit()] },
-    { month: "2026-08", type: "monthly", visits: [createVisit()] },
-    {
-      isExcluded: false,
-      type: "visitor",
-      visitorId,
-      visits: [createVisit()],
-    },
-    {
+  return {
+    daily: { date: "2026-08-15", type: "daily", visits: [createVisit()] },
+    excluded: {
       type: "excluded",
       visitors: [{
         excludedAt: "2026-08-15T03:00:00.000Z",
@@ -84,21 +77,7 @@ function createReports() {
         visitorId,
       }],
     },
-    {
-      endDate: "2026-08-15",
-      routes: [{
-        activeSeconds: 90,
-        pageViews: 2,
-        path: "/contact",
-        visits: 1,
-      }],
-      startDate: "2026-08-01",
-      totalActiveSeconds: 90,
-      totalPageViews: 2,
-      totalVisits: 1,
-      type: "pageViews",
-    },
-    {
+    keywords: {
       endDate: "2026-08-15",
       keywords: [{
         activeSeconds: 90,
@@ -119,11 +98,32 @@ function createReports() {
       totalPaidVisits: 1,
       type: "keywords",
     },
-  ];
+    monthly: { month: "2026-08", type: "monthly", visits: [createVisit()] },
+    pageViews: {
+      endDate: "2026-08-15",
+      routes: [{
+        activeSeconds: 90,
+        pageViews: 2,
+        path: "/contact",
+        visits: 1,
+      }],
+      startDate: "2026-08-01",
+      totalActiveSeconds: 90,
+      totalPageViews: 2,
+      totalVisits: 1,
+      type: "pageViews",
+    },
+    visitor: {
+      isExcluded: false,
+      type: "visitor",
+      visitorId,
+      visits: [createVisit()],
+    },
+  };
 }
 
 test("accepts every complete analytics report and its API envelope", () => {
-  for (const report of createReports()) {
+  for (const report of Object.values(createReports())) {
     assert.equal(isAnalyticsReport(report), true, report.type);
     assert.equal(isAnalyticsReportOfType(report, report.type), true, report.type);
     assert.equal(isAnalyticsApiResponseOfType({ data: report }, report.type), true, report.type);
@@ -131,7 +131,7 @@ test("accepts every complete analytics report and its API envelope", () => {
 });
 
 test("requires the report discriminator expected by the requesting page", () => {
-  const dailyReport = createReports()[0];
+  const dailyReport = createReports().daily;
 
   assert.equal(isAnalyticsReportOfType(dailyReport, "keywords"), false);
   assert.equal(isAnalyticsApiResponseOfType({ data: dailyReport }, "keywords"), false);
@@ -139,181 +139,71 @@ test("requires the report discriminator expected by the requesting page", () => 
 });
 
 test("rejects malformed nested visits, page views, and events", () => {
-  const invalidReports = [
-    {
-      date: "2026-08-15",
-      type: "daily",
-      visits: [createVisit({ pageViews: [createPageView({ activeSeconds: 1.5 })] })],
-    },
-    {
-      date: "2026-08-15",
-      type: "daily",
-      visits: [createVisit({ events: [createEvent({ properties: { option: false } })] })],
-    },
-    {
-      date: "2026-08-15",
-      type: "daily",
-      visits: [createVisit({ totalVisits: 1 })],
-    },
-    {
-      date: "2026-08-15",
-      type: "daily",
-      visits: [createVisit({ startedAt: "1" })],
-    },
-    {
-      date: "2026-08-15",
-      type: "daily",
-      visits: [createVisit({ locationCountryCode: "AU", locationRegionCode: null })],
-    },
-    {
-      date: "2026-08-15",
-      type: "daily",
-      visits: [createVisit({ locationCountryCode: "NZ", locationRegionCode: "WA" })],
-    },
-    {
-      isExcluded: false,
-      type: "visitor",
-      visitorId,
-      visits: [createVisit({ visitorId: otherVisitorId })],
-    },
+  const { daily, visitor } = createReports();
+  const invalidCases = [
+    [
+      "fractional page-view active time",
+      {
+        ...daily,
+        visits: [createVisit({ pageViews: [createPageView({ activeSeconds: 1.5 })] })],
+      },
+    ],
+    [
+      "non-string event properties",
+      {
+        ...daily,
+        visits: [createVisit({ events: [createEvent({ properties: { option: false } })] })],
+      },
+    ],
+    [
+      "visit sequence beyond total visits",
+      { ...daily, visits: [createVisit({ totalVisits: 1 })] },
+    ],
+    [
+      "Australian visit without a region",
+      { ...daily, visits: [createVisit({ locationCountryCode: "AU", locationRegionCode: null })] },
+    ],
+    [
+      "visitor history containing another visitor",
+      { ...visitor, visits: [createVisit({ visitorId: otherVisitorId })] },
+    ],
   ];
 
-  for (const report of invalidReports) {
-    assert.equal(isAnalyticsReport(report), false);
+  for (const [name, report] of invalidCases) {
+    assert.equal(isAnalyticsReport(report), false, name);
   }
 });
 
 test("rejects malformed aggregate rows and report context", () => {
-  const invalidReports = [
-    {
-      endDate: "2026-08-01",
-      routes: [],
-      startDate: "2026-08-15",
-      totalActiveSeconds: 0,
-      totalPageViews: 0,
-      totalVisits: 0,
-      type: "pageViews",
-    },
-    {
-      endDate: "2026-08-15",
-      routes: [{
-        activeSeconds: 1,
-        pageViews: 1,
-        path: "",
-        visits: 1,
-      }],
-      startDate: "2026-08-01",
-      totalActiveSeconds: 1,
-      totalPageViews: 1,
-      totalVisits: 1,
-      type: "pageViews",
-    },
-    {
-      endDate: "2026-08-15",
-      routes: [{
-        activeSeconds: 1,
-        pageViews: 0,
-        path: "/contact",
-        visits: 1,
-      }],
-      startDate: "2026-08-01",
-      totalActiveSeconds: 1,
-      totalPageViews: 0,
-      totalVisits: 1,
-      type: "pageViews",
-    },
-    {
-      endDate: "2026-08-15",
-      routes: [{
-        activeSeconds: 12,
-        pageViews: 5,
-        path: "/contact",
-        visits: 1,
-      }],
-      startDate: "2026-08-01",
-      totalActiveSeconds: 12,
-      totalPageViews: 0,
-      totalVisits: 1,
-      type: "pageViews",
-    },
-    {
-      type: "excluded",
-      visitors: [{
-        excludedAt: "not-a-timestamp",
-        firstSeenAt: "2026-08-01T03:00:00.000Z",
-        latestSeenAt: "2026-08-15T03:05:00.000Z",
-        totalVisits: 0,
-        visitorId,
-      }],
-    },
-    {
-      endDate: "2026-08-15",
-      keywords: [{
-        activeSeconds: 0,
-        enquiryVisits: 0,
-        keyword: "polyamory therapy",
-        latestVisitAt: "invalid",
-        matchTypes: [""],
-        pageViews: 0,
-        returningVisits: 0,
-        visits: 1,
-      }],
-      startDate: "2026-08-01",
-      taggedEnquiryVisits: 0,
-      taggedVisits: 1,
-      totalActiveSeconds: 0,
-      totalEnquiryVisits: 0,
-      totalPageViews: 0,
-      totalPaidVisits: 1,
-      type: "keywords",
-    },
-    {
-      endDate: "2026-08-15",
-      keywords: [{
-        activeSeconds: 10,
-        enquiryVisits: 1,
-        keyword: "polyamory therapy",
-        latestVisitAt: "2026-08-15T03:00:00.000Z",
-        matchTypes: ["p"],
-        pageViews: 2,
-        returningVisits: 1,
-        visits: 1,
-      }],
-      startDate: "2026-08-01",
-      taggedEnquiryVisits: 1,
-      taggedVisits: 2,
-      totalActiveSeconds: 10,
-      totalEnquiryVisits: 1,
-      totalPageViews: 2,
-      totalPaidVisits: 2,
-      type: "keywords",
-    },
-    {
-      endDate: "2026-08-15",
-      keywords: [{
-        activeSeconds: 10,
-        enquiryVisits: 3,
-        keyword: "polyamory therapy",
-        latestVisitAt: "2026-08-15T03:00:00.000Z",
-        matchTypes: ["p"],
-        pageViews: 2,
-        returningVisits: 4,
-        visits: 1,
-      }],
-      startDate: "2026-08-01",
-      taggedEnquiryVisits: 3,
-      taggedVisits: 1,
-      totalActiveSeconds: 10,
-      totalEnquiryVisits: 3,
-      totalPageViews: 2,
-      totalPaidVisits: 1,
-      type: "keywords",
-    },
-    { date: "2026-02-30", type: "daily", visits: [] },
-    { month: "2026-13", type: "monthly", visits: [] },
+  const { daily, excluded, keywords, monthly, pageViews } = createReports();
+  const [route] = pageViews.routes;
+  const [keyword] = keywords.keywords;
+  const [excludedVisitor] = excluded.visitors;
+  const invalidCases = [
+    ["reversed report dates", { ...pageViews, endDate: "2026-07-31" }],
+    [
+      "route without page views",
+      { ...pageViews, routes: [{ ...route, pageViews: 0 }], totalPageViews: 0 },
+    ],
+    ["route totals that do not reconcile", { ...pageViews, totalPageViews: 0 }],
+    [
+      "excluded visitor without retained visits",
+      { ...excluded, visitors: [{ ...excludedVisitor, totalVisits: 0 }] },
+    ],
+    [
+      "empty keyword match type",
+      { ...keywords, keywords: [{ ...keyword, matchTypes: [""] }] },
+    ],
+    ["keyword totals that do not reconcile", { ...keywords, taggedVisits: 2 }],
+    [
+      "keyword counts beyond its visits",
+      { ...keywords, keywords: [{ ...keyword, enquiryVisits: 2, returningVisits: 2 }] },
+    ],
+    ["invalid daily date", { ...daily, date: "2026-02-30" }],
+    ["invalid monthly date", { ...monthly, month: "2026-13" }],
   ];
 
-  for (const report of invalidReports) {
-    assert.equal(isAnalyticsReport(report), false, report.type);
+  for (const [name, report] of invalidCases) {
+    assert.equal(isAnalyticsReport(report), false, name);
   }
 });

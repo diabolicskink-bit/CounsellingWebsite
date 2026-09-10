@@ -14,6 +14,7 @@ export const visitEventTypes = {
   enquiryFailed: "enquiry_failed",
   instagramLinkClicked: "instagram_link_clicked",
   linkedinLinkClicked: "linkedin_link_clicked",
+  phoneLinkClicked: "phone_link_clicked",
 } as const;
 
 export const visitEventSources = {
@@ -27,6 +28,7 @@ export const clientVisitEventTypes = [
   visitEventTypes.enquiryStarted,
   visitEventTypes.instagramLinkClicked,
   visitEventTypes.linkedinLinkClicked,
+  visitEventTypes.phoneLinkClicked,
 ] as const;
 
 export const contactOptionValues: readonly ContactPath[] = contactPathOptions.map(
