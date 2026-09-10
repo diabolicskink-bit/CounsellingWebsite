@@ -44,6 +44,10 @@ const phoneLinkEventMigration = await readFile(
   new URL("0010_add_phone_link_event.sql", migrationsUrl),
   "utf8",
 );
+const consultCtaEventMigration = await readFile(
+  new URL("0011_add_consult_cta_event.sql", migrationsUrl),
+  "utf8",
+);
 const queryFilenames = (await readdir(queriesUrl))
   .filter((filename) => filename.endsWith(".sql"))
   .sort();
@@ -121,6 +125,15 @@ test("phone-link migration permits a controlled client event with empty properti
     /source = 'server'[\s\S]*?phone_link_clicked/i,
   );
   assert.match(phoneLinkEventMigration, /ELSE properties = '\{\}'::JSONB/i);
+});
+
+test("consult-CTA migration permits a controlled client event with empty properties", () => {
+  assert.match(consultCtaEventMigration, /consult_cta_clicked/i);
+  assert.match(
+    consultCtaEventMigration,
+    /source = 'server'[\s\S]*?consult_cta_clicked/i,
+  );
+  assert.match(consultCtaEventMigration, /ELSE properties = '\{\}'::JSONB/i);
 });
 
 test("visitor-exclusion migration creates a durable visitor-level filter", () => {

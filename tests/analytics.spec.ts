@@ -436,6 +436,41 @@ test.describe("first-party analytics", () => {
     })));
   });
 
+  test("records the shared consult CTA against the active page view", async ({ page }) => {
+    const eventObservations: Array<Record<string, unknown>> = [];
+    const visitObservations: Array<Record<string, unknown>> = [];
+
+    await stubAnalyticsRequests(page);
+    await page.route("**/api/visit", async (route) => {
+      visitObservations.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({ status: 204 });
+    });
+    await page.route("**/api/visit-event", async (route) => {
+      eventObservations.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({ status: 204 });
+    });
+
+    await page.goto("/", { waitUntil: "networkidle" });
+    await expect.poll(() => visitObservations.length).toBe(1);
+
+    const consultCta = page.getByRole("link", { name: "Request a free consult" });
+    await consultCta.evaluate((element) => {
+      element.addEventListener("click", (event) => event.preventDefault(), { once: true });
+    });
+    await consultCta.click();
+
+    await expect.poll(() => eventObservations.length).toBe(1);
+
+    const visitObservation = visitObservations[0];
+    expect(eventObservations[0]).toEqual({
+      eventId: expect.stringMatching(uuidV4),
+      eventType: "consult_cta_clicked",
+      pageViewId: visitObservation.pageViewId,
+      properties: {},
+      visitId: visitObservation.visitId,
+    });
+  });
+
   test("keeps enquiry events visit-linked and server-owned", async ({ page }) => {
     const visitObservations: Array<Record<string, unknown>> = [];
     const eventObservations: Array<Record<string, unknown>> = [];

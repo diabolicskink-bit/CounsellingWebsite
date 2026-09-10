@@ -51,6 +51,7 @@ const monthFormatter = new Intl.DateTimeFormat("en-AU", {
 
 const eventLabels: Record<string, string> = {
   contact_option_selected: "Contact option selected",
+  consult_cta_clicked: "Consult CTA clicked",
   email_link_clicked: "Email link clicked",
   enquiry_failed: "Enquiry failed",
   enquiry_sent: "Enquiry sent",
