@@ -171,7 +171,8 @@ function ContactProgressSignal({ progress }: { progress: VisitContactProgress | 
     className = "signal-enquiry-signal signal-enquiry-signal--failed";
     icon = <CircleX aria-hidden="true" size={15} />;
   } else if (progress.kind === "phone") {
-    icon = <PhoneCall aria-hidden="true" size={14} />;
+    className = "signal-enquiry-signal signal-enquiry-signal--phone";
+    icon = <PhoneCall aria-hidden="true" size={15} />;
   } else if (progress.kind === "selected") {
     icon = <MousePointerClick aria-hidden="true" size={14} />;
   } else if (progress.kind === "started") {
@@ -348,6 +349,7 @@ function DailyObservatory({
                 isExpanded ? "signal-visit-card--expanded" : null,
                 contactProgress?.kind === "sent" ? "signal-visit-card--enquiry-sent" : null,
                 contactProgress?.kind === "failed" ? "signal-visit-card--enquiry-failed" : null,
+                contactProgress?.kind === "phone" ? "signal-visit-card--enquiry-phone" : null,
               ].filter(Boolean).join(" ");
 
               return (
