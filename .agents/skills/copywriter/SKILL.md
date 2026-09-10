@@ -42,7 +42,7 @@ ambiguity or missing fact would materially change the result.
 ## Use the right material
 
 For Vive, read the current request and explicit owner decisions, then
-`docs/project/practice-direction.md`, `docs/project/writing-direction.md`, and
+`docs/project/practice-context.md`, `docs/project/writing-direction.md`, and
 the target copy with its immediate page context. These repository paths are
 relative to the project root. Check source or current scope for operational
 facts needed by the wording. Audience and market research are opt-in, as set

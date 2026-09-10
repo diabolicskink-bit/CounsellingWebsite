@@ -90,7 +90,7 @@ There is no per-article body presentation mechanism. An article that genuinely n
 - Treat every object in `publishedArticleMetadata` as publicly viewable. There is no draft flag or scheduled-release state.
 - Do not use client material, even when names or surface details are changed.
 - Verify factual, clinical, legal, and research claims before publication and link primary sources where a source materially supports the article.
-- Follow `practice-direction.md`, `writing-direction.md`, and the repository `copywriter` skill for public wording.
+- Use `practice-context.md` for relevant practice facts. Follow `writing-direction.md` and the repository `copywriter` skill for public wording.
 - Run `npm run qa:site` before publishing a new article. Inspect the index and article at narrow and wide widths when new content introduces shapes not already represented.
 
 ## When A CMS Becomes Worthwhile

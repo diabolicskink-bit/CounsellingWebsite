@@ -1,15 +1,15 @@
 # Public Writing Direction
 
 This guide owns the project-specific standard for Vive Counselling's public
-writing. [practice-direction.md](practice-direction.md) owns stable practice
-facts and positioning. The repository `copywriter` skill owns the drafting and
+writing. [practice-context.md](practice-context.md) provides background facts
+about Vive and Joel. The repository `copywriter` skill owns the drafting and
 review method. Current source and [current-scope.md](current-scope.md) own
 implemented behaviour and operational details.
 
 ## Authority and source use
 
 Use the current task and explicit owner decisions first, then
-`practice-direction.md`, the target page and its immediate context, and current
+`practice-context.md`, the target page and its immediate context, and current
 operational facts when needed.
 
 Public copy is under active owner-led revision. None of the current site's
@@ -36,7 +36,7 @@ maintaining that record.
 Audience and market research are opt-in for public-copy work. When the owner
 explicitly requests research-informed drafting, use the material to consider
 content and blind spots, then write for the task from the verified facts and
-practice direction.
+practice context.
 
 ## Writing standard
 
@@ -74,9 +74,9 @@ identity, location, online delivery, credentials, and approach are supporting
 information unless one is the actual subject.
 
 Keep general counselling visible on broad pages and state specialist knowledge
-where it helps someone judge fit, following practice direction. Present kink,
-sexuality, gender and relationship structure as parts of people's lives, not
-as diagnoses or a parallel list of client problems.
+where it helps someone judge fit. Present kink, sexuality, gender and
+relationship structure as parts of people's lives, not as diagnoses or a
+parallel list of client problems.
 
 Use approach information when it helps someone understand or evaluate how Joel
 works. Detailed psychodynamic, attachment-informed, and integrative material

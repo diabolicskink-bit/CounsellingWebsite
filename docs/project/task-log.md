@@ -5,7 +5,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## How To Use This Log
 
 - Read this for important project milestones and durable context.
-- Use `current-scope.md` for exact current scope.
+- Use `current-scope.md` for current system understanding and links to authoritative implementation.
 - Use `project-debt.md` for technical pressure.
 - Use `site-backlog.md` for concrete deferred visitor-facing change work.
 - Use `docs/design-system/` for the complete current reusable API and `docs/design-system-legacy/` only when inherited implementation evidence matters.
@@ -17,6 +17,17 @@ Curated milestone history for durable project state. This is not a full changelo
 - Add entries for public behaviour changes, documentation governance changes, major design-system state changes, deployment/testing posture changes, API/form milestones, or tracker creation/resolution.
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
+
+## 2026-09-10 - Practice Reference Made Factual
+
+- Replaced `practice-direction.md` with `practice-context.md`, a background reference about Vive and Joel. Preserved practice details, areas of work, expertise, lived experience, commitments and approach while removing messaging priorities and page-placement instructions.
+- Updated active documentation and skill references to the new name and factual role. Existing writing-policy content rules remain for a separate owner-requested review.
+
+## 2026-09-10 - Agent System Guide Rebuilt
+
+- Rebuilt `current-scope.md` around capabilities, system flows, source ownership, runtime boundaries and verification, replacing granular page-presentation descriptions with an orientation and task-relevant reference sections.
+- Added source-verified context about local versus deployed runtimes, route/build contracts, enquiry delivery and analytics independence, report date semantics, configuration, migrations and the limits of automated checks. Retained the outstanding Production migration difference as a dated observation requiring rechecking.
+- Updated repository routing and maintenance guidance to keep the guide useful for incoming agents without a length target or updates for ordinary visual/copy changes.
 
 ## 2026-09-10 - Phone Enquiries Added To Private Reporting
 
