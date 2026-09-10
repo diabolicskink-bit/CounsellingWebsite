@@ -22,6 +22,7 @@ Curated milestone history for durable project state. This is not a full changelo
 
 - Classified Contact-page phone-number clicks as enquiry signals in daily visit rows, monthly enquiry reporting, visitor timelines, and paid-keyword enquiry attribution while retaining the precise `phone_link_clicked` event in stored data.
 - The monthly summary now separates successful form sends, phone enquiries, failed form outcomes, and form send rate; its explanatory note makes clear that a number click does not prove a call was placed or answered.
+- Applied `0010_add_phone_link_event.sql` independently to Production ahead of deployment; Preview and Production are now current through all ten migrations.
 
 ## 2026-09-09 - Contact Phone Analytics Added
 
