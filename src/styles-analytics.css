@@ -19,6 +19,8 @@ body:has(.visit-dashboard) {
   --report-lilac: #eee0ff;
   --report-red: #ed607c;
   --report-blue: #4386ec;
+  --report-blue-dark: #255f9f;
+  --report-blue-soft: #deecff;
   --report-green: #3fab6e;
   --report-shadow: 0 12px 32px rgba(53, 52, 92, 0.08);
 
@@ -340,8 +342,8 @@ body:has(.visit-dashboard) {
 }
 
 .signal-report__status--phone {
-  background: var(--report-purple-soft);
-  color: var(--report-purple-dark);
+  background: var(--report-blue-soft);
+  color: var(--report-blue-dark);
 }
 
 .signal-report__status--failed,
@@ -1329,6 +1331,12 @@ body:has(.visit-dashboard) {
   box-shadow: 0 10px 28px rgba(184, 63, 92, 0.12);
 }
 
+.signal-visit-card--enquiry-phone {
+  border-color: rgba(37, 95, 159, 0.38);
+  background: rgba(222, 236, 255, 0.78);
+  box-shadow: 0 10px 28px rgba(37, 95, 159, 0.12);
+}
+
 .signal-event {
   display: grid;
   width: 100%;
@@ -1355,7 +1363,10 @@ body:has(.visit-dashboard) {
 .signal-visit-card--enquiry-sent.signal-visit-card--expanded .signal-event,
 .signal-visit-card--enquiry-failed .signal-event:hover,
 .signal-visit-card--enquiry-failed .signal-event:focus-visible,
-.signal-visit-card--enquiry-failed.signal-visit-card--expanded .signal-event {
+.signal-visit-card--enquiry-failed.signal-visit-card--expanded .signal-event,
+.signal-visit-card--enquiry-phone .signal-event:hover,
+.signal-visit-card--enquiry-phone .signal-event:focus-visible,
+.signal-visit-card--enquiry-phone.signal-visit-card--expanded .signal-event {
   background: rgba(255, 255, 255, 0.26);
 }
 
@@ -1487,6 +1498,11 @@ body:has(.visit-dashboard) {
 
 .signal-enquiry-signal--failed {
   background: #b83f5c;
+  color: #fff;
+}
+
+.signal-enquiry-signal--phone {
+  background: var(--report-blue-dark);
   color: #fff;
 }
 
