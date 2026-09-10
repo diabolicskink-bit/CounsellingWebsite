@@ -45,13 +45,10 @@ For Vive, read the current request and explicit owner decisions, then
 `docs/project/practice-context.md`, `docs/project/writing-direction.md`, and
 the target copy with its immediate page context. These repository paths are
 relative to the project root. Check source or current scope for operational
-facts needed by the wording. Audience and market research are opt-in, as set
-out in writing direction.
-
-Never invent credentials, expertise, service arrangements, testimonials,
-statistics, client experiences or promised outcomes. Check implications as well
-as literal claims; personal experience does not establish a clinical outcome
-or guarantee that the practitioner will suit every reader.
+facts needed by the wording. Writing policy owns the business purpose,
+proportionate factual checks, qualifications, and opt-in audience/market research.
+For articles, also read `docs/project/article-writing.md`; implementation and
+publication procedures live separately in `docs/project/article-publishing.md`.
 
 Existing copy supplies context and facts to verify, not an ideal voice. Earlier
 publication approval does not make a passage a style model. Owner messages
@@ -71,11 +68,10 @@ later sentence can explain, develop, qualify or answer something introduced
 earlier. Give paragraphs enough continuity to read as prose, rather than a
 series of statements assembled to cover a brief.
 
-Choose details that help the reader understand the offer, recognise a concern,
-judge fit or take a next step. Use genuine practice strengths where they help.
-An ordinary service fact can be exactly what the reader needs. If the material
-is thin, write the useful point at its natural length or seek a consequential
-missing detail. Do not inflate it into a bigger promise or invent a difference.
+Choose details that advance the purpose of the piece. Use the available
+material selectively; its presence in a source does not require coverage.
+Write useful information at its natural length, and resolve missing information
+when it would materially change the result.
 
 Develop an angle when it helps organise substantial material. Keep a
 straightforward treatment when it works. Lists, contrasts, examples and

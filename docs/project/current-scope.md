@@ -265,6 +265,8 @@ For code that depends on schema changes, establish the intended environment's sc
 
 Use the checked-in npm lockfile (`npm ci` when installing dependencies). Node and npm versions are not pinned by the repository; direct Node tests import TypeScript source, so the runtime must support those imports. The executable commands in [package.json](../../package.json) are authoritative. On Windows PowerShell, use `npm.cmd` for the same commands if execution policy blocks the `npm.ps1` launcher; no policy change is needed.
 
+Choose checks using the [verification policy](../../AGENTS.md#engineering-and-verification); the commands below describe available coverage, not a required sequence. For dashboard changes, agents use focused local checks and prepare a working-branch Preview for the owner's browser verification when needed, following the [private analytics workflow](../../AGENTS.md#private-analytics). Public tracking and shared privacy boundaries retain their own relevant checks.
+
 | Command | Purpose and limits |
 | --- | --- |
 | `npm run dev` | Local Vite development UI, including development routes and the article editor. No API-service verification. |

@@ -1,113 +1,73 @@
-# Public Writing Direction
+# Public Writing Policy
 
-This guide owns the project-specific standard for Vive Counselling's public
-writing. [practice-context.md](practice-context.md) provides background facts
-about Vive and Joel. The repository `copywriter` skill owns the drafting and
-review method. Current source and [current-scope.md](current-scope.md) own
-implemented behaviour and operational details.
+This file records Vive's public-writing preferences and working boundaries.
+The repository [copywriter skill](../../.agents/skills/copywriter/SKILL.md) owns
+the drafting and review method.
 
-## Authority and source use
+## Purpose
 
-Use the current task and explicit owner decisions first, then
-`practice-context.md`, the target page and its immediate context, and current
-operational facts when needed.
+Service and practice copy should attract suitable clients and encourage
+enquiries. Make a clear, persuasive case for working with Joel using information
+relevant to the reader. Review whether the copy gives someone useful reasons
+to choose him and makes enquiring appealing and straightforward.
 
-Public copy is under active owner-led revision. None of the current site's
-copy is an ideal voice model, including passages previously approved for
-publication. Existing source supplies factual and page context to assess.
-Reports, research, competitor pages, SEO material, plans, and current-scope
-descriptions may inform a decision but do not supply ready-made wording or
-mandatory page structure.
+The current task and explicit owner decisions determine content, emphasis and
+structure. Practical pages should help visitors do what they came to do.
+Articles have their own subject and purpose; use
+[article-writing.md](article-writing.md) when drafting or revising them.
 
-Ordinary owner messages provide direction, facts, corrections, and taste
-guidance. Do not imitate conversational spelling or syntax. Honour exact
-implementation requests and wording protected by the current brief. Earlier
-publication approval remains relevant outside the selected editing scope; it
-does not prevent revision when the owner asks to revise that passage.
+## Natural writing
 
-Respect explicit rejections within their stated scope. Do not expand a rejected
-sentence into a ban on related words or ordinary constructions. The copywriter's
-[owner feedback](../../.agents/skills/copywriter/references/owner-taste.md)
-records feedback useful across tasks; it is supporting context, not a universal
-voice specification. Keep page composition decisions with the relevant task
-or page brief. Distinguish owner decisions from an agent's interpretation when
-maintaining that record.
-
-Audience and market research are opt-in for public-copy work. When the owner
-explicitly requests research-informed drafting, use the material to consider
-content and blind spots, then write for the task from the verified facts and
-practice context.
-
-## Writing standard
-
-The central standard is good, natural public writing: clear meaning, idiomatic
-phrasing, well-constructed sentences and connected prose. Familiar ideas and
-ordinary service information are welcome when useful. Distinctiveness,
-memorable phrasing and an original editorial premise are not requirements.
-
-The website should make an honest case for Joel and the practice, helping
-visitors understand the offer, judge fit and take a next step. Let each piece
-of copy perform its particular function. Clear identification, explanation or
-instruction may fully do that job. Use persuasion and creative treatment where
-they help the reader.
-
-Speak to client problems in concrete, recognisable terms. It is acceptable to
-name a common pressure, consequence, or tension while leaving room for
-variation. Keep the emotional register proportionate and avoid inventing the
-reader's private history, feelings or goal.
+Write natural, fluent copy. Use familiar wording when it expresses the point
+well, and connect thoughts in a way that reads smoothly. Avoid forcing depth,
+emotion or originality into ordinary information. Keep warmth and personality
+where they come naturally. Naturalness does not require casual speech or
+uniformly short sentences.
 
 Use polished Australian English and `I` when Joel is the speaker. Contractions
-are welcome when natural in context. Retain accurate specialist language where
-it helps, while keeping explanations accessible. Avoid em dashes in public
-copy, as explicitly requested by the owner.
+are welcome. Use specialist language when it helps communicate the subject
+clearly. The owner does not want em dashes in public copy.
 
-Avoid inflated language, strained imagery, generic therapeutic promises and
-overworked rhetorical patterns. Naturalness does not require casual speech,
-uniformly short sentences or the removal of warmth, nuance and personality.
-Let useful content and the reader's needs determine length and organisation.
+## Facts and editorial judgement
 
-## Home and service copy
+Keep concrete claims about services, qualifications, fees, research and outcomes
+correct. Check uncertain details when they matter, and do not invent supporting
+evidence. Include qualifications where leaving them out would materially
+mislead the reader. Use editorial judgement to describe relevant concerns and
+the value of counselling confidently, without promising results or assigning
+every reader a particular history or feeling.
 
-Let Home and service openings belong to the client concern, counselling offer,
-a concrete practice strength, or another useful proposition. Practitioner
-identity, location, online delivery, credentials, and approach are supporting
-information unless one is the actual subject.
+Kink, sexuality, gender and relationship structure are parts of people's lives;
+do not present them as diagnoses or inherently as client problems.
 
-Keep general counselling visible on broad pages and state specialist knowledge
-where it helps someone judge fit. Present kink, sexuality, gender and
-relationship structure as parts of people's lives, not as diagnoses or a
-parallel list of client problems.
+## Sources and search
 
-Use approach information when it helps someone understand or evaluate how Joel
-works. Detailed psychodynamic, attachment-informed, and integrative material
-normally belongs on Working with Joel, not in Home copy led by client concerns.
+[practice-context.md](practice-context.md) provides background facts to use when
+relevant. It is not a content checklist. Use the target page for context and
+current source for operational details; [current-scope.md](current-scope.md)
+maps that source. Existing copy, including previously published copy, is not
+automatically a voice model. Preserve good writing when it serves the task.
 
-## Search and practical language
+Audience and market research are opt-in. Use those dossiers only when the owner
+requests research-informed work. This is separate from checking a factual claim
+or a source used in the copy. Reports, competitor material and sample outlines
+can inform an authorised task without becoming its wording or page template.
 
-Use the principal search phrase and natural variants where they improve
-identification or retrieval. Keep visible wording, metadata, structured data,
-links, and service facts aligned without making the prose carry every term.
-Name online delivery where it answers a practical question or search intent.
+When the task establishes a search target, use relevant phrases naturally.
+Keep copy, metadata and service facts consistent without making the prose carry
+every search term.
 
-## Article citations and references
+## Editing and feedback
 
-Use APA 7 for every article reference list. Keep entries alphabetical, keep
-in-text author and year details consistent with the bibliography, and store the
-DOI or stable source page in the template's separate link field. Verify the
-bibliographic details against the source before publishing.
+Allow substantial editorial freedom within the requested scope, including
+rewriting and restructuring. Respect requests to preserve meaning, emphasis,
+structure or exact wording. Review and drafting alone do not authorise file
+changes. Match the deliverable and working sequence to the request.
 
-## Collaboration and review
-
-Allow substantial editorial freedom by default within the requested scope,
-including rewriting and restructuring. Respect narrower instructions to refine
-expression while preserving meaning, structure, emphasis or particular words.
-Freedom over the prose does not authorise changing practice facts or making
-unsupported claims.
-
-Review, analysis and drafting do not authorise file changes; implementation
-does. Work section by section while direction is still being developed, and
-prefer one considered recommendation over near-identical variants unless the
-owner requests alternatives.
-
-Review the clean copy in its actual page context. When the explanation is more
-compelling than the passage, revise the passage rather than defending it.
+Owner messages provide direction and preferences; do not imitate conversational
+spelling or syntax. Keep feedback within its stated scope. A rejected sentence
+does not establish a ban on related words. Keep page decisions with the task or
+page brief. The copywriter's
+[owner feedback](../../.agents/skills/copywriter/references/owner-taste.md)
+records explicit responses as supporting context, with agent interpretations
+identified separately.

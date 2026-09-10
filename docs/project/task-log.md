@@ -18,6 +18,19 @@ Curated milestone history for durable project state. This is not a full changelo
 - Skip routine bug fixes, tiny cleanup, pure investigations, and review-only notes unless they change durable project state.
 - Keep entries to 2-4 bullets focused on what is now true.
 
+## 2026-09-10 - Agent Working Rules Reorganized
+
+- Reorganized `AGENTS.md` around task modes, relevant reading, engineering, verification, Git flow and maintenance. Code reviews include justified fixes by default; findings-only requests and copy/documentation assessments remain read-only unless changes are requested.
+- Made focused, proportionate verification the general default, with no routine full-suite requirement or repeated checks after relevant evidence passes. Dashboard browser verification belongs to the owner through a working-branch Preview when needed; agents retain focused local checks and verification of affected public tracking/privacy boundaries.
+- Removed mandatory site-backlog consultation, consolidated specialist procedures under their owners, and clarified the normal working-branch to `staging` to `master` flow while retaining design-system instructions.
+
+## 2026-09-10 - Public Writing Policy Rebuilt
+
+- Rebuilt `writing-direction.md` around natural writing, attracting clients through service/practice copy, proportionate factual checks and editorial freedom. Removed standing Home/service content hierarchies, page-placement instructions and the section-by-section workflow.
+- Added `article-writing.md` for article authoring, evidence and APA reference conventions, with technical storage and release procedures retained in `article-publishing.md`.
+- Recorded the owner's article style as a blend of postgraduate research paper writing and a compelling blog article, informed by a review of the current perfectionism and kink-aware therapy articles without making them fixed templates.
+- Aligned repository routing, documentation ownership and the copywriter skill with the shared policy, removing duplicated accuracy cautions and the assumption that all public writing serves the same sales purpose.
+
 ## 2026-09-10 - Practice Reference Made Factual
 
 - Replaced `practice-direction.md` with `practice-context.md`, a background reference about Vive and Joel. Preserved practice details, areas of work, expertise, lived experience, commitments and approach while removing messaging priorities and page-placement instructions.

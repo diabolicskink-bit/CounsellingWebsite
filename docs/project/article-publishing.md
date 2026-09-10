@@ -2,6 +2,8 @@
 
 The Vive Articles section is a code-managed, statically prerendered publishing system. It does not use a CMS, database, login, or separate build process. The canonical public route is `/articles`, matching the shared navigation and visible page labels.
 
+For drafting, evidence and citation conventions, use [article-writing.md](article-writing.md). This guide covers adding, editing and publishing articles in the application.
+
 ## Add An Article
 
 Add one `ArticleMetadata`-compatible object to `publishedArticleMetadata` in `src/content/articles/manifest.ts`:
@@ -45,7 +47,7 @@ The article continues in Markdown.`,
 
 Import that template in `src/content/articles/articles.ts` and add it to `articleTemplates`. The typed registry must contain exactly one template for every manifest slug. The manifest stays deliberately lightweight because shared metadata and analytics use it on every public route; article bodies and Markdown rendering load only when someone enters the Articles section.
 
-Keep the public title in the manifest rather than repeating it as a Markdown H1. Put only the article body in `body`. Put each complete bibliography entry in the ordered `references` array rather than adding a References heading to the body; use an empty array when an article has no sources. Format every source in APA 7 style, order entries alphabetically, store the formatted reference text and Markdown italics in `citation`, and store the canonical DOI URL or a stable source destination separately in `href`. Add an optional stable lowercase `anchorId` when the body links an in-text citation to that source, then link to `#article-reference-<anchorId>` from the body Markdown.
+Keep the public title in the manifest rather than repeating it as a Markdown H1. Put only the article body in `body`. Put each complete bibliography entry in the ordered `references` array rather than adding a References heading to the body; use an empty array when an article has no sources. See [Reference Fields](#reference-fields) for entry storage and citation links.
 
 ## Development Editor
 
@@ -53,19 +55,21 @@ During local Vite development, `/article-editor` provides a deliberately simple 
 
 The editor does not change titles, metadata or template registration. Those remain typed source changes. Its save endpoint exists only in the Vite development server, accepts allowlisted article slugs, and refuses non-localhost requests; production builds contain neither the route nor a write endpoint.
 
-## Reference Convention
+## Reference Fields
 
-Use APA 7 for every article reference list. Keep entries alphabetical, put the formatted citation and any Markdown italics in `citation`, and put the canonical DOI URL or a stable source page in `href` rather than repeating it inside the citation. When in-text citations link to the reference ledger, give each referenced source a unique, URL-safe `anchorId` based on its author and year rather than its list position. Before publishing, check the bibliographic details against the source, make sure in-text author and year details agree with the reference list, and verify that every citation link resolves to its intended source.
+Format references according to [article-writing.md](article-writing.md#citations-and-references). Put the formatted citation and any Markdown italics in `citation`, and put the canonical DOI URL or a stable source page in `href` rather than repeating it inside the citation. When in-text citations link to the reference ledger, give each referenced source a unique, lowercase, URL-safe `anchorId` based on its author and year rather than its list position, then link to `#article-reference-<anchorId>` from the body Markdown. Verify that each citation link resolves to its intended entry.
+
+## Publication Dates and Source Notes
 
 Use `updatedAt` only after a substantive published revision. Keep the original `publishedAt` value.
 
-Use `sourceNote` when readers should know where the article came from or how it was adapted. Graduate Diploma coursework is one possible source, not the organising identity of the section. State the note narrowly, for example: `Adapted from Graduate Diploma coursework and revised for a general audience.` Keep inline citations in the body and add the corresponding entries to the template's `references` array when sources materially support the article.
+Use `sourceNote` for a short acknowledgement of an article's origin or adaptation when appropriate. Keep inline citations in the body and the corresponding entries in the template's `references` array.
 
 ## Article Presentation
 
 Every article uses the same publication shell and renders ordinary Markdown, including headings, lists, quotations, tables, emphasis, and links. Its article-owned reading layout uses a centred continuous column, compact paragraph leading, and level-two headings directly above their sections with a controlled transition rather than the public site's general reading and section rhythm. Use site-root paths such as `/working-with-joel` for internal links and complete `https://` URLs for external sources.
 
-When a template's `references` array is non-empty, the dedicated references component renders the ordered set as a wider source ledger with a source count, compact typography, ruled entries, APA-style hanging indents, and visible DOI or source URLs that remain readable at narrow widths. Each citation accepts inline Markdown, including emphasis. The component controls structure and presentation only; authors should keep academic citations complete and APA 7 formatted, with entries ordered alphabetically.
+When a template's `references` array is non-empty, the dedicated references component renders the ordered set as a wider source ledger with a source count, compact typography, ruled entries, APA-style hanging indents, and visible DOI or source URLs that remain readable at narrow widths. Each citation accepts inline Markdown, including emphasis. The component controls structure and presentation; authors supply the formatted entries in their intended order.
 
 `src/content/articles/ArticleHero.tsx` is the supported reusable hero template for every published article. It owns the single eyebrow-styled breadcrumb, title, abstract, author, dates, and responsive composition; its `.article-hero*` presentation lives with the other supported component styles in `src/design-system/components.css`. `src/pages/ArticlePage.tsx` owns the publication note and return navigation around the body. The hero composes the supported `.site-hero`, `.site-hero__eyebrow`, `.site-hero__statement`, and `.site-hero-surface` roles while retaining its article-specific grid and metadata presentation. This keeps article orientation and publication details consistent across the section.
 
@@ -88,9 +92,7 @@ There is no per-article body presentation mechanism. An article that genuinely n
 ## Publishing Boundaries
 
 - Treat every object in `publishedArticleMetadata` as publicly viewable. There is no draft flag or scheduled-release state.
-- Do not use client material, even when names or surface details are changed.
-- Verify factual, clinical, legal, and research claims before publication and link primary sources where a source materially supports the article.
-- Use `practice-context.md` for relevant practice facts. Follow `writing-direction.md` and the repository `copywriter` skill for public wording.
+- Apply [article-writing.md](article-writing.md) for article content, evidence, client-material boundaries and references, alongside the shared [writing policy](writing-direction.md).
 - Run `npm run qa:site` before publishing a new article. Inspect the index and article at narrow and wide widths when new content introduces shapes not already represented.
 
 ## When A CMS Becomes Worthwhile
