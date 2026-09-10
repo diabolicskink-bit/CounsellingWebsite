@@ -21,7 +21,7 @@ Curated milestone history for durable project state. This is not a full changelo
 ## 2026-09-10 - Consult CTA First-Party Event Added
 
 - Added a property-free `consult_cta_clicked` event when visitors activate the primary “Request a free consult” action in the shared Contact invitation; its existing page-view association identifies the source page without adding CTA metadata.
-- Added the forward-only `0011_add_consult_cta_event.sql` migration and focused API, migration, browser, and private-timeline labelling coverage. The event remains first-party only; Preview has applied `0011`, while Production remains through `0010` pending release.
+- Added the forward-only `0011_add_consult_cta_event.sql` migration and focused API, migration, browser, and private-timeline labelling coverage. The event remains first-party only; Preview and Production independently applied `0011` before the Production code release.
 
 ## 2026-09-10 - IDE Browser Workflow Aligned
 
