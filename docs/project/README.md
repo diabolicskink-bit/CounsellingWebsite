@@ -41,7 +41,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 - [../research/README.md](../research/README.md) maps audience dossiers available when the owner explicitly requests research-informed work.
 - [../market-research/README.md](../market-research/README.md) maps dated market-segment dossiers available for explicitly selected SEO, positioning, pricing, content, and product decisions.
 - `../page-plan/` contains reader-informed content plans for individual public pages. These are supporting plans and do not approve wording or authorise implementation by themselves.
-- [task-log.md](task-log.md) records selected durable milestones; Git remains the detailed implementation history.
+- [task-log.md](task-log.md) records the current month's consequential milestones and decision context, with admission and archiving guidance. Search it and the monthly archives when historical context matters; Git remains the detailed implementation history.
 - [archive/README.md](archive/README.md) maps resolved tracker items and older task history kept outside the active reading path.
 - [../design-system-legacy/README.md](../design-system-legacy/README.md) maps inherited implementation evidence kept outside the active design-system catalogue.
 - `../checklists/` contains owner-directed monitors and manual-QA checklists.
