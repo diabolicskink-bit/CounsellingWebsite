@@ -107,7 +107,7 @@ const pageContent: WorkingWithJoelPageContent = {
   introduction: {
     title: "Introducing Joel",
     paragraphs: [
-      "I’m Joel Griffiths, an ACA-registered counsellor based in Perth. I work online with adults across Australia.",
+      "I’m Joel Griffiths, the counsellor behind Vive Counselling. I’m ACA-registered, based in Perth, and work online with adults across Australia.",
       "Counselling is my second career. I changed direction because I’m passionate about mental health and wanted to work with adults dealing with anxiety, low mood, trauma, shame, self-criticism, relationship difficulties, or concerns around sex and intimacy. General counselling remains a central part of my practice.",
       "My specialist interests grew from seeing that people in kink, LGBTQIA+, non-monogamous and sex-work communities did not always have the same access to counselling. I heard from people living with relational or sexual trauma who had trouble finding a therapist they felt they could talk to. Some had avoided therapy. Others had tried and come away feeling misunderstood, judged or pathologised. I wanted to provide a place where people could be taken seriously without the rest of their lives being treated as the problem.",
     ],

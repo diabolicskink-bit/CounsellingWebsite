@@ -352,7 +352,7 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
 
         <div className="contact-page__form-start">
           <h2 className="contact-page__form-eyebrow" id="contact-form-title">
-            Your enquiry
+            Contact Vive Counselling
           </h2>
 
           <div className="contact-page__form-fields">

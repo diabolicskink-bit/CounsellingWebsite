@@ -92,7 +92,7 @@ const homePageContent: HomePageContent = {
       after: "",
     },
     narrative: [
-      "I’m Joel Griffiths, and Vive is my online counselling practice for individuals and couples across Australia.",
+      "I’m Joel Griffiths, and Vive Counselling is my online practice for individuals and couples across Australia.",
       "Anxiety, depression, perfectionism and people-pleasing can make day-to-day life difficult. You may find it hard to switch off or hard to care, while much of your energy goes into getting things right and keeping other people happy. Counselling can help you understand these difficulties more clearly and look at what might need to change.",
       "Trauma can continue to shape daily life and relationships long after the danger itself has passed. I work with CPTSD, sexual trauma, and the effects of single or repeated traumatic experiences. Knowing that something is over does not always stop your mind or body responding as though it is still close.",
       "Relationships can become painful without love or care disappearing. You may be caught in the same argument, living with distance, dealing with damaged trust, or struggling with sex and intimacy. Counselling can help you understand what has become stuck and decide what needs to happen next.",
