@@ -1,5 +1,7 @@
 import ContactInvitation from "../../../components/ContactInvitation";
 import DesignSystemSpecimen from "../../../components/DesignSystemSpecimen";
+import ArticleHero from "../../../content/articles/ArticleHero";
+import { articleMetadata } from "../../../content/articles/manifest";
 import DesignSystemWorkspace from "./DesignSystemWorkspace";
 
 export default function DesignSystemComponents() {
@@ -13,12 +15,25 @@ export default function DesignSystemComponents() {
         className="system-workspace__supported"
         id="components"
         aria-labelledby="components-heading"
-        data-supported-specimen-count="1"
+        data-supported-specimen-count="2"
       >
         <div className="system-workspace__section-heading">
           <p>Supported component</p>
           <h2 id="components-heading">Components</h2>
         </div>
+
+        <DesignSystemSpecimen
+          consumers={[
+            "Every manifest-backed article route",
+            "Standard Markdown articles",
+          ]}
+          identifier="<ArticleHero />"
+          recordPath="docs/design-system/components.md"
+          role="Canonical article hero for orientation, classification, abstract, authorship, and publication dates; the article body remains separate."
+          title="Article hero"
+        >
+          <ArticleHero article={articleMetadata[0]} />
+        </DesignSystemSpecimen>
 
         <DesignSystemSpecimen
           consumers={[
@@ -30,7 +45,7 @@ export default function DesignSystemComponents() {
           ]}
           identifier="<ContactInvitation />"
           recordPath="docs/design-system/components.md"
-          role="Canonical final invitation from a public content page into the Contact journey; copy, destination, accessibility, and responsive presentation are component-owned."
+          role="Canonical final invitation from a public content page into a consult, email, or practical Contact path; copy, fees, destinations, accessibility, and responsive presentation are component-owned."
           title="Contact invitation"
         >
           <ContactInvitation />

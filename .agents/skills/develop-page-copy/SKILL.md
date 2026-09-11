@@ -11,18 +11,22 @@ description: >
 
 # Develop page copy
 
-Use the `copywriter` skill for editorial decisions. This skill owns only the
-larger page boundary and an optional durable handoff. Do not turn a normal copy
-request into a page-governance exercise.
+Use the `copywriter` skill when the task involves editorial judgement about
+public-facing wording. Strategy or internal handoff work alone does not invoke
+it unless the user explicitly asks for it. This skill owns only the larger page
+boundary and an optional durable handoff. Do not turn a normal copy request
+into a page-governance exercise.
 
 ## Establish context
 
 For Vive Counselling, read:
 
-1. `docs/project/practice-direction.md`;
+1. `docs/project/practice-context.md`;
 2. `docs/project/writing-direction.md`;
-3. the relevant page and its immediate surrounding copy; and
-4. the complete `copywriter` skill and its routed references.
+3. the relevant page and its immediate surrounding copy.
+
+When copywriter applies, read its main instructions and follow its conditional
+reference routing. Do not load every reference merely because this is page work.
 
 Use current scope or source only for needed operational facts. Existing page
 copy is implementation context, not a writing model.
@@ -33,8 +37,7 @@ copy is implementation context, not a writing model.
 
 When the user wants strategy rather than finished copy, provide:
 
-- the page's job and the central impression, argument, or relationship that can
-  organise it;
+- the page's job and a clear way to organise its content;
 - the strongest practice material available;
 - the visitor decisions the page must support;
 - a proposed sequence with one useful contribution per section;

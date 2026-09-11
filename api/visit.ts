@@ -8,6 +8,7 @@ import {
 } from "../src/server/visits/repository.ts";
 import {
   getVisitPayloadBody,
+  getVisitRequestEnvironment,
   getVisitRequestShapeBlock,
   logBlockedVisitRequest,
   type VisitRequest,
@@ -72,6 +73,7 @@ export function createVisitHandler(
     try {
       await recordObservation({
         ...validation.observation,
+        ...getVisitRequestEnvironment(request),
         ...botClassification,
       });
       return sendSuccess(response);

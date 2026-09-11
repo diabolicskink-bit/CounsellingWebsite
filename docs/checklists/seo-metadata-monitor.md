@@ -47,8 +47,8 @@ Use the relevant combination of metadata source, generated HTML, served route re
 - `Not checked` Site HTML includes the intended language and viewport metadata.
   - **Data:** `lang="en"`; viewport `width=device-width, initial-scale=1.0`.
 
-- `Not checked` Theme, manifest, favicon, touch-icon, and app-icon metadata use the configured public values.
-  - **Data:** Theme colour `#234b3d`; manifest background `#f7f6f2`; `/site.webmanifest`; `/favicon.ico`; `/favicon.svg`; `/icon-192.png`; `/icon-512.png`; `/apple-touch-icon.png`.
+- `Not checked` Theme, favicon, touch-icon, and device-icon metadata use the configured public values without advertising the site as an installable web app.
+  - **Data:** Theme colour `#234b3d`; `/favicon.ico`; `/favicon.svg`; `/icon-192.png`; `/icon-512.png`; `/apple-touch-icon.png`; no web app manifest.
 
 - `Pass` The shared social image exists at the configured path and is publicly served.
   - **Data:** `https://vivecounselling.com.au/og-vive-counselling.png`
@@ -57,7 +57,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `1200x630`; `Vive Counselling social preview card featuring Joel Griffiths.`
 
 - `Partial` Structured data is valid in shape and aligned with confirmed public claims.
-  - **Data:** Home emits linked `WebSite`, `Organization`, `Person`, and `Service` entities; Working with Joel emits `ProfilePage` and the credential-bearing `Person`; each specialist route emits `WebPage` and a route-specific `Service`; Inclusion, Kink/BDSM, and Contact/Fees also emit their visible `FAQPage` data.
+  - **Data:** Home emits linked `WebSite`, `Organization`, `Person`, and `Service` entities; Working with Joel emits `ProfilePage` and the credential-bearing `Person`; each specialist route emits `WebPage` and a route-specific `Service`; Crisis Support emits `MedicalWebPage` with visible review, modification, author and publisher details plus `BreadcrumbList`; Inclusion, Kink/BDSM, and Contact/Fees also emit their visible `FAQPage` data.
   - **Note:** A private or inferred address and address-dependent `LocalBusiness` data remain intentionally absent. Add the approved Google Business Profile to `Organization.sameAs` only when its exact public URL is confirmed.
 
 - `Partial` Hydrated client-side navigation keeps the complete runtime head aligned with the current route.
@@ -71,10 +71,10 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Online Counselling and Therapy Across Australia`
 
 - `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
-  - **Data:** `Online Therapy Across Australia | Vive Counselling`
+  - **Data:** `Online Counselling & Therapy | Vive Counselling`
 
 - `Pass` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Online counselling and psychotherapy across Australia. Support for anxiety, depression, relationships and trauma. Kink, ENM and LGBTQIA+ aware.`
+  - **Data:** `Online counselling for individuals and couples across Australia. Support with anxiety, depression, trauma and relationships. Kink, ENM and LGBTQIA+ inclusive.`
 
 - `Pass` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/`
@@ -112,7 +112,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Joel Griffiths, Psychodynamic Counsellor | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Psychodynamic counselling with Joel Griffiths, an ACA-registered counsellor working online across Australia, based in Perth. Attachment-informed and integrative.`
+  - **Data:** `Meet Joel Griffiths, an ACA-registered counsellor based in Perth and working online across Australia. Learn about his approach to therapy.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/working-with-joel`
@@ -150,7 +150,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Inclusive counselling for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives. Perth-based and non-shaming.`
+  - **Data:** `Online counselling across Australia with an understanding of kink, ENM and LGBTQIA+ lives. You can talk openly about your mental health and relationships.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/inclusive-counselling`
@@ -188,7 +188,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Kink & BDSM-Aware Counselling | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Kink-aware counselling and therapy with Joel Griffiths, an ACA-registered counsellor based in Perth and working with adults across Australia.`
+  - **Data:** `Online kink-aware therapy across Australia with a counsellor who understands BDSM. Talk about kink, relationships or whatever brings you to counselling.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/kink-bdsm-counselling`
@@ -223,10 +223,10 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Polyamory and ethical non-monogamy counselling and therapy`
 
 - `Not checked` Page title is non-empty, unique among public routes, and accurate to the route purpose.
-  - **Data:** `Counselling for Polyamory, Open Relationships and ENM | Vive Counselling`
+  - **Data:** `Polyamory & Open Relationship Counselling | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Counselling for polyamory, open relationships and ENM across Australia, without assuming monogamy is the answer or treating relationship structure as the problem.`
+  - **Data:** `Online counselling for polyamory and ENM across Australia. Support with jealousy, agreements and change, without assuming monogamy is the answer.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/polyamory-enm-counselling`
@@ -264,7 +264,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `LGBTQIA+ Affirming Counselling | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `LGBTQIA+ affirming counselling with Joel Griffiths for adults across Australia. Perth-based online counselling for sexuality, gender, relationships and other concerns.`
+  - **Data:** `LGBTQIA+ affirming online counselling across Australia. Talk about anxiety, relationships, sexuality or gender without having to justify who you are.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/lgbtqia-affirming-counselling`
@@ -302,7 +302,7 @@ Use the relevant combination of metadata source, generated HTML, served route re
   - **Data:** `Counselling Fees & Contact | Vive Counselling`
 
 - `Not checked` Meta description is present, human-readable, and matches visible page content.
-  - **Data:** `Request a free 15-minute initial consultation with Joel Griffiths at Vive Counselling. Counselling sessions are $120; view fees and contact details.`
+  - **Data:** `50-minute online counselling sessions at $120 for individuals and $150 for couples. Ask a question or request a free 15-minute consultation with Joel.`
 
 - `Not checked` Canonical URL resolves to this route on the intended public origin.
   - **Data:** `https://vivecounselling.com.au/contact`
@@ -328,6 +328,86 @@ Use the relevant combination of metadata source, generated HTML, served route re
 - `Not checked` Hydrated and client-side navigation metadata remains correct.
 
 - `Not checked` Search and social wording avoids misleading therapeutic claims, overpromising outcomes, and pathologising language.
+
+## `/crisis-support` - Crisis Support
+
+- **Last checked:** `2026-08-31`
+
+- `Pass` The first-response H1 is present and matches the route purpose.
+  - **Data:** `Australian urgent mental health support services.`
+
+- `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
+  - **Data:** `Crisis Support Numbers in Australia | Vive Counselling`
+
+- `Pass` Meta description is present, human-readable, and matches visible page content.
+  - **Data:** `Call 000 for immediate danger. Find 24/7 Australian crisis lines and state or territory urgent mental health services, with official contact details.`
+
+- `Pass` Canonical URL resolves to this route on the intended public origin.
+  - **Data:** `https://vivecounselling.com.au/crisis-support`
+
+- `Pass` Canonical public URL returns a `200` response.
+
+- `Pass` Indexability is not blocked by robots metadata or response headers.
+  - **Data:** No route-level robots directive or `X-Robots-Tag`; indexable.
+
+- `Pass` Sitemap output includes this route exactly once with an accurate significant-change date.
+  - **Data:** `<lastmod>2026-08-31</lastmod>`
+
+- `Pass` Open Graph and Twitter metadata are complete and aligned with the route.
+  - **Data:** `og:title` / `twitter:title` use the page title; `og:description` / `twitter:description` use the meta description; `og:url` is `https://vivecounselling.com.au/crisis-support`; `og:type` is `website`; `twitter:card` is `summary_large_image`.
+
+- `Partial` The configured social image and alt metadata are valid but use the shared practice preview rather than a Crisis Support-specific asset.
+  - **Data:** `https://vivecounselling.com.au/og-vive-counselling.png`; `Vive Counselling social preview card featuring Joel Griffiths.`
+
+- `Pass` Structured data is valid and aligned with visible page content.
+  - **Data:** `MedicalWebPage` with `dateModified`, `lastReviewed`, Vive Counselling author and publisher references, and a `BreadcrumbList`.
+
+- `Pass` Generated initial HTML/head metadata matches expected route metadata and contains the complete Crisis Support content.
+
+- `Partial` Hydrated and client-side navigation metadata remains correct for title and description.
+  - **Note:** Runtime canonical, Open Graph, Twitter, and robots metadata ownership remains tracked under `DEBT-27`.
+
+- `Pass` Search and social wording is factual, distinguishes crisis support from public mental health assessment, cites official sources, and avoids therapeutic claims or promised outcomes.
+
+## `/privacy-policy` - Privacy Policy
+
+- **Last checked:** `2026-09-01`
+
+- `Pass` The first-response H1 is present and matches the route purpose.
+  - **Data:** `Privacy policy.`
+
+- `Pass` Page title is non-empty, unique among public routes, and accurate to the route purpose.
+  - **Data:** `Privacy Policy | Vive Counselling`
+
+- `Pass` Meta description is present, human-readable, and matches visible page content.
+  - **Data:** `How Vive Counselling handles personal information from website visits, enquiries and counselling, including access, correction and privacy complaints.`
+
+- `Pass` Canonical URL resolves to this route on the intended public origin.
+  - **Data:** `https://vivecounselling.com.au/privacy-policy`
+
+- `Pass` Canonical public URL returns a `200` response.
+
+- `Pass` Indexability is not blocked by robots metadata or response headers.
+  - **Data:** No route-level robots directive or `X-Robots-Tag`; indexable.
+
+- `Pass` Sitemap output includes this route exactly once with an accurate significant-change date.
+  - **Data:** `<lastmod>2026-09-01</lastmod>`
+
+- `Pass` Open Graph and Twitter metadata are complete and aligned with the route.
+  - **Data:** `og:title` / `twitter:title` use the page title; `og:description` / `twitter:description` use the meta description; `og:url` is `https://vivecounselling.com.au/privacy-policy`; `og:type` is `website`; `twitter:card` is `summary_large_image`.
+
+- `Pass` The configured social image and alt metadata are appropriate for the route.
+  - **Data:** `https://vivecounselling.com.au/og-vive-counselling.png`; `Vive Counselling social preview card featuring Joel Griffiths.`
+
+- `N/A` No route-specific structured data is needed for the page.
+  - **Note:** Google does not support a Privacy Policy rich-result type; adding generic markup would not create a search feature worth maintaining for this route.
+
+- `Pass` Generated initial HTML/head metadata matches expected route metadata and contains the complete policy content.
+
+- `Partial` Hydrated and client-side navigation metadata remains correct for title and description.
+  - **Note:** Runtime canonical, Open Graph, Twitter, and robots metadata ownership remains tracked under `DEBT-27`.
+
+- `Pass` Search and social wording accurately describes the policy without adding counselling keywords or claims unrelated to the route.
 
 ## Redirects
 

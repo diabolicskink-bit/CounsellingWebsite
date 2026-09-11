@@ -7,6 +7,7 @@ import {
 
 export type AnalyticsSelection =
   | { date: string; type: "daily" }
+  | { endDate: string; includeBots: boolean; startDate: string; type: "keywords" }
   | { month: string; type: "monthly" }
   | { endDate: string; includeBots: boolean; startDate: string; type: "pageViews" }
   | { type: "visitor"; visitorId: string };
@@ -26,8 +27,8 @@ export type AnalyticsSelectionResult =
   | { selection: AnalyticsSelection; type: "valid" }
   | { type: "invalid" };
 
-const allowedQueryKeys = new Set(["bots", "date", "end", "month", "start", "visitor"]);
-const maximumPageViewRangeDays = 366;
+const allowedQueryKeys = new Set(["bots", "date", "end", "month", "report", "start", "visitor"]);
+const maximumReportRangeDays = 366;
 function getSingleQueryValue(value: string | string[] | undefined) {
   return typeof value === "string" ? value.trim() : "";
 }
@@ -51,6 +52,7 @@ export function getAnalyticsSelection(
   const date = getSingleQueryValue(normalizedQuery.date);
   const endDate = getSingleQueryValue(normalizedQuery.end);
   const month = getSingleQueryValue(normalizedQuery.month);
+  const report = getSingleQueryValue(normalizedQuery.report);
   const startDate = getSingleQueryValue(normalizedQuery.start);
   const visitorId = getSingleQueryValue(normalizedQuery.visitor);
   const bots = getSingleQueryValue(normalizedQuery.bots);
@@ -60,6 +62,7 @@ export function getAnalyticsSelection(
     || Array.isArray(normalizedQuery.date)
     || Array.isArray(normalizedQuery.end)
     || Array.isArray(normalizedQuery.month)
+    || Array.isArray(normalizedQuery.report)
     || Array.isArray(normalizedQuery.start)
     || Array.isArray(normalizedQuery.visitor)
   ) {
@@ -67,6 +70,10 @@ export function getAnalyticsSelection(
   }
 
   if (bots && bots !== "include") {
+    return { type: "invalid" };
+  }
+
+  if (report && report !== "keywords") {
     return { type: "invalid" };
   }
 
@@ -82,7 +89,7 @@ export function getAnalyticsSelection(
       && !month
       && !visitorId
       && rangeLength >= 0
-      && rangeLength < maximumPageViewRangeDays
+      && rangeLength < maximumReportRangeDays
       && endDate <= today
       ? {
           type: "valid",
@@ -90,13 +97,13 @@ export function getAnalyticsSelection(
             endDate,
             includeBots: bots === "include",
             startDate,
-            type: "pageViews",
+            type: report === "keywords" ? "keywords" : "pageViews",
           },
         }
       : { type: "invalid" };
   }
 
-  if (bots) {
+  if (bots || report) {
     return { type: "invalid" };
   }
 

@@ -28,6 +28,7 @@ type StoredVisit = {
 export type VisitPageViewObservation = {
   adCode: string | null;
   gclid: string | null;
+  isWebDriver: boolean | null;
   landingPath: string;
   matchType: string | null;
   matchedKeyword: string | null;
@@ -358,6 +359,7 @@ function createObservation(
   const observation = {
     adCode: visit.adCode,
     gclid: visit.gclid,
+    isWebDriver: typeof navigator.webdriver === "boolean" ? navigator.webdriver : null,
     landingPath: visit.landingPath,
     matchType: visit.matchType,
     matchedKeyword: visit.matchedKeyword,

@@ -1,4 +1,5 @@
 import {
+  clientVisitEventTypes,
   contactOptionValues,
   visitEventTypes,
   type ClientVisitEventType,
@@ -30,6 +31,11 @@ const allowedPayloadFields = new Set([
   "properties",
   "visitId",
 ]);
+const allowedClientEventTypes = new Set<string>(clientVisitEventTypes);
+
+function isClientVisitEventType(value: unknown): value is ClientVisitEventType {
+  return typeof value === "string" && allowedClientEventTypes.has(value);
+}
 
 function addIssue(issues: ValidationIssue[], field: string, code: ValidationIssue["code"]) {
   issues.push({ code, field });
@@ -65,7 +71,7 @@ function getUuid(
 function getEventType(payload: Record<string, unknown>, issues: ValidationIssue[]) {
   const value = payload.eventType;
 
-  if (value === visitEventTypes.contactOptionSelected || value === visitEventTypes.enquiryStarted) {
+  if (isClientVisitEventType(value)) {
     return value;
   }
 
@@ -96,7 +102,7 @@ function getProperties(
   const properties = value as Record<string, unknown>;
   const propertyKeys = Object.keys(properties);
 
-  if (eventType === visitEventTypes.enquiryStarted) {
+  if (eventType !== visitEventTypes.contactOptionSelected) {
     if (propertyKeys.length) {
       addIssue(issues, "properties", "unexpected");
     }

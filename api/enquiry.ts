@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { waitUntil } from "@vercel/functions";
 import { deliverEnquiry } from "../src/server/enquiry/delivery.ts";
 import {
   getPayloadBody,
@@ -40,12 +41,18 @@ type EnquiryHandlerDependencies = {
     source: VisitEventSource;
     visitId: string;
   }) => Promise<unknown>;
+  waitUntil: (promise: Promise<unknown>) => void | undefined;
 };
 
 type EnquiryAnalyticsContext = {
   pageViewId: string | null;
   visitId: string;
 };
+
+type EnquiryVisitEventType = Extract<
+  VisitEventType,
+  "enquiry_submit_attempted" | "enquiry_sent" | "enquiry_failed"
+>;
 
 const uuidV4Pattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -67,13 +74,11 @@ function getEnquiryAnalyticsContext(payload: Record<string, unknown>): EnquiryAn
 }
 
 async function recordEnquiryEvent(
-  context: EnquiryAnalyticsContext | null,
-  eventType: Extract<VisitEventType, "enquiry_submit_attempted" | "enquiry_sent" | "enquiry_failed">,
+  context: EnquiryAnalyticsContext,
+  eventType: EnquiryVisitEventType,
   properties: VisitEventProperties,
   dependencies: EnquiryHandlerDependencies,
 ) {
-  if (!context) return;
-
   try {
     await dependencies.recordVisitEvent({
       eventId: randomUUID(),
@@ -90,6 +95,26 @@ async function recordEnquiryEvent(
       error instanceof Error ? error.name : "UnknownError",
     );
   }
+}
+
+function scheduleEnquiryEvent(
+  context: EnquiryAnalyticsContext | null,
+  eventType: EnquiryVisitEventType,
+  properties: VisitEventProperties,
+  dependencies: EnquiryHandlerDependencies,
+  precedingWork?: Promise<unknown> | null,
+) {
+  if (!context) return null;
+
+  const work = precedingWork
+    ? precedingWork.then(() =>
+        recordEnquiryEvent(context, eventType, properties, dependencies),
+      )
+    : recordEnquiryEvent(context, eventType, properties, dependencies);
+
+  dependencies.waitUntil(work);
+
+  return work;
 }
 
 export async function handleEnquiry(
@@ -124,7 +149,7 @@ export async function handleEnquiry(
     return sendValidationError(response, responseMode);
   }
 
-  await recordEnquiryEvent(
+  const attemptedEventWork = scheduleEnquiryEvent(
     analyticsContext,
     "enquiry_submit_attempted",
     {},
@@ -134,20 +159,22 @@ export async function handleEnquiry(
   const delivery = await deliverEnquiry(validation.enquiry, dependencies);
 
   if (delivery.type === "failed") {
-    await recordEnquiryEvent(
+    scheduleEnquiryEvent(
       analyticsContext,
       "enquiry_failed",
       { reason: delivery.reason },
       dependencies,
+      attemptedEventWork,
     );
     return sendPublicFailure(response, delivery.status, responseMode);
   }
 
-  await recordEnquiryEvent(
+  scheduleEnquiryEvent(
     analyticsContext,
     "enquiry_sent",
     {},
     dependencies,
+    attemptedEventWork,
   );
 
   return sendSuccess(response, responseMode);
@@ -160,5 +187,6 @@ export default function handler(request: EnquiryRequest, response: EnquiryRespon
     logError: console.error,
     logWarning: console.warn,
     recordVisitEvent: persistVisitEvent,
+    waitUntil,
   });
 }

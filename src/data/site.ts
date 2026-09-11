@@ -1,4 +1,5 @@
 import { devRoutePaths, feesRoutePath, publicRoutePaths } from "./routes";
+import { visitEventTypes } from "./visitEventContract";
 
 export type NavItem = Readonly<{
   label: string;
@@ -10,10 +11,12 @@ export type NavItem = Readonly<{
 
 export const socialProfileLinks = [
   {
+    clickEventType: visitEventTypes.instagramLinkClicked,
     label: "Instagram",
     href: "https://www.instagram.com/joel.ropes/",
   },
   {
+    clickEventType: visitEventTypes.linkedinLinkClicked,
     label: "LinkedIn",
     href: "https://www.linkedin.com/company/vivecounselling/",
   },
@@ -32,6 +35,10 @@ export const navItems: readonly NavItem[] = [
     ],
   },
   {
+    label: "Articles",
+    href: publicRoutePaths.articles,
+  },
+  {
     label: "Fees",
     href: publicRoutePaths.contact,
     trackedPagePath: feesRoutePath,
@@ -47,6 +54,7 @@ export const navItems: readonly NavItem[] = [
           label: "Dev",
           href: devRoutePaths.designSystem,
           children: [
+            { label: "Article editor", href: devRoutePaths.articleEditor },
             { label: "Design system", href: devRoutePaths.designSystem },
             { label: "Documents", href: devRoutePaths.documents },
             {

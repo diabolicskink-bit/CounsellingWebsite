@@ -668,20 +668,20 @@
   padding-inline: clamp(28px, 5vw, 64px);
 }
 
-.system-hero-background-pattern {
+.system-hero-surface-pattern {
   display: grid;
   min-height: 340px;
   align-items: end;
   padding: clamp(34px, 6vw, 68px);
 }
 
-.system-hero-background-pattern__inner {
+.system-hero-surface-pattern__inner {
   display: grid;
   gap: 18px;
   max-width: 720px;
 }
 
-.system-hero-background-pattern__inner > p:first-child {
+.system-hero-surface-pattern__inner > p:first-child {
   margin: 0;
   color: #c8d9cc;
   font-size: var(--system-caption);
@@ -690,7 +690,7 @@
   text-transform: uppercase;
 }
 
-.system-hero-background-pattern__inner h4 {
+.system-hero-surface-pattern__inner h4 {
   max-width: 13ch;
   margin: 0;
   color: #fcfcfa;
@@ -701,7 +701,7 @@
   line-height: 0.96;
 }
 
-.system-hero-background-pattern__inner > p:last-child {
+.system-hero-surface-pattern__inner > p:last-child {
   max-width: 58ch;
   margin: 0;
   color: rgba(239, 244, 240, 0.86);

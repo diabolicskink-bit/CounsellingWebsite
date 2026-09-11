@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cleanup Sweep"
+  short_description: "Run one source-first maintainability sweep"
+  default_prompt: "Use $cleanup-sweep to run a cleanup sweep and complete the strongest source-supported maintainability improvement in this repository."

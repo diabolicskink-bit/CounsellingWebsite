@@ -9,7 +9,62 @@
   background: var(--section-warm);
 }
 
-.site-hero-background {
+.site-hero {
+  --site-hero-eyebrow-gap: 16px;
+  --site-hero-statement-max-width: 18ch;
+  --site-hero-foreground: #fcfcfa;
+  --site-hero-eyebrow-foreground: #c8d9cc;
+  --site-hero-emphasis-foreground: #d9e5d9;
+  --site-hero-supporting-foreground: rgba(239, 244, 240, 0.86);
+
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  padding: 40px 0;
+}
+
+.site-hero > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.site-hero .site-hero__statement {
+  max-width: var(--site-hero-statement-max-width);
+  font-family: var(--font-serif);
+  font-size: var(--type-display);
+  font-weight: 500;
+  line-height: var(--leading-display);
+  letter-spacing: 0;
+  color: var(--site-hero-foreground);
+  margin: 0 0 32px;
+  text-wrap: balance;
+}
+
+.site-hero__eyebrow + .site-hero__statement {
+  margin-top: var(--site-hero-eyebrow-gap);
+}
+
+.site-hero .site-hero__statement em {
+  font-style: normal;
+  color: var(--site-hero-emphasis-foreground);
+  font-weight: 600;
+}
+
+.site-hero .site-hero__eyebrow {
+  display: block;
+  width: fit-content;
+  max-width: none;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  font-weight: 760;
+  letter-spacing: 0.065em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  color: var(--site-hero-eyebrow-foreground);
+}
+
+.site-hero-surface {
   position: relative;
   isolation: isolate;
   overflow: clip;

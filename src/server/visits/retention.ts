@@ -25,7 +25,7 @@ expired_visits AS MATERIALIZED (
   CROSS JOIN cutoff
   WHERE visits.started_at < cutoff.expires_before
 ),
-expired_page_views AS MATERIALIZED (
+expired_page_view_count AS MATERIALIZED (
   SELECT COUNT(*)::INTEGER AS page_views_deleted
   FROM site_page_views AS page_views
   WHERE page_views.visit_id IN (SELECT id FROM expired_visits)
@@ -48,11 +48,11 @@ deleted_exclusions AS (
 )
 SELECT
   (SELECT COUNT(*)::INTEGER FROM deleted_exclusions) AS "exclusionsDeleted",
-  (SELECT COUNT(*)::INTEGER FROM deleted_visits) AS "visitsDeleted",
-  (SELECT page_views_deleted FROM expired_page_views) AS "pageViewsDeleted";
+  (SELECT page_views_deleted FROM expired_page_view_count) AS "pageViewsDeleted",
+  (SELECT COUNT(*)::INTEGER FROM deleted_visits) AS "visitsDeleted";
 `;
 
-function getDeletedCount(value: number | string | undefined) {
+function parseDeletedCount(value: number | string | undefined) {
   const count = Number(value);
 
   if (!Number.isSafeInteger(count) || count < 0) {
@@ -69,8 +69,8 @@ export async function deleteExpiredVisitData(
   const [result] = rows;
 
   return {
-    exclusionsDeleted: getDeletedCount(result?.exclusionsDeleted),
-    pageViewsDeleted: getDeletedCount(result?.pageViewsDeleted),
-    visitsDeleted: getDeletedCount(result?.visitsDeleted),
+    exclusionsDeleted: parseDeletedCount(result?.exclusionsDeleted),
+    pageViewsDeleted: parseDeletedCount(result?.pageViewsDeleted),
+    visitsDeleted: parseDeletedCount(result?.visitsDeleted),
   };
 }

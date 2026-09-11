@@ -1,7 +1,11 @@
 -- Daily source and ad breakdown for the latest 30 Australia/Perth calendar days.
 WITH recent_visits AS (
-  SELECT ledger.*
+  SELECT
+    ledger.*,
+    visit_record.device_type,
+    visit_record.is_webdriver
   FROM visit_ledger AS ledger
+  JOIN site_visits AS visit_record ON visit_record.id = ledger.visit_id
   WHERE ledger.started_at >= (
     ((CURRENT_TIMESTAMP AT TIME ZONE 'Australia/Perth')::DATE - 29)::TIMESTAMP
       AT TIME ZONE 'Australia/Perth'
@@ -20,6 +24,8 @@ SELECT
   recent_visits.network_code,
   recent_visits.matched_keyword,
   recent_visits.match_type,
+  recent_visits.device_type,
+  recent_visits.is_webdriver,
   COUNT(*)::INTEGER AS visit_count,
   COUNT(DISTINCT recent_visits.visitor_id)::INTEGER AS browser_count,
   COUNT(*) FILTER (WHERE recent_visits.is_returning)::INTEGER AS returning_visit_count,
@@ -33,7 +39,9 @@ GROUP BY
   recent_visits.ad_code,
   recent_visits.network_code,
   recent_visits.matched_keyword,
-  recent_visits.match_type
+  recent_visits.match_type,
+  recent_visits.device_type,
+  recent_visits.is_webdriver
 ORDER BY
   visit_date_awst DESC,
   visit_count DESC,

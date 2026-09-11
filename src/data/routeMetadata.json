@@ -9,7 +9,7 @@
       "logo": "/icon-512.png",
       "logoWidth": 512,
       "logoHeight": 512,
-      "description": "Counselling and therapy for adults across Australia.",
+      "description": "Vive Counselling is Joel Griffiths' online counselling and psychotherapy practice, based in Perth and working with adults across Australia. It offers individual and couples counselling and is kink-aware, ENM-inclusive and LGBTQIA+ affirming.",
       "sameAs": [
         "https://www.kapprofessionals.org/kap_directory/40049/vive-counselling/",
         "https://www.linkedin.com/company/vivecounselling/"
@@ -20,16 +20,23 @@
       "jobTitle": "Counsellor",
       "url": "/working-with-joel",
       "image": "/joel-griffiths-working-with-joel-portrait.jpg",
-      "description": "ACA-registered counsellor based in Perth.",
+      "description": "Joel Griffiths is an ACA-registered counsellor based in Perth, providing online counselling and psychotherapy for adults across Australia. He works with individuals and couples using a psychodynamic, attachment-informed and integrative approach.",
       "sameAs": [
         "https://theaca.net.au/profile?UserKey=f20cee37-672b-4d3a-8a80-019df18a0826",
         "https://www.instagram.com/joel.ropes/"
       ],
       "knowsAbout": [
+        "Psychodynamic and attachment-informed counselling",
+        "Anxiety and depression",
+        "Trauma and complex PTSD (CPTSD)",
+        "Shame, self-worth and self-critical perfectionism",
+        "Couples and relationship counselling",
         "Kink-aware counselling and therapy, including BDSM",
         "Ethical non-monogamy (ENM), polyamory and open relationships",
         "LGBTQIA+ affirming counselling and therapy",
-        "Sexuality, intimacy and diverse relationships"
+        "Sexuality, intimacy and diverse relationships",
+        "Sexual trauma and sexual assault",
+        "Consent, sexual coercion and abuse in intimate relationships"
       ],
       "credentials": [
         {
@@ -54,15 +61,16 @@
       ]
     },
     "service": {
-      "name": "Counselling and psychotherapy for adults",
+      "name": "Online counselling and psychotherapy for adults",
       "serviceType": [
-        "Counselling and psychotherapy",
+        "Individual counselling and psychotherapy",
+        "Couples and relationship counselling",
         "Kink-aware counselling and therapy, including BDSM",
         "Counselling and therapy for ethical non-monogamy (ENM), polyamory and open relationships",
         "LGBTQIA+ affirming counselling and therapy"
       ],
       "url": "/",
-      "description": "Counselling and therapy for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives.",
+      "description": "Online counselling and psychotherapy for adults across Australia, with sessions for individuals and couples. The service supports people experiencing anxiety, depression, trauma, shame, self-criticism, perfectionism and relationship difficulties. The approach is psychodynamic, attachment-informed and integrative, and the service is kink-aware, ENM-inclusive and LGBTQIA+ affirming.",
       "audience": "Adults",
       "areaServed": "Australia",
       "deliveryChannel": {
@@ -70,7 +78,7 @@
         "url": "/contact"
       },
       "offer": {
-        "name": "Standard 50-minute counselling session",
+        "name": "50-minute individual counselling session",
         "price": "120",
         "priceCurrency": "AUD",
         "url": "/contact"
@@ -101,40 +109,56 @@
     "socialImage": "/og-vive-counselling.png",
     "socialImageAlt": "Vive Counselling social preview card featuring Joel Griffiths."
   },
+  "notFound": {
+    "title": "Page not found | Vive Counselling",
+    "description": "This page could not be found on the Vive Counselling website.",
+    "heading": "That page isn't here.",
+    "robots": "noindex, nofollow"
+  },
   "routes": {
     "/": {
-      "title": "Online Therapy Across Australia | Vive Counselling",
-      "description": "Online counselling and psychotherapy across Australia. Support for anxiety, depression, relationships and trauma. Kink, ENM and LGBTQIA+ aware."
+      "title": "Online Counselling & Therapy | Vive Counselling",
+      "description": "Online counselling for individuals and couples across Australia. Support with anxiety, depression, trauma and relationships. Kink, ENM and LGBTQIA+ inclusive."
     },
     "/working-with-joel": {
       "title": "Joel Griffiths, Psychodynamic Counsellor | Vive Counselling",
-      "description": "Psychodynamic counselling with Joel Griffiths, an ACA-registered counsellor working online across Australia, based in Perth. Attachment-informed and integrative."
+      "description": "Meet Joel Griffiths, an ACA-registered counsellor based in Perth and working online across Australia. Learn about his approach to therapy."
     },
     "/inclusive-counselling": {
       "title": "Kink, ENM and LGBTQIA+ Inclusive Counselling | Vive Counselling",
-      "description": "Inclusive counselling for adults across Australia, with particular understanding of kink, BDSM, ENM, polyamory and LGBTQIA+ lives. Perth-based and non-shaming."
+      "description": "Online counselling across Australia with an understanding of kink, ENM and LGBTQIA+ lives. You can talk openly about your mental health and relationships."
     },
     "/kink-bdsm-counselling": {
       "title": "Kink & BDSM-Aware Counselling | Vive Counselling",
-      "description": "Kink-aware counselling and therapy with Joel Griffiths, an ACA-registered counsellor based in Perth and working with adults across Australia."
+      "description": "Online kink-aware therapy across Australia with a counsellor who understands BDSM. Talk about kink, relationships or whatever brings you to counselling."
     },
     "/polyamory-enm-counselling": {
-      "title": "Counselling for Polyamory, Open Relationships and ENM | Vive Counselling",
-      "description": "Counselling for polyamory, open relationships and ENM across Australia, without assuming monogamy is the answer or treating relationship structure as the problem."
+      "title": "Polyamory & Open Relationship Counselling | Vive Counselling",
+      "description": "Online counselling for polyamory and ENM across Australia. Support with jealousy, agreements and change, without assuming monogamy is the answer."
     },
     "/lgbtqia-affirming-counselling": {
       "title": "LGBTQIA+ Affirming Counselling | Vive Counselling",
-      "description": "LGBTQIA+ affirming counselling with Joel Griffiths for adults across Australia. Perth-based online counselling for sexuality, gender, relationships and other concerns."
+      "description": "LGBTQIA+ affirming online counselling across Australia. Talk about anxiety, relationships, sexuality or gender without having to justify who you are."
+    },
+    "/articles": {
+      "title": "Psychology and Counselling Articles | Vive Counselling",
+      "description": "In-depth articles on mental health, relationships and sexuality, examining the research on why we struggle and how therapy can help.",
+      "pageType": "collection"
     },
     "/contact": {
       "title": "Counselling Fees & Contact | Vive Counselling",
-      "description": "Request a free 15-minute initial consultation with Joel Griffiths at Vive Counselling. Counselling sessions are $120; view fees and contact details."
+      "description": "50-minute online counselling sessions at $120 for individuals and $150 for couples. Ask a question or request a free 15-minute consultation with Joel."
     },
     "/crisis-support": {
-      "title": "Crisis Support Numbers Australia | Vive Counselling",
-      "description": "Find Australian crisis support numbers and urgent public mental health services, including Lifeline, 13YARN and state and territory mental health lines.",
-      "lastModified": "2026-08-14",
-      "lastReviewed": "2026-08-13"
+      "title": "Crisis Support Numbers in Australia | Vive Counselling",
+      "description": "Call 000 for immediate danger. Find 24/7 Australian crisis lines and state or territory urgent mental health services, with official contact details.",
+      "lastModified": "2026-08-31",
+      "lastReviewed": "2026-08-31"
+    },
+    "/privacy-policy": {
+      "title": "Privacy Policy | Vive Counselling",
+      "description": "How Vive Counselling handles personal information from website visits, enquiries and counselling, including access, correction and privacy complaints.",
+      "lastModified": "2026-09-01"
     }
   }
 }

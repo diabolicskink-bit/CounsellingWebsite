@@ -1,8 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { articleEditorPlugin } from "./scripts/articleEditorPlugin";
 
 export default defineConfig(({ isSsrBuild }) => ({
-  plugins: [react()],
+  plugins: [react(), articleEditorPlugin()],
   build: isSsrBuild
     ? {
         copyPublicDir: false,

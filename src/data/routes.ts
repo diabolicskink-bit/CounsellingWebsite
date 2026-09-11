@@ -1,6 +1,7 @@
 import type { PublicRoutePath } from "./routeMetadata";
 
 export const publicRoutePaths = {
+  articles: "/articles",
   contact: "/contact",
   crisisSupport: "/crisis-support",
   enmPolyamory: "/polyamory-enm-counselling",
@@ -8,6 +9,7 @@ export const publicRoutePaths = {
   inclusion: "/inclusive-counselling",
   kinkBdsm: "/kink-bdsm-counselling",
   lgbtqia: "/lgbtqia-affirming-counselling",
+  privacyPolicy: "/privacy-policy",
   workingWithJoel: "/working-with-joel",
 } as const satisfies Record<string, PublicRoutePath>;
 
@@ -19,8 +21,13 @@ export const publicRedirectRoutes = [
   { path: "/inclusion", to: publicRoutePaths.inclusion },
 ] as const;
 
+export function normalizeRoutePath(pathname: string) {
+  const normalizedPath = pathname.toLowerCase().replace(/\/+$/, "");
+  return normalizedPath || "/";
+}
+
 export function getTrackedPagePath(pathname: string, state: unknown) {
-  if (pathname.toLowerCase() !== publicRoutePaths.contact || !state || typeof state !== "object") {
+  if (normalizeRoutePath(pathname) !== publicRoutePaths.contact || !state || typeof state !== "object") {
     return pathname;
   }
 
@@ -33,6 +40,7 @@ export const privateRoutePaths = {
   analytics: "/analytics",
   analyticsEnquiries: "/analytics/enquiries",
   analyticsExcluded: "/analytics/excluded",
+  analyticsKeywords: "/analytics/keywords",
   analyticsPageViews: "/analytics/pages",
 } as const;
 
@@ -45,6 +53,7 @@ export function isPrivateRoutePath(pathname: string) {
 }
 
 export const devRoutePaths = {
+  articleEditor: "/article-editor",
   codexTestBed: "/codex-tb",
   designSystem: "/design-system",
   designSystemComponents: "/design-system/components",
@@ -61,5 +70,8 @@ const sharedChromePaths = new Set<string>([
 ]);
 
 export function usesSharedChromePath(pathname: string) {
-  return sharedChromePaths.has(pathname);
+  const normalizedPath = normalizeRoutePath(pathname);
+
+  return sharedChromePaths.has(normalizedPath)
+    || normalizedPath.startsWith(`${publicRoutePaths.articles}/`);
 }

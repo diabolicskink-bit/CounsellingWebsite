@@ -5,9 +5,11 @@ import {
   feesRoutePath,
   getTrackedPagePath,
   isPrivateRoutePath,
+  normalizeRoutePath,
   privateRoutePaths,
   publicRedirectRoutes,
   publicRoutePaths,
+  usesSharedChromePath,
 } from "../../src/data/routes.ts";
 
 const metadata = JSON.parse(
@@ -39,11 +41,24 @@ test("Fees link state records a virtual Fees page without changing the Contact r
   assert.equal(getTrackedPagePath("/", { trackedPagePath: feesRoutePath }), "/");
 });
 
+test("route matching normalizes case and trailing slashes", () => {
+  assert.equal(normalizeRoutePath("/"), "/");
+  assert.equal(normalizeRoutePath("/CONTACT/"), "/contact");
+  assert.equal(usesSharedChromePath("/CONTACT/"), true);
+  assert.equal(usesSharedChromePath("/ARTICLES/AN-ARTICLE/"), true);
+  assert.equal(usesSharedChromePath("/"), false);
+  assert.equal(
+    getTrackedPagePath("/CONTACT/", { trackedPagePath: feesRoutePath }),
+    feesRoutePath,
+  );
+});
+
 test("private routes remain separate from public metadata routes", () => {
   assert.deepEqual(privateRoutePaths, {
     analytics: "/analytics",
     analyticsEnquiries: "/analytics/enquiries",
     analyticsExcluded: "/analytics/excluded",
+    analyticsKeywords: "/analytics/keywords",
     analyticsPageViews: "/analytics/pages",
   });
   for (const privatePath of Object.values(privateRoutePaths)) {
@@ -53,6 +68,7 @@ test("private routes remain separate from public metadata routes", () => {
   assert.equal(isPrivateRoutePath("/analytics"), true);
   assert.equal(isPrivateRoutePath("/analytics/enquiries"), true);
   assert.equal(isPrivateRoutePath("/analytics/excluded"), true);
+  assert.equal(isPrivateRoutePath("/analytics/keywords"), true);
   assert.equal(isPrivateRoutePath("/analytics/pages"), true);
   assert.equal(isPrivateRoutePath("/analytics/visitor"), true);
   assert.equal(isPrivateRoutePath("/Analytics"), true);

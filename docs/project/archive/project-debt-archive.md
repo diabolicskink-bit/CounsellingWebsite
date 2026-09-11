@@ -2,6 +2,24 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-41 - Private analytics presentation still depends on public styling
+
+Closed on 2026-09-01 after the owner clarified that visual independence means the private dashboard is not coupled to looking or feeling like the public website and is free to own its CSS and visual language. It does not require a separate browser entry, isolated bundles, or complete separation from shared global styles and generic foundations.
+
+The shared application entry and current style dependencies are therefore not debt by themselves, and no source change was required. Analytics remains an owner-only surface whose presentation should not dictate the public site's visual direction or become public design-system API without explicit scope.
+
+### DEBT-35 - Working with Joel approach copy depends on JavaScript
+
+Resolved on 2026-08-19 by rendering every approach explanation once in the generated page HTML, with ordinary headings and no inert tab semantics before JavaScript. After hydration, the same content nodes become three connected tab panels and only the selected panel remains visible, preserving the existing visual interaction without duplicating copy.
+
+Focused coverage now protects the complete JavaScript-disabled reading experience as well as the hydrated pointer, Home, End, and wrapping arrow-key behaviour. The production build and system-Chrome verification confirmed deterministic hydration without recoverable errors.
+
+### DEBT-22 - Enquiry timezone comparison notes need server-owned handling
+
+Closed on 2026-08-19 after the owner confirmed that the current timezone behaviour is complete and personalized Perth-hours comparison notes should not be restored to enquiry emails. Consult submissions continue to include the visitor-selected timezone and its human-readable label; the Contact page separately retains its visitor-facing interstate business-hours notes.
+
+No email-comparison helper or active implementation remains. The earlier split from `DEBT-4` is retained only as historical context; adding personalized comparison prose to emails in future would be new scope rather than unresolved debt.
+
 ### DEBT-34 - Public-page tests need opportunistic maintenance
 
 Resolved on 2026-08-14 by replacing the page-markup and generated-artifact mirror in `tests/public-site.spec.ts` with a durable visitor-behaviour suite. Browser cases fell from 262 across two Chromium profiles to 37 in one Chromium project; targeted mobile viewport, route hydration, navigation, progressive-enhancement, analytics, form, responsive, and accessibility checks remain.
@@ -66,7 +84,7 @@ Blocked requests reuse the archived `DEBT-5` generic public error contract and l
 
 Resolved on 2026-06-17 by changing enquiry submissions to structured JSON fields and making the API validate those fields before building the email subject, reply-to, plain text, and HTML output server-side.
 
-The old composed `{ subject, body, replyTo }` payload is now rejected by validation, and direct Node API tests cover successful submissions, invalid payloads, honeypot handling, missing delivery config, and provider failure. The derived Perth business-hours comparison note was intentionally split into `DEBT-22` so timezone policy can be cleaned up separately.
+The old composed `{ subject, body, replyTo }` payload is now rejected by validation, and direct Node API tests cover successful submissions, invalid payloads, honeypot handling, missing delivery config, and provider failure. The derived Perth business-hours comparison note was intentionally split into `DEBT-22`, which was later closed when the owner confirmed that personalized comparison prose should not return to enquiry emails.
 
 ### DEBT-5 - Enquiry error handling and no-JavaScript fallback are inconsistent
 

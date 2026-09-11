@@ -11,13 +11,16 @@ import Container from "../components/Container";
 import {
   enquiryEmail,
   enquiryFailureContent,
+  enquiryPhone,
   enquirySuccessContent,
 } from "../data/enquiry";
 import {
-  australianStateOptions,
-  bookingTypes,
+  contactPaths,
+  enquiryFieldLimits,
   enquiryTypes,
+  findContactPath,
   type BookingType,
+  type ContactPath,
   type EnquiryType,
 } from "../data/enquiryContract";
 import { getRouteMetadata } from "../data/routeMetadata";
@@ -26,6 +29,7 @@ import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import {
   trackContactOptionSelected,
   trackEnquiryStarted,
+  trackPhoneLinkClicked,
   trackSuccessfulEnquirySubmission,
 } from "../utils/analytics";
 import {
@@ -36,15 +40,14 @@ import { recordVisitEvent } from "../utils/visitEvents";
 import { getCurrentVisitEventContext } from "../utils/visitSession";
 import "../styles-contact.css";
 
-type EnquiryPath = BookingType | "question";
 type SubmitStatus = "idle" | "sending" | "success" | "error";
 
 type EnquiryPathOption = {
   bookingType?: BookingType;
   enquiryType: EnquiryType;
-  id: EnquiryPath;
   submitLabel: string;
   title: string;
+  value: ContactPath;
 };
 
 type ContactPageProps = {
@@ -53,35 +56,27 @@ type ContactPageProps = {
 
 const enquiryPathOptions: readonly EnquiryPathOption[] = [
   {
-    bookingType: bookingTypes.appointment.value,
-    enquiryType: enquiryTypes.booking.value,
-    id: "appointment",
+    ...contactPaths.question,
+    submitLabel: "Send message",
+    title: "General Enquiry / Ask a Question",
+  },
+  {
+    ...contactPaths.consult,
+    submitLabel: "Request Consult",
+    title: "Schedule a free consult",
+  },
+  {
+    ...contactPaths.appointment,
     submitLabel: "Send session enquiry",
     title: "Make an appointment",
-  },
-  {
-    bookingType: bookingTypes.consult.value,
-    enquiryType: enquiryTypes.booking.value,
-    id: "consult",
-    submitLabel: "Request the 15-minute consult",
-    title: "Request a consult",
-  },
-  {
-    enquiryType: enquiryTypes.general.value,
-    id: "question",
-    submitLabel: "Send enquiry",
-    title: "General enquiry",
   },
 ];
 
 const contactMetadata = getRouteMetadata(publicRoutePaths.contact);
 const crisisSupportHref = publicRoutePaths.crisisSupport;
 
-function isEnquiryPath(value: FormDataEntryValue | null): value is EnquiryPath {
-  return (
-    typeof value === "string" &&
-    enquiryPathOptions.some((option) => option.id === value)
-  );
+function isEnquiryPath(value: FormDataEntryValue | null): value is ContactPath {
+  return typeof value === "string" && Boolean(findContactPath(value));
 }
 
 function getFormText(formData: FormData, fieldName: string) {
@@ -100,9 +95,8 @@ function buildEnquiryPayload(formData: FormData) {
     email: getFormText(formData, "email"),
     enquiryType: getFormText(formData, "enquiryType"),
     message: getFormText(formData, "message"),
+    mobile: getFormText(formData, "mobile"),
     name: getFormText(formData, "name"),
-    state: getFormText(formData, "state"),
-    timing: getFormText(formData, "timing"),
     timeZone: getFormText(formData, "timeZone"),
     website: getFormText(formData, "website"),
   };
@@ -117,15 +111,17 @@ function RequiredMark() {
   );
 }
 
-function RequiredField({
+function FormField({
   children,
   id,
   label,
+  required = false,
   wide = false,
 }: {
   children: ReactNode;
   id: string;
   label: string;
+  required?: boolean;
   wide?: boolean;
 }) {
   return (
@@ -137,7 +133,7 @@ function RequiredField({
     >
       <label htmlFor={id}>
         {label}
-        <RequiredMark />
+        {required ? <RequiredMark /> : null}
       </label>
       {children}
     </div>
@@ -165,14 +161,24 @@ function BusinessHoursTimeZoneNotes({ initialRenderAt }: ContactPageProps) {
   }, [initialRenderAt]);
 
   return (
-    <span
-      className="contact-page__time-zone-notes"
+    <table
+      className="contact-page__business-hours"
       data-timezone-notes-source={comparison.source}
     >
-      {comparison.notes.map((note) => (
-        <small key={note}>{note}</small>
-      ))}
-    </span>
+      <caption>Mon to Fri</caption>
+      <tbody>
+        <tr>
+          <th scope="row">AWST</th>
+          <td>9.30am to 5.00pm</td>
+        </tr>
+        {comparison.notes.map((note) => (
+          <tr key={note}>
+            <th scope="row">{note.slice(0, note.indexOf(":"))}</th>
+            <td>{note.slice(note.indexOf(":") + 2)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
@@ -213,14 +219,16 @@ function EnquirySuccess() {
   );
 }
 
-function EnquiryForm() {
+function EnquiryForm({ initialRenderAt }: ContactPageProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const enquiryStartTrackedRef = useRef(false);
-  const [selectedPath, setSelectedPath] = useState<EnquiryPath | "">("");
+  const submissionInProgressRef = useRef(false);
+  const [selectedPath, setSelectedPath] = useState<ContactPath | "">("");
   const [hasHydrated, setHasHydrated] = useState(false);
-  const [hasRestoredDetails, setHasRestoredDetails] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
-  const timeZoneOptions = getActiveAustralianTimeZoneOptions();
+  const timeZoneOptions = getActiveAustralianTimeZoneOptions(
+    hasHydrated ? new Date() : new Date(initialRenderAt),
+  );
 
   useEffect(() => {
     const formElement = formRef.current;
@@ -228,15 +236,10 @@ function EnquiryForm() {
     if (formElement) {
       const formData = new FormData(formElement);
       const restoredPath = formData.get("contactPath");
-      const hasBrowserRestoredDetails = ["name", "email", "message"].some(
-        (fieldName) => getFormText(formData, fieldName).length > 0,
-      );
 
       if (isEnquiryPath(restoredPath)) {
         setSelectedPath(restoredPath);
       }
-
-      setHasRestoredDetails(hasBrowserRestoredDetails);
     }
 
     setHasHydrated(true);
@@ -244,8 +247,14 @@ function EnquiryForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (submissionInProgressRef.current) {
+      return;
+    }
+
     const formElement = event.currentTarget;
 
+    submissionInProgressRef.current = true;
     setSubmitStatus("sending");
 
     try {
@@ -264,10 +273,11 @@ function EnquiryForm() {
       trackSuccessfulEnquirySubmission("contact");
       formElement.reset();
       setSelectedPath("");
-      setHasRestoredDetails(false);
       setSubmitStatus("success");
     } catch {
       setSubmitStatus("error");
+    } finally {
+      submissionInProgressRef.current = false;
     }
   };
 
@@ -276,7 +286,8 @@ function EnquiryForm() {
 
     if (
       enquiryStartTrackedRef.current ||
-      (target instanceof HTMLInputElement && ["contactPath", "website"].includes(target.name))
+      ((target instanceof HTMLInputElement || target instanceof HTMLSelectElement) &&
+        ["contactPath", "website"].includes(target.name))
     ) {
       return;
     }
@@ -286,11 +297,10 @@ function EnquiryForm() {
     recordVisitEvent("enquiry_started", {});
   };
 
-  const handleEnquiryPathChange = (value: EnquiryPath) => {
+  const handleEnquiryPathChange = (value: ContactPath) => {
     trackContactOptionSelected(value);
     recordVisitEvent("contact_option_selected", { option: value });
     setSelectedPath(value);
-    setHasRestoredDetails(false);
     setSubmitStatus("idle");
   };
 
@@ -299,19 +309,18 @@ function EnquiryForm() {
   }
 
   const selectedOption = enquiryPathOptions.find(
-    (option) => option.id === selectedPath,
+    (option) => option.value === selectedPath,
   );
-  const isAppointment = selectedPath === "appointment";
-  const isConsult = selectedPath === "consult";
-  const isQuestion = selectedPath === "question";
-  const showDetails = Boolean(selectedOption) || !hasHydrated || hasRestoredDetails;
-  const showAppointmentFields = isAppointment || !hasHydrated;
-  const showConsultFields = isConsult || !hasHydrated;
+  const isConsult = selectedPath === contactPaths.consult.value;
+  const isBooking = selectedOption?.enquiryType === enquiryTypes.booking.value;
+  const showBookingFields = isBooking || !hasHydrated;
+  const showConsultMobile = isConsult || !hasHydrated;
 
   return (
     <form
       action="/api/enquiry"
-      aria-label="Enquiry"
+      aria-busy={submitStatus === "sending"}
+      aria-labelledby="contact-form-title"
       className="contact-page__form"
       data-clarity-mask="true"
       method="post"
@@ -322,171 +331,183 @@ function EnquiryForm() {
       <input
         aria-hidden="true"
         autoComplete="off"
+        maxLength={enquiryFieldLimits.website}
         name="website"
         tabIndex={-1}
       />
 
-      <header className="contact-page__form-heading">
-        <span className="contact-page__form-eyebrow">Your enquiry</span>
-        <h2>Get in touch</h2>
-      </header>
-
-      <fieldset className="contact-page__enquiry-options">
-        <legend className="contact-page__sr-only">Choose an enquiry type</legend>
-        <div className="contact-page__enquiry-option-list">
-          {enquiryPathOptions.map((option) => (
-            <label className="contact-page__enquiry-option" key={option.id}>
-              <strong>{option.title}</strong>
-              <input
-                checked={selectedPath === option.id}
-                name="contactPath"
-                onChange={() => handleEnquiryPathChange(option.id)}
-                required
-                type="radio"
-                value={option.id}
-              />
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      {showDetails ? (
-        <div className="contact-page__form-details">
-          <div className="contact-page__form-details-heading">
-            <h3>A few details</h3>
-            <p>Fields marked * are required.</p>
-          </div>
-
+      <div className="contact-page__form-details">
+        <input
+          name="enquiryType"
+          type="hidden"
+          value={selectedOption?.enquiryType ?? ""}
+        />
+        {selectedOption?.bookingType ? (
           <input
-            name="enquiryType"
+            name="bookingType"
             type="hidden"
-            value={selectedOption?.enquiryType ?? ""}
+            value={selectedOption.bookingType}
           />
-          {selectedOption?.bookingType ? (
-            <input
-              name="bookingType"
-              type="hidden"
-              value={selectedOption.bookingType}
-            />
-          ) : null}
+        ) : null}
+
+        <div className="contact-page__form-start">
+          <h2 className="contact-page__form-eyebrow" id="contact-form-title">
+            Your enquiry
+          </h2>
 
           <div className="contact-page__form-fields">
-            <RequiredField id="contact-name" label="Name">
+            <FormField id="contact-name" label="Name" required>
               <input
                 autoComplete="name"
                 id="contact-name"
+                maxLength={enquiryFieldLimits.name}
                 name="name"
                 placeholder="Your name"
-                required={Boolean(selectedOption)}
+                required
                 type="text"
               />
-            </RequiredField>
+            </FormField>
 
-            <RequiredField id="contact-email" label="Email">
+            <FormField id="contact-email" label="Email" required>
               <input
                 autoComplete="email"
                 id="contact-email"
+                maxLength={enquiryFieldLimits.email}
                 name="email"
                 placeholder="you@example.com"
-                required={Boolean(selectedOption)}
+                required
                 type="email"
               />
-            </RequiredField>
+            </FormField>
 
-            {showAppointmentFields ? (
-              <>
-                <RequiredField id="contact-timing" label="Preferred timing">
-                  <input
-                    id="contact-timing"
-                    name="timing"
-                    placeholder="For example: weekday afternoons"
-                    required={isAppointment}
-                    type="text"
-                  />
-                </RequiredField>
-
-                <RequiredField id="contact-state" label="State or territory">
-                  <select
-                    defaultValue=""
-                    id="contact-state"
-                    name="state"
-                    required={isAppointment}
-                  >
-                    <option value="">Select your state or territory</option>
-                    {australianStateOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </RequiredField>
-              </>
-            ) : null}
-
-            {showConsultFields ? (
-              <>
-                <RequiredField id="contact-availability" label="Availability">
-                  <input
-                    id="contact-availability"
-                    name="availability"
-                    placeholder="For example: Tuesday after 3pm"
-                    required={isConsult}
-                    type="text"
-                  />
-                </RequiredField>
-
-                <RequiredField id="contact-timezone" label="Timezone">
-                  <select
-                    defaultValue=""
-                    id="contact-timezone"
-                    name="timeZone"
-                    required={isConsult}
-                  >
-                    {timeZoneOptions.map((option) => (
-                      <option key={option.value || "default"} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </RequiredField>
-              </>
-            ) : null}
-
-            <RequiredField
-              id="contact-message"
-              label={isQuestion ? "Your enquiry" : "Your message"}
-              wide
-            >
+            <FormField id="contact-message" label="Your message" required wide>
               <textarea
                 id="contact-message"
+                maxLength={enquiryFieldLimits.message}
                 name="message"
-                required={Boolean(selectedOption)}
+                required
                 rows={4}
               />
-            </RequiredField>
+            </FormField>
           </div>
-
-          <div className="contact-page__form-actions">
-            <Button disabled={submitStatus === "sending"} type="submit">
-              {submitStatus === "sending"
-                ? "Sending..."
-                : selectedOption?.submitLabel ?? "Send enquiry"}
-            </Button>
-          </div>
-
-          {submitStatus === "error" ? (
-            <div className="contact-page__form-error" role="alert">
-              <p>
-                {enquiryFailureContent.messageBeforeEmail}{" "}
-                <a href={`mailto:${enquiryFailureContent.email}`}>
-                  {enquiryFailureContent.email}
-                </a>{" "}
-                {enquiryFailureContent.messageAfterEmail}
-              </p>
-            </div>
-          ) : null}
         </div>
-      ) : null}
+
+        <div className="contact-page__form-field contact-page__enquiry-path">
+          <select
+            aria-label="How would you like to start?"
+            id="contact-path"
+            name="contactPath"
+            onChange={(event) => {
+              const value = event.currentTarget.value;
+
+              if (isEnquiryPath(value)) {
+                handleEnquiryPathChange(value);
+              }
+            }}
+            required
+            value={selectedPath}
+          >
+            <option disabled value="">
+              Choose an option
+            </option>
+            {enquiryPathOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.title}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {showBookingFields ? (
+          <div className="contact-page__form-fields contact-page__form-fields--conditional">
+            <FormField
+              id="contact-availability"
+              label={
+                hasHydrated
+                  ? "Availability"
+                  : "Availability (required for an appointment or consult)"
+              }
+              required={isBooking}
+              wide
+            >
+              <input
+                id="contact-availability"
+                maxLength={enquiryFieldLimits.availability}
+                name="availability"
+                placeholder="For example: Tuesday after 3pm"
+                required={isBooking}
+                type="text"
+              />
+            </FormField>
+
+            {showConsultMobile ? (
+              <FormField
+                id="contact-mobile"
+                label={
+                  hasHydrated
+                    ? "Mobile number"
+                    : "Mobile number (required for a consult)"
+                }
+                required={isConsult}
+              >
+                <input
+                  autoComplete="tel"
+                  id="contact-mobile"
+                  inputMode="tel"
+                  maxLength={enquiryFieldLimits.mobile}
+                  name="mobile"
+                  placeholder="For example: 0412 345 678"
+                  required={isConsult}
+                  type="tel"
+                />
+              </FormField>
+            ) : null}
+
+            <FormField
+              id="contact-timezone"
+              label={
+                hasHydrated
+                  ? "Timezone"
+                  : "Timezone (required for an appointment or consult)"
+              }
+              required={isBooking}
+            >
+              <select
+                defaultValue=""
+                id="contact-timezone"
+                name="timeZone"
+                required={isBooking}
+              >
+                {timeZoneOptions.map((option) => (
+                  <option key={option.value || "default"} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+          </div>
+        ) : null}
+
+        <div className="contact-page__form-actions">
+          <Button disabled={submitStatus === "sending"} type="submit">
+            {submitStatus === "sending"
+              ? "Sending..."
+              : selectedOption?.submitLabel ?? "Send enquiry"}
+          </Button>
+        </div>
+
+        {submitStatus === "error" ? (
+          <div className="contact-page__form-error" role="alert">
+            <p>
+              {enquiryFailureContent.messageBeforeEmail}{" "}
+              <a href={`mailto:${enquiryFailureContent.email}`}>
+                {enquiryFailureContent.email}
+              </a>{" "}
+              {enquiryFailureContent.messageAfterEmail}
+            </p>
+          </div>
+        ) : null}
+      </div>
 
       <p className="contact-page__crisis-note">
         If you’re in crisis, <Link to={crisisSupportHref}>find support now</Link>.
@@ -500,7 +521,7 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
 
   return (
     <main className="site-page contact-page">
-      <section className="contact-page__hero site-hero-background" aria-labelledby="contact-title">
+      <section className="site-hero contact-page__hero site-hero-surface" aria-labelledby="contact-title">
         <Container>
           <header className="contact-page__hero-content">
             <span className="contact-page__eyebrow">Contact and fees</span>
@@ -511,24 +532,63 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
         </Container>
       </section>
 
-      <section className="contact-page__enquiry site-section-warm" id="contact-start" tabIndex={-1}>
+      <section
+        aria-labelledby="contact-enquiry-intro-title"
+        className="contact-page__enquiry site-section-warm"
+        id="contact-start"
+        tabIndex={-1}
+      >
         <Container className="contact-page__enquiry-layout">
-          <aside
-            aria-labelledby="contact-enquiry-intro-title"
-            className="contact-page__enquiry-intro"
-          >
+          <header className="contact-page__enquiry-intro">
             <h2 id="contact-enquiry-intro-title">
-              Choosing a counsellor can be hard.
+              Get in touch
             </h2>
             <p className="site-reading">
-              I offer a free 15-minute consult so you can speak with me before
-              deciding whether to book. If you would rather start with a
-              question, you can send one through the form or{" "}
-              <a href={`mailto:${enquiryEmail}`}>by email</a>.
+              Send me a message to ask a question or arrange a session.
             </p>
-          </aside>
+            <p className="site-reading">
+              If you’d like to talk first, I offer a free 15-minute consultation
+              so you can tell me a little about what you’d like help with and see
+              how you feel talking with me. There’s no obligation to book a
+              session afterwards.
+            </p>
 
-          <EnquiryForm />
+            <address
+              aria-label="Contact Joel directly"
+              className="contact-page__direct-contact"
+            >
+              <div className="contact-page__direct-contact-option">
+                <span className="contact-page__direct-contact-label">Email</span>
+                <a
+                  className="contact-page__direct-contact-link"
+                  href={`mailto:${enquiryEmail}`}
+                >
+                  {enquiryEmail}
+                </a>
+              </div>
+              <div className="contact-page__direct-contact-option">
+                <span className="contact-page__direct-contact-label">Phone</span>
+                <a
+                  className="contact-page__direct-contact-link"
+                  href={enquiryPhone.href}
+                  onClick={() => {
+                    trackPhoneLinkClicked();
+                    recordVisitEvent("phone_link_clicked", {});
+                  }}
+                >
+                  {enquiryPhone.label}
+                </a>
+              </div>
+              <div className="contact-page__direct-contact-option contact-page__direct-contact-option--hours">
+                <span className="contact-page__direct-contact-label">Hours</span>
+                <div className="contact-page__direct-contact-hours">
+                  <BusinessHoursTimeZoneNotes initialRenderAt={initialRenderAt} />
+                </div>
+              </div>
+            </address>
+          </header>
+
+          <EnquiryForm initialRenderAt={initialRenderAt} />
         </Container>
       </section>
 
@@ -576,40 +636,6 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
         </Container>
       </section>
 
-      <section
-        aria-label="Contact details"
-        className="contact-page__practice-details"
-        id="contact-details"
-      >
-        <Container>
-          <header className="contact-page__practice-heading">
-            <span className="contact-page__eyebrow">Practical details</span>
-          </header>
-
-          <dl className="contact-page__practice-list">
-            <div>
-              <dt>Practice hours</dt>
-              <dd>
-                <span>Mon to Fri, 9.30am to 5.00pm AWST.</span>
-                <BusinessHoursTimeZoneNotes initialRenderAt={initialRenderAt} />
-              </dd>
-            </div>
-            <div
-              className="contact-page__crisis-support"
-              id="contact-crisis-support"
-            >
-              <dt>Crisis support</dt>
-              <dd>
-                <p className="site-reading">
-                  Vive Counselling is not an emergency service. Call 000 if you or
-                  someone else is in immediate danger. If you’re in crisis,{" "}
-                  <Link to={crisisSupportHref}>find support now</Link>.
-                </p>
-              </dd>
-            </div>
-          </dl>
-        </Container>
-      </section>
     </main>
   );
 }

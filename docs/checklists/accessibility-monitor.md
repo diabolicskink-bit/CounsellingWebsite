@@ -54,8 +54,7 @@ Use [WCAG 2.2 Level AA](https://www.w3.org/TR/WCAG22/) as a practical review len
 
 - `Not checked` Shared interactive targets meet WCAG 2.2 minimum target-size expectations or an applicable spacing exception.
 
-- `Partial` Shared scrolling, transitions, and interactions respect reduced-motion preferences.
-  - **Note:** The incomplete global reduced-motion baseline remains tracked under `SITE-7`.
+- `Pass` Shared scrolling, spatial transitions, and reveal interactions respect reduced-motion preferences.
 
 - `Not checked` Shared icon-only controls have accessible names, and decorative icons are hidden appropriately.
 
@@ -239,16 +238,15 @@ Redirect aliases `/about`, `/fees`, and `/inclusion` are covered by `docs/checkl
 
 - `Pass` Heading order supports scanning and assistive navigation, including the labelled enquiry form and success section.
 
-- `Pass` Hero, fee card, contact details, practical notes, enquiry form, and FAQ appear in a sensible reading order.
+- `Pass` Hero, enquiry form, fee list, and practical details appear in a sensible reading order.
 
 - `Pass` Email link, form controls, submit button, and FAQ controls have meaningful accessible names.
 
-- `Pass` Focus is visible on page links, form controls, radio choices, selects, submit button, and FAQ controls.
+- `Pass` Focus is visible on page links, form controls, selects, and the submit button.
 
 - `Pass` Every visitor-facing form field has a visible label or group legend.
 
-- `Partial` Required fields and required choices are clear before submission.
-  - **Note:** Visible required-field and required-choice clarity remains tracked under `SITE-21`.
+- `Pass` Required fields and the required enquiry-path choice are clear before submission; native conditional labels state which booking details each path requires.
 
 - `Not checked` Validation errors identify the affected fields or groups.
 
@@ -258,7 +256,7 @@ Redirect aliases `/about`, `/fees`, and `/inclusion` are covered by `docs/checkl
 
 - `Not checked` Failed validation preserves entered visitor content.
 
-- `Pass` Radio groups and conditional fields have clear group labels and control labels.
+- `Pass` The enquiry-path select and conditional fields have clear visible labels.
 
 - `Pass` Conditional fields appear in a logical keyboard order.
 

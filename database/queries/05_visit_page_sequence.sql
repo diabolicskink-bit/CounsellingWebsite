@@ -9,6 +9,9 @@ SELECT
   ledger.is_bot,
   ledger.bot_name,
   ledger.bot_category,
+  visit_record.device_type,
+  visit_record.is_webdriver,
+  visit_record.user_agent,
   page_views.visit_id,
   ROW_NUMBER() OVER (
     PARTITION BY page_views.visit_id
@@ -18,5 +21,6 @@ SELECT
   page_views.path
 FROM selected_visit
 JOIN visit_ledger AS ledger ON ledger.visit_id = selected_visit.visit_id
+JOIN site_visits AS visit_record ON visit_record.id = ledger.visit_id
 JOIN site_page_views AS page_views ON page_views.visit_id = ledger.visit_id
 ORDER BY page_views.viewed_at, page_views.id;

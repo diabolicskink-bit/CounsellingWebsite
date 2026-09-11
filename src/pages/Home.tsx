@@ -1,6 +1,5 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
 import ContactInvitation from "../components/ContactInvitation";
 import Container from "../components/Container";
 import { getRouteMetadata } from "../data/routeMetadata";
@@ -69,8 +68,8 @@ const homePageContent: HomePageContent = {
   hero: {
     eyebrow: "Online Counselling and Therapy Across Australia",
     title: {
-      before: "Counselling for when life feels ",
-      emphasis: "hard to untangle",
+      before: "Counselling for the ",
+      emphasis: "life you live",
       after: ".",
     },
     contactLink: {
@@ -79,7 +78,7 @@ const homePageContent: HomePageContent = {
     },
     inclusionLink: {
       href: publicRoutePaths.inclusion,
-      label: "Explore inclusive counselling",
+      label: "Inclusive counselling",
     },
   },
   portrait: {
@@ -143,29 +142,31 @@ const homePageContent: HomePageContent = {
 
 function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
   return (
-    <section className="hero-section site-hero-background home-page__hero">
-      <Container className="home-page__hero-shell">
+    <section className="site-hero site-hero-surface home-page__hero">
+      <Container>
         <div className="home-page__hero-copy">
-          <h1 className="hero-badge">{hero.eyebrow}</h1>
-          <p className="hero-display">
+          <h1 className="site-hero__eyebrow">{hero.eyebrow}</h1>
+          <p className="site-hero__statement">
             {hero.title.before}
             <em>{hero.title.emphasis}</em>
             {hero.title.after}
           </p>
 
           <nav className="home-page__hero-actions" aria-label="Page actions">
-            <Button href={hero.contactLink.href} className="home-page__hero-action">
+            <Link
+              to={hero.contactLink.href}
+              className="home-page__hero-action home-page__hero-action--primary"
+            >
               <span>{hero.contactLink.label}</span>
               <ArrowRight aria-hidden="true" size={18} />
-            </Button>
-            <Button
-              href={hero.inclusionLink.href}
+            </Link>
+            <Link
+              to={hero.inclusionLink.href}
               className="home-page__hero-action"
-              variant="secondary"
             >
               <span>{hero.inclusionLink.label}</span>
               <ArrowRight aria-hidden="true" size={18} />
-            </Button>
+            </Link>
           </nav>
         </div>
       </Container>

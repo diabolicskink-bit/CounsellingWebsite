@@ -1,0 +1,139 @@
+export type ArticleEditorBlockKind =
+  | "code"
+  | "heading"
+  | "list"
+  | "paragraph"
+  | "quote"
+  | "table";
+
+export type ArticleEditorBlock = Readonly<{
+  id: string;
+  kind: ArticleEditorBlockKind;
+  marker?: string;
+  value: string;
+}>;
+
+export type MarkdownTextEdit = Readonly<{
+  selectionEnd: number;
+  selectionStart: number;
+  value: string;
+}>;
+
+const blockLabels = {
+  code: "Code",
+  list: "List",
+  paragraph: "Paragraph",
+  quote: "Quote",
+  table: "Table",
+} as const;
+
+function classifyBlockKind(source: string, lines: readonly string[]): ArticleEditorBlockKind {
+  if (source.startsWith("```") || source.startsWith("~~~")) {
+    return "code";
+  }
+
+  const nonEmptyLines = lines.filter((line) => line.trim());
+
+  if (nonEmptyLines.every((line) => /^\s*(?:[-*+] |\d+[.)] )/.test(line))) {
+    return "list";
+  }
+
+  if (nonEmptyLines.every((line) => /^\s*>/.test(line))) {
+    return "quote";
+  }
+
+  return lines.length > 1 && /^\s*\|/.test(lines[0]) ? "table" : "paragraph";
+}
+
+function classifyBlock(source: string, index: number): ArticleEditorBlock {
+  const headingMatch = source.match(/^(#{2,6})\s+([\s\S]*)$/);
+
+  if (headingMatch && !headingMatch[2].includes("\n")) {
+    return {
+      id: `article-editor-block-${index + 1}`,
+      kind: "heading",
+      marker: headingMatch[1],
+      value: headingMatch[2],
+    };
+  }
+
+  const lines = source.split("\n");
+
+  return {
+    id: `article-editor-block-${index + 1}`,
+    kind: classifyBlockKind(source, lines),
+    value: source,
+  };
+}
+
+export function parseArticleMarkdown(markdown: string): ArticleEditorBlock[] {
+  return markdown
+    .replace(/\r\n?/g, "\n")
+    .trim()
+    .split(/\n{2,}/)
+    .filter((source) => source.trim())
+    .map(classifyBlock);
+}
+
+export function serializeArticleMarkdown(blocks: readonly ArticleEditorBlock[]) {
+  return blocks
+    .map((block) => {
+      const value = block.value.trim();
+
+      if (!value) {
+        return "";
+      }
+
+      return block.kind === "heading" && block.marker
+        ? `${block.marker} ${value}`
+        : value;
+    })
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+export function toggleMarkdownBold(
+  value: string,
+  selectionStart: number,
+  selectionEnd: number,
+): MarkdownTextEdit {
+  const start = Math.max(0, Math.min(selectionStart, selectionEnd, value.length));
+  const end = Math.max(start, Math.min(Math.max(selectionStart, selectionEnd), value.length));
+  const selectedText = value.slice(start, end);
+  const selectionIncludesMarkers = selectedText.length >= 4
+    && selectedText.startsWith("**")
+    && selectedText.endsWith("**");
+  const selectionHasSurroundingMarkers = start >= 2
+    && value.slice(start - 2, start) === "**"
+    && value.slice(end, end + 2) === "**";
+
+  if (selectionIncludesMarkers) {
+    return {
+      selectionEnd: end - 4,
+      selectionStart: start,
+      value: `${value.slice(0, start)}${selectedText.slice(2, -2)}${value.slice(end)}`,
+    };
+  }
+
+  if (selectionHasSurroundingMarkers) {
+    return {
+      selectionEnd: end - 2,
+      selectionStart: start - 2,
+      value: `${value.slice(0, start - 2)}${selectedText}${value.slice(end + 2)}`,
+    };
+  }
+
+  return {
+    selectionEnd: end + 2,
+    selectionStart: start + 2,
+    value: `${value.slice(0, start)}**${selectedText}**${value.slice(end)}`,
+  };
+}
+
+export function getArticleEditorBlockLabel(block: ArticleEditorBlock) {
+  if (block.kind === "heading") {
+    return block.marker?.toUpperCase() ?? "Heading";
+  }
+
+  return blockLabels[block.kind];
+}

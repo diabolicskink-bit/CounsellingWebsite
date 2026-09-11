@@ -198,13 +198,12 @@ const pageContent: WorkingWithJoelPageContent = {
 
 function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
   return (
-    <section className="hero-section site-hero-background working-with-joel-page__hero">
+    <section className="site-hero site-hero-surface working-with-joel-page__hero">
       <Container>
         <div className="working-with-joel-page__hero-layout">
-          <h1 className="hero-badge">{hero.badge}</h1>
-          <p className="hero-display">
+          <h1 className="site-hero__eyebrow">{hero.badge}</h1>
+          <p className="site-hero__statement">
             {hero.title.before}
-            <br />
             <em>{hero.title.emphasis}</em>
             <br />
             {hero.title.after}
@@ -224,7 +223,7 @@ function WorkingHeroSection({ hero }: { hero: WorkingHeroContent }) {
 
 function CredentialsList({ items, ariaLabel }: { items: string[]; ariaLabel: string }) {
   return (
-    <ul className="hero-support-tagline working-with-joel-page__hero-credentials" aria-label={ariaLabel}>
+    <ul className="working-with-joel-page__hero-credentials" aria-label={ariaLabel}>
       {items.map((credential) => (
         <li key={credential}>{credential}</li>
       ))}
@@ -241,10 +240,10 @@ function IntroductionSection({
 }) {
   return (
     <section
-      className="site-grid working-with-joel-page__intro site-section-warm"
+      className="working-with-joel-page__intro site-section-warm"
       aria-labelledby="working-with-joel-intro-title"
     >
-      <Container className="site-split">
+      <Container className="working-with-joel-page__intro-layout">
         <div className="working-with-joel-page__intro-copy">
           <article className="working-with-joel-page__intro-panel">
             <h2 id="working-with-joel-intro-title">{introduction.title}</h2>
@@ -269,18 +268,18 @@ function IntroductionSection({
 
 function PortraitNote({ portrait }: { portrait: WorkingHeroPortrait }) {
   return (
-    <aside
-      className="hero-media-note hero-media-note--portrait working-with-joel-page__intro-note"
+    <figure
+      className="working-with-joel-page__intro-note"
       aria-label={portrait.ariaLabel}
     >
-      <div className="hero-media-note__image">
+      <div className="working-with-joel-page__portrait-frame">
         <img src={portrait.imageSrc} alt={portrait.alt} loading="lazy" decoding="async" />
       </div>
-      <div className="working-with-joel-page__intro-note-details">
+      <figcaption className="working-with-joel-page__intro-note-details">
         <strong>{portrait.name}</strong>
         <span>{portrait.qualification}</span>
-      </div>
-    </aside>
+      </figcaption>
+    </figure>
   );
 }
 
@@ -295,7 +294,7 @@ function ApproachSection({ approach }: { approach: ApproachContent }) {
   }));
 
   return (
-    <section className="site-highlight working-with-joel-page__approach" aria-labelledby="working-approach-title">
+    <section className="working-with-joel-page__approach" aria-labelledby="working-approach-title">
       <Container className="working-approach">
         <div className="working-approach__intro">
           <h2 className="working-with-joel-page__section-title" id="working-approach-title">
@@ -320,9 +319,9 @@ function FocusSection({ focus }: { focus: FocusContent }) {
   const focusItems = [...focus.items, focus.closingItem];
 
   return (
-    <section className="site-grid working-topics" aria-labelledby="issues-i-work-with">
+    <section className="working-topics" aria-labelledby="issues-i-work-with">
       <Container>
-        <div className="site-grid__heading working-topics__header">
+        <div className="working-topics__header">
           <h2 className="working-with-joel-page__section-title" id="issues-i-work-with" tabIndex={-1}>
             {focus.title}
           </h2>
