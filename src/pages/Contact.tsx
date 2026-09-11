@@ -352,7 +352,7 @@ function EnquiryForm({ initialRenderAt }: ContactPageProps) {
 
         <div className="contact-page__form-start">
           <h2 className="contact-page__form-eyebrow" id="contact-form-title">
-            Your enquiry
+            Contact Vive Counselling
           </h2>
 
           <div className="contact-page__form-fields">
@@ -541,7 +541,7 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
         <Container className="contact-page__enquiry-layout">
           <header className="contact-page__enquiry-intro">
             <h2 id="contact-enquiry-intro-title">
-              Contact Vive Counselling
+              Get in touch
             </h2>
             <p className="site-reading">
               Send me a message to ask a question or arrange a session.
