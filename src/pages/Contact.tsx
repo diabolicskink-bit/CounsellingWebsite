@@ -541,7 +541,7 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
         <Container className="contact-page__enquiry-layout">
           <header className="contact-page__enquiry-intro">
             <h2 id="contact-enquiry-intro-title">
-              Get in touch
+              Contact Vive Counselling
             </h2>
             <p className="site-reading">
               Send me a message to ask a question or arrange a session.
