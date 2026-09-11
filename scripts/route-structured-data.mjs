@@ -141,6 +141,7 @@ function renderHomeStructuredData(siteMetadata, siteOrigin) {
         "@type": "WebSite",
         "@id": ids.websiteId,
         name: siteMetadata.name,
+        alternateName: siteMetadata.alternateName,
         url: ids.homepageUrl,
         publisher: { "@id": ids.organizationId },
       },

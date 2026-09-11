@@ -23,6 +23,7 @@ export type NotFoundMetadata = Pick<RouteMetadata, "description" | "title"> & {
 
 export type SiteMetadata = {
   name: string;
+  alternateName: string;
   defaultOrigin: string;
   themeColor: string;
   backgroundColor: string;

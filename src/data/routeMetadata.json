@@ -1,6 +1,7 @@
 {
   "site": {
     "name": "Vive Counselling",
+    "alternateName": "Vive",
     "defaultOrigin": "https://vivecounselling.com.au",
     "themeColor": "#234b3d",
     "backgroundColor": "#f7f6f2",
