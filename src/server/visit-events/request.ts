@@ -1,3 +1,10 @@
+import {
+  getBlockedRequestLogDetails,
+  getCrossSiteBlockReason,
+  getHeader,
+  visitEventOriginPolicy,
+} from "../request-origin.ts";
+
 export type VisitEventRequest = {
   body?: unknown;
   headers?: Record<string, string | string[] | undefined>;
@@ -16,98 +23,10 @@ export type VisitEventRequestShapeBlock = {
   status: number;
 };
 
-type ParsedHeaderOrigin = {
-  origin: string;
-  valid: boolean;
-};
-
 const maxVisitEventBodyBytes = 4 * 1024;
-
-function getHeader(request: VisitEventRequest, name: string) {
-  const headers = request.headers ?? {};
-  const headerName = Object.keys(headers).find((key) => key.toLowerCase() === name.toLowerCase());
-  const headerValue = headerName ? headers[headerName] : undefined;
-
-  if (Array.isArray(headerValue)) {
-    return headerValue.join(", ");
-  }
-
-  return headerValue ?? "";
-}
 
 function getMediaType(contentType: string) {
   return contentType.split(";")[0].trim().toLowerCase();
-}
-
-function getNormalizedOrigin(value: string) {
-  const candidate = value.trim();
-
-  if (!candidate || candidate.toLowerCase() === "null") {
-    return "";
-  }
-
-  try {
-    const url = new URL(candidate.includes("://") ? candidate : `https://${candidate}`);
-
-    return url.origin.toLowerCase();
-  } catch {
-    return "";
-  }
-}
-
-function addAllowedOrigin(origins: Set<string>, value: string | undefined) {
-  const origin = getNormalizedOrigin(value ?? "");
-
-  if (origin) {
-    origins.add(origin);
-  }
-}
-
-function isLocalHost(host: string) {
-  const hostname = host.split(":")[0].toLowerCase();
-
-  return hostname === "localhost"
-    || hostname === "127.0.0.1"
-    || hostname === "::1"
-    || hostname === "[::1]";
-}
-
-function getAllowedOrigins(request: VisitEventRequest) {
-  const origins = new Set<string>();
-  const host = getHeader(request, "host").trim();
-  const forwardedProto = getHeader(request, "x-forwarded-proto").split(",")[0].trim().toLowerCase();
-  const requestProto = forwardedProto === "http" ? "http" : "https";
-
-  if (host) {
-    addAllowedOrigin(origins, `${requestProto}://${host}`);
-
-    if (isLocalHost(host)) {
-      addAllowedOrigin(origins, `http://${host}`);
-      addAllowedOrigin(origins, `https://${host}`);
-    }
-  }
-
-  addAllowedOrigin(origins, process.env.SITE_URL);
-  addAllowedOrigin(origins, process.env.VERCEL_URL);
-  addAllowedOrigin(origins, process.env.VERCEL_BRANCH_URL);
-
-  return origins;
-}
-
-function getHeaderOrigin(headerValue: string): ParsedHeaderOrigin {
-  if (!headerValue.trim()) {
-    return { origin: "", valid: true };
-  }
-
-  const origin = getNormalizedOrigin(headerValue);
-
-  return { origin, valid: Boolean(origin) };
-}
-
-function isAllowedHeaderOrigin(headerValue: string, allowedOrigins: Set<string>) {
-  const parsedOrigin = getHeaderOrigin(headerValue);
-
-  return parsedOrigin.valid && Boolean(parsedOrigin.origin) && allowedOrigins.has(parsedOrigin.origin);
 }
 
 function getDeclaredContentLength(request: VisitEventRequest) {
@@ -140,33 +59,6 @@ function getBodyByteLength(request: VisitEventRequest) {
   }
 }
 
-function getCrossSiteBlockReason(request: VisitEventRequest) {
-  const fetchSite = getHeader(request, "sec-fetch-site").trim().toLowerCase();
-
-  if (fetchSite === "cross-site") {
-    return "cross_site_fetch_site";
-  }
-
-  const allowedOrigins = getAllowedOrigins(request);
-  const originHeader = getHeader(request, "origin");
-
-  if (originHeader.trim()) {
-    if (!isAllowedHeaderOrigin(originHeader, allowedOrigins)) {
-      return "mismatched_origin";
-    }
-
-    return "";
-  }
-
-  const refererHeader = getHeader(request, "referer");
-
-  if (refererHeader.trim() && !isAllowedHeaderOrigin(refererHeader, allowedOrigins)) {
-    return "mismatched_referer";
-  }
-
-  return "";
-}
-
 export function getVisitEventRequestShapeBlock(
   request: VisitEventRequest,
 ): VisitEventRequestShapeBlock | null {
@@ -188,7 +80,7 @@ export function getVisitEventRequestShapeBlock(
     return { reason: "body_too_large", status: 413 };
   }
 
-  const crossSiteBlockReason = getCrossSiteBlockReason(request);
+  const crossSiteBlockReason = getCrossSiteBlockReason(request, process.env, visitEventOriginPolicy);
 
   if (crossSiteBlockReason) {
     return { reason: crossSiteBlockReason, status: 403 };
@@ -197,31 +89,14 @@ export function getVisitEventRequestShapeBlock(
   return null;
 }
 
-function getSafeOriginForLog(headerValue: string) {
-  const parsedOrigin = getHeaderOrigin(headerValue);
-
-  if (!headerValue.trim()) {
-    return "";
-  }
-
-  return parsedOrigin.valid ? parsedOrigin.origin : "invalid";
-}
-
 export function logBlockedVisitEventRequest(
   request: VisitEventRequest,
   block: VisitEventRequestShapeBlock,
 ) {
-  console.warn("Visit event request blocked:", {
-    contentLength: getHeader(request, "content-length"),
-    contentType: getHeader(request, "content-type"),
-    fetchSite: getHeader(request, "sec-fetch-site"),
-    host: getHeader(request, "host"),
-    method: request.method ?? "",
-    origin: getSafeOriginForLog(getHeader(request, "origin")),
-    reason: block.reason,
-    refererOrigin: getSafeOriginForLog(getHeader(request, "referer")),
-    status: block.status,
-  });
+  console.warn(
+    "Visit event request blocked:",
+    getBlockedRequestLogDetails(request, block, visitEventOriginPolicy),
+  );
 }
 
 export function getVisitEventPayloadBody(

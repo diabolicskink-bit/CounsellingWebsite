@@ -2,6 +2,12 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-42 - Public write APIs duplicate origin validation
+
+Resolved on 2026-09-14 by moving origin allowlists, cross-site checks, header lookup and blocked-request log sanitisation into `src/server/request-origin.ts`. The enquiry, visit and visit-event request modules use the shared implementation; page engagement inherits it through the visit request module. Endpoint body handling, responses and logging labels remain unchanged.
+
+The existing Origin-format and local IPv6 differences remain explicit in the shared endpoint policies and are tracked separately by `DEBT-46` and `DEBT-47`.
+
 ### DEBT-41 - Private analytics presentation still depends on public styling
 
 Closed on 2026-09-01 after the owner clarified that visual independence means the private dashboard is not coupled to looking or feeling like the public website and is free to own its CSS and visual language. It does not require a separate browser entry, isolated bundles, or complete separation from shared global styles and generic foundations.

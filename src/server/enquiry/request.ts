@@ -1,3 +1,10 @@
+import {
+  getBlockedRequestLogDetails,
+  getCrossSiteBlockReason,
+  getHeader,
+  enquiryOriginPolicy,
+} from "../request-origin.ts";
+
 export type EnquiryRequest = {
   body?: unknown;
   headers?: Record<string, string | string[] | undefined>;
@@ -11,24 +18,7 @@ type RequestShapeBlock = {
   status: number;
 };
 
-type ParsedHeaderOrigin = {
-  origin: string;
-  valid: boolean;
-};
-
 const maxEnquiryBodyBytes = 25 * 1024;
-
-function getHeader(request: EnquiryRequest, name: string) {
-  const headers = request.headers ?? {};
-  const headerName = Object.keys(headers).find((key) => key.toLowerCase() === name.toLowerCase());
-  const headerValue = headerName ? headers[headerName] : undefined;
-
-  if (Array.isArray(headerValue)) {
-    return headerValue.join(", ");
-  }
-
-  return headerValue ?? "";
-}
 
 function getMediaType(contentType: string) {
   return contentType.split(";")[0].trim().toLowerCase();
@@ -57,83 +47,6 @@ export function getResponseMode(request: EnquiryRequest): ResponseMode {
   return "json";
 }
 
-function getNormalizedOrigin(value: string) {
-  const candidate = value.trim();
-
-  if (!candidate || candidate.toLowerCase() === "null") {
-    return "";
-  }
-
-  try {
-    const url = new URL(candidate.includes("://") ? candidate : `https://${candidate}`);
-
-    return url.origin.toLowerCase();
-  } catch {
-    return "";
-  }
-}
-
-function addAllowedOrigin(origins: Set<string>, value: string | undefined) {
-  const origin = getNormalizedOrigin(value ?? "");
-
-  if (origin) {
-    origins.add(origin);
-  }
-}
-
-function isLocalHost(host: string) {
-  let hostname = "";
-
-  try {
-    hostname = new URL(`http://${host}`).hostname.replace(/^\[|\]$/g, "").toLowerCase();
-  } catch {
-    return false;
-  }
-
-  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
-}
-
-function getAllowedOrigins(
-  request: EnquiryRequest,
-  environment: Readonly<Record<string, string | undefined>>,
-) {
-  const origins = new Set<string>();
-  const host = getHeader(request, "host").trim();
-  const forwardedProto = getHeader(request, "x-forwarded-proto").split(",")[0].trim().toLowerCase();
-  const requestProto = forwardedProto === "http" ? "http" : "https";
-
-  if (host) {
-    addAllowedOrigin(origins, `${requestProto}://${host}`);
-
-    if (isLocalHost(host)) {
-      addAllowedOrigin(origins, `http://${host}`);
-      addAllowedOrigin(origins, `https://${host}`);
-    }
-  }
-
-  addAllowedOrigin(origins, environment.SITE_URL);
-  addAllowedOrigin(origins, environment.VERCEL_URL);
-  addAllowedOrigin(origins, environment.VERCEL_BRANCH_URL);
-
-  return origins;
-}
-
-function getHeaderOrigin(headerValue: string): ParsedHeaderOrigin {
-  if (!headerValue.trim()) {
-    return { origin: "", valid: true };
-  }
-
-  const origin = getNormalizedOrigin(headerValue);
-
-  return { origin, valid: Boolean(origin) };
-}
-
-function isAllowedHeaderOrigin(headerValue: string, allowedOrigins: Set<string>) {
-  const parsedOrigin = getHeaderOrigin(headerValue);
-
-  return parsedOrigin.valid && Boolean(parsedOrigin.origin) && allowedOrigins.has(parsedOrigin.origin);
-}
-
 function getDeclaredContentLength(request: EnquiryRequest) {
   const contentLength = getHeader(request, "content-length").trim();
 
@@ -158,36 +71,6 @@ function getBodyByteLength(request: EnquiryRequest) {
   return undefined;
 }
 
-function getCrossSiteBlockReason(
-  request: EnquiryRequest,
-  environment: Readonly<Record<string, string | undefined>>,
-) {
-  const fetchSite = getHeader(request, "sec-fetch-site").trim().toLowerCase();
-
-  if (fetchSite === "cross-site") {
-    return "cross_site_fetch_site";
-  }
-
-  const allowedOrigins = getAllowedOrigins(request, environment);
-  const originHeader = getHeader(request, "origin");
-
-  if (originHeader.trim()) {
-    if (!isAllowedHeaderOrigin(originHeader, allowedOrigins)) {
-      return "mismatched_origin";
-    }
-
-    return "";
-  }
-
-  const refererHeader = getHeader(request, "referer");
-
-  if (refererHeader.trim() && !isAllowedHeaderOrigin(refererHeader, allowedOrigins)) {
-    return "mismatched_referer";
-  }
-
-  return "";
-}
-
 export function getRequestShapeBlock(
   request: EnquiryRequest,
   environment: Readonly<Record<string, string | undefined>>,
@@ -208,7 +91,7 @@ export function getRequestShapeBlock(
     return { reason: "body_too_large", status: 413 };
   }
 
-  const crossSiteBlockReason = getCrossSiteBlockReason(request, environment);
+  const crossSiteBlockReason = getCrossSiteBlockReason(request, environment, enquiryOriginPolicy);
 
   if (crossSiteBlockReason) {
     return { reason: crossSiteBlockReason, status: 403 };
@@ -217,32 +100,12 @@ export function getRequestShapeBlock(
   return null;
 }
 
-function getSafeOriginForLog(headerValue: string) {
-  const parsedOrigin = getHeaderOrigin(headerValue);
-
-  if (!headerValue.trim()) {
-    return "";
-  }
-
-  return parsedOrigin.valid ? parsedOrigin.origin : "invalid";
-}
-
 export function logBlockedEnquiryRequest(
   request: EnquiryRequest,
   block: RequestShapeBlock,
   logWarning: (...data: unknown[]) => void,
 ) {
-  logWarning("Enquiry request blocked:", {
-    contentLength: getHeader(request, "content-length"),
-    contentType: getHeader(request, "content-type"),
-    fetchSite: getHeader(request, "sec-fetch-site"),
-    host: getHeader(request, "host"),
-    method: request.method ?? "",
-    origin: getSafeOriginForLog(getHeader(request, "origin")),
-    reason: block.reason,
-    refererOrigin: getSafeOriginForLog(getHeader(request, "referer")),
-    status: block.status,
-  });
+  logWarning("Enquiry request blocked:", getBlockedRequestLogDetails(request, block, enquiryOriginPolicy));
 }
 
 export function getPayloadBody(request: EnquiryRequest): Record<string, unknown> {

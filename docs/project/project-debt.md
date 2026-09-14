@@ -453,19 +453,6 @@ Each active item should include enough direction that a future session can choos
   - `tests/public-site/navigation.spec.ts` verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
 - `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site/navigation.spec.ts`
 
-### DEBT-42 - Public write APIs duplicate origin validation
-
-- `Priority`: `P2`
-- `Size`: `M`
-- `Status`: `Open`
-- `Detected`: 2026-09-14
-- `Problem`: Visits, visit events and enquiries each maintain their own origin allowlists, Origin/Referer checks and origin-log sanitisation. Fixes must be repeated across three copies; page engagement also uses the visits copy.
-- `Next Action`: Consolidate the duplicated origin-validation logic while retaining endpoint-specific request handling.
-- `Resolved When`: The endpoints share the origin checks and log sanitisation rather than maintaining separate copies.
-- `Related Items`: `DEBT-46` covers inconsistent Origin acceptance; `DEBT-47` covers local IPv6 rejection.
-- `Notes`: Narrowed from the original DEBT-42 on owner request; its two concrete behaviour issues now have separate items.
-- `Links`: `src/server/visits/request.ts`, `src/server/visit-events/request.ts`, `src/server/enquiry/request.ts`, `api/page-engagement.ts`
-
 ### DEBT-46 - Public write APIs accept different Origin formats
 
 - `Priority`: `P2`
@@ -477,7 +464,7 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Equivalent Origin inputs receive consistent validation, backed by focused checks.
 - `Related Items`: Split from `DEBT-42`; `DEBT-47` is a separate local-host issue.
 - `Notes`: The differences were confirmed by local guard comparisons; passing a guard does not imply delivery or storage succeeds.
-- `Links`: `src/server/visits/request.ts`, `src/server/visit-events/request.ts`, `src/server/enquiry/request.ts`
+- `Links`: `src/server/request-origin.ts` (endpoint origin policies), `src/server/visits/request.ts`, `src/server/visit-events/request.ts`, `src/server/enquiry/request.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
@@ -568,12 +555,12 @@ Each active item should include enough direction that a future session can choos
 - `Size`: `S`
 - `Status`: `Open`
 - `Detected`: 2026-09-14
-- `Problem`: The visit-event guard splits Host on a colon, so it fails to recognise bracketed IPv6 loopback. With host `[::1]:4287`, Origin `http://[::1]:4287` and no forwarded protocol, it returns 403 while visits and enquiries pass the origin check.
+- `Problem`: `visitEventOriginPolicy.isLocalHost` in the shared origin module splits Host on a colon, so it fails to recognise bracketed IPv6 loopback. With host `[::1]:4287`, Origin `http://[::1]:4287` and no forwarded protocol, it returns 403 while visits and enquiries pass the origin check.
 - `Next Action`: Correct IPv6 loopback recognition in the visit-event guard.
 - `Resolved When`: Local IPv6 requests pass consistently with the other endpoints, with focused regression coverage.
 - `Related Items`: Split from `DEBT-42`; independent of the Origin-format issue in `DEBT-46`.
 - `Notes`: Confirmed by local guard comparisons; the enquiry tests already cover this case.
-- `Links`: `src/server/visit-events/request.ts`, `tests/api/visits/visit-event-handler.test.mjs`, `tests/api/enquiry/handler.test.mjs`
+- `Links`: `src/server/request-origin.ts` (`visitEventOriginPolicy`), `tests/api/visits/visit-event-handler.test.mjs`, `tests/api/enquiry/handler.test.mjs`
 
 ## Resolved Item Archive
 
