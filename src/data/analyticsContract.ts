@@ -129,6 +129,25 @@ export type PageViewsAnalyticsReport = {
   type: "pageViews";
 };
 
+export type ReferrerAnalyticsSummary = {
+  activeSeconds: number;
+  enquiryVisits: number;
+  referrer: string;
+  pageViews: number;
+  visits: number;
+};
+
+export type ReferrersAnalyticsReport = {
+  endDate: string;
+  referrers: ReferrerAnalyticsSummary[];
+  startDate: string;
+  totalActiveSeconds: number;
+  totalEnquiryVisits: number;
+  totalPageViews: number;
+  totalVisits: number;
+  type: "referrers";
+};
+
 export type KeywordAnalyticsSummary = {
   activeSeconds: number;
   enquiryVisits: number;
@@ -179,6 +198,7 @@ export type AnalyticsReport =
   | KeywordAnalyticsReport
   | MonthlyAnalyticsReport
   | PageViewsAnalyticsReport
+  | ReferrersAnalyticsReport
   | VisitorAnalyticsReport;
 
 export type AnalyticsReportType = AnalyticsReport["type"];
@@ -360,8 +380,38 @@ export function isExcludedVisitorSummary(value: unknown): value is ExcludedVisit
     && isAnalyticsVisitorId(value.visitorId);
 }
 
+export function isReferrerAnalyticsSummary(value: unknown): value is ReferrerAnalyticsSummary {
+  return isRecord(value)
+    && isNonEmptyString(value.referrer)
+    && isPositiveInteger(value.visits)
+    && isNonNegativeInteger(value.pageViews)
+    && isNonNegativeInteger(value.activeSeconds)
+    && isNonNegativeInteger(value.enquiryVisits)
+    && value.enquiryVisits <= value.visits;
+}
+
 export function isAnalyticsReport(value: unknown): value is AnalyticsReport {
   if (!isRecord(value)) return false;
+
+  if (value.type === "referrers") {
+    if (
+      typeof value.startDate !== "string" || !isAnalyticsDateKey(value.startDate)
+      || typeof value.endDate !== "string" || !isAnalyticsDateKey(value.endDate)
+      || value.startDate > value.endDate
+      || !Array.isArray(value.referrers)
+      || !value.referrers.every(isReferrerAnalyticsSummary)
+      || !isNonNegativeInteger(value.totalActiveSeconds)
+      || !isNonNegativeInteger(value.totalEnquiryVisits)
+      || !isNonNegativeInteger(value.totalPageViews)
+      || !isNonNegativeInteger(value.totalVisits)
+    ) return false;
+
+    return new Set(value.referrers.map((row) => row.referrer)).size === value.referrers.length
+      && value.referrers.reduce((total, row) => total + row.visits, 0) === value.totalVisits
+      && value.referrers.reduce((total, row) => total + row.pageViews, 0) === value.totalPageViews
+      && value.referrers.reduce((total, row) => total + row.activeSeconds, 0) === value.totalActiveSeconds
+      && value.referrers.reduce((total, row) => total + row.enquiryVisits, 0) === value.totalEnquiryVisits;
+  }
 
   if (value.type === "daily") {
     return typeof value.date === "string"

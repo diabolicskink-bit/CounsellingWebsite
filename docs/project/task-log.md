@@ -22,6 +22,11 @@ Selected milestones and decision context that help later work. Git retains detai
 - When adding the first entry for a new month, move completed months to `archive/task-log-YYYY-MM.md` and update the archive index. Preserve links to moved entries or update their incoming references.
 - Condense older history around decisions, outcomes and consequential transitions. Git preserves routine detail. Retain meaningful dates and tracker IDs; replace superseded pending statements with the recorded later outcome, and ensure unresolved work remains discoverable through its current owner. Routine log maintenance does not need its own milestone.
 
+## 2026-09-14 - Referrer Reporting Added
+
+- Added the private Referrers report using the Pages interaction model. The owner selected all-visit coverage, combined `www.` variants, visit-count ranking and enquiry-visit counts without enquiry percentages. [Current scope](current-scope.md#reporting-semantics) owns the reporting definitions.
+- Implemented on `work/referrer-dashboard` without storage or collection changes. Preview schema checks and read-only PostgreSQL fixture checks passed; dashboard presentation and interaction verification remain with the owner before release.
+
 ## 2026-09-10 - Staging Integration Made Owner-Directed
 
 - Updated [AGENTS.md](../../AGENTS.md#git-and-release-workflow) so completed work remains on its working branch until the owner explicitly requests staging integration as part of the release flow. Task completion, passing checks and Preview approval alone do not trigger a merge.

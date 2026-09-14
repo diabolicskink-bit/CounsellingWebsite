@@ -206,6 +206,69 @@ LEFT JOIN route_counts ON TRUE
 ORDER BY route_counts.page_view_count DESC NULLS LAST, route_counts.path ASC;
 `;
 
+export const referrersAnalyticsSql = `
+WITH included_visits AS (
+  SELECT
+    ledger.visit_id,
+    CASE
+      WHEN ledger.referrer_host IS NULL THEN 'No referrer recorded'
+      WHEN LOWER(ledger.referrer_host) IN ('vivecounselling.com.au', 'www.vivecounselling.com.au')
+        THEN 'Internal'
+      ELSE REGEXP_REPLACE(LOWER(ledger.referrer_host), '^www[.]', '')
+    END AS referrer
+  FROM visit_ledger AS ledger
+  WHERE ledger.started_at >= (
+    $1::DATE::TIMESTAMP AT TIME ZONE 'Australia/Perth'
+  )
+  AND ledger.started_at < (
+    (($2::DATE + 1)::TIMESTAMP) AT TIME ZONE 'Australia/Perth'
+  )
+  AND ($3::BOOLEAN OR ledger.is_bot IS DISTINCT FROM TRUE)
+  AND NOT EXISTS (
+    SELECT 1
+    FROM analytics_excluded_visitors AS exclusions
+    WHERE exclusions.visitor_id = ledger.visitor_id
+  )
+),
+visit_activity AS (
+  SELECT
+    page_views.visit_id,
+    COUNT(*)::INTEGER AS page_views,
+    SUM(page_views.active_seconds)::INTEGER AS active_seconds
+  FROM site_page_views AS page_views
+  INNER JOIN included_visits ON included_visits.visit_id = page_views.visit_id
+  GROUP BY page_views.visit_id
+),
+visit_outcomes AS (
+  SELECT visit_events.visit_id, TRUE AS has_enquiry
+  FROM site_visit_events AS visit_events
+  INNER JOIN included_visits ON included_visits.visit_id = visit_events.visit_id
+  WHERE visit_events.event_type IN ('enquiry_sent', 'phone_link_clicked')
+  GROUP BY visit_events.visit_id
+),
+referrer_rows AS (
+  SELECT
+    included_visits.referrer,
+    COUNT(*)::INTEGER AS visits,
+    COALESCE(SUM(visit_activity.page_views), 0)::INTEGER AS "pageViews",
+    COALESCE(SUM(visit_activity.active_seconds), 0)::INTEGER AS "activeSeconds",
+    COUNT(*) FILTER (WHERE visit_outcomes.has_enquiry)::INTEGER AS "enquiryVisits"
+  FROM included_visits
+  LEFT JOIN visit_activity ON visit_activity.visit_id = included_visits.visit_id
+  LEFT JOIN visit_outcomes ON visit_outcomes.visit_id = included_visits.visit_id
+  GROUP BY included_visits.referrer
+)
+SELECT
+  referrer_rows.*,
+  COALESCE((SELECT SUM(visits)::INTEGER FROM referrer_rows), 0) AS "totalVisits",
+  COALESCE((SELECT SUM("pageViews")::INTEGER FROM referrer_rows), 0) AS "totalPageViews",
+  COALESCE((SELECT SUM("activeSeconds")::INTEGER FROM referrer_rows), 0) AS "totalActiveSeconds",
+  COALESCE((SELECT SUM("enquiryVisits")::INTEGER FROM referrer_rows), 0) AS "totalEnquiryVisits"
+FROM (SELECT 1) AS report_row
+LEFT JOIN referrer_rows ON TRUE
+ORDER BY referrer_rows.visits DESC NULLS LAST, LOWER(referrer_rows.referrer) COLLATE "C" ASC;
+`;
+
 export const keywordAnalyticsSql = `
 WITH included_paid_visits AS (
   SELECT
@@ -560,6 +623,40 @@ export async function readAnalytics(
   database?: VisitDatabase,
 ): Promise<AnalyticsReport> {
   const selectedDatabase = resolveDatabase(database);
+
+  if (selection.type === "referrers") {
+    const rows = await selectedDatabase.query(referrersAnalyticsSql, [
+      selection.startDate,
+      selection.endDate,
+      selection.includeBots,
+    ]) as AnalyticsVisitRow[];
+    const totals = rows[0] ?? {
+      totalActiveSeconds: 0,
+      totalEnquiryVisits: 0,
+      totalPageViews: 0,
+      totalVisits: 0,
+    };
+    const referrers = rows
+      .filter((row) => row.referrer !== null && row.referrer !== undefined)
+      .map((row) => ({
+        activeSeconds: nonNegativeInteger(row.activeSeconds, "referrer active time"),
+        enquiryVisits: nonNegativeInteger(row.enquiryVisits, "referrer enquiry visits"),
+        referrer: requiredString(row.referrer, "referrer"),
+        pageViews: nonNegativeInteger(row.pageViews, "referrer page views"),
+        visits: nonNegativeInteger(row.visits, "referrer visits"),
+      }));
+
+    return {
+      endDate: selection.endDate,
+      referrers,
+      startDate: selection.startDate,
+      totalActiveSeconds: nonNegativeInteger(totals.totalActiveSeconds, "total active time"),
+      totalEnquiryVisits: nonNegativeInteger(totals.totalEnquiryVisits, "total enquiry visits"),
+      totalPageViews: nonNegativeInteger(totals.totalPageViews, "total page views"),
+      totalVisits: nonNegativeInteger(totals.totalVisits, "total visits"),
+      type: "referrers",
+    };
+  }
 
   if (selection.type === "keywords") {
     const rows = await selectedDatabase.query(keywordAnalyticsSql, [
