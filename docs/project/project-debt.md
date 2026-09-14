@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-46`
+- `Next ID`: `DEBT-48`
 
 ## How To Maintain This Tracker
 
@@ -453,31 +453,31 @@ Each active item should include enough direction that a future session can choos
   - `tests/public-site/navigation.spec.ts` verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
 - `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site/navigation.spec.ts`
 
-### DEBT-42 - Public write API origin guards have diverged
+### DEBT-42 - Public write APIs duplicate origin validation
 
 - `Priority`: `P2`
 - `Size`: `M`
-- `Priority Rationale`: Three copies of the same request-origin boundary already disagree about accepted inputs. This affects enquiry delivery and analytics collection, but the observed differences do not establish a deployed exploit or active incident.
 - `Status`: `Open`
 - `Detected`: 2026-09-14
-- `Source`: Source-first cleanup sweep; direct local assertions against all three request guards.
-- `Area`: API, Request validation, Security, Maintainability
-- `Problem`: `src/server/visits/request.ts`, `src/server/visit-events/request.ts`, and `src/server/enquiry/request.ts` independently build origin allowlists, evaluate Origin/Referer and Fetch Metadata headers, and sanitise origin values for blocked-request logs. Their parsing policies have diverged. Page engagement also inherits the visits guard through `api/page-engagement.ts`.
-- `Why It Matters`: A correction to one copy does not protect the other callers. Enquiries and visit events normalise malformed Origin values that visits reject, while visit events fail to recognise bracketed local IPv6 hosts for the HTTP/HTTPS development allowance.
-- `Preferred Direction`: Establish one server-owned origin guard with distinct parsing for configured origins, Origin headers and Referer URLs, shared local-host handling, and privacy-safe log values. Preserve endpoint-specific body limits, accepted media types, response handling and enquiry dependency injection outside that guard.
-- `Resolution Path`: Set the intended acceptance policy for malformed Origin values and local IPv6; add shared contract coverage plus focused handler checks; replace all three origin-check implementations and their logging parsers; verify visits, events, engagement and JSON/native-form enquiries retain their intended flows.
-- `Next Action`: Explicitly scope a request-boundary fix that may change acceptance behaviour. The proposed policy is the visits guard's HTTP(S), credential-free URL parsing and origin-only Origin header validation, with local IPv6 supported consistently and Referer paths allowed. Confirm the treatment of absent headers and configured deployment origins before implementation.
-- `Resolved When`: All four public write endpoints use one tested origin policy and log sanitiser, duplicate origin algorithms are removed, and focused checks establish the intended accepted/rejected inputs without real delivery or database calls.
-- `Related Items`:
-  - `DEBT-3`: Archived enquiry request hardening introduced one of the independently maintained guards.
-  - `DEBT-23`: Platform rate limiting addresses request volume, a separate concern from origin validation.
-- `Dependencies`: `None`
-- `Notes`:
-  - With empty configured origins and host `vivecounselling.com.au`, direct local checks confirmed that a matching HTTPS origin passes all three guards and a foreign origin receives 403 from all three. Bare-hostname, path-bearing and credential-bearing Origin values receive 403 from visits but pass the event and enquiry request-shape guards; passing this guard does not imply payload validation or delivery succeeds.
-  - With host `[::1]:4287`, Origin `http://[::1]:4287`, and no forwarded protocol, visits and enquiries pass the origin guard while visit events return 403. The event helper uses `host.split(":")[0]`, unlike the URL-based local-host checks in the other two modules.
-  - `tests/api/visits/visit-handler.test.mjs` already asserts rejection of bare-hostname and path-bearing Origin values; `tests/api/enquiry/handler.test.mjs` asserts local IPv6 acceptance. The corresponding event policy lacks those cases.
-  - Implementation was deferred in this behaviour-preserving sweep because convergence changes currently accepted/rejected requests. Extracting the divergent algorithms into a configurable helper would retain the policy drift rather than resolve it. The next task needs an explicit acceptance-policy scope, not a smaller cosmetic extraction.
-- `Links`: [Visits guard](../../src/server/visits/request.ts), [Visit events guard](../../src/server/visit-events/request.ts), [Enquiry guard](../../src/server/enquiry/request.ts), [Page engagement handler](../../api/page-engagement.ts)
+- `Problem`: Visits, visit events and enquiries each maintain their own origin allowlists, Origin/Referer checks and origin-log sanitisation. Fixes must be repeated across three copies; page engagement also uses the visits copy.
+- `Next Action`: Consolidate the duplicated origin-validation logic while retaining endpoint-specific request handling.
+- `Resolved When`: The endpoints share the origin checks and log sanitisation rather than maintaining separate copies.
+- `Related Items`: `DEBT-46` covers inconsistent Origin acceptance; `DEBT-47` covers local IPv6 rejection.
+- `Notes`: Narrowed from the original DEBT-42 on owner request; its two concrete behaviour issues now have separate items.
+- `Links`: `src/server/visits/request.ts`, `src/server/visit-events/request.ts`, `src/server/enquiry/request.ts`, `api/page-engagement.ts`
+
+### DEBT-46 - Public write APIs accept different Origin formats
+
+- `Priority`: `P2`
+- `Size`: `S`
+- `Status`: `Open`
+- `Detected`: 2026-09-14
+- `Problem`: Visits reject bare-hostname, path-bearing and credential-bearing Origin values, while enquiry and visit-event request guards accept them when they normalise to an allowed origin.
+- `Next Action`: Make the intended Origin acceptance rules consistent across the endpoints.
+- `Resolved When`: Equivalent Origin inputs receive consistent validation, backed by focused checks.
+- `Related Items`: Split from `DEBT-42`; `DEBT-47` is a separate local-host issue.
+- `Notes`: The differences were confirmed by local guard comparisons; passing a guard does not imply delivery or storage succeeds.
+- `Links`: `src/server/visits/request.ts`, `src/server/visit-events/request.ts`, `src/server/enquiry/request.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
@@ -561,6 +561,19 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`: Source-backed finding; no process failure or dashboard browser scenario was executed for this record.
 - `Links`: `scripts/run-analytics-qa.mjs` (`runPreviewTests`, `waitForPreview`, `waitForExit`, `stopPreview`)
+
+### DEBT-47 - Visit-event origin checks reject local IPv6 requests
+
+- `Priority`: `P3`
+- `Size`: `S`
+- `Status`: `Open`
+- `Detected`: 2026-09-14
+- `Problem`: The visit-event guard splits Host on a colon, so it fails to recognise bracketed IPv6 loopback. With host `[::1]:4287`, Origin `http://[::1]:4287` and no forwarded protocol, it returns 403 while visits and enquiries pass the origin check.
+- `Next Action`: Correct IPv6 loopback recognition in the visit-event guard.
+- `Resolved When`: Local IPv6 requests pass consistently with the other endpoints, with focused regression coverage.
+- `Related Items`: Split from `DEBT-42`; independent of the Origin-format issue in `DEBT-46`.
+- `Notes`: Confirmed by local guard comparisons; the enquiry tests already cover this case.
+- `Links`: `src/server/visit-events/request.ts`, `tests/api/visits/visit-event-handler.test.mjs`, `tests/api/enquiry/handler.test.mjs`
 
 ## Resolved Item Archive
 
