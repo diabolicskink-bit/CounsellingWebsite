@@ -10,6 +10,7 @@ export type AnalyticsSelection =
   | { endDate: string; includeBots: boolean; startDate: string; type: "keywords" }
   | { month: string; type: "monthly" }
   | { endDate: string; includeBots: boolean; startDate: string; type: "pageViews" }
+  | { endDate: string; includeBots: boolean; startDate: string; type: "referrers" }
   | { type: "visitor"; visitorId: string };
 
 export type AnalyticsRequest = {
@@ -73,7 +74,7 @@ export function getAnalyticsSelection(
     return { type: "invalid" };
   }
 
-  if (report && report !== "keywords") {
+  if (report && report !== "keywords" && report !== "referrers") {
     return { type: "invalid" };
   }
 
@@ -97,7 +98,7 @@ export function getAnalyticsSelection(
             endDate,
             includeBots: bots === "include",
             startDate,
-            type: report === "keywords" ? "keywords" : "pageViews",
+            type: report === "keywords" || report === "referrers" ? report : "pageViews",
           },
         }
       : { type: "invalid" };

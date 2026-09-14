@@ -8,6 +8,12 @@ import { isAnalyticsDateKey } from "../../data/analyticsContract";
 import { parseDateKey, shiftDateKey, shiftMonthKey } from "./analyticsFormatters";
 
 const millisecondsPerDay = 86_400_000;
+const quickRanges = [
+  { label: "Last 3 days", days: 3 },
+  { label: "Last week", days: 7 },
+  { label: "Last month", days: 30 },
+  { label: "Last 3 months", days: 90 },
+];
 
 export function DateControls({
   dateKey,
@@ -112,11 +118,13 @@ export function MonthControls({
 export function ReportDateRangeForm({
   endDate,
   onRangeChange,
+  showQuickRanges = false,
   startDate,
   todayKey,
 }: {
   endDate: string;
   onRangeChange: (startDate: string, endDate: string) => void;
+  showQuickRanges?: boolean;
   startDate: string;
   todayKey: string;
 }) {
@@ -147,6 +155,29 @@ export function ReportDateRangeForm({
         if (isRangeValid) onRangeChange(draftStartDate, draftEndDate);
       }}
     >
+      {showQuickRanges ? (
+        <div className="report-quick-ranges" role="group" aria-label="Quick date ranges">
+          {quickRanges.map(({ label, days }) => {
+            const rangeStart = shiftDateKey(todayKey, 1 - days);
+            return (
+              <button
+                aria-pressed={startDate === rangeStart && endDate === todayKey
+                  && draftStartDate === startDate && draftEndDate === endDate}
+                key={days}
+                onClick={() => {
+                  setDraftStartDate(rangeStart);
+                  setDraftEndDate(todayKey);
+                  onRangeChange(rangeStart, todayKey);
+                }}
+                title={`${days} days including today`}
+                type="button"
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
       <label>
         <span>Start date</span>
         <input

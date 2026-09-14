@@ -247,6 +247,7 @@ function DailyObservatory({
   } as CSSProperties;
   const pageViewParams = new URLSearchParams({ end: dateKey, start: dateKey });
   if (includeBots) pageViewParams.set("bots", "include");
+  const referrerReportPath = `${privateRoutePaths.analyticsReferrers}?${pageViewParams.toString()}`;
   const pageViewReportPath = `${privateRoutePaths.analyticsPageViews}?${pageViewParams.toString()}`;
 
   return (
@@ -276,6 +277,9 @@ function DailyObservatory({
             <span className="signal-spectrum__referral"><i />{summary.referral} referral</span>
             <span className="signal-spectrum__internal"><i />{summary.internal} internal</span>
             <span className="signal-spectrum__direct"><i />{summary.direct} direct</span>
+            <Link className="referrer-report__daily-link" to={referrerReportPath}>
+              View referrers
+            </Link>
           </div>
         </div>
 

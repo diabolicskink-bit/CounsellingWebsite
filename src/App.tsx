@@ -19,6 +19,10 @@ import { devRoutePaths, privateRoutePaths, publicRedirectRoutes, publicRoutePath
 
 const analyticsRoutes = [
   {
+    Page: lazy(() => import("./pages/analytics/ReferrersAnalyticsPage")),
+    path: privateRoutePaths.analyticsReferrers,
+  },
+  {
     Page: lazy(() => import("./pages/analytics/DailyAnalyticsPage")),
     path: privateRoutePaths.analytics,
   },

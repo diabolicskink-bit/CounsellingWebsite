@@ -67,9 +67,11 @@ body:has(.visit-dashboard) {
   width: min(calc(100% - 48px), 1180px);
   min-height: 76px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 22px;
+  gap: 10px 22px;
   margin-inline: auto;
+  padding-block: 10px;
 }
 
 .signal-header__brand {
@@ -961,6 +963,26 @@ body:has(.visit-dashboard) {
   grid-column: 1 / -1;
 }
 
+.report-quick-ranges {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  gap: 6px;
+}
+
+.report-quick-ranges button {
+  flex: 1 1 auto;
+  padding-inline: 9px;
+  background: var(--report-purple-soft);
+  color: var(--report-purple-dark);
+}
+
+.report-quick-ranges button:hover,
+.report-quick-ranges button[aria-pressed="true"] {
+  background: var(--report-purple);
+  color: #fff;
+}
+
 .page-view-report__summary > div:first-child { background: var(--report-mint); }
 
 .page-view-report__summary > div:nth-child(2) { background: var(--report-lilac); }
@@ -1026,6 +1048,34 @@ body:has(.visit-dashboard) {
   font-size: 0.82rem;
   font-weight: 760;
   font-variant-numeric: tabular-nums;
+}
+
+.referrer-report__table {
+  min-width: 850px;
+}
+
+.referrer-report__table thead th:nth-child(6),
+.referrer-report__table thead th:nth-child(7) {
+  width: 110px;
+}
+
+.referrer-report__table .page-view-report__route strong {
+  overflow: visible;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.referrer-report__daily-link {
+  width: fit-content;
+  color: var(--report-purple);
+  font-size: 0.74rem;
+  font-weight: 760;
+  text-underline-offset: 3px;
+}
+
+.referrer-report__daily-link:hover,
+.referrer-report__daily-link:focus-visible {
+  color: var(--report-ink);
 }
 
 .keyword-report__summary {
