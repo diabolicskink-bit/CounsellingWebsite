@@ -56,6 +56,9 @@ function ReferrersReport({
   todayKey: string;
 }) {
   const referrerPeak = Math.max(...report.referrers.map((referrer) => referrer.visits), 1);
+  const externalReferrerCount = report.referrers.filter(
+    ({ referrer }) => referrer !== "Internal" && referrer !== "No referrer recorded",
+  ).length;
   const dailyParams = new URLSearchParams();
   if (report.endDate !== todayKey) dailyParams.set("date", report.endDate);
   if (includeBots) dailyParams.set("bots", "include");
@@ -97,7 +100,7 @@ function ReferrersReport({
         <div><span>Visits</span><strong>{report.totalVisits}</strong></div>
         <div><span>Page views</span><strong>{report.totalPageViews}</strong></div>
         <div><span>Enquiry visits</span><strong>{report.totalEnquiryVisits}</strong></div>
-        <div><span>Active time</span><strong>{formatActiveTime(report.totalActiveSeconds)}</strong></div>
+        <div><span>External referrers</span><strong>{externalReferrerCount}</strong></div>
       </section>
 
       <section className="signal-report__section" aria-labelledby="referrer-rows-title">
@@ -118,7 +121,7 @@ function ReferrersReport({
           >
             <table className="signal-report__table page-view-report__table referrer-report__table">
               <caption className="signal-visually-hidden">
-                Referrers ranked by visits, with visit share, page views, average active time per visit and enquiry visits
+                Referrers ranked by visits, with visit share, average views per visit, average active time per visit and enquiry visits
               </caption>
               <thead>
                 <tr>
@@ -126,7 +129,7 @@ function ReferrersReport({
                   <th scope="col">Referrer</th>
                   <th scope="col">Visit share</th>
                   <th scope="col">Visits</th>
-                  <th scope="col">Page views</th>
+                  <th scope="col">Avg views per visit</th>
                   <th scope="col">Avg active per visit</th>
                   <th scope="col">Enquiry visits</th>
                 </tr>
@@ -151,7 +154,9 @@ function ReferrersReport({
                       </th>
                       <td className="page-view-report__share">{share}%</td>
                       <td className="page-view-report__metric">{referrer.visits}</td>
-                      <td className="page-view-report__metric">{referrer.pageViews}</td>
+                      <td className="page-view-report__metric">
+                        {(referrer.pageViews / referrer.visits).toFixed(1)}
+                      </td>
                       <td className="page-view-report__metric">
                         {referrer.activeSeconds
                           ? formatActiveTime(Math.round(referrer.activeSeconds / referrer.visits))
