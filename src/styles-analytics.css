@@ -963,6 +963,26 @@ body:has(.visit-dashboard) {
   grid-column: 1 / -1;
 }
 
+.report-quick-ranges {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  gap: 6px;
+}
+
+.report-quick-ranges button {
+  flex: 1 1 auto;
+  padding-inline: 9px;
+  background: var(--report-purple-soft);
+  color: var(--report-purple-dark);
+}
+
+.report-quick-ranges button:hover,
+.report-quick-ranges button[aria-pressed="true"] {
+  background: var(--report-purple);
+  color: #fff;
+}
+
 .page-view-report__summary > div:first-child { background: var(--report-mint); }
 
 .page-view-report__summary > div:nth-child(2) { background: var(--report-lilac); }

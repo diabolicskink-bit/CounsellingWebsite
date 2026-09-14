@@ -84,6 +84,7 @@ function ReferrersReport({
         <ReportDateRangeForm
           endDate={report.endDate}
           onRangeChange={onRangeChange}
+          showQuickRanges
           startDate={report.startDate}
           todayKey={todayKey}
         />
