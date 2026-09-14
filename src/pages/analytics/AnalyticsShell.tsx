@@ -19,6 +19,7 @@ export type AnalyticsDetailTitle =
   | "Keywords"
   | "Monthly enquiries"
   | "Page views"
+  | "Referrers"
   | "Visitor history";
 
 type SignalHeaderProps = {
@@ -59,6 +60,7 @@ function SignalHeader({
         <nav aria-label="Analytics views" className="signal-header__views">
           <NavLink end to={privateRoutePaths.analytics}>Daily</NavLink>
           <NavLink to={privateRoutePaths.analyticsPageViews}>Pages</NavLink>
+          <NavLink to={privateRoutePaths.analyticsReferrers}>Referrers</NavLink>
           <NavLink to={privateRoutePaths.analyticsEnquiries}>Enquiries</NavLink>
           <NavLink to={privateRoutePaths.analyticsKeywords}>Keywords</NavLink>
           <NavLink to={privateRoutePaths.analyticsExcluded}>Excluded</NavLink>

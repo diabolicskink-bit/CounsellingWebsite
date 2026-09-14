@@ -19,7 +19,7 @@ There are three distinct application surfaces:
 | Surface | Availability | Purpose |
 | --- | --- | --- |
 | Public website | Local development and deployed builds | Service information, articles, contact and fees, crisis-support resources, privacy information. |
-| Private analytics | Included in deployed builds; protected by Vercel middleware | One owner's traffic, page, paid-keyword, enquiry, and visitor-exclusion reporting. Its UI can render locally, but local Vite supplies neither the reporting API nor its authentication boundary. |
+| Private analytics | Included in deployed builds; protected by Vercel middleware | One owner's traffic, page, referrer, paid-keyword, enquiry, and visitor-exclusion reporting. Its UI can render locally, but local Vite supplies neither the reporting API nor its authentication boundary. |
 | Development tools | Vite development mode only | Local article editing, a Markdown document viewer, design-system inspection, and the Codex/Opus test beds. These routes and their Dev navigation are absent from built previews and Production. |
 
 The main flows are:
@@ -56,6 +56,8 @@ These are investigation entry points, not an exhaustive file inventory. Paths in
 | Storage and environment boundaries | [database/README.md](../../database/README.md), [database migrations](../../database/migrations), [middleware.ts](../../middleware.ts), [vercel.json](../../vercel.json) | Migration procedure/schema, private authentication, deployment routing, function packaging and retention schedule. |
 | Local tools and verification | [vite.config.ts](../../vite.config.ts), [articleEditorPlugin.ts](../../scripts/articleEditorPlugin.ts), [package.json](../../package.json), [visual-verification.md](visual-verification.md) | Development server integration, local article writes, executable check commands and the supported IDE browser workflow. |
 
+Public write endpoints share origin allowlists, cross-site checks and blocked-request log sanitisation in [request-origin.ts](../../src/server/request-origin.ts). The request modules for enquiries, visits and visit events retain endpoint-specific body handling; page engagement uses the visits module. Explicit endpoint policies preserve the Origin-format and local IPv6 differences tracked by `DEBT-46` and `DEBT-47`.
+
 `api/` contains HTTP entry points. Domain validation, delivery and database work live under `src/server/`; browser/server contracts live under `src/data/`. Although server code sits beneath `src/`, it is server-owned: public code should consume the shared contracts rather than import database or delivery modules. Handlers and repositories expose dependencies that direct tests can replace without real email or database services.
 
 ## Surfaces And Routes
@@ -85,6 +87,7 @@ Fees-labelled navigation and footer links deliberately open `/contact` while pas
 | --- | --- |
 | `/analytics` | Inspect a Perth calendar day's traffic and visit journeys, including sources, activity and diagnostic context. |
 | `/analytics/pages` | Compare routes by views, visits and active time over a selected date range. |
+| `/analytics/referrers` | Compare arrival hosts by visits, page views, active time and enquiry visits over a selected date range. |
 | `/analytics/keywords` | Compare paid visits by stored matched keyword, including coverage, engagement, returning visits and enquiry attribution. |
 | `/analytics/enquiries` | Inspect monthly successful form sends, phone-click enquiry signals and failed form outcomes. |
 | `/analytics/excluded` | Review and restore manually excluded visitors. Exclusion actions are also available while inspecting visits. |
@@ -181,9 +184,10 @@ The server derives bounded User-Agent/device context and coarse location from Ve
 
 ### Reporting semantics
 
-Dates use `Australia/Perth`. Page and keyword ranges are inclusive and limited to 366 days. The main distinctions are:
+Dates use `Australia/Perth`. Page, referrer and keyword ranges are inclusive and limited to 366 days. The main distinctions are:
 
-- **Daily traffic, Pages and Keywords select visits by visit start date.** Their page/activity totals describe the selected visits' retained journeys; they do not simply count all page-view events that happened between two clock boundaries. Keywords further selects paid visits and keeps visits without keyword data visible in coverage totals.
+- **Daily traffic, Pages, Referrers and Keywords select visits by visit start date.** Their page/activity totals describe the selected visits' retained journeys; they do not simply count all page-view events that happened between two clock boundaries. Keywords further selects paid visits and keeps visits without keyword data visible in coverage totals.
+- **Referrers groups all included visits by recorded arrival host, including paid visits.** It combines case and leading `www.` variants, groups the canonical Vive hosts as Internal, and retains a No referrer recorded group. Rows rank by visits and include page views, visible active time and enquiry visits. An enquiry visit contains at least one successful form send or phone-link click, counted once regardless of repeated or combined signals. These outcomes belong to the selected visits' retained journeys, so they need not occur inside the date range. The protected `/analytics/referrers` page uses `report=referrers` on the reporting API; Daily links preserve date and bot selection.
 - **Monthly Enquiries selects enquiry events by occurrence month.** A visit may have started earlier. Successful form sends and Contact-page phone clicks are enquiry signals; failed forms are separate. A phone click proves neither that a call was placed nor that Joel answered. Email/social clicks remain separate outbound actions.
 - **Returning means a later retained visit for the browser ID.** It does not establish a returning client or person, and rotation, storage loss and retention affect that interpretation.
 - **Exclusion is a reporting filter, not deletion or collection opt-out.** It removes a visitor's past and future visits from ordinary reports while preserving direct retained-history access and allowing restoration.

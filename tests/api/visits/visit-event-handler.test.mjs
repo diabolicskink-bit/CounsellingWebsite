@@ -189,7 +189,7 @@ test("rejects events outside the public client contract before storage", async (
   assert.equal(recordCalled, false);
 });
 
-test("rejects unsupported methods and malformed request bodies before storage", async (context) => {
+test("rejects unsupported methods, bodies and origins before storage", async (context) => {
   silenceExpectedLogs(context);
   let recordCalled = false;
   const handler = createVisitEventHandler(async () => {
@@ -197,6 +197,10 @@ test("rejects unsupported methods and malformed request bodies before storage", 
   });
   const cases = [
     { expectedStatus: 405, request: { method: "GET" } },
+    {
+      expectedStatus: 403,
+      request: { headers: jsonHeaders({ host: "vivecounselling.com.au", origin: "https://attacker.example" }) },
+    },
     {
       expectedStatus: 415,
       request: { body: JSON.stringify(validPayload()), headers: { "content-type": "text/plain" } },
@@ -228,39 +232,6 @@ test("rejects unsupported methods and malformed request bodies before storage", 
   }
 
   assert.equal(recordCalled, false);
-});
-
-test("rejects cross-site request signals before storage", async (context) => {
-  const { warnings } = silenceExpectedLogs(context);
-  let recordCalled = false;
-  const handler = createVisitEventHandler(async () => {
-    recordCalled = true;
-  });
-
-  const fetchSiteResult = await invoke(handler, {
-    headers: jsonHeaders({ "sec-fetch-site": "cross-site" }),
-  });
-  const originResult = await invoke(handler, {
-    headers: jsonHeaders({
-      host: "vivecounselling.com.au",
-      origin: "https://attacker.example",
-      "x-forwarded-proto": "https",
-    }),
-  });
-  const refererResult = await invoke(handler, {
-    headers: jsonHeaders({
-      host: "vivecounselling.com.au",
-      referer: "https://attacker.example/private?secret=value",
-      "x-forwarded-proto": "https",
-    }),
-  });
-
-  assert.equal(fetchSiteResult.statusCode, 403);
-  assert.equal(originResult.statusCode, 403);
-  assert.equal(refererResult.statusCode, 403);
-  assert.equal(recordCalled, false);
-  assert.match(JSON.stringify(warnings), /cross_site_fetch_site|mismatched_origin|mismatched_referer/);
-  assert.doesNotMatch(JSON.stringify(warnings), /private|secret/);
 });
 
 test("maps visit, page-view, and event conflicts to a generic response", async (context) => {

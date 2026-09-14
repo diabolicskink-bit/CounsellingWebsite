@@ -8,7 +8,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import {
   getPerthDateKey,
   isAnalyticsDateKey,
-  type PageViewsAnalyticsReport,
+  type ReferrersAnalyticsReport,
 } from "../../data/analyticsContract";
 import { privateRoutePaths } from "../../data/routes";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
@@ -44,7 +44,7 @@ function getSelectedRange(searchParams: URLSearchParams, todayKey: string) {
   };
 }
 
-function PageViewsReport({
+function ReferrersReport({
   includeBots,
   onRangeChange,
   report,
@@ -52,13 +52,10 @@ function PageViewsReport({
 }: {
   includeBots: boolean;
   onRangeChange: (startDate: string, endDate: string) => void;
-  report: PageViewsAnalyticsReport;
+  report: ReferrersAnalyticsReport;
   todayKey: string;
 }) {
-  const routePeak = Math.max(...report.routes.map((route) => route.pageViews), 1);
-  const averagePages = report.totalVisits
-    ? (report.totalPageViews / report.totalVisits).toFixed(1)
-    : "0.0";
+  const referrerPeak = Math.max(...report.referrers.map((referrer) => referrer.visits), 1);
   const dailyParams = new URLSearchParams();
   if (report.endDate !== todayKey) dailyParams.set("date", report.endDate);
   if (includeBots) dailyParams.set("bots", "include");
@@ -69,14 +66,14 @@ function PageViewsReport({
     <>
       <section
         className="signal-report__overview signal-report__overview--range"
-        aria-labelledby="page-view-report-title"
+        aria-labelledby="referrer-report-title"
       >
         <div className="signal-report__intro">
           <Link className="page-view-report__back" to={dailyPath}>
             <ArrowLeft aria-hidden="true" size={16} /> Back to daily
           </Link>
-          <p className="signal-kicker">Route breakdown</p>
-          <h1 id="page-view-report-title">Page views</h1>
+          <p className="signal-kicker">Arrival breakdown</p>
+          <h1 id="referrer-report-title">Referrers</h1>
           <p>
             {report.startDate === report.endDate
               ? formatDate(report.startDate)
@@ -95,70 +92,72 @@ function PageViewsReport({
 
       <section
         className="signal-report__summary page-view-report__summary"
-        aria-label="Page-view totals"
+        aria-label="Referrer totals"
       >
-        <div><span>Page views</span><strong>{report.totalPageViews}</strong></div>
         <div><span>Visits</span><strong>{report.totalVisits}</strong></div>
-        <div><span>Avg per visit</span><strong>{averagePages}</strong></div>
+        <div><span>Page views</span><strong>{report.totalPageViews}</strong></div>
+        <div><span>Enquiry visits</span><strong>{report.totalEnquiryVisits}</strong></div>
         <div><span>Active time</span><strong>{formatActiveTime(report.totalActiveSeconds)}</strong></div>
       </section>
 
-      <section className="signal-report__section" aria-labelledby="page-view-routes-title">
+      <section className="signal-report__section" aria-labelledby="referrer-rows-title">
         <header className="signal-report__section-header">
           <div>
-            <p className="signal-kicker">Most viewed first</p>
-            <h2 id="page-view-routes-title">All viewed routes</h2>
+            <p className="signal-kicker">Most visits first</p>
+            <h2 id="referrer-rows-title">All referrers</h2>
           </div>
-          <span>{report.routes.length} {report.routes.length === 1 ? "route" : "routes"}</span>
+          <span>{report.referrers.length} {report.referrers.length === 1 ? "group" : "groups"}</span>
         </header>
 
-        {report.routes.length ? (
+        {report.referrers.length ? (
           <div
-            aria-label="Page-view routes. Scroll horizontally to see every column."
+            aria-label="Referrers. Scroll horizontally to see every column."
             className="signal-report__table-wrap"
             role="region"
             tabIndex={0}
           >
-            <table className="signal-report__table page-view-report__table">
+            <table className="signal-report__table page-view-report__table referrer-report__table">
               <caption className="signal-visually-hidden">
-                Routes ranked by page views, including share of views, visits and average active time
+                Referrers ranked by visits, with visit share, page views, average active time per visit and enquiry visits
               </caption>
               <thead>
                 <tr>
                   <th aria-label="Rank" scope="col">#</th>
-                  <th scope="col">Route</th>
-                  <th scope="col">Share</th>
-                  <th scope="col">Views</th>
+                  <th scope="col">Referrer</th>
+                  <th scope="col">Visit share</th>
                   <th scope="col">Visits</th>
-                  <th scope="col">Avg active</th>
+                  <th scope="col">Page views</th>
+                  <th scope="col">Avg active per visit</th>
+                  <th scope="col">Enquiry visits</th>
                 </tr>
               </thead>
               <tbody>
-                {report.routes.map((route, index) => {
-                  const share = report.totalPageViews
-                    ? Math.round((route.pageViews / report.totalPageViews) * 100)
+                {report.referrers.map((referrer, index) => {
+                  const share = report.totalVisits
+                    ? Math.round((referrer.visits / report.totalVisits) * 100)
                     : 0;
                   const barStyle = {
-                    "--page-view-route-width": `${(route.pageViews / routePeak) * 100}%`,
+                    "--page-view-route-width": `${(referrer.visits / referrerPeak) * 100}%`,
                   } as CSSProperties;
 
                   return (
-                    <tr key={route.path}>
+                    <tr key={referrer.referrer}>
                       <td className="page-view-report__rank">
                         {String(index + 1).padStart(2, "0")}
                       </td>
                       <th className="page-view-report__route" scope="row">
-                        <strong>{route.path}</strong>
+                        <strong>{referrer.referrer}</strong>
                         <i aria-hidden="true"><b style={barStyle} /></i>
                       </th>
                       <td className="page-view-report__share">{share}%</td>
-                      <td className="page-view-report__metric">{route.pageViews}</td>
-                      <td className="page-view-report__metric">{route.visits}</td>
+                      <td className="page-view-report__metric">{referrer.visits}</td>
+                      <td className="page-view-report__metric">{referrer.pageViews}</td>
                       <td className="page-view-report__metric">
-                        {route.activeSeconds
-                          ? formatActiveTime(Math.round(route.activeSeconds / route.pageViews))
+                        {referrer.activeSeconds
+                          ? formatActiveTime(Math.round(referrer.activeSeconds / referrer.visits))
                           : "\u2014"}
                       </td>
+                      <td className="page-view-report__metric">{referrer.enquiryVisits}</td>
                     </tr>
                   );
                 })}
@@ -168,15 +167,20 @@ function PageViewsReport({
         ) : (
           <div className="signal-stream__empty">
             <Radio aria-hidden="true" size={30} />
-            <h3>No page views recorded</h3>
-            <p>No routes were viewed in this date range.</p>
+            <h3>No visits recorded</h3>
+            <p>No included visits began in this date range.</p>
           </div>
         )}
       </section>
 
       <p className="signal-footnote">
-        Totals use visits that began in the selected Australia/Perth date range. Active time counts
-        seconds while a page is visible. {includeBots
+        Totals use visits that began in the selected Australia/Perth date range, including their
+        retained page activity and enquiry signals. Referrers use the recorded arrival host, combining
+        www variants. Internal groups Vive's own hosts; no referrer recorded means the browser supplied
+        no referring host. Paid visits are included under their recorded referrer. Active time counts
+        seconds while a page is visible, averaged per visit. Each enquiry visit counts once when it
+        contains a successful form send or phone-link click; a click does not confirm a completed call.
+        Manually excluded visitors are omitted. {includeBots
           ? "Bot visits are included."
           : "Identified bot visits are excluded."}
       </p>
@@ -184,21 +188,21 @@ function PageViewsReport({
   );
 }
 
-export default function PageViewsAnalyticsPage() {
+export default function ReferrersAnalyticsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [todayKey, setTodayKey] = useState(getPerthDateKey);
   const includeBots = searchParams.get("bots") === "include";
   const { endDate, startDate } = getSelectedRange(searchParams, todayKey);
-  const requestParams = new URLSearchParams({ end: endDate, start: startDate });
+  const requestParams = new URLSearchParams({ end: endDate, report: "referrers", start: startDate });
   if (includeBots) requestParams.set("bots", "include");
   const { report, retry, status } = useAnalyticsReport(
     `/api/analytics?${requestParams.toString()}`,
-    "pageViews",
+    "referrers",
   );
 
   useDocumentMetadata(
-    "Page Views | Vive Analytics",
-    "Private page-view breakdown for Vive Counselling analytics.",
+    "Referrers | Vive Analytics",
+    "Private referrer reporting for Vive Counselling analytics.",
   );
 
   function refreshReport() {
@@ -228,7 +232,7 @@ export default function PageViewsAnalyticsPage() {
 
   return (
     <AnalyticsShell
-      detailTitle="Page views"
+      detailTitle="Referrers"
       includeBots={includeBots}
       onIncludeBotsChange={updateIncludeBots}
       onRefresh={refreshReport}
@@ -237,7 +241,7 @@ export default function PageViewsAnalyticsPage() {
     >
       {status !== "ready" ? <ReportState onRetry={refreshReport} status={status} /> : null}
       {status === "ready" && report ? (
-        <PageViewsReport
+        <ReferrersReport
           includeBots={includeBots}
           onRangeChange={updateRange}
           report={report}
