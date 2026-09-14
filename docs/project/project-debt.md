@@ -6,7 +6,7 @@ Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do n
 
 ## Tracker Metadata
 
-- `Next ID`: `DEBT-42`
+- `Next ID`: `DEBT-46`
 
 ## How To Maintain This Tracker
 
@@ -453,6 +453,32 @@ Each active item should include enough direction that a future session can choos
   - `tests/public-site/navigation.spec.ts` verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
 - `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site/navigation.spec.ts`
 
+### DEBT-42 - Public write API origin guards have diverged
+
+- `Priority`: `P2`
+- `Size`: `M`
+- `Priority Rationale`: Three copies of the same request-origin boundary already disagree about accepted inputs. This affects enquiry delivery and analytics collection, but the observed differences do not establish a deployed exploit or active incident.
+- `Status`: `Open`
+- `Detected`: 2026-09-14
+- `Source`: Source-first cleanup sweep; direct local assertions against all three request guards.
+- `Area`: API, Request validation, Security, Maintainability
+- `Problem`: `src/server/visits/request.ts`, `src/server/visit-events/request.ts`, and `src/server/enquiry/request.ts` independently build origin allowlists, evaluate Origin/Referer and Fetch Metadata headers, and sanitise origin values for blocked-request logs. Their parsing policies have diverged. Page engagement also inherits the visits guard through `api/page-engagement.ts`.
+- `Why It Matters`: A correction to one copy does not protect the other callers. Enquiries and visit events normalise malformed Origin values that visits reject, while visit events fail to recognise bracketed local IPv6 hosts for the HTTP/HTTPS development allowance.
+- `Preferred Direction`: Establish one server-owned origin guard with distinct parsing for configured origins, Origin headers and Referer URLs, shared local-host handling, and privacy-safe log values. Preserve endpoint-specific body limits, accepted media types, response handling and enquiry dependency injection outside that guard.
+- `Resolution Path`: Set the intended acceptance policy for malformed Origin values and local IPv6; add shared contract coverage plus focused handler checks; replace all three origin-check implementations and their logging parsers; verify visits, events, engagement and JSON/native-form enquiries retain their intended flows.
+- `Next Action`: Explicitly scope a request-boundary fix that may change acceptance behaviour. The proposed policy is the visits guard's HTTP(S), credential-free URL parsing and origin-only Origin header validation, with local IPv6 supported consistently and Referer paths allowed. Confirm the treatment of absent headers and configured deployment origins before implementation.
+- `Resolved When`: All four public write endpoints use one tested origin policy and log sanitiser, duplicate origin algorithms are removed, and focused checks establish the intended accepted/rejected inputs without real delivery or database calls.
+- `Related Items`:
+  - `DEBT-3`: Archived enquiry request hardening introduced one of the independently maintained guards.
+  - `DEBT-23`: Platform rate limiting addresses request volume, a separate concern from origin validation.
+- `Dependencies`: `None`
+- `Notes`:
+  - With empty configured origins and host `vivecounselling.com.au`, direct local checks confirmed that a matching HTTPS origin passes all three guards and a foreign origin receives 403 from all three. Bare-hostname, path-bearing and credential-bearing Origin values receive 403 from visits but pass the event and enquiry request-shape guards; passing this guard does not imply payload validation or delivery succeeds.
+  - With host `[::1]:4287`, Origin `http://[::1]:4287`, and no forwarded protocol, visits and enquiries pass the origin guard while visit events return 403. The event helper uses `host.split(":")[0]`, unlike the URL-based local-host checks in the other two modules.
+  - `tests/api/visits/visit-handler.test.mjs` already asserts rejection of bare-hostname and path-bearing Origin values; `tests/api/enquiry/handler.test.mjs` asserts local IPv6 acceptance. The corresponding event policy lacks those cases.
+  - Implementation was deferred in this behaviour-preserving sweep because convergence changes currently accepted/rejected requests. Extracting the divergent algorithms into a configurable helper would retain the policy drift rather than resolve it. The next task needs an explicit acceptance-policy scope, not a smaller cosmetic extraction.
+- `Links`: [Visits guard](../../src/server/visits/request.ts), [Visit events guard](../../src/server/visit-events/request.ts), [Enquiry guard](../../src/server/enquiry/request.ts), [Page engagement handler](../../api/page-engagement.ts)
+
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
 - `Priority`: `P3`
@@ -475,6 +501,66 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
 - `Links`: `package.json`
+
+### DEBT-43 - API handler tests repeat response fixtures
+
+- `Priority`: `P3`
+- `Size`: `S`
+- `Priority Rationale`: Demonstrated test-maintenance duplication; no failing behaviour was observed.
+- `Status`: `Open`
+- `Detected`: 2026-09-14
+- `Source`: Cleanup discovery, rechecked for the owner-requested debt records.
+- `Area`: Tests
+- `Problem`: Seven API handler test files independently implement `createResponse()`, repeating header normalisation, status chaining and body capture. Enquiries additionally need `send()`; collection handlers need `end()`.
+- `Why It Matters`: Changes to the response fake require maintaining multiple copies of the same transport contract.
+- `Preferred Direction`: Use one small response fixture with the supported JSON, HTML and empty-response methods; keep endpoint payloads, dependencies and assertions local.
+- `Resolution Path`: Compare result shapes and callers, migrate the seven fixtures, then run the existing API tests.
+- `Next Action`: Extract the shared response recorder without introducing a general handler-testing framework.
+- `Resolved When`: All seven handlers' tests use the shared fixture and retain their existing response assertions.
+- `Related Items`: `DEBT-9` covers typechecking, a separate test-maintenance concern.
+- `Dependencies`: `None`
+- `Notes`: Source inspection only; this record does not claim test failures or require new tests that merely mirror the fixture.
+- `Links`: `tests/api/enquiry/handler.test.mjs`, `tests/api/analytics/handler.test.mjs`, `tests/api/analytics/exclusions-handler.test.mjs`, `tests/api/visits/visit-handler.test.mjs`, `tests/api/visits/visit-event-handler.test.mjs`, `tests/api/visits/page-engagement-handler.test.mjs`, `tests/api/visits/visit-retention-handler.test.mjs`
+
+### DEBT-44 - Lighthouse runner owns avoidable shell-launch logic
+
+- `Priority`: `P3`
+- `Size`: `S`
+- `Priority Rationale`: Local tooling complexity with a concrete platform-dependent argument path; no failed audit was reproduced.
+- `Status`: `Open`
+- `Detected`: 2026-09-14
+- `Source`: Cleanup tooling inspection, rechecked against the installed Lighthouse CLI metadata.
+- `Area`: Scripts, Tooling
+- `Problem`: `scripts/run-lighthouse.mjs` launches a `.cmd` shim through a manually quoted shell command on Windows, but passes an argument array on other platforms. It also has no child-process `error` listener.
+- `Why It Matters`: The wrapper must maintain shell quoting and startup-failure handling even though Lighthouse exposes a Node CLI, as the analytics QA runner already uses for its tools.
+- `Preferred Direction`: Launch the resolved Lighthouse Node CLI using `process.execPath` and an argument array, with explicit startup-error handling.
+- `Resolution Path`: Replace the shell/shim branch, preserve audit flags and output handling, and check argument forwarding and spawn failures using a substituted child process.
+- `Next Action`: Resolve the package CLI entry and define the runner's launch-failure result.
+- `Resolved When`: All supported platforms share one shell-free launch path and startup errors produce a clear nonzero failure.
+- `Related Items`: `DEBT-16` concerns runtime versions; this item concerns process invocation.
+- `Dependencies`: `None`
+- `Notes`: Installed `lighthouse/package.json` maps its CLI to `cli/index.js`. No Lighthouse audit or browser was launched for this record.
+- `Links`: `scripts/run-lighthouse.mjs`, `scripts/run-analytics-qa.mjs`, `package.json`
+
+### DEBT-45 - Analytics QA preview lifecycle handling is incomplete
+
+- `Priority`: `P3`
+- `Size`: `S`
+- `Priority Rationale`: Concrete failure-path gaps in a local QA helper; the normal preview flow was not shown to fail.
+- `Status`: `Open`
+- `Detected`: 2026-09-14
+- `Source`: Cleanup tooling inspection and follow-up source trace.
+- `Area`: Scripts, Process lifecycle
+- `Problem`: The preview child in `scripts/run-analytics-qa.mjs` has no `error` listener, although the same file's `run()` helper handles spawn errors. Readiness and shutdown detect completion only through `exitCode`; they do not account for `signalCode`. `stopPreview()` also ignores failure of its final bounded exit wait.
+- `Why It Matters`: Failed launches lack controlled reporting, a signal-terminated child can be treated as running, and shutdown can finish without confirming that its process stopped.
+- `Preferred Direction`: Make preview startup, exit-by-code, exit-by-signal and bounded shutdown explicit within this helper.
+- `Resolution Path`: Handle spawn errors, recognise either terminal state, report shutdown timeout, and cover these paths with fake child-process events.
+- `Next Action`: Isolate the lifecycle functions enough to test failure paths without starting the analytics browser suite.
+- `Resolved When`: Launch failure, early exit, signal termination and shutdown timeout each settle predictably with focused tests.
+- `Related Items`: `DEBT-44` concerns a separate tool's launch path; neither item requires a shared process framework.
+- `Dependencies`: `None`
+- `Notes`: Source-backed finding; no process failure or dashboard browser scenario was executed for this record.
+- `Links`: `scripts/run-analytics-qa.mjs` (`runPreviewTests`, `waitForPreview`, `waitForExit`, `stopPreview`)
 
 ## Resolved Item Archive
 
