@@ -764,23 +764,27 @@ test("rejects overlong enquiry fields instead of silently truncating them", asyn
   assert.equal(fetchCalled, false);
 });
 
-test("returns a generic validation error for invalid booking fields", async () => {
-  setDeliveryEnv();
-  const result = await invokeHandler({
-    availability: "Tuesday afternoons",
-    bookingType: "appointment",
-    email: "sam@example.com",
-    enquiryType: "booking",
-    message: "Hello",
-    name: "Sam River",
-    timeZone: "GMT+8",
-    website: "",
-  });
+for (const timeZone of ["GMT+8", "constructor", "__proto__", "toString"]) {
+  test(`rejects the invalid booking timezone ${timeZone} before sending email`, async () => {
+    setDeliveryEnv();
+    const emails = mockResendSuccess();
+    const result = await invokeHandler({
+      availability: "Tuesday afternoons",
+      bookingType: "appointment",
+      email: "sam@example.com",
+      enquiryType: "booking",
+      message: "Hello",
+      name: "Sam River",
+      timeZone,
+      website: "",
+    });
 
-  assert.equal(result.statusCode, 400);
-  assert.equal(result.body.error, "Invalid enquiry submission.");
-  assertNoPublicDetails(result);
-});
+    assert.equal(result.statusCode, 400);
+    assert.equal(result.body.error, "Invalid enquiry submission.");
+    assertNoPublicDetails(result);
+    assert.equal(emails.length, 0);
+  });
+}
 
 test("returns a generic public error and logs details when delivery env is missing", async () => {
   clearDeliveryEnv();

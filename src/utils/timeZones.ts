@@ -20,46 +20,53 @@ const australianTimeZoneRegions: AustralianTimeZoneRegion[] = [
   { label: "NSW / ACT / VIC / TAS", timeZone: "Australia/Sydney" },
 ];
 
-const fallbackAustralianTimeZoneLabels: Record<string, string> = {
-  ACDT: "ACDT (SA)",
-  ACST: "ACST (SA / NT)",
-  AEDT: "AEDT (NSW / ACT / VIC / TAS)",
-  AEST: "AEST (QLD / NSW / ACT / VIC / TAS)",
-  AWST: "AWST (WA)",
-};
+const fallbackAustralianTimeZoneLabels = new Map<string, string>([
+  ["ACDT", "ACDT (SA)"],
+  ["ACST", "ACST (SA / NT)"],
+  ["AEDT", "AEDT (NSW / ACT / VIC / TAS)"],
+  ["AEST", "AEST (QLD / NSW / ACT / VIC / TAS)"],
+  ["AWST", "AWST (WA)"],
+]);
+
+const dateTimeFormatters = new Map<string, Intl.DateTimeFormat>();
 
 function getDateTimePart(parts: Intl.DateTimeFormatPart[], type: Intl.DateTimeFormatPartTypes) {
-  return parts.find((part) => part.type === type)?.value ?? "";
+  const part = parts.find((part) => part.type === type);
+
+  if (!part) {
+    throw new Error(`Missing ${type} in formatted Australian date/time.`);
+  }
+
+  return part.value;
 }
 
 function formatTimeZoneLabel(timeZone: ActiveAustralianTimeZoneGroup) {
   return `${timeZone.abbreviation} (${timeZone.regionLabels.join(" / ")})`;
 }
 
-function getTimeZoneAbbreviation(date: Date, timeZone: string) {
-  const parts = new Intl.DateTimeFormat("en-AU", {
-    timeZone,
-    timeZoneName: "short",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  }).formatToParts(date);
+function getZonedDateTimeParts(date: Date, timeZone: string) {
+  let formatter = dateTimeFormatters.get(timeZone);
 
-  return getDateTimePart(parts, "timeZoneName");
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat("en-AU", {
+      timeZone,
+      timeZoneName: "short",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      // Offset arithmetic requires midnight to be 00:00 on the displayed date.
+      hourCycle: "h23",
+    });
+    dateTimeFormatters.set(timeZone, formatter);
+  }
+
+  return formatter.formatToParts(date);
 }
 
-function getTimeZoneOffsetMinutes(date: Date, timeZone: string) {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  }).formatToParts(date);
-
+function getTimeZoneOffsetMinutes(date: Date, parts: Intl.DateTimeFormatPart[]) {
   const zonedTime = Date.UTC(
     Number(getDateTimePart(parts, "year")),
     Number(getDateTimePart(parts, "month")) - 1,
@@ -72,11 +79,12 @@ function getTimeZoneOffsetMinutes(date: Date, timeZone: string) {
   return Math.round((zonedTime - date.getTime()) / 60000);
 }
 
-function getActiveAustralianTimeZoneGroups(date = new Date()): ActiveAustralianTimeZoneGroup[] {
+function getActiveAustralianTimeZoneGroups(date: Date): ActiveAustralianTimeZoneGroup[] {
   const groupedTimeZones = new Map<string, ActiveAustralianTimeZoneGroup>();
 
   for (const region of australianTimeZoneRegions) {
-    const abbreviation = getTimeZoneAbbreviation(date, region.timeZone);
+    const parts = getZonedDateTimeParts(date, region.timeZone);
+    const abbreviation = getDateTimePart(parts, "timeZoneName");
     const existingGroup = groupedTimeZones.get(abbreviation);
 
     if (existingGroup) {
@@ -84,7 +92,7 @@ function getActiveAustralianTimeZoneGroups(date = new Date()): ActiveAustralianT
     } else {
       groupedTimeZones.set(abbreviation, {
         abbreviation,
-        offsetMinutes: getTimeZoneOffsetMinutes(date, region.timeZone),
+        offsetMinutes: getTimeZoneOffsetMinutes(date, parts),
         regionLabels: [region.label],
         representativeTimeZone: region.timeZone,
       });
@@ -107,37 +115,32 @@ export function getActiveAustralianTimeZoneOptions(date = new Date()) {
 }
 
 export function getAustralianTimeZoneLabel(value: string, date = new Date()) {
+  const fallbackLabel = fallbackAustralianTimeZoneLabels.get(value);
+
+  if (!fallbackLabel) {
+    return "";
+  }
+
   const activeTimeZone = getActiveAustralianTimeZoneGroups(date).find(
     (timeZone) => timeZone.abbreviation === value,
   );
 
   return activeTimeZone
     ? formatTimeZoneLabel(activeTimeZone)
-    : fallbackAustralianTimeZoneLabels[value] ?? "";
+    : fallbackLabel;
 }
 
 function formatTime(date: Date, timeZone: string) {
-  const parts = new Intl.DateTimeFormat("en-AU", {
-    timeZone,
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  }).formatToParts(date);
-
-  const hour = getDateTimePart(parts, "hour");
+  const parts = getZonedDateTimeParts(date, timeZone);
+  const hour = Number(getDateTimePart(parts, "hour"));
   const minute = getDateTimePart(parts, "minute");
-  const dayPeriod = getDateTimePart(parts, "dayPeriod").toLowerCase();
+  const dayPeriod = hour < 12 ? "am" : "pm";
 
-  return `${hour}.${minute}${dayPeriod}`;
+  return `${hour % 12 || 12}.${minute}${dayPeriod}`;
 }
 
-function getPerthDateParts(date = new Date()) {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: perthTimeZone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(date);
+function getPerthDateParts(date: Date) {
+  const parts = getZonedDateTimeParts(date, perthTimeZone);
 
   return {
     year: Number(getDateTimePart(parts, "year")),
@@ -146,7 +149,7 @@ function getPerthDateParts(date = new Date()) {
   };
 }
 
-function getPerthBusinessHoursUtcRange(date = new Date()) {
+function getPerthBusinessHoursUtcRange(date: Date) {
   const perthDate = getPerthDateParts(date);
 
   // Perth remains UTC+8 year-round, so 9.30am–5.00pm is 01:30–09:00 UTC.

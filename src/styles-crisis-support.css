@@ -9,7 +9,7 @@
   --color-heading: var(--crisis-ink);
 }
 
-.crisis-support-page__hero {
+.site-hero.crisis-support-page__hero {
   --site-hero-statement-max-width: 14ch;
 }
 
@@ -250,7 +250,7 @@
 .crisis-support-page__contact-label,
 .crisis-support-page__contact-number {
   justify-self: center;
-  width: var(--crisis-contact-text-width);
+  width: min(100%, var(--crisis-contact-text-width));
 }
 
 .crisis-support-page__contact-label {
@@ -346,12 +346,12 @@
   font-weight: 650;
 }
 
-.crisis-support-page__service-actions--state {
+.crisis-support-page__state-service .crisis-support-page__service-actions {
   display: grid;
   justify-content: stretch;
 }
 
-.crisis-support-page__service-actions--state .crisis-support-page__contact-action {
+.crisis-support-page__state-service .crisis-support-page__contact-action {
   --crisis-contact-text-width: 12rem;
   min-width: 0;
   width: 100%;
@@ -374,11 +374,15 @@
   background: #183d31;
 }
 
-.crisis-support-page .crisis-support-page__information-note {
+.crisis-support-page__information-note {
+  --color-text: var(--muted);
+
   display: grid;
   gap: 4px;
-  padding: 18px 0 0;
-  color: var(--muted);
+  padding-top: 18px;
+}
+
+.crisis-support-page__information-note p {
   font-size: var(--type-caption);
   line-height: 1.5;
 }
@@ -402,7 +406,7 @@
     grid-template-columns: minmax(130px, 0.28fr) minmax(280px, 1fr);
   }
 
-  .crisis-support-page__service-actions--state {
+  .crisis-support-page__state-service .crisis-support-page__service-actions {
     grid-column: 2;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -449,7 +453,7 @@
     margin-bottom: 10px;
   }
 
-  .crisis-support-page__service-actions--state {
+  .crisis-support-page__state-service .crisis-support-page__service-actions {
     grid-column: auto;
     grid-template-columns: minmax(0, 1fr);
     margin-top: 8px;
@@ -461,7 +465,7 @@
     --crisis-section-padding: 48px;
   }
 
-  .crisis-support-page .crisis-support-page__information-note {
+  .crisis-support-page__information-note {
     padding-top: 16px;
   }
 }
