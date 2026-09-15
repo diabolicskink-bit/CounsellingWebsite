@@ -4,6 +4,7 @@ import {
   getHeader,
   visitOriginPolicy,
 } from "../request-origin.ts";
+import { getJsonRequestBodyBlock } from "../request-body.ts";
 import {
   australianVisitRegionCodes,
   type AustralianVisitRegionCode,
@@ -111,57 +112,9 @@ export function getVisitRequestEnvironment(request: VisitRequest): VisitRequestE
   };
 }
 
-function getMediaType(contentType: string) {
-  return contentType.split(";")[0].trim().toLowerCase();
-}
-
-function getDeclaredContentLength(request: VisitRequest) {
-  const contentLength = getHeader(request, "content-length").trim();
-
-  if (!contentLength) {
-    return { valid: true, value: undefined };
-  }
-
-  const parsedLength = Number(contentLength);
-
-  if (!Number.isInteger(parsedLength) || parsedLength < 0) {
-    return { valid: false, value: undefined };
-  }
-
-  return { valid: true, value: parsedLength };
-}
-
-function getBodyByteLength(request: VisitRequest) {
-  try {
-    const serializedBody = typeof request.body === "string"
-      ? request.body
-      : JSON.stringify(request.body);
-
-    return typeof serializedBody === "string"
-      ? new TextEncoder().encode(serializedBody).length
-      : 0;
-  } catch {
-    return Number.POSITIVE_INFINITY;
-  }
-}
-
 export function getVisitRequestShapeBlock(request: VisitRequest): VisitRequestShapeBlock | null {
-  if (getMediaType(getHeader(request, "content-type")) !== "application/json") {
-    return { reason: "unsupported_content_type", status: 415 };
-  }
-
-  const declaredContentLength = getDeclaredContentLength(request);
-
-  if (!declaredContentLength.valid) {
-    return { reason: "invalid_content_length", status: 400 };
-  }
-
-  if (
-    (typeof declaredContentLength.value === "number" && declaredContentLength.value > maxVisitBodyBytes)
-    || getBodyByteLength(request) > maxVisitBodyBytes
-  ) {
-    return { reason: "body_too_large", status: 413 };
-  }
+  const bodyBlock = getJsonRequestBodyBlock(request, maxVisitBodyBytes);
+  if (bodyBlock) return bodyBlock;
 
   const crossSiteBlockReason = getCrossSiteBlockReason(request, process.env, visitOriginPolicy);
 
@@ -173,23 +126,5 @@ export function getVisitRequestShapeBlock(request: VisitRequest): VisitRequestSh
 }
 
 export function logBlockedVisitRequest(request: VisitRequest, block: VisitRequestShapeBlock) {
-  console.warn("Visit request blocked:", getBlockedRequestLogDetails(request, block, visitOriginPolicy));
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
-}
-
-export function getVisitPayloadBody(request: VisitRequest): Record<string, unknown> {
-  let { body } = request;
-
-  if (typeof body === "string") {
-    try {
-      body = JSON.parse(body);
-    } catch {
-      return {};
-    }
-  }
-
-  return isRecord(body) ? body : {};
+  console.warn("Visit request blocked:", getBlockedRequestLogDetails(request, block));
 }

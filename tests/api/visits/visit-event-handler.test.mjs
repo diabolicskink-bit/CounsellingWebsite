@@ -118,6 +118,7 @@ test("records controlled client events with or without page context", async (con
 
   const results = [
     await invoke(handler, {
+      body: JSON.stringify(validPayload()),
       headers: jsonHeaders({
         host: "vivecounselling.com.au",
         origin: "https://vivecounselling.com.au",

@@ -275,7 +275,7 @@ function isPositiveInteger(value: unknown): value is number {
   return isNonNegativeInteger(value) && value > 0;
 }
 
-function isTimestamp(value: unknown): value is string {
+export function isAnalyticsTimestamp(value: unknown): value is string {
   return isNonEmptyString(value)
     && analyticsTimestampPattern.test(value)
     && !Number.isNaN(Date.parse(value));
@@ -292,7 +292,7 @@ export function isAnalyticsPageView(value: unknown): value is AnalyticsPageView 
   return isNonNegativeInteger(value.activeSeconds)
     && isAnalyticsId(value.id)
     && isNonEmptyString(value.path)
-    && isTimestamp(value.viewedAt);
+    && isAnalyticsTimestamp(value.viewedAt);
 }
 
 export function isAnalyticsVisitEvent(value: unknown): value is AnalyticsVisitEvent {
@@ -300,7 +300,7 @@ export function isAnalyticsVisitEvent(value: unknown): value is AnalyticsVisitEv
 
   return isNonEmptyString(value.eventType)
     && isAnalyticsId(value.id)
-    && isTimestamp(value.occurredAt)
+    && isAnalyticsTimestamp(value.occurredAt)
     && (value.pageViewId === null || isAnalyticsId(value.pageViewId))
     && isStringRecord(value.properties)
     && (value.source === "client" || value.source === "server");
@@ -329,7 +329,7 @@ export function isAnalyticsVisit(value: unknown): value is AnalyticsVisit {
     && isNullableBoolean(value.isBot)
     && isNullableBoolean(value.isWebDriver)
     && isNonEmptyString(value.landingPath)
-    && isTimestamp(value.lastSeenAt)
+    && isAnalyticsTimestamp(value.lastSeenAt)
     && isVisitLocation(value.locationCountryCode, value.locationRegionCode)
     && isNullableString(value.matchType)
     && isNullableString(value.matchedKeyword)
@@ -338,7 +338,7 @@ export function isAnalyticsVisit(value: unknown): value is AnalyticsVisit {
     && value.pageViews.every(isAnalyticsPageView)
     && isNullableString(value.referrerHost)
     && isNullableString(value.referrerUrl)
-    && isTimestamp(value.startedAt)
+    && isAnalyticsTimestamp(value.startedAt)
     && typeof value.trafficSource === "string"
     && analyticsTrafficSources.has(value.trafficSource as AnalyticsTrafficSource)
     && isNullableString(value.userAgent)
@@ -360,7 +360,7 @@ export function isKeywordAnalyticsSummary(value: unknown): value is KeywordAnaly
   return isNonNegativeInteger(value.activeSeconds)
     && isNonNegativeInteger(value.enquiryVisits)
     && isNonEmptyString(value.keyword)
-    && isTimestamp(value.latestVisitAt)
+    && isAnalyticsTimestamp(value.latestVisitAt)
     && Array.isArray(value.matchTypes)
     && value.matchTypes.every(isNonEmptyString)
     && isNonNegativeInteger(value.pageViews)
@@ -373,9 +373,9 @@ export function isKeywordAnalyticsSummary(value: unknown): value is KeywordAnaly
 export function isExcludedVisitorSummary(value: unknown): value is ExcludedVisitorSummary {
   if (!isRecord(value)) return false;
 
-  return isTimestamp(value.excludedAt)
-    && isTimestamp(value.firstSeenAt)
-    && isTimestamp(value.latestSeenAt)
+  return isAnalyticsTimestamp(value.excludedAt)
+    && isAnalyticsTimestamp(value.firstSeenAt)
+    && isAnalyticsTimestamp(value.latestSeenAt)
     && isPositiveInteger(value.totalVisits)
     && isAnalyticsVisitorId(value.visitorId);
 }

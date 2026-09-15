@@ -1,3 +1,4 @@
+import { getJsonPayloadBody } from "../src/server/request-body.ts";
 import {
   PageEngagementIdentityConflictError,
   recordPageEngagement,
@@ -7,7 +8,6 @@ import {
   type PageEngagementObservation,
 } from "../src/server/page-engagement/validation.ts";
 import {
-  getVisitPayloadBody,
   getVisitRequestShapeBlock,
   logBlockedVisitRequest,
   type VisitRequest,
@@ -45,7 +45,7 @@ export function createPageEngagementHandler(
       return sendFailure(response, requestShapeBlock.status);
     }
 
-    const validation = validatePageEngagementPayload(getVisitPayloadBody(request));
+    const validation = validatePageEngagementPayload(getJsonPayloadBody(request));
 
     if (validation.type === "invalid") {
       console.warn("Page engagement payload rejected");
