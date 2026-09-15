@@ -44,6 +44,7 @@ for (const [name, getBlock, limit] of [
     assert.deepEqual(getBlock({ body: `${body}x`, headers: { ...headers, "content-length": "0" } }), oversized);
     assert.equal(getBlock({ body: {}, headers: { ...headers, "content-length": String(limit) } }), null);
     assert.deepEqual(getBlock({ body: {}, headers: { ...headers, "content-length": String(limit + 1) } }), oversized);
+    assert.deepEqual(getBlock({ headers: { ...headers, "content-length": "9".repeat(400) } }), oversized);
 
     const parsedBody = { text: "x".repeat(limit - Buffer.byteLength(JSON.stringify({ text: "" }))) };
     assert.equal(getBlock({ body: parsedBody, headers }), null);
@@ -56,12 +57,12 @@ for (const [name, getBlock, limit] of [
     assert.deepEqual(getBlock({ body: circular, headers }), oversized);
     assert.deepEqual(getBlock({ body: { value: 1n }, headers }), oversized);
 
-    for (const value of ["invalid", "-1", "1.5", "Infinity"]) {
+    for (const value of ["invalid", "-1", "1.5", "Infinity", "1e2", "0x10", "+12", "12.0", "12, 12"]) {
       assert.deepEqual(getBlock({ headers: { ...headers, "content-length": value } }), {
         reason: "invalid_content_length", status: 400,
       });
     }
-    for (const value of ["", " ", "0", "12", "1e2"]) {
+    for (const value of ["", " ", "0", "12", "0012", " 12 "]) {
       assert.equal(getBlock({ headers: { ...headers, "content-length": value } }), null);
     }
 

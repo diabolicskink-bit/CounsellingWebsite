@@ -30,6 +30,7 @@ export type AnalyticsSelectionResult =
 
 const allowedQueryKeys = new Set(["bots", "date", "end", "month", "report", "start", "visitor"]);
 const maximumReportRangeDays = 366;
+
 function getSingleQueryValue(value: string | string[] | undefined) {
   return typeof value === "string" ? value.trim() : "";
 }
@@ -46,7 +47,9 @@ export function getAnalyticsSelection(
 ): AnalyticsSelectionResult {
   const normalizedQuery = query ?? {};
 
-  if (Object.keys(normalizedQuery).some((key) => !allowedQueryKeys.has(key))) {
+  if (Object.entries(normalizedQuery).some(([key, value]) =>
+    !allowedQueryKeys.has(key) || Array.isArray(value)
+  )) {
     return { type: "invalid" };
   }
 
@@ -55,20 +58,8 @@ export function getAnalyticsSelection(
   const month = getSingleQueryValue(normalizedQuery.month);
   const report = getSingleQueryValue(normalizedQuery.report);
   const startDate = getSingleQueryValue(normalizedQuery.start);
-  const visitorId = getSingleQueryValue(normalizedQuery.visitor);
+  const visitorId = getSingleQueryValue(normalizedQuery.visitor).toLowerCase();
   const bots = getSingleQueryValue(normalizedQuery.bots);
-
-  if (
-    Array.isArray(normalizedQuery.bots)
-    || Array.isArray(normalizedQuery.date)
-    || Array.isArray(normalizedQuery.end)
-    || Array.isArray(normalizedQuery.month)
-    || Array.isArray(normalizedQuery.report)
-    || Array.isArray(normalizedQuery.start)
-    || Array.isArray(normalizedQuery.visitor)
-  ) {
-    return { type: "invalid" };
-  }
 
   if (bots && bots !== "include") {
     return { type: "invalid" };
@@ -79,29 +70,24 @@ export function getAnalyticsSelection(
   }
 
   if (startDate || endDate) {
-    const today = getPerthDateKey(now);
-    const rangeLength = isAnalyticsDateKey(startDate) && isAnalyticsDateKey(endDate)
-      ? daysBetween(startDate, endDate)
-      : -1;
+    if (date || month || visitorId || !isAnalyticsDateKey(startDate) || !isAnalyticsDateKey(endDate)) {
+      return { type: "invalid" };
+    }
 
-    return startDate
-      && endDate
-      && !date
-      && !month
-      && !visitorId
-      && rangeLength >= 0
-      && rangeLength < maximumReportRangeDays
-      && endDate <= today
-      ? {
-          type: "valid",
-          selection: {
-            endDate,
-            includeBots: bots === "include",
-            startDate,
-            type: report === "keywords" || report === "referrers" ? report : "pageViews",
-          },
-        }
-      : { type: "invalid" };
+    const rangeDays = daysBetween(startDate, endDate) + 1;
+    if (rangeDays > maximumReportRangeDays || rangeDays < 1 || endDate > getPerthDateKey(now)) {
+      return { type: "invalid" };
+    }
+
+    return {
+      type: "valid",
+      selection: {
+        endDate,
+        includeBots: bots === "include",
+        startDate,
+        type: report === "keywords" || report === "referrers" ? report : "pageViews",
+      },
+    };
   }
 
   if (bots || report) {

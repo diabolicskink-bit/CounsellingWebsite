@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createAnalyticsHandler } from "../../../api/analytics.ts";
-import { AnalyticsDataUnavailableError } from "../../../src/server/reporting/reader.ts";
+import { AnalyticsDataUnavailableError } from "../../../src/server/reporting/database.ts";
 
 function createResponse() {
   const result = { body: undefined, headers: {}, statusCode: 200 };

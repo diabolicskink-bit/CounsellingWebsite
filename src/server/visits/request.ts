@@ -126,5 +126,5 @@ export function getVisitRequestShapeBlock(request: VisitRequest): VisitRequestSh
 }
 
 export function logBlockedVisitRequest(request: VisitRequest, block: VisitRequestShapeBlock) {
-  console.warn("Visit request blocked:", getBlockedRequestLogDetails(request, block, visitOriginPolicy));
+  console.warn("Visit request blocked:", getBlockedRequestLogDetails(request, block));
 }

@@ -5,10 +5,8 @@ import {
   type AnalyticsResponse,
   type AnalyticsSelection,
 } from "../src/server/reporting/request.ts";
-import {
-  AnalyticsDataUnavailableError,
-  readAnalytics,
-} from "../src/server/reporting/reader.ts";
+import { AnalyticsDataUnavailableError } from "../src/server/reporting/database.ts";
+import { readAnalytics } from "../src/server/reporting/reader.ts";
 
 type ReadAnalytics = (selection: AnalyticsSelection) => Promise<AnalyticsReport>;
 type GetNow = () => Date;

@@ -1,3 +1,4 @@
+import { Buffer } from "node:buffer";
 import { getHeader } from "./request-origin.ts";
 
 type BodyRequest = {
@@ -5,10 +6,10 @@ type BodyRequest = {
   headers?: Record<string, string | string[] | undefined>;
 };
 
-type JsonRequestBodyBlock = {
-  reason: "unsupported_content_type" | "invalid_content_length" | "body_too_large";
-  status: 400 | 413 | 415;
-};
+type JsonRequestBodyBlock =
+  | { reason: "unsupported_content_type"; status: 415 }
+  | { reason: "invalid_content_length"; status: 400 }
+  | { reason: "body_too_large"; status: 413 };
 
 export function getMediaType(contentType: string) {
   return contentType.split(";")[0].trim().toLowerCase();
@@ -17,9 +18,7 @@ export function getMediaType(contentType: string) {
 function getJsonBodyByteLength(body: unknown) {
   try {
     const serializedBody = typeof body === "string" ? body : JSON.stringify(body);
-    return typeof serializedBody === "string"
-      ? new TextEncoder().encode(serializedBody).length
-      : 0;
+    return Buffer.byteLength(serializedBody ?? "", "utf8");
   } catch {
     return Number.POSITIVE_INFINITY;
   }
@@ -33,21 +32,22 @@ export function getJsonRequestBodyBlock(
     return { reason: "unsupported_content_type", status: 415 };
   }
 
-  const declaredLength = Number(getHeader(request, "content-length").trim());
-  if (!Number.isInteger(declaredLength) || declaredLength < 0) {
+  const contentLength = getHeader(request, "content-length").trim();
+  if (contentLength && !/^\d+$/.test(contentLength)) {
     return { reason: "invalid_content_length", status: 400 };
   }
 
-  if (declaredLength > maximumBodyBytes || getJsonBodyByteLength(request.body) > maximumBodyBytes) {
+  if (
+    Number(contentLength) > maximumBodyBytes
+    || getJsonBodyByteLength(request.body) > maximumBodyBytes
+  ) {
     return { reason: "body_too_large", status: 413 };
   }
 
   return null;
 }
 
-export function getJsonPayloadBody(request: BodyRequest): Record<string, unknown> {
-  let { body } = request;
-
+export function getJsonPayloadBody({ body }: BodyRequest): Record<string, unknown> {
   if (typeof body === "string") {
     try {
       body = JSON.parse(body);

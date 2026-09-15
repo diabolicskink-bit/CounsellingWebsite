@@ -3,7 +3,7 @@ import { test } from "node:test";
 import { createAnalyticsExclusionsHandler } from "../../../api/analytics/exclusions.ts";
 import {
   AnalyticsDataUnavailableError,
-} from "../../../src/server/reporting/reader.ts";
+} from "../../../src/server/reporting/database.ts";
 import {
   UnknownAnalyticsVisitorError,
 } from "../../../src/server/reporting/exclusions.ts";

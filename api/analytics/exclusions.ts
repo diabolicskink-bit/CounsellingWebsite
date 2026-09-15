@@ -2,7 +2,7 @@ import { getJsonPayloadBody, getMediaType } from "../../src/server/request-body.
 import { isAnalyticsVisitorId } from "../../src/data/analyticsContract.ts";
 import {
   AnalyticsDataUnavailableError,
-} from "../../src/server/reporting/reader.ts";
+} from "../../src/server/reporting/database.ts";
 import {
   readExcludedVisitors,
   setVisitorExclusion,

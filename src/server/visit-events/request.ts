@@ -46,6 +46,6 @@ export function logBlockedVisitEventRequest(
 ) {
   console.warn(
     "Visit event request blocked:",
-    getBlockedRequestLogDetails(request, block, visitEventOriginPolicy),
+    getBlockedRequestLogDetails(request, block),
   );
 }

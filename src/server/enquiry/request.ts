@@ -102,7 +102,7 @@ export function logBlockedEnquiryRequest(
   block: RequestShapeBlock,
   logWarning: (...data: unknown[]) => void,
 ) {
-  logWarning("Enquiry request blocked:", getBlockedRequestLogDetails(request, block, enquiryOriginPolicy));
+  logWarning("Enquiry request blocked:", getBlockedRequestLogDetails(request, block));
 }
 
 export function getPayloadBody(request: EnquiryRequest): Record<string, unknown> {

@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
+import { AnalyticsDataUnavailableError } from "../../../src/server/reporting/database.ts";
+import { isAnalyticsReport } from "../../../src/data/analyticsContract.ts";
+import { getAnalyticsSelection } from "../../../src/server/reporting/request.ts";
 import {
-  AnalyticsDataUnavailableError,
   dailyAnalyticsSql,
   keywordAnalyticsSql,
   monthlyEnquiryAnalyticsSql,
@@ -445,11 +447,11 @@ test("rejects unsafe stored event shapes", async () => {
   const invalidEvents = [
     [
       createEventRow({ source: "browser" }),
-      /invalid event source/,
+      /invalid report/,
     ],
     [
       createEventRow({ properties: { attempt: 2 } }),
-      /invalid event properties/,
+      /invalid report/,
     ],
   ];
 
@@ -469,7 +471,7 @@ test("rejects inconsistent stored visit locations", async () => {
 
     await assert.rejects(
       readAnalytics(dailySelection, database),
-      /invalid visit location/,
+      /invalid report/,
     );
   }
 });
@@ -481,4 +483,91 @@ test("fails closed before creating a database client when configuration is absen
     readAnalytics(dailySelection),
     AnalyticsDataUnavailableError,
   );
+});
+
+test("uppercase visitor selections produce history accepted by the dashboard", async () => {
+  const selection = getAnalyticsSelection(
+    { visitor: visitorId.toUpperCase() },
+    new Date("2026-08-16T04:00:00Z"),
+  );
+  assert.equal(selection.type, "valid");
+  const { database } = createDatabase([createVisitRow()]);
+
+  const report = await readAnalytics(selection.selection, database);
+
+  assert.equal(report.visitorId, visitorId);
+  assert.equal(isAnalyticsReport(report), true);
+});
+
+test("rejects malformed stored counts instead of coercing them into visit metrics", async () => {
+  const invalidCounts = [
+    null, undefined, true, false, "", " ", [], [1], {},
+    -1, 1.5, "1e2", "0x10", Infinity, Number.MAX_SAFE_INTEGER + 1,
+  ];
+  for (const value of invalidCounts) {
+    const { database } = createDatabase([createVisitRow({ durationSeconds: value })]);
+    await assert.rejects(readAnalytics(dailySelection, database), /invalid duration/);
+  }
+
+  const { database } = createDatabase([createVisitRow({
+    pageViews: [{ activeSeconds: null, id: visitorId, path: "/", viewedAt: "2026-08-15T03:00:00Z" }],
+  })]);
+  await assert.rejects(readAnalytics(dailySelection, database), /invalid page-view active time/);
+});
+
+test("rejects malformed aggregate totals instead of reporting zero activity", async () => {
+  const selection = {
+    type: "pageViews", startDate: "2026-08-15", endDate: "2026-08-15", includeBots: false,
+  };
+  for (const value of [null, false, "", []]) {
+    const { database } = createDatabase([{
+      path: null, totalActiveSeconds: value, totalPageViews: 0, totalVisits: 0,
+    }]);
+    await assert.rejects(readAnalytics(selection, database), /invalid total active time/);
+  }
+});
+
+test("rejects invalid stored timestamps at the reporting boundary", async () => {
+  const invalidTimestamps = [
+    "not-a-date", "2026-08-15", "2026-08-15T03:00:00", "2026-13-15T03:00:00Z", new Date(NaN),
+  ];
+  for (const timestamp of invalidTimestamps) {
+    const { database } = createDatabase([createVisitRow({ startedAt: timestamp })]);
+    await assert.rejects(readAnalytics(dailySelection, database), /invalid start time/);
+  }
+
+  const { database } = createDatabase([createVisitRow({
+    events: [createEventRow({ occurredAt: "not-a-date" })],
+  })]);
+  await assert.rejects(readAnalytics(dailySelection, database), /invalid event time/);
+});
+
+test("preserves valid timestamp offsets and sub-millisecond precision", async () => {
+  const timestamp = "2026-08-15T11:00:00.123456+08:00";
+  const { database } = createDatabase([createVisitRow({
+    startedAt: new Date("2026-08-15T03:00:00Z"),
+    pageViews: [{ activeSeconds: "0", id: visitorId, path: "/", viewedAt: timestamp }],
+  })]);
+
+  const report = await readAnalytics(dailySelection, database);
+
+  assert.equal(report.visits[0].startedAt, "2026-08-15T03:00:00.000Z");
+  assert.equal(report.visits[0].pageViews[0].viewedAt, timestamp);
+  assert.equal(report.visits[0].pageViews[0].activeSeconds, 0);
+  assert.equal(isAnalyticsReport(report), true);
+});
+
+test("checks stored identities and aggregate consistency before returning a report", async () => {
+  const { database } = createDatabase([createVisitRow({ id: "not-a-visit-id" })]);
+  await assert.rejects(readAnalytics(dailySelection, database), /invalid report/);
+
+  const selection = {
+    type: "pageViews", startDate: "2026-08-15", endDate: "2026-08-15", includeBots: false,
+  };
+  await assert.rejects(readAnalytics(selection, {
+    query: async () => [{
+      path: "/contact", visits: 1, pageViews: 2, activeSeconds: 30,
+      totalVisits: 1, totalPageViews: 3, totalActiveSeconds: 30,
+    }],
+  }), /invalid report/);
 });
