@@ -536,18 +536,6 @@ Each active item should include enough direction that a future session can choos
 - `Notes`: Source-backed finding; no process failure or dashboard browser scenario was executed for this record.
 - `Links`: `scripts/run-analytics-qa.mjs` (`runPreviewTests`, `waitForPreview`, `waitForExit`, `stopPreview`)
 
-### DEBT-47 - Visit-event origin checks reject local IPv6 requests
-
-- `Priority`: `P3`
-- `Size`: `S`
-- `Status`: `Open`
-- `Detected`: 2026-09-14
-- `Problem`: `visitEventOriginPolicy.isLocalHost` in the shared origin module splits Host on a colon, so it fails to recognise bracketed IPv6 loopback. With host `[::1]:4287`, Origin `http://[::1]:4287` and no forwarded protocol, it returns 403 while visits and enquiries pass the origin check.
-- `Next Action`: Correct IPv6 loopback recognition in the visit-event guard.
-- `Resolved When`: Local IPv6 requests pass consistently with the other endpoints, with focused regression coverage.
-- `Related Items`: Split from `DEBT-42`; independent of the Origin-format issue in `DEBT-46`.
-- `Notes`: Confirmed by local guard comparisons; the enquiry tests already cover this case.
-- `Links`: `src/server/request-origin.ts` (`visitEventOriginPolicy`), `tests/api/visits/visit-event-handler.test.mjs`, `tests/api/enquiry/handler.test.mjs`
 
 ## Resolved Item Archive
 

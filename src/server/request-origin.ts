@@ -98,9 +98,13 @@ export const enquiryOriginPolicy: OriginPolicy = {
 export const visitEventOriginPolicy: OriginPolicy = {
   ...enquiryOriginPolicy,
   isLocalHost(host) {
-    // Preserve the event endpoint's local IPv6 behaviour pending DEBT-47.
-    const hostname = host.split(":")[0].toLowerCase();
-    return localHostnames.has(hostname) || hostname === "::1";
+    // Visit-event collection only needs IPv4 loopback during local development.
+    try {
+      const hostname = new URL(`http://${host}`).hostname.toLowerCase();
+      return hostname === "localhost" || hostname === "127.0.0.1";
+    } catch {
+      return false;
+    }
   },
 };
 
