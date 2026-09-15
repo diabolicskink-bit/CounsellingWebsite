@@ -491,7 +491,7 @@ test("accepts a valid JSON submission when origin, referer, and fetch-site heade
   setDeliveryEnv();
   const fetchCalls = mockResendSuccess();
 
-  const result = await invokeHandler(validGeneralPayload());
+  const result = await invokeHandler(JSON.stringify(validGeneralPayload()));
 
   assert.equal(result.statusCode, 200);
   assert.deepEqual(result.body, { ok: true });

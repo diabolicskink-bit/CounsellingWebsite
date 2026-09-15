@@ -88,6 +88,18 @@ test("rejects invalid updates before changing exclusion state", async () => {
     },
   );
   const cases = [
+    ...[undefined, null, [], false, 42, "{", "null", "[]", "false", "42", '"text"'].map((body) => ({
+      expectedStatus: 400,
+      request: { body, headers: { "content-type": "application/json" }, method: "PUT" },
+    })),
+    {
+      expectedStatus: 413,
+      request: {
+        body: "\u00e9".repeat(513),
+        headers: { "content-type": "application/json", "content-length": "0" },
+        method: "PUT",
+      },
+    },
     {
       expectedStatus: 415,
       request: { body: {}, headers: { "content-type": "text/plain" }, method: "PUT" },

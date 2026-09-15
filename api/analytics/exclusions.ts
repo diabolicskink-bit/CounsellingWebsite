@@ -1,3 +1,4 @@
+import { getJsonPayloadBody, getMediaType } from "../../src/server/request-body.ts";
 import { isAnalyticsVisitorId } from "../../src/data/analyticsContract.ts";
 import {
   AnalyticsDataUnavailableError,
@@ -46,7 +47,7 @@ function sendSuccess(response: AnalyticsExclusionsResponse, data: unknown) {
 }
 
 function parseUpdate(request: AnalyticsExclusionsRequest) {
-  const contentType = getHeader(request, "content-type").split(";", 1)[0].trim().toLowerCase();
+  const contentType = getMediaType(getHeader(request, "content-type"));
   if (contentType !== "application/json") return { type: "unsupported" } as const;
 
   const declaredLength = Number(getHeader(request, "content-length"));
@@ -54,22 +55,11 @@ function parseUpdate(request: AnalyticsExclusionsRequest) {
     return { type: "oversized" } as const;
   }
 
-  let payload: unknown = request.body;
-  if (typeof payload === "string") {
-    if (Buffer.byteLength(payload, "utf8") > maximumBodyBytes) return { type: "oversized" } as const;
-
-    try {
-      payload = JSON.parse(payload);
-    } catch {
-      return { type: "invalid" } as const;
-    }
+  if (typeof request.body === "string" && Buffer.byteLength(request.body, "utf8") > maximumBodyBytes) {
+    return { type: "oversized" } as const;
   }
 
-  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
-    return { type: "invalid" } as const;
-  }
-
-  const record = payload as Record<string, unknown>;
+  const record = getJsonPayloadBody(request);
   const keys = Object.keys(record).sort();
   if (keys.length !== 2 || keys[0] !== "excluded" || keys[1] !== "visitorId") {
     return { type: "invalid" } as const;
