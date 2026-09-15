@@ -385,13 +385,13 @@ Each active item should include enough direction that a future session can choos
 
 - `Priority`: `P2`
 - `Size`: `M`
-- `Priority Rationale`: This is `P2` because first-response metadata is well covered, but hydrated navigation can leave stale canonical, social, or robots tags in the live DOM. It is not `P1` while crawlers primarily consume first-response HTML and current tests cover generated metadata artifacts.
+- `Priority Rationale`: This is `P2` because first-response metadata is well covered, but hydrated navigation can leave stale canonical or social tags in the live DOM. It is not `P1` while crawlers primarily consume first-response HTML and current tests cover generated metadata artifacts.
 - `Status`: `Open`
 - `Detected`: 2026-06-18
 - `Source`: Fresh site debt review
 - `Area`: Metadata, Routing, SEO, Accessibility
-- `Problem`: Public pages call `useDocumentMetadata`, which updates only `document.title` and the meta description. The richer generated head state for canonical, OG, Twitter, and robots metadata is owned separately by `scripts/prerender-route-metadata.mjs`, while `NotFound` manages `robots` through its own hook.
-- `Why It Matters`: A visitor or bot that navigates within the hydrated app can see canonical or social metadata from the first loaded route rather than metadata appropriate to the current route. Separately owned runtime head effects also make future route-policy changes easier to drift.
+- `Problem`: Public pages and `NotFound` call `useDocumentMetadata`, which updates title, description and robots metadata. Canonical, OG and Twitter metadata are generated separately by `scripts/prerender-route-metadata.mjs` and are not updated by the runtime hook.
+- `Why It Matters`: A visitor or bot that navigates within the hydrated app can see canonical or social metadata from the first loaded route rather than metadata appropriate to the current route.
 - `Preferred Direction`: Replace the narrow title/description hook with a route-aware head metadata helper that owns title, description, canonical, OG/Twitter tags, and route-specific robots state in one place.
 - `Resolution Path`: Define the runtime head contract from `routeMetadata.json`, update public routes and `NotFound` to use the shared helper, and add a browser test that navigates between public and not-found routes while checking the live head.
 - `Next Action`: Add a small failing test that navigates from a public route to a not-found path and verifies canonical and social metadata no longer describe the previous public route, then define the shared runtime head contract.
@@ -402,7 +402,7 @@ Each active item should include enough direction that a future session can choos
   - `SITE-3`: Public SEO and metadata QA should include live DOM metadata where it matters.
 - `Dependencies`: `None`
 - `Notes`:
-  - `NotFound` now sources its title, description, heading, and robots directive from `routeMetadata.json`, removes its owned robots element on unmount, and has a browser regression check for returning from the generated 404 document to Home. It still owns robots separately from the public-page metadata hook, and public-to-not-found navigation can retain canonical and social tags from the previous route.
+  - `NotFound` sources its title, description, heading, and robots directive from `routeMetadata.json` and uses the shared metadata hook, including robots cleanup. Its browser regression check covers recovery from the generated 404 document to Home and back/forward navigation. Public-to-not-found navigation can still retain canonical and social tags from the previous route.
 - `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/public-site/routes.spec.ts`
 
 ### DEBT-29 - Route changes lack focus restoration and a skip-link baseline

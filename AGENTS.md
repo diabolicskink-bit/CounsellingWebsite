@@ -14,7 +14,7 @@ This file owns repository-wide working rules and task routing. Start with [docs/
 
 | Request | Expected action |
 | --- | --- |
-| “Do a code review of X” or “Give X a quality pass” | Inspect the named implementation or change set, fix justified in-scope issues, and verify the result using [code-quality-pass](.agents/skills/code-quality-pass/SKILL.md). |
+| “Do a code review of X” or “Give X a quality pass” | Use [code-quality-pass](.agents/skills/code-quality-pass/SKILL.md) to review the named implementation or change set as a very senior programmer: improve its design and line-level craftsmanship, including working code, correct defects, and verify the result. |
 | “Review only”, “findings only”, or “do not edit” | Report findings and recommended changes without editing, including for code reviews. |
 | Review or assess copy, documentation, instructions or a plan | Return the assessment and suggested direction. Edit when the user also asks to implement, rewrite or update. |
 | Implement, fix, improve or rework X | Complete the requested change within its stated scope, including necessary integration and verification. |

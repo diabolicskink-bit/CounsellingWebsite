@@ -12,14 +12,18 @@
     var(--section-sage);
 }
 
-.kink-page__fluency-layout {
+.kink-page__fluency-layout,
+.kink-page__misread-layout,
+.kink-page__more-layout {
   display: grid;
   grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
   gap: clamp(64px, 8vw, 120px);
   align-items: start;
 }
 
-.kink-page__fluency-layout > * {
+.kink-page__fluency-layout > *,
+.kink-page__misread-layout > *,
+.kink-page__more-layout > * {
   min-width: 0;
 }
 
@@ -40,28 +44,22 @@
   font-size: clamp(3.05rem, 4.2vw, 4rem);
 }
 
-.kink-page__fluency-copy {
+.kink-page__fluency-copy,
+.kink-page__misread-copy,
+.kink-page__more-copy {
   display: grid;
   gap: 20px;
   max-width: 64ch;
   padding: 4px 0 4px 30px;
+}
+
+.kink-page__fluency-copy {
   border-left: 1px solid rgba(35, 75, 61, 0.34);
 }
 
 .kink-page .kink-page__fluency-copy p {
   margin: 0;
   text-wrap: pretty;
-}
-
-.kink-page__misread-layout {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(64px, 8vw, 120px);
-  align-items: start;
-}
-
-.kink-page__misread-layout > * {
-  min-width: 0;
 }
 
 .kink-page__misread-title {
@@ -71,11 +69,7 @@
 }
 
 .kink-page__misread-copy {
-  display: grid;
-  gap: 20px;
-  max-width: 64ch;
   margin-top: 4px;
-  padding: 4px 0 4px 30px;
   border-left: 1px solid var(--section-rule);
 }
 
@@ -98,17 +92,6 @@
     linear-gradient(132deg, #132b23 0%, var(--kink-dark) 58%, #21473a 100%);
 }
 
-.kink-page__more-layout {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(64px, 8vw, 120px);
-  align-items: start;
-}
-
-.kink-page__more-layout > * {
-  min-width: 0;
-}
-
 .kink-page .kink-page__more-title {
   max-width: 9ch;
   color: #fcfcfa;
@@ -116,10 +99,6 @@
 }
 
 .kink-page__more-copy {
-  display: grid;
-  gap: 20px;
-  max-width: 64ch;
-  padding: 4px 0 4px 30px;
   border-left: 1px solid var(--section-dark-rule);
 }
 
@@ -131,6 +110,7 @@
 
 @media (max-width: 980px) {
   .kink-page__fluency-layout,
+  .kink-page__misread-layout,
   .kink-page__more-layout {
     grid-template-columns: minmax(0, 1fr);
     gap: 36px;
@@ -146,11 +126,6 @@
   .kink-page__more-copy {
     max-width: 70ch;
   }
-
-  .kink-page__misread-layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 36px;
-  }
 }
 
 @media (max-width: 700px) {
@@ -163,15 +138,14 @@
   }
 
   .kink-page__fluency-copy,
+  .kink-page__misread-copy,
   .kink-page__more-copy {
     gap: 18px;
     padding: 0 0 0 20px;
   }
 
   .kink-page__misread-copy {
-    gap: 18px;
     margin-top: 0;
-    padding: 0 0 0 20px;
   }
 
   .kink-page .kink-page__misread-copy p,
