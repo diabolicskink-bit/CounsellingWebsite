@@ -89,7 +89,7 @@ Fees-labelled navigation and footer links deliberately open `/contact` while pas
 | `/analytics/pages` | Compare routes by views, visits and active time over a selected date range. |
 | `/analytics/referrers` | Compare arrival hosts by visits, page views, active time and enquiry visits over a selected date range. |
 | `/analytics/keywords` | Compare paid visits by stored matched keyword, including coverage, engagement, returning visits and enquiry attribution. |
-| `/analytics/enquiries` | Inspect monthly successful form sends, phone-click enquiry signals and failed form outcomes. |
+| `/analytics/enquiries` | Inspect monthly successful form sends, phone- and email-click enquiry signals, and failed form outcomes. |
 | `/analytics/excluded` | Review and restore manually excluded visitors. Exclusion actions are also available while inspecting visits. |
 
 Daily visits, monthly enquiry entries and exclusions can open the visitor's complete retained history. Reports support date selection, refresh/retry and empty/error states. There is no client-management workflow, enquiry inbox, user/role administration or account-registration system behind these views.

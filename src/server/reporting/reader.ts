@@ -145,6 +145,7 @@ WHERE EXISTS (
   FROM site_visit_events AS monthly_events
   WHERE monthly_events.visit_id = ledger.visit_id
     AND monthly_events.event_type IN (
+      'email_link_clicked',
       'enquiry_sent',
       'enquiry_failed',
       'phone_link_clicked'

@@ -328,7 +328,12 @@ test("reporting queries preserve their data and filtering boundaries", () => {
   assert.match(visitorAnalyticsSql, /analytics_excluded_visitors/);
   assert.doesNotMatch(visitorAnalyticsSql, /AND NOT EXISTS\s*\(/);
 
-  for (const eventType of ["enquiry_sent", "enquiry_failed", "phone_link_clicked"]) {
+  for (const eventType of [
+    "email_link_clicked",
+    "enquiry_sent",
+    "enquiry_failed",
+    "phone_link_clicked",
+  ]) {
     assert.match(monthlyEnquiryAnalyticsSql, new RegExp(`'${eventType}'`));
   }
   assert.match(monthlyEnquiryAnalyticsSql, /INTERVAL '1 month'/);
