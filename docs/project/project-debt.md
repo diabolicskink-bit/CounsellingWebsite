@@ -453,19 +453,6 @@ Each active item should include enough direction that a future session can choos
   - `tests/public-site/navigation.spec.ts` verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
 - `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site/navigation.spec.ts`
 
-### DEBT-46 - Public write APIs accept different Origin formats
-
-- `Priority`: `P2`
-- `Size`: `S`
-- `Status`: `Open`
-- `Detected`: 2026-09-14
-- `Problem`: Visits reject bare-hostname, path-bearing and credential-bearing Origin values, while enquiry and visit-event request guards accept them when they normalise to an allowed origin.
-- `Next Action`: Make the intended Origin acceptance rules consistent across the endpoints.
-- `Resolved When`: Equivalent Origin inputs receive consistent validation, backed by focused checks.
-- `Related Items`: Split from `DEBT-42`; `DEBT-47` is a separate local-host issue.
-- `Notes`: The differences were confirmed by local guard comparisons; passing a guard does not imply delivery or storage succeeds.
-- `Links`: `src/server/request-origin.ts` (endpoint origin policies), `src/server/visits/request.ts`, `src/server/visit-events/request.ts`, `src/server/enquiry/request.ts`
-
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
 - `Priority`: `P3`

@@ -46,6 +46,13 @@ function parseHttpOrigin(value: string) {
   return parseHttpUrl(value)?.origin.toLowerCase() ?? null;
 }
 
+function parseOriginHeader(value: string) {
+  const url = parseHttpUrl(value);
+  return url && url.pathname === "/" && !url.search && !url.hash
+    ? url.origin.toLowerCase()
+    : null;
+}
+
 function parseConfiguredHttpOrigin(value: string) {
   const candidate = getOriginCandidate(value);
   return candidate
@@ -64,14 +71,8 @@ function parseNormalizedOrigin(value: string) {
   }
 }
 
-// Keep existing endpoint parsing differences explicit until DEBT-46 is addressed.
 export const visitOriginPolicy: OriginPolicy = {
-  parseHeaderOrigin(value) {
-    const url = parseHttpUrl(value);
-    return url && url.pathname === "/" && !url.search && !url.hash
-      ? url.origin.toLowerCase()
-      : null;
-  },
+  parseHeaderOrigin: parseOriginHeader,
   parseUrlOrigin: parseHttpOrigin,
   parseConfiguredOrigin: parseConfiguredHttpOrigin,
   isLocalHost(host) {
@@ -81,7 +82,7 @@ export const visitOriginPolicy: OriginPolicy = {
 };
 
 export const enquiryOriginPolicy: OriginPolicy = {
-  parseHeaderOrigin: parseNormalizedOrigin,
+  parseHeaderOrigin: parseOriginHeader,
   parseUrlOrigin: parseNormalizedOrigin,
   parseConfiguredOrigin: parseNormalizedOrigin,
   isLocalHost(host) {

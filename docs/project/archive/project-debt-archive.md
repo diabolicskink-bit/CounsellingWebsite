@@ -2,11 +2,17 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-46 - Public write APIs accept different Origin formats
+
+Resolved on 2026-09-15 by applying the existing strict Origin-header parser to enquiry, visit and visit-event requests. All three now reject bare hostnames, URLs with paths and URLs containing credentials while continuing to accept standard HTTP and HTTPS origins.
+
+Focused policy coverage verifies the same malformed values are rejected across all three endpoints. The separate visit-event local IPv6 difference remains tracked by `DEBT-47`.
+
 ### DEBT-42 - Public write APIs duplicate origin validation
 
 Resolved on 2026-09-14 by moving origin allowlists, cross-site checks, header lookup and blocked-request log sanitisation into `src/server/request-origin.ts`. The enquiry, visit and visit-event request modules use the shared implementation; page engagement inherits it through the visit request module. Endpoint body handling, responses and logging labels remain unchanged.
 
-The existing Origin-format and local IPv6 differences remain explicit in the shared endpoint policies and are tracked separately by `DEBT-46` and `DEBT-47`.
+The local IPv6 difference remains explicit in the shared endpoint policies and is tracked separately by `DEBT-47`; the Origin-format difference was later resolved as `DEBT-46`.
 
 ### DEBT-41 - Private analytics presentation still depends on public styling
 
