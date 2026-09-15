@@ -22,15 +22,16 @@ Selected milestones and decision context that help later work. Git retains detai
 - When adding the first entry for a new month, move completed months to `archive/task-log-YYYY-MM.md` and update the archive index. Preserve links to moved entries or update their incoming references.
 - Condense older history around decisions, outcomes and consequential transitions. Git preserves routine detail. Retain meaningful dates and tracker IDs; replace superseded pending statements with the recorded later outcome, and ensure unresolved work remains discoverable through its current owner. Routine log maintenance does not need its own milestone.
 
+## 2026-09-15 - Git Workflow Rebuilt Around Owner Checkpoints
+
+- Corrected the September 10 staging safeguard, which stopped automatic integration but still directed agents to commit when they judged work complete. [AGENTS.md](../../AGENTS.md#git-and-release-workflow) now leaves routine working-branch changes uncommitted for IDE review until the owner directs the next Git step.
+- Simplified Git authority around the requested action and destination: commit permits committing, push permits pushing, merge includes necessary commits and local merging, and promote includes commits, merges and pushes through the requested destination. Local commits and merges allow the owner to use IDE Sync; routine pushes and promotions do not include deployment checks.
+- Aligned the analytics guidance with the absence of a local database: explicit Preview requests and substantial analytics changes warranting direct verification may include a working-branch commit and push for focused Preview checks. Routine dashboard browser checks remain with the owner, and Preview verification does not authorize integration or promotion.
+
 ## 2026-09-14 - Referrer Reporting Added
 
 - Added the private Referrers report using the Pages interaction model. The owner selected all-visit coverage, combined `www.` variants, visit-count ranking and enquiry-visit counts without enquiry percentages. [Current scope](current-scope.md#reporting-semantics) owns the reporting definitions.
 - Implemented on `work/referrer-dashboard` without storage or collection changes. Preview schema checks and read-only PostgreSQL fixture checks passed; dashboard presentation and interaction verification remain with the owner before release.
-
-## 2026-09-10 - Staging Integration Made Owner-Directed
-
-- Updated [AGENTS.md](../../AGENTS.md#git-and-release-workflow) so completed work remains on its working branch until the owner explicitly requests staging integration as part of the release flow. Task completion, passing checks and Preview approval alone do not trigger a merge.
-- Aligned the dashboard handoff with that boundary and made the Production-release instruction conditional on the owner's release request.
 
 ## 2026-09-10 - Milestone History Curated
 

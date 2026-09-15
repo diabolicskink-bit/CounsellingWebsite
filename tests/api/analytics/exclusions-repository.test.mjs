@@ -78,3 +78,24 @@ test("rejects an exclusion update for an unknown visitor", async () => {
     UnknownAnalyticsVisitorError,
   );
 });
+
+test("rejects malformed stored exclusion summaries", async () => {
+  const visitor = {
+    excludedAt: "2026-08-16T03:00:00Z",
+    firstSeenAt: "2026-08-01T01:00:00Z",
+    latestSeenAt: "2026-08-16T02:00:00Z",
+    totalVisits: 4,
+    visitorId,
+  };
+
+  for (const totalVisits of [true, [1], "0x10", 0, null, "", -1, 1.5]) {
+    await assert.rejects(readExcludedVisitors({
+      query: async () => [{ ...visitor, totalVisits }],
+    }), /invalid visit count/);
+  }
+  for (const field of ["excludedAt", "firstSeenAt", "latestSeenAt"]) {
+    await assert.rejects(readExcludedVisitors({
+      query: async () => [{ ...visitor, [field]: "not-a-date" }],
+    }), /invalid .*time/);
+  }
+});

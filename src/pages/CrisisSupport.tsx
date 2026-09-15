@@ -23,19 +23,16 @@ type NationalService = {
 
 type StateCode = "act" | "nsw" | "nt" | "qld" | "sa" | "tas" | "vic" | "wa";
 
-type StateServiceBase = {
+type StateService = {
   description: string;
   id: StateCode;
   name: string;
   region: string;
   url: string;
-};
-
-type StateService = StateServiceBase &
-  (
-    | { actions: ContactActionList; note?: never }
-    | { actions?: never; note: string }
-  );
+} & (
+  | { actions: ContactActionList; note?: never }
+  | { actions?: never; note: string }
+);
 
 const crisisSupportMetadata = getRouteMetadata(publicRoutePaths.crisisSupport);
 const urgentStateSupportDescription = "Urgent mental health advice and support.";
@@ -171,19 +168,9 @@ function ContactActionLink({ action }: { action: ContactAction }) {
   );
 }
 
-function ContactActions({
-  actions,
-  state = false,
-}: {
-  actions: ContactActionList;
-  state?: boolean;
-}) {
-  const className = state
-    ? "crisis-support-page__service-actions crisis-support-page__service-actions--state"
-    : "crisis-support-page__service-actions";
-
+function ContactActions({ actions }: { actions: ContactActionList }) {
   return (
-    <div className={className}>
+    <div className="crisis-support-page__service-actions">
       {actions.map((action) => (
         <ContactActionLink action={action} key={action.href} />
       ))}
@@ -205,32 +192,20 @@ function NationalServiceItem({ service }: { service: NationalService }) {
   );
 }
 
-function StateServiceActions({ service }: { service: StateService }) {
-  if (service.actions) {
-    return <ContactActions actions={service.actions} state />;
-  }
-
-  return (
-    <div className="crisis-support-page__service-actions crisis-support-page__service-actions--state">
-      <a className="crisis-support-page__directory-link" href={service.url}>
-        <span>Find your local service</span>
-        <ArrowUpRight aria-hidden="true" size={18} strokeWidth={1.8} />
-      </a>
-    </div>
-  );
-}
-
 function StateServiceItem({ service }: { service: StateService }) {
   const articleId = stateServiceId(service.id);
   const titleId = `${articleId}-title`;
+  const regionId = `${articleId}-region`;
 
   return (
     <article
-      aria-labelledby={titleId}
+      aria-labelledby={`${regionId} ${titleId}`}
       className="crisis-support-page__state-service"
       id={articleId}
     >
-      <p className="crisis-support-page__region">{service.region}</p>
+      <p className="crisis-support-page__region" id={regionId}>
+        {service.region}
+      </p>
       <div className="crisis-support-page__state-service-main">
         <h3 id={titleId}>
           <ExternalServiceLink href={service.url}>{service.name}</ExternalServiceLink>
@@ -238,7 +213,16 @@ function StateServiceItem({ service }: { service: StateService }) {
         <p>{service.description}</p>
         {service.note ? <p className="crisis-support-page__state-note">{service.note}</p> : null}
       </div>
-      <StateServiceActions service={service} />
+      {service.actions ? (
+        <ContactActions actions={service.actions} />
+      ) : (
+        <div className="crisis-support-page__service-actions">
+          <a className="crisis-support-page__directory-link" href={service.url}>
+            <span>Find your local service</span>
+            <ArrowUpRight aria-hidden="true" size={18} strokeWidth={1.8} />
+          </a>
+        </div>
+      )}
     </article>
   );
 }

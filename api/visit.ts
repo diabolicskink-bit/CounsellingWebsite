@@ -1,3 +1,4 @@
+import { getJsonPayloadBody } from "../src/server/request-body.ts";
 import {
   PageViewIdentityConflictError,
   recordVisitObservation,
@@ -7,7 +8,6 @@ import {
   type VisitObservation,
 } from "../src/server/visits/repository.ts";
 import {
-  getVisitPayloadBody,
   getVisitRequestEnvironment,
   getVisitRequestShapeBlock,
   logBlockedVisitRequest,
@@ -52,7 +52,7 @@ export function createVisitHandler(
       return sendFailure(response, requestShapeBlock.status);
     }
 
-    const validation = validateVisitPayload(getVisitPayloadBody(request));
+    const validation = validateVisitPayload(getJsonPayloadBody(request));
 
     if (validation.type === "invalid") {
       console.warn("Visit payload rejected:", validation.issues);

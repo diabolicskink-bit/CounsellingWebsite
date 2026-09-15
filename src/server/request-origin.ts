@@ -4,23 +4,21 @@ type OriginRequest = {
 };
 
 type OriginPolicy = {
-  parseHeaderOrigin(value: string): string | null;
-  parseUrlOrigin(value: string): string | null;
-  parseConfiguredOrigin(value: string): string | null;
-  isLocalHost(host: string): boolean;
+  readonly allowIpv6Loopback: boolean;
 };
 
 type OriginBlockReason = "cross_site_fetch_site" | "mismatched_origin" | "mismatched_referer";
 
-const localHostnames = new Set(["localhost", "127.0.0.1", "[::1]"]);
+const ipv4LocalHostnames = new Set(["localhost", "127.0.0.1"]);
 
 export function getHeader(request: OriginRequest, name: string) {
-  const headers = request.headers ?? {};
   const normalizedName = name.toLowerCase();
-  const headerName = Object.keys(headers).find((key) => key.toLowerCase() === normalizedName);
-  const value = headerName ? headers[headerName] : undefined;
 
-  return Array.isArray(value) ? value.join(", ") : value ?? "";
+  return Object.entries(request.headers ?? {})
+    .flatMap(([headerName, value]) => (
+      headerName.toLowerCase() === normalizedName ? value ?? [] : []
+    ))
+    .join(", ");
 }
 
 function getOriginCandidate(value: string) {
@@ -30,20 +28,29 @@ function getOriginCandidate(value: string) {
 
 function parseHttpUrl(value: string) {
   const candidate = getOriginCandidate(value);
-  if (!candidate) return null;
+  // Do not let URL repair missing slashes, backslashes, or control characters.
+  if (!/^https?:\/\/[^/?#]/i.test(candidate) || /[\\\s\u0000-\u001f\u007f]/.test(candidate)) {
+    return null;
+  }
 
   try {
     const url = new URL(candidate);
-    return (url.protocol === "http:" || url.protocol === "https:") && !url.username && !url.password
-      ? url
-      : null;
+    return url.username || url.password ? null : url;
   } catch {
     return null;
   }
 }
 
 function parseHttpOrigin(value: string) {
-  return parseHttpUrl(value)?.origin.toLowerCase() ?? null;
+  return parseHttpUrl(value)?.origin ?? null;
+}
+
+function parseOriginHeader(value: string) {
+  const candidate = getOriginCandidate(value);
+  // An Origin contains only the scheme and authority, with no URL path or suffix.
+  if (!/^https?:\/\/[^/?#\\\s]+$/i.test(candidate)) return null;
+
+  return parseHttpOrigin(candidate);
 }
 
 function parseConfiguredHttpOrigin(value: string) {
@@ -53,55 +60,10 @@ function parseConfiguredHttpOrigin(value: string) {
     : null;
 }
 
-function parseNormalizedOrigin(value: string) {
-  const candidate = getOriginCandidate(value);
-  if (!candidate) return null;
-
-  try {
-    return new URL(candidate.includes("://") ? candidate : `https://${candidate}`).origin.toLowerCase();
-  } catch {
-    return null;
-  }
-}
-
-// Keep existing endpoint parsing differences explicit until DEBT-46 is addressed.
-export const visitOriginPolicy: OriginPolicy = {
-  parseHeaderOrigin(value) {
-    const url = parseHttpUrl(value);
-    return url && url.pathname === "/" && !url.search && !url.hash
-      ? url.origin.toLowerCase()
-      : null;
-  },
-  parseUrlOrigin: parseHttpOrigin,
-  parseConfiguredOrigin: parseConfiguredHttpOrigin,
-  isLocalHost(host) {
-    const hostname = parseHttpUrl(`http://${host}`)?.hostname.toLowerCase();
-    return Boolean(hostname && localHostnames.has(hostname));
-  },
-};
-
-export const enquiryOriginPolicy: OriginPolicy = {
-  parseHeaderOrigin: parseNormalizedOrigin,
-  parseUrlOrigin: parseNormalizedOrigin,
-  parseConfiguredOrigin: parseNormalizedOrigin,
-  isLocalHost(host) {
-    try {
-      const hostname = new URL(`http://${host}`).hostname.replace(/^\[|\]$/g, "").toLowerCase();
-      return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
-    } catch {
-      return false;
-    }
-  },
-};
-
-export const visitEventOriginPolicy: OriginPolicy = {
-  ...enquiryOriginPolicy,
-  isLocalHost(host) {
-    // Preserve the event endpoint's local IPv6 behaviour pending DEBT-47.
-    const hostname = host.split(":")[0].toLowerCase();
-    return localHostnames.has(hostname) || hostname === "::1";
-  },
-};
+export const visitOriginPolicy: OriginPolicy = { allowIpv6Loopback: true };
+export const enquiryOriginPolicy = visitOriginPolicy;
+// Visit-event collection only needs IPv4 loopback during local development.
+export const visitEventOriginPolicy: OriginPolicy = { allowIpv6Loopback: false };
 
 function getAllowedOrigins(
   request: OriginRequest,
@@ -109,25 +71,26 @@ function getAllowedOrigins(
   policy: OriginPolicy,
 ) {
   const origins = new Set<string>();
-  const addOrigin = (value: string) => {
-    const origin = policy.parseConfiguredOrigin(value);
+  const addOrigin = (origin: string | null) => {
     if (origin) origins.add(origin);
   };
   const host = getHeader(request, "host").trim();
   const forwardedProto = getHeader(request, "x-forwarded-proto").split(",")[0].trim().toLowerCase();
   const requestProto = forwardedProto === "http" ? "http" : "https";
 
-  if (host) {
-    addOrigin(`${requestProto}://${host}`);
-    if (policy.isLocalHost(host)) {
-      addOrigin(`http://${host}`);
-      addOrigin(`https://${host}`);
+  const requestOrigin = parseOriginHeader(`${requestProto}://${host}`);
+  if (requestOrigin) {
+    origins.add(requestOrigin);
+    const hostname = new URL(requestOrigin).hostname;
+    if (ipv4LocalHostnames.has(hostname) || (policy.allowIpv6Loopback && hostname === "[::1]")) {
+      addOrigin(parseOriginHeader(`http://${host}`));
+      addOrigin(parseOriginHeader(`https://${host}`));
     }
   }
 
-  addOrigin(environment.SITE_URL ?? "");
-  addOrigin(environment.VERCEL_URL ?? "");
-  addOrigin(environment.VERCEL_BRANCH_URL ?? "");
+  addOrigin(parseConfiguredHttpOrigin(environment.SITE_URL ?? ""));
+  addOrigin(parseConfiguredHttpOrigin(environment.VERCEL_URL ?? ""));
+  addOrigin(parseConfiguredHttpOrigin(environment.VERCEL_BRANCH_URL ?? ""));
   return origins;
 }
 
@@ -143,27 +106,26 @@ export function getCrossSiteBlockReason(
   const allowedOrigins = getAllowedOrigins(request, environment, policy);
   const originHeader = getHeader(request, "origin");
   if (originHeader.trim()) {
-    const origin = policy.parseHeaderOrigin(originHeader);
+    const origin = parseOriginHeader(originHeader);
     return origin && allowedOrigins.has(origin) ? null : "mismatched_origin";
   }
 
   const refererHeader = getHeader(request, "referer");
   if (refererHeader.trim()) {
-    const origin = policy.parseUrlOrigin(refererHeader);
+    const origin = parseHttpOrigin(refererHeader);
     if (!origin || !allowedOrigins.has(origin)) return "mismatched_referer";
   }
 
   return null;
 }
 
-function getSafeOriginForLog(value: string, policy: OriginPolicy) {
-  return value.trim() ? policy.parseUrlOrigin(value) ?? "invalid" : "";
+function getSafeOriginForLog(value: string) {
+  return value.trim() ? parseHttpOrigin(value) ?? "invalid" : "";
 }
 
 export function getBlockedRequestLogDetails(
   request: OriginRequest,
   block: { reason: string; status: number },
-  policy: OriginPolicy,
 ) {
   return {
     contentLength: getHeader(request, "content-length"),
@@ -171,9 +133,9 @@ export function getBlockedRequestLogDetails(
     fetchSite: getHeader(request, "sec-fetch-site"),
     host: getHeader(request, "host"),
     method: request.method ?? "",
-    origin: getSafeOriginForLog(getHeader(request, "origin"), policy),
+    origin: getSafeOriginForLog(getHeader(request, "origin")),
     reason: block.reason,
-    refererOrigin: getSafeOriginForLog(getHeader(request, "referer"), policy),
+    refererOrigin: getSafeOriginForLog(getHeader(request, "referer")),
     status: block.status,
   };
 }

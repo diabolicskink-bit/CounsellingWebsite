@@ -58,6 +58,15 @@ test("exposes urgent actions and national and regional services", async ({ page 
   ).toHaveAttribute("href", "#state-crisis-support-title");
   await expect(main.locator(".crisis-support-page__national-service")).toHaveCount(3);
   await expect(main.locator(".crisis-support-page__state-service")).toHaveCount(8);
+  await expect(
+    main.getByRole("article", {
+      name: "Australian Capital Territory Access Mental Health",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    main.getByRole("article", { name: "Tasmania Access Mental Health", exact: true }),
+  ).toBeVisible();
   await expect(main.locator('.crisis-support-page__state-service a[href^="tel:"]')).toHaveCount(9);
   for (const href of nationalContactHrefs) {
     await expect(main.locator(`a[href="${href}"]`)).toHaveCount(1);
@@ -96,7 +105,7 @@ test("aligns state and territory contact numbers consistently", async ({ page })
 
   const numberOffsets = await page
     .locator(
-      ".crisis-support-page__service-actions--state .crisis-support-page__contact-number",
+      ".crisis-support-page__state-service .crisis-support-page__contact-number",
     )
     .evaluateAll((numbers) =>
       numbers.map((number) => {
@@ -112,3 +121,42 @@ test("aligns state and territory contact numbers consistently", async ({ page })
 
   expect(Math.max(...numberOffsets) - Math.min(...numberOffsets)).toBeLessThan(0.5);
 });
+
+for (const width of [320, 820, 1060]) {
+  test(`keeps enlarged regional phone text inside its action at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/crisis-support");
+    await page.evaluate(() => {
+      document.documentElement.style.fontSize = "200%";
+    });
+    await page.evaluate(() => document.fonts.ready);
+    await page.locator("#crisis-wa").scrollIntoViewIfNeeded();
+
+    const contacts = await page
+      .locator("#crisis-wa .crisis-support-page__contact-action")
+      .evaluateAll((links) =>
+        links.map((link) => {
+          const icon = link.querySelector("svg");
+          const number = link.querySelector(".crisis-support-page__contact-number");
+
+          if (!icon || !number) {
+            throw new Error("Contact action is missing its icon or phone number.");
+          }
+
+          return {
+            name: link.textContent ?? "Contact number",
+            iconRight: icon.getBoundingClientRect().right,
+            numberLeft: number.getBoundingClientRect().left,
+            numberRight: number.getBoundingClientRect().right,
+            linkRight: link.getBoundingClientRect().right,
+          };
+        }),
+      );
+
+    expect(contacts).toHaveLength(3);
+    for (const contact of contacts) {
+      expect(contact.numberLeft, contact.name).toBeGreaterThan(contact.iconRight);
+      expect(contact.numberRight, contact.name).toBeLessThan(contact.linkRight);
+    }
+  });
+}

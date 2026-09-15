@@ -17,6 +17,14 @@ test("resolves active and seasonally inactive Australian timezone labels", () =>
   assert.equal(getAustralianTimeZoneLabel("GMT+8", winter), "");
 });
 
+test("rejects inherited object properties as timezone labels", () => {
+  const date = new Date("2026-07-15T00:00:00.000Z");
+
+  for (const value of ["constructor", "__proto__", "toString", "hasOwnProperty"]) {
+    assert.equal(getAustralianTimeZoneLabel(value, date), "", value);
+  }
+});
+
 test("builds the active Australian timezone choices for summer and winter", () => {
   const summer = new Date("2026-01-15T00:00:00.000Z");
   const winter = new Date("2026-07-15T00:00:00.000Z");
@@ -51,4 +59,39 @@ test("labels Perth business hours using the zones active during those hours", ()
     "ACDT: 12.00pm to 7.30pm",
     "AEDT: 12.30pm to 8.00pm",
   ]);
+});
+
+test("keeps timezone choices ordered when each region crosses midnight", () => {
+  const summerValues = ["", "AWST", "ACST", "AEST", "ACDT", "AEDT"];
+  const winterValues = ["", "AWST", "ACST", "AEST"];
+
+  for (const [date, hours, expectedValues] of [
+    ["2026-01-15", ["13:00", "13:30", "14:00", "14:30", "16:00"], summerValues],
+    ["2026-07-15", ["14:00", "14:30", "16:00"], winterValues],
+  ]) {
+    for (const hour of hours) {
+      const instant = new Date(`${date}T${hour}:00.000Z`);
+      assert.deepEqual(
+        getActiveAustralianTimeZoneOptions(instant).map((option) => option.value),
+        expectedValues,
+        instant.toISOString(),
+      );
+    }
+  }
+});
+
+test("anchors business hours to Perth's calendar date before daylight-saving changes", () => {
+  assert.deepEqual(
+    getActiveAustralianPerthBusinessHoursNotes(new Date("2026-04-04T15:59:59.999Z")),
+    [
+      "ACST: 11.00am to 6.30pm",
+      "AEST: 11.30am to 7.00pm",
+      "ACDT: 12.00pm to 7.30pm",
+      "AEDT: 12.30pm to 8.00pm",
+    ],
+  );
+  assert.deepEqual(
+    getActiveAustralianPerthBusinessHoursNotes(new Date("2026-10-03T15:59:59.999Z")),
+    ["ACST: 11.00am to 6.30pm", "AEST: 11.30am to 7.00pm"],
+  );
 });

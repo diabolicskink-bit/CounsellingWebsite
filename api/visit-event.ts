@@ -1,3 +1,4 @@
+import { getJsonPayloadBody } from "../src/server/request-body.ts";
 import {
   VisitEventIdentityConflictError,
   VisitEventPageViewConflictError,
@@ -6,7 +7,6 @@ import {
   type VisitEventObservation,
 } from "../src/server/visit-events/repository.ts";
 import {
-  getVisitEventPayloadBody,
   getVisitEventRequestShapeBlock,
   logBlockedVisitEventRequest,
   type VisitEventRequest,
@@ -67,7 +67,7 @@ export function createVisitEventHandler(
       return sendFailure(response, requestShapeBlock.status);
     }
 
-    const validation = validateClientVisitEventPayload(getVisitEventPayloadBody(request));
+    const validation = validateClientVisitEventPayload(getJsonPayloadBody(request));
 
     if (validation.type === "invalid") {
       console.warn("Visit event payload rejected:", validation.issues);
