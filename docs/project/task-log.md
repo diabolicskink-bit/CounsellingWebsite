@@ -22,6 +22,12 @@ Selected milestones and decision context that help later work. Git retains detai
 - When adding the first entry for a new month, move completed months to `archive/task-log-YYYY-MM.md` and update the archive index. Preserve links to moved entries or update their incoming references.
 - Condense older history around decisions, outcomes and consequential transitions. Git preserves routine detail. Retain meaningful dates and tracker IDs; replace superseded pending statements with the recorded later outcome, and ensure unresolved work remains discoverable through its current owner. Routine log maintenance does not need its own milestone.
 
+## 2026-09-16 - Anchor Offset Derived From The Sticky Header
+
+- Promoted `--site-anchor-offset` and replaced five arbitrary per-page `scroll-margin-top` values (84px, 92px, 96px, 100px and a viewport clamp) across Contact, Crisis Support, Articles, Privacy Policy, Working with Joel and the development workspace. The owner directed the site-wide reconciliation after the article quality pass surfaced the spread.
+- The offset now derives from the header instead of guessing at it, so anchors follow the header down to its 66px narrow-screen height rather than over-shooting by a fixed 96px. `--site-header-height` moved from `.site-header` to `:root` so consumers outside the header can read it; the header box, its inner min-height and the mobile navigation were verified unchanged.
+- Recorded in [foundations](../design-system/foundations.md). Verified by rendered measurement at four widths and by unchanged full-page captures; no Preview check was needed for a scroll-position change.
+
 ## 2026-09-16 - Contact Hero Migrated To Shared Opening Roles
 
 - Contact now uses `.site-hero__eyebrow` and `.site-hero__statement`, keeping only its page-owned statement measure and scale. The owner judged the catalogue note that Contact kept distinct page-owned heading roles and rule opacities to be agent-authored drift rather than intent, so the page adopted the shared roles and `--section-rule`, and [patterns](../design-system/patterns.md) and [foundations](../design-system/foundations.md) were corrected to match.

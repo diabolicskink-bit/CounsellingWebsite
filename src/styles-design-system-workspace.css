@@ -307,7 +307,7 @@
 }
 
 .system-workspace__supported {
-  scroll-margin-top: 100px;
+  scroll-margin-top: var(--site-anchor-offset);
 }
 
 .system-workspace__section-heading {

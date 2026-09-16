@@ -14,6 +14,7 @@
   --section-dark-soft: #21483a;
   --section-rule: rgba(35, 75, 61, 0.22);
   --section-dark-rule: rgba(232, 239, 233, 0.2);
+  --site-anchor-offset: calc(var(--site-header-height) + 24px);
 }
 
 .site-reading {

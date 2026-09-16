@@ -5,8 +5,6 @@
   /* Interior lines of the hours table, quieter than its --section-rule frame. */
   --contact-page-rule-quiet: rgba(35, 75, 61, 0.14);
   --contact-page-card-surface: #fbfbf8;
-  /* Clears the sticky site header when an in-page link or the confirmation scrolls into view. */
-  --contact-page-anchor-offset: 84px;
 
   background: var(--paper);
 }
@@ -39,7 +37,7 @@
 /* Enquiry */
 
 .contact-page__enquiry {
-  scroll-margin-top: var(--contact-page-anchor-offset);
+  scroll-margin-top: var(--site-anchor-offset);
 }
 
 .contact-page__enquiry-layout {
@@ -365,7 +363,7 @@
   max-width: 100%;
   min-width: 0;
   padding: 8px;
-  scroll-margin-top: var(--contact-page-anchor-offset);
+  scroll-margin-top: var(--site-anchor-offset);
   border-radius: 3px;
 }
 
@@ -421,7 +419,7 @@
 /* Fees */
 
 .contact-page__fees {
-  scroll-margin-top: var(--contact-page-anchor-offset);
+  scroll-margin-top: var(--site-anchor-offset);
   border-bottom: 1px solid var(--section-rule);
   background: var(--section-sage);
 }
