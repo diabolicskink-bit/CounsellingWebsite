@@ -36,14 +36,22 @@ A code review may include relevant callers, dependencies, styles, tests and conf
 
 ## Engineering And Verification
 
-This is a small, owner-operated site. Prefer clear, direct implementation that serves demonstrated needs. Scale architecture, dependencies, safeguards and tests to the actual maintenance cost and consequences of failure. Data correctness, enquiry delivery, authentication and privacy warrant more care than routine presentation edits.
+This is a low-traffic site maintained by one developer, with one owner using the private analytics. Prefer clear, direct implementation that serves demonstrated needs. Scale architecture, dependencies, safeguards and tests to the actual maintenance cost and consequences of failure. Data correctness, enquiry delivery, authentication and privacy warrant more care than routine presentation edits.
 
 - Choose the smallest set of checks that gives useful confidence in the change. Use the commands and limits in [current-scope.md](docs/project/current-scope.md#working-locally-and-verifying-changes); full QA suites, browser sweeps and Lighthouse audits are not routine completion requirements.
-- Reuse relevant existing coverage. Add or update tests for a material regression, changed behavioural contract, consequential side effect, or data/security boundary. Do not add tests merely to mirror implementation details or cover a routine wording, styling or documentation edit.
 - For public visual or interaction changes, use focused rendered or browser inspection when needed to assess the affected behaviour. Limit it to relevant routes, states and viewports. In the Codex IDE, use the persistent `node_repl` JavaScript tool with repository Playwright and installed Chrome, following [visual-verification.md](docs/project/visual-verification.md). This repository route takes precedence over plugin browser workflows; do not start with `agent-browser` or a Chromium download.
 - Development-only presentation changes normally need source inspection and the smallest relevant static check. Changes to functional tools, such as article saving, still need focused checks of the affected behaviour. Do not turn those checks into a full visual, responsive or browser audit unless requested.
 - Once relevant checks pass, stop. Broaden or repeat them only when a failure, subsequent change or unresolved concern justifies it. Avoid repeating checks already covered by a command that passed.
 - Review the final diff. Report material changes, checks performed and any consequential verification still outstanding. Distinguish source inspection, mocked tests and local builds from evidence about deployed services.
+
+### Test Scope And Maintenance
+
+- Reuse existing coverage first. Add or extend a test only when it protects a concrete, consequential failure or behavioural boundary and earns its ongoing maintenance cost. A code change does not automatically need a new test; test counts and coverage percentages are not goals.
+- Prioritize enquiry delivery and failure handling, authentication/privacy, public input boundaries, data identity and deletion, report calculations and attribution, and safe article saving. Low traffic does not make these failures harmless.
+- Do not lock routine copy, headings, service lists, layout, styling or documentation in place. Do not add tests merely to prove that an edit happened or removed content stays absent. Keep behavioural checks independent of exact editorial wording unless that wording is itself a required functional contract.
+- Assert meaningful outcomes or narrow safety constraints. Avoid snapshots of whole pages or objects, inventories of current files, copied configuration, SQL formatting and internal call sequences. Preserve useful checks of actual database results and security boundaries.
+- Prefer representative cases at the most useful test layer. Add permutations or checks at another layer only for a distinct failure risk; do not duplicate the same assertions across unit, mocked and browser tests. Keep fixtures and helpers simple and readable, without speculative frameworks or unnecessary file fragmentation.
+- Update or remove obsolete tests when behaviour changes. Follow [tests/README.md](tests/README.md) for test ownership, organisation and commands. Keep routine private-dashboard presentation checks with the owner under the policy below.
 
 The private-dashboard verification policy below takes precedence over general browser-review guidance, including skill defaults.
 

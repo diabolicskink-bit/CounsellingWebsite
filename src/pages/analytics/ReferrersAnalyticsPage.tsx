@@ -56,7 +56,7 @@ function ReferrersReport({
   todayKey: string;
 }) {
   const referrerPeak = Math.max(...report.referrers.map((referrer) => referrer.visits), 1);
-  const externalReferrerCount = report.referrers.filter(
+  const externalReferrerGroupCount = report.referrers.filter(
     ({ referrer }) => referrer !== "Internal" && referrer !== "No referrer recorded",
   ).length;
   const dailyParams = new URLSearchParams();
@@ -100,7 +100,7 @@ function ReferrersReport({
         <div><span>Visits</span><strong>{report.totalVisits}</strong></div>
         <div><span>Page views</span><strong>{report.totalPageViews}</strong></div>
         <div><span>Enquiry visits</span><strong>{report.totalEnquiryVisits}</strong></div>
-        <div><span>External referrers</span><strong>{externalReferrerCount}</strong></div>
+        <div><span>External referrer groups</span><strong>{externalReferrerGroupCount}</strong></div>
       </section>
 
       <section className="signal-report__section" aria-labelledby="referrer-rows-title">
@@ -179,15 +179,9 @@ function ReferrersReport({
       </section>
 
       <p className="signal-footnote">
-        Totals use visits that began in the selected Australia/Perth date range, including their
-        retained page activity and enquiry signals. Referrers use the recorded arrival host, combining
-        www variants. Internal groups Vive's own hosts; no referrer recorded means the browser supplied
-        no referring host. Paid visits are included under their recorded referrer. Active time counts
-        seconds while a page is visible, averaged per visit. Each enquiry visit counts once when it
-        contains a successful form send or phone-link click; a click does not confirm a completed call.
-        Manually excluded visitors are omitted. {includeBots
-          ? "Bot visits are included."
-          : "Identified bot visits are excluded."}
+        Dates use Perth time. Enquiry visits contain a sent form or phone-link click. {includeBots
+          ? "Bots included."
+          : "Identified bots excluded."}
       </p>
     </>
   );
