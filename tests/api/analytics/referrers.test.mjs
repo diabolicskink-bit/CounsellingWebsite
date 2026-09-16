@@ -20,7 +20,8 @@ function createReport() {
     startDate: selection.startDate,
     endDate: selection.endDate,
     referrers: [
-      { referrer: "google.com", visits: 3, pageViews: 7, activeSeconds: 120, enquiryVisits: 2 },
+      { referrer: "google.com (paid)", visits: 2, pageViews: 5, activeSeconds: 90, enquiryVisits: 1 },
+      { referrer: "google.com (organic)", visits: 1, pageViews: 2, activeSeconds: 30, enquiryVisits: 1 },
       { referrer: "No referrer recorded", visits: 1, pageViews: 0, activeSeconds: 0, enquiryVisits: 0 },
     ],
     totalVisits: 4,
@@ -102,7 +103,7 @@ test("referrer contract rejects malformed rows, duplicate groups and inconsisten
     { enquiryVisits: undefined },
   ]) {
     assert.equal(isAnalyticsReport({
-      ...report, referrers: [{ ...report.referrers[0], ...patch }, report.referrers[1]],
+      ...report, referrers: report.referrers.map((row, index) => index === 0 ? { ...row, ...patch } : row),
     }), false, JSON.stringify(patch));
   }
   assert.equal(isAnalyticsReport({ ...report, endDate: "2026-07-31" }), false);

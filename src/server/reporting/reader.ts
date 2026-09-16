@@ -207,15 +207,11 @@ ORDER BY route_counts.page_view_count DESC NULLS LAST, route_counts.path ASC;
 `;
 
 export const referrersAnalyticsSql = `
-WITH included_visits AS (
+WITH selected_visits AS (
   SELECT
     ledger.visit_id,
-    CASE
-      WHEN ledger.referrer_host IS NULL THEN 'No referrer recorded'
-      WHEN LOWER(ledger.referrer_host) IN ('vivecounselling.com.au', 'www.vivecounselling.com.au')
-        THEN 'Internal'
-      ELSE REGEXP_REPLACE(LOWER(ledger.referrer_host), '^www[.]', '')
-    END AS referrer
+    ledger.traffic_source,
+    REGEXP_REPLACE(LOWER(ledger.referrer_host), '^www[.]', '') AS referrer_host
   FROM visit_ledger AS ledger
   WHERE ledger.started_at >= (
     $1::DATE::TIMESTAMP AT TIME ZONE 'Australia/Perth'
@@ -229,6 +225,21 @@ WITH included_visits AS (
     FROM analytics_excluded_visitors AS exclusions
     WHERE exclusions.visitor_id = ledger.visitor_id
   )
+),
+included_visits AS (
+  SELECT
+    visit_id,
+    CASE
+      WHEN referrer_host IS NULL THEN 'No referrer recorded'
+      WHEN referrer_host = 'vivecounselling.com.au' THEN 'Internal'
+      WHEN referrer_host ~ '^google[.](com|[a-z]{2}|(com|co)[.][a-z]{2})$'
+        THEN referrer_host || CASE
+          WHEN traffic_source = 'paid' THEN ' (paid)'
+          ELSE ' (organic)'
+        END
+      ELSE referrer_host
+    END AS referrer
+  FROM selected_visits
 ),
 visit_activity AS (
   SELECT

@@ -22,7 +22,13 @@ visit_ledger(visit_id, visitor_id, referrer_host, started_at, is_bot, traffic_so
     (11, 11, 'before.example', '2026-08-14T15:59:59Z'::TIMESTAMPTZ, FALSE, 'referral'),
     (12, 12, 'after.example', '2026-08-15T16:00:00Z'::TIMESTAMPTZ, FALSE, 'referral'),
     (13, 13, 'example.org', '2026-08-15T01:00:00Z'::TIMESTAMPTZ, NULL, 'referral'),
-    (14, 14, 'www.www.example.com', '2026-08-15T01:00:00Z'::TIMESTAMPTZ, FALSE, 'referral')
+    (14, 14, 'www.www.example.com', '2026-08-15T01:00:00Z'::TIMESTAMPTZ, FALSE, 'referral'),
+    (15, 15, 'WWW.Google.COM.AU', '2026-08-15T01:00:00Z'::TIMESTAMPTZ, FALSE, 'paid'),
+    (16, 16, 'www.google.co.uk', '2026-08-15T01:00:00Z'::TIMESTAMPTZ, FALSE, 'paid'),
+    (17, 17, 'google.co.uk', '2026-08-15T01:00:00Z'::TIMESTAMPTZ, FALSE, 'referral'),
+    (18, 18, 'google.de', '2026-08-15T01:00:00Z'::TIMESTAMPTZ, FALSE, 'referral'),
+    (19, 19, 'google.com.example', '2026-08-15T01:00:00Z'::TIMESTAMPTZ, FALSE, 'referral'),
+    (20, 20, 'notgoogle.com', '2026-08-15T01:00:00Z'::TIMESTAMPTZ, FALSE, 'paid')
 ),
 analytics_excluded_visitors(visitor_id) AS (VALUES (10)),
 site_page_views(visit_id, active_seconds, viewed_at) AS (
@@ -35,11 +41,12 @@ site_visit_events(visit_id, event_type, occurred_at) AS (
   FROM (VALUES
     (1, 'enquiry_sent'), (1, 'enquiry_sent'), (1, 'phone_link_clicked'),
     (2, 'phone_link_clicked'), (5, 'enquiry_failed'), (7, 'enquiry_sent'),
-    (8, 'email_link_clicked'), (10, 'enquiry_sent'), (13, 'phone_link_clicked')
+    (8, 'email_link_clicked'), (10, 'enquiry_sent'), (13, 'phone_link_clicked'),
+    (15, 'enquiry_sent')
   ) AS events(visit_id, event_type)
 ),`;
 
-test("referrer SQL groups arrivals and counts retained journeys without multiplying outcomes", {
+test("referrer SQL splits paid and organic Google arrivals without multiplying journey totals", {
   skip: !process.env.REFERRER_TEST_DATABASE_URL,
 }, async () => {
   const sql = neon(process.env.REFERRER_TEST_DATABASE_URL);
@@ -52,25 +59,34 @@ test("referrer SQL groups arrivals and counts retained journeys without multiply
   const report = await readAnalytics(selection, database);
   assert.equal(isAnalyticsReport(report), true);
   assert.deepEqual(report.referrers.map((row) => [row.referrer, row.visits]), [
-    ["google.com", 2], ["Internal", 2], ["No referrer recorded", 2],
-    ["example.org", 1], ["google.com.au", 1], ["mail.google.com", 1], ["www.example.com", 1],
+    ["Internal", 2], ["No referrer recorded", 2], ["example.org", 1],
+    ["google.co.uk (organic)", 1], ["google.co.uk (paid)", 1],
+    ["google.com (organic)", 1], ["google.com (paid)", 1],
+    ["google.com.au (organic)", 1], ["google.com.au (paid)", 1],
+    ["google.com.example", 1], ["google.de (organic)", 1],
+    ["mail.google.com", 1], ["notgoogle.com", 1], ["www.example.com", 1],
   ]);
-  assert.deepEqual(report.referrers[0], {
-    referrer: "google.com", visits: 2, pageViews: 4, activeSeconds: 70, enquiryVisits: 2,
+  assert.deepEqual(report.referrers.find((row) => row.referrer === "google.com (paid)"), {
+    referrer: "google.com (paid)", visits: 1, pageViews: 3, activeSeconds: 60, enquiryVisits: 1,
   });
-  assert.equal(report.totalVisits, 10);
-  assert.equal(report.totalPageViews, 12);
-  assert.equal(report.totalActiveSeconds, 150);
-  assert.equal(report.totalEnquiryVisits, 4);
+  assert.deepEqual(report.referrers.find((row) => row.referrer === "google.com (organic)"), {
+    referrer: "google.com (organic)", visits: 1, pageViews: 1, activeSeconds: 10, enquiryVisits: 1,
+  });
+  assert.equal(report.totalVisits, 16);
+  assert.equal(report.totalPageViews, 18);
+  assert.equal(report.totalActiveSeconds, 210);
+  assert.equal(report.totalEnquiryVisits, 5);
+  assert.equal(report.referrers.find((row) => row.referrer === "google.com.au (paid)").enquiryVisits, 1);
+  assert.equal(report.referrers.find((row) => row.referrer === "google.com.au (organic)").enquiryVisits, 0);
   assert.equal(report.referrers.find((row) => row.referrer === "Internal").enquiryVisits, 0);
   assert.equal(report.referrers.find((row) => row.referrer === "No referrer recorded").enquiryVisits, 1);
 
   const bots = await readAnalytics({ ...selection, includeBots: true }, database);
   assert.equal(isAnalyticsReport(bots), true);
-  assert.equal(bots.totalVisits, 11);
-  assert.equal(bots.totalPageViews, 13);
-  assert.equal(bots.totalActiveSeconds, 160);
-  assert.equal(bots.totalEnquiryVisits, 4);
+  assert.equal(bots.totalVisits, 17);
+  assert.equal(bots.totalPageViews, 19);
+  assert.equal(bots.totalActiveSeconds, 220);
+  assert.equal(bots.totalEnquiryVisits, 5);
   assert.equal(bots.referrers.find((row) => row.referrer === "example.com").visits, 1);
 
   const empty = await readAnalytics({
