@@ -1,9 +1,9 @@
 /* Contact-page composition for the live Contact route. */
 
 .contact-page {
-  /* Cedar rules and the card surface stay page-owned: see the --section-rule
-     boundary in docs/design-system/foundations.md. */
-  --contact-page-rule: rgba(35, 75, 61, 0.2);
+  --contact-page-underline: rgba(35, 75, 61, 0.34);
+  /* Interior lines of the hours table, quieter than its --section-rule frame. */
+  --contact-page-rule-quiet: rgba(35, 75, 61, 0.14);
   --contact-page-card-surface: #fbfbf8;
   /* Clears the sticky site header when an in-page link or the confirmation scrolls into view. */
   --contact-page-anchor-offset: 84px;
@@ -11,38 +11,15 @@
   background: var(--paper);
 }
 
-/* Uppercase label role, used in the hero and above the form. */
+/* Hero: the shared opening roles, with the page-owned statement measure and
+   scale that the pattern leaves to its consumer. */
 
-.contact-page__eyebrow,
-.contact-page__form-eyebrow {
-  color: var(--cedar);
-  font-family: var(--font-sans);
-  font-size: var(--type-label);
-  font-weight: 760;
-  letter-spacing: 0.06em;
-  line-height: 1.3;
-  text-transform: uppercase;
-}
-
-/* Hero */
-
-.contact-page__hero-content {
-  display: grid;
-  gap: 16px;
-  align-content: center;
+.contact-page .contact-page__hero .site-hero__statement {
   max-width: 780px;
-}
-
-.contact-page__hero .contact-page__hero-title {
-  max-width: none;
-  color: var(--site-hero-foreground);
+  margin: var(--site-hero-eyebrow-gap) 0 0;
   font-size: clamp(4.2rem, 7vw, 6rem);
   letter-spacing: -0.045em;
   line-height: 0.9;
-}
-
-.contact-page__hero .contact-page__eyebrow {
-  color: var(--site-hero-eyebrow-foreground);
 }
 
 /* Shared states for the underlined cedar links on this page. */
@@ -95,7 +72,7 @@
   color: var(--cedar-dark);
   font-weight: 700;
   text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.34);
+  text-decoration-color: var(--contact-page-underline);
   text-underline-offset: 4px;
 }
 
@@ -106,7 +83,7 @@
   gap: 3px;
   margin-top: 8px;
   padding-top: 14px;
-  border-top: 1px solid var(--contact-page-rule);
+  border-top: 1px solid var(--section-rule);
   /* Cancels the italic user-agent style on <address>. */
   font-style: normal;
 }
@@ -142,7 +119,7 @@
   font-size: 0.94rem;
   font-weight: 650;
   line-height: 1.4;
-  text-decoration-color: rgba(35, 75, 61, 0.38);
+  text-decoration-color: var(--contact-page-underline);
   transition:
     color 160ms ease,
     text-decoration-color 160ms ease;
@@ -157,7 +134,7 @@
 
 .contact-page__business-hours {
   width: min(100%, 250px);
-  border: 1px solid var(--contact-page-rule);
+  border: 1px solid var(--section-rule);
   /* Separate borders with no spacing so the caption and table share one rounded frame. */
   border-collapse: separate;
   border-radius: 0 0 3px 3px;
@@ -169,7 +146,7 @@
 
 .contact-page__business-hours caption {
   padding: 7px 10px;
-  border: 1px solid var(--contact-page-rule);
+  border: 1px solid var(--section-rule);
   border-bottom: 0;
   border-radius: 3px 3px 0 0;
   background: rgba(35, 75, 61, 0.07);
@@ -190,12 +167,12 @@
 
 .contact-page__business-hours tr + tr th,
 .contact-page__business-hours tr + tr td {
-  border-top: 1px solid rgba(35, 75, 61, 0.14);
+  border-top: 1px solid var(--contact-page-rule-quiet);
 }
 
 .contact-page__business-hours th {
   width: 58px;
-  border-right: 1px solid rgba(35, 75, 61, 0.12);
+  border-right: 1px solid var(--contact-page-rule-quiet);
   color: var(--muted);
   font-weight: 650;
 }
@@ -231,6 +208,17 @@
 .contact-page__form-start {
   display: grid;
   gap: 18px;
+}
+
+/* Uppercase label role above the form. */
+.contact-page__form-eyebrow {
+  color: var(--cedar);
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  font-weight: 760;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  text-transform: uppercase;
 }
 
 .contact-page__form-fields {
@@ -346,7 +334,7 @@
 
 .contact-page__crisis-note {
   padding: 18px 44px 20px;
-  border-top: 1px solid var(--contact-page-rule);
+  border-top: 1px solid var(--section-rule);
   background: var(--contact-page-card-surface);
   color: var(--muted);
   font-size: var(--type-caption);
@@ -357,7 +345,7 @@
   color: var(--cedar);
   font-weight: 700;
   text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.3);
+  text-decoration-color: var(--contact-page-underline);
   text-underline-offset: 3px;
 }
 
@@ -434,7 +422,7 @@
 
 .contact-page__fees {
   scroll-margin-top: var(--contact-page-anchor-offset);
-  border-bottom: 1px solid var(--contact-page-rule);
+  border-bottom: 1px solid var(--section-rule);
   background: var(--section-sage);
 }
 
@@ -450,7 +438,7 @@
   align-content: start;
   min-height: 112px;
   padding: 20px clamp(18px, 2.6vw, 36px);
-  border-left: 1px solid var(--contact-page-rule);
+  border-left: 1px solid var(--section-rule);
 }
 
 /* The outer columns sit flush with the container edge. */
@@ -500,7 +488,7 @@
   font-weight: 720;
   line-height: 1.2;
   text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.32);
+  text-decoration-color: var(--contact-page-underline);
   text-underline-offset: 4px;
 }
 
@@ -548,7 +536,7 @@
   }
 
   .contact-page__fee-list > div:nth-child(n + 3) {
-    border-top: 1px solid var(--contact-page-rule);
+    border-top: 1px solid var(--section-rule);
   }
 }
 
@@ -564,7 +552,7 @@
 }
 
 @media (max-width: 700px) {
-  .contact-page__hero .contact-page__hero-title {
+  .contact-page .contact-page__hero .site-hero__statement {
     font-size: clamp(3.15rem, 14.5vw, 4.2rem);
     line-height: 0.92;
   }

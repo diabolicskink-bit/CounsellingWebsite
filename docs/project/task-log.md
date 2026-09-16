@@ -22,6 +22,12 @@ Selected milestones and decision context that help later work. Git retains detai
 - When adding the first entry for a new month, move completed months to `archive/task-log-YYYY-MM.md` and update the archive index. Preserve links to moved entries or update their incoming references.
 - Condense older history around decisions, outcomes and consequential transitions. Git preserves routine detail. Retain meaningful dates and tracker IDs; replace superseded pending statements with the recorded later outcome, and ensure unresolved work remains discoverable through its current owner. Routine log maintenance does not need its own milestone.
 
+## 2026-09-16 - Contact Hero Migrated To Shared Opening Roles
+
+- Contact now uses `.site-hero__eyebrow` and `.site-hero__statement`, keeping only its page-owned statement measure and scale. The owner judged the catalogue note that Contact kept distinct page-owned heading roles and rule opacities to be agent-authored drift rather than intent, so the page adopted the shared roles and `--section-rule`, and [patterns](../design-system/patterns.md) and [foundations](../design-system/foundations.md) were corrected to match.
+- The page keeps one underline tint and one quieter line for the hours-table interior; four near-identical cedar opacities were consolidated. Verified by rendered measurement: the eyebrow adopts the shared label metrics and the hero grows 0.7px, with no other section changing height.
+- `--site-hero-statement-max-width` set on a page hero element does not win against `.site-hero`'s own declaration, so the measure belongs in the scoped statement override. Crisis Support still declares it that way and silently renders at the shared `18ch`.
+
 ## 2026-09-14 - Referrer Reporting Added
 
 - Added the private Referrers report using the Pages interaction model. The owner selected all-visit coverage, combined `www.` variants, visit-count ranking and enquiry-visit counts without enquiry percentages. [Current scope](current-scope.md#reporting-semantics) owns the reporting definitions.
