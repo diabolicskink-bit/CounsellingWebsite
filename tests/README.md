@@ -9,6 +9,8 @@ Tests are grouped by how they run, then by the subject they cover.
 | `browser/analytics/` | Separate collection, private-route boundary and report UI specs. | The isolated builds managed by `npm run qa:analytics`. |
 | `database/` | Reporting SQL executed by PostgreSQL against synthetic fixtures. | The separate Preview database configured in `.env.preview.local`. |
 
+Shared request-body and request-origin checks live directly in `node/` and run with the API tests.
+
 Within `node/`, `analytics/`, `enquiry/` and `visits/` own their domain checks.
 `site/` covers article content, routes and metadata; `tooling/` covers local
 tools, migrations, deployment configuration and SQL source contracts. The SQL
@@ -42,7 +44,7 @@ Run commands from the repository root. The scripts in
 | Command | Selection |
 | --- | --- |
 | `npm run test:node` | All local Node tests. |
-| `npm run test:api` | The analytics, enquiry and visit domain tests. |
+| `npm run test:api` | Shared request checks plus the analytics, enquiry and visit domain tests. |
 | `npm run test:analytics` | The API/domain tests plus migration and ledger SQL source checks. |
 | `npm run typecheck:tests` | Playwright TypeScript checks. |
 | `npm run test:e2e` | Public-site browser tests against an already running local build. |

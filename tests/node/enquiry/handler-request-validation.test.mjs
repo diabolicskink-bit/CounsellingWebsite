@@ -64,7 +64,7 @@ test("accepts a valid JSON submission when origin, referer, and fetch-site heade
   setDeliveryEnv(dependencies);
   const fetchCalls = mockResendSuccess(dependencies);
 
-  const result = await invokeHandler(dependencies, validGeneralPayload());
+  const result = await invokeHandler(dependencies, JSON.stringify(validGeneralPayload()));
 
   assert.equal(result.statusCode, 200);
   assert.deepEqual(result.body, { ok: true });
@@ -337,20 +337,24 @@ test("rejects overlong enquiry fields instead of silently truncating them", asyn
   assert.equal(fetchCalled, false);
 });
 
-test("returns a generic validation error for invalid booking fields", async () => {
-  setDeliveryEnv(dependencies);
-  const result = await invokeHandler(dependencies, {
-    availability: "Tuesday afternoons",
-    bookingType: "appointment",
-    email: "sam@example.com",
-    enquiryType: "booking",
-    message: "Hello",
-    name: "Sam River",
-    timeZone: "GMT+8",
-    website: "",
-  });
+for (const timeZone of ["GMT+8", "constructor", "__proto__", "toString"]) {
+  test(`rejects the invalid booking timezone ${timeZone} before sending email`, async () => {
+    setDeliveryEnv(dependencies);
+    const emails = mockResendSuccess(dependencies);
+    const result = await invokeHandler(dependencies, {
+      availability: "Tuesday afternoons",
+      bookingType: "appointment",
+      email: "sam@example.com",
+      enquiryType: "booking",
+      message: "Hello",
+      name: "Sam River",
+      timeZone,
+      website: "",
+    });
 
-  assert.equal(result.statusCode, 400);
-  assert.equal(result.body.error, "Invalid enquiry submission.");
-  assertNoPublicDetails(result);
-});
+    assert.equal(result.statusCode, 400);
+    assert.equal(result.body.error, "Invalid enquiry submission.");
+    assertNoPublicDetails(result);
+    assert.equal(emails.length, 0);
+  });
+}

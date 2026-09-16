@@ -30,9 +30,13 @@ test("records bounded cumulative active time", async () => {
   const observations = [];
   const handler = createPageEngagementHandler(async (value) => observations.push(value));
 
-  for (const activeSeconds of [1, 47, 43_200]) {
+  for (const body of [
+    { ...validPayload, activeSeconds: 1 },
+    JSON.stringify(validPayload),
+    { ...validPayload, activeSeconds: 43_200 },
+  ]) {
     const result = await invoke(handler, {
-      body: { ...validPayload, activeSeconds },
+      body,
     });
 
     assert.equal(result.statusCode, 204);

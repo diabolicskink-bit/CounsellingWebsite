@@ -6,11 +6,23 @@ This file preserves resolved and superseded `DEBT-*` items moved out of the [act
 
 Resolved on 2026-09-16 during the test ownership review. Enquiry, analytics, exclusion, visit, event, engagement and retention handler tests now use `tests/node/support/http-response.mjs` for the shared response recorder. Endpoint payloads, dependencies and assertions stay with their owning suites; the fixture supports JSON, HTML and empty responses without a general handler-testing framework.
 
+### DEBT-47 - Visit-event origin checks reject local IPv6 requests
+
+Closed on 2026-09-15 after the owner confirmed that local development uses IPv4 and does not require IPv6 loopback support. The visit-event origin policy now states that boundary directly and validates IPv4 localhost hosts without relying on colon splitting. No additional test was added for the unsupported IPv6 case.
+
+The enquiry and visit policies retain their existing local-host behaviour. Origin-format consistency across endpoints was resolved separately under `DEBT-46`.
+
+### DEBT-46 - Public write APIs accept different Origin formats
+
+Resolved on 2026-09-15 by applying the existing strict Origin-header parser to enquiry, visit and visit-event requests. All three now reject bare hostnames, URLs with paths and URLs containing credentials while continuing to accept standard HTTP and HTTPS origins.
+
+Focused policy coverage verifies the same malformed values are rejected across all three endpoints. Local IPv6 support for visit-event collection was subsequently confirmed as unnecessary under `DEBT-47`.
+
 ### DEBT-42 - Public write APIs duplicate origin validation
 
 Resolved on 2026-09-14 by moving origin allowlists, cross-site checks, header lookup and blocked-request log sanitisation into `src/server/request-origin.ts`. The enquiry, visit and visit-event request modules use the shared implementation; page engagement inherits it through the visit request module. Endpoint body handling, responses and logging labels remain unchanged.
 
-The existing Origin-format and local IPv6 differences remain explicit in the shared endpoint policies and are tracked separately by `DEBT-46` and `DEBT-47`.
+The Origin-format difference was later resolved as `DEBT-46`. Local IPv6 support for visit-event collection was subsequently confirmed as unnecessary under `DEBT-47`.
 
 ### DEBT-41 - Private analytics presentation still depends on public styling
 

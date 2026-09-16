@@ -4,6 +4,7 @@ import {
   getHeader,
   enquiryOriginPolicy,
 } from "../request-origin.ts";
+import { getJsonPayloadBody, getMediaType } from "../request-body.ts";
 
 export type EnquiryRequest = {
   body?: unknown;
@@ -19,10 +20,6 @@ type RequestShapeBlock = {
 };
 
 const maxEnquiryBodyBytes = 25 * 1024;
-
-function getMediaType(contentType: string) {
-  return contentType.split(";")[0].trim().toLowerCase();
-}
 
 function isJsonContentType(contentType: string) {
   return getMediaType(contentType) === "application/json";
@@ -105,7 +102,7 @@ export function logBlockedEnquiryRequest(
   block: RequestShapeBlock,
   logWarning: (...data: unknown[]) => void,
 ) {
-  logWarning("Enquiry request blocked:", getBlockedRequestLogDetails(request, block, enquiryOriginPolicy));
+  logWarning("Enquiry request blocked:", getBlockedRequestLogDetails(request, block));
 }
 
 export function getPayloadBody(request: EnquiryRequest): Record<string, unknown> {
@@ -116,23 +113,9 @@ export function getPayloadBody(request: EnquiryRequest): Record<string, unknown>
     return Object.fromEntries(requestBody.entries());
   }
 
-  if (typeof requestBody === "string") {
-    if (isFormContentType(contentType)) {
-      return Object.fromEntries(new URLSearchParams(requestBody).entries());
-    }
-
-    try {
-      const parsedBody = JSON.parse(requestBody);
-
-      return parsedBody && typeof parsedBody === "object" && !Array.isArray(parsedBody)
-        ? (parsedBody as Record<string, unknown>)
-        : {};
-    } catch {
-      return {};
-    }
+  if (typeof requestBody === "string" && isFormContentType(contentType)) {
+    return Object.fromEntries(new URLSearchParams(requestBody).entries());
   }
 
-  return requestBody && typeof requestBody === "object" && !Array.isArray(requestBody)
-    ? (requestBody as Record<string, unknown>)
-    : {};
+  return getJsonPayloadBody(request);
 }

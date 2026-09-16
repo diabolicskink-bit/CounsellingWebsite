@@ -343,7 +343,8 @@ body:has(.visit-dashboard) {
   color: #267a4a;
 }
 
-.signal-report__status--phone {
+.signal-report__status--phone,
+.signal-report__status--email {
   background: var(--report-blue-soft);
   color: var(--report-blue-dark);
 }

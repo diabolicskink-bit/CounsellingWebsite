@@ -98,6 +98,10 @@ async function expectNoHorizontalOverflow(page: Page) {
 
 async function expectNotFoundPage(page: Page, requestedPath: string) {
   await expect(page).toHaveTitle(routeMetadataData.notFound.title);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    routeMetadataData.notFound.description,
+  );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     routeMetadataData.notFound.heading,
   );
@@ -150,7 +154,7 @@ test.describe("rendering boundaries", () => {
     await expectNotFoundPage(page, "/404.html");
   });
 
-  test("clears not-found metadata when returning to a public page", async ({ page }) => {
+  test("keeps not-found metadata aligned through recovery and browser history", async ({ page }) => {
     await page.goto("/404.html");
     await expectNotFoundPage(page, "/404.html");
     await page.getByRole("link", { name: "Go to homepage" }).click();
@@ -158,6 +162,17 @@ test.describe("rendering boundaries", () => {
     const homeMetadata = publicRouteMetadata["/"];
 
     await expect(page).toHaveURL(/\/$/);
+    await expect(page).toHaveTitle(homeMetadata.title);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      "content",
+      homeMetadata.description,
+    );
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+
+    await page.goBack();
+    await expectNotFoundPage(page, "/404.html");
+
+    await page.goForward();
     await expect(page).toHaveTitle(homeMetadata.title);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",

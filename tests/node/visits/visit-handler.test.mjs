@@ -71,7 +71,7 @@ test("records valid observations with same-origin or omitted origin signals", as
   });
 
   const results = [
-    await invoke(handler),
+    await invoke(handler, { body: JSON.stringify(validPayload()) }),
     await invoke(handler, {
       headers: jsonHeaders({
         host: "vivecounselling.com.au",

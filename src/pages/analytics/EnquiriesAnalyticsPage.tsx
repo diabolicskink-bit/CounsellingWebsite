@@ -3,6 +3,7 @@ import {
   ChevronRight,
   CircleCheck,
   CircleX,
+  Mail,
   PhoneCall,
   Radio,
 } from "lucide-react";
@@ -51,24 +52,21 @@ function MonthlyEnquiries({
       .filter((visitEvent) => (
         visitEvent.eventType === "enquiry_sent"
         || visitEvent.eventType === "enquiry_failed"
+        || visitEvent.eventType === "email_link_clicked"
         || visitEvent.eventType === "phone_link_clicked"
       ) && getPerthMonthKey(new Date(visitEvent.occurredAt)) === monthKey)
       .map((visitEvent) => ({ visit, visitEvent })))
     .sort((left, right) => new Date(right.visitEvent.occurredAt).getTime()
       - new Date(left.visitEvent.occurredAt).getTime()), [includeBots, monthKey, visits]);
   const sentCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "enquiry_sent").length;
+  const emailCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "email_link_clicked").length;
   const phoneCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "phone_link_clicked").length;
-  const failedCount = enquiryEvents.length - sentCount - phoneCount;
   const completedEnquiries = enquiryEvents.filter(({ visitEvent }) => (
     visitEvent.eventType === "enquiry_sent"
+    || visitEvent.eventType === "email_link_clicked"
     || visitEvent.eventType === "phone_link_clicked"
   ));
   const enquiryCount = completedEnquiries.length;
-  const visitorCount = new Set(completedEnquiries.map(({ visit }) => visit.visitorId)).size;
-  const formAttemptCount = sentCount + failedCount;
-  const sendRate = formAttemptCount
-    ? Math.round((sentCount / formAttemptCount) * 100)
-    : null;
 
   return (
     <>
@@ -76,7 +74,7 @@ function MonthlyEnquiries({
         <div className="signal-report__intro">
           <p className="signal-kicker">Calendar month</p>
           <h1 id="monthly-enquiries-title">{formatMonth(monthKey)}</h1>
-          <p>Recorded phone enquiries and sent or failed contact-form outcomes in Australia/Perth time.</p>
+          <p>Recorded phone and email enquiries and sent or failed contact-form outcomes in Australia/Perth time.</p>
         </div>
         <MonthControls currentMonth={currentMonth} monthKey={monthKey} onMonthChange={onMonthChange} />
 
@@ -88,23 +86,18 @@ function MonthlyEnquiries({
             <dt>Enquiries</dt>
             <dd>
               {String(enquiryCount).padStart(2, "0")}
-              <small>{`${visitorCount} ${visitorCount === 1 ? "visitor" : "visitors"}`}</small>
             </dd>
           </div>
-          <div><dt>Form sent</dt><dd>{String(sentCount).padStart(2, "0")}</dd></div>
+          <div><dt>Form Enquiries</dt><dd>{String(sentCount).padStart(2, "0")}</dd></div>
           <div>
-            <dt>Phone</dt>
+            <dt>Phone Enquirys</dt>
             <dd>
               {String(phoneCount).padStart(2, "0")}
-              <small>number clicks</small>
             </dd>
           </div>
           <div>
-            <dt>Form send rate</dt>
-            <dd>
-              {sendRate === null ? "—" : `${sendRate}%`}
-              <small>{`${failedCount} failed`}</small>
-            </dd>
+            <dt>Email Enquiries</dt>
+            <dd>{String(emailCount).padStart(2, "0")}</dd>
           </div>
         </dl>
       </section>
@@ -122,11 +115,21 @@ function MonthlyEnquiries({
           <ol className="signal-report__list monthly-enquiries__list">
             {enquiryEvents.map(({ visit, visitEvent }) => {
               const wasSent = visitEvent.eventType === "enquiry_sent";
+              const wasEmail = visitEvent.eventType === "email_link_clicked";
               const wasPhone = visitEvent.eventType === "phone_link_clicked";
-              const option = wasPhone ? null : enquiryOptionForEvent(visit, visitEvent);
-              const detail = wasPhone ? "Phone number clicked" : eventDetail(visitEvent);
+              const wasContactLink = wasEmail || wasPhone;
+              const option = wasContactLink ? null : enquiryOptionForEvent(visit, visitEvent);
+              const detail = wasEmail
+                ? "Email address clicked"
+                : wasPhone
+                  ? "Phone number clicked"
+                  : eventDetail(visitEvent);
               const dateKey = getPerthDateKey(new Date(visitEvent.occurredAt));
-              const label = wasPhone ? "Phone enquiry" : eventLabel(visitEvent);
+              const label = wasEmail
+                ? "Email enquiry"
+                : wasPhone
+                  ? "Phone enquiry"
+                  : eventLabel(visitEvent);
 
               return (
                 <li key={visitEvent.id}>
@@ -138,12 +141,16 @@ function MonthlyEnquiries({
                   >
                     <span className={wasSent
                       ? "signal-report__status signal-report__status--sent"
-                      : wasPhone
-                        ? "signal-report__status signal-report__status--phone"
-                        : "signal-report__status signal-report__status--failed"}
+                      : wasEmail
+                        ? "signal-report__status signal-report__status--email"
+                        : wasPhone
+                          ? "signal-report__status signal-report__status--phone"
+                          : "signal-report__status signal-report__status--failed"}
                     >
                       {wasSent
                         ? <CircleCheck aria-hidden="true" size={19} />
+                        : wasEmail
+                          ? <Mail aria-hidden="true" size={18} />
                         : wasPhone
                           ? <PhoneCall aria-hidden="true" size={18} />
                           : <CircleX aria-hidden="true" size={19} />}
@@ -172,13 +179,13 @@ function MonthlyEnquiries({
           <div className="signal-stream__empty">
             <Radio aria-hidden="true" size={30} />
             <h3>No enquiries recorded</h3>
-            <p>No phone enquiries or contact-form outcomes were recorded in {formatMonth(monthKey)}.</p>
+            <p>No phone or email enquiries or contact-form outcomes were recorded in {formatMonth(monthKey)}.</p>
           </div>
         )}
       </section>
 
       <p className="signal-footnote">
-        A phone enquiry is recorded when the phone number is clicked; this does not confirm that a call was placed or answered. Each form outcome appears as one row, so a failed submission followed by a retry appears twice. {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
+        Phone and email enquiries are recorded when their contact links are clicked; this does not confirm that a call was placed or an email was sent. Each form outcome appears as one row, so a failed submission followed by a retry appears twice. {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
       </p>
     </>
   );

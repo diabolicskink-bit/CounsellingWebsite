@@ -1,20 +1,13 @@
-import type {
-  ExcludedVisitorSummary,
-  ExcludedVisitorsReport,
-} from "../../data/analyticsContract.ts";
 import {
-  getVisitDatabase,
-  VisitDatabaseConfigurationError,
-  type VisitDatabase,
-} from "../visits/repository.ts";
-import { AnalyticsDataUnavailableError } from "./reader.ts";
+  isExcludedVisitorSummary,
+  type ExcludedVisitorSummary,
+  type ExcludedVisitorsReport,
+} from "../../data/analyticsContract.ts";
+import type { VisitDatabase } from "../visits/repository.ts";
+import { resolveAnalyticsDatabase } from "./database.ts";
+import { positiveInteger, timestampString } from "./row-values.ts";
 
-type ExcludedVisitorRow = Record<string, unknown>;
-
-type VisitorExclusionUpdateRow = {
-  isExcluded: boolean;
-  visitorExists: boolean;
-};
+type ExclusionRow = Record<string, unknown>;
 
 export class UnknownAnalyticsVisitorError extends Error {
   constructor() {
@@ -71,63 +64,28 @@ SELECT
 FROM known_visitor;
 `;
 
-function resolveDatabase(database?: VisitDatabase) {
-  if (database) return database;
-
-  try {
-    return getVisitDatabase();
-  } catch (error) {
-    if (error instanceof VisitDatabaseConfigurationError) {
-      throw new AnalyticsDataUnavailableError();
-    }
-
-    throw error;
-  }
-}
-
-function requiredString(value: unknown, field: string) {
-  if (typeof value !== "string" || !value) {
-    throw new TypeError(`Analytics exclusion row has an invalid ${field}.`);
-  }
-
-  return value;
-}
-
-function timestampString(value: unknown, field: string) {
-  if (value instanceof Date && !Number.isNaN(value.valueOf())) {
-    return value.toISOString();
-  }
-
-  return requiredString(value, field);
-}
-
-function positiveInteger(value: unknown, field: string) {
-  const number = typeof value === "number" ? value : Number(value);
-
-  if (!Number.isSafeInteger(number) || number < 1) {
-    throw new TypeError(`Analytics exclusion row has an invalid ${field}.`);
-  }
-
-  return number;
-}
-
-function normalizeExcludedVisitor(row: ExcludedVisitorRow): ExcludedVisitorSummary {
-  return {
+function normalizeExcludedVisitor(row: ExclusionRow): ExcludedVisitorSummary {
+  const visitor = {
     excludedAt: timestampString(row.excludedAt, "exclusion time"),
     firstSeenAt: timestampString(row.firstSeenAt, "first-seen time"),
     latestSeenAt: timestampString(row.latestSeenAt, "latest-seen time"),
     totalVisits: positiveInteger(row.totalVisits, "visit count"),
-    visitorId: requiredString(row.visitorId, "visitor ID"),
+    visitorId: row.visitorId,
   };
+
+  if (!isExcludedVisitorSummary(visitor)) {
+    throw new TypeError("Analytics row has an invalid excluded visitor.");
+  }
+  return visitor;
 }
 
 export async function readExcludedVisitors(
   database?: VisitDatabase,
 ): Promise<ExcludedVisitorsReport> {
-  const rows = await resolveDatabase(database).query(
+  const rows = await resolveAnalyticsDatabase(database).query(
     listExcludedVisitorsSql,
     [],
-  ) as ExcludedVisitorRow[];
+  ) as ExclusionRow[];
 
   return {
     type: "excluded",
@@ -140,10 +98,10 @@ export async function setVisitorExclusion(
   isExcluded: boolean,
   database?: VisitDatabase,
 ) {
-  const rows = await resolveDatabase(database).query(
+  const rows = await resolveAnalyticsDatabase(database).query(
     setVisitorExclusionSql,
     [visitorId, isExcluded],
-  ) as VisitorExclusionUpdateRow[];
+  ) as ExclusionRow[];
   const result = rows[0];
 
   if (!result || typeof result.visitorExists !== "boolean" || typeof result.isExcluded !== "boolean") {

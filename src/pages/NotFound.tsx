@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -8,58 +7,42 @@ import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
 import "../styles-not-found.css";
 
-function useNoIndex(directive: string) {
-  useEffect(() => {
-    const robotsMeta =
-      document.querySelector<HTMLMetaElement>('meta[name="robots"]')
-      ?? document.createElement("meta");
-
-    if (!robotsMeta.isConnected) {
-      robotsMeta.name = "robots";
-      document.head.append(robotsMeta);
-    }
-
-    robotsMeta.content = directive;
-
-    return () => {
-      if (robotsMeta.content === directive) {
-        robotsMeta.remove();
-      }
-    };
-  }, [directive]);
-}
-
-const notFoundRoutes = [
+const suggestedLinks = [
   {
-    title: "Working with Joel",
-    copy: "How sessions work, Joel's background, and the shape of the work.",
+    label: "Working with Joel",
+    description: "How sessions work, Joel's background, and the shape of the work.",
     href: publicRoutePaths.workingWithJoel,
   },
   {
-    title: "Inclusive practice",
-    copy: "Kink, ENM, polyamory, LGBTQIA+ lives, and other misunderstood parts of life.",
+    label: "Inclusive practice",
+    description: "Kink, ENM, polyamory, LGBTQIA+ lives, and other misunderstood parts of life.",
     href: publicRoutePaths.inclusion,
   },
   {
-    title: "Fees and contact",
-    copy: "Session fee, availability, and the enquiry form.",
+    label: "Fees and contact",
+    description: "Session fee, availability, and the enquiry form.",
     href: publicRoutePaths.contact,
   },
 ] as const;
 
-function getReadablePath(pathname: string) {
+function formatRequestedPath(pathname: string) {
   try {
     return decodeURIComponent(pathname);
   } catch {
+    // Broken links can contain malformed percent escapes; keep their path visible.
     return pathname;
   }
 }
 
 export default function NotFound() {
-  useDocumentMetadata(notFoundMetadata.title, notFoundMetadata.description);
-  useNoIndex(notFoundMetadata.robots);
-  const location = useLocation();
-  const requestedPath = getReadablePath(location.pathname);
+  useDocumentMetadata(
+    notFoundMetadata.title,
+    notFoundMetadata.description,
+    notFoundMetadata.robots,
+  );
+
+  const { pathname } = useLocation();
+  const requestedPath = formatRequestedPath(pathname);
 
   return (
     <main className="site-page not-found-page">
@@ -96,14 +79,14 @@ export default function NotFound() {
         <nav className="not-found-page__routes" aria-labelledby="not-found-routes-title">
           <h2 id="not-found-routes-title">Useful ways back in</h2>
           <ul>
-            {notFoundRoutes.map((route) => (
-              <li key={route.href}>
-                <Link className="not-found-page__route" to={route.href}>
+            {suggestedLinks.map(({ label, description, href }) => (
+              <li key={href}>
+                <Link className="not-found-page__route" to={href}>
                   <span className="not-found-page__route-heading">
-                    <strong>{route.title}</strong>
+                    <strong>{label}</strong>
                     <ArrowRight size={16} aria-hidden="true" />
                   </span>
-                  <span className="not-found-page__route-copy">{route.copy}</span>
+                  <span className="not-found-page__route-copy">{description}</span>
                 </Link>
               </li>
             ))}

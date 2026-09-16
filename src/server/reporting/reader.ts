@@ -1,44 +1,10 @@
-import type {
-  AnalyticsPageView,
-  AnalyticsReport,
-  AnalyticsTrafficSource,
-  AnalyticsVisit,
-  AnalyticsVisitEvent,
-} from "../../data/analyticsContract.ts";
-import {
-  australianVisitRegionCodes,
-  type AustralianVisitRegionCode,
-  type VisitDeviceType,
-} from "../../data/visitClientEnvironment.ts";
-import {
-  getVisitDatabase,
-  VisitDatabaseConfigurationError,
-  type VisitDatabase,
-} from "../visits/repository.ts";
+import { isAnalyticsReport, type AnalyticsReport } from "../../data/analyticsContract.ts";
+import type { VisitDatabase } from "../visits/repository.ts";
+import { resolveAnalyticsDatabase } from "./database.ts";
 import type { AnalyticsSelection } from "./request.ts";
+import { nonNegativeInteger, timestampString } from "./row-values.ts";
 
-type AnalyticsVisitRow = Record<string, unknown>;
-
-const trafficSources = new Set<AnalyticsTrafficSource>([
-  "direct",
-  "internal",
-  "paid",
-  "referral",
-]);
-
-const eventSources = new Set<AnalyticsVisitEvent["source"]>([
-  "client",
-  "server",
-]);
-
-const deviceTypes = new Set<VisitDeviceType>([
-  "desktop",
-  "mobile",
-  "tablet",
-  "unknown",
-]);
-
-const australianRegionCodes = new Set<AustralianVisitRegionCode>(australianVisitRegionCodes);
+type AnalyticsRow = Record<string, unknown>;
 
 const analyticsVisitColumns = `
   ledger.visit_id::TEXT AS "id",
@@ -145,6 +111,7 @@ WHERE EXISTS (
   FROM site_visit_events AS monthly_events
   WHERE monthly_events.visit_id = ledger.visit_id
     AND monthly_events.event_type IN (
+      'email_link_clicked',
       'enquiry_sent',
       'enquiry_failed',
       'phone_link_clicked'
@@ -391,256 +358,103 @@ WHERE ledger.visitor_id = $1::UUID
 ORDER BY ledger.started_at DESC, ledger.visit_id DESC;
 `;
 
-export class AnalyticsDataUnavailableError extends Error {
-  constructor() {
-    super("Analytics database configuration is unavailable.");
-    this.name = "AnalyticsDataUnavailableError";
-  }
+function jsonValue(value: unknown): unknown {
+  return typeof value === "string" ? JSON.parse(value) : value;
 }
 
-function requiredString(value: unknown, field: string) {
-  if (typeof value !== "string" || !value) {
+function jsonArray(value: unknown, field: string): unknown[] {
+  const values = jsonValue(value);
+  if (!Array.isArray(values)) {
+    throw new TypeError(`Analytics row has invalid ${field}.`);
+  }
+  return values;
+}
+
+function objectRow(value: unknown, field: string): AnalyticsRow {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
     throw new TypeError(`Analytics row has an invalid ${field}.`);
   }
-
-  return value;
+  return value as AnalyticsRow;
 }
 
-function nullableString(value: unknown, field: string) {
-  if (value === null || value === undefined) return null;
-  return requiredString(value, field);
-}
-
-function nullableBoolean(value: unknown, field: string) {
-  if (value === null || value === undefined) return null;
-
-  if (typeof value !== "boolean") {
-    throw new TypeError(`Analytics row has an invalid ${field}.`);
-  }
-
-  return value;
-}
-
-function requiredBoolean(value: unknown, field: string) {
-  const normalized = nullableBoolean(value, field);
-
-  if (normalized === null) {
-    throw new TypeError(`Analytics row has an invalid ${field}.`);
-  }
-
-  return normalized;
-}
-
-function nonNegativeInteger(value: unknown, field: string) {
-  const number = typeof value === "number" ? value : Number(value);
-
-  if (!Number.isSafeInteger(number) || number < 0) {
-    throw new TypeError(`Analytics row has an invalid ${field}.`);
-  }
-
-  return number;
-}
-
-function timestampString(value: unknown, field: string) {
-  if (value instanceof Date && !Number.isNaN(value.valueOf())) {
-    return value.toISOString();
-  }
-
-  return requiredString(value, field);
-}
-
-function normalizeTrafficSource(value: unknown) {
-  if (typeof value === "string" && trafficSources.has(value as AnalyticsTrafficSource)) {
-    return value as AnalyticsTrafficSource;
-  }
-
-  throw new TypeError("Analytics row has an invalid traffic source.");
-}
-
-function normalizeDeviceType(value: unknown): VisitDeviceType {
-  if (typeof value === "string" && deviceTypes.has(value as VisitDeviceType)) {
-    return value as VisitDeviceType;
-  }
-
-  throw new TypeError("Analytics row has an invalid device type.");
-}
-
-function normalizeVisitLocation(countryValue: unknown, regionValue: unknown) {
-  const countryCode = nullableString(countryValue, "location country code");
-  const regionCode = nullableString(regionValue, "location region code");
-
-  if (countryCode === null) {
-    if (regionCode !== null) throw new TypeError("Analytics row has an invalid visit location.");
-    return { locationCountryCode: null, locationRegionCode: null };
-  }
-
-  if (!/^[A-Z]{2}$/.test(countryCode)) {
-    throw new TypeError("Analytics row has an invalid visit location.");
-  }
-
-  if (countryCode !== "AU") {
-    if (regionCode !== null) throw new TypeError("Analytics row has an invalid visit location.");
-    return { locationCountryCode: countryCode, locationRegionCode: null };
-  }
-
-  if (!regionCode || !australianRegionCodes.has(regionCode as AustralianVisitRegionCode)) {
-    throw new TypeError("Analytics row has an invalid visit location.");
-  }
-
-  return {
-    locationCountryCode: countryCode,
-    locationRegionCode: regionCode as AustralianVisitRegionCode,
-  };
-}
-
-function normalizeEventSource(value: unknown): AnalyticsVisitEvent["source"] {
-  if (
-    typeof value === "string"
-    && eventSources.has(value as AnalyticsVisitEvent["source"])
-  ) {
-    return value as AnalyticsVisitEvent["source"];
-  }
-
-  throw new TypeError("Analytics row has an invalid event source.");
-}
-
-function normalizeEventProperties(value: unknown): Record<string, string> {
-  const properties = typeof value === "string" ? JSON.parse(value) : value;
-
-  if (!properties || typeof properties !== "object" || Array.isArray(properties)) {
-    throw new TypeError("Analytics row has invalid event properties.");
-  }
-
-  const entries = Object.entries(properties);
-  if (entries.some(([, propertyValue]) => typeof propertyValue !== "string")) {
-    throw new TypeError("Analytics row has invalid event properties.");
-  }
-
-  return Object.fromEntries(entries) as Record<string, string>;
-}
-
-function normalizeEvents(value: unknown): AnalyticsVisitEvent[] {
-  const events = typeof value === "string" ? JSON.parse(value) : value;
-
-  if (!Array.isArray(events)) {
-    throw new TypeError("Analytics row has invalid events.");
-  }
-
-  return events.map((event) => {
-    if (!event || typeof event !== "object") {
-      throw new TypeError("Analytics row has an invalid event.");
-    }
-
-    const row = event as Record<string, unknown>;
+function normalizeEvents(value: unknown) {
+  return jsonArray(value, "events").map((event) => {
+    const row = objectRow(event, "event");
     return {
-      eventType: requiredString(row.eventType, "event type"),
-      id: requiredString(row.id, "event ID"),
+      eventType: row.eventType,
+      id: row.id,
       occurredAt: timestampString(row.occurredAt, "event time"),
-      pageViewId: nullableString(row.pageViewId, "event page-view ID"),
-      properties: normalizeEventProperties(row.properties),
-      source: normalizeEventSource(row.source),
+      pageViewId: row.pageViewId ?? null,
+      properties: jsonValue(row.properties),
+      source: row.source,
     };
   });
 }
 
-function normalizePageViews(value: unknown): AnalyticsPageView[] {
-  const pageViews = typeof value === "string" ? JSON.parse(value) : value;
-
-  if (!Array.isArray(pageViews)) {
-    throw new TypeError("Analytics row has invalid page views.");
-  }
-
-  return pageViews.map((pageView) => {
-    if (!pageView || typeof pageView !== "object") {
-      throw new TypeError("Analytics row has an invalid page view.");
-    }
-
-    const row = pageView as Record<string, unknown>;
+function normalizePageViews(value: unknown) {
+  return jsonArray(value, "page views").map((pageView) => {
+    const row = objectRow(pageView, "page view");
     return {
       activeSeconds: nonNegativeInteger(row.activeSeconds, "page-view active time"),
-      id: requiredString(row.id, "page-view ID"),
-      path: requiredString(row.path, "page-view path"),
+      id: row.id,
+      path: row.path,
       viewedAt: timestampString(row.viewedAt, "page-view time"),
     };
   });
 }
 
-function normalizeStringList(value: unknown, field: string): string[] {
-  const values = typeof value === "string" ? JSON.parse(value) : value;
-
-  if (!Array.isArray(values) || values.some((item) => typeof item !== "string" || !item)) {
-    throw new TypeError(`Analytics row has invalid ${field}.`);
-  }
-
-  return values;
-}
-
-function normalizeVisit(row: AnalyticsVisitRow): AnalyticsVisit {
-  const visitNumber = nonNegativeInteger(row.visitNumber, "visit number");
-  const totalVisits = nonNegativeInteger(row.totalVisits, "total visits");
-
-  if (visitNumber < 1 || totalVisits < visitNumber) {
-    throw new TypeError("Analytics row has an invalid visit sequence.");
-  }
-
-  const location = normalizeVisitLocation(row.locationCountryCode, row.locationRegionCode);
-
+function normalizeVisit(row: AnalyticsRow) {
   return {
-    adCode: nullableString(row.adCode, "ad code"),
-    botCategory: nullableString(row.botCategory, "bot category"),
-    botName: nullableString(row.botName, "bot name"),
-    dateKey: requiredString(row.dateKey, "date"),
-    deviceType: normalizeDeviceType(row.deviceType),
+    adCode: row.adCode ?? null,
+    botCategory: row.botCategory ?? null,
+    botName: row.botName ?? null,
+    dateKey: row.dateKey,
+    deviceType: row.deviceType,
     durationSeconds: nonNegativeInteger(row.durationSeconds, "duration"),
     events: normalizeEvents(row.events),
-    gclid: nullableString(row.gclid, "GCLID"),
-    id: requiredString(row.id, "visit ID"),
-    isBot: nullableBoolean(row.isBot, "bot verdict"),
-    isWebDriver: nullableBoolean(row.isWebDriver, "WebDriver flag"),
-    landingPath: requiredString(row.landingPath, "landing path"),
+    gclid: row.gclid ?? null,
+    id: row.id,
+    isBot: row.isBot ?? null,
+    isWebDriver: row.isWebDriver ?? null,
+    landingPath: row.landingPath,
     lastSeenAt: timestampString(row.lastSeenAt, "last-seen time"),
-    ...location,
-    matchType: nullableString(row.matchType, "match type"),
-    matchedKeyword: nullableString(row.matchedKeyword, "matched keyword"),
-    networkCode: nullableString(row.networkCode, "network code"),
+    locationCountryCode: row.locationCountryCode ?? null,
+    locationRegionCode: row.locationRegionCode ?? null,
+    matchType: row.matchType ?? null,
+    matchedKeyword: row.matchedKeyword ?? null,
+    networkCode: row.networkCode ?? null,
     pageViews: normalizePageViews(row.pageViews),
-    referrerHost: nullableString(row.referrerHost, "referrer host"),
-    referrerUrl: nullableString(row.referrerUrl, "referrer URL"),
+    referrerHost: row.referrerHost ?? null,
+    referrerUrl: row.referrerUrl ?? null,
     startedAt: timestampString(row.startedAt, "start time"),
-    trafficSource: normalizeTrafficSource(row.trafficSource),
-    totalVisits,
-    userAgent: nullableString(row.userAgent, "user-agent"),
-    visitNumber,
-    visitorId: requiredString(row.visitorId, "visitor ID"),
+    trafficSource: row.trafficSource,
+    totalVisits: nonNegativeInteger(row.totalVisits, "total visits"),
+    userAgent: row.userAgent ?? null,
+    visitNumber: nonNegativeInteger(row.visitNumber, "visit number"),
+    visitorId: row.visitorId,
   };
 }
 
-function resolveDatabase(database?: VisitDatabase) {
-  if (database) return database;
-
-  try {
-    return getVisitDatabase();
-  } catch (error) {
-    if (error instanceof VisitDatabaseConfigurationError) {
-      throw new AnalyticsDataUnavailableError();
-    }
-
-    throw error;
+function validatedReport(report: unknown): AnalyticsReport {
+  // Convert database representations above; keep domain rules in the shared contract.
+  if (!isAnalyticsReport(report)) {
+    throw new TypeError("Analytics query returned an invalid report.");
   }
+  return report;
 }
 
 export async function readAnalytics(
   selection: AnalyticsSelection,
   database?: VisitDatabase,
 ): Promise<AnalyticsReport> {
-  const selectedDatabase = resolveDatabase(database);
+  const selectedDatabase = resolveAnalyticsDatabase(database);
 
   if (selection.type === "referrers") {
     const rows = await selectedDatabase.query(referrersAnalyticsSql, [
       selection.startDate,
       selection.endDate,
       selection.includeBots,
-    ]) as AnalyticsVisitRow[];
+    ]) as AnalyticsRow[];
     const totals = rows[0] ?? {
       totalActiveSeconds: 0,
       totalEnquiryVisits: 0,
@@ -652,12 +466,12 @@ export async function readAnalytics(
       .map((row) => ({
         activeSeconds: nonNegativeInteger(row.activeSeconds, "referrer active time"),
         enquiryVisits: nonNegativeInteger(row.enquiryVisits, "referrer enquiry visits"),
-        referrer: requiredString(row.referrer, "referrer"),
+        referrer: row.referrer,
         pageViews: nonNegativeInteger(row.pageViews, "referrer page views"),
         visits: nonNegativeInteger(row.visits, "referrer visits"),
       }));
 
-    return {
+    return validatedReport({
       endDate: selection.endDate,
       referrers,
       startDate: selection.startDate,
@@ -666,7 +480,7 @@ export async function readAnalytics(
       totalPageViews: nonNegativeInteger(totals.totalPageViews, "total page views"),
       totalVisits: nonNegativeInteger(totals.totalVisits, "total visits"),
       type: "referrers",
-    };
+    });
   }
 
   if (selection.type === "keywords") {
@@ -674,7 +488,7 @@ export async function readAnalytics(
       selection.startDate,
       selection.endDate,
       selection.includeBots,
-    ]) as AnalyticsVisitRow[];
+    ]) as AnalyticsRow[];
     const totals = rows[0] ?? {
       taggedEnquiryVisits: 0,
       taggedVisits: 0,
@@ -688,15 +502,15 @@ export async function readAnalytics(
       .map((row) => ({
         activeSeconds: nonNegativeInteger(row.activeSeconds, "keyword active time"),
         enquiryVisits: nonNegativeInteger(row.enquiryVisits, "keyword enquiry visits"),
-        keyword: requiredString(row.keyword, "keyword"),
+        keyword: row.keyword,
         latestVisitAt: timestampString(row.latestVisitAt, "keyword latest visit time"),
-        matchTypes: normalizeStringList(row.matchTypes, "keyword match types"),
+        matchTypes: jsonValue(row.matchTypes),
         pageViews: nonNegativeInteger(row.pageViews, "keyword page views"),
         returningVisits: nonNegativeInteger(row.returningVisits, "keyword returning visits"),
         visits: nonNegativeInteger(row.visits, "keyword visits"),
       }));
 
-    return {
+    return validatedReport({
       endDate: selection.endDate,
       keywords,
       startDate: selection.startDate,
@@ -707,7 +521,7 @@ export async function readAnalytics(
       totalPageViews: nonNegativeInteger(totals.totalPageViews, "paid page views"),
       totalPaidVisits: nonNegativeInteger(totals.totalPaidVisits, "paid visits"),
       type: "keywords",
-    };
+    });
   }
 
   if (selection.type === "pageViews") {
@@ -715,7 +529,7 @@ export async function readAnalytics(
       selection.startDate,
       selection.endDate,
       selection.includeBots,
-    ]) as AnalyticsVisitRow[];
+    ]) as AnalyticsRow[];
     const totals = rows[0] ?? {
       totalActiveSeconds: 0,
       totalPageViews: 0,
@@ -726,11 +540,11 @@ export async function readAnalytics(
       .map((row) => ({
         activeSeconds: nonNegativeInteger(row.activeSeconds, "route active time"),
         pageViews: nonNegativeInteger(row.pageViews, "route page views"),
-        path: requiredString(row.path, "route path"),
+        path: row.path,
         visits: nonNegativeInteger(row.visits, "route visits"),
       }));
 
-    return {
+    return validatedReport({
       endDate: selection.endDate,
       routes,
       startDate: selection.startDate,
@@ -738,32 +552,32 @@ export async function readAnalytics(
       totalPageViews: nonNegativeInteger(totals.totalPageViews, "total page views"),
       totalVisits: nonNegativeInteger(totals.totalVisits, "total visits"),
       type: "pageViews",
-    };
+    });
   }
 
-  const query = selection.type === "daily"
-    ? dailyAnalyticsSql
-    : selection.type === "monthly"
-      ? monthlyEnquiryAnalyticsSql
-      : visitorAnalyticsSql;
-  const parameter = selection.type === "daily"
-    ? selection.date
-    : selection.type === "monthly"
-      ? selection.month
-      : selection.visitorId;
-  const rows = await selectedDatabase.query(query, [parameter]) as AnalyticsVisitRow[];
-  const visits = rows.map(normalizeVisit);
-
-  return selection.type === "daily"
-    ? { type: "daily", date: selection.date, visits }
-    : selection.type === "monthly"
-      ? { type: "monthly", month: selection.month, visits }
-      : {
-          type: "visitor",
-          visitorId: selection.visitorId,
-          isExcluded: rows.length
-            ? requiredBoolean(rows[0].isExcluded, "visitor exclusion state")
-            : false,
-          visits,
-        };
+  switch (selection.type) {
+    case "daily": {
+      const rows = await selectedDatabase.query(dailyAnalyticsSql, [selection.date]) as AnalyticsRow[];
+      return validatedReport({ type: "daily", date: selection.date, visits: rows.map(normalizeVisit) });
+    }
+    case "monthly": {
+      const rows = await selectedDatabase.query(
+        monthlyEnquiryAnalyticsSql,
+        [selection.month],
+      ) as AnalyticsRow[];
+      return validatedReport({ type: "monthly", month: selection.month, visits: rows.map(normalizeVisit) });
+    }
+    case "visitor": {
+      const rows = await selectedDatabase.query(
+        visitorAnalyticsSql,
+        [selection.visitorId],
+      ) as AnalyticsRow[];
+      return validatedReport({
+        type: "visitor",
+        visitorId: selection.visitorId,
+        isExcluded: rows.length > 0 ? rows[0].isExcluded : false,
+        visits: rows.map(normalizeVisit),
+      });
+    }
+  }
 }
