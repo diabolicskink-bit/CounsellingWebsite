@@ -9,12 +9,15 @@ Tests are grouped by how they run, then by the subject they cover.
 | `browser/analytics/` | Separate collection, private-route boundary and report UI specs. | The isolated builds managed by `npm run qa:analytics`. |
 | `database/` | Reporting SQL executed by PostgreSQL against synthetic fixtures. | The separate Preview database configured in `.env.preview.local`. |
 
-Shared request-body and request-origin checks live directly in `node/` and run with the API tests.
+Shared server request-body and request-origin checks live in `node/server/` and run
+with the API tests. Endpoint-specific parsing and size limits stay in their
+`enquiry/` or `visits/` domain.
 
 Within `node/`, `analytics/`, `enquiry/` and `visits/` own their domain checks.
 `site/` covers article content, routes and metadata; `tooling/` covers local
 tools, migrations, deployment configuration and SQL source contracts. The SQL
-source checks in `node/tooling/` inspect files; the checks in `database/` execute SQL.
+source checks in `node/tooling/` inspect migrations and saved queries; report SQL
+contracts stay with `node/analytics/`. The checks in `database/` execute SQL.
 
 Use `*.test.mjs` for Node and database tests and `*.spec.ts` for Playwright.
 Keep names tied to the behaviour or source under test. Group cases by the boundary
@@ -26,9 +29,14 @@ they exercise:
   responses each have a handler suite. Their shared enquiry setup stays local
   in `enquiry/handler-fixtures.mjs`.
 - Visit request-header derivation is separate from endpoint orchestration.
-- Article Markdown editing is separate from the editor plugin's file writing.
+- Article manifest validation is separate from checks of the published article
+  bodies and references. Markdown editing is separate from the editor plugin's
+  file writing.
 - Ledger schema contracts are separate from saved-query contracts and the
   migration runner.
+- Public first-response metadata, robots and sitemap checks live in
+  `browser/public-site/crawl-output.spec.ts`; route rendering and navigation
+  remain in `routes.spec.ts`. Both require the built site served locally.
 
 Keep fixtures in their test file unless several files need the same setup.
 `node/support/http-response.mjs` owns the shared handler response recorder;

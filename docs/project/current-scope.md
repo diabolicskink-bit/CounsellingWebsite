@@ -283,7 +283,7 @@ Choose checks using the [verification policy](../../AGENTS.md#engineering-and-ve
 | `npm run check:encoding` | Repository text-encoding check, useful for documentation and copy edits. |
 | `npm run typecheck:tests` | Separate strict typecheck for Playwright specs. |
 | `npm run test:api` | Direct Node tests for enquiry, collection, reporting, exclusions and retention handlers/repositories with substituted dependencies. |
-| `npm run test:node` | All local Node checks, grouped by analytics, enquiry, visits, site and tooling. No live database or browser run. |
+| `npm run test:node` | All local Node checks, grouped by shared server contracts, analytics, enquiry, visits, site and tooling. No live database or browser run. |
 | `npm run test:database` | Opt-in PostgreSQL reporting checks with synthetic fixtures, using only Preview configuration from `.env.preview.local`. |
 | `npm run qa:site` | Encoding and test typechecks, build, then the public-site Playwright suite against local built output. |
 | `npm run test:analytics` | Fast API/domain suite (including analytics-host checks), plus migration and ledger-SQL source contracts. |

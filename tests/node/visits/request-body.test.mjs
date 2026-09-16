@@ -1,34 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { getPayloadBody } from "../../src/server/enquiry/request.ts";
-import { getJsonPayloadBody } from "../../src/server/request-body.ts";
-import { getVisitRequestShapeBlock } from "../../src/server/visits/request.ts";
-import { getVisitEventRequestShapeBlock } from "../../src/server/visit-events/request.ts";
-
-for (const [name, parseBody] of [
-  ["enquiry", getPayloadBody],
-  ["JSON decoder", getJsonPayloadBody],
-]) {
-  test(`${name} accepts JSON objects and leaves malformed or non-object bodies to payload validation`, () => {
-    const payload = { message: "Example", nested: { enabled: true } };
-    assert.equal(parseBody({ body: payload }), payload);
-    assert.deepEqual(parseBody({ body: JSON.stringify(payload) }), payload);
-
-    for (const body of [undefined, null, false, 42, [], "", "{", "null", "false", "42", "[]", '"text"']) {
-      assert.deepEqual(parseBody({ body }), {});
-    }
-  });
-}
-
-test("enquiries retain native form decoding alongside JSON", () => {
-  const body = "message=First&message=Hello+%26+welcome&name=Taylor";
-  const expected = { message: "Hello & welcome", name: "Taylor" };
-  assert.deepEqual(getPayloadBody({
-    body,
-    headers: { "Content-Type": " Application/X-WWW-Form-Urlencoded; charset=UTF-8" },
-  }), expected);
-  assert.deepEqual(getPayloadBody({ body: new URLSearchParams(body) }), expected);
-});
+import { getVisitRequestShapeBlock } from "../../../src/server/visits/request.ts";
+import { getVisitEventRequestShapeBlock } from "../../../src/server/visit-events/request.ts";
 
 for (const [name, getBlock, limit] of [
   ["visit and engagement", getVisitRequestShapeBlock, 16 * 1024],

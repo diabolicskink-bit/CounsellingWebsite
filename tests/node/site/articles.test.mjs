@@ -1,20 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import {
-  articleMetadata,
-  validateArticleManifest,
-} from "../../../src/content/articles/manifest.ts";
+import { articleMetadata } from "../../../src/content/articles/manifest.ts";
 import { articles } from "../../../src/content/articles/articles.ts";
-
-const validArticle = {
-  abstract: "A useful summary.",
-  author: "Joel Griffiths",
-  description: "A useful search description.",
-  publishedAt: "2026-08-12",
-  slug: "a-valid-article",
-  title: "A valid article",
-  topic: "Testing",
-};
 
 test("keeps every published manifest entry paired with a non-empty article body", () => {
   assert.deepEqual(
@@ -50,32 +37,4 @@ test("keeps every published manifest entry paired with a non-empty article body"
       );
     }
   }
-});
-
-test("rejects publication dates that are not real ISO calendar dates", () => {
-  assert.throws(
-    () => validateArticleManifest([{ ...validArticle, publishedAt: "2026-02-30" }]),
-    /invalid publication date/,
-  );
-});
-
-test("rejects revisions dated before publication", () => {
-  assert.throws(
-    () => validateArticleManifest([{ ...validArticle, updatedAt: "2026-08-11" }]),
-    /updated date precedes/,
-  );
-});
-
-test("rejects duplicate slugs", () => {
-  assert.throws(
-    () => validateArticleManifest([validArticle, validArticle]),
-    /Duplicate article slug/,
-  );
-});
-
-test("rejects empty publication metadata", () => {
-  assert.throws(
-    () => validateArticleManifest([{ ...validArticle, title: " " }]),
-    /empty title/,
-  );
 });

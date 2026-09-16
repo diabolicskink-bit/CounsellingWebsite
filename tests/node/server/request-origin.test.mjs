@@ -7,7 +7,7 @@ import {
   getHeader,
   visitEventOriginPolicy,
   visitOriginPolicy,
-} from "../../src/server/request-origin.ts";
+} from "../../../src/server/request-origin.ts";
 
 test("public write APIs consistently reject malformed Origin headers", () => {
   const policies = [visitOriginPolicy, enquiryOriginPolicy, visitEventOriginPolicy];

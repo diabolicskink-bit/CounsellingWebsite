@@ -379,7 +379,7 @@ Each active item should include enough direction that a future session can choos
   - Do not make this smoke script deploy or promote by itself. Deployment should remain an explicit operator action unless a future CI/CD item decides otherwise.
   - Account for Vercel Deployment Protection: protected preview URLs may require MCP access, a bypass token, or a trusted automation source.
   - 2026-07-13 manual baseline: the canonical host returned the generated generic fallback with HTTP 404 for an arbitrary path; `/404.html` returned a permanent clean-URL redirect to `/404`; both activated pages displayed the resulting browser pathname without console or page errors. The deployed bundle predates the prerendering branch's activation marker, so that exact observable contract remains pending deployment.
-- `Links`: `vercel.json`, `tests/browser/public-site/routes.spec.ts`, `scripts/prerender-route-metadata.mjs`
+- `Links`: `vercel.json`, `tests/browser/public-site/crawl-output.spec.ts`, `tests/browser/public-site/routes.spec.ts`, `scripts/prerender-route-metadata.mjs`
 
 ### DEBT-27 - Runtime head metadata can drift after client-side navigation
 
