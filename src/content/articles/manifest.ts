@@ -31,6 +31,18 @@ const requiredTextFields = [
 const publishedArticleMetadata = [
   {
     abstract:
+      "Working conditions, financial pressure, stigma and earlier experiences can all affect sex workers' mental health. Finding support may be complicated by cost, concerns about disclosure and judgement from practitioners. Counselling needs to make room for the person's own account of their life, including harm, satisfaction and difficulties unrelated to work. Support can then focus on what is troubling them and the changes they want to make, without assuming that leaving sex work is the answer.",
+    author: "Joel Griffiths",
+    description:
+      "How working conditions and stigma shape sex workers' mental health, why accessing care can be difficult",
+    metaTitle: "Sex Work and Mental Health | Vive Counselling",
+    publishedAt: "2026-09-16",
+    slug: "sex-work-mental-health",
+    title: "Sex work, mental health and access to therapy",
+    topic: "Sex work",
+  },
+  {
+    abstract:
       "People choose ethical non-monogamy for sexual exploration, emotional connection, autonomy and relationships that fit their values. The appeal can also involve feeling desired, accommodating differences between partners or hoping to resolve existing difficulties. Drawing on research into non-monogamy, dating and relationship psychology, this article examines what people hope to find in ENM, how self-worth can shape the pursuit of new connections, and when agreement reflects pressure or fear of losing a partner. Understanding these motives can help people make sense of their own wishes and a partner’s interest in non-monogamy.",
     author: "Joel Griffiths",
     description:
