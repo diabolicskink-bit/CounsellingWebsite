@@ -450,6 +450,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
+  - 2026-09-16: Articles redesign verification found the existing shared header overflows at a 390px viewport with the root text size enlarged to 200% (629px content width). Include text enlargement in the header review; the redesigned article content reflows within 390px.
   - `tests/browser/public-site/navigation.spec.ts` verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
 - `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/browser/public-site/navigation.spec.ts`
 

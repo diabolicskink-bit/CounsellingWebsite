@@ -384,7 +384,7 @@
 }
 
 #issues-i-work-with {
-  scroll-margin-top: clamp(5.5rem, 10vw, 8rem);
+  scroll-margin-top: var(--site-anchor-offset);
 }
 
 #issues-i-work-with:focus-visible {
