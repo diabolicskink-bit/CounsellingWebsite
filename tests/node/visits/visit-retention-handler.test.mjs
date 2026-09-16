@@ -2,32 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createVisitRetentionHandler } from "../../../api/visit-retention.ts";
 import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
-
-function createResponse() {
-  const result = {
-    body: undefined,
-    headers: {},
-    statusCode: 200,
-  };
-  const response = {
-    end() {
-      return result;
-    },
-    json(body) {
-      result.body = body;
-      return result;
-    },
-    setHeader(name, value) {
-      result.headers[name.toLowerCase()] = value;
-    },
-    status(statusCode) {
-      result.statusCode = statusCode;
-      return response;
-    },
-  };
-
-  return { response, result };
-}
+import { createResponse } from "../support/http-response.mjs";
 
 function silenceExpectedLogs(context) {
   const errors = [];

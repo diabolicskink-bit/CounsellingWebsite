@@ -2,25 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createAnalyticsHandler } from "../../../api/analytics.ts";
 import { AnalyticsDataUnavailableError } from "../../../src/server/reporting/reader.ts";
-
-function createResponse() {
-  const result = { body: undefined, headers: {}, statusCode: 200 };
-  const response = {
-    json(body) {
-      result.body = body;
-      return result;
-    },
-    setHeader(name, value) {
-      result.headers[name.toLowerCase()] = value;
-    },
-    status(statusCode) {
-      result.statusCode = statusCode;
-      return response;
-    },
-  };
-
-  return { response, result };
-}
+import { createResponse } from "../support/http-response.mjs";
 
 async function invoke(handler, request) {
   const { response, result } = createResponse();

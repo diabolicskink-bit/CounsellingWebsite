@@ -7,27 +7,9 @@ import {
 import {
   UnknownAnalyticsVisitorError,
 } from "../../../src/server/reporting/exclusions.ts";
+import { createResponse } from "../support/http-response.mjs";
 
 const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
-
-function createResponse() {
-  const result = { body: undefined, headers: {}, statusCode: 200 };
-  const response = {
-    json(body) {
-      result.body = body;
-      return result;
-    },
-    setHeader(name, value) {
-      result.headers[name.toLowerCase()] = value;
-    },
-    status(statusCode) {
-      result.statusCode = statusCode;
-      return response;
-    },
-  };
-
-  return { response, result };
-}
 
 async function invoke(handler, request) {
   const { response, result } = createResponse();

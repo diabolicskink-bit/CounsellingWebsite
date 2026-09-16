@@ -489,26 +489,6 @@ Each active item should include enough direction that a future session can choos
 - `Notes`:
 - `Links`: `package.json`
 
-### DEBT-43 - API handler tests repeat response fixtures
-
-- `Priority`: `P3`
-- `Size`: `S`
-- `Priority Rationale`: Demonstrated test-maintenance duplication; no failing behaviour was observed.
-- `Status`: `Open`
-- `Detected`: 2026-09-14
-- `Source`: Cleanup discovery, rechecked for the owner-requested debt records.
-- `Area`: Tests
-- `Problem`: Seven API handler test files independently implement `createResponse()`, repeating header normalisation, status chaining and body capture. Enquiries additionally need `send()`; collection handlers need `end()`.
-- `Why It Matters`: Changes to the response fake require maintaining multiple copies of the same transport contract.
-- `Preferred Direction`: Use one small response fixture with the supported JSON, HTML and empty-response methods; keep endpoint payloads, dependencies and assertions local.
-- `Resolution Path`: Compare result shapes and callers, migrate the seven fixtures, then run the existing API tests.
-- `Next Action`: Extract the shared response recorder without introducing a general handler-testing framework.
-- `Resolved When`: All seven handlers' tests use the shared fixture and retain their existing response assertions.
-- `Related Items`: `DEBT-9` covers typechecking, a separate test-maintenance concern.
-- `Dependencies`: `None`
-- `Notes`: Source inspection only; this record does not claim test failures or require new tests that merely mirror the fixture.
-- `Links`: `tests/node/enquiry/handler.test.mjs`, `tests/node/analytics/handler.test.mjs`, `tests/node/analytics/exclusions-handler.test.mjs`, `tests/node/visits/visit-handler.test.mjs`, `tests/node/visits/visit-event-handler.test.mjs`, `tests/node/visits/page-engagement-handler.test.mjs`, `tests/node/visits/visit-retention-handler.test.mjs`
-
 ### DEBT-44 - Lighthouse runner owns avoidable shell-launch logic
 
 - `Priority`: `P3`
@@ -560,7 +540,7 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Local IPv6 requests pass consistently with the other endpoints, with focused regression coverage.
 - `Related Items`: Split from `DEBT-42`; independent of the Origin-format issue in `DEBT-46`.
 - `Notes`: Confirmed by local guard comparisons; the enquiry tests already cover this case.
-- `Links`: `src/server/request-origin.ts` (`visitEventOriginPolicy`), `tests/node/visits/visit-event-handler.test.mjs`, `tests/node/enquiry/handler.test.mjs`
+- `Links`: `src/server/request-origin.ts` (`visitEventOriginPolicy`), `tests/node/visits/visit-event-handler.test.mjs`, `tests/node/enquiry/handler-request-validation.test.mjs`
 
 ## Resolved Item Archive
 

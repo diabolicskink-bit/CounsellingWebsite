@@ -1,11 +1,13 @@
 import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
+import { isAnalyticsReport } from "../../../src/data/analyticsContract.ts";
 import {
   AnalyticsDataUnavailableError,
   dailyAnalyticsSql,
   keywordAnalyticsSql,
   monthlyEnquiryAnalyticsSql,
   pageViewsAnalyticsSql,
+  referrersAnalyticsSql,
   readAnalytics,
   visitorAnalyticsSql,
 } from "../../../src/server/reporting/reader.ts";
@@ -13,6 +15,12 @@ import {
 const originalDatabaseUrl = process.env.DATABASE_URL;
 const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
 const dailySelection = { type: "daily", date: "2026-08-15" };
+const referrerSelection = {
+  type: "referrers",
+  startDate: "2026-08-01",
+  endDate: "2026-08-16",
+  includeBots: false,
+};
 
 afterEach(() => {
   if (originalDatabaseUrl === undefined) delete process.env.DATABASE_URL;
@@ -102,6 +110,23 @@ function expectedVisitFromDatabaseRow(row) {
     })),
     totalVisits: Number(row.totalVisits),
     visitNumber: Number(row.visitNumber),
+  };
+}
+
+function createReferrerReport() {
+  return {
+    type: "referrers",
+    startDate: "2026-08-01",
+    endDate: "2026-08-16",
+    referrers: [
+      { referrer: "google.com (paid)", visits: 2, pageViews: 5, activeSeconds: 90, enquiryVisits: 1 },
+      { referrer: "google.com (organic)", visits: 1, pageViews: 2, activeSeconds: 30, enquiryVisits: 1 },
+      { referrer: "No referrer recorded", visits: 1, pageViews: 0, activeSeconds: 0, enquiryVisits: 0 },
+    ],
+    totalVisits: 4,
+    totalPageViews: 7,
+    totalActiveSeconds: 120,
+    totalEnquiryVisits: 2,
   };
 }
 
@@ -243,6 +268,42 @@ test("reads an aggregated page-view breakdown in one query", async () => {
   });
 });
 
+test("referrer reader maps grouped counts and passes the requested filters", async () => {
+  const expected = createReferrerReport();
+  const { referrers, type, startDate, endDate, ...totals } = expected;
+  const rows = referrers.map((row) => Object.fromEntries(
+    Object.entries({ ...row, ...totals }).map(([key, value]) => [key, String(value)]),
+  ));
+  const report = await readAnalytics(referrerSelection, {
+    async query(sql, parameters) {
+      assert.equal(sql, referrersAnalyticsSql);
+      assert.deepEqual(parameters, [startDate, endDate, false]);
+      return rows;
+    },
+  });
+  assert.deepEqual(report, expected);
+});
+
+test("referrer reader supports the SQL empty row and an empty result", async () => {
+  for (const rows of [[], [{
+    referrer: null, visits: null, pageViews: null, activeSeconds: null, enquiryVisits: null,
+    totalVisits: 0, totalPageViews: 0, totalActiveSeconds: 0, totalEnquiryVisits: 0,
+  }]]) {
+    const report = await readAnalytics(referrerSelection, { query: async () => rows });
+    assert.deepEqual(report, {
+      type: "referrers", startDate: referrerSelection.startDate, endDate: referrerSelection.endDate,
+      referrers: [], totalVisits: 0, totalPageViews: 0, totalActiveSeconds: 0, totalEnquiryVisits: 0,
+    });
+    assert.equal(isAnalyticsReport(report), true);
+  }
+});
+
+test("referrer reader rejects invalid database counts", async () => {
+  await assert.rejects(readAnalytics(referrerSelection, {
+    query: async () => [{ ...createReferrerReport().referrers[0], activeSeconds: -1 }],
+  }), /active time/);
+});
+
 test("reads keyword journeys with visit depth, active time and enquiry outcomes", async () => {
   const { calls, database } = createDatabase([
     {
@@ -305,6 +366,7 @@ test("reporting queries preserve their data and filtering boundaries", () => {
     keywordAnalyticsSql,
     monthlyEnquiryAnalyticsSql,
     pageViewsAnalyticsSql,
+    referrersAnalyticsSql,
   ]) {
     assert.match(query, /Australia\/Perth/);
     assert.match(query, /analytics_excluded_visitors/);

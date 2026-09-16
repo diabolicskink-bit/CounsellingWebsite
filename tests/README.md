@@ -6,7 +6,7 @@ Tests are grouped by how they run, then by the subject they cover.
 | --- | --- | --- |
 | `node/` | Direct function, handler, repository and source/configuration checks. External services are substituted. | Installed project dependencies; no database credentials or running site. |
 | `browser/public-site/` | Visitor-facing behaviour in Playwright. | A local site build served at the configured base URL and installed Chrome. |
-| `browser/analytics.spec.ts` | Analytics collection, private-route boundaries and the existing report scenario. | The isolated builds managed by `npm run qa:analytics`. |
+| `browser/analytics/` | Separate collection, private-route boundary and report UI specs. | The isolated builds managed by `npm run qa:analytics`. |
 | `database/` | Reporting SQL executed by PostgreSQL against synthetic fixtures. | The separate Preview database configured in `.env.preview.local`. |
 
 Within `node/`, `analytics/`, `enquiry/` and `visits/` own their domain checks.
@@ -15,8 +15,24 @@ tools, migrations, deployment configuration and SQL source contracts. The SQL
 source checks in `node/tooling/` inspect files; the checks in `database/` execute SQL.
 
 Use `*.test.mjs` for Node and database tests and `*.spec.ts` for Playwright.
-Keep names tied to the behaviour or source under test. Keep fixtures and helpers
-in their test file unless several files need the same setup.
+Keep names tied to the behaviour or source under test. Group cases by the boundary
+they exercise:
+
+- Analytics request parsing, database reading and response validation belong in
+  their respective files, including feature-specific referrer cases.
+- Enquiry delivery, analytics outcomes, request validation and native-form
+  responses each have a handler suite. Their shared enquiry setup stays local
+  in `enquiry/handler-fixtures.mjs`.
+- Visit request-header derivation is separate from endpoint orchestration.
+- Article Markdown editing is separate from the editor plugin's file writing.
+- Ledger schema contracts are separate from saved-query contracts and the
+  migration runner.
+
+Keep fixtures in their test file unless several files need the same setup.
+`node/support/http-response.mjs` owns the shared handler response recorder;
+`browser/analytics/support.ts` owns common analytics scenario/provider setup.
+Support files have no test suffix and do not register tests or lifecycle hooks
+on import.
 
 ## Commands
 
@@ -38,7 +54,7 @@ Run commands from the repository root. The scripts in
 For a focused local check, pass a file or folder glob directly:
 
 ```powershell
-node --test tests/node/analytics/referrers.test.mjs
+node --test tests/node/analytics/reader.test.mjs
 node --test "tests/node/site/*.test.mjs"
 ```
 

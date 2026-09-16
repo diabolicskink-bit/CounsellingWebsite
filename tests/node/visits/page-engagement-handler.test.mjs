@@ -3,6 +3,7 @@ import { test } from "node:test";
 import { createPageEngagementHandler } from "../../../api/page-engagement.ts";
 import { PageEngagementIdentityConflictError } from "../../../src/server/page-engagement/repository.ts";
 import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
+import { createResponse } from "../support/http-response.mjs";
 
 const validPayload = {
   activeSeconds: 47,
@@ -10,29 +11,6 @@ const validPayload = {
   visitId: "1a560836-220d-4d33-a05e-5f364891f9cb",
   visitorId: "114ba8f9-96f8-41e1-a301-15112400759e",
 };
-
-function createResponse() {
-  const result = { body: undefined, ended: false, headers: {}, statusCode: 200 };
-  const response = {
-    end() {
-      result.ended = true;
-      return result;
-    },
-    json(body) {
-      result.body = body;
-      return result;
-    },
-    setHeader(name, value) {
-      result.headers[name.toLowerCase()] = value;
-    },
-    status(statusCode) {
-      result.statusCode = statusCode;
-      return response;
-    },
-  };
-
-  return { response, result };
-}
 
 function jsonHeaders(headers = {}) {
   return { "content-type": "application/json", ...headers };

@@ -2,6 +2,10 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-43 - API handler tests repeat response fixtures
+
+Resolved on 2026-09-16 during the test ownership review. Enquiry, analytics, exclusion, visit, event, engagement and retention handler tests now use `tests/node/support/http-response.mjs` for the shared response recorder. Endpoint payloads, dependencies and assertions stay with their owning suites; the fixture supports JSON, HTML and empty responses without a general handler-testing framework.
+
 ### DEBT-42 - Public write APIs duplicate origin validation
 
 Resolved on 2026-09-14 by moving origin allowlists, cross-site checks, header lookup and blocked-request log sanitisation into `src/server/request-origin.ts`. The enquiry, visit and visit-event request modules use the shared implementation; page engagement inherits it through the visit request module. Endpoint body handling, responses and logging labels remain unchanged.

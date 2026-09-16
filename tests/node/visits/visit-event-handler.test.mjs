@@ -7,35 +7,7 @@ import {
   VisitEventVisitConflictError,
 } from "../../../src/server/visit-events/repository.ts";
 import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
-
-function createResponse() {
-  const result = {
-    body: undefined,
-    ended: false,
-    headers: {},
-    statusCode: 200,
-  };
-
-  const response = {
-    end() {
-      result.ended = true;
-      return result;
-    },
-    json(body) {
-      result.body = body;
-      return result;
-    },
-    setHeader(name, value) {
-      result.headers[name.toLowerCase()] = value;
-    },
-    status(statusCode) {
-      result.statusCode = statusCode;
-      return response;
-    },
-  };
-
-  return { response, result };
-}
+import { createResponse } from "../support/http-response.mjs";
 
 function validPayload(overrides = {}) {
   return {

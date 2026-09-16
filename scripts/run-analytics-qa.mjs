@@ -151,7 +151,7 @@ async function runPreviewTests(env) {
     await waitForPreview(previewProcess);
     await run(
       process.execPath,
-      [playwrightCli, "test", "tests/browser/analytics.spec.ts"],
+      [playwrightCli, "test", "tests/browser/analytics"],
       env,
     );
   } finally {

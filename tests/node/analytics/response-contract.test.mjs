@@ -64,6 +64,23 @@ function createVisit(overrides = {}) {
   };
 }
 
+function createReferrerReport() {
+  return {
+    type: "referrers",
+    startDate: "2026-08-01",
+    endDate: "2026-08-16",
+    referrers: [
+      { referrer: "google.com (paid)", visits: 2, pageViews: 5, activeSeconds: 90, enquiryVisits: 1 },
+      { referrer: "google.com (organic)", visits: 1, pageViews: 2, activeSeconds: 30, enquiryVisits: 1 },
+      { referrer: "No referrer recorded", visits: 1, pageViews: 0, activeSeconds: 0, enquiryVisits: 0 },
+    ],
+    totalVisits: 4,
+    totalPageViews: 7,
+    totalActiveSeconds: 120,
+    totalEnquiryVisits: 2,
+  };
+}
+
 function createReports() {
   return {
     daily: { date: "2026-08-15", type: "daily", visits: [createVisit()] },
@@ -99,6 +116,7 @@ function createReports() {
       type: "keywords",
     },
     monthly: { month: "2026-08", type: "monthly", visits: [createVisit()] },
+    referrers: createReferrerReport(),
     pageViews: {
       endDate: "2026-08-15",
       routes: [{
@@ -206,4 +224,26 @@ test("rejects malformed aggregate rows and report context", () => {
   for (const [name, report] of invalidCases) {
     assert.equal(isAnalyticsReport(report), false, name);
   }
+});
+
+test("referrer contract rejects malformed rows, duplicate groups and inconsistent totals", () => {
+  const report = createReferrerReport();
+  assert.equal(isAnalyticsReport(report), true);
+  for (const key of ["totalVisits", "totalPageViews", "totalActiveSeconds", "totalEnquiryVisits"]) {
+    assert.equal(isAnalyticsReport({ ...report, [key]: report[key] + 1 }), false, key);
+  }
+  for (const patch of [
+    { referrer: "" }, { referrer: null }, { visits: 0 }, { visits: "3" },
+    { pageViews: -1 }, { activeSeconds: 1.5 }, { enquiryVisits: 4 },
+    { enquiryVisits: undefined },
+  ]) {
+    assert.equal(isAnalyticsReport({
+      ...report, referrers: report.referrers.map((row, index) => index === 0 ? { ...row, ...patch } : row),
+    }), false, JSON.stringify(patch));
+  }
+  assert.equal(isAnalyticsReport({ ...report, endDate: "2026-07-31" }), false);
+  assert.equal(isAnalyticsReport({ ...report, referrers: null }), false);
+  assert.equal(isAnalyticsReport({
+    ...report, referrers: report.referrers.map((row) => ({ ...row, referrer: "google.com" })),
+  }), false);
 });

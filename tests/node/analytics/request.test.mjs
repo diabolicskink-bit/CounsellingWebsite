@@ -71,3 +71,36 @@ test("rejects malformed, mixed, and out-of-bounds selections", () => {
     assert.deepEqual(getAnalyticsSelection(query, now), { type: "invalid" }, JSON.stringify(query));
   }
 });
+
+test("referrer selection supports bot inclusion and the inclusive 366-day boundary", () => {
+  const referrerSelection = {
+    type: "referrers",
+    startDate: "2026-08-01",
+    endDate: "2026-08-16",
+    includeBots: false,
+  };
+  for (const includeBots of [false, true]) {
+    assert.deepEqual(getAnalyticsSelection({
+      report: "referrers", start: "2025-08-16", end: "2026-08-16",
+      ...(includeBots ? { bots: "include" } : {}),
+    }, now), {
+      type: "valid",
+      selection: { ...referrerSelection, startDate: "2025-08-16", includeBots },
+    });
+  }
+  for (const query of [
+    {},
+    { start: "2026-08-01" },
+    { start: "2026-02-30", end: "2026-08-16" },
+    { start: "2026-08-16", end: "2026-08-15" },
+    { start: "2026-08-16", end: "2026-08-17" },
+    { start: "2025-08-15", end: "2026-08-16" },
+    { start: "2026-08-01", end: "2026-08-16", date: "2026-08-01" },
+    { start: "2026-08-01", end: "2026-08-16", bots: "exclude" },
+    { start: ["2026-08-01"], end: "2026-08-16" },
+    { start: "2026-08-01", end: "2026-08-16", report: ["referrers"] },
+  ]) {
+    assert.deepEqual(getAnalyticsSelection({ report: "referrers", ...query }, now),
+      { type: "invalid" }, JSON.stringify(query));
+  }
+});
