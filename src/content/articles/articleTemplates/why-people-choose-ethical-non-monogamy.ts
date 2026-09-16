@@ -18,7 +18,7 @@ The appeal may also extend beyond any particular new partner. People in CNM rela
 
 Sexual interest does not need to be presented as personal growth to be taken seriously. Nor does wanting several loving relationships make someone more ethical than a person who wants occasional sexual encounters. Either can treat the people involved with care, or fail to do so.
 
-## Finding a relationship that fits
+## Finding a relationship structure that fits
 
 Some people choose ENM after repeatedly finding that exclusivity does not suit them. Their wish for other connections remains even when they love their partner and want the relationship to continue. An enduring desire for non-monogamy, sometimes extending back to the earliest experiences of attraction, appears in accounts from experienced CNM adults ([Arter & Bunge, 2023](#article-reference-arter-2023)). For someone with that history, ENM may offer a way to stay committed to a partner without continually setting aside their desire for other relationships.
 
@@ -70,23 +70,13 @@ After a breach of trust, that hope may include a sincere wish to stop hiding att
 
 Sometimes the difficulty a person hopes to escape recurs across relationships. They might seek new connections whenever closeness begins to feel uncomfortable, or hope that having several partners will make them less dependent on any one of them. Avoidant attachment has predicted willingness to try CNM among people without CNM experience, while those actually practising CNM reported lower avoidance than monogamous participants ([Moors et al., 2015](#article-reference-moors-2015)). The relationship structure alone gives little basis for assuming that someone is afraid of intimacy.
 
-## Understanding what someone wants
-
-Someone can be drawn to ENM for several reasons, including some they feel less comfortable acknowledging. They may want to explore and also hope that being desired will make them feel better about themselves. They may care deeply about a partner while hoping to avoid a difficult conversation. Their reasons can change, too, as an arrangement they initially felt uncertain about becomes one they want for themselves.
-
-For a partner who hears “I am not enough”, it can help to know what the other person actually wants. It may be an experience they have no interest in sharing, a life with more than one loving relationship, or relief from an unresolved difficulty between them. Understanding that desire does not require agreeing to it. It gives both people a clearer basis for deciding whether they want the relationship being proposed.
-
 ## Talking about ENM at Vive
 
 At Vive, I offer [ENM and polyamory counselling](/polyamory-enm-counselling) for individuals and couples across Australia. We can explore what you want from your relationships and what makes that difficult to acknowledge or ask for. If you and a partner want different things, there is room to understand both positions and consider what each would mean for your relationship.
 
 I have lived in both monogamous and non-monogamous relationships, and ENM is a familiar part of my counselling work. You can talk openly about desire, reluctance and uncertainty, including the parts you find difficult to explain to someone you love.
 
-If you would like to speak with me, [get in touch](/contact) to arrange an online appointment or a free 15-minute consult.
-
-## About the research
-
-The evidence here brings together studies of people’s stated reasons for ENM, research on their subsequent experiences, and broader work on dating, self-worth and relationship motivation. The account of desirability and continued pursuit applies findings from that broader literature to a possible ENM experience. The Tinder studies cited identify associations, not evidence that ENM causes problematic dating or that people with more partners are seeking validation. The discussions of self-worth and avoidance do not establish how common these motives are. Much of the ENM literature uses self-selected samples and retrospective accounts, with research concentrated in North America and Europe ([Gupta et al., 2024](#article-reference-gupta-2024)). It is better placed to describe the range of experiences than to establish which motives cause particular outcomes.`,
+If you would like to speak with me, [get in touch](/contact) to arrange an online appointment or a free 15-minute consult.`,
   references: [
     {
       citation: `Arter, J., & Bunge, S. S. (2023). “There’s no reason to do monogamy”: Evidence for and characteristics associated with a strong desire for consensual nonmonogamy. *Sexuality Research and Social Policy, 20*(2), 514–528.`,
