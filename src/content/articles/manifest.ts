@@ -31,6 +31,18 @@ const requiredTextFields = [
 const publishedArticleMetadata = [
   {
     abstract:
+      "People choose ethical non-monogamy for reasons that can overlap and change, including sexual exploration, emotional connection, autonomy and differences between partners. This article explores those motivations alongside the role of self-worth, unresolved relationship difficulties and pressure to agree. It considers how understanding what someone wants can help partners decide whether they want the relationship being proposed.",
+    author: "Joel Griffiths",
+    description:
+      "Why people choose ethical non-monogamy, from sexual exploration and emotional connection to autonomy, self-worth and differences between partners.",
+    metaTitle: "Why People Choose Ethical Non-Monogamy | Vive Counselling",
+    publishedAt: "2026-09-09",
+    slug: "why-people-choose-ethical-non-monogamy",
+    title: "Why people choose ethical non-monogamy",
+    topic: "Ethical non-monogamy",
+  },
+  {
+    abstract:
       "Self-critical perfectionism makes achievement a test of personal worth, so even success may do little to resolve a sense of inadequacy. This article examines the research on its emotional and relational costs, its connection with depression, and how therapy can help change the conditions people place on their worth.",
     author: "Joel Griffiths",
     description:

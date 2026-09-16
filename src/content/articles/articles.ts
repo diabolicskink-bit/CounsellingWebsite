@@ -9,6 +9,7 @@ import type {
 } from "./articleTemplate.ts";
 import kinkAwareTherapyTemplate from "./articleTemplates/kink-aware-therapy.ts";
 import selfCriticalPerfectionismTemplate from "./articleTemplates/self-critical-perfectionism.ts";
+import whyPeopleChooseEthicalNonMonogamyTemplate from "./articleTemplates/why-people-choose-ethical-non-monogamy.ts";
 
 export type Article = Readonly<ArticleMetadata & {
   body: string;
@@ -18,6 +19,7 @@ export type Article = Readonly<ArticleMetadata & {
 const articleTemplates = {
   [kinkAwareTherapyTemplate.slug]: kinkAwareTherapyTemplate,
   [selfCriticalPerfectionismTemplate.slug]: selfCriticalPerfectionismTemplate,
+  [whyPeopleChooseEthicalNonMonogamyTemplate.slug]: whyPeopleChooseEthicalNonMonogamyTemplate,
 } as const satisfies Record<ArticleSlug, ArticleTemplate>;
 
 export const articles: readonly Article[] = articleMetadata.map((article) => ({
