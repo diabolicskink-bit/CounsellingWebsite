@@ -1,11 +1,15 @@
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Container from "../components/Container";
-import { formatArticleDate, getArticlePath } from "../content/articles/manifest";
-import { articles } from "../content/articles/articles";
+import {
+  articleMetadata,
+  formatArticleDate,
+  getArticlePath,
+} from "../content/articles/manifest";
 import { getRouteMetadata } from "../data/routeMetadata";
 import { publicRoutePaths } from "../data/routes";
 import useDocumentMetadata from "../hooks/useDocumentMetadata";
-import "../styles-articles.css";
+import "../styles-article-index.css";
 
 const articlesMetadata = getRouteMetadata(publicRoutePaths.articles);
 
@@ -19,63 +23,50 @@ export default function ArticleIndex() {
         aria-labelledby="article-index-title"
       >
         <Container>
-          <div className="article-index__hero-heading">
-            <p className="site-hero__eyebrow">Vive Counselling</p>
-            <h1 className="site-hero__statement" id="article-index-title">
-              Psychology and counselling articles
-            </h1>
-          </div>
+          <p className="site-hero__eyebrow">Vive Counselling</p>
+          <h1 className="site-hero__statement" id="article-index-title">
+            Psychology and counselling articles
+          </h1>
         </Container>
       </header>
 
-      <section className="article-index__entries" aria-labelledby="article-entries-title">
-        <Container>
-          <header className="article-index__entries-heading">
-            <h2 id="article-entries-title">Published articles</h2>
-            <p>
-              {articles.length === 1
-                ? "1 article"
-                : `${articles.length} articles`}
-            </p>
-          </header>
-
-          {articles.length > 0 ? (
-            <ol className="article-index__list" aria-label="Published articles">
-              {articles.map((article) => (
-                <li key={article.slug}>
-                  <article className="article-index__entry">
-                    <span className="article-index__entry-meta">{article.topic}</span>
-
-                    <div className="article-index__entry-copy">
-                      <h3>
-                        <Link to={getArticlePath(article.slug)}>{article.title}</Link>
-                      </h3>
-                      <p className="site-reading">{article.abstract}</p>
+      <Container className="article-index__content">
+        {articleMetadata.length > 0 ? (
+          <ol className="article-index__list" aria-label="Published articles" role="list">
+            {articleMetadata.map((article) => (
+              <li key={article.slug}>
+                <article className="article-index__entry">
+                  <Link
+                    className="article-index__article-link"
+                    to={getArticlePath(article.slug)}
+                    aria-labelledby={"article-title-" + article.slug}
+                  >
+                    <div className="article-index__copy">
+                      <div className="article-index__meta">
+                        <span>{article.topic}</span>
+                        <time dateTime={article.publishedAt}>
+                          {formatArticleDate(article.publishedAt)}
+                        </time>
+                      </div>
+                      <h2 id={"article-title-" + article.slug}>{article.title}</h2>
+                      <p className="site-reading">{article.description}</p>
+                      <footer className="article-index__details">
+                        <span className="article-index__author">{article.author}</span>
+                        <span className="article-index__read">
+                          Read article <ArrowRight size={18} aria-hidden="true" />
+                        </span>
+                      </footer>
                     </div>
+                  </Link>
+                </article>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="article-index__empty">No articles have been published yet.</p>
+        )}
 
-                    <footer className="article-index__entry-details">
-                      <time dateTime={article.publishedAt}>{formatArticleDate(article.publishedAt)}</time>
-                      <Link to={getArticlePath(article.slug)}>Read article</Link>
-                    </footer>
-                  </article>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <p className="article-index__empty">No articles have been published yet.</p>
-          )}
-        </Container>
-      </section>
-
-      <section className="article-index__site-links" aria-labelledby="article-site-links-title">
-        <Container className="article-index__site-links-inner">
-          <h2 id="article-site-links-title">Counselling information</h2>
-          <nav aria-label="Counselling information">
-            <Link to={publicRoutePaths.workingWithJoel}>Working with Joel</Link>
-            <Link to={publicRoutePaths.contact}>Contact and fees</Link>
-          </nav>
-        </Container>
-      </section>
+      </Container>
     </main>
   );
 }

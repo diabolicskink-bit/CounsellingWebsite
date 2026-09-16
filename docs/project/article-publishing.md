@@ -45,7 +45,7 @@ The article continues in Markdown.`,
 });
 ```
 
-Import that template in `src/content/articles/articles.ts` and add it to `articleTemplates`. The typed registry must contain exactly one template for every manifest slug. The manifest stays deliberately lightweight because shared metadata and analytics use it on every public route; article bodies and Markdown rendering load only when someone enters the Articles section.
+Import that template in `src/content/articles/articles.ts` and add it to `articleTemplates`. The typed registry must contain exactly one template for every manifest slug. The manifest stays deliberately lightweight because shared metadata and analytics use it on every public route; article bodies and Markdown rendering load only when someone opens an individual article.
 
 Keep the public title in the manifest rather than repeating it as a Markdown H1. Put only the article body in `body`. Put each complete bibliography entry in the ordered `references` array rather than adding a References heading to the body; use an empty array when an article has no sources. See [Reference Fields](#reference-fields) for entry storage and citation links.
 
@@ -66,6 +66,8 @@ Use `updatedAt` only after a substantive published revision. Keep the original `
 Use `sourceNote` for a short acknowledgement of an article's origin or adaptation when appropriate. Keep inline citations in the body and the corresponding entries in the template's `references` array.
 
 ## Article Presentation
+
+The index shows each article's description as a short preview.
 
 Every article uses the same publication shell and renders ordinary Markdown, including headings, lists, quotations, tables, emphasis, and links. Its article-owned reading layout uses a centred continuous column, compact paragraph leading, and level-two headings directly above their sections with a controlled transition rather than the public site's general reading and section rhythm. Use site-root paths such as `/working-with-joel` for internal links and complete `https://` URLs for external sources.
 
