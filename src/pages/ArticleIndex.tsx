@@ -39,15 +39,15 @@ export default function ArticleIndex() {
                   <Link
                     className="article-index__article-link"
                     to={getArticlePath(article.slug)}
-                    aria-labelledby={"article-title-" + article.slug}
+                    aria-labelledby={`article-title-${article.slug}`}
                   >
                     <div className="article-index__meta">
-                      <span>{article.topic}</span>
+                      <span className="article-index__topic">{article.topic}</span>
                       <time dateTime={article.publishedAt}>
                         {formatArticleDate(article.publishedAt)}
                       </time>
                     </div>
-                    <h2 id={"article-title-" + article.slug}>{article.title}</h2>
+                    <h2 id={`article-title-${article.slug}`}>{article.title}</h2>
                     <p className="site-reading">{article.description}</p>
                     <footer className="article-index__details">
                       <span className="article-index__author">{article.author}</span>

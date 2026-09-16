@@ -1,5 +1,5 @@
-import ArticleMarkdown from "./ArticleMarkdown.tsx";
-import type { ArticleReference } from "./articleTemplate.ts";
+import ArticleMarkdown from "./ArticleMarkdown";
+import type { ArticleReference } from "./articleTemplate";
 
 type ArticleReferencesProps = Readonly<{
   references: readonly ArticleReference[];

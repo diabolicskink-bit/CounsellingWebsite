@@ -101,3 +101,13 @@ This catalogue contains every foundation currently approved for deliberate reuse
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
 - `Verified consumers`: Specialist counselling hero actions; Home inclusive-practice topics; Working with Joel dark topics; Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+ dark editorial regions; the shared closing invitation; and the Documents hero.
 - `Promoted`: 2026-08-14 — owner-authorized editorial-material consolidation under `DEBT-37`.
+
+## Layout Foundations
+
+### `--site-anchor-offset`
+
+- `Contract`: Distance an in-page scroll target keeps clear of the sticky site header, for `scroll-margin-top` on anchored sections and jump targets. It derives from the header rather than fixing a pixel value, so it follows the header down to its narrow-screen height: `96px` above 700px and `90px` at or below it.
+- `Boundary`: It owns the header clearance only. Consumers own which elements are scroll targets, their focus treatment, and any additional breathing room a composition needs; it is not a general spacing, padding, or sticky-offset token and must not be assumed to be a fixed number of pixels.
+- `Implementation`: Defined on `:root` in `src/design-system/foundations.css` as `calc(var(--site-header-height) + 24px)`, over the header height in `src/styles.css`.
+- `Verified consumers`: Contact enquiry, confirmation and fees anchors; article citation targets; Crisis Support service and region anchors; Privacy Policy section anchors; the Working with Joel topics anchor; and the development design-system workspace.
+- `Promoted`: 2026-09-16 — owner-authorized anchor-offset reconciliation.
