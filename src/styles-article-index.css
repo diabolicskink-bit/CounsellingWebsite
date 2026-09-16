@@ -1,0 +1,159 @@
+/* Article index composition: the hero opening and the reading-card grid. */
+
+.article-index {
+  background: var(--paper);
+  overflow-wrap: anywhere;
+}
+
+/* Hero */
+
+/* Outranks the shared .site-hero statement rule, which owns the default measure and scale. */
+.article-index .article-index__hero .site-hero__statement {
+  max-width: 15ch;
+  margin: var(--site-hero-eyebrow-gap) 0 0;
+  font-size: clamp(3.7rem, 5.5vw, 5.1rem);
+  letter-spacing: -0.045em;
+  line-height: 0.93;
+}
+
+/* Card grid */
+
+.article-index__content {
+  padding-block: clamp(32px, 5vw, 56px) 36px;
+}
+
+.article-index__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 3.5vw, 40px);
+  margin: 0;
+  padding: 0;
+  /* Dropping the markers also drops list semantics in some screen readers, so the
+     markup restores them with role="list". */
+  list-style: none;
+}
+
+/* The entry and its link both fill the row so cards in a row end level. */
+.article-index__entry {
+  height: 100%;
+}
+
+.article-index__article-link {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 18px;
+  height: 100%;
+  padding: clamp(24px, 3vw, 34px);
+  border-radius: 18px;
+  background: #fffefb;
+  box-shadow: 0 5px 24px rgba(31, 35, 31, 0.045);
+}
+
+.article-index__article-link:hover {
+  box-shadow: 0 8px 28px rgba(31, 35, 31, 0.09);
+}
+
+.article-index__article-link:focus-visible {
+  outline: 3px solid var(--cedar);
+  outline-offset: 5px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .article-index__article-link {
+    transition: box-shadow 180ms ease;
+  }
+}
+
+/* Card contents */
+
+.article-index__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 20px;
+  width: 100%;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  line-height: 1.5;
+}
+
+.article-index__topic {
+  color: var(--cedar);
+  font-weight: 600;
+}
+
+/* Outranks .site-page h2, which sets the shared heading colour. */
+.article-index .article-index__entry h2 {
+  color: var(--section-dark);
+  font-size: clamp(1.75rem, 2.5vw, 2.1rem);
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+  text-wrap: pretty;
+}
+
+.article-index__details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 20px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.article-index__author {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.article-index__read {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--cedar);
+  font-size: var(--type-small);
+  font-weight: 600;
+}
+
+/* content-box keeps the padding outside the icon box, making a 34px disc. */
+.article-index__read svg {
+  box-sizing: content-box;
+  flex-shrink: 0;
+  padding: 8px;
+  border-radius: 50%;
+  background: var(--section-sage);
+}
+
+.article-index__article-link:hover .article-index__read,
+.article-index__article-link:focus-visible .article-index__read {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Outranks .site-page p, which sets the shared body colour. */
+.article-index .article-index__empty {
+  padding: 40px 0;
+  color: var(--muted);
+}
+
+/* Responsive */
+
+@media (max-width: 700px) {
+  .article-index .article-index__hero .site-hero__statement {
+    max-width: 100%;
+    font-size: clamp(3rem, 14vw, 3.65rem);
+  }
+
+  .article-index__list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .article-index__article-link {
+    padding: 24px;
+  }
+}

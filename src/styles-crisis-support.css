@@ -150,7 +150,7 @@
 
 .crisis-support-page__section-heading h2 {
   max-width: 13ch;
-  scroll-margin-top: 92px;
+  scroll-margin-top: var(--site-anchor-offset);
 }
 
 .crisis-support-page__section-heading .site-reading {
@@ -322,7 +322,7 @@
   grid-template-columns: minmax(150px, 0.32fr) minmax(320px, 1fr) minmax(260px, 0.76fr);
   align-items: start;
   gap: 24px clamp(24px, 4vw, 56px);
-  scroll-margin-top: 92px;
+  scroll-margin-top: var(--site-anchor-offset);
   padding-block: 30px;
   border-bottom: 1px solid var(--section-rule);
   transition: background-color 160ms ease;
