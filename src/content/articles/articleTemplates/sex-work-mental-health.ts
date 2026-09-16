@@ -1,7 +1,7 @@
 import { defineArticleTemplate } from "../articleTemplate.ts";
 
 export default defineArticleTemplate({
-  slug: "sex-work-and-access-to-mental-health-care",
+  slug: "sex-work-mental-health",
   body: `Sex work encompasses a wide range of occupations, including stripping, camming, pornography and providing in-person sexual services ([Antebi-Gruszka et al., 2019](#article-reference-antebi-gruszka-2019)). In this article, the terms sex work and sex workers refer primarily to full-service sex work involving in-person sexual contact with clients, reflecting the focus of much of the research discussed here.
 
 For a sex worker, seeking help can involve deciding how much of their life it is safe to discuss. Will mentioning their work help a counsellor understand what is happening, or change how everything else is heard? Assumptions about exploitation, the causes of distress and the need to leave the industry can redirect therapy before the person's concerns have been understood ([Ryan et al., 2024](#article-reference-ryan-2024); [Treloar et al., 2021](#article-reference-treloar-2021)). Someone who comes for help with grief, anxiety or relationship difficulties may find themselves having to explain and defend how they earn a living.

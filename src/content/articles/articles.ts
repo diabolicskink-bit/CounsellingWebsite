@@ -9,7 +9,7 @@ import type {
 } from "./articleTemplate.ts";
 import kinkAwareTherapyTemplate from "./articleTemplates/kink-aware-therapy.ts";
 import selfCriticalPerfectionismTemplate from "./articleTemplates/self-critical-perfectionism.ts";
-import sexWorkAndAccessToMentalHealthCareTemplate from "./articleTemplates/sex-work-and-access-to-mental-health-care.ts";
+import sexWorkMentalHealthTemplate from "./articleTemplates/sex-work-mental-health.ts";
 import whyPeopleChooseEthicalNonMonogamyTemplate from "./articleTemplates/why-people-choose-ethical-non-monogamy.ts";
 
 export type Article = Readonly<ArticleMetadata & {
@@ -20,7 +20,7 @@ export type Article = Readonly<ArticleMetadata & {
 const articleTemplates = {
   [kinkAwareTherapyTemplate.slug]: kinkAwareTherapyTemplate,
   [selfCriticalPerfectionismTemplate.slug]: selfCriticalPerfectionismTemplate,
-  [sexWorkAndAccessToMentalHealthCareTemplate.slug]: sexWorkAndAccessToMentalHealthCareTemplate,
+  [sexWorkMentalHealthTemplate.slug]: sexWorkMentalHealthTemplate,
   [whyPeopleChooseEthicalNonMonogamyTemplate.slug]: whyPeopleChooseEthicalNonMonogamyTemplate,
 } as const satisfies Record<ArticleSlug, ArticleTemplate>;
 

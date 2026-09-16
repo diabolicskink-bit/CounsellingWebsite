@@ -31,14 +31,14 @@ const requiredTextFields = [
 const publishedArticleMetadata = [
   {
     abstract:
-      "Mental health difficulties among sex workers are bound up with working conditions, earlier experiences, financial insecurity and stigma. Accessing care can bring further difficulties when practitioners assume that the occupation explains the distress or that leaving should be the goal of treatment. Effective support requires an understanding of what the person is struggling with, the circumstances sustaining it and the changes they want to make. This includes being able to discuss harm without having their entire working life defined by it.",
+      "Working conditions, financial pressure, stigma and earlier experiences can all affect sex workers' mental health. Finding support may be complicated by cost, concerns about disclosure and judgement from practitioners. Counselling needs to make room for the person's own account of their life, including harm, satisfaction and difficulties unrelated to work. Support can then focus on what is troubling them and the changes they want to make, without assuming that leaving sex work is the answer.",
     author: "Joel Griffiths",
     description:
-      "How stigma, working conditions and financial pressure shape sex workers' mental health and access to care, and what respectful counselling can offer.",
-    metaTitle: "Sex Work and Access to Mental Health Care",
+      "How working conditions and stigma shape sex workers' mental health, why accessing care can be difficult",
+    metaTitle: "Sex Work and Mental Health | Vive Counselling",
     publishedAt: "2026-09-16",
-    slug: "sex-work-and-access-to-mental-health-care",
-    title: "Sex work and access to mental health care",
+    slug: "sex-work-mental-health",
+    title: "Sex work, mental health and access to therapy",
     topic: "Sex work",
   },
   {
