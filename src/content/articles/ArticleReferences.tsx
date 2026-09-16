@@ -22,7 +22,7 @@ export default function ArticleReferences({ references }: ArticleReferencesProps
         </p>
       </header>
 
-      <ul className="article-page__reference-list">
+      <ul className="article-page__reference-list" role="list">
         {references.map((reference) => (
           <li
             id={reference.anchorId ? `article-reference-${reference.anchorId}` : undefined}

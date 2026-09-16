@@ -41,22 +41,20 @@ export default function ArticleIndex() {
                     to={getArticlePath(article.slug)}
                     aria-labelledby={"article-title-" + article.slug}
                   >
-                    <div className="article-index__copy">
-                      <div className="article-index__meta">
-                        <span>{article.topic}</span>
-                        <time dateTime={article.publishedAt}>
-                          {formatArticleDate(article.publishedAt)}
-                        </time>
-                      </div>
-                      <h2 id={"article-title-" + article.slug}>{article.title}</h2>
-                      <p className="site-reading">{article.description}</p>
-                      <footer className="article-index__details">
-                        <span className="article-index__author">{article.author}</span>
-                        <span className="article-index__read">
-                          Read article <ArrowRight size={18} aria-hidden="true" />
-                        </span>
-                      </footer>
+                    <div className="article-index__meta">
+                      <span>{article.topic}</span>
+                      <time dateTime={article.publishedAt}>
+                        {formatArticleDate(article.publishedAt)}
+                      </time>
                     </div>
+                    <h2 id={"article-title-" + article.slug}>{article.title}</h2>
+                    <p className="site-reading">{article.description}</p>
+                    <footer className="article-index__details">
+                      <span className="article-index__author">{article.author}</span>
+                      <span className="article-index__read">
+                        Read article <ArrowRight size={18} aria-hidden="true" />
+                      </span>
+                    </footer>
                   </Link>
                 </article>
               </li>
@@ -65,7 +63,6 @@ export default function ArticleIndex() {
         ) : (
           <p className="article-index__empty">No articles have been published yet.</p>
         )}
-
       </Container>
     </main>
   );
