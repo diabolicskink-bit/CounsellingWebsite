@@ -450,7 +450,7 @@ function DailyObservatory({
       </section>
 
       <p className="signal-footnote">
-        Records page loads, visible active time, outbound link clicks and enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Visits identified by BotID as bots are excluded; unclassified records are treated as visits."} Form contents are not included in this report.
+        Records page loads, visible active time, outbound link clicks and enquiry lifecycle events shown here. {includeBots ? "Bot visits are included in this view." : "Identified bot visits are excluded; unclassified records are treated as visits."} Bot names are best-effort identifications. Form contents are not included in this report.
       </p>
     </>
   );

@@ -148,7 +148,7 @@ test("updates visit activity and bot classification without rewriting first-touc
   );
   assert.match(
     updatedVisit,
-    /bot_category = COALESCE\(site_visits\.bot_category, observation\.bot_category\)/i,
+    /bot_category = CASE\s+WHEN site_visits\.bot_name IS NOT NULL THEN site_visits\.bot_category\s+WHEN observation\.bot_name IS NOT NULL THEN observation\.bot_category/i,
   );
   assert.match(
     recordVisitObservationSql,

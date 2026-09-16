@@ -182,7 +182,9 @@ Initial document loads, distinct tracked pathnames and browser-restored document
 
 Allowlisted first-party client events cover contact-option selection, enquiry start, the shared consult CTA, Instagram, LinkedIn, email, and Contact-page phone links. Server-authored events record controlled form submission attempt, successful delivery, and failure outcomes. Client events retain their active page-view association, and event storage never delays or changes the visitor interaction or public delivery result.
 
-The server derives bounded User-Agent/device context and coarse location from Vercel request headers. Australian location retains a state/territory code; overseas location retains country only; invalid or unavailable location stays unknown. Raw IP, city, postcode and coordinates are not stored in this ledger. BotID Basic supplies bot observations rather than blocking visitors; unavailable classification remains unknown. The WebDriver flag is a separate browser observation, not an equivalent bot verdict.
+The server derives bounded User-Agent/device context and coarse location from Vercel request headers. Australian location retains a state/territory code; overseas location retains country only; invalid or unavailable location stays unknown. Raw IP, city, postcode and coordinates are not stored in this ledger. Bot classification uses BotID Basic and server-side User-Agent parsing without blocking visitors. Either BotID's bot flag or verified-bot flag is a positive observation. Names follow a short fallback chain: Vercel-supplied verified identity, `node-device-detector`'s bot parser, then official crawler IP ranges and Google/Bing reverse/forward DNS for still-unnamed bots. Generic parser matches count as bots but still need a name. Missing BotID results remain unclassified unless another check identifies a bot; bypassed results are not human evidence.
+
+`src/server/visits/bot.ts` owns this classification and `bot-network.ts` owns the optional naming lookup. Only a single valid `x-vercel-forwarded-for` address on Vercel is eligible. Official Google, Bing, OpenAI, Anthropic and Perplexity ranges are cached in function memory for 24 hours; per-IP results for one hour (up to 256 entries); failed or unidentified lookups for one minute. The additional IP/DNS work has a one-second total budget. IPs and DNS responses are not stored in the ledger or returned to the browser. No new browser scripts or blocking page work are added. Positive bot status survives subsequent observations; the first available named identity and its category stay together. Names are best effort, including provider-level names where a specific crawler cannot be distinguished. Collection remains limited to existing JavaScript-recorded visits. The WebDriver flag is a separate browser observation, not an equivalent bot verdict.
 
 ### Reporting semantics
 
@@ -233,7 +235,7 @@ Vercel middleware protects `/analytics` and `/api/analytics` (including descenda
 | Endpoint | Access and responsibility |
 | --- | --- |
 | `POST /api/enquiry` | Public enquiry delivery; accepts JSON or native URL-encoded form data and returns the corresponding JSON/HTML response. |
-| `POST /api/visit` | Public, write-only visit/page-view collection; validates observation IDs and attribution, adds server diagnostics and BotID observations. |
+| `POST /api/visit` | Public, write-only visit/page-view collection; validates observation IDs and attribution, adds server diagnostics and best-effort bot classification. |
 | `POST /api/page-engagement` | Public, write-only cumulative active-time update for the supplied visitor/visit/page-view relationship. |
 | `POST /api/visit-event` | Public, write-only allowlisted client actions. Server-authored enquiry outcomes use the repository from the enquiry handler instead. |
 | `GET /api/analytics` | Protected report selection by day, month, visitor or page/keyword date range. Returns a typed report in a `data` envelope. |
@@ -253,7 +255,7 @@ Use the intended environment's configuration; do not place actual secret values 
 | `ANALYTICS_USERNAME`, `ANALYTICS_PASSWORD` | Environment-specific private-report Basic Authentication. |
 | `CRON_SECRET` | Server-side retention-job authorization. |
 | `VITE_VISIT_ANALYTICS_ENABLED`, `VITE_VISIT_ANALYTICS_ALLOWED_HOSTS` | Build-time first-party collection switch and extra allowed hosts. |
-| `VITE_VISIT_BOT_DETECTION_ENABLED` | Browser BotID initialization switch; defaults on when visit collection runs unless set to `false`. |
+| `VITE_VISIT_BOT_DETECTION_ENABLED` | BotID switch consumed by both browser initialization and the server check; defaults on unless set to `false`. Server-side User-Agent identification remains available. |
 | `VITE_ANALYTICS_ENABLED`, `VITE_ANALYTICS_ALLOWED_HOSTS`, `VITE_GA_MEASUREMENT_ID`, `VITE_CLARITY_PROJECT_ID` | Build-time third-party analytics switch, extra hosts and public provider IDs. |
 | `SITE_URL`, Vercel-provided URL/environment values | Generated canonical origin and relevant server request-origin checks. |
 
@@ -267,7 +269,7 @@ Follow [database/README.md](../../database/README.md) for environment selection 
 
 For code that depends on schema changes, establish the intended environment's schema readiness before deploying that code. Preview migrations affect the shared Preview database used by non-production deployments, so compatibility with other active Preview code matters. Verification that needs a database uses the separate Preview environment under the [private analytics policy](../../AGENTS.md#private-analytics). Substantial analytics work can warrant agent verification there; routine dashboard browser checks remain with the owner. Production is not a development-verification database.
 
-**Recorded environment state:** the repository has eleven ordered migrations through `0011_add_consult_cta_event.sql`, and Preview and Production were both current through `0011` on 2026-09-10. This is a dated operational observation rather than a live schema check; confirm each environment again when a future release depends on a newer migration. The dated [consult CTA](task-log.md#2026-09-10---consult-cta-first-party-event-added) and [phone analytics](task-log.md#2026-09-09---contact-phone-analytics-added) entries retain the history.
+**Recorded environment state:** the repository has twelve ordered migrations through `0012_describe_bot_identification.sql` (column comments only; no runtime schema dependency). Preview and Production were both current through `0011` on 2026-09-10; `0012` has not been applied as part of this implementation. This is a dated operational observation rather than a live schema check; confirm each environment again when a future release depends on a newer migration. The dated [consult CTA](task-log.md#2026-09-10---consult-cta-first-party-event-added) and [phone analytics](task-log.md#2026-09-09---contact-phone-analytics-added) entries retain the history.
 
 ## Working Locally And Verifying Changes
 

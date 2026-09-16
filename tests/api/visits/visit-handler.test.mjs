@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createVisitHandler } from "../../../api/visit.ts";
+import { createVisitBotClassifier } from "../../../src/server/visits/bot.ts";
 import {
   PageViewIdentityConflictError,
   VisitDatabaseConfigurationError,
@@ -462,4 +463,28 @@ test("keeps database configuration and runtime failures out of public responses"
     JSON.stringify(errors),
     /sensitive-test-value|polyamory therapy|CjwK-test-click|password|private-host/,
   );
+});
+
+test("records fallback bot identities without storing the lookup IP", async () => {
+  for (const [userAgent, expectedName] of [["Googlebot/2.1", "Googlebot"], [desktopUserAgent, "OpenAI bot"]]) {
+    const observations = [];
+    const classify = createVisitBotClassifier({
+      check: async () => ({ isHuman: false, isBot: true, isVerifiedBot: false, bypassed: false }),
+      identifyIp: async (ip) => {
+        assert.equal(ip, "203.0.113.9");
+        return { botName: "OpenAI bot", botCategory: "AI bot" };
+      },
+      environment: { VERCEL: "1" },
+    });
+    const handler = createVisitHandler(async (observation) => observations.push(observation), classify);
+    const { response, result } = createResponse();
+    await handler({
+      method: "POST", body: validPayload(),
+      headers: jsonHeaders({ "user-agent": userAgent, "x-vercel-forwarded-for": "203.0.113.9" }),
+    }, response);
+    assert.equal(result.statusCode, 204);
+    assert.equal(observations[0].isBot, true);
+    assert.equal(observations[0].botName, expectedName);
+    assert.equal(JSON.stringify(observations).includes("203.0.113.9"), false);
+  }
 });

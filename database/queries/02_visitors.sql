@@ -6,7 +6,7 @@ SELECT
   MAX(ledger.started_at) AT TIME ZONE 'Australia/Perth' AS latest_seen_at_awst,
   COUNT(*) FILTER (WHERE ledger.is_bot IS TRUE)::INTEGER AS bot_visit_count,
   COUNT(*) FILTER (WHERE ledger.is_bot IS NOT TRUE)::INTEGER AS unflagged_visit_count,
-  ARRAY_REMOVE(ARRAY_AGG(DISTINCT ledger.bot_name), NULL) AS verified_bot_names,
+  ARRAY_REMOVE(ARRAY_AGG(DISTINCT ledger.bot_name), NULL) AS bot_names,
   COUNT(*) FILTER (WHERE visit_record.device_type = 'desktop')::INTEGER AS desktop_visit_count,
   COUNT(*) FILTER (WHERE visit_record.device_type = 'mobile')::INTEGER AS mobile_visit_count,
   COUNT(*) FILTER (WHERE visit_record.device_type = 'tablet')::INTEGER AS tablet_visit_count,
