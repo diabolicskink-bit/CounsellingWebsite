@@ -43,11 +43,11 @@ const publishedArticleMetadata = [
   },
   {
     abstract:
-      "Self-critical perfectionism makes achievement a test of personal worth, so even success may do little to resolve a sense of inadequacy. This article examines the research on its emotional and relational costs, its connection with depression, and how therapy can help change the conditions people place on their worth.",
+      "Self-critical perfectionism can leave people feeling inadequate despite substantial achievement. Mistakes become judgments of personal worth, while success brings only temporary reassurance. Research links this pattern with depression, burnout, procrastination and difficulties in relationships. Understanding how these standards develop and what keeps them in place helps explain why reassurance often falls short. Therapy can address both the habits that maintain perfectionism and the fear of what being imperfect would mean.",
     author: "Joel Griffiths",
     description:
-      "Research on self-critical perfectionism, depression and relationships, including why achievement may never feel enough and how therapy can help.",
-    metaTitle: "Self-Critical Perfectionism | Vive Counselling",
+      "Why success can still leave you feeling inadequate. Self-critical perfectionism, its links with depression and burnout, and how therapy can help.",
+    metaTitle: "Self-Critical Perfectionism | Never Feeling Good Enough",
     publishedAt: "2026-09-02",
     slug: "self-critical-perfectionism",
     title: "Self-critical perfectionism and the cost of conditional self-worth",
@@ -59,12 +59,11 @@ const publishedArticleMetadata = [
     author: "Joel Griffiths",
     description:
       "What research tells us about BDSM and mental health, and how kink-aware therapy approaches shame, consent and discussing sexual trauma in counselling.",
-    metaTitle: "Kink-Aware Therapy and the Psychology of BDSM | Vive Counselling",
+    metaTitle: "Kink-Aware Therapy and the Psychology of BDSM",
     publishedAt: "2026-08-26",
     slug: "kink-aware-therapy",
     title: "Kink-Aware Therapy and the Psychology of BDSM",
     topic: "Kink and BDSM",
-    updatedAt: "2026-09-09",
   },
 ] as const satisfies readonly ArticleMetadata[];
 
