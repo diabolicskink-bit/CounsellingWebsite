@@ -2,6 +2,10 @@
 
 This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
+### DEBT-43 - API handler tests repeat response fixtures
+
+Resolved on 2026-09-16 during the test ownership review. Enquiry, analytics, exclusion, visit, event, engagement and retention handler tests now use `tests/node/support/http-response.mjs` for the shared response recorder. Endpoint payloads, dependencies and assertions stay with their owning suites; the fixture supports JSON, HTML and empty responses without a general handler-testing framework.
+
 ### DEBT-47 - Visit-event origin checks reject local IPv6 requests
 
 Closed on 2026-09-15 after the owner confirmed that local development uses IPv4 and does not require IPv6 loopback support. The visit-event origin policy now states that boundary directly and validates IPv4 localhost hosts without relying on colon splitting. No additional test was added for the unsupported IPv6 case.

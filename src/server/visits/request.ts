@@ -1,3 +1,4 @@
+import { isIP } from "node:net";
 import {
   getBlockedRequestLogDetails,
   getCrossSiteBlockReason,
@@ -51,7 +52,17 @@ function isAustralianVisitRegionCode(value: string): value is AustralianVisitReg
   return australianRegionCodes.has(value);
 }
 
-function getStoredUserAgent(request: VisitRequest) {
+export function getVisitClientIp(
+  request: VisitRequest,
+  environment: Readonly<Record<string, string | undefined>> = process.env,
+) {
+  if (environment.VERCEL !== "1") return null;
+
+  const ip = getHeader(request, "x-vercel-forwarded-for").trim();
+  return !ip.includes("%") && isIP(ip) ? ip : null;
+}
+
+export function getStoredUserAgent(request: VisitRequest) {
   const userAgent = getHeader(request, "user-agent").trim();
 
   if (!userAgent || controlCharacterPattern.test(userAgent)) {

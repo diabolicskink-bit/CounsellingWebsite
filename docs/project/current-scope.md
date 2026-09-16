@@ -125,7 +125,7 @@ A route change can touch several contracts:
 - `src/data/routeMetadata.json` supplies core public-page and business metadata. `routeMetadata.ts` adds article-derived metadata for runtime consumers. Article publishing uses its own manifest rather than requiring each article in the core route file.
 - `scripts/prerender-route-metadata.mjs` owns public rendering checks and the private-shell route list. The build rejects an unsupported core metadata route.
 - `vercel.json` owns HTTP redirects and clean-URL/trailing-slash behaviour. React redirects do not replace hosting redirects.
-- Browser route coverage has its own contract inventory under `tests/public-site/`; direct route tests check public constants against metadata.
+- Browser tests cover representative public journeys under `tests/browser/public-site/`; direct route tests check public constants against metadata.
 
 This means adding a React route alone does not complete a public-route change. Check its first-response HTML, metadata, links, hosting behaviour and appropriate coverage. For article additions, follow [article-publishing.md](article-publishing.md), which describes the manifest/template path through those concerns.
 
@@ -182,14 +182,16 @@ Initial document loads, distinct tracked pathnames and browser-restored document
 
 Allowlisted first-party client events cover contact-option selection, enquiry start, the shared consult CTA, Instagram, LinkedIn, email, and Contact-page phone links. Server-authored events record controlled form submission attempt, successful delivery, and failure outcomes. Client events retain their active page-view association, and event storage never delays or changes the visitor interaction or public delivery result.
 
-The server derives bounded User-Agent/device context and coarse location from Vercel request headers. Australian location retains a state/territory code; overseas location retains country only; invalid or unavailable location stays unknown. Raw IP, city, postcode and coordinates are not stored in this ledger. BotID Basic supplies bot observations rather than blocking visitors; unavailable classification remains unknown. The WebDriver flag is a separate browser observation, not an equivalent bot verdict.
+The server derives bounded User-Agent/device context and coarse location from Vercel request headers. Australian location retains a state/territory code; overseas location retains country only; invalid or unavailable location stays unknown. Raw IP, city, postcode and coordinates are not stored in this ledger. Bot classification uses BotID Basic and server-side User-Agent parsing without blocking visitors. Either BotID's bot flag or verified-bot flag is a positive observation. Names follow a short fallback chain: Vercel-supplied verified identity, `node-device-detector`'s bot parser, then official crawler IP ranges and Google/Bing reverse/forward DNS for still-unnamed bots. Generic parser matches count as bots but still need a name. Missing BotID results remain unclassified unless another check identifies a bot; bypassed results are not human evidence.
+
+`src/server/visits/bot.ts` owns this classification and `bot-network.ts` owns the optional naming lookup. Only a single valid `x-vercel-forwarded-for` address on Vercel is eligible. Official Google, Bing, OpenAI, Anthropic and Perplexity ranges are cached in function memory for 24 hours; per-IP results for one hour (up to 256 entries); failed or unidentified lookups for one minute. The additional IP/DNS work has a one-second total budget. IPs and DNS responses are not stored in the ledger or returned to the browser. No new browser scripts or blocking page work are added. Positive bot status survives subsequent observations; the first available named identity and its category stay together. Names are best effort, including provider-level names where a specific crawler cannot be distinguished. Collection remains limited to existing JavaScript-recorded visits. The WebDriver flag is a separate browser observation, not an equivalent bot verdict.
 
 ### Reporting semantics
 
 Dates use `Australia/Perth`. Page, referrer and keyword ranges are inclusive and limited to 366 days. The main distinctions are:
 
 - **Daily traffic, Pages, Referrers and Keywords select visits by visit start date.** Their page/activity totals describe the selected visits' retained journeys; they do not simply count all page-view events that happened between two clock boundaries. Keywords further selects paid visits and keeps visits without keyword data visible in coverage totals.
-- **Referrers groups all included visits by recorded arrival host, including paid visits.** It combines case and leading `www.` variants, groups the canonical Vive hosts as Internal, and retains a No referrer recorded group. Rows rank by visits and include page views, visible active time and enquiry visits. An enquiry visit contains at least one successful form send or phone-link click, counted once regardless of repeated or combined signals. These outcomes belong to the selected visits' retained journeys, so they need not occur inside the date range. The protected `/analytics/referrers` page uses `report=referrers` on the reporting API; Daily links preserve date and bot selection.
+- **Referrers groups all included visits by recorded arrival host, splitting Google search hosts into paid and organic rows.** It combines case and leading `www.` variants, groups the canonical Vive hosts as Internal, and retains a No referrer recorded group. Google search hosts keep their domain and use the ledger's paid attribution: paid when ad attribution is recorded, otherwise organic. Other hosts (including Google service subdomains such as Gmail), Internal and missing referrers retain their existing grouping regardless of paid attribution. The external-referrer summary counts groups, so a Google host with paid and organic visits counts twice. Rows rank by visits and include page views, visible active time and enquiry visits. An enquiry visit contains at least one successful form send or phone-link click, counted once regardless of repeated or combined signals. These outcomes belong to the selected visits' retained journeys, so they need not occur inside the date range. The protected `/analytics/referrers` page uses `report=referrers` on the reporting API; Daily links preserve date and bot selection.
 - **Monthly Enquiries selects enquiry events by occurrence month.** A visit may have started earlier. Successful form sends and Contact-page phone clicks are enquiry signals; failed forms are separate. A phone click proves neither that a call was placed nor that Joel answered. Email/social clicks remain separate outbound actions.
 - **Returning means a later retained visit for the browser ID.** It does not establish a returning client or person, and rotation, storage loss and retention affect that interpretation.
 - **Exclusion is a reporting filter, not deletion or collection opt-out.** It removes a visitor's past and future visits from ordinary reports while preserving direct retained-history access and allowing restoration.
@@ -233,7 +235,7 @@ Vercel middleware protects `/analytics` and `/api/analytics` (including descenda
 | Endpoint | Access and responsibility |
 | --- | --- |
 | `POST /api/enquiry` | Public enquiry delivery; accepts JSON or native URL-encoded form data and returns the corresponding JSON/HTML response. |
-| `POST /api/visit` | Public, write-only visit/page-view collection; validates observation IDs and attribution, adds server diagnostics and BotID observations. |
+| `POST /api/visit` | Public, write-only visit/page-view collection; validates observation IDs and attribution, adds server diagnostics and best-effort bot classification. |
 | `POST /api/page-engagement` | Public, write-only cumulative active-time update for the supplied visitor/visit/page-view relationship. |
 | `POST /api/visit-event` | Public, write-only allowlisted client actions. Server-authored enquiry outcomes use the repository from the enquiry handler instead. |
 | `GET /api/analytics` | Protected report selection by day, month, visitor or page/keyword date range. Returns a typed report in a `data` envelope. |
@@ -253,7 +255,7 @@ Use the intended environment's configuration; do not place actual secret values 
 | `ANALYTICS_USERNAME`, `ANALYTICS_PASSWORD` | Environment-specific private-report Basic Authentication. |
 | `CRON_SECRET` | Server-side retention-job authorization. |
 | `VITE_VISIT_ANALYTICS_ENABLED`, `VITE_VISIT_ANALYTICS_ALLOWED_HOSTS` | Build-time first-party collection switch and extra allowed hosts. |
-| `VITE_VISIT_BOT_DETECTION_ENABLED` | Browser BotID initialization switch; defaults on when visit collection runs unless set to `false`. |
+| `VITE_VISIT_BOT_DETECTION_ENABLED` | BotID switch consumed by both browser initialization and the server check; defaults on unless set to `false`. Server-side User-Agent identification remains available. |
 | `VITE_ANALYTICS_ENABLED`, `VITE_ANALYTICS_ALLOWED_HOSTS`, `VITE_GA_MEASUREMENT_ID`, `VITE_CLARITY_PROJECT_ID` | Build-time third-party analytics switch, extra hosts and public provider IDs. |
 | `SITE_URL`, Vercel-provided URL/environment values | Generated canonical origin and relevant server request-origin checks. |
 
@@ -267,7 +269,7 @@ Follow [database/README.md](../../database/README.md) for environment selection 
 
 For code that depends on schema changes, establish the intended environment's schema readiness before deploying that code. Preview migrations affect the shared Preview database used by non-production deployments, so compatibility with other active Preview code matters. Verification that needs a database uses the separate Preview environment under the [private analytics policy](../../AGENTS.md#private-analytics). Substantial analytics work can warrant agent verification there; routine dashboard browser checks remain with the owner. Production is not a development-verification database.
 
-**Recorded environment state:** the repository has eleven ordered migrations through `0011_add_consult_cta_event.sql`, and Preview and Production were both current through `0011` on 2026-09-10. This is a dated operational observation rather than a live schema check; confirm each environment again when a future release depends on a newer migration. The dated [consult CTA](task-log.md#2026-09-10---consult-cta-first-party-event-added) and [phone analytics](task-log.md#2026-09-09---contact-phone-analytics-added) entries retain the history.
+**Recorded environment state:** the repository has twelve ordered migrations through `0012_describe_bot_identification.sql` (column comments only; no runtime schema dependency). Preview and Production were both current through `0011` on 2026-09-10; `0012` has not been applied as part of this implementation. This is a dated operational observation rather than a live schema check; confirm each environment again when a future release depends on a newer migration. The dated [consult CTA](task-log.md#2026-09-10---consult-cta-first-party-event-added) and [phone analytics](task-log.md#2026-09-09---contact-phone-analytics-added) entries retain the history.
 
 ## Working Locally And Verifying Changes
 
@@ -283,14 +285,17 @@ Choose checks using the [verification policy](../../AGENTS.md#engineering-and-ve
 | `npm run check:encoding` | Repository text-encoding check, useful for documentation and copy edits. |
 | `npm run typecheck:tests` | Separate strict typecheck for Playwright specs. |
 | `npm run test:api` | Direct Node tests for enquiry, collection, reporting, exclusions and retention handlers/repositories with substituted dependencies. |
-| `npm run test:scripts` | Direct script/build-contract tests, including routes, metadata, migrations and local tooling. |
+| `npm run test:node` | All local Node checks, grouped by shared server contracts, analytics, enquiry, visits, site and tooling. No live database or browser run. |
+| `npm run test:database` | Opt-in PostgreSQL reporting checks with synthetic fixtures, using only Preview configuration from `.env.preview.local`. |
 | `npm run qa:site` | Encoding and test typechecks, build, then the public-site Playwright suite against local built output. |
-| `npm run test:analytics` | Fast API suite plus selected analytics-host, migration and ledger-SQL contracts. |
+| `npm run test:analytics` | Fast API/domain suite (including analytics-host checks), plus migration handling and read-only-query checks. |
 | `npm run qa:analytics` | Test typecheck and fast analytics tests, followed by builds/browser tests with collection hosts blocked and enabled. Real database behaviour remains outside this command. |
-| `npm run qa` | Encoding, test typecheck, all direct script tests, build, API tests and public browser suite. It does not run the separate analytics browser scenarios. |
+| `npm run qa` | Encoding, test typecheck, all local Node tests, build and public browser suite. It does not run database tests or the separate analytics browser scenarios. |
 | `npm run audit:lighthouse` | Build and local Lighthouse reports; no enforced performance budget. |
 
-Public Playwright tests live under `tests/public-site/`; private/collection browser coverage lives in `tests/analytics.spec.ts`. The browser project retains the name `chromium` but selects installed Google Chrome with `channel: "chrome"`; it requires Chrome, not a Playwright-managed browser download. Narrow viewports are exercised where relevant. Browser API/provider responses are intercepted for the relevant scenarios, and direct repository tests substitute query results or inspect SQL contracts. These checks establish local behaviour and contract consistency, not deployed email, real SQL execution, Vercel middleware or all-browser coverage.
+The [test guide](../../tests/README.md) maps the `tests/node/`, `tests/browser/` and `tests/database/` boundaries and focused commands. PostgreSQL fixture tests execute the real reporting query against synthetic sources without reading retained visitor data. They do not verify the deployed API or UI.
+
+Public Playwright tests live under `tests/browser/public-site/`; analytics collection and privacy-boundary checks live under `tests/browser/analytics/`. Dashboard presentation remains an owner check. The browser project retains the name `chromium` but selects installed Google Chrome with `channel: "chrome"`; it requires Chrome, not a Playwright-managed browser download. Narrow viewports are exercised where relevant. Browser API/provider responses are intercepted for the relevant scenarios, and local Node repository tests substitute query results and check request mapping and consequential side effects. These checks establish local behaviour and contract consistency, not deployed email, real SQL execution, Vercel middleware or all-browser coverage.
 
 QA uses managed local preview servers on port 4287 for the public suite and 4288 for analytics. The analytics command rebuilds `dist/` with test collection settings; rerun an ordinary build before treating that output as a normal site build. Commands that rebuild the same output directory should run sequentially.
 

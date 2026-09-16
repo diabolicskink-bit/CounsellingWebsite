@@ -201,7 +201,11 @@ updated_existing_visit AS (
       ELSE NULL
     END,
     bot_name = COALESCE(site_visits.bot_name, observation.bot_name),
-    bot_category = COALESCE(site_visits.bot_category, observation.bot_category)
+    bot_category = CASE
+      WHEN site_visits.bot_name IS NOT NULL THEN site_visits.bot_category
+      WHEN observation.bot_name IS NOT NULL THEN observation.bot_category
+      ELSE COALESCE(site_visits.bot_category, observation.bot_category)
+    END
   FROM matched_visit
   CROSS JOIN observation
   LEFT JOIN inserted_page_view ON inserted_page_view.visit_id = matched_visit.id

@@ -89,9 +89,9 @@ This catalogue contains every foundation currently approved for deliberate reuse
 ### `--section-rule`
 
 - `Contract`: Cedar-derived boundary (`rgba(35, 75, 61, 0.22)`) for quiet separators on supported light editorial materials.
-- `Boundary`: It is not a general site-chrome or form-control border token and must not be the sole cue to content structure. The Contact form's stronger and quieter rules retain their page-owned opacities.
+- `Boundary`: It is not a general site-chrome or form-control border token and must not be the sole cue to content structure. A consumer may keep a quieter page-owned line beneath it, as the Contact hours table does for its interior rules.
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css` and used by `.site-section-warm` and verified editorial consumers.
-- `Verified consumers`: Supported warm sections; Documents boundaries and Markdown content; Crisis Support service and region separators; Privacy Policy section separators; and editorial rules across Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+.
+- `Verified consumers`: Supported warm sections; Documents boundaries and Markdown content; Crisis Support service and region separators; Privacy Policy section separators; Contact direct-contact, hours-table frame, crisis-note, and fee separators; and editorial rules across Working with Joel, Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+.
 - `Promoted`: 2026-08-05 — shared warm-section pattern promotion under `DEBT-37`.
 
 ### `--section-dark-rule`

@@ -38,12 +38,15 @@ initial bounded user-agent, server-derived device type, and browser-reported
 WebDriver flag to each visit. The protected reporting reader joins those fields
 to the retained visit ledger, while the saved query templates expose exact
 visit diagnostics or grouped device and WebDriver counts as appropriate.
+Migration `0012` updates bot-column descriptions for the combined BotID,
+User-Agent and IP/DNS identification; it adds no columns and changes no visit
+records. This comment-only migration is not a runtime prerequisite.
 
 `visit_ledger` is the read-only reporting view created by migration `0002` and
 extended by migration `0003`. It marks the earliest retained visit for an
 anonymous browser ID as `new`, marks later retained visits as `returning`,
-classifies traffic, adds page-view totals, and exposes the nullable BotID
-verdict and verified name/category. The private analytics interfaces read it
+classifies traffic, adds page-view totals, and exposes the nullable bot
+classification and best-effort name/category. The private analytics interfaces read it
 through the Basic Authentication-protected `GET /api/analytics` function and
 join the visit-level request diagnostics from `site_visits`. The separately
 protected `GET|PUT /api/analytics/exclusions` function lists and updates visitor
