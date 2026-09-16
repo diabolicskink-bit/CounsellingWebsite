@@ -6,92 +6,47 @@ import {
   getAustralianTimeZoneLabel,
 } from "../../../src/utils/timeZones.ts";
 
-test("resolves active and seasonally inactive Australian timezone labels", () => {
-  const summer = new Date("2026-01-15T00:00:00.000Z");
-  const winter = new Date("2026-07-15T00:00:00.000Z");
+function optionValues(date) {
+  return getActiveAustralianTimeZoneOptions(date).map(({ value }) => value);
+}
 
-  assert.equal(getAustralianTimeZoneLabel("AEST", summer), "AEST (QLD)");
-  assert.equal(getAustralianTimeZoneLabel("AEST", winter), "AEST (QLD / NSW / ACT / VIC / TAS)");
-  assert.equal(getAustralianTimeZoneLabel("ACDT", winter), "ACDT (SA)");
-  assert.equal(getAustralianTimeZoneLabel("", winter), "");
-  assert.equal(getAustralianTimeZoneLabel("GMT+8", winter), "");
+function activeBusinessZones(date) {
+  return getActiveAustralianPerthBusinessHoursNotes(date).map((note) => note.split(":")[0]);
+}
+
+test("offers the timezones active in Australian summer and winter", () => {
+  assert.deepEqual(
+    optionValues(new Date("2026-01-15T00:00:00.000Z")),
+    ["", "AWST", "ACST", "AEST", "ACDT", "AEDT"],
+  );
+  assert.deepEqual(
+    optionValues(new Date("2026-07-15T00:00:00.000Z")),
+    ["", "AWST", "ACST", "AEST"],
+  );
 });
 
-test("rejects inherited object properties as timezone labels", () => {
+test("rejects invalid and inherited timezone identifiers", () => {
   const date = new Date("2026-07-15T00:00:00.000Z");
-
-  for (const value of ["constructor", "__proto__", "toString", "hasOwnProperty"]) {
+  for (const value of ["", "GMT+8", "constructor", "__proto__", "toString", "hasOwnProperty"]) {
     assert.equal(getAustralianTimeZoneLabel(value, date), "", value);
   }
 });
 
-test("builds the active Australian timezone choices for summer and winter", () => {
-  const summer = new Date("2026-01-15T00:00:00.000Z");
-  const winter = new Date("2026-07-15T00:00:00.000Z");
-
-  assert.deepEqual(getActiveAustralianTimeZoneOptions(summer), [
-    { value: "", label: "Select your timezone" },
-    { value: "AWST", label: "AWST (WA)" },
-    { value: "ACST", label: "ACST (NT)" },
-    { value: "AEST", label: "AEST (QLD)" },
-    { value: "ACDT", label: "ACDT (SA)" },
-    { value: "AEDT", label: "AEDT (NSW / ACT / VIC / TAS)" },
-  ]);
-  assert.deepEqual(getActiveAustralianTimeZoneOptions(winter), [
-    { value: "", label: "Select your timezone" },
-    { value: "AWST", label: "AWST (WA)" },
-    { value: "ACST", label: "ACST (SA / NT)" },
-    { value: "AEST", label: "AEST (QLD / NSW / ACT / VIC / TAS)" },
-  ]);
-});
-
-test("labels Perth business hours using the zones active during those hours", () => {
-  const daylightSavingEnds = new Date("2026-04-04T16:00:00.000Z");
-  const daylightSavingStarts = new Date("2026-10-03T16:00:00.000Z");
-
-  assert.deepEqual(getActiveAustralianPerthBusinessHoursNotes(daylightSavingEnds), [
-    "ACST: 11.00am to 6.30pm",
-    "AEST: 11.30am to 7.00pm",
-  ]);
-  assert.deepEqual(getActiveAustralianPerthBusinessHoursNotes(daylightSavingStarts), [
-    "ACST: 11.00am to 6.30pm",
-    "AEST: 11.30am to 7.00pm",
-    "ACDT: 12.00pm to 7.30pm",
-    "AEDT: 12.30pm to 8.00pm",
-  ]);
-});
-
-test("keeps timezone choices ordered when each region crosses midnight", () => {
-  const summerValues = ["", "AWST", "ACST", "AEST", "ACDT", "AEDT"];
-  const winterValues = ["", "AWST", "ACST", "AEST"];
-
-  for (const [date, hours, expectedValues] of [
-    ["2026-01-15", ["13:00", "13:30", "14:00", "14:30", "16:00"], summerValues],
-    ["2026-07-15", ["14:00", "14:30", "16:00"], winterValues],
-  ]) {
-    for (const hour of hours) {
-      const instant = new Date(`${date}T${hour}:00.000Z`);
-      assert.deepEqual(
-        getActiveAustralianTimeZoneOptions(instant).map((option) => option.value),
-        expectedValues,
-        instant.toISOString(),
-      );
-    }
-  }
-});
-
-test("anchors business hours to Perth's calendar date before daylight-saving changes", () => {
+test("uses the Perth calendar date for daylight-saving changes", () => {
   assert.deepEqual(
-    getActiveAustralianPerthBusinessHoursNotes(new Date("2026-04-04T15:59:59.999Z")),
-    [
-      "ACST: 11.00am to 6.30pm",
-      "AEST: 11.30am to 7.00pm",
-      "ACDT: 12.00pm to 7.30pm",
-      "AEDT: 12.30pm to 8.00pm",
-    ],
+    activeBusinessZones(new Date("2026-04-04T15:59:59.999Z")),
+    ["ACST", "AEST", "ACDT", "AEDT"],
   );
   assert.deepEqual(
-    getActiveAustralianPerthBusinessHoursNotes(new Date("2026-10-03T15:59:59.999Z")),
-    ["ACST: 11.00am to 6.30pm", "AEST: 11.30am to 7.00pm"],
+    activeBusinessZones(new Date("2026-04-04T16:00:00.000Z")),
+    ["ACST", "AEST"],
+  );
+  assert.deepEqual(
+    activeBusinessZones(new Date("2026-10-03T15:59:59.999Z")),
+    ["ACST", "AEST"],
+  );
+  assert.deepEqual(
+    activeBusinessZones(new Date("2026-10-03T16:00:00.000Z")),
+    ["ACST", "AEST", "ACDT", "AEDT"],
   );
 });

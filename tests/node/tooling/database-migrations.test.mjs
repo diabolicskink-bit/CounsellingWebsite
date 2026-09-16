@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { readdir } from "node:fs/promises";
 
 import {
   getMigrationChecksums,
@@ -8,22 +9,13 @@ import {
   splitSqlStatements,
 } from "../../../scripts/apply-database-migrations.mjs";
 
-const migrationFilenames = [
-  "0001_create_visit_ledger.sql",
-  "0002_create_visit_ledger_view.sql",
-  "0003_add_visit_bot_classification.sql",
-  "0004_create_visit_event_ledger.sql",
-  "0005_create_analytics_visitor_exclusions.sql",
-  "0006_add_page_view_active_time.sql",
-  "0007_add_visit_client_environment.sql",
-  "0008_add_contact_link_events.sql",
-  "0009_add_visit_location.sql",
-  "0010_add_phone_link_event.sql",
-  "0011_add_consult_cta_event.sql",
-];
-
 test("migration reader returns the complete ordered migration set", async () => {
   const migrations = await readMigrations();
+  const migrationFilenames = (await readdir(new URL("../../../database/migrations/", import.meta.url)))
+    .filter((filename) => filename.endsWith(".sql"))
+    .sort();
+
+  assert.ok(migrations.length > 0);
 
   assert.deepEqual(
     migrations.map((migration) => migration.filename),

@@ -125,7 +125,7 @@ A route change can touch several contracts:
 - `src/data/routeMetadata.json` supplies core public-page and business metadata. `routeMetadata.ts` adds article-derived metadata for runtime consumers. Article publishing uses its own manifest rather than requiring each article in the core route file.
 - `scripts/prerender-route-metadata.mjs` owns public rendering checks and the private-shell route list. The build rejects an unsupported core metadata route.
 - `vercel.json` owns HTTP redirects and clean-URL/trailing-slash behaviour. React redirects do not replace hosting redirects.
-- Browser route coverage has its own contract inventory under `tests/browser/public-site/`; direct route tests check public constants against metadata.
+- Browser tests cover representative public journeys under `tests/browser/public-site/`; direct route tests check public constants against metadata.
 
 This means adding a React route alone does not complete a public-route change. Check its first-response HTML, metadata, links, hosting behaviour and appropriate coverage. For article additions, follow [article-publishing.md](article-publishing.md), which describes the manifest/template path through those concerns.
 
@@ -286,14 +286,14 @@ Choose checks using the [verification policy](../../AGENTS.md#engineering-and-ve
 | `npm run test:node` | All local Node checks, grouped by shared server contracts, analytics, enquiry, visits, site and tooling. No live database or browser run. |
 | `npm run test:database` | Opt-in PostgreSQL reporting checks with synthetic fixtures, using only Preview configuration from `.env.preview.local`. |
 | `npm run qa:site` | Encoding and test typechecks, build, then the public-site Playwright suite against local built output. |
-| `npm run test:analytics` | Fast API/domain suite (including analytics-host checks), plus migration and ledger-SQL source contracts. |
+| `npm run test:analytics` | Fast API/domain suite (including analytics-host checks), plus migration handling and read-only-query checks. |
 | `npm run qa:analytics` | Test typecheck and fast analytics tests, followed by builds/browser tests with collection hosts blocked and enabled. Real database behaviour remains outside this command. |
 | `npm run qa` | Encoding, test typecheck, all local Node tests, build and public browser suite. It does not run database tests or the separate analytics browser scenarios. |
 | `npm run audit:lighthouse` | Build and local Lighthouse reports; no enforced performance budget. |
 
 The [test guide](../../tests/README.md) maps the `tests/node/`, `tests/browser/` and `tests/database/` boundaries and focused commands. PostgreSQL fixture tests execute the real reporting query against synthetic sources without reading retained visitor data. They do not verify the deployed API or UI.
 
-Public Playwright tests live under `tests/browser/public-site/`; analytics collection, privacy-boundary and report UI checks live in separate files under `tests/browser/analytics/`. The browser project retains the name `chromium` but selects installed Google Chrome with `channel: "chrome"`; it requires Chrome, not a Playwright-managed browser download. Narrow viewports are exercised where relevant. Browser API/provider responses are intercepted for the relevant scenarios, and local Node repository tests substitute query results or inspect SQL contracts. These checks establish local behaviour and contract consistency, not deployed email, real SQL execution, Vercel middleware or all-browser coverage.
+Public Playwright tests live under `tests/browser/public-site/`; analytics collection and privacy-boundary checks live under `tests/browser/analytics/`. Dashboard presentation remains an owner check. The browser project retains the name `chromium` but selects installed Google Chrome with `channel: "chrome"`; it requires Chrome, not a Playwright-managed browser download. Narrow viewports are exercised where relevant. Browser API/provider responses are intercepted for the relevant scenarios, and local Node repository tests substitute query results and check request mapping and consequential side effects. These checks establish local behaviour and contract consistency, not deployed email, real SQL execution, Vercel middleware or all-browser coverage.
 
 QA uses managed local preview servers on port 4287 for the public suite and 4288 for analytics. The analytics command rebuilds `dist/` with test collection settings; rerun an ordinary build before treating that output as a normal site build. Commands that rebuild the same output directory should run sequentially.
 

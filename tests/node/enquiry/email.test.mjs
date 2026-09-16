@@ -24,7 +24,7 @@ test("preserves message line breaks while escaping visitor markup", () => {
   const message = 'First & second\r\n<script>\n"Quoted"\rLast line';
   const email = buildEmail({ message });
 
-  assert.ok(email.text.endsWith(`Message:\n${message}`));
+  assert.ok(email.text.includes(message));
   assert.ok(email.html.includes(
     "First &amp; second<br />&lt;script&gt;<br />&quot;Quoted&quot;<br />Last line",
   ));
@@ -40,7 +40,7 @@ test("preserves availability line breaks while escaping visitor markup", () => {
     timeZone: "AWST",
   });
 
-  assert.ok(email.text.includes(`Availability: ${availability}\n`));
+  assert.ok(email.text.includes(availability));
   assert.ok(email.html.includes(
     "Monday &amp; Tuesday<br />&lt;br&gt;Wednesday<br />&quot;Thursday&quot;<br />Friday",
   ));

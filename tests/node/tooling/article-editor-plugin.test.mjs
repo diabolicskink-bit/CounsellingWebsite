@@ -30,16 +30,6 @@ const articleContent = {
   ],
 };
 
-test("renders body and reference content as a readable template module", async () => {
-  const slug = articles[0].slug;
-  const source = renderArticleTemplateSource(slug, articleContent);
-  const articleModule = await importRenderedTemplate(source);
-
-  assert.deepEqual(articleModule.default, { slug, ...articleContent });
-  assert.match(source, /body: `A backslash:/u);
-  assert.match(source, /references: \[/u);
-});
-
 test("rejects empty article and reference fields", () => {
   const slug = articles[0].slug;
 

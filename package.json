@@ -16,7 +16,7 @@
     "preview:qa": "vite preview --host 127.0.0.1 --port 4287 --strictPort",
     "test:node": "node --test tests/node/**/*.test.mjs",
     "test:api": "node --test tests/node/analytics/*.test.mjs tests/node/enquiry/*.test.mjs tests/node/visits/*.test.mjs tests/node/server/*.test.mjs",
-    "test:analytics": "npm run test:api && node --test tests/node/tooling/database-migrations.test.mjs tests/node/tooling/visit-ledger-schema.test.mjs tests/node/tooling/saved-visit-queries.test.mjs",
+    "test:analytics": "npm run test:api && node --test tests/node/tooling/database-migrations.test.mjs tests/node/tooling/saved-visit-queries.test.mjs",
     "test:database": "node --test tests/database/*.test.mjs",
     "test:e2e": "playwright test tests/browser/public-site",
     "test:e2e:headed": "playwright test tests/browser/public-site --headed",

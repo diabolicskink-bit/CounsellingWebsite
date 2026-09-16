@@ -379,13 +379,13 @@ Each active item should include enough direction that a future session can choos
   - Do not make this smoke script deploy or promote by itself. Deployment should remain an explicit operator action unless a future CI/CD item decides otherwise.
   - Account for Vercel Deployment Protection: protected preview URLs may require MCP access, a bypass token, or a trusted automation source.
   - 2026-07-13 manual baseline: the canonical host returned the generated generic fallback with HTTP 404 for an arbitrary path; `/404.html` returned a permanent clean-URL redirect to `/404`; both activated pages displayed the resulting browser pathname without console or page errors. The deployed bundle predates the prerendering branch's activation marker, so that exact observable contract remains pending deployment.
-- `Links`: `vercel.json`, `tests/browser/public-site/crawl-output.spec.ts`, `tests/browser/public-site/routes.spec.ts`, `scripts/prerender-route-metadata.mjs`
+- `Links`: `vercel.json`, `tests/browser/public-site/routes.spec.ts`, `scripts/prerender-route-metadata.mjs`
 
 ### DEBT-27 - Runtime head metadata can drift after client-side navigation
 
 - `Priority`: `P2`
 - `Size`: `M`
-- `Priority Rationale`: This is `P2` because first-response metadata is well covered, but hydrated navigation can leave stale canonical or social tags in the live DOM. It is not `P1` while crawlers primarily consume first-response HTML and current tests cover generated metadata artifacts.
+- `Priority Rationale`: This is `P2` because first-response metadata is generated and build-validated, but hydrated navigation can leave stale canonical or social tags in the live DOM. It is not `P1` while crawlers primarily consume first-response HTML and the build validates generated page shells.
 - `Status`: `Open`
 - `Detected`: 2026-06-18
 - `Source`: Fresh site debt review
@@ -402,7 +402,7 @@ Each active item should include enough direction that a future session can choos
   - `SITE-3`: Public SEO and metadata QA should include live DOM metadata where it matters.
 - `Dependencies`: `None`
 - `Notes`:
-  - `NotFound` sources its title, description, heading, and robots directive from `routeMetadata.json` and uses the shared metadata hook, including robots cleanup. Its browser regression check covers recovery from the generated 404 document to Home and back/forward navigation. Public-to-not-found navigation can still retain canonical and social tags from the previous route.
+  - `NotFound` sources its title, description, heading, and robots directive from `routeMetadata.json` and uses the shared metadata hook, including robots cleanup. Public-to-not-found navigation can still retain canonical and social tags from the previous route.
 - `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/browser/public-site/routes.spec.ts`
 
 ### DEBT-29 - Route changes lack focus restoration and a skip-link baseline
