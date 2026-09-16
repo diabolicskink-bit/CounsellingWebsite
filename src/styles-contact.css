@@ -1,45 +1,45 @@
 /* Contact-page composition for the live Contact route. */
 
 .contact-page {
-  --contact-page-rule: rgba(35, 75, 61, 0.2);
+  --contact-page-underline: rgba(35, 75, 61, 0.34);
+  /* Interior lines of the hours table, quieter than its --section-rule frame. */
+  --contact-page-rule-quiet: rgba(35, 75, 61, 0.14);
+  --contact-page-card-surface: #fbfbf8;
+  /* Clears the sticky site header when an in-page link or the confirmation scrolls into view. */
+  --contact-page-anchor-offset: 84px;
+
   background: var(--paper);
 }
 
-.contact-page__hero-content {
-  display: grid;
-  gap: 16px;
-  align-content: center;
+/* Hero: the shared opening roles, with the page-owned statement measure and
+   scale that the pattern leaves to its consumer. */
+
+.contact-page .contact-page__hero .site-hero__statement {
   max-width: 780px;
-  padding: 0;
-}
-
-.contact-page__eyebrow,
-.contact-page__form-eyebrow {
-  color: var(--cedar);
-  font-family: var(--font-sans);
-  font-size: var(--type-label);
-  font-weight: 760;
-  letter-spacing: 0.06em;
-  line-height: 1.3;
-  text-transform: uppercase;
-}
-
-.contact-page__hero .contact-page__hero-title {
-  max-width: none;
-  color: var(--site-hero-foreground);
+  margin: var(--site-hero-eyebrow-gap) 0 0;
   font-size: clamp(4.2rem, 7vw, 6rem);
   letter-spacing: -0.045em;
   line-height: 0.9;
 }
 
-.contact-page__hero .contact-page__eyebrow {
-  color: var(--site-hero-eyebrow-foreground);
+/* Shared states for the underlined cedar links on this page. */
+
+.contact-page__enquiry-intro a:hover,
+.contact-page__fee-action:hover {
+  text-decoration-color: currentColor;
+}
+
+.contact-page__enquiry-intro a:focus-visible,
+.contact-page__fee-action:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid var(--cedar);
+  outline-offset: 4px;
 }
 
 /* Enquiry */
 
 .contact-page__enquiry {
-  scroll-margin-top: 84px;
+  scroll-margin-top: var(--contact-page-anchor-offset);
 }
 
 .contact-page__enquiry-layout {
@@ -72,26 +72,19 @@
   color: var(--cedar-dark);
   font-weight: 700;
   text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.34);
+  text-decoration-color: var(--contact-page-underline);
   text-underline-offset: 4px;
 }
 
-.contact-page__enquiry-intro a:hover {
-  text-decoration-color: currentColor;
-}
-
-.contact-page__enquiry-intro a:focus-visible {
-  border-radius: 2px;
-  outline: 2px solid var(--cedar);
-  outline-offset: 4px;
-}
+/* Direct contact details */
 
 .contact-page__direct-contact {
   display: grid;
   gap: 3px;
   margin-top: 8px;
   padding-top: 14px;
-  border-top: 1px solid var(--contact-page-rule);
+  border-top: 1px solid var(--section-rule);
+  /* Cancels the italic user-agent style on <address>. */
   font-style: normal;
 }
 
@@ -112,6 +105,7 @@
   line-height: 1.4;
 }
 
+/* Aligns the label with the hours caption rather than the top of the table frame. */
 .contact-page__direct-contact-option--hours > .contact-page__direct-contact-label {
   padding-top: 7px;
 }
@@ -125,7 +119,7 @@
   font-size: 0.94rem;
   font-weight: 650;
   line-height: 1.4;
-  text-decoration-color: rgba(35, 75, 61, 0.38);
+  text-decoration-color: var(--contact-page-underline);
   transition:
     color 160ms ease,
     text-decoration-color 160ms ease;
@@ -140,20 +134,19 @@
 
 .contact-page__business-hours {
   width: min(100%, 250px);
-  border: 1px solid rgba(35, 75, 61, 0.2);
+  border: 1px solid var(--section-rule);
+  /* Separate borders with no spacing so the caption and table share one rounded frame. */
   border-collapse: separate;
   border-radius: 0 0 3px 3px;
   border-spacing: 0;
   background: rgba(255, 255, 255, 0.28);
   color: var(--body);
-  font-size: inherit;
   font-variant-numeric: tabular-nums;
-  line-height: inherit;
 }
 
 .contact-page__business-hours caption {
   padding: 7px 10px;
-  border: 1px solid rgba(35, 75, 61, 0.2);
+  border: 1px solid var(--section-rule);
   border-bottom: 0;
   border-radius: 3px 3px 0 0;
   background: rgba(35, 75, 61, 0.07);
@@ -174,12 +167,12 @@
 
 .contact-page__business-hours tr + tr th,
 .contact-page__business-hours tr + tr td {
-  border-top: 1px solid rgba(35, 75, 61, 0.14);
+  border-top: 1px solid var(--contact-page-rule-quiet);
 }
 
 .contact-page__business-hours th {
   width: 58px;
-  border-right: 1px solid rgba(35, 75, 61, 0.12);
+  border-right: 1px solid var(--contact-page-rule-quiet);
   color: var(--muted);
   font-weight: 650;
 }
@@ -188,35 +181,21 @@
   padding-left: 11px;
 }
 
+/* Enquiry form */
+
 .contact-page__form,
 .contact-page__success {
   display: grid;
   overflow: hidden;
   border: 1px solid rgba(204, 212, 202, 0.92);
   border-radius: 3px;
-  background: #fbfbf8;
+  background: var(--contact-page-card-surface);
   box-shadow: 0 20px 46px rgba(31, 35, 31, 0.09);
 }
 
+/* Spam honeypot: a real visitor never sees or fills this field. */
 .contact-page__form > input[name="website"] {
   display: none;
-}
-
-.contact-page__enquiry-path {
-  position: relative;
-}
-
-.contact-page__enquiry-path::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 19px;
-  width: 9px;
-  height: 9px;
-  border-right: 2px solid var(--cedar);
-  border-bottom: 2px solid var(--cedar);
-  pointer-events: none;
-  transform: translateY(-68%) rotate(45deg);
 }
 
 .contact-page__form-details {
@@ -226,19 +205,30 @@
   background: var(--surface-muted);
 }
 
-.contact-page__form-fields--conditional {
-  animation: contact-form-details-in 220ms ease both;
-}
-
 .contact-page__form-start {
   display: grid;
   gap: 18px;
+}
+
+/* Uppercase label role above the form. */
+.contact-page__form-eyebrow {
+  color: var(--cedar);
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  font-weight: 760;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  text-transform: uppercase;
 }
 
 .contact-page__form-fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px 18px;
+}
+
+.contact-page__form-fields--conditional {
+  animation: contact-form-details-in 220ms ease both;
 }
 
 .contact-page__form-field {
@@ -272,12 +262,6 @@
     box-shadow 160ms ease;
 }
 
-.contact-page__enquiry-path select {
-  appearance: none;
-  padding-right: 3.25rem;
-  cursor: pointer;
-}
-
 .contact-page__form-field textarea {
   min-height: 128px;
   resize: vertical;
@@ -294,6 +278,33 @@
   outline: 0;
   border-color: var(--cedar);
   box-shadow: 0 0 0 3px rgba(35, 75, 61, 0.14);
+}
+
+/* Enquiry path select, with a drawn chevron in place of the native arrow. These
+   rules must stay after the shared field styles: the padding that keeps the
+   value clear of the chevron has the same specificity as the field padding. */
+
+.contact-page__enquiry-path {
+  position: relative;
+}
+
+.contact-page__enquiry-path select {
+  appearance: none;
+  padding-right: 3.25rem;
+  cursor: pointer;
+}
+
+.contact-page__enquiry-path::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 19px;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--cedar);
+  border-bottom: 2px solid var(--cedar);
+  pointer-events: none;
+  transform: translateY(-68%) rotate(45deg);
 }
 
 .contact-page__form-actions {
@@ -323,8 +334,8 @@
 
 .contact-page__crisis-note {
   padding: 18px 44px 20px;
-  border-top: 1px solid var(--contact-page-rule);
-  background: #fbfbf8;
+  border-top: 1px solid var(--section-rule);
+  background: var(--contact-page-card-surface);
   color: var(--muted);
   font-size: var(--type-caption);
   line-height: 1.5;
@@ -334,9 +345,11 @@
   color: var(--cedar);
   font-weight: 700;
   text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.3);
+  text-decoration-color: var(--contact-page-underline);
   text-underline-offset: 3px;
 }
+
+/* Confirmation, shown in place of the form after a successful enquiry */
 
 .contact-page__success {
   align-content: start;
@@ -352,10 +365,11 @@
   max-width: 100%;
   min-width: 0;
   padding: 8px;
-  scroll-margin-top: 84px;
+  scroll-margin-top: var(--contact-page-anchor-offset);
   border-radius: 3px;
 }
 
+/* The status takes focus on submit, so screen readers land on the confirmation. */
 .contact-page__success-status:focus-visible {
   outline: 3px solid rgba(35, 75, 61, 0.34);
   outline-offset: 4px;
@@ -398,7 +412,6 @@
 
 .contact-page__success p {
   max-width: 42ch;
-  margin: 0;
   color: var(--body);
   font-size: var(--type-body);
   line-height: 1.58;
@@ -408,8 +421,8 @@
 /* Fees */
 
 .contact-page__fees {
-  scroll-margin-top: 84px;
-  border-bottom: 1px solid var(--contact-page-rule);
+  scroll-margin-top: var(--contact-page-anchor-offset);
+  border-bottom: 1px solid var(--section-rule);
   background: var(--section-sage);
 }
 
@@ -425,9 +438,10 @@
   align-content: start;
   min-height: 112px;
   padding: 20px clamp(18px, 2.6vw, 36px);
-  border-left: 1px solid var(--contact-page-rule);
+  border-left: 1px solid var(--section-rule);
 }
 
+/* The outer columns sit flush with the container edge. */
 .contact-page__fee-list > div:first-child {
   padding-left: 0;
   border-left: 0;
@@ -474,19 +488,11 @@
   font-weight: 720;
   line-height: 1.2;
   text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.32);
+  text-decoration-color: var(--contact-page-underline);
   text-underline-offset: 4px;
 }
 
-.contact-page__fee-action:hover {
-  text-decoration-color: currentColor;
-}
-
-.contact-page__fee-action:focus-visible {
-  border-radius: 2px;
-  outline: 2px solid var(--cedar);
-  outline-offset: 4px;
-}
+/* Utilities */
 
 .contact-page__sr-only {
   position: absolute;
@@ -513,6 +519,8 @@
   }
 }
 
+/* Responsive */
+
 @media (max-width: 980px) {
   .contact-page__fee-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -528,7 +536,7 @@
   }
 
   .contact-page__fee-list > div:nth-child(n + 3) {
-    border-top: 1px solid var(--contact-page-rule);
+    border-top: 1px solid var(--section-rule);
   }
 }
 
@@ -541,31 +549,29 @@
     max-width: 720px;
     padding-top: 0;
   }
-
 }
 
 @media (max-width: 700px) {
-  .contact-page__hero .contact-page__hero-title {
+  .contact-page .contact-page__hero .site-hero__statement {
     font-size: clamp(3.15rem, 14.5vw, 4.2rem);
     line-height: 0.92;
   }
 
   .contact-page__fee-list > div {
-    min-height: 108px;
     gap: 8px;
+    min-height: 108px;
     padding-top: 20px;
     padding-bottom: 20px;
   }
 
+  /* The card runs to the viewport edge, so the section and its container drop
+     their gutters and each block carries its own padding instead. */
   .contact-page__enquiry.site-section-warm {
     padding: 0;
   }
 
   .contact-page__enquiry > .container {
     width: 100%;
-  }
-
-  .contact-page__enquiry-layout {
     gap: 0;
   }
 
@@ -604,21 +610,16 @@
     padding: 28px 20px 32px;
   }
 
-  .contact-page__crisis-note {
-    padding: 16px 20px 18px;
-  }
-
   .contact-page__form-fields {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 
-  .contact-page__form-field--wide {
-    grid-column: auto;
+  .contact-page__crisis-note {
+    padding: 16px 20px 18px;
   }
 
   .contact-page__success {
-    min-height: 0;
     padding: 34px 20px 38px;
     place-items: start;
   }
@@ -635,11 +636,9 @@
   }
 
   .contact-page__success h2 {
-    max-width: 15ch;
     font-size: clamp(2.2rem, 9.4vw, 2.85rem);
     line-height: 1.03;
   }
-
 }
 
 @media (max-width: 390px) {

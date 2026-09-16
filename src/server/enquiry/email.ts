@@ -25,13 +25,67 @@ type EnquiryEmailAddresses = {
   to: string;
 };
 
-const subjectLabels: Record<BookingType | typeof enquiryTypes.general.value, string> = {
-  [bookingTypes.appointment.value]: "App Request",
-  [bookingTypes.consult.value]: "Consult Request",
-  [enquiryTypes.general.value]: "General Enq",
+type EmailPresentation = {
+  heading: string;
+  subjectPrefix: string;
+  theme: EmailTheme;
 };
 
-function getSafeEmailDisplayName(name: string) {
+const emailPresentations: Record<BookingType | typeof enquiryTypes.general.value, EmailPresentation> = {
+  [bookingTypes.appointment.value]: {
+    heading: "Appointment Enquiry",
+    subjectPrefix: "App Request",
+    theme: {
+      accent: "#8fb7c0",
+      background: "#eef4f3",
+      cardBackground: "#f8fbfb",
+      cardBorder: "#c8dadd",
+      headerBackground: "#1f4c58",
+      headerText: "#fffaf1",
+      labelText: "#d9edf0",
+      messageBorder: "#bfd4d8",
+      panelBackground: "#fffaf1",
+      panelBorder: "#c8dadd",
+      subtleText: "#5a7479",
+    },
+  },
+  [bookingTypes.consult.value]: {
+    heading: "Consult Enquiry",
+    subjectPrefix: "Consult Request",
+    theme: {
+      accent: "#d8a85f",
+      background: "#f7efe2",
+      cardBackground: "#fffaf1",
+      cardBorder: "#e3c88f",
+      headerBackground: "#7a4e1f",
+      headerText: "#fffaf1",
+      labelText: "#ffe6b7",
+      messageBorder: "#e3c88f",
+      panelBackground: "#fffaf1",
+      panelBorder: "#e3c88f",
+      subtleText: "#7b684b",
+    },
+  },
+  [enquiryTypes.general.value]: {
+    heading: "General Enquiry",
+    subjectPrefix: "General Enq",
+    theme: {
+      accent: "#d8a85f",
+      background: "#f4efe6",
+      cardBackground: "#ffffff",
+      cardBorder: "#d8e2d9",
+      headerBackground: "#234b3d",
+      headerText: "#fffaf1",
+      labelText: "#d7e4da",
+      messageBorder: "#cdd9cf",
+      panelBackground: "#fffaf1",
+      panelBorder: "#cdd9cf",
+      subtleText: "#6f7d73",
+    },
+  },
+};
+
+function sanitizeHeaderName(name: string) {
   return name
     .replace(/[\u0000-\u001f\u007f<>]/g, " ")
     .replace(/\s+/g, " ")
@@ -40,21 +94,11 @@ function getSafeEmailDisplayName(name: string) {
 }
 
 function getSubjectName(name: string) {
-  const parts = getSafeEmailDisplayName(name).split(" ").filter(Boolean);
+  const parts = sanitizeHeaderName(name).split(" ").filter(Boolean);
   const firstName = parts[0] ?? "";
   const lastInitial = parts.length > 1 ? parts[parts.length - 1][0].toUpperCase() : "";
 
   return [firstName, lastInitial].filter(Boolean).join(" ");
-}
-
-function getEmailSubject(enquiry: ValidatedEnquiry) {
-  const baseSubject =
-    enquiry.enquiryType === enquiryTypes.booking.value
-      ? subjectLabels[enquiry.bookingType]
-      : subjectLabels[enquiry.enquiryType];
-  const subjectName = getSubjectName(enquiry.name);
-
-  return [baseSubject, subjectName].filter(Boolean).join(" - ");
 }
 
 function getSenderAddress(configuredSender: string) {
@@ -69,7 +113,7 @@ function quoteEmailDisplayName(name: string) {
 }
 
 function getEmailDisplayName(name: string) {
-  const displayName = getSafeEmailDisplayName(name) || "Website visitor";
+  const displayName = sanitizeHeaderName(name) || "Website visitor";
   const atomPattern = /^[A-Za-z0-9!#$%&'*+\-/=?^_`{|}~.]+$/;
 
   if (displayName.split(" ").every((part) => atomPattern.test(part))) {
@@ -113,93 +157,25 @@ function getEnquiryText(enquiry: ValidatedEnquiry) {
   ].join("\n");
 }
 
-function getEmailHeading(enquiry: ValidatedEnquiry) {
-  if (
-    enquiry.enquiryType === enquiryTypes.booking.value &&
-    enquiry.bookingType === bookingTypes.appointment.value
-  ) {
-    return "Appointment Enquiry";
-  }
-
-  if (
-    enquiry.enquiryType === enquiryTypes.booking.value &&
-    enquiry.bookingType === bookingTypes.consult.value
-  ) {
-    return "Consult Enquiry";
-  }
-
-  return "General Enquiry";
-}
-
-function getEmailTheme(enquiry: ValidatedEnquiry): EmailTheme {
-  if (
-    enquiry.enquiryType === enquiryTypes.booking.value &&
-    enquiry.bookingType === bookingTypes.appointment.value
-  ) {
-    return {
-      accent: "#8fb7c0",
-      background: "#eef4f3",
-      cardBackground: "#f8fbfb",
-      cardBorder: "#c8dadd",
-      headerBackground: "#1f4c58",
-      headerText: "#fffaf1",
-      labelText: "#d9edf0",
-      messageBorder: "#bfd4d8",
-      panelBackground: "#fffaf1",
-      panelBorder: "#c8dadd",
-      subtleText: "#5a7479",
-    };
-  }
-
-  if (
-    enquiry.enquiryType === enquiryTypes.booking.value &&
-    enquiry.bookingType === bookingTypes.consult.value
-  ) {
-    return {
-      accent: "#d8a85f",
-      background: "#f7efe2",
-      cardBackground: "#fffaf1",
-      cardBorder: "#e3c88f",
-      headerBackground: "#7a4e1f",
-      headerText: "#fffaf1",
-      labelText: "#ffe6b7",
-      messageBorder: "#e3c88f",
-      panelBackground: "#fffaf1",
-      panelBorder: "#e3c88f",
-      subtleText: "#7b684b",
-    };
-  }
-
-  return {
-    accent: "#d8a85f",
-    background: "#f4efe6",
-    cardBackground: "#ffffff",
-    cardBorder: "#d8e2d9",
-    headerBackground: "#234b3d",
-    headerText: "#fffaf1",
-    labelText: "#d7e4da",
-    messageBorder: "#cdd9cf",
-    panelBackground: "#fffaf1",
-    panelBorder: "#cdd9cf",
-    subtleText: "#6f7d73",
-  };
-}
-
 function getSummaryRows(enquiry: ValidatedEnquiry) {
-  if (enquiry.enquiryType === enquiryTypes.booking.value) {
-    const rows: Array<[string, string]> = [
-      ["Availability", enquiry.availability],
-      ["Timezone", enquiry.timeZoneLabel],
-    ];
-
-    if (enquiry.bookingType === bookingTypes.consult.value) {
-      rows.unshift(["Mobile", enquiry.mobile]);
-    }
-
-    return rows;
+  if (enquiry.enquiryType !== enquiryTypes.booking.value) {
+    return [];
   }
 
-  return [];
+  const rows: Array<[string, string]> = [
+    ["Availability", enquiry.availability],
+    ["Timezone", enquiry.timeZoneLabel],
+  ];
+
+  if (enquiry.bookingType === bookingTypes.consult.value) {
+    rows.unshift(["Mobile", enquiry.mobile]);
+  }
+
+  return rows;
+}
+
+function renderMultilineText(value: string) {
+  return escapeHtml(value).replace(/\r\n|\r|\n/g, "<br />");
 }
 
 function renderDetailPanel(rows: Array<[string, string]>, theme: EmailTheme) {
@@ -219,7 +195,7 @@ function renderDetailPanel(rows: Array<[string, string]>, theme: EmailTheme) {
             )}</p>
           </td>
           <td style="padding: 12px 18px 12px 0; border-top: ${borderTop}; vertical-align: top;">
-            <p style="margin: 0; color: #1f2c25; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.45;">${escapeHtml(
+            <p style="margin: 0; color: #1f2c25; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.45;">${renderMultilineText(
               value,
             )}</p>
           </td>
@@ -237,12 +213,10 @@ function renderDetailPanel(rows: Array<[string, string]>, theme: EmailTheme) {
   `;
 }
 
-function getEnquiryHtml(enquiry: ValidatedEnquiry) {
-  const emailHeading = getEmailHeading(enquiry);
-  const theme = getEmailTheme(enquiry);
-  const safeEmailHeading = escapeHtml(emailHeading);
-  const safeName = escapeHtml(enquiry.name || "Website visitor");
-  const safeMessage = escapeHtml(enquiry.message || "No message supplied.").replace(/\n/g, "<br />");
+function getEnquiryHtml(enquiry: ValidatedEnquiry, { heading, theme }: EmailPresentation) {
+  const safeEmailHeading = escapeHtml(heading);
+  const safeName = escapeHtml(enquiry.name);
+  const safeMessage = renderMultilineText(enquiry.message);
   const detailPanel = renderDetailPanel(getSummaryRows(enquiry), theme);
 
   return `<!doctype html>
@@ -281,11 +255,15 @@ function getEnquiryHtml(enquiry: ValidatedEnquiry) {
 }
 
 export function buildEnquiryEmail(enquiry: ValidatedEnquiry, addresses: EnquiryEmailAddresses) {
+  const presentation = emailPresentations[
+    enquiry.enquiryType === enquiryTypes.booking.value ? enquiry.bookingType : enquiry.enquiryType
+  ];
+
   return {
     from: getEmailSender(enquiry, addresses.from),
-    html: getEnquiryHtml(enquiry),
+    html: getEnquiryHtml(enquiry, presentation),
     reply_to: enquiry.email,
-    subject: getEmailSubject(enquiry),
+    subject: [presentation.subjectPrefix, getSubjectName(enquiry.name)].filter(Boolean).join(" - "),
     text: getEnquiryText(enquiry),
     to: addresses.to,
   };

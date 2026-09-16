@@ -26,6 +26,7 @@ Project documentation sits beside, not inside, the design-system documentation. 
 
 - [current-scope.md](current-scope.md) is the agent system guide. Start with its orientation, then use the relevant capability, rendering, enquiry, analytics, environment or verification section and source links. Maintain functional understanding and consequential connections rather than page presentation descriptions or a running changelog.
 - [../../database/README.md](../../database/README.md) owns environment selection and database migration procedure; current-scope explains where that workflow fits into collection, reporting and deployment.
+- [../../tests/README.md](../../tests/README.md) maps the test folders, execution requirements and focused test commands.
 - [visual-verification.md](visual-verification.md) owns the supported access mechanism for ad-hoc visual inspection by Codex in the VS Code extension without defining task-specific review criteria.
 - [article-publishing.md](article-publishing.md) owns the code-managed article publishing workflow, article schema, verification expectations, and boundary for considering a future CMS.
 - [../design-system/governance.md](../design-system/governance.md) owns design-system authority, promotion, withdrawal, removal, verification, and update duties.

@@ -158,7 +158,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - The current recorder serializes page and client-event fetches within one active document, and the repositories retry conflicts hidden by a concurrent statement snapshot. Those fixes prevent the common rapid-SPA loss but do not create a persisted causal sequence across documents and server-authored outcomes.
-- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/utils/visitEvents.ts`, `src/server/visits/repository.ts`, `src/server/visit-events/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `database/migrations/0004_create_visit_event_ledger.sql`, `tests/api/visits/visit-repository.test.mjs`, `tests/api/visits/visit-event-repository.test.mjs`
+- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/utils/visitEvents.ts`, `src/server/visits/repository.ts`, `src/server/visit-events/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `database/migrations/0004_create_visit_event_ledger.sql`, `tests/node/visits/visit-repository.test.mjs`, `tests/node/visits/visit-event-repository.test.mjs`
 
 ### DEBT-40 - Analytics reporting reads need bounded pagination
 
@@ -379,13 +379,13 @@ Each active item should include enough direction that a future session can choos
   - Do not make this smoke script deploy or promote by itself. Deployment should remain an explicit operator action unless a future CI/CD item decides otherwise.
   - Account for Vercel Deployment Protection: protected preview URLs may require MCP access, a bypass token, or a trusted automation source.
   - 2026-07-13 manual baseline: the canonical host returned the generated generic fallback with HTTP 404 for an arbitrary path; `/404.html` returned a permanent clean-URL redirect to `/404`; both activated pages displayed the resulting browser pathname without console or page errors. The deployed bundle predates the prerendering branch's activation marker, so that exact observable contract remains pending deployment.
-- `Links`: `vercel.json`, `tests/public-site/routes.spec.ts`, `scripts/prerender-route-metadata.mjs`
+- `Links`: `vercel.json`, `tests/browser/public-site/routes.spec.ts`, `scripts/prerender-route-metadata.mjs`
 
 ### DEBT-27 - Runtime head metadata can drift after client-side navigation
 
 - `Priority`: `P2`
 - `Size`: `M`
-- `Priority Rationale`: This is `P2` because first-response metadata is well covered, but hydrated navigation can leave stale canonical or social tags in the live DOM. It is not `P1` while crawlers primarily consume first-response HTML and current tests cover generated metadata artifacts.
+- `Priority Rationale`: This is `P2` because first-response metadata is generated and build-validated, but hydrated navigation can leave stale canonical or social tags in the live DOM. It is not `P1` while crawlers primarily consume first-response HTML and the build validates generated page shells.
 - `Status`: `Open`
 - `Detected`: 2026-06-18
 - `Source`: Fresh site debt review
@@ -402,8 +402,8 @@ Each active item should include enough direction that a future session can choos
   - `SITE-3`: Public SEO and metadata QA should include live DOM metadata where it matters.
 - `Dependencies`: `None`
 - `Notes`:
-  - `NotFound` sources its title, description, heading, and robots directive from `routeMetadata.json` and uses the shared metadata hook, including robots cleanup. Its browser regression check covers recovery from the generated 404 document to Home and back/forward navigation. Public-to-not-found navigation can still retain canonical and social tags from the previous route.
-- `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/public-site/routes.spec.ts`
+  - `NotFound` sources its title, description, heading, and robots directive from `routeMetadata.json` and uses the shared metadata hook, including robots cleanup. Public-to-not-found navigation can still retain canonical and social tags from the previous route.
+- `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/browser/public-site/routes.spec.ts`
 
 ### DEBT-29 - Route changes lack focus restoration and a skip-link baseline
 
@@ -426,7 +426,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - Current public-site tests assert one main landmark, but they do not check focus movement or bypass navigation.
-- `Links`: `src/components/Layout.tsx`, `src/components/ScrollToTop.tsx`, `src/pages/`, `tests/public-site/routes.spec.ts`
+- `Links`: `src/components/Layout.tsx`, `src/components/ScrollToTop.tsx`, `src/pages/`, `tests/browser/public-site/routes.spec.ts`
 
 ### DEBT-30 - Shared navigation disclosure semantics remain incomplete
 
@@ -450,8 +450,8 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
-  - `tests/public-site/navigation.spec.ts` verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
-- `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site/navigation.spec.ts`
+  - `tests/browser/public-site/navigation.spec.ts` verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
+- `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/browser/public-site/navigation.spec.ts`
 
 ### DEBT-16 - Runtime and package-manager expectations are not pinned
 
@@ -475,26 +475,6 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
 - `Links`: `package.json`
-
-### DEBT-43 - API handler tests repeat response fixtures
-
-- `Priority`: `P3`
-- `Size`: `S`
-- `Priority Rationale`: Demonstrated test-maintenance duplication; no failing behaviour was observed.
-- `Status`: `Open`
-- `Detected`: 2026-09-14
-- `Source`: Cleanup discovery, rechecked for the owner-requested debt records.
-- `Area`: Tests
-- `Problem`: Seven API handler test files independently implement `createResponse()`, repeating header normalisation, status chaining and body capture. Enquiries additionally need `send()`; collection handlers need `end()`.
-- `Why It Matters`: Changes to the response fake require maintaining multiple copies of the same transport contract.
-- `Preferred Direction`: Use one small response fixture with the supported JSON, HTML and empty-response methods; keep endpoint payloads, dependencies and assertions local.
-- `Resolution Path`: Compare result shapes and callers, migrate the seven fixtures, then run the existing API tests.
-- `Next Action`: Extract the shared response recorder without introducing a general handler-testing framework.
-- `Resolved When`: All seven handlers' tests use the shared fixture and retain their existing response assertions.
-- `Related Items`: `DEBT-9` covers typechecking, a separate test-maintenance concern.
-- `Dependencies`: `None`
-- `Notes`: Source inspection only; this record does not claim test failures or require new tests that merely mirror the fixture.
-- `Links`: `tests/api/enquiry/handler.test.mjs`, `tests/api/analytics/handler.test.mjs`, `tests/api/analytics/exclusions-handler.test.mjs`, `tests/api/visits/visit-handler.test.mjs`, `tests/api/visits/visit-event-handler.test.mjs`, `tests/api/visits/page-engagement-handler.test.mjs`, `tests/api/visits/visit-retention-handler.test.mjs`
 
 ### DEBT-44 - Lighthouse runner owns avoidable shell-launch logic
 

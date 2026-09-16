@@ -523,9 +523,9 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
     <main className="site-page contact-page">
       <section className="site-hero contact-page__hero site-hero-surface" aria-labelledby="contact-title">
         <Container>
-          <header className="contact-page__hero-content">
-            <span className="contact-page__eyebrow">Contact and fees</span>
-            <h1 className="contact-page__hero-title" id="contact-title">
+          <header>
+            <span className="site-hero__eyebrow">Contact and fees</span>
+            <h1 className="site-hero__statement" id="contact-title">
               Make an enquiry.
             </h1>
           </header>
