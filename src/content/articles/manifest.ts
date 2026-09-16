@@ -31,6 +31,18 @@ const requiredTextFields = [
 const publishedArticleMetadata = [
   {
     abstract:
+      "Mental health difficulties among sex workers are bound up with working conditions, earlier experiences, financial insecurity and stigma. Accessing care can bring further difficulties when practitioners assume that the occupation explains the distress or that leaving should be the goal of treatment. Effective support requires an understanding of what the person is struggling with, the circumstances sustaining it and the changes they want to make. This includes being able to discuss harm without having their entire working life defined by it.",
+    author: "Joel Griffiths",
+    description:
+      "How stigma, working conditions and financial pressure shape sex workers' mental health and access to care, and what respectful counselling can offer.",
+    metaTitle: "Sex Work and Access to Mental Health Care",
+    publishedAt: "2026-09-16",
+    slug: "sex-work-and-access-to-mental-health-care",
+    title: "Sex work and access to mental health care",
+    topic: "Sex work",
+  },
+  {
+    abstract:
       "People choose ethical non-monogamy for sexual exploration, emotional connection, autonomy and relationships that fit their values. The appeal can also involve feeling desired, accommodating differences between partners or hoping to resolve existing difficulties. Drawing on research into non-monogamy, dating and relationship psychology, this article examines what people hope to find in ENM, how self-worth can shape the pursuit of new connections, and when agreement reflects pressure or fear of losing a partner. Understanding these motives can help people make sense of their own wishes and a partner’s interest in non-monogamy.",
     author: "Joel Griffiths",
     description:
