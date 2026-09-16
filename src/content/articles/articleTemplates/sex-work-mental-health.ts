@@ -14,7 +14,7 @@ Depression, anxiety and post-traumatic stress are substantial concerns among sex
 
 Much depends on the conditions under which the work takes place. Job insecurity, low income, threats and limited control over working decisions are associated with poorer mental health, while greater self-determination is associated with less distress ([Brunswig et al., 2026](#article-reference-brunswig-2026); [Kroehn-Liedtke et al., 2025](#article-reference-kroehn-liedtke-2025); [McCarthy et al., 2021](#article-reference-mccarthy-2021)). These differences can be substantial even within the same local industry. In a Queensland sample, women working privately or in licensed brothels had health scores broadly comparable with general-population norms, while poorer mental health was concentrated among women working illegally, predominantly on the street ([Seib et al., 2009](#article-reference-seib-2009)). The occupation alone tells a therapist little about how much safety, choice or stability a particular person has.
 
-Distress may also have a history that predates the work. Childhood adversity and repeated violence are associated with depression and post-traumatic stress among sex workers ([Kroehn-Liedtke et al., 2026](#article-reference-kroehn-liedtke-2026); [Roxburgh et al., 2006](#article-reference-roxburgh-2006)). Poverty, bereavement and limited opportunities can contribute to both psychological difficulties and the circumstances of entering the industry, with later violence adding to what the person is already carrying ([Panneh et al., 2022](#article-reference-panneh-2022)). Therapy needs to follow how these experiences have accumulated and what the work has meant at different points. It may have provided financial independence during one period and become a source of insecurity during another.
+Distress may also have a history that predates the work. In a combined sample of women in sex work and social care, greater childhood adversity was associated with depression and post-traumatic stress ([Kroehn-Liedtke et al., 2026](#article-reference-kroehn-liedtke-2026)). Among female street-based sex workers, a greater number of traumatic experiences was associated with current post-traumatic stress disorder ([Roxburgh et al., 2006](#article-reference-roxburgh-2006)). Poverty, bereavement and limited opportunities can contribute to both psychological difficulties and the circumstances of entering the industry, with later violence adding to what the person is already carrying ([Panneh et al., 2022](#article-reference-panneh-2022)). Therapy needs to follow how these experiences have accumulated and what the work has meant at different points. It may have provided financial independence during one period and become a source of insecurity during another.
 
 ## Work, choice and financial pressure
 
@@ -28,7 +28,7 @@ Respect for agency has to accommodate coercion and harm as well as satisfaction.
 
 ## Stigma, privacy and support
 
-Repeated social judgement can become part of how a person sees themselves. Being treated as less credible, less respectable or less capable of making decisions may erode self-worth. Discrimination is associated with depressive symptoms among sex workers, with diminished self-worth accounting for part of that relationship ([Benoit et al., 2015](#article-reference-benoit-2015)). When judgement becomes internalised, it is also associated with loneliness and poorer wellbeing ([Hart et al., 2023](#article-reference-hart-2023); [Stockton et al., 2020](#article-reference-stockton-2020)). Shame can then persist beyond the encounters that produced it, affecting what a person feels entitled to ask for and how they expect others to respond.
+Repeated social judgement can become part of how a person sees themselves. Being treated as less credible, less respectable or less capable of making decisions may erode self-worth. In a study comparing sex workers with other service workers, discrimination was associated with depressive symptoms, with diminished self-worth accounting for part of that relationship ([Benoit et al., 2015](#article-reference-benoit-2015)). When judgement becomes internalised, it is also associated with loneliness and poorer wellbeing ([Hart et al., 2023](#article-reference-hart-2023); [Stockton et al., 2020](#article-reference-stockton-2020)). Shame can then persist beyond the encounters that produced it, affecting what a person feels entitled to ask for and how they expect others to respond.
 
 Even someone who rejects that judgement may have to organise their life around it. Disclosure can carry consequences for intimate relationships, healthcare and wider social connections ([Jiao & Bungay, 2019](#article-reference-jiao-2019); [McCausland et al., 2022](#article-reference-mccausland-2022)). Keeping work private may protect a relationship while limiting what can be shared within it. A difficult day, a frightening experience or an achievement might all require editing before they can be discussed. A person can have friends and family around them while having very few people with whom they can speak openly about a substantial part of their life.
 
@@ -193,7 +193,7 @@ You can [get in touch](/contact) to arrange a session or a free 15-minute consul
       href: "https://doi.org/10.1007/s00737-021-01144-1",
     },
     {
-      citation: `Molloy, E., Tiwana, R., French, B. C., Christie, C., Smailes, H., Taylor, J., & Bradbury-Jones, C. (2025). “They look you up and down like you are nothing”: A qualitative exploration of sex workers’ health needs and interactions with UK healthcare services. *International Journal of Nursing Studies Advances, 9*, Article 100392.`,
+      citation: `Molloy, E., Tiwana, R., French, B. C., Christie, C., Smailes, H., Taylor, J., Bradbury-Jones, C., Co-Researcher 1, & Co-Researcher 2. (2025). “They look you up and down like you are nothing”: A qualitative exploration of sex workers’ health needs and interactions with UK healthcare services. *International Journal of Nursing Studies Advances, 9*, Article 100392.`,
       anchorId: "molloy-2025",
       href: "https://doi.org/10.1016/j.ijnsa.2025.100392",
     },
@@ -263,7 +263,7 @@ You can [get in touch](/contact) to arrange a session or a free 15-minute consul
       href: "https://doi.org/10.1136/bmjsrh-2021-201028",
     },
     {
-      citation: `Velez, C., & Audet, C. (2019). Indoor female sex workers’ experiences of counselling: A hermeneutical phenomenological exploration. *Canadian Journal of Counselling and Psychotherapy, 53*(4).`,
+      citation: `Velez, C., & Audet, C. (2019). Indoor female sex workers’ experiences of counselling: A hermeneutical phenomenological exploration. *Canadian Journal of Counselling and Psychotherapy, 53*(4), 330–359.`,
       anchorId: "velez-2019",
       href: "https://cjc-rcc.ucalgary.ca/article/view/61252",
     },
