@@ -158,7 +158,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - The current recorder serializes page and client-event fetches within one active document, and the repositories retry conflicts hidden by a concurrent statement snapshot. Those fixes prevent the common rapid-SPA loss but do not create a persisted causal sequence across documents and server-authored outcomes.
-- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/utils/visitEvents.ts`, `src/server/visits/repository.ts`, `src/server/visit-events/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `database/migrations/0004_create_visit_event_ledger.sql`, `tests/api/visits/visit-repository.test.mjs`, `tests/api/visits/visit-event-repository.test.mjs`
+- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/utils/visitEvents.ts`, `src/server/visits/repository.ts`, `src/server/visit-events/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `database/migrations/0004_create_visit_event_ledger.sql`, `tests/node/visits/visit-repository.test.mjs`, `tests/node/visits/visit-event-repository.test.mjs`
 
 ### DEBT-40 - Analytics reporting reads need bounded pagination
 
@@ -379,7 +379,7 @@ Each active item should include enough direction that a future session can choos
   - Do not make this smoke script deploy or promote by itself. Deployment should remain an explicit operator action unless a future CI/CD item decides otherwise.
   - Account for Vercel Deployment Protection: protected preview URLs may require MCP access, a bypass token, or a trusted automation source.
   - 2026-07-13 manual baseline: the canonical host returned the generated generic fallback with HTTP 404 for an arbitrary path; `/404.html` returned a permanent clean-URL redirect to `/404`; both activated pages displayed the resulting browser pathname without console or page errors. The deployed bundle predates the prerendering branch's activation marker, so that exact observable contract remains pending deployment.
-- `Links`: `vercel.json`, `tests/public-site/routes.spec.ts`, `scripts/prerender-route-metadata.mjs`
+- `Links`: `vercel.json`, `tests/browser/public-site/routes.spec.ts`, `scripts/prerender-route-metadata.mjs`
 
 ### DEBT-27 - Runtime head metadata can drift after client-side navigation
 
@@ -403,7 +403,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - `NotFound` now sources its title, description, heading, and robots directive from `routeMetadata.json`, removes its owned robots element on unmount, and has a browser regression check for returning from the generated 404 document to Home. It still owns robots separately from the public-page metadata hook, and public-to-not-found navigation can retain canonical and social tags from the previous route.
-- `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/public-site/routes.spec.ts`
+- `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/browser/public-site/routes.spec.ts`
 
 ### DEBT-29 - Route changes lack focus restoration and a skip-link baseline
 
@@ -426,7 +426,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - Current public-site tests assert one main landmark, but they do not check focus movement or bypass navigation.
-- `Links`: `src/components/Layout.tsx`, `src/components/ScrollToTop.tsx`, `src/pages/`, `tests/public-site/routes.spec.ts`
+- `Links`: `src/components/Layout.tsx`, `src/components/ScrollToTop.tsx`, `src/pages/`, `tests/browser/public-site/routes.spec.ts`
 
 ### DEBT-30 - Shared navigation disclosure semantics remain incomplete
 
@@ -450,8 +450,8 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
-  - `tests/public-site/navigation.spec.ts` verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
-- `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/public-site/navigation.spec.ts`
+  - `tests/browser/public-site/navigation.spec.ts` verifies that Escape closes the mobile menu, restores focus to the toggle, resets `aria-expanded`, and restores the previous body overflow value.
+- `Links`: `src/components/Layout.tsx`, `src/styles.css`, `tests/browser/public-site/navigation.spec.ts`
 
 ### DEBT-46 - Public write APIs accept different Origin formats
 
@@ -507,7 +507,7 @@ Each active item should include enough direction that a future session can choos
 - `Related Items`: `DEBT-9` covers typechecking, a separate test-maintenance concern.
 - `Dependencies`: `None`
 - `Notes`: Source inspection only; this record does not claim test failures or require new tests that merely mirror the fixture.
-- `Links`: `tests/api/enquiry/handler.test.mjs`, `tests/api/analytics/handler.test.mjs`, `tests/api/analytics/exclusions-handler.test.mjs`, `tests/api/visits/visit-handler.test.mjs`, `tests/api/visits/visit-event-handler.test.mjs`, `tests/api/visits/page-engagement-handler.test.mjs`, `tests/api/visits/visit-retention-handler.test.mjs`
+- `Links`: `tests/node/enquiry/handler.test.mjs`, `tests/node/analytics/handler.test.mjs`, `tests/node/analytics/exclusions-handler.test.mjs`, `tests/node/visits/visit-handler.test.mjs`, `tests/node/visits/visit-event-handler.test.mjs`, `tests/node/visits/page-engagement-handler.test.mjs`, `tests/node/visits/visit-retention-handler.test.mjs`
 
 ### DEBT-44 - Lighthouse runner owns avoidable shell-launch logic
 
@@ -560,7 +560,7 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Local IPv6 requests pass consistently with the other endpoints, with focused regression coverage.
 - `Related Items`: Split from `DEBT-42`; independent of the Origin-format issue in `DEBT-46`.
 - `Notes`: Confirmed by local guard comparisons; the enquiry tests already cover this case.
-- `Links`: `src/server/request-origin.ts` (`visitEventOriginPolicy`), `tests/api/visits/visit-event-handler.test.mjs`, `tests/api/enquiry/handler.test.mjs`
+- `Links`: `src/server/request-origin.ts` (`visitEventOriginPolicy`), `tests/node/visits/visit-event-handler.test.mjs`, `tests/node/enquiry/handler.test.mjs`
 
 ## Resolved Item Archive
 

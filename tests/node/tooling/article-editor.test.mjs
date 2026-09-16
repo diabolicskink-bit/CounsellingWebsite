@@ -6,13 +6,13 @@ import { test } from "node:test";
 import {
   renderArticleTemplateSource,
   updateArticleTemplateContent,
-} from "../../scripts/articleEditorPlugin.ts";
-import { articles } from "../../src/content/articles/articles.ts";
+} from "../../../scripts/articleEditorPlugin.ts";
+import { articles } from "../../../src/content/articles/articles.ts";
 import {
   parseArticleMarkdown,
   serializeArticleMarkdown,
   toggleMarkdownBold,
-} from "../../src/pages/dev/articleEditorMarkdown.ts";
+} from "../../../src/pages/dev/articleEditorMarkdown.ts";
 
 async function importRenderedTemplate(source) {
   const executableSource = source.replace(

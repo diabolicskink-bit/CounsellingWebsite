@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { after, test } from "node:test";
 import { createServer } from "vite";
 
-import { isHostnameAllowed } from "../../src/utils/hostnameAllowlist.ts";
+import { isHostnameAllowed } from "../../../src/utils/hostnameAllowlist.ts";
 
 const vite = await createServer({
   appType: "custom",

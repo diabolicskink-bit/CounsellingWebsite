@@ -3,8 +3,8 @@ import { test } from "node:test";
 import {
   articleMetadata,
   validateArticleManifest,
-} from "../../src/content/articles/manifest.ts";
-import { articles } from "../../src/content/articles/articles.ts";
+} from "../../../src/content/articles/manifest.ts";
+import { articles } from "../../../src/content/articles/articles.ts";
 
 const validArticle = {
   abstract: "A useful summary.",

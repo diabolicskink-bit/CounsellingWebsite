@@ -1,9 +1,9 @@
 import { expect, test, type Locator } from "playwright/test";
 import { readFileSync } from "node:fs";
-import type { RouteMetadata } from "../../src/data/routeMetadata";
+import type { RouteMetadata } from "../../../src/data/routeMetadata";
 
 const routeMetadata = JSON.parse(
-  readFileSync(new URL("../../src/data/routeMetadata.json", import.meta.url), "utf8"),
+  readFileSync(new URL("../../../src/data/routeMetadata.json", import.meta.url), "utf8"),
 ) as { routes: Record<string, RouteMetadata> };
 
 async function expectVisibleFocusIndicator(link: Locator) {

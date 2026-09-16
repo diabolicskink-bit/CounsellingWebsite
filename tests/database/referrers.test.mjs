@@ -1,6 +1,8 @@
-// Opt-in PostgreSQL check: set REFERRER_TEST_DATABASE_URL to the Preview database.
+// Opt-in PostgreSQL check: npm run test:database uses Preview from .env.preview.local.
 // Every report source is shadowed by VALUES-backed CTEs; no retained data is read or changed.
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { parseEnv } from "node:util";
 import { test } from "node:test";
 import { neon } from "@neondatabase/serverless";
 import { isAnalyticsReport } from "../../src/data/analyticsContract.ts";
@@ -46,10 +48,10 @@ site_visit_events(visit_id, event_type, occurred_at) AS (
   ) AS events(visit_id, event_type)
 ),`;
 
-test("referrer SQL splits paid and organic Google arrivals without multiplying journey totals", {
-  skip: !process.env.REFERRER_TEST_DATABASE_URL,
-}, async () => {
-  const sql = neon(process.env.REFERRER_TEST_DATABASE_URL);
+test("referrer SQL splits paid and organic Google arrivals without multiplying journey totals", async () => {
+  const preview = parseEnv(await readFile(new URL("../../.env.preview.local", import.meta.url), "utf8"));
+  assert.ok(preview.DATABASE_URL, "Configure Preview DATABASE_URL in .env.preview.local before running test:database.");
+  const sql = neon(preview.DATABASE_URL);
   const database = {
     query: (query, parameters) => sql.query(fixtureSql + query.replace(/^\s*WITH/, ""), parameters),
   };

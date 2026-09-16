@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "playwright/test";
-import { privateRoutePaths } from "../src/data/routes";
+import { privateRoutePaths } from "../../src/data/routes";
 
 const analyticsQaScenario = process.env.ANALYTICS_QA_SCENARIO;
 const noindexDirective = "noindex, nofollow";

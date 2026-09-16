@@ -10,10 +10,10 @@ import {
   publicRedirectRoutes,
   publicRoutePaths,
   usesSharedChromePath,
-} from "../../src/data/routes.ts";
+} from "../../../src/data/routes.ts";
 
 const metadata = JSON.parse(
-  await readFile(new URL("../../src/data/routeMetadata.json", import.meta.url), "utf8"),
+  await readFile(new URL("../../../src/data/routeMetadata.json", import.meta.url), "utf8"),
 );
 
 test("public route constants match the metadata-backed route set", () => {

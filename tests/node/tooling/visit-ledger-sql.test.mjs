@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { test } from "node:test";
 
-const migrationsUrl = new URL("../../database/migrations/", import.meta.url);
-const queriesUrl = new URL("../../database/queries/", import.meta.url);
+const migrationsUrl = new URL("../../../database/migrations/", import.meta.url);
+const queriesUrl = new URL("../../../database/queries/", import.meta.url);
 const baseMigration = await readFile(
   new URL("0001_create_visit_ledger.sql", migrationsUrl),
   "utf8",

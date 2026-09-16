@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { chromium } from "playwright";
 
-import { withVisualSession } from "../../scripts/visual-session.mjs";
+import { withVisualSession } from "../../../scripts/visual-session.mjs";
 
 test("requires a callback before starting managed resources", async () => {
   await assert.rejects(withVisualSession(), {

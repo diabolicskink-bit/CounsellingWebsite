@@ -6,7 +6,7 @@ import {
   getTransactionalStatements,
   readMigrations,
   splitSqlStatements,
-} from "../../scripts/apply-database-migrations.mjs";
+} from "../../../scripts/apply-database-migrations.mjs";
 
 const migrationFilenames = [
   "0001_create_visit_ledger.sql",

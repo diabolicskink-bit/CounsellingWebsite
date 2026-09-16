@@ -5,11 +5,11 @@ import {
   articleMetadata,
   getArticlePath,
   getArticleRouteMetadata,
-} from "../../src/content/articles/manifest.ts";
-import { renderRouteStructuredDataTag } from "../../scripts/route-structured-data.mjs";
+} from "../../../src/content/articles/manifest.ts";
+import { renderRouteStructuredDataTag } from "../../../scripts/route-structured-data.mjs";
 
 const metadata = JSON.parse(
-  await readFile(new URL("../../src/data/routeMetadata.json", import.meta.url), "utf8"),
+  await readFile(new URL("../../../src/data/routeMetadata.json", import.meta.url), "utf8"),
 );
 
 function parseStructuredDataTag(tag) {

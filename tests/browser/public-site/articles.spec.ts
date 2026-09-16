@@ -1,6 +1,6 @@
 import { expect, test } from "playwright/test";
-import { articles } from "../../src/content/articles/articles";
-import { getArticlePath } from "../../src/content/articles/manifest";
+import { articles } from "../../../src/content/articles/articles";
+import { getArticlePath } from "../../../src/content/articles/manifest";
 
 const noindexDirective = "noindex, nofollow";
 

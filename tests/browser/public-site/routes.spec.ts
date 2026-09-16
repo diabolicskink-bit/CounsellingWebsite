@@ -1,15 +1,15 @@
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "playwright/test";
-import { getArticleRouteMetadata } from "../../src/content/articles/manifest";
+import { getArticleRouteMetadata } from "../../../src/content/articles/manifest";
 import type {
   NotFoundMetadata,
   RouteMetadata,
   SiteMetadata,
-} from "../../src/data/routeMetadata";
+} from "../../../src/data/routeMetadata";
 
 const routeMetadataData = JSON.parse(
-  readFileSync(new URL("../../src/data/routeMetadata.json", import.meta.url), "utf8"),
+  readFileSync(new URL("../../../src/data/routeMetadata.json", import.meta.url), "utf8"),
 ) as {
   notFound: NotFoundMetadata;
   site: SiteMetadata;
