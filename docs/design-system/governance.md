@@ -68,8 +68,9 @@ Add usage constraints or migration notes only when they are part of the current 
 Production contains inherited global CSS, shared-looking selectors, React components, and page-scoped styling that are not active design-system API.
 
 - Existing consumers may keep using inherited implementation until an authorized task changes them.
-- Narrow correctness, accessibility, or compatibility fixes may preserve an existing consumer without promoting the implementation.
-- New visual implementation remains page-local by default.
+- Narrow correctness, accessibility, or compatibility fixes may preserve an existing consumer without promoting the implementation or broadening its role.
+- Remove or migrate inherited implementation only within explicit cleanup or shared-system scope, after verifying consumers and affected behaviour.
+- New visual implementation and candidate exploration remain page-local or in the development test beds by default.
 - A repeated need may be investigated as a candidate in the task that encounters it, but candidate status does not belong in the active catalogues.
 - Similar declarations, literal values, or shapes do not by themselves justify promotion.
 
@@ -84,7 +85,7 @@ Promote an item only when the current task explicitly includes shared-system wor
 3. Responsive behaviour, accessibility, interaction states, and affected consumers have proportionate coverage.
 4. Intended consumers are migrated to the promoted implementation without retaining accidental duplicates.
 5. The production implementation is complete before the active catalogue record is added.
-6. The relevant active catalogue is updated and any corresponding legacy-register entry is removed.
+6. The item's contract is added to exactly one relevant active catalogue and any corresponding legacy-register entry is removed.
 7. A rendered specimen is added only when it materially helps maintenance and uses the real supported implementation.
 
 Promotion should clarify a reusable semantic contract, not flatten content-shaped page composition.
@@ -115,9 +116,11 @@ The retired `/design-language/*` snapshot must not be restored or redirected int
 
 ## Verification
 
+[AGENTS.md](../../AGENTS.md#engineering-and-verification) determines verification scope, including the development-only and private-dashboard boundaries. Within that scope:
+
 - Documentation-only changes require reference and link searches that confirm the active/legacy boundary remains clear.
-- CSS, component, or rendered-workspace changes require `npm run build` unless the task explicitly excludes it.
-- Visual or interaction changes require direct inspection of affected consumers; the workspace specimen is not a substitute for consumer testing.
+- Production CSS or supported component implementation changes require `npm run build` unless the task explicitly excludes it. Presentation-only changes to the development workspace follow the root development-only policy.
+- Production visual or interaction changes require direct inspection of affected consumers; the workspace specimen is not a substitute for consumer testing.
 - Removal requires source-consumer searches plus checks proportionate to the affected behaviour.
 
 ## Update Duties

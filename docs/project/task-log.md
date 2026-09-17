@@ -22,6 +22,11 @@ Selected milestones and decision context that help later work. Git retains detai
 - When adding the first entry for a new month, move completed months to `archive/task-log-YYYY-MM.md` and update the archive index. Preserve links to moved entries or update their incoming references.
 - Condense older history around decisions, outcomes and consequential transitions. Git preserves routine detail. Retain meaningful dates and tracker IDs; replace superseded pending statements with the recorded later outcome, and ensure unresolved work remains discoverable through its current owner. Routine log maintenance does not need its own milestone.
 
+## 2026-09-17 - AI Guidance Consolidated By Responsibility
+
+- Kept task interpretation, permissions, verification scope, private analytics policy, and creative direction in [AGENTS.md](../../AGENTS.md). Detailed test standards and execution guidance now live in the [test guide](../../tests/README.md); shared-system lifecycle rules live in [governance](../design-system/governance.md).
+- Replaced repeated procedures in the project/design-system maps and the system guide with owner links, preserving the working rules while reducing the number of policy copies that must stay aligned.
+
 ## 2026-09-16 - Anchor Offset Derived From The Sticky Header
 
 - Promoted `--site-anchor-offset` and replaced five arbitrary per-page `scroll-margin-top` values (84px, 92px, 96px, 100px and a viewport clamp) across Contact, Crisis Support, Articles, Privacy Policy, Working with Joel and the development workspace. The owner directed the site-wide reconciliation after the article quality pass surfaced the spread.

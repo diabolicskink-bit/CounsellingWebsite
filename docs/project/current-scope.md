@@ -256,31 +256,15 @@ Establish schema readiness before deploying code that depends on a migration. Th
 
 Use the checked-in npm lockfile (`npm ci` when installing dependencies). Node and npm versions are not pinned by the repository; direct Node tests import TypeScript source, so the runtime must support those imports. The executable commands in [package.json](../../package.json) are authoritative. On Windows PowerShell, use `npm.cmd` for the same commands if execution policy blocks the `npm.ps1` launcher; no policy change is needed.
 
-Choose checks using the [verification policy](../../AGENTS.md#engineering-and-verification); the commands below describe available coverage, not a required sequence. [Private analytics guidance](../../AGENTS.md#private-analytics) covers focused local checks, owner-led dashboard inspection and when a working-branch Preview is warranted.
+Use the [test guide](../../tests/README.md) for test design, command coverage, prerequisites, and execution limits. [Repository verification policy](../../AGENTS.md#engineering-and-verification) determines which checks are warranted; [private analytics policy](../../AGENTS.md#private-analytics) covers dashboard inspection and Preview authorization.
 
-| Command | Purpose and limits |
+| Command | Local runtime |
 | --- | --- |
-| `npm run dev` | Local Vite development UI, including development routes and the article editor. No API-service verification. |
-| `npm run build` | App/API typecheck, client/server bundles and generated-route checks. No live database or email check. |
-| `npm run preview` | Serve the most recent built output locally. It does not build first. |
-| `npm run check:encoding` | Repository text-encoding check, useful for documentation and copy edits. |
-| `npm run typecheck:tests` | Separate strict typecheck for Playwright specs. |
-| `npm run test:api` | Direct Node tests for enquiry, collection, reporting, exclusions and retention handlers/repositories with substituted dependencies. |
-| `npm run test:node` | All local Node checks, grouped by shared server contracts, analytics, enquiry, visits, site and tooling. No live database or browser run. |
-| `npm run test:database` | Opt-in PostgreSQL reporting checks with synthetic fixtures, using only Preview configuration from `.env.preview.local`. |
-| `npm run qa:site` | Encoding and test typechecks, build, then the public-site Playwright suite against local built output. |
-| `npm run test:analytics` | Fast API/domain suite (including analytics-host checks), plus migration handling and read-only-query checks. |
-| `npm run qa:analytics` | Test typecheck and fast analytics tests, followed by builds/browser tests with collection hosts blocked and enabled. Real database behaviour remains outside this command. |
-| `npm run qa` | Encoding, test typecheck, all local Node tests, build and public browser suite. It does not run database tests or the separate analytics browser scenarios. |
-| `npm run audit:lighthouse` | Build and local Lighthouse reports; no enforced performance budget. |
+| `npm run dev` | Vite development UI, including development routes and the article editor; no Vercel API services. |
+| `npm run build` | App/API typecheck, client/server bundles, and generated-route checks; no live database or email verification. |
+| `npm run preview` | Serve the most recent built output; it does not build first or run Vercel services. |
 
-The [test guide](../../tests/README.md) maps the `tests/node/`, `tests/browser/` and `tests/database/` boundaries and focused commands. PostgreSQL fixture tests execute the real reporting query against synthetic sources without reading retained visitor data. They do not verify the deployed API or UI.
-
-Public Playwright tests live under `tests/browser/public-site/`; analytics collection and privacy-boundary checks live under `tests/browser/analytics/`. Dashboard presentation remains an owner check. The browser project retains the name `chromium` but selects installed Google Chrome with `channel: "chrome"`; it requires Chrome, not a Playwright-managed browser download. Narrow viewports are exercised where relevant. Browser API/provider responses are intercepted for the relevant scenarios, and local Node repository tests substitute query results and check request mapping and consequential side effects. These checks establish local behaviour and contract consistency, not deployed email, real SQL execution, Vercel middleware or all-browser coverage.
-
-QA uses managed local preview servers on port 4287 for the public suite and 4288 for analytics. The analytics command rebuilds `dist/` with test collection settings; rerun an ordinary build before treating that output as a normal site build. Commands that rebuild the same output directory should run sequentially.
-
-For ad-hoc browser inspection in the Codex IDE, follow [visual-verification.md](visual-verification.md): the persistent Node tool runs repository Playwright with installed Chrome through `scripts/dev/visual-session.mjs`. The helper owns a temporary Vite development server and browser, bounds waits and captures console/page errors from startup. Automated QA uses the same Chrome channel against built preview output. Project Codex configuration disables competing plugin browser workflows. Changes confined to development pages follow the proportionate verification rule in `AGENTS.md`; the existence of a browser tool does not make every edit a full visual audit.
+For ad-hoc browser inspection in the Codex IDE, follow [visual verification](visual-verification.md).
 
 Known implementation limits worth accounting for during related work:
 

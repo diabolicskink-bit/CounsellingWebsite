@@ -38,7 +38,7 @@ A code review may include relevant callers, dependencies, styles, tests and conf
 
 This is a low-traffic site maintained by one developer, with one owner using the private analytics. Prefer clear, direct implementation that serves demonstrated needs. Scale architecture, dependencies, safeguards and tests to the actual maintenance cost and consequences of failure. Data correctness, enquiry delivery, authentication and privacy warrant more care than routine presentation edits.
 
-- Choose the smallest set of checks that gives useful confidence in the change. Use the commands and limits in [current-scope.md](docs/project/current-scope.md#working-locally-and-verifying-changes); full QA suites, browser sweeps and Lighthouse audits are not routine completion requirements.
+- Choose the smallest set of checks that gives useful confidence in the change. Use the commands and limits in [tests/README.md](tests/README.md#commands); full QA suites, browser sweeps and Lighthouse audits are not routine completion requirements.
 - For public visual or interaction changes, use focused rendered or browser inspection when needed to assess the affected behaviour. Limit it to relevant routes, states and viewports. In the Codex IDE, use the persistent `node_repl` JavaScript tool with repository Playwright and installed Chrome, following [visual-verification.md](docs/project/visual-verification.md). This repository route takes precedence over plugin browser workflows; do not start with `agent-browser` or a Chromium download.
 - Development-only presentation changes normally need source inspection and the smallest relevant static check. Changes to functional tools, such as article saving, still need focused checks of the affected behaviour. Do not turn those checks into a full visual, responsive or browser audit unless requested.
 - Once relevant checks pass, stop. Broaden or repeat them only when a failure, subsequent change or unresolved concern justifies it. Avoid repeating checks already covered by a command that passed.
@@ -46,12 +46,7 @@ This is a low-traffic site maintained by one developer, with one owner using the
 
 ### Test Scope And Maintenance
 
-- Reuse existing coverage first. Add or extend a test only when it protects a concrete, consequential failure or behavioural boundary and earns its ongoing maintenance cost. A code change does not automatically need a new test; test counts and coverage percentages are not goals.
-- Prioritize enquiry delivery and failure handling, authentication/privacy, public input boundaries, data identity and deletion, report calculations and attribution, and safe article saving. Low traffic does not make these failures harmless.
-- Do not lock routine copy, headings, service lists, layout, styling or documentation in place. Do not add tests merely to prove that an edit happened or removed content stays absent. Keep behavioural checks independent of exact editorial wording unless that wording is itself a required functional contract.
-- Assert meaningful outcomes or narrow safety constraints. Avoid snapshots of whole pages or objects, inventories of current files, copied configuration, SQL formatting and internal call sequences. Preserve useful checks of actual database results and security boundaries.
-- Prefer representative cases at the most useful test layer. Add permutations or checks at another layer only for a distinct failure risk; do not duplicate the same assertions across unit, mocked and browser tests. Keep fixtures and helpers simple and readable, without speculative frameworks or unnecessary file fragmentation.
-- Update or remove obsolete tests when behaviour changes. Follow [tests/README.md](tests/README.md) for test ownership, organisation and commands. Keep routine private-dashboard presentation checks with the owner under the policy below.
+Reuse existing coverage and add tests only for consequential behaviour that warrants their maintenance. Follow [tests/README.md](tests/README.md) for test design, coverage ownership, commands, and execution limits.
 
 The private-dashboard verification policy below takes precedence over general browser-review guidance, including skill defaults.
 
@@ -101,20 +96,8 @@ Both `staging` and `master` are long-lived branches. The `staging` Vercel Previe
 - Unless the current task explicitly changes the visual identity, keep the site's basic scheme: established font families, type roles and type scale; the existing colour palette and semantic colour roles; shared navigation, footer and interaction behaviour; and the accessibility baseline. These are identity anchors, not layout templates.
 - Treat composition, grids, component forms, surfaces, depth, layering, shape, spacing rhythm, imagery, motion and responsive recomposition as active creative variables. New page-scoped components and treatments are encouraged when they give the content a clearer or more memorable form.
 - Do not default to existing cards, fine rules, flat surfaces, split sections, spacing patterns, rendered examples or page silhouettes simply because they already exist. Reuse them only when they strengthen the selected concept. Every creative departure should clarify hierarchy, meaning, relationship or interaction rather than add novelty for its own sake.
-- Do not treat a file in `src/components/` as reusable design-system API unless it has a current contract in `docs/design-system/components.md`.
 - Keep one-off visual explorations page-scoped until they prove useful beyond one context.
 
 ## Incremental Design-System Migration
 
-- Production source proves what is implemented; it does not by itself make a token, selector, component, or pattern approved reusable API. Only a current contract in [docs/design-system/foundations.md](docs/design-system/foundations.md), [components.md](docs/design-system/components.md), or [patterns.md](docs/design-system/patterns.md) authorizes deliberate shared reuse.
-- The active catalogues contain promoted items only. Do not place inherited, page-local, candidate, development-only, withdrawn, removed, or historical items in them.
-- Treat implementation absent from the active catalogues as outside the design system. Do not reuse or remove it merely because it exists, looks current, has a shared-looking name, appears on a public route, or is recorded in `docs/design-system-legacy/`.
-- Keep new visual implementation page-local by default. Investigate repeated needs within the current task, but do not add candidate records to the active catalogues or promote during ordinary page work.
-- Promote CSS, tokens, components, or patterns only when the current task explicitly includes shared-system work and the promotion rules in [docs/design-system/governance.md](docs/design-system/governance.md) are satisfied.
-- Existing consumers of inherited implementation may receive scoped correctness, accessibility, or compatibility fixes until an explicitly authorized migration replaces them. Do not broaden the implementation's role during that work.
-- Remove or migrate old implementation only within explicit cleanup or shared-system scope, after verifying source consumers and running checks proportionate to the affected behaviour. Preserve existing consumers otherwise.
-- Similar declarations or literal values are not enough to justify elevation. Shared implementation must represent the same semantic role across current consumers without flattening content-shaped page composition.
-- Use `docs/design-system-legacy/` only as non-authoritative, source-backed working evidence about inherited implementation. Remove a legacy entry when its item is promoted or its source is removed; Git and the project task log retain completed history.
-- Treat the development-only `/design-system` workspace as a rendered view of the active catalogues, never as authority itself. It may show only items currently present in those catalogues.
-- Render supported specimens from the real production component or supported production classes. Do not copy approximate demo markup, maintain a parallel status registry, or place legacy, candidate, page-local, withdrawn, removed, or development-only items in the supported specimen area.
-- Keep candidate exploration in page-local work or the development test beds. Do not restore or redirect the retired `/design-language/*` snapshot when extending the new workspace.
+Follow [design-system governance](docs/design-system/governance.md) for promotion, withdrawal, inherited implementation, source organisation, and rendered-workspace maintenance. Shared-system changes require explicit task scope; ordinary page work does not authorize promotion. The active catalogues define the reusable API.
