@@ -68,7 +68,7 @@ The private-dashboard verification policy below takes precedence over general br
 
 ## Git And Release Workflow
 
-Create `work/*` branches from `staging` and do implementation work on those working branches. Continue an appropriate existing working branch for ongoing work. At the owner's direction, merge working branches into `staging` for integration, then merge `staging` into `master` for Production promotion.
+Create `work/*` branches from `origin/staging` and do implementation work on those working branches. Continue an appropriate existing working branch for ongoing work. At the owner's direction, merge working branches into `staging` for integration, then merge `staging` into `master` for Production promotion.
 
 Both `staging` and `master` are long-lived branches. The `staging` Vercel Preview supports review of the combined release candidate; pushing `master` triggers automatic Vercel Production deployment.
 
