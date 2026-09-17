@@ -39,6 +39,6 @@ Run from the repository root. [package.json](../package.json) owns the exact sel
 
 For focused work, run the affected file, for example `node --test tests/node/enquiry/email.test.mjs`. Browser discovery can be checked with `npx playwright test --list` without launching browsers. Use installed Chrome; no Playwright browser download is required.
 
-Database tests read `.env.preview.local` directly, so ambient `DATABASE_URL` cannot select a different database. Follow [database setup](../database/README.md). Missing configuration fails the explicit database command; ordinary checks never need it. The referrer fixture neither reads nor changes retained visitor data.
+Database tests read `.env.preview.local` directly, so ambient `DATABASE_URL` cannot select a different database. Follow [database setup](../database/README.md). Missing configuration fails the explicit database command; ordinary checks never need it. These fixtures neither read nor change retained visitor data.
 
 Local mocks/builds do not verify deployed email delivery, Vercel middleware or live database behaviour. [AGENTS.md](../AGENTS.md#engineering-and-verification) owns proportionate verification and dashboard Preview policy.

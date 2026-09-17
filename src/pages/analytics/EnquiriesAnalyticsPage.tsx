@@ -12,6 +12,7 @@ import {
   getPerthDateKey,
   getPerthMonthKey,
   isAnalyticsMonthKey,
+  isEnquiryEventType,
   type AnalyticsVisit,
   type AnalyticsVisitEvent,
 } from "../../contracts/analyticsContract";
@@ -50,10 +51,8 @@ function MonthlyEnquiries({
     .filter((visit) => includeBots || visit.isBot !== true)
     .flatMap((visit) => visit.events
       .filter((visitEvent) => (
-        visitEvent.eventType === "enquiry_sent"
+        isEnquiryEventType(visitEvent.eventType)
         || visitEvent.eventType === "enquiry_failed"
-        || visitEvent.eventType === "email_link_clicked"
-        || visitEvent.eventType === "phone_link_clicked"
       ) && getPerthMonthKey(new Date(visitEvent.occurredAt)) === monthKey)
       .map((visitEvent) => ({ visit, visitEvent })))
     .sort((left, right) => new Date(right.visitEvent.occurredAt).getTime()
@@ -61,12 +60,7 @@ function MonthlyEnquiries({
   const sentCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "enquiry_sent").length;
   const emailCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "email_link_clicked").length;
   const phoneCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "phone_link_clicked").length;
-  const completedEnquiries = enquiryEvents.filter(({ visitEvent }) => (
-    visitEvent.eventType === "enquiry_sent"
-    || visitEvent.eventType === "email_link_clicked"
-    || visitEvent.eventType === "phone_link_clicked"
-  ));
-  const enquiryCount = completedEnquiries.length;
+  const enquiryCount = enquiryEvents.filter(({ visitEvent }) => isEnquiryEventType(visitEvent.eventType)).length;
 
   return (
     <>
@@ -90,7 +84,7 @@ function MonthlyEnquiries({
           </div>
           <div><dt>Form Enquiries</dt><dd>{String(sentCount).padStart(2, "0")}</dd></div>
           <div>
-            <dt>Phone Enquirys</dt>
+            <dt>Phone Enquiries</dt>
             <dd>
               {String(phoneCount).padStart(2, "0")}
             </dd>

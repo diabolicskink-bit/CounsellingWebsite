@@ -1,3 +1,8 @@
+import { enquiryEventTypes } from "../../contracts/analyticsContract.ts";
+
+// These literals come only from the shared reporting contract, never request input.
+const enquiryEventTypesSql = enquiryEventTypes.map((type) => `'${type}'`).join(", ");
+
 const analyticsVisitColumns = `
   ledger.visit_id::TEXT AS "id",
   ledger.visitor_id::TEXT AS "visitorId",
@@ -103,10 +108,7 @@ WHERE EXISTS (
   FROM site_visit_events AS monthly_events
   WHERE monthly_events.visit_id = ledger.visit_id
     AND monthly_events.event_type IN (
-      'email_link_clicked',
-      'enquiry_sent',
-      'enquiry_failed',
-      'phone_link_clicked'
+      ${enquiryEventTypesSql}, 'enquiry_failed'
     )
     AND monthly_events.occurred_at >= (
       (($1 || '-01')::DATE::TIMESTAMP) AT TIME ZONE 'Australia/Perth'
@@ -213,7 +215,7 @@ visit_outcomes AS (
   SELECT visit_events.visit_id, TRUE AS has_enquiry
   FROM site_visit_events AS visit_events
   INNER JOIN included_visits ON included_visits.visit_id = visit_events.visit_id
-  WHERE visit_events.event_type IN ('enquiry_sent', 'phone_link_clicked')
+  WHERE visit_events.event_type IN (${enquiryEventTypesSql})
   GROUP BY visit_events.visit_id
 ),
 referrer_rows AS (
@@ -279,7 +281,7 @@ visit_outcomes AS (
   FROM site_visit_events AS visit_events
   INNER JOIN included_paid_visits
     ON included_paid_visits.visit_id = visit_events.visit_id
-  WHERE visit_events.event_type IN ('enquiry_sent', 'phone_link_clicked')
+  WHERE visit_events.event_type IN (${enquiryEventTypesSql})
   GROUP BY visit_events.visit_id
 ),
 tagged_visits AS (

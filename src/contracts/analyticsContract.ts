@@ -3,8 +3,21 @@ import {
   type AustralianVisitRegionCode,
   type VisitDeviceType,
 } from "./visitClientEnvironment.ts";
+import { visitEventTypes } from "./visitEventContract.ts";
 
 export type AnalyticsTrafficSource = "direct" | "internal" | "paid" | "referral";
+
+export const enquiryEventTypes = [
+  visitEventTypes.enquirySent,
+  visitEventTypes.phoneLinkClicked,
+  visitEventTypes.emailLinkClicked,
+] as const;
+
+export type EnquiryEventType = (typeof enquiryEventTypes)[number];
+
+export function isEnquiryEventType(eventType: string): eventType is EnquiryEventType {
+  return enquiryEventTypes.some((type) => type === eventType);
+}
 
 const perthDateFormatter = new Intl.DateTimeFormat("en-CA", {
   day: "2-digit",

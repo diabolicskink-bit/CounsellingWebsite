@@ -41,10 +41,10 @@ site_page_views(visit_id, active_seconds, viewed_at) AS (
 site_visit_events(visit_id, event_type, occurred_at) AS (
   SELECT visit_id, event_type, '2026-08-17T00:00:00Z'::TIMESTAMPTZ
   FROM (VALUES
-    (1, 'enquiry_sent'), (1, 'enquiry_sent'), (1, 'phone_link_clicked'),
+    (1, 'enquiry_sent'), (1, 'enquiry_sent'), (1, 'phone_link_clicked'), (1, 'email_link_clicked'),
     (2, 'phone_link_clicked'), (5, 'enquiry_failed'), (7, 'enquiry_sent'),
     (8, 'email_link_clicked'), (10, 'enquiry_sent'), (13, 'phone_link_clicked'),
-    (15, 'enquiry_sent')
+    (15, 'enquiry_sent'), (4, 'instagram_link_clicked'), (4, 'linkedin_link_clicked')
   ) AS events(visit_id, event_type)
 ),`;
 
@@ -77,18 +77,19 @@ test("referrer SQL splits paid and organic Google arrivals without multiplying j
   assert.equal(report.totalVisits, 16);
   assert.equal(report.totalPageViews, 18);
   assert.equal(report.totalActiveSeconds, 210);
-  assert.equal(report.totalEnquiryVisits, 5);
+  assert.equal(report.totalEnquiryVisits, 6);
   assert.equal(report.referrers.find((row) => row.referrer === "google.com.au (paid)").enquiryVisits, 1);
   assert.equal(report.referrers.find((row) => row.referrer === "google.com.au (organic)").enquiryVisits, 0);
   assert.equal(report.referrers.find((row) => row.referrer === "Internal").enquiryVisits, 0);
-  assert.equal(report.referrers.find((row) => row.referrer === "No referrer recorded").enquiryVisits, 1);
+  assert.equal(report.referrers.find((row) => row.referrer === "No referrer recorded").enquiryVisits, 2);
+  assert.equal(report.referrers.find((row) => row.referrer === "mail.google.com").enquiryVisits, 0);
 
   const bots = await readAnalytics({ ...selection, includeBots: true }, database);
   assert.equal(isAnalyticsReport(bots), true);
   assert.equal(bots.totalVisits, 17);
   assert.equal(bots.totalPageViews, 19);
   assert.equal(bots.totalActiveSeconds, 220);
-  assert.equal(bots.totalEnquiryVisits, 5);
+  assert.equal(bots.totalEnquiryVisits, 6);
   assert.equal(bots.referrers.find((row) => row.referrer === "example.com").visits, 1);
 
   const empty = await readAnalytics({

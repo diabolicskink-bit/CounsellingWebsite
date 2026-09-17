@@ -24,6 +24,7 @@ const colourFoundations: readonly ColourFoundation[] = [
       ".site-header .header-button and .button--primary",
       ".site-footer focus-visible states",
       "Contact form focus states",
+      "ContactInvitation editorial emphasis and primary action",
     ],
     facts: [
       ["Light text on cedar", "9.53:1"],
@@ -43,6 +44,7 @@ const colourFoundations: readonly ColourFoundation[] = [
       ".site-section-warm",
       "Documents and Crisis Support content boundaries",
       "Working with Joel and specialist Inclusion page editorial rules",
+      "ContactInvitation section, action, and fee separators",
     ],
     facts: [
       ["Composite on section", "#C4CBC2"],
@@ -60,7 +62,7 @@ const colourFoundations: readonly ColourFoundation[] = [
     ariaLabel: "Dark editorial rule swatch, pale green at 20 percent over the dark editorial background",
     consumers: [
       "Specialist counselling hero actions",
-      "Closing invitation and dark editorial topic boundaries",
+      "Dark editorial topic boundaries",
       "Documents hero",
     ],
     facts: [
@@ -80,7 +82,7 @@ const colourFoundations: readonly ColourFoundation[] = [
     consumers: [
       "Documents workspace",
       "Home, Working with Joel, and Inclusion editorial backings",
-      "Contact, closing invitation action, and specialist counselling sections",
+      "Contact enquiry task and specialist counselling sections",
     ],
     facts: [
       ["Dark ink on section", "13.87:1"],
@@ -88,7 +90,7 @@ const colourFoundations: readonly ColourFoundation[] = [
     ],
     identifier: "--section-warm",
     note: "The lighter global page canvas remains a distinct inherited material.",
-    role: "Flat warm paper for public editorial backings, content materials, and the shared dark closing invitation's light action surface.",
+    role: "Flat warm paper for public editorial backings, sections, and content materials.",
     swatchLabel: "Editorial section",
     swatchModifier: "section-warm",
     swatchValue: "#F2EFE8",
@@ -99,7 +101,7 @@ const colourFoundations: readonly ColourFoundation[] = [
     consumers: [
       "Documents workspace and table headings",
       "Working with Joel and specialist Inclusion page editorial fields",
-      "Contact essentials, submission mark, and closing invitation action state",
+      "Contact essentials and submission mark",
     ],
     facts: [
       ["Dark ink on sage", "12.68:1"],
@@ -107,7 +109,7 @@ const colourFoundations: readonly ColourFoundation[] = [
     ],
     identifier: "--section-sage",
     note: "Both recorded pairings meet WCAG AAA contrast for ordinary text.",
-    role: "Pale sage material for editorial fields, supporting fills, navigation, and the shared closing invitation's action state.",
+    role: "Pale sage material for editorial fields, sections, supporting fills, and Documents workspace navigation.",
     swatchLabel: "Editorial field",
     swatchModifier: "section-sage",
     swatchValue: "#DFE8DC",
@@ -118,7 +120,7 @@ const colourFoundations: readonly ColourFoundation[] = [
     consumers: [
       "Documents navigation",
       "Home, Working with Joel, and specialist Inclusion page treatments",
-      "Closing invitation and Contact first-message heading",
+      "Contact first-message heading",
     ],
     facts: [
       ["Light text on dark", "13.72:1"],
@@ -262,6 +264,7 @@ export default function DesignSystemFoundations() {
           consumers={[
             "Home About narrative, inclusive copy, and closing invitation",
             "Working with Joel introduction, approach overview, and active tab copy",
+            "ArticleHero abstracts",
             "Crisis Support emergency guidance and section introductions",
           ]}
           identifier=".site-reading"

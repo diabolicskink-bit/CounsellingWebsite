@@ -123,6 +123,7 @@ The retired `/design-language/*` snapshot must not be restored or redirected int
 ## Update Duties
 
 - Add or change an active catalogue record whenever the supported public contract changes.
+- When supported implementation changes, search the active catalogues and rendered workspace for references to its identifier, semantic role, and consumers. Reconcile affected records and specimen descriptions with current source, including foundation or pattern relationships removed or introduced by a component change.
 - Update the legacy register only from current source evidence.
 - Update `docs/project/project-debt.md` when unresolved migration or cleanup pressure should remain visible.
 - Update `docs/project/task-log.md` for durable promotions, withdrawals, removals, or governance changes.
