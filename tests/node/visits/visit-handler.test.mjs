@@ -4,9 +4,9 @@ import { createVisitHandler } from "../../../api/visit.ts";
 import { createVisitBotClassifier } from "../../../src/server/visits/bot.ts";
 import {
   PageViewIdentityConflictError,
-  VisitDatabaseConfigurationError,
   VisitIdentityConflictError,
 } from "../../../src/server/visits/repository.ts";
+import { VisitDatabaseConfigurationError } from "../../../src/server/visit-database.ts";
 import { createResponse } from "../support/http-response.mjs";
 
 const nonBotClassification = {

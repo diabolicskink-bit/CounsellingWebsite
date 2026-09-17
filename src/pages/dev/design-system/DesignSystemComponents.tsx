@@ -1,6 +1,6 @@
 import ContactInvitation from "../../../components/ContactInvitation";
-import DesignSystemSpecimen from "../../../components/DesignSystemSpecimen";
-import ArticleHero from "../../../content/articles/ArticleHero";
+import DesignSystemSpecimen from "./DesignSystemSpecimen";
+import ArticleHero from "../../articles/ArticleHero";
 import { articleMetadata } from "../../../content/articles/manifest";
 import DesignSystemWorkspace from "./DesignSystemWorkspace";
 

@@ -6,7 +6,7 @@ import {
   VisitEventPageViewConflictError,
   VisitEventVisitConflictError,
 } from "../../../src/server/visit-events/repository.ts";
-import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
+import { VisitDatabaseConfigurationError } from "../../../src/server/visit-database.ts";
 import { createResponse } from "../support/http-response.mjs";
 
 function validPayload(overrides = {}) {

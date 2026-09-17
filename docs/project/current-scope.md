@@ -45,22 +45,22 @@ These are investigation entry points, not an exhaustive file inventory. Paths in
 
 | Concern | Start here | What it owns |
 | --- | --- | --- |
-| Application and route composition | [src/App.tsx](../../src/App.tsx), [src/data/routes.ts](../../src/data/routes.ts) | Route components, public/private/dev separation, route constants, browser aliases, and the special Fees tracking path. |
-| Browser activation and build-time rendering | [src/main.tsx](../../src/main.tsx), [src/BrowserApp.tsx](../../src/BrowserApp.tsx), [src/StaticApp.tsx](../../src/StaticApp.tsx), [prerender script](../../scripts/prerender-route-metadata.mjs) | Hydration or client rendering, shared app composition, generated route documents and validation. |
+| Application and route composition | [src/app/App.tsx](../../src/app/App.tsx), [src/data/routes.ts](../../src/data/routes.ts) | Route components, public/private/dev separation, route constants, browser aliases, and the special Fees tracking path. |
+| Browser activation and build-time rendering | [src/main.tsx](../../src/main.tsx), [src/app/BrowserApp.tsx](../../src/app/BrowserApp.tsx), [src/app/StaticApp.tsx](../../src/app/StaticApp.tsx), [prerender script](../../scripts/build/prerender-route-metadata.mjs) | Hydration or client rendering, shared app composition, generated route documents and validation. |
 | Public pages and navigation | [src/pages/](../../src/pages), [Layout.tsx](../../src/components/Layout.tsx), [src/data/site.ts](../../src/data/site.ts) | Page content, shared header/footer, navigation data and social destinations. |
-| Metadata and discoverability | [routeMetadata.json](../../src/data/routeMetadata.json), [routeMetadata.ts](../../src/data/routeMetadata.ts), [structured-data generator](../../scripts/route-structured-data.mjs) | Core page and business metadata, article metadata composition, canonical/social tags, JSON-LD and sitemap inputs. |
-| Contact and email | [Contact.tsx](../../src/pages/Contact.tsx), [enquiryContract.ts](../../src/data/enquiryContract.ts), [api/enquiry.ts](../../api/enquiry.ts), [src/server/enquiry/](../../src/server/enquiry) | UI, shared options/limits, request validation, native/JSON responses, email construction and delivery. |
+| Metadata and discoverability | [routeMetadata.json](../../src/data/routeMetadata.json), [routeMetadata.ts](../../src/data/routeMetadata.ts), [structured-data generator](../../scripts/build/route-structured-data.mjs) | Core page and business metadata, article metadata composition, canonical/social tags, JSON-LD and sitemap inputs. |
+| Contact and email | [Contact.tsx](../../src/pages/contact/Contact.tsx), [EnquiryForm.tsx](../../src/pages/contact/EnquiryForm.tsx), [enquiryContract.ts](../../src/contracts/enquiryContract.ts), [api/enquiry.ts](../../api/enquiry.ts), [src/server/enquiry/](../../src/server/enquiry) | UI, shared options/limits, request validation, native/JSON responses, email construction and delivery. |
 | Articles | [manifest.ts](../../src/content/articles/manifest.ts), [articles.ts](../../src/content/articles/articles.ts), [article templates](../../src/content/articles/articleTemplates), [article-publishing.md](article-publishing.md) | Publication metadata, typed content pairing, Markdown bodies/references, and publishing procedure. |
-| First-party collection | [VisitRecorder.tsx](../../src/components/VisitRecorder.tsx), [visitSession.ts](../../src/utils/visitSession.ts), [visitEventContract.ts](../../src/data/visitEventContract.ts) | Page observation, browser identity/session lifecycle, attribution and allowed events; follow their imports into the write APIs and repositories. |
-| Private reporting | [src/pages/analytics/](../../src/pages/analytics), [analyticsContract.ts](../../src/data/analyticsContract.ts), [src/server/reporting/](../../src/server/reporting) | Report controls and summaries, runtime response contracts, request selection, SQL and exclusions. |
+| First-party collection | [VisitRecorder.tsx](../../src/tracking/VisitRecorder.tsx), [visitSession.ts](../../src/tracking/visitSession.ts), [visitEventContract.ts](../../src/contracts/visitEventContract.ts) | Page observation, browser identity/session lifecycle, attribution and allowed events; follow their imports into the write APIs and repositories. |
+| Private reporting | [src/pages/analytics/](../../src/pages/analytics), [analyticsContract.ts](../../src/contracts/analyticsContract.ts), [src/server/reporting/](../../src/server/reporting) | Report controls and summaries, runtime response contracts, request selection, SQL and exclusions. |
 | Storage and environment boundaries | [database/README.md](../../database/README.md), [database migrations](../../database/migrations), [middleware.ts](../../middleware.ts), [vercel.json](../../vercel.json) | Migration procedure/schema, private authentication, deployment routing, function packaging and retention schedule. |
-| Local tools and verification | [vite.config.ts](../../vite.config.ts), [articleEditorPlugin.ts](../../scripts/articleEditorPlugin.ts), [package.json](../../package.json), [visual-verification.md](visual-verification.md) | Development server integration, local article writes, executable check commands and the supported IDE browser workflow. |
+| Local tools and verification | [vite.config.ts](../../vite.config.ts), [articleEditorPlugin.ts](../../scripts/dev/articleEditorPlugin.ts), [package.json](../../package.json), [visual-verification.md](visual-verification.md) | Development server integration, local article writes, executable check commands and the supported IDE browser workflow. |
 
 Public write endpoints share origin allowlists, cross-site checks and blocked-request log sanitisation in [request-origin.ts](../../src/server/request-origin.ts). Origin headers contain only an HTTP(S) scheme and authority; Referer values must be absolute, credential-free HTTP(S) URLs. Only configured origins may omit the scheme.
 
 [request-body.ts](../../src/server/request-body.ts) owns JSON object decoding for collection, enquiries and private visitor exclusions, plus the common content-type and byte-limit checks used by collection. The collection body guard requires decimal digits in nonempty Content-Length values and still checks measured UTF-8 body size when the header is absent. Endpoint modules retain their limits, loopback allowances and native-form handling; page engagement uses the visits request module. Visit-event collection supports IPv4 loopback for local development and does not require local IPv6 support.
 
-`api/` contains HTTP entry points. Domain validation, delivery and database work live under `src/server/`; browser/server contracts live under `src/data/`. Although server code sits beneath `src/`, it is server-owned: public code should consume the shared contracts rather than import database or delivery modules. Handlers and repositories expose dependencies that direct tests can replace without real email or database services.
+`api/` contains HTTP entry points. Domain validation, delivery and database work live under `src/server/`; browser/server contracts live under `src/contracts/`. `src/server/visit-database.ts` owns the Neon connection shared by visit collection, events, engagement, reporting and retention. Although server code sits beneath `src/`, it is server-owned: public code should consume the shared contracts rather than import database or delivery modules. Handlers and repositories expose dependencies that direct tests can replace without real email or database services.
 
 ## Surfaces And Routes
 
@@ -99,7 +99,7 @@ Daily visits, monthly enquiry entries and exclusions can open the visitor's comp
 ### Development tools
 
 - `/article-editor` edits existing article Markdown and structured references. Saving sends `PUT /__dev/article-editor/:slug` to the Vite plugin, which validates an allowlisted slug and rewrites that article's source template. The write endpoint rejects non-localhost Host values and exists only on the Vite development server. Metadata and article registration remain source edits.
-- `/documents` renders selected Markdown libraries from `docs/`. Its import globs in `src/pages/dev/Documents.tsx` decide what appears; it is not a complete repository browser or document editor.
+- `/documents` renders selected Markdown libraries from `docs/`. Its import globs in `src/pages/dev/documents/Documents.tsx` decide what appears; it is not a complete repository browser or document editor.
 - `/codex-tb` and `/opus-tb` are development-only places for page experiments. Their current contents are not public routes or approved future page implementations.
 - `/design-system` and its catalogue subroutes provide development inspection; their authority and maintenance are owned by the separate [design-system documentation](../design-system/README.md).
 
@@ -107,7 +107,7 @@ Daily visits, monthly enquiry entries and exclusions can open the visitor's comp
 
 ### From source to a browser document
 
-`npm run build` validates the configured third-party analytics IDs, typechecks the application/API source, builds browser assets into `dist/`, builds a disposable server bundle into `.prerender/server/`, then runs `scripts/prerender-route-metadata.mjs`. The server bundle is a build tool, not a separately deployed application service.
+`npm run build` validates the configured third-party analytics IDs, typechecks the application/API source, builds browser assets into `dist/`, builds a disposable server bundle into `.prerender/server/`, then runs `scripts/build/prerender-route-metadata.mjs`. The server bundle is a build tool, not a separately deployed application service.
 
 `BrowserApp` uses `BrowserRouter`; `StaticApp` uses `StaticRouter`. Both compose the same `App` within the shared Strict Mode boundary. Article pages are lazy-loaded in the browser and supplied synchronously for build-time rendering so their content is present in the first response.
 
@@ -121,15 +121,15 @@ Private shells contain no report data. Their content loads through the protected
 
 A route change can touch several contracts:
 
-- `src/App.tsx` determines which component renders, and `src/data/routes.ts` supplies application route names and public aliases.
+- `src/app/App.tsx` determines which component renders, and `src/data/routes.ts` supplies application route names and public aliases.
 - `src/data/routeMetadata.json` supplies core public-page and business metadata. `routeMetadata.ts` adds article-derived metadata for runtime consumers. Article publishing uses its own manifest rather than requiring each article in the core route file.
-- `scripts/prerender-route-metadata.mjs` owns public rendering checks and the private-shell route list. The build rejects an unsupported core metadata route.
+- `scripts/build/prerender-route-metadata.mjs` owns public rendering checks and the private-shell route list. The build rejects an unsupported core metadata route.
 - `vercel.json` owns HTTP redirects and clean-URL/trailing-slash behaviour. React redirects do not replace hosting redirects.
 - Browser tests cover representative public journeys under `tests/browser/public-site/`; direct route tests check public constants against metadata.
 
 This means adding a React route alone does not complete a public-route change. Check its first-response HTML, metadata, links, hosting behaviour and appropriate coverage. For article additions, follow [article-publishing.md](article-publishing.md), which describes the manifest/template path through those concerns.
 
-All currently published public content routes are indexable. Private reports and Not Found use no-index metadata; development routes are absent from builds. Canonical origin selection lives in [route-metadata-origin.mjs](../../scripts/route-metadata-origin.mjs): an explicit `SITE_URL` wins, Production otherwise uses the canonical site origin, and a Vercel Preview otherwise uses `VERCEL_URL`. Local builds fall back to the canonical origin. A local canonical pointing to the public site does not prove the page is being served from Production.
+All currently published public content routes are indexable. Private reports and Not Found use no-index metadata; development routes are absent from builds. Canonical origin selection lives in [route-metadata-origin.mjs](../../scripts/build/route-metadata-origin.mjs): an explicit `SITE_URL` wins, Production otherwise uses the canonical site origin, and a Vercel Preview otherwise uses `VERCEL_URL`. Local builds fall back to the canonical origin. A local canonical pointing to the public site does not prove the page is being served from Production.
 
 The structured-data generator expresses the business/practitioner/services and relevant profile, article, collection, breadcrumb and crisis-support entities. Business metadata and visible claims must agree. A private street address is not part of that public metadata. The Crisis Support check date also feeds structured data and its sitemap date; article publication/revision dates feed article metadata and sitemap entries.
 
@@ -137,7 +137,7 @@ Client navigation updates title, description and robots through `useDocumentMeta
 
 ## Enquiries And Contact
 
-The Contact form offers an appointment request, a free 15-minute consultation request, and a general enquiry. All collect name, email and message. Appointment/consultation paths require availability and timezone, and a consultation also requires a mobile number. [enquiryContract.ts](../../src/data/enquiryContract.ts) owns option values and field limits shared by browser and server. [timeZones.ts](../../src/utils/timeZones.ts) owns Australian timezone choices and conversions from Perth business hours.
+The Contact form offers an appointment request, a free 15-minute consultation request, and a general enquiry. All collect name, email and message. Appointment/consultation paths require availability and timezone, and a consultation also requires a mobile number. [enquiryContract.ts](../../src/contracts/enquiryContract.ts) owns option values and field limits shared by browser and server. [timeZones.ts](../../src/utils/timeZones.ts) owns Australian timezone choices and conversions from Perth business hours.
 
 The complete native form is prerendered with conditional fields explained in their labels. JavaScript progressively shows the relevant fields, submits JSON, prevents duplicate in-flight submission, and focuses the confirmation on success. Without JavaScript the form submits URL-encoded data and receives a standalone HTML success or failure response. Changes must account for both paths.
 
@@ -197,7 +197,7 @@ Dates use `Australia/Perth`. Page, referrer and keyword ranges are inclusive and
 - **Exclusion is a reporting filter, not deletion or collection opt-out.** It removes a visitor's past and future visits from ordinary reports while preserving direct retained-history access and allowing restoration.
 - **Identified bots are hidden by default; unclassified visits remain included.** The interface can include identified bots. Bot filtering and manual exclusion are separate concepts.
 
-The report API uses a discriminator and complete nested response contracts from `src/data/analyticsContract.ts`. `src/server/reporting/request.ts` parses report selection and canonicalizes visitor IDs; `reader.ts` supplies queries, converts database results and validates the complete report against that shared contract. `database.ts` owns reporting's database-configuration error boundary, and `row-values.ts` supplies strict count/timestamp conversions shared with exclusions. Page-level reporting code computes relevant display summaries. `useAnalyticsReport.ts` rejects malformed or wrong-type reports and handles cancellation, retry and refresh. A report-shape change must agree across those boundaries.
+The report API uses a discriminator and complete nested response contracts from `src/contracts/analyticsContract.ts`. `src/server/reporting/request.ts` parses report selection and canonicalizes visitor IDs; `queries.ts` owns reporting SQL; `reader.ts` executes those queries, converts database results and validates the complete report against that shared contract. `database.ts` owns reporting's database-configuration error boundary, and `row-values.ts` supplies strict count/timestamp conversions shared with exclusions. Page-level reporting code computes relevant display summaries. `useAnalyticsReport.ts` rejects malformed or wrong-type reports and handles cancellation, retry and refresh. A report-shape change must agree across those boundaries.
 
 Reports are based on the visits and outcomes the system actually captured. Browser blocking, disabled collection, failed writes and submissions without visit context make the enquiry view an analytics report rather than an authoritative inbox or total practice-enquiry register.
 
@@ -299,7 +299,7 @@ Public Playwright tests live under `tests/browser/public-site/`; analytics colle
 
 QA uses managed local preview servers on port 4287 for the public suite and 4288 for analytics. The analytics command rebuilds `dist/` with test collection settings; rerun an ordinary build before treating that output as a normal site build. Commands that rebuild the same output directory should run sequentially.
 
-For ad-hoc browser inspection in the Codex IDE, follow [visual-verification.md](visual-verification.md): the persistent Node tool runs repository Playwright with installed Chrome through `scripts/visual-session.mjs`. The helper owns a temporary Vite development server and browser, bounds waits and captures console/page errors from startup. Automated QA uses the same Chrome channel against built preview output. Project Codex configuration disables competing plugin browser workflows. Changes confined to development pages follow the proportionate verification rule in `AGENTS.md`; the existence of a browser tool does not make every edit a full visual audit.
+For ad-hoc browser inspection in the Codex IDE, follow [visual-verification.md](visual-verification.md): the persistent Node tool runs repository Playwright with installed Chrome through `scripts/dev/visual-session.mjs`. The helper owns a temporary Vite development server and browser, bounds waits and captures console/page errors from startup. Automated QA uses the same Chrome channel against built preview output. Project Codex configuration disables competing plugin browser workflows. Changes confined to development pages follow the proportionate verification rule in `AGENTS.md`; the existence of a browser tool does not make every edit a full visual audit.
 
 Known implementation limits worth accounting for during related work:
 

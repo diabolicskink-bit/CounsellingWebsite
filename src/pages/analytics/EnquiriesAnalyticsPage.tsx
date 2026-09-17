@@ -14,7 +14,7 @@ import {
   isAnalyticsMonthKey,
   type AnalyticsVisit,
   type AnalyticsVisitEvent,
-} from "../../data/analyticsContract";
+} from "../../contracts/analyticsContract";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import { MonthControls } from "./AnalyticsControls";
 import {

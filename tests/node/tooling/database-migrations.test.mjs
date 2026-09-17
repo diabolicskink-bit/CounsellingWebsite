@@ -7,7 +7,7 @@ import {
   getTransactionalStatements,
   readMigrations,
   splitSqlStatements,
-} from "../../../scripts/apply-database-migrations.mjs";
+} from "../../../database/migrate.mjs";
 
 test("migration reader returns the complete ordered migration set", async () => {
   const migrations = await readMigrations();

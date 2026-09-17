@@ -4,7 +4,7 @@ import {
   isAnalyticsApiResponseOfType,
   isAnalyticsReport,
   isAnalyticsReportOfType,
-} from "../../../src/data/analyticsContract.ts";
+} from "../../../src/contracts/analyticsContract.ts";
 
 const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";
 const otherVisitorId = "78c09df2-880c-44c8-8336-2a28fd0bb65c";

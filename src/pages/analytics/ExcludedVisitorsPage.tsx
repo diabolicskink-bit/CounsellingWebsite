@@ -8,7 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import {
   getPerthDateKey,
   type ExcludedVisitorSummary,
-} from "../../data/analyticsContract";
+} from "../../contracts/analyticsContract";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import {
   formatDate,

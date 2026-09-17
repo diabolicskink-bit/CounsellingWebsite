@@ -1,6 +1,6 @@
-import DevPageHero from "../../../components/DevPageHero";
+import DevPageHero from "./DevPageHero";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
-import "../../../styles-test-beds.css";
+import "./test-beds.css";
 
 export default function CodexTB() {
   useDocumentMetadata(

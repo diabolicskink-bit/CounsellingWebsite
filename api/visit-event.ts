@@ -13,7 +13,7 @@ import {
   type VisitEventResponse,
 } from "../src/server/visit-events/request.ts";
 import { validateClientVisitEventPayload } from "../src/server/visit-events/validation.ts";
-import { VisitDatabaseConfigurationError } from "../src/server/visits/repository.ts";
+import { VisitDatabaseConfigurationError } from "../src/server/visit-database.ts";
 
 type RecordVisitEvent = (observation: VisitEventObservation) => Promise<unknown>;
 

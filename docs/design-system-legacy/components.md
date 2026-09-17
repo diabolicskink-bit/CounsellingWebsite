@@ -27,7 +27,7 @@ This is source-backed working evidence about React components outside the active
 
 ### `BroadTabPanel`
 
-- `Implementation`: `src/components/BroadTabPanel.tsx` with page-scoped `.site-broad-tabs*` styling in `src/styles-working-with-joel.css`.
+- `Implementation`: `src/pages/working-with-joel/BroadTabPanel.tsx` with page-scoped `.site-broad-tabs*` styling in `src/pages/working-with-joel/working-with-joel.css`.
 - `Known consumers`: Working with Joel.
 - `Legacy note`: Renders every panel as a headed reading section before JavaScript, then progressively applies connected ARIA tab semantics, inactive-panel hiding, roving focus, responsive stacking, and reduced-motion handling after hydration. It still has one verified page consumer and is not promoted reusable API.
 - `Checked`: 2026-08-19 — holistic component review and `DEBT-35` progressive-enhancement resolution.

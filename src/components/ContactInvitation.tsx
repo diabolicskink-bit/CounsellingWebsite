@@ -2,8 +2,8 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { enquiryEmail } from "../data/enquiry";
 import { publicRoutePaths } from "../data/routes";
-import { visitEventTypes } from "../data/visitEventContract";
-import { recordVisitEvent } from "../utils/visitEvents";
+import { visitEventTypes } from "../contracts/visitEventContract";
+import { recordVisitEvent } from "../tracking/visitEvents";
 import Container from "./Container";
 
 const contactStartHref = `${publicRoutePaths.contact}#contact-start`;

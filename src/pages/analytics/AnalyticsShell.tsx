@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { privateRoutePaths } from "../../data/routes";
-import "../../styles-analytics.css";
+import "./analytics.css";
 
 export type AnalyticsReportStatus = "error" | "loading" | "ready";
 

@@ -13,7 +13,7 @@ import {
   type VisitRequest,
   type VisitResponse,
 } from "../src/server/visits/request.ts";
-import { VisitDatabaseConfigurationError } from "../src/server/visits/repository.ts";
+import { VisitDatabaseConfigurationError } from "../src/server/visit-database.ts";
 
 type RecordPageEngagement = (observation: PageEngagementObservation) => Promise<unknown>;
 

@@ -5,7 +5,7 @@ import {
 } from "../src/server/visits/retention.ts";
 import {
   VisitDatabaseConfigurationError,
-} from "../src/server/visits/repository.ts";
+} from "../src/server/visit-database.ts";
 import type {
   VisitRequest,
   VisitResponse,

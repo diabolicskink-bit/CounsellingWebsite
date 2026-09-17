@@ -1,6 +1,6 @@
 # IDE Visual Verification
 
-Use the persistent `node_repl` JavaScript tool, repository Playwright and installed Google Chrome. [scripts/visual-session.mjs](../../scripts/visual-session.mjs) starts an isolated local Vite server and closes its server, browser and context when the callback finishes or throws.
+Use the persistent `node_repl` JavaScript tool, repository Playwright and installed Google Chrome. [scripts/dev/visual-session.mjs](../../scripts/dev/visual-session.mjs) starts an isolated local Vite server and closes its server, browser and context when the callback finishes or throws.
 
 This guide explains browser access and capture. [AGENTS.md](../../AGENTS.md#engineering-and-verification) and the current task determine whether inspection is useful and what to check. Starting a dev server does not require a browser audit.
 
@@ -9,7 +9,7 @@ This guide explains browser access and capture. [AGENTS.md](../../AGENTS.md#engi
 Discover the `node_repl` tool named `js` if it is not already exposed. Run this code there from the repository root, with a tool timeout of 60 seconds:
 
 ```js
-var visualTools = await import("./scripts/visual-session.mjs");
+var visualTools = await import("./scripts/dev/visual-session.mjs");
 
 await visualTools.withVisualSession({ route: "/" }, async ({ page, pageErrors }) => {
   await page.getByRole("heading", { level: 1 }).waitFor();

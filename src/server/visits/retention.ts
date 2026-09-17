@@ -1,7 +1,7 @@
 import {
   getVisitDatabase,
   type VisitDatabase,
-} from "./repository.ts";
+} from "../visit-database.ts";
 
 export type VisitRetentionCleanupResult = {
   exclusionsDeleted: number;

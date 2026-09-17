@@ -1,5 +1,5 @@
 import Container from "../../../components/Container";
-import DesignSystemSpecimen from "../../../components/DesignSystemSpecimen";
+import DesignSystemSpecimen from "./DesignSystemSpecimen";
 import DesignSystemWorkspace from "./DesignSystemWorkspace";
 
 export default function DesignSystemPatterns() {

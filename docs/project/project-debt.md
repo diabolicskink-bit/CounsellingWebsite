@@ -97,7 +97,7 @@ Each active item should include enough direction that a future session can choos
   - Vercel Firewall configuration may live outside the repo. If the rule is added through the dashboard, record the exact rule name, path/method conditions, threshold, key, and action when resolving this item.
   - Avoid CAPTCHA or challenge flows as the first implementation unless rate limiting and request-shape checks prove insufficient. The enquiry form should remain low-friction for legitimate visitors.
   - If Bot Protection is enabled later, test it carefully against both React `fetch` submissions and endpoint-level native form posts.
-- `Links`: `api/enquiry.ts`, `vercel.json`, `src/pages/Contact.tsx`
+- `Links`: `api/enquiry.ts`, `vercel.json`, `src/pages/contact/Contact.tsx`
 
 ### DEBT-37 - Design system needs source-backed reconciliation
 
@@ -158,7 +158,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - The current recorder serializes page and client-event fetches within one active document, and the repositories retry conflicts hidden by a concurrent statement snapshot. Those fixes prevent the common rapid-SPA loss but do not create a persisted causal sequence across documents and server-authored outcomes.
-- `Links`: `src/components/VisitRecorder.tsx`, `src/utils/visitSession.ts`, `src/utils/visitEvents.ts`, `src/server/visits/repository.ts`, `src/server/visit-events/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `database/migrations/0004_create_visit_event_ledger.sql`, `tests/node/visits/visit-repository.test.mjs`, `tests/node/visits/visit-event-repository.test.mjs`
+- `Links`: `src/tracking/VisitRecorder.tsx`, `src/tracking/visitSession.ts`, `src/tracking/visitEvents.ts`, `src/server/visits/repository.ts`, `src/server/visit-events/repository.ts`, `src/server/reporting/reader.ts`, `database/migrations/0001_create_visit_ledger.sql`, `database/migrations/0004_create_visit_event_ledger.sql`, `tests/node/visits/visit-repository.test.mjs`, `tests/node/visits/visit-event-repository.test.mjs`
 
 ### DEBT-40 - Analytics reporting reads need bounded pagination
 
@@ -181,7 +181,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - The protected Basic-auth boundary limits who can request reports but does not bound the amount of data a valid request can serialize.
-- `Links`: `api/analytics.ts`, `src/server/reporting/request.ts`, `src/server/reporting/reader.ts`, `src/data/analyticsContract.ts`, `src/pages/analytics/useAnalyticsReport.ts`, `src/pages/analytics/DailyAnalyticsPage.tsx`, `src/pages/analytics/EnquiriesAnalyticsPage.tsx`, `src/pages/analytics/ExcludedVisitorsPage.tsx`
+- `Links`: `api/analytics.ts`, `src/server/reporting/request.ts`, `src/server/reporting/reader.ts`, `src/contracts/analyticsContract.ts`, `src/pages/analytics/useAnalyticsReport.ts`, `src/pages/analytics/DailyAnalyticsPage.tsx`, `src/pages/analytics/EnquiriesAnalyticsPage.tsx`, `src/pages/analytics/ExcludedVisitorsPage.tsx`
 
 ### DEBT-9 - Type checking does not cover tests, scripts, or most config code
 
@@ -295,7 +295,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - 2026-08-15: The Crisis Support review confirmed a concrete cascade-order failure: the production bundle placed page CSS before equal-specificity shared rules, leaving several colour and hero-spacing declarations inert. The route now uses deliberate higher specificity for its compact eyebrow exception and otherwise consumes the supported site-hero spacing and foreground roles. The broader bundling and scoping decision remains open.
-- `Links`: `src/App.tsx`, `src/pages/`, `src/styles-*.css`
+- `Links`: `src/app/App.tsx`, `src/pages/`, `src/pages/**/*.css`
 
 ### DEBT-20 - Page-specific typography overrides need role audit
 
@@ -310,7 +310,7 @@ Each active item should include enough direction that a future session can choos
 - `Why It Matters`: Local type sizes make new pages harder to build consistently and can reintroduce near-body one-offs that the type-role work was meant to remove.
 - `Preferred Direction`: Audit page-scoped CSS for local font-size, clamp, and letter-spacing rules; convert clear duplicates to shared type roles while preserving deliberate editorial compositions.
 - `Resolution Path`: Inventory page CSS typography rules, classify each as shared-role candidate or deliberate page-specific expression, then clean up one low-risk route group at a time with visual checks.
-- `Next Action`: Run a focused typography scan across `src/styles-*.css`, pick one public route group, and remove or convert only the obvious duplicate type overrides.
+- `Next Action`: Run a focused typography scan across `src/pages/**/*.css`, pick one public route group, and remove or convert only the obvious duplicate type overrides.
 - `Resolved When`: Public page CSS mostly adjusts layout, measure, and composition; remaining local type rules are deliberate and documented by role or page need.
 - `Related Items`:
   - `DEBT-15`: Page-specific typography drift is one concrete risk created by globally bundled page CSS.
@@ -324,7 +324,7 @@ Each active item should include enough direction that a future session can choos
   - Preserve page-specific type where a page has a genuine editorial composition, such as special hero title measures or unique visual moments.
   - 2026-08-05: All seven public content routes now use `.site-reading` for matching substantive prose; Home and Working with Joel also use `.site-reading--lead` for their established opening paragraphs. Contextual dark-surface foregrounds and deliberate serif, heading, label, form, metadata, and compact-support roles remain page-owned. This debt stays open for the broader classification of remaining page-specific type rules.
   - 2026-08-15: Replaced the live Crisis Support `h2` and `h3` size overrides with the shared heading defaults after rendered desktop, intermediate, and mobile review. Page CSS retains layout, measure, compact service-copy sizing, and semantic colour responsibilities.
-- `Links`: `src/styles-*.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
+- `Links`: `src/pages/**/*.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-21 - Shared production typography needs raw-size and fluid-rule audit
 
@@ -379,7 +379,7 @@ Each active item should include enough direction that a future session can choos
   - Do not make this smoke script deploy or promote by itself. Deployment should remain an explicit operator action unless a future CI/CD item decides otherwise.
   - Account for Vercel Deployment Protection: protected preview URLs may require MCP access, a bypass token, or a trusted automation source.
   - 2026-07-13 manual baseline: the canonical host returned the generated generic fallback with HTTP 404 for an arbitrary path; `/404.html` returned a permanent clean-URL redirect to `/404`; both activated pages displayed the resulting browser pathname without console or page errors. The deployed bundle predates the prerendering branch's activation marker, so that exact observable contract remains pending deployment.
-- `Links`: `vercel.json`, `tests/browser/public-site/routes.spec.ts`, `scripts/prerender-route-metadata.mjs`
+- `Links`: `vercel.json`, `tests/browser/public-site/routes.spec.ts`, `scripts/build/prerender-route-metadata.mjs`
 
 ### DEBT-27 - Runtime head metadata can drift after client-side navigation
 
@@ -390,7 +390,7 @@ Each active item should include enough direction that a future session can choos
 - `Detected`: 2026-06-18
 - `Source`: Fresh site debt review
 - `Area`: Metadata, Routing, SEO, Accessibility
-- `Problem`: Public pages and `NotFound` call `useDocumentMetadata`, which updates title, description and robots metadata. Canonical, OG and Twitter metadata are generated separately by `scripts/prerender-route-metadata.mjs` and are not updated by the runtime hook.
+- `Problem`: Public pages and `NotFound` call `useDocumentMetadata`, which updates title, description and robots metadata. Canonical, OG and Twitter metadata are generated separately by `scripts/build/prerender-route-metadata.mjs` and are not updated by the runtime hook.
 - `Why It Matters`: A visitor or bot that navigates within the hydrated app can see canonical or social metadata from the first loaded route rather than metadata appropriate to the current route.
 - `Preferred Direction`: Replace the narrow title/description hook with a route-aware head metadata helper that owns title, description, canonical, OG/Twitter tags, and route-specific robots state in one place.
 - `Resolution Path`: Define the runtime head contract from `routeMetadata.json`, update public routes and `NotFound` to use the shared helper, and add a browser test that navigates between public and not-found routes while checking the live head.
@@ -403,7 +403,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - `NotFound` sources its title, description, heading, and robots directive from `routeMetadata.json` and uses the shared metadata hook, including robots cleanup. Public-to-not-found navigation can still retain canonical and social tags from the previous route.
-- `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/prerender-route-metadata.mjs`, `tests/browser/public-site/routes.spec.ts`
+- `Links`: `src/hooks/useDocumentMetadata.ts`, `src/pages/not-found/NotFound.tsx`, `src/data/routeMetadata.json`, `scripts/build/prerender-route-metadata.mjs`, `tests/browser/public-site/routes.spec.ts`
 
 ### DEBT-29 - Route changes lack focus restoration and a skip-link baseline
 
@@ -426,7 +426,7 @@ Each active item should include enough direction that a future session can choos
 - `Dependencies`: `None`
 - `Notes`:
   - Current public-site tests assert one main landmark, but they do not check focus movement or bypass navigation.
-- `Links`: `src/components/Layout.tsx`, `src/components/ScrollToTop.tsx`, `src/pages/`, `tests/browser/public-site/routes.spec.ts`
+- `Links`: `src/components/Layout.tsx`, `src/app/ScrollToTop.tsx`, `src/pages/`, `tests/browser/public-site/routes.spec.ts`
 
 ### DEBT-30 - Shared navigation disclosure semantics remain incomplete
 
@@ -486,7 +486,7 @@ Each active item should include enough direction that a future session can choos
 - `Detected`: 2026-09-14
 - `Source`: Cleanup tooling inspection, rechecked against the installed Lighthouse CLI metadata.
 - `Area`: Scripts, Tooling
-- `Problem`: `scripts/run-lighthouse.mjs` launches a `.cmd` shim through a manually quoted shell command on Windows, but passes an argument array on other platforms. It also has no child-process `error` listener.
+- `Problem`: `scripts/qa/run-lighthouse.mjs` launches a `.cmd` shim through a manually quoted shell command on Windows, but passes an argument array on other platforms. It also has no child-process `error` listener.
 - `Why It Matters`: The wrapper must maintain shell quoting and startup-failure handling even though Lighthouse exposes a Node CLI, as the analytics QA runner already uses for its tools.
 - `Preferred Direction`: Launch the resolved Lighthouse Node CLI using `process.execPath` and an argument array, with explicit startup-error handling.
 - `Resolution Path`: Replace the shell/shim branch, preserve audit flags and output handling, and check argument forwarding and spawn failures using a substituted child process.
@@ -495,7 +495,7 @@ Each active item should include enough direction that a future session can choos
 - `Related Items`: `DEBT-16` concerns runtime versions; this item concerns process invocation.
 - `Dependencies`: `None`
 - `Notes`: Installed `lighthouse/package.json` maps its CLI to `cli/index.js`. No Lighthouse audit or browser was launched for this record.
-- `Links`: `scripts/run-lighthouse.mjs`, `scripts/run-analytics-qa.mjs`, `package.json`
+- `Links`: `scripts/qa/run-lighthouse.mjs`, `scripts/qa/run-analytics-qa.mjs`, `package.json`
 
 ### DEBT-45 - Analytics QA preview lifecycle handling is incomplete
 
@@ -506,7 +506,7 @@ Each active item should include enough direction that a future session can choos
 - `Detected`: 2026-09-14
 - `Source`: Cleanup tooling inspection and follow-up source trace.
 - `Area`: Scripts, Process lifecycle
-- `Problem`: The preview child in `scripts/run-analytics-qa.mjs` has no `error` listener, although the same file's `run()` helper handles spawn errors. Readiness and shutdown detect completion only through `exitCode`; they do not account for `signalCode`. `stopPreview()` also ignores failure of its final bounded exit wait.
+- `Problem`: The preview child in `scripts/qa/run-analytics-qa.mjs` has no `error` listener, although the same file's `run()` helper handles spawn errors. Readiness and shutdown detect completion only through `exitCode`; they do not account for `signalCode`. `stopPreview()` also ignores failure of its final bounded exit wait.
 - `Why It Matters`: Failed launches lack controlled reporting, a signal-terminated child can be treated as running, and shutdown can finish without confirming that its process stopped.
 - `Preferred Direction`: Make preview startup, exit-by-code, exit-by-signal and bounded shutdown explicit within this helper.
 - `Resolution Path`: Handle spawn errors, recognise either terminal state, report shutdown timeout, and cover these paths with fake child-process events.
@@ -515,7 +515,7 @@ Each active item should include enough direction that a future session can choos
 - `Related Items`: `DEBT-44` concerns a separate tool's launch path; neither item requires a shared process framework.
 - `Dependencies`: `None`
 - `Notes`: Source-backed finding; no process failure or dashboard browser scenario was executed for this record.
-- `Links`: `scripts/run-analytics-qa.mjs` (`runPreviewTests`, `waitForPreview`, `waitForExit`, `stopPreview`)
+- `Links`: `scripts/qa/run-analytics-qa.mjs` (`runPreviewTests`, `waitForPreview`, `waitForExit`, `stopPreview`)
 
 
 ## Resolved Item Archive

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { devRoutePaths } from "../../../data/routes";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
-import "../../../styles-design-system-workspace.css";
+import "./design-system-workspace.css";
 
 type DesignSystemSection = "overview" | "foundations" | "components" | "patterns";
 

@@ -1,12 +1,11 @@
 import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
 import {
-  getVisitDatabase,
   PageViewIdentityConflictError,
   recordVisitObservation,
-  VisitDatabaseConfigurationError,
   VisitIdentityConflictError,
 } from "../../../src/server/visits/repository.ts";
+import { getVisitDatabase, VisitDatabaseConfigurationError } from "../../../src/server/visit-database.ts";
 
 const originalDatabaseUrl = process.env.DATABASE_URL;
 

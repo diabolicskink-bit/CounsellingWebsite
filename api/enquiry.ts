@@ -19,7 +19,7 @@ import type {
   VisitEventProperties,
   VisitEventSource,
   VisitEventType,
-} from "../src/data/visitEventContract.ts";
+} from "../src/contracts/visitEventContract.ts";
 import {
   recordVisitEvent as persistVisitEvent,
 } from "../src/server/visit-events/repository.ts";

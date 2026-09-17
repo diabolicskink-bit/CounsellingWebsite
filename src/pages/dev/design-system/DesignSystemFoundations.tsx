@@ -1,4 +1,4 @@
-import DesignSystemSpecimen from "../../../components/DesignSystemSpecimen";
+import DesignSystemSpecimen from "./DesignSystemSpecimen";
 import DesignSystemWorkspace from "./DesignSystemWorkspace";
 
 type ColourFoundation = {

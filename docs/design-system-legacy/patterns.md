@@ -33,6 +33,6 @@ The second source-level selector review batch covers `.site-shell`, `.container`
 
 ## Page-Local Implementation
 
-Contact owns the current enquiry form through `Contact.tsx` and `src/styles-contact.css`; there is no promoted form component or shared form pattern. Other page-prefixed selectors remain owned by their pages unless an authorized task promotes a repeated semantic contract.
+Contact owns the current enquiry form through `src/pages/contact/EnquiryForm.tsx` and `src/pages/contact/contact.css`; there is no promoted form component or shared form pattern. Other page-prefixed selectors remain owned by their pages unless an authorized task promotes a repeated semantic contract.
 
 Last consolidated from current source: 2026-09-09 — Working with Joel CSS ownership review.

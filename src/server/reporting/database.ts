@@ -2,7 +2,7 @@ import {
   getVisitDatabase,
   VisitDatabaseConfigurationError,
   type VisitDatabase,
-} from "../visits/repository.ts";
+} from "../visit-database.ts";
 
 export class AnalyticsDataUnavailableError extends Error {
   constructor() {

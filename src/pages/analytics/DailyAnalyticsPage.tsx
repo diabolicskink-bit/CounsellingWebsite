@@ -17,11 +17,11 @@ import {
   getPerthDateKey,
   isAnalyticsDateKey,
   type AnalyticsVisit,
-} from "../../data/analyticsContract";
+} from "../../contracts/analyticsContract";
 import type {
   AustralianVisitRegionCode,
   VisitDeviceType,
-} from "../../data/visitClientEnvironment";
+} from "../../contracts/visitClientEnvironment";
 import { privateRoutePaths } from "../../data/routes";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import { DateControls } from "./AnalyticsControls";

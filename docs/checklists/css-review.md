@@ -73,8 +73,8 @@ Use this structure when a region is expanded to class-token leaves:
   - Scope: Base document rules, tokens and shared-looking selectors that remain outside the current-only design-system CSS entry. Promotion status must be checked against the active catalogues rather than inferred from this file.
   - Next: Expand one major region at a time into class groups or class-token leaves.
 
-- `CSS-2` `Bucket` `src/styles-dev.css`, dev/docs support CSS.
-  - Scope: Remaining `ds-*`, the Documents reader, and the separate `src/styles-design-system-workspace.css` rendered-catalogue presentation.
+- `CSS-2` `Bucket` `src/pages/dev/documents/documents.css`, dev/docs support CSS.
+  - Scope: Remaining `ds-*`, the Documents reader, and the separate `src/pages/dev/design-system/design-system-workspace.css` rendered-catalogue presentation.
   - Next: Expand after production shared CSS has enough review structure.
 
 - `CSS-3` `Bucket` Public page-scoped CSS files.

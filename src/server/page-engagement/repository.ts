@@ -1,7 +1,7 @@
 import {
   getVisitDatabase,
   type VisitDatabase,
-} from "../visits/repository.ts";
+} from "../visit-database.ts";
 import type { PageEngagementObservation } from "./validation.ts";
 
 type PageEngagementRow = {

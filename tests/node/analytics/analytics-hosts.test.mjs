@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { after, test } from "node:test";
 import { createServer } from "vite";
 
-import { isHostnameAllowed } from "../../../src/utils/hostnameAllowlist.ts";
+import { isHostnameAllowed } from "../../../src/tracking/hostnameAllowlist.ts";
 
 const vite = await createServer({
   appType: "custom",
@@ -10,7 +10,7 @@ const vite = await createServer({
   server: { middlewareMode: true },
 });
 const { createAnalyticsHostAllowlist } = await vite.ssrLoadModule(
-  "/src/utils/analyticsHosts.ts",
+  "/src/tracking/analyticsHosts.ts",
 );
 
 after(() => vite.close());

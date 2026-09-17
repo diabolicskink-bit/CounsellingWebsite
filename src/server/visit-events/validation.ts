@@ -4,7 +4,7 @@ import {
   visitEventTypes,
   type ClientVisitEventType,
   type VisitEventProperties,
-} from "../../data/visitEventContract.ts";
+} from "../../contracts/visitEventContract.ts";
 
 type ValidationIssue = {
   code: "invalid_format" | "invalid_type" | "required" | "unexpected";

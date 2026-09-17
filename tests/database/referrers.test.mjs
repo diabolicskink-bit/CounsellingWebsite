@@ -5,7 +5,7 @@ import { readFile } from "node:fs/promises";
 import { parseEnv } from "node:util";
 import { test } from "node:test";
 import { neon } from "@neondatabase/serverless";
-import { isAnalyticsReport } from "../../src/data/analyticsContract.ts";
+import { isAnalyticsReport } from "../../src/contracts/analyticsContract.ts";
 import { readAnalytics } from "../../src/server/reporting/reader.ts";
 
 const fixtureSql = `WITH

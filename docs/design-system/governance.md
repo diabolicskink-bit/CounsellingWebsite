@@ -51,7 +51,7 @@ Add usage constraints or migration notes only when they are part of the current 
 - Keep CSS implementations named by active contracts under `src/design-system/`, split into Foundations, Components, and Patterns source files.
 - Import `src/design-system/index.css` once from the application entry so source organisation does not create separate production stylesheet requests.
 - Do not place inherited, candidate, page-local, withdrawn, removed, historical, or development-workspace CSS in that directory.
-- Keep the rendered catalogue presentation in `src/styles-design-system-workspace.css`; its location and selectors do not make it production design-system API.
+- Keep the rendered catalogue presentation in `src/pages/dev/design-system/design-system-workspace.css`; its location and selectors do not make it production design-system API.
 - Source location improves inspection but never replaces a current catalogue contract as reuse authority.
 
 ## Public Naming Convention

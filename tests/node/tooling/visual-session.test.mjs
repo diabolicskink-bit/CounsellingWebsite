@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { chromium } from "playwright";
 
-import { withVisualSession } from "../../../scripts/visual-session.mjs";
+import { withVisualSession } from "../../../scripts/dev/visual-session.mjs";
 
 test("explains Chrome launch failures and preserves the diagnostic cause", async (t) => {
   const launchError = new Error("spawn EPERM");

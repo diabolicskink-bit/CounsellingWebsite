@@ -2,9 +2,9 @@ import type {
   AnalyticsTrafficSource,
   AnalyticsVisit,
   AnalyticsVisitEvent,
-} from "../../data/analyticsContract";
-import type { AustralianVisitRegionCode } from "../../data/visitClientEnvironment";
-import { visitEventTypes } from "../../data/visitEventContract";
+} from "../../contracts/analyticsContract";
+import type { AustralianVisitRegionCode } from "../../contracts/visitClientEnvironment";
+import { visitEventTypes } from "../../contracts/visitEventContract";
 
 type VisitJourneyItem =
   | {

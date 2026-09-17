@@ -5,7 +5,7 @@ import {
   parseArticleMarkdown,
   serializeArticleMarkdown,
   toggleMarkdownBold,
-} from "../../../src/pages/dev/articleEditorMarkdown.ts";
+} from "../../../src/pages/dev/article-editor/articleEditorMarkdown.ts";
 
 test("round-trips every current article body through the block editor", () => {
   for (const article of articles) {

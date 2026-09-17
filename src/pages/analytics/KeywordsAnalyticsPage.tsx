@@ -11,7 +11,7 @@ import {
   isAnalyticsDateKey,
   type KeywordAnalyticsReport,
   type KeywordAnalyticsSummary,
-} from "../../data/analyticsContract";
+} from "../../contracts/analyticsContract";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import { ReportDateRangeForm } from "./AnalyticsControls";
 import { AnalyticsShell, ReportState } from "./AnalyticsShell";

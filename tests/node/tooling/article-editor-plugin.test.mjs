@@ -6,7 +6,7 @@ import { test } from "node:test";
 import {
   renderArticleTemplateSource,
   updateArticleTemplateContent,
-} from "../../../scripts/articleEditorPlugin.ts";
+} from "../../../scripts/dev/articleEditorPlugin.ts";
 import { articles } from "../../../src/content/articles/articles.ts";
 
 async function importRenderedTemplate(source) {

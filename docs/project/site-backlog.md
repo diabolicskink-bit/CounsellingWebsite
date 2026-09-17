@@ -50,14 +50,14 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Form Flow`
-- `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/data/enquiry.ts`
+- `Source`: `Fresh site review, src/pages/contact/Contact.tsx`, `src/data/enquiry.ts`
 - `Visitor-Facing Goal`: Reduce uncertainty around what happens after a visitor sends a first enquiry.
 - `Current State`: The compact success state says Joel usually replies within 24 hours. The page does not publish a current availability or new-client note.
 - `Why Deferred`: The remaining availability wording depends on whether the practice owner wants to publish a changing operational status.
 - `First Useful Slice`: If a public availability note would be useful and maintainable, add one concise current-status line near the enquiry path.
 - `Implemented When`: The enquiry flow sets a clear, accurate expectation for response timing and availability without creating pressure or overpromising.
 - `Notes`: `2026-07-29`: Owner confirmed the usual 24-hour reply expectation; the success state and native response now publish it.
-- `Links`: `src/pages/Contact.tsx`, `src/data/enquiry.ts`
+- `Links`: `src/pages/contact/Contact.tsx`, `src/data/enquiry.ts`
 
 ### SITE-15 - Rebate, payment, and fee-policy clarity
 
@@ -65,14 +65,14 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Content`
-- `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/data/routeMetadata.json`
+- `Source`: `Fresh site review, src/pages/contact/Contact.tsx`, `src/data/routeMetadata.json`
 - `Visitor-Facing Goal`: Let visitors understand the real cost and payment setup before enquiring.
 - `Current State`: The Contact page states the session fee, length, free initial consult, and no referral requirement, but it does not explicitly state Medicare/private-health rebate availability, payment method, or when payment is due.
 - `Why Deferred`: Rebate and payment wording needs owner confirmation before becoming public.
 - `First Useful Slice`: Confirm Medicare/private-health rebate policy and preferred payment wording, then add a concise Contact page note or FAQ item.
 - `Implemented When`: Fee information answers session price, length, referral, rebate, payment timing/method, and initial consult basics in one clear place.
 - `Notes`:
-- `Links`: `src/pages/Contact.tsx`, `src/data/routeMetadata.json`
+- `Links`: `src/pages/contact/Contact.tsx`, `src/data/routeMetadata.json`
 
 ### SITE-16 - Initial consult flow clarity
 
@@ -80,14 +80,14 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Form Flow`
-- `Source`: `Fresh site review, src/pages/Contact.tsx`, `src/data/enquiry.ts`
+- `Source`: `Fresh site review, src/pages/contact/Contact.tsx`, `src/data/enquiry.ts`
 - `Visitor-Facing Goal`: Help visitors understand the lower-commitment 15-minute consult option before choosing it in the enquiry form.
 - `Current State`: The fee card and FAQ mention a free 15-minute initial consult, and the form lets visitors request one, but the site does not explain whether it is phone or video, what it is for, what it is not, or what happens afterward.
 - `Why Deferred`: The practice owner should confirm the actual consult format and boundaries before public copy is added.
 - `First Useful Slice`: Add a brief FAQ answer or form-adjacent note explaining the consult format, purpose, and next step.
 - `Implemented When`: A visitor can choose between a full-session enquiry and a consult request without guessing what the consult involves.
 - `Notes`:
-- `Links`: `src/pages/Contact.tsx`, `src/data/enquiry.ts`
+- `Links`: `src/pages/contact/Contact.tsx`, `src/data/enquiry.ts`
 
 ### SITE-17 - Practice credentials and professional-identity detail
 
@@ -95,14 +95,14 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Content`
-- `Source`: `Fresh site review, src/pages/WorkingWithJoel.tsx`
+- `Source`: `Fresh site review, src/pages/working-with-joel/WorkingWithJoel.tsx`
 - `Visitor-Facing Goal`: Give visitors enough professional context to trust that the practice is real and accurately represented.
 - `Current State`: Working with Joel displays “GradDip. Counselling and Psychotherapy” and “ACA Registered”. The generated `ProfilePage` / `Person` graph carries the full qualification, Edith Cowan University, and full ACA Level 1 credential details, and uses Joel's public ACA profile in `sameAs` and as the registration credential URL. A registration number, visible external-profile link, and any supervision or insurance wording remain undecided.
 - `Why Deferred`: Remaining professional-identity details must be fact-checked and intentionally approved before publication.
 - `First Useful Slice`: Decide whether the page should visibly link to the ACA profile or show a registration number, and whether supervision or insurance details belong in public copy.
 - `Implemented When`: The public credential presentation is accurate, intentional, and easy to verify where verification details are appropriate.
 - `Notes`:
-- `Links`: `src/pages/WorkingWithJoel.tsx`
+- `Links`: `src/pages/working-with-joel/WorkingWithJoel.tsx`
 
 ### SITE-19 - Kink language table cell colour distinction
 
@@ -110,7 +110,7 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Accessibility`
-- `Source`: `User screenshot/review, src/pages/KinkBdsmCounselling.tsx, src/styles-kink-bdsm.css, WCAG 2.2 SC 1.4.1 and 1.4.11`
+- `Source`: `User screenshot/review, src/pages/inclusion/KinkBdsmCounselling.tsx, src/pages/inclusion/kink-bdsm.css, WCAG 2.2 SC 1.4.1 and 1.4.11`
 - `Visitor-Facing Goal`: Make the Kink & BDSM language table feel intentional and easy to scan, with cell colour differences that are actually distinguishable rather than almost invisible.
 - `Current State`: The language field lists 16 terms and applies four page-scoped `nth-child` background groups. Local token research found the rendered mixes are clustered around `#ebeeeb`, `#edefeb`, `#eef1ed`, and `#f8f8f4`; text contrast is strong, but adjacent cell-background contrast is only about `1.01:1` to `1.10:1`, so most of the intended colour variation is hard to perceive.
 - `Why Deferred`: This is a focused visual/accessibility polish task for the Kink/BDSM page, not part of the current backlog update.
@@ -119,7 +119,7 @@ Statuses:
 - `Notes`:
   - W3C WCAG guidance says colour should not be the only visual means of distinguishing an element, and non-text visual information needed for understanding should have sufficient contrast against adjacent colours.
   - Keep this page-scoped unless the treatment proves useful for other inclusion-oriented language fields.
-- `Links`: `src/pages/KinkBdsmCounselling.tsx`, `src/styles-kink-bdsm.css`, `AGENTS.md`, `https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html`, `https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html`
+- `Links`: `src/pages/inclusion/KinkBdsmCounselling.tsx`, `src/pages/inclusion/kink-bdsm.css`, `AGENTS.md`, `https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html`, `https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html`
 
 ### SITE-22 - Working With Joel hero support design polish
 
@@ -127,7 +127,7 @@ Statuses:
 - `Size`: `S`
 - `Status`: `Open`
 - `Classification`: `Public UX`
-- `Source`: User feedback on the Working With Joel hero support copy, `src/pages/WorkingWithJoel.tsx`
+- `Source`: User feedback on the Working With Joel hero support copy, `src/pages/working-with-joel/WorkingWithJoel.tsx`
 - `Visitor-Facing Goal`: Make the "Life is complicated" support copy feel visually intentional, emotionally grounded, and worthy of its prominent hero placement.
 - `Current State`: The Working With Joel hero includes the copy "Life is complicated." followed by "Relationships, work, how you feel about yourself, the thing that's been sitting with you. It's all connected." The wording is directionally right, but the current visual treatment does not feel satisfying or resolved.
 - `Why Deferred`: This is a focused design polish item rather than a copy rewrite or accessibility blocker, and it should be handled with a small visual pass instead of a quick tracker edit.
@@ -135,7 +135,7 @@ Statuses:
 - `Implemented When`: The support copy has a deliberate, on-brand treatment across desktop and mobile, does not read like filler or a generic card, and the practice owner is happy with how it looks.
 - `Notes`:
   - Keep the work page-scoped unless the treatment clearly belongs in the shared hero system.
-- `Links`: `src/pages/WorkingWithJoel.tsx`, `src/styles-working-with-joel.css`, `docs/design-system-legacy/patterns.md`
+- `Links`: `src/pages/working-with-joel/WorkingWithJoel.tsx`, `src/pages/working-with-joel/working-with-joel.css`, `docs/design-system-legacy/patterns.md`
 
 ### SITE-24 - Shared header overflow with enlarged text
 

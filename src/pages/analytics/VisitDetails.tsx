@@ -14,8 +14,8 @@ import {
   Smartphone,
   Tablet,
 } from "lucide-react";
-import type { AnalyticsTrafficSource, AnalyticsVisit } from "../../data/analyticsContract";
-import type { VisitDeviceType } from "../../data/visitClientEnvironment";
+import type { AnalyticsTrafficSource, AnalyticsVisit } from "../../contracts/analyticsContract";
+import type { VisitDeviceType } from "../../contracts/visitClientEnvironment";
 import {
   adNetworkDetail,
   botDetail,

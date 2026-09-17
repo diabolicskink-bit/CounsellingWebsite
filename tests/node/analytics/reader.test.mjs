@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { afterEach, test } from "node:test";
 import { AnalyticsDataUnavailableError } from "../../../src/server/reporting/database.ts";
-import { isAnalyticsReport } from "../../../src/data/analyticsContract.ts";
+import { isAnalyticsReport } from "../../../src/contracts/analyticsContract.ts";
 import { getAnalyticsSelection } from "../../../src/server/reporting/request.ts";
 import {
   dailyAnalyticsSql,
@@ -9,9 +9,9 @@ import {
   monthlyEnquiryAnalyticsSql,
   pageViewsAnalyticsSql,
   referrersAnalyticsSql,
-  readAnalytics,
   visitorAnalyticsSql,
-} from "../../../src/server/reporting/reader.ts";
+} from "../../../src/server/reporting/queries.ts";
+import { readAnalytics } from "../../../src/server/reporting/reader.ts";
 
 const originalDatabaseUrl = process.env.DATABASE_URL;
 const visitorId = "114ba8f9-96f8-41e1-a301-15112400759e";

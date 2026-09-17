@@ -4,7 +4,7 @@ import {
   defaultCanonicalOrigin,
   getSiteOrigin,
   normalizeSiteOrigin,
-} from "../../../scripts/route-metadata-origin.mjs";
+} from "../../../scripts/build/route-metadata-origin.mjs";
 
 const siteMetadata = {
   defaultOrigin: defaultCanonicalOrigin,

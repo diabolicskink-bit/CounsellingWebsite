@@ -3,7 +3,7 @@ import {
   isAnalyticsDateKey,
   isAnalyticsMonthKey,
   isAnalyticsVisitorId,
-} from "../../data/analyticsContract.ts";
+} from "../../contracts/analyticsContract.ts";
 
 export type AnalyticsSelection =
   | { date: string; type: "daily" }

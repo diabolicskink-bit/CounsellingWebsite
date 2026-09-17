@@ -26,7 +26,7 @@ The catalogues do not contain candidates, page-local work, inherited implementat
 - `src/design-system/components.css` contains only CSS implementations owned by active component contracts.
 - `src/design-system/patterns.css` contains only CSS implementations named by the active Patterns catalogue.
 - `src/design-system/index.css` imports those three files once from the application entry so Vite emits them through the production CSS bundle.
-- `src/styles-design-system-workspace.css` styles the development-only rendered catalogue and is not reusable production API.
+- `src/pages/dev/design-system/design-system-workspace.css` styles the development-only rendered catalogue and is not reusable production API.
 
 Source placement makes the supported layer easy to inspect, but it does not grant authority: the current catalogue records remain decisive.
 

@@ -1,5 +1,5 @@
 import { devRoutePaths, feesRoutePath, publicRoutePaths } from "./routes";
-import { visitEventTypes } from "./visitEventContract";
+import { visitEventTypes } from "../contracts/visitEventContract";
 
 export type NavItem = Readonly<{
   label: string;
