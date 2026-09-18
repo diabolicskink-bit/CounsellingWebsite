@@ -1,6 +1,6 @@
 # Supported Components
 
-This catalogue contains every React component currently approved for deliberate reuse.
+This catalogue contains the promoted React component contracts. The [compatibility baseline](governance.md#public-identity-compatibility-baseline) separately permits the existing shell, containment and standard action components.
 
 ## Article Heroes
 

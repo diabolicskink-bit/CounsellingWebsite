@@ -2,7 +2,7 @@
 
 This is source-backed working evidence about inherited foundations that are outside the active design system. It neither authorizes new reuse nor makes removal safe.
 
-Primary implementation currently lives in `src/styles.css`.
+Primary implementation currently lives in `src/styles.css`. Some items below have explicit use permission under the [governance compatibility baseline](../design-system/governance.md#public-identity-compatibility-baseline); they remain unpromoted.
 
 ## Colour And Surface Tokens
 

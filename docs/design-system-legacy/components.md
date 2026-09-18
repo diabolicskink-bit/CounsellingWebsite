@@ -1,6 +1,6 @@
 # Legacy Components Register
 
-This is source-backed working evidence about React components outside the active design system. A component file or current consumer does not authorize new reuse.
+This is source-backed working evidence about React components outside the active design system. A component file or current consumer does not authorize new reuse. The [governance compatibility baseline](../design-system/governance.md#public-identity-compatibility-baseline) separately permits specific uses of `Layout`, `Container`, and `Button` without promoting them.
 
 ## Current Production Components
 

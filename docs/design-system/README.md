@@ -1,6 +1,6 @@
 # Design System
 
-This directory contains the shared UI currently approved for deliberate reuse. The active catalogues define the complete reusable API; production source establishes implementation and behaviour.
+This directory defines the site's shared visual implementation. The active catalogues own promoted API; governance also grants a narrow [public identity compatibility baseline](governance.md#public-identity-compatibility-baseline) for ordinary page work. Production source establishes implementation and behaviour.
 
 ## File Map
 

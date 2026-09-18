@@ -1,6 +1,6 @@
 # Supported Foundations
 
-This catalogue contains every foundation currently approved for deliberate reuse. Absence from this file means a token or global rule is not part of the design system.
+This catalogue contains the promoted foundation contracts. For permission to use specific inherited identity tokens and global defaults, see the [compatibility baseline](governance.md#public-identity-compatibility-baseline). Those items remain outside the promoted system.
 
 ## Typography Foundations
 

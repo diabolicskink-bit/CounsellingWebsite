@@ -22,6 +22,11 @@ Selected milestones and decision context that help later work. Git retains detai
 - When adding the first entry for a new month, move completed months to `archive/task-log-YYYY-MM.md` and update the archive index. Preserve links to moved entries or update their incoming references.
 - Condense older history around decisions, outcomes and consequential transitions. Git preserves routine detail. Retain meaningful dates and tracker IDs; replace superseded pending statements with the recorded later outcome, and ensure unresolved work remains discoverable through its current owner. Routine log maintenance does not need its own milestone.
 
+## 2026-09-18 - Visual Guidance Balanced Identity, Reuse And Invention
+
+- The owner clarified that public pages should share a recognisable identity and maintainable recurring components while encouraging interesting new components and creative composition. [Visual guidance](../../AGENTS.md#visual-work) now makes suitable reuse and content-led invention normal choices, replacing mandatory departure from existing page patterns.
+- [Governance](../design-system/governance.md#public-identity-compatibility-baseline) grants a bounded compatibility allowance for existing identity tokens, the application shell, containment and standard actions so ordinary page work can reuse them directly. The allowance does not promote the remaining legacy system. Directly needed shared variants or extractions are included in ordinary page work, with contract updates and affected-consumer verification; identity changes and broad migrations remain separately scoped.
+
 ## 2026-09-17 - AI Guidance Consolidated By Responsibility
 
 - Kept task interpretation, permissions, verification scope, private analytics policy, and creative direction in [AGENTS.md](../../AGENTS.md). Detailed test standards and execution guidance now live in the [test guide](../../tests/README.md); shared-system lifecycle rules live in [governance](../design-system/governance.md).
