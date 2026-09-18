@@ -25,7 +25,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 ### `--cedar`
 
 - `Contract`: Primary brand accent (`#234b3d`) for action surfaces, strong interactive or editorial emphasis, and focus or boundary cues on verified light site surfaces.
-- `Boundary`: Light text `#fcfcfa` on cedar has a 9.53:1 contrast ratio, cedar on `--paper` has a 9.05:1 ratio, and cedar on `--surface` has an 8.65:1 ratio. Do not assume the same contrast on photographs or dark-green surfaces. This contract does not include `--cedar-dark`, `--cedar-soft`, or adjacent colour tokens.
+- `Boundary`: Light text `#fcfcfa` on cedar has a 9.53:1 contrast ratio and cedar on `--paper` has a 9.05:1 ratio. Do not assume the same contrast on photographs or dark-green surfaces. This contract does not include `--cedar-dark`, `--cedar-soft`, or adjacent colour tokens.
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
 - `Verified consumers`: `.site-header .header-button`, `.button--primary`, `.site-footer a:focus-visible`, Working with Joel's active-tab rule, article links and focus treatments, Privacy Policy content links, list markers, and focus states, and Contact form labels, controls, links, and focus states.
 - `Promoted`: 2026-08-03 — first colour promotion under `DEBT-37`.
@@ -65,7 +65,7 @@ This catalogue contains every foundation currently approved for deliberate reuse
 ### `--section-sage`
 
 - `Contract`: Pale sage material (`#dfe8dc`) for editorial fields, sections, supporting fills, the Documents workspace navigation, and the interaction state of the shared closing invitation's warm action.
-- `Boundary`: It is not the inherited `--surface` treatment, a generic success colour, an unrestricted control state, or authority for every similar green tint. Dark `#1f231f` ink has a 12.68:1 contrast ratio and `#3f493f` body text has a 7.47:1 ratio on the surface.
+- `Boundary`: It is not a generic success colour, an unrestricted control state, or authority for every similar green tint. Dark `#1f231f` ink has a 12.68:1 contrast ratio and `#3f493f` body text has a 7.47:1 ratio on the surface.
 - `Implementation`: Defined on `:root` in `src/design-system/foundations.css`.
 - `Verified consumers`: Documents workspace and table headings; Working with Joel topic close; Inclusion, Kink and BDSM, ENM and polyamory, and LGBTQIA+ editorial fields; Contact essentials and submission mark; the shared closing invitation's consult interaction state; and development design-system workspace framing.
 - `Promoted`: 2026-08-14 — owner-authorized editorial-material consolidation under `DEBT-37`.

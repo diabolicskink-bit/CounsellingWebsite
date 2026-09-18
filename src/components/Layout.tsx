@@ -90,8 +90,8 @@ export default function Layout() {
     <div className={shellClassName}>
       <header className="site-header">
         <Container className="site-header__inner">
-          <Link className="brand brand--header" to={homeHref} onClick={closeMobileNavigation}>
-            <span className="brand__name brand__name--header">Vive Counselling</span>
+          <Link className="brand" to={homeHref} onClick={closeMobileNavigation}>
+            <span className="brand__name">Vive Counselling</span>
           </Link>
 
           <div className="site-header__cluster">
