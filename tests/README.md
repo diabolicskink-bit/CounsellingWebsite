@@ -1,15 +1,10 @@
 # Tests
 
-This guide owns test design, coverage organisation, commands, and execution limits. [AGENTS.md](../AGENTS.md#engineering-and-verification) determines verification scope and task authorization.
+This guide owns coverage organisation, commands, and execution limits. [Verification](../docs/guidance/VERIFICATION.md) owns test design and check selection. [AGENTS.md](../AGENTS.md) owns task authorization.
 
 ## Test Scope And Maintenance
 
-- Reuse existing coverage first. Add or extend a test only when it protects a concrete, consequential failure or behavioural boundary and earns its ongoing maintenance cost. A code change does not automatically need a new test; test counts and coverage percentages are not goals.
-- Prioritize enquiry delivery and failure handling, authentication/privacy, public input boundaries, data identity and deletion, report calculations and attribution, and safe article saving. Low traffic does not make these failures harmless.
-- Do not lock routine copy, headings, service lists, layout, styling or documentation in place. Do not add tests merely to prove that an edit happened or removed content stays absent. Keep behavioural checks independent of exact editorial wording unless that wording is itself a required functional contract.
-- Assert meaningful outcomes or narrow safety constraints. Avoid snapshots of whole pages or objects, inventories of current files, copied configuration, SQL formatting and internal call sequences. Preserve useful checks of actual database results and security boundaries.
-- Prefer representative cases at the most useful test layer. Add permutations or checks at another layer only for a distinct failure risk; do not duplicate the same assertions across unit, mocked and browser tests. Keep fixtures and helpers simple and readable, without speculative frameworks or unnecessary file fragmentation.
-- Update or remove obsolete tests when behaviour changes. Dashboard presentation and Preview verification follow the [private analytics policy](../AGENTS.md#private-analytics).
+Follow [Verification](../docs/guidance/VERIFICATION.md#test-scope-and-maintenance) for test design and [Analytics](../docs/guidance/ANALYTICS.md) for dashboard and Preview boundaries.
 
 ## Organisation
 
@@ -47,9 +42,9 @@ For focused work, run the affected file, for example `node --test tests/node/enq
 
 ## Runtime And Evidence Boundaries
 
-[Current scope](../docs/project/current-scope.md#working-locally-and-verifying-changes) covers dependency setup and local development/build commands.
+[Current scope](../docs/reference/SYSTEM.md#working-locally-and-verifying-changes) covers dependency setup and local development/build commands.
 
-Playwright uses installed Google Chrome with `channel: "chrome"`; the project retains the name `chromium`, but no Playwright browser download is required. For ad-hoc IDE inspection, use [visual verification](../docs/project/visual-verification.md).
+Playwright uses installed Google Chrome with `channel: "chrome"`; the project retains the name `chromium`, but no Playwright browser download is required. For ad-hoc IDE inspection, use [visual verification](../docs/guidance/VERIFICATION.md).
 
 QA manages local built-output servers on port 4287 for the public suite and 4288 for analytics. Analytics QA rebuilds `dist/` with test collection settings; rerun an ordinary build before treating that output as a normal site build. Commands that rebuild the same output directory must run sequentially.
 

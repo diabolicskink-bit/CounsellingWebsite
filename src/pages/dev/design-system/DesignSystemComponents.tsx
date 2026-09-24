@@ -28,7 +28,7 @@ export default function DesignSystemComponents() {
             "Standard Markdown articles",
           ]}
           identifier="<ArticleHero />"
-          recordPath="docs/design-system/components.md"
+          recordPath="docs/design-system/COMPONENTS.md"
           role="Canonical article hero for orientation, classification, abstract, authorship, and publication dates; the article body remains separate."
           title="Article hero"
         >
@@ -44,7 +44,7 @@ export default function DesignSystemComponents() {
             "LGBTQIA+ closing invitation",
           ]}
           identifier="<ContactInvitation />"
-          recordPath="docs/design-system/components.md"
+          recordPath="docs/design-system/COMPONENTS.md"
           role="Canonical final invitation from a public content page into a consult, email, or practical Contact path; copy, fees, destinations, accessibility, and responsive presentation are component-owned."
           title="Contact invitation"
         >

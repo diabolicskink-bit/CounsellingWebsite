@@ -207,7 +207,7 @@ function ColourFoundationSpecimen({ foundation }: { foundation: ColourFoundation
     <DesignSystemSpecimen
       consumers={foundation.consumers}
       identifier={foundation.identifier}
-      recordPath="docs/design-system/foundations.md"
+      recordPath="docs/design-system/FOUNDATIONS.md"
       role={foundation.role}
       title={foundation.title}
     >
@@ -268,7 +268,7 @@ export default function DesignSystemFoundations() {
             "Crisis Support emergency guidance and section introductions",
           ]}
           identifier=".site-reading"
-          recordPath="docs/design-system/foundations.md"
+          recordPath="docs/design-system/FOUNDATIONS.md"
           role="Default long-form reading typography for public-page prose, with a contextual foreground allowed when the supported body colour does not suit the surface."
           title="Reading copy"
         >
@@ -299,7 +299,7 @@ export default function DesignSystemFoundations() {
             "Working with Joel introduction opening paragraph",
           ]}
           identifier=".site-reading--lead"
-          recordPath="docs/design-system/foundations.md"
+          recordPath="docs/design-system/FOUNDATIONS.md"
           role="Lead-paragraph modifier that preserves the reading measure and rhythm while adding one step of emphasis through darker ink and medium weight."
           title="Lead reading copy"
         >
