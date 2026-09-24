@@ -3,7 +3,7 @@ import {
   isAnalyticsApiResponseOfType,
   type AnalyticsReportOfType,
   type AnalyticsReportType,
-} from "../../data/analyticsContract";
+} from "../../contracts/analyticsContract";
 
 type AnalyticsLoadStatus = "error" | "loading" | "ready";
 

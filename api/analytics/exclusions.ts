@@ -1,5 +1,5 @@
 import { getJsonPayloadBody, getMediaType } from "../../src/server/request-body.ts";
-import { isAnalyticsVisitorId } from "../../src/data/analyticsContract.ts";
+import { isAnalyticsVisitorId } from "../../src/contracts/analyticsContract.ts";
 import {
   AnalyticsDataUnavailableError,
 } from "../../src/server/reporting/database.ts";

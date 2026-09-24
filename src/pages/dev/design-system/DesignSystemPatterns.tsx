@@ -1,5 +1,5 @@
 import Container from "../../../components/Container";
-import DesignSystemSpecimen from "../../../components/DesignSystemSpecimen";
+import DesignSystemSpecimen from "./DesignSystemSpecimen";
 import DesignSystemWorkspace from "./DesignSystemWorkspace";
 
 export default function DesignSystemPatterns() {
@@ -27,7 +27,7 @@ export default function DesignSystemPatterns() {
             "Articles index, article heroes, and development heroes",
           ]}
           identifier=".site-hero, .site-hero__eyebrow, .site-hero__statement"
-          recordPath="docs/design-system/patterns.md"
+          recordPath="docs/design-system/PATTERNS.md"
           role="Established hero frame, opening type roles, spacing, and dark-surface foreground roles; statement scale, layout, actions, supporting-content structure, and responsive composition remain consumer-owned."
           title="Shared hero structure"
         >
@@ -46,7 +46,7 @@ export default function DesignSystemPatterns() {
             "Articles index, article heroes, Crisis Support, and Contact opening",
           ]}
           identifier=".site-hero-surface"
-          recordPath="docs/design-system/patterns.md"
+          recordPath="docs/design-system/PATTERNS.md"
           role="Shared dark-green hero surface with one restrained sage highlight and a quiet lower boundary; hero content and composition remain consumer-owned."
           title="Shared hero surface"
         >
@@ -69,7 +69,7 @@ export default function DesignSystemPatterns() {
             "Contact enquiry task, Kink misread, ENM reasons, and LGBTQIA+ recognition sections",
           ]}
           identifier=".site-section-warm"
-          recordPath="docs/design-system/patterns.md"
+          recordPath="docs/design-system/PATTERNS.md"
           role="Shared warm editorial band with a 60px default vertical rhythm, common lower rule, and explicit page-local responsive override boundary."
           title="Warm editorial section"
         >

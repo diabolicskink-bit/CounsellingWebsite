@@ -2,8 +2,8 @@ import {
   isExcludedVisitorSummary,
   type ExcludedVisitorSummary,
   type ExcludedVisitorsReport,
-} from "../../data/analyticsContract.ts";
-import type { VisitDatabase } from "../visits/repository.ts";
+} from "../../contracts/analyticsContract.ts";
+import type { VisitDatabase } from "../visit-database.ts";
 import { resolveAnalyticsDatabase } from "./database.ts";
 import { positiveInteger, timestampString } from "./row-values.ts";
 

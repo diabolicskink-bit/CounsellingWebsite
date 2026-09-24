@@ -1,4 +1,4 @@
-import { isAnalyticsTimestamp } from "../../data/analyticsContract.ts";
+import { isAnalyticsTimestamp } from "../../contracts/analyticsContract.ts";
 
 export function nonNegativeInteger(value: unknown, field: string) {
   // PostgreSQL counts can arrive as numbers or decimal strings.

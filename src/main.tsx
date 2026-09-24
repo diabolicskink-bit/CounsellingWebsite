@@ -1,11 +1,11 @@
 import { initBotId } from "botid/client/core";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { BrowserApp } from "./BrowserApp";
+import { BrowserApp } from "./app/BrowserApp";
 import {
   isVisitAnalyticsHostAllowed,
   visitAnalyticsEnabled,
   visitBotDetectionEnabled,
-} from "./utils/visitAnalytics";
+} from "./tracking/visitAnalytics";
 import "./styles.css";
 import "./design-system/index.css";
 

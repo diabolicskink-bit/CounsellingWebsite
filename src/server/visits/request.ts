@@ -11,7 +11,7 @@ import {
   type AustralianVisitRegionCode,
   type VisitDeviceType,
   type VisitRequestEnvironment,
-} from "../../data/visitClientEnvironment.ts";
+} from "../../contracts/visitClientEnvironment.ts";
 
 export type VisitRequest = {
   body?: unknown;

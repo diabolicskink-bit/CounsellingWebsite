@@ -1,6 +1,6 @@
 import { renderToString } from "react-dom/server";
 import { getArticleRouteMetadata } from "./content/articles/manifest";
-import { StaticApp } from "./StaticApp";
+import { StaticApp } from "./app/StaticApp";
 
 export type RenderRouteOptions = {
   initialRenderAt: string;

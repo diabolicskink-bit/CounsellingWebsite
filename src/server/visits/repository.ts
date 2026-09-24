@@ -1,8 +1,5 @@
-import {
-  neon,
-  type NeonQueryFunction,
-} from "@neondatabase/serverless";
-import type { VisitRequestEnvironment } from "../../data/visitClientEnvironment.ts";
+import type { VisitRequestEnvironment } from "../../contracts/visitClientEnvironment.ts";
+import { getVisitDatabase, type VisitDatabase } from "../visit-database.ts";
 
 export type VisitBotClassification = {
   botCategory: string | null;
@@ -34,21 +31,12 @@ export type VisitObservationResult = {
   pageViewInserted: boolean;
 };
 
-export type VisitDatabase = Pick<NeonQueryFunction<false, false>, "query">;
-
 type VisitObservationRow = {
   pageViewInserted: boolean;
   pageViewMatched: boolean;
   visitInserted: boolean;
   visitMatched: boolean;
 };
-
-export class VisitDatabaseConfigurationError extends Error {
-  constructor() {
-    super("Visit database configuration is missing.");
-    this.name = "VisitDatabaseConfigurationError";
-  }
-}
 
 export class VisitIdentityConflictError extends Error {
   constructor() {
@@ -62,24 +50,6 @@ export class PageViewIdentityConflictError extends Error {
     super("The page-view ID is already associated with a different page-view observation.");
     this.name = "PageViewIdentityConflictError";
   }
-}
-
-let cachedDatabase: VisitDatabase | undefined;
-let cachedDatabaseUrl: string | undefined;
-
-export function getVisitDatabase(): VisitDatabase {
-  const databaseUrl = process.env.DATABASE_URL?.trim();
-
-  if (!databaseUrl) {
-    throw new VisitDatabaseConfigurationError();
-  }
-
-  if (!cachedDatabase || cachedDatabaseUrl !== databaseUrl) {
-    cachedDatabase = neon(databaseUrl);
-    cachedDatabaseUrl = databaseUrl;
-  }
-
-  return cachedDatabase;
 }
 
 export const recordVisitObservationSql = `

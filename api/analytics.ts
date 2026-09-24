@@ -1,4 +1,4 @@
-import type { AnalyticsReport } from "../src/data/analyticsContract.ts";
+import type { AnalyticsReport } from "../src/contracts/analyticsContract.ts";
 import {
   getAnalyticsSelection,
   type AnalyticsRequest,

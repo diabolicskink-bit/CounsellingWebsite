@@ -2,11 +2,11 @@ import type {
   VisitEventProperties,
   VisitEventSource,
   VisitEventType,
-} from "../../data/visitEventContract.ts";
+} from "../../contracts/visitEventContract.ts";
 import {
   getVisitDatabase,
   type VisitDatabase,
-} from "../visits/repository.ts";
+} from "../visit-database.ts";
 
 export type VisitEventObservation = {
   eventId: string;

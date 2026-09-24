@@ -1,10 +1,11 @@
 # Product
 
-This root file is a discovery adapter for frontend tooling, not a second product specification.
+This is a discovery adapter for frontend tooling. Read and update the owner documents directly:
 
-- [docs/project/practice-context.md](docs/project/practice-context.md) provides background facts about Vive and Joel without setting copy or design priorities.
-- [docs/project/writing-direction.md](docs/project/writing-direction.md) owns shared public-writing policy, including the business purpose, natural writing, factual judgement and editing boundaries.
-- [docs/project/article-writing.md](docs/project/article-writing.md) covers article authoring, evidence and reference conventions; [article-publishing.md](docs/project/article-publishing.md) covers implementation and publication.
-- [docs/project/current-scope.md](docs/project/current-scope.md) records current service, implementation, route, and deployment facts.
+- [Practice](docs/reference/PRACTICE.md): background facts about Vive and Joel.
+- [Writing](docs/guidance/WRITING.md): public-copy purpose, voice, factual judgement and editing boundaries.
+- [Design](docs/guidance/DESIGN.md): coherent identity, practical reuse and creative components.
+- [Articles](docs/guidance/ARTICLES.md): authoring and publishing.
+- [System](docs/reference/SYSTEM.md): application behaviour, routes, source ownership and deployment model.
 
-Read and update those owner documents directly. Do not duplicate their content here.
+[AGENTS.md](AGENTS.md) owns working rules and task routing.

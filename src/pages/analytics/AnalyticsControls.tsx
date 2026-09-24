@@ -4,7 +4,7 @@ import {
   ArrowRight,
   CalendarDays,
 } from "lucide-react";
-import { isAnalyticsDateKey } from "../../data/analyticsContract";
+import { isAnalyticsDateKey } from "../../contracts/analyticsContract";
 import { parseDateKey, shiftDateKey, shiftMonthKey } from "./analyticsFormatters";
 
 const millisecondsPerDay = 86_400_000;

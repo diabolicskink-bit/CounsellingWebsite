@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { devRoutePaths } from "../../../data/routes";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
-import "../../../styles-design-system-workspace.css";
+import "./design-system-workspace.css";
 
 type DesignSystemSection = "overview" | "foundations" | "components" | "patterns";
 
@@ -33,23 +33,23 @@ const cataloguePages = [
 
 const authorityDocuments = [
   {
-    label: "Governance",
-    path: "docs/design-system/governance.md",
-    description: "Lifecycle, promotion, retirement, and rendered-workspace rules.",
+    label: "Design guidance",
+    path: "docs/guidance/DESIGN.md",
+    description: "Visual direction, reuse, shared contracts, and rendered-workspace rules.",
   },
   {
     label: "Foundations",
-    path: "docs/design-system/foundations.md",
+    path: "docs/design-system/FOUNDATIONS.md",
     description: "Current promoted foundation contracts.",
   },
   {
     label: "Components",
-    path: "docs/design-system/components.md",
+    path: "docs/design-system/COMPONENTS.md",
     description: "Current promoted React component contracts.",
   },
   {
     label: "Patterns",
-    path: "docs/design-system/patterns.md",
+    path: "docs/design-system/PATTERNS.md",
     description: "Current promoted semantic pattern contracts.",
   },
 ] as const;

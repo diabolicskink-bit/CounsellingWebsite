@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createVisitRetentionHandler } from "../../../api/visit-retention.ts";
-import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
+import { VisitDatabaseConfigurationError } from "../../../src/server/visit-database.ts";
 import { createResponse } from "../support/http-response.mjs";
 
 function silenceExpectedLogs(context) {

@@ -6,7 +6,7 @@ import {
   findContactPath,
   findEnquiryType,
   type BookingTypeOption,
-} from "../../data/enquiryContract.ts";
+} from "../../contracts/enquiryContract.ts";
 import { getAustralianTimeZoneLabel } from "../../utils/timeZones.ts";
 
 type ValidationIssue = {

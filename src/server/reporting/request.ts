@@ -3,12 +3,12 @@ import {
   isAnalyticsDateKey,
   isAnalyticsMonthKey,
   isAnalyticsVisitorId,
-} from "../../data/analyticsContract.ts";
+} from "../../contracts/analyticsContract.ts";
 
 export type AnalyticsSelection =
   | { date: string; type: "daily" }
   | { endDate: string; includeBots: boolean; startDate: string; type: "keywords" }
-  | { month: string; type: "monthly" }
+  | { includeBots: boolean; month: string; type: "monthly" }
   | { endDate: string; includeBots: boolean; startDate: string; type: "pageViews" }
   | { endDate: string; includeBots: boolean; startDate: string; type: "referrers" }
   | { type: "visitor"; visitorId: string };
@@ -90,11 +90,11 @@ export function getAnalyticsSelection(
     };
   }
 
-  if (bots || report) {
+  if ([date, month, visitorId].filter(Boolean).length > 1) {
     return { type: "invalid" };
   }
 
-  if ([date, month, visitorId].filter(Boolean).length > 1) {
+  if (report || (bots && !month)) {
     return { type: "invalid" };
   }
 
@@ -106,7 +106,7 @@ export function getAnalyticsSelection(
 
   if (month) {
     return isAnalyticsMonthKey(month)
-      ? { type: "valid", selection: { type: "monthly", month } }
+      ? { type: "valid", selection: { type: "monthly", month, includeBots: bots === "include" } }
       : { type: "invalid" };
   }
 

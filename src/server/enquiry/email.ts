@@ -2,7 +2,7 @@ import {
   bookingTypes,
   enquiryTypes,
   type BookingType,
-} from "../../data/enquiryContract.ts";
+} from "../../contracts/enquiryContract.ts";
 import { escapeHtml } from "./html.ts";
 import type { ValidatedEnquiry } from "./validation.ts";
 

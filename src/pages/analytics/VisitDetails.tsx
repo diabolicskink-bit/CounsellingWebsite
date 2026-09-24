@@ -14,8 +14,8 @@ import {
   Smartphone,
   Tablet,
 } from "lucide-react";
-import type { AnalyticsTrafficSource, AnalyticsVisit } from "../../data/analyticsContract";
-import type { VisitDeviceType } from "../../data/visitClientEnvironment";
+import type { AnalyticsTrafficSource, AnalyticsVisit } from "../../contracts/analyticsContract";
+import type { VisitDeviceType } from "../../contracts/visitClientEnvironment";
 import {
   adNetworkDetail,
   botDetail,
@@ -24,7 +24,7 @@ import {
   formatActiveTime,
   formatTime,
   keywordMatchDetail,
-  outboundActionCounts,
+  socialActionCounts,
   sourceLabel,
   visitJourney,
   visitLocationCompactLabel,
@@ -107,20 +107,16 @@ export function LocationMark({ visit }: { visit: AnalyticsVisit }) {
   );
 }
 
-export function OutboundActionMark({ visit }: { visit: AnalyticsVisit }) {
-  const counts = outboundActionCounts(visit.events);
+export function SocialActionMark({ visit }: { visit: AnalyticsVisit }) {
+  const counts = socialActionCounts(visit.events);
   if (!counts.total) return null;
 
   const label = counts.total === 1
-    ? counts.email
-      ? "Email click"
-      : counts.instagram
-        ? "Instagram click"
-        : "LinkedIn click"
-    : `${counts.total} outbound clicks`;
+    ? counts.instagram ? "Instagram click" : "LinkedIn click"
+    : `${counts.total} social clicks`;
 
   return (
-    <span className="signal-outbound">
+    <span className="signal-social">
       <ExternalLink aria-hidden="true" size={13} />
       {label}
     </span>

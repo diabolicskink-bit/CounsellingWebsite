@@ -3,7 +3,7 @@ import { ArrowLeft, EyeOff, Radio } from "lucide-react";
 import type {
   AnalyticsExclusionUpdateResponse,
   VisitorAnalyticsReport,
-} from "../../data/analyticsContract";
+} from "../../contracts/analyticsContract";
 import {
   eventLabel,
   formatActiveTime,

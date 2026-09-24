@@ -2,11 +2,11 @@ import { getJsonPayloadBody } from "../src/server/request-body.ts";
 import {
   PageViewIdentityConflictError,
   recordVisitObservation,
-  VisitDatabaseConfigurationError,
   VisitIdentityConflictError,
   type VisitBotClassification,
   type VisitObservation,
 } from "../src/server/visits/repository.ts";
+import { VisitDatabaseConfigurationError } from "../src/server/visit-database.ts";
 import {
   getVisitRequestEnvironment,
   getVisitRequestShapeBlock,

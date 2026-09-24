@@ -1,0 +1,285 @@
+# Current System
+
+This is the agent's working map of the Vive Counselling application: what it does, how its parts connect, which boundaries affect changes, and where to investigate further. Read the orientation first, then the sections relevant to the task. Detail belongs here when it helps an incoming agent understand, change, or verify the system.
+
+This document describes the current repository implementation and deployment model. Source, configuration, tests, and generated output settle exact implementation questions. A checked-out feature is not proof that it has reached Production; environment-specific observations below are dated and must be rechecked when they affect a release.
+
+[AGENTS.md](../../AGENTS.md) owns working rules and task authorization. [Practice context](PRACTICE.md) provides background facts about Vive and Joel; [writing direction](../guidance/WRITING.md) owns public-copy policy. The [document map](../README.md) routes other documentation. This guide does not establish public wording, visual direction, or reusable design-system API.
+
+After [orientation](#orientation), use the [implementation map](#find-the-relevant-implementation), [routes](#surfaces-and-routes), [rendering](#rendering-routing-and-discoverability), [enquiries](#enquiries-and-contact), [articles](#articles-and-publishing), [analytics](#analytics-and-data-meaning), [runtime/configuration](#runtime-configuration-and-deployment), or [local verification](#working-locally-and-verifying-changes) section.
+
+## Orientation
+
+Vive is a public counselling website with an enquiry service, code-managed articles, and a private reporting tool for its owner. Visitors can learn about the practice, read articles and support information, and contact Joel. Appointment and consultation requests are enquiries that Joel follows up; the application does not reserve appointments, take payments, or manage counselling records.
+
+The application uses React, React Router, TypeScript, and Vite. Vercel serves generated public HTML and runs the TypeScript handlers in `api/`. Resend delivers enquiry email. A separate first-party analytics pipeline writes to Neon/Postgres and supplies the private `/analytics` reports. GA4 and Microsoft Clarity are additional, independently configured integrations; they do not supply those reports.
+
+There are three distinct application surfaces:
+
+| Surface | Availability | Purpose |
+| --- | --- | --- |
+| Public website | Local development and deployed builds | Service information, articles, contact and fees, crisis-support resources, privacy information. |
+| Private analytics | Included in deployed builds; protected by Vercel middleware | One owner's traffic, page, referrer, paid-keyword, enquiry, and visitor-exclusion reporting. Its UI can render locally, but local Vite supplies neither the reporting API nor its authentication boundary. |
+| Development tools | Vite development mode only | Local article editing, a Markdown document viewer organised around guidance, reference, shared contracts and memory, design-system inspection, and the Codex/Opus test beds. These routes and their Dev navigation are absent from built previews and Production. |
+
+The main flows are:
+
+```text
+Page source + route/article metadata -> build-time rendering -> HTML/assets -> browser hydration
+Contact form -> /api/enquiry -> Resend -> Joel's email
+Browser observations -> visit/event/engagement APIs -> Neon -> protected reporting API -> analytics UI
+Local article editor -> Vite-only write endpoint -> article source file -> next build
+```
+
+Useful boundaries to know before starting:
+
+- Public content and the native enquiry form are present in generated HTML before JavaScript runs. The server render happens during the build; this is not a request-time React rendering server.
+- `npm run dev` serves the UI and the local article-editor endpoint. `npm run preview` serves built output. Neither command runs the Vercel `api/` handlers, routing middleware, production redirects, or cron jobs.
+- There is no local analytics database. Preview and Production use separate databases, and database migrations are a separate operation from builds and deployments.
+- Enquiry delivery does not depend on successful analytics recording. A working UI, a successful local test, or a ready deployment alone does not verify email delivery or live database behaviour.
+- Public page content lives in source. The local article editor changes existing article bodies and references; it is not a deployed CMS or a draft-publishing system.
+
+## Find The Relevant Implementation
+
+These are investigation entry points, not an exhaustive file inventory. Paths in code spans are relative to the repository root.
+
+| Concern | Start here | What it owns |
+| --- | --- | --- |
+| Application and route composition | [src/app/App.tsx](../../src/app/App.tsx), [src/data/routes.ts](../../src/data/routes.ts) | Route components, public/private/dev separation, route constants, browser aliases, and the special Fees tracking path. |
+| Browser activation and build-time rendering | [src/main.tsx](../../src/main.tsx), [src/app/BrowserApp.tsx](../../src/app/BrowserApp.tsx), [src/app/StaticApp.tsx](../../src/app/StaticApp.tsx), [prerender script](../../scripts/build/prerender-route-metadata.mjs) | Hydration or client rendering, shared app composition, generated route documents and validation. |
+| Public pages and navigation | [src/pages/](../../src/pages), [Layout.tsx](../../src/components/Layout.tsx), [src/data/site.ts](../../src/data/site.ts) | Page content, shared header/footer, navigation data and social destinations. |
+| Metadata and discoverability | [routeMetadata.json](../../src/data/routeMetadata.json), [routeMetadata.ts](../../src/data/routeMetadata.ts), [structured-data generator](../../scripts/build/route-structured-data.mjs) | Core page and business metadata, article metadata composition, canonical/social tags, JSON-LD and sitemap inputs. |
+| Contact and email | [Contact.tsx](../../src/pages/contact/Contact.tsx), [EnquiryForm.tsx](../../src/pages/contact/EnquiryForm.tsx), [enquiryContract.ts](../../src/contracts/enquiryContract.ts), [api/enquiry.ts](../../api/enquiry.ts), [src/server/enquiry/](../../src/server/enquiry) | UI, shared options/limits, request validation, native/JSON responses, email construction and delivery. |
+| Articles | [manifest.ts](../../src/content/articles/manifest.ts), [articles.ts](../../src/content/articles/articles.ts), [article templates](../../src/content/articles/articleTemplates), [ARTICLES.md](../guidance/ARTICLES.md#implementing-and-publishing) | Publication metadata, typed content pairing, Markdown bodies/references, and publishing procedure. |
+| First-party collection | [VisitRecorder.tsx](../../src/tracking/VisitRecorder.tsx), [visitSession.ts](../../src/tracking/visitSession.ts), [visitEventContract.ts](../../src/contracts/visitEventContract.ts) | Page observation, browser identity/session lifecycle, attribution and allowed events; follow their imports into the write APIs and repositories. |
+| Private reporting | [src/pages/analytics/](../../src/pages/analytics), [analyticsContract.ts](../../src/contracts/analyticsContract.ts), [src/server/reporting/](../../src/server/reporting) | Report controls and summaries, runtime response contracts, request selection, SQL and exclusions. |
+| Storage and environment boundaries | [database/README.md](../../database/README.md), [database migrations](../../database/migrations), [middleware.ts](../../middleware.ts), [vercel.json](../../vercel.json) | Migration procedure/schema, private authentication, deployment routing, function packaging and retention schedule. |
+| Local tools and verification | [vite.config.ts](../../vite.config.ts), [articleEditorPlugin.ts](../../scripts/dev/articleEditorPlugin.ts), [package.json](../../package.json), [VERIFICATION.md](../guidance/VERIFICATION.md) | Development server integration, local article writes, executable check commands and the supported IDE browser workflow. |
+
+Public write endpoints share origin allowlists, cross-site checks and blocked-request log sanitisation in [request-origin.ts](../../src/server/request-origin.ts). Origin headers contain only an HTTP(S) scheme and authority; Referer values must be absolute, credential-free HTTP(S) URLs. Only configured origins may omit the scheme.
+
+[request-body.ts](../../src/server/request-body.ts) owns JSON object decoding for collection, enquiries and private visitor exclusions, plus the common content-type and byte-limit checks used by collection. The collection body guard requires decimal digits in nonempty Content-Length values and still checks measured UTF-8 body size when the header is absent. Endpoint modules retain their limits, loopback allowances and native-form handling; page engagement uses the visits request module. Visit-event collection supports IPv4 loopback for local development and does not require local IPv6 support.
+
+`api/` contains HTTP entry points. Domain validation, delivery and database work live under `src/server/`; browser/server contracts live under `src/contracts/`. `src/server/visit-database.ts` owns the Neon connection shared by visit collection, events, engagement, reporting and retention. Although server code sits beneath `src/`, it is server-owned: public code should consume the shared contracts rather than import database or delivery modules. Handlers and repositories expose dependencies that direct tests can replace without real email or database services.
+
+## Surfaces And Routes
+
+### Public website
+
+| Routes | Functional role |
+| --- | --- |
+| `/`, `/working-with-joel` | Introduce the practice, practitioner and approach, and help visitors judge fit. |
+| `/inclusive-counselling` | Hub for the three specialist/inclusion routes. |
+| `/kink-bdsm-counselling`, `/polyamory-enm-counselling`, `/lgbtqia-affirming-counselling` | Dedicated service information for each topic. |
+| `/articles`, `/articles/:slug` | Publication index and individual published articles; slugs come from the article manifest. |
+| `/contact` | Direct phone/email, session fees, and appointment, consultation or general enquiries. |
+| `/crisis-support` | Australian urgent-support resources, official service links and a visible service-check date. Vive is not the crisis-response service. |
+| `/privacy-policy` | Public explanation of website tracking, enquiry and counselling information handling. |
+| Unknown paths | Not Found, with a generated `404.html` fallback for hosting. |
+
+Public and development pages use the shared layout; private reports render outside the public navigation/footer. The ordinary public information is authored in page components. Contact details and success/failure messages are shared through [src/data/enquiry.ts](../../src/data/enquiry.ts). Fees and service statements also appear in page/closing-invitation copy and structured metadata, so a change to an offer needs a consumer search rather than assuming one central pricing record.
+
+`/about`, `/fees`, and `/inclusion` redirect to `/working-with-joel`, `/contact`, and `/inclusive-counselling`. The former article slug `kink-affirming-therapy` redirects to `kink-aware-therapy`. Browser aliases and Vercel redirects are maintained in different sources and must agree.
+
+Fees-labelled navigation and footer links deliberately open `/contact` while passing router state that records a virtual `/fees` page view. The navigation's active state follows that tracked path. A direct Contact visit remains `/contact`; a plain `/fees` redirect does not itself carry the navigation state. Preserve this distinction when changing navigation or attribution.
+
+### Private reporting
+
+The dashboard is an internal tool for the owner, outside the public navigation and footer.
+
+| Route | Function |
+| --- | --- |
+| `/analytics` | Daily visits, sources, activity and visit journeys. |
+| `/analytics/pages` | Page views, visits and active time by route. |
+| `/analytics/referrers` | Arrival hosts, traffic and enquiry visits. |
+| `/analytics/keywords` | Paid matched-keyword coverage, engagement and enquiry visits. |
+| `/analytics/enquiries` | Monthly form, phone and email enquiries, with failed sends visible separately. |
+| `/analytics/excluded` | Review and restore excluded visitors. |
+
+Visits and enquiry records can open retained visitor history. [Reporting semantics](#reporting-semantics) explains the counts and filters. This is not an enquiry inbox or client-management system.
+
+### Development tools
+
+- `/article-editor` edits existing article Markdown and structured references. Saving sends `PUT /__dev/article-editor/:slug` to the Vite plugin, which validates an allowlisted slug and rewrites that article's source template. The write endpoint rejects non-localhost Host values and exists only on the Vite development server. Metadata and article registration remain source edits.
+- `/documents` renders the Markdown library under `docs/` plus the root, testing and database entry guides. It groups guidance, references, project memory, supported and legacy design-system records, research and working documents. Its import globs in `src/pages/dev/documents/Documents.tsx` own discovery; skill packages and source files are outside this reader, and it does not edit documents.
+- `/codex-tb` and `/opus-tb` are development-only places for page experiments. Their current contents are not public routes or approved future page implementations.
+- `/design-system` and its catalogue subroutes provide development inspection; their authority and maintenance are owned by the separate [design-system documentation](../design-system/README.md).
+
+## Rendering, Routing And Discoverability
+
+### From source to a browser document
+
+`npm run build` validates the configured third-party analytics IDs, typechecks the application/API source, builds browser assets into `dist/`, builds a disposable server bundle into `.prerender/server/`, then runs `scripts/build/prerender-route-metadata.mjs`. The server bundle is a build tool, not a separately deployed application service.
+
+`BrowserApp` uses `BrowserRouter`; `StaticApp` uses `StaticRouter`. Both compose the same `App` within the shared Strict Mode boundary. Article pages are lazy-loaded in the browser and supplied synchronously for build-time rendering so their content is present in the first response.
+
+The prerender script combines core metadata with article-derived routes, renders public page markup, verifies route contracts, and writes page HTML, canonical/social/structured metadata, `sitemap.xml`, `robots.txt`, private analytics shells and `404.html`. `dist/` and `.prerender/` are generated and ignored by Git; changes belong in their source inputs.
+
+The browser hydrates only when the root's prerender marker, normalized route and build timestamp are valid and agree with the requested path. Otherwise it client-renders. The same initial timestamp is passed into the first server and browser renders so time-dependent Contact content agrees; current timezone information can then refresh in the browser. Browser APIs and current-time values introduced during rendering can therefore break more than local development even when the page looks correct there.
+
+Private shells contain no report data. Their content loads through the protected API after browser activation. The generic `404.html` also uses the client-render path rather than attempting to hydrate another public page's markup.
+
+### Route and metadata ownership
+
+A route change can touch several contracts:
+
+- `src/app/App.tsx` determines which component renders, and `src/data/routes.ts` supplies application route names and public aliases.
+- `src/data/routeMetadata.json` supplies core public-page and business metadata. `routeMetadata.ts` adds article-derived metadata for runtime consumers. Article publishing uses its own manifest rather than requiring each article in the core route file.
+- `scripts/build/prerender-route-metadata.mjs` owns public rendering checks and the private-shell route list. The build rejects an unsupported core metadata route.
+- `vercel.json` owns HTTP redirects and clean-URL/trailing-slash behaviour. React redirects do not replace hosting redirects.
+- Browser tests cover representative public journeys under `tests/browser/public-site/`; direct route tests check public constants against metadata.
+
+This means adding a React route alone does not complete a public-route change. Check its first-response HTML, metadata, links, hosting behaviour and appropriate coverage. For article additions, follow [ARTICLES.md](../guidance/ARTICLES.md#implementing-and-publishing), which describes the manifest/template path through those concerns.
+
+All currently published public content routes are indexable. Private reports and Not Found use no-index metadata; development routes are absent from builds. Canonical origin selection lives in [route-metadata-origin.mjs](../../scripts/build/route-metadata-origin.mjs): an explicit `SITE_URL` wins, Production otherwise uses the canonical site origin, and a Vercel Preview otherwise uses `VERCEL_URL`. Local builds fall back to the canonical origin. A local canonical pointing to the public site does not prove the page is being served from Production.
+
+The structured-data generator expresses the business/practitioner/services and relevant profile, article, collection, breadcrumb and crisis-support entities. Business metadata and visible claims must agree. A private street address is not part of that public metadata. The Crisis Support check date also feeds structured data and its sitemap date; article publication/revision dates feed article metadata and sitemap entries.
+
+Client navigation updates title, description and robots through `useDocumentMetadata`; canonical/social tags and JSON-LD are generated for the initial document and are not fully replaced by that hook. Direct navigation and in-app navigation are therefore distinct verification cases. The remaining metadata limitation is tracked as `DEBT-27`.
+
+## Enquiries And Contact
+
+The Contact form offers an appointment request, a free 15-minute consultation request, and a general enquiry. All collect name, email and message. Appointment/consultation paths require availability and timezone, and a consultation also requires a mobile number. [enquiryContract.ts](../../src/contracts/enquiryContract.ts) owns option values and field limits shared by browser and server. [timeZones.ts](../../src/utils/timeZones.ts) owns Australian timezone choices and conversions from Perth business hours.
+
+The complete native form is prerendered with conditional fields explained in their labels. JavaScript progressively shows the relevant fields, submits JSON, prevents duplicate in-flight submission, and focuses the confirmation on success. Without JavaScript the form submits URL-encoded data and receives a standalone HTML success or failure response. Changes must account for both paths.
+
+`POST /api/enquiry` checks request shape and cross-site signals, validates the fields, builds the email server-side, and calls Resend. It accepts JSON and native form posts, rejects unsupported/multipart or oversized requests, and rejects overlong fields rather than silently truncating them. Honeypot submissions receive a success response without email delivery. User-facing delivery failures remain generic; operational diagnostics stay in server logs.
+
+Delivery requires `RESEND_API_KEY` and `ENQUIRY_FROM_EMAIL`. `ENQUIRY_TO_EMAIL` overrides the shared public email destination; when absent, delivery falls back to `enquiryEmail` in `src/data/enquiry.ts`. Preview email is not automatically a sandbox: if a Preview deployment is configured with real delivery credentials and that recipient, submitting a real form can send real mail. Local browser tests intercept the request instead.
+
+The application does not persist enquiry names, email addresses, mobile numbers, availability or message bodies in the analytics database. It sends those details in the email. Optional visit/page-view IDs connect a submission to analytics, where the server records controlled attempt/sent/failed events without the form contents. Those writes run as best-effort background work through Vercel `waitUntil`; their failure does not change the email result. A form can therefore succeed without a corresponding analytics entry, and `enquiry_sent` describes provider-accepted sending rather than confirmed mailbox delivery or a booked session.
+
+## Articles And Publishing
+
+Articles use two connected sources. `src/content/articles/manifest.ts` supplies lightweight publication metadata, slugs, ordering and article-derived route metadata. Each module under `src/content/articles/articleTemplates/` supplies a Markdown body and structured reference list. `articles.ts` pairs the manifest and templates with TypeScript coverage for the required slugs. Shared metadata consumers can use the manifest without importing article bodies into every public route.
+
+`ArticleIndex` reads the lightweight manifest to list publications newest first without importing article bodies; `ArticlePage` resolves the slug and renders the common publication shell, Markdown and source ledger. A reference stores citation text, a DOI or stable URL, and an optional anchor ID for linking from the body. APA 7 formatting and bibliographic verification are editorial responsibilities, not an automated compliance layer. Unknown article slugs resolve to Not Found. Public media lives under `public/`; there is no article-media upload service.
+
+Every registered article is published and indexable in a deployed build. A future `publishedAt` date does not schedule or hide an article, and there is no draft/sample switch. Adding an article requires its manifest entry and matching template registration; the build then derives its route HTML and sitemap/metadata entries. Local editor saves change source in the working tree, so they still need the normal build and release process. The editor does not create articles, change publication metadata, or publish directly.
+
+Use [ARTICLES.md](../guidance/ARTICLES.md#implementing-and-publishing) for the exact schema, reference conventions and publishing checks. This workflow currently has no CMS, author login or database-backed content store.
+
+## Analytics And Data Meaning
+
+### Collection and persistence
+
+First-party analytics supplies the private dashboard through Neon/Postgres. It records anonymous browser IDs, visits, page views, visible active time and allowlisted events. GA4 and Clarity are separate integrations; each pipeline requires its own enable flag and allowed host.
+
+A browser ID rotates after 12 months and is not a person or client account. Visit state lives in session storage; an external arrival, changed ad attribution or more than 30 minutes of inactivity starts a new visit. Clearing storage or changing browsers changes identity. The database schema and persistence owners are linked in the [implementation map](#find-the-relevant-implementation).
+
+Page loads, tracked pathname changes and restored documents receive page views; query-only and hash-only changes do not. The [Fees navigation distinction](#public-website) still applies. Writes are best-effort, with stable IDs to avoid duplicate retries and cumulative active-time updates. Active time measures visibility, not attention. Missing observations mean the dashboard is not a complete enquiry register.
+
+Visits retain arrival/referrer and ad attribution. A matched keyword comes from an ad URL parameter, not the visitor's search query. Diagnostics include bounded User-Agent/device information and coarse location: Australian state/territory or overseas country. Raw IPs and precise location are not stored. Bot detection and optional network lookups provide best-effort classification without blocking visitors; [bot.ts](../../src/server/visits/bot.ts) and [bot-network.ts](../../src/server/visits/bot-network.ts) own those details.
+
+### Reporting semantics
+
+This is a single-owner reporting tool maintained by one developer. Keep its implementation and documentation proportionate to the functions listed under [private reporting](#private-reporting). Shared enquiry classification lives in [analyticsContract.ts](../../src/contracts/analyticsContract.ts), used by the reporting queries and dashboard.
+
+- **Enquiries:** successful form sends, email-link clicks and Contact-page phone-link clicks. Social clicks, consult CTA clicks, unfinished forms and failed sends do not count. Failed sends remain visible for diagnosis. A contact-link click is an enquiry signal, not proof of a completed call or email; a form send means provider acceptance.
+- **Events and visits:** Monthly Enquiries counts each enquiry event in its occurrence month. Its paid-history count includes each enquiry event after a paid visit by the same retained browser, including paid visits from earlier months. The paid-visit total counts visits started in the selected month; its enquiry rate counts distinct paid visits credited with an enquiry event in that month, assigning each enquiry to the latest preceding paid visit by that browser. Referrers and Keywords count each visit with an enquiry once, even when it contains several enquiry events or channels.
+- **Dates:** reports use Australia/Perth. Daily, Pages, Referrers and Keywords select visits by start date and include their retained activity, which may extend beyond the selected period. Date ranges are inclusive and limited to 366 days.
+- **Grouping:** Referrers groups arrival hosts, separating Google paid/organic traffic and retaining Internal and No referrer groups. Keywords covers paid visits and shows how many lack matched-keyword data. Source owns exact grouping and query rules.
+- **Filters:** identified bots are hidden by default; unclassified visits remain. Visitor exclusions hide past and future activity from ordinary reports without deleting it; retained history can still be opened and exclusions restored.
+- **Returning visitors:** a later retained visit by the same browser ID, not evidence of a returning client.
+
+### Privacy and retention
+
+The whole `/analytics` subtree is excluded from first-party, GA4 and Clarity tracking. A public-to-private transition forces a fresh document if third-party analytics has loaded, so those scripts cannot observe report content. Private reports and their API are protected at the [Vercel middleware boundary](#environment-boundaries).
+
+Enquiry contents are sent by email and are not stored in analytics. Events contain only allowlisted properties, and the Contact form is masked from Clarity. Retained referrers, ad identifiers and diagnostics remain private operational data.
+
+Production removes visits older than 12 months, their page views/events, and unused exclusion markers through the protected retention job. Preview has no scheduled cleanup. [database/README.md](../../database/README.md) and `vercel.json` own the procedure and schedule.
+
+### GA4 and Clarity
+
+`SiteAnalytics.tsx` loads configured providers on allowed public hosts. GA4 uses app-managed page views and controlled interaction events; its totals need not match first-party reporting. Clarity supplies behavioural recording with form masking. There is no first-party cookie banner or local Clarity Consent API flow, and Vercel Web Analytics is not installed.
+
+## Runtime, Configuration And Deployment
+
+### Environment boundaries
+
+| Environment | What runs and where data goes |
+| --- | --- |
+| Local Vite development | UI with hot reload and development tools. No Vercel API/middleware/cron emulation and no configured local database. Use direct or mocked tests for those boundaries. |
+| Local Vite preview | Built static output without development routes. Useful for first-response/browser checks; API calls still need interception or a separately provided runtime. It is not the Vercel Preview environment. |
+| Vercel Preview | Non-production Git deployments with platform functions and middleware, separate Preview credentials and a separate Neon database. Working branches allow isolated review; `staging` is the combined release candidate. |
+| Vercel Production | `master` deployment, public canonical domain, Production secrets/database and the scheduled retention job. |
+
+The canonical public origin is `https://vivecounselling.com.au`, with `www` redirected to the apex. The Git/release procedure lives in [AGENTS.md](../../AGENTS.md); inspect the target deployment/commit when verifying remote behaviour rather than equating the current branch with Production.
+
+Vercel middleware protects `/analytics` and `/api/analytics` (including descendants) with HTTP Basic Authentication. Missing credentials fail closed. Private responses use no-store/no-index headers. Authentication is enforced at this platform boundary, not independently inside every reporting handler or React component; direct handler tests and a local Vite page do not exercise it.
+
+`vercel.json` also owns redirects, BotID proxy rewrites, the cron schedule, and serverless packaging. Its `api/**/*.ts` rule includes `src/**` so server-domain imports reach deployed functions. Local UI checks do not verify those platform behaviours.
+
+### HTTP interfaces
+
+| Endpoint | Access and responsibility |
+| --- | --- |
+| `POST /api/enquiry` | Public enquiry delivery; accepts JSON or native URL-encoded form data and returns the corresponding JSON/HTML response. |
+| `POST /api/visit` | Public, write-only visit/page-view collection; validates observation IDs and attribution, adds server diagnostics and best-effort bot classification. |
+| `POST /api/page-engagement` | Public, write-only cumulative active-time update for the supplied visitor/visit/page-view relationship. |
+| `POST /api/visit-event` | Public, write-only allowlisted client actions. Server-authored enquiry outcomes use the repository from the enquiry handler instead. |
+| `GET /api/analytics` | Protected daily, monthly, visitor and date-range reports. Returns a typed report in a `data` envelope. |
+| `GET`, `PUT /api/analytics/exclusions` | Protected listing and mutation of visitor exclusion markers. |
+| `GET /api/visit-retention` | Bearer-secret-protected deletion of expired analytics data. This GET has a destructive effect; it is not a read-only health check. |
+
+The public collection endpoints validate bounded payloads, reject explicit cross-site signals and return generic errors; successful collection writes return no report data. Their browser IDs and relationship checks support data consistency, not authenticated visitor accounts. The local article-editor endpoint is separate from these deployed APIs and exists only in the Vite plugin described above.
+
+### Configuration ownership
+
+Use the intended environment's configuration; do not place actual secret values in documentation. The relevant names are:
+
+| Configuration | Role |
+| --- | --- |
+| `RESEND_API_KEY`, `ENQUIRY_FROM_EMAIL`, `ENQUIRY_TO_EMAIL` | Server-side email credentials and delivery destinations. The recipient has the fallback described in Enquiries. |
+| `DATABASE_URL` | Server-only Neon connection used by collection, reporting, exclusions and retention. Never expose it through a `VITE_` variable or browser import. |
+| `ANALYTICS_USERNAME`, `ANALYTICS_PASSWORD` | Environment-specific private-report Basic Authentication. |
+| `CRON_SECRET` | Server-side retention-job authorization. |
+| `VITE_VISIT_ANALYTICS_ENABLED`, `VITE_VISIT_ANALYTICS_ALLOWED_HOSTS` | Build-time first-party collection switch and extra allowed hosts. |
+| `VITE_VISIT_BOT_DETECTION_ENABLED` | BotID switch consumed by both browser initialization and the server check; defaults on unless set to `false`. Server-side User-Agent identification remains available. |
+| `VITE_ANALYTICS_ENABLED`, `VITE_ANALYTICS_ALLOWED_HOSTS`, `VITE_GA_MEASUREMENT_ID`, `VITE_CLARITY_PROJECT_ID` | Build-time third-party analytics switch, extra hosts and public provider IDs. |
+| `SITE_URL`, Vercel-provided URL/environment values | Generated canonical origin and relevant server request-origin checks. |
+
+Both browser allowlists include the canonical apex and `www` by default. Extra hosts are configured separately for each pipeline; the Preview setup permits Vercel preview hostnames for first-party collection against the Preview database. Do not assume a Preview build has the same collection settings as Production. Client `VITE_` settings are consumed during the build, so changing them requires rebuilt assets.
+
+`.env*` files and `.vercel/` are ignored. The database procedure uses `.env.preview.local` and `.env.production.local` explicitly; Development receives neither database. The build's analytics preflight validates provider-ID formats, not successful Resend delivery, database schema readiness or deployed authentication.
+
+### Database changes and verification
+
+Follow [database/README.md](../../database/README.md) for environment selection and migration commands. Migrations run in filename order and are recorded with checksums in `visit_schema_migrations`; edited applied migrations are rejected. Add a new forward migration for a schema change. `npm run build` and a Git-triggered deployment do not apply migrations.
+
+Establish schema readiness before deploying code that depends on a migration. The Preview database is shared by non-production deployments, so changes must remain compatible with other active Preview code. Use Preview for database verification; never Production. [ANALYTICS.md](../guidance/ANALYTICS.md) owns dashboard verification and Preview authorization.
+
+**Recorded environment state:** the repository has twelve ordered migrations through `0012_describe_bot_identification.sql` (column comments only; no runtime schema dependency). Preview and Production were both current through `0011` on 2026-09-10; `0012` has not been applied as part of this implementation. This is a dated operational observation rather than a live schema check; confirm each environment again when a future release depends on a newer migration. The dated [consult CTA](../memory/DECISIONS.md#2026-09-10---consult-cta-first-party-event-added) and [phone analytics](../memory/DECISIONS.md#2026-09-09---contact-phone-analytics-added) entries retain the history.
+
+## Working Locally And Verifying Changes
+
+Use the checked-in npm lockfile (`npm ci` when installing dependencies). Node and npm versions are not pinned by the repository; direct Node tests import TypeScript source, so the runtime must support those imports. The executable commands in [package.json](../../package.json) are authoritative. On Windows PowerShell, use `npm.cmd` for the same commands if execution policy blocks the `npm.ps1` launcher; no policy change is needed.
+
+Use the [test guide](../../tests/README.md) for test design, command coverage, prerequisites, and execution limits. [Repository verification policy](../guidance/VERIFICATION.md#choose-checks) determines which checks are warranted; [private analytics policy](../guidance/ANALYTICS.md) covers dashboard inspection and Preview authorization.
+
+| Command | Local runtime |
+| --- | --- |
+| `npm run dev` | Vite development UI, including development routes and the article editor; no Vercel API services. |
+| `npm run build` | App/API typecheck, client/server bundles, and generated-route checks; no live database or email verification. |
+| `npm run preview` | Serve the most recent built output; it does not build first or run Vercel services. |
+
+For ad-hoc browser inspection in the Codex IDE, follow [visual verification](../guidance/VERIFICATION.md).
+
+Known implementation limits worth accounting for during related work:
+
+- Public write endpoints validate requests but have no configured platform rate limit (`DEBT-23` and related analytics pressure); successful validation is not comprehensive abuse protection.
+- Visit/event timelines have no persisted cross-document causal order, and private reports are not paginated (`DEBT-39`, `DEBT-40`).
+- Runtime canonical/social metadata does not fully follow client navigation (`DEBT-27`).
+- Shared navigation and route-focus accessibility remain incomplete; automated axe checks are not a conformance claim (`DEBT-29`, `DEBT-30`).
+- Node/package-manager versions and direct JavaScript/script type coverage remain incomplete (`DEBT-16`, `DEBT-9`).
+
+Use [DEBT.md](../memory/DEBT.md) for the current evidence and next actions when a limitation is relevant. This list does not select additional work. Functional absences such as booking/payment services, public accounts, a deployed CMS, scheduling and article drafts are current system boundaries, not a backlog of implied features.
+
+## Maintaining This Guide
+
+Update the section that owns a capability, significant behaviour, data flow, runtime boundary, source responsibility or verification method when that understanding changes. Explain the resulting system and the connections an incoming agent needs. Replace superseded explanations instead of appending a change narrative.
+
+Ordinary wording, visual composition, control placement, CSS values and implementation minutiae belong in their source or domain documentation unless they change system understanding. Keep exact field lists, code APIs, publishing procedures and test cases with their authoritative owners and link to them. Record history in the task log, unresolved work in the appropriate tracker, and public-writing direction in its owner documents.
+
+Keep enough detail to make consequential behaviour clear; length is not a target. Date any retained remote-state observation and distinguish it from facts verified in source. Recheck affected links and commands when their owners move. A useful entry helps the next agent orient itself or avoid a mistaken assumption without requiring a second parallel specification of the implementation.

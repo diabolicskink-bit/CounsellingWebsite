@@ -29,8 +29,8 @@ project direction or owner decisions.
 
 | Segment | File | Geography | Last observed | Evidence coverage |
 | --- | --- | --- | --- | --- |
-| Australian kink-aware counselling | [australian-kink-aware-counselling.md](segments/australian-kink-aware-counselling.md) | Australia, including Perth/WA and national online delivery | 2026-07-17 | Six-query fixed-depth landscape; 19 direct and 4 adjacent provider brands; directory, taxonomy and regulatory map; demand evidence gap |
-| Australian ENM and polyamory counselling | [australian-enm-polyamory-counselling.md](segments/australian-enm-polyamory-counselling.md) | Perth/WA local target, Australia-wide online serviceable market, and selected international learning markets | 2026-07-17 | Eight-query fixed-depth landscape; 16 direct and 2 adjacent Australian provider units; price, directory and offer comparison; geographic transfer analysis; detailed Vive recommendations and validation plan |
+| Australian kink-aware counselling | [AUSTRALIAN-KINK-AWARE-COUNSELLING.md](segments/AUSTRALIAN-KINK-AWARE-COUNSELLING.md) | Australia, including Perth/WA and national online delivery | 2026-07-17 | Six-query fixed-depth landscape; 19 direct and 4 adjacent provider brands; directory, taxonomy and regulatory map; demand evidence gap |
+| Australian ENM and polyamory counselling | [AUSTRALIAN-ENM-POLYAMORY-COUNSELLING.md](segments/AUSTRALIAN-ENM-POLYAMORY-COUNSELLING.md) | Perth/WA local target, Australia-wide online serviceable market, and selected international learning markets | 2026-07-17 | Eight-query fixed-depth landscape; 16 direct and 2 adjacent Australian provider units; price, directory and offer comparison; geographic transfer analysis; detailed Vive recommendations and validation plan |
 
 ## Structure
 

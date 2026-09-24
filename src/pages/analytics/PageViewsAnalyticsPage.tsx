@@ -9,7 +9,7 @@ import {
   getPerthDateKey,
   isAnalyticsDateKey,
   type PageViewsAnalyticsReport,
-} from "../../data/analyticsContract";
+} from "../../contracts/analyticsContract";
 import { privateRoutePaths } from "../../data/routes";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import { ReportDateRangeForm } from "./AnalyticsControls";

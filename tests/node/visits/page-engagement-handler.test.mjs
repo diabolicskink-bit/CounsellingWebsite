@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createPageEngagementHandler } from "../../../api/page-engagement.ts";
 import { PageEngagementIdentityConflictError } from "../../../src/server/page-engagement/repository.ts";
-import { VisitDatabaseConfigurationError } from "../../../src/server/visits/repository.ts";
+import { VisitDatabaseConfigurationError } from "../../../src/server/visit-database.ts";
 import { createResponse } from "../support/http-response.mjs";
 
 const validPayload = {
