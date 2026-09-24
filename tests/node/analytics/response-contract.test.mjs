@@ -115,7 +115,14 @@ function createReports() {
       totalPaidVisits: 1,
       type: "keywords",
     },
-    monthly: { month: "2026-08", type: "monthly", visits: [createVisit()] },
+    monthly: {
+      month: "2026-08",
+      paidAttributedEnquiries: 2,
+      paidVisits: 3,
+      paidVisitsWithEnquiry: 1,
+      type: "monthly",
+      visits: [createVisit()],
+    },
     referrers: createReferrerReport(),
     pageViews: {
       endDate: "2026-08-15",
@@ -219,6 +226,8 @@ test("rejects malformed aggregate rows and report context", () => {
     ],
     ["invalid daily date", { ...daily, date: "2026-02-30" }],
     ["invalid monthly date", { ...monthly, month: "2026-13" }],
+    ["missing paid-visit total", { ...monthly, paidVisits: undefined }],
+    ["paid enquiry rate above 100%", { ...monthly, paidVisitsWithEnquiry: 4 }],
   ];
 
   for (const [name, report] of invalidCases) {

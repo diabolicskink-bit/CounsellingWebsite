@@ -5,6 +5,7 @@ import {
   CircleCheck,
   CircleX,
   Clock3,
+  Mail,
   MapPin,
   MousePointerClick,
   PhoneCall,
@@ -14,9 +15,11 @@ import {
 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
+  enquiryEventTypes,
   getPerthDateKey,
   isAnalyticsDateKey,
   type AnalyticsVisit,
+  type EnquiryEventType,
 } from "../../contracts/analyticsContract";
 import type {
   AustralianVisitRegionCode,
@@ -42,7 +45,7 @@ import {
   DeviceMark,
   deviceLabels,
   LocationMark,
-  OutboundActionMark,
+  SocialActionMark,
   SourceMark,
   VisitDetailPanel,
   WebDriverMark,
@@ -51,9 +54,15 @@ import VisitorHistory from "./VisitorHistory";
 import useAnalyticsReport from "./useAnalyticsReport";
 
 type VisitContactProgress = {
-  kind: "attempted" | "failed" | "phone" | "selected" | "sent" | "started";
+  kind: "attempted" | "email" | "failed" | "phone" | "selected" | "sent" | "started";
   label: string;
 };
+
+const enquiryProgress = {
+  enquiry_sent: { kind: "sent", label: "Enquiry sent" },
+  phone_link_clicked: { kind: "phone", label: "Phone enquiry" },
+  email_link_clicked: { kind: "email", label: "Email enquiry" },
+} as const satisfies Record<EnquiryEventType, VisitContactProgress>;
 
 const australianRegionOrder = [
   "NSW",
@@ -122,13 +131,8 @@ function TrafficDiagnostics({ visits }: { visits: AnalyticsVisit[] }) {
 }
 
 function visitContactProgress(events: AnalyticsVisit["events"]): VisitContactProgress | null {
-  if (events.some((visitEvent) => visitEvent.eventType === "enquiry_sent")) {
-    return { kind: "sent", label: "Enquiry sent" };
-  }
-
-  if (events.some((visitEvent) => visitEvent.eventType === "phone_link_clicked")) {
-    return { kind: "phone", label: "Phone enquiry" };
-  }
+  const enquiryType = enquiryEventTypes.find((type) => events.some((event) => event.eventType === type));
+  if (enquiryType) return enquiryProgress[enquiryType];
 
   if (events.some((visitEvent) => visitEvent.eventType === "enquiry_failed")) {
     return { kind: "failed", label: "Send failed" };
@@ -173,6 +177,9 @@ function ContactProgressSignal({ progress }: { progress: VisitContactProgress | 
   } else if (progress.kind === "phone") {
     className = "signal-enquiry-signal signal-enquiry-signal--phone";
     icon = <PhoneCall aria-hidden="true" size={15} />;
+  } else if (progress.kind === "email") {
+    className = "signal-enquiry-signal signal-enquiry-signal--email";
+    icon = <Mail aria-hidden="true" size={15} />;
   } else if (progress.kind === "selected") {
     icon = <MousePointerClick aria-hidden="true" size={14} />;
   } else if (progress.kind === "started") {
@@ -354,6 +361,7 @@ function DailyObservatory({
                 contactProgress?.kind === "sent" ? "signal-visit-card--enquiry-sent" : null,
                 contactProgress?.kind === "failed" ? "signal-visit-card--enquiry-failed" : null,
                 contactProgress?.kind === "phone" ? "signal-visit-card--enquiry-phone" : null,
+                contactProgress?.kind === "email" ? "signal-visit-card--enquiry-email" : null,
               ].filter(Boolean).join(" ");
 
               return (
@@ -396,7 +404,7 @@ function DailyObservatory({
                         <DeviceMark visit={visit} />
                         <LocationMark visit={visit} />
                         <WebDriverMark visit={visit} />
-                        <OutboundActionMark visit={visit} />
+                        <SocialActionMark visit={visit} />
                         <ContactProgressSignal progress={contactProgress} />
                       </div>
                       <div className="signal-event__path" aria-label={`Journey preview from ${visit.landingPath}`}>

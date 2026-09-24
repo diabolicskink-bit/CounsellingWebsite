@@ -12,6 +12,7 @@ import {
   getPerthDateKey,
   getPerthMonthKey,
   isAnalyticsMonthKey,
+  isEnquiryEventType,
   type AnalyticsVisit,
   type AnalyticsVisitEvent,
 } from "../../contracts/analyticsContract";
@@ -37,6 +38,9 @@ function MonthlyEnquiries({
   monthKey,
   onMonthChange,
   onOpenEnquiry,
+  paidAttributedEnquiries,
+  paidVisits,
+  paidVisitsWithEnquiry,
   visits,
 }: {
   currentMonth: string;
@@ -44,16 +48,17 @@ function MonthlyEnquiries({
   monthKey: string;
   onMonthChange: (month: string) => void;
   onOpenEnquiry: (visit: AnalyticsVisit, visitEvent: AnalyticsVisitEvent) => void;
+  paidAttributedEnquiries: number;
+  paidVisits: number;
+  paidVisitsWithEnquiry: number;
   visits: AnalyticsVisit[];
 }) {
   const enquiryEvents = useMemo(() => visits
     .filter((visit) => includeBots || visit.isBot !== true)
     .flatMap((visit) => visit.events
       .filter((visitEvent) => (
-        visitEvent.eventType === "enquiry_sent"
+        isEnquiryEventType(visitEvent.eventType)
         || visitEvent.eventType === "enquiry_failed"
-        || visitEvent.eventType === "email_link_clicked"
-        || visitEvent.eventType === "phone_link_clicked"
       ) && getPerthMonthKey(new Date(visitEvent.occurredAt)) === monthKey)
       .map((visitEvent) => ({ visit, visitEvent })))
     .sort((left, right) => new Date(right.visitEvent.occurredAt).getTime()
@@ -61,12 +66,10 @@ function MonthlyEnquiries({
   const sentCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "enquiry_sent").length;
   const emailCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "email_link_clicked").length;
   const phoneCount = enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "phone_link_clicked").length;
-  const completedEnquiries = enquiryEvents.filter(({ visitEvent }) => (
-    visitEvent.eventType === "enquiry_sent"
-    || visitEvent.eventType === "email_link_clicked"
-    || visitEvent.eventType === "phone_link_clicked"
-  ));
-  const enquiryCount = completedEnquiries.length;
+  const enquiryCount = enquiryEvents.filter(({ visitEvent }) => isEnquiryEventType(visitEvent.eventType)).length;
+  const paidVisitEnquiryRate = paidVisits > 0
+    ? Math.round((paidVisitsWithEnquiry / paidVisits) * 1000) / 10
+    : null;
 
   return (
     <>
@@ -90,7 +93,7 @@ function MonthlyEnquiries({
           </div>
           <div><dt>Form Enquiries</dt><dd>{String(sentCount).padStart(2, "0")}</dd></div>
           <div>
-            <dt>Phone Enquirys</dt>
+            <dt>Phone Enquiries</dt>
             <dd>
               {String(phoneCount).padStart(2, "0")}
             </dd>
@@ -98,6 +101,18 @@ function MonthlyEnquiries({
           <div>
             <dt>Email Enquiries</dt>
             <dd>{String(emailCount).padStart(2, "0")}</dd>
+          </div>
+        </dl>
+        <dl
+          className="signal-report__summary monthly-enquiries__paid-summary"
+          aria-label="Paid visit enquiry summary"
+        >
+          <div><dt>Paid visits</dt><dd>{paidVisits}</dd></div>
+          <div><dt>Enquiries with paid history</dt><dd>{paidAttributedEnquiries}</dd></div>
+          <div>
+            <dt>Paid visit enquiry rate</dt>
+            <dd>{paidVisitEnquiryRate === null ? "N/A" : `${paidVisitEnquiryRate}%`}</dd>
+            <small>{paidVisitsWithEnquiry} of {paidVisits} paid visits</small>
           </div>
         </dl>
       </section>
@@ -185,7 +200,7 @@ function MonthlyEnquiries({
       </section>
 
       <p className="signal-footnote">
-        Phone and email enquiries are recorded when their contact links are clicked; this does not confirm that a call was placed or an email was sent. Each form outcome appears as one row, so a failed submission followed by a retry appears twice. {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
+        Phone and email enquiries are recorded when their contact links are clicked; this does not confirm that a call was placed or an email was sent. Each form outcome appears as one row, so a failed submission followed by a retry appears twice. Paid visits started in the selected month. Enquiries with paid history occurred this month after a paid visit by the same browser, including visits from earlier months. The rate is the share of this month's paid visits credited with an enquiry this month; each enquiry credits the latest preceding paid visit by that browser. {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
       </p>
     </>
   );
@@ -206,7 +221,7 @@ export default function EnquiriesAnalyticsPage() {
   const expectedType = requestedVisitorId ? "visitor" : "monthly";
   const requestUrl = requestedVisitorId
     ? `/api/analytics?visitor=${encodeURIComponent(requestedVisitorId)}`
-    : `/api/analytics?month=${encodeURIComponent(monthKey)}`;
+    : `/api/analytics?month=${encodeURIComponent(monthKey)}${includeBots ? "&bots=include" : ""}`;
   const { report, retry, status } = useAnalyticsReport(requestUrl, expectedType);
 
   useDocumentMetadata(
@@ -289,6 +304,9 @@ export default function EnquiriesAnalyticsPage() {
           monthKey={monthlyReport.month}
           onMonthChange={updateMonth}
           onOpenEnquiry={openEnquiry}
+          paidAttributedEnquiries={monthlyReport.paidAttributedEnquiries}
+          paidVisits={monthlyReport.paidVisits}
+          paidVisitsWithEnquiry={monthlyReport.paidVisitsWithEnquiry}
           visits={monthlyReport.visits}
         />
       ) : null}

@@ -1249,7 +1249,17 @@ body:has(.visit-dashboard) {
 .monthly-enquiries__summary > div:nth-child(3) { background: var(--report-cream); }
 .monthly-enquiries__summary > div:last-child { background: var(--report-pink); }
 
-.monthly-enquiries__summary small {
+.monthly-enquiries__paid-summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.monthly-enquiries__paid-summary > div:first-child { background: var(--report-cream); }
+.monthly-enquiries__paid-summary > div:nth-child(2) { background: var(--report-lilac); }
+.monthly-enquiries__paid-summary > div:last-child { background: var(--report-mint); }
+
+.monthly-enquiries__summary small,
+.monthly-enquiries__paid-summary small {
   display: block;
   margin-top: 7px;
   color: var(--report-muted);
@@ -1382,7 +1392,8 @@ body:has(.visit-dashboard) {
   box-shadow: 0 10px 28px rgba(184, 63, 92, 0.12);
 }
 
-.signal-visit-card--enquiry-phone {
+.signal-visit-card--enquiry-phone,
+.signal-visit-card--enquiry-email {
   border-color: rgba(37, 95, 159, 0.38);
   background: rgba(222, 236, 255, 0.78);
   box-shadow: 0 10px 28px rgba(37, 95, 159, 0.12);
@@ -1417,7 +1428,10 @@ body:has(.visit-dashboard) {
 .signal-visit-card--enquiry-failed.signal-visit-card--expanded .signal-event,
 .signal-visit-card--enquiry-phone .signal-event:hover,
 .signal-visit-card--enquiry-phone .signal-event:focus-visible,
-.signal-visit-card--enquiry-phone.signal-visit-card--expanded .signal-event {
+.signal-visit-card--enquiry-phone.signal-visit-card--expanded .signal-event,
+.signal-visit-card--enquiry-email .signal-event:hover,
+.signal-visit-card--enquiry-email .signal-event:focus-visible,
+.signal-visit-card--enquiry-email.signal-visit-card--expanded .signal-event {
   background: rgba(255, 255, 255, 0.26);
 }
 
@@ -1552,7 +1566,8 @@ body:has(.visit-dashboard) {
   color: #fff;
 }
 
-.signal-enquiry-signal--phone {
+.signal-enquiry-signal--phone,
+.signal-enquiry-signal--email {
   background: var(--report-blue-dark);
   color: #fff;
 }
@@ -1604,7 +1619,7 @@ body:has(.visit-dashboard) {
 
 .signal-device,
 .signal-location,
-.signal-outbound,
+.signal-social,
 .signal-webdriver {
   display: inline-flex;
   min-height: 24px;
@@ -1636,7 +1651,7 @@ body:has(.visit-dashboard) {
   color: #666879;
 }
 
-.signal-outbound {
+.signal-social {
   background: #fff4d9;
   color: #8b6121;
 }
@@ -2583,6 +2598,10 @@ body:has(.visit-dashboard) {
 
   .signal-report__summary {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .monthly-enquiries__paid-summary > div:last-child {
+    grid-column: 1 / -1;
   }
 
   .excluded-visitors__count {

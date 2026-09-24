@@ -42,13 +42,13 @@ ambiguity or missing fact would materially change the result.
 ## Use the right material
 
 For Vive, read the current request and explicit owner decisions, then
-`docs/project/practice-context.md`, `docs/project/writing-direction.md`, and
+`docs/reference/PRACTICE.md`, `docs/guidance/WRITING.md`, and
 the target copy with its immediate page context. These repository paths are
 relative to the project root. Check source or current scope for operational
 facts needed by the wording. Writing policy owns the business purpose,
 proportionate factual checks, qualifications, and opt-in audience/market research.
-For articles, also read `docs/project/article-writing.md`; implementation and
-publication procedures live separately in `docs/project/article-publishing.md`.
+For articles, read the authoring section of `docs/guidance/ARTICLES.md`;
+its implementation and publishing section owns publication procedures.
 
 Existing copy supplies context and facts to verify, not an ideal voice. Earlier
 publication approval does not make a passage a style model. Owner messages

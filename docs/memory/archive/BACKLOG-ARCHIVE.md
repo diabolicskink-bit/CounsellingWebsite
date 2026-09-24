@@ -1,0 +1,71 @@
+# Site Backlog Archive
+
+This file preserves implemented and superseded `SITE-*` items moved out of the [active site backlog](../BACKLOG.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
+
+### SITE-11 - Website privacy and counselling-boundaries note
+
+Implemented on 2026-08-31. The public `/privacy-policy` route now distinguishes website analytics, initial-enquiry handling and counselling confidentiality; documents Zoho Mail, Zanda client records, Zoom-powered telehealth, first-party and optional third-party analytics, the 12-month visit-data retention rule, and service-provider and overseas processing; and gives direct access, correction and complaint routes. It is linked from the shared footer and immediately before the Contact form submission action. The policy records the owner's confirmation that current telehealth sessions are not recorded.
+
+### SITE-7 - Global reduced-motion baseline
+
+Implemented on 2026-08-31. Smooth scrolling now falls back to immediate scrolling when reduced motion is requested. An audit of every public stylesheet confirmed that page-owned and shared spatial transitions and reveal animations have reduced-motion overrides; the remaining generic button lift was added to the shared fallback. Focused browser coverage checks the root scrolling behaviour, shared button transitions, and mobile-navigation reveal.
+
+### SITE-21 - Contact form required-field clarity
+
+Implemented on 2026-08-31. Always-required fields and the enquiry-path select now have visible required marks with screen-reader text. Hydrated booking fields show the same cue only when required by the selected path, while the complete native form states the appointment/consult conditions directly in its labels. Focused browser coverage submits the native consult path and verifies the current progressive form contract.
+
+### SITE-9 - ENM and polyamory page copy completion
+
+Implemented on 2026-07-18. The ENM/polyamory page now contains deliberately written public copy with no Latin placeholder paragraphs or visible encoding artifacts. The route passed the repository encoding check and was published with the other Inclusion child pages. Copy refinement continues through the owner-led writing process and concrete `SITE-*` work.
+
+### SITE-20 - Contact enquiry form semantic heading
+
+Implemented on 2026-07-14. The visible "Enquiry" label is now a peer `h2` that names the control-bearing form through `aria-labelledby` across prerendered, no-JavaScript, hydrated, sending, and error states. Successful submission replaces the form with a non-form status section containing one relevant success `h2`, while preserving status focus, payload behaviour, native fallback, and Clarity masking. Desktop and mobile Playwright coverage and the serious-impact axe smoke check pass.
+
+### SITE-12 - Crisis and immediate-support resource block
+
+Implemented on 2026-07-08. The Contact/Fees FAQ now states that Vive Counselling is not an emergency service, warns that enquiries may not be seen straight away, and gives concrete immediate-support steps: call `000` for immediate danger, or contact Lifeline on `13 11 14` or Suicide Call Back Service on `1300 659 467` for crisis support.
+
+### SITE-23 - Enable indexing on the final domain
+
+Implemented on 2026-07-08. Home, Working with Joel, Inclusion, and Contact/Fees are configured as indexable on `https://vivecounselling.com.au`; the temporary site-wide `noindex, nofollow` meta/header layer was removed; `sitemap.xml` now advertises only those approved URLs; and `robots.txt` points crawlers to the sitemap. Draft Inclusion child pages remain excluded from production links, sitemap output, and indexing through route-level `noindex, nofollow`.
+
+### SITE-10 - Public contact identity and branded email decision
+
+Implemented on 2026-06-27. Public contact display, footer/contact form source data, and enquiry API fallback/failure messaging now use `joel@vivecounselling.com.au` as the branded Vive address. Production delivery configuration hardening remains tracked separately under `DEBT-11`, including the need to keep `ENQUIRY_TO_EMAIL` and `ENQUIRY_FROM_EMAIL` intentional.
+
+### SITE-1 - Accessibility checklist
+
+The incomplete checklist was retired after the site went live without being described as passed. Owner-directed accessibility review now lives in `docs/checklists/ACCESSIBILITY-MONITOR.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
+
+### SITE-2 - Responsive QA matrix
+
+The incomplete matrix was retired after the site went live without being described as passed. Owner-directed responsive review now lives in `docs/checklists/RESPONSIVE-MONITOR.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
+
+### SITE-3 - Public SEO and metadata QA matrix
+
+The incomplete matrix was retired after the site went live without being described as passed. Owner-directed site metadata review now lives in `docs/checklists/SEO-METADATA-MONITOR.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
+
+### SITE-4 - Performance and image delivery review
+
+Closed after the site went live and the current performance posture was accepted as the operating baseline. Future performance and media-delivery improvements remain ordinary `SITE-*` or `DEBT-*` work.
+
+### SITE-5 - Analytics and local/test policy
+
+Closed after the site went live and the implemented analytics posture was accepted as the operating baseline. Future analytics, policy, privacy-notice, and testing changes remain ordinary operational, `SITE-*`, or `DEBT-*` work.
+
+### SITE-6 - Enquiry form public-flow QA
+
+Closed after the site went live and its current QA coverage was accepted as the baseline. Concrete form changes remain in active SITE cards where needed.
+
+### SITE-8 - Shared portrait/media hero treatment
+
+Implemented on 2026-06-23. Home and Working with Joel now use the shared `.hero-media-note--portrait` modifier and `.hero-media-note__tag`, with the portrait frame/tag treatment documented in the hero system and shown on the rendered hero design-system page.
+
+### SITE-13 - Final public copy and ethical-claims proofread
+
+Closed after the site went live. Ongoing owner-led copy refinement and concrete copy changes remain ordinary writing and `SITE-*` work.
+
+### SITE-18 - Custom domain and canonical public identity
+
+Completed after the live apex domain, redirects, crawl artifacts, social metadata, and controlled 404 behaviour were verified.

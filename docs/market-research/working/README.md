@@ -9,7 +9,7 @@ For new delegated work, use:
 
 ```text
 <YYYY-MM-DD>--<segment-slug>--<operation-slug>[-<n>]/
-  <subtask-slug>.md
+  <SUBTASK-SLUG>.md
 ```
 
 Each subagent writes only to its assigned file. The parent research agent reads
