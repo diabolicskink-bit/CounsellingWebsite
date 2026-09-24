@@ -121,6 +121,9 @@ export type DailyAnalyticsReport = {
 
 export type MonthlyAnalyticsReport = {
   month: string;
+  paidAttributedEnquiries: number;
+  paidVisits: number;
+  paidVisitsWithEnquiry: number;
   type: "monthly";
   visits: AnalyticsVisit[];
 };
@@ -436,6 +439,10 @@ export function isAnalyticsReport(value: unknown): value is AnalyticsReport {
   if (value.type === "monthly") {
     return typeof value.month === "string"
       && isAnalyticsMonthKey(value.month)
+      && isNonNegativeInteger(value.paidAttributedEnquiries)
+      && isNonNegativeInteger(value.paidVisits)
+      && isNonNegativeInteger(value.paidVisitsWithEnquiry)
+      && value.paidVisitsWithEnquiry <= value.paidVisits
       && Array.isArray(value.visits)
       && value.visits.every(isAnalyticsVisit);
   }

@@ -126,6 +126,72 @@ AND NOT EXISTS (
 ORDER BY ledger.started_at DESC, ledger.visit_id DESC;
 `;
 
+export const monthlyEnquiryMetricsSql = `
+WITH month_bounds AS (
+  SELECT
+    (($1 || '-01')::DATE::TIMESTAMP AT TIME ZONE 'Australia/Perth') AS start_at,
+    (((($1 || '-01')::DATE + INTERVAL '1 month')::TIMESTAMP)
+      AT TIME ZONE 'Australia/Perth') AS end_at
+),
+paid_visits AS (
+  SELECT ledger.visit_id, ledger.visitor_id, ledger.started_at
+  FROM visit_ledger AS ledger
+  CROSS JOIN month_bounds
+  WHERE ledger.started_at >= month_bounds.start_at
+    AND ledger.started_at < month_bounds.end_at
+    AND ledger.traffic_source = 'paid'
+    AND ($2::BOOLEAN OR ledger.is_bot IS DISTINCT FROM TRUE)
+    AND NOT EXISTS (
+      SELECT 1
+      FROM analytics_excluded_visitors AS exclusions
+      WHERE exclusions.visitor_id = ledger.visitor_id
+    )
+),
+monthly_enquiries AS (
+  SELECT visit_events.occurred_at, ledger.visitor_id
+  FROM site_visit_events AS visit_events
+  INNER JOIN visit_ledger AS ledger
+    ON ledger.visit_id = visit_events.visit_id
+  CROSS JOIN month_bounds
+  WHERE visit_events.event_type IN (${enquiryEventTypesSql})
+    AND visit_events.occurred_at >= month_bounds.start_at
+    AND visit_events.occurred_at < month_bounds.end_at
+    AND ($2::BOOLEAN OR ledger.is_bot IS DISTINCT FROM TRUE)
+    AND NOT EXISTS (
+      SELECT 1
+      FROM analytics_excluded_visitors AS exclusions
+      WHERE exclusions.visitor_id = ledger.visitor_id
+    )
+),
+attributed_enquiries AS (
+  SELECT paid_history.visit_id AS paid_visit_id
+  FROM monthly_enquiries AS enquiry
+  LEFT JOIN LATERAL (
+    SELECT ledger.visit_id
+    FROM visit_ledger AS ledger
+    WHERE ledger.visitor_id = enquiry.visitor_id
+      AND ledger.traffic_source = 'paid'
+      AND ledger.started_at <= enquiry.occurred_at
+      AND ($2::BOOLEAN OR ledger.is_bot IS DISTINCT FROM TRUE)
+    ORDER BY ledger.started_at DESC, ledger.visit_id DESC
+    LIMIT 1
+  ) AS paid_history ON TRUE
+)
+SELECT
+  (SELECT COUNT(*)::INTEGER FROM paid_visits) AS "paidVisits",
+  (
+    SELECT COUNT(*)::INTEGER
+    FROM attributed_enquiries
+    WHERE paid_visit_id IS NOT NULL
+  ) AS "paidAttributedEnquiries",
+  (
+    SELECT COUNT(DISTINCT paid_visits.visit_id)::INTEGER
+    FROM paid_visits
+    INNER JOIN attributed_enquiries
+      ON attributed_enquiries.paid_visit_id = paid_visits.visit_id
+  ) AS "paidVisitsWithEnquiry";
+`;
+
 export const pageViewsAnalyticsSql = `
 WITH included_visits AS (
   SELECT ledger.visit_id

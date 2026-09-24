@@ -1249,7 +1249,17 @@ body:has(.visit-dashboard) {
 .monthly-enquiries__summary > div:nth-child(3) { background: var(--report-cream); }
 .monthly-enquiries__summary > div:last-child { background: var(--report-pink); }
 
-.monthly-enquiries__summary small {
+.monthly-enquiries__paid-summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.monthly-enquiries__paid-summary > div:first-child { background: var(--report-cream); }
+.monthly-enquiries__paid-summary > div:nth-child(2) { background: var(--report-lilac); }
+.monthly-enquiries__paid-summary > div:last-child { background: var(--report-mint); }
+
+.monthly-enquiries__summary small,
+.monthly-enquiries__paid-summary small {
   display: block;
   margin-top: 7px;
   color: var(--report-muted);
@@ -2588,6 +2598,10 @@ body:has(.visit-dashboard) {
 
   .signal-report__summary {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .monthly-enquiries__paid-summary > div:last-child {
+    grid-column: 1 / -1;
   }
 
   .excluded-visitors__count {
