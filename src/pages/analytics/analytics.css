@@ -1250,23 +1250,84 @@ body:has(.visit-dashboard) {
 .monthly-enquiries__summary > div:last-child { background: var(--report-pink); }
 
 .monthly-enquiries__paid-summary {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 12px;
 }
 
 .monthly-enquiries__paid-summary > div:first-child { background: var(--report-cream); }
 .monthly-enquiries__paid-summary > div:nth-child(2) { background: var(--report-lilac); }
-.monthly-enquiries__paid-summary > div:last-child { background: var(--report-mint); }
+.monthly-enquiries__paid-summary > div:nth-child(3) { background: var(--report-mint); }
+.monthly-enquiries__paid-summary > div:last-child { background: var(--report-pink); }
 
-.monthly-enquiries__summary small,
-.monthly-enquiries__paid-summary small {
-  display: block;
-  margin-top: 7px;
-  color: var(--report-muted);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 1.25;
+.monthly-enquiries__paid-summary > .monthly-enquiries__cost-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "cpe-label cpc-label arrows"
+    "cpe-value cpc-value arrows";
+  align-content: center;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.monthly-enquiries__cpe-label {
+  grid-area: cpe-label;
+}
+
+.monthly-enquiries__cpc-label {
+  grid-area: cpc-label;
+}
+
+.monthly-enquiries__cost-card .monthly-enquiries__cost-result {
+  grid-area: cpe-value;
+  margin: 0;
+  font-size: clamp(1.25rem, 2.4vw, 2rem);
+}
+
+.monthly-enquiries__cost-control {
+  /* Place the CPC amount and arrows in the card grid alongside CPE. */
+  display: contents;
+}
+
+.monthly-enquiries__cost-value {
+  grid-area: cpc-value;
+  color: var(--report-ink);
+  font-size: 1.05rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.monthly-enquiries__cost-arrows {
+  grid-area: arrows;
+  display: grid;
+  gap: 4px;
+}
+
+.monthly-enquiries__cost-arrows button {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--report-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--report-purple-dark);
+  cursor: pointer;
+}
+
+.monthly-enquiries__cost-arrows button:not(:disabled):hover {
+  border-color: var(--report-purple);
+  background: #fff;
+}
+
+.monthly-enquiries__cost-arrows button:focus-visible {
+  outline: 2px solid var(--report-purple-dark);
+  outline-offset: 2px;
+}
+
+.monthly-enquiries__cost-arrows button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
 }
 
 .monthly-enquiries__list .signal-report__list-button {
@@ -1288,6 +1349,28 @@ body:has(.visit-dashboard) {
   color: var(--report-muted);
   font-size: 0.74rem;
   font-weight: 720;
+}
+
+.monthly-enquiries__outcome,
+.monthly-enquiries__visitor {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.monthly-enquiries__outcome strong,
+.monthly-enquiries__visitor strong {
+  overflow: hidden;
+  font-size: 0.8rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.monthly-enquiries__outcome small,
+.monthly-enquiries__visitor small {
+  color: var(--report-muted);
+  font-size: 0.74rem;
 }
 
 .excluded-visitors__count {
@@ -1463,28 +1546,6 @@ body:has(.visit-dashboard) {
   height: 8px;
   border-radius: 50%;
   background: var(--report-purple);
-}
-
-.monthly-enquiries__outcome,
-.monthly-enquiries__visitor {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.monthly-enquiries__outcome strong,
-.monthly-enquiries__visitor strong {
-  overflow: hidden;
-  font-size: 0.8rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.monthly-enquiries__outcome small,
-.monthly-enquiries__visitor small {
-  color: var(--report-muted);
-  font-size: 0.74rem;
 }
 
 .signal-event__beacon--returning {
@@ -2519,6 +2580,10 @@ body:has(.visit-dashboard) {
 }
 
 @media (max-width: 900px) {
+  .monthly-enquiries__paid-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .signal-report__overview--range {
     grid-template-columns: 1fr;
     align-items: stretch;
@@ -2598,10 +2663,6 @@ body:has(.visit-dashboard) {
 
   .signal-report__summary {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .monthly-enquiries__paid-summary > div:last-child {
-    grid-column: 1 / -1;
   }
 
   .excluded-visitors__count {
@@ -2711,6 +2772,10 @@ body:has(.visit-dashboard) {
 }
 
 @media (max-width: 540px) {
+  .monthly-enquiries__paid-summary > .monthly-enquiries__cost-card {
+    grid-column: 1 / -1;
+  }
+
   .signal-header__views {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2793,10 +2858,6 @@ body:has(.visit-dashboard) {
 
   .signal-date-controls__today {
     grid-column: 1 / -1;
-  }
-
-  .signal-month-controls {
-    grid-template-columns: 42px minmax(0, 1fr) 42px;
   }
 
   .signal-report__summary {

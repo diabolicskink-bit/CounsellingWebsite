@@ -187,7 +187,7 @@ function AboutViveSection({
         <header className="home-about__masthead">
           <h2 className="home-about__heading" id="home-about-title">
             {about.heading.before}
-            <em className="site-emphasis">{about.heading.emphasis}</em>
+            <em className="home-page__emphasis">{about.heading.emphasis}</em>
             {about.heading.after}
           </h2>
         </header>
@@ -233,7 +233,7 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
         <header className="home-inclusive__header">
           <h2 className="home-inclusive__heading" id="home-inclusive-title">
             {inclusive.heading.before}
-            <em className="site-emphasis">{inclusive.heading.emphasis}</em>
+            <em className="home-page__emphasis">{inclusive.heading.emphasis}</em>
             {inclusive.heading.after}
           </h2>
           <p className="home-inclusive__copy site-reading">{inclusive.copy}</p>

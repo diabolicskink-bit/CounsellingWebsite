@@ -31,7 +31,7 @@ A code review may include relevant callers, dependencies, styles, tests and conf
 | Public design, a new component, or shared-system work | [Design](docs/guidance/DESIGN.md), then relevant [catalogues](docs/design-system/README.md); use [website-design](.agents/skills/website-design/SKILL.md) for fresh creation or redesign |
 | Write or assess public wording | Use [copywriter](.agents/skills/copywriter/SKILL.md) and [writing guidance](docs/guidance/WRITING.md); [practice facts](docs/reference/PRACTICE.md) are context, not a content checklist |
 | Draft, revise, implement or publish an article | Relevant authoring or implementation sections of [Articles](docs/guidance/ARTICLES.md) |
-| Private analytics UI, reporting or Preview checks | [Analytics](docs/guidance/ANALYTICS.md); its independent visual direction and owner-led browser policy take precedence over public-site defaults |
+| Private analytics UI, reporting or Preview checks | [Analytics](docs/guidance/ANALYTICS.md); its independent visual direction, accessibility scope and owner-led browser policy take precedence over public-site defaults |
 | Choose checks or inspect rendered behaviour | [Verification](docs/guidance/VERIFICATION.md); [tests](tests/README.md) owns command selections and organisation |
 | Database or migration work | [Database](database/README.md); builds and deployments do not apply migrations |
 | Technical or maintainability work | Search [debt](docs/memory/DEBT.md) for related `DEBT-*` records; do not read the full tracker as a prerequisite |

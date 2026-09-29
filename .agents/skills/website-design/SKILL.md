@@ -1,11 +1,15 @@
 ---
 name: website-design
-description: Create, redesign, implement, or critique websites and web interfaces with distinctive art direction, content-shaped layouts, accessible interaction, responsive behaviour, and production-grade visual craft. Use when Codex is asked to design, build, style, beautify, rework, or visually review a webpage, landing page, marketing site, service page, portfolio, web application, component, or visual system; translate a brief, research, or brand into an interface; or diagnose generic, templated, or AI-looking web design. Do not use for purely backend tasks or copy-only edits that intentionally preserve the interface.
+description: Create, redesign, implement, or critique customer-facing websites and web interfaces with distinctive art direction, content-shaped layouts, accessible interaction, responsive behaviour, and production-grade visual craft. Use when Codex is asked to design, build, style, beautify, rework, or visually review a customer-facing webpage, landing page, marketing site, service page, portfolio, web application, component, or visual system; translate a brief, research, or brand into a customer-facing interface; or diagnose generic, templated, or AI-looking customer-facing web design. Do not use for private or internal interfaces, including the analytics dashboard and reporting UI, purely backend tasks, or copy-only edits that intentionally preserve the interface.
 ---
 
 # Website Design
 
-Create websites as resolved communication systems, not collections of fashionable components. Make purpose, content, composition, interaction, accessibility, performance, and identity reinforce one another.
+Create customer-facing websites as resolved communication systems, not collections of fashionable components. Make purpose, content, composition, interaction, accessibility, performance, and identity reinforce one another.
+
+## Scope
+
+Apply this skill only to customer-facing pages, interfaces, components, and visual systems. Exclude private or internal tools, including the analytics dashboard, analytics routes, and reporting UI, even when the task involves layout, styling, components, or visual review. In this repository, follow [Analytics](../../../docs/guidance/ANALYTICS.md) for that surface. For work spanning both surfaces, apply this skill only to the customer-facing portion.
 
 ## Orient before designing
 
