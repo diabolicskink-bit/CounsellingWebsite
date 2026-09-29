@@ -82,13 +82,12 @@ function EnquiryListItem({
   return (
     <li>
       <button
-        aria-label={`${label} on ${formatDate(dateKey)} at ${formatTime(visitEvent.occurredAt)}. Open enquiry journey for ${visitorLabel(visit.visitorId)}`}
         className="signal-report__list-button"
         onClick={() => onOpenEnquiry(visit, visitEvent)}
         type="button"
       >
         <span className={`signal-report__status signal-report__status--${status}`}>
-          <Icon aria-hidden="true" size={contactOutcome ? 18 : 19} />
+          <Icon size={contactOutcome ? 18 : 19} />
         </span>
         <span className="monthly-enquiries__date">
           <strong>{formatDate(dateKey, true)}</strong>
@@ -104,7 +103,7 @@ function EnquiryListItem({
             {visitLocationCompactLabel(visit)} {"\u00b7"} Visit {visit.visitNumber} of {visit.totalVisits}
           </small>
         </span>
-        <ChevronRight aria-hidden="true" size={18} />
+        <ChevronRight size={18} />
       </button>
     </li>
   );
@@ -127,17 +126,27 @@ function MonthlyEnquiries({
   paidVisitCostCents: number;
   report: MonthlyAnalyticsReport;
 }) {
-  const { month: monthKey, paidAttributedEnquiries, paidVisits, paidVisitsWithEnquiry, visits } = report;
-  const enquiryEvents = useMemo(() => visits
-    .filter((visit) => includeBots || visit.isBot !== true)
-    .flatMap((visit) => visit.events
-      .filter((visitEvent) => (
-        isEnquiryEventType(visitEvent.eventType)
-        || visitEvent.eventType === "enquiry_failed"
-      ) && getPerthMonthKey(new Date(visitEvent.occurredAt)) === monthKey)
-      .map((visitEvent) => ({ visit, visitEvent })))
-    .sort((left, right) => new Date(right.visitEvent.occurredAt).getTime()
-      - new Date(left.visitEvent.occurredAt).getTime()), [includeBots, monthKey, visits]);
+  const {
+    month: monthKey,
+    paidAttributedEnquiries,
+    paidVisits,
+    paidVisitsWithEnquiry,
+    visits,
+  } = report;
+  // Visits contain their full event history; the enquiry's occurrence month selects the row.
+  const enquiryEvents = useMemo(
+    () => visits
+      .filter((visit) => includeBots || visit.isBot !== true)
+      .flatMap((visit) => visit.events
+        .filter((visitEvent) => (
+          isEnquiryEventType(visitEvent.eventType)
+          || visitEvent.eventType === "enquiry_failed"
+        ) && getPerthMonthKey(new Date(visitEvent.occurredAt)) === monthKey)
+        .map((visitEvent) => ({ visit, visitEvent })))
+      .sort((left, right) => new Date(right.visitEvent.occurredAt).getTime()
+        - new Date(left.visitEvent.occurredAt).getTime()),
+    [includeBots, monthKey, visits],
+  );
   const summary = useMemo(() => ({
     enquiries: enquiryEvents.filter(({ visitEvent }) => isEnquiryEventType(visitEvent.eventType)).length,
     form: enquiryEvents.filter(({ visitEvent }) => visitEvent.eventType === "enquiry_sent").length,
@@ -149,24 +158,22 @@ function MonthlyEnquiries({
     : null;
   const paidVisitCost = paidVisitCostCents / 100;
   const formattedPaidVisitCost = costFormatter.format(paidVisitCost);
+  // Paid history may predate this month, so use the report's attribution count.
   const averageCostPerEnquiry = paidAttributedEnquiries > 0
     ? (paidVisits * paidVisitCost) / paidAttributedEnquiries
     : null;
 
   return (
     <>
-      <section className="signal-report__overview" aria-labelledby="monthly-enquiries-title">
+      <section className="signal-report__overview">
         <div className="signal-report__intro">
           <p className="signal-kicker">Calendar month</p>
-          <h1 id="monthly-enquiries-title">{formatMonth(monthKey)}</h1>
+          <h1>{formatMonth(monthKey)}</h1>
           <p>Recorded phone and email enquiries and sent or failed contact-form outcomes in Australia/Perth time.</p>
         </div>
         <MonthControls currentMonth={currentMonth} monthKey={monthKey} onMonthChange={onMonthChange} />
 
-        <dl
-          className="signal-report__summary monthly-enquiries__summary"
-          aria-label="Monthly enquiry summary"
-        >
+        <dl className="signal-report__summary monthly-enquiries__summary">
           {[
             { label: "Enquiries", count: summary.enquiries },
             { label: "Form Enquiries", count: summary.form },
@@ -179,10 +186,7 @@ function MonthlyEnquiries({
             </div>
           ))}
         </dl>
-        <dl
-          className="signal-report__summary monthly-enquiries__paid-summary"
-          aria-label="Paid visit enquiry summary"
-        >
+        <dl className="signal-report__summary monthly-enquiries__paid-summary">
           <div><dt>Paid visits</dt><dd>{paidVisits}</dd></div>
           <div><dt>Enquiries with paid history</dt><dd>{paidAttributedEnquiries}</dd></div>
           <div>
@@ -190,11 +194,11 @@ function MonthlyEnquiries({
             <dd>{paidVisitEnquiryRate === null ? "N/A" : `${paidVisitEnquiryRate}%`}</dd>
           </div>
           <div className="monthly-enquiries__cost-card">
-            <dt>Avg CPE</dt>
+            <dt className="monthly-enquiries__cpe-label">Avg CPE</dt>
             <dd className="monthly-enquiries__cost-result">
               {averageCostPerEnquiry === null ? "N/A" : costFormatter.format(averageCostPerEnquiry)}
             </dd>
-            <dt>Avg CPC</dt>
+            <dt className="monthly-enquiries__cpc-label">Avg CPC</dt>
             <dd className="monthly-enquiries__cost-control">
               <strong className="monthly-enquiries__cost-value">{formattedPaidVisitCost}</strong>
               <span className="monthly-enquiries__cost-arrows">
@@ -219,11 +223,11 @@ function MonthlyEnquiries({
         </dl>
       </section>
 
-      <section className="signal-report__section" aria-labelledby="monthly-enquiry-list-title">
+      <section className="signal-report__section">
         <header className="signal-report__section-header">
           <div>
             <p className="signal-kicker">Newest first</p>
-            <h2 id="monthly-enquiry-list-title">All enquiries</h2>
+            <h2>All enquiries</h2>
           </div>
           <span>{enquiryEvents.length} {enquiryEvents.length === 1 ? "record" : "records"}</span>
         </header>
@@ -241,7 +245,7 @@ function MonthlyEnquiries({
           </ol>
         ) : (
           <div className="signal-stream__empty">
-            <Radio aria-hidden="true" size={30} />
+            <Radio size={30} />
             <h3>No enquiries recorded</h3>
             <p>No phone or email enquiries or contact-form outcomes were recorded in {formatMonth(monthKey)}.</p>
           </div>
@@ -253,7 +257,7 @@ function MonthlyEnquiries({
         Each form outcome appears as one row, so a failed submission followed by a retry appears twice.
         Paid visits started in the selected month. Enquiries with paid history occurred this month after a paid visit by the same browser, including visits from earlier months.
         The rate is the share of this month's paid visits credited with an enquiry this month; each enquiry credits the latest preceding paid visit by that browser.
-        Average cost per enquiry is this month's paid visits at {formattedPaidVisitCost} each, divided by enquiries with paid history.
+        Average cost per enquiry is this month's paid visits at {formattedPaidVisitCost} each, divided by enquiries with paid history.{" "}
         {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
       </p>
     </>
@@ -263,6 +267,7 @@ function MonthlyEnquiries({
 export default function EnquiriesAnalyticsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentMonth, setCurrentMonth] = useState(getPerthMonthKey);
+  // Page state survives month/filter/journey changes and resets when the page is reopened.
   const [paidVisitCostCents, setPaidVisitCostCents] = useState(defaultPaidVisitCostCents);
   const requestedMonth = searchParams.get("month");
   const monthKey = isAnalyticsMonthKey(requestedMonth) && requestedMonth <= currentMonth
