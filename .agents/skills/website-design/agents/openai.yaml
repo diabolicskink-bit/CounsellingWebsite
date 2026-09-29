@@ -1,4 +1,4 @@
 interface:
   display_name: "Website Design"
-  short_description: "Design distinctive, usable websites"
-  default_prompt: "Use $website-design to create a distinctive, accessible website direction and implement it with rigorous visual craft."
+  short_description: "Design distinctive customer-facing websites"
+  default_prompt: "Use $website-design to create a distinctive, accessible customer-facing website direction and implement it with rigorous visual craft."

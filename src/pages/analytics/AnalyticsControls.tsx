@@ -77,31 +77,31 @@ export function MonthControls({
   const isCurrentMonth = monthKey === currentMonth;
 
   return (
-    <div className="signal-date-controls signal-month-controls" aria-label="Choose enquiry month">
+    <div className="signal-date-controls signal-month-controls">
       <button
-        aria-label="Previous month"
+        title="Previous month"
         onClick={() => onMonthChange(shiftMonthKey(monthKey, -1))}
         type="button"
       >
-        <ArrowLeft aria-hidden="true" size={17} />
+        <ArrowLeft size={17} />
       </button>
       <label>
-        <CalendarDays aria-hidden="true" size={15} />
-        <span className="signal-visually-hidden">Enquiry month</span>
+        <CalendarDays size={15} />
         <input
           max={currentMonth}
           onChange={(event) => onMonthChange(event.target.value)}
+          title="Enquiry month"
           type="month"
           value={monthKey}
         />
       </label>
       <button
-        aria-label="Next month"
+        title="Next month"
         disabled={isCurrentMonth}
         onClick={() => onMonthChange(shiftMonthKey(monthKey, 1))}
         type="button"
       >
-        <ArrowRight aria-hidden="true" size={17} />
+        <ArrowRight size={17} />
       </button>
       <button
         className="signal-date-controls__today"
