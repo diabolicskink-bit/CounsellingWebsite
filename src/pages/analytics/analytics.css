@@ -1250,13 +1250,13 @@ body:has(.visit-dashboard) {
 .monthly-enquiries__summary > div:last-child { background: var(--report-pink); }
 
 .monthly-enquiries__paid-summary {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 12px;
 }
 
 .monthly-enquiries__paid-summary > div:first-child { background: var(--report-cream); }
 .monthly-enquiries__paid-summary > div:nth-child(2) { background: var(--report-lilac); }
-.monthly-enquiries__paid-summary > div:last-child { background: var(--report-mint); }
+.monthly-enquiries__paid-summary > div:nth-child(3) { background: var(--report-mint); }
+.monthly-enquiries__paid-summary > div:last-child { background: var(--report-pink); }
 
 .monthly-enquiries__summary small,
 .monthly-enquiries__paid-summary small {
@@ -1267,6 +1267,73 @@ body:has(.visit-dashboard) {
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1.25;
+}
+
+.monthly-enquiries__paid-summary .monthly-enquiries__cost-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(103, 105, 129, 0.18);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.monthly-enquiries__cost-label {
+  min-width: 0;
+}
+
+.monthly-enquiries__cost-label > span {
+  display: block;
+  color: var(--report-muted);
+  font-size: 0.72rem;
+}
+
+.monthly-enquiries__cost-label strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--report-ink);
+  font-size: 1.05rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.monthly-enquiries__cost-arrows {
+  display: grid;
+  flex-shrink: 0;
+  gap: 4px;
+}
+
+.monthly-enquiries__cost-arrows button {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--report-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--report-purple-dark);
+  cursor: pointer;
+}
+
+.monthly-enquiries__cost-arrows button:not(:disabled):hover {
+  border-color: var(--report-purple);
+  background: #fff;
+}
+
+.monthly-enquiries__cost-arrows button:focus-visible {
+  outline: 2px solid var(--report-purple-dark);
+  outline-offset: 2px;
+}
+
+.monthly-enquiries__cost-arrows button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
 }
 
 .monthly-enquiries__list .signal-report__list-button {
@@ -2598,10 +2665,6 @@ body:has(.visit-dashboard) {
 
   .signal-report__summary {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .monthly-enquiries__paid-summary > div:last-child {
-    grid-column: 1 / -1;
   }
 
   .excluded-visitors__count {

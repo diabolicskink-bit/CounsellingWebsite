@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  ArrowDown,
+  ArrowUp,
   ChevronRight,
   CircleCheck,
   CircleX,
@@ -32,13 +34,21 @@ import { AnalyticsShell, ReportState } from "./AnalyticsShell";
 import VisitorHistory from "./VisitorHistory";
 import useAnalyticsReport from "./useAnalyticsReport";
 
+const defaultPaidVisitCostCents = 310;
+const costFormatter = new Intl.NumberFormat("en-AU", {
+  style: "currency",
+  currency: "AUD",
+});
+
 function MonthlyEnquiries({
   currentMonth,
   includeBots,
   monthKey,
+  onAdjustPaidVisitCost,
   onMonthChange,
   onOpenEnquiry,
   paidAttributedEnquiries,
+  paidVisitCostCents,
   paidVisits,
   paidVisitsWithEnquiry,
   visits,
@@ -46,9 +56,11 @@ function MonthlyEnquiries({
   currentMonth: string;
   includeBots: boolean;
   monthKey: string;
+  onAdjustPaidVisitCost: (changeInCents: -1 | 1) => void;
   onMonthChange: (month: string) => void;
   onOpenEnquiry: (visit: AnalyticsVisit, visitEvent: AnalyticsVisitEvent) => void;
   paidAttributedEnquiries: number;
+  paidVisitCostCents: number;
   paidVisits: number;
   paidVisitsWithEnquiry: number;
   visits: AnalyticsVisit[];
@@ -69,6 +81,11 @@ function MonthlyEnquiries({
   const enquiryCount = enquiryEvents.filter(({ visitEvent }) => isEnquiryEventType(visitEvent.eventType)).length;
   const paidVisitEnquiryRate = paidVisits > 0
     ? Math.round((paidVisitsWithEnquiry / paidVisits) * 1000) / 10
+    : null;
+  const paidVisitCost = paidVisitCostCents / 100;
+  const formattedPaidVisitCost = costFormatter.format(paidVisitCost);
+  const averageCostPerEnquiry = paidAttributedEnquiries > 0
+    ? (paidVisits * paidVisitCost) / paidAttributedEnquiries
     : null;
 
   return (
@@ -113,6 +130,35 @@ function MonthlyEnquiries({
             <dt>Paid visit enquiry rate</dt>
             <dd>{paidVisitEnquiryRate === null ? "N/A" : `${paidVisitEnquiryRate}%`}</dd>
             <small>{paidVisitsWithEnquiry} of {paidVisits} paid visits</small>
+          </div>
+          <div>
+            <dt>Avg cost per enquiry</dt>
+            <dd>
+              {averageCostPerEnquiry === null ? "N/A" : costFormatter.format(averageCostPerEnquiry)}
+            </dd>
+            <dd className="monthly-enquiries__cost-control">
+              <span className="monthly-enquiries__cost-label">
+                <span>Cost per paid visit</span>
+                <strong>{formattedPaidVisitCost}</strong>
+              </span>
+              <span className="monthly-enquiries__cost-arrows">
+                <button
+                  onClick={() => onAdjustPaidVisitCost(1)}
+                  title="Increase cost per paid visit by one cent"
+                  type="button"
+                >
+                  <ArrowUp size={16} />
+                </button>
+                <button
+                  disabled={paidVisitCostCents === 0}
+                  onClick={() => onAdjustPaidVisitCost(-1)}
+                  title="Decrease cost per paid visit by one cent"
+                  type="button"
+                >
+                  <ArrowDown size={16} />
+                </button>
+              </span>
+            </dd>
           </div>
         </dl>
       </section>
@@ -200,7 +246,7 @@ function MonthlyEnquiries({
       </section>
 
       <p className="signal-footnote">
-        Phone and email enquiries are recorded when their contact links are clicked; this does not confirm that a call was placed or an email was sent. Each form outcome appears as one row, so a failed submission followed by a retry appears twice. Paid visits started in the selected month. Enquiries with paid history occurred this month after a paid visit by the same browser, including visits from earlier months. The rate is the share of this month's paid visits credited with an enquiry this month; each enquiry credits the latest preceding paid visit by that browser. {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
+        Phone and email enquiries are recorded when their contact links are clicked; this does not confirm that a call was placed or an email was sent. Each form outcome appears as one row, so a failed submission followed by a retry appears twice. Paid visits started in the selected month. Enquiries with paid history occurred this month after a paid visit by the same browser, including visits from earlier months. The rate is the share of this month's paid visits credited with an enquiry this month; each enquiry credits the latest preceding paid visit by that browser. Average cost per enquiry is this month's paid visits at {formattedPaidVisitCost} each, divided by enquiries with paid history. {includeBots ? "Bot visits are included in this view." : "Visits identified as bots are excluded; unclassified records are treated as visits."}
       </p>
     </>
   );
@@ -209,6 +255,7 @@ function MonthlyEnquiries({
 export default function EnquiriesAnalyticsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [todayKey, setTodayKey] = useState(getPerthDateKey);
+  const [paidVisitCostCents, setPaidVisitCostCents] = useState(defaultPaidVisitCostCents);
   const currentMonth = todayKey.slice(0, 7);
   const requestedMonth = searchParams.get("month");
   const monthKey = isAnalyticsMonthKey(requestedMonth) && requestedMonth <= currentMonth
@@ -232,6 +279,10 @@ export default function EnquiriesAnalyticsPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [requestedVisitorId]);
+
+  function adjustPaidVisitCost(changeInCents: -1 | 1) {
+    setPaidVisitCostCents((costInCents) => Math.max(0, costInCents + changeInCents));
+  }
 
   function refreshReport() {
     setTodayKey(getPerthDateKey());
@@ -302,9 +353,11 @@ export default function EnquiriesAnalyticsPage() {
           currentMonth={currentMonth}
           includeBots={includeBots}
           monthKey={monthlyReport.month}
+          onAdjustPaidVisitCost={adjustPaidVisitCost}
           onMonthChange={updateMonth}
           onOpenEnquiry={openEnquiry}
           paidAttributedEnquiries={monthlyReport.paidAttributedEnquiries}
+          paidVisitCostCents={paidVisitCostCents}
           paidVisits={monthlyReport.paidVisits}
           paidVisitsWithEnquiry={monthlyReport.paidVisitsWithEnquiry}
           visits={monthlyReport.visits}
