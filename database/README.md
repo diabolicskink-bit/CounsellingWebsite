@@ -66,3 +66,24 @@ The same cleanup removes exclusion markers after their final retained visit has
 expired.
 Vercel Cron schedules run only on production deployments; the protected
 retention function was also exercised directly during preview setup.
+
+## Preview Data Import Cutoff
+
+Preview was seeded from Production for owner UI testing on 29 September 2026.
+The selection included visitors with visits from **1 June 2026 at 00:00 AWST**
+up to the source snapshot cutoff, together with their retained visit histories,
+page views, interaction/enquiry events and visitor exclusions.
+
+- **Last successful cutoff:** `2026-09-29T05:14:07.327529Z`
+  (`2026-09-29 13:14:07.327529` in Australia/Perth).
+- **Imported:** 770 visitors, 946 visits, 1,297 page views, 65 events and five
+  visitor exclusion markers. The visit histories included 278 paid visits;
+  the events included 13 successful-form, email-link or phone-link enquiries.
+- Existing Preview data was retained; matching record IDs were updated.
+  Production was read in a read-only transaction. No report reconciliation or
+  UI verification was performed, as requested.
+
+For a future incremental refresh, use the cutoff above as the starting point.
+Include linked parent records and upsert existing IDs so new activity on an
+already imported visit can be copied too. Update this cutoff after the next
+successful import.
