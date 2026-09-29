@@ -5,6 +5,12 @@
   overflow-wrap: anywhere;
 }
 
+.home-page__emphasis {
+  color: var(--cedar);
+  font-style: normal;
+  font-weight: 600;
+}
+
 /* Hero */
 
 .home-page__hero-copy {
@@ -219,7 +225,7 @@
   text-wrap: balance;
 }
 
-.home-page .home-inclusive__heading .site-emphasis {
+.home-page .home-inclusive__heading .home-page__emphasis {
   color: #c8d9ce;
 }
 
