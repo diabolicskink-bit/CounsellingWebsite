@@ -21,8 +21,8 @@ into a page-governance exercise.
 
 For Vive Counselling, read:
 
-1. `docs/project/practice-context.md`;
-2. `docs/project/writing-direction.md`;
+1. `docs/reference/PRACTICE.md`;
+2. `docs/guidance/WRITING.md`;
 3. the relevant page and its immediate surrounding copy.
 
 When copywriter applies, read its main instructions and follow its conditional

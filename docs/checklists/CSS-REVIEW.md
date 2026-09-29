@@ -6,7 +6,7 @@ Use this checklist to expand, review, and record decisions about CSS in manageab
 
 > **Rendered-catalogue retirement:** The `/design-language/*` routes and their source modules were removed on 2026-08-03. Earlier `Used By`, `Evidence`, or architecture notes that mention rendered design-system examples are dated review history, not current consumers or reusable-API evidence. Re-run source usage before acting on any affected item.
 
-> **Dormant presentation cleanup:** The 2026-08-13 source-first cleanup actioned the unmounted selector families and tokens previously recorded here, including the dormant body-copy aliases, rich-text descendants, tertiary button variant, card/topic/check/fee/detail/CTA/list systems, unused hero subsets, and uncalled `SectionHeading` component. Earlier leaf evidence remains dated review history; the living current-source inventory is `docs/design-system-legacy/`.
+> **Dormant presentation cleanup:** The 2026-08-13 source-first cleanup actioned the unmounted selector families and tokens previously recorded here, including the dormant body-copy aliases, rich-text descendants, tertiary button variant, card/topic/check/fee/detail/CTA/list systems, unused hero subsets, and uncalled `SectionHeading` component. Earlier leaf evidence remains dated review history; the living current-source inventory is `docs/design-system/legacy/`.
 
 > **Residual copy-wrapper cleanup:** The 2026-08-14 source-first cleanup actioned the remaining `.site-copy-panel`, `.rich-text`, `.section-heading`, `.section-heading__copy`, and `.site-copy-flow` records after page-owned layout and the promoted `.site-reading` role were confirmed to supply their mounted outcomes. The corresponding leaf records below are retained as dated audit history, not current source or reusable API.
 
@@ -394,7 +394,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Status`: `Expanded`
 - `Layer`: Shared production API
 - `Scope`: Base button styling, visual button variants, disabled/hover behavior, and contextual button sizing or placement overrides.
-- `Naming/Structure Note`: Variant review found the implemented Button set is `primary`, `secondary`, and `tertiary`. No `light` component type, CSS class, rendered example, or source usage was found; the current source evidence now lives in `docs/design-system-legacy/components.md` because Button has not been promoted.
+- `Naming/Structure Note`: Variant review found the implemented Button set is `primary`, `secondary`, and `tertiary`. No `light` component type, CSS class, rendered example, or source usage was found; the current source evidence now lives in `docs/design-system/legacy/COMPONENTS.md` because Button has not been promoted.
 - `Next`: No CSS action for the core button family. Revisit only if a broader token, shadow, or button API cleanup is opened.
 
 ##### CSS-1.4.1.1 - `.button`
@@ -407,7 +407,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: Keep the base rule in `src/styles.css` with shared production primitives. Contextual selectors such as `.rich-text .button`, `.site-cta-block .button`, `.site-page .button`, and page/dev overrides remain legitimate placement or sizing refinements. This leaf is not a `Restructure candidate` by itself.
 - `Used By`: `Button` component; public page CTAs/actions on Home, Inclusion, Kink/BDSM, ENM/polyamory, LGBTQIA+, and Not Found; the Contact form submit action; `Layout` contact action via `.header-button`; rendered design-system/dev examples.
 - `Decision`: Keep as the base shared action class. It is active, documented, component-backed, widely used, and not a delete, move, consolidate, or restructure candidate at this leaf level.
-- `Evidence`: `docs/design-system-legacy/components.md` records `.button` and the component-backed variants as inherited implementation outside the active system. `src/components/Button.tsx` composes every rendered `Button` with `button button--${variant}` and only exposes `primary`, `secondary`, and `tertiary`. Source search found `.button` usage through public pages, the Contact form, and `Layout`; no competing base button class was found. Disabled usage currently appears only on the native submit button path, so `.button:disabled` matches current behavior.
+- `Evidence`: `docs/design-system/legacy/COMPONENTS.md` records `.button` and the component-backed variants as inherited implementation outside the active system. `src/components/Button.tsx` composes every rendered `Button` with `button button--${variant}` and only exposes `primary`, `secondary`, and `tertiary`. Source search found `.button` usage through public pages, the Contact form, and `Layout`; no competing base button class was found. Disabled usage currently appears only on the native submit button path, so `.button:disabled` matches current behavior.
 - `Follow-up`: None.
 
 ##### CSS-1.4.1.2 - `.button--primary`
@@ -466,7 +466,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: This does not need to remain in `src/styles.css` as an unused shared helper. It should not be moved or re-promoted without a current usage case; delete is cleaner than consolidating into `.site-actions` while there are no callers.
 - `Used By`: No source usage found outside the removed `src/styles.css` selectors and this checklist.
 - `Decision`: Removed unused `.button-row` base and responsive rules from production CSS.
-- `Evidence`: Source search before removal found `.button-row` only in `src/styles.css` and `docs/checklists/css-review.md`. Design-system scope names `.button` as an active non-prefixed component class, but does not list `.button-row`; current action clusters use `.site-actions`.
+- `Evidence`: Source search before removal found `.button-row` only in `src/styles.css` and `docs/checklists/CSS-REVIEW.md`. Design-system scope names `.button` as an active non-prefixed component class, but does not list `.button-row`; current action clusters use `.site-actions`.
 - `Follow-up`: None.
 
 ##### CSS-1.4.2.2 - `.header-button`
@@ -507,7 +507,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: This belongs to the `DEBT-18` legacy panel/strip cleanup lane. It should be deleted rather than moved or consolidated if the rest of the `CSS-1.5.1` panel-shell review confirms no hidden current usage.
 - `Used By`: No source usage found outside the removed `src/styles.css` selectors, this checklist, and project-debt references.
 - `Decision`: Removed unused `.image-panel` rules from production CSS.
-- `Evidence`: Source search before removal found `.image-panel` only in `src/styles.css`, `docs/checklists/css-review.md`, and `docs/project/project-debt.md`. `DEBT-18` already recorded `.image-panel` as part of the legacy panel/strip selector group with no obvious current page or component references.
+- `Evidence`: Source search before removal found `.image-panel` only in `src/styles.css`, `docs/checklists/CSS-REVIEW.md`, and `docs/memory/DEBT.md`. `DEBT-18` already recorded `.image-panel` as part of the legacy panel/strip selector group with no obvious current page or component references.
 - `Follow-up`: None.
 
 ##### CSS-1.5.1.2 - `.two-column-panel`
@@ -520,7 +520,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: Usage evidence supports treating this as part of the `DEBT-18` legacy panel-shell cleanup batch rather than active shared API.
 - `Used By`: No source usage found outside the removed `src/styles.css` selectors, this checklist, and project-debt references.
 - `Decision`: Removed unused `.two-column-panel` rules from production CSS.
-- `Evidence`: `rg` over `src` excluding `src/styles.css` found no matches for `.two-column-panel`; full source/docs search before removal found only `src/styles.css`, `docs/checklists/css-review.md`, and `docs/project/project-debt.md`.
+- `Evidence`: `rg` over `src` excluding `src/styles.css` found no matches for `.two-column-panel`; full source/docs search before removal found only `src/styles.css`, `docs/checklists/CSS-REVIEW.md`, and `docs/memory/DEBT.md`.
 - `Follow-up`: None.
 
 ##### CSS-1.5.1.3 - `.feature-panel`
@@ -533,7 +533,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: Usage evidence supports treating this as part of the `DEBT-18` legacy panel-shell cleanup batch rather than active shared API.
 - `Used By`: No source usage found outside the removed `src/styles.css` selectors, this checklist, and project-debt references.
 - `Decision`: Removed unused `.feature-panel` rules from production CSS.
-- `Evidence`: `rg` over `src` excluding `src/styles.css` found no matches for `.feature-panel`; full source/docs search before removal found only `src/styles.css`, `docs/checklists/css-review.md`, and `docs/project/project-debt.md`.
+- `Evidence`: `rg` over `src` excluding `src/styles.css` found no matches for `.feature-panel`; full source/docs search before removal found only `src/styles.css`, `docs/checklists/CSS-REVIEW.md`, and `docs/memory/DEBT.md`.
 - `Follow-up`: None.
 
 ##### CSS-1.5.1.4 - `.feature-panel--compact`
@@ -546,7 +546,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: Usage evidence supports treating this as part of the `DEBT-18` legacy panel-shell cleanup batch rather than active shared API.
 - `Used By`: No source usage found outside the removed `src/styles.css` selectors, this checklist, and project-debt references.
 - `Decision`: Removed unused `.feature-panel--compact` rules from production CSS.
-- `Evidence`: `rg` over `src` excluding `src/styles.css` found no matches for `.feature-panel--compact`; full source/docs search before removal found only `src/styles.css` and `docs/checklists/css-review.md`.
+- `Evidence`: `rg` over `src` excluding `src/styles.css` found no matches for `.feature-panel--compact`; full source/docs search before removal found only `src/styles.css` and `docs/checklists/CSS-REVIEW.md`.
 - `Follow-up`: None.
 
 ##### CSS-1.5.1.5 - `.feature-panel__content`
@@ -559,7 +559,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: Usage evidence supports treating this as part of the `DEBT-18` legacy panel-shell cleanup batch rather than active shared API.
 - `Used By`: No source usage found outside the removed `src/styles.css` selector, this checklist, and project-debt references.
 - `Decision`: Removed unused `.feature-panel__content` rule from production CSS.
-- `Evidence`: `rg` over `src` excluding `src/styles.css` found no matches for `.feature-panel__content`; full source/docs search before removal found only `src/styles.css` and `docs/checklists/css-review.md`.
+- `Evidence`: `rg` over `src` excluding `src/styles.css` found no matches for `.feature-panel__content`; full source/docs search before removal found only `src/styles.css` and `docs/checklists/CSS-REVIEW.md`.
 - `Follow-up`: None.
 
 ##### CSS-1.5.1.6 - `.feature-panel__card`
@@ -572,7 +572,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: Usage evidence supports treating this as part of the `DEBT-18` legacy panel-shell cleanup batch rather than active shared API.
 - `Used By`: No source usage found outside the removed `src/styles.css` selector, this checklist, and project-debt references.
 - `Decision`: Removed unused `.feature-panel__card` rule from production CSS.
-- `Evidence`: `rg` over `src` excluding `src/styles.css` found no matches for `.feature-panel__card`; full source/docs search before removal found only `src/styles.css` and `docs/checklists/css-review.md`.
+- `Evidence`: `rg` over `src` excluding `src/styles.css` found no matches for `.feature-panel__card`; full source/docs search before removal found only `src/styles.css` and `docs/checklists/CSS-REVIEW.md`.
 - `Follow-up`: None.
 
 #### CSS-1.5.2 - Check and icon primitives
@@ -604,7 +604,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Naming/Structure Check`: Not assessed in this usage-only pass.
 - `Declaration Review`: Not performed in this usage-only pass.
 - `Architecture Check`: Active shared exception; it is documented as a current non-prefixed shared class and is used by current page and design-system examples.
-- `Used By`: Historical source review recorded `src/pages/LgbtqiaCounselling.tsx` and the retired rendered catalogue; current evidence belongs in `docs/design-system-legacy/patterns.md` when the selector is reassessed.
+- `Used By`: Historical source review recorded `src/pages/LgbtqiaCounselling.tsx` and the retired rendered catalogue; current evidence belongs in `docs/design-system/legacy/PATTERNS.md` when the selector is reassessed.
 - `Decision`: Used; not a delete candidate on usage evidence alone.
 - `Evidence`: 2026-06-27 usage pass found live references at `src/pages/LgbtqiaCounselling.tsx:140`, `src/pages/dev/design-system/DS_Components.tsx:386`, and `src/pages/dev/design-system/DS_Components.tsx:401`; docs list `.check-item` as an active non-prefixed shared class.
 - `Follow-up`: Run full declaration, naming, and structure review before deciding whether to keep, document, or consolidate.
@@ -617,7 +617,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Naming/Structure Check`: The short name is an intentional documented exception to the `site-*` layer. It represents one reusable icon surface rather than a page-specific composition.
 - `Declaration Review`: The base rule owns the shared inline-flex sizing, alignment, radius, background, and colour. `.site-contact-item .icon-box` now adds only its contextual border; duplicate radius, background, and colour declarations have been removed.
 - `Architecture Check`: Keep the base primitive and its one-value contact-item refinement. Public Contact uses `.icon-box` with a page-scoped alignment adjustment, while the rendered design-system contact pattern uses the shared contextual border.
-- `Used By`: Historical source review recorded `src/pages/Contact.tsx` and the retired rendered catalogue; current evidence belongs in `docs/design-system-legacy/patterns.md` when the selector is reassessed.
+- `Used By`: Historical source review recorded `src/pages/Contact.tsx` and the retired rendered catalogue; current evidence belongs in `docs/design-system/legacy/PATTERNS.md` when the selector is reassessed.
 - `Decision`: Keep the active shared primitive and the narrower contextual border rule.
 - `Evidence`: The 2026-07-13 declaration review confirmed that `--radius` resolves to `8px` globally and found no alternate token overrides. Source usage remains in `src/pages/Contact.tsx` and `src/pages/dev/design-system/DS_Components.tsx`; canonical design-system docs continue to list `.icon-box` as active shared API.
 - `Follow-up`: None.
@@ -640,7 +640,7 @@ Use this structure when a region is expanded to class-token leaves:
 - `Architecture Check`: No live markup usage found; appears to be a legacy band wrapper kept visible only by debt notes and CSS definitions.
 - `Used By`: No TSX/HTML/source usage found outside `src/styles.css`; non-CSS matches are project-debt references.
 - `Decision`: Removed unused `.fit-strip` rule from production CSS.
-- `Evidence`: 2026-06-27 usage pass: `rg` across `src/pages`, `src/components`, `src/data`, `public`, `docs/design-system`, and `docs/project` found no class usage; full-source matches were limited to `src/styles.css` and `docs/project/project-debt.md`.
+- `Evidence`: 2026-06-27 usage pass: `rg` across `src/pages`, `src/components`, `src/data`, `public`, `docs/design-system`, and `docs/project` found no class usage; full-source matches were limited to `src/styles.css` and `docs/memory/DEBT.md`.
 - `Follow-up`: None.
 
 ##### CSS-1.5.3.2 - `.fit-strip__grid`

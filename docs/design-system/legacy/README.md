@@ -4,7 +4,7 @@ This directory is a living, non-authoritative record of inherited implementation
 
 Items recorded here may still be important to production. Their presence means only that current source evidence has been recorded; it does not make them approved for new reuse, safe to remove, or part of the active design system.
 
-The complete current reusable API lives only in `docs/design-system/foundations.md`, `components.md`, and `patterns.md`.
+Promoted API lives in `docs/design-system/FOUNDATIONS.md`, `COMPONENTS.md`, and `PATTERNS.md`. The [governance compatibility baseline](../../guidance/DESIGN.md#public-identity-compatibility-baseline) separately permits specific inherited building blocks. Permission comes from that owner, not this register.
 
 ## Purpose
 
@@ -19,9 +19,9 @@ This is not a required whole-codebase migration checklist. Absence from the regi
 
 ## File Map
 
-- `foundations.md`: inherited global tokens, typography roles, and baseline rules not promoted into the active system
-- `components.md`: current React implementation not promoted into the active system
-- `patterns.md`: inherited selector families and compositions not promoted into the active system
+- `FOUNDATIONS.md`: inherited global tokens, typography roles, and baseline rules not promoted into the active system
+- `COMPONENTS.md`: current React implementation not promoted into the active system
+- `PATTERNS.md`: inherited selector families and compositions not promoted into the active system
 
 ## Update Rules
 

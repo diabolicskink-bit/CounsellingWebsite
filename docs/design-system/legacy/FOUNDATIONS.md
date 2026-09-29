@@ -2,7 +2,7 @@
 
 This is source-backed working evidence about inherited foundations that are outside the active design system. It neither authorizes new reuse nor makes removal safe.
 
-Primary implementation currently lives in `src/styles.css`.
+Primary implementation currently lives in `src/styles.css`. Some items below have explicit use permission under the [governance compatibility baseline](../../guidance/DESIGN.md#public-identity-compatibility-baseline); they remain unpromoted.
 
 ## Colour And Surface Tokens
 
@@ -20,7 +20,7 @@ The following root tokens are implemented but not promoted:
 - `--cedar-dark`: darker cedar interaction state
 - `--cedar-soft`: cedar-related soft emphasis
 
-The promoted `--cedar`, `--portrait-*`, and `--section-*` contracts are intentionally absent; they live in `docs/design-system/foundations.md`.
+The promoted `--cedar`, `--portrait-*`, and `--section-*` contracts are intentionally absent; they live in `docs/design-system/FOUNDATIONS.md`.
 
 ## Layout And Material Tokens
 
@@ -44,7 +44,7 @@ The following root tokens are implemented but not promoted:
 
 The type-size tokens adjust at the current `900px` breakpoint. Public source widely consumes these values, but their exact roles, exceptions, and raw-size overlap remain under `DEBT-20` and `DEBT-21` rather than active design-system authority.
 
-The promoted `.site-reading` and `.site-reading--lead` semantic roles are intentionally absent from this legacy list and live in `docs/design-system/foundations.md`. Their internal use of `--font-sans` does not separately promote that raw token.
+The promoted `.site-reading` and `.site-reading--lead` semantic roles are intentionally absent from this legacy list and live in `docs/design-system/FOUNDATIONS.md`. Their internal use of `--font-sans` does not separately promote that raw token.
 
 ## Global Baseline
 

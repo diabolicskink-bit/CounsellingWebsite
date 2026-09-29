@@ -10,6 +10,10 @@ import Container from "../../../components/Container";
 import useDocumentMetadata from "../../../hooks/useDocumentMetadata";
 
 type DocumentCategory =
+  | "guidance"
+  | "reference"
+  | "memory"
+  | "repository"
   | "checklists"
   | "reports"
   | "research"
@@ -30,6 +34,10 @@ const categoryMeta: Array<{
   key: DocumentCategory;
   label: string;
 }> = [
+  { key: "guidance", label: "Guidance", emptyLabel: "No guidance documents yet." },
+  { key: "reference", label: "Reference", emptyLabel: "No reference documents yet." },
+  { key: "memory", label: "Project memory", emptyLabel: "No project memory yet." },
+  { key: "repository", label: "Repository", emptyLabel: "No repository guides yet." },
   {
     key: "checklists",
     label: "Checklists",
@@ -69,13 +77,11 @@ const categoryMeta: Array<{
 
 const markdownFiles = import.meta.glob(
   [
-    "../../../../docs/checklists/**/*.md",
-    "../../../../docs/reports/**/*.md",
-    "../../../../docs/research/**/*.md",
-    "../../../../docs/page-plan/**/*.md",
-    "../../../../docs/plans/**/*.md",
-    "../../../../docs/design-system/**/*.md",
-    "../../../../docs/design-system-legacy/**/*.md",
+    "../../../../docs/**/*.md",
+    "../../../../AGENTS.md",
+    "../../../../PRODUCT.md",
+    "../../../../tests/README.md",
+    "../../../../database/**/README.md",
   ],
   {
     eager: true,
@@ -111,6 +117,7 @@ function humanizeFileName(value: string) {
   return value
     .replace(/\.md$/i, "")
     .replace(/[-_]+/g, " ")
+    .toLowerCase()
     .replace(/\b\w/g, (character) => character.toUpperCase());
 }
 
@@ -132,31 +139,17 @@ function extractTitle(content: string, path: string) {
 }
 
 function getCategory(path: string): DocumentCategory {
-  if (path.startsWith("docs/checklists/")) {
-    return "checklists";
-  }
-
-  if (path.startsWith("docs/reports/")) {
-    return "reports";
-  }
-
-  if (path.startsWith("docs/research/")) {
-    return "research";
-  }
-
-  if (path.startsWith("docs/page-plan/")) {
-    return "page-plans";
-  }
-
-  if (path.startsWith("docs/design-system/")) {
-    return "design-system";
-  }
-
-  if (path.startsWith("docs/design-system-legacy/")) {
-    return "design-system-legacy";
-  }
-
-  return "plans";
+  if (path.startsWith("docs/guidance/")) return "guidance";
+  if (path.startsWith("docs/reference/")) return "reference";
+  if (path.startsWith("docs/memory/")) return "memory";
+  if (path.startsWith("docs/design-system/legacy/")) return "design-system-legacy";
+  if (path.startsWith("docs/design-system/")) return "design-system";
+  if (path.startsWith("docs/checklists/")) return "checklists";
+  if (path.startsWith("docs/reports/")) return "reports";
+  if (path.startsWith("docs/research/") || path.startsWith("docs/market-research/")) return "research";
+  if (path.startsWith("docs/page-plan/")) return "page-plans";
+  if (path.startsWith("docs/plans/")) return "plans";
+  return "repository";
 }
 
 function compareDocuments(a: DocumentItem, b: DocumentItem) {
@@ -253,8 +246,8 @@ export default function Documents() {
             <h1>Documents</h1>
           </div>
           <p className="documents-page__hero-description">
-            A small reader for project guidance, current and legacy design-system records, research, page plans, and
-            draft plans. Drop markdown into any supported document folder and it will appear here automatically in
+            A small reader for working guidance, project references and memory, design-system records, research, and
+            plans. Drop markdown into any supported document folder and it will appear here automatically in
             development.
           </p>
         </Container>

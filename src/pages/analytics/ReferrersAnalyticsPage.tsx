@@ -179,7 +179,8 @@ function ReferrersReport({
       </section>
 
       <p className="signal-footnote">
-        Dates use Perth time. Enquiry visits contain a sent form or phone-link click. {includeBots
+        Dates use Perth time. Enquiry visits contain a sent form, email-link click or phone-link click.
+        Social clicks do not count as enquiries. {includeBots
           ? "Bots included."
           : "Identified bots excluded."}
       </p>

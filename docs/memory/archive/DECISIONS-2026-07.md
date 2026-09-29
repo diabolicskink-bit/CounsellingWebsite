@@ -2,12 +2,12 @@
 
 Consolidated July milestones, ordered by the last dated change in each group. Earlier steps retain their dates where sequence matters. Entries describe historical decisions and observations; Git retains implementation detail and the original entries.
 
-Use the [current system guide](../current-scope.md) for implementation and source owners, the [project map](../README.md) for current guidance, and the [archive index](README.md) for other months. The [active log](../task-log.md) owns admission and maintenance guidance.
+Use the [current system guide](../../reference/SYSTEM.md) for implementation and source owners, the [project map](../../README.md) for current guidance, and the [archive index](README.md) for other months. The [active log](../DECISIONS.md) owns admission and maintenance guidance.
 
 ## 2026-07-29 - IDE Visual Verification Established
 
 - Added a repository-local managed-session helper using Playwright, installed Chrome and an isolated Vite port, with direct Playwright access also supported.
-- Made [visual-verification.md](../visual-verification.md) the access-method owner. The [September alignment](../task-log.md#2026-09-10---ide-browser-workflow-aligned) subsequently updated the IDE route and automated browser selection.
+- Made [VERIFICATION.md](../../guidance/VERIFICATION.md) the access-method owner. The [September alignment](../DECISIONS.md#2026-09-10---ide-browser-workflow-aligned) subsequently updated the IDE route and automated browser selection.
 
 ## 2026-07-29 - Contact Confirmation Clarified
 
@@ -18,22 +18,22 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 
 - On 20 July, added form-start and email intent events plus conversions emitted only after the enquiry API reported success. Visitor-entered data was excluded, failed sends produced no conversion, and analytics errors could not alter a successful form outcome.
 - On 28 July, moved the contact-intent events into GA4 alongside page views, controlled `appointment` / `consult` / `question` selections and confirmed conversions. Removed Vercel Web Analytics and its dependency.
-- Dedicated mocked-request checks covered enabled/disabled hosts, intent values, conversion payloads, failure suppression and Clarity loading. Current collection boundaries belong to the [analytics system guide](../current-scope.md#analytics-and-data-meaning).
+- Dedicated mocked-request checks covered enabled/disabled hosts, intent values, conversion payloads, failure suppression and Clarity loading. Current collection boundaries belong to the [analytics system guide](../../reference/SYSTEM.md#analytics-and-data-meaning).
 
 ## 2026-07-24 - Public Writing And Page-Copy Workflows Reworked
 
-- Established [writing-direction.md](../writing-direction.md) and a project copywriter on 14 July, separating editorial method from practice facts and refusing to treat existing page copy or research outlines as approved templates. Added page-development artifacts on 16 July.
+- Established [WRITING.md](../../guidance/WRITING.md) and a project copywriter on 14 July, separating editorial method from practice facts and refusing to treat existing page copy or research outlines as approved templates. Added page-development artifacts on 16 July.
 - From 22 to 24 July, removed repeated copy formulas and the single imagined-reader model, simplified page work into bounded planning or section artifacts, and introduced a separate cold review after drafting. These were intermediate methods, subsequently revised in August and September; current workflows live in [copywriter](../../../.agents/skills/copywriter/SKILL.md) and [develop-page-copy](../../../.agents/skills/develop-page-copy/SKILL.md).
 - The former `product-direction.md` became a decision brief on 14 July, was reduced to practice facts on 22 July, and was removed on 23 July. Later practice references have their own history; the retired brief is not a source of current requirements.
 
 ## 2026-07-23 - Source-Selected Cleanup Moved To A Skill
 
 - Moved the broad maintainability workflow into `improve-codebase`, selecting one source-supported problem and completing its behaviour-preserving resolution rather than selecting work by diff size or tracker priority.
-- Unfinishable work retained a concrete debt outcome. The skill was renamed and its invocation narrowed in [August](task-log-2026-08.md#2026-08-19---scoped-quality-review-and-cleanup-sweeps-separated); the current owner is [cleanup-sweep](../../../.agents/skills/cleanup-sweep/SKILL.md).
+- Unfinishable work retained a concrete debt outcome. The skill was renamed and its invocation narrowed in [August](DECISIONS-2026-08.md#2026-08-19---scoped-quality-review-and-cleanup-sweeps-separated); the current owner is [cleanup-sweep](../../../.agents/skills/cleanup-sweep/SKILL.md).
 
 ## 2026-07-22 - Manual Review Monitors Replaced Readiness Tracking
 
-- Replaced incomplete accessibility and responsive checklists and overlapping SEO documents with owner-directed [accessibility](../../checklists/accessibility-monitor.md), [responsive](../../checklists/responsive-monitor.md) and [SEO metadata](../../checklists/seo-metadata-monitor.md) monitors.
+- Replaced incomplete accessibility and responsive checklists and overlapping SEO documents with owner-directed [accessibility](../../checklists/ACCESSIBILITY-MONITOR.md), [responsive](../../checklists/RESPONSIVE-MONITOR.md) and [SEO metadata](../../checklists/SEO-METADATA-MONITOR.md) monitors.
 - Kept review dates and statuses tied to explicit inspection; automated regression coverage did not supply manual pass evidence or establish accessibility conformance.
 - Retired the readiness tracker and its archive once the live site had these owners. Concrete work remained in `SITE-*`, `DEBT-*` and the relevant writing or operational workflow.
 
@@ -51,7 +51,7 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 
 - Linked the specialist routes to the site-wide Organization and umbrella Service, adding route-specific service graphs, online enquiry and the then-confirmed AUD 120 / 50-minute offer.
 - Kept the Organization address-free to avoid inferring or publishing a private location or incomplete address-dependent business schema. Adding the Google Business Profile identity depended on confirmation of its exact public URL.
-- Build and metadata assertions covered the linked graph. Current service facts belong to [practice context](../practice-context.md), and emitted schema remains owned by source.
+- Build and metadata assertions covered the linked graph. Current service facts belong to [practice context](../../reference/PRACTICE.md), and emitted schema remains owned by source.
 
 ## 2026-07-20 - Specialist Routes Published And URLs Flattened
 
@@ -68,13 +68,13 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 ## 2026-07-15 - Online-Delivery Positioning Restriction Retired
 
 - Recorded completion of Google Business Profile verification and retired the temporary restriction on foregrounding online delivery that had been retained in the 14 July writing guidance.
-- Updated Home to identify Joel, his Perth base, Australia-wide online counselling and the practice's specialist contexts. Current wording policy belongs to [writing direction](../writing-direction.md).
+- Updated Home to identify Joel, his Perth base, Australia-wide online counselling and the practice's specialist contexts. Current wording policy belongs to [writing direction](../../guidance/WRITING.md).
 
 ## 2026-07-14 - Design Direction Freed From Existing Page Patterns
 
 - Made fresh design direction precede selection of existing components and page patterns, and strengthened the website-design method to explore structurally different concepts with choices grounded in the content and task.
 - Removed `uncodixfy` and made Impeccable explicitly invoked so competing automatic visual prescriptions would not govern ordinary frontend work.
-- The design-system authority model changed further in [August](task-log-2026-08.md#2026-08-05---current-only-design-system-established). Current identity anchors, creative scope and reuse rules belong to [AGENTS.md](../../../AGENTS.md) and [design governance](../../design-system/governance.md), rather than this historical relaxation.
+- The design-system authority model changed further in [August](DECISIONS-2026-08.md#2026-08-05---current-only-design-system-established). Current identity anchors, creative scope and reuse rules belong to [AGENTS.md](../../../AGENTS.md) and [design governance](../../guidance/DESIGN.md), rather than this historical relaxation.
 
 ## 2026-07-14 - Documentation Authority And Historical Archives Separated
 
@@ -92,7 +92,7 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 - Added a tactical static main/H1 fallback on 8 July, then replaced it on 13 July with the complete React public page, navigation, media, forms and footer in generated HTML. The follow-up and retirement work had been tracked as `DEBT-32` and `DEBT-33`.
 - Used route/timestamp markers to hydrate only matching artifacts, retaining guarded client rendering for development, unknown, stale and 404 paths. Builds failed when metadata lacked a matching component render.
 - Standardised hero semantics on one concise H1 and a separate display paragraph, leaving H2 for page sections. Draft specialist pages gained static content before their 18 July publication.
-- Accepted focused preview and artifact checks for completion; `DEBT-34` retained the separate test-maintenance concern, later resolved in August. Current rendering contracts belong to the [system guide](../current-scope.md#rendering-routing-and-discoverability).
+- Accepted focused preview and artifact checks for completion; `DEBT-34` retained the separate test-maintenance concern, later resolved in August. Current rendering contracts belong to the [system guide](../../reference/SYSTEM.md#rendering-routing-and-discoverability).
 
 ## 2026-07-13 - Practice Identity Structured Data Established
 

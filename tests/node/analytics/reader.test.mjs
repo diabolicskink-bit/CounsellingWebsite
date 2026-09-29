@@ -7,6 +7,7 @@ import {
   dailyAnalyticsSql,
   keywordAnalyticsSql,
   monthlyEnquiryAnalyticsSql,
+  monthlyEnquiryMetricsSql,
   pageViewsAnalyticsSql,
   referrersAnalyticsSql,
   visitorAnalyticsSql,
@@ -194,20 +195,34 @@ test("reads complete retained history for one anonymous browser", async () => {
   assert.deepEqual(result.visits[1].pageViews, []);
 });
 
-test("reads visits with enquiry outcomes in one Perth calendar month", async () => {
-  const { calls, database } = createDatabase([createVisitRow()]);
+test("reads monthly enquiries and paid attribution with the bot filter", async () => {
+  const calls = [];
+  const database = {
+    async query(query, parameters) {
+      calls.push({ query, parameters });
+      if (query === monthlyEnquiryAnalyticsSql) return [createVisitRow()];
+      if (query === monthlyEnquiryMetricsSql) {
+        return [{ paidAttributedEnquiries: "2", paidVisits: "3", paidVisitsWithEnquiry: "1" }];
+      }
+      throw new Error("Unexpected query");
+    },
+  };
 
   const result = await readAnalytics(
-    { type: "monthly", month: "2026-08" },
+    { type: "monthly", month: "2026-08", includeBots: false },
     database,
   );
 
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].query, monthlyEnquiryAnalyticsSql);
-  assert.deepEqual(calls[0].parameters, ["2026-08"]);
+  assert.deepEqual(calls, [
+    { query: monthlyEnquiryAnalyticsSql, parameters: ["2026-08"] },
+    { query: monthlyEnquiryMetricsSql, parameters: ["2026-08", false] },
+  ]);
   assert.equal(result.type, "monthly");
   assert.equal(result.month, "2026-08");
   assert.equal(result.visits.length, 1);
+  assert.equal(result.paidAttributedEnquiries, 2);
+  assert.equal(result.paidVisits, 3);
+  assert.equal(result.paidVisitsWithEnquiry, 1);
 });
 
 test("reads an aggregated page-view breakdown in one query", async () => {

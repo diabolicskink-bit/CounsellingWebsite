@@ -56,6 +56,6 @@ approach.
 ## Related information
 
 For current fees, credentials, availability and enquiry arrangements, check the
-relevant page and source. [current-scope.md](current-scope.md) maps the website's
-implementation and source ownership. [writing-direction.md](writing-direction.md)
+relevant page and source. [SYSTEM.md](SYSTEM.md) maps the website's
+implementation and source ownership. [WRITING.md](../guidance/WRITING.md)
 owns public-writing policy.

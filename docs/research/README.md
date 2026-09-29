@@ -18,7 +18,7 @@ approved public copy or a default input to drafting.
 - Ignore `working/` outside the same continuing parent research task unless the
   owner explicitly requests its inspection. Working files are retained raw
   material, not reusable evidence.
-- Apply [writing direction](../project/writing-direction.md), relevant current
+- Apply [writing direction](../guidance/WRITING.md), relevant current
   project information, and owner decisions before turning research into public
   wording.
 - For research-informed public copy, use findings to consider content,
@@ -33,9 +33,9 @@ approved public copy or a default input to drafting.
 
 | Audience | File | Evidence coverage |
 | --- | --- | --- |
-| Kink clients | [kink-clients.md](audiences/kink-clients.md) | Rebuilt formal evidence, public-web discussion with a 15-source recurrence sample, and dated Australian/Perth search and provider observations |
-| ENM and polyamory clients | [enm-polyamory-clients.md](audiences/enm-polyamory-clients.md) | Formal evidence, international public-web discussion, Australian/Perth search and service landscape, plus targeted therapist-attitude, ENM-incongruent advice and sexual-health competence research |
-| LGBTQIA+ clients | [lgbtqia-clients.md](audiences/lgbtqia-clients.md) | Initial subgroup-specific formal evidence, international public web discussion, and Australian/Perth search and service landscape |
+| Kink clients | [KINK-CLIENTS.md](audiences/KINK-CLIENTS.md) | Rebuilt formal evidence, public-web discussion with a 15-source recurrence sample, and dated Australian/Perth search and provider observations |
+| ENM and polyamory clients | [ENM-POLYAMORY-CLIENTS.md](audiences/ENM-POLYAMORY-CLIENTS.md) | Formal evidence, international public-web discussion, Australian/Perth search and service landscape, plus targeted therapist-attitude, ENM-incongruent advice and sexual-health competence research |
+| LGBTQIA+ clients | [LGBTQIA-CLIENTS.md](audiences/LGBTQIA-CLIENTS.md) | Initial subgroup-specific formal evidence, international public web discussion, and Australian/Perth search and service landscape |
 
 ## Structure
 

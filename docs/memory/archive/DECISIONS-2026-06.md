@@ -2,7 +2,7 @@
 
 Consolidated June milestones. Entries describe what was established at the time; historical checks and outstanding work are not current status. Git retains the detailed changes and original entries.
 
-Use the [current system guide](../current-scope.md) for implementation and source owners, the [project map](../README.md) for current guidance, and the [archive index](README.md) for other months. The [active log](../task-log.md) owns admission and maintenance guidance.
+Use the [current system guide](../../reference/SYSTEM.md) for implementation and source owners, the [project map](../../README.md) for current guidance, and the [archive index](README.md) for other months. The [active log](../DECISIONS.md) owns admission and maintenance guidance.
 
 ## 2026-06-27 - Branded Contact Email Applied
 
@@ -20,12 +20,12 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 ## 2026-06-26 - Custom Domain And Pre-Launch Indexing Guard Prepared
 
 - Assigned `vivecounselling.com.au` to the Vercel project and configured `www` to redirect to the apex. DNS propagation and live HTTPS verification were still outstanding in this task.
-- Added page and response-header `noindex, nofollow`, an empty sitemap, and crawlable robots output so the pre-launch site could remain available for review without advertising indexable pages. `SITE-23` tracked launch; [July history](task-log-2026-07.md#2026-07-08---public-indexing-and-social-preview-enabled) records the subsequent canonical-domain and indexing change.
+- Added page and response-header `noindex, nofollow`, an empty sitemap, and crawlable robots output so the pre-launch site could remain available for review without advertising indexable pages. `SITE-23` tracked launch; [July history](DECISIONS-2026-07.md#2026-07-08---public-indexing-and-social-preview-enabled) records the subsequent canonical-domain and indexing change.
 
 ## 2026-06-23 - Shared Portrait Treatment Introduced
 
 - Consolidated the repeated Joel portrait frame and overlaid name tag across Home and Working with Joel, resolving `SITE-8` under the design-system model then in use.
-- The promotion history does not establish today's reusable API; subsequent catalogue and source changes are recorded in [August](task-log-2026-08.md#2026-08-05---initial-shared-foundations-and-contact-invitation-promoted).
+- The promotion history does not establish today's reusable API; subsequent catalogue and source changes are recorded in [August](DECISIONS-2026-08.md#2026-08-05---initial-shared-foundations-and-contact-invitation-promoted).
 
 ## 2026-06-18 - Public Identity Assets Replaced
 
@@ -35,7 +35,7 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 ## 2026-06-18 - Cross-Site Review Ownership Separated
 
 - Kept broad review observations outside concrete `SITE-*` work; actionable findings belonged in the visitor backlog or technical debt tracker.
-- Added checklists to the development Documents reader alongside reports and plans. The initial accessibility checklist was later replaced by the [owner-directed monitors established in July](task-log-2026-07.md#2026-07-22---manual-review-monitors-replaced-readiness-tracking).
+- Added checklists to the development Documents reader alongside reports and plans. The initial accessibility checklist was later replaced by the [owner-directed monitors established in July](DECISIONS-2026-07.md#2026-07-22---manual-review-monitors-replaced-readiness-tracking).
 
 ## 2026-06-17 - Enquiry API And Safety Contracts Established
 
@@ -51,6 +51,6 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 
 ## 2026-06-17 - Project Memory And Design Governance Established
 
-- Created `docs/project/`, separated project guidance from design-system documentation, and seeded `DEBT-*` and `SITE-*` records from the technical review. The review supplied evidence; the trackers owned concrete follow-up work.
+- Created `docs/`, separated project guidance from design-system documentation, and seeded `DEBT-*` and `SITE-*` records from the technical review. The review supplied evidence; the trackers owned concrete follow-up work.
 - Rebuilt design-system guidance by responsibility and preserved unresolved typography work in debt records. Removed the blanket side-stripe prohibition after the owner accepted the existing treatment (`DEBT-14`), keeping unused-source cleanup separate.
-- Distinguished true debt prerequisites from related context. Current tracker state lives in [project debt](../project-debt.md) and the [site backlog](../site-backlog.md), with completed records in their respective archives.
+- Distinguished true debt prerequisites from related context. Current tracker state lives in [project debt](../DEBT.md) and the [site backlog](../BACKLOG.md), with completed records in their respective archives.

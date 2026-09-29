@@ -1,6 +1,6 @@
 # Site Backlog
 
-This is the living tracker for concrete deferred visitor-facing change work: public UX, content, accessibility fixes, form-flow improvements, visual polish, and public operations changes. It is separate from `project-debt.md`, which tracks technical pressure.
+This is the living tracker for concrete deferred visitor-facing change work: public UX, content, accessibility fixes, form-flow improvements, visual polish, and public operations changes. It is separate from `DEBT.md`, which tracks technical pressure.
 
 Use stable IDs when discussing or working on these items, such as `SITE-1`. Do not renumber existing items. The `Classification` field is required so the backlog can be split later if one category becomes large enough to deserve its own tracker.
 
@@ -15,7 +15,7 @@ Use stable IDs when discussing or working on these items, such as `SITE-1`. Do n
 - Keep broad cross-site review records in the relevant owner-directed monitor or checklist rather than turning them into mixed SITE cards.
 - Use `Classification` for future splitting. Suggested labels include `Accessibility`, `Responsive QA`, `SEO/Metadata`, `Performance`, `Analytics/Operations`, `Content`, `Form Flow`, and `Public UX`.
 - Update an item when new work changes priority, status, first slice, dependencies, or completion signal.
-- Move implemented or superseded items to [archive/site-backlog-archive.md](archive/site-backlog-archive.md) with a short functional summary.
+- Move implemented or superseded items to [archive/site-backlog-archive.md](archive/BACKLOG-ARCHIVE.md) with a short functional summary.
 - Keep active items ordered by priority first, then ID.
 - Do not treat this backlog as permission to implement work by itself.
 
@@ -135,7 +135,7 @@ Statuses:
 - `Implemented When`: The support copy has a deliberate, on-brand treatment across desktop and mobile, does not read like filler or a generic card, and the practice owner is happy with how it looks.
 - `Notes`:
   - Keep the work page-scoped unless the treatment clearly belongs in the shared hero system.
-- `Links`: `src/pages/working-with-joel/WorkingWithJoel.tsx`, `src/pages/working-with-joel/working-with-joel.css`, `docs/design-system-legacy/patterns.md`
+- `Links`: `src/pages/working-with-joel/WorkingWithJoel.tsx`, `src/pages/working-with-joel/working-with-joel.css`, `docs/design-system/legacy/PATTERNS.md`
 
 ### SITE-24 - Shared header overflow with enlarged text
 
@@ -153,4 +153,4 @@ Statuses:
 
 ## Resolved Item Archive
 
-Implemented and superseded `SITE-*` items live in [archive/site-backlog-archive.md](archive/site-backlog-archive.md). Search that file only when historical visitor-facing work or a retired stable ID matters.
+Implemented and superseded `SITE-*` items live in [archive/site-backlog-archive.md](archive/BACKLOG-ARCHIVE.md). Search that file only when historical visitor-facing work or a retired stable ID matters.

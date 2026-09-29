@@ -7,6 +7,7 @@ import {
   dailyAnalyticsSql,
   keywordAnalyticsSql,
   monthlyEnquiryAnalyticsSql,
+  monthlyEnquiryMetricsSql,
   pageViewsAnalyticsSql,
   referrersAnalyticsSql,
   visitorAnalyticsSql,
@@ -217,11 +218,21 @@ export async function readAnalytics(
       return validatedReport({ type: "daily", date: selection.date, visits: rows.map(normalizeVisit) });
     }
     case "monthly": {
-      const rows = await selectedDatabase.query(
-        monthlyEnquiryAnalyticsSql,
-        [selection.month],
-      ) as AnalyticsRow[];
-      return validatedReport({ type: "monthly", month: selection.month, visits: rows.map(normalizeVisit) });
+      const [rows, metricsRows] = await Promise.all([
+        selectedDatabase.query(monthlyEnquiryAnalyticsSql, [selection.month]),
+        selectedDatabase.query(monthlyEnquiryMetricsSql, [selection.month, selection.includeBots]),
+      ]) as [AnalyticsRow[], AnalyticsRow[]];
+      const metrics = metricsRows[0];
+      if (!metrics) throw new TypeError("Monthly enquiry metrics are missing.");
+
+      return validatedReport({
+        type: "monthly",
+        month: selection.month,
+        paidAttributedEnquiries: nonNegativeInteger(metrics.paidAttributedEnquiries, "paid-attributed enquiries"),
+        paidVisits: nonNegativeInteger(metrics.paidVisits, "paid visits"),
+        paidVisitsWithEnquiry: nonNegativeInteger(metrics.paidVisitsWithEnquiry, "paid visits with enquiry"),
+        visits: rows.map(normalizeVisit),
+      });
     }
     case "visitor": {
       const rows = await selectedDatabase.query(

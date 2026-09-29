@@ -9,7 +9,8 @@ test("parses each supported report selection", () => {
   const cases = [
     [undefined, { type: "daily", date: "2026-08-16" }],
     [{ date: " 2026-08-14 " }, { type: "daily", date: "2026-08-14" }],
-    [{ month: "2026-08" }, { type: "monthly", month: "2026-08" }],
+    [{ month: "2026-08" }, { type: "monthly", month: "2026-08", includeBots: false }],
+    [{ month: "2026-08", bots: "include" }, { type: "monthly", month: "2026-08", includeBots: true }],
     [{ visitor: visitorId }, { type: "visitor", visitorId }],
     [
       { end: "2026-08-16", start: "2025-08-16" },

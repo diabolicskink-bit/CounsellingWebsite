@@ -1,14 +1,13 @@
 # Repository Guidance For AI Agents
 
-This file owns repository-wide working rules and task routing. Start with [docs/project/README.md](docs/project/README.md) for the document map, then load the guidance relevant to the task.
+This is the repository-wide working agreement and task router. Read the guides relevant to the current task; combine them when work crosses domains. [docs/README.md](docs/README.md) is the full document map, not an additional prerequisite.
 
 ## Authority And Scope
 
-- Within repository guidance, the current task defines the requested outcome, followed by this file and then relevant domain guidance. Follow explicit editing limits and preserve exact supplied wording unless the user asks to revise it.
-- Source, executable behaviour, tests and configuration are the strongest evidence for implementation facts. [Current scope](docs/project/current-scope.md) explains the system and points to those owners; a checked-out feature is not proof of a Production deployment.
-- [Practice context](docs/project/practice-context.md) supplies background facts about Vive and Joel. The current task determines their relevance and presentation; they do not set copy or design priorities.
-- For reusable design-system API, follow [docs/design-system/governance.md](docs/design-system/governance.md) and the current-only `foundations.md`, `components.md`, and `patterns.md` catalogues. Source code, a public consumer, a legacy-register entry, or a rendered example does not by itself make something approved reusable API.
-- Trackers, reports, plans, checklists, archives and task history are supporting memory. Use relevant evidence without treating it as permission for additional work. A plan or tracker item becomes the brief only when the current task adopts it.
+- Within repository guidance, follow the current task, then this file, then the relevant domain guide. Preserve explicit editing limits and exact supplied wording unless asked to revise it.
+- Source, executable behaviour, tests and configuration establish implementation facts. The system reference explains their connections; a checked-out feature is not proof of a Production deployment.
+- Guidance owns working rules; references own project facts; design-system catalogues own promoted reuse contracts. Reports, plans, checklists, research and memory support the task without authorizing more work. A recorded item becomes the brief only when the current task adopts it.
+- Preserve unrelated working-tree changes, including other agents' work. Read current files and integrate changes rather than restoring older versions.
 
 ## Understand The Task
 
@@ -23,52 +22,32 @@ A code review may include relevant callers, dependencies, styles, tests and conf
 
 - In Planning Mode, actively explore intent and preferences through questions, including useful non-blocking choices. Inspect context first, adapt later questions to earlier answers, and do not impose a fixed total question limit. Use additional grouped rounds when the interface limits questions per prompt.
 - Outside Planning Mode, resolve routine choices and proceed. Ask when missing information would materially change the outcome, scope, safety or an irreversible decision; state useful assumptions without turning them into approval requests.
-- Preserve unrelated working-tree changes. Read the current files before editing and integrate with ongoing work rather than restoring an older version.
 
-## Read For The Task
+## Task Routing
 
-- **System understanding:** start with the orientation in [current-scope.md](docs/project/current-scope.md), then the relevant sections and source links.
-- **Public wording:** use the repository [copywriter](.agents/skills/copywriter/SKILL.md) skill when editorial judgement is needed, including within implementation work. Follow its reading order for practice context, writing direction and target copy. Typo-only fixes and insertion of exact supplied wording do not trigger it. Internal documentation, private-interface text and technical work require explicit invocation of this skill. Audience and market research remain opt-in under [writing direction](docs/project/writing-direction.md).
-- **Articles:** also read [article-writing.md](docs/project/article-writing.md) for drafting or revision; use [article-publishing.md](docs/project/article-publishing.md) for implementation and publication.
-- **Cleanup sweeps:** use [cleanup-sweep](.agents/skills/cleanup-sweep/SKILL.md) only when explicitly requested. It selects its target from source, not trackers; its debt-recording fallback applies when the selected improvement cannot be completed safely.
-- **Other technical or maintainability work:** search [project-debt.md](docs/project/project-debt.md) for related `DEBT-*` items instead of reading the whole tracker as a prerequisite.
-- **Database changes:** follow [database/README.md](database/README.md) for environment selection and migration procedure. Builds and deployments do not apply migrations.
+| Task | Read or use |
+| --- | --- |
+| Understand the application or locate implementation | [System reference](docs/reference/SYSTEM.md): orientation, then relevant sections |
+| Public design, a new component, or shared-system work | [Design](docs/guidance/DESIGN.md), then relevant [catalogues](docs/design-system/README.md); use [website-design](.agents/skills/website-design/SKILL.md) for fresh creation or redesign |
+| Write or assess public wording | Use [copywriter](.agents/skills/copywriter/SKILL.md) and [writing guidance](docs/guidance/WRITING.md); [practice facts](docs/reference/PRACTICE.md) are context, not a content checklist |
+| Draft, revise, implement or publish an article | Relevant authoring or implementation sections of [Articles](docs/guidance/ARTICLES.md) |
+| Private analytics UI, reporting or Preview checks | [Analytics](docs/guidance/ANALYTICS.md); its independent visual direction and owner-led browser policy take precedence over public-site defaults |
+| Choose checks or inspect rendered behaviour | [Verification](docs/guidance/VERIFICATION.md); [tests](tests/README.md) owns command selections and organisation |
+| Database or migration work | [Database](database/README.md); builds and deployments do not apply migrations |
+| Technical or maintainability work | Search [debt](docs/memory/DEBT.md) for related `DEBT-*` records; do not read the full tracker as a prerequisite |
+| Explicit cleanup sweep | Use [cleanup-sweep](.agents/skills/cleanup-sweep/SKILL.md); it selects work from source, not trackers |
+
+Public-copy skill use requires editorial judgement: typo-only corrections and insertion of exact supplied wording do not trigger it. Internal documentation, private-interface wording and technical work require explicit invocation. Audience and market research remain opt-in. Cleanup sweeps also require explicit invocation.
 
 ## Engineering And Verification
 
-This is a low-traffic site maintained by one developer, with one owner using the private analytics. Prefer clear, direct implementation that serves demonstrated needs. Scale architecture, dependencies, safeguards and tests to the actual maintenance cost and consequences of failure. Data correctness, enquiry delivery, authentication and privacy warrant more care than routine presentation edits.
+This is a low-traffic site maintained by one developer, with one owner using private analytics. Prefer clear implementation for demonstrated needs. Scale architecture, safeguards and tests to maintenance cost and consequences; enquiry delivery, data correctness, authentication and privacy warrant more care than routine presentation.
 
-- Choose the smallest set of checks that gives useful confidence in the change. Use the commands and limits in [current-scope.md](docs/project/current-scope.md#working-locally-and-verifying-changes); full QA suites, browser sweeps and Lighthouse audits are not routine completion requirements.
-- For public visual or interaction changes, use focused rendered or browser inspection when needed to assess the affected behaviour. Limit it to relevant routes, states and viewports. In the Codex IDE, use the persistent `node_repl` JavaScript tool with repository Playwright and installed Chrome, following [visual-verification.md](docs/project/visual-verification.md). This repository route takes precedence over plugin browser workflows; do not start with `agent-browser` or a Chromium download.
-- Development-only presentation changes normally need source inspection and the smallest relevant static check. Changes to functional tools, such as article saving, still need focused checks of the affected behaviour. Do not turn those checks into a full visual, responsive or browser audit unless requested.
-- Once relevant checks pass, stop. Broaden or repeat them only when a failure, subsequent change or unresolved concern justifies it. Avoid repeating checks already covered by a command that passed.
-- Review the final diff. Report material changes, checks performed and any consequential verification still outstanding. Distinguish source inspection, mocked tests and local builds from evidence about deployed services.
-
-### Test Scope And Maintenance
-
-- Reuse existing coverage first. Add or extend a test only when it protects a concrete, consequential failure or behavioural boundary and earns its ongoing maintenance cost. A code change does not automatically need a new test; test counts and coverage percentages are not goals.
-- Prioritize enquiry delivery and failure handling, authentication/privacy, public input boundaries, data identity and deletion, report calculations and attribution, and safe article saving. Low traffic does not make these failures harmless.
-- Do not lock routine copy, headings, service lists, layout, styling or documentation in place. Do not add tests merely to prove that an edit happened or removed content stays absent. Keep behavioural checks independent of exact editorial wording unless that wording is itself a required functional contract.
-- Assert meaningful outcomes or narrow safety constraints. Avoid snapshots of whole pages or objects, inventories of current files, copied configuration, SQL formatting and internal call sequences. Preserve useful checks of actual database results and security boundaries.
-- Prefer representative cases at the most useful test layer. Add permutations or checks at another layer only for a distinct failure risk; do not duplicate the same assertions across unit, mocked and browser tests. Keep fixtures and helpers simple and readable, without speculative frameworks or unnecessary file fragmentation.
-- Update or remove obsolete tests when behaviour changes. Follow [tests/README.md](tests/README.md) for test ownership, organisation and commands. Keep routine private-dashboard presentation checks with the owner under the policy below.
-
-The private-dashboard verification policy below takes precedence over general browser-review guidance, including skill defaults.
-
-## Private Analytics
-
-- Treat the entire private analytics surface—`/analytics`, every route beneath it, and its reporting UI—as an owner-only internal product surface, not as part of the public site's visual identity or design system. Do not broaden this surface into a multi-user administration product, generalized dashboard framework, or reusable public-site pattern unless the current task explicitly requests that scope.
-- Keep analytics visually independent in direction: the dashboard does not need to look or feel like the public website and may own its CSS, visual tokens, assets, and UI components. This does not require a separate browser entry, isolated bundles, or zero shared global styles or generic foundations. Do not change public presentation merely to accommodate analytics, promote analytics presentation as public design-system API, or use either surface as the default visual direction for the other unless the current task requests it. Nonvisual types, data contracts, domain utilities, and public tracking infrastructure may also be shared when they represent a genuine functional boundary.
-- Routine dashboard browser testing belongs to the owner. Agents may perform focused browser or real-data checks when the task explicitly requests them, or when substantial analytics changes cannot be adequately verified locally and warrant direct verification through a Preview. This covers `/analytics` and every dashboard subroute. There is no local analytics database.
-- Use focused local source, type, unit or mocked checks where useful. Prioritize report/data correctness, migrations, API contracts, authentication/privacy boundaries and concrete regressions. Avoid routine dashboard browser assertions, speculative coverage and broad test runs. Local checks do not verify deployed data behaviour.
-- An explicit working-branch Preview request, or substantial analytics work meeting the verification condition above, authorizes committing and pushing the relevant changes for a working-branch Vercel Preview. Routine wording, styling or small changes do not qualify merely because there is no local database.
-- For Preview verification, check any required Preview migration using [database/README.md](database/README.md), find the deployment for the relevant commit, and wait for it to become ready. Perform the focused checks warranted by the task, or provide the Preview for the owner's checks when that is the request. Use the separate Preview database; never use Production for development verification.
-- Report the Preview's exact `/analytics` URL (or relevant dashboard subroute), what was verified and any checks remaining for the owner. Where a Preview is not warranted, report any verification left to the owner. Keep the work on its working branch until the owner directs integration or promotion.
-- Public tracking and shared privacy boundaries are separate from dashboard browser testing: verify changes to collection, attribution or private-route tracking exclusion where affected. Use focused non-browser analytics checks such as `npm run test:analytics` when relevant; `npm run qa:analytics` includes browser scenarios and is not the default for dashboard work. Keep routine private-dashboard cases out of public-site QA.
+Choose the smallest useful checks under [Verification](docs/guidance/VERIFICATION.md), including its domain exceptions. Stop once relevant checks pass; expand only for a failure, subsequent change or unresolved concern. Review the final diff and report material changes, checks performed and consequential gaps. Distinguish local inspection, mocks and builds from evidence about deployed services.
 
 ## Git And Release Workflow
 
-Create `work/*` branches from `staging` and do implementation work on those working branches. Continue an appropriate existing working branch for ongoing work. At the owner's direction, merge working branches into `staging` for integration, then merge `staging` into `master` for Production promotion.
+Create `work/*` branches from `origin/staging` and do implementation work on those working branches. Continue an appropriate existing working branch for ongoing work. At the owner's direction, merge working branches into `staging` for integration, then merge `staging` into `master` for Production promotion.
 
 Both `staging` and `master` are long-lived branches. The `staging` Vercel Preview supports review of the combined release candidate; pushing `master` triggers automatic Vercel Production deployment.
 
@@ -78,43 +57,15 @@ Both `staging` and `master` are long-lived branches. The `staging` Vercel Previe
   - **Push** authorizes pushing existing commits.
   - **Merge** authorizes any necessary commits and local merges to the requested destination, without pushing.
   - **Promote** authorizes the commits, merges and pushes needed to reach the requested destination. Promoting to `staging` stops there; promoting to Production continues through `staging` to `master`.
-- An explicit working-branch Preview request, or substantial analytics verification under [Private Analytics](#private-analytics), authorizes the necessary working-branch commit and push. Preview verification does not authorize staging integration or Production promotion.
+- An explicit working-branch Preview request, or substantial analytics verification under [Private Analytics](docs/guidance/ANALYTICS.md), authorizes the necessary working-branch commit and push. Preview verification does not authorize staging integration or Production promotion.
 - The owner may use IDE Sync after local commits or merges. Do not check deployment status after routine pushes or promotions unless requested. Preparing a Preview for actual verification includes waiting for it to be ready for those checks.
 - Preserve shared history between the long-lived branches. Do not squash or rebase `staging` into `master`.
 - Use standard Git commands. Do not check for or use GitHub CLI (`gh`) unless the task explicitly involves a GitHub feature such as pull requests, issues or Actions.
 
 ## Maintain Project Memory
 
-- Update [current-scope.md](docs/project/current-scope.md) when capabilities, significant behaviour, data flows, runtime/privacy boundaries, source ownership or verification methods change. Follow its [maintenance guidance](docs/project/current-scope.md#maintaining-this-guide): preserve useful system understanding without a length target or a running account of presentation changes.
-- Add or update relevant `DEBT-*` records in [project-debt.md](docs/project/project-debt.md) when unresolved technical or maintainability pressure should remain visible.
-- The [site backlog](docs/project/site-backlog.md) is not required reading for visitor-facing work. Use it when the task selects an item or when recording/updating meaningful deferred visitor-facing work. Keep resolved records current when the selected work completes them.
-- Record consequential project-state changes and decision context under the [task log's admission and maintenance rules](docs/project/task-log.md#admission-rule). Routine fixes, investigations and small edits do not each need an entry.
-- Keep working rules here, functional understanding in current scope, and specialist methods in their owner documents or skills. Update the owner and any affected routing links instead of maintaining parallel procedures.
-- Update the relevant active catalogue under [docs/design-system/](docs/design-system/) when supported system state changes, and update [docs/design-system-legacy/](docs/design-system-legacy/) only when current source work changes or verifies inherited implementation facts.
-
-## Visual Work
-
-- For design-system maintenance, shared-API reuse, or documentation work, start at [docs/design-system/README.md](docs/design-system/README.md). For fresh visual creation or redesign, establish an actively creative direction from the current task, content, and the website-design skill before consulting existing component or page-pattern material. Preserve the site's basic identity scheme as described below, but do not treat the current design system as layout authority unless the task explicitly adopts a pattern.
-
-- Keep project scope and design-system scope separate.
-- For fresh visual creation or redesign, actively pursue a content-specific, out-of-the-box composition. Creative departure is the default expectation, not merely an available option. Develop at least two structurally different directions before selecting one when the user has not already chosen a concrete direction; at least one should materially depart from the site's existing page patterns.
-- Unless the current task explicitly changes the visual identity, keep the site's basic scheme: established font families, type roles and type scale; the existing colour palette and semantic colour roles; shared navigation, footer and interaction behaviour; and the accessibility baseline. These are identity anchors, not layout templates.
-- Treat composition, grids, component forms, surfaces, depth, layering, shape, spacing rhythm, imagery, motion and responsive recomposition as active creative variables. New page-scoped components and treatments are encouraged when they give the content a clearer or more memorable form.
-- Do not default to existing cards, fine rules, flat surfaces, split sections, spacing patterns, rendered examples or page silhouettes simply because they already exist. Reuse them only when they strengthen the selected concept. Every creative departure should clarify hierarchy, meaning, relationship or interaction rather than add novelty for its own sake.
-- Do not treat a file in `src/components/` as reusable design-system API unless it has a current contract in `docs/design-system/components.md`.
-- Keep one-off visual explorations page-scoped until they prove useful beyond one context.
-
-## Incremental Design-System Migration
-
-- Production source proves what is implemented; it does not by itself make a token, selector, component, or pattern approved reusable API. Only a current contract in [docs/design-system/foundations.md](docs/design-system/foundations.md), [components.md](docs/design-system/components.md), or [patterns.md](docs/design-system/patterns.md) authorizes deliberate shared reuse.
-- The active catalogues contain promoted items only. Do not place inherited, page-local, candidate, development-only, withdrawn, removed, or historical items in them.
-- Treat implementation absent from the active catalogues as outside the design system. Do not reuse or remove it merely because it exists, looks current, has a shared-looking name, appears on a public route, or is recorded in `docs/design-system-legacy/`.
-- Keep new visual implementation page-local by default. Investigate repeated needs within the current task, but do not add candidate records to the active catalogues or promote during ordinary page work.
-- Promote CSS, tokens, components, or patterns only when the current task explicitly includes shared-system work and the promotion rules in [docs/design-system/governance.md](docs/design-system/governance.md) are satisfied.
-- Existing consumers of inherited implementation may receive scoped correctness, accessibility, or compatibility fixes until an explicitly authorized migration replaces them. Do not broaden the implementation's role during that work.
-- Remove or migrate old implementation only within explicit cleanup or shared-system scope, after verifying source consumers and running checks proportionate to the affected behaviour. Preserve existing consumers otherwise.
-- Similar declarations or literal values are not enough to justify elevation. Shared implementation must represent the same semantic role across current consumers without flattening content-shaped page composition.
-- Use `docs/design-system-legacy/` only as non-authoritative, source-backed working evidence about inherited implementation. Remove a legacy entry when its item is promoted or its source is removed; Git and the project task log retain completed history.
-- Treat the development-only `/design-system` workspace as a rendered view of the active catalogues, never as authority itself. It may show only items currently present in those catalogues.
-- Render supported specimens from the real production component or supported production classes. Do not copy approximate demo markup, maintain a parallel status registry, or place legacy, candidate, page-local, withdrawn, removed, or development-only items in the supported specimen area.
-- Keep candidate exploration in page-local work or the development test beds. Do not restore or redirect the retired `/design-language/*` snapshot when extending the new workspace.
+- Update [SYSTEM.md](docs/reference/SYSTEM.md#maintaining-this-guide) when capabilities, significant behaviour, data flows, runtime/privacy boundaries or source ownership change. Keep procedures with their guide and update affected routes and links.
+- Keep unresolved technical pressure in [DEBT.md](docs/memory/DEBT.md), and meaningful deferred visitor-facing work in [BACKLOG.md](docs/memory/BACKLOG.md). The backlog is optional unless the task selects an item or needs to record deferred work.
+- Record consequential decisions and milestones under [DECISIONS.md](docs/memory/DECISIONS.md#admission-rule). Routine fixes and small edits do not each need an entry.
+- Update supported design-system contracts when their API changes; update legacy evidence only from source. Follow [Design](docs/guidance/DESIGN.md) for both.
+- Use uppercase document basenames with a lowercase `.md` extension and lowercase folders, for example `docs/guidance/DESIGN.md`. Keep skill-package filenames intact; update their references when an owner document moves.

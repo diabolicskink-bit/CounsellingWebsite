@@ -1,6 +1,6 @@
 # Practical SEO Guide for Small Professional Service Websites
 
-> **Use note for Vive Counselling:** This is a research and coverage reference, not a voice guide or mandatory page template. Apply it through `docs/project/writing-direction.md`; its example headings and outlines should not be copied mechanically across public pages.
+> **Use note for Vive Counselling:** This is a research and coverage reference, not a voice guide or mandatory page template. Apply it through `docs/guidance/WRITING.md`; its example headings and outlines should not be copied mechanically across public pages.
 
 ## Executive Summary
 

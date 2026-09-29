@@ -2,7 +2,7 @@
 
 This is the living index for technical, security, routing, API, testing, deployment, design-system, and maintainability pressure that future AI coding sessions should keep visible. It tracks project health work, not new public-site scope.
 
-Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do not renumber existing items. When an item is resolved or superseded, move it to [the project debt archive](archive/project-debt-archive.md), keep its ID intact, and condense it to a short functional summary instead of preserving the active-item field list.
+Use stable IDs when discussing or working on these items, such as `DEBT-1`. Do not renumber existing items. When an item is resolved or superseded, move it to [the project debt archive](archive/DEBT-ARCHIVE.md), keep its ID intact, and condense it to a short functional summary instead of preserving the active-item field list.
 
 ## Tracker Metadata
 
@@ -60,7 +60,7 @@ Statuses:
 
 - Preserve current visitor-facing behaviour unless a future task explicitly requests a behaviour change.
 - Keep public copy, routes, layout, visual design, SEO, analytics, and form-flow behaviour unchanged unless the selected debt item directly requires that surface.
-- Keep design-system scope and project scope separate. Supported-system changes update the relevant current-only catalogue under `docs/design-system/`; source-backed inherited implementation notes update `docs/design-system-legacy/`; public-site capability changes update `docs/project/current-scope.md`.
+- Keep design-system scope and project scope separate. Supported-system changes update the relevant current-only catalogue under `docs/design-system/`; source-backed inherited implementation notes update `docs/design-system/legacy/`; public-site capability changes update `docs/reference/SYSTEM.md`.
 - Prefer small vertical fixes with focused verification over broad mechanical rewrites.
 - Split broad items into smaller linked `DEBT-*` cards when implementation risk, ambiguity, or ownership boundaries become clearer.
 - Keep server-owned validation, security, email delivery, public error handling, and deployment configuration explicit when touching API or build/deploy debt.
@@ -110,7 +110,7 @@ Each active item should include enough direction that a future session can choos
 - `Area`: Design System, Documentation, Maintainability
 - `Problem`: Shared-looking tokens, components, selector families, and page patterns remain in production outside the small promoted system. Their exact consumers and future direction are not fully reconciled after the two rebuilds.
 - `Why It Matters`: Without a clean active/legacy boundary, maintainers may treat implementation existence or an old description as approval, expand obsolete styling, or remove compatibility code without verified consumers.
-- `Preferred Direction`: Keep `docs/design-system/` limited to promoted current contracts. Reconcile inherited implementation incrementally as authorized work touches it; record useful source evidence in `docs/design-system-legacy/`, keep new styling page-local, and promote only in explicit shared-system scope.
+- `Preferred Direction`: Keep the active catalogues limited to promoted current contracts and follow [governance](../guidance/DESIGN.md) for the explicit identity compatibility allowance. Reconcile inherited implementation incrementally as authorized work touches it; keep unique new styling local, reuse permitted building blocks, and promote recurring roles within shared-system scope.
 - `Resolution Path`: For each selected token, component, selector family, or pattern, verify source and current consumers; preserve it outside the system, record or refine its legacy evidence, promote a clean semantic contract, or remove confirmed-dead source within separately authorized cleanup scope. Promotion removes the corresponding legacy entry and adds the complete contract to one active catalogue.
 - `Next Action`: On the next authorized CSS, component, or design-system task, assess only the items that task touches. Add further `/design-system` specimens only when the same task completes a genuine promotion into an active catalogue.
 - `Resolved When`: All retained shared-looking production implementation is either deliberately promoted, explicitly page-owned, or sufficiently understood in the legacy register that future work does not need the earlier catalogue to determine reuse or cleanup safety.
@@ -270,7 +270,7 @@ Each active item should include enough direction that a future session can choos
   - 2026-08-14: Removed the mounted but redundant `.site-copy-panel`, `.rich-text`, `.section-heading`, `.section-heading__copy`, and `.site-copy-flow` layer after tracing its only production consumer. Working with Joel now owns the affected layout directly and keeps the promoted `.site-reading` role for prose; broad-tab and development-hero selectors remain for their live consumers.
   - 2026-09-09: Consolidated the single-consumer broad-tab, credential, and portrait presentation into Working with Joel's page stylesheet and removed the parallel global rules. Development-hero selectors and unrelated inherited families remain outside this focused review.
   - 2026-09-17: Removed unconsumed section-layout families and their orphaned tokens from `src/styles.css`, consolidated the single-context header wordmark, and moved development hero and homepage emphasis rules to their existing page stylesheets. Global defaults, contextual navigation states and current public presentation remain intact; remaining inherited shell, button and typography work stays open.
-- `Links`: `src/styles.css`, `docs/design-system-legacy/patterns.md`
+- `Links`: `src/styles.css`, `docs/design-system/legacy/PATTERNS.md`
 
 ### DEBT-15 - Public page CSS is globally bundled and relies on naming discipline
 
@@ -325,7 +325,7 @@ Each active item should include enough direction that a future session can choos
   - Preserve page-specific type where a page has a genuine editorial composition, such as special hero title measures or unique visual moments.
   - 2026-08-05: All seven public content routes now use `.site-reading` for matching substantive prose; Home and Working with Joel also use `.site-reading--lead` for their established opening paragraphs. Contextual dark-surface foregrounds and deliberate serif, heading, label, form, metadata, and compact-support roles remain page-owned. This debt stays open for the broader classification of remaining page-specific type rules.
   - 2026-08-15: Replaced the live Crisis Support `h2` and `h3` size overrides with the shared heading defaults after rendered desktop, intermediate, and mobile review. Page CSS retains layout, measure, compact service-copy sizing, and semantic colour responsibilities.
-- `Links`: `src/pages/**/*.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
+- `Links`: `src/pages/**/*.css`, `docs/design-system/legacy/FOUNDATIONS.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-21 - Shared production typography needs raw-size and fluid-rule audit
 
@@ -354,7 +354,7 @@ Each active item should include enough direction that a future session can choos
   - 2026-08-06: Deep-reviewed the ten inherited selectors in the low-specificity body-copy group. Five are dormant delete candidates; the five mounted selectors need focused follow-up around `.site-reading` overlap, stale component ownership, broad dormant rich-child coverage, route-heavy tab-panel overrides, or development-only CSS ownership. No selector was promoted or removed during this review.
   - 2026-08-13: Removed the five dormant low-specificity aliases, the unmounted rich-text descendants, the uncalled `SectionHeading` source, and orphaned type tokens. Mounted `.site-copy-flow`, `.section-heading__copy`, `.rich-text`, `.site-broad-tabs__content`, and development-only `.hero-copy-panel` behaviour remains unchanged for later focused ownership review.
   - 2026-08-14: Removed `.site-copy-flow`, `.section-heading__copy`, and `.rich-text` after confirming the promoted `.site-reading` role and page-owned layout already supplied their live outcomes. `.site-broad-tabs__content` and development-only `.hero-copy-panel` remain mounted for separate ownership review.
-- `Links`: `src/styles.css`, `docs/design-system-legacy/foundations.md`, `docs/design-system-old/type-scale-plan.md`
+- `Links`: `src/styles.css`, `docs/design-system/legacy/FOUNDATIONS.md`, `docs/design-system-old/type-scale-plan.md`
 
 ### DEBT-24 - Live Vercel deployment smoke testing is manual
 
@@ -422,7 +422,7 @@ Each active item should include enough direction that a future session can choos
 - `Next Action`: Prototype the smallest route-focus helper that cooperates with existing page-owned `<main>` elements.
 - `Resolved When`: Keyboard users can bypass navigation and client-side route changes place focus on an appropriate page content target.
 - `Related Items`:
-  - `docs/checklists/accessibility-monitor.md`: Owner-directed accessibility review records route focus and bypass-navigation behaviour.
+  - `docs/checklists/ACCESSIBILITY-MONITOR.md`: Owner-directed accessibility review records route focus and bypass-navigation behaviour.
   - `SITE-7`: Reduced-motion and route-focus behaviour should both respect user accessibility preferences.
 - `Dependencies`: `None`
 - `Notes`:
@@ -446,8 +446,8 @@ Each active item should include enough direction that a future session can choos
 - `Resolved When`: Header navigation has documented semantics and tests for keyboard submenu access, mobile menu open/close, Escape handling, and focus return.
 - `Related Items`:
   - `DEBT-29`: Skip-link and route-focus work covers page navigation context; this item covers the header menu interaction itself.
-  - `docs/checklists/accessibility-monitor.md`: Owner-directed accessibility review includes primary navigation behaviour.
-  - `docs/checklists/responsive-monitor.md`: Owner-directed responsive review includes the mobile menu layout and interaction path.
+  - `docs/checklists/ACCESSIBILITY-MONITOR.md`: Owner-directed accessibility review includes primary navigation behaviour.
+  - `docs/checklists/RESPONSIVE-MONITOR.md`: Owner-directed responsive review includes the mobile menu layout and interaction path.
 - `Dependencies`: `None`
 - `Notes`:
   - Avoid turning the header into a complicated app-menu widget unless the audit shows that a simpler link-plus-submenu pattern cannot meet the site's needs.
@@ -521,4 +521,4 @@ Each active item should include enough direction that a future session can choos
 
 ## Resolved Item Archive
 
-Resolved and superseded `DEBT-*` items live in [archive/project-debt-archive.md](archive/project-debt-archive.md). Search that file only when historical implementation or a retired stable ID matters.
+Resolved and superseded `DEBT-*` items live in [archive/project-debt-archive.md](archive/DEBT-ARCHIVE.md). Search that file only when historical implementation or a retired stable ID matters.

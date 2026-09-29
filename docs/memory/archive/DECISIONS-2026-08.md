@@ -2,7 +2,7 @@
 
 Consolidated August milestones, ordered by the last dated change in each group. Earlier steps retain their dates where sequence matters. Deployment and verification statements are dated observations, not fresh checks. Git retains implementation detail and the original entries.
 
-Use the [current system guide](../current-scope.md) for implementation and source owners, the [project map](../README.md) for current guidance, and the [archive index](README.md) for other months. The [active log](../task-log.md) owns admission and maintenance guidance.
+Use the [current system guide](../../reference/SYSTEM.md) for implementation and source owners, the [project map](../../README.md) for current guidance, and the [archive index](README.md) for other months. The [active log](../DECISIONS.md) owns admission and maintenance guidance.
 
 ## 2026-08-31 - Enquiry Form And Delivery Contract Strengthened
 
@@ -13,7 +13,7 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 ## 2026-08-31 - Private Analytics Split Into Report Pages
 
 - Split the owner-only dashboard into lazy-loaded Daily, Pages, Enquiries, Keywords and Excluded report pages. Each route retained its URL-backed workflow, with shared loading, formatting and visit-history behaviour.
-- Added runtime validation of protected response shapes and focused contract/sort checks. Current report boundaries belong to the [analytics system guide](../current-scope.md#analytics-and-data-meaning).
+- Added runtime validation of protected response shapes and focused contract/sort checks. Current report boundaries belong to the [analytics system guide](../../reference/SYSTEM.md#analytics-and-data-meaning).
 
 ## 2026-08-31 - Crisis Support Route And Source Context Established
 
@@ -24,7 +24,7 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 ## 2026-08-31 - Public Reduced-Motion Baseline Completed
 
 - Audited public styles and added the remaining generic button-lift fallback, completing the recorded reduced-motion baseline.
-- Updated the accessibility monitor after focused browser checks and resolved `SITE-7`; the [monitor](../../checklists/accessibility-monitor.md) retains review state.
+- Updated the accessibility monitor after focused browser checks and resolved `SITE-7`; the [monitor](../../checklists/ACCESSIBILITY-MONITOR.md) retains review state.
 
 ## 2026-08-28 - Public And Analytics Verification Responsibilities Simplified
 
@@ -100,7 +100,7 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 ## 2026-08-14 - Editorial Material Palette Expanded
 
 - Promoted the six-token warm-paper, sage, green and rule palette with semantic/contrast contracts, consolidating matching consumers across public editorial pages and development document/catalogue surfaces.
-- Preserved distinct canvas, navigation/footer and page-specific colour roles instead of merging values merely because they looked alike. Current tokens and roles live in [foundations](../../design-system/foundations.md).
+- Preserved distinct canvas, navigation/footer and page-specific colour roles instead of merging values merely because they looked alike. Current tokens and roles live in [foundations](../../design-system/FOUNDATIONS.md).
 
 ## 2026-08-13 - Public Route Parity Enforced
 
@@ -113,18 +113,18 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 ## 2026-08-12 - Code-Managed Article Publishing Added
 
 - Added the public Articles index and statically rendered article routes with a typed content registry, Markdown bodies, dates, references, metadata and sitemap handling. Focused build, script and browser checks covered navigation, native content, unknown slugs and discoverability.
-- Initially included optional React body presentations and noindexed sample publications. September work removed those states and standardised the publication model; current storage and publication rules belong to [article-publishing.md](../article-publishing.md).
+- Initially included optional React body presentations and noindexed sample publications. September work removed those states and standardised the publication model; current storage and publication rules belong to [ARTICLES.md](../../guidance/ARTICLES.md#implementing-and-publishing).
 
 ## 2026-08-06 - Public-Copy Context And Research Use Clarified
 
 - Added `practice-direction.md` as the then-current practice/positioning reference and simplified copy workflows so audience and market research required owner selection. Whole-page planning and durable handoffs remained distinct from ordinary section drafting.
-- Routed public wording through the repository writing authority and copywriter. The practice reference was made factual and renamed in September; current owners are [practice context](../practice-context.md) and [writing direction](../writing-direction.md).
+- Routed public wording through the repository writing authority and copywriter. The practice reference was made factual and renamed in September; current owners are [practice context](../../reference/PRACTICE.md) and [writing direction](../../guidance/WRITING.md).
 
 ## 2026-08-05 - Current-Only Design System Established
 
 - Replaced the mixed lifecycle catalogue with promoted-only Foundations, Components and Patterns, separating inherited implementation into the non-authoritative legacy register. Source presence and rendered examples did not establish reuse permission or safe removal.
 - Moved promoted production CSS into `src/design-system/` while retaining one bundled stylesheet, with inherited shared CSS outside that source entry. Split the development workspace into category routes rendering real supported implementations.
-- [Design governance](../../design-system/governance.md) became the owner of promotion/removal rules; completed removals belonged in Git and history rather than a retired-item catalogue.
+- [Design governance](../../guidance/DESIGN.md) became the owner of promotion/removal rules; completed removals belonged in Git and history rather than a retired-item catalogue.
 
 ## 2026-08-05 - Initial Shared Foundations And Contact Invitation Promoted
 
@@ -135,4 +135,4 @@ Use the [current system guide](../current-scope.md) for implementation and sourc
 ## 2026-08-03 - Outdated Rendered Design Catalogue Retired
 
 - Quarantined and then removed the five `/design-language/*` routes after checking that they had no Production consumers. Added a separate development-only `/design-system` workspace showing real implementations approved in written contracts; it did not restore or redirect the retired snapshot.
-- Introduced source-backed migration governance and `DEBT-37`. The temporary mixed lifecycle model was superseded by the current-only catalogue split on 5 August; current authority remains with [design governance](../../design-system/governance.md).
+- Introduced source-backed migration governance and `DEBT-37`. The temporary mixed lifecycle model was superseded by the current-only catalogue split on 5 August; current authority remains with [design governance](../../guidance/DESIGN.md).

@@ -1,6 +1,6 @@
 # Site Backlog Archive
 
-This file preserves implemented and superseded `SITE-*` items moved out of the [active site backlog](../site-backlog.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
+This file preserves implemented and superseded `SITE-*` items moved out of the [active site backlog](../BACKLOG.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
 ### SITE-11 - Website privacy and counselling-boundaries note
 
@@ -36,15 +36,15 @@ Implemented on 2026-06-27. Public contact display, footer/contact form source da
 
 ### SITE-1 - Accessibility checklist
 
-The incomplete checklist was retired after the site went live without being described as passed. Owner-directed accessibility review now lives in `docs/checklists/accessibility-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
+The incomplete checklist was retired after the site went live without being described as passed. Owner-directed accessibility review now lives in `docs/checklists/ACCESSIBILITY-MONITOR.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-2 - Responsive QA matrix
 
-The incomplete matrix was retired after the site went live without being described as passed. Owner-directed responsive review now lives in `docs/checklists/responsive-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
+The incomplete matrix was retired after the site went live without being described as passed. Owner-directed responsive review now lives in `docs/checklists/RESPONSIVE-MONITOR.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-3 - Public SEO and metadata QA matrix
 
-The incomplete matrix was retired after the site went live without being described as passed. Owner-directed site metadata review now lives in `docs/checklists/seo-metadata-monitor.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
+The incomplete matrix was retired after the site went live without being described as passed. Owner-directed site metadata review now lives in `docs/checklists/SEO-METADATA-MONITOR.md`; concrete changes remain ordinary `SITE-*` or `DEBT-*` work.
 
 ### SITE-4 - Performance and image delivery review
 

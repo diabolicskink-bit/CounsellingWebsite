@@ -14,7 +14,7 @@ to choose him and makes enquiring appealing and straightforward.
 The current task and explicit owner decisions determine content, emphasis and
 structure. Practical pages should help visitors do what they came to do.
 Articles have their own subject and purpose; use
-[article-writing.md](article-writing.md) when drafting or revising them.
+[ARTICLES.md](ARTICLES.md#writing-an-article) when drafting or revising them.
 
 ## Natural writing
 
@@ -42,9 +42,9 @@ do not present them as diagnoses or inherently as client problems.
 
 ## Sources and search
 
-[practice-context.md](practice-context.md) provides background facts to use when
+[PRACTICE.md](../reference/PRACTICE.md) provides background facts to use when
 relevant. It is not a content checklist. Use the target page for context and
-current source for operational details; [current-scope.md](current-scope.md)
+current source for operational details; [SYSTEM.md](../reference/SYSTEM.md)
 maps that source. Existing copy, including previously published copy, is not
 automatically a voice model. Preserve good writing when it serves the task.
 

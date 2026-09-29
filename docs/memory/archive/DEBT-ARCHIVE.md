@@ -1,6 +1,6 @@
 # Project Debt Archive
 
-This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../project-debt.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
+This file preserves resolved and superseded `DEBT-*` items moved out of the [active project debt tracker](../DEBT.md). Stable IDs remain searchable, but archived items are supporting history rather than active requirements.
 
 ### DEBT-43 - API handler tests repeat response fixtures
 

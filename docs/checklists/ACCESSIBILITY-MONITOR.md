@@ -64,7 +64,7 @@ Use [WCAG 2.2 Level AA](https://www.w3.org/TR/WCAG22/) as a practical review len
 
 ## Redirect Aliases
 
-Redirect aliases `/about`, `/fees`, and `/inclusion` are covered by `docs/checklists/seo-metadata-monitor.md`. Accessibility review begins at their destination pages unless a redirect-specific visitor-facing issue appears.
+Redirect aliases `/about`, `/fees`, and `/inclusion` are covered by `docs/checklists/SEO-METADATA-MONITOR.md`. Accessibility review begins at their destination pages unless a redirect-specific visitor-facing issue appears.
 
 ## `/` - Home
 

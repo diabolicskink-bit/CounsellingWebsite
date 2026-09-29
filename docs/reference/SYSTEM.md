@@ -4,7 +4,7 @@ This is the agent's working map of the Vive Counselling application: what it doe
 
 This document describes the current repository implementation and deployment model. Source, configuration, tests, and generated output settle exact implementation questions. A checked-out feature is not proof that it has reached Production; environment-specific observations below are dated and must be rechecked when they affect a release.
 
-[AGENTS.md](../../AGENTS.md) owns working rules and task authorization. [Practice context](practice-context.md) provides background facts about Vive and Joel; [writing direction](writing-direction.md) owns public-copy policy. The [project map](README.md) routes other documentation. This guide does not establish public wording, visual direction, or reusable design-system API.
+[AGENTS.md](../../AGENTS.md) owns working rules and task authorization. [Practice context](PRACTICE.md) provides background facts about Vive and Joel; [writing direction](../guidance/WRITING.md) owns public-copy policy. The [document map](../README.md) routes other documentation. This guide does not establish public wording, visual direction, or reusable design-system API.
 
 After [orientation](#orientation), use the [implementation map](#find-the-relevant-implementation), [routes](#surfaces-and-routes), [rendering](#rendering-routing-and-discoverability), [enquiries](#enquiries-and-contact), [articles](#articles-and-publishing), [analytics](#analytics-and-data-meaning), [runtime/configuration](#runtime-configuration-and-deployment), or [local verification](#working-locally-and-verifying-changes) section.
 
@@ -20,7 +20,7 @@ There are three distinct application surfaces:
 | --- | --- | --- |
 | Public website | Local development and deployed builds | Service information, articles, contact and fees, crisis-support resources, privacy information. |
 | Private analytics | Included in deployed builds; protected by Vercel middleware | One owner's traffic, page, referrer, paid-keyword, enquiry, and visitor-exclusion reporting. Its UI can render locally, but local Vite supplies neither the reporting API nor its authentication boundary. |
-| Development tools | Vite development mode only | Local article editing, a Markdown document viewer, design-system inspection, and the Codex/Opus test beds. These routes and their Dev navigation are absent from built previews and Production. |
+| Development tools | Vite development mode only | Local article editing, a Markdown document viewer organised around guidance, reference, shared contracts and memory, design-system inspection, and the Codex/Opus test beds. These routes and their Dev navigation are absent from built previews and Production. |
 
 The main flows are:
 
@@ -50,11 +50,11 @@ These are investigation entry points, not an exhaustive file inventory. Paths in
 | Public pages and navigation | [src/pages/](../../src/pages), [Layout.tsx](../../src/components/Layout.tsx), [src/data/site.ts](../../src/data/site.ts) | Page content, shared header/footer, navigation data and social destinations. |
 | Metadata and discoverability | [routeMetadata.json](../../src/data/routeMetadata.json), [routeMetadata.ts](../../src/data/routeMetadata.ts), [structured-data generator](../../scripts/build/route-structured-data.mjs) | Core page and business metadata, article metadata composition, canonical/social tags, JSON-LD and sitemap inputs. |
 | Contact and email | [Contact.tsx](../../src/pages/contact/Contact.tsx), [EnquiryForm.tsx](../../src/pages/contact/EnquiryForm.tsx), [enquiryContract.ts](../../src/contracts/enquiryContract.ts), [api/enquiry.ts](../../api/enquiry.ts), [src/server/enquiry/](../../src/server/enquiry) | UI, shared options/limits, request validation, native/JSON responses, email construction and delivery. |
-| Articles | [manifest.ts](../../src/content/articles/manifest.ts), [articles.ts](../../src/content/articles/articles.ts), [article templates](../../src/content/articles/articleTemplates), [article-publishing.md](article-publishing.md) | Publication metadata, typed content pairing, Markdown bodies/references, and publishing procedure. |
+| Articles | [manifest.ts](../../src/content/articles/manifest.ts), [articles.ts](../../src/content/articles/articles.ts), [article templates](../../src/content/articles/articleTemplates), [ARTICLES.md](../guidance/ARTICLES.md#implementing-and-publishing) | Publication metadata, typed content pairing, Markdown bodies/references, and publishing procedure. |
 | First-party collection | [VisitRecorder.tsx](../../src/tracking/VisitRecorder.tsx), [visitSession.ts](../../src/tracking/visitSession.ts), [visitEventContract.ts](../../src/contracts/visitEventContract.ts) | Page observation, browser identity/session lifecycle, attribution and allowed events; follow their imports into the write APIs and repositories. |
 | Private reporting | [src/pages/analytics/](../../src/pages/analytics), [analyticsContract.ts](../../src/contracts/analyticsContract.ts), [src/server/reporting/](../../src/server/reporting) | Report controls and summaries, runtime response contracts, request selection, SQL and exclusions. |
 | Storage and environment boundaries | [database/README.md](../../database/README.md), [database migrations](../../database/migrations), [middleware.ts](../../middleware.ts), [vercel.json](../../vercel.json) | Migration procedure/schema, private authentication, deployment routing, function packaging and retention schedule. |
-| Local tools and verification | [vite.config.ts](../../vite.config.ts), [articleEditorPlugin.ts](../../scripts/dev/articleEditorPlugin.ts), [package.json](../../package.json), [visual-verification.md](visual-verification.md) | Development server integration, local article writes, executable check commands and the supported IDE browser workflow. |
+| Local tools and verification | [vite.config.ts](../../vite.config.ts), [articleEditorPlugin.ts](../../scripts/dev/articleEditorPlugin.ts), [package.json](../../package.json), [VERIFICATION.md](../guidance/VERIFICATION.md) | Development server integration, local article writes, executable check commands and the supported IDE browser workflow. |
 
 Public write endpoints share origin allowlists, cross-site checks and blocked-request log sanitisation in [request-origin.ts](../../src/server/request-origin.ts). Origin headers contain only an HTTP(S) scheme and authority; Referer values must be absolute, credential-free HTTP(S) URLs. Only configured origins may omit the scheme.
 
@@ -85,21 +85,23 @@ Fees-labelled navigation and footer links deliberately open `/contact` while pas
 
 ### Private reporting
 
-| Route | What the owner can do |
-| --- | --- |
-| `/analytics` | Inspect a Perth calendar day's traffic and visit journeys, including sources, activity and diagnostic context. |
-| `/analytics/pages` | Compare routes by views, visits and active time over a selected date range. |
-| `/analytics/referrers` | Compare arrival hosts by visits, page views, active time and enquiry visits over a selected date range. |
-| `/analytics/keywords` | Compare paid visits by stored matched keyword, including coverage, engagement, returning visits and enquiry attribution. |
-| `/analytics/enquiries` | Inspect monthly successful form sends, phone- and email-click enquiry signals, and failed form outcomes. |
-| `/analytics/excluded` | Review and restore manually excluded visitors. Exclusion actions are also available while inspecting visits. |
+The dashboard is an internal tool for the owner, outside the public navigation and footer.
 
-Daily visits, monthly enquiry entries and exclusions can open the visitor's complete retained history. Reports support date selection, refresh/retry and empty/error states. There is no client-management workflow, enquiry inbox, user/role administration or account-registration system behind these views.
+| Route | Function |
+| --- | --- |
+| `/analytics` | Daily visits, sources, activity and visit journeys. |
+| `/analytics/pages` | Page views, visits and active time by route. |
+| `/analytics/referrers` | Arrival hosts, traffic and enquiry visits. |
+| `/analytics/keywords` | Paid matched-keyword coverage, engagement and enquiry visits. |
+| `/analytics/enquiries` | Monthly form, phone and email enquiries, with failed sends visible separately. |
+| `/analytics/excluded` | Review and restore excluded visitors. |
+
+Visits and enquiry records can open retained visitor history. [Reporting semantics](#reporting-semantics) explains the counts and filters. This is not an enquiry inbox or client-management system.
 
 ### Development tools
 
 - `/article-editor` edits existing article Markdown and structured references. Saving sends `PUT /__dev/article-editor/:slug` to the Vite plugin, which validates an allowlisted slug and rewrites that article's source template. The write endpoint rejects non-localhost Host values and exists only on the Vite development server. Metadata and article registration remain source edits.
-- `/documents` renders selected Markdown libraries from `docs/`. Its import globs in `src/pages/dev/documents/Documents.tsx` decide what appears; it is not a complete repository browser or document editor.
+- `/documents` renders the Markdown library under `docs/` plus the root, testing and database entry guides. It groups guidance, references, project memory, supported and legacy design-system records, research and working documents. Its import globs in `src/pages/dev/documents/Documents.tsx` own discovery; skill packages and source files are outside this reader, and it does not edit documents.
 - `/codex-tb` and `/opus-tb` are development-only places for page experiments. Their current contents are not public routes or approved future page implementations.
 - `/design-system` and its catalogue subroutes provide development inspection; their authority and maintenance are owned by the separate [design-system documentation](../design-system/README.md).
 
@@ -127,7 +129,7 @@ A route change can touch several contracts:
 - `vercel.json` owns HTTP redirects and clean-URL/trailing-slash behaviour. React redirects do not replace hosting redirects.
 - Browser tests cover representative public journeys under `tests/browser/public-site/`; direct route tests check public constants against metadata.
 
-This means adding a React route alone does not complete a public-route change. Check its first-response HTML, metadata, links, hosting behaviour and appropriate coverage. For article additions, follow [article-publishing.md](article-publishing.md), which describes the manifest/template path through those concerns.
+This means adding a React route alone does not complete a public-route change. Check its first-response HTML, metadata, links, hosting behaviour and appropriate coverage. For article additions, follow [ARTICLES.md](../guidance/ARTICLES.md#implementing-and-publishing), which describes the manifest/template path through those concerns.
 
 All currently published public content routes are indexable. Private reports and Not Found use no-index metadata; development routes are absent from builds. Canonical origin selection lives in [route-metadata-origin.mjs](../../scripts/build/route-metadata-origin.mjs): an explicit `SITE_URL` wins, Production otherwise uses the canonical site origin, and a Vercel Preview otherwise uses `VERCEL_URL`. Local builds fall back to the canonical origin. A local canonical pointing to the public site does not prove the page is being served from Production.
 
@@ -155,63 +157,42 @@ Articles use two connected sources. `src/content/articles/manifest.ts` supplies 
 
 Every registered article is published and indexable in a deployed build. A future `publishedAt` date does not schedule or hide an article, and there is no draft/sample switch. Adding an article requires its manifest entry and matching template registration; the build then derives its route HTML and sitemap/metadata entries. Local editor saves change source in the working tree, so they still need the normal build and release process. The editor does not create articles, change publication metadata, or publish directly.
 
-Use [article-publishing.md](article-publishing.md) for the exact schema, reference conventions and publishing checks. This workflow currently has no CMS, author login or database-backed content store.
+Use [ARTICLES.md](../guidance/ARTICLES.md#implementing-and-publishing) for the exact schema, reference conventions and publishing checks. This workflow currently has no CMS, author login or database-backed content store.
 
 ## Analytics And Data Meaning
 
 ### Collection and persistence
 
-First-party analytics and GA4/Clarity use separate browser enable flags and host additions. They share hostname-matching utilities, but enabling one pipeline does not enable the other. Both are off unless their enable flag is exactly `true`.
+First-party analytics supplies the private dashboard through Neon/Postgres. It records anonymous browser IDs, visits, page views, visible active time and allowlisted events. GA4 and Clarity are separate integrations; each pipeline requires its own enable flag and allowed host.
 
-The first-party model has four main records:
+A browser ID rotates after 12 months and is not a person or client account. Visit state lives in session storage; an external arrival, changed ad attribution or more than 30 minutes of inactivity starts a new visit. Clearing storage or changing browsers changes identity. The database schema and persistence owners are linked in the [implementation map](#find-the-relevant-implementation).
 
-| Record | Meaning |
-| --- | --- |
-| Visitor ID | A random browser identifier persisted in versioned `localStorage` and rotated after 12 calendar months. It is not a person/account ID; clearing storage or using another browser changes identity. There is no separate visitor-profile table. |
-| `site_visits` | A session-like journey tied to that visitor, with landing/referrer/ad attribution, timestamps and bounded diagnostic observations. Browser visit state uses `sessionStorage`; a new external arrival, changed tagged attribution or more than 30 minutes' inactivity starts another visit. |
-| `site_page_views` | Individual recorded page observations belonging to a visit, including cumulative visible active time. |
-| `site_visit_events` | Allowlisted actions/outcomes belonging to a visit and, when available, one of its page views. |
+Page loads, tracked pathname changes and restored documents receive page views; query-only and hash-only changes do not. The [Fees navigation distinction](#public-website) still applies. Writes are best-effort, with stable IDs to avoid duplicate retries and cumulative active-time updates. Active time measures visibility, not attention. Missing observations mean the dashboard is not a complete enquiry register.
 
-`analytics_excluded_visitors` stores manual reporting exclusions. The SQL view `visit_ledger` derives reporting facts over retained visits, including traffic source and visit order; it is not another independent collection store. [database/migrations/](../../database/migrations) defines the schema and [src/server/visits/repository.ts](../../src/server/visits/repository.ts) owns the shared Neon connection and visit persistence.
-
-The browser captures arrival parameters `gclid`, `ad`, `net`, `kw` and `mt`, plus the initial referrer. A stored matched keyword is ad attribution supplied through that URL, not a retrieved Google search query or keyword-volume measurement. Traffic-source classification is local to the ledger's SQL rules and should not be assumed to match GA4 acquisition categories.
-
-Initial document loads, distinct tracked pathnames and browser-restored documents receive page views. Query-only and hash-only changes do not create additional first-party page views. Paths are normalized for storage; the special Fees intent described above is preserved. GA4 has its own page-view effect, including query-string changes, so the systems need not produce identical totals.
-
-`VisitRecorder`, `visitSession`, `visitEvents`, `pageEngagement` and `visitAnalyticsQueue` coordinate browser observations. Writes are serialized within a document and are best-effort. The write repositories use stable IDs and relationship checks to avoid counting retries twice or attaching a page view to another visit. Engagement updates take a cumulative maximum instead of adding each retry's duration; they count time while the page is visible, not proof of attention or the entire elapsed visit duration. There is no durable browser delivery queue or persisted cross-document causal ordering.
-
-Allowlisted first-party client events cover contact-option selection, enquiry start, the shared consult CTA, Instagram, LinkedIn, email, and Contact-page phone links. Server-authored events record controlled form submission attempt, successful delivery, and failure outcomes. Client events retain their active page-view association, and event storage never delays or changes the visitor interaction or public delivery result.
-
-The server derives bounded User-Agent/device context and coarse location from Vercel request headers. Australian location retains a state/territory code; overseas location retains country only; invalid or unavailable location stays unknown. Raw IP, city, postcode and coordinates are not stored in this ledger. Bot classification uses BotID Basic and server-side User-Agent parsing without blocking visitors. Either BotID's bot flag or verified-bot flag is a positive observation. Names follow a short fallback chain: Vercel-supplied verified identity, `node-device-detector`'s bot parser, then official crawler IP ranges and Google/Bing reverse/forward DNS for still-unnamed bots. Generic parser matches count as bots but still need a name. Missing BotID results remain unclassified unless another check identifies a bot; bypassed results are not human evidence.
-
-`src/server/visits/bot.ts` owns this classification and `bot-network.ts` owns the optional naming lookup. Only a single valid `x-vercel-forwarded-for` address on Vercel is eligible. Official Google, Bing, OpenAI, Anthropic and Perplexity ranges are cached in function memory for 24 hours; per-IP results for one hour (up to 256 entries); failed or unidentified lookups for one minute. The additional IP/DNS work has a one-second total budget. IPs and DNS responses are not stored in the ledger or returned to the browser. No new browser scripts or blocking page work are added. Positive bot status survives subsequent observations; the first available named identity and its category stay together. Names are best effort, including provider-level names where a specific crawler cannot be distinguished. Collection remains limited to existing JavaScript-recorded visits. The WebDriver flag is a separate browser observation, not an equivalent bot verdict.
+Visits retain arrival/referrer and ad attribution. A matched keyword comes from an ad URL parameter, not the visitor's search query. Diagnostics include bounded User-Agent/device information and coarse location: Australian state/territory or overseas country. Raw IPs and precise location are not stored. Bot detection and optional network lookups provide best-effort classification without blocking visitors; [bot.ts](../../src/server/visits/bot.ts) and [bot-network.ts](../../src/server/visits/bot-network.ts) own those details.
 
 ### Reporting semantics
 
-Dates use `Australia/Perth`. Page, referrer and keyword ranges are inclusive and limited to 366 days. The main distinctions are:
+This is a single-owner reporting tool maintained by one developer. Keep its implementation and documentation proportionate to the functions listed under [private reporting](#private-reporting). Shared enquiry classification lives in [analyticsContract.ts](../../src/contracts/analyticsContract.ts), used by the reporting queries and dashboard.
 
-- **Daily traffic, Pages, Referrers and Keywords select visits by visit start date.** Their page/activity totals describe the selected visits' retained journeys; they do not simply count all page-view events that happened between two clock boundaries. Keywords further selects paid visits and keeps visits without keyword data visible in coverage totals.
-- **Referrers groups all included visits by recorded arrival host, splitting Google search hosts into paid and organic rows.** It combines case and leading `www.` variants, groups the canonical Vive hosts as Internal, and retains a No referrer recorded group. Google search hosts keep their domain and use the ledger's paid attribution: paid when ad attribution is recorded, otherwise organic. Other hosts (including Google service subdomains such as Gmail), Internal and missing referrers retain their existing grouping regardless of paid attribution. The external-referrer summary counts groups, so a Google host with paid and organic visits counts twice. Rows rank by visits and include page views, visible active time and enquiry visits. An enquiry visit contains at least one successful form send or phone-link click, counted once regardless of repeated or combined signals. These outcomes belong to the selected visits' retained journeys, so they need not occur inside the date range. The protected `/analytics/referrers` page uses `report=referrers` on the reporting API; Daily links preserve date and bot selection.
-- **Monthly Enquiries selects enquiry events by occurrence month.** A visit may have started earlier. Successful form sends and Contact-page phone clicks are enquiry signals; failed forms are separate. A phone click proves neither that a call was placed nor that Joel answered. Email/social clicks remain separate outbound actions.
-- **Returning means a later retained visit for the browser ID.** It does not establish a returning client or person, and rotation, storage loss and retention affect that interpretation.
-- **Exclusion is a reporting filter, not deletion or collection opt-out.** It removes a visitor's past and future visits from ordinary reports while preserving direct retained-history access and allowing restoration.
-- **Identified bots are hidden by default; unclassified visits remain included.** The interface can include identified bots. Bot filtering and manual exclusion are separate concepts.
-
-The report API uses a discriminator and complete nested response contracts from `src/contracts/analyticsContract.ts`. `src/server/reporting/request.ts` parses report selection and canonicalizes visitor IDs; `queries.ts` owns reporting SQL; `reader.ts` executes those queries, converts database results and validates the complete report against that shared contract. `database.ts` owns reporting's database-configuration error boundary, and `row-values.ts` supplies strict count/timestamp conversions shared with exclusions. Page-level reporting code computes relevant display summaries. `useAnalyticsReport.ts` rejects malformed or wrong-type reports and handles cancellation, retry and refresh. A report-shape change must agree across those boundaries.
-
-Reports are based on the visits and outcomes the system actually captured. Browser blocking, disabled collection, failed writes and submissions without visit context make the enquiry view an analytics report rather than an authoritative inbox or total practice-enquiry register.
+- **Enquiries:** successful form sends, email-link clicks and Contact-page phone-link clicks. Social clicks, consult CTA clicks, unfinished forms and failed sends do not count. Failed sends remain visible for diagnosis. A contact-link click is an enquiry signal, not proof of a completed call or email; a form send means provider acceptance.
+- **Events and visits:** Monthly Enquiries counts each enquiry event in its occurrence month. Its paid-history count includes each enquiry event after a paid visit by the same retained browser, including paid visits from earlier months. The paid-visit total counts visits started in the selected month; its enquiry rate counts distinct paid visits credited with an enquiry event in that month, assigning each enquiry to the latest preceding paid visit by that browser. Referrers and Keywords count each visit with an enquiry once, even when it contains several enquiry events or channels.
+- **Dates:** reports use Australia/Perth. Daily, Pages, Referrers and Keywords select visits by start date and include their retained activity, which may extend beyond the selected period. Date ranges are inclusive and limited to 366 days.
+- **Grouping:** Referrers groups arrival hosts, separating Google paid/organic traffic and retaining Internal and No referrer groups. Keywords covers paid visits and shows how many lack matched-keyword data. Source owns exact grouping and query rules.
+- **Filters:** identified bots are hidden by default; unclassified visits remain. Visitor exclusions hide past and future activity from ordinary reports without deleting it; retained history can still be opened and exclusions restored.
+- **Returning visitors:** a later retained visit by the same browser ID, not evidence of a returning client.
 
 ### Privacy and retention
 
-The entire `/analytics` subtree is excluded from first-party, GA4 and Clarity collection. Direct private visits receive a dedicated no-index shell. If in-app navigation reaches a private report after GA4 or Clarity has initialized, `App.tsx` forces a fresh document before rendering report content so those scripts do not remain active over private data.
+The whole `/analytics` subtree is excluded from first-party, GA4 and Clarity tracking. A public-to-private transition forces a fresh document if third-party analytics has loaded, so those scripts cannot observe report content. Private reports and their API are protected at the [Vercel middleware boundary](#environment-boundaries).
 
-Enquiry events accept a small allowlist of properties, and server outcome events cannot be submitted as client event types. The Contact form is masked from Clarity. Full retained referrers, ad identifiers and diagnostics remain private operational data even though the ledger does not store enquiry message contents.
+Enquiry contents are sent by email and are not stored in analytics. Events contain only allowlisted properties, and the Contact form is masked from Clarity. Retained referrers, ad identifiers and diagnostics remain private operational data.
 
-Production retention deletes visits older than 12 months, cascades to their page views/events, and removes exclusion markers with no remaining visits. `vercel.json` schedules `GET /api/visit-retention` daily at 18:15 UTC (02:15 Perth). It uses Bearer `CRON_SECRET` authentication, separate from analytics Basic Authentication. Preview has no scheduled retention run.
+Production removes visits older than 12 months, their page views/events, and unused exclusion markers through the protected retention job. Preview has no scheduled cleanup. [database/README.md](../../database/README.md) and `vercel.json` own the procedure and schedule.
 
 ### GA4 and Clarity
 
-`SiteAnalytics.tsx` loads the configured providers only on allowed hosts outside private routes. GA4's automatic initial page-view emission is disabled in favour of app-managed page views. Controlled events cover enquiry intent, contact choices, email/Contact-phone clicks and successful leads; failed submissions do not emit the success conversion. Clarity supplies behavioural recording with the form masked. There is no first-party cookie banner or local Clarity Consent API flow, and Vercel Web Analytics is not installed.
+`SiteAnalytics.tsx` loads configured providers on allowed public hosts. GA4 uses app-managed page views and controlled interaction events; its totals need not match first-party reporting. Clarity supplies behavioural recording with form masking. There is no first-party cookie banner or local Clarity Consent API flow, and Vercel Web Analytics is not installed.
 
 ## Runtime, Configuration And Deployment
 
@@ -238,7 +219,7 @@ Vercel middleware protects `/analytics` and `/api/analytics` (including descenda
 | `POST /api/visit` | Public, write-only visit/page-view collection; validates observation IDs and attribution, adds server diagnostics and best-effort bot classification. |
 | `POST /api/page-engagement` | Public, write-only cumulative active-time update for the supplied visitor/visit/page-view relationship. |
 | `POST /api/visit-event` | Public, write-only allowlisted client actions. Server-authored enquiry outcomes use the repository from the enquiry handler instead. |
-| `GET /api/analytics` | Protected report selection by day, month, visitor or page/keyword date range. Returns a typed report in a `data` envelope. |
+| `GET /api/analytics` | Protected daily, monthly, visitor and date-range reports. Returns a typed report in a `data` envelope. |
 | `GET`, `PUT /api/analytics/exclusions` | Protected listing and mutation of visitor exclusion markers. |
 | `GET /api/visit-retention` | Bearer-secret-protected deletion of expired analytics data. This GET has a destructive effect; it is not a read-only health check. |
 
@@ -267,39 +248,23 @@ Both browser allowlists include the canonical apex and `www` by default. Extra h
 
 Follow [database/README.md](../../database/README.md) for environment selection and migration commands. Migrations run in filename order and are recorded with checksums in `visit_schema_migrations`; edited applied migrations are rejected. Add a new forward migration for a schema change. `npm run build` and a Git-triggered deployment do not apply migrations.
 
-For code that depends on schema changes, establish the intended environment's schema readiness before deploying that code. Preview migrations affect the shared Preview database used by non-production deployments, so compatibility with other active Preview code matters. Verification that needs a database uses the separate Preview environment under the [private analytics policy](../../AGENTS.md#private-analytics). Substantial analytics work can warrant agent verification there; routine dashboard browser checks remain with the owner. Production is not a development-verification database.
+Establish schema readiness before deploying code that depends on a migration. The Preview database is shared by non-production deployments, so changes must remain compatible with other active Preview code. Use Preview for database verification; never Production. [ANALYTICS.md](../guidance/ANALYTICS.md) owns dashboard verification and Preview authorization.
 
-**Recorded environment state:** the repository has twelve ordered migrations through `0012_describe_bot_identification.sql` (column comments only; no runtime schema dependency). Preview and Production were both current through `0011` on 2026-09-10; `0012` has not been applied as part of this implementation. This is a dated operational observation rather than a live schema check; confirm each environment again when a future release depends on a newer migration. The dated [consult CTA](task-log.md#2026-09-10---consult-cta-first-party-event-added) and [phone analytics](task-log.md#2026-09-09---contact-phone-analytics-added) entries retain the history.
+**Recorded environment state:** the repository has twelve ordered migrations through `0012_describe_bot_identification.sql` (column comments only; no runtime schema dependency). Preview and Production were both current through `0011` on 2026-09-10; `0012` has not been applied as part of this implementation. This is a dated operational observation rather than a live schema check; confirm each environment again when a future release depends on a newer migration. The dated [consult CTA](../memory/DECISIONS.md#2026-09-10---consult-cta-first-party-event-added) and [phone analytics](../memory/DECISIONS.md#2026-09-09---contact-phone-analytics-added) entries retain the history.
 
 ## Working Locally And Verifying Changes
 
 Use the checked-in npm lockfile (`npm ci` when installing dependencies). Node and npm versions are not pinned by the repository; direct Node tests import TypeScript source, so the runtime must support those imports. The executable commands in [package.json](../../package.json) are authoritative. On Windows PowerShell, use `npm.cmd` for the same commands if execution policy blocks the `npm.ps1` launcher; no policy change is needed.
 
-Choose checks using the [verification policy](../../AGENTS.md#engineering-and-verification); the commands below describe available coverage, not a required sequence. For dashboard changes, start with focused local checks. Substantial analytics changes that cannot be adequately verified locally may warrant committing and pushing to a working-branch Preview for focused agent verification, following the [private analytics workflow](../../AGENTS.md#private-analytics). The owner can also explicitly request a Preview; routine dashboard browser checks remain with the owner. Public tracking and shared privacy boundaries retain their own relevant checks.
+Use the [test guide](../../tests/README.md) for test design, command coverage, prerequisites, and execution limits. [Repository verification policy](../guidance/VERIFICATION.md#choose-checks) determines which checks are warranted; [private analytics policy](../guidance/ANALYTICS.md) covers dashboard inspection and Preview authorization.
 
-| Command | Purpose and limits |
+| Command | Local runtime |
 | --- | --- |
-| `npm run dev` | Local Vite development UI, including development routes and the article editor. No API-service verification. |
-| `npm run build` | App/API typecheck, client/server bundles and generated-route checks. No live database or email check. |
-| `npm run preview` | Serve the most recent built output locally. It does not build first. |
-| `npm run check:encoding` | Repository text-encoding check, useful for documentation and copy edits. |
-| `npm run typecheck:tests` | Separate strict typecheck for Playwright specs. |
-| `npm run test:api` | Direct Node tests for enquiry, collection, reporting, exclusions and retention handlers/repositories with substituted dependencies. |
-| `npm run test:node` | All local Node checks, grouped by shared server contracts, analytics, enquiry, visits, site and tooling. No live database or browser run. |
-| `npm run test:database` | Opt-in PostgreSQL reporting checks with synthetic fixtures, using only Preview configuration from `.env.preview.local`. |
-| `npm run qa:site` | Encoding and test typechecks, build, then the public-site Playwright suite against local built output. |
-| `npm run test:analytics` | Fast API/domain suite (including analytics-host checks), plus migration handling and read-only-query checks. |
-| `npm run qa:analytics` | Test typecheck and fast analytics tests, followed by builds/browser tests with collection hosts blocked and enabled. Real database behaviour remains outside this command. |
-| `npm run qa` | Encoding, test typecheck, all local Node tests, build and public browser suite. It does not run database tests or the separate analytics browser scenarios. |
-| `npm run audit:lighthouse` | Build and local Lighthouse reports; no enforced performance budget. |
+| `npm run dev` | Vite development UI, including development routes and the article editor; no Vercel API services. |
+| `npm run build` | App/API typecheck, client/server bundles, and generated-route checks; no live database or email verification. |
+| `npm run preview` | Serve the most recent built output; it does not build first or run Vercel services. |
 
-The [test guide](../../tests/README.md) maps the `tests/node/`, `tests/browser/` and `tests/database/` boundaries and focused commands. PostgreSQL fixture tests execute the real reporting query against synthetic sources without reading retained visitor data. They do not verify the deployed API or UI.
-
-Public Playwright tests live under `tests/browser/public-site/`; analytics collection and privacy-boundary checks live under `tests/browser/analytics/`. Dashboard presentation remains an owner check. The browser project retains the name `chromium` but selects installed Google Chrome with `channel: "chrome"`; it requires Chrome, not a Playwright-managed browser download. Narrow viewports are exercised where relevant. Browser API/provider responses are intercepted for the relevant scenarios, and local Node repository tests substitute query results and check request mapping and consequential side effects. These checks establish local behaviour and contract consistency, not deployed email, real SQL execution, Vercel middleware or all-browser coverage.
-
-QA uses managed local preview servers on port 4287 for the public suite and 4288 for analytics. The analytics command rebuilds `dist/` with test collection settings; rerun an ordinary build before treating that output as a normal site build. Commands that rebuild the same output directory should run sequentially.
-
-For ad-hoc browser inspection in the Codex IDE, follow [visual-verification.md](visual-verification.md): the persistent Node tool runs repository Playwright with installed Chrome through `scripts/dev/visual-session.mjs`. The helper owns a temporary Vite development server and browser, bounds waits and captures console/page errors from startup. Automated QA uses the same Chrome channel against built preview output. Project Codex configuration disables competing plugin browser workflows. Changes confined to development pages follow the proportionate verification rule in `AGENTS.md`; the existence of a browser tool does not make every edit a full visual audit.
+For ad-hoc browser inspection in the Codex IDE, follow [visual verification](../guidance/VERIFICATION.md).
 
 Known implementation limits worth accounting for during related work:
 
@@ -309,7 +274,7 @@ Known implementation limits worth accounting for during related work:
 - Shared navigation and route-focus accessibility remain incomplete; automated axe checks are not a conformance claim (`DEBT-29`, `DEBT-30`).
 - Node/package-manager versions and direct JavaScript/script type coverage remain incomplete (`DEBT-16`, `DEBT-9`).
 
-Use [project-debt.md](project-debt.md) for the current evidence and next actions when a limitation is relevant. This list does not select additional work. Functional absences such as booking/payment services, public accounts, a deployed CMS, scheduling and article drafts are current system boundaries, not a backlog of implied features.
+Use [DEBT.md](../memory/DEBT.md) for the current evidence and next actions when a limitation is relevant. This list does not select additional work. Functional absences such as booking/payment services, public accounts, a deployed CMS, scheduling and article drafts are current system boundaries, not a backlog of implied features.
 
 ## Maintaining This Guide
 

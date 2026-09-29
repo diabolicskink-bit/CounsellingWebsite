@@ -131,27 +131,25 @@ export function visitActiveSeconds(visit: AnalyticsVisit) {
   return visit.pageViews.reduce((total, pageView) => total + pageView.activeSeconds, 0);
 }
 
-export type OutboundActionCounts = {
-  email: number;
+export type SocialActionCounts = {
   instagram: number;
   linkedin: number;
   total: number;
 };
 
-export function outboundActionCounts(
+export function socialActionCounts(
   events: AnalyticsVisitEvent[],
-): OutboundActionCounts {
+): SocialActionCounts {
   const counts = events.reduce(
     (result, visitEvent) => {
-      if (visitEvent.eventType === visitEventTypes.emailLinkClicked) result.email += 1;
       if (visitEvent.eventType === visitEventTypes.instagramLinkClicked) result.instagram += 1;
       if (visitEvent.eventType === visitEventTypes.linkedinLinkClicked) result.linkedin += 1;
       return result;
     },
-    { email: 0, instagram: 0, linkedin: 0 },
+    { instagram: 0, linkedin: 0 },
   );
 
-  return { ...counts, total: counts.email + counts.instagram + counts.linkedin };
+  return { ...counts, total: counts.instagram + counts.linkedin };
 }
 
 export function visitLocationCompactLabel(visit: AnalyticsVisit) {
