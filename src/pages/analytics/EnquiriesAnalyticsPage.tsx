@@ -131,16 +131,14 @@ function MonthlyEnquiries({
             <dd>{paidVisitEnquiryRate === null ? "N/A" : `${paidVisitEnquiryRate}%`}</dd>
             <small>{paidVisitsWithEnquiry} of {paidVisits} paid visits</small>
           </div>
-          <div>
-            <dt>Avg cost per enquiry</dt>
-            <dd>
+          <div className="monthly-enquiries__cost-card">
+            <dt>Avg CPE</dt>
+            <dd className="monthly-enquiries__cost-result">
               {averageCostPerEnquiry === null ? "N/A" : costFormatter.format(averageCostPerEnquiry)}
             </dd>
+            <dt>Avg CPC</dt>
             <dd className="monthly-enquiries__cost-control">
-              <span className="monthly-enquiries__cost-label">
-                <span>Cost per paid visit</span>
-                <strong>{formattedPaidVisitCost}</strong>
-              </span>
+              <strong className="monthly-enquiries__cost-value">{formattedPaidVisitCost}</strong>
               <span className="monthly-enquiries__cost-arrows">
                 <button
                   onClick={() => onAdjustPaidVisitCost(1)}
