@@ -2,9 +2,8 @@ import { lazy, Suspense, useLayoutEffect, type ComponentType } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
 import Layout from "../components/Layout";
-import SiteAnalytics from "../tracking/SiteAnalytics";
-import VisitRecorder from "../tracking/VisitRecorder";
 import { articleRedirects, getArticlePath } from "../content/articles/manifest";
+import { devRoutePaths, privateRoutePaths, publicRedirectRoutes, publicRoutePaths } from "../data/routes";
 import Contact from "../pages/contact/Contact";
 import CrisisSupport from "../pages/crisis-support/CrisisSupport";
 import EnmPolyamoryCounselling from "../pages/inclusion/EnmPolyamoryCounselling";
@@ -15,40 +14,66 @@ import LgbtqiaCounselling from "../pages/inclusion/LgbtqiaCounselling";
 import NotFound from "../pages/not-found/NotFound";
 import PrivacyPolicy from "../pages/privacy-policy/PrivacyPolicy";
 import WorkingWithJoel from "../pages/working-with-joel/WorkingWithJoel";
-import { devRoutePaths, privateRoutePaths, publicRedirectRoutes, publicRoutePaths } from "../data/routes";
+import { hasThirdPartyAnalyticsLoaded } from "../tracking/analytics";
+import SiteAnalytics from "../tracking/SiteAnalytics";
+import VisitRecorder from "../tracking/VisitRecorder";
 
-const analyticsRoutes = [
+export type ArticlePageComponents = Readonly<{
+  Index: ComponentType;
+  Page: ComponentType;
+}>;
+
+export type AppProps = {
+  articlePages: ArticlePageComponents;
+  initialRenderAt: string;
+};
+
+type LazyRoute = Readonly<{
+  path: string;
+  Page: ComponentType;
+}>;
+
+const analyticsRoutes: readonly LazyRoute[] = [
   {
-    Page: lazy(() => import("../pages/analytics/ReferrersAnalyticsPage")),
-    path: privateRoutePaths.analyticsReferrers,
-  },
-  {
-    Page: lazy(() => import("../pages/analytics/DailyAnalyticsPage")),
     path: privateRoutePaths.analytics,
+    Page: lazy(() => import("../pages/analytics/DailyAnalyticsPage")),
   },
   {
-    Page: lazy(() => import("../pages/analytics/PageViewsAnalyticsPage")),
-    path: privateRoutePaths.analyticsPageViews,
-  },
-  {
-    Page: lazy(() => import("../pages/analytics/EnquiriesAnalyticsPage")),
     path: privateRoutePaths.analyticsEnquiries,
+    Page: lazy(() => import("../pages/analytics/EnquiriesAnalyticsPage")),
   },
   {
-    Page: lazy(() => import("../pages/analytics/KeywordsAnalyticsPage")),
-    path: privateRoutePaths.analyticsKeywords,
-  },
-  {
-    Page: lazy(() => import("../pages/analytics/ExcludedVisitorsPage")),
     path: privateRoutePaths.analyticsExcluded,
+    Page: lazy(() => import("../pages/analytics/ExcludedVisitorsPage")),
   },
-] as const;
+  {
+    path: privateRoutePaths.analyticsKeywords,
+    Page: lazy(() => import("../pages/analytics/KeywordsAnalyticsPage")),
+  },
+  {
+    path: privateRoutePaths.analyticsPageViews,
+    Page: lazy(() => import("../pages/analytics/PageViewsAnalyticsPage")),
+  },
+  {
+    path: privateRoutePaths.analyticsReferrers,
+    Page: lazy(() => import("../pages/analytics/ReferrersAnalyticsPage")),
+  },
+];
 
-const devRoutes = import.meta.env.DEV
+const devRoutes: readonly LazyRoute[] = import.meta.env.DEV
   ? [
-      { path: devRoutePaths.articleEditor, Page: lazy(() => import("../pages/dev/article-editor/ArticleEditor")) },
-      { path: devRoutePaths.codexTestBed, Page: lazy(() => import("../pages/dev/test-beds/CodexTB")) },
-      { path: devRoutePaths.designSystem, Page: lazy(() => import("../pages/dev/design-system/DesignSystem")) },
+      {
+        path: devRoutePaths.articleEditor,
+        Page: lazy(() => import("../pages/dev/article-editor/ArticleEditor")),
+      },
+      {
+        path: devRoutePaths.codexTestBed,
+        Page: lazy(() => import("../pages/dev/test-beds/CodexTB")),
+      },
+      {
+        path: devRoutePaths.designSystem,
+        Page: lazy(() => import("../pages/dev/design-system/DesignSystem")),
+      },
       {
         path: devRoutePaths.designSystemComponents,
         Page: lazy(() => import("../pages/dev/design-system/DesignSystemComponents")),
@@ -61,37 +86,37 @@ const devRoutes = import.meta.env.DEV
         path: devRoutePaths.designSystemPatterns,
         Page: lazy(() => import("../pages/dev/design-system/DesignSystemPatterns")),
       },
-      { path: devRoutePaths.documents, Page: lazy(() => import("../pages/dev/documents/Documents")) },
-      { path: devRoutePaths.opusTestBed, Page: lazy(() => import("../pages/dev/test-beds/OpusTB")) },
+      {
+        path: devRoutePaths.documents,
+        Page: lazy(() => import("../pages/dev/documents/Documents")),
+      },
+      {
+        path: devRoutePaths.opusTestBed,
+        Page: lazy(() => import("../pages/dev/test-beds/OpusTB")),
+      },
     ]
   : [];
 
-export type ArticlePageComponents = Readonly<{
-  Page: ComponentType;
-  Index: ComponentType;
-}>;
-
-export type AppProps = {
-  articlePages: ArticlePageComponents;
-  initialRenderAt: string;
-};
-
-function AnalyticsRoute() {
-  const requiresPrivateDocument = typeof window !== "undefined" && Boolean(
-    document.getElementById("vive-google-analytics")
-    || document.getElementById("vive-google-analytics-config")
-    || document.getElementById("vive-microsoft-clarity")
-    || window.gtag
-    || window.clarity,
+function LazyPage({ Page }: { Page: ComponentType }) {
+  return (
+    <Suspense fallback={null}>
+      <Page />
+    </Suspense>
   );
+}
+
+// Private pages must never share a document with third-party trackers, so arriving here by
+// client-side navigation from a tracked public page forces a full load of a clean document.
+function AnalyticsRoute() {
+  const requiresCleanDocument = hasThirdPartyAnalyticsLoaded();
 
   useLayoutEffect(() => {
-    if (requiresPrivateDocument) {
+    if (requiresCleanDocument) {
       window.location.replace(window.location.href);
     }
-  }, [requiresPrivateDocument]);
+  }, [requiresCleanDocument]);
 
-  if (requiresPrivateDocument) {
+  if (requiresCleanDocument) {
     return null;
   }
 
@@ -103,21 +128,29 @@ function AnalyticsRoute() {
 }
 
 export default function App({ articlePages, initialRenderAt }: AppProps) {
-  const { Index: ArticleIndex, Page: ArticlePage } = articlePages;
-
   return (
     <>
       <ScrollToTop />
       <Routes>
         <Route element={<AnalyticsRoute />}>
-          {analyticsRoutes.map(({ Page, path }) => (
+          {analyticsRoutes.map(({ path, Page }) => (
             <Route key={path} path={path} element={<Page />} />
           ))}
         </Route>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
-          {publicRedirectRoutes.map((route) => (
-            <Route key={route.path} path={route.path} element={<Navigate to={route.to} replace />} />
+          <Route path={publicRoutePaths.workingWithJoel} element={<WorkingWithJoel />} />
+          <Route path={publicRoutePaths.inclusion} element={<InclusivePractice />} />
+          <Route path={publicRoutePaths.kinkBdsm} element={<KinkBdsmCounselling />} />
+          <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
+          <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
+          <Route path={publicRoutePaths.articles} element={<LazyPage Page={articlePages.Index} />} />
+          <Route path={getArticlePath(":slug")} element={<LazyPage Page={articlePages.Page} />} />
+          <Route path={publicRoutePaths.contact} element={<Contact initialRenderAt={initialRenderAt} />} />
+          <Route path={publicRoutePaths.crisisSupport} element={<CrisisSupport />} />
+          <Route path={publicRoutePaths.privacyPolicy} element={<PrivacyPolicy />} />
+          {publicRedirectRoutes.map(({ path, to }) => (
+            <Route key={path} path={path} element={<Navigate to={to} replace />} />
           ))}
           {articleRedirects.map(({ fromSlug, toSlug }) => (
             <Route
@@ -126,41 +159,9 @@ export default function App({ articlePages, initialRenderAt }: AppProps) {
               element={<Navigate to={getArticlePath(toSlug)} replace />}
             />
           ))}
-          <Route path={publicRoutePaths.workingWithJoel} element={<WorkingWithJoel />} />
-          <Route path={publicRoutePaths.inclusion} element={<InclusivePractice />} />
-          <Route path={publicRoutePaths.kinkBdsm} element={<KinkBdsmCounselling />} />
-          <Route path={publicRoutePaths.enmPolyamory} element={<EnmPolyamoryCounselling />} />
-          <Route path={publicRoutePaths.lgbtqia} element={<LgbtqiaCounselling />} />
-          <Route
-            path={publicRoutePaths.articles}
-            element={(
-              <Suspense fallback={null}>
-                <ArticleIndex />
-              </Suspense>
-            )}
-          />
-          <Route
-            path={`${publicRoutePaths.articles}/:slug`}
-            element={(
-              <Suspense fallback={null}>
-                <ArticlePage />
-              </Suspense>
-            )}
-          />
-          <Route path={publicRoutePaths.crisisSupport} element={<CrisisSupport />} />
-          <Route path={publicRoutePaths.privacyPolicy} element={<PrivacyPolicy />} />
-          {devRoutes.map(({ Page, path }) => (
-            <Route
-              key={path}
-              path={path}
-              element={(
-                <Suspense fallback={null}>
-                  <Page />
-                </Suspense>
-              )}
-            />
+          {devRoutes.map(({ path, Page }) => (
+            <Route key={path} path={path} element={<LazyPage Page={Page} />} />
           ))}
-          <Route path={publicRoutePaths.contact} element={<Contact initialRenderAt={initialRenderAt} />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

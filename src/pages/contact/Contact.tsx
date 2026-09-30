@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import Container from "../../components/Container";
-import { enquiryEmail, enquiryPhone } from "../../data/enquiry";
+import { businessHours, enquiryEmail, enquiryPhone } from "../../data/enquiry";
 import { getRouteMetadata } from "../../data/routeMetadata";
 import { publicRoutePaths } from "../../data/routes";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
 import { trackPhoneLinkClicked } from "../../tracking/analytics";
 import { recordVisitEvent } from "../../tracking/visitEvents";
-import { getActiveAustralianPerthBusinessHoursNotes } from "../../utils/timeZones";
+import { getBusinessHoursByTimeZone, type BusinessHoursInTimeZone } from "../../utils/timeZones";
 import EnquiryForm from "./EnquiryForm";
 import "./contact.css";
 
@@ -16,41 +16,40 @@ type ContactPageProps = {
 
 const contactMetadata = getRouteMetadata(publicRoutePaths.contact);
 
-function BusinessHoursTimeZoneNotes({ initialRenderAt }: ContactPageProps) {
-  const [comparison, setComparison] = useState(() => ({
-    notes: getActiveAustralianPerthBusinessHoursNotes(new Date(initialRenderAt)),
+function haveSameHours(first: readonly BusinessHoursInTimeZone[], second: readonly BusinessHoursInTimeZone[]) {
+  return first.length === second.length &&
+    first.every((row, index) => (
+      row.abbreviation === second[index].abbreviation && row.hours === second[index].hours
+    ));
+}
+
+function BusinessHoursTable({ initialRenderAt }: ContactPageProps) {
+  const [hoursTable, setHoursTable] = useState(() => ({
+    rows: getBusinessHoursByTimeZone(new Date(initialRenderAt)),
     source: "prerendered" as "current" | "prerendered",
   }));
 
   useEffect(() => {
-    const currentNotes = getActiveAustralianPerthBusinessHoursNotes();
+    const currentRows = getBusinessHoursByTimeZone();
 
-    setComparison((existingComparison) => {
-      const notesAreCurrent =
-        existingComparison.notes.length === currentNotes.length &&
-        existingComparison.notes.every((note, index) => note === currentNotes[index]);
-
-      return notesAreCurrent
-        ? existingComparison
-        : { notes: currentNotes, source: "current" };
-    });
+    setHoursTable((existingTable) => (
+      haveSameHours(existingTable.rows, currentRows)
+        ? existingTable
+        : { rows: currentRows, source: "current" }
+    ));
   }, [initialRenderAt]);
 
   return (
     <table
       className="contact-page__business-hours"
-      data-timezone-notes-source={comparison.source}
+      data-timezone-notes-source={hoursTable.source}
     >
-      <caption>Mon to Fri</caption>
+      <caption>{businessHours.days}</caption>
       <tbody>
-        <tr>
-          <th scope="row">AWST</th>
-          <td>9.30am to 5.00pm</td>
-        </tr>
-        {comparison.notes.map((note) => (
-          <tr key={note}>
-            <th scope="row">{note.slice(0, note.indexOf(":"))}</th>
-            <td>{note.slice(note.indexOf(":") + 2)}</td>
+        {hoursTable.rows.map(({ abbreviation, hours }) => (
+          <tr key={abbreviation}>
+            <th scope="row">{abbreviation}</th>
+            <td>{hours}</td>
           </tr>
         ))}
       </tbody>
@@ -124,7 +123,7 @@ export default function Contact({ initialRenderAt }: ContactPageProps) {
               <div className="contact-page__direct-contact-option contact-page__direct-contact-option--hours">
                 <span className="contact-page__direct-contact-label">Hours</span>
                 <div className="contact-page__direct-contact-hours">
-                  <BusinessHoursTimeZoneNotes initialRenderAt={initialRenderAt} />
+                  <BusinessHoursTable initialRenderAt={initialRenderAt} />
                 </div>
               </div>
             </address>

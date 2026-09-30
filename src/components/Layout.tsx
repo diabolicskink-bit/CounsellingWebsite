@@ -6,7 +6,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { enquiryEmail } from "../data/enquiry";
+import { businessHours, enquiryEmail } from "../data/enquiry";
 import {
   feesRoutePath,
   getTrackedPagePath,
@@ -14,6 +14,7 @@ import {
   usesSharedChromePath,
 } from "../data/routes";
 import { navItems, socialProfileLinks } from "../data/site";
+import { formatClockTimeRange } from "../utils/timeZones";
 import Button from "./Button";
 import Container from "./Container";
 import { DesktopNavigation, MobileNavigation } from "./SiteNavigation";
@@ -22,6 +23,8 @@ import { DesktopNavigation, MobileNavigation } from "./SiteNavigation";
 const copyrightPublicationYear = 2026;
 // Mirrors the CSS breakpoint where desktop navigation replaces the mobile menu.
 const desktopNavigationMediaQuery = "(min-width: 1081px)";
+const businessHoursSummary =
+  `${businessHours.days}, ${formatClockTimeRange(businessHours.opens, businessHours.closes)} AWST`;
 const homeHref = publicRoutePaths.home;
 const workingWithJoelHref = publicRoutePaths.workingWithJoel;
 const inclusionHref = publicRoutePaths.inclusion;
@@ -177,7 +180,7 @@ export default function Layout() {
           </div>
 
           <div className="site-footer__utility">
-            <p>Mon to Fri, 9.30am to 5.00pm AWST</p>
+            <p>{businessHoursSummary}</p>
             <nav className="site-footer__social" aria-label="Social profiles">
               <ul>
                 {socialProfileLinks.map((profile) => (

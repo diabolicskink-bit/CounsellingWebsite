@@ -5,14 +5,14 @@ import { getTrackedPagePath, isPrivateRoutePath } from "../data/routes";
 import {
   analyticsEnabled,
   clarityProjectId,
+  clarityScriptId,
+  gaConfigScriptId,
   gaMeasurementId,
+  gaScriptId,
   isAnalyticsHostAllowed,
   trackEmailLinkClicked,
 } from "./analytics";
 
-const gaScriptId = "vive-google-analytics";
-const gaConfigScriptId = "vive-google-analytics-config";
-const clarityScriptId = "vive-microsoft-clarity";
 const publicRouteMetadata: Record<string, RouteMetadata | undefined> = routeMetadata;
 
 type GoogleAnalyticsProps = {

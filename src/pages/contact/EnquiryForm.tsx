@@ -416,8 +416,9 @@ export default function EnquiryForm({ initialRenderAt }: EnquiryFormProps) {
                 name="timeZone"
                 required={isBooking}
               >
+                <option value="">Select your timezone</option>
                 {timeZoneOptions.map((option) => (
-                  <option key={option.value || "default"} value={option.value}>
+                  <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
                 ))}

@@ -5,6 +5,24 @@ export const analyticsEnabled = import.meta.env.VITE_ANALYTICS_ENABLED === "true
 export const gaMeasurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 export const clarityProjectId = import.meta.env.VITE_CLARITY_PROJECT_ID?.trim();
 
+export const gaScriptId = "vive-google-analytics";
+export const gaConfigScriptId = "vive-google-analytics-config";
+export const clarityScriptId = "vive-microsoft-clarity";
+
+export function hasThirdPartyAnalyticsLoaded() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return Boolean(
+    window.gtag ||
+    window.clarity ||
+    document.getElementById(gaScriptId) ||
+    document.getElementById(gaConfigScriptId) ||
+    document.getElementById(clarityScriptId),
+  );
+}
+
 const analyticsAllowedHosts = import.meta.env.VITE_ANALYTICS_ALLOWED_HOSTS;
 const allowedAnalyticsHostnames = createAnalyticsHostAllowlist(analyticsAllowedHosts);
 
