@@ -84,9 +84,7 @@
   font-weight: 600;
 }
 
-/* Outranks .site-page h2, which sets the shared heading colour. */
 .article-index .article-index__entry h2 {
-  color: var(--section-dark);
   font-size: clamp(1.75rem, 2.5vw, 2.1rem);
   letter-spacing: -0.02em;
   line-height: 1.18;

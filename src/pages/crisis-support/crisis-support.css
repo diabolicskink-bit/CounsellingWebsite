@@ -1,12 +1,7 @@
 .crisis-support-page {
-  --crisis-ink: #17231f;
   --crisis-emergency-deep: #60221d;
   --crisis-section-padding: 60px;
   --crisis-soft-green: rgba(35, 75, 61, 0.045);
-}
-
-.site-page.crisis-support-page {
-  --color-heading: var(--crisis-ink);
 }
 
 .site-hero.crisis-support-page__hero {

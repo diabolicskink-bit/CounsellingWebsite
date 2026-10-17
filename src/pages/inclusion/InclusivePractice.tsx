@@ -1,10 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import "./inclusive-practice.css";
 import Container from "../../components/Container";
 import { getRouteMetadata } from "../../data/routeMetadata";
 import { publicRoutePaths } from "../../data/routes";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
+import "./inclusive-practice.css";
 
 type InclusionChapter = {
   id: string;
@@ -14,31 +14,12 @@ type InclusionChapter = {
   linkLabel: string;
 };
 
-type InclusionPageContent = {
-  title: string;
-  meta: string;
-  hero: {
-    heading: string;
-    statement: {
-      lineOne: string;
-      lineTwo: string;
-    };
-    support: string;
-  };
-  chapters: InclusionChapter[];
-};
+const pageMetadata = getRouteMetadata(publicRoutePaths.inclusion);
 
-const inclusionMetadata = getRouteMetadata(publicRoutePaths.inclusion);
-
-const inclusionPageContent: InclusionPageContent = {
-  title: inclusionMetadata.title,
-  meta: inclusionMetadata.description,
+const pageContent = {
   hero: {
     heading: "Kink, ENM and LGBTQIA+ inclusive counselling.",
-    statement: {
-      lineOne: "Known before you arrive.",
-      lineTwo: "Not learned as you go.",
-    },
+    promise: ["Known before you arrive.", "Not learned as you go."],
     support:
       "Kinky, non-monogamous, queer, or some mix of all three. As a member of Perth's kink and non-monogamy communities, Joel knows it from the inside. Even if what brings you here is entirely unrelated, nothing needs to be left at the door.",
   },
@@ -67,12 +48,12 @@ const inclusionPageContent: InclusionPageContent = {
         "Sexuality, gender or sex characteristics may be the question, part of the context or barely relevant to what you want to discuss. LGBTQIA+ affirming counselling can include questioning, disclosure, family, faith and relationships, as well as anxiety, grief or work. Identity is not debated, and being more open is not assumed to be the goal.",
       linkLabel: "Read about LGBTQIA+ affirming counselling",
     },
-  ],
+  ] satisfies InclusionChapter[],
 };
 
 export default function InclusivePractice() {
-  useDocumentMetadata(inclusionPageContent.title, inclusionPageContent.meta);
-  const { hero, chapters } = inclusionPageContent;
+  useDocumentMetadata(pageMetadata.title, pageMetadata.description);
+  const { hero, chapters } = pageContent;
 
   return (
     <main className="site-page inclusion-hub-page">
@@ -81,12 +62,9 @@ export default function InclusivePractice() {
           <h1 className="site-hero__eyebrow">{hero.heading}</h1>
 
           <div className="inclusion-hub-page__hero-promise">
-            <p className="inclusion-hub-page__hero-promise-line">
-              {hero.statement.lineOne}
-            </p>
-            <p className="inclusion-hub-page__hero-promise-line">
-              {hero.statement.lineTwo}
-            </p>
+            {hero.promise.map((line) => (
+              <p className="inclusion-hub-page__hero-promise-line" key={line}>{line}</p>
+            ))}
           </div>
 
           <p className="inclusion-hub-page__hero-support site-reading">{hero.support}</p>
@@ -104,10 +82,7 @@ function InclusionChapterSection({ chapter }: { chapter: InclusionChapter }) {
   const headingId = `inclusion-${chapter.id}-heading`;
 
   return (
-    <section
-      className="inclusion-hub-page__chapter site-section-warm"
-      aria-labelledby={headingId}
-    >
+    <section className="inclusion-hub-page__chapter site-section-warm" aria-labelledby={headingId}>
       <Container className="inclusion-hub-page__chapter-layout">
         <header className="inclusion-hub-page__chapter-heading">
           <h2 id={headingId}>{chapter.heading}</h2>

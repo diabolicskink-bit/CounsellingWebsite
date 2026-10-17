@@ -6,21 +6,8 @@
   background: var(--section-warm);
 }
 
-.lgbtqia-page__recognition-title,
-.lgbtqia-page__assumptions-title,
-.lgbtqia-page__disclosure-title {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: clamp(3.05rem, 4.2vw, 4rem);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 0.96;
-  text-wrap: balance;
-}
-
 .lgbtqia-page__recognition-title {
   max-width: 12ch;
-  color: var(--ink);
 }
 
 .lgbtqia-page__recognition-list {
@@ -55,28 +42,15 @@
 
 .lgbtqia-page__recognition-list h3 {
   max-width: 15ch;
-  margin: 0;
-  color: var(--section-dark);
-  font-family: var(--font-serif);
   font-size: clamp(1.42rem, 1.9vw, 1.72rem);
-  font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.12;
   text-wrap: balance;
 }
 
-.lgbtqia-page .lgbtqia-page__recognition-list p {
+.lgbtqia-page__recognition-list p {
   max-width: 48ch;
-  margin: 0;
   text-wrap: pretty;
-}
-
-.lgbtqia-page__assumptions {
-  padding: 60px 0;
-  border-bottom: 1px solid var(--section-rule);
-  background:
-    radial-gradient(circle at 8% 12%, rgba(252, 252, 250, 0.48), transparent 28%),
-    var(--section-sage);
 }
 
 .lgbtqia-page__assumptions-layout {
@@ -94,16 +68,15 @@
   padding: 38px clamp(48px, 5.8vw, 86px) 42px 0;
 }
 
+/* A smaller step than the shared specialist title. */
 .lgbtqia-page__assumptions-title {
   max-width: 11ch;
-  color: var(--section-dark);
   font-size: clamp(2.85rem, 4vw, 3.75rem);
   line-height: 0.97;
 }
 
 .lgbtqia-page__assumptions-introduction {
   max-width: 42ch;
-  margin: 0;
   text-wrap: pretty;
 }
 
@@ -117,7 +90,6 @@
 }
 
 .lgbtqia-page .lgbtqia-page__assumptions-label {
-  margin: 0;
   color: var(--section-dark);
   font-family: var(--font-serif);
   font-size: clamp(1.35rem, 1.8vw, 1.6rem);
@@ -142,28 +114,8 @@
   text-wrap: pretty;
 }
 
-.lgbtqia-page__disclosure {
-  padding: 60px 0;
-  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
-  background:
-    radial-gradient(ellipse at 82% 16%, rgba(110, 159, 128, 0.22), transparent 42%),
-    linear-gradient(132deg, #132b23 0%, var(--section-dark) 58%, #21473a 100%);
-}
-
-.lgbtqia-page__disclosure-layout {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(64px, 8vw, 120px);
-  align-items: start;
-}
-
-.lgbtqia-page__disclosure-layout > * {
-  min-width: 0;
-}
-
-.lgbtqia-page .lgbtqia-page__disclosure-title {
+.lgbtqia-page__disclosure-title {
   max-width: 9ch;
-  color: #fcfcfa;
 }
 
 .lgbtqia-page__disclosure-lead {
@@ -173,7 +125,6 @@
 
 .lgbtqia-page .lgbtqia-page__disclosure-position {
   max-width: 18ch;
-  margin: 0;
   padding-top: 26px;
   border-top: 1px solid var(--section-dark-rule);
   color: #d9e5d9;
@@ -192,7 +143,6 @@
 }
 
 .lgbtqia-page .lgbtqia-page__disclosure-copy p {
-  margin: 0;
   padding: 22px 0 24px;
   border-bottom: 1px solid var(--section-dark-rule);
   color: rgba(239, 244, 240, 0.86);
@@ -298,12 +248,7 @@
   }
 
   /* Disclosure: the ruled paragraph stack becomes plain spaced copy. */
-  .lgbtqia-page__disclosure-layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 36px;
-  }
-
-  .lgbtqia-page .lgbtqia-page__disclosure-title {
+  .lgbtqia-page__disclosure-title {
     max-width: 13ch;
   }
 
@@ -335,21 +280,15 @@
     padding: 48px 0;
   }
 
-  /* Shared small-screen section-title step across the specialist pages. */
   .lgbtqia-page__recognition-title,
-  .lgbtqia-page__assumptions-title,
-  .lgbtqia-page .lgbtqia-page__disclosure-title {
-    font-size: clamp(2.45rem, 10.7vw, 2.95rem);
-    line-height: 0.96;
-  }
-
-  .lgbtqia-page__recognition-title,
-  .lgbtqia-page .lgbtqia-page__disclosure-title {
+  .lgbtqia-page__disclosure-title {
     max-width: 13ch;
   }
 
+  /* Its desktop step overrides the shared title, so it restates the small-screen step. */
   .lgbtqia-page__assumptions-title {
-    max-width: 11ch;
+    font-size: clamp(2.45rem, 10.7vw, 2.95rem);
+    line-height: 0.96;
   }
 
   .lgbtqia-page__recognition-list {

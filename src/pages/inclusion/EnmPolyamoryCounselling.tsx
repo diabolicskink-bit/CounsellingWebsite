@@ -3,34 +3,24 @@ import ContactInvitation from "../../components/ContactInvitation";
 import { getRouteMetadata } from "../../data/routeMetadata";
 import { publicRoutePaths } from "../../data/routes";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
+import "./specialist-sections.css";
 import "./enm-polyamory.css";
 import SpecialistCounsellingHero from "./SpecialistCounsellingHero";
-
-type ReasonItem = {
-  heading: string;
-  body: string;
-};
 
 const pageMetadata = getRouteMetadata(publicRoutePaths.enmPolyamory);
 
 const pageContent = {
-  title: pageMetadata.title,
-  meta: pageMetadata.description,
-
   hero: {
-    badge: "Polyamory and ethical non-monogamy counselling and therapy",
-    title: {
-      lineOne: "Your relationships,",
-      lineTwo: "taken seriously.",
-    },
-    actions: {
-      enquiryLabel: "Make an enquiry",
-      enquiryHref: publicRoutePaths.contact,
-      inclusionLabel: "Back to inclusive counselling",
-      inclusionHref: publicRoutePaths.inclusion,
-    },
+    eyebrow: "Polyamory and ethical non-monogamy counselling and therapy",
+    title: (
+      <>
+        <span>Your relationships,</span>
+        <span>
+          taken <em>seriously.</em>
+        </span>
+      </>
+    ),
   },
-
   reasons: {
     heading: "What might bring you here",
     items: [
@@ -49,15 +39,13 @@ const pageContent = {
         body:
           "You and a partner want different relationship structures: monogamy for one of you and polyamory for the other. A difference that seemed manageable earlier has become harder to live with as the relationship deepens.",
       },
-    ] satisfies ReasonItem[],
+    ],
   },
-
   focus: {
     heading: "How much of this is about non-monogamy?",
     body:
       "Your relationships do not have to become the focus of counselling just because they are non-monogamous. Non-monogamy may matter when decisions about family or disclosure affect more than one relationship. Or you may be coming to talk about anxiety, burnout, shame or grief. Your relationships can still be part of the conversation without becoming the explanation for everything.",
   },
-
   position: {
     heading: "Where I stand.",
     lead:
@@ -70,35 +58,16 @@ const pageContent = {
 };
 
 export default function EnmPolyamoryCounselling() {
-  useDocumentMetadata(pageContent.title, pageContent.meta);
+  useDocumentMetadata(pageMetadata.title, pageMetadata.description);
   const { hero, reasons, focus, position } = pageContent;
 
   return (
     <main className="site-page enm-page">
-      <SpecialistCounsellingHero
-        className="enm-page__hero"
-        eyebrow={hero.badge}
-        primaryAction={{
-          href: hero.actions.enquiryHref,
-          label: hero.actions.enquiryLabel,
-        }}
-        secondaryAction={{
-          href: hero.actions.inclusionHref,
-          label: hero.actions.inclusionLabel,
-        }}
-        title={
-          <>
-            <span>{hero.title.lineOne}</span>
-            <span>
-              taken <em>seriously.</em>
-            </span>
-          </>
-        }
-      />
+      <SpecialistCounsellingHero eyebrow={hero.eyebrow} title={hero.title} />
 
-      <section className="enm-page__reasons site-section-warm" aria-labelledby="enm-reasons-heading">
-        <Container className="enm-page__section-layout">
-          <h2 className="enm-page__reasons-title" id="enm-reasons-heading">
+      <section className="site-section-warm" aria-labelledby="enm-reasons-heading">
+        <Container className="specialist-split">
+          <h2 className="specialist-title enm-page__reasons-title" id="enm-reasons-heading">
             {reasons.heading}
           </h2>
 
@@ -113,18 +82,18 @@ export default function EnmPolyamoryCounselling() {
         </Container>
       </section>
 
-      <section className="enm-page__focus" aria-labelledby="enm-focus-heading">
-        <Container className="enm-page__section-layout">
-          <h2 className="enm-page__focus-title" id="enm-focus-heading">
+      <section className="specialist-section-sage" aria-labelledby="enm-focus-heading">
+        <Container className="specialist-split">
+          <h2 className="specialist-title enm-page__focus-title" id="enm-focus-heading">
             {focus.heading}
           </h2>
           <p className="enm-page__focus-copy site-reading">{focus.body}</p>
         </Container>
       </section>
 
-      <section className="enm-page__position" aria-labelledby="enm-position-heading">
-        <Container className="enm-page__section-layout">
-          <h2 className="enm-page__position-title" id="enm-position-heading">
+      <section className="specialist-section-dark" aria-labelledby="enm-position-heading">
+        <Container className="specialist-split">
+          <h2 className="specialist-title enm-page__position-title" id="enm-position-heading">
             {position.heading}
           </h2>
           <div className="enm-page__position-copy">

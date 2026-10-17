@@ -3,37 +3,24 @@ import ContactInvitation from "../../components/ContactInvitation";
 import { getRouteMetadata } from "../../data/routeMetadata";
 import { publicRoutePaths } from "../../data/routes";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
+import "./specialist-sections.css";
 import "./lgbtqia.css";
 import SpecialistCounsellingHero from "./SpecialistCounsellingHero";
-
-type RecognitionItem = {
-  title: string;
-  body: string;
-};
 
 const pageMetadata = getRouteMetadata(publicRoutePaths.lgbtqia);
 
 const pageContent = {
-  title: pageMetadata.title,
-  meta: pageMetadata.description,
-
   hero: {
     eyebrow: "LGBTQIA+ affirming counselling and therapy",
-    title: {
-      lineOne: "Who you are",
-      lineTwo: {
-        before: "is ",
-        emphasis: "not up for debate.",
-      },
-    },
-    actions: {
-      enquiryLabel: "Make an enquiry",
-      enquiryHref: publicRoutePaths.contact,
-      inclusionLabel: "Back to inclusive counselling",
-      inclusionHref: publicRoutePaths.inclusion,
-    },
+    title: (
+      <>
+        <span>Who you are</span>
+        <span>
+          is <em>not up for debate.</em>
+        </span>
+      </>
+    ),
   },
-
   recognition: {
     heading: "Where does sexuality or gender fit?",
     items: [
@@ -52,21 +39,19 @@ const pageContent = {
         body:
           "You may want help with anxiety, grief, burnout or trouble in a relationship. Sexuality or gender does not need to become the subject simply because it is part of your life.",
       },
-    ] satisfies RecognitionItem[],
+    ],
   },
-
   assumptions: {
     heading: "You are not there to manage the therapist.",
     introduction:
       "Counselling can stay with what is happening in your life. You should not have to debate who you are, explain the basics or work around a counsellor’s discomfort.",
-    examplesIntroduction: "What that can look like",
+    examplesHeading: "What that can look like",
     examples: [
       "Arguing against assumptions about your sexuality based on your current partner.",
       "Explaining why asexuality is not a symptom or a problem to solve.",
       "Keeping the conversation going when sexuality or gender makes them uncomfortable.",
     ],
   },
-
   disclosure: {
     heading: "Who to tell, and when",
     position: "More disclosure is not automatically the goal.",
@@ -79,39 +64,19 @@ const pageContent = {
 };
 
 export default function LgbtqiaCounselling() {
-  useDocumentMetadata(pageContent.title, pageContent.meta);
+  useDocumentMetadata(pageMetadata.title, pageMetadata.description);
   const { hero, recognition, assumptions, disclosure } = pageContent;
 
   return (
     <main className="site-page lgbtqia-page">
-      <SpecialistCounsellingHero
-        className="lgbtqia-page__hero"
-        eyebrow={hero.eyebrow}
-        primaryAction={{
-          href: hero.actions.enquiryHref,
-          label: hero.actions.enquiryLabel,
-        }}
-        secondaryAction={{
-          href: hero.actions.inclusionHref,
-          label: hero.actions.inclusionLabel,
-        }}
-        title={
-          <>
-            <span>{hero.title.lineOne}</span>
-            <span>
-              {hero.title.lineTwo.before}
-              <em>{hero.title.lineTwo.emphasis}</em>
-            </span>
-          </>
-        }
-      />
+      <SpecialistCounsellingHero eyebrow={hero.eyebrow} title={hero.title} />
 
       <section
         className="lgbtqia-page__recognition site-section-warm"
         aria-labelledby="lgbtqia-recognition-heading"
       >
         <Container>
-          <h2 className="lgbtqia-page__recognition-title" id="lgbtqia-recognition-heading">
+          <h2 className="specialist-title lgbtqia-page__recognition-title" id="lgbtqia-recognition-heading">
             {recognition.heading}
           </h2>
 
@@ -127,12 +92,12 @@ export default function LgbtqiaCounselling() {
       </section>
 
       <section
-        className="lgbtqia-page__assumptions"
+        className="lgbtqia-page__assumptions specialist-section-sage"
         aria-labelledby="lgbtqia-assumptions-heading"
       >
         <Container className="lgbtqia-page__assumptions-layout">
           <div className="lgbtqia-page__assumptions-principle">
-            <h2 className="lgbtqia-page__assumptions-title" id="lgbtqia-assumptions-heading">
+            <h2 className="specialist-title lgbtqia-page__assumptions-title" id="lgbtqia-assumptions-heading">
               {assumptions.heading}
             </h2>
             <p className="lgbtqia-page__assumptions-introduction site-reading">
@@ -144,11 +109,8 @@ export default function LgbtqiaCounselling() {
             className="lgbtqia-page__assumptions-examples"
             aria-labelledby="lgbtqia-assumptions-examples-label"
           >
-            <p
-              className="lgbtqia-page__assumptions-label"
-              id="lgbtqia-assumptions-examples-label"
-            >
-              {assumptions.examplesIntroduction}
+            <p className="lgbtqia-page__assumptions-label" id="lgbtqia-assumptions-examples-label">
+              {assumptions.examplesHeading}
             </p>
             <ul className="lgbtqia-page__assumptions-list">
               {assumptions.examples.map((example) => (
@@ -160,12 +122,12 @@ export default function LgbtqiaCounselling() {
       </section>
 
       <section
-        className="lgbtqia-page__disclosure"
+        className="lgbtqia-page__disclosure specialist-section-dark"
         aria-labelledby="lgbtqia-disclosure-heading"
       >
-        <Container className="lgbtqia-page__disclosure-layout">
+        <Container className="specialist-split lgbtqia-page__disclosure-layout">
           <div className="lgbtqia-page__disclosure-lead">
-            <h2 className="lgbtqia-page__disclosure-title" id="lgbtqia-disclosure-heading">
+            <h2 className="specialist-title lgbtqia-page__disclosure-title" id="lgbtqia-disclosure-heading">
               {disclosure.heading}
             </h2>
             <p className="lgbtqia-page__disclosure-position">{disclosure.position}</p>
@@ -173,9 +135,7 @@ export default function LgbtqiaCounselling() {
 
           <div className="lgbtqia-page__disclosure-copy">
             {disclosure.body.map((paragraph) => (
-              <p className="site-reading" key={paragraph}>
-                {paragraph}
-              </p>
+              <p className="site-reading" key={paragraph}>{paragraph}</p>
             ))}
           </div>
         </Container>

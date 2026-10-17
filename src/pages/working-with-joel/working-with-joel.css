@@ -279,10 +279,6 @@
   border-top: 1px solid var(--section-rule);
 }
 
-.working-with-joel-page .site-broad-tabs__fallback-title {
-  color: var(--section-dark);
-}
-
 .working-with-joel-page .site-broad-tabs__tab {
   position: relative;
   display: flex;
@@ -434,8 +430,9 @@
   background: var(--section-sage);
 }
 
+/* The light closing card restores the shared heading colour over the dark-card default. */
 .working-with-joel-page .working-topics__item--closing .working-topics__item-title {
-  color: var(--section-dark);
+  color: var(--color-heading);
 }
 
 .working-with-joel-page .working-topics__item--closing .working-topics__item-body {

@@ -338,7 +338,6 @@
 
 .home-page .home-inclusive__topic h3 {
   max-width: 19ch;
-  color: inherit;
   font-size: clamp(1.48rem, 2vw, 1.82rem);
   letter-spacing: -0.025em;
   line-height: 1.12;

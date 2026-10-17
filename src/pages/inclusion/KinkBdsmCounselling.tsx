@@ -3,60 +3,20 @@ import ContactInvitation from "../../components/ContactInvitation";
 import { getRouteMetadata } from "../../data/routeMetadata";
 import { publicRoutePaths } from "../../data/routes";
 import useDocumentMetadata from "../../hooks/useDocumentMetadata";
+import "./specialist-sections.css";
 import "./kink-bdsm.css";
 import SpecialistCounsellingHero from "./SpecialistCounsellingHero";
 
-type KinkPageContent = {
-  title: string;
-  meta: string;
-  hero: {
-    eyebrow: string;
-    title: {
-      before: string;
-      emphasis: string;
-    };
-    primaryAction: {
-      label: string;
-      href: string;
-    };
-    secondaryAction: {
-      label: string;
-      href: string;
-    };
-  };
-  fluency: {
-    heading: string;
-    body: string[];
-  };
-  misread: {
-    heading: string;
-    body: string[];
-  };
-  more: {
-    heading: string;
-    body: string[];
-  };
-};
+const pageMetadata = getRouteMetadata(publicRoutePaths.kinkBdsm);
 
-const kinkMetadata = getRouteMetadata(publicRoutePaths.kinkBdsm);
-
-const kinkPageContent: KinkPageContent = {
-  title: kinkMetadata.title,
-  meta: kinkMetadata.description,
+const pageContent = {
   hero: {
     eyebrow: "Kink-aware counselling and therapy",
-    title: {
-      before: "Regular therapy for ",
-      emphasis: "kinky people.",
-    },
-    primaryAction: {
-      label: "Make an enquiry",
-      href: publicRoutePaths.contact,
-    },
-    secondaryAction: {
-      label: "Back to inclusive counselling",
-      href: publicRoutePaths.inclusion,
-    },
+    title: (
+      <>
+        Regular therapy for <em>kinky people.</em>
+      </>
+    ),
   },
   fluency: {
     heading: "No translation needed.",
@@ -82,73 +42,47 @@ const kinkPageContent: KinkPageContent = {
 };
 
 export default function KinkBdsmCounselling() {
-  useDocumentMetadata(kinkPageContent.title, kinkPageContent.meta);
-  const { hero, fluency, misread, more } = kinkPageContent;
+  useDocumentMetadata(pageMetadata.title, pageMetadata.description);
+  const { hero, fluency, misread, more } = pageContent;
 
   return (
     <main className="site-page kink-page">
-      <SpecialistCounsellingHero
-        className="kink-page__hero"
-        eyebrow={hero.eyebrow}
-        primaryAction={hero.primaryAction}
-        secondaryAction={hero.secondaryAction}
-        title={
-          <>
-            {hero.title.before}
-            <em>{hero.title.emphasis}</em>
-          </>
-        }
-      />
+      <SpecialistCounsellingHero eyebrow={hero.eyebrow} title={hero.title} />
 
-      <section
-        className="kink-page__fluency"
-        aria-labelledby="kink-fluency-heading"
-      >
-        <Container className="kink-page__fluency-layout">
-          <h2 className="kink-page__fluency-title" id="kink-fluency-heading">
+      <section className="specialist-section-sage" aria-labelledby="kink-fluency-heading">
+        <Container className="specialist-split">
+          <h2 className="specialist-title kink-page__fluency-title" id="kink-fluency-heading">
             {fluency.heading}
           </h2>
           <div className="kink-page__fluency-copy">
             {fluency.body.map((paragraph) => (
-              <p className="site-reading" key={paragraph}>
-                {paragraph}
-              </p>
+              <p className="site-reading" key={paragraph}>{paragraph}</p>
             ))}
           </div>
         </Container>
       </section>
 
-      <section
-        className="kink-page__misread site-section-warm"
-        aria-labelledby="kink-misread-heading"
-      >
-        <Container className="kink-page__misread-layout">
-          <h2 className="kink-page__misread-title" id="kink-misread-heading">
+      <section className="site-section-warm" aria-labelledby="kink-misread-heading">
+        <Container className="specialist-split">
+          <h2 className="specialist-title kink-page__misread-title" id="kink-misread-heading">
             {misread.heading}
           </h2>
           <div className="kink-page__misread-copy">
             {misread.body.map((paragraph) => (
-              <p className="site-reading" key={paragraph}>
-                {paragraph}
-              </p>
+              <p className="site-reading" key={paragraph}>{paragraph}</p>
             ))}
           </div>
         </Container>
       </section>
 
-      <section
-        className="kink-page__more"
-        aria-labelledby="kink-more-heading"
-      >
-        <Container className="kink-page__more-layout">
-          <h2 className="kink-page__more-title" id="kink-more-heading">
+      <section className="specialist-section-dark" aria-labelledby="kink-more-heading">
+        <Container className="specialist-split">
+          <h2 className="specialist-title kink-page__more-title" id="kink-more-heading">
             {more.heading}
           </h2>
           <div className="kink-page__more-copy">
             {more.body.map((paragraph) => (
-              <p className="site-reading" key={paragraph}>
-                {paragraph}
-              </p>
+              <p className="site-reading" key={paragraph}>{paragraph}</p>
             ))}
           </div>
         </Container>
