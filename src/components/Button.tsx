@@ -1,37 +1,31 @@
-import { Link } from "react-router-dom";
 import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
 
 type ButtonProps = {
   children: ReactNode;
-  href?: string;
-  variant?: "primary" | "secondary";
   className?: string;
-  disabled?: boolean;
-  type?: "button" | "submit";
   onClick?: () => void;
-};
+  variant?: "primary" | "secondary";
+} & (
+  // Link mode is internal navigation; native button attributes do not apply to it.
+  | { href: string; disabled?: never; type?: never }
+  | { href?: never; disabled?: boolean; type?: "button" | "submit" }
+);
 
-export default function Button({
-  children,
-  href,
-  variant = "primary",
-  className = "",
-  disabled = false,
-  type = "button",
-  onClick,
-}: ButtonProps) {
+export default function Button(props: ButtonProps) {
+  const { children, className = "", onClick, variant = "primary" } = props;
   const classes = `button button--${variant} ${className}`.trim();
 
-  if (href) {
+  if (props.href !== undefined) {
     return (
-      <Link className={classes} to={href} onClick={onClick}>
+      <Link className={classes} to={props.href} onClick={onClick}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button className={classes} disabled={disabled} type={type} onClick={onClick}>
+    <button className={classes} disabled={props.disabled} type={props.type ?? "button"} onClick={onClick}>
       {children}
     </button>
   );

@@ -5,6 +5,7 @@ export type NavItem = Readonly<{
   label: string;
   href: string;
   mobileOnly?: boolean;
+  // Opens href while analytics records this virtual page instead.
   trackedPagePath?: typeof feesRoutePath;
   children?: readonly NavItem[];
 }>;
@@ -35,16 +36,8 @@ export const navItems: readonly NavItem[] = [
     ],
   },
   { label: "Articles", href: publicRoutePaths.articles },
-  {
-    label: "Fees",
-    href: publicRoutePaths.contact,
-    trackedPagePath: feesRoutePath,
-  },
-  {
-    label: "Contact",
-    href: publicRoutePaths.contact,
-    mobileOnly: true,
-  },
+  { label: "Fees", href: publicRoutePaths.contact, trackedPagePath: feesRoutePath },
+  { label: "Contact", href: publicRoutePaths.contact, mobileOnly: true },
   ...(import.meta.env.DEV
     ? [
         {
@@ -66,4 +59,13 @@ export const navItems: readonly NavItem[] = [
         },
       ]
     : []),
+];
+
+export const footerNavItems: readonly NavItem[] = [
+  { label: "Working with Joel", href: publicRoutePaths.workingWithJoel },
+  { label: "Inclusive practice", href: publicRoutePaths.inclusion },
+  { label: "Articles", href: publicRoutePaths.articles },
+  { label: "Fees", href: publicRoutePaths.contact, trackedPagePath: feesRoutePath },
+  { label: "Crisis support", href: publicRoutePaths.crisisSupport },
+  { label: "Privacy", href: publicRoutePaths.privacyPolicy },
 ];

@@ -7,7 +7,7 @@ test("desktop and mobile navigation reach public destinations", async ({ page })
 
   await page.goto("/");
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole("button", { name: "Open navigation" }).click();
+  await page.getByRole("button", { name: "Open menu" }).click();
   await page.getByRole("navigation", { name: "Mobile navigation" })
     .locator('a[href="/polyamory-enm-counselling"]')
     .click();
@@ -18,7 +18,7 @@ test("the mobile menu returns focus and restores the prior scroll state", async 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
 
-  const toggle = page.getByRole("button", { name: "Open navigation" });
+  const toggle = page.getByRole("button", { name: "Open menu" });
   await page.evaluate(() => {
     document.body.style.overflow = "clip";
   });
@@ -29,4 +29,18 @@ test("the mobile menu returns focus and restores the prior scroll state", async 
   await expect(toggle).toBeFocused();
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("clip");
+});
+
+test("the mobile menu closes when focus moves past it", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const toggle = page.getByRole("button", { name: "Open menu" });
+  const menu = page.getByRole("navigation", { name: "Mobile navigation" });
+  await toggle.click();
+  await menu.getByRole("link").last().focus();
+  await page.keyboard.press("Tab");
+
+  await expect(menu).toBeHidden();
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
 });
