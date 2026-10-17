@@ -13,6 +13,7 @@ export const publicRoutePaths = {
   workingWithJoel: "/working-with-joel",
 } as const satisfies Record<string, PublicRoutePath>;
 
+// A virtual page: /fees redirects to Contact, and Fees links are tracked under it.
 export const feesRoutePath = "/fees";
 
 export const publicRedirectRoutes = [
@@ -22,18 +23,17 @@ export const publicRedirectRoutes = [
 ] as const;
 
 export function normalizeRoutePath(pathname: string) {
-  const normalizedPath = pathname.toLowerCase().replace(/\/+$/, "");
-  return normalizedPath || "/";
+  return pathname.toLowerCase().replace(/\/+$/, "") || "/";
 }
 
 export function getTrackedPagePath(pathname: string, state: unknown) {
-  if (normalizeRoutePath(pathname) !== publicRoutePaths.contact || !state || typeof state !== "object") {
-    return pathname;
-  }
+  const isContactPage = normalizeRoutePath(pathname) === publicRoutePaths.contact;
+  const isFeesLink = typeof state === "object"
+    && state !== null
+    && "trackedPagePath" in state
+    && state.trackedPagePath === feesRoutePath;
 
-  return (state as Record<string, unknown>).trackedPagePath === feesRoutePath
-    ? feesRoutePath
-    : pathname;
+  return isContactPage && isFeesLink ? feesRoutePath : pathname;
 }
 
 export const privateRoutePaths = {
@@ -46,11 +46,10 @@ export const privateRoutePaths = {
 } as const;
 
 export function isPrivateRoutePath(pathname: string) {
-  const normalizedPathname = pathname.toLowerCase();
+  const normalizedPath = normalizeRoutePath(pathname);
   const analyticsRoot = privateRoutePaths.analytics;
 
-  return normalizedPathname === analyticsRoot
-    || normalizedPathname.startsWith(`${analyticsRoot}/`);
+  return normalizedPath === analyticsRoot || normalizedPath.startsWith(`${analyticsRoot}/`);
 }
 
 export const devRoutePaths = {
@@ -67,6 +66,7 @@ export const devRoutePaths = {
 const sharedChromePaths = new Set<string>([
   ...Object.values(publicRoutePaths).filter((path) => path !== publicRoutePaths.home),
   ...publicRedirectRoutes.map((route) => route.path),
+  // API functions and Node tests load this module without Vite's import.meta.env.
   ...(import.meta.env?.DEV ? Object.values(devRoutePaths) : []),
 ]);
 

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -35,6 +35,7 @@ import { AnalyticsShell, ReportState } from "./AnalyticsShell";
 import {
   adjustPaidVisitCostCents,
   formatPaidVisitCostInput,
+  maxPaidVisitCostCents,
   parsePaidVisitCostCents,
 } from "./paidVisitCost";
 import VisitorHistory from "./VisitorHistory";
@@ -114,6 +115,90 @@ function EnquiryListItem({
   );
 }
 
+// Typed amounts stay local until applied, so partial entries never reach the estimate.
+function PaidVisitCostControl({
+  costInCents,
+  onCostChange,
+}: {
+  costInCents: number;
+  onCostChange: (costInCents: number) => void;
+}) {
+  const [draft, setDraft] = useState<string | null>(null);
+  const draftCents = draft === null ? null : parsePaidVisitCostCents(draft);
+  // Steps continue from a valid draft; an invalid draft gives way to the applied amount.
+  const adjustableCents = draftCents ?? costInCents;
+  const inputValue = draft ?? formatPaidVisitCostInput(costInCents);
+
+  function commitDraft() {
+    if (draftCents !== null) onCostChange(draftCents);
+    setDraft(null);
+  }
+
+  function adjust(changeInCents: -1 | 1) {
+    onCostChange(adjustPaidVisitCostCents(adjustableCents, changeInCents));
+    setDraft(null);
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.nativeEvent.isComposing) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      // Blurring applies the draft through the same path as leaving the field.
+      event.currentTarget.blur();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      setDraft(null);
+    } else if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+      event.preventDefault();
+      adjust(event.key === "ArrowUp" ? 1 : -1);
+    }
+  }
+
+  return (
+    <>
+      <dt className="monthly-enquiries__cpc-label">
+        <label htmlFor="paid-visit-cost">Avg CPC</label>
+      </dt>
+      <dd className="monthly-enquiries__cost-control">
+        <span className="monthly-enquiries__cost-value">
+          <span aria-hidden="true">$</span>
+          <input
+            autoComplete="off"
+            id="paid-visit-cost"
+            inputMode="decimal"
+            onBlur={commitDraft}
+            onChange={(event) => setDraft(event.currentTarget.value)}
+            onFocus={(event) => event.currentTarget.select()}
+            onKeyDown={handleKeyDown}
+            style={{ width: `${Math.max(inputValue.length, 1)}ch` }}
+            title="Cost per paid visit in AUD. Enter or leave the field to apply; Escape to cancel."
+            type="text"
+            value={inputValue}
+          />
+        </span>
+        <span className="monthly-enquiries__cost-arrows">
+          <button
+            disabled={adjustableCents === maxPaidVisitCostCents}
+            onClick={() => adjust(1)}
+            title="Increase cost per paid visit by one cent"
+            type="button"
+          >
+            <ArrowUp size={16} />
+          </button>
+          <button
+            disabled={adjustableCents === 0}
+            onClick={() => adjust(-1)}
+            title="Decrease cost per paid visit by one cent"
+            type="button"
+          >
+            <ArrowDown size={16} />
+          </button>
+        </span>
+      </dd>
+    </>
+  );
+}
+
 function MonthlyEnquiries({
   currentMonth,
   includeBots,
@@ -131,7 +216,6 @@ function MonthlyEnquiries({
   paidVisitCostCents: number;
   report: MonthlyAnalyticsReport;
 }) {
-  const [paidVisitCostDraft, setPaidVisitCostDraft] = useState<string | null>(null);
   const {
     month: monthKey,
     paidAttributedEnquiries,
@@ -164,22 +248,10 @@ function MonthlyEnquiries({
     : null;
   const paidVisitCost = paidVisitCostCents / 100;
   const formattedPaidVisitCost = costFormatter.format(paidVisitCost);
-  const draftCostCents = paidVisitCostDraft === null ? null : parsePaidVisitCostCents(paidVisitCostDraft);
-  const adjustableCostCents = draftCostCents ?? paidVisitCostCents;
   // Paid history may predate this month, so use the report's attribution count.
   const averageCostPerEnquiry = paidAttributedEnquiries > 0
     ? (paidVisits * paidVisitCost) / paidAttributedEnquiries
     : null;
-
-  function commitPaidVisitCost() {
-    if (draftCostCents !== null) onPaidVisitCostChange(draftCostCents);
-    setPaidVisitCostDraft(null);
-  }
-
-  function adjustPaidVisitCost(changeInCents: -1 | 1) {
-    onPaidVisitCostChange(adjustPaidVisitCostCents(adjustableCostCents, changeInCents));
-    setPaidVisitCostDraft(null);
-  }
 
   return (
     <>
@@ -216,57 +288,7 @@ function MonthlyEnquiries({
             <dd className="monthly-enquiries__cost-result">
               {averageCostPerEnquiry === null ? "N/A" : costFormatter.format(averageCostPerEnquiry)}
             </dd>
-            <dt className="monthly-enquiries__cpc-label">
-              <label htmlFor="paid-visit-cost">Avg CPC</label>
-            </dt>
-            <dd className="monthly-enquiries__cost-control">
-              <span className="monthly-enquiries__cost-value">
-                <span aria-hidden="true">$</span>
-                <input
-                  autoComplete="off"
-                  id="paid-visit-cost"
-                  inputMode="decimal"
-                  onBlur={commitPaidVisitCost}
-                  onChange={(event) => setPaidVisitCostDraft(event.target.value)}
-                  onFocus={(event) => event.target.select()}
-                  onKeyDown={(event) => {
-                    if (event.nativeEvent.isComposing) return;
-                    if (event.key === "Enter") {
-                      event.preventDefault();
-                      event.currentTarget.blur();
-                    } else if (event.key === "Escape") {
-                      event.preventDefault();
-                      setPaidVisitCostDraft(null);
-                    } else if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-                      event.preventDefault();
-                      adjustPaidVisitCost(event.key === "ArrowUp" ? 1 : -1);
-                    }
-                  }}
-                  style={{ width: `${formatPaidVisitCostInput(adjustableCostCents).length}ch` }}
-                  title="Cost per paid visit in AUD. Enter or leave the field to apply; Escape to cancel."
-                  type="text"
-                  value={paidVisitCostDraft ?? formatPaidVisitCostInput(paidVisitCostCents)}
-                />
-              </span>
-              <span className="monthly-enquiries__cost-arrows">
-                <button
-                  disabled={adjustableCostCents === Number.MAX_SAFE_INTEGER}
-                  onClick={() => adjustPaidVisitCost(1)}
-                  title="Increase cost per paid visit by one cent"
-                  type="button"
-                >
-                  <ArrowUp size={16} />
-                </button>
-                <button
-                  disabled={adjustableCostCents === 0}
-                  onClick={() => adjustPaidVisitCost(-1)}
-                  title="Decrease cost per paid visit by one cent"
-                  type="button"
-                >
-                  <ArrowDown size={16} />
-                </button>
-              </span>
-            </dd>
+            <PaidVisitCostControl costInCents={paidVisitCostCents} onCostChange={onPaidVisitCostChange} />
           </div>
         </dl>
       </section>

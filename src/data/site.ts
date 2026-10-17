@@ -1,5 +1,5 @@
-import { devRoutePaths, feesRoutePath, publicRoutePaths } from "./routes";
 import { visitEventTypes } from "../contracts/visitEventContract";
+import { devRoutePaths, feesRoutePath, publicRoutePaths } from "./routes";
 
 export type NavItem = Readonly<{
   label: string;
@@ -34,10 +34,7 @@ export const navItems: readonly NavItem[] = [
       { label: "LGBTQIA+", href: publicRoutePaths.lgbtqia },
     ],
   },
-  {
-    label: "Articles",
-    href: publicRoutePaths.articles,
-  },
+  { label: "Articles", href: publicRoutePaths.articles },
   {
     label: "Fees",
     href: publicRoutePaths.contact,

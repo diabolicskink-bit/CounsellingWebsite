@@ -17,6 +17,9 @@ export const enquiryFailureContent = {
   messageAfterEmail: "directly.",
 } as const;
 
-export function getEnquiryFailureMessage() {
-  return `${enquiryFailureContent.messageBeforeEmail} ${enquiryFailureContent.email} ${enquiryFailureContent.messageAfterEmail}`;
-}
+// Plain-text form of the failure message, for responses that cannot link the email address.
+export const enquiryFailureMessage = [
+  enquiryFailureContent.messageBeforeEmail,
+  enquiryFailureContent.email,
+  enquiryFailureContent.messageAfterEmail,
+].join(" ");

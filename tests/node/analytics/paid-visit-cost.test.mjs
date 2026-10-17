@@ -3,6 +3,7 @@ import { test } from "node:test";
 import {
   adjustPaidVisitCostCents,
   formatPaidVisitCostInput,
+  maxPaidVisitCostCents,
   parsePaidVisitCostCents,
 } from "../../../src/pages/analytics/paidVisitCost.ts";
 
@@ -15,7 +16,7 @@ test("typed paid-visit costs preserve exact cents and normalize decimal input", 
     [".5", 50, "0.50"],
     [" 003.1 ", 310, "3.10"],
     ["0", 0, "0.00"],
-    ["90071992547409.91", Number.MAX_SAFE_INTEGER, "90071992547409.91"],
+    ["90071992547409.91", maxPaidVisitCostCents, "90071992547409.91"],
   ]) {
     assert.equal(parsePaidVisitCostCents(input), cents, input);
     assert.equal(formatPaidVisitCostInput(cents), formatted, input);
@@ -34,5 +35,5 @@ test("one-cent adjustments remain exact and stay within safe nonnegative cents",
   assert.equal(adjustPaidVisitCostCents(1, -1), 0);
   assert.equal(adjustPaidVisitCostCents(0, -1), 0);
   assert.equal(adjustPaidVisitCostCents(0, 1), 1);
-  assert.equal(adjustPaidVisitCostCents(Number.MAX_SAFE_INTEGER, 1), Number.MAX_SAFE_INTEGER);
+  assert.equal(adjustPaidVisitCostCents(maxPaidVisitCostCents, 1), maxPaidVisitCostCents);
 });

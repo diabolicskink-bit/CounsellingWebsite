@@ -1,8 +1,8 @@
 import {
   enquiryEmail,
   enquiryFailureContent,
+  enquiryFailureMessage,
   enquirySuccessContent,
-  getEnquiryFailureMessage,
 } from "../../data/enquiry.ts";
 import { escapeHtml } from "./html.ts";
 import type { ResponseMode } from "./request.ts";
@@ -15,7 +15,6 @@ export type EnquiryResponse = {
 };
 
 const invalidSubmissionMessage = "Invalid enquiry submission.";
-const publicFailureMessage = getEnquiryFailureMessage();
 
 function sendJsonError(response: EnquiryResponse, status: number, error: string) {
   return response.status(status).json({ error });
@@ -108,15 +107,15 @@ export function sendSuccess(response: EnquiryResponse, mode: ResponseMode) {
 
 export function sendPublicFailure(response: EnquiryResponse, status: number, mode: ResponseMode) {
   if (mode === "html") {
-    return sendNativeHtml(response, status, enquiryFailureContent.title, publicFailureMessage);
+    return sendNativeHtml(response, status, enquiryFailureContent.title, enquiryFailureMessage);
   }
 
-  return sendJsonError(response, status, publicFailureMessage);
+  return sendJsonError(response, status, enquiryFailureMessage);
 }
 
 export function sendValidationError(response: EnquiryResponse, mode: ResponseMode) {
   if (mode === "html") {
-    return sendNativeHtml(response, 400, enquiryFailureContent.title, publicFailureMessage);
+    return sendNativeHtml(response, 400, enquiryFailureContent.title, enquiryFailureMessage);
   }
 
   return sendJsonError(response, 400, invalidSubmissionMessage);
