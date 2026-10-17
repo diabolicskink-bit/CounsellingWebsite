@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -32,6 +32,12 @@ import {
   visitorLabel,
 } from "./analyticsFormatters";
 import { AnalyticsShell, ReportState } from "./AnalyticsShell";
+import {
+  adjustPaidVisitCostCents,
+  formatPaidVisitCostInput,
+  maxPaidVisitCostCents,
+  parsePaidVisitCostCents,
+} from "./paidVisitCost";
 import VisitorHistory from "./VisitorHistory";
 import useAnalyticsReport from "./useAnalyticsReport";
 
@@ -109,20 +115,104 @@ function EnquiryListItem({
   );
 }
 
+// Typed amounts stay local until applied, so partial entries never reach the estimate.
+function PaidVisitCostControl({
+  costInCents,
+  onCostChange,
+}: {
+  costInCents: number;
+  onCostChange: (costInCents: number) => void;
+}) {
+  const [draft, setDraft] = useState<string | null>(null);
+  const draftCents = draft === null ? null : parsePaidVisitCostCents(draft);
+  // Steps continue from a valid draft; an invalid draft gives way to the applied amount.
+  const adjustableCents = draftCents ?? costInCents;
+  const inputValue = draft ?? formatPaidVisitCostInput(costInCents);
+
+  function commitDraft() {
+    if (draftCents !== null) onCostChange(draftCents);
+    setDraft(null);
+  }
+
+  function adjust(changeInCents: -1 | 1) {
+    onCostChange(adjustPaidVisitCostCents(adjustableCents, changeInCents));
+    setDraft(null);
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.nativeEvent.isComposing) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      // Blurring applies the draft through the same path as leaving the field.
+      event.currentTarget.blur();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      setDraft(null);
+    } else if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+      event.preventDefault();
+      adjust(event.key === "ArrowUp" ? 1 : -1);
+    }
+  }
+
+  return (
+    <>
+      <dt className="monthly-enquiries__cpc-label">
+        <label htmlFor="paid-visit-cost">Avg CPC</label>
+      </dt>
+      <dd className="monthly-enquiries__cost-control">
+        <span className="monthly-enquiries__cost-value">
+          <span aria-hidden="true">$</span>
+          <input
+            autoComplete="off"
+            id="paid-visit-cost"
+            inputMode="decimal"
+            onBlur={commitDraft}
+            onChange={(event) => setDraft(event.currentTarget.value)}
+            onFocus={(event) => event.currentTarget.select()}
+            onKeyDown={handleKeyDown}
+            style={{ width: `${Math.max(inputValue.length, 1)}ch` }}
+            title="Cost per paid visit in AUD. Enter or leave the field to apply; Escape to cancel."
+            type="text"
+            value={inputValue}
+          />
+        </span>
+        <span className="monthly-enquiries__cost-arrows">
+          <button
+            disabled={adjustableCents === maxPaidVisitCostCents}
+            onClick={() => adjust(1)}
+            title="Increase cost per paid visit by one cent"
+            type="button"
+          >
+            <ArrowUp size={16} />
+          </button>
+          <button
+            disabled={adjustableCents === 0}
+            onClick={() => adjust(-1)}
+            title="Decrease cost per paid visit by one cent"
+            type="button"
+          >
+            <ArrowDown size={16} />
+          </button>
+        </span>
+      </dd>
+    </>
+  );
+}
+
 function MonthlyEnquiries({
   currentMonth,
   includeBots,
-  onAdjustPaidVisitCost,
   onMonthChange,
   onOpenEnquiry,
+  onPaidVisitCostChange,
   paidVisitCostCents,
   report,
 }: {
   currentMonth: string;
   includeBots: boolean;
-  onAdjustPaidVisitCost: (changeInCents: -1 | 1) => void;
   onMonthChange: (month: string) => void;
   onOpenEnquiry: (visit: AnalyticsVisit, visitEvent: AnalyticsVisitEvent) => void;
+  onPaidVisitCostChange: (costInCents: number) => void;
   paidVisitCostCents: number;
   report: MonthlyAnalyticsReport;
 }) {
@@ -198,27 +288,7 @@ function MonthlyEnquiries({
             <dd className="monthly-enquiries__cost-result">
               {averageCostPerEnquiry === null ? "N/A" : costFormatter.format(averageCostPerEnquiry)}
             </dd>
-            <dt className="monthly-enquiries__cpc-label">Avg CPC</dt>
-            <dd className="monthly-enquiries__cost-control">
-              <strong className="monthly-enquiries__cost-value">{formattedPaidVisitCost}</strong>
-              <span className="monthly-enquiries__cost-arrows">
-                <button
-                  onClick={() => onAdjustPaidVisitCost(1)}
-                  title="Increase cost per paid visit by one cent"
-                  type="button"
-                >
-                  <ArrowUp size={16} />
-                </button>
-                <button
-                  disabled={paidVisitCostCents === 0}
-                  onClick={() => onAdjustPaidVisitCost(-1)}
-                  title="Decrease cost per paid visit by one cent"
-                  type="button"
-                >
-                  <ArrowDown size={16} />
-                </button>
-              </span>
-            </dd>
+            <PaidVisitCostControl costInCents={paidVisitCostCents} onCostChange={onPaidVisitCostChange} />
           </div>
         </dl>
       </section>
@@ -292,10 +362,6 @@ export default function EnquiriesAnalyticsPage() {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [requestedVisitorId]);
 
-  function adjustPaidVisitCost(changeInCents: -1 | 1) {
-    setPaidVisitCostCents((costInCents) => Math.max(0, costInCents + changeInCents));
-  }
-
   function refreshReport() {
     setCurrentMonth(getPerthMonthKey());
     retry();
@@ -358,9 +424,9 @@ export default function EnquiriesAnalyticsPage() {
         <MonthlyEnquiries
           currentMonth={currentMonth}
           includeBots={includeBots}
-          onAdjustPaidVisitCost={adjustPaidVisitCost}
           onMonthChange={updateMonth}
           onOpenEnquiry={openEnquiry}
+          onPaidVisitCostChange={setPaidVisitCostCents}
           paidVisitCostCents={paidVisitCostCents}
           report={report}
         />

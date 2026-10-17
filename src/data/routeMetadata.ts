@@ -2,18 +2,19 @@ import { getArticleRouteMetadata } from "../content/articles/manifest";
 import metadata from "./routeMetadata.json";
 
 export type RouteMetadata = {
-  abstract?: string;
   title: string;
   description: string;
   robots?: string;
   pageType?: "article" | "collection";
-  publishedAt?: string;
-  modifiedAt?: string;
-  authorName?: string;
-  articleSection?: string;
-  headline?: string;
   lastModified?: string;
   lastReviewed?: string;
+  // Article routes only.
+  headline?: string;
+  abstract?: string;
+  authorName?: string;
+  articleSection?: string;
+  publishedAt?: string;
+  modifiedAt?: string;
 };
 
 export type NotFoundMetadata = Pick<RouteMetadata, "description" | "title"> & {
@@ -72,22 +73,19 @@ export type SiteMetadata = {
       url: string;
     };
   };
-  specialistServices: Record<
-    string,
-    {
-      name: string;
-      serviceType: string[];
-    }
-  >;
+  specialistServices: Record<string, { name: string; serviceType: string[] }>;
   socialImage: string;
   socialImageAlt: string;
 };
 
-export type PublicRoutePath = keyof typeof metadata.routes;
+type JsonRoutes = typeof metadata.routes;
+export type PublicRoutePath = keyof JsonRoutes;
+// JSON widens pageType to string; parseRoutePageType narrows it.
+type UncheckedRouteMetadata = Omit<RouteMetadata, "pageType"> & { pageType?: string };
 
 type CredentialRecognizedByType = SiteMetadata["person"]["credentials"][number]["recognizedBy"]["type"];
 
-function getCredentialRecognizedByType(value: string): CredentialRecognizedByType {
+function parseCredentialRecognizedByType(value: string): CredentialRecognizedByType {
   if (value === "Organization" || value === "CollegeOrUniversity") {
     return value;
   }
@@ -95,7 +93,7 @@ function getCredentialRecognizedByType(value: string): CredentialRecognizedByTyp
   throw new Error(`Unsupported credential recognizedBy type: ${value}`);
 }
 
-function getRoutePageType(value: string | undefined): RouteMetadata["pageType"] {
+function parseRoutePageType(value: string | undefined): RouteMetadata["pageType"] {
   if (value === undefined || value === "article" || value === "collection") {
     return value;
   }
@@ -111,31 +109,28 @@ export const siteMetadata = {
       ...credential,
       recognizedBy: {
         ...credential.recognizedBy,
-        type: getCredentialRecognizedByType(credential.recognizedBy.type),
+        type: parseCredentialRecognizedByType(credential.recognizedBy.type),
       },
     })),
   },
 } satisfies SiteMetadata;
+
 export const notFoundMetadata = metadata.notFound satisfies NotFoundMetadata;
-const rawRouteMetadata = metadata.routes as Record<
-  string,
-  Omit<RouteMetadata, "pageType"> & { pageType?: string }
->;
-const baseRouteMetadata = Object.fromEntries(
-  Object.entries(rawRouteMetadata).map(([path, route]) => [
+
+const jsonRoutes: Record<string, UncheckedRouteMetadata> = metadata.routes;
+const publicRouteMetadata: Record<string, RouteMetadata> = Object.fromEntries(
+  Object.entries(jsonRoutes).map(([path, route]): [string, RouteMetadata] => [
     path,
-    {
-      ...route,
-      pageType: getRoutePageType(route.pageType),
-    },
+    { ...route, pageType: parseRoutePageType(route.pageType) },
   ]),
-) as Record<string, RouteMetadata>;
+);
 
 export const routeMetadata: Record<string, RouteMetadata> = {
-  ...baseRouteMetadata,
+  ...publicRouteMetadata,
   ...getArticleRouteMetadata(),
 };
 
-export function getRouteMetadata<Path extends PublicRoutePath>(path: Path): (typeof routeMetadata)[Path] {
-  return routeMetadata[path];
+// Typing by the route's JSON entry guarantees page-specific fields, such as Crisis Support's review date.
+export function getRouteMetadata<Path extends PublicRoutePath>(path: Path) {
+  return publicRouteMetadata[path] as RouteMetadata & JsonRoutes[Path];
 }

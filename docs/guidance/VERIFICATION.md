@@ -67,7 +67,7 @@ await visualTools.withVisualSession({ route: "/" }, async ({ page }) => {
   await nodeRepl.emitImage(await page.screenshot({ animations: "disabled" }));
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole("button", { name: "Open navigation" }).click();
+  await page.getByRole("button", { name: "Open menu" }).click();
   await nodeRepl.emitImage(await page.screenshot({ animations: "disabled" }));
 });
 ```

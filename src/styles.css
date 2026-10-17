@@ -172,6 +172,18 @@ h3 {
   font-weight: 560;
 }
 
+/* Zero specificity lets component rules such as .nav-submenu set their own spacing. */
+:where(.desktop-nav, .mobile-nav) :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.desktop-nav > ul {
+  display: flex;
+  align-self: stretch;
+}
+
 .nav-link {
   position: relative;
   display: flex;
@@ -654,15 +666,15 @@ h3 {
     animation: mobile-navigation-reveal 180ms ease-out both;
   }
 
-  .mobile-nav > div {
+  .mobile-nav__item {
     border-top: 1px solid rgba(232, 239, 233, 0.2);
   }
 
-  .mobile-nav > div:last-child {
+  .mobile-nav__item:last-child {
     border-bottom: 1px solid rgba(232, 239, 233, 0.2);
   }
 
-  .mobile-nav > div > .mobile-nav__link {
+  .mobile-nav__item > .mobile-nav__link {
     display: block;
     padding: 16px 2px;
     color: rgba(252, 252, 250, 0.93);
@@ -702,7 +714,7 @@ h3 {
     color: #fff;
   }
 
-  .mobile-nav > div > .mobile-nav__link--active {
+  .mobile-nav__item > .mobile-nav__link--active {
     padding-left: 12px;
     color: #d9e5d9;
   }
@@ -710,6 +722,10 @@ h3 {
   .mobile-nav__sub-link.mobile-nav__link--active {
     padding-left: 30px;
     color: #d9e5d9;
+  }
+
+  .mobile-nav__sub-link--nested.mobile-nav__link--active {
+    padding-left: 50px;
   }
 }
 

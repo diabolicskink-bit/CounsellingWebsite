@@ -1,8 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { visitEventTypes } from "../contracts/visitEventContract";
 import { enquiryEmail } from "../data/enquiry";
 import { publicRoutePaths } from "../data/routes";
-import { visitEventTypes } from "../contracts/visitEventContract";
 import { recordVisitEvent } from "../tracking/visitEvents";
 import Container from "./Container";
 
@@ -19,16 +19,10 @@ function recordConsultCtaClick() {
  */
 export default function ContactInvitation() {
   return (
-    <section
-      className="contact-invitation"
-      aria-labelledby="contact-invitation-heading"
-    >
+    <section className="contact-invitation" aria-labelledby="contact-invitation-heading">
       <Container className="contact-invitation__inner">
         <div className="contact-invitation__primary">
-          <h2
-            className="contact-invitation__heading"
-            id="contact-invitation-heading"
-          >
+          <h2 className="contact-invitation__heading" id="contact-invitation-heading">
             <span>Let’s start with</span>
             <em>a conversation.</em>
           </h2>
@@ -41,17 +35,11 @@ export default function ContactInvitation() {
         </div>
 
         <div className="contact-invitation__details">
-          <h3
-            className="contact-invitation__fees-heading"
-            id="contact-invitation-fees-heading"
-          >
+          <h3 className="contact-invitation__fees-heading" id="contact-invitation-fees-heading">
             Online session fees
           </h3>
 
-          <dl
-            className="contact-invitation__fees"
-            aria-labelledby="contact-invitation-fees-heading"
-          >
+          <dl className="contact-invitation__fees" aria-labelledby="contact-invitation-fees-heading">
             <div>
               <dt>Individual counselling</dt>
               <dd>$120</dd>
@@ -69,17 +57,9 @@ export default function ContactInvitation() {
         </div>
 
         <div className="contact-invitation__actions">
-          <Link
-            className="contact-invitation__action"
-            to={contactStartHref}
-            onClick={recordConsultCtaClick}
-          >
+          <Link className="contact-invitation__action" to={contactStartHref} onClick={recordConsultCtaClick}>
             <span>Request a free consult</span>
-            <ArrowRight
-              aria-hidden="true"
-              className="contact-invitation__action-icon"
-              size={18}
-            />
+            <ArrowRight aria-hidden="true" className="contact-invitation__action-icon" size={18} />
           </Link>
 
           <p className="contact-invitation__alternative">
