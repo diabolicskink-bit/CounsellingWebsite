@@ -1,4 +1,4 @@
-import type { AnalyticsReport } from "../src/contracts/analyticsContract.ts";
+import type { AnalyticsApiResponse, AnalyticsReport } from "../src/contracts/analyticsContract.ts";
 import {
   getAnalyticsSelection,
   type AnalyticsRequest,
@@ -18,9 +18,9 @@ function sendFailure(response: AnalyticsResponse, status: number) {
   return response.status(status).json({ error: publicFailureMessage });
 }
 
-function sendSuccess(response: AnalyticsResponse, data: AnalyticsReport) {
+function sendSuccess(response: AnalyticsResponse, body: AnalyticsApiResponse) {
   response.setHeader("Cache-Control", "private, no-store");
-  return response.status(200).json({ data });
+  return response.status(200).json(body);
 }
 
 export function createAnalyticsHandler(
@@ -40,7 +40,7 @@ export function createAnalyticsHandler(
     }
 
     try {
-      return sendSuccess(response, await readReport(selection.selection));
+      return sendSuccess(response, { data: await readReport(selection.selection) });
     } catch (error) {
       const errorName = error instanceof Error ? error.name : "UnknownError";
 

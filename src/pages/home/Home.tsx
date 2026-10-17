@@ -35,7 +35,7 @@ type HomePortrait = {
 
 type HomeHeroContent = {
   eyebrow: string;
-  title: EmphasisCopy;
+  statement: EmphasisCopy;
   contactLink: HomeLink;
   inclusionLink: HomeLink;
 };
@@ -43,7 +43,7 @@ type HomeHeroContent = {
 type HomeAboutContent = {
   heading: EmphasisCopy;
   narrative: string[];
-  links: HomeLink[];
+  link: HomeLink;
 };
 
 type HomeInclusiveContent = {
@@ -62,18 +62,17 @@ type HomePageContent = {
 };
 
 const homeMetadata = getRouteMetadata(publicRoutePaths.home);
-const contactHref = publicRoutePaths.contact;
 
 const homePageContent: HomePageContent = {
   hero: {
     eyebrow: "Online Counselling and Therapy Across Australia",
-    title: {
+    statement: {
       before: "Counselling for the ",
       emphasis: "life you live",
       after: ".",
     },
     contactLink: {
-      href: contactHref,
+      href: publicRoutePaths.contact,
       label: "Get in touch",
     },
     inclusionLink: {
@@ -98,12 +97,10 @@ const homePageContent: HomePageContent = {
       "Relationships can become painful without love or care disappearing. You may be caught in the same argument, living with distance, dealing with damaged trust, or struggling with sex and intimacy. Counselling can help you understand what has become stuck and decide what needs to happen next.",
       "Alongside this broader work, I bring specialist knowledge of kink and BDSM, ENM and polyamory, and I offer LGBTQIA+ affirming counselling. I’m especially committed to working with people who may have struggled to find suitable therapy because their sexuality, gender, identity, relationships, sex work or diagnosis were misunderstood or treated as the problem.",
     ],
-    links: [
-      {
-        href: publicRoutePaths.workingWithJoel,
-        label: "Working with Joel",
-      },
-    ],
+    link: {
+      href: publicRoutePaths.workingWithJoel,
+      label: "Working with Joel",
+    },
   },
   inclusive: {
     heading: {
@@ -114,8 +111,8 @@ const homePageContent: HomePageContent = {
     copy: "I bring specialist knowledge of kink and BDSM, ethical non-monogamy and polyamory, alongside LGBTQIA+ affirming counselling. I also bring extensive lived experience within these communities. I know personally what it is like to encounter the subtle reactions and signs of discomfort that can appear when talking about these parts of life, even in therapy.",
     topicsAriaLabel: "Inclusive practice topics",
     hub: {
-      label: "Read about inclusive practice",
       href: publicRoutePaths.inclusion,
+      label: "Read about inclusive practice",
     },
     topics: [
       {
@@ -140,33 +137,41 @@ const homePageContent: HomePageContent = {
   },
 };
 
-function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
+function EmphasisText({ copy, className }: { copy: EmphasisCopy; className?: string }) {
+  return (
+    <>
+      {copy.before}
+      <em className={className}>{copy.emphasis}</em>
+      {copy.after}
+    </>
+  );
+}
+
+function ArrowLink({ link, className }: { link: HomeLink; className: string }) {
+  return (
+    <Link className={className} to={link.href}>
+      <span>{link.label}</span>
+      <ArrowRight aria-hidden="true" size={18} />
+    </Link>
+  );
+}
+
+function HeroSection({ hero }: { hero: HomeHeroContent }) {
   return (
     <section className="site-hero site-hero-surface home-page__hero">
       <Container>
         <div className="home-page__hero-copy">
           <h1 className="site-hero__eyebrow">{hero.eyebrow}</h1>
           <p className="site-hero__statement">
-            {hero.title.before}
-            <em>{hero.title.emphasis}</em>
-            {hero.title.after}
+            <EmphasisText copy={hero.statement} />
           </p>
 
           <nav className="home-page__hero-actions" aria-label="Page actions">
-            <Link
-              to={hero.contactLink.href}
+            <ArrowLink
               className="home-page__hero-action home-page__hero-action--primary"
-            >
-              <span>{hero.contactLink.label}</span>
-              <ArrowRight aria-hidden="true" size={18} />
-            </Link>
-            <Link
-              to={hero.inclusionLink.href}
-              className="home-page__hero-action"
-            >
-              <span>{hero.inclusionLink.label}</span>
-              <ArrowRight aria-hidden="true" size={18} />
-            </Link>
+              link={hero.contactLink}
+            />
+            <ArrowLink className="home-page__hero-action" link={hero.inclusionLink} />
           </nav>
         </div>
       </Container>
@@ -174,21 +179,13 @@ function HomeHeroSection({ hero }: { hero: HomeHeroContent }) {
   );
 }
 
-function AboutViveSection({
-  about,
-  portrait,
-}: {
-  about: HomeAboutContent;
-  portrait: HomePortrait;
-}) {
+function AboutSection({ about, portrait }: { about: HomeAboutContent; portrait: HomePortrait }) {
   return (
     <section className="home-about site-section-warm" aria-labelledby="home-about-title">
       <Container>
         <header className="home-about__masthead">
           <h2 className="home-about__heading" id="home-about-title">
-            {about.heading.before}
-            <em className="home-page__emphasis">{about.heading.emphasis}</em>
-            {about.heading.after}
+            <EmphasisText copy={about.heading} className="home-page__emphasis" />
           </h2>
         </header>
 
@@ -214,12 +211,7 @@ function AboutViveSection({
               {...highPriorityImageAttributes}
             />
           </div>
-          {about.links.map((link) => (
-            <Link className="home-about__portrait-link" to={link.href} key={link.href}>
-              <span>{link.label}</span>
-              <ArrowRight aria-hidden="true" size={18} />
-            </Link>
-          ))}
+          <ArrowLink className="home-about__portrait-link" link={about.link} />
         </figure>
       </Container>
     </section>
@@ -232,9 +224,7 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
       <Container>
         <header className="home-inclusive__header">
           <h2 className="home-inclusive__heading" id="home-inclusive-title">
-            {inclusive.heading.before}
-            <em className="home-page__emphasis">{inclusive.heading.emphasis}</em>
-            {inclusive.heading.after}
+            <EmphasisText copy={inclusive.heading} className="home-page__emphasis" />
           </h2>
           <p className="home-inclusive__copy site-reading">{inclusive.copy}</p>
         </header>
@@ -242,7 +232,7 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
         <nav className="home-inclusive__index" aria-label={inclusive.topicsAriaLabel}>
           <ul className="home-inclusive__topics">
             {inclusive.topics.map((topic) => (
-              <li key={topic.title}>
+              <li key={topic.href}>
                 <Link className="home-inclusive__topic" to={topic.href}>
                   <div className="home-inclusive__topic-copy">
                     <h3>{topic.title}</h3>
@@ -254,10 +244,7 @@ function InclusiveSection({ inclusive }: { inclusive: HomeInclusiveContent }) {
             ))}
           </ul>
 
-          <Link className="home-inclusive__hub-link" to={inclusive.hub.href}>
-            <span>{inclusive.hub.label}</span>
-            <ArrowRight aria-hidden="true" size={18} />
-          </Link>
+          <ArrowLink className="home-inclusive__hub-link" link={inclusive.hub} />
         </nav>
       </Container>
     </section>
@@ -270,8 +257,8 @@ export default function Home() {
 
   return (
     <main className="site-page home-page">
-      <HomeHeroSection hero={hero} />
-      <AboutViveSection about={about} portrait={portrait} />
+      <HeroSection hero={hero} />
+      <AboutSection about={about} portrait={portrait} />
       <InclusiveSection inclusive={inclusive} />
       <ContactInvitation />
     </main>

@@ -4,7 +4,7 @@ import type {
   AnalyticsVisitEvent,
 } from "../../contracts/analyticsContract";
 import type { AustralianVisitRegionCode } from "../../contracts/visitClientEnvironment";
-import { visitEventTypes } from "../../contracts/visitEventContract";
+import { visitEventTypes, type EnquiryFailureReason } from "../../contracts/visitEventContract";
 
 type VisitJourneyItem =
   | {
@@ -92,7 +92,7 @@ const failureReasonLabels: Record<string, string> = {
   email_provider: "Email provider",
   network: "Network",
   server: "Server",
-};
+} satisfies Record<EnquiryFailureReason, string>;
 
 export function parseDateKey(dateKey: string) {
   const [year, month, day] = dateKey.split("-").map(Number);

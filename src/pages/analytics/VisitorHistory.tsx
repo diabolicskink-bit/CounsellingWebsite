@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, EyeOff, Radio } from "lucide-react";
 import type {
-  AnalyticsExclusionUpdateResponse,
+  AnalyticsExclusionUpdateApiResponse,
   VisitorAnalyticsReport,
 } from "../../contracts/analyticsContract";
 import {
@@ -72,7 +72,7 @@ export default function VisitorHistory({
         },
         method: "PUT",
       });
-      const body = await response.json() as Partial<AnalyticsExclusionUpdateResponse>;
+      const body = await response.json() as Partial<AnalyticsExclusionUpdateApiResponse>;
 
       if (
         !response.ok

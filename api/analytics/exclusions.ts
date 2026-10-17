@@ -1,5 +1,9 @@
 import { getJsonPayloadBody, getMediaType } from "../../src/server/request-body.ts";
-import { isAnalyticsVisitorId } from "../../src/contracts/analyticsContract.ts";
+import {
+  isAnalyticsVisitorId,
+  type AnalyticsExclusionsApiResponse,
+  type AnalyticsExclusionUpdateApiResponse,
+} from "../../src/contracts/analyticsContract.ts";
 import {
   AnalyticsDataUnavailableError,
 } from "../../src/server/reporting/database.ts";
@@ -41,9 +45,12 @@ function sendFailure(response: AnalyticsExclusionsResponse, status: number) {
   return response.status(status).json({ error: publicFailureMessage });
 }
 
-function sendSuccess(response: AnalyticsExclusionsResponse, data: unknown) {
+function sendSuccess(
+  response: AnalyticsExclusionsResponse,
+  body: AnalyticsExclusionsApiResponse | AnalyticsExclusionUpdateApiResponse,
+) {
   response.setHeader("Cache-Control", "private, no-store");
-  return response.status(200).json({ data });
+  return response.status(200).json(body);
 }
 
 function parseUpdate(request: AnalyticsExclusionsRequest) {
@@ -90,7 +97,7 @@ export function createAnalyticsExclusionsHandler(
 
     try {
       if (request.method === "GET") {
-        return sendSuccess(response, await readExclusions());
+        return sendSuccess(response, { data: await readExclusions() });
       }
 
       if (request.method === "PUT") {
@@ -99,10 +106,9 @@ export function createAnalyticsExclusionsHandler(
         if (update.type === "oversized") return sendFailure(response, 413);
         if (update.type === "invalid") return sendFailure(response, 400);
 
-        return sendSuccess(
-          response,
-          await updateExclusion(update.visitorId, update.excluded),
-        );
+        return sendSuccess(response, {
+          data: await updateExclusion(update.visitorId, update.excluded),
+        });
       }
 
       response.setHeader("Allow", "GET, PUT");

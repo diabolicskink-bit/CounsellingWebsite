@@ -1,3 +1,4 @@
+import type { EnquiryFailureReason } from "../../contracts/visitEventContract.ts";
 import { enquiryEmail } from "../../data/enquiry.ts";
 import { buildEnquiryEmail } from "./email.ts";
 import type { ValidatedEnquiry } from "./validation.ts";
@@ -13,7 +14,7 @@ type EnquiryDeliveryDependencies = {
 type EnquiryDeliveryResult =
   | { type: "sent" }
   | {
-      reason: "configuration" | "email_provider" | "network";
+      reason: EnquiryFailureReason;
       status: 500 | 502;
       type: "failed";
     };

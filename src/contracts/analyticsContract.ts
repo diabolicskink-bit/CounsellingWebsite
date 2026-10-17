@@ -1,11 +1,24 @@
 import {
   australianVisitRegionCodes,
+  visitDeviceTypes,
   type AustralianVisitRegionCode,
   type VisitDeviceType,
 } from "./visitClientEnvironment.ts";
-import { visitEventTypes } from "./visitEventContract.ts";
+import {
+  visitEventSources,
+  visitEventTypes,
+  type VisitEventProperties,
+  type VisitEventSource,
+} from "./visitEventContract.ts";
 
-export type AnalyticsTrafficSource = "direct" | "internal" | "paid" | "referral";
+export const analyticsTrafficSources = [
+  "direct",
+  "internal",
+  "paid",
+  "referral",
+] as const;
+
+export type AnalyticsTrafficSource = (typeof analyticsTrafficSources)[number];
 
 export const enquiryEventTypes = [
   visitEventTypes.enquirySent,
@@ -14,58 +27,6 @@ export const enquiryEventTypes = [
 ] as const;
 
 export type EnquiryEventType = (typeof enquiryEventTypes)[number];
-
-export function isEnquiryEventType(eventType: string): eventType is EnquiryEventType {
-  return enquiryEventTypes.some((type) => type === eventType);
-}
-
-const perthDateFormatter = new Intl.DateTimeFormat("en-CA", {
-  day: "2-digit",
-  month: "2-digit",
-  timeZone: "Australia/Perth",
-  year: "numeric",
-});
-
-export function getPerthDateKey(date = new Date()) {
-  const parts = perthDateFormatter.formatToParts(date);
-  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
-    parts.find((part) => part.type === type)?.value ?? "";
-
-  return `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
-}
-
-export function getPerthMonthKey(date = new Date()) {
-  return getPerthDateKey(date).slice(0, 7);
-}
-
-export function isAnalyticsDateKey(value: string | null): value is string {
-  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-
-  const [year, month, day] = value.split("-").map(Number);
-  const parsedDate = new Date(Date.UTC(year, month - 1, day, 12));
-
-  return !Number.isNaN(parsedDate.valueOf())
-    && parsedDate.toISOString().slice(0, 10) === value;
-}
-
-export function isAnalyticsMonthKey(value: string | null): value is string {
-  if (!value || !/^\d{4}-\d{2}$/.test(value)) return false;
-
-  const month = Number(value.slice(5));
-  return month >= 1 && month <= 12;
-}
-
-const analyticsIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const analyticsTimestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/;
-
-function isAnalyticsId(value: unknown): value is string {
-  return typeof value === "string"
-    && analyticsIdPattern.test(value);
-}
-
-export function isAnalyticsVisitorId(value: unknown): value is string {
-  return isAnalyticsId(value);
-}
 
 export type AnalyticsPageView = {
   activeSeconds: number;
@@ -79,8 +40,8 @@ export type AnalyticsVisitEvent = {
   id: string;
   occurredAt: string;
   pageViewId: string | null;
-  properties: Record<string, string>;
-  source: "client" | "server";
+  properties: VisitEventProperties;
+  source: VisitEventSource;
 };
 
 export type AnalyticsVisit = {
@@ -106,8 +67,8 @@ export type AnalyticsVisit = {
   referrerHost: string | null;
   referrerUrl: string | null;
   startedAt: string;
-  trafficSource: AnalyticsTrafficSource;
   totalVisits: number;
+  trafficSource: AnalyticsTrafficSource;
   userAgent: string | null;
   visitNumber: number;
   visitorId: string;
@@ -148,8 +109,8 @@ export type PageViewsAnalyticsReport = {
 export type ReferrerAnalyticsSummary = {
   activeSeconds: number;
   enquiryVisits: number;
-  referrer: string;
   pageViews: number;
+  referrer: string;
   visits: number;
 };
 
@@ -232,31 +193,54 @@ export type AnalyticsExclusionsApiResponse = {
   data: ExcludedVisitorsReport;
 };
 
-export type AnalyticsExclusionUpdateResponse = {
+export type AnalyticsExclusionUpdateApiResponse = {
   data: {
     isExcluded: boolean;
     visitorId: string;
   };
 };
 
-const analyticsTrafficSources = new Set<AnalyticsTrafficSource>([
-  "direct",
-  "internal",
-  "paid",
-  "referral",
-]);
+type UnknownRecord = Record<string, unknown>;
 
-const visitDeviceTypes = new Set<VisitDeviceType>([
-  "desktop",
-  "mobile",
-  "tablet",
-  "unknown",
-]);
+const analyticsIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const analyticsTimestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/;
+const countryCodePattern = /^[A-Z]{2}$/;
+const dateKeyPattern = /^\d{4}-\d{2}-\d{2}$/;
+const monthKeyPattern = /^\d{4}-\d{2}$/;
 
-const visitRegionCodes = new Set<AustralianVisitRegionCode>(australianVisitRegionCodes);
+const perthDateFormatter = new Intl.DateTimeFormat("en-CA", {
+  day: "2-digit",
+  month: "2-digit",
+  timeZone: "Australia/Perth",
+  year: "numeric",
+});
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+export function getPerthDateKey(date = new Date()) {
+  const parts = perthDateFormatter.formatToParts(date);
+  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? "";
+
+  return `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
+}
+
+export function getPerthMonthKey(date = new Date()) {
+  return getPerthDateKey(date).slice(0, 7);
+}
+
+export function isEnquiryEventType(eventType: string): eventType is EnquiryEventType {
+  return isOneOf(enquiryEventTypes, eventType);
+}
+
+function isRecord(value: unknown): value is UnknownRecord {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function isOneOf<Value extends string>(values: readonly Value[], value: unknown): value is Value {
+  return typeof value === "string" && (values as readonly string[]).includes(value);
+}
+
+function isArrayOf<Item>(value: unknown, isItem: (item: unknown) => item is Item): value is Item[] {
+  return Array.isArray(value) && value.every((item) => isItem(item));
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -271,18 +255,6 @@ function isNullableBoolean(value: unknown): value is boolean | null {
   return value === null || typeof value === "boolean";
 }
 
-function isVisitLocation(
-  countryCode: unknown,
-  regionCode: unknown,
-): countryCode is string | null {
-  if (countryCode === null) return regionCode === null;
-  if (typeof countryCode !== "string" || !/^[A-Z]{2}$/.test(countryCode)) return false;
-
-  if (countryCode !== "AU") return regionCode === null;
-  return typeof regionCode === "string"
-    && visitRegionCodes.has(regionCode as AustralianVisitRegionCode);
-}
-
 function isNonNegativeInteger(value: unknown): value is number {
   return typeof value === "number" && Number.isSafeInteger(value) && value >= 0;
 }
@@ -291,55 +263,98 @@ function isPositiveInteger(value: unknown): value is number {
   return isNonNegativeInteger(value) && value > 0;
 }
 
+function isStringRecord(value: unknown): value is Record<string, string> {
+  return isRecord(value)
+    && Object.values(value).every((propertyValue) => typeof propertyValue === "string");
+}
+
+function sumOf<Row>(rows: readonly Row[], getValue: (row: Row) => number) {
+  return rows.reduce((total, row) => total + getValue(row), 0);
+}
+
+export function isAnalyticsDateKey(value: unknown): value is string {
+  if (typeof value !== "string" || !dateKeyPattern.test(value)) {
+    return false;
+  }
+
+  const [year, month, day] = value.split("-").map(Number);
+  const parsedDate = new Date(Date.UTC(year, month - 1, day, 12));
+
+  return !Number.isNaN(parsedDate.valueOf())
+    && parsedDate.toISOString().slice(0, 10) === value;
+}
+
+export function isAnalyticsMonthKey(value: unknown): value is string {
+  if (typeof value !== "string" || !monthKeyPattern.test(value)) {
+    return false;
+  }
+
+  const month = Number(value.slice(5));
+
+  return month >= 1 && month <= 12;
+}
+
 export function isAnalyticsTimestamp(value: unknown): value is string {
   return isNonEmptyString(value)
     && analyticsTimestampPattern.test(value)
     && !Number.isNaN(Date.parse(value));
 }
 
-function isStringRecord(value: unknown): value is Record<string, string> {
-  return isRecord(value)
-    && Object.values(value).every((propertyValue) => typeof propertyValue === "string");
+function isAnalyticsId(value: unknown): value is string {
+  return typeof value === "string" && analyticsIdPattern.test(value);
 }
 
-export function isAnalyticsPageView(value: unknown): value is AnalyticsPageView {
-  if (!isRecord(value)) return false;
+export function isAnalyticsVisitorId(value: unknown): value is string {
+  return isAnalyticsId(value);
+}
 
-  return isNonNegativeInteger(value.activeSeconds)
+function hasDateRange(report: UnknownRecord) {
+  return isAnalyticsDateKey(report.startDate)
+    && isAnalyticsDateKey(report.endDate)
+    && report.startDate <= report.endDate;
+}
+
+function isVisitLocation(countryCode: unknown, regionCode: unknown) {
+  if (countryCode === null) {
+    return regionCode === null;
+  }
+
+  if (typeof countryCode !== "string" || !countryCodePattern.test(countryCode)) {
+    return false;
+  }
+
+  return countryCode === "AU"
+    ? isOneOf(australianVisitRegionCodes, regionCode)
+    : regionCode === null;
+}
+
+function isAnalyticsPageView(value: unknown): value is AnalyticsPageView {
+  return isRecord(value)
+    && isNonNegativeInteger(value.activeSeconds)
     && isAnalyticsId(value.id)
     && isNonEmptyString(value.path)
     && isAnalyticsTimestamp(value.viewedAt);
 }
 
-export function isAnalyticsVisitEvent(value: unknown): value is AnalyticsVisitEvent {
-  if (!isRecord(value)) return false;
-
-  return isNonEmptyString(value.eventType)
+function isAnalyticsVisitEvent(value: unknown): value is AnalyticsVisitEvent {
+  return isRecord(value)
+    && isNonEmptyString(value.eventType)
     && isAnalyticsId(value.id)
     && isAnalyticsTimestamp(value.occurredAt)
     && (value.pageViewId === null || isAnalyticsId(value.pageViewId))
     && isStringRecord(value.properties)
-    && (value.source === "client" || value.source === "server");
+    && isOneOf(visitEventSources, value.source);
 }
 
-export function isAnalyticsVisit(value: unknown): value is AnalyticsVisit {
-  if (!isRecord(value)) return false;
-
-  if (!isPositiveInteger(value.visitNumber) || !isPositiveInteger(value.totalVisits)) {
-    return false;
-  }
-
-  return value.totalVisits >= value.visitNumber
+function isAnalyticsVisit(value: unknown): value is AnalyticsVisit {
+  return isRecord(value)
     && isNullableString(value.adCode)
     && isNullableString(value.botCategory)
     && isNullableString(value.botName)
-    && typeof value.dateKey === "string"
     && isAnalyticsDateKey(value.dateKey)
-    && typeof value.deviceType === "string"
-    && visitDeviceTypes.has(value.deviceType as VisitDeviceType)
+    && isOneOf(visitDeviceTypes, value.deviceType)
     && isNonNegativeInteger(value.durationSeconds)
-    && Array.isArray(value.events)
-    && value.events.every(isAnalyticsVisitEvent)
+    && isArrayOf(value.events, isAnalyticsVisitEvent)
     && isNullableString(value.gclid)
     && isAnalyticsId(value.id)
     && isNullableBoolean(value.isBot)
@@ -350,35 +365,43 @@ export function isAnalyticsVisit(value: unknown): value is AnalyticsVisit {
     && isNullableString(value.matchType)
     && isNullableString(value.matchedKeyword)
     && isNullableString(value.networkCode)
-    && Array.isArray(value.pageViews)
-    && value.pageViews.every(isAnalyticsPageView)
+    && isArrayOf(value.pageViews, isAnalyticsPageView)
     && isNullableString(value.referrerHost)
     && isNullableString(value.referrerUrl)
     && isAnalyticsTimestamp(value.startedAt)
-    && typeof value.trafficSource === "string"
-    && analyticsTrafficSources.has(value.trafficSource as AnalyticsTrafficSource)
+    && isPositiveInteger(value.totalVisits)
+    && isOneOf(analyticsTrafficSources, value.trafficSource)
     && isNullableString(value.userAgent)
+    && isPositiveInteger(value.visitNumber)
+    && value.visitNumber <= value.totalVisits
     && isAnalyticsVisitorId(value.visitorId);
 }
 
-export function isPageViewRouteSummary(value: unknown): value is PageViewRouteSummary {
-  if (!isRecord(value)) return false;
-
-  return isNonNegativeInteger(value.activeSeconds)
+function isPageViewRouteSummary(value: unknown): value is PageViewRouteSummary {
+  return isRecord(value)
+    && isNonNegativeInteger(value.activeSeconds)
     && isPositiveInteger(value.pageViews)
     && isNonEmptyString(value.path)
     && isPositiveInteger(value.visits);
 }
 
-export function isKeywordAnalyticsSummary(value: unknown): value is KeywordAnalyticsSummary {
-  if (!isRecord(value)) return false;
+function isReferrerAnalyticsSummary(value: unknown): value is ReferrerAnalyticsSummary {
+  return isRecord(value)
+    && isNonNegativeInteger(value.activeSeconds)
+    && isNonNegativeInteger(value.enquiryVisits)
+    && isNonNegativeInteger(value.pageViews)
+    && isNonEmptyString(value.referrer)
+    && isPositiveInteger(value.visits)
+    && value.enquiryVisits <= value.visits;
+}
 
-  return isNonNegativeInteger(value.activeSeconds)
+function isKeywordAnalyticsSummary(value: unknown): value is KeywordAnalyticsSummary {
+  return isRecord(value)
+    && isNonNegativeInteger(value.activeSeconds)
     && isNonNegativeInteger(value.enquiryVisits)
     && isNonEmptyString(value.keyword)
     && isAnalyticsTimestamp(value.latestVisitAt)
-    && Array.isArray(value.matchTypes)
-    && value.matchTypes.every(isNonEmptyString)
+    && isArrayOf(value.matchTypes, isNonEmptyString)
     && isNonNegativeInteger(value.pageViews)
     && isNonNegativeInteger(value.returningVisits)
     && isPositiveInteger(value.visits)
@@ -387,156 +410,115 @@ export function isKeywordAnalyticsSummary(value: unknown): value is KeywordAnaly
 }
 
 export function isExcludedVisitorSummary(value: unknown): value is ExcludedVisitorSummary {
-  if (!isRecord(value)) return false;
-
-  return isAnalyticsTimestamp(value.excludedAt)
+  return isRecord(value)
+    && isAnalyticsTimestamp(value.excludedAt)
     && isAnalyticsTimestamp(value.firstSeenAt)
     && isAnalyticsTimestamp(value.latestSeenAt)
     && isPositiveInteger(value.totalVisits)
     && isAnalyticsVisitorId(value.visitorId);
 }
 
-export function isReferrerAnalyticsSummary(value: unknown): value is ReferrerAnalyticsSummary {
-  return isRecord(value)
-    && isNonEmptyString(value.referrer)
-    && isPositiveInteger(value.visits)
-    && isNonNegativeInteger(value.pageViews)
-    && isNonNegativeInteger(value.activeSeconds)
-    && isNonNegativeInteger(value.enquiryVisits)
-    && value.enquiryVisits <= value.visits;
+function isDailyReport(report: UnknownRecord) {
+  return isAnalyticsDateKey(report.date)
+    && isArrayOf(report.visits, isAnalyticsVisit);
 }
 
+function isMonthlyReport(report: UnknownRecord) {
+  return isAnalyticsMonthKey(report.month)
+    && isNonNegativeInteger(report.paidAttributedEnquiries)
+    && isNonNegativeInteger(report.paidVisits)
+    && isNonNegativeInteger(report.paidVisitsWithEnquiry)
+    && report.paidVisitsWithEnquiry <= report.paidVisits
+    && isArrayOf(report.visits, isAnalyticsVisit);
+}
+
+function isVisitorReport(report: UnknownRecord) {
+  const { visitorId, visits } = report;
+
+  return typeof report.isExcluded === "boolean"
+    && isAnalyticsVisitorId(visitorId)
+    && isArrayOf(visits, isAnalyticsVisit)
+    && visits.every((visit) => visit.visitorId === visitorId);
+}
+
+function isExcludedVisitorsReport(report: UnknownRecord) {
+  return isArrayOf(report.visitors, isExcludedVisitorSummary);
+}
+
+function isPageViewsReport(report: UnknownRecord) {
+  const { routes, totalVisits } = report;
+
+  return hasDateRange(report)
+    && isArrayOf(routes, isPageViewRouteSummary)
+    && isNonNegativeInteger(report.totalActiveSeconds)
+    && isNonNegativeInteger(report.totalPageViews)
+    && isNonNegativeInteger(totalVisits)
+    && sumOf(routes, (route) => route.activeSeconds) === report.totalActiveSeconds
+    && sumOf(routes, (route) => route.pageViews) === report.totalPageViews
+    && routes.every((route) => route.visits <= totalVisits);
+}
+
+function isReferrersReport(report: UnknownRecord) {
+  const { referrers } = report;
+
+  return hasDateRange(report)
+    && isArrayOf(referrers, isReferrerAnalyticsSummary)
+    && isNonNegativeInteger(report.totalActiveSeconds)
+    && isNonNegativeInteger(report.totalEnquiryVisits)
+    && isNonNegativeInteger(report.totalPageViews)
+    && isNonNegativeInteger(report.totalVisits)
+    && new Set(referrers.map((row) => row.referrer)).size === referrers.length
+    && sumOf(referrers, (row) => row.activeSeconds) === report.totalActiveSeconds
+    && sumOf(referrers, (row) => row.enquiryVisits) === report.totalEnquiryVisits
+    && sumOf(referrers, (row) => row.pageViews) === report.totalPageViews
+    && sumOf(referrers, (row) => row.visits) === report.totalVisits;
+}
+
+function isKeywordsReport(report: UnknownRecord) {
+  const { keywords } = report;
+
+  if (
+    !hasDateRange(report)
+    || !isArrayOf(keywords, isKeywordAnalyticsSummary)
+    || !isNonNegativeInteger(report.taggedEnquiryVisits)
+    || !isNonNegativeInteger(report.taggedVisits)
+    || !isNonNegativeInteger(report.totalActiveSeconds)
+    || !isNonNegativeInteger(report.totalEnquiryVisits)
+    || !isNonNegativeInteger(report.totalPageViews)
+    || !isNonNegativeInteger(report.totalPaidVisits)
+  ) {
+    return false;
+  }
+
+  const taggedVisits = sumOf(keywords, (keyword) => keyword.visits);
+  const taggedEnquiryVisits = sumOf(keywords, (keyword) => keyword.enquiryVisits);
+
+  return taggedVisits === report.taggedVisits
+    && taggedEnquiryVisits === report.taggedEnquiryVisits
+    && taggedVisits <= report.totalPaidVisits
+    && taggedEnquiryVisits <= report.totalEnquiryVisits
+    && report.totalEnquiryVisits <= report.totalPaidVisits
+    && sumOf(keywords, (keyword) => keyword.activeSeconds) <= report.totalActiveSeconds
+    && sumOf(keywords, (keyword) => keyword.pageViews) <= report.totalPageViews;
+}
+
+// Keyed by report type so that adding a report to the union without a validator fails to compile.
+const reportValidators: Readonly<Record<AnalyticsReportType, (report: UnknownRecord) => boolean>> = {
+  daily: isDailyReport,
+  excluded: isExcludedVisitorsReport,
+  keywords: isKeywordsReport,
+  monthly: isMonthlyReport,
+  pageViews: isPageViewsReport,
+  referrers: isReferrersReport,
+  visitor: isVisitorReport,
+};
+
+const analyticsReportTypes = Object.keys(reportValidators) as AnalyticsReportType[];
+
 export function isAnalyticsReport(value: unknown): value is AnalyticsReport {
-  if (!isRecord(value)) return false;
-
-  if (value.type === "referrers") {
-    if (
-      typeof value.startDate !== "string" || !isAnalyticsDateKey(value.startDate)
-      || typeof value.endDate !== "string" || !isAnalyticsDateKey(value.endDate)
-      || value.startDate > value.endDate
-      || !Array.isArray(value.referrers)
-      || !value.referrers.every(isReferrerAnalyticsSummary)
-      || !isNonNegativeInteger(value.totalActiveSeconds)
-      || !isNonNegativeInteger(value.totalEnquiryVisits)
-      || !isNonNegativeInteger(value.totalPageViews)
-      || !isNonNegativeInteger(value.totalVisits)
-    ) return false;
-
-    return new Set(value.referrers.map((row) => row.referrer)).size === value.referrers.length
-      && value.referrers.reduce((total, row) => total + row.visits, 0) === value.totalVisits
-      && value.referrers.reduce((total, row) => total + row.pageViews, 0) === value.totalPageViews
-      && value.referrers.reduce((total, row) => total + row.activeSeconds, 0) === value.totalActiveSeconds
-      && value.referrers.reduce((total, row) => total + row.enquiryVisits, 0) === value.totalEnquiryVisits;
-  }
-
-  if (value.type === "daily") {
-    return typeof value.date === "string"
-      && isAnalyticsDateKey(value.date)
-      && Array.isArray(value.visits)
-      && value.visits.every(isAnalyticsVisit);
-  }
-
-  if (value.type === "monthly") {
-    return typeof value.month === "string"
-      && isAnalyticsMonthKey(value.month)
-      && isNonNegativeInteger(value.paidAttributedEnquiries)
-      && isNonNegativeInteger(value.paidVisits)
-      && isNonNegativeInteger(value.paidVisitsWithEnquiry)
-      && value.paidVisitsWithEnquiry <= value.paidVisits
-      && Array.isArray(value.visits)
-      && value.visits.every(isAnalyticsVisit);
-  }
-
-  if (value.type === "visitor") {
-    if (
-      typeof value.isExcluded !== "boolean"
-      || !isAnalyticsVisitorId(value.visitorId)
-      || !Array.isArray(value.visits)
-      || !value.visits.every(isAnalyticsVisit)
-    ) {
-      return false;
-    }
-
-    const visitorId = value.visitorId;
-    return value.visits.every((visit) => visit.visitorId === visitorId);
-  }
-
-  if (value.type === "excluded") {
-    return Array.isArray(value.visitors)
-      && value.visitors.every(isExcludedVisitorSummary);
-  }
-
-  if (value.type === "pageViews") {
-    if (
-      typeof value.startDate !== "string"
-      || !isAnalyticsDateKey(value.startDate)
-      || typeof value.endDate !== "string"
-      || !isAnalyticsDateKey(value.endDate)
-      || value.startDate > value.endDate
-      || !Array.isArray(value.routes)
-      || !value.routes.every(isPageViewRouteSummary)
-      || !isNonNegativeInteger(value.totalActiveSeconds)
-      || !isNonNegativeInteger(value.totalPageViews)
-      || !isNonNegativeInteger(value.totalVisits)
-    ) {
-      return false;
-    }
-
-    const totalVisits = value.totalVisits;
-
-    return value.routes.reduce((total, route) => total + route.activeSeconds, 0)
-      === value.totalActiveSeconds
-      && value.routes.reduce((total, route) => total + route.pageViews, 0)
-        === value.totalPageViews
-      && value.routes.every((route) => route.visits <= totalVisits);
-  }
-
-  if (value.type === "keywords") {
-    if (
-      typeof value.startDate !== "string"
-      || !isAnalyticsDateKey(value.startDate)
-      || typeof value.endDate !== "string"
-      || !isAnalyticsDateKey(value.endDate)
-      || value.startDate > value.endDate
-      || !Array.isArray(value.keywords)
-      || !value.keywords.every(isKeywordAnalyticsSummary)
-      || !isNonNegativeInteger(value.taggedEnquiryVisits)
-      || !isNonNegativeInteger(value.taggedVisits)
-      || !isNonNegativeInteger(value.totalActiveSeconds)
-      || !isNonNegativeInteger(value.totalEnquiryVisits)
-      || !isNonNegativeInteger(value.totalPageViews)
-      || !isNonNegativeInteger(value.totalPaidVisits)
-    ) {
-      return false;
-    }
-
-    const taggedActiveSeconds = value.keywords.reduce(
-      (total, keyword) => total + keyword.activeSeconds,
-      0,
-    );
-    const taggedEnquiryVisits = value.keywords.reduce(
-      (total, keyword) => total + keyword.enquiryVisits,
-      0,
-    );
-    const taggedPageViews = value.keywords.reduce(
-      (total, keyword) => total + keyword.pageViews,
-      0,
-    );
-    const taggedVisits = value.keywords.reduce(
-      (total, keyword) => total + keyword.visits,
-      0,
-    );
-
-    return taggedVisits === value.taggedVisits
-      && taggedEnquiryVisits === value.taggedEnquiryVisits
-      && taggedVisits <= value.totalPaidVisits
-      && taggedEnquiryVisits <= value.totalEnquiryVisits
-      && value.totalEnquiryVisits <= value.totalPaidVisits
-      && taggedActiveSeconds <= value.totalActiveSeconds
-      && taggedPageViews <= value.totalPageViews;
-  }
-
-  return false;
+  return isRecord(value)
+    && isOneOf(analyticsReportTypes, value.type)
+    && reportValidators[value.type](value);
 }
 
 export function isAnalyticsReportOfType<Type extends AnalyticsReportType>(

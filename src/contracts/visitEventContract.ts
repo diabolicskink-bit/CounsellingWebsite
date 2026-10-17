@@ -18,10 +18,10 @@ export const visitEventTypes = {
   phoneLinkClicked: "phone_link_clicked",
 } as const;
 
-export const visitEventSources = {
-  client: "client",
-  server: "server",
-} as const;
+export const visitEventSources = [
+  "client",
+  "server",
+] as const;
 
 export const clientVisitEventTypes = [
   visitEventTypes.contactOptionSelected,
@@ -36,6 +36,8 @@ export const clientVisitEventTypes = [
 export const contactOptionValues: readonly ContactPath[] = contactPathOptions.map(
   (option) => option.value,
 );
+
+// Mirrors the enquiry_failed reason constraint in database/migrations.
 export const enquiryFailureReasons = [
   "configuration",
   "email_provider",
@@ -45,7 +47,6 @@ export const enquiryFailureReasons = [
 
 export type VisitEventType = ValueOf<typeof visitEventTypes>;
 export type ClientVisitEventType = (typeof clientVisitEventTypes)[number];
-export type VisitEventSource = ValueOf<typeof visitEventSources>;
+export type VisitEventSource = (typeof visitEventSources)[number];
 export type VisitEventProperties = Record<string, string>;
-export type ContactOptionValue = ContactPath;
 export type EnquiryFailureReason = (typeof enquiryFailureReasons)[number];

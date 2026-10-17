@@ -2,6 +2,8 @@
    to Vive, and a practical inclusive-practice index. */
 
 .home-page {
+  --home-column-gap: clamp(20px, 2.4vw, 36px);
+
   overflow-wrap: anywhere;
 }
 
@@ -13,6 +15,10 @@
 
 /* Hero */
 
+.site-hero.home-page__hero {
+  --site-hero-statement-max-width: 20ch;
+}
+
 .home-page__hero-copy {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -22,7 +28,6 @@
 
 /* Shared hero and site-page type rules require these scoped overrides. */
 .home-page .home-page__hero .site-hero__statement {
-  max-width: 20ch;
   margin: var(--site-hero-eyebrow-gap) 0 0;
   font-size: clamp(2.9rem, 4.2vw, 4rem);
   letter-spacing: -0.04em;
@@ -88,6 +93,13 @@
   overflow: hidden;
 }
 
+.home-about > .container {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--home-column-gap);
+  align-items: start;
+}
+
 .home-about__masthead {
   grid-column: 1 / 4;
   grid-row: 1;
@@ -104,11 +116,21 @@
   text-wrap: balance;
 }
 
-.home-about > .container {
+.home-about__narrative {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: clamp(20px, 2.4vw, 36px);
-  align-items: start;
+  grid-column: 4 / 9;
+  grid-row: 1;
+  gap: 18px;
+  min-width: 0;
+  padding-right: clamp(8px, 1.5vw, 22px);
+}
+
+.home-about__narrative p {
+  max-width: 58ch;
+}
+
+.home-about__narrative p:first-child {
+  max-width: 54ch;
 }
 
 .home-about__portrait {
@@ -170,30 +192,14 @@
 }
 
 .home-about__portrait-link:hover,
-.home-about__portrait-link:focus-visible {
+.home-about__portrait-link:focus-visible,
+.home-about__portrait-link:active {
   background: rgba(32, 21, 17, 0.28);
 }
 
 .home-about__portrait-link:focus-visible {
   outline: 3px solid rgba(252, 252, 250, 0.72);
   outline-offset: -4px;
-}
-
-.home-about__narrative {
-  display: grid;
-  grid-column: 4 / 9;
-  grid-row: 1;
-  gap: 18px;
-  min-width: 0;
-  padding-right: clamp(8px, 1.5vw, 22px);
-}
-
-.home-about__narrative p {
-  max-width: 58ch;
-}
-
-.home-about__narrative p:first-child {
-  max-width: 54ch;
 }
 
 /* Inclusive practice */
@@ -210,7 +216,7 @@
 .home-inclusive__header {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: clamp(20px, 2.4vw, 36px);
+  column-gap: var(--home-column-gap);
   row-gap: 24px;
   align-items: start;
 }
@@ -409,8 +415,11 @@
     padding: 56px 0;
   }
 
+  .site-hero.home-page__hero {
+    --site-hero-statement-max-width: 18ch;
+  }
+
   .home-page .home-page__hero .site-hero__statement {
-    max-width: 18ch;
     font-size: clamp(2.9rem, 7.5vw, 3.7rem);
   }
 
@@ -442,6 +451,13 @@
     font-size: clamp(4rem, 10vw, 5.4rem);
   }
 
+  .home-about__narrative {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 40px;
+    padding: 0;
+  }
+
   .home-about__portrait {
     grid-column: 2;
     grid-row: 2;
@@ -450,13 +466,6 @@
 
   .home-about__portrait-frame {
     aspect-ratio: 4 / 5.15;
-  }
-
-  .home-about__narrative {
-    grid-column: 1;
-    grid-row: 2;
-    margin-top: 40px;
-    padding: 0;
   }
 
   .home-page .home-inclusive__heading {
@@ -505,8 +514,11 @@
     max-width: 31ch;
   }
 
+  .site-hero.home-page__hero {
+    --site-hero-statement-max-width: 14ch;
+  }
+
   .home-page .home-page__hero .site-hero__statement {
-    max-width: 14ch;
     font-size: clamp(2.55rem, 11vw, 3.1rem);
     line-height: 0.92;
   }
@@ -522,6 +534,11 @@
     font-size: 1.13rem;
   }
 
+  .home-about > .container {
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+  }
+
   .home-about__masthead {
     grid-column: 1;
   }
@@ -531,9 +548,8 @@
     line-height: 0.9;
   }
 
-  .home-about > .container {
-    grid-template-columns: minmax(0, 1fr);
-    column-gap: 0;
+  .home-about__narrative {
+    margin-top: 34px;
   }
 
   .home-about__portrait {
@@ -546,10 +562,6 @@
 
   .home-about__portrait-frame {
     aspect-ratio: 4 / 4.9;
-  }
-
-  .home-about__narrative {
-    margin-top: 34px;
   }
 
   .home-inclusive__header {
@@ -654,10 +666,6 @@
   .home-page__hero-action:active {
     background: rgba(252, 252, 250, 0.1);
     color: #fff;
-  }
-
-  .home-about__portrait-link:active {
-    background: rgba(32, 21, 17, 0.28);
   }
 
   .home-inclusive__topic:active {

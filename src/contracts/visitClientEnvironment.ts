@@ -1,4 +1,11 @@
-export type VisitDeviceType = "desktop" | "mobile" | "tablet" | "unknown";
+export const visitDeviceTypes = [
+  "desktop",
+  "mobile",
+  "tablet",
+  "unknown",
+] as const;
+
+export type VisitDeviceType = (typeof visitDeviceTypes)[number];
 
 export const australianVisitRegionCodes = [
   "ACT",
