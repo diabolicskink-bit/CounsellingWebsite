@@ -10,7 +10,7 @@
   display: grid;
   margin: 4px 0 0;
   padding: 0;
-  border-top: 1px solid var(--section-rule);
+  border-top: 1px solid var(--line);
   list-style: none;
 }
 
@@ -20,7 +20,7 @@
   gap: clamp(28px, 4vw, 54px);
   align-items: start;
   padding: 24px 0 26px;
-  border-bottom: 1px solid var(--section-rule);
+  border-bottom: 1px solid var(--line);
 }
 
 .enm-page__reasons-list h3 {
@@ -42,7 +42,7 @@
   max-width: 64ch;
   margin-top: 4px;
   padding: 4px 0 4px 30px;
-  border-left: 1px solid rgba(35, 75, 61, 0.34);
+  border-left: 1px solid rgb(var(--cedar-rgb) / 0.34);
   text-wrap: pretty;
 }
 
@@ -60,7 +60,7 @@
 
 /* Two classes outrank the global .site-page p colour. */
 .enm-page .enm-page__position-copy p {
-  color: rgba(239, 244, 240, 0.86);
+  color: rgb(var(--mist-rgb) / 0.86);
   text-wrap: pretty;
 }
 
@@ -68,7 +68,7 @@
   padding: 20px 0 22px;
   border-top: 1px solid var(--section-dark-rule);
   border-bottom: 1px solid var(--section-dark-rule);
-  color: #fcfcfa;
+  color: var(--chalk);
   font-family: var(--font-serif);
   font-size: clamp(1.45rem, 2.2vw, 1.8rem);
   font-weight: 500;

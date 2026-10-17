@@ -7,14 +7,14 @@
 }
 
 .privacy-policy-page .privacy-policy-page__title {
-  color: #fcfcfa;
+  color: var(--chalk);
   font-size: clamp(4.2rem, 7vw, 6rem);
   letter-spacing: -0.045em;
   line-height: 0.9;
 }
 
 .privacy-policy-page .privacy-policy-page__updated {
-  color: rgba(232, 239, 233, 0.74);
+  color: rgb(var(--mist-rgb) / 0.74);
   font-size: var(--type-small);
   line-height: 1.5;
 }
@@ -28,7 +28,7 @@
   gap: 18px;
   scroll-margin-top: var(--site-anchor-offset);
   padding-block: 42px;
-  border-top: 1px solid var(--section-rule);
+  border-top: 1px solid var(--line);
 }
 
 .privacy-policy-page__section h2 {
@@ -67,7 +67,7 @@
   color: var(--cedar);
   font-weight: 700;
   text-decoration: underline;
-  text-decoration-color: rgba(35, 75, 61, 0.35);
+  text-decoration-color: rgb(var(--cedar-rgb) / 0.34);
   text-underline-offset: 3px;
 }
 

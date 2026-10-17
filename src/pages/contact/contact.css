@@ -1,10 +1,10 @@
 /* Contact-page composition for the live Contact route. */
 
 .contact-page {
-  --contact-page-underline: rgba(35, 75, 61, 0.34);
-  /* Interior lines of the hours table, quieter than its --section-rule frame. */
-  --contact-page-rule-quiet: rgba(35, 75, 61, 0.14);
-  --contact-page-card-surface: #fbfbf8;
+  --contact-page-underline: rgb(var(--cedar-rgb) / 0.34);
+  /* Interior lines of the hours table, quieter than its --line frame. */
+  --contact-page-rule-quiet: rgb(var(--cedar-rgb) / 0.14);
+  --contact-page-card-surface: var(--chalk);
 
   background: var(--paper);
 }
@@ -56,7 +56,6 @@
 
 .contact-page__enquiry-intro h2 {
   max-width: 12ch;
-  color: var(--section-dark);
   font-size: clamp(2.2rem, 3.2vw, 3.15rem);
   letter-spacing: -0.035em;
   line-height: 1.02;
@@ -81,7 +80,7 @@
   gap: 3px;
   margin-top: 8px;
   padding-top: 14px;
-  border-top: 1px solid var(--section-rule);
+  border-top: 1px solid var(--line);
   /* Cancels the italic user-agent style on <address>. */
   font-style: normal;
 }
@@ -132,22 +131,22 @@
 
 .contact-page__business-hours {
   width: min(100%, 250px);
-  border: 1px solid var(--section-rule);
+  border: 1px solid var(--line);
   /* Separate borders with no spacing so the caption and table share one rounded frame. */
   border-collapse: separate;
   border-radius: 0 0 3px 3px;
   border-spacing: 0;
-  background: rgba(255, 255, 255, 0.28);
+  background: rgb(var(--chalk-rgb) / 0.28);
   color: var(--body);
   font-variant-numeric: tabular-nums;
 }
 
 .contact-page__business-hours caption {
   padding: 7px 10px;
-  border: 1px solid var(--section-rule);
+  border: 1px solid var(--line);
   border-bottom: 0;
   border-radius: 3px 3px 0 0;
-  background: rgba(35, 75, 61, 0.07);
+  background: rgb(var(--cedar-rgb) / 0.07);
   color: var(--cedar-dark);
   font-family: var(--font-sans);
   font-size: var(--type-caption);
@@ -185,10 +184,10 @@
 .contact-page__success {
   display: grid;
   overflow: hidden;
-  border: 1px solid rgba(204, 212, 202, 0.92);
+  border: 1px solid var(--line);
   border-radius: 3px;
   background: var(--contact-page-card-surface);
-  box-shadow: 0 20px 46px rgba(31, 35, 31, 0.09);
+  box-shadow: 0 20px 46px rgb(var(--ink-rgb) / 0.09);
 }
 
 /* Spam honeypot: a real visitor never sees or fills this field. */
@@ -200,7 +199,7 @@
   display: grid;
   gap: 30px;
   padding: 38px 44px 44px;
-  background: var(--surface-muted);
+  background: var(--paper);
 }
 
 .contact-page__form-start {
@@ -250,10 +249,10 @@
 .contact-page__form-field textarea {
   width: 100%;
   min-height: 52px;
-  border: 1px solid #bfc9bd;
+  border: 1px solid var(--line);
   border-radius: 5px;
   padding: 0.76rem 0.86rem;
-  background: #fff;
+  background: var(--chalk);
   color: var(--ink);
   transition:
     border-color 160ms ease,
@@ -266,7 +265,7 @@
 }
 
 .contact-page__form-field input::placeholder {
-  color: #727c73;
+  color: var(--field-placeholder);
   opacity: 1;
 }
 
@@ -275,7 +274,7 @@
 .contact-page__form-field textarea:focus {
   outline: 0;
   border-color: var(--cedar);
-  box-shadow: 0 0 0 3px rgba(35, 75, 61, 0.14);
+  box-shadow: 0 0 0 3px rgb(var(--cedar-rgb) / 0.14);
 }
 
 /* Enquiry path select, with a drawn chevron in place of the native arrow. These
@@ -316,9 +315,9 @@
 
 .contact-page__form-error {
   padding: 18px 20px;
-  border-left: 3px solid #a84332;
-  background: #f8eae6;
-  color: #7b2f25;
+  border-left: 3px solid var(--error-rule);
+  background: var(--error-surface);
+  color: var(--error-ink);
   font-size: var(--type-small);
   line-height: 1.55;
 }
@@ -332,7 +331,7 @@
 
 .contact-page__crisis-note {
   padding: 18px 44px 20px;
-  border-top: 1px solid var(--section-rule);
+  border-top: 1px solid var(--line);
   background: var(--contact-page-card-surface);
   color: var(--muted);
   font-size: var(--type-caption);
@@ -369,7 +368,7 @@
 
 /* The status takes focus on submit, so screen readers land on the confirmation. */
 .contact-page__success-status:focus-visible {
-  outline: 3px solid rgba(35, 75, 61, 0.34);
+  outline: 3px solid rgb(var(--cedar-rgb) / 0.34);
   outline-offset: 4px;
 }
 
@@ -378,7 +377,7 @@
   width: clamp(48px, 5vw, 58px);
   aspect-ratio: 1;
   place-items: center;
-  border: 1px solid rgba(35, 75, 61, 0.28);
+  border: 1px solid rgb(var(--cedar-rgb) / 0.28);
   border-radius: 50%;
   background: var(--section-sage);
   color: var(--cedar-dark);
@@ -420,7 +419,7 @@
 
 .contact-page__fees {
   scroll-margin-top: var(--site-anchor-offset);
-  border-bottom: 1px solid var(--section-rule);
+  border-bottom: 1px solid var(--line);
   background: var(--section-sage);
 }
 
@@ -436,7 +435,7 @@
   align-content: start;
   min-height: 112px;
   padding: 20px clamp(18px, 2.6vw, 36px);
-  border-left: 1px solid var(--section-rule);
+  border-left: 1px solid var(--line);
 }
 
 /* The outer columns sit flush with the container edge. */
@@ -534,7 +533,7 @@
   }
 
   .contact-page__fee-list > div:nth-child(n + 3) {
-    border-top: 1px solid var(--section-rule);
+    border-top: 1px solid var(--line);
   }
 }
 

@@ -212,3 +212,9 @@ Consequential decisions and milestones that help later work. Git retains detaile
 
 - Closed `DEBT-41` without a source change after the owner clarified that dashboard CSS and visual direction could be independent without requiring separate browser, bundle or stylesheet architecture.
 - Updated [AGENTS.md](../../AGENTS.md) so sharing global styles or generic foundations alone did not constitute dashboard debt.
+
+## 2026-10-17 - Site Palette Promoted
+
+- At the owner's direction, every public-site colour became a promoted foundation token, and colour literals were removed from public page and component CSS. Translucent uses derive from `--name-rgb` channel tokens, so each hue has one source of truth while consumers own opacity.
+- The owner authorized consolidating colours the eye cannot tell apart: 138 distinct public colours became one palette. Merges were accepted at roughly CIEDE2000 < 2 against each colour's real backdrop, and never across gradient stops or resting/hover state pairs. `--section-dark-soft`, `--surface-strong`, `--surface-muted` and `--site-footer-bg` were withdrawn into `--cedar`, `--chalk`, `--paper` and `--site-chrome`. The owner then judged `--forest-deep`, `--forest` and `--section-dark` superfluous and withdrew all three into `--cedar-dark`, which became the single dark green for surfaces, gradient starts, shadows and strong foregrounds; dark gradients now run from `--cedar-dark` to `--cedar`. The owner also merged the identical `--site-chrome` alias into `--section-warm`, and replaced `--line`, `--field-border` and the translucent `--section-rule` with one opaque `--line` at their average, `#c5cdc3`.
+- Headings use one colour site-wide: ink on light surfaces, with light heading roles on dark surfaces. [Design governance](../guidance/DESIGN.md#visual-direction) owns both rules; [Foundations](../design-system/FOUNDATIONS.md#colour-and-material-foundations) owns the palette.

@@ -32,7 +32,7 @@
   justify-content: space-between;
   min-height: 62px;
   padding: 16px 20px 16px 0;
-  color: rgba(252, 252, 250, 0.94);
+  color: rgb(var(--chalk-rgb) / 0.94);
   font-family: var(--font-serif);
   font-size: clamp(1.02rem, 1.25vw, 1.14rem);
   font-weight: 500;
@@ -57,7 +57,7 @@
 
 .specialist-counselling-hero__action:hover {
   color: var(--site-hero-emphasis-foreground);
-  background: rgba(252, 252, 250, 0.035);
+  background: rgb(var(--chalk-rgb) / 0.035);
 }
 
 .specialist-counselling-hero__action:first-child:hover svg {
@@ -69,7 +69,7 @@
 }
 
 .specialist-counselling-hero__action:focus-visible {
-  outline: 3px solid rgba(217, 229, 217, 0.56);
+  outline: 3px solid rgb(var(--section-sage-rgb) / 0.56);
   outline-offset: 4px;
 }
 

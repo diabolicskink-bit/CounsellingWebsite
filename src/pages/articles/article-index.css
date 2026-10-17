@@ -46,12 +46,12 @@
   height: 100%;
   padding: clamp(24px, 3vw, 34px);
   border-radius: 18px;
-  background: #fffefb;
-  box-shadow: 0 5px 24px rgba(31, 35, 31, 0.045);
+  background: var(--chalk);
+  box-shadow: 0 5px 24px rgb(var(--ink-rgb) / 0.045);
 }
 
 .article-index__article-link:hover {
-  box-shadow: 0 8px 28px rgba(31, 35, 31, 0.09);
+  box-shadow: 0 8px 28px rgb(var(--ink-rgb) / 0.09);
 }
 
 .article-index__article-link:focus-visible {

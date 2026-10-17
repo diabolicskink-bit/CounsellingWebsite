@@ -49,8 +49,8 @@
   padding: 14px 22px;
   border: 1px solid transparent;
   border-radius: 2px;
-  background: #f2efe8;
-  color: var(--section-dark);
+  background: var(--section-warm);
+  color: var(--cedar-dark);
   font-weight: 700;
   line-height: 1.4;
   text-decoration: none;
@@ -58,7 +58,7 @@
 }
 
 .not-found-page__home:hover {
-  background: #dfe8dc;
+  background: var(--section-sage);
 }
 
 .not-found-page__routes {
@@ -86,7 +86,7 @@
   font-size: 0.95rem;
   line-height: 1.5;
   text-decoration: underline;
-  text-decoration-color: rgba(217, 229, 217, 0.5);
+  text-decoration-color: rgb(var(--section-sage-rgb) / 0.5);
   text-underline-offset: 5px;
   transition: color 160ms ease, text-decoration-color 160ms ease;
 }

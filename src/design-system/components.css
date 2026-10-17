@@ -28,20 +28,20 @@
 .article-hero__details a {
   color: inherit;
   text-decoration: underline;
-  text-decoration-color: rgba(200, 217, 204, 0.54);
+  text-decoration-color: rgb(var(--sage-rgb) / 0.54);
   text-underline-offset: 0.2em;
 }
 
 .article-hero__breadcrumb a:hover,
 .article-hero__details a:hover {
-  color: #fff;
+  color: var(--chalk);
   text-decoration-color: currentColor;
 }
 
 .article-hero__breadcrumb a:focus-visible,
 .article-hero__details a:focus-visible {
   border-radius: 2px;
-  outline: 3px solid rgba(232, 239, 233, 0.64);
+  outline: 3px solid rgb(var(--mist-rgb) / 0.64);
   outline-offset: 4px;
 }
 
@@ -175,8 +175,8 @@
 
 .contact-invitation {
   padding: 60px 0;
-  border-bottom: 1px solid var(--section-rule);
-  background: #c7ae8f;
+  border-bottom: 1px solid var(--line);
+  background: var(--earth-tan);
 }
 
 .contact-invitation__inner {
@@ -241,7 +241,7 @@
   gap: 20px 32px;
   align-items: center;
   padding-top: 28px;
-  border-top: 1px solid var(--section-rule);
+  border-top: 1px solid var(--line);
 }
 
 .contact-invitation__action {
@@ -255,7 +255,7 @@
   border: 1px solid var(--cedar);
   border-radius: 2px;
   background: var(--cedar);
-  color: #fcfcfa;
+  color: var(--chalk);
   font-family: var(--font-sans);
   font-size: 0.98rem;
   font-weight: 650;
@@ -274,9 +274,9 @@
 
 .contact-invitation__action:hover,
 .contact-invitation__action:active {
-  border-color: #1d4034;
-  background: #1d4034;
-  color: #fff;
+  border-color: var(--cedar-dark);
+  background: var(--cedar-dark);
+  color: var(--chalk);
 }
 
 .contact-invitation__action:hover .contact-invitation__action-icon,
@@ -302,7 +302,7 @@
   display: inline-block;
   color: var(--ink);
   text-decoration: underline;
-  text-decoration-color: rgba(23, 48, 40, 0.48);
+  text-decoration-color: rgb(var(--cedar-dark-rgb) / 0.48);
   text-underline-offset: 5px;
   transition:
     color 180ms ease,
@@ -311,7 +311,7 @@
 
 .contact-invitation__fees {
   margin: 20px 0 0;
-  border-top: 1px solid var(--section-rule);
+  border-top: 1px solid var(--line);
 }
 
 .contact-invitation__fees > div {
@@ -321,7 +321,7 @@
   align-items: center;
   min-height: 88px;
   padding: 20px 0;
-  border-bottom: 1px solid var(--section-rule);
+  border-bottom: 1px solid var(--line);
 }
 
 .contact-invitation__fees dt {

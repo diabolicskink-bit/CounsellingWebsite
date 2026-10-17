@@ -133,8 +133,8 @@
 }
 
 .article-editor-toolbar .article-editor-toolbar__save {
-  border-color: var(--section-dark);
-  background: var(--section-dark);
+  border-color: var(--cedar-dark);
+  background: var(--cedar-dark);
   color: #fcfcfa;
 }
 

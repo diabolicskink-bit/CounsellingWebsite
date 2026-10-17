@@ -5,17 +5,17 @@
 
 .site-section-warm {
   padding: 60px 0;
-  border-bottom: 1px solid var(--section-rule);
+  border-bottom: 1px solid var(--line);
   background: var(--section-warm);
 }
 
 .site-hero {
   --site-hero-eyebrow-gap: 16px;
   --site-hero-statement-max-width: 18ch;
-  --site-hero-foreground: #fcfcfa;
-  --site-hero-eyebrow-foreground: #c8d9cc;
-  --site-hero-emphasis-foreground: #d9e5d9;
-  --site-hero-supporting-foreground: rgba(239, 244, 240, 0.86);
+  --site-hero-foreground: var(--chalk);
+  --site-hero-eyebrow-foreground: var(--sage);
+  --site-hero-emphasis-foreground: var(--section-sage);
+  --site-hero-supporting-foreground: rgb(var(--mist-rgb) / 0.86);
 
   position: relative;
   isolation: isolate;
@@ -68,8 +68,8 @@
   position: relative;
   isolation: isolate;
   overflow: clip;
-  border-bottom: 1px solid rgba(252, 252, 250, 0.12);
+  border-bottom: 1px solid rgb(var(--chalk-rgb) / 0.12);
   background:
-    radial-gradient(ellipse at 80% 0%, rgba(135, 172, 145, 0.32), transparent 42%),
-    linear-gradient(132deg, #132b23 0%, #1b3b30 54%, #234b3d 100%);
+    radial-gradient(ellipse at 80% 0%, rgb(var(--sage-glow-rgb) / 0.32), transparent 42%),
+    linear-gradient(132deg, var(--cedar-dark) 54%, var(--cedar) 100%);
 }

@@ -6,21 +6,10 @@ Primary implementation currently lives in `src/styles.css`. Some items below hav
 
 ## Colour And Surface Tokens
 
-The following root tokens are implemented but not promoted:
+The public palette is promoted in `docs/design-system/FOUNDATIONS.md`. Two inherited colour tokens remain in `src/styles.css`, consumed only by the development Documents workspace:
 
-- `--paper`: root page background
-- `--surface-strong`: light card, form-panel, and inset surface
-- `--surface-muted`: very light alternate wash
-- `--site-footer-bg`: footer surface
-- `--line`: borders and dividers
-- `--ink`: strongest text and headings
-- `--body`: paragraph text
-- `--muted`: supporting copy
 - `--faint`: quiet labels and metadata
-- `--cedar-dark`: darker cedar interaction state
 - `--cedar-soft`: cedar-related soft emphasis
-
-The promoted `--cedar`, `--portrait-*`, and `--section-*` contracts are intentionally absent; they live in `docs/design-system/FOUNDATIONS.md`.
 
 ## Layout And Material Tokens
 

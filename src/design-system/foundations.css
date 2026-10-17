@@ -3,17 +3,67 @@
  * Authority: docs/design-system/FOUNDATIONS.md
  */
 
+/*
+ * The site palette. Every public colour comes from these tokens.
+ * A colour that is also used translucently has a channel token (`--name-rgb`)
+ * so consumers can write `rgb(var(--name-rgb) / 0.22)`.
+ */
 :root {
-  --cedar: #234b3d;
+  /* Text on light surfaces */
+  --ink-rgb: 31 35 31;
+  --ink: rgb(var(--ink-rgb));
+  --body: #3f493f;
+  --muted: #505a51;
+
+  /* Light materials */
+  --chalk-rgb: 252 252 250;
+  --chalk: rgb(var(--chalk-rgb));
+  --paper: #f7f6f2;
+  --section-warm: #f2efe8;
+  --section-warm-deep: #f1ece2;
+
+  /* Lines and form fields */
+  --line: #c5cdc3;
+  --field-placeholder: #727c73;
+
+  /* Greens, darkest first */
+  --cedar-dark-rgb: 29 64 52;
+  --cedar-dark: rgb(var(--cedar-dark-rgb));
+  --cedar-rgb: 35 75 61;
+  --cedar: rgb(var(--cedar-rgb));
+
+  /* Pale greens, mostly for dark surfaces */
+  --sage-glow-rgb: 135 172 145;
+  --sage-glow: rgb(var(--sage-glow-rgb));
+  --sage-deep: #b9d0c0;
+  --sage-rgb: 200 217 204;
+  --sage: rgb(var(--sage-rgb));
+  --section-sage-rgb: 223 232 220;
+  --section-sage: rgb(var(--section-sage-rgb));
+  --mist-rgb: 239 244 240;
+  --mist: rgb(var(--mist-rgb));
+  --section-dark-rule: rgb(var(--mist-rgb) / 0.2);
+
+  /* Earth and portrait materials */
+  --earth-tan-rgb: 199 174 143;
+  --earth-tan: rgb(var(--earth-tan-rgb));
   --portrait-panel: #6b5146;
   --portrait-frame: #e4d9cc;
-  --portrait-footer-tint: rgba(32, 21, 17, 0.12);
-  --section-warm: #f2efe8;
-  --section-sage: #dfe8dc;
-  --section-dark: #173028;
-  --section-dark-soft: #21483a;
-  --section-rule: rgba(35, 75, 61, 0.22);
-  --section-dark-rule: rgba(232, 239, 233, 0.2);
+  --portrait-shadow-rgb: 32 21 17;
+  --portrait-shadow: rgb(var(--portrait-shadow-rgb));
+  --portrait-footer-tint: rgb(var(--portrait-shadow-rgb) / 0.12);
+
+  /* Emergency and form-error states */
+  --emergency-rgb: 96 34 29;
+  --emergency: rgb(var(--emergency-rgb));
+  --emergency-ink: #47201c;
+  --emergency-hover: #481815;
+  --emergency-active: #36110f;
+  --emergency-surface: #f1dfda;
+  --error-rule: #a84332;
+  --error-surface: #f8eae6;
+  --error-ink: #7b2f25;
+
   --site-anchor-offset: calc(var(--site-header-height) + 24px);
 }
 

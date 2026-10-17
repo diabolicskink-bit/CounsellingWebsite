@@ -15,8 +15,8 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 42px 0 0;
   padding: 0;
-  border-top: 1px solid var(--section-rule);
-  border-bottom: 1px solid var(--section-rule);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   list-style: none;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .lgbtqia-page__recognition-list li + li {
-  border-left: 1px solid var(--section-rule);
+  border-left: 1px solid var(--line);
 }
 
 .lgbtqia-page__recognition-list h3 {
@@ -57,8 +57,8 @@
   display: grid;
   grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
   align-items: stretch;
-  border-top: 1px solid var(--section-rule);
-  border-bottom: 1px solid var(--section-rule);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .lgbtqia-page__assumptions-principle {
@@ -85,12 +85,12 @@
   gap: 22px;
   align-content: start;
   padding: 38px clamp(30px, 4.4vw, 64px) 42px;
-  border-left: 1px solid var(--section-rule);
-  background: rgba(252, 252, 250, 0.5);
+  border-left: 1px solid var(--line);
+  background: rgb(var(--chalk-rgb) / 0.5);
 }
 
 .lgbtqia-page .lgbtqia-page__assumptions-label {
-  color: var(--section-dark);
+  color: var(--cedar-dark);
   font-family: var(--font-serif);
   font-size: clamp(1.35rem, 1.8vw, 1.6rem);
   font-weight: 500;
@@ -101,14 +101,14 @@
   display: grid;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--section-rule);
+  border-top: 1px solid var(--line);
   list-style: none;
 }
 
 .lgbtqia-page__assumptions-list li {
   padding: 18px 0 19px;
-  border-bottom: 1px solid var(--section-rule);
-  color: var(--section-dark);
+  border-bottom: 1px solid var(--line);
+  color: var(--cedar-dark);
   font-size: clamp(1rem, 1.12vw, 1.06rem);
   line-height: 1.58;
   text-wrap: pretty;
@@ -127,7 +127,7 @@
   max-width: 18ch;
   padding-top: 26px;
   border-top: 1px solid var(--section-dark-rule);
-  color: #d9e5d9;
+  color: var(--section-sage);
   font-family: var(--font-serif);
   font-size: clamp(1.55rem, 2.35vw, 2rem);
   font-weight: 500;
@@ -145,7 +145,7 @@
 .lgbtqia-page .lgbtqia-page__disclosure-copy p {
   padding: 22px 0 24px;
   border-bottom: 1px solid var(--section-dark-rule);
-  color: rgba(239, 244, 240, 0.86);
+  color: rgb(var(--mist-rgb) / 0.86);
   text-wrap: pretty;
 }
 
@@ -193,7 +193,7 @@
     bottom: -8px;
     left: 5px;
     width: 1px;
-    background: rgba(35, 75, 61, 0.28);
+    background: rgb(var(--cedar-rgb) / 0.28);
     content: "";
   }
 
@@ -217,8 +217,8 @@
   .lgbtqia-page__assumptions-examples {
     max-width: 46rem;
     padding: 30px 32px 32px;
-    border-left: 3px solid rgba(35, 75, 61, 0.5);
-    background: rgba(252, 252, 250, 0.58);
+    border-left: 3px solid rgb(var(--cedar-rgb) / 0.5);
+    background: rgb(var(--chalk-rgb) / 0.5);
   }
 
   .lgbtqia-page .lgbtqia-page__assumptions-label {
